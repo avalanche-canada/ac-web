@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [ngBoilerplate](http://joshdmiller.github.com/ng-boilerplate) [![Build Status](https://api.travis-ci.org/ngbp/ngbp.png?branch=v0.3.2-release)](https://travis-ci.org/ngbp/ngbp)
 
 An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
@@ -377,3 +378,9 @@ of you!
 
 So join the team! We're good people.
 
+=======
+AvalancheCanada
+===============
+
+AvalancheCanada
+>>>>>>> 610912da22b4d33cdad29291a64dce7cd59dead4
