@@ -11,8 +11,8 @@ Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter
 [Angular Bootstrap](http://angular-ui.github.io/bootstrap),
 [Font Awesome](http://fortawesome.github.com/Font-Awesome), and
 [Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.
-[Compass]
-[SASS]
+[Compass](http://compass-style.org/)
+[SASS](http://sass-lang.com/)
 
 ***
 
