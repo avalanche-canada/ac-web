@@ -1,6 +1,6 @@
 module.exports = function ( karma ) {
   karma.set({
-    /** 
+    /**
      * From where to look for files, starting with the location of this file.
      */
     basePath: '../',
@@ -12,7 +12,6 @@ module.exports = function ( karma ) {
       <% scripts.forEach( function ( file ) { %>'<%= file %>',
       <% }); %>
       'src/**/*.js',
-      'src/**/*.coffee',
     ],
     exclude: [
       'src/assets/**/*.js'
@@ -36,7 +35,7 @@ module.exports = function ( karma ) {
     runnerPort: 9100,
     urlRoot: '/',
 
-    /** 
+    /**
      * Disable file watching by default.
      */
     autoWatch: false,

@@ -1,16 +1,16 @@
 {
-  "author": "Josh David Miller",
-  "name": "ngbp",
-  "version": "0.3.2",
-  "homepage": "https://github.com/ngbp/ngbp",
+  "author": "Avalanche Canada",
+  "name": "AvalancheCanada",
+  "version": "0.0.1",
+  "homepage": "https://github.com/avalanchedotca/AvalancheCanada",
   "licenses": {
-    "type": "MIT",
-    "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    "type": "",
+    "url": ""
   },
-  "bugs": "https://github.com/ngbp/ngbp/issues",
+  "bugs": "https://github.com/avalanchedotca/AvalancheCanada/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ngbp/ngbp.git"
+    "url": "https://github.com/avalanchedotca/AvalancheCanada.git"
   },
   "dependencies": {},
   "devDependencies": {
@@ -22,10 +22,9 @@
     "grunt-contrib-concat": "^0.3.0",
     "grunt-contrib-watch": "^0.4.4",
     "grunt-contrib-uglify": "^0.2.7",
+    "grunt-contrib-compass": "0.7.2",
     "grunt-ngmin": "0.0.2",
     "grunt-html2js": "^0.1.9",
-    "grunt-contrib-coffee": "^0.7.0",
-    "grunt-coffeelint": "~0.0.10",
     "grunt-conventional-changelog": "^0.1.2",
     "grunt-bump": "0.0.6",
     "karma-firefox-launcher": "^0.1.3",

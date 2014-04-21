@@ -22,7 +22,7 @@ module.exports = {
   app_files: {
     js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
     jsunit: [ 'src/**/*.spec.js' ],
-    
+
     coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],
     coffeeunit: [ 'src/**/*.spec.coffee' ],
 
@@ -30,7 +30,7 @@ module.exports = {
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
     html: [ 'src/index.html' ],
-    less: 'src/less/main.less'
+    sass: 'src/sass'
   },
 
   /**

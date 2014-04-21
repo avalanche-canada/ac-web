@@ -1,4 +1,5 @@
 *.sw*
+.sass-cache/
 *~
 build/
 bin/

@@ -1,12 +1,13 @@
 {
-  "name": "ng-boilerplate",
-  "version": "0.3.2",
+  "name": "AvalancheCanada",
+  "version": "0.0.1",
   "devDependencies": {
     "angular": "~1.2",
     "angular-mocks": "~1.2",
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.10.0",
-    "angular-ui-router": "~0.2"
+    "angular-ui-router": "~0.2",
+    "bootstrap-sass-official": "~3.1.1"
   },
   "dependencies": {}
 }
