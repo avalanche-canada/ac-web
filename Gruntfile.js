@@ -19,6 +19,8 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-docco');
+
 
   /**
    * Load in our build configuration file.
@@ -82,6 +84,18 @@ module.exports = function ( grunt ) {
         tagMessage: 'Version %VERSION%',
         push: false,
         pushTo: 'origin'
+      }
+    },
+
+    /**
+     * Creates documentation
+     */
+    docco: {
+      debug: {
+        src: ['src/**/*.js'],
+        options: {
+          output: 'docs/'
+        }
       }
     },
 
@@ -581,7 +595,7 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'compass:dev',
     'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
+    'copy:build_appjs', 'copy:build_vendorjs', 'index:build','docco:debug', 'karmaconfig',
     'karma:continuous'
   ]);
 
