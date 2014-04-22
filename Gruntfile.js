@@ -94,7 +94,7 @@ module.exports = function ( grunt ) {
       debug: {
         src: ['src/**/*.js'],
         options: {
-          output: 'docs/'
+          output: 'docs/generated/docco'
         }
       }
     },
