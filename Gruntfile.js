@@ -523,6 +523,11 @@ module.exports = function ( grunt ) {
       //  tasks: [ 'less:build' ]
       //},
 
+      scss: {
+        files: [ 'src/**/*.scss' ],
+        tasks: [ 'compass:dev' ]
+      },
+
       /**
        * When a JavaScript unit test file changes, we only want to lint it and
        * run the unit tests. We don't want to do any live reloading.

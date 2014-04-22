@@ -1,4 +1,4 @@
-angular.module( 'ngBoilerplate.about', [
+angular.module( 'avalancheCanada.about', [
   'ui.router',
   'placeholders',
   'ui.bootstrap'
@@ -24,6 +24,4 @@ angular.module( 'ngBoilerplate.about', [
     "And another choice for you.",
     "but wait! A third!"
   ];
-})
-
-;
+});
