@@ -3,6 +3,7 @@ angular.module( 'avalancheCanada', [
   'templates-common',
   'avalancheCanada.home',
   'avalancheCanada.about',
+  'avalancheCanada.bulletin',
   'ui.router'
 ])
 

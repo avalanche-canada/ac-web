@@ -4,15 +4,15 @@
 
 ## Introduction
 
-AvalancheCanada website front end
-An [AngularJS](http://angularjs.org) project.
-Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter 
-[Angular UI](http://angular-ui.github.io),
-[Angular Bootstrap](http://angular-ui.github.io/bootstrap),
-[Font Awesome](http://fortawesome.github.com/Font-Awesome), and
-[Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.
-[Compass](http://compass-style.org/)
-[SASS](http://sass-lang.com/)
+AvalancheCanada website front end.  
+An [AngularJS](http://angularjs.org) project.  
+Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
+[Angular UI](http://angular-ui.github.io).  
+[Angular Bootstrap](http://angular-ui.github.io/bootstrap).  
+[Font Awesome](http://fortawesome.github.com/Font-Awesome).  
+[Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.  
+[Compass](http://compass-style.org/)  
+[SASS](http://sass-lang.com/)  
 
 ***
 
