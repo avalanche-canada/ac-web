@@ -21,7 +21,7 @@ Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.
 Install Node.js and then:
 
 ```sh
-$ sudo npm -g install grunt-cli karma bower
+$ sudo npm -g install grunt-cli karma bower compass
 $ npm install
 $ bower install
 $ grunt watch
