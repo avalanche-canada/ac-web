@@ -44,8 +44,8 @@ AvalancheCanada/
   |  |  |- <static files>
   |  |- common/
   |  |  |- <reusable code>
-  |  |- less/
-  |  |  |- main.less
+  |  |- sass/
+  |  |  |- main.scss
   |- vendor/
   |  |- angular-bootstrap/
   |  |- bootstrap/
