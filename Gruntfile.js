@@ -112,17 +112,19 @@ module.exports = function ( grunt ) {
      * Create constants depending on environment
     */
     ngconstant: {
-      // Options for all targets
       options: {
-        name: 'config'
+        /*space: '  ',
+        wrap: '"use strict";\n\n {%= __ngModule %}', */
+        name: 'constants'
       },
       // Environment targets
       build: {
         options: {
-          dest: '<%= build_dir %>/config.js'
+          dest: 'src/app/constants.js'
         },
         constants: {
           ENV: {
+            working_branch: 'master',
             name: 'development',
             apiEndpoint: 'http://your-development.api.endpoint:3000'
           }
@@ -130,7 +132,7 @@ module.exports = function ( grunt ) {
       },
       compile: {
         options: {
-          dest: '<%= compile_dir %>/config.js'
+          dest: 'src/app/constants.js'
         },
         constants: {
           ENV: {
@@ -506,7 +508,7 @@ module.exports = function ( grunt ) {
        */
       gruntfile: {
         files: 'Gruntfile.js',
-        tasks: [ 'jshint:gruntfile' ],
+        tasks: [ 'jshint:gruntfile', 'ngconstant:build' ],
         options: {
           livereload: false
         }
@@ -681,7 +683,8 @@ module.exports = function ( grunt ) {
           data: {
             scripts: jsFiles,
             styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
+            version: grunt.config( 'pkg.version' ),
+            repository: grunt.config( 'pkg.repository.url' )
           }
         });
       }

@@ -3,7 +3,7 @@
   <head>
     <title ng-bind="pageTitle"></title>
 
-    <!-- social media tags -->
+    <!-- /todo social media tags -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@joshdmiller">
     <meta name="twitter:title" content="ngBoilerplate">
@@ -30,7 +30,6 @@
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
 
-
     <!-- /todo do we need plus one ?? -->
     <!-- it's stupid to have to load it here, but this is for the +1 button -->
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
@@ -51,7 +50,7 @@
           <div class="navbar-brand">
             AvalancheCanada
             <small>
-              <a href="http://github.com/ngbp/ngbp/blob/v<%= version %>-release/CHANGELOG.md">
+              <a href="<%= repository %>/blob/v<%= version %>-release/CHANGELOG.md">
                 v<%= version %>
               </a>
             </small>
@@ -96,9 +95,27 @@
 
     <div class="container" ui-view="main"></div>
 
+    <pre>
+
+      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams
+      $state = {{$state.current.name}}
+      $stateParams = {{$stateParams}}
+      $state.templateUrl = {{ $state.$current.views["main@"].templateUrl }}
+
+      working_branch = {{ ENV.name }}
+
+      -->
+
+      <a href="<%= repository %>/blob/{{ ENV.working_branch }}/src/app/{{ $state.$current.views['main@'].templateUrl }}">
+        Edit
+      </a>
+
+    </pre>
+
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
+
          <!-- <ul class="social">
             <li><a target="_blank" href="http://gplus.to/joshdmiller"><i class="fa fa-google-plus"></i></a></li>
             <li><a target="_blank" href="http://twitter.com/joshdmiller"><i class="fa fa-twitter"></i></a></li>

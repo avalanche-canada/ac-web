@@ -10,7 +10,7 @@
   "bugs": "https://github.com/avalanchedotca/AvalancheCanada/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/avalanchedotca/AvalancheCanada.git"
+    "url": "https://github.com/avalanchedotca/AvalancheCanada"
   },
   "dependencies": {},
   "devDependencies": {
