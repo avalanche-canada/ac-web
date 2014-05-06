@@ -59,6 +59,7 @@ angular.module( 'avalancheCanada.home', [
 
 
     //! todo check user preferences to see if they want this set to auto or have manually setup
+
     //! if geolocation is available then update map center
     if ("geolocation" in navigator) {
 
