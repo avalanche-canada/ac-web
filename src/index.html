@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html ng-app="avalancheCanada" ng-controller="AppCtrl">
+<!--<html ng-app="avalancheCanada" ng-controller="AppCtrl"> -->
+<html ng-controller="AppCtrl">
   <head>
     <title ng-bind="pageTitle"></title>
 
@@ -21,20 +22,9 @@
     <!-- font awesome from BootstrapCDN -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-    <!-- Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
-
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
 
-    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
-    <script type="text/javascript" src="<%= file %>"></script><% }); %>
-
-    <!-- /todo do we need plus one ?? -->
-    <!-- it's stupid to have to load it here, but this is for the +1 button -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-      { "parsetags": "explicit" }
-    </script>
   </head>
   <body>
     <div class="container">
@@ -67,7 +57,7 @@
             <li ui-sref-active="active">
               <a href ui-sref="about">
                 <i class="fa fa-info-circle"></i>
-                What is it?
+                About
               </a>
             </li>
             <li>
@@ -129,5 +119,21 @@
         </div>
       </div>
     </footer>
+
+    <!-- Load Scripts. This needs to be done at the end of the page as we are manually boostrapping angular as required by google maps (http://stackoverflow.com/questions/16537783/which-method-should-i-use-to-manually-bootstrap-my-angularjs / https://docs.angularjs.org/guide/bootstrap / https://github.com/angular-ui/ui-map) -->
+    <!-- Google Maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+    <!-- /todo do we need plus one ?? -->
+    <!-- it's stupid to have to load it here, but this is for the +1 button -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+      { "parsetags": "explicit" }
+    </script>
+
+    <!-- end load scripts -->
+
   </body>
 </html>

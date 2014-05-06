@@ -126,7 +126,11 @@ module.exports = function ( grunt ) {
           ENV: {
             working_branch: 'master',
             name: 'development',
-            apiEndpoint: 'http://your-development.api.endpoint:3000'
+            apiEndpoint: 'http://your-development.api.endpoint:3000',
+            default_lat: 50.9831700,
+            default_long: -118.2023000,
+            map_type: 'google.maps.MapTypeId.TERRAIN',
+            map_zoom: 15
           }
         }
       },

@@ -1,3 +1,8 @@
+function onGoogleReady() {
+  console.log("google maps api initialised");
+  angular.bootstrap(document, ['avalancheCanada']);
+}
+
 angular.module( 'avalancheCanada', [
   'templates-app',
   'templates-common',
@@ -13,8 +18,7 @@ angular.module( 'avalancheCanada', [
   [ '$rootScope', '$state', '$stateParams', 'ENV',
     function ($rootScope, $state, $stateParams, ENV) {
 
-      // It's very handy to add references to $state and $stateParams to the $rootScope
-      // so that you can access them from any scope within your applications.
+      //! Make globals - Add references to state, state params and ENV to rootscope
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
       $rootScope.ENV = ENV;

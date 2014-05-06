@@ -1,28 +1,14 @@
 /**
- * Each section of the site has its own module. It probably also has
- * submodules, though this boilerplate is too simple to demonstrate it. Within
- * `src/app/home`, however, could exist several additional folders representing
- * additional modules that would then be listed as dependencies of this one.
- * For example, a `note` section could have the submodules `note.create`,
- * `note.delete`, `note.edit`, etc.
- *
- * Regardless, so long as dependencies are managed correctly, the build process
- * will automatically take take of the rest.
- *
- * The dependencies block here is also where component dependencies should be
- * specified, as shown below.
+ * Homepage module
  */
 angular.module( 'avalancheCanada.home', [
   'ui.router',
-  'plusOne'
+  'plusOne',
+  'ui.map'
 ])
 
-/**
- * Each section or module of the site can also have its own routes. AngularJS
- * will handle ensuring they are all available at run-time, but splitting it
- * this way makes each module more "self-contained".
- */
-.config(function config( $stateProvider ) {
+
+.config(function config( $stateProvider) {
   $stateProvider.state( 'home', {
     url: '/home',
     views: {
@@ -31,14 +17,59 @@ angular.module( 'avalancheCanada.home', [
         templateUrl: 'home/home.tpl.html'
       }
     },
-    data:{ pageTitle: 'Home' }
+    data:{ pageTitle: 'Avalanche Canada' }
   });
 })
 
 /**
- * And of course we define a controller for our route.
+ * Home Controller
+ * $log angular log service
+ * ENV environment constants
+ * $scope application model object
  */
-.controller( 'HomeCtrl', function HomeController( $scope ) {
+.controller( 'HomeCtrl', function HomeController( $scope, ENV, $log ) {
+
+    //! Get defaults from env vars
+    var pos = {'lat': ENV.default_lat, 'long': ENV.default_long};
+
+    var map_type = google.maps.MapTypeId.TERRAIN;
+    switch(ENV.map_type){
+      case 'TERRAIN':
+        map_type = google.maps.MapTypeId.TERRAIN;
+        break;
+      case 'ROADMAP':
+        map_type = google.maps.MapTypeId.ROADMAP;
+        break;
+      case 'HYBRID':
+        map_type = google.maps.MapTypeId.HYBRID;
+        break;
+      case 'SATELLITE':
+        map_type = google.maps.MapTypeId.SATELLITE;
+        break;
+      default:
+        $log.error("ENV.map_type does not match any known map type. Using default");
+    }
+
+    //! Set Map Options
+    $scope.mapOptions = {
+      center: new google.maps.LatLng(pos.lat, pos.long),
+      zoom: ENV.map_zoom,
+      mapTypeId: map_type
+    };
+
+
+    //! todo check user preferences to see if they want this set to auto or have manually setup
+    //! if geolocation is available then update map center
+    if ("geolocation" in navigator) {
+
+      navigator.geolocation.getCurrentPosition(function(position) {
+        $log.info("position obtained from geolocation service");
+        pos.lat  = position.coords.latitude;
+        pos.long = position.coords.longitude;
+        $scope.myMap.setCenter(new google.maps.LatLng(pos.lat, pos.long));
+      });
+
+    }
 })
 
 ;

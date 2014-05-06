@@ -20,7 +20,7 @@ module.exports = {
    * app's unit tests.
    */
   app_files: {
-    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js', 'constants.js'],
+    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'],
     jsunit: [ 'src/**/*.spec.js' ],
 
     coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],
@@ -59,6 +59,8 @@ module.exports = {
    * The `vendor_files.assets` property holds any assets to be copied along
    * with our app's assets. This structure is flattened, so it is not
    * recommended that you use wildcards.
+   *
+   *  TODO for production used minified vendor files where available
    */
   vendor_files: {
     js: [
@@ -66,8 +68,9 @@ module.exports = {
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-ui-utils/modules/route/route.js',
-      'vendor/angular-resource/angular-resource.js'
+      'vendor/angular-ui-utils/ui-utils.js',
+      'vendor/angular-resource/angular-resource.js',
+      'vendor/angular-ui-map/ui-map.js'
     ],
     css: [
     ],

@@ -27,7 +27,7 @@
   .row:last-child {
     margin-bottom: 0;
   }
-  
+
   h4 [class*=" icon-"], h4 [class^="icon-"] {
     margin-right: 5px;
     vertical-align: -10%;
@@ -35,4 +35,6 @@
     line-height: 1;
   }
 }
+
+.map-canvas { height: 400px; }
 
