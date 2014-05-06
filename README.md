@@ -1,5 +1,5 @@
 
-# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) [ /todo ![Build Status](https://api.travis-ci.org/ngbp/ngbp.png?branch=v0.3.2-release)](https://travis-ci.org/ngbp/ngbp)
+# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) <!-- /todo [ ![Build Status](https://api.travis-ci.org/ngbp/ngbp.png?branch=v0.3.2-release)](https://travis-ci.org/ngbp/ngbp) -->
 ****
 
 ## Introduction
