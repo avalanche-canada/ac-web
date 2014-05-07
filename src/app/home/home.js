@@ -73,11 +73,11 @@ angular.module( 'avalancheCanada.home', [
         $scope.myMap.setCenter(pos);
 
         //! Add marker at position
-        $scope.myMarkers.push(new google.maps.Marker({
+        new google.maps.Marker({
             map: $scope.myMap,
             position:  pos,
             title: "You Are Here"
-        }));
+        });
 
       });
 
