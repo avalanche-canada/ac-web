@@ -130,7 +130,9 @@ module.exports = function ( grunt ) {
             default_lat: 50.9831700,
             default_long: -118.2023000,
             map_type: 'TERRAIN',
-            map_zoom: 15
+            map_zoom: 6,
+            storage: "https://s3.amazonaws.com/avalancheca/",
+            regionKml: "forecastRegions.kml"
           }
         }
       },

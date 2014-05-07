@@ -59,6 +59,34 @@ angular.module( 'avalancheCanada.home', [
     };
 
 
+    function initialize() {
+      $log.info("google maps initialised adding layers");
+      //! Add region layer
+      //$scope.myMap.data.loadGeoJson(ENV.storage + "CACRegions.json");
+      //$scope.myMap.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
+
+       var regioKmlUrl = "http://avalanche.ca:81/KML/All_Regions_Low.kmz";
+
+       var regionLayerOptions = {
+         clickable: true,
+         suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
+         preserveViewport: true,
+         map: $scope.myMap
+       };
+
+       var regionKmlLayer = new google.maps.KmlLayer(regioKmlUrl, regionLayerOptions);
+
+       google.maps.event.addListener(regionKmlLayer, 'click', function(kmlEvent) {
+         var region = kmlEvent.featureData.name;
+         var path = "/RegionForecast/" + region;
+         alert(region);
+         //scope.$apply($location.path(path));
+       });
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
     //! todo check user preferences to see if they want this set to auto or have manually setup
 
     //! if geolocation is available then update map center
