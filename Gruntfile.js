@@ -129,7 +129,7 @@ module.exports = function ( grunt ) {
             apiEndpoint: 'http://your-development.api.endpoint:3000',
             default_lat: 50.9831700,
             default_long: -118.2023000,
-            map_type: 'google.maps.MapTypeId.TERRAIN',
+            map_type: 'TERRAIN',
             map_zoom: 15
           }
         }

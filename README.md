@@ -18,10 +18,11 @@ Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.
 
 ## Quick Start
 
-Install Node.js and then:
+Install Node.js and Ruby then:
 
 ```sh
-$ sudo npm -g install grunt-cli karma bower compass
+$ gem install compass
+$ sudo npm -g install grunt-cli karma bower 
 $ npm install
 $ bower install
 $ grunt watch
