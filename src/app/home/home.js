@@ -27,7 +27,7 @@ angular.module( 'avalancheCanada.home', [
  * ENV environment constants
  * $scope application model object
  */
-.controller( 'HomeCtrl', function HomeController( $scope, ENV, $log ) {
+.controller( 'HomeCtrl', function HomeController( $scope, ENV, $log, $location ) {
 
     //! Get defaults from env vars
     //var pos = {'lat': ENV.default_lat, 'long': ENV.default_long};
@@ -61,27 +61,24 @@ angular.module( 'avalancheCanada.home', [
 
     function initialize() {
       $log.info("google maps initialised adding layers");
-      //! Add region layer
-      //$scope.myMap.data.loadGeoJson(ENV.storage + "CACRegions.json");
-      //$scope.myMap.data.loadGeoJson("https://storage.googleapis.com/maps-devrel/google.json");
+      //! Add  bulletin  region layer
+      var regionKmlUrl = ENV.storage + ENV.bulletinRegion;
 
-       var regioKmlUrl = "http://avalanche.ca:81/KML/All_Regions_Low.kmz";
+      var regionLayerOptions = {
+       clickable: true,
+       suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
+       preserveViewport: true,
+       map: $scope.myMap
+      };
 
-       var regionLayerOptions = {
-         clickable: true,
-         suppressInfoWindows: true, //! \todo enable this and make infowindows display nice information see git issue
-         preserveViewport: true,
-         map: $scope.myMap
-       };
+      var regionKmlLayer = new google.maps.KmlLayer(regionKmlUrl, regionLayerOptions);
 
-       var regionKmlLayer = new google.maps.KmlLayer(regioKmlUrl, regionLayerOptions);
-
-       google.maps.event.addListener(regionKmlLayer, 'click', function(kmlEvent) {
-         var region = kmlEvent.featureData.name;
-         var path = "/RegionForecast/" + region;
-         alert(region);
-         //scope.$apply($location.path(path));
-       });
+      google.maps.event.addListener(regionKmlLayer, 'click', function(kmlEvent) {
+       var region = kmlEvent.featureData.name;
+       var path = "/bulletin/" + region;
+       //alert(region);
+       $scope.$apply($location.path(path));
+      });
 
     }
 

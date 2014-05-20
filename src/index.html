@@ -87,14 +87,10 @@
 
     <pre>
 
-      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams
+      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
       $state = {{$state.current.name}}
       $stateParams = {{$stateParams}}
       $state.templateUrl = {{ $state.$current.views["main@"].templateUrl }}
-
-      working_branch = {{ ENV.name }}
-
-      -->
 
       <a href="<%= repository %>/blob/{{ ENV.working_branch }}/src/app/{{ $state.$current.views['main@'].templateUrl }}">
         Edit
@@ -121,11 +117,12 @@
     </footer>
 
     <!-- Load Scripts. This needs to be done at the end of the page as we are manually boostrapping angular as required by google maps (http://stackoverflow.com/questions/16537783/which-method-should-i-use-to-manually-bootstrap-my-angularjs / https://docs.angularjs.org/guide/bootstrap / https://github.com/angular-ui/ui-map) -->
-    <!-- Google Maps -->
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyDWPmV7Swoj4wAQ8R7hxHBtfJweaV2As4s&callback=onGoogleReady"></script>
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+    <!-- Google Maps -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyDWPmV7Swoj4wAQ8R7hxHBtfJweaV2As4s&callback=onGoogleReady"></script>
 
     <!-- /todo do we need plus one ?? -->
     <!-- it's stupid to have to load it here, but this is for the +1 button -->
