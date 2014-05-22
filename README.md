@@ -5,8 +5,13 @@
 ****
 
 ## Introduction
-
 AvalancheCanada website front end.  
+Provides public avalanches services across canada.  
+
+***
+
+## Introduction
+The Avalanche Canada website is built utilsing
 An [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
 [Angular UI](http://angular-ui.github.io).  
@@ -94,6 +99,8 @@ See the [issues list](https://github.com/avalanchedotca/AvalancheCanada/issues).
 feel free to submit your own!
 
 ### Contributing
+
+We welcome contributors, please feel free to make a pull request or contact the developers at itsupport@avalanche.ca
 
 ## Questions/Contact
 For any question please do not hesitate to contact itsupport@avalanche.ca
