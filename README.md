@@ -1,5 +1,7 @@
 
-# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) [ ![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/AvalancheCanada)
+# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) 
+[ ![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/AvalancheCanada)
+[ ![dependencies] (https://david-dm.org/avalanchedotca/avalanchecanada.png)]
 ****
 
 ## Introduction
