@@ -10,7 +10,7 @@ Provides public avalanches services across canada.
 
 ***
 
-## Introduction
+## Technical Architecture
 The Avalanche Canada website is built utilsing
 An [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
@@ -20,6 +20,7 @@ Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.
 [Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.  
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
+[Travis CI] (https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.      
 
 ***
 
