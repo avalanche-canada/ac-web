@@ -1,17 +1,22 @@
 language: node_js
 node_js:
-  - "0.10"
-
+- '0.10'
 before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - gem install sass
-  - gem install compass
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- gem install sass
+- gem install compass
 before_script:
-  - npm install --quiet -g grunt-cli karma bower
-  - npm install
-  - bower install
-
+- npm install --quiet -g grunt-cli karma bower
+- npm install
+- bower install
 script: grunt
-
+deploy:
+  provider: s3
+  access_key_id: ''
+  secret_access_key:
+    secure: dJIC6bl0rAtDy8g6Wpj6awEyH0UDioIJgP7D41lzquXTBt2y821w+2QOuqrB2yvlbHivVUNs7ATLoq9hQ+bmnGwODsur+Zgm0pFaCW/Rn0NTJPRtGmlxt0CeKVog5Ga2hYqZ33MGWEaqtsarUchaO09OeQhTpoSz0M9q7lDu8sU=
+  bucket: avalanche.ca
+  local-dir: "/build"
+  on:
+    repo: avalanchedotca/AvalancheCanada
