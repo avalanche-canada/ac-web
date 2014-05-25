@@ -17,6 +17,6 @@ deploy:
   secret_access_key:
     secure: E3jn5/PNeBoQm2DXsJCXBZ4LIR5IJPbSbQF1wKpq9aTSHrxtipR/LK2nf9Cy0H4Zy4XzcUbGmK1tDXNsNq6itekOcwhO3eeldw3bIWt9OB7KfdYbEtUDj3gPNuDhnAZ9skNmL/j15h8mSdYi9K3amojkK5ZdvW/2lMJnQyRB2c8=
   bucket: avalanche.ca
-  local-dir: "/build"
+  local-dir: "build"
   on:
     repo: avalanchedotca/AvalancheCanada
