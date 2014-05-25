@@ -13,9 +13,9 @@ before_script:
 script: grunt
 deploy:
   provider: s3
-  access_key_id: ''
+  access_key_id: AKIAJGY4NU4JHXJWJDQQ
   secret_access_key:
-    secure: dJIC6bl0rAtDy8g6Wpj6awEyH0UDioIJgP7D41lzquXTBt2y821w+2QOuqrB2yvlbHivVUNs7ATLoq9hQ+bmnGwODsur+Zgm0pFaCW/Rn0NTJPRtGmlxt0CeKVog5Ga2hYqZ33MGWEaqtsarUchaO09OeQhTpoSz0M9q7lDu8sU=
+    secure: E3jn5/PNeBoQm2DXsJCXBZ4LIR5IJPbSbQF1wKpq9aTSHrxtipR/LK2nf9Cy0H4Zy4XzcUbGmK1tDXNsNq6itekOcwhO3eeldw3bIWt9OB7KfdYbEtUDj3gPNuDhnAZ9skNmL/j15h8mSdYi9K3amojkK5ZdvW/2lMJnQyRB2c8=
   bucket: avalanche.ca
   local-dir: "/build"
   on:
