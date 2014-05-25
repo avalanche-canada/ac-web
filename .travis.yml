@@ -19,5 +19,6 @@ deploy:
   bucket: avalanche.ca
   local-dir: "build"
   skip_cleanup: true
+  region: us-west-2
   on:
     repo: avalanchedotca/AvalancheCanada
