@@ -1,10 +1,17 @@
 
-# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) [ ![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/AvalancheCanada)
+# [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) 
+[![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/AvalancheCanada)
+[![dependencies] (https://david-dm.org/avalanchedotca/avalanchecanada.png)](https://david-dm.org/)
 ****
 
 ## Introduction
-
 AvalancheCanada website front end.  
+Provides public avalanches services across canada.  
+
+***
+
+## Introduction
+The Avalanche Canada website is built utilsing
 An [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
 [Angular UI](http://angular-ui.github.io).  
@@ -92,6 +99,8 @@ See the [issues list](https://github.com/avalanchedotca/AvalancheCanada/issues).
 feel free to submit your own!
 
 ### Contributing
+
+We welcome contributors, please feel free to make a pull request or contact the developers at itsupport@avalanche.ca
 
 ## Questions/Contact
 For any question please do not hesitate to contact itsupport@avalanche.ca
