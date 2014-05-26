@@ -6,7 +6,9 @@
 
 ## Introduction
 AvalancheCanada website front end.  
-Provides public avalanches services across canada.  
+Data driven map based website, provides public avalanches services for across canada.  
+Design still under way.  
+Contact bshaw@avalanche.ca for more details or to get invoved.  
 
 ***
 
@@ -21,6 +23,10 @@ Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
 [Travis CI] (https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.      
+
+***
+
+## Modules
 
 ***
 
