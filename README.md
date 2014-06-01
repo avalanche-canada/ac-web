@@ -5,8 +5,7 @@
 ****
 
 ## Introduction
-AvalancheCanada website front end.  
-Data driven map based website, provides public avalanches services for across canada.  
+The AvalancheCanada website is a implementation of a front end/view upon CAC data streams. Data is stored separately to the website and is available via RESTful API’s.   
 Design still under way.  
 Contact bshaw@avalanche.ca for more details or to get invoved.  
 
@@ -17,12 +16,13 @@ The Avalanche Canada website is built utilsing
 An [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
 [Angular UI](http://angular-ui.github.io).  
-[Angular Bootstrap](http://angular-ui.github.io/bootstrap).  
-[Font Awesome](http://fortawesome.github.com/Font-Awesome).  
+[Angular Bootstrap](http://angular-ui.github.io/bootstrap)
+[Font Awesome](http://fortawesome.github.com/Font-Awesome)  
 [Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.  
+[Bower](http://bower.io/) package management
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
-[Travis CI] (https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.      
+[Travis CI] (https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.     
 
 ***
 
@@ -58,13 +58,10 @@ AvalancheCanada/
   |  |- assets/
   |  |  |- <static files>
   |  |- common/
-  |  |  |- <reusable code>
+  |  |  |- <reusable code / directives>
   |  |- sass/
   |  |  |- main.scss
   |- vendor/
-  |  |- angular-bootstrap/
-  |  |- bootstrap/
-  |  |- placeholders/
   |- .bowerrc
   |- bower.json
   |- build.config.js
