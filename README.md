@@ -12,8 +12,7 @@ Contact bshaw@avalanche.ca for more details or to get invoved.
 ***
 
 ## Technical Architecture
-The Avalanche Canada website is built utilsing
-An [AngularJS](http://angularjs.org) project.  
+The Avalanche Canada website is a [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
 [Angular UI](http://angular-ui.github.io).  
 [Angular Bootstrap](http://angular-ui.github.io/bootstrap)
