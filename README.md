@@ -5,21 +5,27 @@
 ****
 
 ## Introduction
-AvalancheCanada website front end.  
-Provides public avalanches services across canada.  
+The AvalancheCanada website is a implementation of a front end/view upon CAC data streams. Data is stored separately to the website and is available via RESTful API’s.   
+Design still under way.  
+Contact bshaw@avalanche.ca for more details or to get invoved.  
 
 ***
 
-## Introduction
-The Avalanche Canada website is built utilsing
-An [AngularJS](http://angularjs.org) project.  
+## Technical Architecture
+The Avalanche Canada website is a [AngularJS](http://angularjs.org) project.  
 Based of [ngBoilerplate](https://github.com/ngbp/ngbp.git) kickstarter.  
 [Angular UI](http://angular-ui.github.io).  
-[Angular Bootstrap](http://angular-ui.github.io/bootstrap).  
-[Font Awesome](http://fortawesome.github.com/Font-Awesome).  
+[Angular Bootstrap](http://angular-ui.github.io/bootstrap)
+[Font Awesome](http://fortawesome.github.com/Font-Awesome)  
 [Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.  
+[Bower](http://bower.io/) package management
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
+[Travis CI] (https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.     
+
+***
+
+## Modules
 
 ***
 
@@ -51,13 +57,10 @@ AvalancheCanada/
   |  |- assets/
   |  |  |- <static files>
   |  |- common/
-  |  |  |- <reusable code>
+  |  |  |- <reusable code / directives>
   |  |- sass/
   |  |  |- main.scss
   |- vendor/
-  |  |- angular-bootstrap/
-  |  |- bootstrap/
-  |  |- placeholders/
   |- .bowerrc
   |- bower.json
   |- build.config.js
@@ -100,7 +103,8 @@ feel free to submit your own!
 
 ### Contributing
 
-We welcome contributors, please feel free to make a pull request or contact the developers at itsupport@avalanche.ca
+We welcome contributions..   
+Please feel free to suggest an improvement via a pull request, report any issues via [issues list](https://github.com/avalanchedotca/AvalancheCanada/issues), join the discussion at [discussion group](https://groups.google.com/forum/#!forum/avalancheca-technical) or contact the developers at itsupport@avalanche.ca
 
 ## Questions/Contact
 For any question please do not hesitate to contact itsupport@avalanche.ca
