@@ -13,10 +13,10 @@ before_script:
 script: grunt
 deploy:
   provider: s3
-  access_key_id: AKIAJGY4NU4JHXJWJDQQ
+  access_key_id: AKIAICNC6OORFFQWNT6A
   secret_access_key:
-    secure: E3jn5/PNeBoQm2DXsJCXBZ4LIR5IJPbSbQF1wKpq9aTSHrxtipR/LK2nf9Cy0H4Zy4XzcUbGmK1tDXNsNq6itekOcwhO3eeldw3bIWt9OB7KfdYbEtUDj3gPNuDhnAZ9skNmL/j15h8mSdYi9K3amojkK5ZdvW/2lMJnQyRB2c8=
-  bucket: avalanche.ca
+    secure: LSHHycCrT/lh4/1oFGY8ZOV8QRIoyj0ejRGepRmKhcmIyh3//PvdBeTvahNcfYpqeaXj5nbdlmBEXpMjKbCts5U2fEIaMp4+J/htDfpvM45fgeCs5qTkrBrm7XlAbUdB2RQLppZZ5UF+vQOjjyABhf3Dna6QWJOFbXDSDxP49ao=
+  bucket: avalancheca-website
   local-dir: "build"
   skip_cleanup: true
   region: us-west-2
