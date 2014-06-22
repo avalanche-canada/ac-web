@@ -8,8 +8,8 @@
  * build process will exclude all `.spec.js` files from the build
  * automatically.
  */
-describe( 'home section', function() {
-  beforeEach( module( 'avalancheCanada.home' ) );
+describe( 'map section', function() {
+  beforeEach( module( 'avalancheCanada.map' ) );
 
   it( 'should have a dummy test', inject( function() {
     expect( true ).toBeTruthy();
