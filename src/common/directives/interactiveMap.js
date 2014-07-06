@@ -1,10 +1,6 @@
 (function () {
   'use strict';
 
-
-/* Interactive Map Module
- * This directive creates a google map and adds interactive KML layers
- */
 angular.module('directives.interactiveMap', [])
 .directive('interactiveMap', function($window, $rootScope, $location, ENV){ //Bounds State google
 
@@ -35,6 +31,7 @@ angular.module('directives.interactiveMap', [])
        if (typeof(google) !== undefined) {
 
         //! Get defaults from env vars
+        //var pos = {'lat': ENV.default_lat, 'long': ENV.default_long};
         var pos = new google.maps.LatLng(ENV.default_lat, ENV.default_long);
 
         var map_type = google.maps.MapTypeId.TERRAIN;
@@ -108,7 +105,6 @@ angular.module('directives.interactiveMap', [])
         }); */
 
         //! Add  bulletin  region layer
-        //!{
         var regionKmlUrl = ENV.storage + ENV.bulletinRegion;
 
         var regionLayerOptions = {
@@ -117,50 +113,44 @@ angular.module('directives.interactiveMap', [])
          preserveViewport: true,
          map: map
         };
-
         var regionKmlLayer = new google.maps.KmlLayer(regionKmlUrl, regionLayerOptions);
+
 
         google.maps.event.addListener(regionKmlLayer, 'click', function(kmlEvent) {
          var region = kmlEvent.featureData.name;
          var path = "/bulletin/" + region;
          //alert(region);
          scope.$apply($location.path(path));
-
-         /*scope.$apply(function() {
-          scope.text = region + " Bulletin";
-          });*/
-
         });
-        //! }
+       //!
 
-
-        //! Add current position marker at lat long {
-        var marker = new google.maps.Marker({
+       var marker = new google.maps.Marker({
          position: myLatlng,
          map: map,
          title:"My Location"
-        });
+       });
 
-        var contentString = '<div id="infoWindowContent"><strong>You are here!</strong>'+'<br />'+
-        'Tap region to see forecast</div>';
+       var contentString = '<div id="infoWindowContent"><strong>You are here!</strong>'+'<br />'+
+       'Tap region to see forecast</div>';
 
-        var infoWindow = new google.maps.InfoWindow({
+       var infoWindow = new google.maps.InfoWindow({
          content: contentString
-        });
+       });
 
-        if (window.localStorage.getItem("first") != "1") {
+
+       if (window.localStorage.getItem("first") != "1") {
          infoWindow.open(map,marker);
-        }
+       }
 
-        google.maps.event.addListener(infoWindow,'closeclick',function(){
+       google.maps.event.addListener(infoWindow,'closeclick',function(){
          window.localStorage.setItem("first", "1");
-        });
+       });
 
-        google.maps.event.addListener(marker, 'click', function() {
+       google.maps.event.addListener(marker, 'click', function() {
         infoWindow.open(map,marker);
-        });
+      });
 
-        //}
+      //});
 
       // This is a hack to get around some infowindow closing bug with Android 2.3
       // https://code.google.com/p/gmaps-api-issues/issues/detail?id=5397

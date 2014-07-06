@@ -10,8 +10,9 @@ function onGoogleReady() {
 angular.module( 'avalancheCanada', [
   'templates-app',
   'templates-common',
-  'avalancheCanada.map',
+  'avalancheCanada.home',
   'avalancheCanada.about',
+  'avalancheCanada.bulletin',
   'ui.router',
   'constants'
 ])

@@ -49,7 +49,7 @@
         <div class="collapse navbar-collapse" collapse="menuCollapsed">
           <ul class="nav navbar-nav">
             <li ui-sref-active="active">
-              <a href ui-sref="map.home">
+              <a href ui-sref="home">
                 <i class="fa fa-home"></i>
                 Home
               </a>
@@ -58,12 +58,6 @@
               <a href ui-sref="about">
                 <i class="fa fa-info-circle"></i>
                 About
-              </a>
-            </li>
-            <li ui-sref-active="active">
-              <a href ui-sref="map.incident">
-                <i class="fa fa-exclamation"></i>
-                Incident
               </a>
             </li>
             <!-- <li>
@@ -91,10 +85,9 @@
 
     <div class="container" ui-view="main"></div>
 
-    <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+    <pre>
 
-    <!--<pre>
-
+      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
       $state = {{$state.current.name}}
       $stateParams = {{$stateParams}}
       $state.templateUrl = {{ $state.$current.views["main@"].templateUrl }}
@@ -103,7 +96,7 @@
         Edit
       </a>
 
-    </pre> -->
+    </pre>
 
     <footer class="footer">
       <div class="container">
