@@ -106,11 +106,5 @@ feel free to submit your own!
 We welcome contributions..   
 Please feel free to suggest an improvement via a pull request, report any issues via [issues list](https://github.com/avalanchedotca/AvalancheCanada/issues), join the discussion at [discussion group](https://groups.google.com/forum/#!forum/avalancheca-technical) or contact the developers at itsupport@avalanche.ca
 
-### Style Guide
-https://github.com/mgechev/angularjs-style-guide   
-https://google-styleguide.googlecode.com/svn/trunk/angularjs-google-style.html   
-http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml   
-
-
 ## Questions/Contact
 For any question please do not hesitate to contact itsupport@avalanche.ca
