@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-function onGoogleReady() {
+/*function onGoogleReady() {
   console.log("google maps api initialised");
   angular.bootstrap(document, ['avalancheCanada']);
-}
+}*/
 
 angular.module( 'avalancheCanada', [
   'templates-app',

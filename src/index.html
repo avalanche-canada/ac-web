@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <!--<html ng-app="avalancheCanada" ng-controller="AppCtrl"> -->
-<html ng-controller="AppCtrl">
+<html ng-app="avalancheCanada" ng-controller="AppCtrl">
   <head>
     <title ng-bind="pageTitle"></title>
 
     <!-- /todo social media tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@joshdmiller">
-    <meta name="twitter:title" content="ngBoilerplate">
-    <meta name="twitter:description" content="Non-Trivial AngularJS Made Easy: Everything you need to kickstart AngularJS projects: a best-practice directory structure, an intelligent build system, and the best web design libraries around.">
-    <meta name="twitter:creator" content="@joshdmiller">
-    <meta name="twitter:image:src" content="https://a248.e.akamai.net/assets.github.com/images/modules/logos_page/Octocat.png?1366128846">
-    <meta property="og:title" content="ngBoilerplate" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://bit.ly/ngBoilerplate" />
-    <meta property="og:image" content="https://a248.e.akamai.net/assets.github.com/images/modules/logos_page/Octocat.png?1366128846" />
-    <meta property="og:description" content="Non-Trivial AngularJS Made Easy: Everything you need to kickstart AngularJS projects: a best-practice directory structure, an intelligent build system, and the best web design libraries around.">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:creator" content="">
+    <meta name="twitter:image:src" content="">
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -24,6 +24,26 @@
 
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+    <!-- JQuery is required by fullpage.js, needs to be done before vendor scripts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+     <!-- Load Scripts. This needs to be done at the end of the page as we are manually boostrapping angular as required by google maps (http://stackoverflow.com/questions/16537783/which-method-should-i-use-to-manually-bootstrap-my-angularjs / https://docs.angularjs.org/guide/bootstrap / https://github.com/angular-ui/ui-map) -->
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+    <!-- Google Maps -->
+    <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyDWPmV7Swoj4wAQ8R7hxHBtfJweaV2As4s&callback=onGoogleReady"></script>
+  -->
+
+    <!-- /todo do we need plus one ?? -->
+    <!-- it's stupid to have to load it here, but this is for the +1 button -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+      { "parsetags": "explicit" }
+    </script>
+
+    <!-- end load scripts -->
 
   </head>
   <body>
@@ -116,21 +136,7 @@
       </div>
     </footer>
 
-    <!-- Load Scripts. This needs to be done at the end of the page as we are manually boostrapping angular as required by google maps (http://stackoverflow.com/questions/16537783/which-method-should-i-use-to-manually-bootstrap-my-angularjs / https://docs.angularjs.org/guide/bootstrap / https://github.com/angular-ui/ui-map) -->
 
-    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
-    <script type="text/javascript" src="<%= file %>"></script><% }); %>
-
-    <!-- Google Maps -->
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyDWPmV7Swoj4wAQ8R7hxHBtfJweaV2As4s&callback=onGoogleReady"></script>
-
-    <!-- /todo do we need plus one ?? -->
-    <!-- it's stupid to have to load it here, but this is for the +1 button -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-      { "parsetags": "explicit" }
-    </script>
-
-    <!-- end load scripts -->
 
   </body>
 </html>

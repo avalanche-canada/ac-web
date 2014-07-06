@@ -7,8 +7,8 @@
  */
 angular.module( 'avalancheCanada.home', [
   'ui.router',
-  'plusOne',
-  'directives.interactiveMap'
+  'plusOne'
+  //'directives.interactiveMap'
 ])
 
 .config(function config( $stateProvider) {
@@ -32,7 +32,7 @@ angular.module( 'avalancheCanada.home', [
  */
 .controller( 'HomeCtrl', function HomeController( $scope, ENV, $log, $location ) {
 
-
+  $('#fullpage').fullpage();
   /*
 
     function initialize() {

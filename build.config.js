@@ -70,9 +70,13 @@ module.exports = {
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/ui-utils.js',
       'vendor/angular-resource/angular-resource.js',
-      'vendor/angular-ui-map/ui-map.js'
+      'vendor/angular-ui-map/ui-map.js',
+      'vendor/fullpage.js/jquery.fullPage.js',
+      'vendor/fullpage.js/vendors/jquery.easings.min.js',
+      'vendor/fullpage.js/vendors/jquery.slimscroll.min.js'
     ],
     css: [
+      'vendor/fullpage.js/jquery.fullPage.css'
     ],
     assets: [
     ]
