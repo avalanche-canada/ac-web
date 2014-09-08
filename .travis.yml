@@ -1,9 +1,20 @@
 language: node_js
 node_js:
-  - '0.10'
-  - '0.11'
+- '0.10'
+- '0.11'
 before_script:
-  - npm install -g bower grunt-cli
-  - gem install sass
-  - bower install
+- npm install -g bower grunt-cli
+- gem install sass
+- bower install
 services: mongodb
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: AKIAICNC6OORFFQWNT6A
+  secret_access_key:
+    secure: WjQcWTd5f81MbiiJtd2jz0u+JwIe0efA1eByTUioySkMTZxmobVCQlaT/ZqmplDurL2ooVYUEM9GM5SvwOmnCKnKU4/yNTd/iVVIvzWvFz1LcHVSpPtY/4Xx9935HNd2hPynOlANTmYl8caarPKoW4oiOjI+7leDO8C+VQUVyd0=
+  app: AvalancheCanada
+  env: AvalancheCanada-env
+  region: us-west
+  local-dir: dist
+  on:
+    repo: avalanchedotca/AvalancheCanada
