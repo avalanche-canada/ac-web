@@ -1,9 +1,7 @@
-*.sw*
-.sass-cache/
-*~
-build/
-bin/
-node_modules/
-vendor/
-docs/generated
-src/app/constants.js
+node_modules
+public
+.tmp
+.sass-cache
+client/bower_components
+dist
+/server/config/local.env.js
