@@ -2,9 +2,10 @@ language: node_js
 node_js:
 - '0.10'
 before_script:
-- npm install -g bower grunt-cli
+- npm install -g bower grunt-cli karma
 - gem install sass
 - bower install
+script: grunt
 deploy:
   provider: elasticbeanstalk
   edge: true
@@ -14,6 +15,8 @@ deploy:
   app: avalanche-canada
   env: avalanche-canada-env
   region: us-west-2
+  local-dir: dist
+  skip_cleanup: true
   on:
     repo: avalanchedotca/AvalancheCanada
 
