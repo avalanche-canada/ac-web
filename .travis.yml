@@ -15,7 +15,6 @@ deploy:
   app: avalanche-canada
   env: avalanche-canada-env
   region: us-west-2
-  local-dir: dist
   skip_cleanup: true
   on:
     repo: avalanchedotca/AvalancheCanada
