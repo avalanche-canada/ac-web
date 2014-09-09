@@ -19,3 +19,19 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 // injector
 @import 'main/main.scss';
 // endinjector
+
+
+
+
+//320 mobile styles and up
+@import "_base_mobile.scss";
+
+//Tablet Styles ***Add notes here
+@media screen and (min-width: $screen-tablet) {
+    @import "_breakpoint_tablet.scss";
+}
+
+//Desktop Styles ***add notes here
+@media screen and (min-width: $screen-desktop) {
+    @import "_breakpoint_desktop.scss";
+}

@@ -1,0 +1,200 @@
+/* CAC Custom styles
+ * Author: Chris Bovard - www.chrisbovard.com
+ * Sept. 8, 2014
+*/
+
+/* =Import Files for Mixin Usage
+----------------------------------------------------------------------------------*/
+//the variable file is the one that will be modified by the themer - chris bovard
+@import "custom_cac_variables";
+//boostrap mixins
+//@import "bootstrap/mixins";
+
+/* =Tablet Layout and Styles
+----------------------------------------------------------------------------------*/
+
+/*header*/
+#header {
+	h1 {background:transparent url(/assets/images/logo.png) no-repeat center center;}
+	h1,
+	h1 a {
+		width:264px;
+		height:47px;
+		display:block;
+	}
+	/*navigation*/
+	#navigation {
+        .navbar-header {
+        	#nav-donate {
+        		float:right;
+        		margin:0 28px 0 0;
+        		background-color:#d82631;
+        		color:#fff;
+        		@include font-size(1.5, 2.4);
+        		font-weight:bold;
+        		display:block;
+        		height:75px;
+        		width:94px;
+        		padding:24px 22px 30px 20px;
+                &:visited,
+                &:hover,
+                &:active,
+                &:focus {
+                    text-decoration:none;
+                    color:#fff;
+                }
+                &:hover {
+                    background-color:#b2212a;
+                }
+        	}
+        }
+	}
+	/*navigation ends*/
+}
+/*header ends*/
+
+
+/*sponsor-bar*/
+#sponsor-bar {
+    #sponsor-ad-container {
+        padding:23px 16px 0 16px;
+        #sponsor-text {
+            float:left;
+            font-family:$font-family-google;
+            font-weight:bold;
+            color:#121212;
+            @include font-size(1.6, 1.6);
+            text-transform:uppercase;
+            padding:16px 0 0 0;
+            margin:0;
+        }
+        #sponsor-link {
+            float:right;
+        }
+
+    }
+}
+/*sponsor-bar ends*/
+
+/*know-more*/
+#know-more {
+    height:243px;
+    article {
+        padding-top:50px;
+        header {
+            width:318px;
+            float:left;
+            clear:none;
+            padding-top:16px;
+            h2 {
+                @include font-size(5.0, 5.2);
+                span {@include font-size(5.0, 5.2);}
+            }
+        }
+        footer {
+            width:230px;
+            float:right;
+            clear:none;
+        }
+    }
+}
+/*know-more ends*/
+
+/*news*/
+#news {
+    #news-articles {
+        margin-bottom:30px;
+        > header {
+            h1 {
+                @include font-size(5.0, 5.2);
+                br {display:none;}
+            }
+        }
+        > article {
+            //first featured
+            &.list-row-1 {
+                margin:45px 0 22px 0;
+                //@include clearfix();
+
+                .news-image {
+                    min-height:1px;
+                    width:236px;
+                    float:left;
+                    @include clearfix();
+                    img {margin-bottom:8px;}
+                }
+                header {
+                    width:334px;
+                    float:right;
+                    padding-top:0;
+                }
+                .news-body {
+                    width:334px;
+                    float:right;
+                }
+
+                footer {
+                    width:334px;
+                    float:right;
+                }
+            }
+        }
+    }
+}
+/*news ends*/
+
+/*videos*/
+#videos {
+    #video-featured {
+        #video-container {
+            #video-body {
+                width:332px;
+                padding:0;
+                float:left;
+                padding:18px 18px 18px 14px;
+            }
+            #video-sponsor {
+                width:260px;
+                height:166px;
+                float:right;
+                position:relative;
+                z-index:910;
+                top:-36px;
+                right:0;
+                background:transparent url(../img/video-sponsor-bg.png) center center no-repeat;
+                padding-top:86px;
+                #video-sponsor-link {
+                    img {
+                        @include center-block();
+                    }
+                }
+            }
+        }
+    }
+}
+/*videos ends*/
+
+
+
+/*footer*/
+#footer {
+    ul {
+        background:none;
+        display:inline;
+        li {
+            list-style:none;
+            display:inline;
+            float:left;
+            margin:0;
+            width:auto;
+            padding:3px 26px 3px 0;
+            margin:0 26px 0 0;
+        }
+        #footer-contact {border-right:3px solid #eeeff1;}
+    }
+    h6 {
+        margin-top:30px;
+        br {display:none;}
+    }
+}
+/*footer ends*/

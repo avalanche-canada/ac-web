@@ -1,0 +1,680 @@
+/* CAC Custom styles
+ * Author: Chris Bovard - www.chrisbovard.com
+ * Sept. 8, 2014
+*/
+
+/* =Import Files for Mixin Usage
+----------------------------------------------------------------------------------*/
+//the variable file is the one that will be modified by the themer - chris bovard
+@import "custom_cac_variables";
+//boostrap mixins
+//@import "bootstrap/mixins";
+
+/* =Base Mobile Layout and Styles
+----------------------------------------------------------------------------------*/
+
+//buttons -- need to move?
+.black-button {
+	font-family:$font-family-google;
+	background-color:#121212;
+	color:#fff;
+	@include font-size(1.6, 1.6);
+	font-weight:bold;
+	text-transform:uppercase;
+	&:visited,
+	&:hover,
+	&:active,
+	&:focus {
+		text-decoration:none;
+		color:#fff;
+	}
+	&:hover {
+		background-color:#474747;
+	}
+	&:focus {
+		background-color:#737373;
+	}
+	.fa-angle-right {
+		@include font-size(2.0, 2.0);
+		font-weight:bold;
+	}
+}
+.blue-button {
+	font-family:$font-family-google;
+	background-color:#0056b7;
+	color:#fff;
+	@include font-size(1.6, 1.6);
+	font-weight:bold;
+	text-transform:uppercase;
+	&:visited,
+	&:hover,
+	&:active,
+	&:focus {
+		text-decoration:none;
+		color:#fff;
+	}
+	&:hover {
+		background-color:#1e7be5;
+	}
+	&:focus {
+		background-color:#4299fc;
+	}
+	.fa-angle-right {
+		@include font-size(2.0, 2.0);
+		font-weight:bold;
+	}
+}
+
+.blue-border {
+	height:8px;
+	width:50px;
+	background-color:#0056b7;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+.div {border:1px red solid;}
+//@include clearfix();
+
+//end of custom classes
+
+
+
+
+#page-wrap {
+	width:100%;
+	min-height:1px;
+	@include clearfix();
+}
+
+/*multilevel - mobile menu*/
+#menu {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:$zindex-navbar;
+	#menu_multilevelpushmenu {
+		h2 {
+			@include font-size(2.4, 2.4);
+			color:#b1b1b1;
+			font-weight:normal;
+	    margin:0;
+			padding:18px 14px 26px 24px;
+			i.fa-times {
+				padding:6px 6px 0 10px;
+				width:40px;
+				height:40px;
+			}
+			#multinav-home {
+				@include font-size(2.4, 2.4);
+				color:#b1b1b1;
+				display:block;
+				width:40px;
+				height:40px;
+				padding:6px 0 0 6px;
+				position:relative;
+				z-index:$zindex-dropdown;
+		    &:hover {
+		    	color:#b1b1b1;
+		    }
+			}
+		}
+		.ltr {
+			//background-color:#efefef;
+			background:#efefef url(../img/multi-nav-layer-1-bg.png) left 75px repeat-x;
+			box-shadow:none;
+			ul {
+				li {
+					border:none;
+					padding:26px 98px 0 30px;
+					&:hover {
+						background-color:transparent;
+					}
+					a {
+						color:#121212;
+						@include font-size(2.0, 2.4);
+						font-weight:bold;
+						.fa-angle-left {display:none;}
+						padding:0;
+						&:focus,
+						&:hover {
+							color:#0056b7;
+						}
+					}
+				}
+				#multilevel-donate {
+					padding-left:11px;
+					a {
+						color:#fff;
+						background-color:#d82631;
+						display:block;
+						width:180px;
+						height:53px;
+						padding:18px 0 18px 11px;
+						@include font-size(2.0, 2.0);
+		    		&:visited,
+		    		&:hover,
+		    		&:active,
+						&:focus {
+							text-decoration:none;
+							color:#fff;
+						}
+						&:hover {
+							background-color:#b2212a;
+						}
+					}
+				}
+			}
+
+			//2nd level
+			.ltr {
+				background:#e0e0e0 url(../img/multi-nav-layer-2-bg.png) left 75px repeat-x;
+				box-shadow:none;
+				padding-top:84px;
+				h2 {
+					//going to hide the h2 title for now***
+					display:none;
+					color:#121212;
+					@include font-size(2.0, 2.4);
+					font-weight:bold;
+					padding:20px 98px 0 30px;
+					&:focus,
+					&:hover {
+						color:#0056b7;
+					}
+				}
+				ul {
+					li {
+						a {
+							color:#0056b7;
+							&:focus,
+							&:hover {
+								color:#121212;
+							}
+						}
+					}
+				}
+				//3rd level
+				.ltr {
+					background-color:#d2d2d2;
+					background:#d2d2d2 url(../img/multi-nav-layer-3-bg.png) left 75px repeat-x;
+					box-shadow:none;
+				}
+			}
+		}
+		.backItemClass {
+			position:absolute;
+			top:24px;
+			right:20px;
+			visibility:visible !important;
+			padding:0;
+			background-color:transparent;
+			border:none;
+			a {
+				@include font-size(2.4, 2.4);
+				color:#b1b1b1;
+				font-weight:normal;
+				padding:0;
+				i {
+					@include font-size(2.6, 2.6);
+					color:#b1b1b1;
+					font-weight:bold;
+					&:focus,
+					&:hover {
+						color:#b1b1b1;
+					}
+				}
+				&:focus,
+				&:hover {
+					color:#b1b1b1;
+				}
+			}
+		}
+	}
+}
+/*multilevel - mobile menu ends*/
+
+/*header*/
+#header {
+	height:75px;
+	h1 {
+		margin:14px 0 0 0;
+		text-decoration:none;
+		@include hide-text();
+		background:transparent url(/assets/images/logo-mobile.png) no-repeat center center;
+	}
+	h1,
+	h1 a {
+		width:147px;
+		height:47px;
+		display:block;
+	}
+
+	/*navigation*/
+	#navigation {
+		background-color:transparent;
+    border:none;
+    margin:0;
+    .navbar-header {
+    	height:75px;
+    	@include clearfix();
+    	#multi-expand {
+    		margin:22px 28px 0 0;
+    		padding:0;
+    		border-radius:0;
+    		border:none;
+    		@include font-size(3.0, 3.0);
+    		color:#b1b1b1;
+				&:focus,
+				&:hover {
+					color:#b1b1b1;
+				}
+    	}
+    	#nav-search {
+    		float:right;
+    		margin:26px 0 0 0;
+    		@include font-size(2.0, 2.0);
+    		color:#b1b1b1;
+				&:focus,
+				&:hover {
+					color:#b1b1b1;
+				}
+    	}
+    	//needs to be on tablet
+    	#nav-donate {
+    		float:right;
+    		margin:0 28px 0 0;
+    		background-color:#d82631;
+    		color:#fff;
+    		@include font-size(1.5, 2.4);
+    		font-weight:bold;
+    		display:block;
+    		height:75px;
+    		width:94px;
+    		padding:24px 22px 30px 20px;
+    	}
+    }
+	}
+	/*navigation ends*/
+}
+/*header ends*/
+
+
+/*map*/
+#map {
+	min-height:416px;
+	background-color:#7b7b7b;
+}
+/*map ends*/
+
+/*sponsor-bar*/
+#sponsor-bar {
+	height:148px;
+	#sponsor-ad-container {
+		background-color:#eeeff1;
+		min-height:90px;
+		@include clearfix();
+		margin:28px 0;
+		padding-top:23px;
+		#sponsor-link {
+			img {
+				@include center-block();
+			}
+		}
+
+	}
+}
+/*sponsor-bar ends*/
+
+/*know-more*/
+#know-more {
+	width:100%;
+	height:290px;
+	background:transparent url(../img/know-more-desktop-bg.jpg) center bottom no-repeat;
+	article {
+		padding-top:36px;
+		@include clearfix();
+		min-height:220px;
+		header {
+			min-height:100px;
+			margin-bottom:18;
+			clear:both;
+			h2 {
+        font-family:$font-family-google;
+        font-weight:bold;
+        color:#fff;
+        @include font-size(3.6, 3.8);
+				margin:0;
+				span {
+					  color:#121212;
+            @include font-size(3.6, 3.8);
+				}
+			}
+		}
+		footer {
+			min-height:135px;
+			clear:both;
+			a {
+				display:block;
+				width:230px;
+				@extend .black-button;
+				padding:22px 22px 20px 26px;
+				clear:both;
+				margin-bottom:12px;
+			}
+
+		}
+
+	}
+}
+/*know-more ends*/
+
+
+/*news*/
+#news {
+	min-height:400px;
+	#news-articles {
+		padding-bottom:30px;
+		margin-bottom:30px;
+		background:transparent url(../img/ribbon-bg.png) center bottom repeat-x;
+		> header {
+			padding:34px 0 36px 0;
+			background:transparent url(../img/ribbon-bg.png) center bottom repeat-x;
+			position:relative;
+			h1 {
+				color:#0056b7;
+				@include font-size(3.6, 3.8);
+				font-family:$font-family-google;
+				margin:0;
+				font-weight:bold;
+				span {
+					color:#121212;
+				}
+			}
+		}
+		> article {
+			min-height:1px;
+			@include clearfix();
+			//first featured
+			&.list-row-1 {
+				margin:36px 0 22px 0;
+				.news-image {
+					min-height:1px;
+					@include clearfix();
+					img {
+						border:4px solid #eeeff1;
+					}
+					.news-social {
+						margin:0;
+						padding:10px 0 0 0;
+						list-style:none;
+						display:inline;
+						@include clearfix();
+						li {
+							margin:0 8px 0 0;
+							list-style:none;
+							display:inline;
+							float:left;
+							a {
+								@include font-size(1.2, 1.2);
+								color:#b5b5b5;
+								&:visited,
+								&:hover,
+								&:active,
+								&:focus {
+									text-decoration:none;
+									color:#b5b5b5;
+								}
+								.fa {
+									@include font-size(1.4, 1.4);
+								}
+							}
+						}
+					}
+				}
+				header {
+					padding-top:32px;
+					padding-bottom:20px;
+					min-height:1px;
+					@include clearfix();
+					//featured span
+					span {
+						@include font-size(1.6, 1.6);
+						color:#ee3d3d;
+						font-family:$font-family-google;
+						font-weight:bold;
+						text-transform:uppercase;
+					}
+					h2 {
+						@include font-size(2.6, 2.6);
+						margin:0;
+						a {
+							font-weight:bold;
+						  @include font-size(2.6, 3.0);
+						  color:#121212;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+						}
+					}
+				}
+				.news-body {
+					p {
+						@include font-size(1.5, 2.0);
+						margin:0;
+						color:#5b5b5b;
+						a {
+							color:#0056b7;
+							font-weight:bold;
+						}
+					}
+				}
+				footer {
+					margin-top:10px;
+					margin-bottom:18px;
+					min-height:1px;
+					@include clearfix();
+					p {
+						color:#b5b5b5;
+						margin:0;
+						font-family:$font-family-google;
+						@include font-size(1.1, 1.1);
+						text-transform:uppercase;
+						.fa {
+							@include font-size(0.6, 0.6);
+							padding:0 2px 0 3px;						}
+						a {
+						  @include font-size(1.1, 1.1);
+						  color:#b5b5b5;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+						}
+					}
+				}
+			}
+			&.list-rows {
+				margin:18px 0;
+				padding-top:18px;
+				border-top:3px solid #eeeff1;
+				header {
+					min-height:1px;
+					@include clearfix();
+					h2 {
+						@include font-size(2.0, 2.4);
+						margin:0;
+						a {
+							font-weight:bold;
+						  @include font-size(2.0, 2.4);
+						  color:#121212;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+							.fa-angle-right {
+								color:#0056b7;
+								@include font-size(2.8, 2.4);
+							}
+						}
+					}
+				}
+				footer {
+					margin-top:12px;
+					min-height:1px;
+					@include clearfix();
+					p {
+						color:#b5b5b5;
+						margin:0;
+						font-family:$font-family-google;
+						@include font-size(1.1, 1.1);
+						text-transform:uppercase;
+						.fa {
+							@include font-size(0.6, 0.6);
+							padding:0 2px 0 3px;						}
+						a {
+						  @include font-size(1.1, 1.1);
+						  color:#b5b5b5;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+/*news ends*/
+
+
+/*videos*/
+#videos {
+	min-height:390px;
+	@include clearfix();
+	margin-bottom:36px;
+	#video-featured {
+		header {
+			height:41px;
+			position:relative;
+			z-index:910;
+			background-color:#121212;
+			padding-left:182px;
+			#header-bg {
+				position:absolute;
+				left:-15px;
+				top:0;
+				height:52px;
+				width:182px;
+				background:transparent url(../img/video-header-bg.png) left center no-repeat;
+			}
+		}
+		#video-container {
+			min-height:1px;
+			@include clearfix();
+			position:relative;
+			z-index:900;
+			background-color:#eeeff1;
+			padding:4px;
+			margin-top:-4px;
+			#video-body {
+				min-height:1px;
+				@include clearfix();
+				padding:10px 10px 16px 6px;
+				p {
+					margin:0;
+					color:#5b5b5b;
+					@include font-size(1.5, 2.2);
+				}
+			}
+		}
+	}
+}
+/*videos ends*/
+
+/*blog*/
+#blog {
+	min-height:600px;
+}
+/*blog ends*/
+
+/*communities*/
+#communities {
+	min-height:600px;
+}
+/*communities ends*/
+
+
+/*auction*/
+#auction {
+	min-height:600px;
+}
+/*auction ends*/
+
+
+/*footer*/
+#footer {
+	height:214px;
+	border-top:1px solid #e2e2e2;
+	padding-top:20px;
+	width:100%;
+	ul {
+		list-style:none;
+		padding:0;
+		margin:0;
+		background:transparent url(../img/footer-menu-mobile-bg.png) 33% top no-repeat;
+		display:block;
+		min-height:1px;
+		@include clearfix();
+		li {
+			list-style:none;
+			display:block;
+			width:40%;
+			float:left;
+			margin-bottom:30px;
+			a {
+			  @include font-size(1.5, 1.8);
+			  color:#121212;
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+				&:hover {
+					color:#0056B7;
+				}
+			}
+		}
+		/*#footer-contact {float:left;}
+		#footer-privacy {float:left;}
+		#footer-disclaimer {float:right;}
+		#footer-terms {float:right;}*/
+	}
+	h6 {
+		margin:0;
+		padding:0;
+		clear:both;
+		color:#b7b7b7;
+		@include font-size(1.5, 2.2);
+		font-weight:normal;
+	}
+}
+/*footer ends*/
+
+
+
+
+
+
