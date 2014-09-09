@@ -8,11 +8,12 @@ before_script:
 deploy:
   provider: elasticbeanstalk
   edge: true
-  access_key_id: AKIAICNC6OORFFQWNT6A
+  access_key_id: AKIAJBZVV7AGNPRVEI6Q
   secret_access_key:
-    secure: WjQcWTd5f81MbiiJtd2jz0u+JwIe0efA1eByTUioySkMTZxmobVCQlaT/ZqmplDurL2ooVYUEM9GM5SvwOmnCKnKU4/yNTd/iVVIvzWvFz1LcHVSpPtY/4Xx9935HNd2hPynOlANTmYl8caarPKoW4oiOjI+7leDO8C+VQUVyd0=
+    secure: iswSOTWXqZyvqDQ4g9E+yHeMAhsLJZb+uiun/g9HTOPbj46lR6T8b1vmMZ5uvDNa6KgoSCruKxAJzzllSxl2aYvjhbLw/zgYJtOnqJKj5t7zyRYrLsRjvgPXJ5qm2rH5D8lxa1AibTSHjHUHiosIYzpqCGw6kclRQfdnl2knEoA=
   app: avalanche-canada
   env: avalanche-canada-env
-  region: us-west
+  region: us-west-2
   on:
     repo: avalanchedotca/AvalancheCanada
+
