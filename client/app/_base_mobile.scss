@@ -1,6 +1,6 @@
 /* CAC Custom styles
  * Author: Chris Bovard - www.chrisbovard.com
- * Sept. 8, 2014
+ * Sept. 9, 2014
 */
 
 /* =Import Files for Mixin Usage
@@ -9,6 +9,7 @@
 @import "custom_cac_variables";
 //boostrap mixins
 //@import "bootstrap/mixins";
+
 
 /* =Base Mobile Layout and Styles
 ----------------------------------------------------------------------------------*/
@@ -75,12 +76,7 @@
 }
 
 .div {border:1px red solid;}
-//@include clearfix();
-
 //end of custom classes
-
-
-
 
 #page-wrap {
 	width:100%;
@@ -88,152 +84,8 @@
 	@include clearfix();
 }
 
-/*multilevel - mobile menu*/
-#menu {
-	position:absolute;
-	top:0;
-	left:0;
-	z-index:$zindex-navbar;
-	#menu_multilevelpushmenu {
-		h2 {
-			@include font-size(2.4, 2.4);
-			color:#b1b1b1;
-			font-weight:normal;
-	    margin:0;
-			padding:18px 14px 26px 24px;
-			i.fa-times {
-				padding:6px 6px 0 10px;
-				width:40px;
-				height:40px;
-			}
-			#multinav-home {
-				@include font-size(2.4, 2.4);
-				color:#b1b1b1;
-				display:block;
-				width:40px;
-				height:40px;
-				padding:6px 0 0 6px;
-				position:relative;
-				z-index:$zindex-dropdown;
-		    &:hover {
-		    	color:#b1b1b1;
-		    }
-			}
-		}
-		.ltr {
-			//background-color:#efefef;
-			background:#efefef url(../img/multi-nav-layer-1-bg.png) left 75px repeat-x;
-			box-shadow:none;
-			ul {
-				li {
-					border:none;
-					padding:26px 98px 0 30px;
-					&:hover {
-						background-color:transparent;
-					}
-					a {
-						color:#121212;
-						@include font-size(2.0, 2.4);
-						font-weight:bold;
-						.fa-angle-left {display:none;}
-						padding:0;
-						&:focus,
-						&:hover {
-							color:#0056b7;
-						}
-					}
-				}
-				#multilevel-donate {
-					padding-left:11px;
-					a {
-						color:#fff;
-						background-color:#d82631;
-						display:block;
-						width:180px;
-						height:53px;
-						padding:18px 0 18px 11px;
-						@include font-size(2.0, 2.0);
-		    		&:visited,
-		    		&:hover,
-		    		&:active,
-						&:focus {
-							text-decoration:none;
-							color:#fff;
-						}
-						&:hover {
-							background-color:#b2212a;
-						}
-					}
-				}
-			}
-
-			//2nd level
-			.ltr {
-				background:#e0e0e0 url(../img/multi-nav-layer-2-bg.png) left 75px repeat-x;
-				box-shadow:none;
-				padding-top:84px;
-				h2 {
-					//going to hide the h2 title for now***
-					display:none;
-					color:#121212;
-					@include font-size(2.0, 2.4);
-					font-weight:bold;
-					padding:20px 98px 0 30px;
-					&:focus,
-					&:hover {
-						color:#0056b7;
-					}
-				}
-				ul {
-					li {
-						a {
-							color:#0056b7;
-							&:focus,
-							&:hover {
-								color:#121212;
-							}
-						}
-					}
-				}
-				//3rd level
-				.ltr {
-					background-color:#d2d2d2;
-					background:#d2d2d2 url(../img/multi-nav-layer-3-bg.png) left 75px repeat-x;
-					box-shadow:none;
-				}
-			}
-		}
-		.backItemClass {
-			position:absolute;
-			top:24px;
-			right:20px;
-			visibility:visible !important;
-			padding:0;
-			background-color:transparent;
-			border:none;
-			a {
-				@include font-size(2.4, 2.4);
-				color:#b1b1b1;
-				font-weight:normal;
-				padding:0;
-				i {
-					@include font-size(2.6, 2.6);
-					color:#b1b1b1;
-					font-weight:bold;
-					&:focus,
-					&:hover {
-						color:#b1b1b1;
-					}
-				}
-				&:focus,
-				&:hover {
-					color:#b1b1b1;
-				}
-			}
-		}
-	}
-}
-/*multilevel - mobile menu ends*/
+//Mobile Multilevel SASS include
+@import "_mobile_multilevel";
 
 /*header*/
 #header {
@@ -318,7 +170,7 @@
 		margin:28px 0;
 		padding-top:23px;
 		#sponsor-link {
-			img {
+			images {
 				@include center-block();
 			}
 		}
@@ -331,7 +183,7 @@
 #know-more {
 	width:100%;
 	height:290px;
-	background:transparent url(../img/know-more-desktop-bg.jpg) center bottom no-repeat;
+	background:transparent url(/assets/images/know-more-desktop-bg.jpg) center bottom no-repeat;
 	article {
 		padding-top:36px;
 		@include clearfix();
@@ -377,10 +229,10 @@
 	#news-articles {
 		padding-bottom:30px;
 		margin-bottom:30px;
-		background:transparent url(../img/ribbon-bg.png) center bottom repeat-x;
+		background:transparent url(/assets/images/ribbon-bg.png) center bottom repeat-x;
 		> header {
 			padding:34px 0 36px 0;
-			background:transparent url(../img/ribbon-bg.png) center bottom repeat-x;
+			background:transparent url(/assets/images/ribbon-bg.png) center bottom repeat-x;
 			position:relative;
 			h1 {
 				color:#0056b7;
@@ -577,7 +429,7 @@
 				top:0;
 				height:52px;
 				width:182px;
-				background:transparent url(../img/video-header-bg.png) left center no-repeat;
+				background:transparent url(/assets/images/video-header-bg.png) left center no-repeat;
 			}
 		}
 		#video-container {
@@ -605,7 +457,125 @@
 
 /*blog*/
 #blog {
-	min-height:600px;
+	min-height:1px;
+	@include clearfix();
+	#blog-articles {
+		min-height:1px;
+		@include clearfix();
+		background:transparent url(/assets/images/ribbon-bg.png) center top repeat-x;
+		padding-top:38px;
+		#blog-header-wrap {
+			> header {
+				margin-bottom:22px;
+				h2 {
+					color:#121212;
+					@include font-size(3.6, 3.8);
+					font-family:$font-family-google;
+					margin:0;
+					font-weight:bold;
+					span {
+						color:#0056b7;
+					}
+				}
+			}
+			#blog-tagline-link {
+				min-height:1px;
+				@include clearfix();
+				border-bottom:3px solid #eeeff1;
+				padding-bottom:42px;
+				p {
+					color:#121212;
+					@include font-size(2.6, 3.0);
+					font-weight:bold;
+					margin:0 0 36px 0;
+				}
+				a {
+					display:block;
+					width:230px;
+					@extend .blue-button;
+					padding:22px 22px 20px 26px;
+					clear:both;
+				}
+			}
+		}
+		> article {
+			min-height:1px;
+			@include clearfix();
+			&.list-rows {
+				//margin:42px 0 38px 0;
+				padding-top:32px;
+				header {
+					min-height:1px;
+					@include clearfix();
+					h3 {
+						@include font-size(2.0, 2.4);
+						margin:0;
+						a {
+							font-weight:bold;
+						  @include font-size(2.0, 2.4);
+						  color:#121212;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+							&:hover {color:#0056b7;}
+						}
+					}
+				}
+				.blog-author {
+					padding:26px 0 28px 0;
+					p {
+						@include font-size(1.5, 2.2);
+						margin:0;
+						color:#5b5b5b;
+						font-weight:bold;
+						a {
+							color:#0056b7;
+						}
+					}
+				}
+				.blog-body {
+					p {
+						@include font-size(1.5, 2.2);
+						margin:0;
+						color:#5b5b5b;
+						a {
+							color:#0056b7;
+							font-weight:bold;
+						}
+					}
+				}
+				footer {
+					margin-top:12px;
+					min-height:1px;
+					@include clearfix();
+					p {
+						color:#b5b5b5;
+						margin:0;
+						font-family:$font-family-google;
+						@include font-size(1.1, 1.1);
+						text-transform:uppercase;
+						a {
+						  @include font-size(1.1, 1.1);
+						  color:#b5b5b5;
+							&:visited,
+							&:hover,
+							&:active,
+							&:focus {
+								text-decoration:none;
+							}
+						}
+					}
+				}
+			}
+			&.list-row-last {
+				margin:42px 0 38px 0;
+				border-top:3px solid #eeeff1;
+			}
+		}
+	}
 }
 /*blog ends*/
 
@@ -633,7 +603,7 @@
 		list-style:none;
 		padding:0;
 		margin:0;
-		background:transparent url(../img/footer-menu-mobile-bg.png) 33% top no-repeat;
+		background:transparent url(/assets/images/footer-menu-mobile-bg.png) 33% top no-repeat;
 		display:block;
 		min-height:1px;
 		@include clearfix();
@@ -657,10 +627,6 @@
 				}
 			}
 		}
-		/*#footer-contact {float:left;}
-		#footer-privacy {float:left;}
-		#footer-disclaimer {float:right;}
-		#footer-terms {float:right;}*/
 	}
 	h6 {
 		margin:0;

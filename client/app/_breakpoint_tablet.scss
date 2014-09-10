@@ -1,13 +1,13 @@
 /* CAC Custom styles
  * Author: Chris Bovard - www.chrisbovard.com
- * Sept. 8, 2014
+ * Sept. 9, 2014
 */
 
 /* =Import Files for Mixin Usage
 ----------------------------------------------------------------------------------*/
 //the variable file is the one that will be modified by the themer - chris bovard
 @import "custom_cac_variables";
-//boostrap mixins
+////boostrap mixins
 //@import "bootstrap/mixins";
 
 /* =Tablet Layout and Styles
@@ -52,7 +52,6 @@
 	/*navigation ends*/
 }
 /*header ends*/
-
 
 /*sponsor-bar*/
 #sponsor-bar {
@@ -161,7 +160,7 @@
                 z-index:910;
                 top:-36px;
                 right:0;
-                background:transparent url(../img/video-sponsor-bg.png) center center no-repeat;
+                background:transparent url(../images/video-sponsor-bg.png) center center no-repeat;
                 padding-top:86px;
                 #video-sponsor-link {
                     img {
@@ -174,7 +173,35 @@
 }
 /*videos ends*/
 
-
+/*blog*/
+#blog {
+    #blog-articles {
+        padding-top:42px;
+        margin-top:8px;
+        margin-bottom:68px;
+        #blog-header-wrap {
+            > header {
+                h2 {
+                    @include font-size(5.0, 5.2);
+                }
+            }
+        }
+        > article {
+            &.list-rows {
+                margin:42px 0 0 0;
+                padding:0 18px 38px 0;
+                width:50%;
+                float:left;
+                border-right:3px solid #eeeff1;
+            }
+            &.list-row-last {
+                padding:0 0 0 18px;
+                border:none;
+            }
+        }
+    }
+}
+/*blog ends*/
 
 /*footer*/
 #footer {

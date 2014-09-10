@@ -1,6 +1,6 @@
 /* CAC Custom styles
  * Author: Chris Bovard - www.chrisbovard.com
- * Sept. 8, 2014
+ * Sept. 9, 2014
 */
 
 /* =Import Files for Mixin Usage
@@ -12,8 +12,6 @@
 
 /* =Desktop Layout and Styles
 ----------------------------------------------------------------------------------*/
-
-
 
 /*header*/
 #header {
@@ -324,13 +322,42 @@
           }
           #video-sponsor {
           	height:118px;
-            background:transparent url(../img/video-sponsor-bg-desktop.png) center center no-repeat;
+            background:transparent url(/assets/images/video-sponsor-bg-desktop.png) center center no-repeat;
             padding-top:54px;
           }
       }
     }
 }
 /*videos ends*/
+
+/*blog*/
+#blog {
+  #blog-articles {
+      padding-top:42px;
+      margin-top:8px;
+      margin-bottom:68px;
+      #blog-header-wrap {
+       	width:500px;
+      	float:left;
+				#blog-tagline-link {
+					border:none;
+				}
+      }
+      > article {
+        &.list-rows {
+            width:262px;
+            margin:0;
+            padding:0 0 18px 18px;
+            border-left:3px solid #eeeff1;
+            border-right:none;
+        }
+        &.list-row-last {
+            border-right:none;
+        }
+      }
+  }
+}
+/*blog ends*/
 
 
 

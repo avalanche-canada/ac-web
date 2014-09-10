@@ -1,6 +1,6 @@
 ///# Header
-#page-wrap
-  header#header.container(role='banner')
+
+header#header.container(role='banner')
     .row
       .col-xs-7.col-md-4
         h1
@@ -12,7 +12,7 @@
             a#nav-search(href='#')
               i.fa.fa-search
             a#nav-donate.visible-sm(href='#') Donate
-            a#multi-expand.navbar-toggle(role='button', href='#')
+            a#multi-expand.navbar-toggle(role='button', href='#' ng-click="multiExpand()")
               i.fa.fa-reorder
           .collapse.navbar-collapse
             ul.nav.navbar-nav

@@ -2,9 +2,9 @@
 
 angular.module('avalancheCanadaApp')
 
-  .directive('multiLevelPushMenu', function() {
+  .directive('multiLevelPushMenu', function($document) {
       return {
-          restrict: 'E',
+          //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
           link: function(scope, ele, attrs) {
               angular.element(ele).multilevelpushmenu({
@@ -17,16 +17,20 @@ angular.module('avalancheCanadaApp')
                   overlapWidth:60
               });
 
-              //! \todo
-              //angular.element(ele).multilevelpushmenu(('option', 'menuHeight', $(document).height());
-              //angular.element(ele).multilevelpushmenu(('redraw');
+              scope.multiExpand = function() { angular.element(ele).multilevelpushmenu('expand') };
+
+              //! \todo is this nescessary ?
+              angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
+              angular.element(ele).multilevelpushmenu('redraw');
           }
       };
   })
 
+
+
   .directive('navbarHeaderMenu', function() {
       return {
-          restrict: 'E',
+          //restrict: 'E',
           templateUrl: 'components/navbar/header.html',
           link: function(scope, ele, attrs) {
              //custom js for the left of the mega menu fun
@@ -58,12 +62,4 @@ angular.module('avalancheCanadaApp')
 
   .controller('NavbarCtrl', function ($scope, $location) {
 
-    //! \todo get this working
-
-
-    $scope.isCollapsed = true;
-
-    $scope.isActive = function(route) {
-      return route === $location.path();
-    };
   });
