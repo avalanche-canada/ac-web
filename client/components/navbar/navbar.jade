@@ -1,57 +1,6 @@
 
-
-
-
-///div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
-
-
 div.container(ng-controller='NavbarCtrl')
-    // multilevel menu - http://multi-level-push-menu.make.rs/
-    div#menu
-      nav
-        h2
-          i.fa.fa-times
-          a#multinav-home(href='/static')
-            i.fa.fa-home
-        ul
-          li
-            a(href='#') Avalanche Information
-            h2 Avalanche Information
-            ul
-              li
-                a(href='#') Forecasts
-                h2 Forecasts
-                ul
-                  li
-                    a(href='#') Banff Yoho & Kootenay National Park
-                  li
-                    a(href='#') Cariboos
-                  li
-                    a(href='#') Chic-Chocs, CAHG
-                  li
-                    a(href='#') Glacier National Park
-                  li
-                    a(href='#') Jasper National Park
-                  li
-                    a(href='#') Kananaskis Country, Alberta Parks
-              li
-                a(href='#') Data
-              li
-                a(href='#') Forecast Archive
-              li
-                a(href='#') Forecaster's Blog
-          li
-            a(href='#') Learn
-          li
-            a(href='#') Community
-          li
-            a(href='#') News & Events
-          li
-            a(href='#') Store
-          li#multilevel-donate
-            a(href='#') Donate
-    // /#multilevel menu
-
+    multi-level-push-menu
 
     ///# Header
     #page-wrap

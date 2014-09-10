@@ -1,12 +1,32 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('NavbarCtrl', function ($scope, $location) {
-    $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
-    }];
 
+  .directive('multiLevelPushMenu', function() {
+      return {
+          restrict: 'E',
+          templateUrl: 'components/navbar/pushmenu.html',
+          link: function(scope, ele, attrs) {
+              angular.element(ele).multilevelpushmenu({
+                  containersToPush: [$('#page-wrap')],
+                  menuWidth: '320px',
+                  menuHeight: '100%',
+                  collapsed: true,
+                  fullCollapse: true,
+                  backText: '',
+                  overlapWidth:60
+              });
+
+              //! \todo
+              //angular.element(ele).multilevelpushmenu(('option', 'menuHeight', $(document).height());
+              //angular.element(ele).multilevelpushmenu(('redraw');
+          }
+      };
+  })
+
+  .controller('NavbarCtrl', function ($scope, $location) {
+
+    /*
    $('#menu').multilevelpushmenu({
         containersToPush: [$('#page-wrap')],
         menuWidth: '320px',
@@ -21,7 +41,7 @@ angular.module('avalancheCanadaApp')
     //Multi Menu Expand
     $('#multi-expand').click(function(){
       $('#menu').multilevelpushmenu('expand');
-    });
+    }); */
 
 
     //! \todo get this working
