@@ -1,6 +1,8 @@
 
 # [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) 
-[![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/AvalancheCanada)
+[![Build Status](https://travis-ci.org/avalanchedotca/AvalancheCanada.svg)](https://travis-ci.org/avalanchedotca/
+[ ![Codeship Status for avalanchedotca/AvalancheCanada](https://www.codeship.io/projects/174bbac0-1b8b-0132-59d0-32ae1850d3a7/status)](https://www.codeship.io/projects/34957)
+AvalancheCanada)
 [![dependencies] (https://david-dm.org/avalanchedotca/avalanchecanada.png)](https://david-dm.org/)
 ****
 
