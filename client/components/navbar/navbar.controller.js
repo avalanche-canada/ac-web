@@ -1,3 +1,4 @@
+/*jshint unused:vars*/
 'use strict';
 
 angular.module('avalancheCanadaApp')
@@ -17,7 +18,7 @@ angular.module('avalancheCanadaApp')
                   overlapWidth:60
               });
 
-              scope.multiExpand = function() { angular.element(ele).multilevelpushmenu('expand') };
+              scope.multiExpand = function() { angular.element(ele).multilevelpushmenu('expand'); };
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());

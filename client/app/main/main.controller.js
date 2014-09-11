@@ -1,3 +1,4 @@
+/*jshint unused:vars*/
 'use strict';
 
 angular.module('avalancheCanadaApp')
@@ -14,6 +15,6 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainCtrl', function () {
 
   });
