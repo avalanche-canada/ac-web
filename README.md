@@ -7,15 +7,15 @@ AvalancheCanada)
 ****
 
 ## Introduction
-The AvalancheCanada website is a implementation of a front end/view upon CAC data streams. Data is stored separately to the website and is available via RESTful API’s.   
 Design still under way.  
 Contact bshaw@avalanche.ca for more details or to get invoved.  
 
 ***
 
 ## Technical Architecture
-The Avalanche Canada website is a [AngularJS](http://angularjs.org) project.  
 Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack).   
+[AngularJS](http://angularjs.org) .
+  
 [Angular UI](http://angular-ui.github.io).  
 [Angular Bootstrap](http://angular-ui.github.io/bootstrap)
 [Font Awesome](http://fortawesome.github.com/Font-Awesome)  
@@ -23,7 +23,6 @@ Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https:
 [Bower](http://bower.io/) package management
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
-[Travis CI](https://travis-ci.org/avalanchedotca/AvalancheCanada) Continuous Integration and Deployment.     
 
 ***
 
