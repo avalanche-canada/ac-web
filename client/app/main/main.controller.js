@@ -7,10 +7,12 @@ angular.module('avalancheCanadaApp')
       return {
           restrict: 'E',
           link: function(scope, ele, attrs) {
-              angular.element(ele).fullpage({
+              /*angular.element(ele).fullpage({
                 anchors: ['mapPage', 'infoPage'],
-                scrollOverflow: true
-            });
+                sectionsColor: ['#4A6FB1', '#939FAA', '#323539'],
+                scrollOverflow: true,
+                paddingTop: '0px'
+            });*/
           }
       };
   })

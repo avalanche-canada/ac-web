@@ -1,8 +1,8 @@
 
 div.container(ng-controller='NavbarCtrl')
-    div#menu(multi-level-push-menu='')
+    div#menu(multi-level-push-menu='{$navItems}')
 
-    div#page-wrap(navbar-header-menu='')
+    div#page-wrap(navbar-header-menu='{$navItems}')
 
     ///multi-level-push-menu#menu
     ///navbar-header-menu#page-wrap

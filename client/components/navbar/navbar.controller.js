@@ -7,6 +7,7 @@ angular.module('avalancheCanadaApp')
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
+          scope: { customerInfo: '=' },
           link: function(scope, ele, attrs) {
               angular.element(ele).multilevelpushmenu({
                   containersToPush: [$('#page-wrap')],
@@ -33,6 +34,7 @@ angular.module('avalancheCanadaApp')
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/header.html',
+          scope: { customerInfo: '=' },
           link: function(scope, ele, attrs) {
              //custom js for the left of the mega menu fun
               /*$("ul.nav > li").each(function(){
@@ -62,5 +64,9 @@ angular.module('avalancheCanadaApp')
   })
 
   .controller('NavbarCtrl', function ($scope, $location) {
+
+    $scope.navItems = [{"Avalanche Information":[]},
+                      {"News and Events":[]}
+    ];
 
   });
