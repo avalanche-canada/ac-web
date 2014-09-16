@@ -9,9 +9,9 @@ angular.module('avalancheCanadaApp')
           link: function(scope, ele, attrs) {
               angular.element(ele).fullpage({
                 anchors: ['mapPage', 'infoPage'],
-                scrollOverflow: true,
-                menu: '#navbar',
-                fixedElements: '#navbar'
+                scrollOverflow: true
+                //menu: '#navbar',
+                //fixedElements: '#navbar'
             });
           }
       };

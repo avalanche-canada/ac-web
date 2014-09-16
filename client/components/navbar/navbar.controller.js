@@ -65,7 +65,7 @@ angular.module('avalancheCanadaApp')
 
   .controller('NavbarCtrl', function ($scope, $location) {
 
-    $scope.navItems = [{'Avalanche Information':[]},
+    $scope.navItems = [{'title':'Avalanche Information', 'type':'sub' , 'data':[]},
                       {'News and Events':[]}
     ];
 
