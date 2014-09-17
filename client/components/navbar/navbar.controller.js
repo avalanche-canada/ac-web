@@ -7,7 +7,6 @@ angular.module('avalancheCanadaApp')
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
-          scope: { customerInfo: '=' },
           link: function(scope, ele, attrs) {
               angular.element(ele).multilevelpushmenu({
                   containersToPush: [$('#page-wrap')],
@@ -30,12 +29,15 @@ angular.module('avalancheCanadaApp')
 
 
 
-  .directive('navbarHeaderMenu', function() {
+  .directive('navbarHeaderMenu', function($document) {
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/header.html',
-          scope: { customerInfo: '=' },
           link: function(scope, ele, attrs) {
+
+            var domElt = $document.getElementById('.dropdown-menu');
+            angular.element('.dropdown-menu').width('1024px');
+            //$scope.screenWidth = '{ color: red; }';
              //custom js for the left of the mega menu fun
               /*$("ul.nav > li").each(function(){
                   //assign li id and rebuild for jquery
@@ -63,10 +65,27 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location) {
+  .controller('NavbarCtrl', function ($scope, $location, $document) {
 
-    $scope.navItems = [{'title':'Avalanche Information', 'type':'sub' , 'data':[]},
-                      {'News and Events':[]}
-    ];
+    /*$scope.navItems = [{'title':'Avalanche Information', 'link':'' ,
+                            'data':[{'title':'Forecasts', 'link':'forecasts' , 'data':[
+                                        {'title':'Banff Yoho & Kootenay', 'link':'banff-yoho-kootenay' , 'data':[]}
+                                        ]}
+                                    ]}
+                      ];*/
+
+$scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'}];
+
+$scope.dataMenu = [{'display':'Observations','url':'/observations'},
+                   {'display':'Incidents','url':'/incidents'},
+                   {'display':'Webcams','url':'/webcams'},
+                   {'display':'Weather Forecasts','url':'/weather'}];
+
+
+
+
 
   });

@@ -1,4 +1,14 @@
 ///# Header
+//div.navbar.navbar-default
+      //ul.nav.navbar-nav
+       // li(ng-repeat='menu in menus', ng-class='{dropdown: menu.menus}')
+       //   a(href='{{menu.action}}', ng-class='{"dropdown-toggle": menu.menus}', data-toggle='dropdown')
+       //     | {{menu.title}}
+       //     span.caret
+       //   ul.dropdown-menu(ng-if='menu.menus')
+       //     li(ng-repeat='submenu in menu.menus')
+       //       a(href='{{submenu.action}}') {{submenu.title}}
+
 
 header#header.container(role='banner')
     .row
@@ -20,40 +30,24 @@ header#header.container(role='banner')
                 a(href='#')
                   | Avalanche Information
                   span.arrow-down
-                ul.dropdown-menu
+                ul.dropdown-menu(ng-style="screenWidth")
                   li
                     .container
                       .row
                         .col-md-3.mega-content-inner
                           h2
-                            a(href='#')
-                              | Forecasts
+                            Forecasts
                               i.fa.fa-angle-right
                           ul.mega-sub-menu
-                            li
-                              a(href='#') Banff Yoho & Kootenay National Park
-                            li
-                              a(href='#') Cariboos
-                            li
-                              a(href='#') Chic-Chocs, CAHG
-                            li
-                              a(href='#') Glacier National Park
-                            li
-                              a(href='#') Jasper National Park
-                            li.last
-                              a(href='#') Kananaskis Country, Alberta Parks
+                            li(ng-repeat='region in forecastRegions')
+                              a(href='/forecasts/{{region.name}}') {{region.display}}
                         .col-md-3.mega-content-inner
                           h2
-                            a(href='#')
-                              | Nav Header Link
+                           Data
                               i.fa.fa-angle-right
                           ul.mega-sub-menu
-                            li
-                              a(href='#') Sub Link
-                            li
-                              a(href='#') Sub Link
-                            li
-                              a(href='#') Sub Link
+                            li(ng-repeat='item in dataMenu')
+                              a(href='{{item.url}}') {{item.display}}
                         .col-md-3.mega-content-inner
                           h2
                             a(href='#')
