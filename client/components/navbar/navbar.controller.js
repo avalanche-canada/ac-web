@@ -29,14 +29,17 @@ angular.module('avalancheCanadaApp')
 
 
 
-  .directive('navbarHeaderMenu', function($document) {
+  .directive('navbarHeaderMenu', function() {
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/header.html',
           link: function(scope, ele, attrs) {
 
-            var domElt = $document.getElementById('.dropdown-menu');
-            angular.element('.dropdown-menu').width('1024px');
+            //! \todo i cant get this working spent to long already must be missing something
+            //scope.pageWith = '{"width":"'+$document.width()+'px"}';
+
+
+            //angular.element(by.css('.dropdown-menu')).width('1024px');
             //$scope.screenWidth = '{ color: red; }';
              //custom js for the left of the mega menu fun
               /*$("ul.nav > li").each(function(){

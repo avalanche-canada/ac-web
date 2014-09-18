@@ -8,11 +8,16 @@ angular.module('avalancheCanadaApp')
           restrict: 'E',
           link: function(scope, ele, attrs) {
               angular.element(ele).fullpage({
-                anchors: ['mapPage', 'infoPage'],
+                anchors: ['map', 'more'],
                 scrollOverflow: true
                 //menu: '#navbar',
                 //fixedElements: '#navbar'
             });
+
+            scope.scrollPage = function(){
+                angular.element(ele).fullpage.moveSectionDown();
+            };
+
           }
       };
   })
