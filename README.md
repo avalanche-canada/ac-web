@@ -1,13 +1,12 @@
 
 # [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) 
-[ ![Codeship Status for avalanchedotca/AvalancheCanada](https://www.codeship.io/projects/174bbac0-1b8b-0132-59d0-32ae1850d3a7/status)](https://www.codeship.io/projects/34957)
-[![dependencies] (https://david-dm.org/avalanchedotca/avalanchecanada.png)](https://david-dm.org/)
+[![Codeship Status for avalanchedotca/AvalancheCanada](https://www.codeship.io/projects/174bbac0-1b8b-0132-59d0-32ae1850d3a7/status)](https://www.codeship.io/projects/34957)
+[![dependencies] (https://david-dm.org/avalanche-canada/ac-web.png)](https://david-dm.org/)
 ****
 
 ## Introduction
-Design still under way.  
-Contact bshaw@avalanche.ca for more details or to get invoved.  
-
+Website and rest API as used by Avalanche Canada 
+Contact admin@avalanche.ca for more details or to get invoved.  
 ***
 
 ## Technical Architecture
@@ -21,7 +20,6 @@ Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https:
 [Bower](http://bower.io/) package management
 [Compass](http://compass-style.org/)  
 [SASS](http://sass-lang.com/)  
-
 ***
 
 ## Modules
