@@ -39,8 +39,6 @@ angular.module('avalancheCanadaApp')
             //scope.pageWith = '{"width":"'+$document.width()+'px"}';
 
 
-            //angular.element(by.css('.dropdown-menu')).width('1024px');
-            //$scope.screenWidth = '{ color: red; }';
              //custom js for the left of the mega menu fun
               /*$("ul.nav > li").each(function(){
                   //assign li id and rebuild for jquery
@@ -77,17 +75,48 @@ angular.module('avalancheCanadaApp')
                                     ]}
                       ];*/
 
-$scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                        {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'}];
+    $scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
+                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'}];
 
-$scope.dataMenu = [{'display':'Observations','url':'/observations'},
-                   {'display':'Incidents','url':'/incidents'},
-                   {'display':'Webcams','url':'/webcams'},
-                   {'display':'Weather Forecasts','url':'/weather'}];
+    $scope.dataMenu = [{'display':'Observations','url':'/observations'},
+                       {'display':'Incidents','url':'/incidents'},
+                       {'display':'Webcams','url':'/webcams'},
+                       {'display':'Weather Forecasts','url':'/weather'}];
 
+    $scope.blogs = [{'name':'all','display':'All'},
+                            {'name':'forecaster','display':'Forecaster'},
+                            {'name':'north-rockies','display':'North Rockies'},
+                            {'name':'south-rockies','display':'South Rockies'},
+                            {'name':'summary','display':'Summaries and Outlooks'},
+                            {'name':'conditions','display':'Conditions Outlook'},
+                            {'name':'conditions-summary','display':'Conditions Summary'},
+                            {'name':'weather','display':'Weather Outlook'},
+                            {'name':'tech','display':'Tech and Talk'}];
 
+    $scope.training =  [{'name':'find','display':'Find a course'},
+                            {'name':'ast1','display':'Avalanche Skills Training 1'},
+                            {'name':'ast2','display':'Avalanche Skills Training 2'},
+                            {'name':'companion-rescue','display':'Companion Rescue Skills'},
+                            {'name':'why','display':'Why should I take an avalanche course ?'},
+                            {'name':'what','display':'What course should I take'},
+                            {'name':'calendar','display':'Calendar'}];
+
+    $scope.online_course =  [{'name':'formation','display':'Avalanche Formation'},
+                            {'name':'terrain','display':'Avalanche Terrain'},
+                            {'name':'planning','display':'Pre-trip Planning'},
+                            {'name':'reducing-risk','display':'Reducing Risk in the Field'},
+                            {'name':'rescue','display':'Rescue'},
+                            {'name':'report','display':'Reporting Observation'}];
+
+    $scope.parents_educators = [{'name':'mentors','display':'Mentors'},
+                            {'name':'youth-guidelines','display':'Guidelines for Youth Education'},
+                            {'name':'youth-programs','display':'Existing Youth Programs'},
+                            {'name':'curriculum','display':'Curriculum Ideas/Lesson Plans'},
+                            {'name':'materials','display':'Resource Materials'},
+                            {'name':'grants','display':'School Programs - Grants'},
+                            {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
 
 
 

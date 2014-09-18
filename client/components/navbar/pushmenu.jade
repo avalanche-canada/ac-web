@@ -10,32 +10,59 @@ nav
         a(href='#') Avalanche Information
         h2 Avalanche Information
         ul
-          li
-            a(href='#') Forecasts
-            h2 Forecasts
-            ul
-              li
-                a(href='#') Banff Yoho & Kootenay National Park
-              li
-                a(href='#') Cariboos
-              li
-                a(href='#') Chic-Chocs, CAHG
-              li
-                a(href='#') Glacier National Park
-              li
-                a(href='#') Jasper National Park
-              li
-                a(href='#') Kananaskis Country, Alberta Parks
-          li
-            a(href='#') Data
-          li
-            a(href='#') Forecast Archive
-          li
-            a(href='#') Forecaster's Blog
+            li
+                a(href='#') Forecasts
+                h2 Forecasts
+                ul
+                    li(ng-repeat='region in forecastRegions')
+                        a(href='/forecasts/{{region.name}}') {{region.display}}
+            li
+                a(href='#') Data
+                h2 Data
+                ul
+                    li(ng-repeat='item in dataMenu')
+                        a(href='{{item.url}}') {{item.display}}
+            li
+                a(href='#') Blogs
+                h2 Blogs
+                ul
+                    li(ng-repeat='blog in blogs')
+                        a(href='/blogs/{{blog.name}}') {{blog.display}}
       li
         a(href='#') Learn
+            ul
+                li
+                    a(href='#') Avalanche Canada Training Courses
+                    h2 Avalanche Canada Training Courses
+                    ul
+                        li(ng-repeat='page in training')
+                                a(href='/training/{{page.name}}') {{page.display}}
+                li
+                    a(href='#') Online Avalanche Course
+                    h2 Online Avalanche Course
+                    ul
+                        li(ng-repeat='page in online_course')
+                                a(href='/training/{{page.name}}') {{page.display}}
+                li
+                    a(href='/gear') Gear
       li
         a(href='#') Community
+            ul
+                            li
+                                a(href='#') Avalanche Canada Training Courses
+                                h2 Avalanche Canada Training Courses
+                                ul
+                                    li(ng-repeat='page in training')
+                                            a(href='/training/{{page.name}}') {{page.display}}
+                            li
+                                a(href='#') Online Avalanche Course
+                                h2 Online Avalanche Course
+                                ul
+                                    li(ng-repeat='page in online_course')
+                                            a(href='/training/{{page.name}}') {{page.display}}
+                            li
+                                a(href='/gear') Gear
+
       li
         a(href='#') News & Events
       li

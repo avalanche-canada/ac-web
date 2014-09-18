@@ -10,8 +10,6 @@ angular.module('avalancheCanadaApp')
               angular.element(ele).fullpage({
                 anchors: ['map', 'more'],
                 scrollOverflow: true
-                //menu: '#navbar',
-                //fixedElements: '#navbar'
             });
 
             scope.scrollPage = function(){
