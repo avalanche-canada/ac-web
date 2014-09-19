@@ -5,8 +5,8 @@ angular.module('avalancheCanadaApp', [
                 'ngResource',
                 'ngSanitize',
                 'ui.router',
-                'ui.bootstrap'//,
-                //'constants'
+                'ui.bootstrap',
+                'constants'
                 ])
 
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -14,10 +14,12 @@ angular.module('avalancheCanadaApp', [
           .otherwise('/');
 
         $locationProvider.html5Mode(true);
+    })
+
+    .run(function(ENV, $rootScope) {
+        //! make env (environemnt constants) available globaly
+        $rootScope.env = ENV;
     });
 
-//    .run(function(ENV, $rootScope) {
-        //! make env (environemnt constants) available globaly
-        //$rootScope.env = ENV;
-  //  })
+
 
