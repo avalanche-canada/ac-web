@@ -1,6 +1,6 @@
 /* CAC Custom styles
  * Author: Chris Bovard - www.chrisbovard.com
- * Sept. 9, 2014
+ * Sept. 15, 2014
 */
 
 /* =Import Files for Mixin Usage
@@ -24,8 +24,9 @@
 			border:none;
 			/*main nav and mega yamm menu*/
 			ul.nav {
+				margin-left:77px;
 				> li {
-					position:relative;
+					//position:relative;
 					> a {
 						display:block;
 						height:75px;
@@ -210,7 +211,6 @@
 }
 /*header ends*/
 
-
 /*know-more*/
 #know-more {
     article {
@@ -322,7 +322,7 @@
           }
           #video-sponsor {
           	height:118px;
-            background:transparent url(/assets/images/video-sponsor-bg-desktop.png) center center no-repeat;
+            background:transparent url(#{$assets_path}/video-sponsor-bg-desktop.png) center center no-repeat;
             padding-top:54px;
           }
       }
@@ -359,7 +359,104 @@
 }
 /*blog ends*/
 
+/*communities*/
+#communities {
+    .communities-box {
+        height:336px;
+				.blue-button {
+					display:block;
+					width:100%;
+					padding:22px 22px 20px 26px;
+					clear:both;
+				}
+    }
+		.posted-by {
+			.postername-date {
+				width:184px;
+				display:block;
+				float:right;
+				text-align:left;
+			}
+		}
+    #communities-twitter {
+        border-right:3px solid #eeeff1;
+        .posted-by {
+            margin-bottom:80px;
+        }
+    }
+    #communities-facebook {
+    	border-right:3px solid #eeeff1;
+        .posted-by {
+            margin-bottom:36px;
+        }
+    }
+    #communities-youtube {
+        border-right:3px solid #eeeff1;
+        .posted-by {
+           margin-bottom:65px;
+        }
+    }
+}
+/*communities ends*/
 
+/*auction*/
+#auction {
+  #auction-tagline-wrap {
+    width:774px;
+  }
+  #auction-time-wrap {
+    width:252px;
+  }
+  #auction-tagline {
+    height:90px;
+  }
+  #auction-time {
+    height:90px;
+    p {
+    	text-align:left;
+    }
+  }
+  #auction-featured-item {
+    .auction-featured-item-inner {
+      width:50%;
+      float:left;
+    }
+    footer {
+      clear:none;
+      width:50%;
+      float:right;
+      padding-top:8px;
+      padding-bottom:0;
+      margin-bottom:0;
+      .auction-highest-bid {
+      	margin:0;
+      }
+    }
+  }
+
+  #auction-other {
+  	margin-top:62px;
+  	clear:both;
+  	#auction-other-header {margin-bottom:32px;}
+  	article {
+  		width:25%;
+	  	padding-top:0;
+	  	padding-bottom:6px;
+      &.list-row-1,
+      &.list-row-2,
+      &.list-row-3,
+      &.list-row-4 {
+         border:none;
+         border-right:3px solid #eeeff1;
+      }
+			&.list-row-last {
+				border:none;
+			}
+  	}
+  }
+
+}
+/*auction ends*/
 
 /*footer*/
 #footer {

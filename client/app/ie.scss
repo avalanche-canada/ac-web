@@ -1,0 +1,7 @@
+/* =Styles for legacy IE
+ * these = style for IE will inherit the base 320px style all the way up to desktop.
+----------------------------------------------------------------------------------*/
+
+@import "_base_mobile.scss";
+@import "_breakpoint_tablet.scss";
+@import "_breakpoint_desktop.scss";

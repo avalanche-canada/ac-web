@@ -1,6 +1,7 @@
 //CAC Mobile Multi Level Sass
 //Author: Chris Bovard - www.chrisbovard.com
-//Sept. 8, 2014
+//Sept. 15, 2014
+//http://multi-level-push-menu.make.rs/
 
 /*multilevel - mobile menu*/
 #menu {
@@ -36,7 +37,7 @@
 		}
 		.ltr {
 			//background-color:#efefef;
-			background:#efefef url(/assets/images/multi-nav-layer-1-bg.png) left 75px repeat-x;
+			background:#efefef url(#{$assets_path}/multi-nav-layer-1-bg.png) left 75px repeat-x;
 			box-shadow:none;
 			ul {
 				li {
@@ -83,7 +84,7 @@
 
 			//2nd level
 			.ltr {
-				background:#e0e0e0 url(/assets/images/multi-nav-layer-2-bg.png) left 75px repeat-x;
+				background:#e0e0e0 url(#{$assets_path}/multi-nav-layer-2-bg.png) left 75px repeat-x;
 				box-shadow:none;
 				padding-top:84px;
 				h2 {
@@ -112,7 +113,7 @@
 				//3rd level
 				.ltr {
 					background-color:#d2d2d2;
-					background:#d2d2d2 url(/assets/images/multi-nav-layer-3-bg.png) left 75px repeat-x;
+					background:#d2d2d2 url(#{$assets_path}/multi-nav-layer-3-bg.png) left 75px repeat-x;
 					box-shadow:none;
 				}
 			}

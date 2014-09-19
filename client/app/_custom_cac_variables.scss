@@ -1,6 +1,9 @@
 // CAC - Bootstrap Variables
 // Author: Chris Bovard -- www.chrisbovard.com
-// Sept. 2, 2014
+// Sept. 18, 2014
+
+// image dir location
+$assets_path: "assets/images";
 
 //custom font mixin. I left this here because the other file might get wiped out.
 @mixin font-size($size:1.6, $line: $size * 1.5){
@@ -44,12 +47,15 @@ $brand-danger:          #d9534f !default;
 //## Background color for `<body>`.
 $body-bg:               #fff !default;
 //## Global text color on `<body>`.
-$text-color:            $gray-dark !default;
+//$text-color:            $gray-dark !default;
+$text-color: #121212 !default;
 
 //## Global textual link color.
-$link-color:            $brand-primary !default;
+//$link-color:            $brand-primary !default;
+$link-color: #0056b7 !default;
 //## Link hover color set via `darken()` function.
-$link-hover-color:      darken($link-color, 15%) !default;
+//$link-hover-color:      darken($link-color, 15%) !default;
+$link-hover-color: #121212 !default;
 
 
 //== Typography
@@ -200,7 +206,8 @@ $input-color:                    $gray !default;
 //## `<input>` border color
 $input-border:                   #ccc !default;
 //## `<input>` border radius
-$input-border-radius:            $border-radius-base !default;
+//$input-border-radius:            $border-radius-base !default;
+$input-border-radius: 0 !default;
 //## Border color for inputs on focus
 $input-border-focus:             #66afe9 !default;
 

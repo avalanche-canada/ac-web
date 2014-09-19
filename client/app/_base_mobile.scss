@@ -1,24 +1,22 @@
 /* CAC Custom styles
  * Author: Chris Bovard - www.chrisbovard.com
- * Sept. 9, 2014
+ * Sept. 18, 2014
 */
 
-/* =Import Files for Mixin Usage
+/* =Import Files for Mixin Usage - ETC
 ----------------------------------------------------------------------------------*/
 //the variable file is the one that will be modified by the themer - chris bovard
 @import "custom_cac_variables";
-//boostrap mixins
+//bootstrap mixins
 //@import "bootstrap/mixins";
 
+//Mobile Multilevel SASS include
+@import "_mobile_multilevel";
 
 /* =Base Mobile Layout and Styles
 ----------------------------------------------------------------------------------*/
 
-//buttons -- need to move?
-.dropdown-menu{
-    width:1024px;
-}
-
+//buttons
 .black-button {
 	font-family:$font-family-google;
 	background-color:#121212;
@@ -79,26 +77,42 @@
 	left:0;
 }
 
-.div {border:1px red solid;}
+.scroll-down {
+	width:60px;
+	height:60px;
+	background-color:#000;
+	position:absolute;
+	bottom:0;
+	left:50%;
+	z-index:9999;
+	@include center-block();
+	padding:15px 0 0 17px;
+	.fa {
+		color:#fff;
+		@include font-size(2.7, 2.7);
+	}
+}
 //end of custom classes
+
 
 #page-wrap {
 	width:100%;
 	min-height:1px;
 	@include clearfix();
+	position:relative;
 }
-
-//Mobile Multilevel SASS include
-@import "_mobile_multilevel";
 
 /*header*/
 #header {
+	background-color:#fff;
+	width:100%;
 	height:75px;
 	h1 {
 		margin:14px 0 0 0;
+		padding:0;
 		text-decoration:none;
 		@include hide-text();
-		background:transparent url(/assets/images/logo-mobile.png) no-repeat center center;
+		background:transparent url(#{$assets_path}/logo-mobile.png) no-repeat center center;
 	}
 	h1,
 	h1 a {
@@ -106,7 +120,6 @@
 		height:47px;
 		display:block;
 	}
-
 	/*navigation*/
 	#navigation {
 		background-color:transparent;
@@ -156,12 +169,12 @@
 }
 /*header ends*/
 
-
 /*map*/
 #map {
-	min-height:100%;
-    margin-bottom:75px;
+	padding-top:75px;
+	min-height:616px;
 	background-color:#7b7b7b;
+	position:relative;
 }
 /*map ends*/
 
@@ -175,7 +188,7 @@
 		margin:28px 0;
 		padding-top:23px;
 		#sponsor-link {
-			images {
+			img {
 				@include center-block();
 			}
 		}
@@ -188,7 +201,7 @@
 #know-more {
 	width:100%;
 	height:290px;
-	background:transparent url(/assets/images/know-more-desktop-bg.jpg) center bottom no-repeat;
+	background:transparent url(#{$assets_path}/know-more-desktop-bg.jpg) center bottom no-repeat;
 	article {
 		padding-top:36px;
 		@include clearfix();
@@ -227,17 +240,16 @@
 }
 /*know-more ends*/
 
-
 /*news*/
 #news {
 	min-height:400px;
 	#news-articles {
 		padding-bottom:30px;
 		margin-bottom:30px;
-		background:transparent url(/assets/images/ribbon-bg.png) center bottom repeat-x;
+		background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
 		> header {
 			padding:34px 0 36px 0;
-			background:transparent url(/assets/images/ribbon-bg.png) center bottom repeat-x;
+			background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
 			position:relative;
 			h1 {
 				color:#0056b7;
@@ -415,7 +427,6 @@
 }
 /*news ends*/
 
-
 /*videos*/
 #videos {
 	min-height:390px;
@@ -434,7 +445,7 @@
 				top:0;
 				height:52px;
 				width:182px;
-				background:transparent url(/assets/images/video-header-bg.png) left center no-repeat;
+				background:transparent url(#{$assets_path}/video-header-bg.png) left center no-repeat;
 			}
 		}
 		#video-container {
@@ -467,7 +478,7 @@
 	#blog-articles {
 		min-height:1px;
 		@include clearfix();
-		background:transparent url(/assets/images/ribbon-bg.png) center top repeat-x;
+		background:transparent url(#{$assets_path}/ribbon-bg.png) center top repeat-x;
 		padding-top:38px;
 		#blog-header-wrap {
 			> header {
@@ -586,16 +597,481 @@
 
 /*communities*/
 #communities {
-	min-height:600px;
+	width:100%;
+	min-height:100px;
+	@include clearfix();
+	padding-bottom:60px;
+	background:transparent url(#{$assets_path}/ribbon-grey-bg.png) repeat left top;
+	#dark-ribbon {
+		width:100%;
+		height:8px;
+		background:transparent url(#{$assets_path}/ribbon-greydark-bg.png) repeat-x center center;
+	}
+	h3 {
+		color:#121212;
+		@include font-size(3.6, 3.8);
+		font-family:$font-family-google;
+		margin:35px 0;
+		font-weight:bold;
+	}
+	.communities-box {
+		margin-bottom:50px;
+		.youtube-thumb {margin-bottom:22px;}
+		p {
+			@include font-size(1.5, 2.2);
+			margin:0;
+			a {
+			  @include font-size(1.5, 2.2);
+			  color:#0056b7;
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+				&:hover {
+					color:#1e7be5;
+				}
+				&:focus {
+					color:#4299fc;
+				}
+			}
+		}
+		.posted-by {
+			margin-top:10px;
+			margin-bottom:36px;
+			min-height:30px;
+			@include clearfix();
+			.poster-image {
+				float:left;
+				margin-right:9px;
+			}
+			.postername-date {
+				//width:190px;
+				//display:block;
+				float:left;
+				padding-top:6px;
+			  @include font-size(1.1, 1.1);
+			  color:#b5b5b5;
+			  font-family:$font-family-google;
+			  text-transform:uppercase;
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+				&:hover {
+					//color:#1e7be5;
+				}
+				&:focus {
+					//color:#4299fc;
+				}
+			}
+		}
+		.blue-button {
+			display:block;
+			width:230px;
+			padding:22px 22px 20px 26px;
+			clear:both;
+		}
+	}
 }
 /*communities ends*/
 
 
 /*auction*/
 #auction {
-	min-height:600px;
+	min-height:100px;
+	@include clearfix();
+	margin-bottom:74px;
+	#auction-header {
+		padding-top:34px;
+		padding-bottom:14px;
+		background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+		position:relative;
+		h4 {
+			color:#121212;
+			@include font-size(3.6, 3.8);
+			font-family:$font-family-google;
+			margin:0;
+			font-weight:bold;
+			span {
+				color:#0056b7;
+			}
+		}
+	}
+	#auction-tagline {
+		color:#121212;
+		@include font-size(1.6, 2.8);
+		font-family:$font-family-google;
+		font-weight:bold;
+		text-transform:uppercase;
+		padding-top:32px;
+		padding-bottom:32px;
+		border-bottom:2px solid #eeeff1;
+	}
+	#auction-time {
+		color:#0056b7;
+		@include font-size(1.6, 2.8);
+		font-family:$font-family-google;
+		font-weight:bold;
+		text-transform:uppercase;
+	  padding-top:32px;
+		padding-bottom:32px;
+		border-bottom:2px solid #eeeff1;
+		margin-bottom:30px;
+	}
+	#auction-featured-item {
+		h5 {
+			margin:40px 0 34px 0;
+			a {
+				font-weight:bold;
+			  @include font-size(2.6, 3.0);
+			  color:#121212;
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+				&:hover {color:#0056b7;}
+			}
+		}
+		.auction-item-body {
+			p {margin:0;}
+			.auction-item-size-price {
+				@include font-size(1.6, 2.8);
+				font-family:$font-family-google;
+				font-weight:bold;
+				text-transform:uppercase;
+				color:#121212;
+				margin-bottom:6px;
+				span {
+					color:#b5b5b5;
+				}
+			}
+			.auction-item-body {
+				color:#5b5b5b;
+				@include font-size(1.5, 2.2);
+				margin-bottom:34px;
+			}
+			.auction-item-info {
+				@include font-size(1.1, 2.8);
+				font-family:$font-family-google;
+				text-transform:uppercase;
+				color:#b5b5b5;
+				span {
+					color:#121212;
+				}
+			}
+		}
+		footer {
+			margin-top:28px;
+			margin-bottom:28px;
+			.auction-highest-bid {
+				background-color:#eeeff1;
+				padding:23px 18px 23px 19px;
+				margin-bottom:10px;
+				p {
+					margin:0;
+					color:#2f63c9;
+					@include font-size(1.6, 1.6);
+					font-family:$font-family-google;
+					font-weight:bold;
+					text-transform:uppercase;
+					&.highest-amount {
+						@include font-size(2.6, 2.6);
+						color:#121212;
+						margin-top:8px;
+						font-family:$font-family-sans-serif;
+					}
+				}
+			}
+			.auction-bid-form {
+				background-color:#eeeff1;
+				padding:23px 18px 23px 19px;
+				min-height:1px;
+				@include clearfix();
+				p {
+					margin:0;
+					color:#2f63c9;
+					@include font-size(1.6, 1.6);
+					font-family:$font-family-google;
+					font-weight:bold;
+					text-transform:uppercase;
+					margin-bottom:12px;
+				}
+				form {
+					.form-control {
+						border:none;
+						border-top:2px solid #d9d9d9;
+						height:64px;
+						@include font-size(2.4, 2.8);
+					}
+					.blue-button {
+						display:block;
+						width:134px;
+						@extend .blue-button;
+						padding:22px 22px 20px 26px;
+						clear:both;
+						border:none;
+						float:right;
+						margin-top:14px;
+					}
+				}
+			}
+		}
+	}
+	#auction-other {
+		min-height:100px;
+		@include clearfix();
+		margin-top:24px;
+		#auction-other-header {
+			border-top:2px solid #eeeff1;
+			background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+			position:relative;
+			padding:34px 0;
+			h4 {
+				color:#121212;
+				@include font-size(2.6, 2.6);
+				font-family:$font-family-sans-serif;
+				margin:0;
+				font-weight:bold;
+			}
+		}
+		article {
+			min-height:10px;
+			@include clearfix();
+			padding:36px 0 40px 0;
+			border-bottom:3px solid #eeeff1;
+			header {
+				h5 {
+					@include font-size(2.0, 2.2);
+					font-family:$font-family-sans-serif;
+					margin:0;
+					font-weight:bold;
+					a {
+						color:#0056b7;
+						span {
+							color:#121212;
+							@include font-size(1.5, 2.2);
+						}
+						&:visited,
+						&:hover,
+						&:active,
+						&:focus {
+							text-decoration:none;
+						}
+						&:hover {
+							color:#121212;
+						}
+						&:hover span {
+							color:#0056b7;
+						}
+					}
+				}
+			}
+			.auction-other-image {
+				padding-top:18px;
+				padding-bottom:22px;
+				img {
+					@include center-block();
+				}
+			}
+			.auction-other-bid {
+				p {
+					color:#121212;
+					@include font-size(1.5, 2.2);
+					font-family:$font-family-sans-serif;
+					margin:0;
+					font-weight:bold;
+				}
+			}
+			#view-auction {
+				img {
+					@include center-block();
+				}
+			}
+			&.list-row-last {
+				border-bottom:none;
+				padding-bottom:0;
+			}
+		}
+	}
 }
 /*auction ends*/
+
+/*sub page typography examples*/
+#sub-page-content {
+	padding-bottom:30px;
+	//classes
+	.featured {color:#d82631;}
+	//headers
+	h1 {
+		@include font-size(1.6, 2.8);
+		font-family:$font-family-google;
+		font-weight:bold;
+		text-transform:uppercase;
+		a {
+		  @include font-size(1.6, 2.8);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	h2 {
+		@include font-size(5.0, 5.2);
+		font-family:$font-family-google;
+		font-weight:bold;
+		text-transform:uppercase;
+		a {
+		  @include font-size(5.0, 5.2);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	h3 {
+		@include font-size(2.0, 2.4);
+		font-weight:bold;
+		a {
+		  @include font-size(2.0, 2.4);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	h4 {
+		@include font-size(1.8, 2.0);
+		font-weight:bold;
+		a {
+		  @include font-size(1.8, 2.0);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	h5 {
+		@include font-size(1.6, 1.8);
+		font-weight:bold;
+		a {
+		  @include font-size(1.6, 1.8);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	h6 {
+		@include font-size(1.4, 1.6);
+		font-weight:bold;
+		a {
+		  @include font-size(1.4, 1.6);
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	p {
+		@include font-size(1.5, 2.2);
+		color:#ebebeb;
+		strong {
+			@include font-size(1.5, 2.2);
+			color:#121212;
+		}
+		em {
+			@include font-size(1.5, 2.2);
+			color:#b7b7b7;
+		}
+		a {
+		  @include font-size(1.5, 2.2);
+		  font-weight:bold;
+			&:visited,
+			&:hover,
+			&:active,
+			&:focus {
+				text-decoration:none;
+			}
+		}
+	}
+	ul {
+		li {
+			@include font-size(1.5, 4.0);
+			margin:0;
+			color:#0056b7;
+			p {
+				margin:0;
+				@include font-size(1.5, 4.0);
+				color:#5b5b5b;
+			}
+			a {
+			  @include font-size(1.5, 4.0);
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+			}
+		}
+	}
+	ul.border {
+		list-style:none;
+		li {
+			border-bottom:2px solid #eeeff1;
+			&:last-child {border-bottom:none;}
+		}
+	}
+	ol {
+		li {
+			@include font-size(1.5, 4.0);
+			margin:0;
+			color:#0056b7;
+			p {
+				margin:0;
+				@include font-size(1.5, 4.0);
+				color:#5b5b5b;
+			}
+			a {
+			  @include font-size(1.5, 4.0);
+				&:visited,
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration:none;
+				}
+			}
+		}
+	}
+	blockquote {
+	  border-left: 5px solid #eeeff1;
+	  @include font-size(1.5, 2.2);
+	  color:#5b5b5b;
+	  strong {
+		  @include font-size(1.5, 2.2);
+		  color:#121212;
+		  font-weight:bold;
+	  }
+	}
+}
 
 
 /*footer*/
@@ -608,7 +1084,7 @@
 		list-style:none;
 		padding:0;
 		margin:0;
-		background:transparent url(/assets/images/footer-menu-mobile-bg.png) 33% top no-repeat;
+		background:transparent url(#{$assets_path}/footer-menu-mobile-bg.png) 33% top no-repeat;
 		display:block;
 		min-height:1px;
 		@include clearfix();

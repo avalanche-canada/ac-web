@@ -1,186 +1,182 @@
-///# Header
-header#header.container(role='banner')
-    //.row
-      //.col-xs-7.col-md-4
-        //h1
-          //a(rel='home', title='TITLE HERE', href='/')
-            //| CAC title here
-      //.col-xs-5.col-md-8
-    nav#navigation.yamm.navbar.navbar-default.navbar-fixed-top(role='navigation')
-      a.navbar-brand(rel='home', title='TITLE HERE', href='/') CAC title here
-      .navbar-header.visible-xs.visible-sm
-        a#nav-search(href='#')
-          i.fa.fa-search
-        a#nav-donate.visible-sm(href='#') Donate
-        a#multi-expand.navbar-toggle(role='button', href='#' ng-click="multiExpand()")
-          i.fa.fa-reorder
-      .collapse.navbar-collapse
-        ul.nav.navbar-nav
 
-          li#nav-avalanche-info.dropdown.yamm-fw.open
-            a(href='#')
-              | Avalanche Information
-              span.arrow-down
-            ul.dropdown-menu
-              li
-                .container
-                  .row
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            h2 Forecasts
-                        li(ng-repeat='region in forecastRegions')
-                            a(href='/forecasts/{{region.name}}') {{region.display}}
-                        li
-                            a(href='/forecasts/archive') Archive
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            h2 Data
-                        li(ng-repeat='item in dataMenu')
-                            a(href='{{item.url}}') {{item.display}}
-                    .col-md-4.mega-content-inner
-                        ul.mega-sub-menu
+header#header.navbar-fixed-top(role='banner')
+    .container
+        nav#navigation.yamm.navbar.navbar-default(role='navigation')
+            .navbar-header
+                h1.navbar-brand
+                    a(rel='home', title='TITLE HERE', href='/')
+                        | CAC title here
+            .visible-xs.visible-sm
+                a#nav-search(href='#')
+                    i.fa.fa-search
+                a#nav-donate.visible-sm(href='#') Donate
+                a#multi-expand.navbar-toggle(role='button', href='#', ng-click='multiExpand()')
+                    i.fa.fa-reorder
+            .collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li#nav-avalanche-info.dropdown
+                        a(href='#')
+                            | Avalanche Information
+                            span.arrow-down
+                        ul.dropdown-menu
                             li
-                                h2 Blogs
-                            li(ng-repeat='blog in blogs')
-                                a(href='/blogs/{{blog.name}}') {{blog.display}}
-
-          li#nav-learn.dropdown.yamm-fw
-            a(href='#')
-              | Learn
-              span.arrow-down
-            ul.dropdown-menu
-              li
-                .container
-                  .row
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            h2 Avalanche Canada Training Courses
-                        li(ng-repeat='page in training')
-                                a(href='/training/{{page.name}}') {{page.display}}
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            h2 Online Avalanche Course
-                        li(ng-repeat='page in onlineCourse')
-                                a(href='/training/{{page.name}}') {{page.display}}
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            h2 Parents & Educators
-                        li(ng-repeat='page in parentsEducators')
-                                a(href='/parents-educators/{{page.name}}') {{page.display}}
-                    .col-md-4.mega-content-inner
-                      ul.mega-sub-menu
-                        li
-                            a(href='/Gear')
-                                h2 Essential and recommended gear
-                        li
-                            a(href='/library')
-                                h2 Library
-
-
-
-          li#nav-community.dropdown.yamm-fw
-            a(href='#')
-                | Community
-            ul.dropdown-menu
-              li
-                .container
-                  .row
-                      .col-md-4.mega-content-inner
-                          ul.mega-sub-menu
-                                li
-                                    h2
-                                        a(href='about')
-                                          | About
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-
-                                li
-                                    h2
-                                        a(href='membership')
-                                          | Membership
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-                                li
-                                    h2
-                                        a(href='sponsors')
-                                          | Sponsors
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-                                li
-                                    h2
-                                        a(href='collaborators')
-                                          | Collaborators
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-
-          li#nav-news-events.dropdown.yamm-fw
-            a(href='#')
-              | News and events
-            ul.dropdown-menu
-              li
-                .container
-                  .row
-                      .col-md-4.mega-content-inner
-                          ul.mega-sub-menu
-                                li
-                                    h2
-                                        a(href='events')
-                                          | Events
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-
-                                li
-                                    h2
-                                        a(href='outreach')
-                                          | Outreach
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
-                                li
-                                    h2
-                                        a(href='news')
-                                          | News
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
+                                .container
+                                    .row
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                    h2 Forecasts
+                                                li(ng-repeat='region in forecastRegions')
+                                                        a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                        a(href='/forecasts/archive') Archive
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                        h2 Data
+                                                li(ng-repeat='item in dataMenu')
+                                                        a(href='{{item.url}}') {{item.display}}
+                                        .col-md-4.mega-content-inner
+                                                ul.mega-sub-menu
+                                                        li
+                                                                h2 Blogs
+                                                        li(ng-repeat='blog in blogs')
+                                                                a(href='/blogs/{{blog.name}}') {{blog.display}}
+                    li#nav-learn.dropdown
+                        a(href='#')
+                            | Learn
+                            span.arrow-down
+                        ul.dropdown-menu
+                            li
+                                .container
+                                    .row
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                        h2 Avalanche Canada Training Courses
+                                                li(ng-repeat='page in training')
+                                                                a(href='/training/{{page.name}}') {{page.display}}
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                        h2 Online Avalanche Course
+                                                li(ng-repeat='page in onlineCourse')
+                                                                a(href='/training/{{page.name}}') {{page.display}}
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                        h2 Parents & Educators
+                                                li(ng-repeat='page in parentsEducators')
+                                                                a(href='/parents-educators/{{page.name}}') {{page.display}}
+                                        .col-md-4.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                        a(href='/Gear')
+                                                                h2 Essential and recommended gear
+                                                li
+                                                        a(href='/library')
+                                                                h2 Library
 
 
-          li#nav-store.dropdown.yamm-fw
-            a(href='#')
-                | Store
-            ul.dropdown-menu
-              li
-                .container
-                  .row
-                      .col-md-2.mega-content-inner
-                          ul.mega-sub-menu
-                                li
-                                    h2
-                                        a(href='store')
-                                          | Store
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
 
-                                li
-                                    h2
-                                        a(href='web-auction')
-                                          | Web Auction
-                                          i.fa.fa-angle-right
-                                    p
-                                        | Some short event description text
+                    li#nav-community.dropdown
+                        a(href='#')
+                                | Community
+                        ul.dropdown-menu
+                            li
+                                .container
+                                    .row
+                                            .col-md-4.mega-content-inner
+                                                    ul.mega-sub-menu
+                                                                li
+                                                                        h2
+                                                                                a(href='about')
+                                                                                    | About
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
 
-        a#nav-search-desktop(href='#')
-          i.fa.fa-search
-        a#nav-donate-desktop(href='/foundation/donate') Donate
-  ///#header
+                                                                li
+                                                                        h2
+                                                                                a(href='membership')
+                                                                                    | Membership
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+                                                                li
+                                                                        h2
+                                                                                a(href='sponsors')
+                                                                                    | Sponsors
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+                                                                li
+                                                                        h2
+                                                                                a(href='collaborators')
+                                                                                    | Collaborators
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+
+                    li#nav-news-events.dropdown
+                        a(href='#')
+                            | News and events
+                        ul.dropdown-menu
+                            li
+                                .container
+                                    .row
+                                            .col-md-4.mega-content-inner
+                                                    ul.mega-sub-menu
+                                                                li
+                                                                        h2
+                                                                                a(href='events')
+                                                                                    | Events
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+
+                                                                li
+                                                                        h2
+                                                                                a(href='outreach')
+                                                                                    | Outreach
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+                                                                li
+                                                                        h2
+                                                                                a(href='news')
+                                                                                    | News
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+
+
+                    li#nav-store.dropdown
+                        a(href='#')
+                                | Store
+                        ul.dropdown-menu
+                            li
+                                .container
+                                    .row
+                                            .col-md-2.mega-content-inner
+                                                    ul.mega-sub-menu
+                                                                li
+                                                                        h2
+                                                                                a(href='store')
+                                                                                    | Store
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+
+                                                                li
+                                                                        h2
+                                                                                a(href='web-auction')
+                                                                                    | Web Auction
+                                                                                    i.fa.fa-angle-right
+                                                                        p
+                                                                                | Some short event description text
+
+                a#nav-search-desktop(href='#')
+                    i.fa.fa-search
+                a#nav-donate-desktop(href='/foundation/donate') Donate
+    ///#header
