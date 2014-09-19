@@ -64,13 +64,13 @@ header#header.container(role='banner')
                       ul.mega-sub-menu
                         li
                             h2 Online Avalanche Course
-                        li(ng-repeat='page in online_course')
+                        li(ng-repeat='page in onlineCourse')
                                 a(href='/training/{{page.name}}') {{page.display}}
                     .col-md-4.mega-content-inner
                       ul.mega-sub-menu
                         li
                             h2 Parents & Educators
-                        li(ng-repeat='page in parents_educators')
+                        li(ng-repeat='page in parentsEducators')
                                 a(href='/parents-educators/{{page.name}}') {{page.display}}
                     .col-md-4.mega-content-inner
                       ul.mega-sub-menu

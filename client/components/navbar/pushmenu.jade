@@ -1,10 +1,11 @@
 //div#menu
 
 nav
-    a#multi-collapse(role='button', href='#' ng-click="multiCollapse()")
-        i.fa.fa-times
-    a#multinav-home(href='/')
-        i.fa.fa-home
+    h2
+        a#multi-collapse(role='button', href='#' ng-click="multiCollapse()")
+            i.fa.fa-times
+        a#multinav-home(href='/')
+            i.fa.fa-home
     ul
         li
             a(href='#') Avalanche Information
@@ -41,13 +42,13 @@ nav
                         a(href='#') Online Avalanche Course
                         h2 Online Avalanche Course
                         ul
-                            li(ng-repeat='page in online_course')
+                            li(ng-repeat='page in onlineCourse')
                                     a(href='/training/{{page.name}}') {{page.display}}
                     li
                         a(href='#') Parents & Educators
                         h2 Parents & Educators
                         ul
-                            li(ng-repeat='page in parents_educators')
+                            li(ng-repeat='page in parentsEducators')
                                     a(href='/parents-educators/{{page.name}}') {{page.display}}
                     li
                         a(href='/gear') Gear

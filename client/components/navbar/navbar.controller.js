@@ -8,6 +8,8 @@ angular.module('avalancheCanadaApp')
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
           link: function(scope, ele, attrs) {
+
+
               angular.element(ele).multilevelpushmenu({
                   containersToPush: [$('#page-wrap')],
                   menuWidth: '320px',
@@ -18,8 +20,9 @@ angular.module('avalancheCanadaApp')
                   overlapWidth:60
               });
 
-              scope.multiExpand = function() { angular.element(ele).multilevelpushmenu('expand'); };
-              scope.multiCollapse = function() { alert("hello world"); angular.element(ele).multilevelpushmenu('collapse'); };
+              scope.pushMenuOpen = false;
+              scope.multiExpand = function() { scope.pushMenuOpen = true; angular.element(ele).multilevelpushmenu('expand'); };
+              scope.multiCollapse = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
@@ -116,21 +119,19 @@ angular.module('avalancheCanadaApp')
                         {'name':'what','display':'What course should I take'},
                         {'name':'calendar','display':'Calendar'}];
 
-    $scope.online_course = [{'name':'formation','display':'Avalanche Formation'},
+    $scope.onlineCourse = [{'name':'formation','display':'Avalanche Formation'},
                             {'name':'terrain','display':'Avalanche Terrain'},
                             {'name':'planning','display':'Pre-trip Planning'},
                             {'name':'reducing-risk','display':'Reducing Risk in the Field'},
                             {'name':'rescue','display':'Rescue'},
                             {'name':'report','display':'Reporting Observation'}];
 
-    $scope.parents_educators = [{'name':'mentors','display':'Mentors'},
+    $scope.parentsEducators = [{'name':'mentors','display':'Mentors'},
                                 {'name':'youth-guidelines','display':'Guidelines for Youth Education'},
                                 {'name':'youth-programs','display':'Existing Youth Programs'},
                                 {'name':'curriculum','display':'Curriculum Ideas/Lesson Plans'},
                                 {'name':'materials','display':'Resource Materials'},
                                 {'name':'grants','display':'School Programs - Grants'},
                                 {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
-
-
 
   });
