@@ -1,9 +1,9 @@
 //div#menu
 
 nav
-    h2
-      i.fa.fa-times
-      a#multinav-home(href='/static')
+    a#multi-collapse(role='button', href='#' ng-click="multiCollapse()")
+        i.fa.fa-times
+    a#multinav-home(href='/')
         i.fa.fa-home
     ul
         li
@@ -83,5 +83,5 @@ nav
                         a(href='/auction') Auction
 
         li#multilevel-donate
-            a(href='#') Donate
+            a(href='/foundation/donate') Donate
 // /#multilevel menu

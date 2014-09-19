@@ -19,6 +19,7 @@ angular.module('avalancheCanadaApp')
               });
 
               scope.multiExpand = function() { angular.element(ele).multilevelpushmenu('expand'); };
+              scope.multiCollapse = function() { alert("hello world"); angular.element(ele).multilevelpushmenu('collapse'); };
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
@@ -68,17 +69,29 @@ angular.module('avalancheCanadaApp')
 
   .controller('NavbarCtrl', function ($scope, $location, $document) {
 
-    /*$scope.navItems = [{'title':'Avalanche Information', 'link':'' ,
-                            'data':[{'title':'Forecasts', 'link':'forecasts' , 'data':[
-                                        {'title':'Banff Yoho & Kootenay', 'link':'banff-yoho-kootenay' , 'data':[]}
-                                        ]}
-                                    ]}
-                      ];*/
 
-    $scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'},
-                            {'name':'banff-yoho-kootenay','display':'Banff Yoho And Kootenay'}];
+    $scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho & Kootenay National Park'},
+                            {'name':'glacier','display':'Glacier National Park'},
+                            {'name':'chic-chocs','display':'Chic-Chocs, CAHG'},
+                            {'name':'jasper','display':'Jasper National Park'},
+                            {'name':'kananaskis','display':'Kananaskis Country, Alberta Parks'},
+                            {'name':'kootenay-boundary','display':'Kootenay Boundary'},
+                            {'name':'lizard-range','display':'Lizard Range and Flathead'},
+                            {'name':'north-columbia','display':'North Columbia'},
+                            {'name':'northwest-coastal','display':'Northwest Coastal'},
+                            {'name':'northwest-inland','display':'Northwest Inland'},
+                            {'name':'cariboos','display':'Cariboos'},
+                            {'name':'north-rockies','display':'North Rockies'},
+                            {'name':'south-rockies','display':'South Rockies'},
+                            {'name':'north-shore','display':'North Shore'},
+                            {'name':'purcells','display':'Purcells'},
+                            {'name':'sea-to-sky','display':'Sea-to-Sky'},
+                            {'name':'south-columbia','display':'South Columbia'},
+                            {'name':'south-coast-inland','display':'South Coast Inland'},
+                            {'name':'vancouver-island','display':'Vancouver Island, VAIC'},
+                            {'name':'whistler-blackcomb','display':'Whistler Blackcomb'},
+                            {'name':'waterton','display':'Waterton National Park'},
+                            {'name':'yukon','display':'Yukon'}];
 
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
@@ -86,24 +99,24 @@ angular.module('avalancheCanadaApp')
                        {'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.blogs = [{'name':'all','display':'All'},
-                            {'name':'forecaster','display':'Forecaster'},
-                            {'name':'north-rockies','display':'North Rockies'},
-                            {'name':'south-rockies','display':'South Rockies'},
-                            {'name':'summary','display':'Summaries and Outlooks'},
-                            {'name':'conditions','display':'Conditions Outlook'},
-                            {'name':'conditions-summary','display':'Conditions Summary'},
-                            {'name':'weather','display':'Weather Outlook'},
-                            {'name':'tech','display':'Tech and Talk'}];
+                    {'name':'forecaster','display':'Forecaster'},
+                    {'name':'north-rockies','display':'North Rockies'},
+                    {'name':'south-rockies','display':'South Rockies'},
+                    {'name':'summary','display':'Summaries and Outlooks'},
+                    {'name':'conditions','display':'Conditions Outlook'},
+                    {'name':'conditions-summary','display':'Conditions Summary'},
+                    {'name':'weather','display':'Weather Outlook'},
+                    {'name':'tech','display':'Tech and Talk'}];
 
     $scope.training =  [{'name':'find','display':'Find a course'},
-                            {'name':'ast1','display':'Avalanche Skills Training 1'},
-                            {'name':'ast2','display':'Avalanche Skills Training 2'},
-                            {'name':'companion-rescue','display':'Companion Rescue Skills'},
-                            {'name':'why','display':'Why should I take an avalanche course ?'},
-                            {'name':'what','display':'What course should I take'},
-                            {'name':'calendar','display':'Calendar'}];
+                        {'name':'ast1','display':'Avalanche Skills Training 1'},
+                        {'name':'ast2','display':'Avalanche Skills Training 2'},
+                        {'name':'companion-rescue','display':'Companion Rescue Skills'},
+                        {'name':'why','display':'Why should I take an avalanche course ?'},
+                        {'name':'what','display':'What course should I take'},
+                        {'name':'calendar','display':'Calendar'}];
 
-    $scope.online_course =  [{'name':'formation','display':'Avalanche Formation'},
+    $scope.online_course = [{'name':'formation','display':'Avalanche Formation'},
                             {'name':'terrain','display':'Avalanche Terrain'},
                             {'name':'planning','display':'Pre-trip Planning'},
                             {'name':'reducing-risk','display':'Reducing Risk in the Field'},
@@ -111,12 +124,12 @@ angular.module('avalancheCanadaApp')
                             {'name':'report','display':'Reporting Observation'}];
 
     $scope.parents_educators = [{'name':'mentors','display':'Mentors'},
-                            {'name':'youth-guidelines','display':'Guidelines for Youth Education'},
-                            {'name':'youth-programs','display':'Existing Youth Programs'},
-                            {'name':'curriculum','display':'Curriculum Ideas/Lesson Plans'},
-                            {'name':'materials','display':'Resource Materials'},
-                            {'name':'grants','display':'School Programs - Grants'},
-                            {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
+                                {'name':'youth-guidelines','display':'Guidelines for Youth Education'},
+                                {'name':'youth-programs','display':'Existing Youth Programs'},
+                                {'name':'curriculum','display':'Curriculum Ideas/Lesson Plans'},
+                                {'name':'materials','display':'Resource Materials'},
+                                {'name':'grants','display':'School Programs - Grants'},
+                                {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
 
 
 
