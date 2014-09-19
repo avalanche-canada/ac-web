@@ -96,6 +96,12 @@ angular.module('avalancheCanadaApp')
                             {'name':'waterton','display':'Waterton National Park'},
                             {'name':'yukon','display':'Yukon'}];
 
+    var length = $scope.forecastRegions.length;
+    var half   = (length/2);
+
+    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, half);
+    $scope.forecastRegionList2 = $scope.forecastRegions.slice(half-1, length);
+
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
                        {'display':'Webcams','url':'/webcams'},

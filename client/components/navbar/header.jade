@@ -22,21 +22,25 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                     h2 Forecasts
-                                                li(ng-repeat='region in forecastRegions')
+                                                li(ng-repeat='region in forecastRegionList1')
+                                                        a(href='/forecasts/{{region.name}}') {{region.display}}
+                                        .col-md-3.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li(ng-repeat='region in forecastRegionList2')
                                                         a(href='/forecasts/{{region.name}}') {{region.display}}
                                                 li
                                                         a(href='/forecasts/archive') Archive
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Data
                                                 li(ng-repeat='item in dataMenu')
                                                         a(href='{{item.url}}') {{item.display}}
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                                 ul.mega-sub-menu
                                                         li
                                                                 h2 Blogs
@@ -50,30 +54,32 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Avalanche Canada Training Courses
                                                 li(ng-repeat='page in training')
                                                                 a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Online Avalanche Course
                                                 li(ng-repeat='page in onlineCourse')
                                                                 a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Parents & Educators
                                                 li(ng-repeat='page in parentsEducators')
                                                                 a(href='/parents-educators/{{page.name}}') {{page.display}}
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
+                                                    h2
                                                         a(href='/Gear')
                                                                 h2 Essential and recommended gear
                                                 li
+                                                    h2
                                                         a(href='/library')
                                                                 h2 Library
 
@@ -86,35 +92,38 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                            .col-md-4.mega-content-inner
+                                            .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='about')
                                                                                     | About
-                                                                                    i.fa.fa-angle-right
                                                                         p
+
                                                                                 | Some short event description text
 
+                                            .col-md-3.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='membership')
                                                                                     | Membership
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
+                                            .col-md-3.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='sponsors')
                                                                                     | Sponsors
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
+                                            .col-md-3.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='collaborators')
                                                                                     | Collaborators
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
 
@@ -131,22 +140,22 @@ header#header.navbar-fixed-top(role='banner')
                                                                         h2
                                                                                 a(href='events')
                                                                                     | Events
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
-
+                                            .col-md-4.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='outreach')
                                                                                     | Outreach
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
+                                            .col-md-4.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='news')
                                                                                     | News
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
 
@@ -158,21 +167,20 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                            .col-md-2.mega-content-inner
+                                            .col-md-6.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='store')
                                                                                     | Store
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
-
+                                            .col-md-6.mega-content-inner
+                                                    ul.mega-sub-menu
                                                                 li
                                                                         h2
                                                                                 a(href='web-auction')
                                                                                     | Web Auction
-                                                                                    i.fa.fa-angle-right
                                                                         p
                                                                                 | Some short event description text
 
