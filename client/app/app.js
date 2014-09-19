@@ -1,38 +1,23 @@
 'use strict';
 
 angular.module('avalancheCanadaApp', [
-  'ngCookies',
-  'ngResource',
-  'ngSanitize',
-  'ui.router',
-  'ui.bootstrap',
-  'constants'
-])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-    $urlRouterProvider
-      .otherwise('/');
+                'ngCookies',
+                'ngResource',
+                'ngSanitize',
+                'ui.router',
+                'ui.bootstrap'//,
+                //'constants'
+                ])
 
-    $locationProvider.html5Mode(true);
-  });
+    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+        $urlRouterProvider
+          .otherwise('/');
 
-/*  .run( function(ENV) {
-
-    // register listener to watch route changes
-    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-
-      if( $location.path() != "tou" && $location.path() != "/")
-      {
-        if ( TOU.accepted() == false ) {
-            $location.path( "/tou" );
-          }
-      }
-
+        $locationProvider.html5Mode(true);
     });
 
-    $rootScope.$on('$routeChangeSuccess', function () {
-        GoogleAnalytics.trackPage($location.path());
-    })
-
-
- })*/
+//    .run(function(ENV, $rootScope) {
+        //! make env (environemnt constants) available globaly
+        //$rootScope.env = ENV;
+  //  })
 
