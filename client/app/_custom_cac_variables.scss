@@ -3,7 +3,7 @@
 // Sept. 18, 2014
 
 // image dir location
-$assets_path: "assets/images";
+$assets_path: "../assets/images";
 
 //custom font mixin. I left this here because the other file might get wiped out.
 @mixin font-size($size:1.6, $line: $size * 1.5){
