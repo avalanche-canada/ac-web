@@ -320,8 +320,8 @@
 						margin:0;
 						a {
 							font-weight:bold;
-						  @include font-size(2.6, 3.0);
-						  color:#121212;
+						    @include font-size(2.6, 3.0);
+						    color:#121212;
 							&:visited,
 							&:hover,
 							&:active,
@@ -329,6 +329,7 @@
 								text-decoration:none;
 							}
 						}
+
 					}
 				}
 				.news-body {
@@ -390,6 +391,7 @@
 								text-decoration:none;
 							}
 							.fa-angle-right {
+                                 margin-left: 10px;
 								color:#0056b7;
 								@include font-size(2.8, 2.4);
 							}
@@ -620,6 +622,7 @@
 		p {
 			@include font-size(1.5, 2.2);
 			margin:0;
+            word-wrap: break-word;
 			a {
 			  @include font-size(1.5, 2.2);
 			  color:#0056b7;
