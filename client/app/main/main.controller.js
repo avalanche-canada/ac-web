@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
 
   .directive('fullPage', function() {
       return {
-          restrict: 'E',
+          restrict: 'A',
           link: function(scope, ele, attrs) {
               angular.element(ele).fullpage({
                 anchors: ['map', 'more'],
