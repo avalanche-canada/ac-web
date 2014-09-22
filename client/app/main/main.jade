@@ -2,11 +2,13 @@ div(ng-include='"components/navbar/navbar.html"')
 div#page-wrap
     #fullpage(full-page='')
         #section0.section
-            #map.container-fluid
-                .row
-                    // map html here
+            #map.container-fluid(ng-controller="mapController")
+                .row.ac-no-gutter
+                    .col-xs-12.ac-no-gutter
+                        div(region="region", ac-mapbox-map, mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
                     .scroll-down
                       i.fa.fa-chevron-down(ng-click='scrollPage()')
+                div(ng-include='"components/map/drawer.html"')
         #section1.section
             div(ng-include='"app/main/more.html"')
             div(ng-include='"components/footer/footer.html"')

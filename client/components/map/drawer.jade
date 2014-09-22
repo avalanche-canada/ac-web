@@ -1,0 +1,94 @@
+div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, class="ac-drawer")
+    .row
+        .col-xs-12
+            blockquote
+                p We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
+                footer Avalanche Canada Forecasters
+    .row
+        .col-xs-12
+            ul.nav.nav-tabs(role='tablist')
+              li.active
+                a(href='#forecast', role='tab', data-toggle='tab') Forecast
+              li
+                a(href='#problems', role='tab', data-toggle='tab') Problems
+              li
+                a(href='#details', role='tab', data-toggle='tab') Details
+            .tab-content
+                #forecast.tab-pane.active
+                    .row
+                        .col-xs-12
+                            h4 Tuesday
+                    .row
+                        .col-xs-12
+                            .panel.panel-default.ac-nowcast
+                    .row
+                        .col-xs-12
+                            table.table
+                                thead
+                                  tr
+                                    th
+                                    th Wednesday
+                                    th Thursday
+                                tbody
+                                  tr
+                                    td.ac-veg-zone--alp Alpine
+                                    td.ac-danger-rating--high 3 - High
+                                    td.ac-danger-rating--considerable 2 - Considerable
+                                  tr
+                                    td.ac-veg-zone--tln Treeline
+                                    td.ac-danger-rating--considerable 2 - Considerable
+                                    td.ac-danger-rating--considerable 2 - Considerable
+                                  tr
+                                    td.ac-veg-zone--btl Bellow Treeline
+                                    td.ac-danger-rating--considerable 2 - Considerable
+                                    td.ac-danger-rating--considerable 2 - Considerable
+                    .row
+                        .col-xs-12
+                            dl
+                                dt.text-left Confidence:
+                                dd.text-left Low
+                #problems.tab-pane
+                    #problemsAccordion.panel-group
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title
+                                    a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem1')
+                                      | Persistent Slab
+                            #problem1.panel-collapse.collapse
+                                .panel-body
+                                    yo
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title
+                                    a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem2')
+                                      | Wind Slab
+                            #problem2.panel-collapse.collapse
+                                .panel-body
+                                    yo2
+
+                #details.tab-pane
+                    #detailsAccordion.panel-group
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title
+                                    a(data-toggle='collapse', data-parent='#detailsAccordion', href='#avalancheSummary')
+                                      | Avalanche Summary
+                            #avalancheSummary.panel-collapse.collapse
+                                .panel-body
+                                    yo
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title
+                                    a(data-toggle='collapse', data-parent='#detailsAccordion', href='#snowpackSummary')
+                                      | Snowpack Summary
+                            #snowpackSummary.panel-collapse.collapse
+                                .panel-body
+                                    yo2
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title
+                                    a(data-toggle='collapse', data-parent='#detailsAccordion', href='#weatherForecast')
+                                      | Weather Forecast
+                            #weatherForecast.panel-collapse.collapse
+                                .panel-body
+                                    yo2

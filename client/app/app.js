@@ -6,7 +6,8 @@ angular.module('avalancheCanadaApp', [
                 'ngSanitize',
                 'ui.router',
                 'ui.bootstrap',
-                'constants'
+                'constants',
+                'acMap'
                 ])
 
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {

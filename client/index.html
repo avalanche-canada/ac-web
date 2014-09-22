@@ -26,6 +26,8 @@
 
     <!-- stylesheet missing from project bower.json -->
     <link rel="stylesheet" href="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.css" />
+    <link rel="stylesheet" href="bower_components/mapbox.js/mapbox.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css"/>
     <!-- endbuild -->
   </head>
   <body ng-app="avalancheCanadaApp">
@@ -67,11 +69,16 @@
       <script src="bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
       <script src="bower_components/fullpage.js/jquery.fullPage.js"></script>
       <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
+      <script src="bower_components/mapbox.js/mapbox.js"></script>
+      <script src="bower_components/leaflet-pip/leaflet-pip.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
     <!-- required by fullpage.js -->
     <script src="bower_components/fullpage.js/vendors/jquery.easings.min.js"></script>
+
+    <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
 
 
         <!-- build:js({.tmp,client}) app/app.js -->
@@ -81,6 +88,7 @@
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="components/footer/footer.controller.js"></script>
+          <script src="components/map/map.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
