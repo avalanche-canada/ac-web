@@ -53,6 +53,12 @@ angular.module('acMap', ['ngAnimate'])
                         // $scope.region = _($scope.regions).min(function (r) { return r.distanceToCenter; });
                     });
 
+                    if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
+                        map.removeLayer(layers.dangerIcons);
+                    } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
+                        map.addLayer(layers.dangerIcons);
+                    }
+
                 });
 
                 map.whenReady(fetchData);
@@ -112,7 +118,7 @@ angular.module('acMap', ['ngAnimate'])
                         return !_.contains(externalRegions, c.properties.id);
                     });
 
-                    L.geoJson(centroids.value(), {
+                    layers.dangerIcons = L.geoJson(centroids.value(), {
                         pointToLayer: function (featureData, latLng) {
                             return L.marker(latLng, {
                                 icon: L.icon({
