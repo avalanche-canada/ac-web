@@ -157,7 +157,7 @@ angular.module('acMap', ['ngAnimate'])
 
     .directive('acMapDrawer', function () {
         return {
-            template:   '<div class="panel panel-default">' +
+            template:   '<div class="panel panel-primary">' +
                             '<div class="panel-heading">' +
                                 '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
                             '</div>' +

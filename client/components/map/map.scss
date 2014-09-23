@@ -66,6 +66,11 @@
     margin-right: 10px;
 }
 
+.ac-drawer .panel-body dt,
+.ac-drawer .panel-body dd {
+    line-height: 1.30;
+}
+
 .ac-nowcast {
     background: url(../assets/images/mountain-now-extended.png);
     height: 225px;
@@ -94,10 +99,24 @@
     background-color: rgb(174, 191, 172);
 }
 
-.ac-danger-rating--considerable {
-    background-color: orange;
+.ac-danger-rating--extreme {
+    background-color: Black;
+    color: white
 }
 
 .ac-danger-rating--high {
     background-color: red;
 }
+
+.ac-danger-rating--considerable {
+    background-color: orange;
+}
+
+.ac-danger-rating--moderate {
+    background-color: yellow;
+}
+
+.ac-danger-rating--low {
+    background-color: green;
+}
+

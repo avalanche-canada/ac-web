@@ -17,52 +17,46 @@ div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, 
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            h4.ac-nowcast-day Tuesday
+                            h4.ac-nowcast-day {{ region.forecast.dangerRatings[0].date | date:'EEEE' }}
                             .panel.panel-default.ac-nowcast
                     .row
                         .col-xs-12
-                            table.table
+                            table.table.table-condensed
                                 thead
                                   tr
                                     th
-                                    th Wednesday
-                                    th Thursday
+                                    th {{ region.forecast.dangerRatings[1].date | date:'EEEE' }}
+                                    th {{ region.forecast.dangerRatings[2].date | date:'EEEE' }}
                                 tbody
                                   tr
                                     td.ac-veg-zone--alp Alpine
-                                    td.ac-danger-rating--high 3 - High
-                                    td.ac-danger-rating--considerable 2 - Considerable
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[1].dangerRating.alp }}
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[2].dangerRating.alp }}
                                   tr
                                     td.ac-veg-zone--tln Treeline
-                                    td.ac-danger-rating--considerable 2 - Considerable
-                                    td.ac-danger-rating--considerable 2 - Considerable
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[1].dangerRating.tln }}
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[2].dangerRating.tln }}
                                   tr
                                     td.ac-veg-zone--btl Bellow Treeline
-                                    td.ac-danger-rating--considerable 2 - Considerable
-                                    td.ac-danger-rating--considerable 2 - Considerable
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[1].dangerRating.btl }}
+                                    td(class="ac-danger-rating--{{ region.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ region.forecast.dangerRatings[2].dangerRating.btl }}
                     .row
                         .col-xs-12
                             dl
                                 dt Confidence:
-                                dd Low
+                                dd {{ region.forecast.confidence }}
                 #problems.tab-pane
                     #problemsAccordion.panel-group
-                        .panel.panel-default
+                        .panel.panel-default(ng-repeat="problem in region.forecast.problems")
                             .panel-heading
                                 h4.panel-title
-                                    a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem1')
-                                      | Persistent Slab
-                            #problem1.panel-collapse.collapse
+                                    a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem{{$index}}')
+                                      | {{ problem.type }}
+                            div(id="problem{{$index}}").panel-collapse.collapse
                                 .panel-body
-                                    yo
-                        .panel.panel-default
-                            .panel-heading
-                                h4.panel-title
-                                    a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem2')
-                                      | Wind Slab
-                            #problem2.panel-collapse.collapse
-                                .panel-body
-                                    yo2
+                                    {{ problem.comment }}
+                                    h5 Travel and Terrain Advice
+                                    p {{ problem.travelAndTerrainAdvice }}
 
                 #details.tab-pane
                     #detailsAccordion.panel-group
