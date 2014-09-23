@@ -81,7 +81,10 @@ var parksForecast = function (caaml, region){
             "dateIssued": caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
             "validUntil": caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0],
             "bulletinTitle": caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
-            "highlights":caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0],
+            "highlights": caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0],
+            "confidence": (function (confidence) { 
+              return confidence['confidenceLevel'][0] + ' - ' + confidence['comment'][0];
+            })(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinConfidence'][0]['Components'][0]),
             "dangerRatings": generateDangerRatingArray(caamlDangerRatings),
             "problems": generateProblemArray(caamlProblems) };
 }; //! end parks forecast
@@ -136,7 +139,10 @@ var avalancheCaForecast = function (caaml, region){
               "dateIssued": caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0],
               "validUntil": caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0],
               "bulletinTitle": caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
-              "highlights":caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
+              "highlights": caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
+              "confidence": (function (confidence) { 
+                return confidence['caaml:confidenceLevel'][0];
+              })(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinConfidence'][0]['caaml:Components'][0]),
               "dangerRatings": generateDangerRatingArray(caamlDangerRatings),
               "problems": generateProblemArray(caamlProblems) };
 }; //! end av ca forecast
