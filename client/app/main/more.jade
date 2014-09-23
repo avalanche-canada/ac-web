@@ -2,10 +2,8 @@
     .row
         .col-xs-12
             #sponsor-ad-container
-                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
                 a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                     img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
-// /#sponsor-bar
 #know-more
     .container
         .row
@@ -14,7 +12,7 @@
                     h2
                         | Know More.
                         br
-                        span Go Further.
+                        span Go Farther.
                 footer
                     a.button-left(href='/')
                         | Take a Course
@@ -22,19 +20,14 @@
                     a.button-right(href='/')
                         | Get the Gear
                         i.fa.fa-angle-right
-// /#know-more
 #news.container
     .row
         .col-xs-12
-            // news articles container
             article#news-articles
                 header
                     h1
                         | News
-                        br
-                        span and Events
                     .blue-border
-                // news list rows
                 article.list-row-1
                     section.news-image
                         img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
@@ -97,9 +90,77 @@
                             a(href='/') Source
                             i.fa.fa-circle
                             time(datetime='2008-02-14 20:00') Pub date here
-                // news list rows ends
-            // news articles container ends
-// /#news
+
+#news.container
+    .row
+        .col-xs-12
+            article#news-articles
+                header
+                    h1
+                        | Events
+                    .blue-border
+                article.list-row-1
+                    section.news-image
+                        img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
+                        ul.news-social
+                            li
+                                a(href='#')
+                                    i.fa.fa-facebook
+                                    | 25
+                            li
+                                a(href='#')
+                                    i.fa.fa-twitter
+                                    | 12
+                            li
+                                a(href='#')
+                                    i.fa.fa-eye
+                                    | 63
+                    header
+                        span Featured
+                        h2
+                            a(href='#') Featured News Article
+                    section.news-body
+                        p
+                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                            a(href='/') Watch now
+                    footer
+                        p
+                            a(href='/') Source
+                            i.fa.fa-circle
+                            time(datetime='2008-02-14 20:00') Pub date here
+                article.list-rows.list-row-2
+                    header
+                        h2
+                            a(href='#')
+                                | Sub News Article Sub News Article Sub News Article Sub News Article
+                                i.fa.fa-angle-right
+                    footer
+                        p
+                            a(href='/') Source
+                            i.fa.fa-circle
+                            time(datetime='2008-02-14 20:00') Pub date here
+                article.list-rows.list-row-3
+                    header
+                        h2
+                            a(href='#')
+                                | Sub News Article
+                                i.fa.fa-angle-right
+                    footer
+                        p
+                            a(href='/') Source
+                            i.fa.fa-circle
+                            time(datetime='2008-02-14 20:00') Pub date here
+                article.list-rows.list-row-4.list-row-last
+                    header
+                        h2
+                            a(href='#')
+                                | Sub News Article
+                                i.fa.fa-angle-right
+                    footer
+                        p
+                            a(href='/') Source
+                            i.fa.fa-circle
+                            time(datetime='2008-02-14 20:00') Pub date here
 #videos.container
     .row
         .col-xs-12
@@ -117,7 +178,6 @@
                     #video-sponsor.hidden-xs
                         a#video-sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                             img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
-// /#videos
 #blog.container
     .row
         .col-xs-12
