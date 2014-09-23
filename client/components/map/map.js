@@ -1,3 +1,7 @@
+/* jshint unused:false */
+
+'use strict';
+
 angular.module('acMap', ['ngAnimate'])
 
     .controller('mapController', function ($scope) {
@@ -46,7 +50,9 @@ angular.module('acMap', ['ngAnimate'])
                             region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
 
                             if(inView) {
-                                if(!region.forecast) fetchForecast(region);
+                                if(!region.forecast){
+                                    fetchForecast(region);
+                                }
                             }
                         }
 
@@ -61,17 +67,17 @@ angular.module('acMap', ['ngAnimate'])
 
                 });
 
-                map.whenReady(fetchData);
-
-                $scope.regions = {};
-                var layers = {};
-
                 function fetchData() {
                     var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
                     var dataRequests = dataEndpoint.map(function (url) { return $http.get(url); });
 
                     return $q.all(dataRequests).then(initializeOverlays);
                 }
+
+                map.whenReady(fetchData);
+
+                $scope.regions = {};
+                var layers = {};
 
                 function initializeOverlays(overlayData) {
                     var polygons = overlayData[0].data;
@@ -167,7 +173,7 @@ angular.module('acMap', ['ngAnimate'])
                     return leafletPip.pointInLayer(map.getCenter(), layers.regions, true)[0];
                 }
             }
-        }
+        };
     })
 
     .directive('acMapDrawer', function () {
@@ -194,7 +200,7 @@ angular.module('acMap', ['ngAnimate'])
                 region: '='
             },
             link: function ($scope, el, attrs) {
-                
+
             }
-        }
+        };
     });
