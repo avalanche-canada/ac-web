@@ -49,14 +49,19 @@
 }
 
 .ac-drawer .tab-pane{
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.ac-drawer .panel-footer dl {
+.ac-drawer .panel-footer ul {
+    margin: 0;
+    padding: 0;
+}
+
+.ac-drawer .panel-body dl {
     margin-bottom: 0;
 }
 
-.ac-drawer .panel-body dt, .ac-drawer .panel-footer dt {
+.ac-drawer .panel-body dt {
     float: left;
     margin-right: 10px;
 }
@@ -71,7 +76,11 @@
     margin-top: 10px;
 }
 
-
+.ac-nowcast-day {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+}
 
 .ac-veg-zone--alp {
     background-color: rgb(221, 238, 250);

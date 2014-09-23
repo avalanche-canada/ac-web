@@ -1,5 +1,5 @@
 div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, class="ac-drawer")
-    .row
+    //- .row
         .col-xs-12
             blockquote
                 p We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
@@ -17,9 +17,7 @@ div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, 
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            h4 Tuesday
-                    .row
-                        .col-xs-12
+                            h4.ac-nowcast-day Tuesday
                             .panel.panel-default.ac-nowcast
                     .row
                         .col-xs-12
@@ -45,8 +43,8 @@ div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, 
                     .row
                         .col-xs-12
                             dl
-                                dt.text-left Confidence:
-                                dd.text-left Low
+                                dt Confidence:
+                                dd Low
                 #problems.tab-pane
                     #problemsAccordion.panel-group
                         .panel.panel-default

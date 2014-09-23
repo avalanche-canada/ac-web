@@ -164,12 +164,13 @@ angular.module('acMap', ['ngAnimate'])
                             '<div class="panel-body" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
-                                '<dl>' +
-                                    '<dt>Date Issued:<dt>' +
-                                    '<dd>{{ region.forecast.dateIssued }}<dd>' +
-                                    '<dt>Valid Until<dt>' +
-                                    '<dd>{{ region.forecast.validUntil }}<dd>' +
-                                '</dl>' +
+                                '<ul class="list-inline">' +
+                                    '<li>' +
+                                        '<small>Date Issued: {{ region.forecast.dateIssued | date:\'MMM d, y h:mm:ss a\' }}</small>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<small>Valid Until: {{ region.forecast.validUntil | date:\'MMM d, y h:mm:ss a\' }}</small>' +
+                                    '</li>' +
                             '</div>' +
                         '</div>',
             replace: true,
