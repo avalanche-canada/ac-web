@@ -100,14 +100,7 @@ angular.module('acMap', ['ngAnimate'])
                                 if (isExternalRegion) {
                                     window.open(externalRegionsLinks[featureData.properties.id], '_blank');
                                 } else {
-                                    map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
-                                    $timeout(function () {
-                                        layers.regions.eachLayer(function (layer) {
-                                            layer.setStyle({ fillColor: 'transparent' });
-                                        });
-                                        layer.setStyle({ fillColor: 'grey' });
-                                        $scope.region = region;
-                                    }, 0);
+                                    $scope.setRegion(region);
                                 }
                             });
                         }
@@ -128,11 +121,27 @@ angular.module('acMap', ['ngAnimate'])
                             });
                         },
                         onEachFeature: function (featureData, layer) {
-                            $scope.regions[featureData.properties.id].centroid = layer;
+                            var region = $scope.regions[featureData.properties.id];
+                            region.centroid = layer;
+
+                            layer.on('click', function () {
+                                $scope.setRegion(region);
+                            });
                         }
                     }).addTo(map);
 
                 }
+
+                $scope.setRegion = function (region) {
+                    map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
+                    $timeout(function () {
+                        layers.regions.eachLayer(function (layer) {
+                            layer.setStyle({ fillColor: 'transparent' });
+                        });
+                        region.polygon.setStyle({ fillColor: 'grey' });
+                        $scope.region = region;
+                    }, 0);
+                };
 
                 function fetchForecast(region){
                     var regionId = region.polygon.feature.properties.id;
