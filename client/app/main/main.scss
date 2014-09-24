@@ -1,7 +1,17 @@
-#sponsor-bar{
+#more{
     margin-top:75px;
 }
 
 #map{
     height: 700px;
+}
+
+.slide {
+  -webkit-transition: 1s linear all;
+  /* Chrome */
+  transition: 1s linear all;
+  opacity: 0;
+  &.slide-active {
+    opacity: 1;
+  }
 }
