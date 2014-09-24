@@ -2,34 +2,57 @@
     margin-top:75px;
 }
 
-#page-wrap{
-    overflow: scroll;
-}
-
 .scroll-up {
-    width:100%;
+    width:60px;
     height:60px;
     background-color:#000;
+    bottom:0;
+    left:50%;
     z-index:9999;
     @include center-block();
     padding:15px 0 0 17px;
     .fa {
-        left:50%;
-        color:#fff;
+       color:#fff;
         @include font-size(2.7, 2.7);
     }
 }
+
 
 #map{
     height: 700px;
 }
 
 .slide {
-  -webkit-transition: 1s linear all;
-  /* Chrome */
-  transition: 1s linear all;
-  opacity: 0;
-  &.slide-active {
+  &.ng-leave {
+    position: relative;
+  }
+  &.ng-enter {
+    position: absolute;
+    -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
+    -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
+    -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+  }
+  &.ng-leave {
+    -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
+    -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
+    -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+  }
+  &.ng-enter, &.ng-leave.ng-leave-active {
+    -webkit-transform: scaleX(0.0001);
+    -o-transform: scaleX(0.0001);
+    transform: scaleX(0.0001);
+    opacity: 0;
+  }
+  -webkit-transform: scaleX(1);
+  -o-transform: scaleX(1);
+  transform: scaleX(1);
+  opacity: 1;
+  &.ng-enter.ng-enter-active {
+    -webkit-transform: scaleX(1);
+    -o-transform: scaleX(1);
+    transform: scaleX(1);
     opacity: 1;
   }
 }
