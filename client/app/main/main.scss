@@ -32,30 +32,30 @@
 
   &.ng-enter {
     position: absolute;
-    -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
-    -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
-    -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
-    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+    -webkit-transition: -webkit-transform 0.6s ease-in, opacity 0.6s ease-in;
+    -moz-transition: -moz-transform 0.6s ease-in, opacity 0.6s ease-in;
+    -o-transition: -o-transform 0.6s ease-in, opacity 0.6s ease-in;
+    transition: transform 0.6s ease-in, opacity 0.6s ease-in;
   }
 
   &.ng-leave {
-    -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
-    -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
-    -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
-    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+    -webkit-transition: -webkit-transform 0.6s ease-in, opacity 0.6s ease-in;
+    -moz-transition: -moz-transform 0.6s ease-in, opacity 0.6s ease-in;
+    -o-transition: -o-transform 0.6s ease-in, opacity 0.6s ease-in;
+    transition: transform 0.6s ease-in, opacity 0.6s ease-in;
   }
 
   &.ng-enter, &.ng-leave.ng-leave-active {
-    -webkit-transform: translate(0px,400px);
-    -o-transform: translate(0px,400px);
-    transform: translate(0px,400px);
+    -webkit-transform: translate(0px,700px);
+    -o-transform: translate(0px,700px);
+    transform: translate(0px,700px);
     opacity: 0;
   }
 
   &.ng-enter.ng-enter-active {
-    -webkit-transform: translate(0px,400px);
-    -o-transform: translate(0px,400px);
-    transform: translate(0px,400px);
+    -webkit-transform: translate(0px,-700px);
+    -o-transform: translate(0px,-700px);
+    transform: translate(0px,-700px);
     opacity: 1;
   }
 
