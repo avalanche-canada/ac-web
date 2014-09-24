@@ -1,7 +1,8 @@
 #more
     .container
         .row
-            i.fa.fa-chevron-up(ui-sref='main.map')
+            .scroll-up
+                i.fa.fa-chevron-up(ui-sref='main.map')
     .container
         .row
             .col-xs-12
@@ -94,7 +95,6 @@
                                 a(href='/') Source
                                 i.fa.fa-circle
                                 time(datetime='2008-02-14 20:00') Pub date here
-
     #news.container
         .row
             .col-xs-12
@@ -235,7 +235,6 @@
                         footer
                             p
                                 time(datetime='2008-02-14 20:00') Pub date here
-    // /#blog
     #communities
         #dark-ribbon
         .container
@@ -298,7 +297,6 @@
                         a.poster-image(href='#')
                             img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
                         a.postername-date Canadian Avalanche Center - May 7
-    // /#communities
     #auction.container
         .row
             .col-xs-12
@@ -347,7 +345,6 @@
                             button.blue-button(type='button')
                                 | Submit
                                 i.fa.fa-angle-right
-            // /#auction-featured-item
             #auction-other.col-xs-12
                 #auction-other-header
                     h4 Other Auction Items
@@ -391,6 +388,6 @@
                     section#view-auction
                         a(href='#')
                             img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
-            // /#auction-other
-        // /.row
-    // /#auction
+div(ng-include='"components/footer/footer.html"')
+
+

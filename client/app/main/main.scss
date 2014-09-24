@@ -2,6 +2,24 @@
     margin-top:75px;
 }
 
+#page-wrap{
+    overflow: scroll;
+}
+
+.scroll-up {
+    width:100%;
+    height:60px;
+    background-color:#000;
+    z-index:9999;
+    @include center-block();
+    padding:15px 0 0 17px;
+    .fa {
+        left:50%;
+        color:#fff;
+        @include font-size(2.7, 2.7);
+    }
+}
+
 #map{
     height: 700px;
 }

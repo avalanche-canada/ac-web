@@ -17,8 +17,6 @@
     "angular-ui-router": "~0.2.10",
     "yamm3": "~1.0.0",
     "multilevelpushmenu": "~2.1.4",
-    "fullpage.js": "~2.2.1",
-    "slimScroll": "~1.3.3",
     "mapbox.js": "~2.1.0",
     "leaflet-pip": "~0.1.0",
     "Leaflet.label": "~0.2.1",
