@@ -1,4 +1,4 @@
-div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, class="ac-drawer")
+div(ng-show="drawer.visible && region.forecast", ac-map-drawer, class="ac-drawer")
     //- .row
         .col-xs-12
             blockquote
@@ -19,6 +19,9 @@ div(ng-show="drawerVisible && region.forecast", region="region", ac-map-drawer, 
                         .col-xs-12
                             h4.ac-nowcast-day {{ region.forecast.dangerRatings[0].date | date:'EEEE' }}
                             .panel.panel-default.ac-nowcast
+                                .ac-nowcast-alp
+                                .ac-nowcast-tln
+                                .ac-nowcast-btl
                     .row
                         .col-xs-12
                             table.table.table-condensed

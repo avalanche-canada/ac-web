@@ -1,9 +1,17 @@
 angular.module('acMap', ['ngAnimate'])
 
     .controller('mapController', function ($scope) {
+        $scope.drawer = {
+            visible: false
+        };
+
         $scope.$on('moveend', function (e, map) {
-            $scope.drawerVisible = (map.getZoom() > 7);
+            $scope.drawer.visible = (map.getZoom() > 7);
         });
+
+        $scope.toggleDrawer = function () {
+            $scope.drawer.visible = !$scope.drawer.visible;
+        };
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
@@ -174,7 +182,14 @@ angular.module('acMap', ['ngAnimate'])
         return {
             template:   '<div class="panel panel-primary">' +
                             '<div class="panel-heading">' +
-                                '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
+                                '<div class="row">' +
+                                    '<div class="col-xs-6">' +
+                                        '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
+                                    '</div>' +
+                                    '<div class="col-xs-6">' +
+                                        '<button type="button" ng-click="drawer.visible = false" class="close pull-right"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>' +
                             '<div class="panel-body" ng-transclude>' +
                             '</div>' +
@@ -190,9 +205,6 @@ angular.module('acMap', ['ngAnimate'])
                         '</div>',
             replace: true,
             transclude: true,
-            scope: {
-                region: '='
-            },
             link: function ($scope, el, attrs) {
                 
             }
