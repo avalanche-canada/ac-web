@@ -23,9 +23,13 @@
 }
 
 .slide {
+
+  opacity: 1;
+
   &.ng-leave {
     position: relative;
   }
+
   &.ng-enter {
     position: absolute;
     -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
@@ -33,26 +37,26 @@
     -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
     transition: transform 0.3s ease-in, opacity 0.3s ease-in;
   }
+
   &.ng-leave {
     -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
     -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
     -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
     transition: transform 0.3s ease-in, opacity 0.3s ease-in;
   }
+
   &.ng-enter, &.ng-leave.ng-leave-active {
-    -webkit-transform: scaleX(0.0001);
-    -o-transform: scaleX(0.0001);
-    transform: scaleX(0.0001);
+    -webkit-transform: translate(0px,400px);
+    -o-transform: translate(0px,400px);
+    transform: translate(0px,400px);
     opacity: 0;
   }
-  -webkit-transform: scaleX(1);
-  -o-transform: scaleX(1);
-  transform: scaleX(1);
-  opacity: 1;
+
   &.ng-enter.ng-enter-active {
-    -webkit-transform: scaleX(1);
-    -o-transform: scaleX(1);
-    transform: scaleX(1);
+    -webkit-transform: translate(0px,400px);
+    -o-transform: translate(0px,400px);
+    transform: translate(0px,400px);
     opacity: 1;
   }
+
 }
