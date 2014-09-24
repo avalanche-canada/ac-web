@@ -3,15 +3,19 @@
 angular.module('avalancheCanadaApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('more', {
-        url: '/more',
-        templateUrl: 'app/main/more.html',
-        controller: 'MainCtrl'
-      })
-      .state('map', {
-        url: '/',
-        templateUrl: 'app/main/map.html',
-        controller: 'MapCtrl'
-      })
-      ;
+        .state('main', {
+            abstract: true,
+            url: '/',
+            templateUrl: 'app/main/main.html'
+        })
+        .state('main.map', {
+            url: '',
+            templateUrl: 'app/main/map.html',
+            controller: 'MapCtrl'
+        })
+        .state('main.more', {
+            url: '^/more',
+            templateUrl: 'app/main/more.html',
+            controller: 'MoreCtrl'
+        });
   });

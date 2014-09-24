@@ -3,7 +3,7 @@
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MainCtrl', function () {
+  .controller('MoreCtrl', function () {
 
   })
   .controller('MapCtrl', function ($scope) {
