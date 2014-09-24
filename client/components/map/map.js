@@ -12,7 +12,7 @@ angular.module('acMap', ['ngAnimate'])
         });
     })
 
-    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
+    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document) {
         return {
             template: '<div id="mapboxMap"></div>',
             replace: true,
@@ -33,7 +33,7 @@ angular.module('acMap', ['ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId);
                 $timeout(function () {
-                    el[0].style.height = (document.getElementById('section0').offsetHeight-75) + 'px';
+                    el[0].style.height = ($document.height()-75) + 'px';
                     map.invalidateSize();
                 }, 1000);
 

@@ -1,392 +1,394 @@
-#sponsor-bar.container
-    .row
-        .col-xs-12
-            #sponsor-ad-container
-                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                    img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
-#know-more
-    .container
-        .row
-            article.col-xs-12
-                header
-                    h2
-                        | Know More.
-                        br
-                        span Go Farther.
-                footer
-                    a.button-left(href='/')
-                        | Take a Course
-                        i.fa.fa-angle-right
-                    a.button-right(href='/')
-                        | Get the Gear
-                        i.fa.fa-angle-right
-#news.container
-    .row
-        .col-xs-12
-            article#news-articles
-                header
-                    h1
-                        | News
-                    .blue-border
-                article.list-row-1
-                    section.news-image
-                        img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
-                        ul.news-social
-                            li
-                                a(href='#')
-                                    i.fa.fa-facebook
-                                    | 25
-                            li
-                                a(href='#')
-                                    i.fa.fa-twitter
-                                    | 12
-                            li
-                                a(href='#')
-                                    i.fa.fa-eye
-                                    | 63
-                    header
-                        span Featured
-                        h2
-                            a(href='#') Featured News Article
-                    section.news-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article Sub News Article Sub News Article Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-3
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-4.list-row-last
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-
-#news.container
-    .row
-        .col-xs-12
-            article#news-articles
-                header
-                    h1
-                        | Events
-                    .blue-border
-                article.list-row-1
-                    section.news-image
-                        img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
-                        ul.news-social
-                            li
-                                a(href='#')
-                                    i.fa.fa-facebook
-                                    | 25
-                            li
-                                a(href='#')
-                                    i.fa.fa-twitter
-                                    | 12
-                            li
-                                a(href='#')
-                                    i.fa.fa-eye
-                                    | 63
-                    header
-                        span Featured
-                        h2
-                            a(href='#') Featured News Article
-                    section.news-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article Sub News Article Sub News Article Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-3
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-4.list-row-last
-                    header
-                        h2
-                            a(href='#')
-                                | Sub News Article
-                                i.fa.fa-angle-right
-                    footer
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-#videos.container
-    .row
-        .col-xs-12
-            article#video-featured
-                header
-                    #header-bg
-                    h2.hidden-xs.hidden-sm
-                        a(href='#') Throttle Decisions: Outreach Componet
-                section#video-container
-                    a#video-link(href='#')
-                        img.img-responsive(alt='Feature Video title HERE', src='{{env.imageDir}}/video-link-bg-temp.jpg')
-                    #video-body
-                        p
-                            | Throttle Decisions is a fast-paced video series aimed at encouraging mountain sledders to become better trained in avalanche safety. Its eight short components move through the AST course.
-                    #video-sponsor.hidden-xs
-                        a#video-sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                            img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
-#blog.container
-    .row
-        .col-xs-12
-            // blog articles container
-            article#blog-articles
-                #blog-header-wrap
-                    header
-                        h2
-                            | The
-                            br.visible-xs-inline
-                            | Avalanche
-                            br
-                            span Forecasters
-                            br.visible-xs-inline
-                            | Blog
-                    section#blog-tagline-link
-                        p We know Snow.
-                        a#blog-link(href='#')
-                            | Read The Blog
-                            i.fa.fa-angle-right
-                // blog list rows
-                article.list-rows.list-row-1
-                    header
-                        h3
-                            a(href='#') Farewell for the season
-                    section.blog-author
-                        p
-                            | by
-                            a(href='#') Karl Klassen
-                    section.blog-body
-                        p
-                            | With the winter season draw
-                            | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                            a(href='#') Read on
-                    footer
-                        p
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2.list-row-last
-                    header
-                        h3
-                            a(href='#') Farewell for the season
-                    section.blog-author
-                        p
-                            | by
-                            a(href='#') Karl Klassen
-                    section.blog-body
-                        p
-                            | With the winter season draw
-                            | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                            a(href='#') Read on
-                    footer
-                        p
-                            time(datetime='2008-02-14 20:00') Pub date here
-// /#blog
-#communities
-    #dark-ribbon
+div(ng-include='"components/navbar/navbar.html"')
+div#page-wrap
     .container
         .row
             .col-xs-12
-                h3
-                    | Our
-                    br.visible-xs-inline
-                    | Communities
-            #communities-twitter.col-xs-12.col-sm-6.col-md-3.communities-box
-                p
-                    | New winter #backcountry terrain atlas available for
-                    a(href='#') #mtrevelstokenp
-                    | &
-                    a(href='#') #glaciernp
-                    a(href='#') @avalancheca
-                    a(href='#')
-                        strong http://www.pc.gc.ca/eng/pn-np/bc/glacier/activ/activ1/b.aspx
-                a(href='#')
-                .posted-by
-                    a(href='#')
-                    a.poster-image(href='#')
-                        img(width='30', height='30', src='{{env.imageDir}}/twitter-image.jpg')
-                    a.postername-date @ryanbougie    May 7
-                a.blue-button(href='#')
-                    i.fa.fa-twitter
-                    | Follow Us
-                    i.fa.fa-angle-right
-            #communities-facebook.col-xs-12.col-sm-6.col-md-3.communities-box
-                p
-                    | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
-                    br
-                    strong
-                        a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
-                .posted-by
-                    a.poster-image(href='#')
-                        img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
-                    a.postername-date Canadian Avalanche Center - May 7
-                a.blue-button(href='#')
-                    i.fa.fa-facebook
-                    | Like Us
-                    i.fa.fa-angle-right
-            #communities-youtube.col-xs-12.col-sm-6.col-md-3.communities-box
-                img.youtube-thumb.img-responsive(width='233', height='130', src='{{env.imageDir}}/youtube-thumb.jpg')
-                p 3 The Three Winter Essentials
-                .posted-by
-                    a.poster-image(href='#')
-                    a.postername-date 8 months ago | 81 views
-                a.blue-button(href='#')
-                    i.fa.fa-youtube
-                    | Like Us
-                    i.fa.fa-angle-right
-            #communities-misc.col-xs-12.col-sm-6.col-md-3.communities-box
-                p
-                    | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
-                    br
-                    strong
-                        a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
-                .posted-by
-                    a.poster-image(href='#')
-                        img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
-                    a.postername-date Canadian Avalanche Center - May 7
-// /#communities
-#auction.container
-    .row
-        .col-xs-12
-            #auction-header
-                h4
-                    | Online
-                    br.visible-xs-inline
-                    span Auction
-                #auction-sponsor.hidden-xs
-                    p Brought to you by
-                    a(target='_blank', href='http://arcteryx.com')
-                        img(src='{{env.imageDir}}/arcteryx-logo.jpg')
-                .blue-border
-        #auction-tagline-wrap.col-xs-12
-            #auction-tagline
-                p Our sponsors donate products to support our programs lore ispum dolor
-        #auction-time-wrap.col-xs-12
-            #auction-time
-                p closes in 00:00:00
-        article#auction-featured-item.col-xs-12
-            .auction-featured-item-inner
-                a(href='#')
-                    img.img-responsive(src='{{env.imageDir}}/jacket.jpg')
-            .auction-featured-item-inner
-                h5
-                    a(href='#') Arc’teryx Lorem Ipsum Jacket
-                section.auction-item-body
-                    p.auction-item-size-price
-                        | retail value $000.00
-                        span |
-                        | SIZE Medium
-                    p.auction-item-body
-                        | All-round mountain apparel with increased coverage | SV: Severe Weather. A highly featured, severe weather condition jacket, designed for wet, stormy days. Our toughest and longest length waterproof jacket constructed with hardwearing GORE-TEX® 80D face fabric.
-                    p.auction-item-info
-                        | Must be in
-                        span $10.00
-                        | increments
-            footer
-                section.auction-highest-bid
-                    p Highest bid
-                    p.highest-amount $0,000.00
-                section.auction-bid-form
-                    p Your Bid
-                    form
-                        input.form-control(type='text', placeholder='', name='bid')
-                        button.blue-button(type='button')
-                            | Submit
+                #sponsor-ad-container
+                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+    #know-more
+        .container
+            .row
+                article.col-xs-12
+                    header
+                        h2
+                            | Know More.
+                            br
+                            span Go Farther.
+                    footer
+                        a.button-left(href='/')
+                            | Take a Course
                             i.fa.fa-angle-right
-        // /#auction-featured-item
-        #auction-other.col-xs-12
-            #auction-other-header
-                h4 Other Auction Items
-            article.list-rows.list-row-1.list-row-even.list-row-first
-                header
-                    h5
+                        a.button-right(href='/')
+                            | Get the Gear
+                            i.fa.fa-angle-right
+    #news.container
+        .row
+            .col-xs-12
+                article#news-articles
+                    header
+                        h1
+                            | News
+                        .blue-border
+                    article.list-row-1
+                        section.news-image
+                            img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
+                            ul.news-social
+                                li
+                                    a(href='#')
+                                        i.fa.fa-facebook
+                                        | 25
+                                li
+                                    a(href='#')
+                                        i.fa.fa-twitter
+                                        | 12
+                                li
+                                    a(href='#')
+                                        i.fa.fa-eye
+                                        | 63
+                        header
+                            span Featured
+                            h2
+                                a(href='#') Featured News Article
+                        section.news-body
+                            p
+                                | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                a(href='/') Watch now
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-2
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article Sub News Article Sub News Article Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-3
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-4.list-row-last
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+
+    #news.container
+        .row
+            .col-xs-12
+                article#news-articles
+                    header
+                        h1
+                            | Events
+                        .blue-border
+                    article.list-row-1
+                        section.news-image
+                            img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
+                            ul.news-social
+                                li
+                                    a(href='#')
+                                        i.fa.fa-facebook
+                                        | 25
+                                li
+                                    a(href='#')
+                                        i.fa.fa-twitter
+                                        | 12
+                                li
+                                    a(href='#')
+                                        i.fa.fa-eye
+                                        | 63
+                        header
+                            span Featured
+                            h2
+                                a(href='#') Featured News Article
+                        section.news-body
+                            p
+                                | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                a(href='/') Watch now
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-2
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article Sub News Article Sub News Article Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-3
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-4.list-row-last
+                        header
+                            h2
+                                a(href='#')
+                                    | Sub News Article
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='/') Source
+                                i.fa.fa-circle
+                                time(datetime='2008-02-14 20:00') Pub date here
+    #videos.container
+        .row
+            .col-xs-12
+                article#video-featured
+                    header
+                        #header-bg
+                        h2.hidden-xs.hidden-sm
+                            a(href='#') Throttle Decisions: Outreach Componet
+                    section#video-container
+                        a#video-link(href='#')
+                            img.img-responsive(alt='Feature Video title HERE', src='{{env.imageDir}}/video-link-bg-temp.jpg')
+                        #video-body
+                            p
+                                | Throttle Decisions is a fast-paced video series aimed at encouraging mountain sledders to become better trained in avalanche safety. Its eight short components move through the AST course.
+                        #video-sponsor.hidden-xs
+                            a#video-sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                                img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+    #blog.container
+        .row
+            .col-xs-12
+                // blog articles container
+                article#blog-articles
+                    #blog-header-wrap
+                        header
+                            h2
+                                | The
+                                br.visible-xs-inline
+                                | Avalanche
+                                br
+                                span Forecasters
+                                br.visible-xs-inline
+                                | Blog
+                        section#blog-tagline-link
+                            p We know Snow.
+                            a#blog-link(href='#')
+                                | Read The Blog
+                                i.fa.fa-angle-right
+                    // blog list rows
+                    article.list-rows.list-row-1
+                        header
+                            h3
+                                a(href='#') Farewell for the season
+                        section.blog-author
+                            p
+                                | by
+                                a(href='#') Karl Klassen
+                        section.blog-body
+                            p
+                                | With the winter season draw
+                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
+                                a(href='#') Read on
+                        footer
+                            p
+                                time(datetime='2008-02-14 20:00') Pub date here
+                    article.list-rows.list-row-2.list-row-last
+                        header
+                            h3
+                                a(href='#') Farewell for the season
+                        section.blog-author
+                            p
+                                | by
+                                a(href='#') Karl Klassen
+                        section.blog-body
+                            p
+                                | With the winter season draw
+                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
+                                a(href='#') Read on
+                        footer
+                            p
+                                time(datetime='2008-02-14 20:00') Pub date here
+    // /#blog
+    #communities
+        #dark-ribbon
+        .container
+            .row
+                .col-xs-12
+                    h3
+                        | Our
+                        br.visible-xs-inline
+                        | Communities
+                #communities-twitter.col-xs-12.col-sm-6.col-md-3.communities-box
+                    p
+                        | New winter #backcountry terrain atlas available for
+                        a(href='#') #mtrevelstokenp
+                        | &
+                        a(href='#') #glaciernp
+                        a(href='#') @avalancheca
                         a(href='#')
-                            span Marmot®
-                            br
-                            | Exum Guide Undercuff Glove
-                section.auction-other-image
+                            strong http://www.pc.gc.ca/eng/pn-np/bc/glacier/activ/activ1/b.aspx
                     a(href='#')
-                        img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                section.auction-other-bid
-                    p Highest Bid $000.00
-            article.list-rows.list-row-2.list-row-odd
-                header
-                    h5
+                    .posted-by
                         a(href='#')
-                            span Marmot®
-                            br
-                            | Exum Guide Undercuff Glove
-                section.auction-other-image
+                        a.poster-image(href='#')
+                            img(width='30', height='30', src='{{env.imageDir}}/twitter-image.jpg')
+                        a.postername-date @ryanbougie    May 7
+                    a.blue-button(href='#')
+                        i.fa.fa-twitter
+                        | Follow Us
+                        i.fa.fa-angle-right
+                #communities-facebook.col-xs-12.col-sm-6.col-md-3.communities-box
+                    p
+                        | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
+                        br
+                        strong
+                            a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
+                    .posted-by
+                        a.poster-image(href='#')
+                            img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
+                        a.postername-date Canadian Avalanche Center - May 7
+                    a.blue-button(href='#')
+                        i.fa.fa-facebook
+                        | Like Us
+                        i.fa.fa-angle-right
+                #communities-youtube.col-xs-12.col-sm-6.col-md-3.communities-box
+                    img.youtube-thumb.img-responsive(width='233', height='130', src='{{env.imageDir}}/youtube-thumb.jpg')
+                    p 3 The Three Winter Essentials
+                    .posted-by
+                        a.poster-image(href='#')
+                        a.postername-date 8 months ago | 81 views
+                    a.blue-button(href='#')
+                        i.fa.fa-youtube
+                        | Like Us
+                        i.fa.fa-angle-right
+                #communities-misc.col-xs-12.col-sm-6.col-md-3.communities-box
+                    p
+                        | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
+                        br
+                        strong
+                            a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
+                    .posted-by
+                        a.poster-image(href='#')
+                            img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
+                        a.postername-date Canadian Avalanche Center - May 7
+    // /#communities
+    #auction.container
+        .row
+            .col-xs-12
+                #auction-header
+                    h4
+                        | Online
+                        br.visible-xs-inline
+                        span Auction
+                    #auction-sponsor.hidden-xs
+                        p Brought to you by
+                        a(target='_blank', href='http://arcteryx.com')
+                            img(src='{{env.imageDir}}/arcteryx-logo.jpg')
+                    .blue-border
+            #auction-tagline-wrap.col-xs-12
+                #auction-tagline
+                    p Our sponsors donate products to support our programs lore ispum dolor
+            #auction-time-wrap.col-xs-12
+                #auction-time
+                    p closes in 00:00:00
+            article#auction-featured-item.col-xs-12
+                .auction-featured-item-inner
                     a(href='#')
-                        img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                section.auction-other-bid
-                    p Highest Bid $000.00
-            article.list-rows.list-row-3.list-row-even
-                header
+                        img.img-responsive(src='{{env.imageDir}}/jacket.jpg')
+                .auction-featured-item-inner
                     h5
+                        a(href='#') Arc’teryx Lorem Ipsum Jacket
+                    section.auction-item-body
+                        p.auction-item-size-price
+                            | retail value $000.00
+                            span |
+                            | SIZE Medium
+                        p.auction-item-body
+                            | All-round mountain apparel with increased coverage | SV: Severe Weather. A highly featured, severe weather condition jacket, designed for wet, stormy days. Our toughest and longest length waterproof jacket constructed with hardwearing GORE-TEX® 80D face fabric.
+                        p.auction-item-info
+                            | Must be in
+                            span $10.00
+                            | increments
+                footer
+                    section.auction-highest-bid
+                        p Highest bid
+                        p.highest-amount $0,000.00
+                    section.auction-bid-form
+                        p Your Bid
+                        form
+                            input.form-control(type='text', placeholder='', name='bid')
+                            button.blue-button(type='button')
+                                | Submit
+                                i.fa.fa-angle-right
+            // /#auction-featured-item
+            #auction-other.col-xs-12
+                #auction-other-header
+                    h4 Other Auction Items
+                article.list-rows.list-row-1.list-row-even.list-row-first
+                    header
+                        h5
+                            a(href='#')
+                                span Marmot®
+                                br
+                                | Exum Guide Undercuff Glove
+                    section.auction-other-image
                         a(href='#')
-                            span Marmot®
-                            br
-                            | Exum Guide Undercuff Glove
-                section.auction-other-image
-                    a(href='#')
-                        img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                section.auction-other-bid
-                    p Highest Bid $000.00
-            article.list-rows.list-row-4.list-row-odd.list-row-last
-                section#view-auction
-                    a(href='#')
-                        img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
-        // /#auction-other
-    // /.row
-// /#auction
+                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
+                    section.auction-other-bid
+                        p Highest Bid $000.00
+                article.list-rows.list-row-2.list-row-odd
+                    header
+                        h5
+                            a(href='#')
+                                span Marmot®
+                                br
+                                | Exum Guide Undercuff Glove
+                    section.auction-other-image
+                        a(href='#')
+                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
+                    section.auction-other-bid
+                        p Highest Bid $000.00
+                article.list-rows.list-row-3.list-row-even
+                    header
+                        h5
+                            a(href='#')
+                                span Marmot®
+                                br
+                                | Exum Guide Undercuff Glove
+                    section.auction-other-image
+                        a(href='#')
+                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
+                    section.auction-other-bid
+                        p Highest Bid $000.00
+                article.list-rows.list-row-4.list-row-odd.list-row-last
+                    section#view-auction
+                        a(href='#')
+                            img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
+            // /#auction-other
+        // /.row
+    // /#auction
