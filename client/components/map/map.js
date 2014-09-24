@@ -1,4 +1,6 @@
-/* jshint unused:false */
+/* js-hint hacks. */
+/* jshint unused:false  */
+/* global L, leafletPip */
 
 'use strict';
 
