@@ -1,8 +1,13 @@
+/* js-hint hacks. */
+/* jshint unused:false  */
+/* global L, leafletPip */
+'use strict';
+
 angular.module('acMap', ['ngAnimate'])
 
     .controller('mapController', function ($scope, $http, $q, GeoUtils, $timeout) {
 
-        fetchData();
+
         $scope.regions = {};
         $scope.current = {};
 
@@ -15,6 +20,7 @@ angular.module('acMap', ['ngAnimate'])
                 $scope.centroids = res[1].data;
             });
         }
+        fetchData();
 
         function fetchForecast(region){
             var regionId = region.polygon.feature.properties.id;
@@ -40,7 +46,9 @@ angular.module('acMap', ['ngAnimate'])
                 region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
 
                 if(inView) {
-                    if(!region.forecast) fetchForecast(region);
+                    if(!region.forecast) {
+                        fetchForecast(region);
+                    }
                 }
             }
 
@@ -68,7 +76,7 @@ angular.module('acMap', ['ngAnimate'])
             getPolygonForPoint: function (latlng, polygons){
                 return leafletPip.pointInLayer(latlng, polygons, true)[0];
             }
-        }
+        };
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
@@ -194,7 +202,7 @@ angular.module('acMap', ['ngAnimate'])
                 }
 
             }
-        }
+        };
     })
 
     .directive('acMapDrawer', function ($rootScope) {
@@ -231,5 +239,5 @@ angular.module('acMap', ['ngAnimate'])
             link: function ($scope, el, attrs) {
 
             }
-        }
+        };
     });
