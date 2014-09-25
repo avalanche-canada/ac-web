@@ -40,7 +40,9 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu')
                                                         a(href='{{item.url}}')
-                                                            h2 {{item.display}}
+                                                            h2
+                                                                | {{item.display}}
+                                                                i.fa.fa-angle-right
 
                     li#nav-learn.dropdown
                         a(href='#')
@@ -71,13 +73,15 @@ header#header.navbar-fixed-top(role='banner')
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    h2
-                                                        a(href='/Gear')
-                                                                h2 Essential and recommended gear
+                                                    a(href='/Gear')
+                                                        h2
+                                                            | Essential and recommended gear
+                                                            i.fa.fa-angle-right
                                                 li
-                                                    h2
-                                                        a(href='/library')
-                                                                h2 Library
+                                                    a(href='/library')
+                                                        h2
+                                                            | Library
+                                                            i.fa.fa-angle-right
 
 
 
@@ -92,37 +96,31 @@ header#header.navbar-fixed-top(role='banner')
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='about')
-                                                                                    | About
-                                                                        p
-
-                                                                                | Some short event description text
-
+                                                                        a(href='about')
+                                                                            h2
+                                                                                | About
+                                                                                i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='membership')
-                                                                                    | Membership
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='membership')
+                                                                            h2
+                                                                                | Membership
+                                                                                i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='sponsors')
-                                                                                    | Sponsors
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='sponsors')
+                                                                            h2
+                                                                                | Sponsors
+                                                                                i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='collaborators')
-                                                                                    | Collaborators
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='collaborators')
+                                                                            h2
+                                                                                | Collaborators
+                                                                                i.fa.fa-angle-right
 
                     li#nav-news-events.dropdown
                         a(href='#')
@@ -135,29 +133,25 @@ header#header.navbar-fixed-top(role='banner')
                                             .col-md-4.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='events')
-                                                                                    | Events
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='events')
+                                                                            h2
+                                                                                | Events
+                                                                                i.fa.fa-angle-right
                                             .col-md-4.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='outreach')
-                                                                                    | Outreach
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='outreach')
+                                                                            h2
+                                                                                | Outreach
+                                                                                i.fa.fa-angle-right
+
                                             .col-md-4.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='news')
-                                                                                    | News
-                                                                        p
-                                                                                | Some short event description text
-
-
+                                                                        a(href='news')
+                                                                            h2
+                                                                                | News
+                                                                                i.fa.fa-angle-right
                     li#nav-store.dropdown
                         a(href='#')
                                 | Store
@@ -169,20 +163,18 @@ header#header.navbar-fixed-top(role='banner')
                                             .col-md-6.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='store')
-                                                                                    | Store
-                                                                        p
-                                                                                | Some short event description text
+                                                                        a(href='store')
+                                                                            h2
+                                                                                | Store
+                                                                                i.fa.fa-angle-right
+
                                             .col-md-6.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        h2
-                                                                                a(href='web-auction')
-                                                                                    | Web Auction
-                                                                        p
-                                                                                | Some short event description text
-
+                                                                        a(href='web-auction')
+                                                                            h2
+                                                                                | Web Auction
+                                                                                i.fa.fa-angle-right
                 a#nav-search-desktop(href='#')
                     i.fa.fa-search
                 a#nav-donate-desktop(href='/foundation/donate') Donate
