@@ -17,6 +17,22 @@
     width: 500px;
 }
 
+.ac-drawer .panel-heading {
+    cursor: pointer;
+}
+
+.ac-drawer .ac-region-danger-icon {
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    height: 60px;
+    width: 60px;
+}
+
+.ac-drawer .panel-title {
+    padding-left: 60px;
+}
+
 .ac-drawer.ng-hide-remove,
 .ac-drawer.ng-hide-add {
   display:block!important;

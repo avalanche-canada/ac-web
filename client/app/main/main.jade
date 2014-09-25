@@ -5,7 +5,7 @@ div#page-wrap
             #map.container-fluid.ac-no-gutter(ng-controller="mapController")
                 .row.ac-no-gutter
                     .col-xs-12.ac-no-gutter
-                        div(region="current.region", ac-mapbox-map, mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
+                        div(ac-mapbox-map, region="current.region", regions="regions", polygons="polygons" centroids="centroids" mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
                     .scroll-down
                       i.fa.fa-chevron-down(ng-click='scrollPage()')
                 div(ng-include='"components/map/drawer.html"')
