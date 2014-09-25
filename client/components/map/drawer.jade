@@ -1,9 +1,8 @@
 div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="ac-drawer")
-    //- .row
-        .col-xs-12
-            blockquote
-                p We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
-                footer Avalanche Canada Forecasters
+    .row
+    .col-xs-12
+            .alert.alert-info
+                | We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
     .row
         .col-xs-12
             ul.nav.nav-tabs(role='tablist')
