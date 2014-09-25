@@ -1,15 +1,74 @@
-/* js-hint hacks. */
-/* jshint unused:false  */
-/* global L, leafletPip */
-
-'use strict';
-
 angular.module('acMap', ['ngAnimate'])
 
-    .controller('mapController', function ($scope) {
-        $scope.$on('moveend', function (e, map) {
-            $scope.drawerVisible = (map.getZoom() > 7);
+    .controller('mapController', function ($scope, $http, $q, GeoUtils, $timeout) {
+
+        fetchData();
+        $scope.regions = {};
+        $scope.current = {};
+
+        function fetchData() {
+            var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
+            var dataRequests = dataEndpoint.map(function (url) { return $http.get(url); });
+
+            return $q.all(dataRequests).then(function (res) {
+                $scope.polygons = res[0].data;
+                $scope.centroids = res[1].data;
+            });
+        }
+
+        function fetchForecast(region){
+            var regionId = region.polygon.feature.properties.id;
+            var forecastEndpoint = '/api/forecasts/' + regionId + '.json';
+
+            // todo: temp safety... external regions should return something
+            if (!_.contains(['north-rockies', 'vancouver-island', 'yukon-klondike', 'whistler-blackcomb', 'chic-chocs'], regionId)) {
+                $http.get(forecastEndpoint).then(function (res) {
+                    region.forecast = res.data;
+                });
+            }
+        }
+
+        $scope.$on('mapmoveend', function (e, map) {
+            var mapCenter = map.getCenter();
+            var mapBounds = map.getBounds();
+
+            for (var id in $scope.regions) {
+                var region = $scope.regions[id];
+
+                var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
+
+                region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
+
+                if(inView) {
+                    if(!region.forecast) fetchForecast(region);
+                }
+            }
+
+            if(map.getZoom() > 9) {
+                $timeout(function () {
+                    $scope.current.region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
+                });
+            }
         });
+
+        $scope.$on('regionclick', function (e, region) {
+            $scope.current.region = region;
+        });
+
+    })
+
+    .factory('GeoUtils', function () {
+        return {
+            latLngsInBounds: function (latLngs, bounds){
+                return _.some(latLngs, function (latLng) { return bounds.contains(latLng); } );
+            },
+            polygonIntersectsBounds: function (polygon, bounds){
+                return bounds.intersects(polygon.getBounds()) && this.latLngsInBounds(polygon.getLatLngs(), bounds);
+            },
+            getPolygonForPoint: function (latlng, polygons){
+                return leafletPip.pointInLayer(latlng, polygons, true)[0];
+            }
+        }
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
@@ -19,9 +78,13 @@ angular.module('acMap', ['ngAnimate'])
             scope: {
                 mapboxAccessToken: '@',
                 mapboxMapId: '@',
-                region: '='
+                region: '=',
+                regions: '=',
+                polygons: '=',
+                centroids: '='
             },
             link: function ($scope, el, attrs) {
+                var layers = {};
                 var externalRegionsLinks = {
                     'north-rockies': 'http://blogs.avalanche.ca/category/northrockies/',
                     'vancouver-island': 'http://www.islandavalanchebulletin.com/',
@@ -38,27 +101,9 @@ angular.module('acMap', ['ngAnimate'])
                 }, 1000);
 
                 map.on('moveend', function () {
-                    var mapCenter = map.getCenter();
 
                     $scope.$apply(function () {
-                        $rootScope.$broadcast('moveend', map);
-
-                        for (var id in $scope.regions) {
-                            var region = $scope.regions[id];
-
-                            var inView = polygonIntersectsBounds(region.polygon, map.getBounds()) || (getMapCentrePolygon() === region.polygon);
-                            region.visible = inView;
-
-                            region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
-
-                            if(inView) {
-                                if(!region.forecast){
-                                    fetchForecast(region);
-                                }
-                            }
-                        }
-
-                        // $scope.region = _($scope.regions).min(function (r) { return r.distanceToCenter; });
+                        $rootScope.$broadcast('mapmoveend', map);
                     });
 
                     if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
@@ -69,122 +114,104 @@ angular.module('acMap', ['ngAnimate'])
 
                 });
 
-                function fetchData() {
-                    var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
-                    var dataRequests = dataEndpoint.map(function (url) { return $http.get(url); });
+                $scope.$watch('polygons', function (polygons) {
+                    if(polygons) {
+                        layers.regions = L.geoJson($scope.polygons, {
+                            contextmenu: true,
+                            style: function(feature) {
+                                return {
+                                    fillColor: 'transparent',
+                                    color: 'transparent'
+                                };
+                            },
+                            onEachFeature: function (featureData, layer) {
+                                var region = $scope.regions[featureData.properties.id] = {
+                                    polygon: layer
+                                };
 
-                    return $q.all(dataRequests).then(initializeOverlays);
-                }
+                                region.polygon.bindLabel(featureData.properties.name, {noHide: true});
 
-                map.whenReady(fetchData);
+                                region.polygon.on('click', function (e) {
+                                    var externalRegions = _.keys(externalRegionsLinks);
+                                    var isExternalRegion = _.contains(externalRegions, featureData.properties.id);
 
-                $scope.regions = {};
-                var layers = {};
+                                    if (isExternalRegion) {
+                                        window.open(externalRegionsLinks[featureData.properties.id], '_blank');
+                                    } else {
+                                        map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
+                                        setRegion(region);
+                                        $rootScope.$broadcast('regionclick', region);
+                                    }
+                                });
+                            }
+                        }).addTo(map);
+                    }
+                });
 
-                function initializeOverlays(overlayData) {
-                    var polygons = overlayData[0].data;
-                    var centroids = overlayData[1].data;
-                    $scope.areas = overlayData[2].data;
+                $scope.$watch('centroids', function (centroids) {
+                    if(centroids) {
+                        centroids = _(centroids.features).filter(function (c) {
+                            var externalRegions = _.keys(externalRegionsLinks);
+                            return !_.contains(externalRegions, c.properties.id);
+                        });
 
-                    layers.regions = L.geoJson(polygons, {
-                        contextmenu: true,
-                        style: function(feature) {
-                            return {
-                                fillColor: 'transparent',
-                                color: 'transparent'
-                            };
-                        },
-                        onEachFeature: function (featureData, layer) {
-                            var region = $scope.regions[featureData.properties.id] = {
-                                polygon: layer
-                            };
+                        layers.dangerIcons = L.geoJson(centroids.value(), {
+                            pointToLayer: function (featureData, latLng) {
+                                return L.marker(latLng, {
+                                    icon: L.icon({
+                                        iconUrl: '/api/forecasts/' + featureData.properties.id + '/danger-rating-icon.svg',
+                                        iconSize: [60, 60]
+                                    })
+                                });
+                            },
+                            onEachFeature: function (featureData, layer) {
+                                var region = $scope.regions[featureData.properties.id];
+                                region.centroid = layer;
 
-                            region.polygon.bindLabel(featureData.properties.name, {noHide: true});
+                                layer.on('click', function () {
+                                    map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
+                                    setRegion(region);
+                                    $rootScope.$broadcast('regionclick', region);
+                                });
+                            }
+                        }).addTo(map);
+                    }
+                });
 
-                            region.polygon.on('click', function (e) {
-                                var externalRegions = _.keys(externalRegionsLinks);
-                                var isExternalRegion = _.contains(externalRegions, featureData.properties.id);
+                $scope.$watch('region', function (region) {
+                    if(region) {
+                        setRegion(region);
+                    }
+                });
 
-                                if (isExternalRegion) {
-                                    window.open(externalRegionsLinks[featureData.properties.id], '_blank');
-                                } else {
-                                    $scope.setRegion(region);
-                                }
-                            });
-                        }
-                    }).addTo(map);
-
-                    centroids = _(centroids.features).filter(function (c) {
-                        var externalRegions = _.keys(externalRegionsLinks);
-                        return !_.contains(externalRegions, c.properties.id);
-                    });
-
-                    layers.dangerIcons = L.geoJson(centroids.value(), {
-                        pointToLayer: function (featureData, latLng) {
-                            return L.marker(latLng, {
-                                icon: L.icon({
-                                    iconUrl: 'http://cac-map-dev-sw3aezcigf.elasticbeanstalk.com/forecasts/' + featureData.properties.id + '/danger-rating-icon.svg',
-                                    iconSize: [60, 60]
-                                })
-                            });
-                        },
-                        onEachFeature: function (featureData, layer) {
-                            var region = $scope.regions[featureData.properties.id];
-                            region.centroid = layer;
-
-                            layer.on('click', function () {
-                                $scope.setRegion(region);
-                            });
-                        }
-                    }).addTo(map);
-
-                }
-
-                $scope.setRegion = function (region) {
-                    map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
+                function setRegion (region) {
                     $timeout(function () {
                         layers.regions.eachLayer(function (layer) {
                             layer.setStyle({ fillColor: 'transparent' });
                         });
                         region.polygon.setStyle({ fillColor: 'grey' });
-                        $scope.region = region;
                     }, 0);
-                };
-
-                function fetchForecast(region){
-                    var regionId = region.polygon.feature.properties.id;
-                    var forecastEndpoint = '/api/forecasts/' + regionId + '.json';
-
-                    // todo: temp safety... external regions should return something
-                    if (!_.contains(['north-rockies', 'vancouver-island', 'yukon-klondike', 'whistler-blackcomb', 'chic-chocs'], regionId)) {
-                        $http.get(forecastEndpoint).then(function (res) {
-                            region.forecast = res.data;
-                        });
-                    }
                 }
 
-                function latLngsInBounds(latLngs, bounds){
-                    return _.some(latLngs, function (latLng) { return bounds.contains(latLng); } );
-                }
-
-                function polygonIntersectsBounds(polygon, bounds){
-                    return bounds.intersects(polygon.getBounds()) && latLngsInBounds(polygon.getLatLngs(), bounds);
-                }
-
-                function getMapCentrePolygon(){
-                    return leafletPip.pointInLayer(map.getCenter(), layers.regions, true)[0];
-                }
             }
-        };
+        }
     })
 
-    .directive('acMapDrawer', function () {
+    .directive('acMapDrawer', function ($rootScope) {
         return {
             template:   '<div class="panel panel-primary">' +
-                            '<div class="panel-heading">' +
-                                '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
+                            '<div class="panel-heading" data-toggle="collapse" data-target="#forecast">' +
+                                '<div class="row">' +
+                                    '<div class="col-xs-6">' +
+                                        '<img class="ac-region-danger-icon" src="/api/forecasts/{{ region.polygon.feature.properties.id }}/danger-rating-icon.svg"/>' +
+                                        '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
+                                    '</div>' +
+                                    '<div class="col-xs-6">' +
+                                        '<i class="fa fa-angle-up fa-inverse fa-lg pull-right"/>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>' +
-                            '<div class="panel-body" ng-transclude>' +
+                            '<div id="forecast" class="panel-body collapse in" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
                                 '<ul class="list-inline">' +
@@ -204,5 +231,5 @@ angular.module('acMap', ['ngAnimate'])
             link: function ($scope, el, attrs) {
 
             }
-        };
+        }
     });
