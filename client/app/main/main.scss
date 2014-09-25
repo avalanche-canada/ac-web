@@ -29,6 +29,7 @@
 //         @include font-size(2.7, 2.7);
 //     }
 // }
+
 html, body {
   height: 100%;
 }
@@ -37,8 +38,14 @@ html, body {
   height: 100%;
 }
 
+// .page {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+
 .page.ng-enter, .page.ng-leave {
-  transition: all 0.8s linear;
+  transition: all 2s linear;
 }
 
 .page.ng-enter {
@@ -52,40 +59,3 @@ html, body {
 .page.ng-leave.ng-leave-active {
   transform: translateY(-1000px);
 }
-
-// .page {
-
-//   &.ng-leave {
-//     position: relative;
-//   }
-
-//   &.ng-enter {
-//     position: absolute;
-//     -webkit-transition: -webkit-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     -moz-transition: -moz-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     -o-transition: -o-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     transition: transform 0.6s ease-in, opacity 0.6s ease-in;
-//   }
-
-//   &.ng-leave {
-//     -webkit-transition: -webkit-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     -moz-transition: -moz-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     -o-transition: -o-transform 0.6s ease-in, opacity 0.6s ease-in;
-//     transition: transform 0.6s ease-in, opacity 0.6s ease-in;
-//   }
-
-//   &.ng-enter, &.ng-leave.ng-leave-active {
-//     -webkit-transform: translate(0px,700px);
-//     -o-transform: translate(0px,700px);
-//     transform: translate(0px,700px);
-//     opacity: 0;
-//   }
-
-//   &.ng-enter.ng-enter-active {
-//     -webkit-transform: translate(0px,-700px);
-//     -o-transform: translate(0px,-700px);
-//     transform: translate(0px,-700px);
-//     opacity: 1;
-//   }
-
-// }

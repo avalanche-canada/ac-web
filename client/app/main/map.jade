@@ -1,5 +1,5 @@
 .container-fluid.ac-no-gutter.page.full-height
-    div(region="region", ac-mapbox-map, mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
+    div(ac-mapbox-map, region="current.region", regions="regions", polygons="polygons" centroids="centroids" mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
     div(ng-include='"components/map/drawer.html"')
 .scroll-down
       a(href="#more")
