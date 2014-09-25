@@ -20,7 +20,8 @@
     "mapbox.js": "~2.1.0",
     "leaflet-pip": "~0.1.0",
     "Leaflet.label": "~0.2.1",
-    "angular-animate": "~1.2.25"
+    "angular-animate": "~1.2.25",
+    "angular-route": "~1.2.25"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
