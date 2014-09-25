@@ -1,17 +1,17 @@
 angular.module('acMap', ['ngAnimate'])
 
     .controller('mapController', function ($scope) {
-        $scope.drawer = {
-            visible: false
-        };
+        // $scope.$on('moveend', function (e, map) {
+        //     $scope.drawer.visible = (map.getZoom() > 7);
+        // });
 
-        $scope.$on('moveend', function (e, map) {
-            $scope.drawer.visible = (map.getZoom() > 7);
+        $scope.$on('regionclick', function (e, region) {
+            $scope.region = region;
         });
 
-        $scope.toggleDrawer = function () {
-            $scope.drawer.visible = !$scope.drawer.visible;
-        };
+        $scope.$on('drawerclose', function (e, region) {
+            $scope.region = null;
+        });
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
@@ -20,8 +20,7 @@ angular.module('acMap', ['ngAnimate'])
             replace: true,
             scope: {
                 mapboxAccessToken: '@',
-                mapboxMapId: '@',
-                region: '='
+                mapboxMapId: '@'
             },
             link: function ($scope, el, attrs) {
                 var externalRegionsLinks = {
@@ -58,7 +57,7 @@ angular.module('acMap', ['ngAnimate'])
                             }
                         }
 
-                        // $scope.region = _($scope.regions).min(function (r) { return r.distanceToCenter; });
+                        // $scope.current.region = _($scope.regions).min(function (r) { return r.distanceToCenter; });
                     });
 
                     if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
@@ -108,7 +107,7 @@ angular.module('acMap', ['ngAnimate'])
                                 if (isExternalRegion) {
                                     window.open(externalRegionsLinks[featureData.properties.id], '_blank');
                                 } else {
-                                    $scope.setRegion(region);
+                                    setRegion(region);
                                 }
                             });
                         }
@@ -133,23 +132,24 @@ angular.module('acMap', ['ngAnimate'])
                             region.centroid = layer;
 
                             layer.on('click', function () {
-                                $scope.setRegion(region);
+                                setRegion(region);
                             });
                         }
                     }).addTo(map);
 
                 }
 
-                $scope.setRegion = function (region) {
+                function setRegion (region) {
                     map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
-                    $timeout(function () {
+                    $scope.$apply(function () {
                         layers.regions.eachLayer(function (layer) {
                             layer.setStyle({ fillColor: 'transparent' });
                         });
                         region.polygon.setStyle({ fillColor: 'grey' });
-                        $scope.region = region;
+                        $rootScope.$broadcast('regionclick', region);
                     }, 0);
-                };
+
+                }
 
                 function fetchForecast(region){
                     var regionId = region.polygon.feature.properties.id;
@@ -178,7 +178,7 @@ angular.module('acMap', ['ngAnimate'])
         }
     })
 
-    .directive('acMapDrawer', function () {
+    .directive('acMapDrawer', function ($rootScope) {
         return {
             template:   '<div class="panel panel-primary">' +
                             '<div class="panel-heading">' +
@@ -187,7 +187,7 @@ angular.module('acMap', ['ngAnimate'])
                                         '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
                                     '</div>' +
                                     '<div class="col-xs-6">' +
-                                        '<button type="button" ng-click="drawer.visible = false" class="close pull-right"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+                                        '<button type="button" ng-click="close()" class="close pull-right"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -205,8 +205,13 @@ angular.module('acMap', ['ngAnimate'])
                         '</div>',
             replace: true,
             transclude: true,
+            scope: {
+                region: '='
+            },
             link: function ($scope, el, attrs) {
-                
+                $scope.close = function () {
+                    $rootScope.$broadcast('drawerclose');
+                }
             }
         }
     });

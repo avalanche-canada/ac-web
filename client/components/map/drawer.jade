@@ -1,4 +1,4 @@
-div(ng-show="drawer.visible && region.forecast", ac-map-drawer, class="ac-drawer")
+div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="ac-drawer")
     //- .row
         .col-xs-12
             blockquote
