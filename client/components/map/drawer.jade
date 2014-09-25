@@ -17,7 +17,7 @@ div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="
                     .row
                         .col-xs-12
                             h4.ac-nowcast-day {{ region.forecast.dangerRatings[0].date | date:'EEEE' }}
-                            .panel.panel-default.ac-nowcast
+                            .panel.panel-info.ac-nowcast
                                 .ac-nowcast-alp
                                 .ac-nowcast-tln
                                 .ac-nowcast-btl
@@ -49,7 +49,7 @@ div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="
                                 dd {{ region.forecast.confidence }}
                 #problems.tab-pane
                     #problemsAccordion.panel-group
-                        .panel.panel-default(ng-repeat="problem in region.forecast.problems")
+                        .panel.panel-info(ng-repeat="problem in region.forecast.problems")
                             .panel-heading
                                 h4.panel-title
                                     a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem{{$index}}')
@@ -63,27 +63,30 @@ div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="
 
                 #details.tab-pane
                     #detailsAccordion.panel-group
-                        .panel.panel-default
+                        .panel.panel-info
                             .panel-heading
                                 h4.panel-title
                                     a(data-toggle='collapse', data-parent='#detailsAccordion', href='#avalancheSummary')
                                       | Avalanche Summary
+                                      i.fa.fa-fw.fa-caret-down
                             #avalancheSummary.panel-collapse.collapse
                                 .panel-body
                                     yo
-                        .panel.panel-default
+                        .panel.panel-info
                             .panel-heading
                                 h4.panel-title
                                     a(data-toggle='collapse', data-parent='#detailsAccordion', href='#snowpackSummary')
                                       | Snowpack Summary
+                                      i.fa.fa-fw.fa-caret-down
                             #snowpackSummary.panel-collapse.collapse
                                 .panel-body
                                     yo2
-                        .panel.panel-default
+                        .panel.panel-info
                             .panel-heading
                                 h4.panel-title
                                     a(data-toggle='collapse', data-parent='#detailsAccordion', href='#weatherForecast')
                                       | Weather Forecast
+                                      i.fa.fa-fw.fa-caret-down
                             #weatherForecast.panel-collapse.collapse
                                 .panel-body
                                     yo2
