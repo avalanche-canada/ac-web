@@ -54,6 +54,7 @@ div(ng-show="region && region.forecast", ac-map-drawer, region="region", class="
                                 h4.panel-title
                                     a(data-toggle='collapse', data-parent='#problemsAccordion', href='#problem{{$index}}')
                                       | {{ problem.type }}
+                                      i.fa.fa-fw.fa-caret-down
                             div(id="problem{{$index}}").panel-collapse.collapse
                                 .panel-body
                                     {{ problem.comment }}
