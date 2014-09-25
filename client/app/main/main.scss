@@ -1,6 +1,6 @@
-// #more{
-//     margin-top:75px;
-// }
+#more{
+     margin-top:75px;
+}
 
 // #page-wrap{
 //     min-height: 100%;
@@ -29,6 +29,17 @@
 //         @include font-size(2.7, 2.7);
 //     }
 // }
+
+.scroll-up {
+    @include center-block();
+    left:50%;
+    width:60px;
+    height:60px;
+    background-color:#000;
+    padding:15px 0 0 17px;
+    cursor: pointer;
+    opacity: 0.8;
+}
 
 .scroll-down a {
   display: block;
