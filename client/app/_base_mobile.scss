@@ -184,9 +184,12 @@
 
 /*know-more*/
 #know-more {
-	width:100%;
-	height:290px;
-	background:transparent url(#{$assets_path}/know-more-desktop-bg.jpg) center bottom no-repeat;
+    background-image:url(../assets/images/know-more-desktop-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+	//width:100%;
+	//height:290px;
+	//background:transparent url(#{$assets_path}/know-more-desktop-bg.jpg) center bottom no-repeat;
 	article {
 		padding-top:36px;
 		@include clearfix();
