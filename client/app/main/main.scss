@@ -27,11 +27,11 @@ html, body {
     padding: 15px 0 0 17px;
   }
   &.scroll-nav--up {
+    z-index:1;
     top: 290px;
     left: 50%;
     width: 30px;
     height: 30px;
-    z-index: 10000;
     padding: 5px;
   }
 }
@@ -63,6 +63,5 @@ html, body {
 }
 
 .page-up.ng-leave.ng-leave-active {
-  z-index: 11111;
   transform: translateY(1000px);
 }
