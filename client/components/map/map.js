@@ -153,6 +153,8 @@ angular.module('acMap', ['ngAnimate'])
                                         setRegion(region);
                                         $rootScope.$broadcast('regionclick', region);
                                     }
+
+                                    $('.ac-drawer .panel-body').collapse('show');
                                 });
                             }
                         }).addTo(map);
@@ -183,7 +185,10 @@ angular.module('acMap', ['ngAnimate'])
                                     map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
                                     setRegion(region);
                                     $rootScope.$broadcast('regionclick', region);
+
+                                    $('.ac-drawer .panel-body').collapse('show');
                                 });
+
                             }
                         }).addTo(map);
                     }
@@ -222,7 +227,7 @@ angular.module('acMap', ['ngAnimate'])
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div id="forecast" class="panel-body collapse in" ng-transclude>' +
+                            '<div id="forecast" class="panel-body collapse" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
                                 '<ul class="list-inline">' +
