@@ -5,11 +5,14 @@
 
 angular.module('acMap', ['ngAnimate'])
 
-    .controller('mapController', function ($scope, $http, $q, GeoUtils, $timeout) {
-
-
+    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
         $scope.regions = {};
         $scope.current = {};
+
+        $scope.showMore = function () {
+            $rootScope.pageClass = 'page-down';
+            $location.path('/more');
+        };
 
         function fetchData() {
             var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
@@ -106,7 +109,7 @@ angular.module('acMap', ['ngAnimate'])
                 $timeout(function () {
                     el[0].style.height = ($document.height()-75) + 'px';
                     map.invalidateSize();
-                }, 1000);
+                }, 500);
 
                 map.on('moveend', function () {
 
