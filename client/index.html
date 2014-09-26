@@ -16,17 +16,19 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/yamm3/yamm/yamm.css" />
-      <link rel="stylesheet" href="bower_components/fullpage.js/jquery.fullPage.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <!-- endinjector -->
-
-    <!-- stylesheet missing from project bower.json -->
-    <link rel="stylesheet" href="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.css" />
     <!-- endbuild -->
+
+    <!-- stylesheet missing from project bower.json avoid minifying or porcessing these in anyway becuase it breaks any links-->
+    <link rel="stylesheet" href="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.css" />
+    <link rel="stylesheet" href="bower_components/mapbox.js/mapbox.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css"/>
+
   </head>
   <body ng-app="avalancheCanadaApp">
     <!--[if lt IE 7]>
@@ -34,7 +36,8 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ui-view=""></div>
+    <div ng-include='"components/navbar/navbar.html"'></div>
+    <div ng-view="" class="full-height page" ng-class="pageClass"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -64,14 +67,18 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.js"></script>
-      <script src="bower_components/jquery.slimscroll/jquery.slimscroll.min.js"></script>
-      <script src="bower_components/fullpage.js/jquery.fullPage.js"></script>
-      <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
+      <script src="bower_components/mapbox.js/mapbox.js"></script>
+      <script src="bower_components/leaflet-pip/leaflet-pip.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- required by fullpage.js -->
-    <script src="bower_components/fullpage.js/vendors/jquery.easings.min.js"></script>
+    <!-- Libraries not auto included by grunt -->
+    <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
 
 
         <!-- build:js({.tmp,client}) app/app.js -->
@@ -81,6 +88,7 @@
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="components/footer/footer.controller.js"></script>
+          <script src="components/map/map.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->

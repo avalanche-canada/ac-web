@@ -7,19 +7,6 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 @import 'font-awesome/scss/font-awesome';
 
-/**
- * App-wide Styles
- */
-
-/**
-*.browsehappy {
-*    margin: 0.2em 0;
-*    background: #ccc;
-*    color: #000;
-*    padding: 0.2em 0;
-}*/
-
-
 //320 mobile styles and up
 @import "_base_mobile.scss";
 
@@ -36,4 +23,6 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 // Component styles are injected through grunt
 // injector
 @import 'main/main.scss';
+@import 'map/map.scss';
+@import 'navbar/navbar.scss';
 // endinjector

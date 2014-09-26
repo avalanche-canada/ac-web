@@ -97,13 +97,16 @@ angular.module('avalancheCanadaApp')
                             {'name':'yukon','display':'Yukon'}];
 
     var length = $scope.forecastRegions.length;
-    var half   = (length/2);
+    var third   = (length/3);
 
-    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, half);
-    $scope.forecastRegionList2 = $scope.forecastRegions.slice(half-1, length);
+    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, third);
+    $scope.forecastRegionList2 = $scope.forecastRegions.slice(third, (third*2));
+    $scope.forecastRegionList3 = $scope.forecastRegions.slice(third, (third*2));
 
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
+                       {'display':'Blogs','url':'/blogs'},
+                       {'display':'Forecast Archive','url':'/forecast/archive'},
                        {'display':'Webcams','url':'/webcams'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 

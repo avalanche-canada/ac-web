@@ -1,11 +1,67 @@
-#section0{
-    margin-bottom:75px;
+// todo: move to base stylesheet
+html, body {
+  height: 100%;
 }
 
-#section1{
-    margin-top:75px;
+// todo: move to utils stylesheet
+.full-height {
+  height: 100%;
 }
 
-#map{
+// todo: move to module stylesheet
+.scroll-nav{
+  position: absolute;
+  background-color: #000;
+  cursor: pointer;
+  opacity: 0.8;
+  a {
+    display: block;
     height: 100%;
+    width: 100%;
+  }
+  &.scroll-nav--down {
+    bottom: 0;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    padding: 15px 0 0 17px;
+  }
+  &.scroll-nav--up {
+    z-index:1;
+    top: 290px;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+  }
+}
+
+
+// todo: move to animation stylesheet
+.page.ng-enter, .page.ng-leave {
+  transition: all 0.3s linear;
+}
+
+.page-down.ng-enter {
+  transform: translateY(1000px);
+}
+
+.page-down.ng-enter.ng-enter-active {
+  transform: translateY(0);
+}
+
+.page-down.ng-leave.ng-leave-active {
+  transform: translateY(-1000px);
+}
+
+.page-up.ng-enter {
+  transform: translateY(-1000px);
+}
+
+.page-up.ng-enter.ng-enter-active {
+  transform: translateY(0);
+}
+
+.page-up.ng-leave.ng-leave-active {
+  transform: translateY(1000px);
 }
