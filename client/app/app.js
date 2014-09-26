@@ -1,19 +1,17 @@
 'use strict';
 
 angular.module('avalancheCanadaApp', [
-                'ngCookies',
-                'ngResource',
-                'ngSanitize',
-                'ui.router',
-                'ui.bootstrap',
-                'constants',
-                'acMap'
-                ])
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngAnimate',
+        'ngRoute',
+        'ui.bootstrap',
+        'constants',
+        'acMap'
+    ])
 
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-        $urlRouterProvider
-          .otherwise('/');
-
+    .config(function ($locationProvider) {
         $locationProvider.html5Mode(true);
     })
 

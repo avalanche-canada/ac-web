@@ -5,11 +5,14 @@
 
 angular.module('acMap', ['ngAnimate'])
 
-    .controller('mapController', function ($scope, $http, $q, GeoUtils, $timeout) {
-
-
+    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
         $scope.regions = {};
         $scope.current = {};
+
+        $scope.showMore = function () {
+            $rootScope.pageClass = 'page-down';
+            $location.path('/more');
+        };
 
         function fetchData() {
             var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
@@ -79,7 +82,7 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout) {
+    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document) {
         return {
             template: '<div id="mapboxMap"></div>',
             replace: true,
@@ -104,9 +107,9 @@ angular.module('acMap', ['ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId);
                 $timeout(function () {
-                    el[0].style.height = (document.getElementById('section0').offsetHeight-75) + 'px';
+                    el[0].style.height = ($document.height()-75) + 'px';
                     map.invalidateSize();
-                }, 1000);
+                }, 500);
 
                 map.on('moveend', function () {
 
@@ -150,6 +153,8 @@ angular.module('acMap', ['ngAnimate'])
                                         setRegion(region);
                                         $rootScope.$broadcast('regionclick', region);
                                     }
+
+                                    $('.ac-drawer .panel-body').collapse('show');
                                 });
                             }
                         }).addTo(map);
@@ -180,7 +185,10 @@ angular.module('acMap', ['ngAnimate'])
                                     map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
                                     setRegion(region);
                                     $rootScope.$broadcast('regionclick', region);
+
+                                    $('.ac-drawer .panel-body').collapse('show');
                                 });
+
                             }
                         }).addTo(map);
                     }
@@ -219,7 +227,7 @@ angular.module('acMap', ['ngAnimate'])
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div id="forecast" class="panel-body collapse in" ng-transclude>' +
+                            '<div id="forecast" class="panel-body collapse" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
                                 '<ul class="list-inline">' +

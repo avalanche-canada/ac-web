@@ -3,25 +3,12 @@
 
 angular.module('avalancheCanadaApp')
 
-  .directive('fullPage', function() {
-      return {
-          restrict: 'A',
-          link: function(scope, ele, attrs) {
-              angular.element(ele).fullpage({
-                anchors: ['map', 'more'],
-                scrollOverflow: true,
-                keyboardScrolling: false,
-                normalScrollElements: '#map'
-            });
-
-            scope.scrollPage = function(){
-                angular.element(ele).fullpage.moveSectionDown();
-            };
-
-          }
-      };
+  .controller('MoreCtrl', function ($scope, $rootScope, $location) {
+    $scope.showMap = function () {
+        $rootScope.pageClass = 'page-up';
+        $location.path('/');
+    };
   })
-
-  .controller('MainCtrl', function () {
-
+  .controller('MapCtrl', function ($scope) {
+    $scope.scrollPage = function(){};
   });
