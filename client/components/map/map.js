@@ -55,11 +55,11 @@ angular.module('acMap', ['ngAnimate'])
                 }
             }
 
-            if(map.getZoom() > 9) {
-                $timeout(function () {
-                    $scope.current.region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
-                });
-            }
+            // if(map.getZoom() > 9) {
+            //     $timeout(function () {
+            //         $scope.current.region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
+            //     });
+            // }
         });
 
         $scope.$on('regionclick', function (e, region) {
@@ -173,7 +173,6 @@ angular.module('acMap', ['ngAnimate'])
                                 return L.marker(latLng, {
                                     icon: L.icon({
                                         iconUrl: '/api/forecasts/' + featureData.properties.id + '/danger-rating-icon.svg',
-                                        // iconUrl: '/assets/images/forecasts/danger-rating-icon.svg',
                                         iconSize: [60, 60]
                                     })
                                 });
@@ -228,7 +227,7 @@ angular.module('acMap', ['ngAnimate'])
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div id="forecast" class="panel-body collapse" ng-transclude>' +
+                            '<div class="panel-body collapse" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
                                 '<ul class="list-inline">' +
