@@ -72,7 +72,7 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                       i.fa.fa-fw.fa-caret-down
                             #avalancheSummary.panel-collapse.collapse
                                 .panel-body
-                                    yo
+                                    {{ current.region.forecast.avalancheSummary }}
                         .panel.panel-info
                             .panel-heading
                                 h4.panel-title
@@ -81,7 +81,7 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                       i.fa.fa-fw.fa-caret-down
                             #snowpackSummary.panel-collapse.collapse
                                 .panel-body
-                                    yo2
+                                    {{ current.region.forecast.snowpackSummary }}
                         .panel.panel-info
                             .panel-heading
                                 h4.panel-title
@@ -90,4 +90,4 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                       i.fa.fa-fw.fa-caret-down
                             #weatherForecast.panel-collapse.collapse
                                 .panel-body
-                                    yo2
+                                    {{ current.region.forecast.weatherForecast }}
