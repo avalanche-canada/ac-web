@@ -173,6 +173,7 @@ angular.module('acMap', ['ngAnimate'])
                                 return L.marker(latLng, {
                                     icon: L.icon({
                                         iconUrl: '/api/forecasts/' + featureData.properties.id + '/danger-rating-icon.svg',
+                                        // iconUrl: '/assets/images/forecasts/danger-rating-icon.svg',
                                         iconSize: [60, 60]
                                     })
                                 });
@@ -205,7 +206,7 @@ angular.module('acMap', ['ngAnimate'])
                         layers.regions.eachLayer(function (layer) {
                             layer.setStyle({ fillColor: 'transparent' });
                         });
-                        region.polygon.setStyle({ fillColor: 'grey' });
+                        region.polygon.setStyle({ fillColor: '#489BDF'});
                     }, 0);
                 }
 
