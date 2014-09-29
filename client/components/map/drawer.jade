@@ -16,8 +16,9 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            h4.ac-nowcast-day {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
-                            .panel.panel-info.ac-nowcast
+                            //- h4.ac-nowcast-day {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
+                            img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast.center-block
+                            //- .panel.panel-info.ac-nowcast
                                 .ac-nowcast-alp
                                 .ac-nowcast-tln
                                 .ac-nowcast-btl

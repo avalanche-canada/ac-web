@@ -337,4 +337,104 @@ router.get('/:region.:format', function(req, res) {
 
 });
 
+var nowcastColors = {
+    iconFill: {
+      '1:Low': '#52ba4a',
+      '2:Moderate': '#fff300',
+      '3:Considerable': '#f79218',
+      '4:High': '#ef1c29',
+      '5:Extreme': '#ef1c29',
+      'N/A:No Rating' : 'white'
+    },
+    bannerFill: {
+      '1:Low': '#52ba4a',
+      '2:Moderate': '#fff300',
+      '3:Considerable': '#f79218',
+      '4:High': '#ef1c29',
+      '5:Extreme': 'black',
+      'N/A:No Rating' : 'white'
+    },
+    bannerStroke: {
+      '1:Low': 'black',
+      '2:Moderate': 'black',
+      '3:Considerable': 'black',
+      '4:High': 'black',
+      '5:Extreme': 'red',
+      'N/A:No Rating' : 'black'
+    },
+    textFill: {
+      '1:Low': 'black',
+      '2:Moderate': 'black',
+      '3:Considerable': 'black',
+      '4:High': 'black',
+      '5:Extreme': 'white',
+      'N/A:No Rating' : 'black'
+    }
+};
+
+router.get('/:region/nowcast.svg', function(req, res) {
+    var region = req.params.region,
+        date   = req.query.date;
+
+    if (caamlEndpoints[region]){
+
+      //var bulletin = _(bulletins).find(function (b) { return b.region == req.params.region; });
+      var endpointUrl = getEndpointUrl(region, date);
+      var successCallback = function(forecast) {
+
+        if(forecast){
+          //debug("got json forecast");
+          var todaysRating = forecast.dangerRatings[0].dangerRating;
+          //debug("got ratings " , todaysRating);
+          var ratings = {
+              alp: {
+                rating: todaysRating.alp.replace(':', ' - '),
+                iconFill: nowcastColors.iconFill[todaysRating.alp],
+                bannerFill: nowcastColors.bannerFill[todaysRating.alp],
+                bannerStroke: nowcastColors.bannerStroke[todaysRating.alp],
+                textFill: nowcastColors.textFill[todaysRating.alp]
+              },
+              tln: {
+                rating: todaysRating.tln.replace(':', ' - '),
+                iconFill: nowcastColors.iconFill[todaysRating.tln],
+                bannerFill: nowcastColors.bannerFill[todaysRating.tln],
+                bannerStroke: nowcastColors.bannerStroke[todaysRating.tln],
+                textFill: nowcastColors.textFill[todaysRating.tln]
+              },
+              btl: {
+                rating: todaysRating.btl.replace(':', ' - '),
+                iconFill: nowcastColors.iconFill[todaysRating.btl],
+                bannerFill: nowcastColors.bannerFill[todaysRating.btl],
+                bannerStroke: nowcastColors.bannerStroke[todaysRating.btl],
+                textFill: nowcastColors.textFill[todaysRating.btl]
+              },
+          };
+          console.log(todaysRating);
+          if (req.query.label) ratings.region = forecast.region;
+          //debug("generated danger rating icon " , ratings);
+          res.header('Cache-Control', 'no-cache');
+          res.header('Content-Type', 'image/svg+xml');
+
+          res.render('forecasts/nowcast', ratings);
+        }
+        else{
+          //debug("null forecast returned");
+          res.send(500);
+        }
+      };
+
+      var errorCallback = function (msg){
+        //debug(msg);
+        res.send(500);
+      }
+
+      getForecast(region, endpointUrl, successCallback, errorCallback);
+
+    }
+    else{
+      //debug("invalid region: " + region);
+      res.send(404);
+    }
+});
+
 module.exports = router;
