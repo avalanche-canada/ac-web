@@ -105,7 +105,7 @@ angular.module('acMap', ['ngAnimate'])
                 };
 
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
-                var map = L.mapbox.map(el[0].id, $scope.mapboxMapId);
+                var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
                 $timeout(function () {
                     el[0].style.height = ($document.height()-75) + 'px';
                     map.invalidateSize();
@@ -159,7 +159,9 @@ angular.module('acMap', ['ngAnimate'])
 
                                     if(mapZoom <= 9) {
                                         map.fitBounds(region.polygon.getBounds(), { paddingBottomRight: [500, 0] });
-                                    } else map.panTo(region.centroid._latlng);
+                                    } else {
+                                        map.panTo(region.centroid._latlng);
+                                    }
                                 });
                             }
                         }).addTo(map);
@@ -211,7 +213,9 @@ angular.module('acMap', ['ngAnimate'])
                             layer.setStyle({ fillColor: 'transparent' });
                         });
 
-                        if(map.getZoom() < 11) region.polygon.setStyle({ fillColor: '#489BDF'});
+                        if(map.getZoom() < 11) {
+                            region.polygon.setStyle({ fillColor: '#489BDF'});
+                        }
                     }, 0);
                 }
 
@@ -222,7 +226,7 @@ angular.module('acMap', ['ngAnimate'])
     .directive('acMapDrawer', function ($rootScope) {
         return {
             template:   '<div class="panel panel-primary">' +
-                            '<div class="panel-heading" data-toggle="collapse" data-target="#drawerBody">' +
+                            '<div class="panel-heading" data-toggle="collapse" data-target="#drawerBody"">' +
                                 '<div class="row">' +
                                     '<div class="col-xs-6">' +
                                         '<img class="ac-region-danger-icon" src="/api/forecasts/{{ region.polygon.feature.properties.id }}/danger-rating-icon.svg"/>' +
@@ -251,7 +255,9 @@ angular.module('acMap', ['ngAnimate'])
                 region: '='
             },
             link: function ($scope, el, attrs) {
+                $scope.toggleCollapse = function () {
 
+                }
             }
         };
     });
