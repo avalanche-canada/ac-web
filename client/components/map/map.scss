@@ -31,7 +31,7 @@
     }
     & > .panel-body {
         padding: 5px 15px;
-        border-top: 1px solid #ddd;
+        border-top: 1px solid #eee;
     }
     h3 {
         margin-top: 0;
@@ -42,6 +42,17 @@
     .ac-forecast-highlights {
         margin-top: 10px;
         color: rgb(43, 47, 51);
+    }
+    .ac-forecasts-dates {
+        .col-xs-6 {
+            border-top: 5px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 5px;
+            &:first-child {
+                border-right: 1px solid #eee;
+            }
+        }
+        padding: 5px;
     }
     .ac-forecast-nowcast {
         padding: 0;

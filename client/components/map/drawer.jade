@@ -2,19 +2,19 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
     .row
         .col-xs-12
             h3 {{ current.region.polygon.feature.properties.name }}
-    .row
+    .row.ac-forecasts-dates
         .col-xs-6
             dl
                 dd.small
                     strong.ac-text-primary DATE ISSUED 
                 dt.small
-                    span.ac-text-default {{ current.region.forecast.dateIssued | date:'EEEE, MMMM d, y h:mm a' | uppercase }}
+                    span.ac-text-default {{ current.region.forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
         .col-xs-6
             dl
                 dd.small
                     strong.ac-text-primary VALID UNTIL
                 dt.small
-                    span.ac-text-default {{ current.region.forecast.validUntil | date:'EEEE, MMMM d, y h:mm a' | uppercase }}
+                    span.ac-text-default {{ current.region.forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
     .row
         .col-xs-12
             p.ac-forecast-highlights
