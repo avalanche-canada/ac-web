@@ -143,18 +143,23 @@ angular.module('acMap', ['ngAnimate'])
                                 region.polygon.bindLabel(featureData.properties.name, {noHide: true});
 
                                 region.polygon.on('click', function (e) {
+                                    var mapZoom = map.getZoom();
                                     var externalRegions = _.keys(externalRegionsLinks);
                                     var isExternalRegion = _.contains(externalRegions, featureData.properties.id);
 
                                     if (isExternalRegion) {
                                         window.open(externalRegionsLinks[featureData.properties.id], '_blank');
                                     } else {
-                                        map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
+                                        // map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
                                         setRegion(region);
                                         $rootScope.$broadcast('regionclick', region);
                                     }
 
                                     $('.ac-drawer .panel-body').collapse('show');
+
+                                    if(mapZoom <= 9) {
+                                        map.fitBounds(region.polygon.getBounds(), { paddingBottomRight: [500, 0] });
+                                    } else map.panTo(region.centroid._latlng);
                                 });
                             }
                         }).addTo(map);
@@ -205,7 +210,8 @@ angular.module('acMap', ['ngAnimate'])
                         layers.regions.eachLayer(function (layer) {
                             layer.setStyle({ fillColor: 'transparent' });
                         });
-                        region.polygon.setStyle({ fillColor: '#489BDF'});
+
+                        if(map.getZoom() < 11) region.polygon.setStyle({ fillColor: '#489BDF'});
                     }, 0);
                 }
 
@@ -216,7 +222,7 @@ angular.module('acMap', ['ngAnimate'])
     .directive('acMapDrawer', function ($rootScope) {
         return {
             template:   '<div class="panel panel-primary">' +
-                            '<div class="panel-heading" data-toggle="collapse" data-target="#forecast">' +
+                            '<div class="panel-heading" data-toggle="collapse" data-target="#drawerBody">' +
                                 '<div class="row">' +
                                     '<div class="col-xs-6">' +
                                         '<img class="ac-region-danger-icon" src="/api/forecasts/{{ region.polygon.feature.properties.id }}/danger-rating-icon.svg"/>' +
@@ -227,7 +233,7 @@ angular.module('acMap', ['ngAnimate'])
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="panel-body collapse" ng-transclude>' +
+                            '<div id="drawerBody" class="panel-body collapse" ng-transclude>' +
                             '</div>' +
                             '<div class="panel-footer">' +
                                 '<ul class="list-inline">' +

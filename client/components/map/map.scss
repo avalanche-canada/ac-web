@@ -12,7 +12,7 @@
 
 .ac-drawer {
     position: absolute;
-    top: 90px;
+    top: 75px;
     right: 0;
     width: 500px;
 }
@@ -23,14 +23,14 @@
 
 .ac-drawer .ac-region-danger-icon {
     position: absolute;
-    top: -20px;
+    top: -6px;
     left: 10px;
-    height: 60px;
-    width: 60px;
+    height: 30px;
+    width: 30px;
 }
 
 .ac-drawer .panel-title {
-    padding-left: 60px;
+    padding-left: 30px;
 }
 
 .ac-drawer.ng-hide-remove,
@@ -68,6 +68,10 @@
     margin-top: 10px;
 }
 
+.ac-drawer .panel-footer {
+    padding: 5px 15px;
+}
+
 .ac-drawer .panel-footer ul {
     margin: 0;
     padding: 0;
@@ -87,40 +91,56 @@
     line-height: 1.30;
 }
 
+.ac-drawer {
+    .panel-body {
+        padding: 5px 15px;
+    }
+    .nav-pills > li > a {
+        padding: 5px 15px;
+    }
+    .table-condensed {
+        margin-bottom: 5px;
+        & > thead > tr > th, & > tbody > tr > td {
+            padding: 2px;
+        }
+    }
+}
+
+
+
 .ac-nowcast {
     height: 150px;
 }
 
-.ac-veg-zone--alp {
-    background-color: rgb(221, 238, 250);
-}
+// .ac-veg-zone--alp {
+//     color: rgb(221, 238, 250);
+// }
 
-.ac-veg-zone--tln {
-    background-color: rgb(209, 217, 163);
-}
+// .ac-veg-zone--tln {
+//     color: rgb(209, 217, 163);
+// }
 
-.ac-veg-zone--btl {
-    background-color: rgb(174, 191, 172);
-}
+// .ac-veg-zone--btl {
+//     color: rgb(174, 191, 172);
+// }
 
 .ac-danger-rating--extreme {
-    background-color: Black;
-    color: white
+    color: Black;
 }
 
 .ac-danger-rating--high {
-    background-color: red;
+    color: red;
 }
 
 .ac-danger-rating--considerable {
-    background-color: orange;
+    color: orange;
 }
 
 .ac-danger-rating--moderate {
-    background-color: yellow;
+    color: yellow;
 }
 
 .ac-danger-rating--low {
-    background-color: green;
+    color: green;
 }
 

@@ -1,11 +1,12 @@
 div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="current.region", class="ac-drawer")
     .row
-    .col-xs-12
+        .col-xs-12
+            h4.ac-nowcast-day Forecast for {{ current.region.forecast.dangerRatings[0].date | date:'fullDate' }}
             .alert.alert-info
                 | We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
     .row
         .col-xs-12
-            ul.nav.nav-tabs(role='tablist')
+            ul.nav.nav-pills(role='tablist')
               li.active
                 a(href="", role='tab', data-target="#forecast", data-toggle='tab') Forecast
               li
@@ -16,12 +17,7 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            //- h4.ac-nowcast-day {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
-                            img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast.center-block
-                            //- .panel.panel-info.ac-nowcast
-                                .ac-nowcast-alp
-                                .ac-nowcast-tln
-                                .ac-nowcast-btl
+                            img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast
                     .row
                         .col-xs-12
                             table.table.table-condensed
@@ -33,16 +29,16 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                 tbody
                                   tr
                                     td.ac-veg-zone--alp Alpine
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.alp }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.alp }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':').join(' - ') }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':').join(' - ') }}
                                   tr
                                     td.ac-veg-zone--tln Treeline
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.tln }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.tln }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':').join(' - ') }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':').join(' - ') }}
                                   tr
                                     td.ac-veg-zone--btl Bellow Treeline
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.btl }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.btl }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':').join(' - ') }}
+                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':').join(' - ') }}
                     .row
                         .col-xs-12
                             dl
