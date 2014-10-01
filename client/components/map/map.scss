@@ -112,35 +112,36 @@
     height: 150px;
 }
 
-// .ac-veg-zone--alp {
-//     color: rgb(221, 238, 250);
-// }
-
-// .ac-veg-zone--tln {
-//     color: rgb(209, 217, 163);
-// }
-
-// .ac-veg-zone--btl {
-//     color: rgb(174, 191, 172);
-// }
-
-.ac-danger-rating--extreme {
-    color: Black;
+.ac-veg-zone--alp {
+    background-color: rgb(221, 238, 250);
 }
 
-.ac-danger-rating--high {
+.ac-veg-zone--tln {
+    background-color: rgb(209, 217, 163);
+}
+
+.ac-veg-zone--btl {
+    background-color: rgb(174, 191, 172);
+}
+
+.ac-danger-rating--extreme {
+    background-color: black;
     color: red;
 }
 
+.ac-danger-rating--high {
+    background-color: red;
+}
+
 .ac-danger-rating--considerable {
-    color: orange;
+    background-color: orange;
 }
 
 .ac-danger-rating--moderate {
-    color: yellow;
+    background-color: yellow;
 }
 
 .ac-danger-rating--low {
-    color: green;
+    background-color: green;
 }
 
