@@ -257,7 +257,7 @@ angular.module('acMap', ['ngAnimate'])
             link: function ($scope, el, attrs) {
                 $scope.toggleCollapse = function () {
 
-                }
+                };
             }
         };
     });
