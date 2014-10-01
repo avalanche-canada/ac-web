@@ -5,54 +5,54 @@ var request = require('request');
 var caamlEndpoints = require('./forecast-caaml-endpoints.json');
 
 var ratings = {
-     "Low"         : "1",
-     "Moderate"    : "2",
-     "Considerable": "3",
-     "High"        : "4",
-     "Extreme"     : "5"
+    Low: '1',
+    Moderate: '2',
+    Considerable: '3',
+    High: '4',
+    Extreme: '5'
 };
 
 var colors = {
-    '1:Low': '#52ba4a',
-    '2:Moderate': '#fff300',
-    '3:Considerable': '#f79218',
-    '4:High': '#ef1c29',
-    '5:Extreme': 'black',
-    'N/A:No Rating' : 'blue'
+    green: '#52ba4a',
+    yellow: '#fff300',
+    orange: '#f79218',
+    red: '#ef1c29',
+    black: 'black',
+    white: 'white'
 };
 
-var nowcastColors = {
+var dangerRatingStyles = {
     iconFill: {
-        '1:Low': '#52ba4a',
-        '2:Moderate': '#fff300',
-        '3:Considerable': '#f79218',
-        '4:High': '#ef1c29',
-        '5:Extreme': '#ef1c29',
-        'N/A:No Rating' : 'white'
+        '1:Low': colors.green,
+        '2:Moderate': colors.yellow,
+        '3:Considerable': colors.orange,
+        '4:High': colors.red,
+        '5:Extreme': colors.red,
+        'N/A:No Rating': colors.white
     },
     bannerFill: {
-        '1:Low': '#52ba4a',
-        '2:Moderate': '#fff300',
-        '3:Considerable': '#f79218',
-        '4:High': '#ef1c29',
-        '5:Extreme': 'black',
-        'N/A:No Rating' : 'white'
+        '1:Low': colors.green,
+        '2:Moderate': colors.yellow,
+        '3:Considerable': colors.orange,
+        '4:High': colors.red,
+        '5:Extreme': colors.black,
+        'N/A:No Rating': colors.white
     },
     bannerStroke: {
-        '1:Low': 'black',
-        '2:Moderate': 'black',
-        '3:Considerable': 'black',
-        '4:High': 'black',
-        '5:Extreme': 'red',
-        'N/A:No Rating' : 'black'
+        '1:Low': colors.black,
+        '2:Moderate': colors.black,
+        '3:Considerable': colors.black,
+        '4:High': colors.black,
+        '5:Extreme': colors.red,
+        'N/A:No Rating': colors.black
     },
     textFill: {
-        '1:Low': 'black',
-        '2:Moderate': 'black',
-        '3:Considerable': 'black',
-        '4:High': 'black',
-        '5:Extreme': 'white',
-        'N/A:No Rating' : 'black'
+        '1:Low': colors.black,
+        '2:Moderate': colors.black,
+        '3:Considerable': colors.black,
+        '4:High': colors.black,
+        '5:Extreme': colors.white,
+        'N/A:No Rating': colors.black
     }
 };
 
@@ -269,9 +269,9 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     if(req.forecast.json){
         var todaysRating = req.forecast.json.dangerRatings[0].dangerRating;
         var ratings = {
-            alp: colors[todaysRating.alp],
-            tln: colors[todaysRating.tln],
-            btl: colors[todaysRating.btl]
+            alp: dangerRatingStyles.bannerFill[todaysRating.alp],
+            tln: dangerRatingStyles.bannerFill[todaysRating.tln],
+            btl: dangerRatingStyles.bannerFill[todaysRating.btl]
         };
 
         res.header('Cache-Control', 'no-cache');
@@ -309,24 +309,24 @@ router.get('/:region/nowcast.svg', function(req, res) {
         var ratings = {
             alp: {
                 rating: todaysRating.alp.replace(':', ' - '),
-                iconFill: nowcastColors.iconFill[todaysRating.alp],
-                bannerFill: nowcastColors.bannerFill[todaysRating.alp],
-                bannerStroke: nowcastColors.bannerStroke[todaysRating.alp],
-                textFill: nowcastColors.textFill[todaysRating.alp]
+                iconFill: dangerRatingStyles.iconFill[todaysRating.alp],
+                bannerFill: dangerRatingStyles.bannerFill[todaysRating.alp],
+                bannerStroke: dangerRatingStyles.bannerStroke[todaysRating.alp],
+                textFill: dangerRatingStyles.textFill[todaysRating.alp]
             },
             tln: {
                 rating: todaysRating.tln.replace(':', ' - '),
-                iconFill: nowcastColors.iconFill[todaysRating.tln],
-                bannerFill: nowcastColors.bannerFill[todaysRating.tln],
-                bannerStroke: nowcastColors.bannerStroke[todaysRating.tln],
-                textFill: nowcastColors.textFill[todaysRating.tln]
+                iconFill: dangerRatingStyles.iconFill[todaysRating.tln],
+                bannerFill: dangerRatingStyles.bannerFill[todaysRating.tln],
+                bannerStroke: dangerRatingStyles.bannerStroke[todaysRating.tln],
+                textFill: dangerRatingStyles.textFill[todaysRating.tln]
             },
             btl: {
                 rating: todaysRating.btl.replace(':', ' - '),
-                iconFill: nowcastColors.iconFill[todaysRating.btl],
-                bannerFill: nowcastColors.bannerFill[todaysRating.btl],
-                bannerStroke: nowcastColors.bannerStroke[todaysRating.btl],
-                textFill: nowcastColors.textFill[todaysRating.btl]
+                iconFill: dangerRatingStyles.iconFill[todaysRating.btl],
+                bannerFill: dangerRatingStyles.bannerFill[todaysRating.btl],
+                bannerStroke: dangerRatingStyles.bannerStroke[todaysRating.btl],
+                textFill: dangerRatingStyles.textFill[todaysRating.btl]
             }
         };
 
