@@ -225,28 +225,8 @@ angular.module('acMap', ['ngAnimate'])
 
     .directive('acMapDrawer', function ($rootScope) {
         return {
-            template:   '<div class="panel panel-primary">' +
-                            '<div class="panel-heading" data-toggle="collapse" data-target="#drawerBody"">' +
-                                '<div class="row">' +
-                                    '<div class="col-xs-6">' +
-                                        '<img class="ac-region-danger-icon" src="/api/forecasts/{{ region.polygon.feature.properties.id }}/danger-rating-icon.svg"/>' +
-                                        '<h3 class="panel-title">{{ region.polygon.feature.properties.name }}</h3>' +
-                                    '</div>' +
-                                    '<div class="col-xs-6">' +
-                                        '<i class="fa fa-angle-up fa-inverse fa-lg pull-right"/>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
+            template:   '<div class="panel">' +
                             '<div id="drawerBody" class="panel-body collapse" ng-transclude>' +
-                            '</div>' +
-                            '<div class="panel-footer">' +
-                                '<ul class="list-inline">' +
-                                    '<li>' +
-                                        '<small>Date Issued: {{ region.forecast.dateIssued | date:\'MMM d, y h:mm:ss a\' }}</small>' +
-                                    '</li>' +
-                                    '<li>' +
-                                        '<small>Valid Until: {{ region.forecast.validUntil | date:\'MMM d, y h:mm:ss a\' }}</small>' +
-                                    '</li>' +
                             '</div>' +
                         '</div>',
             replace: true,

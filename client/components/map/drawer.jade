@@ -1,49 +1,76 @@
 div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="current.region", class="ac-drawer")
     .row
         .col-xs-12
-            h4.ac-nowcast-day Forecast for {{ current.region.forecast.dangerRatings[0].date | date:'fullDate' }}
-            .alert.alert-info
-                | We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
+            h3 {{ current.region.polygon.feature.properties.name }}
+    .row
+        .col-xs-6
+            dl
+                dd.small
+                    strong.ac-text-primary DATE ISSUED 
+                dt.small
+                    span.ac-text-default {{ current.region.forecast.dateIssued | date:'EEEE, MMMM d, y h:mm a' | uppercase }}
+        .col-xs-6
+            dl
+                dd.small
+                    strong.ac-text-primary VALID UNTIL
+                dt.small
+                    span.ac-text-default {{ current.region.forecast.validUntil | date:'EEEE, MMMM d, y h:mm a' | uppercase }}
+    .row
+        .col-xs-12
+            p.ac-forecast-highlights
+                strong We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
     .row
         .col-xs-12
             ul.nav.nav-pills(role='tablist')
               li.active
-                a(href="", role='tab', data-target="#forecast", data-toggle='tab') Forecast
+                a(href="", role='tab', data-target="#forecast", data-toggle='tab') Public Avalanche Forecast
               li
-                a(href="", role='tab', data-target="#problems", data-toggle='tab') Problems
+                a(href="", role='tab', data-target="#problems", data-toggle='tab') Forecast Problems
               li
-                a(href="", role='tab', data-target="#details", data-toggle='tab') Details
+                a(href="", role='tab', data-target="#details", data-toggle='tab') Forecast Details
             .tab-content
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast
-                    .row
-                        .col-xs-12
-                            table.table.table-condensed
-                                thead
-                                  tr
-                                    th
-                                    th {{ current.region.forecast.dangerRatings[1].date | date:'EEEE' }}
-                                    th {{ current.region.forecast.dangerRatings[2].date | date:'EEEE' }}
-                                tbody
-                                  tr
-                                    td.ac-veg-zone--alp Alpine
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':').join(' - ') }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':').join(' - ') }}
-                                  tr
-                                    td.ac-veg-zone--tln Treeline
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':').join(' - ') }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':').join(' - ') }}
-                                  tr
-                                    td.ac-veg-zone--btl Bellow Treeline
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':').join(' - ') }}
-                                    td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") {{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':').join(' - ') }}
-                    .row
-                        .col-xs-12
-                            dl
-                                dt Confidence:
-                                dd {{ current.region.forecast.confidence }}
+                            .panel.panel-default
+                                .panel-heading
+                                    | {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
+                                .panel-body.ac-forecast-nowcast
+                                    img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast
+                                table.table.table-condensed.forecast-days
+                                    thead.ac-thead-dark
+                                        tr
+                                            th
+                                            th {{ current.region.forecast.dangerRatings[1].date | date:'EEEE' }}
+                                            th {{ current.region.forecast.dangerRatings[2].date | date:'EEEE' }}
+                                    tbody
+                                        tr
+                                            td.ac-veg-zone--alp 
+                                                strong Alpine
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") 
+                                                strong {{ current.region.forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") 
+                                                strong {{ current.region.forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
+                                        tr
+                                            td.ac-veg-zone--tln 
+                                                strong Treeline
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") 
+                                                strong {{ current.region.forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") 
+                                                strong{{ current.region.forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
+                                        tr
+                                            td.ac-veg-zone--btl 
+                                                strong Bellow Treeline
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") 
+                                                strong {{ current.region.forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
+                                            td(class="ac-danger-rating--{{ current.region.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") 
+                                                strong{{ current.region.forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
+                                        tr
+                                            td
+                                                strong Confidence:
+                                            td(colspan="2")
+                                                span.ac-text-default{{ current.region.forecast.confidence }}
+
                 #problems.tab-pane
                     #problemsAccordion.panel-group
                         .panel.panel-info(ng-repeat="problem in current.region.forecast.problems")
@@ -52,7 +79,7 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                     a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
                                       | {{ problem.type }}
                                       i.fa.fa-fw.fa-caret-down
-                            div(id="problem{{$index}}").panel-collapse.collapse
+                            div(id="problem{{$index}}").panel-collapse.collapse(ng-class="{in: $index === 0}")
                                 .panel-body
                                     {{ problem.comment }}
                                     h5 Travel and Terrain Advice
@@ -66,7 +93,7 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                     a(href='', data-target="#avalancheSummary",data-toggle='collapse', data-parent='#detailsAccordion')
                                       | Avalanche Summary
                                       i.fa.fa-fw.fa-caret-down
-                            #avalancheSummary.panel-collapse.collapse
+                            #avalancheSummary.panel-collapse.collapse.in
                                 .panel-body
                                     {{ current.region.forecast.avalancheSummary }}
                         .panel.panel-info

@@ -10,27 +10,74 @@
     padding: 0;
 }
 
+.ac-thead-dark {
+    background-color: rgb(43, 47, 51);
+    color: white;
+}
+
 .ac-drawer {
     position: absolute;
-    top: 75px;
+    top: 0;
     right: 0;
+    height: 100%;
     width: 500px;
-}
-
-.ac-drawer .panel-heading {
-    cursor: pointer;
-}
-
-.ac-drawer .ac-region-danger-icon {
-    position: absolute;
-    top: -6px;
-    left: 10px;
-    height: 30px;
-    width: 30px;
-}
-
-.ac-drawer .panel-title {
-    padding-left: 30px;
+    padding-top: 75px;
+    margin-bottom: 0;
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    .small {
+        font-size: 75%;
+    }
+    & > .panel-body {
+        padding: 5px 15px;
+        border-top: 1px solid #ddd;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    dl {
+        margin-bottom: 0px;
+    }
+    .ac-forecast-highlights {
+        margin-top: 10px;
+        color: rgb(43, 47, 51);
+    }
+    .ac-forecast-nowcast {
+        padding: 0;
+    }
+    .panel-heading {
+        background-color: rgb(43, 47, 51);
+        color: white;
+        padding: 5px 15px;
+    }
+    .nav-pills {
+        margin-bottom: 10px;
+        li {
+            a {
+                background-color: rgba(0, 86, 183, 0.4);
+                color: white;
+            }
+            &.active a {
+                background-color: rgb(0, 86, 183);
+            }
+            & > a {
+                padding: 5px 15px;
+                font-size: 0.8em;
+                border-radius: 0;
+                
+            }
+        }
+    }
+    .panel {
+        margin-bottom: 0;
+    }
+    .forecast-days {
+        td {
+            border: 1px solid white;
+            font-size: 0.7em;
+        }
+    }
 }
 
 .ac-drawer.ng-hide-remove,
@@ -63,50 +110,6 @@
         transform: translateX(500px);
     }
 }
-
-.ac-drawer .tab-pane{
-    margin-top: 10px;
-}
-
-.ac-drawer .panel-footer {
-    padding: 5px 15px;
-}
-
-.ac-drawer .panel-footer ul {
-    margin: 0;
-    padding: 0;
-}
-
-.ac-drawer .panel-body dl {
-    margin-bottom: 0;
-}
-
-.ac-drawer .panel-body dt {
-    float: left;
-    margin-right: 10px;
-}
-
-.ac-drawer .panel-body dt,
-.ac-drawer .panel-body dd {
-    line-height: 1.30;
-}
-
-.ac-drawer {
-    .panel-body {
-        padding: 5px 15px;
-    }
-    .nav-pills > li > a {
-        padding: 5px 15px;
-    }
-    .table-condensed {
-        margin-bottom: 5px;
-        & > thead > tr > th, & > tbody > tr > td {
-            padding: 2px;
-        }
-    }
-}
-
-
 
 .ac-nowcast {
     height: 150px;
@@ -143,5 +146,15 @@
 
 .ac-danger-rating--low {
     background-color: green;
+}
+
+// new design based on full page concepts
+
+.ac-text-primary {
+    color: rgb(0, 86, 183);
+}
+
+.ac-text-default {
+    color: rgb(43, 47, 51);
 }
 
