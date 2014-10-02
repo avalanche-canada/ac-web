@@ -84,7 +84,7 @@ angular.module('acMap', ['ngAnimate'])
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document) {
         return {
-            template: '<div id="mapboxMap"></div>',
+            template: '<div id="map"></div>',
             replace: true,
             scope: {
                 mapboxAccessToken: '@',

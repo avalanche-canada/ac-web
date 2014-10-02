@@ -8,6 +8,16 @@ html, body {
   height: 100%;
 }
 
+.ac-no-gutter {
+    margin: 0;
+    padding: 0;
+}
+
+.ac-thead-dark {
+    background-color: rgb(43, 47, 51);
+    color: white;
+}
+
 // todo: move to module stylesheet
 .scroll-nav{
   position: absolute;

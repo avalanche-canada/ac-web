@@ -1,8 +1,8 @@
-div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="current.region", class="ac-drawer")
+div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map-drawer, region="current.region", class="ac-drawer")
     .row
         .col-xs-12
-            h3 {{ current.region.polygon.feature.properties.name }}
-    .row.ac-forecasts-dates
+            h3.ac-forecast-region {{ current.region.polygon.feature.properties.name }}
+    .row.ac-forecast-dates
         .col-xs-6
             dl
                 dd.small
@@ -36,8 +36,8 @@ div(ng-show="current.region && current.region.forecast", ac-map-drawer, region="
                                 .panel-heading
                                     | {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
                                 .panel-body.ac-forecast-nowcast
-                                    img(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg").ac-nowcast
-                                table.table.table-condensed.forecast-days
+                                    img.ac-nowcast(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg")
+                                table.table.table-condensed.ac-forecast-days
                                     thead.ac-thead-dark
                                         tr
                                             th
