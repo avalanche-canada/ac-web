@@ -118,7 +118,7 @@ angular.module('acMap', ['ngAnimate'])
             attrs.$observe('ngSrc', function () {
                 $scope.imageLoaded = false;
             });
-        }
+        };
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
