@@ -18,7 +18,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
     .row
         .col-xs-12
             p.ac-forecast-highlights
-                strong We're moving from a storm slab problem to a persistent slab problem. Check out this <a href="#">blog post</a> for thoughts on the current situation and strategies for the next the chapter.
+                strong(ng-bind-html="current.region.forecast.highlights | stripStyles")
     .row
         .col-xs-12
             ul.nav.nav-pills(role='tablist')
@@ -81,9 +81,9 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                       i.fa.fa-fw.fa-caret-down
                             div(id="problem{{$index}}").panel-collapse.collapse(ng-class="{in: $index === 0}")
                                 .panel-body
-                                    {{ problem.comment }}
+                                    {{ problem.comment  | stripStyles}}
                                     h5 Travel and Terrain Advice
-                                    p {{ problem.travelAndTerrainAdvice }}
+                                    p {{ problem.travelAndTerrainAdvice | stripStyles }}
 
                 #details.tab-pane
                     #detailsAccordion.panel-group
@@ -95,7 +95,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                       i.fa.fa-fw.fa-caret-down
                             #avalancheSummary.panel-collapse.collapse.in
                                 .panel-body
-                                    {{ current.region.forecast.avalancheSummary }}
+                                    {{ current.region.forecast.avalancheSummary | stripStyles}}
                         .panel.panel-info
                             .panel-heading
                                 h4.panel-title
@@ -104,7 +104,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                       i.fa.fa-fw.fa-caret-down
                             #snowpackSummary.panel-collapse.collapse
                                 .panel-body
-                                    {{ current.region.forecast.snowpackSummary }}
+                                    {{ current.region.forecast.snowpackSummary | stripStyles }}
                         .panel.panel-info
                             .panel-heading
                                 h4.panel-title
@@ -113,4 +113,4 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                       i.fa.fa-fw.fa-caret-down
                             #weatherForecast.panel-collapse.collapse
                                 .panel-body
-                                    {{ current.region.forecast.weatherForecast }}
+                                    {{ current.region.forecast.weatherForecast | stripStyles }}
