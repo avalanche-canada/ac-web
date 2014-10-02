@@ -2,6 +2,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
     .row
         .col-xs-12
             h3.ac-forecast-region {{ current.region.polygon.feature.properties.name }}
+            i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="current.region = null")
     .row.ac-forecast-dates
         .col-xs-6
             dl
