@@ -8,7 +8,7 @@ angular.module('acMap', ['ngAnimate'])
     .filter('stripStyles', function () {
         return function (item) {
             return item.replace(/<style[\s\S]*<\/style>/g, '');
-          };
+        };
     })
 
     .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {

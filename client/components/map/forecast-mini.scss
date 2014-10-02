@@ -1,3 +1,14 @@
+$vegZoneAlp: rgb(221, 238, 250);
+$vegZoneTln: rgb(209, 217, 163);
+$vegZoneBtl: rgb(174, 191, 172);
+
+$dangerRatingExtreme: black;
+$dangerRatingHigh: #EF1C29;
+$dangerRatingConsiderable: #F79218;
+$dangerRatingModerate: #FFF300;
+$dangerRatingLow: #52BA4A;
+$dangerRatingNoRating: white;
+
 // todo: some components are 'hacked-in' awaiting actual styles from  full page forecast.
 .ac-forecast-mini {
     dl {
@@ -64,44 +75,36 @@
     }
 }
 
-// todo: create real danger rating colors in variable file and replace here
+
 .ac-veg-zone--alp {
-    background-color: rgb(221, 238, 250);
+    background-color: $vegZoneAlp;
 }
 
 .ac-veg-zone--tln {
-    background-color: rgb(209, 217, 163);
+    background-color: $vegZoneTln;
 }
 
 .ac-veg-zone--btl {
-    background-color: rgb(174, 191, 172);
+    background-color: $vegZoneBtl;
 }
 
 .ac-danger-rating--extreme {
-    background-color: black;
+    background-color: $dangerRatingExtreme;
     color: red;
 }
 
 .ac-danger-rating--high {
-    background-color: red;
+    background-color: $dangerRatingHigh;
 }
 
 .ac-danger-rating--considerable {
-    background-color: orange;
+    background-color: $dangerRatingConsiderable;
 }
 
 .ac-danger-rating--moderate {
-    background-color: yellow;
+    background-color: $dangerRatingModerate;
 }
 
 .ac-danger-rating--low {
-    background-color: green;
-}
-
-.ac-text-primary {
-    color: rgb(0, 86, 183);
-}
-
-.ac-text-default {
-    color: rgb(43, 47, 51);
+    background-color: $dangerRatingLow;
 }
