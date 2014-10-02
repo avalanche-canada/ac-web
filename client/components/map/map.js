@@ -16,6 +16,9 @@ angular.module('acMap', ['ngAnimate'])
     .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
         $scope.regions = {};
         $scope.current = {};
+        $scope.drawer = {
+            visible: false
+        };
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
@@ -57,11 +60,11 @@ angular.module('acMap', ['ngAnimate'])
 
                 region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
 
-                if(inView) {
-                    if(!region.forecast) {
-                        fetchForecast(region);
-                    }
-                }
+                // if(inView) {
+                //     if(!region.forecast) {
+                //         fetchForecast(region);
+                //     }
+                // }
             }
 
             // if(map.getZoom() > 9) {
@@ -72,10 +75,20 @@ angular.module('acMap', ['ngAnimate'])
         });
 
         $scope.$on('regionclick', function (e, region) {
-            $scope.current.region = null;
+            $scope.drawer.visible = false;
+            $scope.imageLoaded = false;
 
             $timeout(function () {
+                $scope.current.region = null;
+            }, 400);
+
+            if(!region.forecast) {
+                fetchForecast(region);
+            }
+            
+            $timeout(function () {
                 $scope.current.region = region;
+                $scope.drawer.visible = true;
             }, 800);
         });
 
@@ -96,10 +109,14 @@ angular.module('acMap', ['ngAnimate'])
     })
 
     .directive('imageLoading', function () {
-        return function ($scope, el) {
+        return function ($scope, el, attrs) {
             angular.element(el).bind('load', function () {
                 $scope.imageLoaded = true;
                 $scope.$apply();
+            });
+
+            attrs.$observe('ngSrc', function () {
+                $scope.imageLoaded = false;
             });
         }
     })

@@ -1,4 +1,4 @@
-div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map-drawer, region="current.region", class="ac-drawer")
+div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawer.visible", ac-map-drawer, region="current.region", class="ac-drawer")
     .row
         .col-xs-12
             h3.ac-forecast-region {{ current.region.polygon.feature.properties.name }}
@@ -43,7 +43,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                         .rect3
                                         .rect4
                                         .rect5
-                                    img.ac-nowcast(ng-show="imageLoaded", src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg", image-loading)
+                                    img.ac-nowcast(ng-show="current.region.forecast.region && imageLoaded", ng-src="{{current.region.forecast.region && '/api/forecasts/' + current.region.forecast.region  + '/nowcast.svg' || ''}}", image-loading)
                                 table.table.table-condensed.ac-forecast-days
                                     thead.ac-thead-dark
                                         tr
