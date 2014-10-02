@@ -72,7 +72,11 @@ angular.module('acMap', ['ngAnimate'])
         });
 
         $scope.$on('regionclick', function (e, region) {
-            $scope.current.region = region;
+            $scope.current.region = null;
+
+            $timeout(function () {
+                $scope.current.region = region;
+            }, 800);
         });
 
     })
@@ -89,6 +93,15 @@ angular.module('acMap', ['ngAnimate'])
                 return leafletPip.pointInLayer(latlng, polygons, true)[0];
             }
         };
+    })
+
+    .directive('imageLoading', function () {
+        return function ($scope, el) {
+            angular.element(el).bind('load', function () {
+                $scope.imageLoaded = true;
+                $scope.$apply();
+            });
+        }
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
@@ -116,16 +129,15 @@ angular.module('acMap', ['ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
 
-                angular.element(document).ready(invalidateSize);
-                angular.element($window).bind('resize', invalidateSize);
-
                 function invalidateSize() {
                     el.height($($window).height()-75);
                     map.invalidateSize();
                 }
 
-                map.on('moveend', function () {
+                angular.element(document).ready(invalidateSize);
+                angular.element($window).bind('resize', invalidateSize);
 
+                map.on('moveend', function () {
                     $scope.$apply(function () {
                         $rootScope.$broadcast('mapmoveend', map);
                     });
@@ -135,7 +147,6 @@ angular.module('acMap', ['ngAnimate'])
                     } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
                         map.addLayer(layers.dangerIcons);
                     }
-
                 });
 
                 $scope.$watch('polygons', function (polygons) {

@@ -37,7 +37,13 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast", ac-map
                                 .panel-heading
                                     | {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
                                 .panel-body.ac-forecast-nowcast
-                                    img.ac-nowcast(src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg")
+                                    .spinner(ng-hide="imageLoaded")
+                                        .rect1
+                                        .rect2
+                                        .rect3
+                                        .rect4
+                                        .rect5
+                                    img.ac-nowcast(ng-show="imageLoaded", src="/api/forecasts/{{current.region.polygon.feature.properties.id}}/nowcast.svg", image-loading)
                                 table.table.table-condensed.ac-forecast-days
                                     thead.ac-thead-dark
                                         tr
