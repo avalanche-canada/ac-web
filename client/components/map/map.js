@@ -7,7 +7,9 @@ angular.module('acMap', ['ngAnimate'])
 
     .filter('stripStyles', function () {
         return function (item) {
-            return item.replace(/<style[\s\S]*<\/style>/g, '');
+            if (item){
+                return item.replace(/<style[\s\S]*<\/style>/g, '');
+            }
         };
     })
 
@@ -89,7 +91,7 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document) {
+    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
         return {
             template: '<div id="map"></div>',
             replace: true,
@@ -113,10 +115,14 @@ angular.module('acMap', ['ngAnimate'])
 
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
-                $timeout(function () {
-                    el[0].style.height = ($document.height()-75) + 'px';
+
+                angular.element(document).ready(invalidateSize);
+                angular.element($window).bind('resize', invalidateSize);
+
+                function invalidateSize() {
+                    el.height($($window).height()-75);
                     map.invalidateSize();
-                }, 500);
+                }
 
                 map.on('moveend', function () {
 
