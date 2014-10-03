@@ -60,47 +60,45 @@ angular.module('acMap', ['ngAnimate'])
             });
         }
 
+        function setRegion(region) {
+            if ($scope.current.region !== region) {
+                $scope.drawer.visible = false;
+                $scope.imageLoaded = false;
+
+                $timeout(function () {
+                    $scope.current.region = null;
+                }, 400);
+
+                if(!region.forecast) {
+                    fetchForecast(region);
+                }
+                
+                $timeout(function () {
+                    $scope.current.region = region;
+                    $scope.drawer.visible = true;
+                }, 800);
+            }
+        }
+
         $scope.$on('mapmoveend', function (e, map) {
             var mapCenter = map.getCenter();
             var mapBounds = map.getBounds();
 
             for (var id in $scope.regions) {
-                var region = $scope.regions[id];
+                // var region = $scope.regions[id];
+                //var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
 
-                var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
-
-                region.distanceToCenter = region.polygon.getBounds().getCenter().distanceTo(mapCenter);
-
-                // if(inView) {
-                //     if(!region.forecast) {
-                //         fetchForecast(region);
-                //     }
-                // }
+                $scope.regions[id].distanceToCenter = $scope.regions[id].polygon.getBounds().getCenter().distanceTo(mapCenter);
             }
 
-            // if(map.getZoom() > 9) {
-            //     $timeout(function () {
-            //         $scope.current.region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
-            //     });
-            // }
+            if(map.getZoom() > 9) {
+                var region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
+                setRegion(region);
+            }
         });
 
         $scope.$on('regionclick', function (e, region) {
-            $scope.drawer.visible = false;
-            $scope.imageLoaded = false;
-
-            $timeout(function () {
-                $scope.current.region = null;
-            }, 400);
-
-            if(!region.forecast) {
-                fetchForecast(region);
-            }
-            
-            $timeout(function () {
-                $scope.current.region = region;
-                $scope.drawer.visible = true;
-            }, 800);
+            setRegion(region);
         });
 
     })
@@ -286,6 +284,12 @@ angular.module('acMap', ['ngAnimate'])
                     }
                 });
 
+                $scope.$watch('region', function (region) {
+                    if(region) {
+                        setRegion(region);
+                    }
+                });
+
                 $scope.$watch('polygons', function (polygons) {
                     if(polygons) {
                         layers.regions = L.geoJson($scope.polygons, {
@@ -376,9 +380,7 @@ angular.module('acMap', ['ngAnimate'])
                             layer.setStyle({ fillColor: 'transparent' });
                         });
 
-                        if(map.getZoom() < 11) {
-                            region.polygon.setStyle({ fillColor: '#489BDF'});
-                        }
+                        region.polygon.setStyle({ fillColor: '#489BDF'});
                     }, 0);
                 }
 
