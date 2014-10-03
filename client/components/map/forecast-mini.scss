@@ -55,10 +55,13 @@ $dangerRatingNoRating: white;
     .ac-problem-travel-advice .panel-body {
         padding: 10px;
     }
-    .panel-primary > .panel-heading {
-        background-color: rgb(43, 47, 51);
-        color: white;
-        padding: 5px 15px;
+    .panel-primary {
+        border-color: #eee;
+        & > .panel-heading {
+            background-color: rgb(43, 47, 51);
+            color: white;
+            padding: 5px 15px;
+        }
     }
     .panel-default > .panel-heading {
         background-color: #ddd;
