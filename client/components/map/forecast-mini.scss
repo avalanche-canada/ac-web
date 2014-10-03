@@ -37,6 +37,7 @@ $dangerRatingNoRating: white;
     }
     .ac-forecast-nowcast {
         padding: 0;
+        overflow: hidden;
         .ac-nowcast {
             height: 150px;
             z-index: 1;
