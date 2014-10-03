@@ -5,90 +5,178 @@
 
 angular.module('acMap', ['ngAnimate'])
 
-    .filter('sanatizeHtml', function () {
-        return function (item) {
-            if (item) {
-                return item.replace(/!_!/g, '').replace(/<style[\s\S]*<\/style>/g, '');
-            }
-        };
-    })
-
-    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location, ForecastIcons) {
+    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
         $scope.regions = {};
         $scope.current = {};
         $scope.drawer = {
             visible: false
         };
 
+        $http.get('api/forecasts').then(function (res) {
+            $scope.regions = res.data;
+        });
+
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
             $location.path('/more');
         };
 
-        function fetchData() {
-            var dataEndpoint = ['/api/cac-polygons.geojson', '/api/region-centroids.geojson', '/api/areas.geojson'];
-            var dataRequests = dataEndpoint.map(function (url) { return $http.get(url); });
-
-            return $q.all(dataRequests).then(function (res) {
-                $scope.polygons = res[0].data;
-                $scope.centroids = res[1].data;
-            });
-        }
-        fetchData();
-
         function fetchForecast(region){
-            var regionId = region.polygon.feature.properties.id;
-            var forecastEndpoint = '/api/forecasts/' + regionId + '.json';
-
-            // todo: temp safety... external regions should return something
-            if (!_.contains(['north-rockies', 'vancouver-island', 'yukon-klondike', 'whistler-blackcomb', 'chic-chocs'], regionId)) {
-                $http.get(forecastEndpoint).then(function (res) {
-                    region.forecast = res.data;
+            if (region.feature.properties.forecastUrl) {
+                $http.get(region.feature.properties.forecastUrl).then(function (res) {
+                    region.feature.properties.forecast = res.data;
                 });
             }
         }
 
-        function setRegion(region) {
-            if ($scope.current.region !== region) {
+        $scope.$watch('current.region', function (newRegion, oldRegion) {
+            if(newRegion && newRegion !== oldRegion) {
                 $scope.drawer.visible = false;
                 $scope.imageLoaded = false;
 
-                $timeout(function () {
-                    $scope.current.region = null;
-                }, 400);
-
-                if(!region.forecast) {
-                    fetchForecast(region);
+                if(!newRegion.feature.properties.forecast) {
+                    fetchForecast(newRegion);
                 }
-                
+
                 $timeout(function () {
-                    $scope.current.region = region;
                     $scope.drawer.visible = true;
                 }, 800);
             }
-        }
-
-        $scope.$on('mapmoveend', function (e, map) {
-            var mapCenter = map.getCenter();
-            var mapBounds = map.getBounds();
-
-            for (var id in $scope.regions) {
-                // var region = $scope.regions[id];
-                //var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
-
-                $scope.regions[id].distanceToCenter = $scope.regions[id].polygon.getBounds().getCenter().distanceTo(mapCenter);
-            }
-
-            if(map.getZoom() > 9) {
-                var region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
-                setRegion(region);
-            }
         });
 
-        $scope.$on('regionclick', function (e, region) {
-            setRegion(region);
-        });
+    })
 
+    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
+        return {
+            template: '<div id="map"></div>',
+            replace: true,
+            scope: {
+                mapboxAccessToken: '@',
+                mapboxMapId: '@',
+                region: '=',
+                regions: '='
+            },
+            link: function ($scope, el, attrs) {
+                var layers = {};
+                var styles = {
+                    region: {
+                        default: {
+                            fillColor: 'transparent',
+                            color: 'transparent'
+                        },
+                        selected: {
+                            fillColor: '#489BDF'
+                        }
+                    }
+                };
+
+                L.mapbox.accessToken = $scope.mapboxAccessToken;
+                var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
+
+                function invalidateSize() {
+                    el.height($($window).height()-75);
+                    map.invalidateSize();
+                }
+
+                angular.element(document).ready(invalidateSize);
+                angular.element($window).bind('resize', invalidateSize);
+
+                // map.on('moveend', function () {
+                //     $scope.$apply(function () {
+                //         $rootScope.$broadcast('mapmoveend', map);
+                //     });
+
+                //     if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
+                //         map.removeLayer(layers.dangerIcons);
+                //     } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
+                //         map.addLayer(layers.dangerIcons);
+                //     }
+
+                //     var mapCenter = map.getCenter();
+                //     var mapBounds = map.getBounds();
+
+                //     for (var id in $scope.regions) {
+                //         // var region = $scope.regions[id];
+                //         //var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
+
+                //         $scope.regions[id].distanceToCenter = $scope.regions[id].polygon.getBounds().getCenter().distanceTo(mapCenter);
+                //     }
+
+                //     if(map.getZoom() > 9) {
+                //         var region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
+                //         setRegion(region);
+                //     }
+                // });
+
+                $scope.$watch('region', function (region) {
+                    if(region) {
+                        layers.regions.eachLayer(function (layer) {
+                            if(layer === region) {
+                                region.setStyle(styles.region.selected);
+                            } else {
+                                layer.setStyle(styles.region.default);
+                            }
+                        });
+                    }
+                });
+
+                $scope.$watch('regions', function (regions) {
+                    if(regions.features) {
+
+                        layers.regions = L.geoJson($scope.regions, {
+                            contextmenu: true,
+                            style: function(feature) {
+                                return styles.region.default;
+                            },
+                            onEachFeature: function (featureData, layer) {
+                                layer.bindLabel(featureData.properties.name, {noHide: true});
+                                layer.on('click', function () {
+                                    selectRegion(layer);
+                                });
+
+                                if(featureData.properties.centroid) {
+                                    var centroid = L.latLng(featureData.properties.centroid[1], featureData.properties.centroid[0]);
+                                    featureData.centroid = centroid;
+
+                                    var dangerIcon = L.marker(centroid, {
+                                        icon: L.icon({
+                                            iconUrl: featureData.properties.dangerIconUrl,
+                                            iconSize: [60, 60]
+                                        })
+                                    }).addTo(map);
+
+                                    dangerIcon.on('click', function () {
+                                        selectRegion(layer);
+                                    });
+                                }
+
+                            }
+                        }).addTo(map);
+
+                    }
+                });
+
+                function selectRegion(region) {
+                    $scope.$apply(function () {
+                        $scope.region = region;
+                    });
+
+                    if(map.getZoom() <= 9) {
+                        map.fitBounds(region.getBounds(), { paddingBottomRight: [500, 0] });
+                    } else {
+                        map.panTo(region.feature.properties.centroid);
+                    }
+                }
+            }
+        };
+    })
+
+    .directive('acMapDrawer', function () {
+        return {
+            link: function ($scope, el, attrs) {
+
+            }
+        };
     })
 
     .factory('GeoUtils', function () {
@@ -118,168 +206,10 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
-        return {
-            template: '<div id="map"></div>',
-            replace: true,
-            scope: {
-                mapboxAccessToken: '@',
-                mapboxMapId: '@',
-                region: '=',
-                regions: '=',
-                polygons: '=',
-                centroids: '='
-            },
-            link: function ($scope, el, attrs) {
-                var layers = {};
-                var externalRegionsLinks = {
-                    'north-rockies': 'http://blogs.avalanche.ca/category/northrockies/',
-                    'vancouver-island': 'http://www.islandavalanchebulletin.com/',
-                    'yukon-klondike': 'http://www.avalanche.ca/dataservices/cac/bulletins/xml/yukon',
-                    'whistler-blackcomb': 'http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx',
-                    'chic-chocs': 'http://avalanche.ca'
-                };
-
-                L.mapbox.accessToken = $scope.mapboxAccessToken;
-                var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
-
-                function invalidateSize() {
-                    el.height($($window).height()-75);
-                    map.invalidateSize();
-                }
-
-                angular.element(document).ready(invalidateSize);
-                angular.element($window).bind('resize', invalidateSize);
-
-                map.on('moveend', function () {
-                    $scope.$apply(function () {
-                        $rootScope.$broadcast('mapmoveend', map);
-                    });
-
-                    if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
-                        map.removeLayer(layers.dangerIcons);
-                    } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
-                        map.addLayer(layers.dangerIcons);
-                    }
-                });
-
-                $scope.$watch('region', function (region) {
-                    if(region) {
-                        setRegion(region);
-                    }
-                });
-
-                $scope.$watch('polygons', function (polygons) {
-                    if(polygons) {
-                        layers.regions = L.geoJson($scope.polygons, {
-                            contextmenu: true,
-                            style: function(feature) {
-                                return {
-                                    fillColor: 'transparent',
-                                    color: 'transparent'
-                                };
-                            },
-                            onEachFeature: function (featureData, layer) {
-                                var region = $scope.regions[featureData.properties.id] = {
-                                    polygon: layer
-                                };
-
-                                region.polygon.bindLabel(featureData.properties.name, {noHide: true});
-
-                                region.polygon.on('click', function (e) {
-                                    var mapZoom = map.getZoom();
-                                    var externalRegions = _.keys(externalRegionsLinks);
-                                    var isExternalRegion = _.contains(externalRegions, featureData.properties.id);
-
-                                    if (isExternalRegion) {
-                                        //window.open(externalRegionsLinks[featureData.properties.id], '_blank');
-                                    } else {
-                                        // map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
-                                        setRegion(region);
-                                        $rootScope.$broadcast('regionclick', region);
-                                    }
-
-                                    setRegion(region);
-
-                                    $('.ac-drawer .panel-body').collapse('show');
-
-                                    if(mapZoom <= 9) {
-                                        map.fitBounds(region.polygon.getBounds(), { paddingBottomRight: [500, 0] });
-                                    } else {
-                                        map.panTo(region.centroid._latlng);
-                                    }
-                                });
-                            }
-                        }).addTo(map);
-                    }
-                });
-
-                $scope.$watch('centroids', function (centroids) {
-                    if(centroids) {
-                        centroids = _(centroids.features).filter(function (c) {
-                            var externalRegions = _.keys(externalRegionsLinks);
-                            return !_.contains(externalRegions, c.properties.id);
-                        });
-
-                        layers.dangerIcons = L.geoJson(centroids.value(), {
-                            pointToLayer: function (featureData, latLng) {
-                                return L.marker(latLng, {
-                                    icon: L.icon({
-                                        iconUrl: '/api/forecasts/' + featureData.properties.id + '/danger-rating-icon.svg',
-                                        iconSize: [60, 60]
-                                    })
-                                });
-                            },
-                            onEachFeature: function (featureData, layer) {
-                                var region = $scope.regions[featureData.properties.id];
-                                region.centroid = layer;
-
-                                layer.on('click', function () {
-                                    map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
-                                    setRegion(region);
-                                    $rootScope.$broadcast('regionclick', region);
-
-                                    $('.ac-drawer .panel-body').collapse('show');
-                                });
-
-                            }
-                        }).addTo(map);
-                    }
-                });
-
-                $scope.$watch('region', function (region) {
-                    if(region) {
-                        setRegion(region);
-                    }
-                });
-
-                function setRegion (region) {
-                    $timeout(function () {
-                        layers.regions.eachLayer(function (layer) {
-                            layer.setStyle({ fillColor: 'transparent' });
-                        });
-
-                        region.polygon.setStyle({ fillColor: '#489BDF'});
-                    }, 0);
-                }
-
-            }
-        };
-    })
-
-    .directive('acMapDrawer', function ($rootScope) {
-        return {
-            template:   '<div class="panel">' +
-                            '<div id="drawerBody" class="panel-body collapse" ng-transclude>' +
-                            '</div>' +
-                        '</div>',
-            replace: true,
-            transclude: true,
-            scope: {
-                region: '='
-            },
-            link: function ($scope, el, attrs) {
-
+    .filter('sanatizeHtml', function () {
+        return function (item) {
+            if (item) {
+                return item.replace(/!_!/g, '').replace(/<style[\s\S]*<\/style>/g, '');
             }
         };
     });

@@ -351,27 +351,58 @@ function parseCaamlForecast(caamlForecast, successCallback, errorCallback) {
 
 }
 
+var regions = require('./regions.json');
+
 router.param('region', function (req, res, next) {
-    var region = req.params.region;
+    var regionId = req.params.region;
     var date = req.query.date;
+    var region = _.find(regions.features, function (r) {
+        return r.properties.id === regionId;
+    });
 
-    fetchCaamlForecast(region, date, function (caamlForecast) {
-        if(caamlForecast){
-            req.forecast = {
-                region: region,
-                date: date,
-                caaml: caamlForecast
-            };
-            parseCaamlForecast(req.forecast, function (jsonForecast) {
-                req.forecast.json = jsonForecast;
-                next()
-            }, function () { res.send(500); });
-        }
-        else {
-            res.send(500);
-        }
-    }, function () { res.send(500); });
+    if(region.properties.type === 'avalx') {
+        console.log('getting ac' + regionId);
+        fetchCaamlForecast(regionId, date, function (caamlForecast) {
+            if(caamlForecast){
+                req.forecast = {
+                    region: regionId,
+                    date: date,
+                    caaml: caamlForecast
+                };
+                parseCaamlForecast(req.forecast, function (jsonForecast) {
+                    req.forecast.json = jsonForecast;
+                    next()
+                }, function () { res.send(500); });
+            }
+            else {
+                res.send(500);
+            }
+        }, function () { res.send(500); });
+    } else {
+        console.log('getting' + regionId);
+        req.forecast = {
+            json: {
+                region: regionId,
+                externalUrl: caamlEndpoints[regionId].url
+            }
+        };
+        next();
+    }
 
+});
+
+var centroids = require('./region-centroids.json');
+router.get('/', function(req, res) {
+    _.each(regions.features, function (r) {
+        var centroid = _.find(centroids.features, function (c) { return c.properties.id === r.properties.id; });
+        if(centroid) {
+            r.properties.centroid = centroid.geometry.coordinates;
+        }
+        r.properties.dangerIconUrl = '/api/forecasts/' + r.properties.id + '/danger-rating-icon.svg';
+        r.properties.forecastUrl = '/api/forecasts/' + r.properties.id + '.json'
+    });
+
+    res.json(regions);
 });
 
 router.get('/:region/title.json', function(req, res) {
@@ -383,22 +414,25 @@ router.get('/:region/title.json', function(req, res) {
 });
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
+    var ratings = {
+        alp: 'blue',
+        tln: 'blue',
+        btl: 'blue'
+    };
 
-    if(req.forecast.json){
+    if(req.forecast.json.dangerRatings){
         var todaysRating = req.forecast.json.dangerRatings[0].dangerRating;
-        var ratings = {
+        ratings = {
             alp: dangerRatingStyles.bannerFill[todaysRating.alp],
             tln: dangerRatingStyles.bannerFill[todaysRating.tln],
             btl: dangerRatingStyles.bannerFill[todaysRating.btl]
         };
-
-        res.header('Cache-Control', 'no-cache');
-        res.header('Content-Type', 'image/svg+xml');
-
-        res.render('danger-icon', ratings);
-    } else {
-        res.send(500);
     }
+
+    res.header('Cache-Control', 'no-cache');
+    res.header('Content-Type', 'image/svg+xml');
+
+    res.render('danger-icon', ratings);
 
 });
 

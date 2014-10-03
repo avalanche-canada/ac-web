@@ -1,6 +1,171 @@
 .container-fluid.ac-no-gutter.full-height.ac-view-map
     div(ac-mapbox-map, region="current.region", regions="regions", polygons="polygons" centroids="centroids" mapbox-access-token="pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA", mapbox-map-id="tesera.jbnoj7kp")
-    div(ng-include='"components/map/drawer.html"')
+    div.ac-forecast-mini(ng-show="current.region && current.region.feature.properties.forecast && drawer.visible", ac-map-drawer, class="ac-drawer")
+        .panel
+            .panel-body(ng-show="current.region.feature.properties.forecast.externalUrl")
+                .row
+                    .col-xs-12
+                        h3.ac-forecast-region {{ current.region.feature.properties.name }}
+                        i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="region = null")
+                .row
+                    .col-xs-12
+                        a(ng-href="{{current.region.feature.properties.forecast.externalUrl}}") 
+                            i.fa.fa-external-link
+                            |   click to access forecast
+            .panel-body(ng-hide="current.region.feature.properties.forecast.externalUrl")
+                .row
+                    .col-xs-12
+                        h3.ac-forecast-region {{ current.region.feature.properties.name }}
+                        i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="region = null")
+                .row.ac-forecast-dates
+                    .col-xs-6
+                        dl
+                            dd.small
+                                strong.ac-text-primary DATE ISSUED 
+                            dt.small
+                                span.ac-text-default {{ current.region.feature.properties.forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+                    .col-xs-6
+                        dl
+                            dd.small
+                                strong.ac-text-primary VALID UNTIL
+                            dt.small
+                                span.ac-text-default {{ current.region.feature.properties.forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+                .row
+                    .col-xs-12
+                        p.ac-forecast-highlights
+                            strong(ng-bind-html="current.region.feature.properties.forecast.highlights | sanatizeHtml")
+                .row
+                    .col-xs-12
+                        ul.nav.nav-pills(role='tablist')
+                          li.active
+                            a(href="", role='tab', data-target="#forecast", data-toggle='tab') Public Avalanche Forecast
+                          li
+                            a(href="", role='tab', data-target="#problems", data-toggle='tab') Forecast Problems
+                          li
+                            a(href="", role='tab', data-target="#details", data-toggle='tab') Forecast Details
+                        .tab-content
+                            #forecast.tab-pane.active
+                                .row
+                                    .col-xs-12
+                                        .panel.panel-primary
+                                            .panel-heading
+                                                | {{ current.region.feature.properties.forecast.dangerRatings[0].date | date:'EEEE' }}
+                                            .panel-body.ac-forecast-nowcast
+                                                .spinner(ng-hide="imageLoaded")
+                                                    .rect1
+                                                    .rect2
+                                                    .rect3
+                                                    .rect4
+                                                    .rect5
+                                                img.ac-nowcast(ng-show="current.region.feature.properties.forecast.region && imageLoaded", ng-src="{{current.region.feature.properties.forecast.region && '/api/forecasts/' + current.region.feature.properties.forecast.region  + '/nowcast.svg' || ''}}", image-loading)
+                                            table.table.table-condensed.ac-forecast-days
+                                                thead.ac-thead-dark
+                                                    tr
+                                                        th
+                                                        th {{ current.region.feature.properties.forecast.dangerRatings[1].date | date:'EEEE' }}
+                                                        th {{ current.region.feature.properties.forecast.dangerRatings[2].date | date:'EEEE' }}
+                                                tbody
+                                                    tr
+                                                        td.ac-veg-zone--alp 
+                                                            strong Alpine
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}") 
+                                                            strong {{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}") 
+                                                            strong {{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
+                                                    tr
+                                                        td.ac-veg-zone--tln 
+                                                            strong Treeline
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}") 
+                                                            strong {{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}") 
+                                                            strong{{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
+                                                    tr
+                                                        td.ac-veg-zone--btl 
+                                                            strong Bellow Treeline
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}") 
+                                                            strong {{ current.region.feature.properties.forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
+                                                        td(class="ac-danger-rating--{{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}") 
+                                                            strong{{ current.region.feature.properties.forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
+                                                    tr
+                                                        td
+                                                            strong Confidence:
+                                                        td(colspan="2")
+                                                            span.ac-text-default{{ current.region.feature.properties.forecast.confidence }}
+
+                            #problems.tab-pane
+                                #problemsAccordion.panel-group
+                                    .panel.panel-primary(ng-repeat="problem in current.region.feature.properties.forecast.problems")
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
+                                                  | {{ problem.type }}
+                                                  i.fa.fa-fw.fa-caret-down
+                                        div(id="problem{{$index}}").panel-collapse.collapse(ng-class="{in: $index === 0}")
+                                            .panel-body
+                                                .row
+                                                    .col-xs-6
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small What Elevations?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--elevations
+                                                                img.center-block(ng-src="{{problem.icons.elevations}}")
+                                                    .col-xs-6
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small What Aspects?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--aspects
+                                                                img.center-block(ng-src="{{problem.icons.aspects}}")
+                                                .row
+                                                    .col-xs-6
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small Chances of Avalanches?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--likelihood
+                                                                img.center-block(ng-src="{{problem.icons.likelihood}}")
+                                                    .col-xs-6
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small Expected Size?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--expected-size
+                                                                img.center-block(ng-src="{{problem.icons.expectedSize}}")
+                                                .row
+                                                    .col-xs-12
+                                                        p.ac-problem.narative {{ problem.comment  | sanatizeHtml}}
+                                                        .panel.panel-default.ac-problem-travel-advice
+                                                            .panel-heading
+                                                                strong.small Travel and Terrain Advice
+                                                            .panel-body
+                                                                p {{ problem.travelAndTerrainAdvice | sanatizeHtml }}
+
+                            #details.tab-pane
+                                #detailsAccordion.panel-group
+                                    .panel.panel-primary
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#avalancheSummary",data-toggle='collapse', data-parent='#detailsAccordion')
+                                                  | Avalanche Summary
+                                                  i.fa.fa-fw.fa-caret-down
+                                        #avalancheSummary.panel-collapse.collapse.in
+                                            .panel-body
+                                                {{ current.region.feature.properties.forecast.avalancheSummary | sanatizeHtml}}
+                                    .panel.panel-primary
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#snowpackSummary",data-toggle='collapse', data-parent='#detailsAccordion')
+                                                  | Snowpack Summary
+                                                  i.fa.fa-fw.fa-caret-down
+                                        #snowpackSummary.panel-collapse.collapse
+                                            .panel-body
+                                                {{ current.region.feature.properties.forecast.snowpackSummary | sanatizeHtml }}
+                                    .panel.panel-primary
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#weatherForecast",data-toggle='collapse', data-parent='#detailsAccordion')
+                                                  | Weather Forecast
+                                                  i.fa.fa-fw.fa-caret-down
+                                        #weatherForecast.panel-collapse.collapse
+                                            .panel-body
+                                                {{ current.region.feature.properties.forecast.weatherForecast | sanatizeHtml }}
 .scroll-nav.scroll-nav--down
       a(href="", ng-click="showMore()")
         i.fa.fa-chevron-down.fa-inverse.fa-2x
