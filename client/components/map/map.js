@@ -7,7 +7,7 @@ angular.module('acMap', ['ngAnimate'])
 
     .filter('stripStyles', function () {
         return function (item) {
-            if (item){
+            if (item) {
                 return item.replace(/<style[\s\S]*<\/style>/g, '');
             }
         };
@@ -45,7 +45,6 @@ angular.module('acMap', ['ngAnimate'])
                 $http.get(forecastEndpoint).then(function (res) {
                     region.forecast = res.data;
                     resolveForecastGraphics(region.forecast);
-                    //region.forecast.highlights = region.forecast.highlights.replace(/<style[\s\S]*<\/style>/g, '');
                 });
             }
         }
@@ -57,7 +56,7 @@ angular.module('acMap', ['ngAnimate'])
                     aspects: ForecastIcons.getCompassIcon(problem.aspects),
                     likelihood: ForecastIcons.getLikelihoodIcon(problem.likelihood),
                     expectedSize: ForecastIcons.getSizeIcon(problem.expectedSize)
-                }
+                };
             });
         }
 
@@ -125,13 +124,13 @@ angular.module('acMap', ['ngAnimate'])
             getElevationIcon: function (elevations){
                 var zones = elevations.reduce(function (memo, elevation) {
                     switch(elevation) {
-                        case "Btl":
+                        case 'Btl':
                             memo[0] = 1;
                             break;
-                        case "Tln":
+                        case 'Tln':
                             memo[1] = 1;
                             break;
-                        case "Alp":
+                        case 'Alp':
                             memo[2] = 1;
                             break;
                         default:
@@ -145,70 +144,70 @@ angular.module('acMap', ['ngAnimate'])
             },
             getCompassIcon: function (aspects){
                 var result = aspects.reduce(function (memo, aspect) {
-                switch(aspect) {
-                    case "N":
-                        memo[0] = 1;
-                        break;
-                    case "NE":
-                        memo[1] = 1;
-                        break;
-                    case "E":
-                        memo[2] = 1;
-                        break;
-                    case "SE":
-                        memo[3] = 1;
-                        break;
-                    case "S":
-                        memo[4] = 1;
-                        break;
-                    case "SW":
-                        memo[5] = 1;
-                        break;
-                    case "W":
-                        memo[6] = 1;
-                        break;
-                    case "NW":
-                        memo[7] = 1;
-                        break;
-                    default:
-                        break;
-                }
+                    switch(aspect) {
+                        case 'N':
+                            memo[0] = 1;
+                            break;
+                        case 'NE':
+                            memo[1] = 1;
+                            break;
+                        case 'E':
+                            memo[2] = 1;
+                            break;
+                        case 'SE':
+                            memo[3] = 1;
+                            break;
+                        case 'S':
+                            memo[4] = 1;
+                            break;
+                        case 'SW':
+                            memo[5] = 1;
+                            break;
+                        case 'W':
+                            memo[6] = 1;
+                            break;
+                        case 'NW':
+                            memo[7] = 1;
+                            break;
+                        default:
+                            break;
+                    }
 
-                return memo;
+                    return memo;
                 }, [0,0,0,0,0,0,0,0]);
 
                 //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
                 return 'http://www.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
             },
-            getLikelihoodIcon: function (likelihood){
-                var nLikelihood = ''
+            getLikelihoodIcon: function (likelihood) {
+                var nLikelihood = '';
                 if (/([A-Z])\w+/.test(likelihood)) {
                     switch(likelihood) {
-                        case "Unlikely":
+                        case 'Unlikely':
                             nLikelihood = 1;
                             break;
-                        case "Possible - Unlikely":
+                        case 'Possible - Unlikely':
                             nLikelihood = 2;
                             break;
-                        case "Possible":
+                        case 'Possible':
                             nLikelihood = 3;
                             break;
-                        case "Likely - Possible":
+                        case 'Likely - Possible':
                             nLikelihood = 4;
                             break;
-                        case "Likely":
+                        case 'Likely':
                             nLikelihood = 5;
                             break;
-                        case "Very Likely - Likely":
+                        case 'Very Likely - Likely':
                             nLikelihood = 6;
                             break;
-                        case "Very Likely":
+                        case 'Very Likely':
                             nLikelihood = 7;
                             break;
-                        case "Certain - Very Likely":
+                        case 'Certain - Very Likely':
                             nLikelihood = 8;
                             break;
-                        case "Certain":
+                        case 'Certain':
                             nLikelihood = 9;
                             break;
                         default:
@@ -221,7 +220,7 @@ angular.module('acMap', ['ngAnimate'])
                 return 'http://www.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
             },
             getSizeIcon: function (size) {
-                var nSize = ''
+                var nSize = '';
                 nSize = Number(size);
                 
                 return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ nSize*2 +'-'+ ((nSize*2) + 1) +'_EN.png';
@@ -385,7 +384,7 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapDrawer', function ($rootScope, ForecastIcons) {
+    .directive('acMapDrawer', function ($rootScope) {
         return {
             template:   '<div class="panel">' +
                             '<div id="drawerBody" class="panel-body collapse" ng-transclude>' +
@@ -397,10 +396,7 @@ angular.module('acMap', ['ngAnimate'])
                 region: '='
             },
             link: function ($scope, el, attrs) {
-                $scope.getElevationIcon = ForecastIcons.getElevationIcon;
-                $scope.getCompassIcon = ForecastIcons.getCompassIcon;
-                $scope.getLikelihoodIcon = ForecastIcons.getLikelihoodIcon;
-                $scope.getSizeIcon = ForecastIcons.getSizeIcon;
+
             }
         };
     });
