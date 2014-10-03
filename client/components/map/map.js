@@ -5,10 +5,10 @@
 
 angular.module('acMap', ['ngAnimate'])
 
-    .filter('stripStyles', function () {
+    .filter('sanatizeHtml', function () {
         return function (item) {
             if (item) {
-                return item.replace(/<style[\s\S]*<\/style>/g, '');
+                return item.replace(/!_!/g, '').replace(/<style[\s\S]*<\/style>/g, '');
             }
         };
     })
@@ -309,12 +309,14 @@ angular.module('acMap', ['ngAnimate'])
                                     var isExternalRegion = _.contains(externalRegions, featureData.properties.id);
 
                                     if (isExternalRegion) {
-                                        window.open(externalRegionsLinks[featureData.properties.id], '_blank');
+                                        //window.open(externalRegionsLinks[featureData.properties.id], '_blank');
                                     } else {
                                         // map.fitBounds(region.polygon.getBounds(), {paddingBottomRight: [500, 0]});
                                         setRegion(region);
                                         $rootScope.$broadcast('regionclick', region);
                                     }
+
+                                    setRegion(region);
 
                                     $('.ac-drawer .panel-body').collapse('show');
 

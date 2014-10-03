@@ -19,7 +19,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
     .row
         .col-xs-12
             p.ac-forecast-highlights
-                strong(ng-bind-html="current.region.forecast.highlights | stripStyles")
+                strong(ng-bind-html="current.region.forecast.highlights | sanatizeHtml")
     .row
         .col-xs-12
             ul.nav.nav-pills(role='tablist')
@@ -116,12 +116,12 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                                                     img.center-block(ng-src="{{problem.icons.expectedSize}}")
                                     .row
                                         .col-xs-12
-                                            p.ac-problem.narative {{ problem.comment  | stripStyles}}
+                                            p.ac-problem.narative {{ problem.comment  | sanatizeHtml}}
                                             .panel.panel-default.ac-problem-travel-advice
                                                 .panel-heading
                                                     strong.small Travel and Terrain Advice
                                                 .panel-body
-                                                    p {{ problem.travelAndTerrainAdvice | stripStyles }}
+                                                    p {{ problem.travelAndTerrainAdvice | sanatizeHtml }}
 
                 #details.tab-pane
                     #detailsAccordion.panel-group
@@ -133,7 +133,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                                       i.fa.fa-fw.fa-caret-down
                             #avalancheSummary.panel-collapse.collapse.in
                                 .panel-body
-                                    {{ current.region.forecast.avalancheSummary | stripStyles}}
+                                    {{ current.region.forecast.avalancheSummary | sanatizeHtml}}
                         .panel.panel-primary
                             .panel-heading
                                 h4.panel-title
@@ -142,7 +142,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                                       i.fa.fa-fw.fa-caret-down
                             #snowpackSummary.panel-collapse.collapse
                                 .panel-body
-                                    {{ current.region.forecast.snowpackSummary | stripStyles }}
+                                    {{ current.region.forecast.snowpackSummary | sanatizeHtml }}
                         .panel.panel-primary
                             .panel-heading
                                 h4.panel-title
@@ -151,4 +151,4 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                                       i.fa.fa-fw.fa-caret-down
                             #weatherForecast.panel-collapse.collapse
                                 .panel-body
-                                    {{ current.region.forecast.weatherForecast | stripStyles }}
+                                    {{ current.region.forecast.weatherForecast | sanatizeHtml }}
