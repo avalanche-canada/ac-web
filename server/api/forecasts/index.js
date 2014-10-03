@@ -56,6 +56,113 @@ var dangerRatingStyles = {
     }
 };
 
+function getElevationIcon(elevations) {
+    var zones = elevations.reduce(function (memo, elevation) {
+        switch(elevation) {
+            case 'Btl':
+                memo[0] = 1;
+                break;
+            case 'Tln':
+                memo[1] = 1;
+                break;
+            case 'Alp':
+                memo[2] = 1;
+                break;
+            default:
+                break;
+        }
+
+        return memo;
+    }, [0,0,0]);
+
+    return 'http://www.avalanche.ca/Images/bulletin/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
+}
+
+function getCompassIcon(aspects) {
+    var result = aspects.reduce(function (memo, aspect) {
+        switch(aspect) {
+            case 'N':
+                memo[0] = 1;
+                break;
+            case 'NE':
+                memo[1] = 1;
+                break;
+            case 'E':
+                memo[2] = 1;
+                break;
+            case 'SE':
+                memo[3] = 1;
+                break;
+            case 'S':
+                memo[4] = 1;
+                break;
+            case 'SW':
+                memo[5] = 1;
+                break;
+            case 'W':
+                memo[6] = 1;
+                break;
+            case 'NW':
+                memo[7] = 1;
+                break;
+            default:
+                break;
+        }
+
+        return memo;
+    }, [0,0,0,0,0,0,0,0]);
+
+    //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
+    return 'http://www.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
+}
+
+function getLikelihoodIcon(likelihood) {
+    var nLikelihood = '';
+    if (/([A-Z])\w+/.test(likelihood)) {
+        switch(likelihood) {
+            case 'Unlikely':
+                nLikelihood = 1;
+                break;
+            case 'Possible - Unlikely':
+                nLikelihood = 2;
+                break;
+            case 'Possible':
+                nLikelihood = 3;
+                break;
+            case 'Likely - Possible':
+                nLikelihood = 4;
+                break;
+            case 'Likely':
+                nLikelihood = 5;
+                break;
+            case 'Very Likely - Likely':
+                nLikelihood = 6;
+                break;
+            case 'Very Likely':
+                nLikelihood = 7;
+                break;
+            case 'Certain - Very Likely':
+                nLikelihood = 8;
+                break;
+            case 'Certain':
+                nLikelihood = 9;
+                break;
+            default:
+                break;
+        }
+    } else {
+        nLikelihood = Number(likelihood);
+    }
+
+    return 'http://www.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
+}
+
+function getSizeIcon(size) {
+    var nSize = '';
+    nSize = Number(size);
+    
+    return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ nSize*2 +'-'+ ((nSize*2) + 1) +'_EN.png';
+}
 
 function getProblems(caamlProblems) {
     var ns = _.has(caamlProblems, 'caaml:avProblem') ? 'caaml:' : '';
@@ -66,7 +173,7 @@ function getProblems(caamlProblems) {
         return xlink['$']['xlink:href'].split('_')[1];
     }
 
-    return _.map(caamlProblems[ns+avProblemAccessor], function (caamlAvProblem) {
+    var problems = _.map(caamlProblems[ns+avProblemAccessor], function (caamlAvProblem) {
         return { 
             type: caamlAvProblem[ns+'type'][0],
             elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
@@ -77,6 +184,17 @@ function getProblems(caamlProblems) {
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
     });
+
+    _.each(problems, function (p) {
+        p.icons = {
+            elevations: getElevationIcon(p.elevations),
+            aspects: getCompassIcon(p.aspects),
+            likelihood: getLikelihoodIcon(p.likelihood),
+            expectedSize: getSizeIcon(p.expectedSize)
+        };
+    });
+
+    return problems;
 }
 
 //! Populate a parks forecast object given caaml data that follows the parks canada format
