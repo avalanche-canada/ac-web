@@ -69,10 +69,10 @@ function getProblems(caamlProblems) {
     return _.map(caamlProblems[ns+avProblemAccessor], function (caamlAvProblem) {
         return { 
             type: caamlAvProblem[ns+'type'][0],
-            elevation: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
-            aspect: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
-            liklihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
-            size: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'typical'][0],
+            elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
+            aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
+            likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
+            expectedSize: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'typical'][0],
             comment: caamlAvProblem[ns+'comment'][0],
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };

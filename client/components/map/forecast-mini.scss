@@ -43,9 +43,26 @@ $dangerRatingNoRating: white;
             z-index: 1;
         }
     }
-    .panel-heading {
+    .ac-problem-icon {
+        padding: 0;
+        &.ac-problem-icon--aspects img {
+            height: 116px;
+        }
+    }
+    .ac-problem.narative {
+        padding-top: 10px;
+    }
+    .ac-problem-travel-advice .panel-body {
+        padding: 10px;
+    }
+    .panel-primary > .panel-heading {
         background-color: rgb(43, 47, 51);
         color: white;
+        padding: 5px 15px;
+    }
+    .panel-default > .panel-heading {
+        background-color: #ddd;
+        color: black;
         padding: 5px 15px;
     }
     .nav-pills { //todo: will replace with actual full page component + .mini

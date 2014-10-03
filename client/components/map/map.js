@@ -13,7 +13,7 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
+    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location, ForecastIcons) {
         $scope.regions = {};
         $scope.current = {};
         $scope.drawer = {
@@ -44,9 +44,21 @@ angular.module('acMap', ['ngAnimate'])
             if (!_.contains(['north-rockies', 'vancouver-island', 'yukon-klondike', 'whistler-blackcomb', 'chic-chocs'], regionId)) {
                 $http.get(forecastEndpoint).then(function (res) {
                     region.forecast = res.data;
+                    resolveForecastGraphics(region.forecast);
                     //region.forecast.highlights = region.forecast.highlights.replace(/<style[\s\S]*<\/style>/g, '');
                 });
             }
+        }
+
+        function resolveForecastGraphics(forecast){
+            forecast.problems.forEach(function (problem) {
+                problem.icons = {
+                    elevations: ForecastIcons.getElevationIcon(problem.elevations),
+                    aspects: ForecastIcons.getCompassIcon(problem.aspects),
+                    likelihood: ForecastIcons.getLikelihoodIcon(problem.likelihood),
+                    expectedSize: ForecastIcons.getSizeIcon(problem.expectedSize)
+                }
+            });
         }
 
         $scope.$on('mapmoveend', function (e, map) {
@@ -104,6 +116,115 @@ angular.module('acMap', ['ngAnimate'])
             },
             getPolygonForPoint: function (latlng, polygons){
                 return leafletPip.pointInLayer(latlng, polygons, true)[0];
+            }
+        };
+    })
+
+    .factory('ForecastIcons', function () {
+        return {
+            getElevationIcon: function (elevations){
+                var zones = elevations.reduce(function (memo, elevation) {
+                    switch(elevation) {
+                        case "Btl":
+                            memo[0] = 1;
+                            break;
+                        case "Tln":
+                            memo[1] = 1;
+                            break;
+                        case "Alp":
+                            memo[2] = 1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return memo;
+                }, [0,0,0]);
+
+                return 'http://www.avalanche.ca/Images/bulletin/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
+            },
+            getCompassIcon: function (aspects){
+                var result = aspects.reduce(function (memo, aspect) {
+                switch(aspect) {
+                    case "N":
+                        memo[0] = 1;
+                        break;
+                    case "NE":
+                        memo[1] = 1;
+                        break;
+                    case "E":
+                        memo[2] = 1;
+                        break;
+                    case "SE":
+                        memo[3] = 1;
+                        break;
+                    case "S":
+                        memo[4] = 1;
+                        break;
+                    case "SW":
+                        memo[5] = 1;
+                        break;
+                    case "W":
+                        memo[6] = 1;
+                        break;
+                    case "NW":
+                        memo[7] = 1;
+                        break;
+                    default:
+                        break;
+                }
+
+                return memo;
+                }, [0,0,0,0,0,0,0,0]);
+
+                //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
+                return 'http://www.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
+            },
+            getLikelihoodIcon: function (likelihood){
+                var nLikelihood = ''
+                if (/([A-Z])\w+/.test(likelihood)) {
+                    switch(likelihood) {
+                        case "Unlikely":
+                            nLikelihood = 1;
+                            break;
+                        case "Possible - Unlikely":
+                            nLikelihood = 2;
+                            break;
+                        case "Possible":
+                            nLikelihood = 3;
+                            break;
+                        case "Likely - Possible":
+                            nLikelihood = 4;
+                            break;
+                        case "Likely":
+                            nLikelihood = 5;
+                            break;
+                        case "Very Likely - Likely":
+                            nLikelihood = 6;
+                            break;
+                        case "Very Likely":
+                            nLikelihood = 7;
+                            break;
+                        case "Certain - Very Likely":
+                            nLikelihood = 8;
+                            break;
+                        case "Certain":
+                            nLikelihood = 9;
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    nLikelihood = Number(likelihood);
+                }
+
+                return 'http://www.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
+            },
+            getSizeIcon: function (size) {
+                var nSize = ''
+                nSize = Number(size);
+                
+                return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ nSize*2 +'-'+ ((nSize*2) + 1) +'_EN.png';
             }
         };
     })
@@ -264,7 +385,7 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapDrawer', function ($rootScope) {
+    .directive('acMapDrawer', function ($rootScope, ForecastIcons) {
         return {
             template:   '<div class="panel">' +
                             '<div id="drawerBody" class="panel-body collapse" ng-transclude>' +
@@ -276,9 +397,10 @@ angular.module('acMap', ['ngAnimate'])
                 region: '='
             },
             link: function ($scope, el, attrs) {
-                $scope.toggleCollapse = function () {
-
-                };
+                $scope.getElevationIcon = ForecastIcons.getElevationIcon;
+                $scope.getCompassIcon = ForecastIcons.getCompassIcon;
+                $scope.getLikelihoodIcon = ForecastIcons.getLikelihoodIcon;
+                $scope.getSizeIcon = ForecastIcons.getSizeIcon;
             }
         };
     });

@@ -33,7 +33,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                 #forecast.tab-pane.active
                     .row
                         .col-xs-12
-                            .panel.panel-default
+                            .panel.panel-primary
                                 .panel-heading
                                     | {{ current.region.forecast.dangerRatings[0].date | date:'EEEE' }}
                                 .panel-body.ac-forecast-nowcast
@@ -80,7 +80,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
 
                 #problems.tab-pane
                     #problemsAccordion.panel-group
-                        .panel.panel-info(ng-repeat="problem in current.region.forecast.problems")
+                        .panel.panel-primary(ng-repeat="problem in current.region.forecast.problems")
                             .panel-heading
                                 h4.panel-title
                                     a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
@@ -88,13 +88,44 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                                       i.fa.fa-fw.fa-caret-down
                             div(id="problem{{$index}}").panel-collapse.collapse(ng-class="{in: $index === 0}")
                                 .panel-body
-                                    {{ problem.comment  | stripStyles}}
-                                    h5 Travel and Terrain Advice
-                                    p {{ problem.travelAndTerrainAdvice | stripStyles }}
+                                    .row
+                                        .col-xs-6
+                                            .panel.panel-default
+                                                .panel-heading
+                                                    strong.small What Elevations?
+                                                .panel-body.ac-problem-icon.ac-problem-icon--elevations
+                                                    img.center-block(ng-src="{{problem.icons.elevations}}")
+                                        .col-xs-6
+                                            .panel.panel-default
+                                                .panel-heading
+                                                    strong.small What Aspects?
+                                                .panel-body.ac-problem-icon.ac-problem-icon--aspects
+                                                    img.center-block(ng-src="{{problem.icons.aspects}}")
+                                    .row
+                                        .col-xs-6
+                                            .panel.panel-default
+                                                .panel-heading
+                                                    strong.small Chances of Avalanches?
+                                                .panel-body.ac-problem-icon.ac-problem-icon--likelihood
+                                                    img.center-block(ng-src="{{problem.icons.likelihood}}")
+                                        .col-xs-6
+                                            .panel.panel-default
+                                                .panel-heading
+                                                    strong.small Expected Size?
+                                                .panel-body.ac-problem-icon.ac-problem-icon--expected-size
+                                                    img.center-block(ng-src="{{problem.icons.expectedSize}}")
+                                    .row
+                                        .col-xs-12
+                                            p.ac-problem.narative {{ problem.comment  | stripStyles}}
+                                            .panel.panel-default.ac-problem-travel-advice
+                                                .panel-heading
+                                                    strong.small Travel and Terrain Advice
+                                                .panel-body
+                                                    p {{ problem.travelAndTerrainAdvice | stripStyles }}
 
                 #details.tab-pane
                     #detailsAccordion.panel-group
-                        .panel.panel-info
+                        .panel.panel-primary
                             .panel-heading
                                 h4.panel-title
                                     a(href='', data-target="#avalancheSummary",data-toggle='collapse', data-parent='#detailsAccordion')
@@ -103,7 +134,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                             #avalancheSummary.panel-collapse.collapse.in
                                 .panel-body
                                     {{ current.region.forecast.avalancheSummary | stripStyles}}
-                        .panel.panel-info
+                        .panel.panel-primary
                             .panel-heading
                                 h4.panel-title
                                     a(href='', data-target="#snowpackSummary",data-toggle='collapse', data-parent='#detailsAccordion')
@@ -112,7 +143,7 @@ div.ac-forecast-mini(ng-show="current.region && current.region.forecast && drawe
                             #snowpackSummary.panel-collapse.collapse
                                 .panel-body
                                     {{ current.region.forecast.snowpackSummary | stripStyles }}
-                        .panel.panel-info
+                        .panel.panel-primary
                             .panel-heading
                                 h4.panel-title
                                     a(href='', data-target="#weatherForecast",data-toggle='collapse', data-parent='#detailsAccordion')
