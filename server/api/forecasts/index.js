@@ -330,7 +330,6 @@ function parseCaamlForecast(caamlForecast, forecastSource, successCallback, erro
                 forecast = parksForecast(caaml, caamlForecast.region);
                 successCallback(forecast);
             } else if (forecastSource === "avalanche-canada") {
-                console.log(caamlForecast.region)
                 forecast = avalancheCaForecast(caaml, caamlForecast.region);
                 successCallback(forecast);
             } else {
@@ -340,7 +339,6 @@ function parseCaamlForecast(caamlForecast, forecastSource, successCallback, erro
             errorCallback("parsed data invalid");
         }
     });
-
 }
 
 var regions = require('./forecast-regions');
@@ -350,9 +348,7 @@ router.param('region', function (req, res, next) {
     var date = req.query.date;
     var region = _.find(regions.features, {id: regionId});
 
-    console.log(JSON.stringify(region));
     if(region.properties.type === 'avalx') {
-        console.log('getting ac' + regionId);
 
         fetchCaamlForecast(region, date, function (caamlForecast) {
             if(caamlForecast){
@@ -371,6 +367,7 @@ router.param('region', function (req, res, next) {
                 });
             }
             else {
+                console.log(e);
                 res.send(500);
             }
         }, function (e) {
@@ -378,7 +375,6 @@ router.param('region', function (req, res, next) {
             res.send(500); 
         });
     } else {
-        console.log('getting' + regionId);
         req.forecast = {
             json: {
                 region: regionId,
