@@ -6,11 +6,12 @@
 angular.module('acMap', ['ngAnimate'])
 
     .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
-        $scope.regions = {};
-        $scope.current = {};
-        $scope.drawer = {
-            visible: false
-        };
+        angular.extend($scope, {
+            current: {},
+            drawer: {
+                visible: false
+            }
+        });
 
         $http.get('api/forecasts').then(function (res) {
             $scope.regions = res.data;
@@ -57,7 +58,9 @@ angular.module('acMap', ['ngAnimate'])
                 regions: '='
             },
             link: function ($scope, el, attrs) {
-                var layers = {};
+                var layers = {
+                    dangerIcons: L.featureGroup()
+                };
                 var styles = {
                     region: {
                         default: {
@@ -81,32 +84,22 @@ angular.module('acMap', ['ngAnimate'])
                 angular.element(document).ready(invalidateSize);
                 angular.element($window).bind('resize', invalidateSize);
 
-                // map.on('moveend', function () {
-                //     $scope.$apply(function () {
-                //         $rootScope.$broadcast('mapmoveend', map);
-                //     });
+                map.on('moveend', function () {
+                    if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
+                        map.removeLayer(layers.dangerIcons);
+                    } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
+                        map.addLayer(layers.dangerIcons);
+                    }
 
-                //     if(map.getZoom() <= 6 && map.hasLayer(layers.dangerIcons)) {
-                //         map.removeLayer(layers.dangerIcons);
-                //     } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
-                //         map.addLayer(layers.dangerIcons);
-                //     }
-
-                //     var mapCenter = map.getCenter();
-                //     var mapBounds = map.getBounds();
-
-                //     for (var id in $scope.regions) {
-                //         // var region = $scope.regions[id];
-                //         //var inView = GeoUtils.polygonIntersectsBounds(region.polygon, mapBounds);
-
-                //         $scope.regions[id].distanceToCenter = $scope.regions[id].polygon.getBounds().getCenter().distanceTo(mapCenter);
-                //     }
-
-                //     if(map.getZoom() > 9) {
-                //         var region = _($scope.regions).min(function (r) { return r.distanceToCenter; }).value();
-                //         setRegion(region);
-                //     }
-                // });
+                    if(map.getZoom() > 9) {
+                        var region = leafletPip.pointInLayer(map.getCenter(), layers.regions, true)[0];
+                        if (region) {
+                            $scope.$apply(function () {
+                                $scope.region = region;
+                            });
+                        }
+                    }
+                });
 
                 $scope.$watch('region', function (region) {
                     if(region) {
@@ -124,7 +117,6 @@ angular.module('acMap', ['ngAnimate'])
                     if(regions.features) {
 
                         layers.regions = L.geoJson($scope.regions, {
-                            contextmenu: true,
                             style: function(feature) {
                                 return styles.region.default;
                             },
@@ -136,18 +128,16 @@ angular.module('acMap', ['ngAnimate'])
 
                                 if(featureData.properties.centroid) {
                                     var centroid = L.latLng(featureData.properties.centroid[1], featureData.properties.centroid[0]);
-                                    featureData.centroid = centroid;
+                                    layer.feature.properties.centroid = centroid;
 
-                                    var dangerIcon = L.marker(centroid, {
+                                    L.marker(centroid, {
                                         icon: L.icon({
                                             iconUrl: featureData.properties.dangerIconUrl,
                                             iconSize: [60, 60]
                                         })
-                                    }).addTo(map);
-
-                                    dangerIcon.on('click', function () {
+                                    }).on('click', function () {
                                         selectRegion(layer);
-                                    });
+                                    }).addTo(layers.dangerIcons);
                                 }
 
                             }
