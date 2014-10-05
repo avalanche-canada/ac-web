@@ -114,7 +114,7 @@ angular.module('acMap', ['ngAnimate'])
                 });
 
                 $scope.$watch('regions', function (regions) {
-                    if(regions.features) {
+                    if(regions && regions.features) {
 
                         layers.regions = L.geoJson($scope.regions, {
                             style: function(feature) {

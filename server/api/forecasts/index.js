@@ -2,7 +2,6 @@ var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var caamlEndpoints = require('./forecast-caaml-endpoints.json');
 
 var ratings = {
     Low: '1',
@@ -288,32 +287,25 @@ function avalancheCaForecast(caaml, region){
      };
 }
 
-var getEndpointUrl = function (region, date){
-    var url = caamlEndpoints[region].url;
-
-    if(!date){
-        today = new Date;
-        //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-        date = "2013-03-01"; //! for testing purposes use a day with actual data
-    }
-
-    if (caamlEndpoints[region].type === "parks") {
-        url = [url, date].join('&d=');
-    }
-    else { //assume avalanche ca
-        url = [url, date].join('/');
-    }
-
-    return url;
-}
-
 function fetchCaamlForecast(region, date, successCallback, errorCallback) {
-    var endpointUrl;
+    var url = '';
 
-    if (caamlEndpoints[region]){
-        endpointUrl = getEndpointUrl(region, date);
+    if (region.properties.url){
+        url = region.properties.url;
 
-        request(endpointUrl, function (error, response, body) {
+        if(!date){
+            today = new Date;
+            //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+            date = "2013-03-01"; //! for testing purposes use a day with actual data
+        }
+
+        if (region.properties.owner === "parks-canada") {
+            url = [url, date].join('&d=');
+        } else { //assume avalanche ca
+            url = [url, date].join('/');
+        }
+
+        request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 if (body) {
                     successCallback(body);
@@ -327,17 +319,17 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
     } else errorCallback("region not found");
 }
 
-function parseCaamlForecast(caamlForecast, successCallback, errorCallback) {
+function parseCaamlForecast(caamlForecast, forecastSource, successCallback, errorCallback) {
     var parseString = require('xml2js').parseString;
 
     parseString(caamlForecast.caaml, function (err, caaml) {
         var forecast;
 
         if (caaml) {
-            if (caamlEndpoints[caamlForecast.region].type === "parks") {
+            if (forecastSource === "parks-canada") {
                 forecast = parksForecast(caaml, caamlForecast.region);
                 successCallback(forecast);
-            } else if (caamlEndpoints[caamlForecast.region].type === "ac") {
+            } else if (forecastSource === "avalanche-canada") {
                 console.log(caamlForecast.region)
                 forecast = avalancheCaForecast(caaml, caamlForecast.region);
                 successCallback(forecast);
@@ -351,39 +343,46 @@ function parseCaamlForecast(caamlForecast, successCallback, errorCallback) {
 
 }
 
-var regions = require('./regions.json');
+var regions = require('./forecast-regions');
 
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
     var date = req.query.date;
-    var region = _.find(regions.features, function (r) {
-        return r.properties.id === regionId;
-    });
+    var region = _.find(regions.features, {id: regionId});
 
+    console.log(JSON.stringify(region));
     if(region.properties.type === 'avalx') {
         console.log('getting ac' + regionId);
-        fetchCaamlForecast(regionId, date, function (caamlForecast) {
+
+        fetchCaamlForecast(region, date, function (caamlForecast) {
             if(caamlForecast){
                 req.forecast = {
                     region: regionId,
                     date: date,
                     caaml: caamlForecast
                 };
-                parseCaamlForecast(req.forecast, function (jsonForecast) {
+
+                parseCaamlForecast(req.forecast, region.properties.owner, function (jsonForecast) {
                     req.forecast.json = jsonForecast;
                     next()
-                }, function () { res.send(500); });
+                }, function () {
+                    console.log('error parsing %s caaml forecast.', regionId);
+                    res.send(500); 
+                });
             }
             else {
                 res.send(500);
             }
-        }, function () { res.send(500); });
+        }, function (e) {
+            console.log(e);
+            res.send(500); 
+        });
     } else {
         console.log('getting' + regionId);
         req.forecast = {
             json: {
                 region: regionId,
-                externalUrl: caamlEndpoints[regionId].url
+                externalUrl: region.properties.url
             }
         };
         next();
@@ -391,17 +390,9 @@ router.param('region', function (req, res, next) {
 
 });
 
-var centroids = require('./region-centroids.json');
 router.get('/', function(req, res) {
-    _.each(regions.features, function (r) {
-        var centroid = _.find(centroids.features, function (c) { return c.properties.id === r.properties.id; });
-        if(centroid) {
-            r.properties.centroid = centroid.geometry.coordinates;
-        }
-        r.properties.dangerIconUrl = '/api/forecasts/' + r.properties.id + '/danger-rating-icon.svg';
-        r.properties.forecastUrl = '/api/forecasts/' + r.properties.id + '.json'
-    });
-
+    // todo: need to delete original url prop, could clone then serve.
+    // regions.features.forEach(function (r) { delete r.properties.url; });
     res.json(regions);
 });
 
@@ -441,14 +432,14 @@ router.get('/:region.:format', function(req, res) {
     if (req.forecast) {
         switch(req.params.format){
             case 'xml':
-            res.header('Content-Type', 'application/xml');
+                res.header('Content-Type', 'application/xml');
                 res.send(req.forecast.caaml);
                 break;
             case 'json':
                 res.json(req.forecast.json);
                 break;
             default:
-                res.send(404);
+                res.json(req.forecast.json);
                 break;
         }
     }
