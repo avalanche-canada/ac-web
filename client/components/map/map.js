@@ -172,7 +172,7 @@ angular.module('acMap', ['ngAnimate'])
                     $http.get(i);
                 });
             }
-        }
+        };
     })
 
     .directive('acMapDrawer', function () {
