@@ -175,10 +175,14 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
-    .directive('acMapDrawer', function () {
+    .directive('acForecastMini', function () {
         return {
+            templateUrl: 'components/forecast/forecast-mini.html',
+            scope: {
+                forecast: '=acForecast'
+            },
             link: function ($scope, el, attrs) {
-
+                el.addClass('ac-forecast-mini');
             }
         };
     })
@@ -200,6 +204,14 @@ angular.module('acMap', ['ngAnimate'])
         return function (item) {
             if (item) {
                 return item.replace(/!_!/g, '').replace(/<style[\s\S]*<\/style>/g, '');
+            }
+        };
+    })
+
+    .filter('normalizeForecastTitle', function () {
+        return function (item) {
+            if (item) {
+                return item.replace(/^Avalanche Forecast - /g, '');
             }
         };
     });

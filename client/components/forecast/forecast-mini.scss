@@ -11,6 +11,7 @@ $dangerRatingNoRating: white;
 
 // todo: some components are 'hacked-in' awaiting actual styles from  full page forecast.
 .ac-forecast-mini {
+    border-top: 1px solid #ddd;
     dl {
         margin-bottom: 0px;
     }
