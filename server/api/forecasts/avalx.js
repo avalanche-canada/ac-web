@@ -155,11 +155,11 @@ function getLikelihoodIcon(likelihood) {
     return 'http://www.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
 }
 
-function getSizeIcon(size) {
-    var nSize = '';
-    nSize = Number(size);
-    
-    return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ nSize*2 +'-'+ ((nSize*2) + 1) +'_EN.png';
+function getSizeIcon(sizes) {
+    var from = parseInt(sizes[0]);
+    var to = parseInt(sizes[1]);
+
+    return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ from +'-'+ to +'_EN.png';
 }
 
 function getProblems(caamlProblems) {
@@ -177,7 +177,9 @@ function getProblems(caamlProblems) {
             elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
             aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
-            expectedSize: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'typical'][0],
+            expectedSize: (function (expectedSizes) {
+                return [expectedSizes[ns+'min'][0], expectedSizes[ns+'max'][0]];
+            })(caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0]),
             comment: caamlAvProblem[ns+'comment'][0],
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
