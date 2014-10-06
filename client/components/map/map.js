@@ -137,8 +137,9 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                                     L.marker(centroid, {
                                         icon: L.icon({
-                                            iconUrl: featureData.properties.dangerIconUrl,
-                                            iconSize: [60, 60]
+                                            //iconUrl: featureData.properties.dangerIconUrl,
+                                            iconUrl: '/assets/images/forecasts/danger-rating-icon.svg',
+                                            iconSize: [80, 80]
                                         })
                                     }).on('click', function () {
                                         selectRegion(layer);
@@ -157,7 +158,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     });
 
                     if(map.getZoom() <= 9) {
-                        map.fitBounds(region.getBounds(), { paddingBottomRight: [500, 0] });
+                        map.fitBounds(region.getBounds());
                     } else {
                         map.panTo(region.feature.properties.centroid);
                     }
