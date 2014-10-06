@@ -3,10 +3,11 @@
 /* global L, leafletPip */
 'use strict';
 
-angular.module('acMap', ['ngAnimate'])
+angular.module('acMap', ['constants', 'ngAnimate'])
 
-    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $location, acImageCache) {
+    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $location, acImageCache, ENV) {
         angular.extend($scope, {
+            env: ENV,
             current: {},
             drawer: {
                 visible: false
