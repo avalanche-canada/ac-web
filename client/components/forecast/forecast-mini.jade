@@ -2,7 +2,7 @@
     .panel-body(ng-show="forecast.externalUrl")
         .row
             .col-xs-12
-                h3.ac-forecast-region {{ name }}
+                h3.ac-forecast-region {{ forecast.name }}
                 i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="region = null")
         .row
             .col-xs-12
@@ -13,15 +13,15 @@
         .row
             .col-xs-12
                 h4.ac-forecast-region {{ forecast.bulletinTitle | normalizeForecastTitle }}
-                i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="region = null")
+                i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="forecast = null")
         .row.ac-forecast-dates
-            .col-xs-6
+            .col-md-6
                 dl
                     dd.small
                         strong.ac-text-primary DATE ISSUED 
                     dt.small
                         span.ac-text-default {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
-            .col-xs-6
+            .col-md-6
                 dl
                     dd.small
                         strong.ac-text-primary VALID UNTIL
@@ -35,11 +35,11 @@
             .col-xs-12
                 ul.nav.nav-pills(role='tablist')
                   li.active
-                    a(href="", role='tab', data-target="#forecast", data-toggle='tab') Public Avalanche Forecast
+                    a(href="", role='tab', data-target="#forecast", data-toggle='tab') Forecast
                   li
-                    a(href="", role='tab', data-target="#problems", data-toggle='tab') Forecast Problems
+                    a(href="", role='tab', data-target="#problems", data-toggle='tab') Problems
                   li
-                    a(href="", role='tab', data-target="#details", data-toggle='tab') Forecast Details
+                    a(href="", role='tab', data-target="#details", data-toggle='tab') Details
                 .tab-content
                     #forecast.tab-pane.active
                         .row

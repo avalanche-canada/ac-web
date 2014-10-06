@@ -3,7 +3,9 @@
     top: 0;
     right: 0;
     height: 100%;
-    width: 480px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 350px;
     padding-top: 75px;
     margin-bottom: 0;
     background-color: rgba(255, 255, 255, 0.8);
@@ -43,6 +45,12 @@
     }
 }
 
+@media (min-width: 768px) {
+  .ac-drawer {
+    width: 40%;
+    max-width: 480px;
+  }
+}
 
 @keyframes slideIn {
     from {

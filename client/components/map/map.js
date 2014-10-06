@@ -152,12 +152,24 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 });
 
                 function selectRegion(region) {
+                    var options =  { 
+                        paddingBottomRight: (function (viewportWidth) {
+                            if(viewportWidth > 1025) {
+                                [480, 0];
+                            } else if (viewportWidth > 600) {
+                                [350, 0];
+                            } else {
+                                [0, 0];
+                            }
+                        })($($window).width())
+                    };
+
                     $scope.$apply(function () {
                         $scope.region = region;
                     });
 
                     if(map.getZoom() <= 9) {
-                        map.fitBounds(region.getBounds());
+                        map.fitBounds(region.getBounds(), options);
                     } else {
                         map.panTo(region.feature.properties.centroid);
                     }

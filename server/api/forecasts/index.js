@@ -38,7 +38,8 @@ router.param('region', function (req, res, next) {
     } else {
         req.forecast = {
             json: {
-                region: regionId,
+                id: regionId,
+                name: req.region.properties.name,
                 externalUrl: req.region.properties.url
             }
         };
