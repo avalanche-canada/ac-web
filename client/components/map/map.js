@@ -5,7 +5,7 @@
 
 angular.module('acMap', ['ngAnimate'])
 
-    .controller('mapController', function ($scope, $rootScope, $http, $q, GeoUtils, $timeout, $route, $location) {
+    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $location, acImageCache) {
         angular.extend($scope, {
             current: {},
             drawer: {
@@ -15,6 +15,10 @@ angular.module('acMap', ['ngAnimate'])
 
         $http.get('api/forecasts').then(function (res) {
             $scope.regions = res.data;
+            var dangerIcons = _.map($scope.regions.features, function (r) {
+                return r.properties.dangerIconUrl;
+            });
+            acImageCache.cache(dangerIcons);
         });
 
         $scope.showMore = function () {
@@ -47,7 +51,7 @@ angular.module('acMap', ['ngAnimate'])
 
     })
 
-    .directive('acMapboxMap', function ($rootScope, $http, $q, $timeout, $document, $window) {
+    .directive('acMapboxMap', function ($rootScope, $http, $timeout, $document, $window) {
         return {
             template: '<div id="map"></div>',
             replace: true,
@@ -161,24 +165,20 @@ angular.module('acMap', ['ngAnimate'])
         };
     })
 
+    .factory('acImageCache', function ($http) {
+        return {
+            cache: function (images) {
+                images.forEach(function (i) {
+                    $http.get(i);
+                });
+            }
+        }
+    })
+
     .directive('acMapDrawer', function () {
         return {
             link: function ($scope, el, attrs) {
 
-            }
-        };
-    })
-
-    .factory('GeoUtils', function () {
-        return {
-            latLngsInBounds: function (latLngs, bounds){
-                return _.some(latLngs, function (latLng) { return bounds.contains(latLng); } );
-            },
-            polygonIntersectsBounds: function (polygon, bounds){
-                return bounds.intersects(polygon.getBounds()) && this.latLngsInBounds(polygon.getLatLngs(), bounds);
-            },
-            getPolygonForPoint: function (latlng, polygons){
-                return leafletPip.pointInLayer(latlng, polygons, true)[0];
             }
         };
     })
