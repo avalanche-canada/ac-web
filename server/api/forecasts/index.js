@@ -74,7 +74,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
 
     res.header('Cache-Control', 'no-cache');
     res.header('Content-Type', 'image/svg+xml');
-    res.render('danger-icon', ratingStyles);
+    res.render('forecasts/danger-icon', ratingStyles);
 });
 
 router.get('/:region.:format', function(req, res) {

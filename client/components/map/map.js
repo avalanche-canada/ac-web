@@ -137,8 +137,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                                     L.marker(centroid, {
                                         icon: L.icon({
-                                            //iconUrl: featureData.properties.dangerIconUrl,
-                                            iconUrl: '/assets/images/forecasts/danger-rating-icon.svg',
+                                            iconUrl: featureData.properties.dangerIconUrl,
                                             iconSize: [80, 80]
                                         })
                                     }).on('click', function () {
