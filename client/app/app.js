@@ -6,10 +6,11 @@ angular.module('avalancheCanadaApp', [
                 'ngSanitize',
                 'ui.router',
                 'ui.bootstrap',
-                'constants'
+                'constants',
+                'prismic.io'
                 ])
 
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $locationProvider, PrismicProvider) {
         $urlRouterProvider
           .otherwise('/');
 
