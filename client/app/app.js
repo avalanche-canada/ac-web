@@ -1,19 +1,17 @@
 'use strict';
 
 angular.module('avalancheCanadaApp', [
-                'ngCookies',
-                'ngResource',
-                'ngSanitize',
-                'ui.router',
-                'ui.bootstrap',
-                'constants',
-                'prismic.io'
-                ])
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngAnimate',
+        'ngRoute',
+        'ui.bootstrap',
+        'constants',
+        'prismic.io',
+        'acMap'])
 
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider, PrismicProvider) {
-        $urlRouterProvider
-          .otherwise('/');
-
+    .config(function ($locationProvider, PrismicProvider) {
         $locationProvider.html5Mode(true);
 
         //! Prismic.io configuration

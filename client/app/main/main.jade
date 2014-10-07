@@ -1,13 +1,2 @@
 div(ng-include='"components/navbar/navbar.html"')
-div#page-wrap
-    full-page
-        #fullpage
-            #section0.section
-                #map.container-fluid
-                    .row
-                        // map html here
-                        .scroll-down
-                          i.fa.fa-chevron-down(ng-click='scrollPage()')
-            #section1.section
-                div(ng-include='"app/main/more.html"')
-                div(ng-include='"components/footer/footer.html"')
+div.slide.full-height(ui-view='')

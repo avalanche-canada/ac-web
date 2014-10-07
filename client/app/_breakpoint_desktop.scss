@@ -80,6 +80,9 @@
 					}
 
 					h2 {
+                        border-bottom: 5px solid #DCDCDC;
+                        color:black;
+                        padding-bottom: 10px;
 						@include font-size(2.0, 2.2);
 						margin:0 0 14px 0;
 						a {
@@ -93,12 +96,14 @@
 								text-decoration:none;
 								color:#121212;
 							}
-							.fa-angle-right {
-								@include font-size(2.4, 2.4);
-								color:#0056b7;
-								font-weight:bold;
-							}
 						}
+
+                        .fa{
+                                @include font-size(2.4, 2.4);
+                                color:#0056b7;
+                                font-weight:bold;
+                                padding-left:10px;
+                        }
 					}
 					.mega-secondary-menu {
 						list-style:none;
