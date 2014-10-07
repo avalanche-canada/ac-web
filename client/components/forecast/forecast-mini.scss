@@ -1,0 +1,133 @@
+$vegZoneAlp: rgb(221, 238, 250);
+$vegZoneTln: rgb(209, 217, 163);
+$vegZoneBtl: rgb(174, 191, 172);
+
+$dangerRatingExtreme: black;
+$dangerRatingHigh: #EF1C29;
+$dangerRatingConsiderable: #F79218;
+$dangerRatingModerate: #FFF300;
+$dangerRatingLow: #52BA4A;
+$dangerRatingNoRating: white;
+
+// todo: some components are 'hacked-in' awaiting actual styles from  full page forecast.
+.ac-forecast-mini {
+    border-top: 1px solid #ddd;
+    dl {
+        margin-bottom: 0px;
+    }
+    .small {
+        font-size: 75%;
+    }
+    .ac-forecast-region {
+        margin-top: 10px;
+    }
+    .ac-forecast-highlights {
+        margin-top: 10px;
+        color: rgb(43, 47, 51);
+    }
+    .ac-forecast-dates {
+        .col-xs-6 {
+            border-top: 5px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+            &:first-child {
+                border-right: 1px solid #ddd;
+            }
+        }
+        padding: 5px;
+    }
+    .ac-forecast-nowcast {
+        padding: 0;
+        overflow: hidden;
+        .ac-nowcast {
+            height: 150px;
+            z-index: 1;
+        }
+    }
+    .ac-problem-icon {
+        padding: 0;
+        &.ac-problem-icon--aspects img {
+            height: 116px;
+        }
+    }
+    .ac-problem.narative {
+        padding-top: 10px;
+    }
+    .ac-problem-travel-advice .panel-body {
+        padding: 10px;
+    }
+    .panel-primary {
+        border-color: #eee;
+        & > .panel-heading {
+            background-color: rgb(43, 47, 51);
+            color: white;
+            padding: 5px 15px;
+        }
+    }
+    .panel-default > .panel-heading {
+        background-color: #ddd;
+        color: black;
+        padding: 5px 15px;
+    }
+    .nav-pills { //todo: will replace with actual full page component + .mini
+        margin-bottom: 10px;
+        li {
+            a {
+                background-color: rgba(0, 86, 183, 0.4);
+                color: white;
+            }
+            &.active a {
+                background-color: rgb(0, 86, 183);
+            }
+            & > a {
+                padding: 5px 15px;
+                font-size: 0.8em;
+                border-radius: 0;
+                
+            }
+        }
+    }
+    .panel {
+        margin-bottom: 0;
+    }
+    .ac-forecast-days {
+        td {
+            border: 1px solid white;
+            font-size: 0.7em;
+        }
+    }
+}
+
+
+.ac-veg-zone--alp {
+    background-color: $vegZoneAlp;
+}
+
+.ac-veg-zone--tln {
+    background-color: $vegZoneTln;
+}
+
+.ac-veg-zone--btl {
+    background-color: $vegZoneBtl;
+}
+
+.ac-danger-rating--extreme {
+    background-color: $dangerRatingExtreme;
+    color: red;
+}
+
+.ac-danger-rating--high {
+    background-color: $dangerRatingHigh;
+}
+
+.ac-danger-rating--considerable {
+    background-color: $dangerRatingConsiderable;
+}
+
+.ac-danger-rating--moderate {
+    background-color: $dangerRatingModerate;
+}
+
+.ac-danger-rating--low {
+    background-color: $dangerRatingLow;
+}
