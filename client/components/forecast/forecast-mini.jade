@@ -3,7 +3,6 @@
         .row
             .col-xs-12
                 h3.ac-forecast-region {{ forecast.name }}
-                i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="region = null")
         .row
             .col-xs-12
                 a(ng-href="{{forecast.externalUrl}}") 
@@ -13,7 +12,7 @@
         .row
             .col-xs-12
                 h4.ac-forecast-region {{ forecast.bulletinTitle | normalizeForecastTitle }}
-                i.fa.fa-close.fa-2x.ac-drawer-close(ng-click="forecast = null")
+                
         .row.ac-forecast-dates
             .col-md-6
                 dl

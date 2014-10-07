@@ -5,7 +5,7 @@
 
 angular.module('acMap', ['constants', 'ngAnimate'])
 
-    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $location, acImageCache, ENV) {
+    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV) {
         angular.extend($scope, {
             env: ENV,
             current: {},
@@ -49,6 +49,26 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }, 800);
             }
         });
+
+        function setState() {
+            var width = $($window).width();
+
+            $timeout(function () {
+                if(width < 480) {
+                    $scope.deviceSize = 'xs';
+                } else if(width >= 480 && width < 600) {
+                    $scope.deviceSize = 'sm';
+                } else if(width >= 600 && width < 1025) {
+                    $scope.deviceSize = 'md';
+                } else {
+                    $scope.deviceSize = 'lg'
+                }
+            }, 0);
+        }
+
+        angular.element($window).bind('resize', setState);
+
+        setState();
 
     })
 
@@ -169,11 +189,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 $scope.$watch('region', function (region) {
                     if(region) {
                         layers.regions.eachLayer(function (layer) {
-                            if(layer === region) {
-                                region.setStyle(styles.region.selected);
-                            } else {
-                                layer.setStyle(styles.region.default);
-                            }
+                            var style = (layer === region ? styles.region.selected : styles.region.default);
+                            layer.setStyle(style);
                         });
                     }
                 });
@@ -228,6 +245,17 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 images.forEach(function (i) {
                     $http.get(i);
                 });
+            }
+        };
+    })
+
+    .directive('acDrawer', function () {
+        return {
+            replace: true,
+            transclude: true,
+            templateUrl: 'components/map/drawer.html',
+            link: function ($scope, el, attrs) {
+                el.addClass('ac-drawer');
             }
         };
     })
