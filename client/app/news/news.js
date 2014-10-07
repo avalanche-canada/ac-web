@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
   $routeProvider
         .when('/news', {
             templateUrl: 'app/news/news.html',
-            controller: 'newsController'
+            controller: 'NewsCtrl'
         })
 
 });
