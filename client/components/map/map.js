@@ -95,16 +95,81 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     } else if (map.getZoom() > 6 && !map.hasLayer(layers.dangerIcons)){
                         map.addLayer(layers.dangerIcons);
                     }
+                });
 
+                function getMapPadding(){
+                    var mapWidth = map.getSize().x;
+
+                    if(mapWidth > 1025) {
+                        return [480, 0];
+                    } else if (mapWidth > 600) {
+                        return [350, 0];
+                    } else {
+                        return [0, 0];
+                    }
+                }
+
+                function getMapOffset(){
+                    var mapPadding = getMapPadding();
+                    return [mapPadding[0]/2, mapPadding[1]];
+                }
+
+                function getPaddedMapCenter(){
+                    var mapCenterPoint = map.latLngToLayerPoint(map.getCenter()).subtract(getMapOffset());
+                    return map.layerPointToLatLng(mapCenterPoint);
+                }
+
+                function setRegionFocus() {
                     if(map.getZoom() > 9) {
-                        var region = leafletPip.pointInLayer(map.getCenter(), layers.regions, true)[0];
-                        if (region) {
+                        var centerRegion;
+                        var centerRegions = [];
+                        var paddedMapCenter = getPaddedMapCenter();
+                        var centerPoint = map.latLngToLayerPoint(paddedMapCenter);
+                        var centerBounds = L.bounds([centerPoint.x-50, centerPoint.y-50], [centerPoint.x+50, centerPoint.y+50]);
+                        var nw = map.layerPointToLatLng(centerBounds.max);
+                        var se = map.layerPointToLatLng(centerBounds.min);
+                        var centerLatLngBounds = L.latLngBounds(nw, se);
+
+                        // find every regions which intersects map center bounds (100px square)
+                        layers.regions.eachLayer(function (layer) {
+                            if (layer.getBounds().intersects(centerLatLngBounds)) {
+                                centerRegions.push(layer);
+                            }
+                        });
+
+                        // if there is more than one region look if one is contained within map bounds
+                        if(centerRegions.length > 1) {
+                            _.each(centerRegions, function (r) {
+                                if(map.getBounds().contains(r.getBounds())) {
+                                    centerRegion = r;
+                                }
+                            });
+                        } else { // otherwise select the one
+                            centerRegion = centerRegions[0];
+                        }
+
+                        // no region was within map bounds; look for regions that contain map center
+                        if(!centerRegion && centerRegions.length > 1) {
+                            centerRegion = leafletPip.pointInLayer(getPaddedMapCenter(), layers.regions, true)[0];
+                        }
+
+                        // still no region; find the closest one by region centroid
+                        if (!centerRegion) {
+                            centerRegion = _.min(centerRegions, function (r) {
+                                return r.feature.properties.centroid.distanceTo(paddedMapCenter);
+                            });
+                        }
+
+                        if (centerRegion) {
                             $scope.$apply(function () {
-                                $scope.region = region;
+                                $scope.region = centerRegion;
                             });
                         }
                     }
-                });
+                }
+
+                map.on('dragend', setRegionFocus);
+                map.on('zoomend', setRegionFocus);
 
                 $scope.$watch('region', function (region) {
                     if(region) {
@@ -127,9 +192,25 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             },
                             onEachFeature: function (featureData, layer) {
                                 layer.bindLabel(featureData.properties.name, {noHide: true});
-                                layer.on('click', function () {
-                                    selectRegion(layer);
-                                });
+
+                                function showRegion(evt){
+                                    var options =  { 
+                                        paddingBottomRight: getMapPadding()
+                                    };
+
+                                    $scope.$apply(function () {
+                                        $scope.region = layer;
+                                    });
+
+                                    if(map.getZoom() <= 9) {
+                                        map.fitBounds(layer.getBounds(), options);
+                                    } else {
+                                        var paddedClickedPoint = map.layerPointToLatLng(evt.layerPoint.add(getMapOffset()));
+                                        map.panTo(paddedClickedPoint);
+                                    }
+                                }
+
+                                layer.on('click', showRegion);
 
                                 if(featureData.properties.centroid) {
                                     var centroid = L.latLng(featureData.properties.centroid[1], featureData.properties.centroid[0]);
@@ -140,40 +221,13 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                                             iconUrl: featureData.properties.dangerIconUrl,
                                             iconSize: [80, 80]
                                         })
-                                    }).on('click', function () {
-                                        selectRegion(layer);
-                                    }).addTo(layers.dangerIcons);
+                                    }).on('click', showRegion).addTo(layers.dangerIcons);
                                 }
 
                             }
                         }).addTo(map);
-
                     }
                 });
-
-                function selectRegion(region) {
-                    var options =  { 
-                        paddingBottomRight: (function (viewportWidth) {
-                            if(viewportWidth > 1025) {
-                                [480, 0];
-                            } else if (viewportWidth > 600) {
-                                [350, 0];
-                            } else {
-                                [0, 0];
-                            }
-                        })($($window).width())
-                    };
-
-                    $scope.$apply(function () {
-                        $scope.region = region;
-                    });
-
-                    if(map.getZoom() <= 9) {
-                        map.fitBounds(region.getBounds(), options);
-                    } else {
-                        map.panTo(region.feature.properties.centroid);
-                    }
-                }
             }
         };
     })
