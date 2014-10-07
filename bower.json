@@ -19,7 +19,7 @@
     "multilevelpushmenu": "~2.1.4",
     "fullpage.js": "~2.2.1",
     "slimScroll": "~1.3.3",
-    "angular-prismicio": "~0.1.0"
+    "angular-prismicio": "awulder/angular-prismicio#master"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -29,6 +29,6 @@
     "yamm3": "~1.0.0"
   },
   "resolutions": {
-    "angular": ">=1"
+    "angular": ">=1.2.*"
   }
 }
