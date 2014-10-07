@@ -61,7 +61,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 } else if(width >= 600 && width < 1025) {
                     $scope.deviceSize = 'md';
                 } else {
-                    $scope.deviceSize = 'lg'
+                    $scope.deviceSize = 'lg';
                 }
             }, 0);
         }
