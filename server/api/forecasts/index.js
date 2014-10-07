@@ -64,9 +64,9 @@ router.get('/:region/title.json', function(req, res) {
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
     var ratingStyles = {
-        alp: '#919191',
-        tln: '#919191',
-        btl: '#919191'
+        alp: '',
+        tln: '',
+        btl: ''
     };
 
     if(req.region.properties.type === 'avalx'){
