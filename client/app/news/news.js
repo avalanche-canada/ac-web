@@ -8,6 +8,11 @@ angular.module('avalancheCanadaApp')
             controller: 'NewsCtrl'
         })
 
+        .when('/news/:id/:slug', {
+            templateUrl: 'app/news/newsItem.html',
+            controller: 'NewsItemCtrl'
+        });
+
 });
 
 

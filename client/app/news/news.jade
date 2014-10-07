@@ -6,7 +6,7 @@ div
 h2 {{documents.total_results_size}} documents
 ul#list
   li(ng-repeat=' document in documents.results')
-    a(href='#/document/{{document.id}}/{{document.slug}}')
+    a(href='#/news/{{document.id}}/{{document.slug}}')
       | {{document.slug}}
 hr
 ul#pagination(ng-if='documents.total_pages > 1')
