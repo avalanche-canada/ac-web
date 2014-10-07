@@ -120,7 +120,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }
 
                 function setRegionFocus() {
-                    if(map.getZoom() > 9) {
+                    if(map.getZoom() >= 9) {
                         var centerRegion;
                         var centerRegions = [];
                         var paddedMapCenter = getPaddedMapCenter();
@@ -131,20 +131,18 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         var centerLatLngBounds = L.latLngBounds(nw, se);
 
                         // find every regions which intersects map center bounds (100px square)
-                        layers.regions.eachLayer(function (layer) {
-                            if (layer.getBounds().intersects(centerLatLngBounds)) {
-                                centerRegions.push(layer);
+                        layers.regions.eachLayer(function (region) {
+                            if (region.getBounds().intersects(centerLatLngBounds)) {
+                                centerRegions.push(region);
                             }
                         });
 
-                        // if there is more than one region look if one is contained within map bounds
+                        // if there is more than one region look if one is within map bounds
                         if(centerRegions.length > 1) {
-                            _.each(centerRegions, function (r) {
-                                if(map.getBounds().contains(r.getBounds())) {
-                                    centerRegion = r;
-                                }
+                            centerRegion =  _.find(centerRegions, function (region) {
+                                return map.getBounds().contains(region.getBounds());
                             });
-                        } else { // otherwise select the one
+                        } else if (centerRegions.length === 1) { // otherwise select the one
                             centerRegion = centerRegions[0];
                         }
 
@@ -154,17 +152,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         }
 
                         // still no region; find the closest one by region centroid
-                        if (!centerRegion) {
-                            centerRegion = _.min(centerRegions, function (r) {
-                                return r.feature.properties.centroid.distanceTo(paddedMapCenter);
-                            });
-                        }
+                        // if (!centerRegion) {
+                        //     centerRegion = _.min(centerRegions, function (r) {
+                        //         return r.feature.properties.centroid.distanceTo(paddedMapCenter);
+                        //     });
+                        // }
 
-                        if (centerRegion) {
-                            $scope.$apply(function () {
-                                $scope.region = centerRegion;
-                            });
-                        }
+                        $scope.$apply(function () {
+                            $scope.region = centerRegion;
+                        });
                     }
                 }
 
@@ -202,7 +198,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                                         $scope.region = layer;
                                     });
 
-                                    if(map.getZoom() <= 9) {
+                                    if(map.getZoom() < 9) {
                                         map.fitBounds(layer.getBounds(), options);
                                     } else {
                                         var paddedClickedPoint = map.layerPointToLatLng(evt.layerPoint.add(getMapOffset()));
