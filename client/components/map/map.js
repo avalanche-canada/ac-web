@@ -97,6 +97,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 });
 
+                function offsetLatLng(latlng){
+                    var offset = getMapOffset();
+                    var points = map.latLngToLayerPoint(latlng);
+                    return map.layerPointToLatLng(points.add(offset));
+                }
+
                 function getMapPadding(){
                     var mapWidth = map.getSize().x;
 
@@ -146,17 +152,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             centerRegion = centerRegions[0];
                         }
 
-                        // no region was within map bounds; look for regions that contain map center
+                        // more than one region return; get the one which contains the map center
                         if(!centerRegion && centerRegions.length > 1) {
                             centerRegion = leafletPip.pointInLayer(getPaddedMapCenter(), layers.regions, true)[0];
                         }
-
-                        // still no region; find the closest one by region centroid
-                        // if (!centerRegion) {
-                        //     centerRegion = _.min(centerRegions, function (r) {
-                        //         return r.feature.properties.centroid.distanceTo(paddedMapCenter);
-                        //     });
-                        // }
 
                         $scope.$apply(function () {
                             $scope.region = centerRegion;
@@ -190,20 +189,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                                 layer.bindLabel(featureData.properties.name, {noHide: true});
 
                                 function showRegion(evt){
-                                    var options =  { 
-                                        paddingBottomRight: getMapPadding()
-                                    };
+                                    if(map.getZoom() < 9) {
+                                        map.fitBounds(layer.getBounds(), { paddingBottomRight: getMapPadding() });
+                                    } else {
+                                        map.panTo(offsetLatLng(evt.latlng));
+                                    }
 
                                     $scope.$apply(function () {
                                         $scope.region = layer;
                                     });
-
-                                    if(map.getZoom() < 9) {
-                                        map.fitBounds(layer.getBounds(), options);
-                                    } else {
-                                        var paddedClickedPoint = map.layerPointToLatLng(evt.layerPoint.add(getMapOffset()));
-                                        map.panTo(paddedClickedPoint);
-                                    }
                                 }
 
                                 layer.on('click', showRegion);
