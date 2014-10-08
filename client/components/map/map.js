@@ -120,7 +120,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     });
 
                     countries.reverseQuery(e.latlng, function (err, results) {
-                        if (results.features[0].place_name === 'Canada') {
+                        var place;
+                        /* jshint ignore:start */
+                        place = results.features[0].place_name;
+                        /* jshint ignore:end */
+
+                        if (place === 'Canada') {
                             userArea = _.min($scope.areas.features, function (a) {
                                 return a.properties.centroid.distanceTo(e.latlng);
                             });
