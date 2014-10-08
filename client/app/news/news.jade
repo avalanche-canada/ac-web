@@ -4,9 +4,10 @@ div
   a(href='#/search/{{searchq}}') Search
 h2 {{documents.total_results_size}} documents
 ul#list
-  li(ng-repeat=' document in documents.results')
-    a(href='#/news/{{document.id}}/{{document.slug}}')
-      | {{document.slug}}
+    li(ng-repeat=' document in documents.results')
+        a(href='#/news/{{document.id}}/{{document.slug}}')
+            {{document.slug}}
+        {{document.getStructuredText('news.shortlede').asText()}}
 hr
 ul#pagination(ng-if='documents.total_pages > 1')
   li(ng-if='documents.prev_page')
