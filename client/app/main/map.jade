@@ -1,5 +1,5 @@
 .container-fluid.ac-no-gutter.full-height.ac-view-map
-    div(ac-mapbox-map, device-size="device.size", region="current.region", regions="regions" mapbox-access-token="{{env.mapboxAccessToken}}", mapbox-map-id="{{env.mapboxMapId}}")
+    div(ac-mapbox-map, device-size="device.size", region="current.region", regions="regions", areas="areas", mapbox-access-token="{{env.mapboxAccessToken}}", mapbox-map-id="{{env.mapboxMapId}}")
     .ac-drawer-tab(ng-show="current.region.feature.properties.forecast && !drawer.visible && device.size === 'xs'", ng-click="drawer.visible = true")
             i.fa.fa-file-text-o.fa-3x.fa-inverse.fa-fw
     div(ac-drawer, ng-show="current.region && current.region.feature.properties.forecast && drawer.visible")

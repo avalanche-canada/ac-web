@@ -23,6 +23,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             acImageCache.cache(dangerIcons);
         });
 
+        $http.get('api/forecasts/areas').then(function (res) {
+            $scope.areas = res.data;
+        });
+
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
             $location.path('/more');
@@ -82,6 +86,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 mapboxMapId: '@',
                 region: '=',
                 regions: '=',
+                areas: '=',
                 deviceSize: '='
             },
             link: function ($scope, el, attrs) {
@@ -102,6 +107,33 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
+
+                var countries = L.mapbox.geocoder('mapbox.places-country-v1');
+                var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
+                map.locate();
+
+                map.on('locationfound', function (e) {
+                    var userArea;
+
+                    $scope.areas.features.forEach(function (a) {
+                        a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
+                    });
+
+                    countries.reverseQuery(e.latlng, function (err, results) {
+                        if (results.features[0].place_name === 'Canada') {
+                            userArea = _.min($scope.areas.features, function (a) {
+                                return a.properties.centroid.distanceTo(e.latlng);
+                            });
+                            userArea = L.GeoJSON.geometryToLayer(userArea);
+                            map.fitBounds(userArea.getBounds());
+                        } else {
+                            provinces.query('British-Columbia', function (err, results) {
+                                var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
+                                map.fitBounds(bcBounds);
+                            });
+                        }
+                    });
+                });
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
@@ -212,15 +244,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             region = _.min(intersectsCenterBufferAnWithinMapBounds, function (r) {
                                 return r.feature.properties.centroid.distanceTo(mapCenter);
                             });
-                        } 
-                        // else if(withinMapBounds.length === 1){
-                        //     region = withinMapBounds[0];
-                        // } else if(withinMapBounds.length > 1){
-                        //     region = _.min(withinMapBounds, function (r) {
-                        //         return r.feature.properties.centroid.distanceTo(mapCenter);
-                        //     });
-                        // } 
-                        else if(centroidInMapBounds.length === 1){
+                        } else if(centroidInMapBounds.length === 1){
                             region = centroidInMapBounds[0];
                         } else if(centroidInMapBounds.length > 1){
                             region = _.min(centroidInMapBounds, function (r) {

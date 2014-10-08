@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
 var regions = require('./forecast-regions');
+var areas = require('./forecast-areas');
 
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
@@ -52,6 +53,10 @@ router.get('/', function(req, res) {
     // todo: need to delete original url prop, could clone then serve.
     // regions.features.forEach(function (r) { delete r.properties.url; });
     res.json(regions);
+});
+
+router.get('/areas', function(req, res) {
+    res.json(areas);
 });
 
 router.get('/:region/title.json', function(req, res) {
