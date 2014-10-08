@@ -1,6 +1,6 @@
 /* js-hint hacks. */
 /* jshint unused:false  */
-/* global L, leafletPip */
+/* global L, leafletPip, gju */
 'use strict';
 
 angular.module('acMap', ['constants', 'ngAnimate'])
@@ -50,7 +50,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             }
         });
 
-        function setState() {
+        function setDeviceSize() {
             var width = $($window).width();
 
             $timeout(function () {
@@ -66,9 +66,9 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             }, 0);
         }
 
-        angular.element($window).bind('resize', setState);
+        angular.element($window).bind('resize', setDeviceSize);
 
-        setState();
+        setDeviceSize();
 
     })
 
@@ -117,68 +117,133 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 });
 
-                function offsetLatLng(latlng){
-                    var offset = getMapOffset();
-                    var points = map.latLngToLayerPoint(latlng);
-                    return map.layerPointToLatLng(points.add(offset));
+
+                function latLngToGeoJSON(latlng){
+                    return {
+                        type: 'Point',
+                        coordinates: [latlng.lng, latlng.lat]
+                    };
                 }
 
                 function getMapPadding(){
-                    var mapWidth = map.getSize().x;
-
-                    if(mapWidth > 1025) {
-                        return [480, 0];
-                    } else if (mapWidth > 600) {
-                        return [350, 0];
+                    if(true){
+                        switch('lg') {
+                            case 'xs':
+                                return L.point([0, 0]);
+                            case 'sm':
+                                return L.point([-350, 0]);
+                            case 'md':
+                            case 'lg':
+                                return L.point([-480, 0]);
+                        }
                     } else {
-                        return [0, 0];
+                        return L.point([0, 0]);
                     }
                 }
 
                 function getMapOffset(){
-                    var mapPadding = getMapPadding();
-                    return [mapPadding[0]/2, mapPadding[1]];
+                    return getMapPadding().divideBy(2);
                 }
 
-                function getPaddedMapCenter(){
-                    var mapCenterPoint = map.latLngToLayerPoint(map.getCenter()).subtract(getMapOffset());
-                    return map.layerPointToLatLng(mapCenterPoint);
+                // offfset can be negative i.e. [-240, 0]
+                function offsetLatLng(latlng, offset){
+                    var point = map.latLngToLayerPoint(latlng);
+                    return map.layerPointToLatLng(point.add(offset));
+                }
+
+                function getMapCenter(){
+                    var offset = getMapOffset();
+                    return offsetLatLng(map.getCenter(), offset);
+                }
+
+                function getMapBounds() {
+                    var latLngBounds = map.getBounds();
+                    var min = map.latLngToLayerPoint(latLngBounds.getNorthWest());
+                    var max = map.latLngToLayerPoint(latLngBounds.getSouthEast());
+                    var padding = getMapPadding();
+
+                    var bounds = L.bounds(min, max.add(padding));
+                    var nw = map.layerPointToLatLng(bounds.max);
+                    var se = map.layerPointToLatLng(bounds.min);
+
+                    return L.latLngBounds(nw, se);
+                }
+
+                function getMapCenterBuffer(){
+                    var mapCenter = getMapCenter();
+                    var centerPoint = map.latLngToLayerPoint(mapCenter);
+                    var buffer = L.bounds([centerPoint.x-50, centerPoint.y-50], [centerPoint.x+50, centerPoint.y+50]);
+
+                    var nw = map.layerPointToLatLng(buffer.max);
+                    var se = map.layerPointToLatLng(buffer.min);
+
+                    return  L.latLngBounds(nw, se);
+                }
+
+                var _buffer;
+                var _view;
+                function drawHelpers(view, buffer){
+                    if(map.hasLayer(_buffer)) {
+                        map.removeLayer(_buffer);
+                        // map.removeLayer(_view);
+                    }
+
+                    _buffer = L.rectangle(buffer, {color: 'blue', weight: 1}).addTo(map);
+                    // _view = L.rectangle(view, {color: "red", weight: 1}).addTo(map);
                 }
 
                 function setRegionFocus() {
-                    if(map.getZoom() >= 9) {
-                        var centerRegion;
-                        var centerRegions = [];
-                        var paddedMapCenter = getPaddedMapCenter();
-                        var centerPoint = map.latLngToLayerPoint(paddedMapCenter);
-                        var centerBounds = L.bounds([centerPoint.x-50, centerPoint.y-50], [centerPoint.x+50, centerPoint.y+50]);
-                        var nw = map.layerPointToLatLng(centerBounds.max);
-                        var se = map.layerPointToLatLng(centerBounds.min);
-                        var centerLatLngBounds = L.latLngBounds(nw, se);
+                    if(map.getZoom() >= 8) {
+                        var centerBuffer = getMapCenterBuffer();
+                        var regions = layers.regions.getLayers();
+                        var mapCenter = getMapCenter();
+                        var mapBounds = getMapBounds();
+                        var region;
 
-                        // find every regions which intersects map center bounds (100px square)
-                        layers.regions.eachLayer(function (region) {
-                            if (region.getBounds().intersects(centerLatLngBounds)) {
-                                centerRegions.push(region);
-                            }
+                        // drawHelpers(mapBounds, centerBuffer);
+
+                        var intersectsCenterBuffer = _.filter(regions, function (r) {
+                            return centerBuffer.intersects(r.getBounds());
                         });
 
-                        // if there is more than one region look if one is within map bounds
-                        if(centerRegions.length > 1) {
-                            centerRegion =  _.find(centerRegions, function (region) {
-                                return map.getBounds().contains(region.getBounds());
-                            });
-                        } else if (centerRegions.length === 1) { // otherwise select the one
-                            centerRegion = centerRegions[0];
-                        }
+                        var withinMapBounds = _.filter(regions, function (r) {
+                            return mapBounds.contains(r.getBounds());
+                        });
 
-                        // more than one region return; get the one which contains the map center
-                        if(!centerRegion && centerRegions.length > 1) {
-                            centerRegion = leafletPip.pointInLayer(getPaddedMapCenter(), layers.regions, true)[0];
+                        var containsMapCenter = _.find(regions, function (r) {
+                            return gju.pointInPolygon(latLngToGeoJSON(mapCenter), r.feature.geometry);
+                        });
+
+                        var centroidInMapBounds = _.filter(regions, function (r) {
+                            return mapBounds.contains(r.feature.properties.centroid);
+                        });
+
+                        var intersectsCenterBufferAnWithinMapBounds = _.intersection(intersectsCenterBuffer, withinMapBounds);
+
+                        if(intersectsCenterBufferAnWithinMapBounds.length === 1){
+                            region = intersectsCenterBufferAnWithinMapBounds[0];
+                        } else if(intersectsCenterBufferAnWithinMapBounds.length > 1) {
+                            region = _.min(intersectsCenterBufferAnWithinMapBounds, function (r) {
+                                return r.feature.properties.centroid.distanceTo(mapCenter);
+                            });
+                        } else if(withinMapBounds.length === 1){
+                            region = withinMapBounds[0];
+                        } else if(withinMapBounds.length > 1){
+                            region = _.min(withinMapBounds, function (r) {
+                                return r.feature.properties.centroid.distanceTo(mapCenter);
+                            });
+                        } else if(centroidInMapBounds.length === 1){
+                            region = centroidInMapBounds[0];
+                        } else if(centroidInMapBounds.length > 1){
+                            region = _.min(centroidInMapBounds, function (r) {
+                                return r.feature.properties.centroid.distanceTo(mapCenter);
+                            });
+                        } else if (containsMapCenter) {
+                            region = containsMapCenter;
                         }
 
                         $scope.$apply(function () {
-                            $scope.region = centerRegion;
+                            $scope.region = region;
                         });
                     }
                 }
@@ -207,7 +272,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                                 function showRegion(evt){
                                     if(map.getZoom() < 9) {
-                                        map.fitBounds(layer.getBounds(), { paddingBottomRight: getMapPadding() });
+                                        var padding = getMapPadding();
+                                        map.fitBounds(layer.getBounds(), { paddingBottomRight: [-padding.x, padding.y] });
                                     } else {
                                         map.panTo(offsetLatLng(evt.latlng));
                                     }
