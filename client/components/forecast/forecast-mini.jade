@@ -99,33 +99,33 @@
                                 div(id="problem{{$index}}").panel-collapse.collapse
                                     .panel-body
                                         .row
-                                            .col-xs-6
+                                            .col-md-6
                                                 .panel.panel-default
                                                     .panel-heading
                                                         strong.small What Elevations?
                                                     .panel-body.ac-problem-icon.ac-problem-icon--elevations
                                                         img.center-block(ng-src="{{problem.icons.elevations}}")
-                                            .col-xs-6
+                                            .col-md-6
                                                 .panel.panel-default
                                                     .panel-heading
                                                         strong.small What Aspects?
                                                     .panel-body.ac-problem-icon.ac-problem-icon--aspects
                                                         img.center-block(ng-src="{{problem.icons.aspects}}")
                                         .row
-                                            .col-xs-6
+                                            .col-md-6
                                                 .panel.panel-default
                                                     .panel-heading
                                                         strong.small Chances of Avalanches?
                                                     .panel-body.ac-problem-icon.ac-problem-icon--likelihood
                                                         img.center-block(ng-src="{{problem.icons.likelihood}}")
-                                            .col-xs-6
+                                            .col-md-6
                                                 .panel.panel-default
                                                     .panel-heading
                                                         strong.small Expected Size?
                                                     .panel-body.ac-problem-icon.ac-problem-icon--expected-size
                                                         img.center-block(ng-src="{{problem.icons.expectedSize}}")
                                         .row
-                                            .col-xs-12
+                                            .col-md-12
                                                 p.ac-problem.narative {{ problem.comment  | sanatizeHtml}}
                                                 .panel.panel-default.ac-problem-travel-advice
                                                     .panel-heading
