@@ -274,9 +274,11 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                                     if(map.getZoom() < 9) {
                                         var padding = getMapPadding();
                                         map.fitBounds(layer.getBounds(), { paddingBottomRight: [-padding.x, padding.y] });
-                                    } else {
-                                        map.panTo(offsetLatLng(evt.latlng));
-                                    }
+                                    } 
+                                    // else {
+                                    //     var offset = getMapOffset();
+                                    //     map.panTo(offsetLatLng(evt.latlng, offset));
+                                    // }
 
                                     $scope.$apply(function () {
                                         $scope.region = layer;
