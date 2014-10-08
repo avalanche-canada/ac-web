@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
 var regions = require('./forecast-regions');
+var areas = require('./forecast-areas');
 
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
@@ -54,6 +55,10 @@ router.get('/', function(req, res) {
     res.json(regions);
 });
 
+router.get('/areas', function(req, res) {
+    res.json(areas);
+});
+
 router.get('/:region/title.json', function(req, res) {
     if(req.forecast.json){
         res.json(req.forecast.json.bulletinTitle);
@@ -64,9 +69,9 @@ router.get('/:region/title.json', function(req, res) {
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
     var ratingStyles = {
-        alp: '#919191',
-        tln: '#919191',
-        btl: '#919191'
+        alp: '',
+        tln: '',
+        btl: ''
     };
 
     if(req.region.properties.type === 'avalx'){

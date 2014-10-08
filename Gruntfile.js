@@ -125,7 +125,7 @@ module.exports = function (grunt) {
     jshint: {
       options: {
         jshintrc: '<%= yeoman.client %>/.jshintrc',
-        reporter: require('jshint-stylish')
+        verbose: true
       },
       server: {
         options: {
@@ -133,11 +133,16 @@ module.exports = function (grunt) {
         },
         src: [ 'server/{,*/}*.js']
       },
-      all: [
-        '<%= yeoman.client %>/{app,components}/**/*.js',
-        '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
-        '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
-      ],
+      all: {
+        options: {
+          '-W106': true
+        },
+        src: [
+          '<%= yeoman.client %>/{app,components}/**/*.js',
+          '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+          '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
+        ]
+      },
       test: {
         src: [
           '<%= yeoman.client %>/{app,components}/**/*.spec.js',

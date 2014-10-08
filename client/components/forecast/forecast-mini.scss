@@ -1,3 +1,5 @@
+@import "_custom_cac_variables";
+
 $vegZoneAlp: rgb(221, 238, 250);
 $vegZoneTln: rgb(209, 217, 163);
 $vegZoneBtl: rgb(174, 191, 172);
@@ -14,6 +16,9 @@ $dangerRatingNoRating: white;
     border-top: 1px solid #ddd;
     dl {
         margin-bottom: 0px;
+    }
+    .ac-forecast-mini-body {
+        padding: 0 15px;
     }
     .small {
         font-size: 75%;
@@ -40,7 +45,7 @@ $dangerRatingNoRating: white;
         padding: 0;
         overflow: hidden;
         .ac-nowcast {
-            height: 150px;
+            height: 100px;
             z-index: 1;
         }
     }
@@ -98,6 +103,17 @@ $dangerRatingNoRating: white;
     }
 }
 
+@media (min-width: $screen-sm-min) {
+  .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
+    height: 120px;
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
+    height: 150px;
+  }
+}
 
 .ac-veg-zone--alp {
     background-color: $vegZoneAlp;

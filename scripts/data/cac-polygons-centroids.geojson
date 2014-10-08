@@ -1,0 +1,29 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "id": "yukon", "display": "Yukon Klondike" }, "geometry": { "type": "Point", "coordinates": [ -135.14572456918478, 60.004351827957429 ] } },
+{ "type": "Feature", "properties": { "id": "northwest-coastal", "display": "Northwest Coastal" }, "geometry": { "type": "Point", "coordinates": [ -129.77716219345135, 55.700314803706306 ] } },
+{ "type": "Feature", "properties": { "id": "northwest-inland", "display": "Northwest Inland" }, "geometry": { "type": "Point", "coordinates": [ -128.09818375478321, 56.025271175546287 ] } },
+{ "type": "Feature", "properties": { "id": "sea-to-sky", "display": "Sea-to-Sky" }, "geometry": { "type": "Point", "coordinates": [ -123.65123888299183, 50.291779958078486 ] } },
+{ "type": "Feature", "properties": { "id": "south-coast-inland", "display": "South Coast - Inland" }, "geometry": { "type": "Point", "coordinates": [ -121.94249814131982, 50.087433903004317 ] } },
+{ "type": "Feature", "properties": { "id": "north-shore", "display": "North Shore" }, "geometry": { "type": "Point", "coordinates": [ -123.06970757379233, 49.381767393632863 ] } },
+{ "type": "Feature", "properties": { "id": "north-rockies", "display": "North Rockies" }, "geometry": { "type": "Point", "coordinates": [ -121.46146611671628, 54.668562861981492 ] } },
+{ "type": "Feature", "properties": { "id": "cariboos", "display": "Cariboos" }, "geometry": { "type": "Point", "coordinates": [ -120.59147394000654, 52.720937214603403 ] } },
+{ "type": "Feature", "properties": { "id": "north-columbia", "display": "North Columbia" }, "geometry": { "type": "Point", "coordinates": [ -118.94184604081424, 51.498436933678711 ] } },
+{ "type": "Feature", "properties": { "id": "south-columbia", "display": "South Columbia" }, "geometry": { "type": "Point", "coordinates": [ -118.05424655063186, 50.419850556903455 ] } },
+{ "type": "Feature", "properties": { "id": "purcells", "display": "Purcells" }, "geometry": { "type": "Point", "coordinates": [ -116.33758681603449, 50.009478075369991 ] } },
+{ "type": "Feature", "properties": { "id": "kootenay-boundary", "display": "Kootenay Boundary" }, "geometry": { "type": "Point", "coordinates": [ -118.34159986996546, 49.481522927796931 ] } },
+{ "type": "Feature", "properties": { "id": "south-rockies", "display": "South Rockies" }, "geometry": { "type": "Point", "coordinates": [ -114.92044888786489, 49.860633347746422 ] } },
+{ "type": "Feature", "properties": { "id": "lizard-range", "display": "Lizard Range and Flathead" }, "geometry": { "type": "Point", "coordinates": [ -114.81368826975032, 49.315573019227543 ] } },
+{ "type": "Feature", "properties": { "id": "vancouver-island", "display": "Vancouver Island, VAIC" }, "geometry": { "type": "Point", "coordinates": [ -126.00328075380202, 49.846951780830992 ] } },
+{ "type": "Feature", "properties": { "id": "whistler-blackcomb", "display": "Whistler- Blackcomb" }, "geometry": { "type": "Point", "coordinates": [ -122.95444444140935, 50.114115135530227 ] } },
+{ "type": "Feature", "properties": { "id": "jasper", "display": "Jasper National Park" }, "geometry": { "type": "Point", "coordinates": [ -117.61837126412318, 52.445557601942383 ] } },
+{ "type": "Feature", "properties": { "id": "banff-yoho-kootenay", "display": "Banff Yoho & Kootenay National Park" }, "geometry": { "type": "Point", "coordinates": [ -116.20262661353584, 51.397224762428202 ] } },
+{ "type": "Feature", "properties": { "id": "kananaskis", "display": "Kananaskis Country, Alberta Parks" }, "geometry": { "type": "Point", "coordinates": [ -115.18983408000479, 50.768253102477253 ] } },
+{ "type": "Feature", "properties": { "id": "waterton", "display": "Waterton National Park" }, "geometry": { "type": "Point", "coordinates": [ -113.97633774226135, 49.081338391799619 ] } },
+{ "type": "Feature", "properties": { "id": "chic-chocs", "display": "Chic-Chocs, CAHG" }, "geometry": { "type": "Point", "coordinates": [ -66.086855782900884, 48.909684297640425 ] } },
+{ "type": "Feature", "properties": { "id": "glacier", "display": "Glacier National Park" }, "geometry": { "type": "Point", "coordinates": [ -117.52623359552985, 51.26915594273202 ] } }
+]
+}
