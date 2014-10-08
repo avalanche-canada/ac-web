@@ -131,10 +131,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             case 'xs':
                                 return L.point([0, 0]);
                             case 'sm':
-                                return L.point([-350, 0]);
+                                return L.point([350, 0]);
                             case 'md':
                             case 'lg':
-                                return L.point([-480, 0]);
+                                return L.point([480, 0]);
                         }
                     } else {
                         return L.point([0, 0]);
@@ -148,7 +148,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 // offfset can be negative i.e. [-240, 0]
                 function offsetLatLng(latlng, offset){
                     var point = map.latLngToLayerPoint(latlng);
-                    return map.layerPointToLatLng(point.add(offset));
+                    return map.layerPointToLatLng(point.subtract(offset));
                 }
 
                 function getMapCenter(){
@@ -162,7 +162,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     var max = map.latLngToLayerPoint(latLngBounds.getSouthEast());
                     var padding = getMapPadding();
 
-                    var bounds = L.bounds(min, max.add(padding));
+                    var bounds = L.bounds(min, max.subtract(padding));
                     var nw = map.layerPointToLatLng(bounds.max);
                     var se = map.layerPointToLatLng(bounds.min);
 
@@ -180,27 +180,13 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     return  L.latLngBounds(nw, se);
                 }
 
-                var _buffer;
-                var _view;
-                function drawHelpers(view, buffer){
-                    if(map.hasLayer(_buffer)) {
-                        map.removeLayer(_buffer);
-                        // map.removeLayer(_view);
-                    }
-
-                    _buffer = L.rectangle(buffer, {color: 'blue', weight: 1}).addTo(map);
-                    // _view = L.rectangle(view, {color: "red", weight: 1}).addTo(map);
-                }
-
                 function setRegionFocus() {
                     if(map.getZoom() >= 8) {
+                        var region;
                         var centerBuffer = getMapCenterBuffer();
                         var regions = layers.regions.getLayers();
                         var mapCenter = getMapCenter();
                         var mapBounds = getMapBounds();
-                        var region;
-
-                        // drawHelpers(mapBounds, centerBuffer);
 
                         var intersectsCenterBuffer = _.filter(regions, function (r) {
                             return centerBuffer.intersects(r.getBounds());
@@ -272,13 +258,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                                 function showRegion(evt){
                                     if(map.getZoom() < 9) {
-                                        var padding = getMapPadding();
-                                        map.fitBounds(layer.getBounds(), { paddingBottomRight: [-padding.x, padding.y] });
-                                    } 
-                                    // else {
-                                    //     var offset = getMapOffset();
-                                    //     map.panTo(offsetLatLng(evt.latlng, offset));
-                                    // }
+                                        map.fitBounds(layer.getBounds(), { paddingBottomRight: getMapPadding() });
+                                    } else {
+                                        var offset = getMapOffset();
+                                        offset.x = -offset.x;
+                                        map.panTo(offsetLatLng(evt.latlng, offset));
+                                    }
 
                                     $scope.$apply(function () {
                                         $scope.region = layer;
