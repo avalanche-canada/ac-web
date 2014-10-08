@@ -7,7 +7,9 @@ ul#list
     li(ng-repeat=' document in documents.results')
         a(href='#/news/{{document.id}}/{{document.slug}}')
             {{document.slug}}
-        {{document.getStructuredText('news.shortlede').asText()}}
+        {{document.getStructuredText('news.shortlede').asText(ctx)}}
+        {{ctx.linkResolver(ctx, document)}}
+
 hr
 ul#pagination(ng-if='documents.total_pages > 1')
   li(ng-if='documents.prev_page')

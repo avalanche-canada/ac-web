@@ -6,6 +6,10 @@ angular.module('avalancheCanadaApp')
         .when('/', {
             templateUrl: 'app/main/map.html',
             controller: 'mapController'
+        })
+        .when('/more', {
+            templateUrl: 'app/main/more.html',
+            controller: 'moreController'
         });
   });
   // .config(function ($stateProvider) {

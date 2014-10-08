@@ -4,6 +4,9 @@ angular.module('avalancheCanadaApp')
   .controller('NewsCtrl', function ($scope, Prismic, $log) {
 
      Prismic.ctx().then(function(ctx){
+
+        $scope.ctx = ctx;
+
         var query = '[[:d = at(document.type, "news")]]';
         ctx.api.form('everything').query(query).ref(ctx.ref).submit(function(err, documents){
             if (err) {
