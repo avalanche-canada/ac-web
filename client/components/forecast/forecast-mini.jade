@@ -96,7 +96,7 @@
                                         a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
                                           | {{ problem.type }}
                                           i.fa.fa-fw.fa-caret-down
-                                div(id="problem{{$index}}").panel-collapse.collapse(ng-class="{in: $index === 0}")
+                                div(id="problem{{$index}}").panel-collapse.collapse
                                     .panel-body
                                         .row
                                             .col-xs-6
@@ -141,7 +141,7 @@
                                         a(href='', data-target="#avalancheSummary",data-toggle='collapse', data-parent='#detailsAccordion')
                                           | Avalanche Summary
                                           i.fa.fa-fw.fa-caret-down
-                                #avalancheSummary.panel-collapse.collapse.in
+                                #avalancheSummary.panel-collapse.collapse
                                     .panel-body
                                         {{ forecast.avalancheSummary | sanatizeHtml}}
                             .panel.panel-primary
