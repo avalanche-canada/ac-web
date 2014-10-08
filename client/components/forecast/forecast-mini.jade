@@ -126,12 +126,12 @@
                                                         img.center-block(ng-src="{{problem.icons.expectedSize}}")
                                         .row
                                             .col-md-12
-                                                p.ac-problem.narative {{ problem.comment  | sanatizeHtml}}
+                                                p.ac-problem.narative(ng-bind-html='problem.comment | sanatizeHtml')
                                                 .panel.panel-default.ac-problem-travel-advice
                                                     .panel-heading
                                                         strong.small Travel and Terrain Advice
                                                     .panel-body
-                                                        p {{ problem.travelAndTerrainAdvice | sanatizeHtml }}
+                                                        p(ng-bind-html='problem.travelAndTerrainAdvice | sanatizeHtml')
 
                     #details.tab-pane
                         #detailsAccordion.panel-group
@@ -142,8 +142,7 @@
                                           | Avalanche Summary
                                           i.fa.fa-fw.fa-caret-down
                                 #avalancheSummary.panel-collapse.collapse
-                                    .panel-body
-                                        {{ forecast.avalancheSummary | sanatizeHtml}}
+                                    .panel-body(ng-bind-html='forecast.avalancheSummary | sanatizeHtml')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
@@ -151,8 +150,7 @@
                                           | Snowpack Summary
                                           i.fa.fa-fw.fa-caret-down
                                 #snowpackSummary.panel-collapse.collapse
-                                    .panel-body
-                                        {{ forecast.snowpackSummary | sanatizeHtml }}
+                                    .panel-body(ng-bind-html='forecast.snowpackSummary | sanatizeHtml')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
@@ -160,5 +158,4 @@
                                           | Weather Forecast
                                           i.fa.fa-fw.fa-caret-down
                                 #weatherForecast.panel-collapse.collapse
-                                    .panel-body
-                                                {{ forecast.weatherForecast | sanatizeHtml }}
+                                    .panel-body(ng-bind-html='forecast.weatherForecast | sanatizeHtml')
