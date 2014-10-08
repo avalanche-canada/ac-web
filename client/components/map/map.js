@@ -11,7 +11,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             current: {},
             drawer: {
                 visible: false
-            }
+            },
+            device: {}
         });
 
         $http.get('api/forecasts').then(function (res) {
@@ -55,13 +56,13 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
             $timeout(function () {
                 if(width < 480) {
-                    $scope.deviceSize = 'xs';
+                    $scope.device.size = 'xs';
                 } else if(width >= 480 && width < 600) {
-                    $scope.deviceSize = 'sm';
+                    $scope.device.size = 'sm';
                 } else if(width >= 600 && width < 1025) {
-                    $scope.deviceSize = 'md';
+                    $scope.device.size = 'md';
                 } else {
-                    $scope.deviceSize = 'lg';
+                    $scope.device.size = 'lg';
                 }
             }, 0);
         }
@@ -80,7 +81,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 mapboxAccessToken: '@',
                 mapboxMapId: '@',
                 region: '=',
-                regions: '='
+                regions: '=',
+                deviceSize: '='
             },
             link: function ($scope, el, attrs) {
                 var layers = {
@@ -126,18 +128,16 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }
 
                 function getMapPadding(){
-                    if(true){
-                        switch('lg') {
-                            case 'xs':
-                                return L.point([0, 0]);
-                            case 'sm':
-                                return L.point([350, 0]);
-                            case 'md':
-                            case 'lg':
-                                return L.point([480, 0]);
-                        }
-                    } else {
-                        return L.point([0, 0]);
+                    switch($scope.deviceSize) {
+                        case 'xs':
+                            return L.point([0, 0]);
+                        case 'sm':
+                            return L.point([350, 0]);
+                        case 'md':
+                        case 'lg':
+                            return L.point([480, 0]);
+                        default:
+                            return L.point([0,0]);
                     }
                 }
 
