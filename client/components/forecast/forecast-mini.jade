@@ -5,9 +5,13 @@
                 h3.ac-forecast-region {{ forecast.name }}
         .row
             .col-xs-12
-                a(ng-href="{{forecast.externalUrl}}") 
+                p
+                    | The avalanche forecast for this region is produced by one of our partner agencies. 
+                    | The link below will take you to the forecast page on the partner agency's own website.
+                a(ng-href="{{forecast.externalUrl}}", target="_blank")
                     i.fa.fa-external-link
-                    |   click to access forecast
+                    |   Open partner forecast in new window.
+
     .panel-body.ac-forecast-mini-body(ng-hide="forecast.externalUrl")
         .row
             .col-xs-12
