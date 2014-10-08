@@ -212,13 +212,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             region = _.min(intersectsCenterBufferAnWithinMapBounds, function (r) {
                                 return r.feature.properties.centroid.distanceTo(mapCenter);
                             });
-                        } else if(withinMapBounds.length === 1){
-                            region = withinMapBounds[0];
-                        } else if(withinMapBounds.length > 1){
-                            region = _.min(withinMapBounds, function (r) {
-                                return r.feature.properties.centroid.distanceTo(mapCenter);
-                            });
-                        } else if(centroidInMapBounds.length === 1){
+                        } 
+                        // else if(withinMapBounds.length === 1){
+                        //     region = withinMapBounds[0];
+                        // } else if(withinMapBounds.length > 1){
+                        //     region = _.min(withinMapBounds, function (r) {
+                        //         return r.feature.properties.centroid.distanceTo(mapCenter);
+                        //     });
+                        // } 
+                        else if(centroidInMapBounds.length === 1){
                             region = centroidInMapBounds[0];
                         } else if(centroidInMapBounds.length > 1){
                             region = _.min(centroidInMapBounds, function (r) {
