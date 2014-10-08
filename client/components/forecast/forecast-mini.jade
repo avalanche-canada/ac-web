@@ -8,7 +8,7 @@
                 a(ng-href="{{forecast.externalUrl}}") 
                     i.fa.fa-external-link
                     |   click to access forecast
-    .panel-body(ng-hide="forecast.externalUrl")
+    .panel-body.ac-forecast-mini-body(ng-hide="forecast.externalUrl")
         .row
             .col-xs-12
                 h4.ac-forecast-region {{ forecast.bulletinTitle | normalizeForecastTitle }}
