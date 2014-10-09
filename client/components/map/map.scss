@@ -4,6 +4,20 @@
     left: 0;
     width: 100%;
     // height: 100%; /* reset via map.js on loand & resize */
+    
+    // sent PR to mapbox.js see: https://github.com/mapbox/mapbox.js/pull/891
+    // if it gets implemented remmove this block
+    @media only screen and (max-width:640px) {
+    .leaflet-control-zoom.leaflet-bar a {
+      height: 52px;
+      width: 52px;
+      }
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      background-size:52px 520px;
+      }
+    .leaflet-bar .leaflet-control-zoom-out                { background-position:0 -52px; }
+    }
 }
 
 .ac-map-loader {
