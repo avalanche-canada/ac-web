@@ -5,11 +5,11 @@ angular.module('avalancheCanadaApp')
     $routeProvider
         .when('/', {
             templateUrl: 'app/main/map.html',
-            controller: 'mapController'
+            controller: 'MapCtrl'
         })
         .when('/more', {
             templateUrl: 'app/main/more.html',
-            controller: 'moreController'
+            controller: 'MoreCtrl'
         });
   });
   // .config(function ($stateProvider) {

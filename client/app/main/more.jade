@@ -34,7 +34,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/Avalanche_Canada_logo_stacked.jpg')
+                            img.im(alt='', src=" {{ news_featured[0].getImageView('news.featured-image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -51,46 +51,46 @@
                         header
                             span Featured
                             h2
-                                a(href='#') The CAC is now Avalanche Canada
+                                a(href='#/news/{{news_featured[0].id}}/{{news_featured[0].slug}}') {{news_featured[0].getStructuredText('news.title').asText(ctx)}}
                         section.news-body
                             p
-                                | Avalanche Canada is the new face of public avalanche safety in Canada. On October 2, we held a launch to thank our generous funders and unveil our new logo.
+                                | {{news_featured[0].getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/') Full article
+                                a(href='#/news/{{news_featured[0].id}}/{{news_featured[0].slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
                     article.list-rows.list-row-2
                         header
                             h2
-                                a(href='#')
-                                    | Announcing Brent Strand as Snowmobile Outreach Coordinator
+                                a(href='#/news/{{news[1].id}}/{{news[1].slug}}')
+                                    | {{news[1].getStructuredText('news.title').asText(ctx)}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Full article
+                                a(href='#/news/{{news[1].id}}/{{news[1].slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
                     article.list-rows.list-row-3
                         header
                             h2
-                                a(href='#')
-                                    | Public Avalanche Forecasts Start November 22
+                                a(href='#/news/{{news[2].id}}/{{news[2].slug}}')
+                                    | {{news[2].getStructuredText('news.title').asText(ctx)}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                               a(href='/') Full article
+                               a(href='#/news/{{news[2].id}}/{{news[2].slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
                     article.list-rows.list-row-4.list-row-last
                         header
                             h2
-                                a(href='#')
-                                    | Are You Ready For Winter?
+                                a(href='#/news/{{news[3].id}}/{{news[3].slug}}')
+                                    | {{news[3].getStructuredText('news.title').asText(ctx)}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Full article
+                                a(href='#/news/{{news[3].id}}/{{news[3].slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
     #news.container
