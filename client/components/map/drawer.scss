@@ -1,0 +1,142 @@
+@import "_custom_cac_variables";
+
+.ac-drawer-tab {
+  position: absolute;
+  top: 85px;
+  right: 0;
+  width: 50px;
+  height: 60px;
+  background-color: rgb(43, 47, 51);
+  opacity: 0.6;
+  padding-top: 10px;
+}
+
+.ac-drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    padding-top: 75px;
+    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
+    z-index: 1000;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    .ac-drawer-close {
+        position: absolute;
+        top: 80px;
+        right: 10px;
+        color: rgb(177, 177, 177);
+        cursor: pointer;
+        z-index: 10;
+    }
+    .ac-nowcast-loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: rgb(177, 177, 177);
+        z-index: -1;
+    }
+    & > .panel-body {
+        padding: 5px 15px;
+        border-top: 1px solid #eee;
+    }
+    &.ng-hide-remove,
+    &.ng-hide-add {
+      display:block!important;
+    }
+
+    &.ng-hide-add{
+        animation: 0.3s slideOut ease;
+    }
+
+    &.ng-hide-remove {
+        animation: 0.3s slideIn ease;
+    }
+}
+
+@media (min-width: $screen-sm-min) {
+  .ac-drawer {
+    width: 350px;
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .ac-drawer {
+    width: 480px;
+  }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(480px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(480px);
+    }
+}
+
+.spinner {
+  margin: 60px auto;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px;
+  z-index: 2;
+}
+
+.spinner > div {
+  background-color: rgba(0, 86, 183, 0.4);
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  } 20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}

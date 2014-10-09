@@ -1,126 +1,39 @@
-#mapboxMap {
+#map {
     position: absolute;
     top: 75px;
     left: 0;
-    width: 100%
+    width: 100%;
+    // height: 100%; /* reset via map.js on loand & resize */
+    
+    // sent PR to mapbox.js see: https://github.com/mapbox/mapbox.js/pull/891
+    // if it gets implemented remmove this block
+    @media only screen and (max-width:640px) {
+    .leaflet-control-zoom.leaflet-bar a {
+      height: 52px;
+      width: 52px;
+      }
+    .leaflet-control-zoom-in,
+    .leaflet-control-zoom-out {
+      background-size:52px 520px;
+      }
+    .leaflet-bar .leaflet-control-zoom-out                { background-position:0 -52px; }
+    }
 }
 
-.ac-no-gutter {
-    margin: 0;
-    padding: 0;
-}
-
-.ac-drawer {
+.ac-map-loader {
     position: absolute;
-    top: 90px;
-    right: 0;
-    width: 500px;
-}
-
-.ac-drawer .panel-heading {
-    cursor: pointer;
-}
-
-.ac-drawer .ac-region-danger-icon {
-    position: absolute;
-    top: -20px;
-    left: 10px;
-    height: 60px;
-    width: 60px;
-}
-
-.ac-drawer .panel-title {
-    padding-left: 60px;
-}
-
-.ac-drawer.ng-hide-remove,
-.ac-drawer.ng-hide-add {
-  display:block!important;
-}
-
-.ac-drawer.ng-hide-add{
-    -webkit-animation: 0.3s slideOut ease;
-}
-
-.ac-drawer.ng-hide-remove {
-    -webkit-animation: 0.3s slideIn ease;
-}
-
-@-webkit-keyframes slideIn {
-    from {
-        transform: translateX(500px);
-    }
-    to {
-        transform: translateX(0);
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(43, 47, 51);
+    opacity: 0.6;
+    z-index: 20000;
+    .ac-map-loader-spinner {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        width: 80px;
     }
 }
-
-@-webkit-keyframes slideOut {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(500px);
-    }
-}
-
-.ac-drawer .tab-pane{
-    margin-top: 10px;
-}
-
-.ac-drawer .panel-footer ul {
-    margin: 0;
-    padding: 0;
-}
-
-.ac-drawer .panel-body dl {
-    margin-bottom: 0;
-}
-
-.ac-drawer .panel-body dt {
-    float: left;
-    margin-right: 10px;
-}
-
-.ac-drawer .panel-body dt,
-.ac-drawer .panel-body dd {
-    line-height: 1.30;
-}
-
-.ac-nowcast {
-    height: 200px;
-}
-
-.ac-veg-zone--alp {
-    background-color: rgb(221, 238, 250);
-}
-
-.ac-veg-zone--tln {
-    background-color: rgb(209, 217, 163);
-}
-
-.ac-veg-zone--btl {
-    background-color: rgb(174, 191, 172);
-}
-
-.ac-danger-rating--extreme {
-    background-color: Black;
-    color: white
-}
-
-.ac-danger-rating--high {
-    background-color: red;
-}
-
-.ac-danger-rating--considerable {
-    background-color: orange;
-}
-
-.ac-danger-rating--moderate {
-    background-color: yellow;
-}
-
-.ac-danger-rating--low {
-    background-color: green;
-}
-

@@ -8,6 +8,24 @@ html, body {
   height: 100%;
 }
 
+.ac-no-gutter {
+    margin: 0;
+    padding: 0;
+}
+
+.ac-thead-dark {
+    background-color: rgb(43, 47, 51);
+    color: white;
+}
+
+.ac-text-primary {
+    color: rgb(0, 86, 183);
+}
+
+.ac-text-default {
+    color: rgb(43, 47, 51);
+}
+
 // todo: move to module stylesheet
 .scroll-nav{
   position: absolute;
@@ -20,11 +38,13 @@ html, body {
     width: 100%;
   }
   &.scroll-nav--down {
+    position: absolute;
     bottom: 0;
     left: 50%;
     width: 60px;
     height: 60px;
     padding: 15px 0 0 17px;
+    transform: translateX(-50%);
   }
   &.scroll-nav--up {
     z-index:1;
