@@ -38,11 +38,13 @@ html, body {
     width: 100%;
   }
   &.scroll-nav--down {
+    position: absolute;
     bottom: 0;
     left: 50%;
     width: 60px;
     height: 60px;
     padding: 15px 0 0 17px;
+    transform: translateX(-50%);
   }
   &.scroll-nav--up {
     z-index:1;

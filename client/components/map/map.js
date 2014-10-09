@@ -108,12 +108,17 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
 
+                var $loader = $('<div class="ac-map-loader"><div class="ac-map-loader-spinner"><i class="fa fa-spinner fa-fw fa-spin fa-5x fa-inverse"></i></div></div>');
+                el.append($loader);
+
                 var countries = L.mapbox.geocoder('mapbox.places-country-v1');
                 var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
                 map.locate();
 
                 map.on('locationfound', function (e) {
                     var userArea;
+
+                    $loader.remove();
 
                     $scope.areas.features.forEach(function (a) {
                         a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
