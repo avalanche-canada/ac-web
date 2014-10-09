@@ -16,7 +16,6 @@
         .row
             .col-xs-12
                 h4.ac-forecast-region {{ forecast.bulletinTitle | normalizeForecastTitle }}
-                
         .row.ac-forecast-dates
             .col-md-6
                 dl
@@ -98,8 +97,9 @@
                                 .panel-heading
                                     h4.panel-title
                                         a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
-                                          | {{ problem.type }}
-                                          i.fa.fa-fw.fa-caret-down
+                                            | {{ problem.type }}
+                                            i.fa.fa-fw.fa-level-down.pull-right
+                                            small.pull-right click to expand
                                 div(id="problem{{$index}}").panel-collapse.collapse
                                     .panel-body
                                         .row
@@ -142,24 +142,27 @@
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
-                                        a(href='', data-target="#avalancheSummary",data-toggle='collapse', data-parent='#detailsAccordion')
-                                          | Avalanche Summary
-                                          i.fa.fa-fw.fa-caret-down
+                                        a(href='', data-target="#avalancheSummary", data-toggle='collapse', data-parent='#detailsAccordion')
+                                            | Avalanche Summary
+                                            i.fa.fa-fw.fa-level-down.fa-lg.pull-right
+                                            small.pull-right click to expand
                                 #avalancheSummary.panel-collapse.collapse
                                     .panel-body(ng-bind-html='forecast.avalancheSummary | sanatizeHtml')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
-                                        a(href='', data-target="#snowpackSummary",data-toggle='collapse', data-parent='#detailsAccordion')
-                                          | Snowpack Summary
-                                          i.fa.fa-fw.fa-caret-down
+                                        a(href='', data-target="#snowpackSummary", data-toggle='collapse', data-parent='#detailsAccordion')
+                                            | Snowpack Summary
+                                            i.fa.fa-fw.fa-level-down.fa-lg.pull-right
+                                            small.pull-right click to expand
                                 #snowpackSummary.panel-collapse.collapse
                                     .panel-body(ng-bind-html='forecast.snowpackSummary | sanatizeHtml')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
-                                        a(href='', data-target="#weatherForecast",data-toggle='collapse', data-parent='#detailsAccordion')
-                                          | Weather Forecast
-                                          i.fa.fa-fw.fa-caret-down
+                                        a(href='', data-target="#weatherForecast", data-toggle='collapse', data-parent='#detailsAccordion')
+                                            | Weather Forecast
+                                            i.fa.fa-fw.fa-level-down.fa-lg.pull-right
+                                            small.pull-right click to expand
                                 #weatherForecast.panel-collapse.collapse
                                     .panel-body(ng-bind-html='forecast.weatherForecast | sanatizeHtml')
