@@ -34,7 +34,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src=" {{ news_featured[0].getImageView('news.featured-image', 'preview').url }} ")
+                            img.im(alt='', src=" {{ news_featured.getImageView('news.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -51,48 +51,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#/news/{{news_featured[0].id}}/{{news_featured[0].slug}}') {{news_featured[0].getStructuredText('news.title').asText(ctx)}}
+                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}')
+                                    {{news_featured.getText('news.title')}}
                         section.news-body
                             p
-                                | {{news_featured[0].getStructuredText('news.shortlede').asText(ctx)}}
+                                | {{news_featured.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='#/news/{{news_featured[0].id}}/{{news_featured[0].slug}}') Full article
+                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-2
+
+                    article.list-rows(ng-repeat="item in news")
                         header
                             h2
-                                a(href='#/news/{{news[1].id}}/{{news[1].slug}}')
-                                    | {{news[1].getStructuredText('news.title').asText(ctx)}}
+                                a(href='#/news/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('news.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='#/news/{{news[1].id}}/{{news[1].slug}}') Full article
+                                a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#/news/{{news[2].id}}/{{news[2].slug}}')
-                                    | {{news[2].getStructuredText('news.title').asText(ctx)}}
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                               a(href='#/news/{{news[2].id}}/{{news[2].slug}}') Full article
-                                i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#/news/{{news[3].id}}/{{news[3].slug}}')
-                                    | {{news[3].getStructuredText('news.title').asText(ctx)}}
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='#/news/{{news[3].id}}/{{news[3].slug}}') Full article
-                                i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
+
     #news.container
         .row
             .col-xs-12
