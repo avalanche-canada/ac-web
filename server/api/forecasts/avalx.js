@@ -1,6 +1,8 @@
 'use strict';
 var _ = require('lodash');
 var request = require('request');
+var semanticafy = require('semanticafy');
+var Q = require('q');
 
 var ratings = {
     Low: '1',
@@ -321,6 +323,52 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
     } else errorCallback("region not found");
 }
 
+function cleanHtml(forecast){
+    var rules = [
+        {
+            styleContains: 'bold',
+            wrapWith: 'strong'
+        },
+        {
+            styleContains: 'Italic',
+            wrapWith: 'i'
+        }
+    ];
+
+    function clean(html){
+        var deferred = Q.defer();
+
+        if(html.indexOf('<style') !== -1){
+            semanticafy.parse(html, rules, function (err, cleaned) {
+                if(err) {
+                    console.log(cleaned);
+                    deferred.reject(err);
+                } else {
+                    // parks bulleting start with !_! not too sure why...?
+                    console.log(cleaned);
+                    deferred.resolve(cleaned.replace('!_!', ''));
+                }
+            });
+            return deferred.promise;
+        } else {
+            return html;
+        }
+    }
+
+
+    var cleans = _.map(forecast, function (v, k) {
+        if (_.isString(v)) {
+            return Q.when(clean(v), function (cleaned) {
+                console.log(cleaned);
+                forecast[k] = cleaned;
+            });
+        }
+    });
+
+    return Q.allSettled(cleans);
+}
+
+
 function parseCaamlForecast(caamlForecast, forecastSource, successCallback, errorCallback) {
     var parseString = require('xml2js').parseString;
 
@@ -330,10 +378,23 @@ function parseCaamlForecast(caamlForecast, forecastSource, successCallback, erro
         if (caaml) {
             if (forecastSource === "parks-canada") {
                 forecast = parksForecast(caaml, caamlForecast.region);
-                successCallback(forecast);
+                cleanHtml(forecast).then(function () {
+                    return Q.allSettled(_.map(forecast.problems, function (problem) {
+                        //console.log(JSON.stringify(problem));
+                        return cleanHtml(problem);
+                    }));
+                }).then(function () {
+                    successCallback(forecast);
+                });
             } else if (forecastSource === "avalanche-canada") {
                 forecast = avalancheCaForecast(caaml, caamlForecast.region);
-                successCallback(forecast);
+                cleanHtml(forecast).then(function () {
+                    return Q.allSettled(_.map(forecast.problems, function (problem) {
+                        return cleanHtml(problem);
+                    }));
+                }).then(function () {
+                    successCallback(forecast);
+                });
             } else {
                 errorCallback("Invalid region: " + caamlForecast.region);
             }
