@@ -60,7 +60,7 @@
                             p
                                 a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
+                                time(datetime='{{news_featured.getDate("news.date")}}') {{news_featured.getDate('news.date')}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -72,7 +72,7 @@
                             p
                                 a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
+                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
 
     #news.container
         .row
@@ -84,7 +84,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/issw.png')
+                            img.im(alt='', src=" {{ featured_event.getImageView('event.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -101,49 +101,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#') ISSW 2014
+                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}')
+                                    {{featured_event.getText('event.title')}}
                         section.news-body
                             p
-                                | September 29 - October 3: International Snow Science Workshop 2014. The ISSW is the premiere conference for snow and avalanche professionals from around the world.
+                                | {{featured_event.getStructuredText('event.shortlede').asText(ctx)}}
+                        footer
+                            p
+                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}') Full article
+                                i.fa.fa-circle
+                                {{featured_event .getDate('event.date')}}
 
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2
+                    article.list-rows(ng-repeat="item in events")
                         header
                             h2
-                                a(href='#')
-                                    | October 17-19: Alberta Snowmobile & Powersports Show
+                                a(href='#/events/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('event.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#')
-                                    | November 19-24: Backcountry Avalanche Workshops across Southern BC and Alberta
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#')
-                                    | January 17-18, 2015; Avalanche Awareness Days
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+
     #videos.container
         .row
             .col-xs-12
@@ -367,6 +347,5 @@
                     section#view-auction
                         a(href='#')
                             img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
-div(ng-include='"components/footer/footer.html"')
 
 

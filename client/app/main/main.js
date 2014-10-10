@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
     $routeProvider
         .when('/', {
             templateUrl: 'app/main/map.html',
-            controller: 'MapCtrl'
+            controller: 'mapController'
         })
         .when('/more', {
             templateUrl: 'app/main/more.html',
