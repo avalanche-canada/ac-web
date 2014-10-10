@@ -21,7 +21,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var news = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]').ref(ctx.ref).submit(function(err, documents){
+                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]')
+                                            .orderings('[news.date desc]')
+                                                .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
                         $log.error('error getting featured news events from prismic');
                     }
@@ -50,7 +52,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])]]').ref(ctx.ref).submit(function(err, documents){
+                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])]]')
+                                              .orderings('[event.start_date desc]')
+                                                .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
                         $log.error('error getting featured news events from prismic');
                     }
