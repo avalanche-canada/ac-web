@@ -111,6 +111,26 @@ $dangerRatingNoRating: white;
     }
     .panel {
         margin-bottom: 0;
+        .panel-body {
+            position: relative;
+        }
+    }
+    .panel-collapse {
+        height: 100px;
+        overflow: hidden;
+        display: block;
+        & > .panel-body:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-image: linear-gradient(to bottom, transparent, white);
+        }
+        &.in {
+            height: 100%;
+        }
     }
     .ac-forecast-days {
         td {
