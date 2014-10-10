@@ -4,9 +4,9 @@ angular.module('avalancheCanadaApp')
     .config(function ($routeProvider) {
 
         $routeProvider
-            .when('/', {
-                templateUrl: 'app/main/map.html',
-                controller: 'mapController'
+            .when('/about', {
+                templateUrl: 'app/about/about.html',
+                controller: 'AboutCtrl'
             });
     });
   /*.config(function ($stateProvider) {

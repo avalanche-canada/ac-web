@@ -4,6 +4,12 @@ html, body {
 }
 
 // todo: move to utils stylesheet
+.page-inner {
+  padding-bottom:-75px;
+  height: 100%;
+}
+
+// todo: move to utils stylesheet
 .full-height {
   padding-top:75px;
   height: 100%;
@@ -47,7 +53,7 @@ html, body {
   }
   &.scroll-nav--up {
     z-index:1;
-    top: 290px;
+    top: 75px;
     left: 50%;
     width: 30px;
     height: 30px;

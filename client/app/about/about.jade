@@ -1,2 +1,3 @@
-.col-md-12
-    | This is the about view {{message}}.
+.page-inner
+    article(ng-bind-html='documentHtml')
+div(ng-include='"components/footer/footer.html"')
