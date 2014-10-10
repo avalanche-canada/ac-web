@@ -341,11 +341,9 @@ function cleanHtml(forecast){
         if(html.indexOf('<style') !== -1){
             semanticafy.parse(html, rules, function (err, cleaned) {
                 if(err) {
-                    console.log(cleaned);
                     deferred.reject(err);
                 } else {
                     // parks bulleting start with !_! not too sure why...?
-                    console.log(cleaned);
                     deferred.resolve(cleaned.replace('!_!', ''));
                 }
             });
@@ -359,7 +357,6 @@ function cleanHtml(forecast){
     var cleans = _.map(forecast, function (v, k) {
         if (_.isString(v)) {
             return Q.when(clean(v), function (cleaned) {
-                console.log(cleaned);
                 forecast[k] = cleaned;
             });
         }
@@ -380,7 +377,6 @@ function parseCaamlForecast(caamlForecast, forecastSource, successCallback, erro
                 forecast = parksForecast(caaml, caamlForecast.region);
                 cleanHtml(forecast).then(function () {
                     return Q.allSettled(_.map(forecast.problems, function (problem) {
-                        //console.log(JSON.stringify(problem));
                         return cleanHtml(problem);
                     }));
                 }).then(function () {
