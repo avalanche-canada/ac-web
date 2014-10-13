@@ -108,12 +108,17 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
 
+                var $loader = $('<div class="ac-map-loader"><div class="ac-map-loader-spinner"><i class="fa fa-spinner fa-fw fa-spin fa-5x fa-inverse"></i></div></div>');
+                el.append($loader);
+
                 var countries = L.mapbox.geocoder('mapbox.places-country-v1');
                 var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
                 map.locate();
 
                 map.on('locationfound', function (e) {
                     var userArea;
+
+                    $loader.remove();
 
                     $scope.areas.features.forEach(function (a) {
                         a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
@@ -266,13 +271,44 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }
 
                 map.on('dragend', setRegionFocus);
-                map.on('zoomend', setRegionFocus);
+                map.on('zoomend', function () {
+                    var mapZoom = map.getZoom();
+                    var opacity = 0.2;
+
+                    setRegionFocus();
+
+                    if(layers.currentRegion) {
+                        if(mapZoom <= 9) {
+                            styles.region.selected.fillOpacity = opacity;
+                            layers.currentRegion.setStyle(styles.region.selected);
+                        } else if(mapZoom > 9 && mapZoom < 13){
+                            switch(mapZoom){
+                                case 10:
+                                    opacity = 0.15;
+                                    break;
+                                case 11:
+                                    opacity = 0.10;
+                                    break;
+                                case 12:
+                                    opacity = 0.05;
+                                    break;
+                            }
+
+                            styles.region.selected.fillOpacity = opacity;
+                            layers.currentRegion.setStyle(styles.region.selected);
+                        } else {
+                            layers.currentRegion.setStyle(styles.region.default);
+                        }
+                    }
+
+                });
 
                 $scope.$watch('region', function (region) {
                     if(region) {
                         layers.regions.eachLayer(function (layer) {
                             var style = (layer === region ? styles.region.selected : styles.region.default);
                             layer.setStyle(style);
+                            layers.currentRegion = layer;
                         });
                     }
                 });

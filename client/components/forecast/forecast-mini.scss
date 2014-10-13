@@ -61,12 +61,29 @@ $dangerRatingNoRating: white;
     .ac-problem-travel-advice .panel-body {
         padding: 10px;
     }
+    .panel-title {
+        .fa-level-down {
+            position: relative;
+            top: 5px;
+        }
+        a {
+            width: 100%;
+            height: 100%;
+            display: block;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        small {
+            padding-top: 5px;
+        }
+    }
     .panel-primary {
         border-color: #eee;
         & > .panel-heading {
             background-color: rgb(43, 47, 51);
             color: white;
-            padding: 5px 15px;
+            padding: 10px 15px;
         }
     }
     .panel-default > .panel-heading {
@@ -94,6 +111,34 @@ $dangerRatingNoRating: white;
     }
     .panel {
         margin-bottom: 0;
+        .panel-body {
+            position: relative;
+        }
+    }
+    .panel-collapse {
+        height: 100px;
+        overflow: hidden;
+        display: block;
+        &.collapsing {
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
+        & > .panel-body:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-image: linear-gradient(to bottom, transparent, white);
+        }
+        &.in {
+            height: 100%;
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
     }
     .ac-forecast-days {
         td {
