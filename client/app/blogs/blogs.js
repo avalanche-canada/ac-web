@@ -10,7 +10,7 @@ angular.module('avalancheCanadaApp')
 
         .when('/blogs/:id/:slug', {
             templateUrl: 'app/blogs/blogItem.html',
-            controller: 'BlogCtrl'
+            controller: 'BlogItemCtrl'
         });
 
 });
