@@ -12,7 +12,7 @@
       "js": true,
       "jade": true,
       "sass": true,
-      "uirouter": true,
+      "ngroute": true,
       "bootstrap": true,
       "uibootstrap": true
     }
@@ -24,7 +24,7 @@
     "serviceDirectory": "client/app/",
     "basePath": "client",
     "filters": [
-      "uirouter"
+      "ngroute"
     ],
     "extensions": [
       "js",

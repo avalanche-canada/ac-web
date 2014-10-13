@@ -2,6 +2,7 @@
     .scroll-nav.scroll-nav--up
           a(href="", ng-click="showMap()")
             i.fa.fa-chevron-up.fa-inverse.fa-lg
+
     .container
         .row
             .col-xs-12
@@ -34,7 +35,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
+                            img.im(alt='', src=" {{ news_featured.getImageView('news.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -51,49 +52,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#') Featured News Article
+                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}')
+                                    {{news_featured.getText('news.title')}}
                         section.news-body
                             p
-                                | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                a(href='/') Watch now
+                                | {{news_featured.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2
+                                time(datetime='{{news_featured.getDate("news.date")}}') {{news_featured.getDate('news.date')}}
+
+                    article.list-rows(ng-repeat="item in news")
                         header
                             h2
-                                a(href='#')
-                                    | Sub News Article Sub News Article Sub News Article Sub News Article
+                                a(href='#/news/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('news.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#')
-                                    | Sub News Article
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#')
-                                    | Sub News Article
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+
     #news.container
         .row
             .col-xs-12
@@ -104,7 +85,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/news-article-test-pic.jpg')
+                            img.im(alt='', src=" {{ featured_event.getImageView('event.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -121,49 +102,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#') Featured News Article
+                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}')
+                                    {{featured_event.getText('event.title')}}
                         section.news-body
                             p
-                                | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                a(href='/') Watch now
+                                | {{featured_event.getStructuredText('event.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2
+                                {{featured_event .getDate('event.date')}}
+
+                    article.list-rows(ng-repeat="item in events")
                         header
                             h2
-                                a(href='#')
-                                    | Sub News Article Sub News Article Sub News Article Sub News Article
+                                a(href='#/events/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('event.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#')
-                                    | Sub News Article
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#')
-                                    | Sub News Article
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+
     #videos.container
         .row
             .col-xs-12
@@ -198,42 +159,26 @@
                                 | Blog
                         section#blog-tagline-link
                             p We know Snow.
-                            a#blog-link(href='#')
+                            a#blog-link(href='#/blogs')
                                 | Read The Blog
                                 i.fa.fa-angle-right
                     // blog list rows
-                    article.list-rows.list-row-1
+                    article.list-rows(ng-repeat='blog in blogs')
                         header
                             h3
-                                a(href='#') Farewell for the season
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                         section.blog-author
                             p
-                                | by
-                                a(href='#') Karl Klassen
+                                ///todo | by
+                                ///todo  a(href='#') Karl Klassen
                         section.blog-body
                             p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
+                               {{blog.getStructuredText('blog.body').asText(ctx)}}
                         footer
                             p
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2.list-row-last
-                        header
-                            h3
-                                a(href='#') Farewell for the season
-                        section.blog-author
-                            p
-                                | by
-                                a(href='#') Karl Klassen
-                        section.blog-body
-                            p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
-                        footer
-                            p
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{blog.getDate("blog.date")}}') {{blog.getDate('blog.date')}}
     #communities
         #dark-ribbon
         .container
@@ -296,6 +241,7 @@
                         a.poster-image(href='#')
                             img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
                         a.postername-date Canadian Avalanche Center - May 7
+
     #auction.container
         .row
             .col-xs-12
@@ -387,6 +333,5 @@
                     section#view-auction
                         a(href='#')
                             img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
-div(ng-include='"components/footer/footer.html"')
 
 
