@@ -35,7 +35,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src=" {{ news_featured.getImageView('news.featured_image', 'preview').url }} ")
+                            img.im(alt='', src=" {{ featuredNews.getImageView('news.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -52,16 +52,16 @@
                         header
                             span Featured
                             h2
-                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}')
-                                    {{news_featured.getText('news.title')}}
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}')
+                                    {{featuredNews.getText('news.title')}}
                         section.news-body
                             p
-                                | {{news_featured.getStructuredText('news.shortlede').asText(ctx)}}
+                                | {{featuredNews.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='#/news/{{news_featured.id}}/{{news_featured.slug}}') Full article
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{news_featured.getDate("news.date")}}') {{news_featured.getDate('news.date')}}
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -85,7 +85,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src=" {{ featured_event.getImageView('event.featured_image', 'preview').url }} ")
+                            img.im(alt='', src=" {{ featuredEvent.getImageView('event.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -102,16 +102,16 @@
                         header
                             span Featured
                             h2
-                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}')
-                                    {{featured_event.getText('event.title')}}
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
+                                    {{featuredEvent.getText('event.title')}}
                         section.news-body
                             p
-                                | {{featured_event.getStructuredText('event.shortlede').asText(ctx)}}
+                                | {{featuredEvent.getStructuredText('event.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='#/events/{{featured_event.id}}/{{featured_event.slug}}') Full article
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
-                                {{featured_event .getDate('event.date')}}
+                                {{featuredEvent .getDate('event.date')}}
 
                     article.list-rows(ng-repeat="item in events")
                         header

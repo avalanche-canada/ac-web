@@ -31,14 +31,14 @@ angular.module('avalancheCanadaApp')
                         var featured = documents.results[0];
                         $scope.news = [];
 
-                        _.forEach(news, function(val, i){
-                            if (val.id != featured.id){
+                        _.forEach(news, function(val){
+                            if (val.id !== featured.id){
                                 $scope.news.push(val);
                             }
                         });
 
                         $scope.news = $scope.news.slice(0,2);
-                        $scope.news_featured = featured;
+                        $scope.featuredNews = featured;
                     }
                 });
             }
@@ -62,14 +62,14 @@ angular.module('avalancheCanadaApp')
                         var featured = documents.results[0];
                         $scope.events = [];
 
-                        _.forEach(events, function(val, i){
-                            if (val.id != featured.id){
+                        _.forEach(events, function(val){
+                            if (val.id !== featured.id){
                                 $scope.events.push(val);
                             }
                         });
 
                         $scope.events = $scope.events.slice(0,2);
-                        $scope.featured_event = featured;
+                        $scope.featuredEvent = featured;
                     }
                 });
             }

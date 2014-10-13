@@ -134,9 +134,6 @@ module.exports = function (grunt) {
         src: [ 'server/{,*/}*.js']
       },
       all: {
-        options: {
-          '-W106': true
-        },
         src: [
           '<%= yeoman.client %>/{app,components}/**/*.js',
           '!<%= yeoman.client %>/{app,components}/**/*.spec.js',

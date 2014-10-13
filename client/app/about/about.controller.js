@@ -7,7 +7,7 @@ angular.module('avalancheCanadaApp')
 
         $scope.ctx = ctx;
 
-        Prismic.bookmark("about").then(function(document){
+        Prismic.bookmark('about').then(function(document){
                 $scope.documentHtml = document.asHtml(ctx);
         });
 
