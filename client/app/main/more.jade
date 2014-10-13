@@ -159,42 +159,26 @@
                                 | Blog
                         section#blog-tagline-link
                             p We know Snow.
-                            a#blog-link(href='#')
+                            a#blog-link(href='#/blogs')
                                 | Read The Blog
                                 i.fa.fa-angle-right
                     // blog list rows
-                    article.list-rows.list-row-1
+                    article.list-rows(ng-repeat='blog in blogs')
                         header
                             h3
-                                a(href='#') Farewell for the season
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                         section.blog-author
                             p
-                                | by
-                                a(href='#') Karl Klassen
+                                ///todo | by
+                                ///todo  a(href='#') Karl Klassen
                         section.blog-body
                             p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
+                               {{blog.getStructuredText('blog.body').asText(ctx)}}
                         footer
                             p
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2.list-row-last
-                        header
-                            h3
-                                a(href='#') Farewell for the season
-                        section.blog-author
-                            p
-                                | by
-                                a(href='#') Karl Klassen
-                        section.blog-body
-                            p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
-                        footer
-                            p
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{blog.getDate("blog.date")}}') {{blog.getDate('blog.date')}}
     #communities
         #dark-ribbon
         .container
@@ -257,6 +241,7 @@
                         a.poster-image(href='#')
                             img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
                         a.postername-date Canadian Avalanche Center - May 7
+
     #auction.container
         .row
             .col-xs-12

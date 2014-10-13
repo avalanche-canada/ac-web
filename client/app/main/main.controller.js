@@ -76,7 +76,16 @@ angular.module('avalancheCanadaApp')
         });
 
 
-
+        ctx.api.form('everything').query('[[:d = at(document.type, "blog")]]')
+                                    .orderings('[blog.date desc]')
+                                        .ref(ctx.ref).submit(function(err, documents){
+            if (err) {
+                $log.error('error getting events from prismic');
+            }
+            else {
+                $scope.blogs = documents.results.slice(0,1);
+            }
+        });
 
 
     });
