@@ -15,7 +15,9 @@
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
     "morgan": "~1.0.0",
+    "q": "^1.0.1",
     "request": "^2.44.0",
+    "semanticafy": "0.0.3",
     "static-favicon": "~1.0.1",
     "xml2js": "^0.4.4"
   },

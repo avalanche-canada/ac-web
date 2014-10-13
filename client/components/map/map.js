@@ -271,13 +271,44 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }
 
                 map.on('dragend', setRegionFocus);
-                map.on('zoomend', setRegionFocus);
+                map.on('zoomend', function () {
+                    var mapZoom = map.getZoom();
+                    var opacity = 0.2;
+
+                    setRegionFocus();
+
+                    if(layers.currentRegion) {
+                        if(mapZoom <= 9) {
+                            styles.region.selected.fillOpacity = opacity;
+                            layers.currentRegion.setStyle(styles.region.selected);
+                        } else if(mapZoom > 9 && mapZoom < 13){
+                            switch(mapZoom){
+                                case 10:
+                                    opacity = 0.15;
+                                    break;
+                                case 11:
+                                    opacity = 0.10;
+                                    break;
+                                case 12:
+                                    opacity = 0.05;
+                                    break;
+                            }
+
+                            styles.region.selected.fillOpacity = opacity;
+                            layers.currentRegion.setStyle(styles.region.selected);
+                        } else {
+                            layers.currentRegion.setStyle(styles.region.default);
+                        }
+                    }
+
+                });
 
                 $scope.$watch('region', function (region) {
                     if(region) {
                         layers.regions.eachLayer(function (layer) {
                             var style = (layer === region ? styles.region.selected : styles.region.default);
                             layer.setStyle(style);
+                            layers.currentRegion = layer;
                         });
                     }
                 });
