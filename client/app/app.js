@@ -11,7 +11,7 @@ angular.module('avalancheCanadaApp', [
         'prismic.io',
         'acMap'])
 
-    .config(function ($locationProvider, PrismicProvider, $log) {
+    .config(function ($locationProvider, PrismicProvider) {
         $locationProvider.html5Mode(true);
 
         //! Prismic.io configuration
@@ -23,7 +23,7 @@ angular.module('avalancheCanadaApp', [
             var retVal = '';
 
             if (documentLink.isBroken) {
-                $log.error('prismic link resolver documentLink.isBroken');
+                console.log.error('prismic link resolver documentLink.isBroken');
             }
             else
             {
