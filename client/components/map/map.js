@@ -142,7 +142,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     });
                 });
 
-                map.on('locationerror', setDefaultBounds);
+
 
                 function setDefaultBounds(){
                     provinces.query('British-Columbia', function (err, results) {
@@ -152,6 +152,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                     $loader.remove();
                 }
+
+                map.on('locationerror', setDefaultBounds);
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
