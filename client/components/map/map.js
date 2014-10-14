@@ -118,8 +118,6 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 map.on('locationfound', function (e) {
                     var userArea;
 
-                    $loader.remove();
-
                     $scope.areas.features.forEach(function (a) {
                         a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
                     });
@@ -136,14 +134,24 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             });
                             userArea = L.GeoJSON.geometryToLayer(userArea);
                             map.fitBounds(userArea.getBounds());
+
+                            $loader.remove();
                         } else {
-                            provinces.query('British-Columbia', function (err, results) {
-                                var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
-                                map.fitBounds(bcBounds);
-                            });
+                            setDefaultBounds();
                         }
                     });
                 });
+
+                map.on('locationerror', setDefaultBounds);
+
+                function setDefaultBounds(){
+                    provinces.query('British-Columbia', function (err, results) {
+                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
+                        map.fitBounds(bcBounds);
+                    });
+
+                    $loader.remove();
+                }
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
