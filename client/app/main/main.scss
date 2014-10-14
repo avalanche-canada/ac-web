@@ -43,6 +43,7 @@ html, body {
     display: block;
     height: 100%;
     width: 100%;
+    color: white;
   }
   &.scroll-nav--down {
     position: absolute;
@@ -50,16 +51,22 @@ html, body {
     left: 50%;
     width: 60px;
     height: 60px;
-    padding: 15px 0 0 17px;
+    padding: 10px 0 0 13px;
     transform: translateX(-50%);
+    i{
+        padding-left: 3px;
+    }
   }
   &.scroll-nav--up {
     z-index:1;
     top: 75px;
     left: 50%;
-    width: 30px;
-    height: 30px;
-    padding: 5px;
+    width: 60px;
+    height: 60px;
+    padding: 7px 0 0 15px;
+    i{
+        padding-left: 5px;
+    }
   }
 }
 
