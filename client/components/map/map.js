@@ -137,50 +137,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
 
-                var $loader = $('<div class="ac-map-loader"><div class="ac-map-loader-spinner"><i class="fa fa-spinner fa-fw fa-spin fa-5x fa-inverse"></i></div></div>');
-                el.append($loader);
-
-                var countries = L.mapbox.geocoder('mapbox.places-country-v1');
                 var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
-                map.locate();
 
-                function setDefaultBounds(){
-                    provinces.query('British-Columbia', function (err, results) {
-                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
-                        map.fitBounds(bcBounds);
-                    });
-
-                    $loader.remove();
-                }
-
-                map.on('locationfound', function (e) {
-                    var userArea;
-
-                    $scope.areas.features.forEach(function (a) {
-                        a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
-                    });
-
-                    countries.reverseQuery(e.latlng, function (err, results) {
-                        var place;
-                        /* jshint ignore:start */
-                        place = results.features[0].place_name;
-                        /* jshint ignore:end */
-
-                        if (place === 'Canada') {
-                            userArea = _.min($scope.areas.features, function (a) {
-                                return a.properties.centroid.distanceTo(e.latlng);
-                            });
-                            userArea = L.GeoJSON.geometryToLayer(userArea);
-                            map.fitBounds(userArea.getBounds());
-
-                            $loader.remove();
-                        } else {
-                            setDefaultBounds();
-                        }
-                    });
+                provinces.query('British-Columbia', function (err, results) {
+                    var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
+                    map.fitBounds(bcBounds);
                 });
-
-                map.on('locationerror', setDefaultBounds);
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
@@ -338,6 +300,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         }
                     }
 
+                    if(layers.obs && mapZoom > 7 && !map.hasLayer(layers.obs)) {
+                        map.addLayer(layers.obs);
+                    } else if(layers.obs && mapZoom <= 7 && map.hasLayer(layers.obs)){
+                        map.removeLayer(layers.obs);
+                    }
+
                 });
 
                 $scope.$watch('region', function (region) {
@@ -399,7 +367,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             filter: function (featureData, layer) {
                                 return _.contains($scope.filters.obsType, featureData.properties.obsType);
                             }
-                        }).addTo(map);
+                        });
                     }
                 });
 
