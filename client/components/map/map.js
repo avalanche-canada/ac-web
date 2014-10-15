@@ -12,7 +12,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             drawer: {
                 visible: false
             },
-            device: {}
+            device: {},
+            filters: {
+                obsType: ['avalanche', 'incident']
+            },
+            showAvalanches: true,
+            showIncidents: true
         });
 
         $http.get('api/forecasts').then(function (res) {
@@ -25,6 +30,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         $http.get('api/forecasts/areas').then(function (res) {
             $scope.areas = res.data;
+        });
+
+        $http.get('api/observations').then(function (res) {
+            $scope.observations = res.data;
         });
 
         $scope.showMore = function () {
@@ -75,6 +84,24 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         setDeviceSize();
 
+        $scope.toggleAvalanches = function () {
+            $scope.showAvalanches = !$scope.showAvalanches;
+            if(!$scope.showAvalanche && _.contains($scope.filters.obsType, 'avalanche') ){
+                $scope.filters.obsType = _.without($scope.filters.obsType, 'avalanche');
+            } else {
+                $scope.filters.obsType.push('avalanche');
+            }
+        };
+
+        $scope.toggleIncidents = function () {
+            $scope.showIncidents = !$scope.showIncidents;
+            if(!$scope.showAvalanche && _.contains($scope.filters.obsType, 'incident') ){
+                $scope.filters.obsType = _.without($scope.filters.obsType, 'incident');
+            } else {
+                $scope.filters.obsType.push('incident');
+            }
+        };
+
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $timeout, $document, $window) {
@@ -87,6 +114,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 region: '=',
                 regions: '=',
                 areas: '=',
+                obs: '=',
+                filters: '=',
                 deviceSize: '='
             },
             link: function ($scope, el, attrs) {
@@ -114,6 +143,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 var countries = L.mapbox.geocoder('mapbox.places-country-v1');
                 var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
                 map.locate();
+
+                function setDefaultBounds(){
+                    provinces.query('British-Columbia', function (err, results) {
+                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
+                        map.fitBounds(bcBounds);
+                    });
+
+                    $loader.remove();
+                }
 
                 map.on('locationfound', function (e) {
                     var userArea;
@@ -143,15 +181,6 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 });
 
                 map.on('locationerror', setDefaultBounds);
-
-                function setDefaultBounds(){
-                    provinces.query('British-Columbia', function (err, results) {
-                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
-                        map.fitBounds(bcBounds);
-                    });
-
-                    $loader.remove();
-                }
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
@@ -363,6 +392,27 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         }).addTo(map);
                     }
                 });
+
+                $scope.$watch('obs', function (obs) {
+                    if(obs && obs.features) {
+                        layers.obs = L.geoJson(obs, {
+                            filter: function (featureData, layer) {
+                                return _.contains($scope.filters.obsType, featureData.properties.obsType);
+                            }
+                        }).addTo(map);
+                    }
+                });
+
+                $scope.$watchCollection('filters.obsType', function (filters) {
+                    if (map.hasLayer(layers.obs)){
+                        map.removeLayer(layers.obs);
+                        layers.obs = L.geoJson($scope.obs, {
+                            filter: function (featureData, layer) {
+                                return _.contains($scope.filters.obsType, featureData.properties.obsType);
+                            }
+                        }).addTo(map);
+                    }
+                });
             }
         };
     })
@@ -409,6 +459,20 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
             attrs.$observe('ngSrc', function () {
                 $scope.imageLoaded = false;
+            });
+        };
+    })
+
+    .directive('acDateFilter', function () {
+        return function ($scope, el, attrs) {
+            el.noUiSlider({
+                start: [20, 80],
+                connect: true,
+                orientation: 'vertical',
+                range: {
+                    'min': 0,
+                    'max': 100
+                }
             });
         };
     })

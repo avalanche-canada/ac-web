@@ -1,3 +1,30 @@
 div.ac-drawer
-    i.ac-drawer-close.fa.fa-close.fa-2x(ng-click="drawer.visible = false")
+    .ac-drawer-tools
+        ul
+            li(ng-click="drawer.visible = !drawer.visible")
+                i.fa.fa-file-text-o.fa-fw.fa-2x.fa-inverse.ac-middle
+            li(ng-click="toggleAvalanches()", ng-class="{on: showAvalanches}")
+                i.fa.fa-eye.fa-fw.fa-2x.fa-inverse.ac-middle
+            li(ng-click="toggleIncidents()", ng-class="{on: showIncidents}")
+                i.fa.fa-warning.fa-fw.fa-2x.fa-inverse.ac-middle
+            //- li
+                i.fa.fa-database.fa-fw.fa-2x.fa-inverse.ac-middle
+            //- li
+                i.fa.fa-cloud.fa-fw.fa-2x.fa-inverse.ac-middle
+            //- li
+                i.fa.fa-calendar.fa-fw.fa-2x.fa-inverse.ac-middle
+            li
+                small last 
+                strong 48 
+                small hours
+            li
+                small last 
+                strong 7 
+                small days
+            li
+                small last 
+                strong 30 
+                small days
+            //- li(style="height: 300px;")
+                .div.ac-middle(ac-date-filter, style="height: 250px;")
     .drawer-body(ng-transclude)
