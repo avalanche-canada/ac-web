@@ -3,9 +3,9 @@ div.ac-drawer
         ul
             li(ng-click="drawer.visible = !drawer.visible")
                 i.fa.fa-file-text-o.fa-fw.fa-2x.fa-inverse.ac-middle
-            li(ng-click="toggleAvalanches()", ng-class="{on: showAvalanches}")
+            li(ng-click="toggleAvalanches()", ng-class="{on: filters.obsType.indexOf('avalanche') !== -1}")
                 i.fa.fa-eye.fa-fw.fa-2x.fa-inverse.ac-middle
-            li(ng-click="toggleIncidents()", ng-class="{on: showIncidents}")
+            li(ng-click="toggleIncidents()", ng-class="{on: filters.obsType.indexOf('incident') !== -1}")
                 i.fa.fa-warning.fa-fw.fa-2x.fa-inverse.ac-middle
             //- li
                 i.fa.fa-database.fa-fw.fa-2x.fa-inverse.ac-middle

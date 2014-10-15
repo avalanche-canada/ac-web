@@ -14,10 +14,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             },
             device: {},
             filters: {
-                obsType: ['avalanche', 'incident']
-            },
-            showAvalanches: true,
-            showIncidents: true
+                obsType: []
+            }
         });
 
         $http.get('api/forecasts').then(function (res) {
@@ -85,8 +83,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
         setDeviceSize();
 
         $scope.toggleAvalanches = function () {
-            $scope.showAvalanches = !$scope.showAvalanches;
-            if(!$scope.showAvalanche && _.contains($scope.filters.obsType, 'avalanche') ){
+            if(_.contains($scope.filters.obsType, 'avalanche') ){
                 $scope.filters.obsType = _.without($scope.filters.obsType, 'avalanche');
             } else {
                 $scope.filters.obsType.push('avalanche');
@@ -94,8 +91,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
         };
 
         $scope.toggleIncidents = function () {
-            $scope.showIncidents = !$scope.showIncidents;
-            if(!$scope.showAvalanche && _.contains($scope.filters.obsType, 'incident') ){
+            if(_.contains($scope.filters.obsType, 'incident') ){
                 $scope.filters.obsType = _.without($scope.filters.obsType, 'incident');
             } else {
                 $scope.filters.obsType.push('incident');
@@ -301,6 +297,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
 
                     if(layers.obs && mapZoom > 7 && !map.hasLayer(layers.obs)) {
+                        $scope.filters.obsType = ['avalanche', 'incident'];
                         map.addLayer(layers.obs);
                     } else if(layers.obs && mapZoom <= 7 && map.hasLayer(layers.obs)){
                         map.removeLayer(layers.obs);
@@ -374,12 +371,13 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 $scope.$watchCollection('filters.obsType', function (filters) {
                     if (map.hasLayer(layers.obs)){
                         map.removeLayer(layers.obs);
-                        layers.obs = L.geoJson($scope.obs, {
-                            filter: function (featureData, layer) {
-                                return _.contains($scope.filters.obsType, featureData.properties.obsType);
-                            }
-                        }).addTo(map);
                     }
+
+                    layers.obs = L.geoJson($scope.obs, {
+                        filter: function (featureData, layer) {
+                            return _.contains($scope.filters.obsType, featureData.properties.obsType);
+                        }
+                    }).addTo(map);
                 });
             }
         };
