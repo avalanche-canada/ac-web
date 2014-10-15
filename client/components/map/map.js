@@ -180,15 +180,6 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     });
                 });
 
-                function setDefaultBounds(){
-                    provinces.query('British-Columbia', function (err, results) {
-                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
-                        map.fitBounds(bcBounds);
-                    });
-
-                    $loader.remove();
-                }
-
                 map.on('locationerror', setDefaultBounds);
 
                 function invalidateSize() {
