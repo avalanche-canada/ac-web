@@ -94,20 +94,19 @@ angular.module('avalancheCanadaApp')
                             {'name':'vancouver-island','display':'Vancouver Island, VAIC'},
                             {'name':'whistler-blackcomb','display':'Whistler Blackcomb'},
                             {'name':'waterton','display':'Waterton National Park'},
-                            {'name':'yukon','display':'Yukon'}];
+                            {'name':'yukon','display':'Yukon'},
+                            {'name':'archive','display':'Archive'}];
 
     var length = $scope.forecastRegions.length;
     var third   = (length/3);
 
-    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, third);
-    $scope.forecastRegionList2 = $scope.forecastRegions.slice(third, (third*2));
-    $scope.forecastRegionList3 = $scope.forecastRegions.slice(third, (third*2));
+    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, (third -1));
+    $scope.forecastRegionList2 = $scope.forecastRegions.slice((third -1), (third*2));
+    $scope.forecastRegionList3 = $scope.forecastRegions.slice((third*2), length+1);
 
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
-                       {'display':'Forecast Archive','url':'/forecast/archive'},
-                       {'display':'Webcams','url':'/webcams'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.blogs = [{'name':'all','display':'All'},

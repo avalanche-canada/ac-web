@@ -17,7 +17,7 @@ angular.module('avalancheCanadaApp')
                                     .orderings('[news.date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
-                $log.error('error getting news events from prismic');
+                $log.error('error getting news from prismic');
             }
             else {
                 var news = documents.results;
@@ -25,7 +25,7 @@ angular.module('avalancheCanadaApp')
                                             .orderings('[news.date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
-                        $log.error('error getting featured news events from prismic');
+                        $log.error('error getting featured news from prismic');
                     }
                     else {
                         var featured = documents.results[0];
@@ -56,7 +56,7 @@ angular.module('avalancheCanadaApp')
                                               .orderings('[event.start_date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
-                        $log.error('error getting featured news events from prismic');
+                        $log.error('error getting featured events from prismic');
                     }
                     else {
                         var featured = documents.results[0];
@@ -80,7 +80,7 @@ angular.module('avalancheCanadaApp')
                                     .orderings('[blog.date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
-                $log.error('error getting events from prismic');
+                $log.error('error getting blogs from prismic');
             }
             else {
                 $scope.blogs = documents.results.slice(0,1);
@@ -91,7 +91,5 @@ angular.module('avalancheCanadaApp')
     });
 
 
-  })
-  .controller('MapCtrl', function ($scope) {
-    $scope.scrollPage = function(){};
   });
+
