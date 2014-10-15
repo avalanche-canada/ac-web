@@ -374,6 +374,14 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
 
                     layers.obs = L.geoJson($scope.obs, {
+                        pointToLayer: function (featureData, latlng) {
+                            var icons = {
+                                avalanche: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'eye', markerColor: 'red'}),
+                                incident: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'blue'})
+                            };
+
+                            return L.marker(latlng, {icon: icons[featureData.properties.obsType]});
+                        },
                         filter: function (featureData, layer) {
                             return _.contains($scope.filters.obsType, featureData.properties.obsType);
                         }
