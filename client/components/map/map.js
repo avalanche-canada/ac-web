@@ -82,19 +82,11 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         setDeviceSize();
 
-        $scope.toggleAvalanches = function () {
-            if(_.contains($scope.filters.obsType, 'avalanche') ){
-                $scope.filters.obsType = _.without($scope.filters.obsType, 'avalanche');
+        $scope.toggleFilter = function (filter) {
+            if(_.contains($scope.filters.obsType, filter) ){
+                $scope.filters.obsType = _.without($scope.filters.obsType, filter);
             } else {
-                $scope.filters.obsType.push('avalanche');
-            }
-        };
-
-        $scope.toggleIncidents = function () {
-            if(_.contains($scope.filters.obsType, 'incident') ){
-                $scope.filters.obsType = _.without($scope.filters.obsType, 'incident');
-            } else {
-                $scope.filters.obsType.push('incident');
+                $scope.filters.obsType.push(filter);
             }
         };
 
@@ -297,9 +289,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
 
                     if(layers.obs && mapZoom > 7 && !map.hasLayer(layers.obs)) {
-                        $scope.filters.obsType = ['avalanche', 'incident'];
+                        $scope.filters.obsType = ['avalanche', 'incident', 'snowpack', 'simple', 'weather'];
                         map.addLayer(layers.obs);
                     } else if(layers.obs && mapZoom <= 7 && map.hasLayer(layers.obs)){
+                        $scope.filters.obsType = [];
                         map.removeLayer(layers.obs);
                     }
 
@@ -358,15 +351,22 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 });
 
-                $scope.$watch('obs', function (obs) {
-                    if(obs && obs.features) {
-                        layers.obs = L.geoJson(obs, {
-                            filter: function (featureData, layer) {
-                                return _.contains($scope.filters.obsType, featureData.properties.obsType);
-                            }
-                        });
-                    }
-                });
+                // $scope.$watch('obs', function (obs) {
+                //     if(obs && obs.features) {
+                //         layers.obs = L.geoJson(obs, {
+                //             filter: function (featureData, layer) {
+                //                 return _.contains($scope.filters.obsType, featureData.properties.obsType);
+                //             }
+                //         });
+
+                //         // var pruneCluster = new PruneClusterForLeaflet();
+
+                //         // var marker = new PruneCluster.Marker(latitude, longitude);
+                //         // pruneCluster.RegisterMarker(marker);
+
+                //         // leafletMap.addLayer(pruneCluster);
+                //     }
+                // });
 
                 $scope.$watchCollection('filters.obsType', function (filters) {
                     if (map.hasLayer(layers.obs)){
@@ -377,7 +377,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         pointToLayer: function (featureData, latlng) {
                             var icons = {
                                 avalanche: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'eye', markerColor: 'red'}),
-                                incident: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'blue'})
+                                incident: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'blue'}),
+                                simple: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'orange'}),
+                                snowpack: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'bar-chart', markerColor: 'darkred'}),
+                                weather: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'green'})
                             };
 
                             return L.marker(latlng, {icon: icons[featureData.properties.obsType]});

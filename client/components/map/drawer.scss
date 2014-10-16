@@ -63,6 +63,7 @@
             box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
             cursor: pointer;
             transition: all 0.2s linear;
+            border-bottom: 5px solid transparent;
             small, strong {
               display: block;
               margin: auto;
@@ -74,9 +75,27 @@
               padding-top: 3px;
             }
             &.on {
-              border-right: 5px solid rgb(0, 128, 0);
-              width: 60px;
-              transform: translateX(-10px);
+              border-bottom: 5px solid rgb(0, 128, 0);
+            }
+            .ac-snowpack {
+              transform: translate(-50%, -50%) rotate(270deg); 
+            }
+            i.fa-sun-o {
+              transform: translate(-30%, -55%);
+            }
+            i.fa-cloud {
+              transform: translate(-50%, -140%);
+            }
+            .ac-icon-avalanche {
+              i.fa-play {
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(270deg);
+              }
+              i.fa-cloud {
+                transform: translate(8px, 10px) rotate(60deg);
+              }
             }
         }
         .noUi-connect {

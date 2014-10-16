@@ -24,7 +24,8 @@
     "angular-animate": "~1.2.25",
     "angular-route": "~1.2.25",
     "nouislider": "~7.0.9",
-    "Leaflet.awesome-markers": "~2.0.2"
+    "Leaflet.awesome-markers": "~2.0.2",
+    "PruneCluster": "~0.10.1"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

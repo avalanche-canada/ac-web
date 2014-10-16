@@ -1,5 +1,10 @@
 'use strict';
 
+// todo: move this somewhere else, also tooltips are buggy, keeps flickering
+// $('body').tooltip({
+//     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
+// });
+
 angular.module('avalancheCanadaApp', [
         'ngCookies',
         'ngResource',
