@@ -257,12 +257,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 }
 
-                map.on('dragend', setRegionFocus);
+                // map.on('dragend', setRegionFocus);
                 map.on('zoomend', function () {
                     var mapZoom = map.getZoom();
                     var opacity = 0.2;
 
-                    setRegionFocus();
+                    //setRegionFocus();
 
                     if(layers.currentRegion) {
                         if(mapZoom <= 9) {
