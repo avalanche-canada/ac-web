@@ -2,6 +2,48 @@
     div(ac-mapbox-map, device-size="device.size", region="current.region", regions="regions", areas="areas", obs="observations", filters="filters", mapbox-access-token="{{env.mapboxAccessToken}}", mapbox-map-id="{{env.mapboxMapId}}")
     div(ac-drawer, ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible}")
         div(ac-forecast-mini ac-forecast="current.region.feature.properties.forecast")
+    #obs.modal.fade
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal')
+                      span(aria-hidden='true') ×
+                      span.sr-only Close
+                    h4.modal-title Avalanche Canada Observer Network: Add an Observation
+                .modal-body
+                    .ac-obs-menu(ng-hide='obs.form')
+                        h3 What type of observation would you like to add?
+                        .list-group
+                            a.list-group-item(href='#', ng-click="obs.form = 'photo'")
+                                h4.list-group-item-heading Photo
+                                p.list-group-item-text Upload a photo of an avalanche, conditions with an optional caption.
+                            a.list-group-item(href='#', ng-click="obs.form = 'avalanche-activity'")
+                                h4.list-group-item-heading Avalanche Activity
+                                p.list-group-item-text A general observation about Avalanches Activity you've observed. i.e. how many have you observed?, in how big of an area, how long ago?
+                            a.list-group-item(href='#', ng-click="obs.form = 'avalanche'")
+                                h4.list-group-item-heading Avalanche Observation
+                                p.list-group-item-text An observation about a specific Avalanche. i.e. size, aspect, elevation...
+                            a.list-group-item(href='#', ng-click="obs.form = 'incident'")
+                                h4.list-group-item-heading Incident
+                                p.list-group-item-text An avalanche where there was human involvement including close calls. You will provide information about your type of activity, how many in your group, if any where buried...
+                            a.list-group-item(href='#', ng-click="obs.form = 'weather'")
+                                h4.list-group-item-heading Weather
+                                p.list-group-item-text An observation about general meterological conditions. i.e. temp, cloud cover, precip...
+                            a.list-group-item(href='#', ng-click="obs.form = 'snowpack'")
+                                h4.list-group-item-heading Snowpack
+                                p.list-group-item-text A observation about general snopack conditions. i.e. penetrations...
+                    .ac-obs-photo(ng-show="obs.form === 'photo'")
+                        form(role='form')
+                            .form-group
+                                label(for='exampleInputFile') Photo
+                                input#exampleInputFile(type='file')
+                            .form-group
+                                label(for='exampleInputEmail1') Comment
+                                textarea.form-control(rows='3')
+                            .form-group
+                                button.btn.btn-default(ng-click="obs.form = ''") Cancel
+                                button.btn.btn-default(type='submit') Save
+
 .scroll-nav.scroll-nav--down
       a(href="", ng-click="showMore()") More
         i.fa.fa-chevron-down.fa-inverse.fa-2x

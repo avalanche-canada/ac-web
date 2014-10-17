@@ -410,7 +410,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             transclude: true,
             templateUrl: 'components/map/drawer.html',
             link: function ($scope, el, attrs) {
-                el.addClass('ac-drawer');
+
             }
         };
     })

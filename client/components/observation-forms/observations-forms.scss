@@ -1,0 +1,12 @@
+//todo: change in bootstrap saas
+.modal-content {
+    border-radius: 0;
+}
+.list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+.list-group-item:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
