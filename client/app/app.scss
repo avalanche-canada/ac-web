@@ -1,11 +1,11 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
+@import 'font-awesome/scss/font-awesome';
+
 @import "_custom_cac_variables";
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins';
-
-@import 'font-awesome/scss/font-awesome';
 
 //320 mobile styles and up
 @import "_base_mobile.scss";
@@ -32,5 +32,5 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'forecast/forecast-mini.scss';
 @import 'map/drawer.scss';
 @import 'map/map.scss';
-@import 'navbar/navbar.scss';
+@import 'observation-forms/observations-forms.scss';
 // endinjector

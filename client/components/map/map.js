@@ -5,14 +5,18 @@
 
 angular.module('acMap', ['constants', 'ngAnimate'])
 
-    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV) {
+    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV, Observation) {
         angular.extend($scope, {
             env: ENV,
             current: {},
             drawer: {
                 visible: false
             },
-            device: {}
+            device: {},
+            filters: {
+                obsType: [],
+                obsPeriod: ['7-days']
+            }
         });
 
         $http.get('api/forecasts').then(function (res) {
@@ -25,6 +29,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         $http.get('api/forecasts/areas').then(function (res) {
             $scope.areas = res.data;
+        });
+
+        Observation.byPeriod('7:days').then(function (res) {
+            $scope.observations = res.data;
         });
 
         $scope.showMore = function () {
@@ -75,6 +83,29 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         setDeviceSize();
 
+        $scope.toggleFilter = function (filter) {
+            var filterType = filter.split(':')[0];
+            var filterValue = filter.split(':')[1];
+
+            if(filterType === 'obsPeriod') {
+                $scope.filters[filterType] = [];
+                var period = filterValue.replace('-', ':');
+                Observation.byPeriod(period).then(function (res) {
+                    $scope.observations = res.data;
+                });
+            }
+
+            if(_.contains($scope.filters[filterType], filterValue) ){
+                $scope.filters[filterType] = _.without($scope.filters[filterType], filterValue);
+            } else {
+                $scope.filters[filterType].push(filterValue);
+            }
+        };
+
+        $scope.toggleForm = function (form) {
+            $scope.obs.form = form;
+        };
+
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $timeout, $document, $window) {
@@ -87,6 +118,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 region: '=',
                 regions: '=',
                 areas: '=',
+                obs: '=',
+                filters: '=',
                 deviceSize: '='
             },
             link: function ($scope, el, attrs) {
@@ -108,52 +141,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
 
-                var $loader = $('<div class="ac-map-loader"><div class="ac-map-loader-spinner"><i class="fa fa-spinner fa-fw fa-spin fa-5x fa-inverse"></i></div></div>');
-                el.append($loader);
-
-                var countries = L.mapbox.geocoder('mapbox.places-country-v1');
                 var provinces = L.mapbox.geocoder('mapbox.places-province-v1');
-                map.locate();
 
-                map.on('locationfound', function (e) {
-                    var userArea;
-
-                    $scope.areas.features.forEach(function (a) {
-                        a.properties.centroid = L.latLng(a.properties.centroid[1], a.properties.centroid[0]);
-                    });
-
-                    countries.reverseQuery(e.latlng, function (err, results) {
-                        var place;
-                        /* jshint ignore:start */
-                        place = results.features[0].place_name;
-                        /* jshint ignore:end */
-
-                        if (place === 'Canada') {
-                            userArea = _.min($scope.areas.features, function (a) {
-                                return a.properties.centroid.distanceTo(e.latlng);
-                            });
-                            userArea = L.GeoJSON.geometryToLayer(userArea);
-                            map.fitBounds(userArea.getBounds());
-
-                            $loader.remove();
-                        } else {
-                            setDefaultBounds();
-                        }
-                    });
+                provinces.query('British-Columbia', function (err, results) {
+                    var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
+                    map.fitBounds(bcBounds);
                 });
-
-
-
-                function setDefaultBounds(){
-                    provinces.query('British-Columbia', function (err, results) {
-                        var bcBounds = L.latLngBounds([results.bounds[1], results.bounds[0]], [results.bounds[3], results.bounds[2]]);
-                        map.fitBounds(bcBounds);
-                    });
-
-                    $loader.remove();
-                }
-
-                map.on('locationerror', setDefaultBounds);
 
                 function invalidateSize() {
                     el.height($($window).height()-75);
@@ -280,12 +273,12 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 }
 
-                map.on('dragend', setRegionFocus);
+                // map.on('dragend', setRegionFocus);
                 map.on('zoomend', function () {
                     var mapZoom = map.getZoom();
                     var opacity = 0.2;
 
-                    setRegionFocus();
+                    //setRegionFocus();
 
                     if(layers.currentRegion) {
                         if(mapZoom <= 9) {
@@ -309,6 +302,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         } else {
                             layers.currentRegion.setStyle(styles.region.default);
                         }
+                    }
+
+                    if(layers.obs && mapZoom > 7 && !map.hasLayer(layers.obs)) {
+                        $scope.filters.obsType = ['avalanche', 'incident', 'snowpack', 'simple', 'weather'];
+                        $scope.filters.obsPeriod = ['7:days'];
+                        map.addLayer(layers.obs);
+                    } else if(layers.obs && mapZoom <= 7 && map.hasLayer(layers.obs)){
+                        $scope.filters.obsType = [];
+                        map.removeLayer(layers.obs);
                     }
 
                 });
@@ -365,6 +367,37 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         }).addTo(map);
                     }
                 });
+
+                function refreshObsLayer() {
+                    if (map.hasLayer(layers.obs)){
+                        map.removeLayer(layers.obs);
+                    }
+
+                    layers.obs = L.geoJson($scope.obs, {
+                        pointToLayer: function (featureData, latlng) {
+                            var icons = {
+                                avalanche: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'eye', markerColor: 'red'}),
+                                incident: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'blue'}),
+                                simple: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'orange'}),
+                                snowpack: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'bar-chart', markerColor: 'darkred'}),
+                                weather: L.AwesomeMarkers.icon({prefix: 'fa', icon: 'warning', markerColor: 'green'})
+                            };
+
+                            return L.marker(latlng, {icon: icons[featureData.properties.obsType]});
+                        },
+                        filter: function (featureData, layer) {
+                            return _.contains($scope.filters.obsType, featureData.properties.obsType);
+                        }
+                    }).addTo(map);
+                }
+
+                $scope.$watch('obs', function (obs) {
+                    if(obs && obs.features) {
+                        refreshObsLayer();
+                    }
+                });
+
+                $scope.$watchCollection('filters.obsType', refreshObsLayer);
             }
         };
     })
@@ -379,13 +412,21 @@ angular.module('acMap', ['constants', 'ngAnimate'])
         };
     })
 
+    .factory('Observation', function ($http) {
+        return {
+            byPeriod: function (period) {
+                return $http.get('api/observations', {params: {period: period}});
+            }
+        };
+    })
+
     .directive('acDrawer', function () {
         return {
             replace: true,
             transclude: true,
             templateUrl: 'components/map/drawer.html',
             link: function ($scope, el, attrs) {
-                el.addClass('ac-drawer');
+
             }
         };
     })
@@ -411,6 +452,20 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
             attrs.$observe('ngSrc', function () {
                 $scope.imageLoaded = false;
+            });
+        };
+    })
+
+    .directive('acDateFilter', function () {
+        return function ($scope, el, attrs) {
+            el.noUiSlider({
+                start: [20, 80],
+                connect: true,
+                orientation: 'vertical',
+                range: {
+                    'min': 0,
+                    'max': 100
+                }
             });
         };
     })

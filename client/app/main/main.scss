@@ -3,6 +3,9 @@ html, body {
   height: 100%;
 }
 
+#header {
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
+}
 // todo: move to utils stylesheet
 .page-inner {
   padding-bottom:-75px;
@@ -11,8 +14,11 @@ html, body {
 
 // todo: move to utils stylesheet
 .full-height {
-  padding-top:75px;
-  height: 100%;
+  position: absolute;
+  top: 75px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .ac-no-gutter {
@@ -53,17 +59,18 @@ html, body {
     height: 60px;
     padding: 10px 0 0 13px;
     transform: translateX(-50%);
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
     i{
         padding-left: 3px;
     }
   }
   &.scroll-nav--up {
-    z-index:1;
-    top: 75px;
+    position: relative;
     left: 50%;
     width: 60px;
     height: 60px;
     padding: 7px 0 0 15px;
+    z-index:1;
     i{
         padding-left: 5px;
     }

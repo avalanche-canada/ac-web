@@ -1,8 +1,5 @@
 #map {
-    position: absolute;
-    top: 75px;
-    left: 0;
-    width: 100%;
+    // width: 100%;
     // height: 100%; /* reset via map.js on loand & resize */
     
     // sent PR to mapbox.js see: https://github.com/mapbox/mapbox.js/pull/891
@@ -18,6 +15,11 @@
       }
     .leaflet-bar .leaflet-control-zoom-out                { background-position:0 -52px; }
     }
+}
+
+.ac-view-map {
+    position: relative;
+    overflow: hidden;
 }
 
 .ac-map-loader {
