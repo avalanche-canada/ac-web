@@ -5,7 +5,7 @@
 
 angular.module('acMap', ['constants', 'ngAnimate'])
 
-    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV) {
+    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV, Observation) {
         angular.extend($scope, {
             env: ENV,
             current: {},
@@ -14,7 +14,8 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             },
             device: {},
             filters: {
-                obsType: []
+                obsType: [],
+                obsPeriod: ['7-days']
             }
         });
 
@@ -30,7 +31,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             $scope.areas = res.data;
         });
 
-        $http.get('api/observations').then(function (res) {
+        Observation.byPeriod('7:days').then(function (res) {
             $scope.observations = res.data;
         });
 
@@ -83,10 +84,21 @@ angular.module('acMap', ['constants', 'ngAnimate'])
         setDeviceSize();
 
         $scope.toggleFilter = function (filter) {
-            if(_.contains($scope.filters.obsType, filter) ){
-                $scope.filters.obsType = _.without($scope.filters.obsType, filter);
+            var filterType = filter.split(':')[0];
+            var filterValue = filter.split(":")[1];
+
+            if(filterType === 'obsPeriod') {
+                $scope.filters[filterType] = [];
+                var period = filterValue.replace('-', ':');
+                Observation.byPeriod(period).then(function (res) {
+                    $scope.observations = res.data;
+                });
+            }
+
+            if(_.contains($scope.filters[filterType], filterValue) ){
+                $scope.filters[filterType] = _.without($scope.filters[filterType], filterValue);
             } else {
-                $scope.filters.obsType.push(filter);
+                $scope.filters[filterType].push(filterValue);
             }
         };
 
@@ -294,6 +306,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
                     if(layers.obs && mapZoom > 7 && !map.hasLayer(layers.obs)) {
                         $scope.filters.obsType = ['avalanche', 'incident', 'snowpack', 'simple', 'weather'];
+                        $scope.filters.obsPeriod = ['7:days'];
                         map.addLayer(layers.obs);
                     } else if(layers.obs && mapZoom <= 7 && map.hasLayer(layers.obs)){
                         $scope.filters.obsType = [];
@@ -355,24 +368,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                     }
                 });
 
-                // $scope.$watch('obs', function (obs) {
-                //     if(obs && obs.features) {
-                //         layers.obs = L.geoJson(obs, {
-                //             filter: function (featureData, layer) {
-                //                 return _.contains($scope.filters.obsType, featureData.properties.obsType);
-                //             }
-                //         });
-
-                //         // var pruneCluster = new PruneClusterForLeaflet();
-
-                //         // var marker = new PruneCluster.Marker(latitude, longitude);
-                //         // pruneCluster.RegisterMarker(marker);
-
-                //         // leafletMap.addLayer(pruneCluster);
-                //     }
-                // });
-
-                $scope.$watchCollection('filters.obsType', function (filters) {
+                function refreshObsLayer() {
                     if (map.hasLayer(layers.obs)){
                         map.removeLayer(layers.obs);
                     }
@@ -393,7 +389,15 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                             return _.contains($scope.filters.obsType, featureData.properties.obsType);
                         }
                     }).addTo(map);
+                }
+
+                $scope.$watch('obs', function (obs) {
+                    if(obs && obs.features) {
+                        refreshObsLayer();
+                    }
                 });
+
+                $scope.$watchCollection('filters.obsType', refreshObsLayer);
             }
         };
     })
@@ -404,6 +408,14 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 images.forEach(function (i) {
                     $http.get(i);
                 });
+            }
+        };
+    })
+
+    .factory('Observation', function ($http) {
+        return {
+            byPeriod: function (period) {
+                return $http.get('api/observations', {params: {period: period}});
             }
         };
     })

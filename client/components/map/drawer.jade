@@ -3,40 +3,34 @@
         ul
             li(ng-click="drawer.visible = !drawer.visible", data-toggle="tooltip", data-placement="left", title="Show Bulletin")
                 i.fa.fa-file-text-o.fa-fw.fa-2x.fa-inverse.ac-middle
-            li(ng-click="toggleFilter('incident')", ng-class="{on: filters.obsType.indexOf('incident') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Incidents")
+            li(ng-click="toggleFilter('obsType:incident')", ng-class="{on: filters.obsType.indexOf('incident') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Incidents")
                 i.fa.fa-warning.fa-fw.fa-2x.fa-inverse.ac-middle
-            li(ng-click="toggleFilter('snowpack')", ng-class="{on: filters.obsType.indexOf('snowpack') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Snowpack")
+            li(ng-click="toggleFilter('obsType:snowpack')", ng-class="{on: filters.obsType.indexOf('snowpack') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Snowpack")
                 i.fa.fa-bar-chart.fa-fw.fa-2x.fa-inverse.ac-middle.ac-snowpack
-            li(ng-click="toggleFilter('simple')", ng-class="{on: filters.obsType.indexOf('simple') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Simple")
+            li(ng-click="toggleFilter('obsType:simple')", ng-class="{on: filters.obsType.indexOf('simple') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Simple")
                 i.fa.fa-camera.fa-fw.fa-2x.fa-inverse.ac-middle
-            li(ng-click="toggleFilter('weather')", ng-class="{on: filters.obsType.indexOf('weather') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Weather")
+            li(ng-click="toggleFilter('obsType:weather')", ng-class="{on: filters.obsType.indexOf('weather') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Weather")
                 span
                     i.fa.fa-sun-o.fa-inverse.fa-2x.ac-middle
                     i.fa.fa-cloud.fa-inverse.fa-2x.ac-middle
-            li(ng-click="toggleFilter('avalanche')", ng-class="{on: filters.obsType.indexOf('avalanche') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Avalanches")
+            li(ng-click="toggleFilter('obsType:avalanche')", ng-class="{on: filters.obsType.indexOf('avalanche') !== -1}", data-toggle="tooltip", data-placement="left", title="Toggle Avalanches")
                 span.ac-icon-avalanche
                     i.fa.fa-play.fa-inverse.fa-2x
                     i.fa.fa-cloud.fa-inverse.fa-1x
+            li(ng-click="toggleFilter('obsPeriod:48-hours')", ng-class="{on: filters.obsType.length > 0 && filters.obsPeriod.indexOf('48-hours') !== -1}")
+                small last 
+                strong 48
+                small hours
+            li(ng-click="toggleFilter('obsPeriod:7-days')", ng-class="{on: filters.obsType.length > 0 && filters.obsPeriod.indexOf('7-days') !== -1}")
+                small last 
+                strong 7 
+                small days
+            li(ng-click="toggleFilter('obsPeriod:30-days')", ng-class="{on: filters.obsType.length > 0 && filters.obsPeriod.indexOf('30-days') !== -1}")
+                small last 
+                strong 30 
+                small days
             li(data-toggle="modal" data-target="#obs")
                 i.fa.fa-binoculars.fa-fw.fa-2x.fa-inverse.ac-middle
-            //- li
-                i.fa.fa-database.fa-fw.fa-2x.fa-inverse.ac-middle
-            //- li
-                i.fa.fa-cloud.fa-fw.fa-2x.fa-inverse.ac-middle
-            //- li
-                i.fa.fa-calendar.fa-fw.fa-2x.fa-inverse.ac-middle
-            //- li
-            //-     small last 
-            //-     strong 48w
-            //-     small hours
-            //- li
-            //-     small last 
-            //-     strong 7 
-            //-     small days
-            //- li
-            //-     small last 
-            //-     strong 30 
-            //-     small days
             //- li(style="height: 300px;")
                 .div.ac-middle(ac-date-filter, style="height: 250px;")
     .drawer-body(ng-transclude)
