@@ -3,6 +3,9 @@ html, body {
   height: 100%;
 }
 
+#header {
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
+}
 // todo: move to utils stylesheet
 .page-inner {
   padding-bottom:-75px;
@@ -56,6 +59,7 @@ html, body {
     height: 60px;
     padding: 10px 0 0 13px;
     transform: translateX(-50%);
+    box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
     i{
         padding-left: 3px;
     }
