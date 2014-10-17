@@ -85,7 +85,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
 
         $scope.toggleFilter = function (filter) {
             var filterType = filter.split(':')[0];
-            var filterValue = filter.split(":")[1];
+            var filterValue = filter.split(':')[1];
 
             if(filterType === 'obsPeriod') {
                 $scope.filters[filterType] = [];
