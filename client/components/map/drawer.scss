@@ -21,18 +21,14 @@
 .ac-drawer {
     position: absolute;
     top: 0;
-    right: 0;
     height: 100%;
     width: 100%;
-    padding-top: 75px;
     margin-bottom: 0;
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
-    z-index: 1000;
     transition: transform 0.3s linear;
-    transform: translateX(480px);
     &.ac-drawer--expanded {
-        transform: translateX(0);
+        right: 0;
     }
     .ac-drawer-body {
         overflow-y: scroll;
@@ -48,7 +44,7 @@
     }
     .ac-drawer-tools {
         position: absolute;
-        top: 90px;
+        top: 10px;
         left: -50px;
         ul {
             list-style: none;
@@ -130,12 +126,14 @@
 @media (min-width: $screen-sm-min) {
   .ac-drawer {
     width: 350px;
+    right: -350px;
   }
 }
 
 @media (min-width: $screen-md-min) {
   .ac-drawer {
     width: 480px;
+    right: -480px;
   }
 }
 

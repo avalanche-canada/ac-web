@@ -90,6 +90,10 @@ angular.module('acMap', ['constants', 'ngAnimate'])
             }
         };
 
+        $scope.toggleForm = function (form) {
+            $scope.obs.form = form;
+        };
+
     })
 
     .directive('acMapboxMap', function ($rootScope, $http, $timeout, $document, $window) {

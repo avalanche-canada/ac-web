@@ -1,4 +1,4 @@
-.container-fluid.ac-no-gutter.full-height.ac-view-map
+.container-fluid.ac-no-gutter.ac-view-map
     div(ac-mapbox-map, device-size="device.size", region="current.region", regions="regions", areas="areas", obs="observations", filters="filters", mapbox-access-token="{{env.mapboxAccessToken}}", mapbox-map-id="{{env.mapboxMapId}}")
     div(ac-drawer, ng-class="{'ac-drawer--expanded': current.region && current.region.feature.properties.forecast && drawer.visible}")
         div(ac-forecast-mini ac-forecast="current.region.feature.properties.forecast")
