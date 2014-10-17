@@ -1,4 +1,6 @@
 .ac-drawer
+    a.ac-drawer-close.visible-xs(ng-click="drawer.visible = false")
+        i.fa.fa-close.fa-lg
     .ac-drawer-tools
         ul
             li(ng-click="drawer.visible = !drawer.visible", data-toggle="tooltip", data-placement="left", title="Show Bulletin")
@@ -33,4 +35,4 @@
                 i.fa.fa-binoculars.fa-fw.fa-2x.fa-inverse.ac-middle
             //- li(style="height: 300px;")
                 .div.ac-middle(ac-date-filter, style="height: 250px;")
-    .drawer-body(ng-transclude)
+    .ac-drawer-body(ng-transclude)
