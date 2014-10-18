@@ -3,112 +3,8 @@
 /* global L, leafletPip, gju */
 'use strict';
 
-angular.module('acMap', ['constants', 'ngAnimate'])
-
-    .controller('mapController', function ($scope, $rootScope, $http, $timeout, $window, $location, acImageCache, ENV, Observation) {
-        angular.extend($scope, {
-            env: ENV,
-            current: {},
-            drawer: {
-                visible: false
-            },
-            device: {},
-            filters: {
-                obsType: [],
-                obsPeriod: ['7-days']
-            }
-        });
-
-        $http.get('api/forecasts').then(function (res) {
-            $scope.regions = res.data;
-            var dangerIcons = _.map($scope.regions.features, function (r) {
-                return r.properties.dangerIconUrl;
-            });
-            acImageCache.cache(dangerIcons);
-        });
-
-        $http.get('api/forecasts/areas').then(function (res) {
-            $scope.areas = res.data;
-        });
-
-        Observation.byPeriod('7:days').then(function (res) {
-            $scope.observations = res.data;
-        });
-
-        $scope.showMore = function () {
-            $rootScope.pageClass = 'page-down';
-            $location.path('/more');
-        };
-
-        function fetchForecast(region){
-            if (region.feature.properties.forecastUrl) {
-                $http.get(region.feature.properties.forecastUrl).then(function (res) {
-                    region.feature.properties.forecast = res.data;
-                });
-            }
-        }
-
-        $scope.$watch('current.region', function (newRegion, oldRegion) {
-            if(newRegion && newRegion !== oldRegion) {
-                $scope.drawer.visible = false;
-                $scope.imageLoaded = false;
-
-                if(!newRegion.feature.properties.forecast) {
-                    fetchForecast(newRegion);
-                }
-
-                $timeout(function () {
-                    $scope.drawer.visible = true;
-                }, 800);
-            }
-        });
-
-        function setDeviceSize() {
-            var width = $($window).width();
-
-            $timeout(function () {
-                if(width < 480) {
-                    $scope.device.size = 'xs';
-                } else if(width >= 480 && width < 600) {
-                    $scope.device.size = 'sm';
-                } else if(width >= 600 && width < 1025) {
-                    $scope.device.size = 'md';
-                } else {
-                    $scope.device.size = 'lg';
-                }
-            }, 0);
-        }
-
-        angular.element($window).bind('resize', setDeviceSize);
-
-        setDeviceSize();
-
-        $scope.toggleFilter = function (filter) {
-            var filterType = filter.split(':')[0];
-            var filterValue = filter.split(':')[1];
-
-            if(filterType === 'obsPeriod') {
-                $scope.filters[filterType] = [];
-                var period = filterValue.replace('-', ':');
-                Observation.byPeriod(period).then(function (res) {
-                    $scope.observations = res.data;
-                });
-            }
-
-            if(_.contains($scope.filters[filterType], filterValue) ){
-                $scope.filters[filterType] = _.without($scope.filters[filterType], filterValue);
-            } else {
-                $scope.filters[filterType].push(filterValue);
-            }
-        };
-
-        $scope.toggleForm = function (form) {
-            $scope.obs.form = form;
-        };
-
-    })
-
-    .directive('acMapboxMap', function ($rootScope, $http, $timeout, $document, $window) {
+angular.module('acComponents')
+    .directive('acMap', function ($rootScope, $window, acBreakpoints) {
         return {
             template: '<div id="map"></div>',
             replace: true,
@@ -117,12 +13,11 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 mapboxMapId: '@',
                 region: '=',
                 regions: '=',
-                areas: '=',
                 obs: '=',
-                filters: '=',
-                deviceSize: '='
+                filters: '='
             },
             link: function ($scope, el, attrs) {
+                $scope.device = {};
                 var layers = {
                     dangerIcons: L.featureGroup()
                 };
@@ -137,6 +32,16 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                         }
                     }
                 };
+
+                acBreakpoints.setBreakpoints({
+                    xs: 480,
+                    sm: 600,
+                    md: 1025,
+                });
+
+                $rootScope.$on('breakpoint', function (e, breakpoint) {
+                    $scope.device.size = breakpoint;
+                });
 
                 L.mapbox.accessToken = $scope.mapboxAccessToken;
                 var map = L.mapbox.map(el[0].id, $scope.mapboxMapId, {attributionControl: false});
@@ -173,7 +78,7 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 }
 
                 function getMapPadding(){
-                    switch($scope.deviceSize) {
+                    switch($scope.device.size) {
                         case 'xs':
                             return L.point([0, 0]);
                         case 'sm':
@@ -398,100 +303,6 @@ angular.module('acMap', ['constants', 'ngAnimate'])
                 });
 
                 $scope.$watchCollection('filters.obsType', refreshObsLayer);
-            }
-        };
-    })
-
-    .factory('acImageCache', function ($http) {
-        return {
-            cache: function (images) {
-                images.forEach(function (i) {
-                    $http.get(i);
-                });
-            }
-        };
-    })
-
-    .factory('Observation', function ($http) {
-        return {
-            byPeriod: function (period) {
-                return $http.get('api/observations', {params: {period: period}});
-            }
-        };
-    })
-
-    .directive('acDrawer', function () {
-        return {
-            replace: true,
-            transclude: true,
-            templateUrl: 'components/map/drawer.html',
-            link: function ($scope, el, attrs) {
-
-            }
-        };
-    })
-
-    .directive('acForecastMini', function () {
-        return {
-            templateUrl: 'components/forecast/forecast-mini.html',
-            scope: {
-                forecast: '=acForecast'
-            },
-            link: function ($scope, el, attrs) {
-                el.addClass('ac-forecast-mini');
-            }
-        };
-    })
-
-    .directive('acLoadingIndicator', function () {
-        return {
-            templateUrl: 'components/loading-indicator/loading-indicator.html',
-            replace: true,
-            link: function ($scope, el, attrs) {
-
-            }
-        };
-    })
-
-    .directive('imageLoading', function () {
-        return function ($scope, el, attrs) {
-            angular.element(el).bind('load', function () {
-                $scope.imageLoaded = true;
-                $scope.$apply();
-            });
-
-            attrs.$observe('ngSrc', function () {
-                $scope.imageLoaded = false;
-            });
-        };
-    })
-
-    .directive('acDateFilter', function () {
-        return function ($scope, el, attrs) {
-            el.noUiSlider({
-                start: [20, 80],
-                connect: true,
-                orientation: 'vertical',
-                range: {
-                    'min': 0,
-                    'max': 100
-                }
-            });
-        };
-    })
-
-    .filter('sanatizeHtml', function () {
-        return function (item) {
-            if (item) {
-                return item.replace(/!_!/g, '').replace(/<style[\s\S]*<\/style>/g, '');
-            }
-        };
-    })
-
-    .filter('normalizeForecastTitle', function () {
-        return function (item) {
-            if (item) {
-                return item.replace(/^Avalanche (Forecast|Bulletin) - /g, '');
             }
         };
     });

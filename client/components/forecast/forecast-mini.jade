@@ -15,7 +15,7 @@
     .panel-body.ac-forecast-mini-body(ng-hide="forecast.externalUrl")
         .row
             .col-xs-12
-                h4.ac-forecast-region {{ forecast.bulletinTitle | normalizeForecastTitle }}
+                h4.ac-forecast-region {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
         .row.ac-forecast-dates
             .col-md-6
                 dl
@@ -32,7 +32,7 @@
         .row
             .col-xs-12
                 p.ac-forecast-highlights
-                    strong(ng-bind-html="forecast.highlights | sanatizeHtml")
+                    strong(ng-bind-html="forecast.highlights")
         .row
             .col-xs-12
                 ul.nav.nav-pills(role='tablist')
@@ -51,7 +51,7 @@
                                         | {{ forecast.dangerRatings[0].date | date:'EEEE' }}
                                     .panel-body.ac-forecast-nowcast
                                         div(ac-loading-indicator, ng-hide="imageLoaded")
-                                        img.ac-nowcast(ng-show="forecast.region && imageLoaded", ng-src="{{forecast.region && '/api/forecasts/' + forecast.region  + '/nowcast.svg' || ''}}", image-loading)
+                                        img.ac-nowcast(ng-show="forecast.region && imageLoaded", ng-src="{{forecast.region && '/api/forecasts/' + forecast.region  + '/nowcast.svg' || ''}}", ac-image-loading)
                                     table.table.table-condensed.ac-forecast-days
                                         thead.ac-thead-dark
                                             tr
@@ -125,12 +125,12 @@
                                                         img.center-block(ng-src="{{problem.icons.expectedSize}}")
                                         .row
                                             .col-md-12
-                                                p.ac-problem.narative(ng-bind-html='problem.comment | sanatizeHtml')
+                                                p.ac-problem.narative(ng-bind-html='problem.comment')
                                                 .panel.panel-default.ac-problem-travel-advice
                                                     .panel-heading
                                                         strong.small Travel and Terrain Advice
                                                     .panel-body
-                                                        p(ng-bind-html='problem.travelAndTerrainAdvice | sanatizeHtml')
+                                                        p(ng-bind-html='problem.travelAndTerrainAdvice')
 
                     #details.tab-pane
                         #detailsAccordion.panel-group
@@ -142,7 +142,7 @@
                                             i.fa.fa-fw.fa-level-down.fa-lg.pull-right
                                             small.pull-right click to expand
                                 #avalancheSummary.panel-collapse.collapse
-                                    .panel-body(ng-bind-html='forecast.avalancheSummary | sanatizeHtml')
+                                    .panel-body(ng-bind-html='forecast.avalancheSummary')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
@@ -151,7 +151,7 @@
                                             i.fa.fa-fw.fa-level-down.fa-lg.pull-right
                                             small.pull-right click to expand
                                 #snowpackSummary.panel-collapse.collapse
-                                    .panel-body(ng-bind-html='forecast.snowpackSummary | sanatizeHtml')
+                                    .panel-body(ng-bind-html='forecast.snowpackSummary')
                             .panel.panel-primary
                                 .panel-heading
                                     h4.panel-title
@@ -160,4 +160,4 @@
                                             i.fa.fa-fw.fa-level-down.fa-lg.pull-right
                                             small.pull-right click to expand
                                 #weatherForecast.panel-collapse.collapse
-                                    .panel-body(ng-bind-html='forecast.weatherForecast | sanatizeHtml')
+                                    .panel-body(ng-bind-html='forecast.weatherForecast')

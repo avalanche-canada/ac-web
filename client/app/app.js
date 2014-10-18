@@ -14,7 +14,7 @@ angular.module('avalancheCanadaApp', [
         'ui.bootstrap',
         'constants',
         'prismic.io',
-        'acMap'])
+        'acComponents'])
 
     .config(function ($locationProvider, PrismicProvider) {
         $locationProvider.html5Mode(true);
