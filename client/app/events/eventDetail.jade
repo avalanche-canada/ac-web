@@ -1,1 +1,5 @@
-article(ng-bind-html='documentHtml')
+#event_detail
+   #description(ng-bind-html="event.getStructuredText('event.description').asHtml(ctx);")
+   #details
+        p  location: {{event.getText('event.location')}}
+        p  hosted by: {{event.getText('event.hosted_by')}}
