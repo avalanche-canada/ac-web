@@ -7,7 +7,7 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
         Prismic.document($routeParams.id).then(function(doc){
             if (doc.slug === $routeParams.slug) {
-                    $scope.documentHtml =  doc.getStructuredText('event.description').asHtml(ctx);//doc.asHtml(ctx);
+                    $scope.event = doc; //doc.asHtml(ctx);
             }
             else if (doc.slugs.indexOf($routeParams.slug) >= 0) {
                 $location.path('/events/'+doc.id+'/'+doc.slug);

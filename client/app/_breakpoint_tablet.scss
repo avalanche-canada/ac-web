@@ -15,11 +15,12 @@
 
 /*header*/
 #header {
-	h1 {background:transparent url(#{$assets_path}/logo.png) no-repeat center center;}
+	h1 {
+        background:transparent url(http://www.avalanche.ca/assets/avalanche_canada.svg) no-repeat center center;
+    }
 	h1,
 	h1 a {
 		width:264px;
-		height:47px;
 		display:block;
 	}
 	/*navigation*/

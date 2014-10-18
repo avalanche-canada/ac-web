@@ -97,13 +97,12 @@
 		padding:0;
 		text-decoration:none;
 		@include hide-text();
-		background:transparent url(#{$assets_path}/logo-mobile.png) no-repeat center center;
+		background:transparent url(http://www.avalanche.ca/assets/avalanche_canada.svg) no-repeat center center;
 	}
 	h1,
 	h1 a {
-		width:147px;
-		height:47px;
 		display:block;
+        margin: 0px 0px 0px;
 	}
 	/*navigation*/
 	#navigation {
