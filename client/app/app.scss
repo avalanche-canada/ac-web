@@ -20,6 +20,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   @import "_breakpoint_desktop.scss";
 }
 
+@import "_ac_theme.scss";
+
 // Component styles are injected through grunt
 // injector
 @import 'about/about.scss';
@@ -30,7 +32,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'news/news.scss';
 @import 'sponsors/sponsors.scss';
 @import 'forecast/forecast-mini.scss';
+@import 'loading-indicator/loading-indicator.scss';
 @import 'map/drawer.scss';
-@import 'map/map.scss';
-@import 'observation-forms/observations-forms.scss';
+@import 'map/icons.scss';
 // endinjector

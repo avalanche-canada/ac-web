@@ -1,0 +1,35 @@
+.ac-no-gutter {
+    margin: 0;
+    padding: 0;
+}
+
+.ac-thead-dark {
+    background-color: rgb(43, 47, 51);
+    color: white;
+}
+
+.ac-text-primary {
+    color: rgb(0, 86, 183);
+}
+
+.ac-text-default {
+    color: rgb(43, 47, 51);
+}
+
+.ac-view-map {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.modal-content {
+    border-radius: 0;
+}
+.list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+.list-group-item:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}

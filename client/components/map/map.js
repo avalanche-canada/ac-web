@@ -443,6 +443,16 @@ angular.module('acMap', ['constants', 'ngAnimate'])
         };
     })
 
+    .directive('acLoadingIndicator', function () {
+        return {
+            templateUrl: 'components/loading-indicator/loading-indicator.html',
+            replace: true,
+            link: function ($scope, el, attrs) {
+
+            }
+        };
+    })
+
     .directive('imageLoading', function () {
         return function ($scope, el, attrs) {
             angular.element(el).bind('load', function () {

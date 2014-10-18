@@ -1,0 +1,31 @@
+.ac-middle {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ac-icon {
+    &.ac-icon-snowpack {
+        transform: translate(-50%, -50%) rotate(270deg);
+    }
+    &.ac-icon-weather{
+        i.fa-sun-o {
+          transform: translate(-30%, -55%);
+        }
+        i.fa-cloud {
+          transform: translate(-50%, -140%);
+        }
+    }
+    &.ac-icon-avalanche {
+        i.fa-play {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(270deg);
+        }
+        i.fa-cloud {
+            transform: translate(8px, 8px) rotate(60deg);
+        }
+    }
+}

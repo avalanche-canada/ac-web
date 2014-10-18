@@ -44,9 +44,16 @@ $dangerRatingNoRating: white;
     .ac-forecast-nowcast {
         padding: 0;
         overflow: hidden;
+        height: 150px;
         .ac-nowcast {
             height: 100px;
             z-index: 1;
+            @media (min-width: $screen-sm-min) {
+                height: 120px;
+            }
+            @media (min-width: $screen-md-min) {
+                height: 150px;
+            }
         }
     }
     .ac-problem-icon {
@@ -146,18 +153,6 @@ $dangerRatingNoRating: white;
             font-size: 0.7em;
         }
     }
-}
-
-@media (min-width: $screen-sm-min) {
-  .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 120px;
-  }
-}
-
-@media (min-width: $screen-md-min) {
-  .ac-forecast-mini .ac-forecast-nowcast .ac-nowcast {
-    height: 150px;
-  }
 }
 
 .ac-veg-zone--alp {
