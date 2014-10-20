@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('avalancheCanadaApp')
 .config(function ($routeProvider) {
   $routeProvider
@@ -13,7 +13,7 @@ angular.module('avalancheCanadaApp')
             controller: 'EventDetailCtrl'
         });
 
-});
+});*/
 
 
   /*.config(function ($stateProvider) {

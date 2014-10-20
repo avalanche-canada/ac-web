@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('avalancheCanadaApp')
     .config(function ($routeProvider) {
 
@@ -10,3 +10,4 @@ angular.module('avalancheCanadaApp')
             });
 
     });
+*/

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-.config(function ($routeProvider) {
+/*.config(function ($routeProvider) {
   $routeProvider
         .when('/blogs', {
             templateUrl: 'app/blogs/blogs.html',
@@ -13,5 +13,15 @@ angular.module('avalancheCanadaApp')
             controller: 'BlogItemCtrl'
         });
 
-});
+});*/
+
+/*
+.config(function ($stateProvider) {
+    $stateProvider
+      .state('ac.blogs', {
+        url: '^/blogs',
+        templateUrl: 'app/blogs/blogs.html',
+        controller: 'BlogsCtrl'
+      });
+  });*/
 

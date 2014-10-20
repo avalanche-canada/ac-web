@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('avalancheCanadaApp')
 .config(function ($routeProvider) {
   $routeProvider
@@ -14,7 +14,7 @@ angular.module('avalancheCanadaApp')
         });
 
 });
-
+*/
 
   /*.config(function ($stateProvider) {
     $stateProvider
