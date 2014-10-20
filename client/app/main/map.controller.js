@@ -58,7 +58,7 @@ angular.module('avalancheCanadaApp')
             if(filterType === 'obsPeriod') {
                 $scope.filters[filterType] = [];
                 var period = filterValue.replace('-', ':');
-                Observation.byPeriod(period).then(function (obs) {
+                acObservation.byPeriod(period).then(function (obs) {
                     $scope.observations = obs;
                 });
             }
