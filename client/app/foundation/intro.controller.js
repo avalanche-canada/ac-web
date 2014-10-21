@@ -1,7 +1,8 @@
+'use strict';
 
 angular.module('foundation')
 
-  .controller('FoundationIntroCtrl', function ($scope, $state, $rootScope, $log) {
+  .controller('FoundationIntroCtrl', function ($scope, $state, $rootScope) {
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
