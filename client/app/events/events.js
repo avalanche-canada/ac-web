@@ -15,12 +15,12 @@ angular.module('avalancheCanadaApp')
 
 });*/
 
-
-  /*.config(function ($stateProvider) {
+angular.module('avalancheCanadaApp')
+.config(function ($stateProvider) {
     $stateProvider
-      .state('news', {
-        url: '/news',
-        templateUrl: 'app/news/news.html',
-        controller: 'NewsCtrl'
+      .state('ac.events', {
+        url: '^/events',
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsCtrl'
       });
-  });*/
+});

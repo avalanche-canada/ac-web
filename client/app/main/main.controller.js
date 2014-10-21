@@ -3,10 +3,11 @@
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MoreCtrl', function ($scope, $rootScope, $location, Prismic, $log) {
+  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
     $scope.showMap = function () {
         $rootScope.pageClass = 'page-up';
-        $location.path('/');
+        $state.go('ac.map');
+        //$location.path('/');
     };
 
     Prismic.ctx().then(function(ctx){

@@ -15,7 +15,7 @@ angular.module('avalancheCanadaApp')
 
 });*/
 
-/*
+
 .config(function ($stateProvider) {
     $stateProvider
       .state('ac.blogs', {
@@ -23,5 +23,5 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/blogs/blogs.html',
         controller: 'BlogsCtrl'
       });
-  });*/
+  });
 

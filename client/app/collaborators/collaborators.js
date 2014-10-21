@@ -10,3 +10,12 @@ angular.module('avalancheCanadaApp')
             });
     });
 */
+angular.module('avalancheCanadaApp')
+.config(function ($stateProvider) {
+    $stateProvider
+      .state('ac.collaborators', {
+        url: '^/collaborators',
+        templateUrl: 'app/collaborators/collaborators.html',
+        controller: 'CollaboratorsCtrl'
+      });
+  });
