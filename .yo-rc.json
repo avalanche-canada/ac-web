@@ -12,7 +12,7 @@
       "js": true,
       "jade": true,
       "sass": true,
-      "ngroute": true,
+      "uirouter": true,
       "bootstrap": true,
       "uibootstrap": true
     }

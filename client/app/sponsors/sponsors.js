@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('avalancheCanadaApp')
     .config(function ($routeProvider) {
 
@@ -10,3 +10,13 @@ angular.module('avalancheCanadaApp')
             });
 
     });
+*/
+angular.module('avalancheCanadaApp')
+.config(function ($stateProvider) {
+    $stateProvider
+      .state('ac.sponsors', {
+        url: '^/sponsors',
+        templateUrl: 'app/sponsors/sponsors.html',
+        controller: 'SponsorsCtrl'
+      });
+  });

@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('avalancheCanadaApp')
 .config(function ($routeProvider) {
   $routeProvider
@@ -13,14 +13,14 @@ angular.module('avalancheCanadaApp')
             controller: 'EventDetailCtrl'
         });
 
-});
+});*/
 
-
-  /*.config(function ($stateProvider) {
+angular.module('avalancheCanadaApp')
+.config(function ($stateProvider) {
     $stateProvider
-      .state('news', {
-        url: '/news',
-        templateUrl: 'app/news/news.html',
-        controller: 'NewsCtrl'
+      .state('ac.events', {
+        url: '^/events',
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsCtrl'
       });
-  });*/
+});

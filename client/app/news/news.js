@@ -1,6 +1,6 @@
 'use strict';
+/*
 
-angular.module('avalancheCanadaApp')
 .config(function ($routeProvider) {
   $routeProvider
         .when('/news', {
@@ -14,13 +14,13 @@ angular.module('avalancheCanadaApp')
         });
 
 });
-
-
-  /*.config(function ($stateProvider) {
+*/
+angular.module('avalancheCanadaApp')
+.config(function ($stateProvider) {
     $stateProvider
-      .state('news', {
-        url: '/news',
+      .state('ac.news', {
+        url: '^/news',
         templateUrl: 'app/news/news.html',
         controller: 'NewsCtrl'
       });
-  });*/
+  });

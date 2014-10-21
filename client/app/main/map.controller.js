@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $location, ENV, acObservation, acForecast) {
+    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $state, ENV, acObservation, acForecast) {
         angular.extend($scope, {
             env: ENV,
             current: {},
@@ -18,7 +18,8 @@ angular.module('avalancheCanadaApp')
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
-            $location.path('/more');
+            $state.go('ac.more');
+            //$location.path('/more');
         };
 
         $scope.toggleForm = function (form) {
