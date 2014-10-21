@@ -9,14 +9,19 @@ angular.module('foundation',[
         'ui.bootstrap',
         'constants',
         'prismic.io'])
-    .config(function ($routeProvider) {
-    $routeProvider
-        .when('/foundation', {
-            templateUrl: 'app/foundation/intro.html',
-            controller: 'IntroCtrl'
-        })
-        .when('/foundation/more', {
-            templateUrl: 'app/foundation/more.html',
-            controller: 'FoundationMoreCtrl'
-        });
+ .config(function ($stateProvider) {
+    $stateProvider
+      .state('foundation', {
+        abstract:true,
+        url: '/foundation',
+        templateUrl: 'app/foundation/foundation.html'
+      })
+      .state('foundation.intro', {
+        url: '',
+        templateUrl: 'app/foundation/intro.html'
+      })
+      .state('foundation.more', {
+        url: '/more',
+        templateUrl: 'app/foundation/more.html'
+      });
   });
