@@ -97,6 +97,8 @@ angular.module('avalancheCanadaApp')
                             {'name':'yukon','display':'Yukon'},
                             {'name':'archive','display':'Archive'}];
 
+    $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
+
     var length = $scope.forecastRegions.length;
     var third   = (length/3);
 

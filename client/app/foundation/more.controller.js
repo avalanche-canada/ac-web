@@ -3,11 +3,11 @@
 
 angular.module('foundation')
 
-  .controller('FoundationMoreCtrl', function ($scope, $rootScope, $location, Prismic, $log) {
+  .controller('FoundationMoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
 
     $scope.showIntro = function () {
         $rootScope.pageClass = 'page-up';
-        $location.path('/foundation');
+         $state.go('foundation.intro');
     };
 
     Prismic.ctx().then(function(ctx){

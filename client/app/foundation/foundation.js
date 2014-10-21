@@ -5,7 +5,7 @@ angular.module('foundation',[
         'ngResource',
         'ngSanitize',
         'ngAnimate',
-        'ngRoute',
+        'ui.router',
         'ui.bootstrap',
         'constants',
         'prismic.io'])
@@ -18,10 +18,12 @@ angular.module('foundation',[
       })
       .state('foundation.intro', {
         url: '',
-        templateUrl: 'app/foundation/intro.html'
+        templateUrl: 'app/foundation/intro.html',
+        controller: 'FoundationIntroCtrl'
       })
       .state('foundation.more', {
         url: '/more',
-        templateUrl: 'app/foundation/more.html'
+        templateUrl: 'app/foundation/more.html',
+        controller: 'FoundationMoreCtrl'
       });
   });

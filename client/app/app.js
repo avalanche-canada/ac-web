@@ -18,8 +18,11 @@ angular.module('avalancheCanadaApp', [
         'acComponents'])
 
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider) {
+
         $locationProvider.html5Mode(true);
+
+        $urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider

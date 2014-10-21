@@ -1,0 +1,48 @@
+
+header#header.navbar-fixed-top(role='banner')
+    .container
+        nav#navigation.yamm.navbar.navbar-default(role='navigation')
+            .navbar-header
+                h1.navbar-brand.foundation
+                    a(rel='home', title='TITLE HERE', href='/')
+                        | CAC title here
+                .visible-xs.visible-sm
+                    a#nav-search(href='#')
+                        i.fa.fa-search
+                    a#nav-donate.visible-sm(href='#') Donate
+                    a#multi-expand.navbar-toggle(role='button', href='#', ng-click='multiExpand()')
+                        i.fa.fa-reorder
+            .collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li.dropdown
+                        a(href='/foundation/about')
+                            | About
+                            span.arrow-down
+                        ul.dropdown-menu
+                            li(ng-repeat='item in about')
+                                    a(href='foundation/about/item.name') {{item.display}}
+                    li.dropdown
+                        a(href='/foundation/programs')
+                            | Programs
+                            span.arrow-down
+                        ul.dropdown-menu
+                            li(ng-repeat='item in programs')
+                                    a(href='foundation/programs/item.name') {{item.display}}
+                    li.dropdown
+                        a(href='/foundation/contributors')
+                            | Contributors
+                            span.arrow-down
+                        ul.dropdown-menu
+                            li(ng-repeat='item in contributors')
+                                    a(href='foundation/contributors/item.name') {{item.display}}
+
+                    li.dropdown
+                        a(href='#')
+                                | News & Events
+                                span.arrow-down
+
+
+                a#nav-search-desktop(href='#')
+                    i.fa.fa-search
+                a#nav-donate-desktop(href='/foundation/donate') Donate
+    ///#header
