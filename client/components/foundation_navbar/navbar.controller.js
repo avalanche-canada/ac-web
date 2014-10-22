@@ -52,14 +52,13 @@ angular.module('avalancheCanadaApp')
                             {'name':'honorary','display':'Honorary Directors'}];
 
     $scope.programs = [{'name':'application','display':'Application'},
-                            {'name':'hugh','display':'Hugh and Helen Hincks Memorial Fund'},
+                            {'name':'hincks','display':'Hugh and Helen Hincks Memorial Fund'},
                             {'name':'kelly','display':'Craig Kelly Memorial Fund'},
                             {'name':'ac','display':'Avalanche Canada Fund'},
-                            {'name':'cora','display':'Cora Shea Memorial Fund'},
-                            {'name':'al','display':'Al Hodgson Memorial Fund'}];
+                            {'name':'shea','display':'Cora Shea Memorial Fund'},
+                            {'name':'hodgson','display':'Al Hodgson Memorial Fund'}];
 
-    $scope.contributors = [{'name':'sponsors','display':'Sponsors'},
-                            {'name':'donors','display':'Donors'},
+    $scope.contributors = [{'name':'donors','display':'Donors'},
                             {'name':'partners','display':'Partners'}];
 
   });
