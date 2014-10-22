@@ -1,7 +1,7 @@
 
 'use strict';
 
-angular.module('foundation')
+angular.module('avalancheCanadaApp')
 
   .controller('FoundationMoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
 

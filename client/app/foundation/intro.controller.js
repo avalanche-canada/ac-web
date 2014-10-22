@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('foundation')
+angular.module('avalancheCanadaApp')
 
   .controller('FoundationIntroCtrl', function ($scope, $state, $rootScope) {
 

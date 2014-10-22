@@ -20,26 +20,31 @@ header#header.navbar-fixed-top(role='banner')
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in about')
-                                    a(href='foundation/about/item.name') {{item.display}}
+                                    a(href='foundation/about#{{item.name}}') {{item.display}}
                     li.dropdown
                         a(href='/foundation/programs')
                             | Programs
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in programs')
-                                    a(href='foundation/programs/item.name') {{item.display}}
+                                    a(href='foundation/programs#{{item.name}}') {{item.display}}
                     li.dropdown
                         a(href='/foundation/contributors')
                             | Contributors
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in contributors')
-                                    a(href='foundation/contributors/item.name') {{item.display}}
+                                    a(href='foundation/contributors#{{item.name}}') {{item.display}}
 
                     li.dropdown
                         a(href='#')
                                 | News & Events
                                 span.arrow-down
+                        ul.dropdown-menu
+                            li
+                                a(href='foundation/news') News
+                            li
+                                a(href='foundation/events') Events
 
 
                 a#nav-search-desktop(href='#')

@@ -6,7 +6,6 @@
 // });
 
 angular.module('avalancheCanadaApp', [
-        'foundation',
         'ngCookies',
         'ngResource',
         'ngSanitize',

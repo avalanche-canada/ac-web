@@ -22,5 +22,11 @@ angular.module('avalancheCanadaApp')
         url: '^/events',
         templateUrl: 'app/events/events.html',
         controller: 'EventsCtrl'
+      })
+      .state('ac.eventDetail', {
+        url: '^/events/{id}/{slug}',
+        templateUrl: 'app/events/eventDetail.html',
+        controller: 'EventDetailCtrl'
       });
+
 });

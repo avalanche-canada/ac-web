@@ -22,5 +22,10 @@ angular.module('avalancheCanadaApp')
         url: '^/news',
         templateUrl: 'app/news/news.html',
         controller: 'NewsCtrl'
+      })
+      .state('ac.newsItem', {
+        url: '^/news/{id}/{slug}',
+        templateUrl: 'app/news/newsItem.html',
+        controller: 'NewsItemCtrl'
       });
   });
