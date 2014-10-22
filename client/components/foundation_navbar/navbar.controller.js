@@ -46,7 +46,7 @@ angular.module('avalancheCanadaApp')
   .controller('FoundationNavbarCtrl', function ($scope, $location, $document) {
 
 
-    $scope.about = [{'name':'mission','display':'Missions'},
+    $scope.about = [{'name':'mission','display':'Mission'},
                             {'name':'reports','display':'Annual Reports and Financial Statements'},
                             {'name':'board','display':'Board Of Directors'},
                             {'name':'honorary','display':'Honorary Directors'}];

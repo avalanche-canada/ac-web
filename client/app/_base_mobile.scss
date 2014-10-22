@@ -16,6 +16,15 @@
 /* =Base Mobile Layout and Styles
 ----------------------------------------------------------------------------------*/
 
+
+.anchor:before {
+    display: block;
+    content: " ";
+    margin-top: -75px;
+    height: 75px;
+    visibility: hidden;
+}
+
 //buttons
 .black-button {
 	font-family:$font-family-google;
