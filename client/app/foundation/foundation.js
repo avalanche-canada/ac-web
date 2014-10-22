@@ -84,5 +84,41 @@ angular.module('avalancheCanadaApp')
                 });
             }]
 
+      })
+      .state('foundation.contributors', {
+        url: '/contributors',
+        templateUrl: 'app/foundation/contributors.html',
+        controller: ['Prismic', '$scope',
+            function (Prismic, $scope) {
+
+
+                Prismic.ctx().then(function(ctx){
+
+                    $scope.ctx = ctx;
+
+                    Prismic.bookmark('foundation-programs-hincks').then(function(doc){
+                            $scope.hincks = doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    Prismic.bookmark('foundation-programs-kelly').then(function(doc){
+                            $scope.kelly = doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    Prismic.bookmark('foundation-programs-ac').then(function(doc){
+                            $scope.ac =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    Prismic.bookmark('foundation-programs-shea').then(function(doc){
+                            $scope.shea =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
+                            $scope.hodgson =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                });
+            }]
+
       });
+
   });
