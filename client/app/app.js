@@ -10,14 +10,27 @@ angular.module('avalancheCanadaApp', [
         'ngResource',
         'ngSanitize',
         'ngAnimate',
-        'ngRoute',
+        'ui.router',
         'ui.bootstrap',
         'constants',
         'prismic.io',
         'acComponents'])
 
-    .config(function ($locationProvider, PrismicProvider) {
+
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider) {
+
         $locationProvider.html5Mode(true);
+
+        $urlRouterProvider.otherwise('/');
+
+        //! define abstract ac state
+        $stateProvider
+            .state('ac', {
+                abstract: true,
+                url: '/',
+                templateUrl: 'app/template.html'
+            })
+        ;
 
         //! Prismic.io configuration
         PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');

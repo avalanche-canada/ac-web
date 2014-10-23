@@ -16,6 +16,15 @@
 /* =Base Mobile Layout and Styles
 ----------------------------------------------------------------------------------*/
 
+
+.anchor:before {
+    display: block;
+    content: " ";
+    margin-top: -75px;
+    height: 75px;
+    visibility: hidden;
+}
+
 //buttons
 .black-button {
 	font-family:$font-family-google;
@@ -97,7 +106,15 @@
 		padding:0;
 		text-decoration:none;
 		@include hide-text();
-		background:transparent url(http://www.avalanche.ca/assets/avalanche_canada.svg) no-repeat center center;
+
+        foundation{
+            background:transparent url(http://www.avalanche.ca/assets/avalanche_canada_foundation.svg) no-repeat center center;
+        }
+
+        ac{
+            background:transparent url(http://www.avalanche.ca/assets/avalanche_canada.svg) no-repeat center center;
+        }
+
 	}
 	h1,
 	h1 a {

@@ -3,9 +3,8 @@ header#header.navbar-fixed-top(role='banner')
     .container
         nav#navigation.yamm.navbar.navbar-default(role='navigation')
             .navbar-header
-                h1.navbar-brand
-                    a(rel='home', title='TITLE HERE', href='/')
-                        | CAC title here
+                a(rel='home', title='TITLE HERE', href='/')
+                    h1.navbar-brand.ac
                 .visible-xs.visible-sm
                     a#nav-search(href='#')
                         i.fa.fa-search
@@ -14,8 +13,8 @@ header#header.navbar-fixed-top(role='banner')
                         i.fa.fa-reorder
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
-                    li#nav-avalanche-info.dropdown
-                        a(href='#')
+                    li#nav-avalanche-info.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Avalanche Information
                             span.arrow-down
                         ul.dropdown-menu
@@ -44,8 +43,8 @@ header#header.navbar-fixed-top(role='banner')
                                                                 | {{item.display}}
                                                                 i.fa.fa-angle-right
 
-                    li#nav-learn.dropdown
-                        a(href='#')
+                    li#nav-learn.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Learn
                             span.arrow-down
                         ul.dropdown-menu
@@ -85,8 +84,8 @@ header#header.navbar-fixed-top(role='banner')
 
 
 
-                    li#nav-community.dropdown
-                        a(href='#')
+                    li#nav-community.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Community
                                 span.arrow-down
                         ul.dropdown-menu
@@ -123,58 +122,25 @@ header#header.navbar-fixed-top(role='banner')
                                                                                 i.fa.fa-angle-right
 
                     li#nav-news-events.dropdown
-                        a(href='#')
-                            | News & events
-                            span.arrow-down
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
+                                | News & Events
+                                span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='events')
-                                                                            h2
-                                                                                | Events
-                                                                                i.fa.fa-angle-right
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='outreach')
-                                                                            h2
-                                                                                | Outreach
-                                                                                i.fa.fa-angle-right
+                                a(href='/news') News
+                            li
+                                a(href='/events') Events
 
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='news')
-                                                                            h2
-                                                                                | News
-                                                                                i.fa.fa-angle-right
                     li#nav-store.dropdown
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Store
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='store')
-                                                                            h2
-                                                                                | Store
-                                                                                i.fa.fa-angle-right
+                                a(href='/store') Store
+                            li
+                                a(href='/auction') Web Auction
 
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='web-auction')
-                                                                            h2
-                                                                                | Web Auction
-                                                                                i.fa.fa-angle-right
                 a#nav-search-desktop(href='#')
                     i.fa.fa-search
                 a#nav-donate-desktop(href='/foundation/donate') Donate

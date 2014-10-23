@@ -15,13 +15,20 @@
 
 /*header*/
 #header {
-	h1 {
+
+    .foundation{
+        background:transparent url(http://www.avalanche.ca/assets/avalanche_canada_foundation.svg) no-repeat center center;
+        background-size: contain;
+        width:250px;
+        display:block;
+    }
+    .ac{
         background:transparent url(http://www.avalanche.ca/assets/avalanche_canada.svg) no-repeat center center;
+        width:264px;
+        display:block;
     }
 	h1,
 	h1 a {
-		width:264px;
-		display:block;
 	}
 	/*navigation*/
 	#navigation {

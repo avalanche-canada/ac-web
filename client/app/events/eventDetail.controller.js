@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('EventDetailCtrl', function ($scope, Prismic, $log, $routeParams, $location) {
+  .controller('EventDetailCtrl', function ($scope, Prismic, $log, $stateParams, $location) {
 
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
-        Prismic.document($routeParams.id).then(function(doc){
-            if (doc.slug === $routeParams.slug) {
+        Prismic.document($stateParams.id).then(function(doc){
+            if (doc.slug === $stateParams.slug) {
                     $scope.event = doc; //doc.asHtml(ctx);
             }
-            else if (doc.slugs.indexOf($routeParams.slug) >= 0) {
+            else if (doc.slugs.indexOf($stateParams.slug) >= 0) {
                 $location.path('/events/'+doc.id+'/'+doc.slug);
             }
             else {

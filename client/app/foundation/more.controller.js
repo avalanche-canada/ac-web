@@ -3,18 +3,18 @@
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
-    $scope.showMap = function () {
+  .controller('FoundationMoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
+
+    $scope.showIntro = function () {
         $rootScope.pageClass = 'page-up';
-        $state.go('ac.map');
-        //$location.path('/');
+         $state.go('foundation.intro');
     };
 
     Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "news")]]')
+        ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["foundation"])]]')
                                     .orderings('[news.date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -22,7 +22,7 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var news = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]')
+                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["foundation"])] [:d = any(document.tags, ["featured"])]]')
                                             .orderings('[news.date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -45,7 +45,7 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "event")]]')
+        ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["foundation"])]]')
                                     .orderings('[event.start_date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -53,7 +53,7 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])]]')
+                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["foundation"])] [:d = any(document.tags, ["featured"])]]')
                                               .orderings('[event.start_date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -73,18 +73,6 @@ angular.module('avalancheCanadaApp')
                         $scope.featuredEvent = featured;
                     }
                 });
-            }
-        });
-
-
-        ctx.api.form('everything').query('[[:d = at(document.type, "blog")]]')
-                                    .orderings('[blog.date desc]')
-                                        .ref(ctx.ref).submit(function(err, documents){
-            if (err) {
-                $log.error('error getting blogs from prismic');
-            }
-            else {
-                $scope.blogs = documents.results.slice(0,1);
             }
         });
 

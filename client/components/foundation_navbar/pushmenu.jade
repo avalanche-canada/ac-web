@@ -1,0 +1,89 @@
+//div#menu
+
+nav
+
+    h2
+        a#multi-collapse(href='#' ng-click="multiCollapse()")
+            i.fa.fa-times
+        a#multinav-home(href='/')
+            i.fa.fa-home
+    ul
+        li
+            a(href='#') Avalanche Information
+            h2 Avalanche Information
+            ul
+                li
+                    a(href='#') Forecasts
+                    h2 Forecasts
+                    ul
+                        li(ng-repeat='region in forecastRegions')
+                            a(href='/forecasts/{{region.name}}') {{region.display}}
+                li
+                    a(href='#') Data
+                    h2 Data
+                    ul
+                        li(ng-repeat='item in dataMenu')
+                            a(href='{{item.url}}') {{item.display}}
+                li
+                    a(href='#') Blogs
+                    h2 Blogs
+                    ul
+                        li(ng-repeat='blog in blogs')
+                            a(href='/blogs/{{blog.name}}') {{blog.display}}
+        li
+            a(href='#') Learn
+                ul
+                    li
+                        a(href='#') Avalanche Canada Training Courses
+                        h2 Avalanche Canada Training Courses
+                        ul
+                            li(ng-repeat='page in training')
+                                    a(href='/training/{{page.name}}') {{page.display}}
+                    li
+                        a(href='#') Online Avalanche Course
+                        h2 Online Avalanche Course
+                        ul
+                            li(ng-repeat='page in onlineCourse')
+                                    a(href='/training/{{page.name}}') {{page.display}}
+                    li
+                        a(href='#') Parents & Educators
+                        h2 Parents & Educators
+                        ul
+                            li(ng-repeat='page in parentsEducators')
+                                    a(href='/parents-educators/{{page.name}}') {{page.display}}
+                    li
+                        a(href='/gear') Gear
+                    li
+                        a(href='/library') Library
+
+        li
+            a(href='#') Community
+                ul
+                    li
+                        a(href='/about') About
+                    li
+                        a(href='/membership') Membership
+                    li
+                        a(href='/sponsors') Sponsors
+                    li
+                        a(href='/collaborators') Collaborators
+        li
+            a(href='#') News & events
+                ul
+                    li
+                        a(href='/events') Events
+                    li
+                        a(href='/outreach') Outreach
+                    li
+                        a(href='/news') News
+        li
+            a(href='#') Store
+                ul
+                    li
+                        a(href='/store') Store
+                    li
+                        a(href='/auction') Auction
+
+        li#multilevel-donate
+            a(href='/foundation/donate') Donate
+// /#multilevel menu
