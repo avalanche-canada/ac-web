@@ -124,50 +124,24 @@ header#header.navbar-fixed-top(role='banner')
 
                     li#nav-news-events.dropdown
                         a(href='#')
-                            | News & events
-                            span.arrow-down
+                                | News & Events
+                                span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-3.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='events')
-                                                                            h2
-                                                                                | Events
-                                                                                i.fa.fa-angle-right
+                                a(href='/news') News
+                            li
+                                a(href='/events') Events
 
-                                            .col-md-3.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='news')
-                                                                            h2
-                                                                                | News
-                                                                                i.fa.fa-angle-right
-                    li#nav-store.dropdown.yamm-fw
+                    li#nav-store.dropdown
                         a(href='#')
                                 | Store
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='store')
-                                                                            h2
-                                                                                | Store
-                                                                                i.fa.fa-angle-right
+                                a(href='/store') Store
+                            li
+                                a(href='/auction') Web Auction
 
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='web-auction')
-                                                                            h2
-                                                                                | Web Auction
-                                                                                i.fa.fa-angle-right
                 a#nav-search-desktop(href='#')
                     i.fa.fa-search
                 a#nav-donate-desktop(href='/foundation/donate') Donate
