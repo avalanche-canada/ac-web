@@ -3,9 +3,8 @@ header#header.navbar-fixed-top(role='banner')
     .container
         nav#navigation.yamm.navbar.navbar-default(role='navigation')
             .navbar-header
-                h1.navbar-brand.ac
-                    a(rel='home', title='TITLE HERE', href='/')
-                        | CAC title here
+                a(rel='home', title='TITLE HERE', href='/')
+                    h1.navbar-brand.ac
                 .visible-xs.visible-sm
                     a#nav-search(href='#')
                         i.fa.fa-search
@@ -15,7 +14,7 @@ header#header.navbar-fixed-top(role='banner')
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li#nav-avalanche-info.dropdown.yamm-fw
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Avalanche Information
                             span.arrow-down
                         ul.dropdown-menu
@@ -45,7 +44,7 @@ header#header.navbar-fixed-top(role='banner')
                                                                 i.fa.fa-angle-right
 
                     li#nav-learn.dropdown.yamm-fw
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Learn
                             span.arrow-down
                         ul.dropdown-menu
@@ -86,7 +85,7 @@ header#header.navbar-fixed-top(role='banner')
 
 
                     li#nav-community.dropdown.yamm-fw
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Community
                                 span.arrow-down
                         ul.dropdown-menu
@@ -123,7 +122,7 @@ header#header.navbar-fixed-top(role='banner')
                                                                                 i.fa.fa-angle-right
 
                     li#nav-news-events.dropdown
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | News & Events
                                 span.arrow-down
                         ul.dropdown-menu
@@ -133,7 +132,7 @@ header#header.navbar-fixed-top(role='banner')
                                 a(href='/events') Events
 
                     li#nav-store.dropdown
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Store
                                 span.arrow-down
                         ul.dropdown-menu
