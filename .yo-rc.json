@@ -24,7 +24,7 @@
     "serviceDirectory": "client/app/",
     "basePath": "client",
     "filters": [
-      "ngroute"
+      "uirouter"
     ],
     "extensions": [
       "js",
