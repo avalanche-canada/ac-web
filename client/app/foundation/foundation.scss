@@ -53,10 +53,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
-
+    text-align: center;
+    margin:auto;
 
     article {
-        padding-top:36px;
+        margin-top:10%;
         @include clearfix();
         min-height:220px;
         header {
@@ -64,14 +65,13 @@
             margin-bottom:18;
             clear:both;
             h2 {
-        font-family:$font-family-google;
-        font-weight:bold;
-        color:#fff;
-        @include font-size(3.6, 3.8);
-                margin:0;
+                font-family:$font-family-google;
+                font-weight:bold;
+                color:#fff;
+                @include font-size(3.6, 3.8);
                 span {
                       color:#121212;
-            @include font-size(3.6, 3.8);
+                      @include font-size(3.6, 3.8);
                 }
             }
         }
@@ -79,9 +79,9 @@
             min-height:135px;
             clear:both;
             a {
-                display:block;
+                display:inline-block;
                 width:230px;
-                @extend .black-button;
+                @extend .red-button;
                 padding:22px 22px 20px 26px;
                 clear:both;
                 margin-bottom:12px;

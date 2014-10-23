@@ -26,6 +26,31 @@
 }
 
 //buttons
+.red-button {
+    font-family:$font-family-google;
+    background-color:#D82631;
+    color:#fff;
+    @include font-size(1.6, 1.6);
+    font-weight:bold;
+    text-transform:uppercase;
+    &:visited,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration:none;
+        color:#fff;
+    }
+    &:hover {
+        background-color:#474747;
+    }
+    &:focus {
+        background-color:#737373;
+    }
+    .fa-angle-right {
+        @include font-size(2.0, 2.0);
+        font-weight:bold;
+    }
+}
 .black-button {
 	font-family:$font-family-google;
 	background-color:#121212;
