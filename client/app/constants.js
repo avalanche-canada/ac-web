@@ -6,4 +6,5 @@ angular.module('constants', [])
     sponsorApi: 'https://avalancheca-sponsors.herokuapp.com/sponsor/'
 })
 .constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
-.constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp');
+.constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
+.constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com');
