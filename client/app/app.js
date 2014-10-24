@@ -70,7 +70,13 @@ angular.module('avalancheCanadaApp', [
     .run(function(ENV, $rootScope) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
-    });
+    })
+
+    .controller('AlertCtrl', function ($scope) {
+        $scope.alert = { type: 'danger', msg: 'SPAW Example !' };
+    //{ type: 'success', msg: 'Well done! You successfully read this important alert message.
+    })
+;
 
 
 

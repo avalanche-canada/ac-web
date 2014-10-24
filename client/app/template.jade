@@ -1,3 +1,6 @@
 div(ng-include='"components/navbar/navbar.html"')
 
+div#alert(ng-controller="AlertCtrl" collapse="true")
+    alert( type='{{alert.type}}') {{alert.msg}}
+
 div.full-height.page(ui-view='' ng-class='pageClass')

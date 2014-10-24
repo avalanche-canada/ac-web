@@ -1,0 +1,43 @@
+#footer {
+    height:214px;
+    border-top:1px solid #e2e2e2;
+    padding-top:20px;
+    width:100%;
+    ul {
+        list-style:none;
+        padding:0;
+        margin:0;
+        background:transparent url(#{$assets_path}/footer-menu-mobile-bg.png) 33% top no-repeat;
+        display:block;
+        min-height:1px;
+        @include clearfix();
+        li {
+            list-style:none;
+            display:block;
+            width:40%;
+            float:left;
+            margin-bottom:30px;
+            a {
+              @include font-size(1.5, 1.8);
+              color:#121212;
+                &:visited,
+                &:hover,
+                &:active,
+                &:focus {
+                    text-decoration:none;
+                }
+                &:hover {
+                    color:#0056B7;
+                }
+            }
+        }
+    }
+    h6 {
+        margin:0;
+        padding:0;
+        clear:both;
+        color:#b7b7b7;
+        @include font-size(1.5, 2.2);
+        font-weight:normal;
+    }
+}
