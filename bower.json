@@ -25,7 +25,8 @@
     "angular-route": "~1.2.25",
     "nouislider": "~7.0.9",
     "Leaflet.awesome-markers": "~2.0.2",
-    "PruneCluster": "~0.10.1"
+    "PruneCluster": "~0.10.1",
+    "ac-components": "git@github.com:avalanche-canada/ac-components.git"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -34,6 +35,7 @@
     "yamm3": "~1.0.0"
   },
   "resolutions": {
-    "angular": ">=1.2.*"
+    "angular": ">=1.2.*",
+    "jquery": "~1.11.0"
   }
 }
