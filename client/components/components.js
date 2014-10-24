@@ -59,7 +59,7 @@ angular.module('acComponents', ['constants', 'ngAnimate'])
     })
 
     .factory('acForecast', function ($http, acImageCache) {
-        var forecasts;
+        var forecasts = null;
 
         function cacheDangerIcons(){
             var dangerIcons = _.map(forecasts.features, function (f) {
@@ -78,11 +78,18 @@ angular.module('acComponents', ['constants', 'ngAnimate'])
                 });
             },
             getOne: function (region) {
-                region = _.find(forecasts.features, {id: region});
+                var ret = null;
 
-                return $http.get(region.properties.forecastUrl).then(function (res) {
-                    return res.data;
-                });
+                if(forecasts)
+                {
+                    region = _.find(forecasts.features, {id: region});
+
+                    ret =  $http.get(region.properties.forecastUrl).then(function (res) {
+                                return res.data;
+                           });
+                }
+
+                return ret;
             }
         };
     })
