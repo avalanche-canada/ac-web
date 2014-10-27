@@ -1,21 +1,23 @@
 
-div
-  input(type='text', ng-model='searchq', name='q')
-  a(href='#/search/{{searchq}}') Search
-h2 {{documents.total_results_size}} documents
-ul#list
-    li(ng-repeat=' document in documents.results')
-        a(href='#/news/{{document.id}}/{{document.slug}}')
-            {{document.slug}}
-        {{document.getStructuredText('news.shortlede').asText(ctx)}}
-        {{ctx.linkResolver(ctx, document)}}
+.full-height.page
+        .page-inner
+            div
+              input(type='text', ng-model='searchq', name='q')
+              a(href='#/search/{{searchq}}') Search
+            h2 {{documents.total_results_size}} documents
+            ul#list
+                li(ng-repeat=' document in documents.results')
+                    a(href='#/news/{{document.id}}/{{document.slug}}')
+                        {{document.slug}}
+                    {{document.getStructuredText('news.shortlede').asText(ctx)}}
+                    {{ctx.linkResolver(ctx, document)}}
 
-hr
-ul#pagination(ng-if='documents.total_pages > 1')
-  li(ng-if='documents.prev_page')
-    a(href='#/{{(documents.page-1 > 1 ? documents.page-1 : "" )}}') Previous
-  li(ng-repeat='i in paginationRange')
-    span(ng-if='documents.page == i') {{i}}
-    a(href='#/{{(i > 1 ? i : "" )}}', ng-if='documents.page != i') {{i}}
-  li(ng-if='documents.next_page')
-    a(href='#/{{documents.page+1}}') Next
+            hr
+            ul#pagination(ng-if='documents.total_pages > 1')
+              li(ng-if='documents.prev_page')
+                a(href='#/{{(documents.page-1 > 1 ? documents.page-1 : "" )}}') Previous
+              li(ng-repeat='i in paginationRange')
+                span(ng-if='documents.page == i') {{i}}
+                a(href='#/{{(i > 1 ? i : "" )}}', ng-if='documents.page != i') {{i}}
+              li(ng-if='documents.next_page')
+                a(href='#/{{documents.page+1}}') Next

@@ -259,12 +259,12 @@
             min-height:135px;
             clear:both;
             a {
-                display:block;
-                width:230px;
+                width:210px;
                 @extend .black-button;
                 padding:22px 22px 20px 26px;
                 clear:both;
                 margin-bottom:12px;
+                margin-right: 12px;
             }
 
         }
