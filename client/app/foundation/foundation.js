@@ -88,8 +88,8 @@ angular.module('avalancheCanadaApp')
       .state('foundation.contributors', {
         url: '/contributors',
         templateUrl: 'app/foundation/contributors.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
+        controller: ['Prismic', '$scope','$sce',
+            function (Prismic, $scope, $sce) {
 
 
                 Prismic.ctx().then(function(ctx){
@@ -109,7 +109,7 @@ angular.module('avalancheCanadaApp')
                     });
 
                     Prismic.bookmark('foundation-programs-shea').then(function(doc){
-                            $scope.shea =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.shea =  doc.getStructuredText('generic.body').asHtml(ctx)
                     });
 
                     Prismic.bookmark('foundation-programs-hodgson').then(function(doc){

@@ -13,11 +13,14 @@ angular.module('avalancheCanadaApp', [
         'ui.router',
         'ui.bootstrap',
         'constants',
+        'ngSanitize',
         'prismic.io',
         'acComponents'])
 
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) {
+
+        $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
         $locationProvider.html5Mode(true);
 
