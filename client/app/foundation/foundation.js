@@ -56,6 +56,7 @@ angular.module('avalancheCanadaApp')
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
 
+                $scope.panel = true;
 
                 Prismic.ctx().then(function(ctx){
 
