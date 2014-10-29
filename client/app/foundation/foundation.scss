@@ -45,9 +45,12 @@
 
 
 .foundation-intro {
-    background-image:url(#{$assets_path}/foundation_intro.png);
-    background-repeat: no-repeat;
-    background-size: 100% auto;
+    background: url(#{$assets_path}/foundation_intro.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
     position: absolute;
     top: 0;
     left: 0;
