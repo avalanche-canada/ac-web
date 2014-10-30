@@ -10,11 +10,11 @@
             .row
                 header.col-xs-12
                     #header-inner
-                        h1 South Columbia
+                        h1 {{forecast.bulletinTitle}}
                         #forecast-sponsor-desktop.hidden-xs
                             p Brought to you by
                             a(target='_blank', href='http://arcteryx.com')
-                                img(src='assets/img/arcteryx-logo.jpg')
+                                img(src='assets/images/arcteryx-logo.jpg')
                         .blue-border
                 #forecast-sponsor-mobile.col-xs-12.visible-xs-block
                     #forecast-sponsor-mobile-inner
@@ -23,23 +23,58 @@
                             br
                             | to you by
                         a.pull-right(target='_blank', href='http://arcteryx.com')
-                            img(src='assets/img/arcteryx-logo.jpg')
+                            img(src='assets/images/arcteryx-logo.jpg')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
                         | Date Issued
                         br.visible-xs-inline
-                        span Monday, 31 March 2014 4:55 pm
+                        span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
                         | Valid Until
                         br.visible-xs-inline
-                        span Tuesday, 01 April 2014 9:00 pm
+                        span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+
                 section#forecast-body.col-xs-12.col-md-9
-                    h2
-                        | Expect to see sunny breaks over the next couple days. Brief periods of solar radiation could be enough to trigger stubborn persistent slabs or cause cornice failures. Conservative route selection remains crucial at this time.
+                    div#highlights(ng-bind-html='forecast.highlights')
+
                     tabset#forecast-tabs
                         tab(heading='Public Avalanche Forecast')
                                 .forecast-image
-                                    img.img-responsive(alt='', src='assets/images/forecast-image-day.jpg')
+                                    img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
+
+                                table.table.table-condensed.ac-forecast-days
+                                        thead.ac-thead-dark
+                                            tr
+                                                th
+                                                th {{ forecast.dangerRatings[1].date | date:'EEEE' }}
+                                                th {{ forecast.dangerRatings[2].date | date:'EEEE' }}
+                                        tbody
+                                            tr
+                                                td.ac-veg-zone--alp
+                                                    strong Alpine
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
+                                            tr
+                                                td.ac-veg-zone--tln
+                                                    strong Treeline
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
+                                            tr
+                                                td.ac-veg-zone--btl
+                                                    strong Bellow Treeline
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
+                                                td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                    strong {{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
+                                            tr
+                                                td
+                                                    strong Confidence:
+                                                td(colspan="2")
+                                                    span.ac-text-default {{ forecast.confidence }}
                                 .forecast-image
                                     img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
                                 .forecast-image
