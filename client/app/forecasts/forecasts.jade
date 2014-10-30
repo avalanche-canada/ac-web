@@ -118,102 +118,19 @@
                                                                 strong.small Travel and Terrain Advice
                                                             .panel-body
                                                                 p(ng-bind-html='problem.travelAndTerrainAdvice')
-
-                                ///.forecast-image
-                                 ///   img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
-                                ///.forecast-image
-                                ///    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
-                                ///.forecast-image
-                                ///    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
                                 #forecast-by
                                     | Prepared by
                                     a(href='#') rbuhler
                         tab(heading='Forecast Details')
                                 h3 Avalanche Summary
-                                p
-                                    | A low probability, but high consequence avalanche problem plagues the Columbia regions. These highly destructive and largely unpredictable avalanches are expected to be isolated, but certainly possible anywhere at any time. Avalanches continue to step down to old, deep weak layers. The most recent was a natural size 3 in the Cariboo region on Thursday. The S Columbia had one step down on Tuesday and the N Columbia on Monday. While these layers are typically dormant, they are expected to become reactive again with the new loading or the upcoming strong solar inputs
-                                p
-                                    | Most recent reports for the South Columbia include isolated human and explosive triggered avalanches up to size 1.5 in the recent storm snow down around 20cm. Loose sluffing from steep terrain features was also reported.
-                                p
+                                    p(ng-bind-html='forecast.avalancheSummary')
+
                                 h3 Snowpack Summary
-                                p
-                                    | Recent warm temperatures have resulted in good settlement and improved bonding of the storm snow from earlier in the week, and human-triggering has generally become stubborn. Three persistent weaknesses contribute to a highly variable, fundamentally unstable, complex snowpack with step-down potential. The mid-March sun crust/surface hoar layer down 50-80cm still has potential for human-triggering in isolated areas. The early-March crust/facet/surface hoar layer down around 80-120cm has become less susceptible to human-triggers, but still has the potential to produce large avalanches, and we continue to see fractures stepping down to this layer. The mid-February crust/facet/surface hoar layer is typically down at least 1.5m and direct triggering has become unlikely. However, large loads like cornices or smaller avalanches stepping down can still trigger this layer and produce very large avalanches.
-                                p
+                                    p(ng-bind-html='forecast.snowpackSummary')
+
                                 h3 Weather Forecast
-                                p
-                                    | A ridge of high pressure persists until Wednesday. A weak disturbance may cross the region on Wednesday night resulting in increased cloud cover and isolated light showers.
-                                // mobile tables
-                                table.table.table-striped.visible-xs-block
-                                    thead
-                                        tr
-                                            th Tuesday
-                                    tbody
-                                        tr
-                                            td Mostly sunny
-                                        tr
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                        tr
-                                            td Ridgetop wind: light NW
-                                table.table.table-striped.visible-xs-block
-                                    thead
-                                        tr
-                                            th Wednesday
-                                    tbody
-                                        tr
-                                            td A mix of sun and cloud
-                                        tr
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                        tr
-                                            td Ridgetop wind: light NW
-                                table.table.table-striped.visible-xs-block
-                                    thead
-                                        tr
-                                            th Thursday
-                                    tbody
-                                        tr
-                                            td Mainly cloudy.
-                                        tr
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                        tr
-                                            td Ridgetop wind: light NW
-                                // tablet - desktop table
-                                table.table.table-striped.hidden-xs
-                                    thead
-                                        tr
-                                            th Tuesday
-                                            th Wednesday
-                                            th Thursday
-                                    tbody
-                                        tr
-                                            td Mostly sunny
-                                            td A mix of sun and cloud
-                                            td Mainly cloudy.
-                                        tr
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                            td
-                                                | Freezing level
-                                                br
-                                                | AM: 400m  |  PM: 1800m
-                                        tr
-                                            td Ridgetop wind: light NW
-                                            td Ridgetop wind: light NW
-                                            td Ridgetop wind: light NW
+                                    p(ng-bind-html='forecast.weatherForecast')
+
 
                 #mobile-sidebar-container.col-xs-12.col-md-3
                     aside
@@ -247,15 +164,21 @@
                     #accordion.panel-group
                         .panel.panel-default.first
                             h4.panel-title
-                                a.collapsed(href='#collapseOne', data-parent='#accordion', data-toggle='collapse')
+                                a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
                                     | Bulletin Disclaimer
                             #collapseOne.panel-collapse.collapse
                                 .panel-body
-                                    p
-                                        | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        h2 USE AT YOUR OWN RISK
+
+                                        p The CAC Public Avalanche Bulletin, and other information and services provided by CAC, are intended for personal and recreational purposes only
+
+                                        p THIS INFORMATION IS PROVIDED "AS IS" AND IN NO EVENT SHALL THE PROVIDERS BE LIABLE FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES RESULTING FROM DISCOMFORT, INJURY, OR DEATH, CLAIMS BY THIRD PARTIES OR FOR OTHER SIMILAR COSTS, OR ANY SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OF THE INFORMATION.
+
+                                        p The user acknowledges that it is impossible to accurately predict natural events such as avalanches in every instance, and uses the data in this bulletin with this always foremost in mind. The accuracy or reliability of the data is not guaranteed or warranted in any way and the Providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.
+
                         .panel.panel-default.last
                             h4.panel-title
-                                a.collapsed(href='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
+                                a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
                                     | Setting Up Your RSS Feed
                             #collapseTwo.panel-collapse.collapse
                                 .panel-body
