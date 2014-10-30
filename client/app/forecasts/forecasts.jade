@@ -1,120 +1,187 @@
 #forecast
-  #inner-forecast
-    article.container
-      .row
-        header.col-xs-12
-          #header-inner
-            h1 South Columbia
-            .blue-border
-        section#forecast-date.col-xs-12
-          #date-issued.forecast-date-inner
-            | Date Issued
-            span Monday, 31 March 2014 4:55 pm
-          #date-valid.forecast-date-inner
-            | Valid Until
-            span Tuesday, 01 April 2014 9:00 pm
-        section#forecast-body.col-xs-12.col-md-9
-          h2
-            | Expect to see sunny breaks over the next couple days. Brief periods of solar radiation could be enough to trigger stubborn persistent slabs or cause cornice failures. Conservative route selection remains crucial at this time.
+    #inner-forecast
+        #back-link
+            i.fa.fa-chevron-left
+        #top-link
+            i.fa.fa-chevron-up
+            br
+            | Top
+        article.container
+            .row
+                header.col-xs-12
+                    #header-inner
+                        h1 South Columbia
+                        #forecast-sponsor-desktop.hidden-xs
+                            p Brought to you by
+                            a(target='_blank', href='http://arcteryx.com')
+                                img(src='assets/img/arcteryx-logo.jpg')
+                        .blue-border
+                #forecast-sponsor-mobile.col-xs-12.visible-xs-block
+                    #forecast-sponsor-mobile-inner
+                        p.pull-left
+                            | Brought
+                            br
+                            | to you by
+                        a.pull-right(target='_blank', href='http://arcteryx.com')
+                            img(src='assets/img/arcteryx-logo.jpg')
+                section#forecast-date.col-xs-12
+                    #date-issued.forecast-date-inner
+                        | Date Issued
+                        br.visible-xs-inline
+                        span Monday, 31 March 2014 4:55 pm
+                    #date-valid.forecast-date-inner
+                        | Valid Until
+                        br.visible-xs-inline
+                        span Tuesday, 01 April 2014 9:00 pm
+                section#forecast-body.col-xs-12.col-md-9
+                    h2
+                        | Expect to see sunny breaks over the next couple days. Brief periods of solar radiation could be enough to trigger stubborn persistent slabs or cause cornice failures. Conservative route selection remains crucial at this time.
+                    tabset#forecast-tabs
+                        tab(heading='Public Avalanche Forecast')
+                                .forecast-image
+                                    img.img-responsive(alt='', src='assets/images/forecast-image-day.jpg')
+                                .forecast-image
+                                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
+                                .forecast-image
+                                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
+                                .forecast-image
+                                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
+                                #forecast-by
+                                    | Prepared by
+                                    a(href='#') rbuhler
+                        tab(heading='Forecast Details')
+                                h3 Avalanche Summary
+                                p
+                                    | A low probability, but high consequence avalanche problem plagues the Columbia regions. These highly destructive and largely unpredictable avalanches are expected to be isolated, but certainly possible anywhere at any time. Avalanches continue to step down to old, deep weak layers. The most recent was a natural size 3 in the Cariboo region on Thursday. The S Columbia had one step down on Tuesday and the N Columbia on Monday. While these layers are typically dormant, they are expected to become reactive again with the new loading or the upcoming strong solar inputs
+                                p
+                                    | Most recent reports for the South Columbia include isolated human and explosive triggered avalanches up to size 1.5 in the recent storm snow down around 20cm. Loose sluffing from steep terrain features was also reported.
+                                p
+                                h3 Snowpack Summary
+                                p
+                                    | Recent warm temperatures have resulted in good settlement and improved bonding of the storm snow from earlier in the week, and human-triggering has generally become stubborn. Three persistent weaknesses contribute to a highly variable, fundamentally unstable, complex snowpack with step-down potential. The mid-March sun crust/surface hoar layer down 50-80cm still has potential for human-triggering in isolated areas. The early-March crust/facet/surface hoar layer down around 80-120cm has become less susceptible to human-triggers, but still has the potential to produce large avalanches, and we continue to see fractures stepping down to this layer. The mid-February crust/facet/surface hoar layer is typically down at least 1.5m and direct triggering has become unlikely. However, large loads like cornices or smaller avalanches stepping down can still trigger this layer and produce very large avalanches.
+                                p
+                                h3 Weather Forecast
+                                p
+                                    | A ridge of high pressure persists until Wednesday. A weak disturbance may cross the region on Wednesday night resulting in increased cloud cover and isolated light showers.
+                                // mobile tables
+                                table.table.table-striped.visible-xs-block
+                                    thead
+                                        tr
+                                            th Tuesday
+                                    tbody
+                                        tr
+                                            td Mostly sunny
+                                        tr
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                        tr
+                                            td Ridgetop wind: light NW
+                                table.table.table-striped.visible-xs-block
+                                    thead
+                                        tr
+                                            th Wednesday
+                                    tbody
+                                        tr
+                                            td A mix of sun and cloud
+                                        tr
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                        tr
+                                            td Ridgetop wind: light NW
+                                table.table.table-striped.visible-xs-block
+                                    thead
+                                        tr
+                                            th Thursday
+                                    tbody
+                                        tr
+                                            td Mainly cloudy.
+                                        tr
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                        tr
+                                            td Ridgetop wind: light NW
+                                // tablet - desktop table
+                                table.table.table-striped.hidden-xs
+                                    thead
+                                        tr
+                                            th Tuesday
+                                            th Wednesday
+                                            th Thursday
+                                    tbody
+                                        tr
+                                            td Mostly sunny
+                                            td A mix of sun and cloud
+                                            td Mainly cloudy.
+                                        tr
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                            td
+                                                | Freezing level
+                                                br
+                                                | AM: 400m  |  PM: 1800m
+                                        tr
+                                            td Ridgetop wind: light NW
+                                            td Ridgetop wind: light NW
+                                            td Ridgetop wind: light NW
 
-          tabset#forecast-tabs
-            tab(heading='Public Avalanche Forecast')
-                .forecast-image
-                    img.img-responsive(alt='', src='assets/images/forecast-image-day.jpg')
-                .forecast-image
-                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
-                .forecast-image
-                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
-                .forecast-image
-                    img.img-responsive(alt='', src='assets/images/forecast-image2.jpg')
-                #forecast-by
-                    | Prepared by
-                    a(href='#') rbuhler
-            tab(heading='Forecast Details')
-                h3 Avalanche Summary
-                p
-                  | A low probability, but high consequence avalanche problem plagues the Columbia regions. These highly destructive and largely unpredictable avalanches are expected to be isolated, but certainly possible anywhere at any time. Avalanches continue to step down to old, deep weak layers. The most recent was a natural size 3 in the Cariboo region on Thursday. The S Columbia had one step down on Tuesday and the N Columbia on Monday. While these layers are typically dormant, they are expected to become reactive again with the new loading or the upcoming strong solar inputs
-                p
-                  | Most recent reports for the South Columbia include isolated human and explosive triggered avalanches up to size 1.5 in the recent storm snow down around 20cm. Loose sluffing from steep terrain features was also reported.
-                p
-                h3 Snowpack Summary
-                p
-                  | Recent warm temperatures have resulted in good settlement and improved bonding of the storm snow from earlier in the week, and human-triggering has generally become stubborn. Three persistent weaknesses contribute to a highly variable, fundamentally unstable, complex snowpack with step-down potential. The mid-March sun crust/surface hoar layer down 50-80cm still has potential for human-triggering in isolated areas. The early-March crust/facet/surface hoar layer down around 80-120cm has become less susceptible to human-triggers, but still has the potential to produce large avalanches, and we continue to see fractures stepping down to this layer. The mid-February crust/facet/surface hoar layer is typically down at least 1.5m and direct triggering has become unlikely. However, large loads like cornices or smaller avalanches stepping down can still trigger this layer and produce very large avalanches.
-                p
-                h3 Weather Forecast
-                p
-                  | A ridge of high pressure persists until Wednesday. A weak disturbance may cross the region on Wednesday night resulting in increased cloud cover and isolated light showers.
-                table.table.table-striped
-                  thead
-                    tr
-                      th Tuesday
-                      th Wednesday
-                      th Thursday
-                  tbody
-                    tr
-                      td Mostly sunny
-                      td A mix of sun and cloud
-                      td Mainly cloudy.
-                    tr
-                      td
-                        | Freezing level
-                        br
-                        | AM: 400m  |  PM: 1800m
-                      td
-                        | Freezing level
-                        br
-                        | AM: 400m  |  PM: 1800m
-                      td
-                        | Freezing level
-                        br
-                        | AM: 400m  |  PM: 1800m
-                    tr
-                      td Ridgetop wind: light NW
-                      td Ridgetop wind: light NW
-                      td Ridgetop wind: light NW
+                #mobile-sidebar-container.col-xs-12.col-md-3
+                    aside
+                        .dark-ribbon
+                        .sidebar-inner
+                            h3 Related
+                            article.first.sidebar-related
+                                h4
+                                    a(href='#') Spring Conditions Scenario Series
+                                section.sidebar-related-author
+                                    | By
+                                    a(href='#') Karl Klassen
+                                section.sidebar-related-pubdate Date 00, 0000
+                            article.sidebar-related
+                                h4
+                                    a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                                section.sidebar-related-pubdate Date 00, 0000
+                            article.last.sidebar-related
+                                h4
+                                    a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                                section.sidebar-related-pubdate Date 00, 0000
+                            ul.sidebar-related-links
+                                li.first
+                                    a(href='#') Related Data
+                                li
+                                    a(href='#') Forecast Archive
+                                li.last
+                                    a(href='#') Any Additional Links
+
+                footer#forecast-bulletin.col-xs-12
+                    #accordion.panel-group
+                        .panel.panel-default.first
+                            h4.panel-title
+                                a.collapsed(href='#collapseOne', data-parent='#accordion', data-toggle='collapse')
+                                    | Bulletin Disclaimer
+                            #collapseOne.panel-collapse.collapse
+                                .panel-body
+                                    p
+                                        | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        .panel.panel-default.last
+                            h4.panel-title
+                                a.collapsed(href='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
+                                    | Setting Up Your RSS Feed
+                            #collapseTwo.panel-collapse.collapse
+                                .panel-body
+                                    p
+                                        | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+// /#forecast
 
 
-        aside.col-xs-12.col-md-3
-          .dark-ribbon
-          .sidebar-inner
-            h3 Related
-            article.first.sidebar-related
-              h4
-                a(href='#') Spring Conditions Scenario Series
-              section.sidebar-related-author
-                | By
-                a(href='#') Karl Klassen
-              section.sidebar-related-pubdate Date 00, 0000
-            article.sidebar-related
-              h4
-                a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
-              section.sidebar-related-pubdate Date 00, 0000
-            article.last.sidebar-related
-              h4
-                a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
-              section.sidebar-related-pubdate Date 00, 0000
-            ul.sidebar-related-links
-              li.first
-                a(href='#') Related Data
-              li
-                a(href='#') Forecast Archive
-              li.last
-                a(href='#') Any Additional Links
-        footer#forecast-bulletin.col-xs-12
-          #accordion.panel-group
-            .panel.panel-default.first
-              h4.panel-title
-                a.collapsed(href='#collapseOne', data-parent='#accordion', data-toggle='collapse')
-                  | Bulletin Disclaimer
-              #collapseOne.panel-collapse.collapse
-                .panel-body
-                  p
-                    | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            .panel.panel-default.last
-              h4.panel-title
-                a.collapsed(href='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
-                  | Setting Up Your RSS Feed
-              #collapseTwo.panel-collapse.collapse
-                .panel-body
-                  p
-                    | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
