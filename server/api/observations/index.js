@@ -5,7 +5,6 @@ var moment = require('moment');
 var policy = require('s3-policy');
 var obs = require('./observations');
 var uuid = require('node-uuid');
-var moment = require('moment');
 var config = require('../../config/environment');
 
 router.get('/', function(req, res) {
