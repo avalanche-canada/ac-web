@@ -4,6 +4,7 @@ var router = express.Router();
 var avalx = require('./avalx');
 var regions = require('./forecast-regions');
 var areas = require('./forecast-areas');
+var RSS = require('rss');
 
 var forecastsCache = [];
 router.param('region', function (req, res, next) {
@@ -28,7 +29,7 @@ router.param('region', function (req, res, next) {
                     next();
                 }, function () {
                     console.log('error parsing %s caaml forecast.', regionId);
-                    res.send(500); 
+                    res.send(500);
                 });
             }
             else {
@@ -92,6 +93,22 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json'
 
+    feed = new RSS({
+        title: 'title',
+        description: 'description',
+        feed_url: 'http://example.com/rss.xml',
+        site_url: 'http://example.com',
+        image_url: 'http://example.com/icon.png',
+        docs: 'http://example.com/rss/docs.html',
+        managingEditor: 'Dylan Greene',
+        webMaster: 'Dylan Greene',
+        copyright: '2013 Dylan Greene',
+        language: 'en',
+        categories: ['Category 1','Category 2','Category 3'],
+        pubDate: 'May 20, 2012 04:00:00 GMT',
+        ttl: '60'
+    });
+
     if (req.forecast) {
         switch(req.params.format){
             case 'xml':
@@ -100,6 +117,14 @@ router.get('/:region.:format', function(req, res) {
                 break;
             case 'json':
                 res.json(req.forecast.json);
+                break;
+            case 'rss':
+                feed.item({description: 'blah'});
+                var xml = feed.xml();
+                res.send(xml);
+                break;
+            case 'html':
+                res.render('forecasts/forecast', {forecast: req.forecast.json});
                 break;
         }
     }
