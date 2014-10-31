@@ -2,7 +2,10 @@ var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
+var policy = require('s3-policy');
 var obs = require('./observations');
+var uuid = require('node-uuid');
+var config = require('../../config/environment');
 
 router.get('/', function(req, res) {
     var period;
@@ -24,6 +27,22 @@ router.get('/', function(req, res) {
     } else {
         res.json(obs);
     }
+});
+
+router.get('/uploads/s3-policy', function (req, res) {
+    var s3Policy = policy({
+        secret: config.aws.uploader.secretKey,
+        length: 5000000,
+        bucket: config.aws.uploader.bucket,
+        name: 'obs/quick' + moment().format('/YYYY/MM/DD/'),
+        expires: new Date(Date.now() + 60000),
+        acl: 'private',
+        type: ''
+    });
+
+    s3Policy.key = config.aws.uploader.accessKeyId;
+
+    res.json(s3Policy);
 });
 
 module.exports = router;
