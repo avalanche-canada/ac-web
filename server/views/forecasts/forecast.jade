@@ -1,10 +1,3 @@
-doctype
-html
-  head
-    title #{title} - My Site
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-   h1 hello world #{forecast.id}
 #forecast
     #inner-forecast
         article.container
@@ -12,7 +5,6 @@ html
                 header.col-xs-12
                     #header-inner
                         h1 #{forecast.bulletinTitle}
-
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
                         | Date Issued
@@ -22,14 +14,11 @@ html
                         | Valid Until
                         br.visible-xs-inline
                         span #{ forecast.validUntil }
-
                 section#forecast-body.col-xs-12.col-md-9
-                    div#highlights !{forecast.highlights}
-
-                    div#forecast
+                    #highlights !{forecast.highlights}
+                    #forecast
                         .forecast-image
                             img.img-responsive(alt='', src='/api/forecasts/#{forecast.region}/nowcast.svg')
-
                         table.table.table-condensed.ac-forecast-days
                                 thead.ac-thead-dark
                                     tr
@@ -63,7 +52,6 @@ html
                                             strong Confidence:
                                         td(colspan="2")
                                             span.ac-text-default #{ forecast.confidence }
-
                         for problem in forecast.problems
                             .panel.panel-primary
                                 .panel-heading
@@ -108,7 +96,6 @@ html
                                                             strong.small Travel and Terrain Advice
                                                         .panel-body
                                                             p !{ problem.travelAndTerrainAdvice }
-
                         div#Forecast Details
                             h2 Forecast Details
 
