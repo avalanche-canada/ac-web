@@ -41,6 +41,14 @@ var all = {
     }
   },
 
+  aws: {
+    uploader: {
+        bucket: 'ac-user-uploads',
+        accessKeyId: 'AKIAIHTBQ4SEF6DYHSXQ',
+        secretKey: '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'
+    }
+  }
+
 };
 
 // Export the config object based on the NODE_ENV
