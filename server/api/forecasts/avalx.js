@@ -174,7 +174,7 @@ function getProblems(caamlProblems) {
     }
 
     var problems = _.map(caamlProblems[ns+avProblemAccessor], function (caamlAvProblem) {
-        return { 
+        return {
             type: caamlAvProblem[ns+'type'][0],
             elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
             aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
@@ -215,7 +215,7 @@ function parksForecast(caaml, region){
 
         function getRatingByZone(dangerRatings, zone){
             var rating = _.find(dangerRatings, function (ddr) {
-                return ddr['validElevation'][0]['$']['xlink:href'] === 'ElevationLabel_' + zone; 
+                return ddr['validElevation'][0]['$']['xlink:href'] === 'ElevationLabel_' + zone;
             });
             return formatDangerRating(rating);
         }
@@ -239,7 +239,7 @@ function parksForecast(caaml, region){
         validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0],
         bulletinTitle: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
         highlights: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0],
-        confidence: (function (confidence) { 
+        confidence: (function (confidence) {
             return confidence['confidenceLevel'][0] + ' - ' + confidence['comment'][0];
         })(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinConfidence'][0]['Components'][0]),
         dangerRatings: getDangerRatings(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['dangerRatings'][0]['DangerRating']),
@@ -272,14 +272,14 @@ function avalancheCaForecast(caaml, region){
         });
     }
 
-    return {  
+    return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
         dateIssued: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0],
         validUntil: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0],
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
-        confidence: (function (confidence) { 
+        confidence: (function (confidence) {
             return confidence['caaml:confidenceLevel'][0];
         })(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinConfidence'][0]['caaml:Components'][0]),
         dangerRatings: getDangerRatings(caamlDangerRatings),
@@ -300,7 +300,7 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
         if(!date){
             today = new Date;
             //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-            date = "2013-03-01"; //! for testing purposes use a day with actual data
+            date = "2013-04-01"; //! for testing purposes use a day with actual data
         }
 
         if (region.properties.owner === "parks-canada") {
@@ -402,7 +402,7 @@ function parseCaamlForecast(caamlForecast, forecastSource, successCallback, erro
 
 function getDangerIconStyles(forecast) {
     var todaysRating = forecast.dangerRatings[0].dangerRating;
-    
+
     return {
         alp: dangerRatingStyles.bannerFill[todaysRating.alp],
         tln: dangerRatingStyles.bannerFill[todaysRating.tln],
@@ -412,7 +412,7 @@ function getDangerIconStyles(forecast) {
 
 function getNowcastStyles(forecast) {
     var todaysRating = forecast.dangerRatings[0].dangerRating;
-    
+
     return  {
         alp: {
             rating: todaysRating.alp.replace(':', ' - '),
