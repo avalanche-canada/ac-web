@@ -22,13 +22,13 @@ angular.module('avalancheCanadaApp')
                     });
 
                 $scope.slides.push({
-                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
-                      text: 'Raising money for Avalanche Canada'
+                      image: 'http://avalanche-canada.imgix.net/photos/education.jpg',
+                      text: 'Avalanche Canada provides daily public avalanche forecasts '
                     });
 
                 $scope.slides.push({
-                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
-                      text: 'Raising money for Avalanche Canada'
+                      image: 'http://avalanche-canada.imgix.net/photos/youth.jpg',
+                      text: 'Avalanche Canada delivers youth awareness and training seminars'
                     });
             }]
 
