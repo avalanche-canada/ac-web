@@ -1,17 +1,27 @@
-.foundation-intro
-     .container
-            .row
-                article.col-xs-12
-                    header
-                        h2
-                            | Support public
-                            br
-                            | avalanche safety in Canada.
-                    footer
-                        a(href='/foundation/programs')
-                            | Donate Now
-                            i.fa.fa-angle-right
+.page-inner
+
+        div(style='height: 100%')
+            carousel(interval='myInterval')
+                slide(active='slide.active', ng-repeat='slide in slides')
+                    img(style='margin:auto;', ng-src='{{slide.image}}')
+                    .carousel-caption
+                        h4 Slide {{$index}}
+                        p {{slide.text}}
+
+
+///      .container
+///         .row
+///                             article.col-xs-12
+///                                     header
+///                                             h2
+///                                                     | Support public
+///                                                     br
+///                                                     | avalanche safety in Canada.
+///                                     footer
+///                                             a(href='/foundation/programs')
+///                                                     | Donate Now
+///                                                     i.fa.fa-angle-right
 
 .scroll-nav.scroll-nav--down
-      a(href="", ng-click="showMore()") More
-        i.fa.fa-chevron-down.fa-inverse.fa-2x
+            a(href="", ng-click="showMore()") More
+                i.fa.fa-chevron-down.fa-inverse.fa-2x

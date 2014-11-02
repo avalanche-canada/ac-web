@@ -12,7 +12,26 @@ angular.module('avalancheCanadaApp')
       .state('foundation.intro', {
         url: '',
         templateUrl: 'app/foundation/intro.html',
-        controller: 'FoundationIntroCtrl'
+        controller:  ['$scope',
+            function ($scope) {
+                $scope.myInterval = 5000;
+                $scope.slides = [];
+                $scope.slides.push({
+                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
+                      text: 'Raising money for Avalanche Canada'
+                    });
+
+                $scope.slides.push({
+                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
+                      text: 'Raising money for Avalanche Canada'
+                    });
+
+                $scope.slides.push({
+                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
+                      text: 'Raising money for Avalanche Canada'
+                    });
+            }]
+
       })
       .state('foundation.more', {
         url: '/more',
