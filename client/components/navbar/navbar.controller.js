@@ -121,14 +121,6 @@ angular.module('avalancheCanadaApp')
                     {'name':'weather','display':'Weather Outlook'},
                     {'name':'tech','display':'Tech and Talk'}];
 
-    $scope.training =  [{'name':'find','display':'Find a course'},
-                        {'name':'ast1','display':'Avalanche Skills Training 1'},
-                        {'name':'ast2','display':'Avalanche Skills Training 2'},
-                        {'name':'companion-rescue','display':'Companion Rescue Skills'},
-                        {'name':'why','display':'Why should I take an avalanche course ?'},
-                        {'name':'what','display':'What course should I take'},
-                        {'name':'calendar','display':'Calendar'}];
-
     $scope.onlineCourse = [{'name':'formation','display':'Avalanche Formation'},
                             {'name':'terrain','display':'Avalanche Terrain'},
                             {'name':'planning','display':'Pre-trip Planning'},

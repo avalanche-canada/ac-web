@@ -51,25 +51,35 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                        .col-md-3.mega-content-inner
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Avalanche Canada Training Courses
-                                                li(ng-repeat='page in training')
-                                                                a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
-                                            ul.mega-sub-menu
                                                 li
-                                                        h2 Online Avalanche Course
-                                                li(ng-repeat='page in onlineCourse')
-                                                                a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
+                                                        a(href='/training/overview') Overview
+                                                li
+                                                        a(href='/training/online-primer') Online Avalanche Primer
+                                                li
+                                                        a(href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
+                                                li
+                                                        a(href='/training/ast1') Avalanche Skills Training 1
+                                                li
+                                                        a(href='/training/ast2') Avalanche Skills Training 2
+                                                li
+                                                        a(href='/training/crs') Companion Rescue Skills
+                                                li
+                                                        a(href='http://old.avalanche.ca/cac/community/sled' target="_blank") Mountain Snowmobiling
+                                                li
+                                                        a(href='http://www.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
+                                                li
+                                                        a(href='http://www.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Youth
                                                 li(ng-repeat='page in parentsEducators')
                                                                 a(href='/parents-educators/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                     a(href='/Gear')
