@@ -40,7 +40,7 @@ angular.module('avalancheCanadaApp')
                             }
                         });
 
-                        $scope.news = $scope.news.slice(0,2);
+                        $scope.news = $scope.news.slice(0,3);
                         $scope.featuredNews = featured;
                     }
                 });
@@ -71,7 +71,7 @@ angular.module('avalancheCanadaApp')
                             }
                         });
 
-                        $scope.events = $scope.events.slice(0,2);
+                        $scope.events = $scope.events.slice(0,3);
                         $scope.featuredEvent = featured;
                     }
                 });
