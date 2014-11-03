@@ -52,61 +52,55 @@
                                             strong Confidence:
                                         td(colspan="2")
                                             span.ac-text-default #{ forecast.confidence }
-                        for problem in forecast.problems
-                            .panel.panel-primary
-                                .panel-heading
-                                    h4.panel-title
-                                        a(href='', data-target="#problem#{$index}", data-toggle='collapse', data-parent='#problemsAccordion')
-                                            | #{ problem.type }
-                                            i.fa.fa-fw.fa-level-down.pull-right
-                                            small.pull-right click to expand
-                                     div(id="problem#{$index}")
-                                        .panel-body
-                                            .row
-                                                .col-md-6
-                                                    .panel.panel-default
-                                                        .panel-heading
-                                                            strong.small What Elevations?
-                                                        .panel-body.ac-problem-icon.ac-problem-icon--elevations
-                                                            img.center-block(src="#{problem.icons.elevations}")
-                                                .col-md-6
-                                                    .panel.panel-default
-                                                        .panel-heading
-                                                            strong.small What Aspects?
-                                                        .panel-body.ac-problem-icon.ac-problem-icon--aspects
-                                                            img.center-block(src="#{problem.icons.aspects}")
-                                            .row
-                                                .col-md-6
-                                                    .panel.panel-default
-                                                        .panel-heading
-                                                            strong.small Chances of Avalanches?
-                                                        .panel-body.ac-problem-icon.ac-problem-icon--likelihood
-                                                            img.center-block(src="#{problem.icons.likelihood}")
-                                                .col-md-6
-                                                    .panel.panel-default
-                                                        .panel-heading
-                                                            strong.small Expected Size?
-                                                        .panel-body.ac-problem-icon.ac-problem-icon--expected-size
-                                                            img.center-block(src="#{problem.icons.expectedSize}")
-                                            .row
-                                                .col-md-12
-                                                    p.ac-problem.narative !{ problem.comment }
-                                                    .panel.panel-default.ac-problem-travel-advice
-                                                        .panel-heading
-                                                            strong.small Travel and Terrain Advice
-                                                        .panel-body
-                                                            p !{ problem.travelAndTerrainAdvice }
-                        div#Forecast Details
-                            h2 Forecast Details
 
-                            h3 Avalanche Summary
-                                p !{forecast.avalancheSummary}
+                    for problem in forecast.problems
+                            hr
+                            table
+                                thead.ac-thead-dark
+                                    tr
+                                        th
 
-                            h3 Snowpack Summary
-                                p !{forecast.snowpackSummary}
+                                        th
+                                            strong.small What Elevations?
 
-                            h3 Weather Forecast
-                                p !{forecast.weatherForecast}
+                                        th
+                                            strong.small What Aspects?
+
+                                        th
+                                            strong.small Chances of Avalanches?
+
+                                        th
+                                            strong.small Expected Size?
+                                tbody
+
+                                    tr
+                                        td
+                                            h1 #{ problem.type }
+                                        td
+                                            img.center-block(src="#{problem.icons.elevations}")
+                                        td
+
+                                            img.center-block(src="#{problem.icons.aspects}")
+                                        td
+
+                                            img.center-block(src="#{problem.icons.likelihood}")
+                                        td
+                                            img.center-block(src="#{problem.icons.expectedSize}")
+                            div
+                                strong.small Travel and Terrain Advice
+                                p !{ problem.travelAndTerrainAdvice }
+                    hr
+                    div
+                        h2 Forecast Details
+
+                        h3 Avalanche Summary
+                        p !{forecast.avalancheSummary}
+
+                        h3 Snowpack Summary
+                        p !{forecast.snowpackSummary}
+
+                        h3 Weather Forecast
+                        p !{forecast.weatherForecast}
 
 
 
