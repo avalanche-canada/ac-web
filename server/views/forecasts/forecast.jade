@@ -5,15 +5,8 @@
                 header.col-xs-12
                     #header-inner
                         h1 #{forecast.bulletinTitle}
-                section#forecast-date.col-xs-12
-                    #date-issued.forecast-date-inner
-                        | Date Issued
-                        br.visible-xs-inline
-                        span  #{ forecast.dateIssued }
-                    #date-valid.forecast-date-inner
-                        | Valid Until
-                        br.visible-xs-inline
-                        span #{ forecast.validUntil }
+                        | Date Issued: #{ forecast.dateIssued } Valid Until: #{ forecast.validUntil }
+
                 section#forecast-body.col-xs-12.col-md-9
                     #highlights !{forecast.highlights}
                     #forecast

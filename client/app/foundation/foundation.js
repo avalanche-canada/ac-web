@@ -58,6 +58,11 @@ angular.module('foundation',[
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
                           text1: 'Avalanche Canada provides daily ',
                           text2: 'public avalanche forecasts'
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/sled.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text1: 'Sledder!!!',
+                          text2: ''
                         }];
 
                 $scope.showMore = function () {
