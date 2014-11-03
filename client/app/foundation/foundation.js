@@ -44,11 +44,15 @@ angular.module('foundation',[
                           text: 'Avalanche Canada provides daily public avalanche forecasts'
                         },
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           text: 'Raising money for Avalanche Canada'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text: 'Avalanche Canada delivers youth awareness and training seminars'
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
                           text: 'Avalanche Canada delivers youth awareness and training seminars'
                         }];
 
