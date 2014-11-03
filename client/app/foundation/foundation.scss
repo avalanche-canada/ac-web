@@ -51,6 +51,10 @@
     height:100%;
 }
 
+.carousel-caption{
+    bottom: 30%;
+}
+
 .foundation-intro {
     /*background: url(#{$assets_path}/foundation_intro.png) no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -88,6 +92,19 @@
     }
 
     footer {
+        min-height:135px;
+        clear:both;
+        a {
+            display:inline-block;
+            width:230px;
+            @extend .red-button;
+            padding:22px 22px 20px 26px;
+            clear:both;
+            margin-bottom:12px;
+        }
+    }
+
+    more {
         min-height:135px;
         clear:both;
         a {

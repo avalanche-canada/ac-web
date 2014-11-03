@@ -41,19 +41,23 @@ angular.module('foundation',[
                 $scope.myInterval = 5000;
                 $scope.slides = [{
                           image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text: 'Avalanche Canada provides daily public avalanche forecasts'
+                          text1: 'Avalanche Canada provides',
+                          text2:  'daily public avalanche forecasts'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text: 'Raising money for Avalanche Canada'
+                          text1: 'Raising money for Avalanche Canada',
+                          text2: ''
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text: 'Avalanche Canada delivers youth awareness and training seminars'
+                          text1: 'Avalanche Canada delivers',
+                          text2: 'youth awareness and training seminars'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
-                          text: 'Avalanche Canada delivers youth awareness and training seminars'
+                          text1: 'Avalanche Canada delivers youth',
+                          text2: 'awareness and training seminars'
                         }];
 
                 $scope.showMore = function () {

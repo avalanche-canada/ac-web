@@ -9,11 +9,20 @@
                          article.col-xs-12
                                  header
                                          h2
-                                            {{slide.text}}
+                                            {{slide.text1}}
+                                            br
+                                            | {{slide.text2}}
+
                                  footer
                                          a(href='/foundation/programs')
                                                  | Donate Now
                                                  i.fa.fa-angle-right
-.scroll-nav.scroll-nav--down
-            a(href="", ng-click="showMore()") More
-                i.fa.fa-chevron-down.fa-inverse.fa-2x
+                                 more
+                                         a(href='/foundation/programs')
+                                                 | News & Events
+                                                 i.fa.fa-angle-right
+
+
+//.scroll-nav.scroll-nav--down
+//            a(href="", ng-click="showMore()") More
+//                i.fa.fa-chevron-down.fa-inverse.fa-2x
