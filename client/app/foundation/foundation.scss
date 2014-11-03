@@ -43,6 +43,13 @@
 }
 
 
+.carousel{
+    height:100%;
+}
+
+.carousel-inner{
+    height:100%;
+}
 
 .foundation-intro {
     /*background: url(#{$assets_path}/foundation_intro.png) no-repeat center center fixed;
@@ -59,11 +66,12 @@
     text-align: center;
     margin:auto;
 
-    article {
-        margin-top:10%;
-        @include clearfix();
-        min-height:220px;
-        header {
+
+    img{
+        height:100%;
+    }
+
+    header {
             min-height:100px;
             margin-bottom:18;
             clear:both;
@@ -77,22 +85,21 @@
                       @include font-size(3.6, 3.8);
                 }
             }
-        }
-        footer {
-            min-height:135px;
-            clear:both;
-            a {
-                display:inline-block;
-                width:230px;
-                @extend .red-button;
-                padding:22px 22px 20px 26px;
-                clear:both;
-                margin-bottom:12px;
-            }
-
-        }
-
     }
+
+    footer {
+        min-height:135px;
+        clear:both;
+        a {
+            display:inline-block;
+            width:230px;
+            @extend .red-button;
+            padding:22px 22px 20px 26px;
+            clear:both;
+            margin-bottom:12px;
+        }
+    }
+
 
 
 }

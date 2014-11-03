@@ -15,7 +15,8 @@ angular.module('avalancheCanadaApp', [
         'constants',
         'ngSanitize',
         'prismic.io',
-        'acComponents'])
+        'acComponents',
+        'foundation'])
 
 
     .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) {

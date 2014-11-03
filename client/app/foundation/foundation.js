@@ -1,6 +1,27 @@
 'use strict';
 
-angular.module('avalancheCanadaApp')
+angular.module('foundation',[
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ui.router',
+        'ui.bootstrap',
+        'constants',
+        'ngSanitize',
+        'prismic.io'])
+
+/* hack to disable nganimate which breaks the carousel  http://plnkr.co/edit/8HfZCaTOIeAesKVFSFpj?p=preview https://github.com/angular-ui/bootstrap/issues/1350*/
+    .directive('disableAnimation', function($animate){
+        return {
+            restrict: 'A',
+            link: function($scope, $element, $attrs){
+                $attrs.$observe('disableAnimation', function(value){
+                    $animate.enabled(!value, $element);
+                });
+            }
+        }
+    })
+
  .config(function ($stateProvider) {
 
     $stateProvider
@@ -14,24 +35,28 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/foundation/intro.html',
         controller:  ['$scope',
             function ($scope) {
+
+                var width = window.innerWidth;
+                var height = window.innerHeight;
                 $scope.myInterval = 5000;
-                $scope.slides = [];
-                $scope.slides.push({
-                      image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg',
-                      text: 'Raising money for Avalanche Canada'
-                    });
+                $scope.slides = [{
+                          image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text: 'Avalanche Canada provides daily public avalanche forecasts'
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/Forecasts.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text: 'Raising money for Avalanche Canada'
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text: 'Avalanche Canada delivers youth awareness and training seminars'
+                        }];
 
-                $scope.slides.push({
-                      image: 'http://avalanche-canada.imgix.net/photos/education.jpg',
-                      text: 'Avalanche Canada provides daily public avalanche forecasts '
-                    });
-
-                $scope.slides.push({
-                      image: 'http://avalanche-canada.imgix.net/photos/youth.jpg',
-                      text: 'Avalanche Canada delivers youth awareness and training seminars'
-                    });
+                $scope.showMore = function () {
+                    $rootScope.pageClass = 'page-down';
+                     $state.go('foundation.more');
+                };
             }]
-
       })
       .state('foundation.more', {
         url: '/more',
