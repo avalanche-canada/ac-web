@@ -17,7 +17,7 @@ angular.module('avalancheCanadaApp')
         var today = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
         ctx.api.form('everything').query('[[:d = at(document.type, "news")]]')
-                                    .orderings('[news.date desc]')
+                                    .orderings('[news.date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting news from prismic');
@@ -25,7 +25,7 @@ angular.module('avalancheCanadaApp')
             else {
                 var news = documents.results;
                 ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]')
-                                            .orderings('[news.date desc]')
+                                            .orderings('[news.date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
                         $log.error('error getting featured news from prismic');
@@ -48,7 +48,7 @@ angular.module('avalancheCanadaApp')
         });
 
         ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")]]')
-                                    .orderings('[event.start_date desc]')
+                                    .orderings('[event.start_date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting events from prismic');
@@ -56,7 +56,7 @@ angular.module('avalancheCanadaApp')
             else {
                 var events = documents.results;
                 ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]]')
-                                              .orderings('[event.start_date desc]')
+                                              .orderings('[event.start_date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
                         $log.error('error getting featured events from prismic');
@@ -80,7 +80,7 @@ angular.module('avalancheCanadaApp')
 
 
         ctx.api.form('everything').query('[[:d = at(document.type, "blog")]]')
-                                    .orderings('[blog.date desc]')
+                                    .orderings('[blog.date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs from prismic');
