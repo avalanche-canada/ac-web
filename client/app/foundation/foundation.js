@@ -19,7 +19,7 @@ angular.module('foundation',[
                     $animate.enabled(!value, $element);
                 });
             }
-        }
+        };
     })
 
  .config(function ($stateProvider) {
@@ -33,21 +33,21 @@ angular.module('foundation',[
       .state('foundation.intro', {
         url: '',
         templateUrl: 'app/foundation/intro.html',
-        controller:  ['$scope',
-            function ($scope) {
+        controller:  ['$scope', '$rootScope', '$state',
+            function ($scope, $rootScope,$state) {
 
                 var width = window.innerWidth;
                 var height = window.innerHeight;
                 $scope.myInterval = 5000;
                 $scope.slides = [{
-                          image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Avalanche Canada provides',
-                          text2:  'daily public avalanche forecasts'
-                        },
-                        {
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           text1: 'Raising money for Avalanche Canada',
                           text2: ''
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text1: 'Avalanche Canada develops and coordinates ',
+                          text2:  'curriculum for public avalanche education'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
@@ -56,8 +56,8 @@ angular.module('foundation',[
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Avalanche Canada delivers youth',
-                          text2: 'awareness and training seminars'
+                          text1: 'Avalanche Canada provides daily ',
+                          text2: 'public avalanche forecasts'
                         }];
 
                 $scope.showMore = function () {

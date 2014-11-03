@@ -13,7 +13,7 @@ angular.module('avalancheCanadaApp')
     Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
-        var date = new Date;
+        var date = new Date();
         var today = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
         ctx.api.form('everything').query('[[:d = at(document.type, "news")]]')
