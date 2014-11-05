@@ -103,9 +103,7 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-
     });
-
 
   });
 
