@@ -52,7 +52,7 @@
 }
 
 .carousel-caption{
-    bottom: 30%;
+    bottom: 40%;
 }
 
 .foundation-intro {
@@ -78,14 +78,13 @@
     header {
             margin-bottom:18;
             clear:both;
-            h2 {
+            span {
                 font-family:$font-family-google;
                 font-weight:bold;
                 color:#fff;
                 @include font-size(3.6, 3.8);
-                span {
-                      color:#121212;
-                      @include font-size(3.6, 3.8);
+                a{
+                    color: #D82631;
                 }
             }
     }
@@ -99,6 +98,7 @@
             padding:22px 22px 20px 26px;
             clear:both;
             margin-bottom:12px;
+            margin-top:7px;
         }
     }
 

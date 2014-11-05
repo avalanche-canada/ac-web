@@ -1,26 +1,18 @@
 .foundation-intro
     carousel(interval='myInterval' disable-animation='true')
-        slide(ng-repeat='slide in slides')
-            /// div(ng-style="{ 'background-image': slide.image}")
+        slide(ng-repeat='slide in slides' active='slide.active')
             img(ng-src='{{slide.image}}')
             .carousel-caption
                    .row
                          article.col-xs-12
                                  header
-                                         h2
-                                            {{slide.text1}}
-                                            br
-                                            | {{slide.text2}}
+                                        span(ng-bind-html='slide.text1')
+                                        br
+                                        span(ng-bind-html='slide.text2')
 
                                  footer
                                          a(href='/foundation/programs')
                                                  | Donate Now
-                                                 i.fa.fa-angle-right
-                                 more
-                                         a(href='/foundation/programs')
-                                                 | News & Events
-                                                 i.fa.fa-angle-right
-
 
 //.scroll-nav.scroll-nav--down
 //            a(href="", ng-click="showMore()") More
