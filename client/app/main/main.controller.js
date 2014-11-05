@@ -90,9 +90,7 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-
     });
-
 
   });
 

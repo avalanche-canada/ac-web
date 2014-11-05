@@ -70,7 +70,7 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document) {
+  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
 
 
     $scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho & Kootenay National Park'},
@@ -135,5 +135,24 @@ angular.module('avalancheCanadaApp')
                                 {'name':'materials','display':'Resource Materials'},
                                 {'name':'grants','display':'School Programs - Grants'},
                                 {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
+
+    $scope.login = function() {
+        auth.signin({}, function(profile, token) {
+          // Success callback
+          store.set('profile', profile);
+          store.set('token', token);
+          $location.path('/');
+          $scope.isAuthenticated = true;
+        }, function() {
+          // Error callback
+        });
+    }
+
+    $scope.logout = function() {
+      auth.signout();
+      store.remove('profile');
+      store.remove('token');
+      $scope.isAuthenticated = false;
+    }
 
   });
