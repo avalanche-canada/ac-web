@@ -10,12 +10,12 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 //320 mobile styles and up
 @import "_base_mobile.scss";
 
-//Tablet Styles ***Add notes here
+//Tablet Styles 600px
 @media screen and (min-width: $screen-tablet) {
   @import "_breakpoint_tablet.scss";
 }
 
-//Desktop Styles ***add notes here
+//Desktop Styles 1025
 @media screen and (min-width: $screen-desktop) {
   @import "_breakpoint_desktop.scss";
 }

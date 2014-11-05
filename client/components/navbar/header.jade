@@ -35,12 +35,14 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li(ng-repeat='region in forecastRegionList3')
                                                         a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    a(href='/forecasts/archive') Archive
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu')
                                                         a(href='{{item.url}}')
-                                                            h2
-                                                                | {{item.display}}
+                                                            h2 {{item.display}}
                                                                 i.fa.fa-angle-right
 
                     li#nav-learn.dropdown.yamm-fw

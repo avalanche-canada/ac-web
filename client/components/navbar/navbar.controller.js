@@ -94,8 +94,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'vancouver-island','display':'Vancouver Island, VAIC'},
                             {'name':'whistler-blackcomb','display':'Whistler Blackcomb'},
                             {'name':'waterton','display':'Waterton National Park'},
-                            {'name':'yukon','display':'Yukon'},
-                            {'name':'archive','display':'Archive'}];
+                            {'name':'yukon','display':'Yukon'}];
 
     $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
 
@@ -109,6 +108,7 @@ angular.module('avalancheCanadaApp')
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
+                       {'display':'Summaries & Outlooks','url':'/summaries'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.blogs = [{'name':'all','display':'All'},
