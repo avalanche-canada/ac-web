@@ -1,0 +1,19 @@
+.foundation-intro
+    carousel(interval='myInterval' disable-animation='true')
+        slide(ng-repeat='slide in slides' active='slide.active')
+            img(ng-src='{{slide.image}}')
+            .carousel-caption
+                   .row
+                         article.col-xs-12
+                                 header
+                                        span(ng-bind-html='slide.text1')
+                                        br
+                                        span(ng-bind-html='slide.text2')
+
+                                 footer
+                                         a(href='/foundation/programs')
+                                                 | Donate Now
+
+//.scroll-nav.scroll-nav--down
+//            a(href="", ng-click="showMore()") More
+//                i.fa.fa-chevron-down.fa-inverse.fa-2x

@@ -1,0 +1,128 @@
+#more.ac-view-more
+    .scroll-nav.scroll-nav--up
+        a(href="", ng-click="showIntro()")
+            i.fa.fa-chevron-up.fa-inverse.fa-lg
+            | Intro
+
+    .container
+        .row
+            .col-xs-12
+                #sponsor-ad-container
+                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+    #banner
+        .container
+            .row
+                article.col-xs-12
+                    header
+                        h2
+                            span
+                                | We help fund
+                            | &nbsp;Avalanche
+                            br
+                            | &nbsp;education and awareness.
+                    footer
+                        a.button-right(href='/foundation/programs')
+                            | Our Programs
+                            i.fa.fa-angle-right
+    #news.container
+        .row
+            .col-xs-12
+                article#news-articles
+                    header
+                        h1
+                            | News
+                        .blue-border
+                    article.list-row-1
+                        section.news-image
+                            img.im(alt='', src=" {{ featuredNews.getImageView('news.featured_image', 'preview').url }} ")
+                            ul.news-social
+                                li
+                                    a(href='#')
+                                        i.fa.fa-facebook
+                                        | 25
+                                li
+                                    a(href='#')
+                                        i.fa.fa-twitter
+                                        | 12
+                                li
+                                    a(href='#')
+                                        i.fa.fa-eye
+                                        | 63
+                        header
+                            span Featured
+                            h2
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}')
+                                    {{featuredNews.getText('news.title')}}
+                        section.news-body
+                            p
+                                | {{featuredNews.getStructuredText('news.shortlede').asText(ctx)}}
+                        footer
+                            p
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
+
+                    article.list-rows(ng-repeat="item in news")
+                        header
+                            h2
+                                a(href='#/news/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('news.title')}}
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='#/news/{{item.id}}/{{item.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+
+    #news.container
+        .row
+            .col-xs-12
+                article#news-articles
+                    header
+                        h1
+                            | Events
+                        .blue-border
+                    article.list-row-1
+                        section.news-image
+                            img.im(alt='', src=" {{ featuredEvent.getImageView('event.featured_image', 'preview').url }} ")
+                            ul.news-social
+                                li
+                                    a(href='#')
+                                        i.fa.fa-facebook
+                                        | 25
+                                li
+                                    a(href='#')
+                                        i.fa.fa-twitter
+                                        | 12
+                                li
+                                    a(href='#')
+                                        i.fa.fa-eye
+                                        | 63
+                        header
+                            span Featured
+                            h2
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
+                                    {{featuredEvent.getText('event.title')}}
+                        section.news-body
+                            p
+                                | {{featuredEvent.getStructuredText('event.shortlede').asText(ctx)}}
+                        footer
+                            p
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
+                                i.fa.fa-circle
+                                {{featuredEvent .getDate('event.date')}}
+
+                    article.list-rows(ng-repeat="item in events")
+                        header
+                            h2
+                                a(href='#/events/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('event.title')}}
+                                    i.fa.fa-angle-right
+                        footer
+                            p
+                                a(href='#/events/{{item.id}}/{{item.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+
+

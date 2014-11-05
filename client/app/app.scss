@@ -1,29 +1,46 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
+@import 'font-awesome/scss/font-awesome';
+
 @import "_custom_cac_variables";
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins';
 
-@import 'font-awesome/scss/font-awesome';
-
 //320 mobile styles and up
 @import "_base_mobile.scss";
 
-//Tablet Styles ***Add notes here
+//Tablet Styles 600px
 @media screen and (min-width: $screen-tablet) {
   @import "_breakpoint_tablet.scss";
 }
 
-//Desktop Styles ***add notes here
+//Desktop Styles 1025
 @media screen and (min-width: $screen-desktop) {
   @import "_breakpoint_desktop.scss";
 }
 
+@import "_ac_theme.scss";
+
 // Component styles are injected through grunt
 // injector
+@import 'about/about.scss';
+@import 'blogs/blogs.scss';
+@import 'collaborators/collaborators.scss';
+@import 'events/events.scss';
+@import 'forecasts/forecast_base.scss';
+@import 'forecasts/forecast_desktop.scss';
+@import 'forecasts/forecast_tablet.scss';
+@import 'forecasts/forecasts.scss';
+@import 'foundation/foundation.scss';
 @import 'main/main.scss';
-@import 'forecast/forecast-mini.scss';
+@import 'news/news.scss';
+@import 'sponsors/sponsors.scss';
+@import 'footer/footer.scss';
+@import 'foundation_navbar/navbar.scss';
 @import 'map/drawer.scss';
-@import 'map/map.scss';
+@import 'map/forecast-mini.scss';
+@import 'map/icons.scss';
+@import 'map/loading-indicator.scss';
+@import 'navbar/navbar.scss';
 // endinjector

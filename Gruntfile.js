@@ -134,9 +134,6 @@ module.exports = function (grunt) {
         src: [ 'server/{,*/}*.js']
       },
       all: {
-        options: {
-          '-W106': true
-        },
         src: [
           '<%= yeoman.client %>/{app,components}/**/*.js',
           '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
@@ -477,7 +474,8 @@ module.exports = function (grunt) {
             '<%= yeoman.client %>/app',
             '<%= yeoman.client %>/components'
           ],
-          compass: false
+          compass: false,
+          sourcemap: 'inline'
         },
         files: {
           '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.scss'
@@ -666,7 +664,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'newer:jshint',
-    'test',
     'build'
   ]);
 };

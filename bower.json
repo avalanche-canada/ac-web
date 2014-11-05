@@ -17,16 +17,25 @@
     "angular-ui-router": "~0.2.10",
     "yamm3": "~1.0.0",
     "multilevelpushmenu": "~2.1.4",
+    "angular-prismicio": "awulder/angular-prismicio#master",
     "mapbox.js": "~2.1.0",
     "leaflet-pip": "~0.1.0",
     "Leaflet.label": "~0.2.1",
     "angular-animate": "~1.2.25",
-    "angular-route": "~1.2.25"
+    "angular-route": "~1.2.25",
+    "nouislider": "~7.0.9",
+    "Leaflet.awesome-markers": "~2.0.2",
+    "PruneCluster": "~0.10.1",
+    "ac-components": "avalanche-canada/ac-components#master"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*",
     "multilevelpushmenu": "~2.1.4",
     "yamm3": "~1.0.0"
+  },
+  "resolutions": {
+    "angular": ">=1.2.*",
+    "jquery": "~1.11.0"
   }
 }

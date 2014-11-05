@@ -16,6 +16,9 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/yamm3/yamm/yamm.css" />
+      <link rel="stylesheet" href="bower_components/nouislider/distribute/jquery.nouislider.min.css" />
+      <link rel="stylesheet" href="bower_components/nouislider/distribute/jquery.nouislider.pips.min.css" />
+      <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -35,9 +38,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div ng-include='"components/navbar/navbar.html"'></div>
-    <div ng-view="" class="full-height page" ng-class="pageClass"></div>
+    <div ui-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -67,10 +68,16 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.js"></script>
+      <script src="bower_components/prismic.io/dist/prismic.io.js"></script>
+      <script src="bower_components/angular-prismicio/dist/angular-prismicio.min.js"></script>
       <script src="bower_components/mapbox.js/mapbox.js"></script>
       <script src="bower_components/leaflet-pip/leaflet-pip.js"></script>
       <script src="bower_components/angular-animate/angular-animate.js"></script>
       <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/nouislider/distribute/jquery.nouislider.all.min.js"></script>
+      <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+      <script src="bower_components/leaflet.locatecontrol/src/L.Control.Locate.js"></script>
+      <script src="bower_components/ac-components/dist/ac-components.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -79,17 +86,41 @@
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"></script>
     <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal.js"></script>
 
     <script src="assets/js/geojson-utils.js"></script>
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/about/about.controller.js"></script>
+          <script src="app/about/about.js"></script>
+          <script src="app/blogs/blogItem.controller.js"></script>
+          <script src="app/blogs/blogs.controller.js"></script>
+          <script src="app/blogs/blogs.js"></script>
+          <script src="app/collaborators/collaborators.controller.js"></script>
+          <script src="app/collaborators/collaborators.js"></script>
           <script src="app/constants.js"></script>
+          <script src="app/events/eventDetail.controller.js"></script>
+          <script src="app/events/events.controller.js"></script>
+          <script src="app/events/events.js"></script>
+          <script src="app/forecasts/forecasts.controller.js"></script>
+          <script src="app/forecasts/forecasts.js"></script>
+          <script src="app/foundation/foundation.js"></script>
+          <script src="app/foundation/more.controller.js"></script>
+          <script src="app/gear/gear.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/main/map.controller.js"></script>
+          <script src="app/news/news.controller.js"></script>
+          <script src="app/news/news.js"></script>
+          <script src="app/news/newsItem.controller.js"></script>
+          <script src="app/sponsors/sponsors.controller.js"></script>
+          <script src="app/sponsors/sponsors.js"></script>
+          <script src="app/training/training.js"></script>
           <script src="components/footer/footer.controller.js"></script>
-          <script src="components/map/map.js"></script>
+          <script src="components/foundation_navbar/navbar.controller.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->

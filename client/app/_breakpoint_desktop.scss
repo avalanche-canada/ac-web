@@ -67,7 +67,9 @@
 				#nav-store .arrow-down {left:22px;}
 				.dropdown-menu {
 					background-color:#efefef;
-					left:0;
+                    ac{
+                        left:0;
+                    }
 					border:none;
 					box-shadow:none;
 					padding:30px 0 46px 0;
@@ -220,7 +222,7 @@
 #know-more {
     article {
         footer {
-            width:494px;
+            width:680px;
             padding-top:34px;
 						a {
 							clear:none;
@@ -235,6 +237,66 @@
     }
 }
 /*know-more ends*/
+
+
+#events {
+    #events-articles {
+        min-height:1px;
+        @include clearfix();
+        > header {
+            margin:0 0 44px 0;
+            h1 {
+                @include font-size(5.0, 5.2);
+                br {display:none;}
+            }
+        }
+        > article {
+            //first featured
+            &.list-row-1 {
+                margin:0;
+                clear:none;
+                width:510px;
+                float:left;
+                border-right:3px solid #eeeff1;
+                min-height:278px;
+                .events-image {
+                    min-height:1px;
+                    width:236px;
+                    float:left;
+                    @include clearfix();
+                    img {margin-bottom:8px;width:222px;}
+                }
+                header {
+                    width:244px;
+                    float:right;
+                    padding-top:0;
+                    padding-right:10px;
+                }
+                .news-body {
+                    width:244px;
+                    float:right;
+                    padding-right:10px;
+                }
+                footer {
+                    width:244px;
+                    float:right;
+                    padding-right:10px;
+                }
+            }
+            &.list-rows {
+                width:500px;
+                float:right;
+                clear:none;
+                border-top:none;
+                border-bottom:3px solid #eeeff1;
+                margin:0 0 10px 16px;
+                padding:0 0 16px 0;
+            }
+            &.list-row-last {border-bottom:none;}
+        }
+    }
+}
+/*events ends*/
 
 /*news*/
 #news {

@@ -1,0 +1,517 @@
+/*forecast page*/
+#forecast-page {
+    #header {
+        border-bottom:1px solid #ececec;
+    }
+}
+#forecast {
+    width:100%;
+    min-height:200px;
+    @include clearfix();
+    margin-top:75px;
+    #inner-forecast {
+        min-height:200px;
+        @include clearfix();
+        @include center-block();
+        //need to add 160px for the map bg image on the left
+        width:1226px;
+        background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
+        position:relative;
+        #back-link {
+            width:60px;
+            height:60px;
+            padding:20px 0 0 20px;
+            position:absolute;
+            top:172px;
+            left:20px;
+            background-color:#000;
+            .fa {
+                color:#fff;
+                @include font-size(2.7, 2.7);
+            }
+        }
+    }
+    article {
+        header {
+            #header-inner {
+                h1 {
+                    @include font-size(5.0, 5.2);
+                    font-family:$font-family-google;
+                    margin:48px 0 0 0;
+                    font-weight:bold;
+                    float:left;
+                }
+                #forecast-sponsor-desktop {
+                    float:right;
+                }
+                @include clearfix();
+                background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+                position:relative;
+                padding:34px 0 36px;
+            }
+        }
+        #forecast-date {
+            height:64px;
+            margin-bottom:36px;
+        }
+        .forecast-date-inner {
+            height:64px;
+            float:left;
+            padding-top:20px;
+            border-bottom:1px solid #eeeff1;
+            @include font-size(1.6, 2.8);
+            font-family:$font-family-google;
+            color:#0056b7;
+            font-weight:bold;
+            text-transform:uppercase;
+            span {color:#b5b5b5;}
+        }
+
+        #date-issued {
+            width:420px;
+            border-right:1px solid #eeeff1;
+        }
+        #date-valid {
+             width:606px;
+             padding-left:18px;
+        }
+        #forecast-body {
+            h2 {
+                color:#242424;
+                @include font-size(2.6, 3.0);
+                margin:0 0 36px 0;
+                font-weight:bold;
+            }
+            #forecast-tabs {
+                .nav-tabs {
+                    border:none;
+                    margin-bottom:18px;
+                    li {
+                        margin:0;
+                      a {
+                            display:block;
+                            width:252px;
+                            height:75px;
+                            background-color:#99bbe2;
+                            color:#fff;
+                            position:relative;
+                            @include font-size(1.5, 5.2);
+                            font-weight:bold;
+                            border:none;
+                            cursor:pointer;
+                            margin:0;
+                            border-radius:0;
+                            text-align:center;
+                            &:focus {
+                                color:#fff;
+                                background-color:#4299fc;
+                            }
+                            &:hover
+                            &.active {
+                                color:#fff;
+                                background-color:#0056b7;
+                                .arrow-down {display:block;}
+                            }
+                            .arrow-down {
+                                position:absolute;
+                                z-index:999;
+                                bottom:-10px;
+                                left:44%;
+                                width:0;
+                                height:0;
+                                border-left:10px solid transparent;
+                                border-right:10px solid transparent;
+                                border-top:10px solid #0056b7;
+                                display:none;
+                            }
+                        }
+                        &#public-forecast-li,
+                        &#forecast-details-li {
+                            border-right:1px solid #fff;
+                        }
+                        &#blank-forecast-tab {
+                            background-color:#99bbe2;
+                            width:252px;
+                            height:75px;
+                        }
+                        &.active {
+                            > a {
+                                color:#fff;
+                                background-color:#0056b7;
+                                .arrow-down {display:block;}
+                            }
+                        }
+                    }
+                }
+                .tab-content {
+                    padding-bottom:70px;
+                    .tab-pane {
+                        padding-top:32px;
+                        //classes
+                        .featured {color:#d82631;}
+                        h2 {
+                            @include font-size(3.0, 3.5);
+                            font-family:$font-family-google;
+                            font-weight:bold;
+                            text-transform:uppercase;
+                            a {
+                              @include font-size(3.0, 3.5);
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        h3 {
+                            @include font-size(2.6, 3.0);
+                            font-weight:bold;
+                            a {
+                              @include font-size(2.6, 3.0);
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        h4 {
+                            @include font-size(2.4, 2.6);
+                            font-weight:bold;
+                            a {
+                              @include font-size(2.4, 2.6);
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        h5 {
+                            @include font-size(2.0, 2.4);
+                            font-weight:bold;
+                            a {
+                              @include font-size(2.0, 2.4);
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        h6 {
+                            @include font-size(1.8, 2.0);
+                            font-weight:bold;
+                            a {
+                              @include font-size(1.8, 2.0);
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        p {
+                            @include font-size(1.5, 2.2);
+                            color:#5b5b5b;
+                            strong {
+                                @include font-size(1.5, 2.2);
+                                color:#121212;
+                            }
+                            em {
+                                @include font-size(1.5, 2.2);
+                                color:#b7b7b7;
+                            }
+                            a {
+                              @include font-size(1.5, 2.2);
+                              font-weight:bold;
+                                &:visited,
+                                &:hover,
+                                &:active,
+                                &:focus {
+                                    text-decoration:none;
+                                }
+                            }
+                        }
+                        ul {
+                            li {
+                                @include font-size(1.5, 4.0);
+                                margin:0;
+                                color:#5b5b5b;
+                                p {
+                                    margin:0;
+                                    @include font-size(1.5, 4.0);
+                                    color:#5b5b5b;
+                                }
+                                a {
+                                  @include font-size(1.5, 4.0);
+                                    &:visited,
+                                    &:hover,
+                                    &:active,
+                                    &:focus {
+                                        text-decoration:none;
+                                    }
+                                }
+                            }
+                        }
+                        ul.border {
+                            list-style:none;
+                            li {
+                                border-bottom:2px solid #eeeff1;
+                                &:last-child {border-bottom:none;}
+                            }
+                        }
+                        ol {
+                            li {
+                                @include font-size(1.5, 4.0);
+                                margin:0;
+                                color:#5b5b5b;
+                                p {
+                                    margin:0;
+                                    @include font-size(1.5, 4.0);
+                                    color:#5b5b5b;
+                                }
+                                a {
+                                  @include font-size(1.5, 4.0);
+                                    &:visited,
+                                    &:hover,
+                                    &:active,
+                                    &:focus {
+                                        text-decoration:none;
+                                    }
+                                }
+                            }
+                        }
+                        blockquote {
+                          border-left: 5px solid #eeeff1;
+                          @include font-size(1.5, 2.2);
+                          color:#5b5b5b;
+                          strong {
+                              @include font-size(1.5, 2.2);
+                              color:#5b5b5b;
+                              font-weight:bold;
+                          }
+                        }
+                        //tables
+                        .table {
+                            thead {
+                                tr {
+                                    th {
+                                        @include font-size(2.0, 2.4);
+                                        font-weight:bold;
+                                    }
+                                }
+                            }
+                            tbody {
+                                tr {
+                                    td {
+                                        border:none;
+                                        color:#5b5b5b;
+                                        @include font-size(1.5, 2.2);
+                                    }
+                                }
+                            }
+                        }
+                        .table-striped > tbody > tr:nth-child(even) > td {
+                            background-color: #EBEBEB;
+                        }
+                        .table-striped > tbody > tr:nth-child(odd) > td {
+                            background-color:#fff;
+                        }
+                        .table-striped > tbody > tr:nth-child(2n+1) > th {
+                            background-color:#fff;
+                        }
+                    }
+                }
+            }
+            #public-forecast {
+                .forecast-image {
+                    clear:both;
+                    margin-bottom:24px;
+                }
+                #forecast-by {
+                    @include font-size(1.5, 2.2);
+                    color:#b1b1b1;
+                    a {
+                      @include font-size(1.5, 2.2);
+                      color:#b1b1b1;
+                        &:visited,
+                        &:hover,
+                        &:active,
+                        &:focus {
+                            text-decoration:none;
+                            color:#b1b1b1;
+                        }
+                        &:hover {
+                            text-decoration:underline;
+                            color:#b1b1b1;
+                        }
+                    }
+                }
+            }
+
+        }
+        //right sidebar
+        aside {
+            min-height:100px;
+            @include clearfix();
+            padding:0;
+            background:transparent url(#{$assets_path}/ribbon-grey-bg.png) repeat left top;
+            .sidebar-inner {padding:18px 20px 40px 20px;}
+            h3 {
+                @include font-size(2.6, 3.0);
+                color:#1e59a9;
+                font-weight:bold;
+                margin:0 0 34px 0;
+            }
+            article {
+                border-bottom:5px solid #fff;
+                padding-bottom:14px;
+                margin-bottom:14px;
+                clear:both;
+                @include clearfix();
+                min-height:1px;
+                h4 {
+                    margin:0;
+                    a {
+                      @include font-size(2.0, 2.4);
+                      font-weight:bold;
+                      color:#121212;
+                        &:visited,
+                        &:hover,
+                        &:active,
+                        &:focus {
+                            text-decoration:none;
+                            color:#121212;
+                        }
+                        &:hover {
+                            color:#1e59a9;
+                        }
+                    }
+                }
+                .sidebar-related-author {
+                    color:#b5b5b5;
+                    @include font-size(1.5, 2.2);
+                    font-weight:bold;
+                    a {
+                      @include font-size(1.5, 2.2);
+                      font-weight:bold;
+                      color:#1e59a9;
+                        &:visited,
+                        &:hover,
+                        &:active,
+                        &:focus {
+                            text-decoration:none;
+                            color:#1e59a9;
+                        }
+                        &:hover {
+                            color:#121212;
+                        }
+                    }
+                }
+                .sidebar-related-pubdate {
+                    color:#b5b5b5;
+                    font-family:$font-family-google;
+                    @include font-size(1.1, 2.8);
+                    text-transform:uppercase;
+                    margin-top:4px;
+                }
+            }
+            .sidebar-related-links {
+                margin:0;
+                padding:0;
+                list-style:none;
+                li {
+                    border-bottom:2px solid #fff;
+                    margin:0;
+                    &.last {border:none;}
+                    a {
+                      @include font-size(1.5, 5.0);
+                      font-weight:bold;
+                      color:#0056b7;
+                        &:visited,
+                        &:hover,
+                        &:active,
+                        &:focus {
+                            text-decoration:none;
+                            color:#0056b7;
+                        }
+                        &:hover {
+                            color:#121212;
+                        }
+                    }
+                }
+            }
+        }
+        //forecast bulletin footer
+        #forecast-bulletin {
+            margin-bottom:80px;
+            .panel {
+                padding:12px 10px 12px 4px;
+                border-bottom:2px solid #eeeff1;
+                h4 {
+                    margin:0;
+                    @include font-size(1.5, 1.5);
+                    a {
+                      @include font-size(1.5, 3.0);
+                      color:#0056b7;
+                      font-weight:bold;
+                      display:block;
+                      height:31px;
+                      padding:0 0 0 42px;
+                      background:transparent url(#{$assets_path}/bulletin-buttons.jpg) left bottom no-repeat;
+                        &:visited,
+                        &:focus,
+                        &:active {
+                            text-decoration:none;
+                            color:#0056b7;
+                            background:transparent url(#{$assets_path}/bulletin-buttons.jpg) left bottom no-repeat;
+                        }
+                      &.collapsed,
+                        &:hover,{
+                            text-decoration:none;
+                            color:#0056b7;
+                            background:transparent url(#{$assets_path}/bulletin-buttons.jpg) left top no-repeat;
+                        }
+                        &:hover {
+                            text-decoration:none;
+                            color:#0056b7;
+                            background-position:left bottom;
+                        }
+                    }
+                }
+                .panel-body {
+                    padding:14px 0;
+                    p {
+                        @include font-size(1.5, 2.2);
+                        color:#5b5b5b;
+                        strong {
+                            @include font-size(1.5, 2.2);
+                            color:#121212;
+                        }
+                        em {
+                            @include font-size(1.5, 2.2);
+                            color:#5b5b5b;
+                        }
+                        a {
+                          @include font-size(1.5, 2.2);
+                          font-weight:bold;
+                            &:visited,
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                text-decoration:none;
+                            }
+                        }
+                    }
+                }
+            }
+            .panel.first {border-top:2px solid #eeeff1;}
+        }
+    }
+}

@@ -1,7 +1,9 @@
-#more.full-height.ac-view-more
+.full-height.page#more.ac-view-more
     .scroll-nav.scroll-nav--up
-          a(href="", ng-click="showMap()")
+        a(ng-click='showMap()')
             i.fa.fa-chevron-up.fa-inverse.fa-lg
+            | Map
+
     .container
         .row
             .col-xs-12
@@ -18,11 +20,14 @@
                             br
                             span Go Farther.
                     footer
-                        a.button-left(href='/')
-                            | Take a Course
+                        a.btn(href='/member')
+                            | Become a member
                             i.fa.fa-angle-right
-                        a.button-right(href='/')
-                            | Get the Gear
+                        a.btn(href='/training/overview')
+                            | Take a course
+                            i.fa.fa-angle-right
+                        a.btn(href='/gear')
+                            | Get the gear
                             i.fa.fa-angle-right
     #news.container
         .row
@@ -34,7 +39,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/Avalanche_Canada_logo_stacked.jpg')
+                            img.im(alt='', src=" {{ featuredNews.getImageView('news.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -51,48 +56,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#') The CAC is now Avalanche Canada
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}')
+                                    {{featuredNews.getText('news.title')}}
                         section.news-body
                             p
-                                | Avalanche Canada is the new face of public avalanche safety in Canada. On October 2, we held a launch to thank our generous funders and unveil our new logo.
+                                | {{featuredNews.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/') Full article
+                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-2
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
+
+                    article.list-rows(ng-repeat="item in news")
                         header
                             h2
-                                a(href='#')
-                                    | Announcing Brent Strand as Snowmobile Outreach Coordinator
+                                a(href='#/news/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('news.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Full article
+                                a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#')
-                                    | Public Avalanche Forecasts Start November 22
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                               a(href='/') Full article
-                                i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#')
-                                    | Are You Ready For Winter?
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Full article
-                                i.fa.fa-circle
-                                time(datetime='2014-10-02 20:00') Oct 02
+                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+
     #news.container
         .row
             .col-xs-12
@@ -103,7 +89,7 @@
                         .blue-border
                     article.list-row-1
                         section.news-image
-                            img.im(alt='', src='{{env.imageDir}}/issw.png')
+                            img.im(alt='', src=" {{ featuredEvent.getImageView('event.featured_image', 'preview').url }} ")
                             ul.news-social
                                 li
                                     a(href='#')
@@ -120,49 +106,29 @@
                         header
                             span Featured
                             h2
-                                a(href='#') ISSW 2014
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
+                                    {{featuredEvent.getText('event.title')}}
                         section.news-body
                             p
-                                | September 29 - October 3: International Snow Science Workshop 2014. The ISSW is the premiere conference for snow and avalanche professionals from around the world.
+                                | {{featuredEvent.getStructuredText('event.shortlede').asText(ctx)}}
+                        footer
+                            p
+                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
+                                i.fa.fa-circle
+                                {{featuredEvent .getDate('event.date')}}
 
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2
+                    article.list-rows(ng-repeat="item in events")
                         header
                             h2
-                                a(href='#')
-                                    | October 17-19: Alberta Snowmobile & Powersports Show
+                                a(href='#/events/{{item.id}}/{{item.slug}}')
+                                    | {{item.getText('event.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/') Source
+                                a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-3
-                        header
-                            h2
-                                a(href='#')
-                                    | November 19-24: Backcountry Avalanche Workshops across Southern BC and Alberta
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-4.list-row-last
-                        header
-                            h2
-                                a(href='#')
-                                    | January 17-18, 2015; Avalanche Awareness Days
-                                    i.fa.fa-angle-right
-                        footer
-                            p
-                                a(href='/') Source
-                                i.fa.fa-circle
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+
     #videos.container
         .row
             .col-xs-12
@@ -170,10 +136,17 @@
                     header
                         #header-bg
                         h2.hidden-xs.hidden-sm
-                            a(href='#') Throttle Decisions: Outreach Componet
+                            a(href='#') Throttle Decisions: Outreach Component
                     section#video-container
-                        a#video-link(href='#')
-                            img.img-responsive(alt='Feature Video title HERE', src='{{env.imageDir}}/video-link-bg-temp.jpg')
+
+                        iframe(width='1012', height='555', frameborder='0', allowfullscreen='', mozallowfullscreen='', webkitallowfullscreen='', src='//player.vimeo.com/video/79814896')
+                        p
+                          a(href='http://vimeo.com/79814896') Throttle Decisions: Outreach Component
+                          | from
+                          a(href='http://vimeo.com/avalanchecanada') Avalanche Canada
+                          | on
+                          a(href='https://vimeo.com') Vimeo
+                          | .
                         #video-body
                             p
                                 | Throttle Decisions is a fast-paced video series aimed at encouraging mountain sledders to become better trained in avalanche safety. Its eight short components move through the AST course.
@@ -197,42 +170,26 @@
                                 | Blog
                         section#blog-tagline-link
                             p We know Snow.
-                            a#blog-link(href='#')
+                            a#blog-link(href='#/blogs')
                                 | Read The Blog
                                 i.fa.fa-angle-right
                     // blog list rows
-                    article.list-rows.list-row-1
+                    article.list-rows(ng-repeat='blog in blogs')
                         header
                             h3
-                                a(href='#') Farewell for the season
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                         section.blog-author
                             p
-                                | by
-                                a(href='#') Karl Klassen
+                                ///todo | by
+                                ///todo  a(href='#') Karl Klassen
                         section.blog-body
                             p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
+                               {{blog.getStructuredText('blog.body').asText(ctx)}}
                         footer
                             p
-                                time(datetime='2008-02-14 20:00') Pub date here
-                    article.list-rows.list-row-2.list-row-last
-                        header
-                            h3
-                                a(href='#') Farewell for the season
-                        section.blog-author
-                            p
-                                | by
-                                a(href='#') Karl Klassen
-                        section.blog-body
-                            p
-                                | With the winter season draw
-                                | ing to a close, the Canadian Avalanche Centre is winding down regular winter forecast products. We’ll provide occasional updates into early May if conditions undergo a dramatic change.
-                                a(href='#') Read on
-                        footer
-                            p
-                                time(datetime='2008-02-14 20:00') Pub date here
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                i.fa.fa-circle
+                                time(datetime='{{blog.getDate("blog.date")}}') {{blog.getDate('blog.date')}}
     #communities
         #dark-ribbon
         .container
@@ -295,97 +252,6 @@
                         a.poster-image(href='#')
                             img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
                         a.postername-date Canadian Avalanche Center - May 7
-    #auction.container
-        .row
-            .col-xs-12
-                #auction-header
-                    h4
-                        | Online
-                        br.visible-xs-inline
-                        span Auction
-                    #auction-sponsor.hidden-xs
-                        p Brought to you by
-                        a(target='_blank', href='http://arcteryx.com')
-                            img(src='{{env.imageDir}}/arcteryx-logo.jpg')
-                    .blue-border
-            #auction-tagline-wrap.col-xs-12
-                #auction-tagline
-                    p Our sponsors donate products to support our programs lore ispum dolor
-            #auction-time-wrap.col-xs-12
-                #auction-time
-                    p closes in 00:00:00
-            article#auction-featured-item.col-xs-12
-                .auction-featured-item-inner
-                    a(href='#')
-                        img.img-responsive(src='{{env.imageDir}}/jacket.jpg')
-                .auction-featured-item-inner
-                    h5
-                        a(href='#') Arc’teryx Lorem Ipsum Jacket
-                    section.auction-item-body
-                        p.auction-item-size-price
-                            | retail value $000.00
-                            span |
-                            | SIZE Medium
-                        p.auction-item-body
-                            | All-round mountain apparel with increased coverage | SV: Severe Weather. A highly featured, severe weather condition jacket, designed for wet, stormy days. Our toughest and longest length waterproof jacket constructed with hardwearing GORE-TEX® 80D face fabric.
-                        p.auction-item-info
-                            | Must be in
-                            span $10.00
-                            | increments
-                footer
-                    section.auction-highest-bid
-                        p Highest bid
-                        p.highest-amount $0,000.00
-                    section.auction-bid-form
-                        p Your Bid
-                        form
-                            input.form-control(type='text', placeholder='', name='bid')
-                            button.blue-button(type='button')
-                                | Submit
-                                i.fa.fa-angle-right
-            #auction-other.col-xs-12
-                #auction-other-header
-                    h4 Other Auction Items
-                article.list-rows.list-row-1.list-row-even.list-row-first
-                    header
-                        h5
-                            a(href='#')
-                                span Marmot®
-                                br
-                                | Exum Guide Undercuff Glove
-                    section.auction-other-image
-                        a(href='#')
-                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                    section.auction-other-bid
-                        p Highest Bid $000.00
-                article.list-rows.list-row-2.list-row-odd
-                    header
-                        h5
-                            a(href='#')
-                                span Marmot®
-                                br
-                                | Exum Guide Undercuff Glove
-                    section.auction-other-image
-                        a(href='#')
-                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                    section.auction-other-bid
-                        p Highest Bid $000.00
-                article.list-rows.list-row-3.list-row-even
-                    header
-                        h5
-                            a(href='#')
-                                span Marmot®
-                                br
-                                | Exum Guide Undercuff Glove
-                    section.auction-other-image
-                        a(href='#')
-                            img.img-responsive(src='{{env.imageDir}}/marmot-gloves.jpg')
-                    section.auction-other-bid
-                        p Highest Bid $000.00
-                article.list-rows.list-row-4.list-row-odd.list-row-last
-                    section#view-auction
-                        a(href='#')
-                            img.img-responsive(src='{{env.imageDir}}/checkout-other-auction.jpg')
-div(ng-include='"components/footer/footer.html"')
+
 
 

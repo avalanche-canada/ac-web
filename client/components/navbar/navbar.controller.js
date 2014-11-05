@@ -96,18 +96,19 @@ angular.module('avalancheCanadaApp')
                             {'name':'waterton','display':'Waterton National Park'},
                             {'name':'yukon','display':'Yukon'}];
 
+    $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
+
     var length = $scope.forecastRegions.length;
     var third   = (length/3);
 
-    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, third);
-    $scope.forecastRegionList2 = $scope.forecastRegions.slice(third, (third*2));
-    $scope.forecastRegionList3 = $scope.forecastRegions.slice(third, (third*2));
+    $scope.forecastRegionList1 = $scope.forecastRegions.slice(0, (third -1));
+    $scope.forecastRegionList2 = $scope.forecastRegions.slice((third -1), (third*2));
+    $scope.forecastRegionList3 = $scope.forecastRegions.slice((third*2), length+1);
 
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
-                       {'display':'Forecast Archive','url':'/forecast/archive'},
-                       {'display':'Webcams','url':'/webcams'},
+                       {'display':'Summaries & Outlooks','url':'/summaries'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.blogs = [{'name':'all','display':'All'},
@@ -119,14 +120,6 @@ angular.module('avalancheCanadaApp')
                     {'name':'conditions-summary','display':'Conditions Summary'},
                     {'name':'weather','display':'Weather Outlook'},
                     {'name':'tech','display':'Tech and Talk'}];
-
-    $scope.training =  [{'name':'find','display':'Find a course'},
-                        {'name':'ast1','display':'Avalanche Skills Training 1'},
-                        {'name':'ast2','display':'Avalanche Skills Training 2'},
-                        {'name':'companion-rescue','display':'Companion Rescue Skills'},
-                        {'name':'why','display':'Why should I take an avalanche course ?'},
-                        {'name':'what','display':'What course should I take'},
-                        {'name':'calendar','display':'Calendar'}];
 
     $scope.onlineCourse = [{'name':'formation','display':'Avalanche Formation'},
                             {'name':'terrain','display':'Avalanche Terrain'},

@@ -3,9 +3,8 @@ header#header.navbar-fixed-top(role='banner')
     .container
         nav#navigation.yamm.navbar.navbar-default(role='navigation')
             .navbar-header
-                h1.navbar-brand
-                    a(rel='home', title='TITLE HERE', href='/')
-                        | CAC title here
+                a(rel='home', title='TITLE HERE', href='/')
+                    h1.navbar-brand.ac
                 .visible-xs.visible-sm
                     a#nav-search(href='#')
                         i.fa.fa-search
@@ -14,8 +13,8 @@ header#header.navbar-fixed-top(role='banner')
                         i.fa.fa-reorder
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
-                    li#nav-avalanche-info.dropdown
-                        a(href='#')
+                    li#nav-avalanche-info.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Avalanche Information
                             span.arrow-down
                         ul.dropdown-menu
@@ -34,48 +33,60 @@ header#header.navbar-fixed-top(role='banner')
                                                         a(href='/forecasts/{{region.name}}') {{region.display}}
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList2')
+                                                li(ng-repeat='region in forecastRegionList3')
                                                         a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    a(href='/forecasts/archive') Archive
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu')
                                                         a(href='{{item.url}}')
-                                                            h2
-                                                                | {{item.display}}
+                                                            h2 {{item.display}}
                                                                 i.fa.fa-angle-right
 
-                    li#nav-learn.dropdown
-                        a(href='#')
+                    li#nav-learn.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Learn
                             span.arrow-down
                         ul.dropdown-menu
                             li
                                 .container
                                     .row
-                                        .col-md-3.mega-content-inner
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Avalanche Canada Training Courses
-                                                li(ng-repeat='page in training')
-                                                                a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
+                                                li
+                                                        a(href='/training/overview') Overview
+                                                li
+                                                        a(href='/training/online-primer') Online Avalanche Primer
+                                                li
+                                                        a(href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
+                                                li
+                                                        a(href='/training/ast1') Avalanche Skills Training 1
+                                                li
+                                                        a(href='/training/ast2') Avalanche Skills Training 2
+                                                li
+                                                        a(href='/training/crs') Companion Rescue Skills
+                                                li
+                                                        a(href='http://old.avalanche.ca/cac/community/sled' target="_blank") Mountain Snowmobiling
+                                                li
+                                                        a(href='http://www.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
+                                                li
+                                                        a(href='http://www.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                        h2 Online Avalanche Course
-                                                li(ng-repeat='page in onlineCourse')
-                                                                a(href='/training/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
-                                            ul.mega-sub-menu
-                                                li
-                                                        h2 Parents & Educators
+                                                        h2 Youth
                                                 li(ng-repeat='page in parentsEducators')
                                                                 a(href='/parents-educators/{{page.name}}') {{page.display}}
-                                        .col-md-3.mega-content-inner
+                                        .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                     a(href='/Gear')
                                                         h2
-                                                            | Essential and recommended gear
+                                                            | Gear
                                                             i.fa.fa-angle-right
                                                 li
                                                     a(href='/library')
@@ -85,8 +96,8 @@ header#header.navbar-fixed-top(role='banner')
 
 
 
-                    li#nav-community.dropdown
-                        a(href='#')
+                    li#nav-community.dropdown.yamm-fw
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Community
                                 span.arrow-down
                         ul.dropdown-menu
@@ -123,59 +134,26 @@ header#header.navbar-fixed-top(role='banner')
                                                                                 i.fa.fa-angle-right
 
                     li#nav-news-events.dropdown
-                        a(href='#')
-                            | News and events
-                            span.arrow-down
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
+                                | News & Events
+                                span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='events')
-                                                                            h2
-                                                                                | Events
-                                                                                i.fa.fa-angle-right
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='outreach')
-                                                                            h2
-                                                                                | Outreach
-                                                                                i.fa.fa-angle-right
+                                a(href='/news') News
+                            li
+                                a(href='/events') Events
 
-                                            .col-md-4.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='news')
-                                                                            h2
-                                                                                | News
-                                                                                i.fa.fa-angle-right
                     li#nav-store.dropdown
-                        a(href='#')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                                 | Store
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                .container
-                                    .row
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='store')
-                                                                            h2
-                                                                                | Store
-                                                                                i.fa.fa-angle-right
+                                a(href='/store') Store
+                            li
+                                a(href='/auction') Web Auction
 
-                                            .col-md-6.mega-content-inner
-                                                    ul.mega-sub-menu
-                                                                li
-                                                                        a(href='web-auction')
-                                                                            h2
-                                                                                | Web Auction
-                                                                                i.fa.fa-angle-right
                 a#nav-search-desktop(href='#')
                     i.fa.fa-search
-                a#nav-donate-desktop(href='/foundation/donate') Donate
+                a#nav-donate-desktop(href='/foundation') Donate
     ///#header

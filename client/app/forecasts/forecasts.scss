@@ -1,0 +1,13 @@
+
+@import "forecast_base.scss";
+
+//Tablet Styles ***Add notes here
+@media screen and (min-width: $screen-tablet) {
+  @import "forecast_tablet.scss";
+}
+
+//Desktop Styles ***add notes here
+@media screen and (min-width: $screen-desktop) {
+  @import "forecast_desktop.scss";
+}
+
