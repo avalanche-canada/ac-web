@@ -80,7 +80,7 @@ angular.module('avalancheCanadaApp', [
 
     })
 
-    .run(function(ENV, $rootScope, auth, store, jwtHelper) {
+    .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
