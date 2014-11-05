@@ -26,7 +26,11 @@
     "nouislider": "~7.0.9",
     "Leaflet.awesome-markers": "~2.0.2",
     "PruneCluster": "~0.10.1",
-    "ac-components": "avalanche-canada/ac-components#master"
+    "ac-components": "avalanche-canada/ac-components#master",
+    "auth0-lock": "~6.3.7",
+    "a0-angular-storage": "~0.0.6",
+    "angular-jwt": "~0.0.4",
+    "auth0-angular": "~3.0.5"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
