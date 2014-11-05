@@ -4,6 +4,19 @@
 angular.module('avalancheCanadaApp')
 
   .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
+
+    //! does not handle resize should use ac-components breakpoints function
+    var page = {'width': window.innerWidth, 'height' : window.innerHeight};
+    $scope.video = {'width': 1012, 'height' : 555};
+
+    if(page.width < 480 ) {
+        $scope.video = {'width': 320, 'height' : 180};
+    } else if(page.width >= 480 && page.width < 600) {
+        $scope.video = {'width': 480, 'height' : 270};
+    } else if(page.width >= 600 && page.width < 1025) {
+        $scope.video = {'width': 640 , 'height' : 360};
+    }
+
     $scope.showMap = function () {
         $rootScope.pageClass = 'page-up';
         $state.go('ac.map');
