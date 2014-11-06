@@ -77,6 +77,16 @@ angular.module('foundation',[
         templateUrl: 'app/foundation/more.html',
         controller: 'FoundationMoreCtrl'
       })
+      .state('foundation.news', {
+        url: '/news',
+        templateUrl: 'app/foundation/more.html',
+        controller: 'FoundationMoreCtrl'
+      })
+      .state('foundation.events', {
+        url: '/events',
+        templateUrl: 'app/foundation/more.html',
+        controller: 'FoundationMoreCtrl'
+      })
       .state('foundation.about', {
         url: '/about',
         templateUrl: 'app/foundation/about.html',

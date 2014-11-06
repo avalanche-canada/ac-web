@@ -1,6 +1,6 @@
-
 .full-height.page
-        .page-inner
+    .page-inner
+        .container
             div
               input(type='text', ng-model='searchq', name='q')
               a(href='#/search/{{searchq}}') Search
@@ -21,3 +21,5 @@
                 a(href='#/{{(i > 1 ? i : "" )}}', ng-if='documents.page != i') {{i}}
               li(ng-if='documents.next_page')
                 a(href='#/{{documents.page+1}}') Next
+         .push
+    div.footer(ng-include='"components/footer/footer.html"')

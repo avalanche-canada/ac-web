@@ -1,3 +1,6 @@
 .full-height.page
-    .page-inner(ng-bind-html='content')
-    div(ng-include='"components/footer/footer.html"')
+    .page-inner
+        .container
+            article(ng-bind-html='content')
+        .push
+    div.footer(ng-include='"components/footer/footer.html"')

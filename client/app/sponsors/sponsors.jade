@@ -1,11 +1,13 @@
-.page-inner
-    #associate(ng-bind-html='associate')
-    #brand(ng-bind-html='brand')
-    #founding(ng-bind-html='founding')
-    #partner(ng-bind-html='partner')
-    #programs(ng-bind-html='programs')
-    #supplier(ng-bind-html='supplier')
-
-div(ng-include='"components/footer/footer.html"')
-
+.full-height.page
+    .page-inner
+        .container
+            .page-inner
+                #associate(ng-bind-html='associate')
+                #brand(ng-bind-html='brand')
+                #founding(ng-bind-html='founding')
+                #partner(ng-bind-html='partner')
+                #programs(ng-bind-html='programs')
+                #supplier(ng-bind-html='supplier')
+        .push
+    div.footer(ng-include='"components/footer/footer.html"')
 
