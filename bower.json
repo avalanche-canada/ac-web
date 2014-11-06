@@ -30,8 +30,7 @@
     "auth0-lock": "~6.3.7",
     "a0-angular-storage": "~0.0.6",
     "angular-jwt": "~0.0.4",
-    "auth0-angular": "~3.0.5",
-    "auth0.js": "~5.1.1"
+    "auth0-angular": "~3.0.5"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
@@ -41,7 +40,6 @@
   },
   "resolutions": {
     "angular": ">=1.2.*",
-    "jquery": "~1.11.0",
-    "auth0.js": "~4.3"
+    "jquery": "~1.11.0"
   }
 }
