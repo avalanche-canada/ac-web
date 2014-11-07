@@ -23,7 +23,8 @@
     "s3-policy": "^0.2.0",
     "semanticafy": "0.0.3",
     "static-favicon": "~1.0.1",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "newrelic": "^1.13.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
