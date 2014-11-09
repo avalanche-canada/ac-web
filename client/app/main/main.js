@@ -13,7 +13,7 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/main/more.html',
                 controller: 'MoreCtrl',
                 resolve:{
-                  sled: [function(){
+                  sledPage: [function(){
                       return true;
                   }]
                 }
@@ -23,7 +23,7 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/main/more.html',
                 controller: 'MoreCtrl',
                 resolve:{
-                  sled: [function(){
+                  sledPage: [function(){
                       return false;
                   }]
                 }

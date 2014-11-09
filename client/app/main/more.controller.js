@@ -2,7 +2,7 @@
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sled) {
+  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sledPage) {
 
     //! does not handle resize should use ac-components breakpoints function
     var page = {'width': window.innerWidth, 'height' : window.innerHeight};
@@ -27,8 +27,10 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
         var date = new Date();
         var today = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+        var sledQuery = sledPage ? '[:d = any(document.tags, ["Snowmobiler"])]' : '' ;
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "news")]]')
+        var queryStr = '[[:d = at(document.type, "news")]' + sledQuery + ']';
+        ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.news.date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -36,7 +38,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var news = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]')
+                queryStr = '[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]' + sledQuery + ']';
+                $log.debug(queryStr);
+                ctx.api.form('everything').query(queryStr)
                                             .orderings('[my.news.date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -58,8 +62,9 @@ angular.module('avalancheCanadaApp')
                 });
             }
         });
-
-        ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")]]')
+        queryStr = '[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")] ' + sledQuery + ']';
+        $log.debug(queryStr);
+        ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.event.start_date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -67,7 +72,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]]')
+                queryStr = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]' + sledQuery + ']';
+                $log.debug(queryStr);
+                ctx.api.form('everything').query(queryStr)
                                               .orderings('[my.event.start_date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
