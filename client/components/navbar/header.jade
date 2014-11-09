@@ -26,22 +26,22 @@ header#header.navbar-fixed-top(role='banner')
                                                 li
                                                     h2 Forecasts
                                                 li(ng-repeat='region in forecastRegionList1')
-                                                        a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='region in forecastRegionList2')
-                                                        a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='region in forecastRegionList3')
-                                                        a(href='/forecasts/{{region.name}}') {{region.display}}
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
                                                 li
-                                                    a(href='/forecasts/archive') Archive
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
 
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu')
-                                                        a(href='{{item.url}}')
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='{{item.url}}')
                                                             h2 {{item.display}}
                                                                 i.fa.fa-angle-right
 
@@ -58,46 +58,46 @@ header#header.navbar-fixed-top(role='banner')
                                                 li
                                                         h2 Avalanche Canada Training Courses
                                                 li
-                                                        a(href='/training/overview') Overview
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training/overview') Overview
                                                 li
-                                                        a(href='/training/online-primer') Online Avalanche Primer
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training/online-primer') Online Avalanche Primer
                                                 li
-                                                        a(href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
                                                 li
-                                                        a(href='/training/ast1') Avalanche Skills Training 1
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training/ast1') Avalanche Skills Training 1
                                                 li
-                                                        a(href='/training/ast2') Avalanche Skills Training 2
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training/ast2') Avalanche Skills Training 2
                                                 li
-                                                        a(href='/training/crs') Companion Rescue Skills
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training/crs') Companion Rescue Skills
                                                 li
-                                                        a(href='/sled') Mountain Snowmobiling
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/sled') Mountain Snowmobiling
                                                 li
-                                                        a(href='http://www.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
                                                 li
-                                                        a(href='http://www.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Youth
                                                 li(ng-repeat='page in youth')
-                                                                a(href='/youth{{page.url}}') {{page.display}}
+                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/youth{{page.url}}') {{page.display}}
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(href='/gear')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/gear')
                                                         h2
                                                             | Gear
                                                             i.fa.fa-angle-right
-                                                li
-                                                    a(href='/library')
-                                                        h2
-                                                            | Library
-                                                            i.fa.fa-angle-right
+                                                ///li
+                                                ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/library')
+                                                ///        h2
+                                                ///            | Library
+                                                ///            i.fa.fa-angle-right
 
 
 
                     li#nav-community.dropdown.yamm-fw
-                        a.dropdown-toggle(href='#' data-toggle="dropdown")
+                        a.dropdown-toggle(data-toggle="collapse" data-target=".navbar-collapse" href='#' data-toggle="dropdown")
                                 | Community
                                 span.arrow-down
                         ul.dropdown-menu
@@ -107,51 +107,51 @@ header#header.navbar-fixed-top(role='banner')
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        a(href='about')
+                                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='about')
                                                                             h2
                                                                                 | About
                                                                                 i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        a(href='membership')
+                                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='membership')
                                                                             h2
                                                                                 | Membership
                                                                                 i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        a(href='sponsors')
+                                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='sponsors')
                                                                             h2
                                                                                 | Sponsors
                                                                                 i.fa.fa-angle-right
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
-                                                                        a(href='collaborators')
+                                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='collaborators')
                                                                             h2
                                                                                 | Collaborators
                                                                                 i.fa.fa-angle-right
 
                     li#nav-news-events.dropdown
-                        a.dropdown-toggle(href='#' data-toggle="dropdown")
+                        a.dropdown-toggle(data-toggle="collapse" data-target=".navbar-collapse" href='#' data-toggle="dropdown")
                                 | News & Events
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                a(href='/news') News
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/news') News
                             li
-                                a(href='/events') Events
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/events') Events
 
                     li#nav-store.dropdown
-                        a.dropdown-toggle(href='#' data-toggle="dropdown")
+                        a.dropdown-toggle(data-toggle="collapse" data-target=".navbar-collapse" href='#' data-toggle="dropdown")
                                 | Store
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                a(href='/store') Store
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/store') Store
                             li
-                                a(href='/auction') Web Auction
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/auction') Web Auction
 
                 a#nav-search-desktop(href='#')
                     i.fa.fa-search
