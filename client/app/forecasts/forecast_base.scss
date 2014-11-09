@@ -2,13 +2,163 @@
 
 }
 
+.forecast-nowcast{
+    padding:0px;
+}
+
 #forecast-page {
     #header {
         border-bottom:1px solid #ececec;
     }
 }
 
+.ac-forecast-base {
+     border-top: 1px solid #ddd;
+    dl {
+        margin-bottom: 0px;
+    }
+    .ac-forecast-mini-body {
+        padding: 0 15px;
+    }
+    .small {
+        font-size: 75%;
+    }
+    .ac-forecast-region {
+        margin-top: 10px;
+    }
+    .ac-forecast-highlights {
+        margin-top: 10px;
+        color: rgb(43, 47, 51);
+    }
+    .ac-forecast-dates {
+        .col-xs-6 {
+            border-top: 5px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+            &:first-child {
+                border-right: 1px solid #ddd;
+            }
+        }
+        padding: 5px;
+    }
+    .ac-forecast-nowcast {
+        padding: 0;
+        overflow: hidden;
+        height: 150px;
+        .ac-nowcast {
+            height: 100px;
+            z-index: 1;
+            @media (min-width: $screen-sm-min) {
+                height: 120px;
+            }
+            @media (min-width: $screen-md-min) {
+                height: 150px;
+            }
+        }
+    }
+    .ac-problem-icon {
+        padding: 0;
+        &.ac-problem-icon--aspects img {
+            height: 116px;
+        }
+    }
+    .ac-problem.narative {
+        padding-top: 10px;
+    }
+    .ac-problem-travel-advice .panel-body {
+        padding: 10px;
+    }
+    .panel-title {
+        .fa-level-down {
+            position: relative;
+            top: 5px;
+        }
+        a {
+            width: 100%;
+            height: 100%;
+            display: block;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        small {
+            padding-top: 5px;
+        }
+    }
+    .panel-primary {
+        border-color: #eee;
+        & > .panel-heading {
+            background-color: rgb(43, 47, 51);
+            color: white;
+            padding: 10px 15px;
+        }
+    }
+    .panel-default > .panel-heading {
+        background-color: #ddd;
+        color: black;
+        padding: 5px 15px;
+    }
+    .nav-pills { //todo: will replace with actual full page component + .mini
+        margin-bottom: 10px;
+        li {
+            a {
+                background-color: rgba(0, 86, 183, 0.4);
+                color: white;
+            }
+            &.active a {
+                background-color: rgb(0, 86, 183);
+            }
+            & > a {
+                padding: 5px 15px;
+                font-size: 0.8em;
+                border-radius: 0;
+
+            }
+        }
+    }
+    .panel {
+        margin-bottom: 0;
+        .panel-body {
+            position: relative;
+        }
+    }
+    .panel-collapse {
+        height: 100px;
+        overflow: hidden;
+        display: block;
+        &.collapsing {
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
+        & > .panel-body:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-image: linear-gradient(to bottom, transparent, white);
+        }
+        &.in {
+            height: 100%;
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
+    }
+    .ac-forecast-days {
+        td {
+            border: 1px solid white;
+            font-size: 0.7em;
+        }
+    }
+}
+
 #forecast {
+
+    @extend .ac-forecast-base;
+
     width:100%;
     min-height:200px;
     @include clearfix();

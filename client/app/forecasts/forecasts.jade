@@ -39,8 +39,11 @@
 
                     tabset#forecast-tabs
                         tab(heading='Public Avalanche Forecast')
-                                .forecast-image
-                                    img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
+                            .panel.panel-primary
+                                .panel-heading
+                                        | {{ forecast.dangerRatings[0].date | date:'EEEE' }}
+                                    .panel-body.forecast-nowcast
+                                        img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
 
                                 table.table.table-condensed.ac-forecast-days
                                         thead.ac-thead-dark
@@ -75,11 +78,13 @@
                                                     strong Confidence:
                                                 td(colspan="2")
                                                     span.ac-text-default {{ forecast.confidence }}
-                                .panel.panel-primary(ng-repeat="problem in forecast.problems")
-                                    .panel-heading
-                                        h4.panel-title
-                                            a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
-                                                | {{ problem.type }}
+                            #problems.tab-pane
+                                #problemsAccordion.panel-group
+                                    .panel.panel-primary(ng-repeat="problem in forecast.problems")
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
+                                                    | {{ problem.type }}
                                          div(id="problem{{$index}}")
                                             .panel-body
                                                 .row
