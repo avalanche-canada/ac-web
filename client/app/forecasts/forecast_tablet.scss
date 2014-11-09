@@ -15,7 +15,10 @@
         @include center-block();
         //need to add 160px for the map bg image on the left
         width:1226px;
-        // background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
+        @media screen and (min-width: $screen-tablet) {
+            background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
+        }
+
         position:relative;
         #back-link {
             width:60px;

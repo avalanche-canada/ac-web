@@ -178,6 +178,7 @@
         //background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
         position:relative;
         #back-link {
+            z-index:100;
             width:60px;
             height:60px;
             padding:20px 0 0 20px;
