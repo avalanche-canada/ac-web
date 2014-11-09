@@ -159,6 +159,10 @@
 
     @extend .ac-forecast-base;
 
+    .table{
+        table-layout: fixed;
+    }
+
     width:100%;
     min-height:200px;
     @include clearfix();
