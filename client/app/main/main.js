@@ -8,11 +8,25 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/main/map.html',
                 controller: 'MapCtrl'
             })
-
+            .state('ac.sled', {
+                url: '^/sled',
+                templateUrl: 'app/main/more.html',
+                controller: 'MoreCtrl',
+                resolve:{
+                  sled: [function(){
+                      return true;
+                  }]
+                }
+            })
             .state('ac.more', {
                 url: '^/more',
                 templateUrl: 'app/main/more.html',
-                controller: 'MoreCtrl'
+                controller: 'MoreCtrl',
+                resolve:{
+                  sled: [function(){
+                      return false;
+                  }]
+                }
             })
             ;
   });

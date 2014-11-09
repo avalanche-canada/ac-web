@@ -1,9 +1,8 @@
-
 'use strict';
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
+  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sled) {
 
     //! does not handle resize should use ac-components breakpoints function
     var page = {'width': window.innerWidth, 'height' : window.innerHeight};
