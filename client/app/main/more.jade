@@ -7,9 +7,12 @@
     .container
         .row
             .col-xs-12
-                #sponsor-ad-container
+                #sponsor-ad-container(ng-if='!sledPage')
                     a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                         img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+                #sponsor-ad-container(ng-if='sledPage')
+                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/marmot-gloves.jpg')
     #know-more
         .container
             .row

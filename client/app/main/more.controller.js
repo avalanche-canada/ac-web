@@ -4,6 +4,8 @@ angular.module('avalancheCanadaApp')
 
   .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sledPage) {
 
+    $scope.sledPage = sledPage;
+
     //! does not handle resize should use ac-components breakpoints function
     var page = {'width': window.innerWidth, 'height' : window.innerHeight};
     $scope.video = {'width': 1012, 'height' : 555};
@@ -51,7 +53,7 @@ angular.module('avalancheCanadaApp')
                         $scope.news = [];
 
                         _.forEach(news, function(val){
-                            if (val.id !== featured.id){
+                            if (featured.id && val.id !== featured.id){
                                 $scope.news.push(val);
                             }
                         });
