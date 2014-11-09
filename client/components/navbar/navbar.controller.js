@@ -111,30 +111,10 @@ angular.module('avalancheCanadaApp')
                        {'display':'Summaries & Outlooks','url':'/summaries'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
-    $scope.blogs = [{'name':'all','display':'All'},
-                    {'name':'forecaster','display':'Forecaster'},
-                    {'name':'north-rockies','display':'North Rockies'},
-                    {'name':'south-rockies','display':'South Rockies'},
-                    {'name':'summary','display':'Summaries and Outlooks'},
-                    {'name':'conditions','display':'Conditions Outlook'},
-                    {'name':'conditions-summary','display':'Conditions Summary'},
-                    {'name':'weather','display':'Weather Outlook'},
-                    {'name':'tech','display':'Tech and Talk'}];
-
-    $scope.onlineCourse = [{'name':'formation','display':'Avalanche Formation'},
-                            {'name':'terrain','display':'Avalanche Terrain'},
-                            {'name':'planning','display':'Pre-trip Planning'},
-                            {'name':'reducing-risk','display':'Reducing Risk in the Field'},
-                            {'name':'rescue','display':'Rescue'},
-                            {'name':'report','display':'Reporting Observation'}];
-
-    $scope.parentsEducators = [{'name':'mentors','display':'Mentors'},
-                                {'name':'youth-guidelines','display':'Guidelines for Youth Education'},
-                                {'name':'youth-programs','display':'Existing Youth Programs'},
-                                {'name':'curriculum','display':'Curriculum Ideas/Lesson Plans'},
-                                {'name':'materials','display':'Resource Materials'},
-                                {'name':'grants','display':'School Programs - Grants'},
-                                {'name':'toolbox','display':'Tool Box - Safety gear loans'}];
+    $scope.youth = [{'url':'/overview','display':'Overview'},
+                    {'url':'/programs','display':'Programs'},
+                    {'url':'/resources','display':'Resources'},
+                    {'url':'/curriculum','display':'Curriculum'}];
 
     $scope.login = function() {
         auth.signin({}, function(profile, token) {

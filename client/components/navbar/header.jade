@@ -70,7 +70,7 @@ header#header.navbar-fixed-top(role='banner')
                                                 li
                                                         a(href='/training/crs') Companion Rescue Skills
                                                 li
-                                                        a(href='http://old.avalanche.ca/cac/community/sled' target="_blank") Mountain Snowmobiling
+                                                        a(href='/sled') Mountain Snowmobiling
                                                 li
                                                         a(href='http://www.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
                                                 li
@@ -79,8 +79,8 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li
                                                         h2 Youth
-                                                li(ng-repeat='page in parentsEducators')
-                                                                a(href='/parents-educators/{{page.name}}') {{page.display}}
+                                                li(ng-repeat='page in youth')
+                                                                a(href='/youth{{page.url}}') {{page.display}}
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
