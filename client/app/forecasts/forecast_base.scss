@@ -88,6 +88,9 @@
     .panel-primary {
         border-color: #eee;
         & > .panel-heading {
+            font-size: 2rem;
+            line-height: 2.4rem;
+            font-weight: bold;
             background-color: rgb(43, 47, 51);
             color: white;
             padding: 10px 15px;
