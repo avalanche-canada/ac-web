@@ -2,10 +2,10 @@
     #inner-forecast
         #back-link
             i.fa.fa-chevron-left
-        #top-link
-            i.fa.fa-chevron-up
-            br
-            | Top
+        /// #top-link
+        ///    i.fa.fa-chevron-up
+        ///    br
+        ///    | Top
         article.container
             .row
                 header.col-xs-12
@@ -135,8 +135,9 @@
                                                             .panel-body
                                                                 p(ng-bind-html='problem.travelAndTerrainAdvice')
                                 #forecast-by
-                                    | Prepared by
-                                    a(href='#') rbuhler
+                                    /// todo
+                                    ///| Prepared by
+                                    ///a(href='#') rbuhler
 
                             #forecast-details.tab-pane
                                 h3 Avalanche Summary
@@ -147,12 +148,6 @@
 
                                 h3 Weather Forecast
                                 p(ng-bind-html='forecast.weatherForecast')
-
-
-
-
-
-
 
                 #mobile-sidebar-container.col-xs-12.col-md-3
                     aside

@@ -274,7 +274,10 @@
                     margin-bottom:18px;
                     li {
                         margin:0;
-                        //width:100%;
+                        @media screen and (max-width: $screen-tablet) {
+                            width:100%;
+                        }
+
                       a {
                             display:block;
                             width:100%;
