@@ -178,11 +178,13 @@
         //background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
         position:relative;
         #back-link {
+            position:fixed;
+            margin-left: 210px;
             z-index:100;
             width:60px;
             height:60px;
             padding:20px 0 0 20px;
-            position:absolute;
+            //position:absolute;
             top:40px;
             left:0;
             background-color:#000;
@@ -204,15 +206,15 @@
                 }
                 #forecast-sponsor-desktop {
                     float:right;
-          width:124px;
-          p {
-              margin:0 0 12px 0;
-              @include font-size(1.1, 1.1);
-              font-family:$font-family-google;
-              font-weight:bold;
-              text-transform:uppercase;
-              color:#b5b5b5;
-          }
+                    width:124px;
+                    p {
+                      margin:0 0 12px 0;
+                      @include font-size(1.1, 1.1);
+                      font-family:$font-family-google;
+                      font-weight:bold;
+                      text-transform:uppercase;
+                      color:#b5b5b5;
+                    }
                 }
                 @include clearfix();
                 background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
@@ -488,6 +490,8 @@
                                 tr {
                                     width:100%;
                                     th {
+                                        border: 1px solid #FFF;
+                                        text-align: center;
                                         width:100%;
                                         @include font-size(2.0, 2.4);
                                         font-weight:bold;
@@ -497,7 +501,7 @@
                             tbody {
                                 tr {
                                     td {
-                                        border:none;
+                                        ///border:none;
                                         color:#5b5b5b;
                                         @include font-size(1.5, 2.2);
                                     }

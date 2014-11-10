@@ -300,7 +300,7 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
         if(!date){
             today = new Date;
             //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-            date = "2013-02-01"; //! for testing purposes use a day with actual data
+            date = "2013-03-03"; //! for testing purposes use a day with actual data
         }
 
         if (region.properties.owner === "parks-canada") {

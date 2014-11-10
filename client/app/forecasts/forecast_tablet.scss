@@ -24,7 +24,7 @@
             width:60px;
             height:60px;
             padding:20px 0 0 20px;
-            position:absolute;
+            //position:absolute;
             top:172px;
             left:20px;
             background-color:#000;
@@ -313,7 +313,6 @@
                             tbody {
                                 tr {
                                     td {
-                                        border:none;
                                         color:#5b5b5b;
                                         @include font-size(1.5, 2.2);
                                     }

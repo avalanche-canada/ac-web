@@ -11,7 +11,7 @@
             .row
                 header.col-xs-12
                     #header-inner
-                        h1 {{forecast.bulletinTitle}}
+                        h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
                         #forecast-sponsor-desktop.hidden-xs
                             p Brought to you by
                             a(target='_blank', href='http://arcteryx.com')
@@ -51,7 +51,7 @@
                               | Forecast Details
                               i.fa.fa-chevron-down.visible-xs-block
                               span.hidden-xs.arrow-down
-                          li#blank-forecast-tab.hidden-xs.hidden-sm
+                          ///li#blank-forecast-tab.hidden-xs.hidden-sm
                         // Tab panes
                         .tab-content
                             #public-forecast.tab-pane.active
@@ -84,7 +84,7 @@
                                                         strong {{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
                                                 tr
                                                     td.ac-veg-zone--btl
-                                                        strong Bellow Treeline
+                                                        strong Below Treeline
                                                     td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}")
                                                         strong {{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
                                                     td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}")
@@ -172,11 +172,11 @@
                                 section.sidebar-related-pubdate Date 00, 0000
                             ul.sidebar-related-links
                                 li.first
-                                    a(href='#') Related Data
-                                li
-                                    a(href='#') Forecast Archive
-                                li.last
-                                    a(href='#') Any Additional Links
+                                    a(href='/forecasts/archive') Forecast Archive
+                                ///li
+                                ///    a(href='#') Forecast Archive
+                                ///li.last
+                                ///    a(href='#') Any Additional Links
 
                 footer#forecast-bulletin.col-xs-12
                     #accordion.panel-group
