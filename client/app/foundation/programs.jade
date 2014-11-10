@@ -3,8 +3,12 @@
         accordion(close-others='false')
             accordion-group(heading='Avalanche Canada Fund' is-open='panel')
                 .anchor#ac(ng-bind-html='ac')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
+
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                  input(type='hidden', value='_s-xclick', name='cmd')
+                  input(type='hidden', value='DYGUSJVHLMMHE', name='hosted_button_id')
+                  input(border='0', type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                  img(border='0', width='1', height='1', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
 
             accordion-group(heading='Hugh & Helen Hincks Memorial Fund ')
                 .anchor#hincks(ng-bind-html='hincks')
