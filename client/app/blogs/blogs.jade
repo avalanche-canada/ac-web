@@ -32,9 +32,10 @@
                         img.img-responsive(alt='Smith Optics', src='assets/img/sponsor-mobile-smith-logo.png')
             #news-blog-event-list-rows.col-xs-12.col-md-9
                 // news list rows
-                article.list-rows.list-row-1
-                    section.news-blog-event-image
-                        img(alt='', src='assets/img/news-article-test-pic.jpg')
+                ///featured
+                /// article.list-rows.list-row-1
+                ///    section.news-blog-event-image
+                ///        img(alt='', src='assets/img/news-article-test-pic.jpg')
                         ///ul.news-blog-event-social
                         ///    li
                         ///        a(href='#')
@@ -48,41 +49,42 @@
                         ///        a(href='#')
                         ///            i.fa.fa-eye
                         ///            | 63
-                    header
-                        span Featured
-                        h2
-                            a(href='#') Featured Blog Article
-                    section.news-blog-event-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2(ng-repeat='blog in blogs')
-                    header
-                        /// span Forecasters' Blog
-                        h2
-                            a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
-                    section.news-blog-event-body
-                        /// img(alt='', src='assets/img/sub-blog-img.jpg')
-                        p
-                            {{blog.getStructuredText('blog.body').asText(ctx)}}
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
-                            i.fa.fa-circle
-                            time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                ///    header
+                ///        span Featured
+                ///        h2
+                ///            a(href='#') Featured Blog Article
+                ///    section.news-blog-event-body
+                ///        p
+                ///            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                ///            a(href='/') Watch now
+                ///    footer
+                ///        section.blog-tags
+                ///            a(href='#') Tag One
+                ///            a(href='#') Tag Two
+                ///            a(href='#') Tag Three
+                ///        p
+                 ///           a(href='/') Source
+                ///            i.fa.fa-circle
+                ///            time(datetime='2008-02-14 20:00') Pub date here
+
+                article.list-rows(ng-repeat='blog in blogs' ng-class='"list-row-" + ($index+2)')
+                        header
+                            /// span Forecasters' Blog
+                            h2
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
+                        section.news-blog-event-body
+                            /// img(alt='', src='assets/img/sub-blog-img.jpg')
+                            p
+                                {{blog.getStructuredText('blog.body').asText(ctx)}}
+                        footer
+                            /// section.blog-tags
+                            ///    a(href='#') Tag One
+                            ///    a(href='#') Tag Two
+                            ///    a(href='#') Tag Three
+                            p
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                i.fa.fa-circle
+                                time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
 
             // /#news-blog-event-list-rows
             #mobile-sidebar-container.col-xs-12.col-md-3
