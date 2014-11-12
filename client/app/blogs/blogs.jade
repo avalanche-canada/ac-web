@@ -25,72 +25,6 @@
                     a.pull-right(target='_blank', href='http://arcteryx.com')
                         img(src='assets/img/arcteryx-logo.jpg')
             // /#sponsor-mobile
-            #filters.blog-filters.col-xs-12
-                #filters-inner
-                    .dropdown
-                        // filter-category
-                        #filter-category-dropdown.dropdown-filters.hidden-xs
-                            button#filter-category.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-                                | Category
-                                span (00)
-                                i.fa.fa-chevron-down
-                            ul.dropdown-menu(aria-labelledby='filter-category', role='menu')
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Action
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Another action
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Something else here
-                                li.last(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Separated link
-                        // filter-category
-                        // filter-filter
-                        #filter-filter-dropdown.dropdown-filters
-                            button#filter-filters.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-                                | Filters
-                                span (00)
-                                i.fa.fa-chevron-down
-                            ul.dropdown-menu(aria-labelledby='filter-filters', role='menu')
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Action
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Another action
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Something else here
-                                li.last(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Separated link
-                        // filter-filter
-                        // filter-year
-                        #filter-year-dropdown.dropdown-filters.hidden-xs
-                            button#filter-year.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-                                | Year
-                                i.fa.fa-chevron-down
-                            ul.dropdown-menu(aria-labelledby='filter-year', role='menu')
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') 2001
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') 2002
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') 2003
-                                li.last(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') 2004
-                        // filter-year ends
-                        // filter-month
-                        #filter-month-dropdown.dropdown-filters.hidden-xs
-                            button#filter-month.btn.btn-default.dropdown-toggle.hidden-xs(data-toggle='dropdown', type='button')
-                                | Month
-                                i.fa.fa-chevron-down
-                            ul.dropdown-menu(aria-labelledby='filter-month', role='menu')
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Jan
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Feb
-                                li(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Mar
-                                li.last(role='presentation')
-                                    a(href='#', tabindex='-1', role='menuitem') Apr
-                        // filter-month ends
-            // /#filters
             .col-xs-12
                 #sponsor-ad-container
                     p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
@@ -101,19 +35,19 @@
                 article.list-rows.list-row-1
                     section.news-blog-event-image
                         img(alt='', src='assets/img/news-article-test-pic.jpg')
-                        ul.news-blog-event-social
-                            li
-                                a(href='#')
-                                    i.fa.fa-facebook
-                                    | 25
-                            li
-                                a(href='#')
-                                    i.fa.fa-twitter
-                                    | 12
-                            li
-                                a(href='#')
-                                    i.fa.fa-eye
-                                    | 63
+                        ///ul.news-blog-event-social
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-facebook
+                        ///            | 25
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-twitter
+                        ///            | 12
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-eye
+                        ///            | 63
                     header
                         span Featured
                         h2
@@ -131,112 +65,25 @@
                             a(href='/') Source
                             i.fa.fa-circle
                             time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2
+                article.list-rows.list-row-2(ng-repeat='blog in blogs')
                     header
-                        span Forecasters' Blog
+                        /// span Forecasters' Blog
                         h2
-                            a(href='#') Sub Blog Sub Blog
+                            a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                     section.news-blog-event-body
-                        img(alt='', src='assets/img/sub-blog-img.jpg')
+                        /// img(alt='', src='assets/img/sub-blog-img.jpg')
                         p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
+                            {{blog.getStructuredText('blog.body').asText(ctx)}}
                     footer
                         section.blog-tags
                             a(href='#') Tag One
                             a(href='#') Tag Two
                             a(href='#') Tag Three
                         p
-                            a(href='/') Source
+                            a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
                             i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-3
-                    header
-                        h2
-                            a(href='#') Sub Blog Sub Blog
-                    section.news-blog-event-body
-                        img(alt='', src='assets/img/sub-blog-img.jpg')
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-4
-                    header
-                        h2
-                            a(href='#') Sub Blog Sub Blog
-                    section.news-blog-event-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-5
-                    header
-                        h2
-                            a(href='#') Sub Blog Sub Blog
-                    section.news-blog-event-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-6
-                    header
-                        h2
-                            a(href='#') Sub Blog Sub Blog
-                    section.news-blog-event-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-7.list-row-last
-                    header
-                        h2
-                            a(href='#') Sub Blog Sub Blog
-                    section.news-blog-event-body
-                        p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
-                    footer
-                        section.blog-tags
-                            a(href='#') Tag One
-                            a(href='#') Tag Two
-                            a(href='#') Tag Three
-                        p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                // news-blog-event list rows ends
+                            time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+
             // /#news-blog-event-list-rows
             #mobile-sidebar-container.col-xs-12.col-md-3
                 aside
