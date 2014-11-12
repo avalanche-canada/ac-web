@@ -70,7 +70,7 @@
                             p
                                 a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date') | date:'EEEE MMMM d, y h:mm a'}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -125,7 +125,7 @@
                             p
                                 a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
-                                {{featuredEvent .getDate('event.date')}}
+                                {{featuredEvent .getDate('event.date') | date:'EEEE MMMM d, y h:mm a'}}
 
                     article.list-rows(ng-repeat="item in events")
                         header

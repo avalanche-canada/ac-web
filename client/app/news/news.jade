@@ -35,34 +35,35 @@
                 // news list rows
                 article.list-rows.list-row-1
                     section.news-blog-event-image
-                        img(alt='', src='assets/images/news-article-test-pic.jpg')
-                        ul.news-blog-event-social
-                            li
-                                a(href='#')
-                                    i.fa.fa-facebook
-                                    | 25
-                            li
-                                a(href='#')
-                                    i.fa.fa-twitter
-                                    | 12
-                            li
-                                a(href='#')
-                                    i.fa.fa-eye
-                                    | 63
+                        img.img(alt='', src=" {{ featured.getImageView('news.featured_image', 'preview').url }} ")
+                        ///ul.news-blog-event-social
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-facebook
+                        ///            | 25
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-twitter
+                        ///            | 12
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-eye
+                        ///            | 63
                     header
                         span Featured
                         h2
-                            a(href='#') Featured News Article
+                             a(href='#/news/{{featured.id}}/{{featured.slug}}')
+                                    {{featured.getText('news.title')}}
                     section.news-blog-event-body
                         p
-                            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                            a(href='/') Watch now
+                            | {{featured.getStructuredText('news.shortlede').asText(ctx)}}
                     footer
                         p
-                            a(href='/') Source
-                            i.fa.fa-circle
-                            time(datetime='2008-02-14 20:00') Pub date here
-                article.list-rows.list-row-2(ng-repeat=' document in documents.results')
+                            a(href='#/news/{{featured.id}}/{{featured.slug}}') Read More
+                                i.fa.fa-circle
+                                time(datetime='{{featured.getDate("news.date")}}') {{featured.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+
+                article.list-rows.list-row-2(ng-repeat=' document in news')
                     header
                         h2
                             a(href='#/news/{{document.id}}/{{document.slug}}')
