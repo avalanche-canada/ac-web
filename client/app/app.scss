@@ -21,7 +21,9 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 }
 
 @import "_ac_theme.scss";
-@import 'prismic_content.scss';
+@import '_prismic_content.scss';
+@import "_news_events_blogs.scss";
+
 
 // Component styles are injected through grunt
 // injector

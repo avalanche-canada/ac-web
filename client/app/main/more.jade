@@ -82,7 +82,7 @@
                             p
                                 a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
                     article.list-rows
                         footer
                             p
@@ -137,7 +137,7 @@
                             p
                                 a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
                     article.list-rows
                         footer
                             p
@@ -203,7 +203,7 @@
                             p
                                 a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{blog.getDate("blog.date")}}') {{blog.getDate('blog.date')}}
+                                time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
     .push
     div(ng-include='"components/footer/footer.html"')
 
