@@ -22,6 +22,12 @@ angular.module('avalancheCanadaApp')
         url: '^/blogs',
         templateUrl: 'app/blogs/blogs.html',
         controller: 'BlogsCtrl'
+      })
+      .state('ac.blogItem', {
+        url: '^/blogs/:id/:slug',
+        templateUrl: 'app/blogs/blogItem.html',
+        controller: 'BlogItemCtrl'
       });
+
   });
 
