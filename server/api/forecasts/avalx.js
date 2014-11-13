@@ -229,8 +229,8 @@ function parksForecast(caaml, region){
                 date: dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0],
                 dangerRating: {
                     alp: getRatingByZone(dayDangerRatings, 'Alp'),
-                    btl: getRatingByZone(dayDangerRatings, 'Tln'),
-                    tln: getRatingByZone(dayDangerRatings, 'Btl')
+                    tln: getRatingByZone(dayDangerRatings, 'Tln'),
+                    btl: getRatingByZone(dayDangerRatings, 'Btl')
                 }
             }
         });
