@@ -28,7 +28,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.orange,
         '4:High': colors.red,
         '5:Extreme': colors.red,
-        'N/A:No Rating': colors.white
+        'N/A:No Rating': colors.white,
+        'undefined:': colors.white
     },
     bannerFill: {
         '1:Low': colors.green,
@@ -36,7 +37,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.orange,
         '4:High': colors.red,
         '5:Extreme': colors.black,
-        'N/A:No Rating': colors.white
+        'N/A:No Rating': colors.white,
+        'undefined:': colors.white
     },
     bannerStroke: {
         '1:Low': colors.black,
@@ -44,7 +46,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.black,
         '4:High': colors.black,
         '5:Extreme': colors.red,
-        'N/A:No Rating': colors.black
+        'N/A:No Rating': colors.black,
+        'undefined:': colors.white
     },
     textFill: {
         '1:Low': colors.black,
@@ -52,7 +55,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.black,
         '4:High': colors.black,
         '5:Extreme': colors.white,
-        'N/A:No Rating': colors.black
+        'N/A:No Rating': colors.black,
+        'undefined:': colors.black
     }
 };
 
