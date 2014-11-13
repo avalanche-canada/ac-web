@@ -299,14 +299,15 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
 
         if(!date){
             today = new Date;
-            //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-            date = "2013-03-03"; //! for testing purposes use a day with actual data
+            date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+            //date = "2013-03-03"; //! for testing purposes use a day with actual data
         }
 
+        //! adding dates causing an issue for now only fetch the most recent forecast
         if (region.properties.owner === "parks-canada") {
-            url = [url, date].join('&d=');
+            //url = [url, date].join('&d=');
         } else { //assume avalanche ca
-            url = [url, date].join('/');
+            //url = [url, date].join('/');
         }
 
         request(url, function (error, response, body) {
