@@ -1,30 +1,46 @@
 .page-inner
-
+    .prismic-content
         accordion(close-others='false')
             accordion-group(heading='Avalanche Canada Fund' is-open='panel')
                 .anchor#ac(ng-bind-html='ac')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                    input(type='hidden', value='_s-xclick', name='cmd')
+                    input(type='hidden', value='DYGUSJVHLMMHE', name='hosted_button_id')
+                    input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                    img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
+
 
             accordion-group(heading='Hugh & Helen Hincks Memorial Fund ')
                 .anchor#hincks(ng-bind-html='hincks')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                    input(type='hidden', value='_s-xclick', name='cmd')
+                    input(type='hidden', value='WLY4BNN836GJU', name='hosted_button_id')
+                    input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                    img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
+
 
             accordion-group(heading='Craig Kelly Memorial Scholarship Fund ')
                 .anchor#kelly(ng-bind-html='kelly')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                    input(type='hidden', value='_s-xclick', name='cmd')
+                    input(type='hidden', value='78QEVUAMFPT8U', name='hosted_button_id')
+                    input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                    img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
 
             accordion-group(heading='Cora Shea Memorial Fund')
                 .anchor#shea(ng-bind-html='shea')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                    input(type='hidden', value='_s-xclick', name='cmd')
+                    input(type='hidden', value='XYHD9KV5EH32N', name='hosted_button_id')
+                    input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                    img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
 
             accordion-group(heading='Al Hodgson Memorial Fund')
                 .anchor#hodgson(ng-bind-html='hodgson')
-                input(type='image', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif')
-                img(border='0', height='1', width='1', alt='', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif')
-
-
-///div(ng-include='"components/footer/footer.html"')
+                form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                    input(type='hidden', value='_s-xclick', name='cmd')
+                    input(type='hidden', value='JTGK858347H3Y', name='hosted_button_id')
+                    input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
+                    img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
+    .push
+div(ng-include='"components/footer/footer.html"')

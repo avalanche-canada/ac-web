@@ -1,5 +1,115 @@
-#event_detail
-   #description(ng-bind-html="event.getStructuredText('event.description').asHtml(ctx);")
-   #details
-        p  location: {{event.getText('event.location')}}
-        p  hosted by: {{event.getText('event.hosted_by')}}
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                    {{event.getText('event.title')}}
+                    br.visible-xs-block
+                #sponsor-desktop.hidden-xs
+                    p Brought to you by
+                    a(target='_blank', href='http://arcteryx.com')
+                        img(src='assets/images/arcteryx-logo.jpg')
+                .blue-border
+        #sponsor-mobile.col-xs-12.visible-xs-block
+            #sponsor-mobile-inner
+                p.pull-left
+                    | Brought
+                    br
+                    | to you by
+                a.pull-right(target='_blank', href='http://arcteryx.com')
+                    img(src='assets/img/arcteryx-logo.jpg')
+        // /#sponsor-mobile
+        .col-xs-12
+            #sponsor-ad-container
+                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                    img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+        article#news-blog-event-landing-content.col-xs-12.col-md-9
+            section#post-date {{event.getDate('event.start_date') | date:'EEEE MMMM d' }}
+            section#post-location {{event.getText('event.location')}}
+            section#blog-tags
+            ///    a(href='#') Tag One
+            ///    a(href='#') Tag Two
+            ///    a(href='#') Tag Three
+            /// header
+            ///    h1 {{header}}
+            section#news-blog-event-landing-body
+                #description(ng-bind-html='event.getStructuredText("event.description").asHtml(ctx);')
+
+            footer
+                ///section#blog-author
+                ///    a#poster-image(href='#')
+                ///        img(width='57', height='54', src='assets/imag/posted-by.jpg')
+                ///    p
+                ///        a(href='#')
+                ///            | James Foyer
+                ///            span Senior Avalanche Forecaster
+                ///    p
+                ///        | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
+                ///section#news-blog-pager
+                ///    #news-blog-pager-left.pull-left.news-blog-pager-box
+                ///        a.pager-arrows(href='#')
+                ///            i.fa.fa-chevron-left
+                ///        #news-blog-pager-older.news-blog-pager-text.hidden-xs
+                ///            a(href='#')
+                ///                span Older
+                ///                br
+                ///                | Share Your Knowledge
+                ///    #news-blog-pager-right.pull-right.news-blog-pager-box
+                ///        a.pager-arrows(href='#')
+                ///            i.fa.fa-chevron-right
+                ///        #news-blog-pager-newer.news-blog-pager-text.hidden-xs
+                ///            a(href='#')
+                ///                span Newer
+                ///                br
+                ///                | New Fundraiser for Avalanche Canada
+        // /#news-blog-event-content
+        #mobile-sidebar-container.col-xs-12.col-md-3
+            aside
+                .dark-ribbon
+                .sidebar-inner
+                    h3 Related
+                    article.first.sidebar-related
+                        h4
+                            a(href='#') Spring Conditions Scenario Series
+                        section.sidebar-related-author
+                            | By
+                            a(href='#') Karl Klassen
+                        section.sidebar-related-pubdate Date 00, 0000
+                    article.sidebar-related
+                        h4
+                            a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                        section.sidebar-related-pubdate Date 00, 0000
+                    article.last.sidebar-related
+                        h4
+                            a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                        section.sidebar-related-pubdate Date 00, 0000
+                    ul.sidebar-related-links
+                        li.first
+                            a(href='#') Related Data
+                        li
+                            a(href='#') Forecast Archive
+                        li
+                            a(href='#') Any Additional Links
+                        li.last
+                            h5 More Information
+                            p
+                                | Mary Clayton
+                                br
+                                | Communications Director, Avalanche Canada
+                                br
+                                | mclayton@avalanche.ca
+                                br
+                                | 250.837.2141 (228)
+                                br
+                                | 250.837.1492
+    .push
+div.footer(ng-include='"components/footer/footer.html"')
+
+
+
+

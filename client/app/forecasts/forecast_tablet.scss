@@ -15,13 +15,16 @@
         @include center-block();
         //need to add 160px for the map bg image on the left
         width:1226px;
-        background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
+        @media screen and (min-width: $screen-tablet) {
+            background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
+        }
+
         position:relative;
         #back-link {
             width:60px;
             height:60px;
             padding:20px 0 0 20px;
-            position:absolute;
+            //position:absolute;
             top:172px;
             left:20px;
             background-color:#000;
@@ -73,7 +76,7 @@
         }
         #date-valid {
              width:606px;
-             padding-left:18px;
+            // padding-left:18px;
         }
         #forecast-body {
             h2 {
@@ -310,7 +313,6 @@
                             tbody {
                                 tr {
                                     td {
-                                        border:none;
                                         color:#5b5b5b;
                                         @include font-size(1.5, 2.2);
                                     }

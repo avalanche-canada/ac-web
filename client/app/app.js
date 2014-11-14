@@ -16,10 +16,14 @@ angular.module('avalancheCanadaApp', [
         'ngSanitize',
         'prismic.io',
         'acComponents',
-        'foundation'])
+        'foundation',
+        'auth0',
+        'angular-storage',
+        'angular-jwt'
+    ])
 
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
@@ -69,11 +73,32 @@ angular.module('avalancheCanadaApp', [
             return retVal;
         });
 
+        authProvider.init({
+            domain: 'avalancheca.auth0.com',
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
+        });
+
     })
 
-    .run(function(ENV, $rootScope) {
+    .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
+
+        auth.hookEvents();
+
+        $rootScope.$on('$locationChangeStart', function() {
+            if (!auth.isAuthenticated) {
+              var token = store.get('token');
+              if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                  auth.authenticate(store.get('profile'), token);
+                } else {
+                  // Either show Login page or use the refresh token to get a new idToken
+                  $location.path('/');
+                }
+              }
+            }
+        });
     })
 
     .controller('AlertCtrl', function ($scope) {

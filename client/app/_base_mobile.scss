@@ -229,7 +229,7 @@
 
 /*know-more*/
 #know-more {
-    background-image:url(../assets/images/know-more-desktop-bg.jpg);
+    background-image:url(#{$assets_path}/images/know-more-desktop-bg.jpg);
     background-repeat: no-repeat;
     background-size: 100% auto;
     //width:100%;

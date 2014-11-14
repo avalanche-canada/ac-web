@@ -1,21 +1,128 @@
+.full-height.page
+    #news-blog-event-content.container
+        #top-link.visible-xs-block
+            i.fa.fa-chevron-up
+            br
+            | Top
+        .row
+            header.col-xs-12
+                #header-inner
+                    h1
+                        | Recent
+                        br.visible-xs-block
+                        | News
+                    #sponsor-desktop.hidden-xs
+                        p Brought to you by
+                        a(target='_blank', href='http://arcteryx.com')
+                            img(src='assets/images/arcteryx-logo.jpg')
+                    .blue-border
+            #sponsor-mobile.col-xs-12.visible-xs-block
+                #sponsor-mobile-inner
+                    p.pull-left
+                        | Brought
+                        br
+                        | to you by
+                    a.pull-right(target='_blank', href='http://arcteryx.com')
+                        img(src='assets/images/arcteryx-logo.jpg')
+            // /#sponsor-mobile
 
-div
-  input(type='text', ng-model='searchq', name='q')
-  a(href='#/search/{{searchq}}') Search
-h2 {{documents.total_results_size}} documents
-ul#list
-    li(ng-repeat=' document in documents.results')
-        a(href='#/events/{{document.id}}/{{document.slug}}')
-            {{document.slug}}
-        {{document.getStructuredText('events.shortlede').asText(ctx)}}
-        {{ctx.linkResolver(ctx, document)}}
+            .col-xs-12
+                #sponsor-ad-container
+                    p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                        img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+            #news-blog-event-list-rows.col-xs-12.col-md-9
+                // news list rows
+                article.list-rows.list-row-1
+                    section.news-blog-event-image
+                        img.img(alt='', src=" {{ featured.getImageView('event.featured_image', 'preview').url }} ")
+                        ///ul.news-blog-event-social
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-facebook
+                        ///            | 25
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-twitter
+                        ///            | 12
+                        ///    li
+                        ///        a(href='#')
+                        ///            i.fa.fa-eye
+                        ///            | 63
+                    header
+                        span Featured
+                        h2
+                             a(href='#/events/{{featured.id}}/{{featured.slug}}')
+                                    {{featured.getText('event.title')}}
+                    section.news-blog-event-body
+                        p
+                            | {{featured.getStructuredText('event.shortlede').asText(ctx)}}
+                    footer
+                        p
+                            a(href='#/events/{{featured.id}}/{{featured.slug}}') More details
+                                i.fa.fa-circle
+                                time(datetime='{{featured.getDate("event.start_date")}}') {{featured.getDate('event.start_date') | date:'EEEE MMMM d, y h:mm a' }}
 
-hr
-ul#pagination(ng-if='documents.total_pages > 1')
-  li(ng-if='documents.prev_page')
-    a(href='#/{{(documents.page-1 > 1 ? documents.page-1 : "" )}}') Previous
-  li(ng-repeat='i in paginationRange')
-    span(ng-if='documents.page == i') {{i}}
-    a(href='#/{{(i > 1 ? i : "" )}}', ng-if='documents.page != i') {{i}}
-  li(ng-if='documents.next_page')
-    a(href='#/{{documents.page+1}}') Next
+                article.list-rows(ng-repeat=' document in events' ng-class='"list-row-" + ($index+2)')
+                    header
+                        h2
+                            a(href='#/news/{{document.id}}/{{document.slug}}')
+                                {{document.getText('event.title')}}
+                    section.news-blog-event-body
+                        p
+                            | {{document.getStructuredText('event.shortlede').asText(ctx)}}
+                    footer
+                        p
+                            a(href='#/events/{{document.id}}/{{document.slug}}') Read More
+                            i.fa.fa-circle
+                            time {{document.getDate('event.start_date') | date:'EEEE MMMM d, y h:mm a' }}
+                // news-blog-event list rows ends
+            // /#news-blog-event-list-rows
+            #mobile-sidebar-container.col-xs-12.col-md-3
+                aside
+                    .dark-ribbon
+                    .sidebar-inner
+                        h3 Related
+                        article.first.sidebar-related
+                            h4
+                                a(href='#') Spring Conditions Scenario Series
+                            section.sidebar-related-author
+                                | By
+                                a(href='#') Karl Klassen
+                            section.sidebar-related-pubdate Date 00, 0000
+                        article.sidebar-related
+                            h4
+                                a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                            section.sidebar-related-pubdate Date 00, 0000
+                        article.last.sidebar-related
+                            h4
+                                a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
+                            section.sidebar-related-pubdate Date 00, 0000
+                        ul.sidebar-related-links
+                            li.first
+                                a(href='#') Related Data
+                            li
+                                a(href='#') Forecast Archive
+                            li
+                                a(href='#') Any Additional Links
+                            li.last
+                                h5 More Information
+                                p
+                                    | Mary Clayton
+                                    br
+                                    | Communications Director, Avalanche Canada
+                                    br
+                                    | mclayton@avalanche.ca
+                                    br
+                                    | 250.837.2141 (228)
+                                    br
+                                    | 250.837.1492
+            // /#mobile-sidebar-container
+    // /#news-blog-event-content
+    .push
+    div(ng-include='"components/footer/footer.html"')
+
+
+
+
+

@@ -1,48 +1,105 @@
 var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
+var multiparty = require('multiparty');
+var util = require('util');
+var AWS = require('aws-sdk');
 var moment = require('moment');
-var policy = require('s3-policy');
-var obs = require('./observations');
 var uuid = require('node-uuid');
-var config = require('../../config/environment');
+var path = require('path');
+var geohash = require('ngeohash');
 
-router.get('/', function(req, res) {
-    var period;
-    var limit;
-    var filtered;
+//AWS.config.loadFromPath('./aws.json');
+var s3Stream = require('s3-upload-stream')(new AWS.S3());
+var dynamodb = new AWS.DynamoDB();
 
-    if(req.query.period && /^\d+:(hours|days|months)$/g.test(req.query.period)) { // ?period=2:hours|days|months
-        period = req.query.period.split(':');
-        limit = moment().subtract(period[0], period[1]);
+router.post('/', function (req, res) {
+    var form = new multiparty.Form();
+    var s3Client = new AWS.S3();
+    var bucket = 'ac-user-uploads';
+    var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
+    var item = {
+        obid: { S: uuid.v4() },
+        acl: { S: 'private' },
+        obtype: { S: 'quick'},
+        user: { S: '86d7a01c-266d-40e5-b367-ef3926b87530' }
+    };
+    var ob = {};
+    var uploads = [];
 
-        filtered = _.filter(obs.features, function (ob) {
-            return moment(ob.properties.date).isAfter(limit);
-        });
-
-        return res.json({
-            type: 'FeatureCollection',
-            features: filtered
-        });
-    } else {
-        res.json(obs);
-    }
-});
-
-router.get('/uploads/s3-policy', function (req, res) {
-    var s3Policy = policy({
-        secret: config.aws.uploader.secretKey,
-        length: 5000000,
-        bucket: config.aws.uploader.bucket,
-        name: 'obs/quick' + moment().format('/YYYY/MM/DD/'),
-        expires: new Date(Date.now() + 60000),
-        acl: 'private',
-        type: ''
+    form.on('field', function(name, value) {
+        console.log('field %s with value %s', name, value);
+        switch(name){
+            case "location":
+                item.latlng = { S: value };
+                item.geohash = { S: geohash.encode(value.split(',')[0], value.split(',')[1]) };
+                break;
+            case "datetime":
+                item.epoch = { N: ''+moment(value).unix() };
+                break;
+            default:
+                ob[name] = { S: value };
+                break;
+        }
     });
 
-    s3Policy.key = config.aws.uploader.accessKeyId;
+    form.on('part', function(part) {
+        var uploadId = uuid.v4()
+        var ext = path.extname(part.filename);
+        var key = keyPrefix + uploadId + ext;
 
-    res.json(s3Policy);
+        console.log('uploading: ' + key);
+
+        uploads.push(key);
+
+        var upload = s3Stream.upload({
+          Bucket: bucket,
+          Key: key,
+          ACL: "public-read"
+        });
+
+        part.pipe(upload);
+
+        upload.on('error', function (error) {
+          console.log(error);
+        });
+
+        upload.on('uploaded', function (details) {
+          console.log(details);
+        });
+
+    });
+
+    form.on('error', function (err) {
+        console.log('error accepting obs form: ' + err)
+    });
+
+    form.on('close', function (err) {
+        if (uploads) ob.uploads = { SS: uploads };
+        item.ob = { M: ob };
+
+        dynamodb.putItem({
+            TableName: "ac-obs",
+            Item: item
+        }, function (result) {
+            console.log(result);
+            res.end("OK");
+        });
+    });
+
+    form.parse(req);
+});
+
+router.get('/', function (req, response) {
+    dynamodb.scan({ TableName: 'ac-obs', ProjectionExpression: 'latlng, obtype' }, function(err, res) {
+        var obs = _.map(res.Items, function (item) {
+            return {
+                obtype: item.obtype.S,
+                latlng: item.latlng.S
+            }
+        });
+        response.json(obs);
+    });
 });
 
 module.exports = router;
