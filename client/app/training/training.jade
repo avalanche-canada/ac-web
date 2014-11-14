@@ -1,6 +1,11 @@
 .full-height.page
     .page-inner
         .prismic-content
-            article(ng-bind-html='content')
+            #news-blog-event-landing-content
+                .anchor#overview(ng-bind-html='overview')
+                .anchor#primer(ng-bind-html='primer')
+                .anchor#crs(ng-bind-html='crs')
+                .anchor#ast1(ng-bind-html='ast1')
+                .anchor#ast2(ng-bind-html='ast2')
         .push
     div.footer(ng-include='"components/footer/footer.html"')
