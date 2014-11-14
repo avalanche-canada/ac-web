@@ -1,8 +1,8 @@
 .full-height.page
     .page-inner
-        .container
-                #government(ng-bind-html='government')
-                #other(ng-bind-html='other')
+        .prismic-content
+            .anchor#government(ng-bind-html='government')
+            .anchor#other(ng-bind-html='other')
         .push
     div.footer(ng-include='"components/footer/footer.html"')
 

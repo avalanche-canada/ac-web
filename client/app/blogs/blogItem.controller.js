@@ -7,7 +7,10 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
         Prismic.document($stateParams.id).then(function(doc){
             if (doc.slug === $stateParams.slug) {
-                $scope.documentHtml =  doc.getStructuredText('blog.body').asHtml(ctx);//doc.asHtml(ctx);
+                $scope.documentHtml = doc.getStructuredText('blog.body').asHtml(ctx);
+                $scope.header       = doc.getText('blog.title');
+                $scope.date         = doc.getDate('blog.date');
+                $scope.category     = doc.getText('blog.category');
             }
             else if (doc.slugs.indexOf($stateParams.slug) >= 0) {
                 $location.path('/blogs/'+doc.id+'/'+doc.slug);
