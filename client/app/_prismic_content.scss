@@ -1,0 +1,23 @@
+
+.prismic-content
+{
+   @extend .container;
+
+   h1{
+        padding:34px 0px 25px;
+        background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+        position:relative;
+        @include font-size(3.6, 3.8);
+        font-family:$font-family-google;
+        margin:0;
+        font-weight:bold;
+        span {
+            color:#121212;
+        }
+   }
+
+   .caption{
+       color: #5B5B5B;
+   }
+}
+

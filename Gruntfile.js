@@ -219,7 +219,7 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/ ]
+        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/, '/auth0/', '/a0-angular-storage/','/auth0-lock/','/auth0-angular/' ]
       }
     },
 
@@ -250,12 +250,10 @@ module.exports = function (grunt) {
     },
 
     // Performs rewrites based on rev and the useminPrepare configuration
-    // fullpage.js naming stops us from doing this on bower_components
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
-      js: [ '<%= yeoman.dist %>/public/app/{,*/}*.js',
-            '<%= yeoman.dist %>/public/assets/{,*/}*.js'],
+      js: [ '<%= yeoman.dist %>/public/{,*/}*.js', '!<%= yeoman.dist %>/public/bower_components/auth0.js', '!<%= yeoman.dist %>/public/bower_components/mapbox.js'],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/public',
@@ -368,7 +366,8 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             'package.json',
-            'server/**/*'
+            'server/**/*',
+            '.ebextensions/**/*'
           ]
         }]
       },

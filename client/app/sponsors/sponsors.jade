@@ -1,11 +1,27 @@
-.page-inner
-    #associate(ng-bind-html='associate')
-    #brand(ng-bind-html='brand')
-    #founding(ng-bind-html='founding')
-    #partner(ng-bind-html='partner')
-    #programs(ng-bind-html='programs')
-    #supplier(ng-bind-html='supplier')
-
-div(ng-include='"components/footer/footer.html"')
-
+.full-height.page
+    .page-inner
+        .container
+            .page-inner
+                #partner
+                    h1 Partners
+                    ul
+                        li(ng-repeat='sponsor in partner')
+                            {{sponsor.getText('sponsor.name')}}
+                #founding
+                    h1 Founding Sponsors
+                    ul
+                        li(ng-repeat='sponsor in founding')
+                            {{sponsor.getText('sponsor.name')}}
+                #supplier
+                    h1 Suppliers
+                    ul
+                        li(ng-repeat='sponsor in supplier')
+                            {{sponsor.getText('sponsor.name')}}
+                #associate
+                    h1 Associate
+                    ul
+                        li(ng-repeat='sponsor in associate')
+                            {{sponsor.getText('sponsor.name')}}
+        .push
+    div.footer(ng-include='"components/footer/footer.html"')
 

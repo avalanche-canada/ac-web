@@ -13,7 +13,7 @@ angular.module('avalancheCanadaApp')
                 $log.error('error getting blogs events from prismic');
             }
             else {
-                $scope.documents = documents;
+                $scope.blogs = documents.results;
                 // Angular doesn't repeat over collections created on the fly, so we have to create it here
                 if (documents.total_pages > 1){
                     $scope.paginationRange = _.range(1, documents.total_pages+1);

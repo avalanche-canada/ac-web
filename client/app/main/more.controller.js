@@ -1,9 +1,23 @@
-
 'use strict';
 
 angular.module('avalancheCanadaApp')
 
-  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
+  .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sledPage) {
+
+    $scope.sledPage = sledPage;
+
+    //! does not handle resize should use ac-components breakpoints function
+    var page = {'width': window.innerWidth, 'height' : window.innerHeight};
+    $scope.video = {'width': 1012, 'height' : 555};
+
+    if(page.width < 480 ) {
+        $scope.video = {'width': 320, 'height' : 180};
+    } else if(page.width >= 480 && page.width < 600) {
+        $scope.video = {'width': 480, 'height' : 270};
+    } else if(page.width >= 600 && page.width < 1025) {
+        $scope.video = {'width': 640 , 'height' : 360};
+    }
+
     $scope.showMap = function () {
         $rootScope.pageClass = 'page-up';
         $state.go('ac.map');
@@ -15,8 +29,10 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
         var date = new Date();
         var today = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+        var sledQuery = sledPage ? '[:d = any(document.tags, ["Snowmobiler"])]' : '' ;
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "news")]]')
+        var queryStr = '[[:d = at(document.type, "news")]' + sledQuery + ']';
+        ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.news.date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -24,7 +40,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var news = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]]')
+                queryStr = '[[:d = at(document.type, "news")] [:d = any(document.tags, ["featured"])]' + sledQuery + ']';
+                $log.debug(queryStr);
+                ctx.api.form('everything').query(queryStr)
                                             .orderings('[my.news.date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -35,7 +53,7 @@ angular.module('avalancheCanadaApp')
                         $scope.news = [];
 
                         _.forEach(news, function(val){
-                            if (val.id !== featured.id){
+                            if (featured.id && val.id !== featured.id){
                                 $scope.news.push(val);
                             }
                         });
@@ -46,8 +64,9 @@ angular.module('avalancheCanadaApp')
                 });
             }
         });
-
-        ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")]]')
+        queryStr = '[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")] ' + sledQuery + ']';
+        $log.debug(queryStr);
+        ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.event.start_date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -55,7 +74,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]]')
+                queryStr = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]' + sledQuery + ']';
+                $log.debug(queryStr);
+                ctx.api.form('everything').query(queryStr)
                                               .orderings('[my.event.start_date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -90,9 +111,7 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-
     });
-
 
   });
 

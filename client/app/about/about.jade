@@ -1,14 +1,15 @@
 .full-height.page
     .page-inner
-        #overview(ng-bind-html='overview')
-        #vision(ng-bind-html='vision')
-        #board(ng-bind-html='board')
-        #staff
-            li(ng-repeat='member in staff')
-                {{member.getText('staff.title')}}
-                {{member.getText('staff.full_name')}}
-                {{member.getText('staff.email')}}
-                {{member.getText('staff.phone')}}
-        #awards(ng-bind-html='awards')
-
-div(ng-include='"components/footer/footer.html"')
+        .prismic-content
+            #overview(ng-bind-html='overview')
+            #vision(ng-bind-html='vision')
+            #board(ng-bind-html='board')
+            #staff
+                li(ng-repeat='member in staff')
+                    {{member.getText('staff.title')}}
+                    {{member.getText('staff.full_name')}}
+                    {{member.getText('staff.email')}}
+                    {{member.getText('staff.phone')}}
+            #awards(ng-bind-html='awards')
+        .push
+    div.footer(ng-include='"components/footer/footer.html"')

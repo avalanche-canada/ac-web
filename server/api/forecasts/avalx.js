@@ -28,7 +28,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.orange,
         '4:High': colors.red,
         '5:Extreme': colors.red,
-        'N/A:No Rating': colors.white
+        'N/A:No Rating': colors.white,
+        'undefined:': colors.white
     },
     bannerFill: {
         '1:Low': colors.green,
@@ -36,7 +37,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.orange,
         '4:High': colors.red,
         '5:Extreme': colors.black,
-        'N/A:No Rating': colors.white
+        'N/A:No Rating': colors.white,
+        'undefined:': colors.white
     },
     bannerStroke: {
         '1:Low': colors.black,
@@ -44,7 +46,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.black,
         '4:High': colors.black,
         '5:Extreme': colors.red,
-        'N/A:No Rating': colors.black
+        'N/A:No Rating': colors.black,
+        'undefined:': colors.white
     },
     textFill: {
         '1:Low': colors.black,
@@ -52,7 +55,8 @@ var dangerRatingStyles = {
         '3:Considerable': colors.black,
         '4:High': colors.black,
         '5:Extreme': colors.white,
-        'N/A:No Rating': colors.black
+        'N/A:No Rating': colors.black,
+        'undefined:': colors.black
     }
 };
 
@@ -225,8 +229,8 @@ function parksForecast(caaml, region){
                 date: dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0],
                 dangerRating: {
                     alp: getRatingByZone(dayDangerRatings, 'Alp'),
-                    btl: getRatingByZone(dayDangerRatings, 'Tln'),
-                    tln: getRatingByZone(dayDangerRatings, 'Btl')
+                    tln: getRatingByZone(dayDangerRatings, 'Tln'),
+                    btl: getRatingByZone(dayDangerRatings, 'Btl')
                 }
             }
         });
@@ -299,14 +303,15 @@ function fetchCaamlForecast(region, date, successCallback, errorCallback) {
 
         if(!date){
             today = new Date;
-            //date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-            date = "2013-04-01"; //! for testing purposes use a day with actual data
+            date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+            //date = "2013-03-03"; //! for testing purposes use a day with actual data
         }
 
+        //! adding dates causing an issue for now only fetch the most recent forecast
         if (region.properties.owner === "parks-canada") {
-            url = [url, date].join('&d=');
+            //url = [url, date].join('&d=');
         } else { //assume avalanche ca
-            url = [url, date].join('/');
+            //url = [url, date].join('/');
         }
 
         request(url, function (error, response, body) {

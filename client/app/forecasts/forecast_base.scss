@@ -2,13 +2,170 @@
 
 }
 
+.forecast-nowcast{
+    padding:0px;
+}
+
 #forecast-page {
     #header {
         border-bottom:1px solid #ececec;
     }
 }
 
+.ac-forecast-base {
+     border-top: 1px solid #ddd;
+    dl {
+        margin-bottom: 0px;
+    }
+    .ac-forecast-mini-body {
+        padding: 0 15px;
+    }
+    .small {
+        font-size: 75%;
+    }
+    .ac-forecast-region {
+        margin-top: 10px;
+    }
+    .ac-forecast-highlights {
+        margin-top: 10px;
+        color: rgb(43, 47, 51);
+    }
+    .ac-forecast-dates {
+        .col-xs-6 {
+            border-top: 5px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 5px;
+            &:first-child {
+                border-right: 1px solid #ddd;
+            }
+        }
+        padding: 5px;
+    }
+    .ac-forecast-nowcast {
+        padding: 0;
+        overflow: hidden;
+        height: 150px;
+        .ac-nowcast {
+            height: 100px;
+            z-index: 1;
+            @media (min-width: $screen-sm-min) {
+                height: 120px;
+            }
+            @media (min-width: $screen-md-min) {
+                height: 150px;
+            }
+        }
+    }
+    .ac-problem-icon {
+        padding: 0;
+        &.ac-problem-icon--aspects img {
+            height: 116px;
+        }
+    }
+    .ac-problem.narative {
+        padding-top: 10px;
+    }
+    .ac-problem-travel-advice .panel-body {
+        padding: 10px;
+    }
+    .panel-title {
+        .fa-level-down {
+            position: relative;
+            top: 5px;
+        }
+        a {
+            width: 100%;
+            height: 100%;
+            display: block;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        small {
+            padding-top: 5px;
+        }
+    }
+    .panel-primary {
+        border-color: #eee;
+        & > .panel-heading {
+            font-size: 2rem;
+            line-height: 2.4rem;
+            font-weight: bold;
+            background-color: rgb(43, 47, 51);
+            color: white;
+            padding: 10px 15px;
+        }
+    }
+    .panel-default > .panel-heading {
+        background-color: #ddd;
+        color: black;
+        padding: 5px 15px;
+    }
+    .nav-pills { //todo: will replace with actual full page component + .mini
+        margin-bottom: 10px;
+        li {
+            a {
+                background-color: rgba(0, 86, 183, 0.4);
+                color: white;
+            }
+            &.active a {
+                background-color: rgb(0, 86, 183);
+            }
+            & > a {
+                padding: 5px 15px;
+                font-size: 0.8em;
+                border-radius: 0;
+
+            }
+        }
+    }
+    .panel {
+        margin-bottom: 0;
+        .panel-body {
+            position: relative;
+        }
+    }
+    .panel-collapse {
+        height: 100px;
+        overflow: hidden;
+        display: block;
+        &.collapsing {
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
+        & > .panel-body:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-image: linear-gradient(to bottom, transparent, white);
+        }
+        &.in {
+            height: 100%;
+            & > .panel-body:after {
+                background-image: none;
+            }
+        }
+    }
+    .ac-forecast-days {
+        td {
+            border: 1px solid white;
+            font-size: 0.7em;
+        }
+    }
+}
+
 #forecast {
+
+    @extend .ac-forecast-base;
+
+    .table{
+        table-layout: fixed;
+    }
+
     width:100%;
     min-height:200px;
     @include clearfix();
@@ -21,10 +178,14 @@
         //background:transparent url(#{$assets_path}/forecast-inner-map-bg.jpg) left top repeat-y;
         position:relative;
         #back-link {
+            position:absolute;
+            //position:fixed;
+            //margin-left: 210px;
+            z-index:100;
             width:60px;
             height:60px;
             padding:20px 0 0 20px;
-            position:absolute;
+            //position:absolute;
             top:40px;
             left:0;
             background-color:#000;
@@ -46,15 +207,15 @@
                 }
                 #forecast-sponsor-desktop {
                     float:right;
-          width:124px;
-          p {
-              margin:0 0 12px 0;
-              @include font-size(1.1, 1.1);
-              font-family:$font-family-google;
-              font-weight:bold;
-              text-transform:uppercase;
-              color:#b5b5b5;
-          }
+                    width:124px;
+                    p {
+                      margin:0 0 12px 0;
+                      @include font-size(1.1, 1.1);
+                      font-family:$font-family-google;
+                      font-weight:bold;
+                      text-transform:uppercase;
+                      color:#b5b5b5;
+                    }
                 }
                 @include clearfix();
                 background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
@@ -117,11 +278,13 @@
                     margin-bottom:18px;
                     li {
                         margin:0;
-                        //width:100%;
+                        @media screen and (max-width: $screen-tablet) {
+                            width:100%;
+                        }
+
                       a {
                             display:block;
-                            //width:252px;
-                            //width:100%;
+                            width:100%;
                             height:75px;
                             background-color:#99bbe2;
                             color:#fff;
@@ -133,8 +296,6 @@
                             margin:0;
                             border-radius:0;
                             text-align:center;
-                            padding-right:60px;
-                            padding-top:30px;
                             text-align:left;
                             &:focus {
                                 color:#fff;
@@ -144,7 +305,7 @@
                             &.active {
                                 color:#fff;
                                 background-color:#0056b7;
-                                .arrow-down {display:block;}
+                                //.arrow-down {display:block;}
                             }
                             .fa {
                                 position:absolute;
@@ -153,24 +314,7 @@
                                 right:12px;
                                 @include font-size(2.0, 2.0);
                             }
-                            .arrow-down {
-                                position:absolute;
-                                z-index:999;
-                                bottom:-10px;
-                                left:44%;
-                                width:0;
-                                height:0;
-                                border-left:10px solid transparent;
-                                border-right:10px solid transparent;
-                                border-top:10px solid #0056b7;
-                                display:none;
-                            }
                         }
-                        &#public-forecast-li,
-                        &#forecast-details-li {
-                            border-right:1px solid #fff;
-                        }
-                        &#public-forecast-li a {padding-top:20px;}
                         &#blank-forecast-tab {
                             background-color:#99bbe2;
                             width:252px;
@@ -185,6 +329,7 @@
                         }
                     }
                 }
+
                 .tab-content {
                     padding-bottom:30px;
                     .tab-pane {
@@ -346,6 +491,8 @@
                                 tr {
                                     width:100%;
                                     th {
+                                        border: 1px solid #FFF;
+                                        text-align: center;
                                         width:100%;
                                         @include font-size(2.0, 2.4);
                                         font-weight:bold;
@@ -355,7 +502,7 @@
                             tbody {
                                 tr {
                                     td {
-                                        border:none;
+                                        ///border:none;
                                         color:#5b5b5b;
                                         @include font-size(1.5, 2.2);
                                     }

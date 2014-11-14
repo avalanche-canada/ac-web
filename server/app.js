@@ -7,6 +7,7 @@
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+require('newrelic');
 var express = require('express');
 var config = require('./config/environment');
 // Setup server

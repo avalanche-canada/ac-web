@@ -7,9 +7,12 @@
     .container
         .row
             .col-xs-12
-                #sponsor-ad-container
+                #sponsor-ad-container(ng-if='!sledPage')
                     a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                         img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+                #sponsor-ad-container(ng-if='sledPage')
+                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/marmot-gloves.jpg')
     #know-more
         .container
             .row
@@ -20,7 +23,7 @@
                             br
                             span Go Farther.
                     footer
-                        a.btn(href='/member')
+                        a.btn(href='http://membership.avalanche.ca/' target="_blank")
                             | Become a member
                             i.fa.fa-angle-right
                         a.btn(href='/training/overview')
@@ -40,19 +43,21 @@
                     article.list-row-1
                         section.news-image
                             img.im(alt='', src=" {{ featuredNews.getImageView('news.featured_image', 'preview').url }} ")
-                            ul.news-social
-                                li
-                                    a(href='#')
-                                        i.fa.fa-facebook
-                                        | 25
-                                li
-                                    a(href='#')
-                                        i.fa.fa-twitter
-                                        | 12
-                                li
-                                    a(href='#')
-                                        i.fa.fa-eye
-                                        | 63
+
+                            /// \todo
+                            ///ul.news-social
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-facebook
+                            ///            | 25
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-twitter
+                            ///            | 12
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-eye
+                            ///            | 63
                         header
                             span Featured
                             h2
@@ -65,7 +70,7 @@
                             p
                                 a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date') | date:'EEEE MMMM d, y h:mm a'}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -77,7 +82,11 @@
                             p
                                 a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                    article.list-rows
+                        footer
+                            p
+                                a(href='#/news') See More
 
     #news.container
         .row
@@ -90,19 +99,20 @@
                     article.list-row-1
                         section.news-image
                             img.im(alt='', src=" {{ featuredEvent.getImageView('event.featured_image', 'preview').url }} ")
-                            ul.news-social
-                                li
-                                    a(href='#')
-                                        i.fa.fa-facebook
-                                        | 25
-                                li
-                                    a(href='#')
-                                        i.fa.fa-twitter
-                                        | 12
-                                li
-                                    a(href='#')
-                                        i.fa.fa-eye
-                                        | 63
+                            /// \To Do
+                            ///ul.news-social
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-facebook
+                            ///            | 25
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-twitter
+                            ///            | 12
+                            ///    li
+                            ///        a(href='#')
+                            ///            i.fa.fa-eye
+                            ///            | 63
                         header
                             span Featured
                             h2
@@ -115,7 +125,7 @@
                             p
                                 a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
-                                {{featuredEvent .getDate('event.date')}}
+                                {{featuredEvent .getDate('event.date') | date:'EEEE MMMM d, y h:mm a'}}
 
                     article.list-rows(ng-repeat="item in events")
                         header
@@ -127,7 +137,11 @@
                             p
                                 a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                    article.list-rows
+                        footer
+                            p
+                                a(href='#/events') See More
 
     #videos.container
         .row
@@ -139,8 +153,8 @@
                             a(href='#') Throttle Decisions: Outreach Component
                     section#video-container
 
-                        iframe(width='1012', height='555', frameborder='0', allowfullscreen='', mozallowfullscreen='', webkitallowfullscreen='', src='//player.vimeo.com/video/79814896')
-                        p
+                       iframe(width='{{video.width}}', height='{{video.height}}', frameborder='0', allowfullscreen='', mozallowfullscreen='', webkitallowfullscreen='', src='//player.vimeo.com/video/79814896')
+                       p
                           a(href='http://vimeo.com/79814896') Throttle Decisions: Outreach Component
                           | from
                           a(href='http://vimeo.com/avalanchecanada') Avalanche Canada
@@ -184,74 +198,15 @@
                                 ///todo  a(href='#') Karl Klassen
                         section.blog-body
                             p
-                               {{blog.getStructuredText('blog.body').asText(ctx)}}
+                               {{blog.getText('blog.shortlede')}}
                         footer
                             p
                                 a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{blog.getDate("blog.date")}}') {{blog.getDate('blog.date')}}
-    #communities
-        #dark-ribbon
-        .container
-            .row
-                .col-xs-12
-                    h3
-                        | Our
-                        br.visible-xs-inline
-                        | Communities
-                #communities-twitter.col-xs-12.col-sm-6.col-md-3.communities-box
-                    p
-                        | New winter #backcountry terrain atlas available for
-                        a(href='#') #mtrevelstokenp
-                        | &
-                        a(href='#') #glaciernp
-                        a(href='#') @avalancheca
-                        a(href='#')
-                            strong http://www.pc.gc.ca/eng/pn-np/bc/glacier/activ/activ1/b.aspx
-                    a(href='#')
-                    .posted-by
-                        a(href='#')
-                        a.poster-image(href='#')
-                            img(width='30', height='30', src='{{env.imageDir}}/twitter-image.jpg')
-                        a.postername-date @ryanbougie    May 7
-                    a.blue-button(href='#')
-                        i.fa.fa-twitter
-                        | Follow Us
-                        i.fa.fa-angle-right
-                #communities-facebook.col-xs-12.col-sm-6.col-md-3.communities-box
-                    p
-                        | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
-                        br
-                        strong
-                            a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
-                    .posted-by
-                        a.poster-image(href='#')
-                            img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
-                        a.postername-date Canadian Avalanche Center - May 7
-                    a.blue-button(href='#')
-                        i.fa.fa-facebook
-                        | Like Us
-                        i.fa.fa-angle-right
-                #communities-youtube.col-xs-12.col-sm-6.col-md-3.communities-box
-                    img.youtube-thumb.img-responsive(width='233', height='130', src='{{env.imageDir}}/youtube-thumb.jpg')
-                    p 3 The Three Winter Essentials
-                    .posted-by
-                        a.poster-image(href='#')
-                        a.postername-date 8 months ago | 81 views
-                    a.blue-button(href='#')
-                        i.fa.fa-youtube
-                        | Like Us
-                        i.fa.fa-angle-right
-                #communities-misc.col-xs-12.col-sm-6.col-md-3.communities-box
-                    p
-                        | The Valemount Area Recreation Development Association is fundraising for the construction of a new 20x32 Shelter in the Clemina Creek Managed snowmobile area this summer. Interesting in helping them out?
-                        br
-                        strong
-                            a(href='https://www.facebook.com/events/496763173745045/') https://www.facebook.com/events/496763173745045/
-                    .posted-by
-                        a.poster-image(href='#')
-                            img(width='30', height='30', src='{{env.imageDir}}/avalanche-center-profile-img.jpg')
-                        a.postername-date Canadian Avalanche Center - May 7
+                                time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+    .push
+    div(ng-include='"components/footer/footer.html"')
+
 
 
 

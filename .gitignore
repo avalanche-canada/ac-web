@@ -7,3 +7,5 @@ dist
 /server/config/local.env.js
 .elasticbeanstalk/
 .nvmrc
+newrelic_agent.log
+aws.json
