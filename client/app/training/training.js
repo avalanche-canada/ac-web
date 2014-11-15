@@ -7,7 +7,7 @@ angular.module('avalancheCanadaApp')
         url: '^/training',
         templateUrl: 'app/training/training.html',
         controller: 'TrainingCtrl'
-      })
+      });
   })
 
   .controller('TrainingCtrl', function ($scope, Prismic, $stateParams, $location, $anchorScroll) {
