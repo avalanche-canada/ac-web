@@ -1,7 +1,21 @@
-.full-height.page
-    .page-inner
-        .prismic-content
-            #news-blog-event-landing-content
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                    | About - Avalanche Canada
+                .blue-border
+        .col-xs-12
+            /// #sponsor-ad-container
+               /// p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+               /// a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+               ///     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+        #news-blog-event-landing-content
+            section#news-blog-event-landing-body
                 #overview(ng-bind-html='overview')
                 #vision(ng-bind-html='vision')
                 #board(ng-bind-html='board')
@@ -12,5 +26,5 @@
                         {{member.getText('staff.email')}}
                         {{member.getText('staff.phone')}}
                 #awards(ng-bind-html='awards')
-        .push
-    div.footer(ng-include='"components/footer/footer.html"')
+    .push
+div.footer(ng-include='"components/footer/footer.html"')

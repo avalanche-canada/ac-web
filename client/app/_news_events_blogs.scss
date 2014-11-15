@@ -16,6 +16,7 @@
         position:relative;
 }
 
+
 //Mobile
 #top-link {
         width:58px;
@@ -439,16 +440,16 @@
         }
         ul {
                 li {
-                        @include font-size(1.5, 4.0);
+                        @include font-size(1.5);
                         margin:0;
                         color:#0056b7;
                         p {
                                 margin:0;
-                                @include font-size(1.5, 4.0);
+                                @include font-size(1.5);
                                 color:#5b5b5b;
                         }
                         a {
-                            @include font-size(1.5, 4.0);
+                            @include font-size(1.5);
                                 &:visited,
                                 &:hover,
                                 &:active,
@@ -467,16 +468,16 @@
         }
         ol {
                 li {
-                        @include font-size(1.5, 4.0);
+                        @include font-size(1.5);
                         margin:0;
                         color:#0056b7;
                         p {
                                 margin:0;
-                                @include font-size(1.5, 4.0);
+                                @include font-size(1.5);
                                 color:#5b5b5b;
                         }
                         a {
-                            @include font-size(1.5, 4.0);
+                            @include font-size(1.5);
                                 &:visited,
                                 &:hover,
                                 &:active,
@@ -545,6 +546,16 @@
                 min-height:1px;
                 @include clearfix();
                 //quotes
+                .deck {
+                        display:block;
+                        clear:both;
+                        margin:30px 0 20px 0;
+                        padding:15px 2px 0 5px;
+                        position:relative;
+                        color:black;
+                        @include font-size(2.0, 2.4);
+
+                }
                 .body-quote {
                         display:block;
                         clear:both;
@@ -562,6 +573,14 @@
                             left:0;
                             top:-30px;
                         }
+                        &:after {
+                            color:#558cd6;
+                            content: "\201C";
+                            @include font-size(7.0, 7.0);
+                            position:absolute;
+                            right:0;
+                            bottom:-30px;
+                        }
                 }
                 .body-quote-footer {
                                 padding-top:22px;
@@ -577,6 +596,13 @@
                                 border:4px solid #eeeff1;
                         }
                 }
+                .body-image-left {
+                    @extend .body-image;
+                }
+                .body-image-right {
+                    @extend .body-image;
+                }
+
         }
         footer {
                 #blog-author {
@@ -924,94 +950,109 @@ aside {
                 padding-left:34px;
                 width:520px;
             }
-                //typography here
-                h1 {
+
+            //typography here
+             h1{
+                margin-bottom: 25px;
+                padding:34px 0px 25px;
+                background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+                position:relative;
+                @include font-size(3.6, 3.8);
+                font-family:$font-family-google;
+                font-weight:bold;
+                span {
+                    color:#121212;
+                }
+            }
+            h2 {
+                    @include font-size(2.6, 3.0);
+                    font-weight:bold;
+                    a {
                         @include font-size(2.6, 3.0);
-                        font-weight:bold;
-                        a {
-                            @include font-size(2.6, 3.0);
-                                &:visited,
-                                &:hover,
-                                &:active,
-                                &:focus {
-                                        text-decoration:none;
-                                }
-                        }
-                }
-                h2 {
+                            &:visited,
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                    text-decoration:none;
+                            }
+                    }
+            }
+            h3 {
+                    @include font-size(2.4, 2.8);
+                    font-weight:bold;
+                    a {
                         @include font-size(2.4, 2.8);
-                        font-weight:bold;
-                        a {
-                            @include font-size(2.4, 2.8);
-                                &:visited,
-                                &:hover,
-                                &:active,
-                                &:focus {
-                                        text-decoration:none;
-                                }
-                        }
-                }
-                h3 {
+                            &:visited,
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                    text-decoration:none;
+                            }
+                    }
+            }
+            h4 {
+                    @include font-size(2.2, 2.6);
+                    font-weight:bold;
+                    a {
                         @include font-size(2.2, 2.6);
-                        font-weight:bold;
-                        a {
-                            @include font-size(2.2, 2.6);
-                                &:visited,
-                                &:hover,
-                                &:active,
-                                &:focus {
-                                        text-decoration:none;
-                                }
-                        }
-                }
+                            &:visited,
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                    text-decoration:none;
+                            }
+                    }
+            }
 
-                #news-blog-event-landing-body {
-                        padding-bottom:20px;
-                        .body-image {
-                                width:300px;
-                        }
-                        .body-image-right {
-                                float:right;
-                                margin:0 0 14px 14px;
-                        }
-                        .body-image-left {
-                                float:left;
-                                margin:0 14px 14px 0;
-                        }
-                }
 
-                footer {
-                        #news-blog-pager {
-                                .news-blog-pager-box {width:49.86%;}
-                                .news-blog-pager-text {
-                                        width:100%;
-                                        min-height:125px;
-                                        @include clearfix();
-                                        padding-left:22px;
-                                        padding-right:16px;
-                                        padding-top:20px;
-                                        a {
-                                            @include font-size(2.0, 2.4);
-                                            font-weight:bold;
-                                            color:#000;
-                                                &:visited,
-                                                &:hover,
-                                                &:active,
-                                                &:focus {
-                                                        text-decoration:none;
-                                                }
-                                                span {
-                                                        @include font-size(1.5, 2.2);
-                                                        color:#0056b7;
-                                                }
-                                                &:hover,
-                                                &:focus {
-                                                        color:#0056b7;
-                                                }
-                                        }
-                                }
-                        }
-                }
+            #news-blog-event-landing-body {
+                    padding-bottom:20px;
+                    img {
+                        width:300px;
+                    }
+
+                    .body-image-right {
+                            float:right;
+                            margin:0 0 14px 14px;
+                    }
+                    .body-image-left {
+                            float:left;
+                            margin:0 14px 14px 0;
+                    }
+            }
+
+            footer {
+                    #news-blog-pager {
+                            .news-blog-pager-box {width:49.86%;}
+                            .news-blog-pager-text {
+                                    width:100%;
+                                    min-height:125px;
+                                    @include clearfix();
+                                    padding-left:22px;
+                                    padding-right:16px;
+                                    padding-top:20px;
+                                    a {
+                                        @include font-size(2.0, 2.4);
+                                        font-weight:bold;
+                                        color:#000;
+                                            &:visited,
+                                            &:hover,
+                                            &:active,
+                                            &:focus {
+                                                    text-decoration:none;
+                                            }
+                                            span {
+                                                    @include font-size(1.5, 2.2);
+                                                    color:#0056b7;
+                                            }
+                                            &:hover,
+                                            &:focus {
+                                                    color:#0056b7;
+                                            }
+                                    }
+                            }
+                    }
+            }
     }
 }
 //end of tablet styles

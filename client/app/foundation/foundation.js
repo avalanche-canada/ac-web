@@ -110,8 +110,8 @@ angular.module('foundation',[
                             $scope.board =  doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
-                    Prismic.bookmark('foundation-about-honorary').then(function(doc){
-                            $scope.honorary =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    Prismic.bookmark('foundation-directors-honourary').then(function(doc){
+                            $scope.honourary =  doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
                 });
