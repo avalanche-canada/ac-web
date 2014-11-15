@@ -1,68 +1,42 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-
   .config(function ($stateProvider) {
     $stateProvider
-      .state('ac.training-overview', {
-        url: '^/training/overview',
+    .state('ac.training', {
+        url: '^/training',
         templateUrl: 'app/training/training.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-                Prismic.ctx().then(function(ctx){
-                    Prismic.bookmark('training-overview').then(function(doc){
-                            $scope.content = doc.getStructuredText('learn.body').asHtml(ctx);
-                    });
-                });
-            }]
-      })
-      .state('ac.training-primer', {
-        url: '^/training/online-primer',
-        templateUrl: 'app/training/training.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-                Prismic.ctx().then(function(ctx){
-                    Prismic.bookmark('training-primer').then(function(doc){
-                            $scope.content = doc.getStructuredText('learn.body').asHtml(ctx);
-                    });
-                });
-            }]
-      })
-      .state('ac.training-ast1', {
-        url: '^/training/ast1',
-        templateUrl: 'app/training/training.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-                Prismic.ctx().then(function(ctx){
-                    Prismic.bookmark('training-ast1').then(function(doc){
-                            $scope.content = doc.getStructuredText('learn.body').asHtml(ctx);
-                    });
-                });
-            }]
-      })
-      .state('ac.training-ast2', {
-        url: '^/training/ast2',
-        templateUrl: 'app/training/training.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-                Prismic.ctx().then(function(ctx){
-                    Prismic.bookmark('training-ast2').then(function(doc){
-                            $scope.content = doc.getStructuredText('learn.body').asHtml(ctx);
-                    });
-                });
-            }]
-      })
-       .state('ac.training-crs', {
-        url: '^/training/crs',
-        templateUrl: 'app/training/training.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-                Prismic.ctx().then(function(ctx){
-                    Prismic.bookmark('training-crs').then(function(doc){
-                            $scope.content = doc.getStructuredText('learn.body').asHtml(ctx);
-                    });
-                });
-            }]
-      })
-      ;
-  });
+        controller: 'TrainingCtrl'
+      });
+  })
+
+  .controller('TrainingCtrl', function ($scope, Prismic, $stateParams, $location, $anchorScroll) {
+        if ($stateParams.section)
+        {
+            $location.hash($stateParams.section);
+            $anchorScroll();
+        }
+
+        Prismic.ctx().then(function(ctx){
+            Prismic.bookmark('training-overview').then(function(doc){
+                    $scope.overview = doc.getStructuredText('learn.body').asHtml(ctx);
+            });
+
+            Prismic.bookmark('training-crs').then(function(doc){
+                    $scope.crs = doc.getStructuredText('learn.body').asHtml(ctx);
+            });
+
+             Prismic.bookmark('training-ast2').then(function(doc){
+                    $scope.ast2 = doc.getStructuredText('learn.body').asHtml(ctx);
+            });
+
+             Prismic.bookmark('training-ast1').then(function(doc){
+                    $scope.ast1 = doc.getStructuredText('learn.body').asHtml(ctx);
+            });
+
+             Prismic.bookmark('training-primer').then(function(doc){
+                    $scope.primer = doc.getStructuredText('learn.body').asHtml(ctx);
+            });
+        });
+  })
+;

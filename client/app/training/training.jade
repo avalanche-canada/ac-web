@@ -1,6 +1,44 @@
-.full-height.page
-    .page-inner
-        .prismic-content
-            article(ng-bind-html='content')
-        .push
-    div.footer(ng-include='"components/footer/footer.html"')
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                    | Go farther - Get avalanche trained
+                .blue-border
+        .col-xs-12
+            #sponsor-ad-container
+                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                    img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+        #news-blog-event-landing-content
+            section#news-blog-event-landing-body
+                ///.prismic-content
+                .anchor#overview(ng-bind-html='overview')
+
+                #know-more
+                    .container
+                        .row
+                            article.col-xs-12
+                                header
+                                    h2
+                                        | Know More.
+                                        br
+                                        span Go Farther.
+                                footer
+                                    a.btn(href='/training#ast1')
+                                        | AST 1
+                                        i.fa.fa-angle-right
+                                    a.btn(href='/training#ast2')
+                                        | AST 2
+                                        i.fa.fa-angle-right
+
+                .anchor#primer(ng-bind-html='primer')
+                .anchor#crs(ng-bind-html='crs')
+                .anchor#ast1(ng-bind-html='ast1')
+                .anchor#ast2(ng-bind-html='ast2')
+    .push
+div.footer(ng-include='"components/footer/footer.html"')

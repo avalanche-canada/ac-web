@@ -66,7 +66,7 @@
                 article.list-rows(ng-repeat=' document in events' ng-class='"list-row-" + ($index+2)')
                     header
                         h2
-                            a(href='#/news/{{document.id}}/{{document.slug}}')
+                            a(href='#/events/{{document.id}}/{{document.slug}}')
                                 {{document.getText('event.title')}}
                     section.news-blog-event-body
                         p
