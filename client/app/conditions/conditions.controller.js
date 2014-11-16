@@ -1,31 +1,31 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ConditionsCtrl', function ($scope, Prismic, $log, $filter) {
+  .controller('ConditionsCtrl', function ($scope, Prismic, $log) {
 
      Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
 
         var getDate = function(item){
-            return moment.utc(item.getDate("conditions-summary.date")).format('YYYY-MM-DD') ;
-        }
+            return moment.utc(item.getDate('conditions-summary.date')).format('YYYY-MM-DD') ;
+        };
 
         $scope.date = getDate;
         $scope.generateLink = function(item){
             var date = getDate(item);
             var str = '#/conditions/' + date + '/' + item.getText('conditions-summary.type');
             return str;
-        }
+        };
 
         var display = {
-            "conditions-summary" : "Conditions Summary",
-             "weather-outlook" : "Weather Outlook",
-             "conditions-outlook" : "Conditions Outlook"};
+            'conditions-summary' : 'Conditions Summary',
+             'weather-outlook' : 'Weather Outlook',
+             'conditions-outlook' : 'Conditions Outlook'};
 
         $scope.displayType = function(input){
             return display[input];
-        }
+        };
 
         var query = '[[:d = at(document.type, "conditions-summary")]]';
         ctx.api.form('everything').query(query)

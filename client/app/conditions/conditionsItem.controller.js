@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ConditionsItemCtrl', function ($scope, Prismic, $log, $stateParams, $location) {
+  .controller('ConditionsItemCtrl', function ($scope, Prismic, $log, $stateParams) {
     var date = $stateParams.date;
     var category = $stateParams.category;
 
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
 
-        var query = '[[:d = at(document.type, "conditions-summary")] \
-            [:d = at(my.conditions-summary.type, "'+category+'")] \
-            [:d = at(my.conditions-summary.date, "'+date+'")]] ';
+        var query  = '[[:d = at(document.type, "conditions-summary")]';
+            query += '[:d = at(my.conditions-summary.type, "'+category+'")]';
+            query += '[:d = at(my.conditions-summary.date, "'+date+'")]] ';
         $log.debug(query);
         ctx.api.form('everything').query(query)
             .orderings('[my.conditions-summary.date]')
