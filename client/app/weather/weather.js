@@ -32,7 +32,7 @@ angular.module('avalancheCanadaApp')
 
                 });
             }]
-      })
+      });
 
   });
 
