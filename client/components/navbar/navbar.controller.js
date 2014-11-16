@@ -108,7 +108,7 @@ angular.module('avalancheCanadaApp')
     $scope.dataMenu = [{'display':'Observations','url':'/observations'},
                        {'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
-                       {'display':'Summaries & Outlooks','url':'/summaries'},
+                       {'display':'Summaries & Outlooks','url':'/conditions'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.youth = [{'url':'/overview','display':'Overview'},
