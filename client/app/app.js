@@ -23,13 +23,14 @@ angular.module('avalancheCanadaApp', [
     ])
 
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider,$uiViewScrollProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(true); //! use HTML 5 mode
+        $uiViewScrollProvider.useAnchorScroll(); //! https://groups.google.com/forum/#!topic/angular/j7U2C9Qngso
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/'); //! If route not found re route to the map
 
         //! define abstract ac state
         $stateProvider
