@@ -3,42 +3,44 @@ var express = require('express');
 var router = express.Router();
 var multiparty = require('multiparty');
 var util = require('util');
-var AWS = require('aws-sdk');
 var moment = require('moment');
 var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 
-//AWS.config.loadFromPath('./aws.json');
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./aws.json');
+var DOC = require("dynamodb-doc");
+var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
-var dynamodb = new AWS.DynamoDB();
 
 router.post('/', function (req, res) {
     var form = new multiparty.Form();
-    var s3Client = new AWS.S3();
     var bucket = 'ac-user-uploads';
     var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
     var item = {
-        obid: { S: uuid.v4() },
-        acl: { S: 'private' },
-        obtype: { S: 'quick'},
-        user: { S: '86d7a01c-266d-40e5-b367-ef3926b87530' }
+        obid: uuid.v4(),
+        acl: 'private',
+        obtype: 'quick',
+        user: '86d7a01c-266d-40e5-b367-ef3926b87530',
+        ob: {
+            uploads: []
+        }
     };
-    var ob = {};
-    var uploads = [];
 
     form.on('field', function(name, value) {
         console.log('field %s with value %s', name, value);
         switch(name){
             case "location":
-                item.latlng = { S: value };
-                item.geohash = { S: geohash.encode(value.split(',')[0], value.split(',')[1]) };
+                item.ob.latlng = value;
+                item.geohash = geohash.encode(item.ob.latlng.split(',')[0], value.split(',')[1]);
                 break;
             case "datetime":
-                item.epoch = { N: ''+moment(value).unix() };
+                item.ob.datetime = value;
+                item.epoch = moment(item.ob.datetime).unix();
                 break;
             default:
-                ob[name] = { S: value };
+                item.ob[name] = value;
                 break;
         }
     });
@@ -50,12 +52,12 @@ router.post('/', function (req, res) {
 
         console.log('uploading: ' + key);
 
-        uploads.push(key);
+        item.ob.uploads.push(key);
 
         var upload = s3Stream.upload({
           Bucket: bucket,
           Key: key,
-          ACL: "public-read"
+          ACL: "private"
         });
 
         part.pipe(upload);
@@ -75,15 +77,12 @@ router.post('/', function (req, res) {
     });
 
     form.on('close', function (err) {
-        if (uploads) ob.uploads = { SS: uploads };
-        item.ob = { M: ob };
-
-        dynamodb.putItem({
+        docClient.putItem({
             TableName: "ac-obs",
             Item: item
         }, function (result) {
             console.log(result);
-            res.end("OK");
+            res.send(201, "OK");
         });
     });
 
@@ -91,14 +90,43 @@ router.post('/', function (req, res) {
 });
 
 router.get('/', function (req, response) {
-    dynamodb.scan({ TableName: 'ac-obs', ProjectionExpression: 'latlng, obtype' }, function(err, res) {
-        var obs = _.map(res.Items, function (item) {
-            return {
-                obtype: item.obtype.S,
-                latlng: item.latlng.S
-            }
-        });
-        response.json(obs);
+    var params = {
+        TableName: 'ac-obs',
+        ProjectionExpression: 'obid, obtype, ob.latlng'
+    };
+
+    docClient.scan(params, function(err, res) {
+        if (err) {
+            console.log(err);
+            res.json(500, {error: "error fetching observations"})
+        } else {
+            var obs = res.Items.map(function (item) {
+                return {
+                    obid: item.obid,
+                    obtype: item.obtype,
+                    latlng: item.ob.latlng.split(',')
+                }
+            });
+
+            response.json(obs);
+        }
+    });
+});
+
+router.get('/:obid', function (req, response) {
+    var params = {
+        TableName: 'ac-obs',
+        Key: {obid: req.params.obid}
+    };
+
+    docClient.getItem(params, function(err, res) {
+        if (err) {
+            console.log(err);
+            res.json(500, {error: "error fetching observation"})
+        } else {
+            res.Item.ob.obid = res.Item.obid
+            response.json(res.Item.ob);
+        }
     });
 });
 

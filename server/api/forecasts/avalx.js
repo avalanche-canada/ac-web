@@ -260,7 +260,7 @@ function avalancheCaForecast(caaml, region){
     var caamlProblems      = caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avProblems'][0];
 
     function formatDangerRating(dangerRating) {
-        return ratings[dangerRating]  + ":" +  dangerRating;
+        return ratings[dangerRating] ? ratings[dangerRating]  + ":" +  dangerRating : 'N/A:No Rating';
     }
 
     function getDangerRatings(caamlDangerRatings){

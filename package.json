@@ -10,6 +10,7 @@
     "connect-mongo": "^0.4.1",
     "cookie-parser": "~1.0.1",
     "cors": "^2.4.2",
+    "dynamodb-doc": "git+https://github.com/awslabs/dynamodb-document-js-sdk.git",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
     "express-session": "~1.0.2",
@@ -19,6 +20,7 @@
     "moment": "^2.8.3",
     "morgan": "~1.0.0",
     "multiparty": "~4.0.0",
+    "newrelic": "^1.13.2",
     "ngeohash": "^0.6.0",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1",
@@ -26,8 +28,7 @@
     "s3-upload-stream": "~1.0.6",
     "semanticafy": "0.0.3",
     "static-favicon": "~1.0.1",
-    "xml2js": "^0.4.4",
-    "newrelic": "^1.13.2"
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
