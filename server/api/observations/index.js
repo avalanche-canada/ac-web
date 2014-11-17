@@ -9,7 +9,7 @@ var path = require('path');
 var geohash = require('ngeohash');
 
 var AWS = require('aws-sdk');
-// AWS.config.loadFromPath('./aws.json');
+AWS.config.loadFromPath('./aws.json');
 var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
@@ -96,15 +96,20 @@ router.get('/', function (req, response) {
     };
 
     docClient.scan(params, function(err, res) {
-        if (err) console.log(err);
-        var obs = res.Items.map(function (item) {
-            return {
-                obid: item.obid,
-                obtype: item.obtype,
-                latlng: item.ob.latlng.split(',')
-            }
-        });
-        response.json(obs);
+        if (err) {
+            console.log(err);
+            res.json(500, {error: "error fetching observations"})
+        } else {
+            var obs = res.Items.map(function (item) {
+                return {
+                    obid: item.obid,
+                    obtype: item.obtype,
+                    latlng: item.ob.latlng.split(',')
+                }
+            });
+
+            response.json(obs);
+        }
     });
 });
 
@@ -115,10 +120,13 @@ router.get('/:obid', function (req, response) {
     };
 
     docClient.getItem(params, function(err, res) {
-        if (err) console.log(err);
-        res.Item.ob.obid = res.Item.obid
-
-        response.json(res.Item.ob);
+        if (err) {
+            console.log(err);
+            res.json(500, {error: "error fetching observation"})
+        } else {
+            res.Item.ob.obid = res.Item.obid
+            response.json(res.Item.ob);
+        }
     });
 });
 
