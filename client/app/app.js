@@ -5,9 +5,7 @@
 //     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
 // });
 
-angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
-        'avalancheCanadaApp.filters',
         'ngCookies',
         'ngResource',
         'ngSanitize',
@@ -24,14 +22,14 @@ angular.module('avalancheCanadaApp', [
         'angular-jwt'
     ])
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider,$uiViewScrollProvider, authProvider, $httpProvider, jwtInterceptorProvider) {
+
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
-        $locationProvider.html5Mode(true); //! use HTML 5 mode
-        $uiViewScrollProvider.useAnchorScroll(); //! https://groups.google.com/forum/#!topic/angular/j7U2C9Qngso
+        $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/'); //! If route not found re route to the map
+        $urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
@@ -79,15 +77,16 @@ angular.module('avalancheCanadaApp', [
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
-
-        jwtInterceptorProvider.tokenGetter = function(store) {
-            // Return the saved token
-            return store.get('token');
-        };
-
-        $httpProvider.interceptors.push('jwtInterceptor');
-
     })
+
+    // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
+    //     jwtInterceptorProvider.tokenGetter = function(store) {
+    //         // Return the saved token
+    //         return store.get('token');
+    //     };
+
+    //     $httpProvider.interceptors.push('jwtInterceptor');
+    // }])
 
     .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly
