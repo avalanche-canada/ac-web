@@ -20,7 +20,7 @@ var jwtCheck = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
-router.post('/', jwtCheck, function (req, res) {
+router.post('/', function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
     var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
