@@ -10,7 +10,7 @@
     "connect-mongo": "^0.4.1",
     "cookie-parser": "~1.0.1",
     "cors": "^2.4.2",
-    "dynamodb-doc": "git+https://github.com/awslabs/dynamodb-document-js-sdk.git",
+    "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
     "express-session": "~1.0.2",
