@@ -27,7 +27,13 @@ Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https:
 ***
 
 ## Prerequisites
-The observation api uses AWS resources which means you will need an AWS key/pair set in order to use these resource. There are a numbers of strategies to pass in credentials as described in the [AWS NodeJS Configuration Guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html). 
+The observation api uses a few external resource which need to be configured.
+
+**AWS resources** which means you will need an AWS key/pair set in order to use these resource. There are a numbers of strategies to pass in credentials as described in the [AWS NodeJS Configuration Guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html).
+
+**Auth0**
+In order to be able to parse the jwt on the server we need to configure the express-jwt middleware by passing in our Auth0 application client information. 
+
 
 #### Development
 For development the recommended startegy is to use profiles via ``~/.aws/credentials`` file.
@@ -43,7 +49,13 @@ aws_secret_access_key = ...
 
 ````
 
-You can then pass set the AWS_PROFILE at the cli like: ``$ AWS_PROFILE=avalanche-canada grunt serve``
+For development add a ``.env`` file in the project root with the following contents:
+````
+AWS_PROFILE=avalanche-canada
+SESSION_SECRET=mysessionsecret
+AUTH0_CLIENT_ID=myauth0clientid
+AUTH0_CLIENT_SECRET=myauth0clientsecret
+````
 
 #### Production
 
@@ -86,6 +98,13 @@ For production the best practice is to use an ec2 instance profiles and set the 
 }
 ````
 When using elastic beanstalk you can set the instance profile at environment creation using the console, cli or eb tool. You can also change the instance profile using the same tools at a later point.
+
+The follwing environment variables also need to be set on the server:
+````
+SESSION_SECRET=mysessionsecret
+AUTH0_CLIENT_ID=myauth0clientid
+AUTH0_CLIENT_SECRET=myauth0clientsecret
+````
 
 
 ## Quick Start

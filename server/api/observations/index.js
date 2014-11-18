@@ -7,7 +7,7 @@ var moment = require('moment');
 var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
-
+var jwt = require('express-jwt');
 
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-west-2'});
@@ -15,7 +15,12 @@ var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
-router.post('/', function (req, res) {
+var jwtCheck = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
+
+router.post('/', jwtCheck, function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
     var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
@@ -23,7 +28,7 @@ router.post('/', function (req, res) {
         obid: uuid.v4(),
         acl: 'private',
         obtype: 'quick',
-        user: '86d7a01c-266d-40e5-b367-ef3926b87530',
+        user: req.user.user_id,
         ob: {
             uploads: []
         }

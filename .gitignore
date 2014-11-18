@@ -9,3 +9,4 @@ dist
 .nvmrc
 newrelic_agent.log
 aws.json
+.env
