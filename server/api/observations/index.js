@@ -8,8 +8,8 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 
+
 var AWS = require('aws-sdk');
-// AWS.config.loadFromPath('./aws.json');
 AWS.config.update({region: 'us-west-2'});
 var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
@@ -91,6 +91,7 @@ router.post('/', function (req, res) {
 });
 
 router.get('/', function (req, response) {
+    console.log('AWS profile is %s', process.env.AWS_ACCESS_KEY_ID);
     var params = {
         TableName: 'ac-obs',
         ProjectionExpression: 'obid, obtype, ob.latlng'
