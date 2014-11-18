@@ -28,7 +28,7 @@ router.post('/', function (req, res) {
         obid: uuid.v4(),
         acl: 'private',
         obtype: 'quick',
-        user: req.user.user_id,
+        user: '2f158fab-2e60-43cb-a96c-2655b1dd6b57',
         ob: {
             uploads: []
         }
@@ -96,7 +96,6 @@ router.post('/', function (req, res) {
 });
 
 router.get('/', function (req, response) {
-    console.log('AWS profile is %s', process.env.AWS_ACCESS_KEY_ID);
     var params = {
         TableName: 'ac-obs',
         ProjectionExpression: 'obid, obtype, ob.latlng'
