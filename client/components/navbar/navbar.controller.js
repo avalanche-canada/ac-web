@@ -105,16 +105,16 @@ angular.module('avalancheCanadaApp')
     $scope.forecastRegionList2 = $scope.forecastRegions.slice((third -1), (third*2));
     $scope.forecastRegionList3 = $scope.forecastRegions.slice((third*2), length+1);
 
-    $scope.dataMenu = [{'display':'Observations','url':'/observations'},
-                       {'display':'Incidents','url':'/incidents'},
+    $scope.dataMenu = [//{'display':'Observations','url':'/observations'},
+                       //{'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
                        {'display':'Summaries & Outlooks','url':'/conditions'},
                        {'display':'Weather Forecasts','url':'/weather'}];
 
-    $scope.youth = [{'url':'/overview','display':'Overview'},
-                    {'url':'/programs','display':'Programs'},
-                    {'url':'/resources','display':'Resources'},
-                    {'url':'/curriculum','display':'Curriculum'}];
+    $scope.youth = [{'url':'#overview','display':'Overview'},
+                    {'url':'#programs','display':'Programs'},
+                    {'url':'#resources','display':'Resources'},
+                    {'url':'#curriculum','display':'Curriculum'}];
 
     $scope.login = function() {
         auth.signin({}, function(profile, token) {

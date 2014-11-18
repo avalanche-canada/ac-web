@@ -84,7 +84,7 @@
                             p
                                 a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
-                                time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time {{blog.getDate('news.date')| dateUtc | date:'EEEE MMMM d, y h:mm a' }}
 
             // /#news-blog-event-list-rows
             #mobile-sidebar-container.col-xs-12.col-md-3
