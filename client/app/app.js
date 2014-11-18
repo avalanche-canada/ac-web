@@ -23,7 +23,7 @@ angular.module('avalancheCanadaApp', [
     ])
 
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider, $httpProvider, jwtInterceptorProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
@@ -77,15 +77,16 @@ angular.module('avalancheCanadaApp', [
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
-
-        jwtInterceptorProvider.tokenGetter = function(store) {
-            // Return the saved token
-            return store.get('token');
-        };
-
-        $httpProvider.interceptors.push('jwtInterceptor');
-
     })
+
+    // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
+    //     jwtInterceptorProvider.tokenGetter = function(store) {
+    //         // Return the saved token
+    //         return store.get('token');
+    //     };
+
+    //     $httpProvider.interceptors.push('jwtInterceptor');
+    // }])
 
     .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly
