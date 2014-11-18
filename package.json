@@ -10,7 +10,7 @@
     "connect-mongo": "^0.4.1",
     "cookie-parser": "~1.0.1",
     "cors": "^2.4.2",
-    "dynamodb-doc": "git+https://github.com/awslabs/dynamodb-document-js-sdk.git",
+    "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
     "express-session": "~1.0.2",
@@ -28,7 +28,9 @@
     "s3-upload-stream": "~1.0.6",
     "semanticafy": "0.0.3",
     "static-favicon": "~1.0.1",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "express-jwt": "~0.5.0",
+    "dotenv": "~0.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
