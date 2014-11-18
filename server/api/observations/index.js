@@ -10,6 +10,7 @@ var geohash = require('ngeohash');
 
 var AWS = require('aws-sdk');
 // AWS.config.loadFromPath('./aws.json');
+AWS.config.update({region: 'us-west-2'});
 var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
