@@ -81,7 +81,7 @@ angular.module('avalancheCanadaApp', [
         jwtInterceptorProvider.tokenGetter = function(store) {
             // Return the saved token
             return store.get('token');
-        }
+        };
 
         $httpProvider.interceptors.push('jwtInterceptor');
 
