@@ -5,7 +5,9 @@
 //     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
 // });
 
+angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
+        'avalancheCanadaApp.filters',
         'ngCookies',
         'ngResource',
         'ngSanitize',
