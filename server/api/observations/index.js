@@ -98,7 +98,7 @@ router.get('/', function (req, response) {
     docClient.scan(params, function(err, res) {
         if (err) {
             console.log(err);
-            res.json(500, {error: "error fetching observations"})
+            response.json(500, {error: "error fetching observations"})
         } else {
             var obs = res.Items.map(function (item) {
                 return {
@@ -122,7 +122,7 @@ router.get('/:obid', function (req, response) {
     docClient.getItem(params, function(err, res) {
         if (err) {
             console.log(err);
-            res.json(500, {error: "error fetching observation"})
+            response.json(500, {error: "error fetching observation"})
         } else {
             res.Item.ob.obid = res.Item.obid
             response.json(res.Item.ob);
