@@ -140,7 +140,7 @@ router.get('/', function (req, response) {
             response.json(obs);
         }
     });
-});
+}); 
 
 router.get('/:obid', function (req, response) {
     var params = {
