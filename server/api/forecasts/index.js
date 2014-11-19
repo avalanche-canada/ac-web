@@ -5,15 +5,12 @@ var avalx = require('./avalx');
 var regions = require('./forecast-regions');
 var areas = require('./forecast-areas');
 
-var forecastsCache = [];
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
     var date = req.query.date;
     req.region = _.find(regions.features, {id: regionId});
 
-    // todo: temp caching in order to not slow down development while the caaml server performs poorly
-    req.forecast = _.find(forecastsCache, function (f) { return f.json.region === req.params.region; });
-    if(!req.forecast && req.region.properties.type === 'avalx') {
+    if(req.region.properties.type === 'avalx') {
         avalx.fetchCaamlForecast(req.region, date, function (caamlForecast) {
             if(caamlForecast){
                 req.forecast = {
@@ -24,7 +21,6 @@ router.param('region', function (req, res, next) {
 
                 avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
                     req.forecast.json = jsonForecast;
-                    forecastsCache.push(req.forecast); // todo: temp caching
                     next();
                 }, function () {
                     console.log('error parsing %s caaml forecast.', regionId);
@@ -39,7 +35,7 @@ router.param('region', function (req, res, next) {
             console.log(e);
             res.send(500);
         });
-    } else if (!req.forecast) {
+    } else {
         req.forecast = {
             json: {
                 id: regionId,
@@ -47,10 +43,6 @@ router.param('region', function (req, res, next) {
                 externalUrl: req.region.properties.url
             }
         };
-        forecastsCache.push(req.forecast); // todo: temp caching
-        next();
-    } else {
-        console.log('serving up a cached forecast');
         next();
     }
 });
