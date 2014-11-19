@@ -64,6 +64,11 @@ angular.module('foundation',[
                           image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
+                        },
+                        {
+                          image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text2: 'contribute to snow safety research'
                         }];
 
                 $scope.showMore = function () {
