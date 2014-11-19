@@ -61,7 +61,7 @@
                         p
                             a(href='#/news/{{featured.id}}/{{featured.slug}}') Read More
                                 i.fa.fa-circle
-                                time(datetime='{{featured.getDate("news.date")}}') {{featured.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time(datetime='{{featured.getDate("news.date")}}') {{featured.getDate('news.date') | dateUtc: 'YYYY-MM-DD'}}
 
                 article.list-rows(ng-repeat=' document in news' ng-class='"list-row-" + ($index+2)')
                     header
