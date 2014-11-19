@@ -8,6 +8,7 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 var jwt = require('express-jwt');
+var moment = require('moment');
 
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-west-2'});
@@ -20,22 +21,24 @@ var jwtCheck = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
+var OBS_TABLE = 'mountain-info-network';
+
 router.post('/', function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
     var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
-        acl: 'private',
+        subid: uuid.v4(),
+        acl: 'public',
         obtype: 'quick',
-        user: '2f158fab-2e60-43cb-a96c-2655b1dd6b57',
+        userid: '2f158fab-2e60-43cb-a96c-2655b1dd6b57',
         ob: {
             uploads: []
         }
     };
 
     form.on('field', function(name, value) {
-        console.log('field %s with value %s', name, value);
         switch(name){
             case "location":
                 item.ob.latlng = value;
@@ -84,7 +87,7 @@ router.post('/', function (req, res) {
 
     form.on('close', function (err) {
         docClient.putItem({
-            TableName: "ac-obs",
+            TableName: OBS_TABLE,
             Item: item
         }, function (result) {
             console.log(result);
@@ -97,17 +100,37 @@ router.post('/', function (req, res) {
 
 router.get('/', function (req, response) {
     var params = {
-        TableName: 'ac-obs',
-        ProjectionExpression: 'obid, obtype, ob.latlng'
+        TableName: OBS_TABLE,
+        IndexName: 'acl-epoch-index'
     };
+    var startDate = moment().subtract('2', 'days');
+    var endDate = moment();
 
-    docClient.scan(params, function(err, res) {
+    console.log('dates = %s', req.query.dates)
+    //todo: validate temporal query string values
+
+    if (req.query.last) {
+        startDate = moment().subtract(req.query.last.split(':')[0], req.query.last.split(':')[1]);
+    } else if (req.query.dates) {
+
+        startDate = moment(req.query.dates.split(',')[0]);
+        endDate = moment(req.query.dates.split(',')[1]);
+    }
+
+    console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-mm-DD'), endDate.format('YYYY-mm-DD'));
+    params.KeyConditions = [
+        docClient.Condition("acl", "EQ", "public"), 
+        docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
+    ];
+
+    docClient.query(params, function(err, res) {
         if (err) {
             console.log(err);
-            response.json(500, {error: "error fetching observations"})
+            response.json(500, {error: "error fetching observations"});
         } else {
             var obs = res.Items.map(function (item) {
                 return {
+                    subid: item.subid,
                     obid: item.obid,
                     obtype: item.obtype,
                     latlng: item.ob.latlng.split(',')
@@ -121,17 +144,21 @@ router.get('/', function (req, response) {
 
 router.get('/:obid', function (req, response) {
     var params = {
-        TableName: 'ac-obs',
-        Key: {obid: req.params.obid}
+        TableName: OBS_TABLE,
+        KeyConditions: [
+            docClient.Condition("obid", "EQ", req.params.obid)
+        ]
     };
 
-    docClient.getItem(params, function(err, res) {
+    docClient.query(params, function(err, res) {
         if (err) {
             console.log(err);
             response.json(500, {error: "error fetching observation"})
         } else {
-            res.Item.ob.obid = res.Item.obid
-            response.json(res.Item.ob);
+            var ob = res.Items[0].ob;
+            ob.subid = res.Items[0].subid;
+            ob.obid = res.Items[0].obid;
+            response.json(ob);
         }
     });
 });
