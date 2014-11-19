@@ -4,6 +4,9 @@ var _ = require('lodash');
 var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
+var moment = require('moment');
+var lingo = require('lingo');
+var changeCase = require('change-case');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -11,12 +14,14 @@ var jwtCheck = jwt({
 });
 
 router.post('/submissions', jwtCheck, function (req, res) {
+    console.log(req.get('content-type'));
     var form = new multiparty.Form();
     form.parse(req);
 
     minUtils.saveSubmission(req.user, form, function (err, obs) {
         if (err) {
-            res.send(500, {error: 'error saving submission'})
+            console.log('Error saving MIN submission : %s', JSON.stringify(err));
+            res.send(500, {error: 'There was an error while saving your submission.'})
         } else {
             res.json(201, obs);
         }
@@ -56,31 +61,63 @@ router.get('/observations', function (req, res) {
         if (err) {
             res.send(500, {error: 'error retreiving observations'})
         } else {
+            console.log('returning %s obs', obs.length);
             res.json(obs);
         }
     });
 });
 
-router.get('/observations/:obid', function (req, res) {
-    var obid = req.params.obid;
+function getOptions(options){
+    var selections = [];
+    for(var option in options) {
+        if(options[option]) selections.push(option);
+    }
 
-    minUtils.getObservation(obid, function (err, ob) {
+    return selections;
+}
+
+router.get('/observations/:obid.:format?', function (req, res) {
+    var params = {
+        TableName: 'ac-obs',
+        Key: {obid: req.params.obid}
+    };
+
+    minUtils.getObservation(req.params.obid, function (err, ob) {
         if (err) {
             res.send(500, {error: 'error retreiving observation'})
         } else {
-            res.json(ob);
+            if(req.params.format === 'html'){
+                var locals = {
+                    title: ob.title || 'title',
+                    datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
+                    user: ob.user,
+                    ridingConditions: {
+                        ridingQuality: ob.ridingConditions.ridingQuality.selected,
+                        snowConditions: getOptions(ob.ridingConditions.snowConditions.options),
+                        rideType: getOptions(ob.ridingConditions.rideType.options),
+                        stayedAway: getOptions(ob.ridingConditions.stayedAway.options),
+                        weather: getOptions(ob.ridingConditions.weather.options)
+                    },
+                    avalancheConditions: ob.avalancheConditions,
+                    comment: ob.comment,
+                    shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
+                    uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
+                };
+
+                console.log(locals)
+                res.render('observations/ob', locals);
+            } else {
+                res.json(ob);
+            }
         }
     });
 });
 
 router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
-    var params = {
-        Bucket: 'ac-user-uploads',
-        Key: [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/')
-    };
+    var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
+    var size = req.query.size || 'fullsize';
 
-    var s3 = new AWS.S3();
-    s3.getObject(params).createReadStream().pipe(res);
+    minUtils.getUploadAsStream(uploadKey, size).pipe(res);
 });
 
 module.exports = router;
