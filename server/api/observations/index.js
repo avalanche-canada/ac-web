@@ -65,7 +65,7 @@ router.get('/observations', function (req, res) {
             res.json(obs);
         }
     });
-}); 
+});
 
 function getOptions(options){
     var selections = [];
