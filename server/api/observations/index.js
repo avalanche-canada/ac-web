@@ -38,6 +38,8 @@ router.post('/submissions', function (req, res) {
         }
     };
 
+    //todos: trim string
+
     form.on('field', function(name, value) {
         switch(name){
             case "location":
@@ -88,10 +90,28 @@ router.post('/submissions', function (req, res) {
     form.on('close', function (err) {
         docClient.putItem({
             TableName: OBS_TABLE,
-            Item: item
-        }, function (result) {
-            console.log(result);
-            res.send(201, "OK");
+            Item: item,
+        }, function (err, data) {
+            if (err) {
+                res.json(500, {error: 'error saving you submission.'});
+            } else {
+
+                var sub =  {
+                    subid: item.subid,
+                    latlng: item.ob.latlng,
+                    datetime: item.ob.datetime,
+                    uploads: item.ob.uploads,
+                    obs: [
+                        {
+                            obtype: item.obtype,
+                            obid: item.obid
+                        }
+                    ]
+                }
+
+                res.json(201, sub);
+            }
+            
         });
     });
 
@@ -132,7 +152,6 @@ router.get('/submissions', function (req, response) {
             var subs = _.chain(res.Items)
                 .groupBy('subid')
                 .map(function (obs, subid) {
-                    console.log('hey'+JSON.stringify(obs))
                     var meta = {
                         subid: subid,
                         latlng: obs[0].ob.latlng,
