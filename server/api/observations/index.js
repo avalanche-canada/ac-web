@@ -11,8 +11,8 @@ var jwt = require('express-jwt');
 var moment = require('moment');
 
 var AWS = require('aws-sdk');
-AWS.config.update({region: 'us-west-2'});
 var DOC = require("dynamodb-doc");
+AWS.config.update({region: 'us-west-2'});
 var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
@@ -23,7 +23,7 @@ var jwtCheck = jwt({
 
 var OBS_TABLE = 'mountain-info-network';
 
-router.post('/', function (req, res) {
+router.post('/submissions', function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
@@ -98,7 +98,8 @@ router.post('/', function (req, res) {
     form.parse(req);
 });
 
-router.get('/', function (req, response) {
+router.get('/submissions', function (req, response) {
+    console.log(JSON.stringify(AWS.config))
     var params = {
         TableName: OBS_TABLE,
         IndexName: 'acl-epoch-index'
@@ -128,45 +129,160 @@ router.get('/', function (req, response) {
             console.log(err);
             response.json(500, {error: "error fetching observations"});
         } else {
-            var obs = res.Items.map(function (item) {
-                return {
-                    subid: item.subid,
-                    obid: item.obid,
-                    obtype: item.obtype,
-                    latlng: item.ob.latlng.split(',')
-                }
-            });
+            var subs = _.chain(res.Items)
+                .groupBy('subid')
+                .map(function (obs, subid) {
+                    console.log('hey'+JSON.stringify(obs))
+                    var meta = {
+                        subid: subid,
+                        latlng: obs[0].ob.latlng,
+                        datetime: obs[0].ob.datetime,
+                        uploads: obs[0].ob.uploads
+                    };
 
-            response.json(obs);
+                    var obs = obs.map(function (ob) {
+                        return {
+                            obtype: ob.obtype,
+                            obid: ob.obid
+                        };
+                    });
+
+                    return {
+                        subid: subid,
+                        latlng: meta.latlng,
+                        datetime: meta.datetime,
+                        uploads: meta.uploads,
+                        obs: obs
+                    }
+                })
+                .value();
+
+            response.json(subs);
         }
     });
 }); 
 
-router.get('/:obid', function (req, response) {
+router.get('/submissions/:subid', function (req, response) {
     var params = {
         TableName: OBS_TABLE,
-        KeyConditions: [
-            docClient.Condition("obid", "EQ", req.params.obid)
-        ]
+        FilterExpression: 'attribute_exists(obid) and subid = :subid',
+        ExpressionAttributeValues: {':subid' : req.params.subid}
     };
 
-    docClient.query(params, function(err, res) {
+    docClient.scan(params, function(err, res) {
         if (err) {
             console.log(err);
             response.json(500, {error: "error fetching observation"})
         } else {
-            var ob = res.Items[0].ob;
-            ob.subid = res.Items[0].subid;
-            ob.obid = res.Items[0].obid;
+            var subs = _.chain(res.Items)
+                .groupBy('subid')
+                .map(function (obs, subid) {
+                    console.log('hey'+JSON.stringify(obs))
+                    var meta = {
+                        subid: subid,
+                        latlng: obs[0].ob.latlng,
+                        datetime: obs[0].ob.datetime,
+                        uploads: obs[0].ob.uploads
+                    };
+
+                    var obs = obs.map(function (ob) {
+                        return {
+                            obtype: ob.obtype,
+                            obid: ob.obid
+                        };
+                    });
+
+                    return {
+                        subid: subid,
+                        latlng: meta.latlng,
+                        datetime: meta.datetime,
+                        uploads: meta.uploads,
+                        obs: obs
+                    }
+                })
+                .value();
+
+            response.json(subs);
+        }
+    });
+});
+
+router.get('/observations', function (req, response) {
+    var params = {
+        TableName: OBS_TABLE,
+        IndexName: 'acl-epoch-index'
+    };
+    var startDate = moment().subtract('2', 'days');
+    var endDate = moment();
+
+    console.log('dates = %s', req.query.dates)
+    //todo: validate temporal query string values
+
+    if (req.query.last) {
+        startDate = moment().subtract(req.query.last.split(':')[0], req.query.last.split(':')[1]);
+    } else if (req.query.dates) {
+
+        startDate = moment(req.query.dates.split(',')[0]);
+        endDate = moment(req.query.dates.split(',')[1]);
+    }
+
+    console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-mm-DD'), endDate.format('YYYY-mm-DD'));
+    params.KeyConditions = [
+        docClient.Condition("acl", "EQ", "public"), 
+        docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
+    ];
+
+    docClient.query(params, function(err, res) {
+        if (err) {
+            console.log(err);
+            response.json(500, {error: "error fetching observations"});
+        } else {
+            var obs = _.map(res.Items, function (item) {
+                return {
+                    subid: item.subid,
+                    obid: item.obid,
+                    datetime: item.datetime,
+                    obtype: item.obtype,
+                    latlng: item.ob.latlng
+                }
+            }); 
+
+            response.json(obs);
+        }
+    });
+});
+
+router.get('/observations/:obid', function (req, response) {
+    var params = {
+        TableName: OBS_TABLE,
+        FilterExpression: 'obid = :obid',
+        ExpressionAttributeValues: {':obid' : req.params.obid}
+    };
+
+    docClient.scan(params, function(err, res) {
+        if (err) {
+            console.log(err);
+            response.json(500, {error: "error fetching observation"})
+        } else {
+            var item = res.Items[0];
+            ob = {
+                subid: item.subid,
+                obid: item.obid,
+                datetime: item.datetime,
+                obtype: item.obtype,
+                latlng: item.ob.latlng,
+                narative: item.ob.narative,
+            };
+
             response.json(ob);
         }
     });
 });
 
-router.get('/uploads/:year/:month/:day/:imageid', function (req, res) {
+router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var params = {
         Bucket: 'ac-user-uploads',
-        Key: [req.params.year, req.params.month, req.params.day, req.params.imageid].join('/')
+        Key: [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/')
     };
 
     var s3 = new AWS.S3();
