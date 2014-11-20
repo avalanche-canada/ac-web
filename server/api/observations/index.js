@@ -119,7 +119,6 @@ router.post('/submissions', function (req, res) {
 });
 
 router.get('/submissions', function (req, response) {
-    console.log(JSON.stringify(AWS.config))
     var params = {
         TableName: OBS_TABLE,
         IndexName: 'acl-epoch-index'
