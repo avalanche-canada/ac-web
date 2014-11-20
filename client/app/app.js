@@ -24,7 +24,6 @@ angular.module('avalancheCanadaApp', [
         'angular-jwt'
     ])
 
-
     .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
