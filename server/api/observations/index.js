@@ -26,7 +26,7 @@ var OBS_TABLE = 'mountain-info-network';
 router.post('/', function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
-    var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
+    var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
         subid: uuid.v4(),
@@ -161,6 +161,16 @@ router.get('/:obid', function (req, response) {
             response.json(ob);
         }
     });
+});
+
+router.get('/uploads/:year/:month/:day/:imageid', function (req, res) {
+    var params = {
+        Bucket: 'ac-user-uploads',
+        Key: [req.params.year, req.params.month, req.params.day, req.params.imageid].join('/')
+    };
+
+    var s3 = new AWS.S3();
+    s3.getObject(params).createReadStream().pipe(res);
 });
 
 module.exports = router;
