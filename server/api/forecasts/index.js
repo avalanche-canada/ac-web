@@ -20,20 +20,25 @@ router.param('region', function (req, res, next) {
 
     if(req.region.properties.type === 'avalx') {
         if(req.region.properties.owner === 'avalanche-canada') {
-            console.log('retreived forcast for %s from cache', regionId);
             req.forecast = {
                 region: regionId,
                 date: date,
                 caaml: webcache.get(req.region.properties.url)
             };
 
-            avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
-                req.forecast.json = jsonForecast;
-                next();
-            }, function () {
-                console.log('error parsing %s caaml forecast.', regionId);
-                res.send(500);
-            });
+            if(req.forecast.caaml){
+                console.log('cache hit for forecast for %s', regionId);
+
+                avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
+                    req.forecast.json = jsonForecast;
+                    next();
+                }, function () {
+                    console.log('error parsing %s caaml forecast.', regionId);
+                    res.send(500);
+                });
+            } else {
+                console.log('cache miss for forecast for %s', regionId);
+            }
         }
 
         if(!req.forecast || !req.forecast.xml || !req.forecast.json) {
