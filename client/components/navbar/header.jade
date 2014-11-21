@@ -6,8 +6,8 @@ header#header.navbar-fixed-top(role='banner')
                 a(rel='home', title='TITLE HERE', href='/')
                     h1.navbar-brand.ac
                 .visible-xs.visible-sm
-                    a#nav-search(href='#')
-                        i.fa.fa-search
+                    ///a#nav-search(href='#')
+                    ///    i.fa.fa-search
                     a#nav-donate.visible-sm(href='#') Donate
                     a#multi-expand.navbar-toggle(role='button', href='#', ng-click='multiExpand()')
                         i.fa.fa-reorder
@@ -25,16 +25,20 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li
                                                     h2 Forecasts
-                                                li(ng-repeat='region in forecastRegionList1')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li(ng-repeat='region in forecastRegionList1' ng-bind-html='region.link')
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList2')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList2' ng-bind-html='region.link')
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList3')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList3' ng-bind-html='region.link')
+
                                                 ///li
                                                 ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
 
@@ -43,6 +47,10 @@ header#header.navbar-fixed-top(role='banner')
                                                 li(ng-repeat='item in dataMenu')
                                                         a(data-toggle="collapse" data-target=".navbar-collapse" href='{{item.url}}')
                                                             h2 {{item.display}}
+                                                                i.fa.fa-angle-right
+                                                li
+                                                         a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank")
+                                                            h2 Trip Planner
                                                                 i.fa.fa-angle-right
 
                     li#nav-learn.dropdown.yamm-fw
@@ -174,11 +182,11 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 a(data-toggle="collapse" data-target=".navbar-collapse" href='/auction') Web Auction
 
-                a#nav-search-desktop(href='#')
-                    i.fa.fa-search
-                a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                    i.fa.fa-lg.fa-sign-in
-                a.sign-in(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                    i.fa.fa-lg.fa-sign-out
+                ///a#nav-search-desktop(href='#')
+                ///    i.fa.fa-search
+                ///a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                 ///   i.fa.fa-lg.fa-sign-in
+                ///a.sign-in(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                ///    i.fa.fa-lg.fa-sign-out
                 a#nav-donate-desktop(href='/foundation') Donate
     ///#header

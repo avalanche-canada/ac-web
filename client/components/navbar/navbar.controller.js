@@ -73,28 +73,28 @@ angular.module('avalancheCanadaApp')
   .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
 
 
-    $scope.forecastRegions = [{'name':'banff-yoho-kootenay','display':'Banff Yoho & Kootenay National Park'},
-                            {'name':'glacier','display':'Glacier National Park'},
-                            {'name':'chic-chocs','display':'Chic-Chocs, CAHG'},
-                            {'name':'jasper','display':'Jasper National Park'},
-                            {'name':'kananaskis','display':'Kananaskis Country, Alberta Parks'},
-                            {'name':'kootenay-boundary','display':'Kootenay Boundary'},
-                            {'name':'lizard-range','display':'Lizard Range and Flathead'},
-                            {'name':'north-columbia','display':'North Columbia'},
-                            {'name':'northwest-coastal','display':'Northwest Coastal'},
-                            {'name':'northwest-inland','display':'Northwest Inland'},
-                            {'name':'cariboos','display':'Cariboos'},
-                            {'name':'north-rockies','display':'North Rockies'},
-                            {'name':'south-rockies','display':'South Rockies'},
-                            {'name':'north-shore','display':'North Shore'},
-                            {'name':'purcells','display':'Purcells'},
-                            {'name':'sea-to-sky','display':'Sea-to-Sky'},
-                            {'name':'south-columbia','display':'South Columbia'},
-                            {'name':'south-coast-inland','display':'South Coast Inland'},
-                            {'name':'vancouver-island','display':'Vancouver Island, VAIC'},
-                            {'name':'whistler-blackcomb','display':'Whistler Blackcomb'},
-                            {'name':'waterton','display':'Waterton National Park'},
-                            {'name':'yukon','display':'Yukon'}];
+    $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="/forecasts/banff-yoho-kootenay" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
+                            {'name':'Glacier National Park', 'link':'<a href="/forecasts/glacier" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
+                            {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
+                            {'name':'Jasper National Park', 'link':'<a href="/forecasts/jasper" data-toggle="collapse" data-target=".navbar-collapse" >Jasper National Park</a>'},
+                            {'name':'Kananaskis Country, Alberta Parks', 'link':'<a href="/forecasts/kananaskis" data-toggle="collapse" data-target=".navbar-collapse" >Kananaskis Country, Alberta Parks</a>'},
+                            {'name':'Kootenay Boundary', 'link':'<a href="/forecasts/kootenay-boundary" data-toggle="collapse" data-target=".navbar-collapse"> Kootenay Boundary</a>'},
+                            {'name':'Lizard Range and Flathead', 'link':'<a href="/forecasts/lizard-range" data-toggle="collapse" data-target=".navbar-collapse">Lizard Range and Flathead</a>'},
+                            {'name':'North Columbia', 'link':'<a href="/forecasts/north-columbia" data-toggle="collapse" data-target=".navbar-collapse">North Columbia</a>'},
+                            {'name':'Northwest Coastal', 'link':'<a href="/forecasts/northwest-coastal" data-toggle="collapse" data-target=".navbar-collapse">Northwest Coastal</a>'},
+                            {'name':'Northwest Inland', 'link':'<a href="/forecasts/northwest-inland" data-toggle="collapse" data-target=".navbar-collapse">Northwest Inland</a>'},
+                            {'name':'Cariboos', 'link':'<a href="/forecasts/cariboos" data-toggle="collapse" data-target=".navbar-collapse">Cariboos</a>'},
+                            {'name':'North Rockies', 'link':'<a href="/forecasts/north-rockies" data-toggle="collapse" data-target=".navbar-collapse">North Rockies</a>'},
+                            {'name':'South Rockies', 'link':'<a href="/blogs/north-rockies" data-toggle="collapse" data-target=".navbar-collapse">South Rockies</a>'},
+                            {'name':'North Shore', 'link':'<a href="/forecasts/north-shore" data-toggle="collapse" data-target=".navbar-collapse">North Shore</a>'},
+                            {'name':'Purcells', 'link':'<a href="/forecasts/purcells" data-toggle="collapse" data-target=".navbar-collapse">Purcells</a>'},
+                            {'name':'Sea-to-Sky', 'link':'<a href="/forecasts/sea-to-sky" data-toggle="collapse" data-target=".navbar-collapse">Sea-to-Sky</a>'},
+                            {'name':'South Columbia', 'link':'<a href="/forecasts/south-columbia" data-toggle="collapse" data-target=".navbar-collapse">South Columbia</a>'},
+                            {'name':'South Coast Inland', 'link':'<a href="/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">South Coast Inland</a>'},
+                            {'name':'Vancouver Island, VAIC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
+                            {'name':'Whistler Blackcomb', 'link':'<a href="http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Whistler Blackcomb</a>'},
+                            {'name':'Waterton National Park', 'link':'<a href="/forecasts/waterton" data-toggle="collapse" data-target=".navbar-collapse">Waterton National Park</a>'},
+                            {'name':'Yukon', 'link':'<a href="/blogs/yukon" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
 
     $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
 
@@ -108,8 +108,8 @@ angular.module('avalancheCanadaApp')
     $scope.dataMenu = [//{'display':'Observations','url':'/observations'},
                        //{'display':'Incidents','url':'/incidents'},
                        {'display':'Blogs','url':'/blogs'},
-                       {'display':'Summaries & Outlooks','url':'/conditions'},
-                       {'display':'Weather Forecasts','url':'/weather'}];
+                       {'display':'Summaries & Outlooks','url':'/conditions'}];//,
+                       //{'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.youth = [{'url':'#overview','display':'Overview'},
                     {'url':'#programs','display':'Programs'},
