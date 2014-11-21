@@ -4,6 +4,7 @@ var router = express.Router();
 var avalx = require('./avalx');
 var regions = require('./forecast-regions');
 var WebCache = require('webcache');
+var WebCacheRedis = require('webcache-redis');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.owner === 'avalanche-canada' && feature.properties.type === 'avalx';
@@ -11,7 +12,12 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.url;
 }).value();
 
-var webcache = new WebCache(acAvalxUrls, 600000); // 10 minutes
+var redisStore = new WebCacheRedis(6379, process.env.REDIS_HOST);
+var webcacheOptions = {
+    refreshInterval: 600000, // 10 minutes
+    store: redisStore
+};
+var webcache = new WebCache(acAvalxUrls, webcacheOptions);
 
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
@@ -20,25 +26,27 @@ router.param('region', function (req, res, next) {
 
     if(req.region.properties.type === 'avalx') {
         if(req.region.properties.owner === 'avalanche-canada') {
-            req.forecast = {
-                region: regionId,
-                date: date,
-                caaml: webcache.get(req.region.properties.url)
-            };
+            webcache.get(req.region.properties.url).then(function (data) {
+                req.forecast = {
+                    region: regionId,
+                    date: date,
+                    caaml: data
+                };
 
-            if(req.forecast.caaml){
-                console.log('cache hit for forecast for %s', regionId);
+                if(req.forecast.caaml){
+                    console.log('cache hit for forecast for %s', regionId);
 
-                avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
-                    req.forecast.json = jsonForecast;
-                    next();
-                }, function () {
-                    console.log('error parsing %s caaml forecast.', regionId);
-                    res.send(500);
-                });
-            } else {
-                console.log('cache miss for forecast for %s', regionId);
-            }
+                    avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
+                        req.forecast.json = jsonForecast;
+                        next();
+                    }, function () {
+                        console.log('error parsing %s caaml forecast.', regionId);
+                        res.send(500);
+                    });
+                } else {
+                    console.log('cache miss for forecast for %s', regionId);
+                }
+            });
         }
 
         if(!req.forecast || !req.forecast.xml || !req.forecast.json) {
