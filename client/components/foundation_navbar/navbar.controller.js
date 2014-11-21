@@ -59,6 +59,6 @@ angular.module('avalancheCanadaApp')
                             {'name':'hodgson','display':'Al Hodgson Memorial Fund'}];
 
     $scope.contributors = [{'name':'donors','display':'Donors'},
-                            {'name':'partners','display':'Partners'}];
+                            {'name':'sponsors','display':'Event Sponsors'}];
 
   });

@@ -75,7 +75,7 @@ angular.module('avalancheCanadaApp')
 
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="/forecasts/banff-yoho-kootenay" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="/forecasts/glacier" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
-                            {'name':'Chic-Chocs, CAHG', 'link':'<a href="todo" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
+                            {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
                             {'name':'Jasper National Park', 'link':'<a href="/forecasts/jasper" data-toggle="collapse" data-target=".navbar-collapse" >Jasper National Park</a>'},
                             {'name':'Kananaskis Country, Alberta Parks', 'link':'<a href="/forecasts/kananaskis" data-toggle="collapse" data-target=".navbar-collapse" >Kananaskis Country, Alberta Parks</a>'},
                             {'name':'Kootenay Boundary', 'link':'<a href="/forecasts/kootenay-boundary" data-toggle="collapse" data-target=".navbar-collapse"> Kootenay Boundary</a>'},
@@ -91,8 +91,8 @@ angular.module('avalancheCanadaApp')
                             {'name':'Sea-to-Sky', 'link':'<a href="/forecasts/sea-to-sky" data-toggle="collapse" data-target=".navbar-collapse">Sea-to-Sky</a>'},
                             {'name':'South Columbia', 'link':'<a href="/forecasts/south-columbia" data-toggle="collapse" data-target=".navbar-collapse">South Columbia</a>'},
                             {'name':'South Coast Inland', 'link':'<a href="/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">South Coast Inland</a>'},
-                            {'name':'Vancouver Island, VAIC', 'link':'<a href="/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">Vancouver Island, VAIC</a>'},
-                            {'name':'Whistler Blackcomb', 'link':'<a href="/forecasts/whistler-blackcomb" data-toggle="collapse" data-target=".navbar-collapse">Whistler Blackcomb</a>'},
+                            {'name':'Vancouver Island, VAIC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
+                            {'name':'Whistler Blackcomb', 'link':'<a href="http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Whistler Blackcomb</a>'},
                             {'name':'Waterton National Park', 'link':'<a href="/forecasts/waterton" data-toggle="collapse" data-target=".navbar-collapse">Waterton National Park</a>'},
                             {'name':'Yukon', 'link':'<a href="/blogs/yukon" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
 

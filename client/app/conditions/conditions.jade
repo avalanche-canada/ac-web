@@ -8,11 +8,11 @@
             header.col-xs-12
                 #header-inner
                     h1
-                        | Conditions
-                        br.visible-xs-block
-                        | And
-                        br.visible-xs-block
                         | Summaries
+                        br.visible-xs-block
+                        | &nbsp; And
+                        br.visible-xs-block
+                        | &nbsp; Outlooks
                     #sponsor-desktop.hidden-xs
                         p Brought to you by
                         a(target='_blank', href='http://arcteryx.com')
@@ -38,8 +38,8 @@
                         header
                             /// span Forecasters' Blog
                             h2
-                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc }}/{{ item.getText("conditions-summary.type")}}')
-                                    {{item.getDate('conditions-summary.date') | dateUtc }} - {{displayType(item.getText('conditions-summary.type'))}}
+                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc:'dddd MMMM YYYY' }}/{{ item.getText("conditions-summary.type")}}')
+                                    {{item.getDate('conditions-summary.date') | dateUtc:'dddd MMMM YYYY' }} - {{displayType(item.getText('conditions-summary.type'))}}
                         section.news-blog-event-body
                             /// img(alt='', src='assets/img/sub-blog-img.jpg')
                             ///p
