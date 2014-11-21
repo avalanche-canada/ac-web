@@ -5,7 +5,7 @@
 //     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
 // });
 
-angular.module('acComponents').constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com');
+angular.module('acComponents').constant('AC_API_ROOT_URL', '');
 
 angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
