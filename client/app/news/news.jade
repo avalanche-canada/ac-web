@@ -14,7 +14,7 @@
                     #sponsor-desktop.hidden-xs
                         p Brought to you by
                         a(target='_blank', href='http://arcteryx.com')
-                            img(src='assets/images/arcteryx-logo.jpg')
+                            img(src='http://res.cloudinary.com/avalanche-ca/image/upload/v1415214658/logos/MAMMUT_mobunc.svg ')
                     .blue-border
             #sponsor-mobile.col-xs-12.visible-xs-block
                 #sponsor-mobile-inner
@@ -22,12 +22,11 @@
                         | Brought
                         br
                         | to you by
-                    a.pull-right(target='_blank', href='http://arcteryx.com')
-                        img(src='assets/images/arcteryx-logo.jpg')
-            // /#sponsor-mobile
+                    a.pull-right(target='_blank', href='http://localhost:9000/assets/images/arcteryx-logo.jpg')
+            /// /#sponsor-mobile
 
             .col-xs-12
-                #sponsor-ad-container
+                #sponsor-ad-container(ng-hide='true')
                     p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
                     a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                         img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
