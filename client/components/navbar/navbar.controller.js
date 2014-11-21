@@ -85,7 +85,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'Northwest Inland', 'link':'<a href="/forecasts/northwest-inland" data-toggle="collapse" data-target=".navbar-collapse">Northwest Inland</a>'},
                             {'name':'Cariboos', 'link':'<a href="/forecasts/cariboos" data-toggle="collapse" data-target=".navbar-collapse">Cariboos</a>'},
                             {'name':'North Rockies', 'link':'<a href="/forecasts/north-rockies" data-toggle="collapse" data-target=".navbar-collapse">North Rockies</a>'},
-                            {'name':'South Rockies', 'link':'<a href="/forecasts/north-rockies" data-toggle="collapse" data-target=".navbar-collapse">South Rockies</a>'},
+                            {'name':'South Rockies', 'link':'<a href="/forecasts/south-rockies" data-toggle="collapse" data-target=".navbar-collapse">South Rockies</a>'},
                             {'name':'North Shore', 'link':'<a href="/forecasts/north-shore" data-toggle="collapse" data-target=".navbar-collapse">North Shore</a>'},
                             {'name':'Purcells', 'link':'<a href="/forecasts/purcells" data-toggle="collapse" data-target=".navbar-collapse">Purcells</a>'},
                             {'name':'Sea-to-Sky', 'link':'<a href="/forecasts/sea-to-sky" data-toggle="collapse" data-target=".navbar-collapse">Sea-to-Sky</a>'},
@@ -94,7 +94,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'Vancouver Island, VAIC', 'link':'<a href="/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">Vancouver Island, VAIC</a>'},
                             {'name':'Whistler Blackcomb', 'link':'<a href="/forecasts/whistler-blackcomb" data-toggle="collapse" data-target=".navbar-collapse">Whistler Blackcomb</a>'},
                             {'name':'Waterton National Park', 'link':'<a href="/forecasts/waterton" data-toggle="collapse" data-target=".navbar-collapse">Waterton National Park</a>'},
-                            {'name':'Yukon', 'link':'<a href="/forecasts/waterton" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
+                            {'name':'Yukon', 'link':'<a href="/blogs?category=yukon" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
 
     $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
 

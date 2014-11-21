@@ -1,13 +1,24 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogsCtrl', function ($scope, Prismic, $log) {
+  .controller('BlogsCtrl', function ($scope, Prismic, $stateParams, $log) {
+
+     var query = '';
+
+     if($stateParams.category)
+     {
+        query = '[[:d = at(document.type, "blog")][:d = any(my.blog.category, ["'+$stateParams.category+'"])]]';
+     }
+     else
+     {
+        query = '[[:d = at(document.type, "blog")]]';
+     }
 
      Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
 
-        var query = '[[:d = at(document.type, "blog")]]';
+
         ctx.api.form('everything').query(query).ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs events from prismic');
