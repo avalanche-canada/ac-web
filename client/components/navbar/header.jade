@@ -25,16 +25,20 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li
                                                     h2 Forecasts
-                                                li(ng-repeat='region in forecastRegionList1')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li(ng-repeat='region in forecastRegionList1' ng-bind-html='region.link')
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList2')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList2' ng-bind-html='region.link')
+
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList3')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList3' ng-bind-html='region.link')
+
                                                 ///li
                                                 ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
 
