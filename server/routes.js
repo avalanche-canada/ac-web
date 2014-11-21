@@ -10,7 +10,7 @@ module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/forecasts', require('./api/forecasts'));
-  app.use('/api/observations', require('./api/observations'));
+  // app.use('/api/observations', require('./api/observations'));
 
   app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
