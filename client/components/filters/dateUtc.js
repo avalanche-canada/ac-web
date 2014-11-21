@@ -2,9 +2,9 @@
 
 angular.module('avalancheCanadaApp.filters')
     .filter('dateUtc', function () {
-        return function (datePST) {
+        return function (datePST, format) {
             if (datePST) {
-                return moment.utc(datePST).format('YYYY-MM-DD') ;
+                return moment.utc(datePST).format(format) ;
             }
         };
     });
