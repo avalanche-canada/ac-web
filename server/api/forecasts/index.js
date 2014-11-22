@@ -14,10 +14,18 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
 
 var redisStore = new WebCacheRedis(6379, process.env.REDIS_HOST);
 var webcacheOptions = {
-    refreshInterval: 600000, // 10 minutes
     store: redisStore
 };
+
+if(!process.env.NO_CACHE_REFRESH) {
+    webcacheOptions.refreshInterval = 600000; // 10 minutes
+}
+
 var webcache = new WebCache(acAvalxUrls, webcacheOptions);
+
+if(process.env.NO_CACHE_REFRESH) {
+    webcache.seed();
+}
 
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
