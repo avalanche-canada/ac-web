@@ -7,7 +7,7 @@ angular.module('avalancheCanadaApp')
 
         $scope.ctx = ctx;
 
-        var getDate = function(item){
+       /* var getDate = function(item){
             return moment.utc(item.getDate('conditions-summary.date')).format('YYYY-MM-DD') ;
         };
 
@@ -16,7 +16,7 @@ angular.module('avalancheCanadaApp')
             var date = getDate(item);
             var str = '#/conditions/' + date + '/' + item.getText('conditions-summary.type');
             return str;
-        };
+        };*/
 
         var display = {
             'conditions-summary' : 'Conditions Summary',

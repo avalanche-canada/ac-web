@@ -157,6 +157,20 @@
                             h3 Related
                             article.first.sidebar-related
                                 h4
+                                    a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') First Impressions
+                            article.sidebar-related
+                                h4
+                                    a(href='/news/VEVZWiYAACUATW97/new-website') New Website
+                            article.last.sidebar-related
+                            ul.sidebar-related-links
+
+                #mobile-sidebar-container.col-xs-12.col-md-3(ng-hide='true')
+                    aside
+                        .dark-ribbon
+                        .sidebar-inner
+                            h3 Related
+                            article.first.sidebar-related
+                                h4
                                     a(href='#') Spring Conditions Scenario Series
                                 section.sidebar-related-author
                                     | By
@@ -194,7 +208,7 @@
 
                                         p The user acknowledges that it is impossible to accurately predict natural events such as avalanches in every instance, and uses the data in this bulletin with this always foremost in mind. The accuracy or reliability of the data is not guaranteed or warranted in any way and the Providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.
 
-                        .panel.panel-default.last
+                        .panel.panel-default.last(ng-hide='true')
                             h4.panel-title
                                 a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
                                     | Setting Up Your RSS Feed

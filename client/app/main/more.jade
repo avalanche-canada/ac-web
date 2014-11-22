@@ -8,12 +8,33 @@
         .row
             .col-xs-12
                 #sponsor-ad-container(ng-if='!sledPage')
-                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+                    a#sponsor-link(title='Smith Optics', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1416616381/logos/sponsor_banner_home.png')
                 #sponsor-ad-container(ng-if='sledPage')
-                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/marmot-gloves.jpg')
-    #know-more
+                    a#sponsor-link(title='Smith Optics', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1416616434/logos/sponsor_banner_sled.png')
+
+    #know-more-sled(ng-if='sledPage')
+        .container
+            .row
+                article.col-xs-12
+                    header
+                        h2
+                            | Know More.
+                            br
+                            span Go Farther.
+                    footer
+                        a.btn(href='http://membership.avalanche.ca/' target="_blank")
+                            | Become a member
+                            i.fa.fa-angle-right
+                        a.btn(href='/training/overview')
+                            | Take a course
+                            i.fa.fa-angle-right
+                        a.btn(href='/gear')
+                            | Get the gear
+                            i.fa.fa-angle-right
+
+    #know-more(ng-if='!sledPage')
         .container
             .row
                 article.col-xs-12
@@ -70,7 +91,7 @@
                             p
                                 a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date') | date:'EEEE MMMM d, y h:mm a'}}
+                                {{featuredNews.getDate('news.date') | dateUtc }}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -82,7 +103,7 @@
                             p
                                 a(href='#/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time {{item.getDate('news.date') | dateUtc }}
                     article.list-rows
                         footer
                             p
@@ -125,7 +146,7 @@
                             p
                                 a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
-                                {{featuredEvent .getDate('event.date') | date:'EEEE MMMM d, y h:mm a'}}
+                                {{featuredEvent .getDate('event.date') | dateUtc }}
 
                     article.list-rows(ng-repeat="item in events")
                         header
@@ -137,7 +158,7 @@
                             p
                                 a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time {{item.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time {{item.getDate('news.date') | dateUtc }}
                     article.list-rows
                         footer
                             p
@@ -203,7 +224,7 @@
                             p
                                 a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
-                                time {{blog.getDate('news.date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time {{blog.getDate('news.date') | dateUtc }}
     .push
     div(ng-include='"components/footer/footer.html"')
 

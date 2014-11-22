@@ -8,6 +8,11 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/blogs/blogs.html',
         controller: 'BlogsCtrl'
       })
+      .state('ac.blogsCategory', {
+        url: '^/blogs/:category',
+        templateUrl: 'app/blogs/blogs.html',
+        controller: 'BlogsCtrl'
+      })
       .state('ac.blogItem', {
         url: '^/blogs/:id/:slug',
         templateUrl: 'app/blogs/blogItem.html',

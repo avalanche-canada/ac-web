@@ -2,6 +2,10 @@
 
 // Development specific configuration
 // ==================================
+
+var dotenv = require('dotenv');
+dotenv.load();
+
 module.exports = {
   // MongoDB connection options
   mongo: {

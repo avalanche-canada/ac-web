@@ -5,6 +5,6 @@ angular.module('constants', [])
     imageDir: 'assets/images/',
     sponsorApi: 'https://avalancheca-sponsors.herokuapp.com/sponsor/'
 })
-.constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA')
-.constant('MAPBOX_MAP_ID', 'tesera.jbnoj7kp')
+.constant('MAPBOX_ACCESS_TOKEN', 'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA#4')
+.constant('MAPBOX_MAP_ID', 'avalanchecanada.k8o347c9')
 .constant('AC_API_ROOT_URL', 'http://avalanche-canada-dev.elasticbeanstalk.com');

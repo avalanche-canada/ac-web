@@ -5,7 +5,11 @@
 //     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
 // });
 
+angular.module('acComponents').constant('AC_API_ROOT_URL', '');
+
+angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
+        'avalancheCanadaApp.filters',
         'ngCookies',
         'ngResource',
         'ngSanitize',
@@ -22,14 +26,13 @@ angular.module('avalancheCanadaApp', [
         'angular-jwt'
     ])
 
-
     .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/');
+        //$urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
@@ -77,8 +80,16 @@ angular.module('avalancheCanadaApp', [
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
-
     })
+
+    // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
+    //     jwtInterceptorProvider.tokenGetter = function(store) {
+    //         // Return the saved token
+    //         return store.get('token');
+    //     };
+
+    //     $httpProvider.interceptors.push('jwtInterceptor');
+    // }])
 
     .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly

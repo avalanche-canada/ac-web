@@ -6,8 +6,8 @@ header#header.navbar-fixed-top(role='banner')
                 a(rel='home', title='TITLE HERE', href='/')
                     h1.navbar-brand.ac
                 .visible-xs.visible-sm
-                    a#nav-search(href='#')
-                        i.fa.fa-search
+                    ///a#nav-search(href='#')
+                    ///    i.fa.fa-search
                     a#nav-donate.visible-sm(href='#') Donate
                     a#multi-expand.navbar-toggle(role='button', href='#', ng-click='multiExpand()')
                         i.fa.fa-reorder
@@ -25,24 +25,30 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li
                                                     h2 Forecasts
-                                                li(ng-repeat='region in forecastRegionList1')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
-                                        .col-md-3.mega-content-inner
-                                            ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList2')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
-                                        .col-md-3.mega-content-inner
-                                            ul.mega-sub-menu
-                                                li(ng-repeat='region in forecastRegionList3')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/{{region.name}}') {{region.display}}
-                                                li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
+                                                li(ng-repeat='region in forecastRegionList1' ng-bind-html='region.link')
 
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='item in dataMenu')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='{{item.url}}')
-                                                            h2 {{item.display}}
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList2' ng-bind-html='region.link')
+
+                                        .col-md-3.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                    h2 &nbsp;
+                                                li(ng-repeat='region in forecastRegionList3' ng-bind-html='region.link')
+
+                                                ///li
+                                                ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
+
+                                        .col-md-3.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
+
+                                                li
+                                                         a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank")
+                                                            h2 Trip Planner
                                                                 i.fa.fa-angle-right
 
                     li#nav-learn.dropdown.yamm-fw
@@ -111,6 +117,15 @@ header#header.navbar-fixed-top(role='banner')
                                                                             h2
                                                                                 | About
                                                                                 i.fa.fa-angle-right
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#vision') Vision, Mission and Value Statements
+
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#board') Board Of Directors
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#staff') Staff
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#awards') Service Awards
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
@@ -125,6 +140,15 @@ header#header.navbar-fixed-top(role='banner')
                                                                             h2
                                                                                 | Sponsors
                                                                                 i.fa.fa-angle-right
+
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#partner') Partners
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#founding') Founding Sponsors
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#supplier') Suppliers
+                                                                            li
+                                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#associate') Associate
                                             .col-md-3.mega-content-inner
                                                     ul.mega-sub-menu
                                                                 li
@@ -156,11 +180,11 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 a(data-toggle="collapse" data-target=".navbar-collapse" href='/auction') Web Auction
 
-                a#nav-search-desktop(href='#')
-                    i.fa.fa-search
-                a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                    i.fa.fa-lg.fa-sign-in
-                a.sign-in(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                    i.fa.fa-lg.fa-sign-out
+                ///a#nav-search-desktop(href='#')
+                ///    i.fa.fa-search
+                ///a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                 ///   i.fa.fa-lg.fa-sign-in
+                ///a.sign-in(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                ///    i.fa.fa-lg.fa-sign-out
                 a#nav-donate-desktop(href='/foundation') Donate
     ///#header

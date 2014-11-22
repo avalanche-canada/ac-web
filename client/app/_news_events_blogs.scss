@@ -685,7 +685,7 @@
 
 //right sidebar
 aside {
-        min-height:100px;
+        min-height:800px;
         @include clearfix();
         padding:0;
         margin-bottom:40px;
@@ -859,6 +859,9 @@ aside {
                         margin:48px 0 0 0;
                 }
                 #sponsor-desktop {
+                        img{
+                            width: 100px;
+                        }
                         float:right;
                         margin-left:20px;
                         width:124px;

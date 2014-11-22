@@ -33,6 +33,10 @@ angular.module('avalancheCanadaApp')
                 $scope.vision =  doc.getStructuredText('generic.body').asHtml(ctx);
         });
 
+        Prismic.bookmark('about-contact').then(function(doc){
+                $scope.contact =  doc.getStructuredText('generic.body').asHtml(ctx);
+        });
+
         ctx.api.form('everything').query('[[:d = at(document.type, "staff")]]').ref(ctx.ref).submit(function(err, doc){
             if (err) {
                 $log.error('error getting events from prismic');
