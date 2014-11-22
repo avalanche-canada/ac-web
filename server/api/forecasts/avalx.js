@@ -79,7 +79,7 @@ function getElevationIcon(elevations) {
         return memo;
     }, [0,0,0]);
 
-    return 'http://www.avalanche.ca/Images/bulletin/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
+    return 'http://old.avalanche.ca/Images/bulletin/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
 }
 
 function getCompassIcon(aspects) {
@@ -117,7 +117,7 @@ function getCompassIcon(aspects) {
     }, [0,0,0,0,0,0,0,0]);
 
     //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
-    return 'http://www.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
+    return 'http://old.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
 }
 
 function getLikelihoodIcon(likelihood) {
@@ -158,14 +158,14 @@ function getLikelihoodIcon(likelihood) {
         nLikelihood = Number(likelihood);
     }
 
-    return 'http://www.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
+    return 'http://old.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
 }
 
 function getSizeIcon(sizes) {
     var from = parseInt(sizes[0]);
     var to = parseInt(sizes[1]);
 
-    return 'http://www.avalanche.ca/Images/bulletin/Size/Size-'+ from +'-'+ to +'_EN.png';
+    return 'http://old.avalanche.ca/Images/bulletin/Size/Size-'+ from +'-'+ to +'_EN.png';
 }
 
 function getProblems(caamlProblems) {
