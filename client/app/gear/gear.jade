@@ -1,6 +1,23 @@
-.full-height.page
-    .page-inner
-        .prismic-content
-            #news-blog-event-landing-content(ng-bind-html='content')
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                    | Go farther - Get avalanche trained
+                #sponsor-desktop.hidden-xs
+                    p Brought to you by
+                    a(target='_blank', href='http://res.cloudinary.com/avalanche-ca/image/upload/v1415219616/logos/VARDA2014_p4zt08.svg ')
+                .blue-border
+        .col-xs-12
+            #sponsor-ad-container(ng-hide='true')
+                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.ridevalemount.com')
+                    img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+        #news-blog-event-landing-content
+            section#news-blog-event-landing-body(ng-bind-html='content')
         .push
     div.footer(ng-include='"components/footer/footer.html"')
