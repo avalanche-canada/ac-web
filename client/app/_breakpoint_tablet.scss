@@ -83,6 +83,31 @@
 }
 /*sponsor-bar ends*/
 
+
+
+/*know-more*/
+#know-more-sled {
+    height:243px;
+    article {
+        padding-top:50px;
+        header {
+            width:318px;
+            float:left;
+            clear:none;
+            padding-top:16px;
+            h2 {
+                @include font-size(5.0, 5.2);
+                span {@include font-size(5.0, 5.2);}
+            }
+        }
+        footer {
+            width:230px;
+            float:right;
+            clear:none;
+        }
+    }
+}
+
 /*know-more*/
 #know-more {
     height:243px;

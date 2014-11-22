@@ -8,12 +8,33 @@
         .row
             .col-xs-12
                 #sponsor-ad-container(ng-if='!sledPage')
-                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/sponsor-mobile-smith-logo.png')
+                    a#sponsor-link(title='Smith Optics', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1416616381/logos/sponsor_banner_home.png')
                 #sponsor-ad-container(ng-if='sledPage')
-                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                        img.img-responsive(alt='Smith Optics', src='{{env.imageDir}}/marmot-gloves.jpg')
-    #know-more
+                    a#sponsor-link(title='Smith Optics', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1416616434/logos/sponsor_banner_sled.png')
+
+    #know-more-sled(ng-if='sledPage')
+        .container
+            .row
+                article.col-xs-12
+                    header
+                        h2
+                            | Know More.
+                            br
+                            span Go Farther.
+                    footer
+                        a.btn(href='http://membership.avalanche.ca/' target="_blank")
+                            | Become a member
+                            i.fa.fa-angle-right
+                        a.btn(href='/training/overview')
+                            | Take a course
+                            i.fa.fa-angle-right
+                        a.btn(href='/gear')
+                            | Get the gear
+                            i.fa.fa-angle-right
+
+    #know-more(ng-if='!sledPage')
         .container
             .row
                 article.col-xs-12

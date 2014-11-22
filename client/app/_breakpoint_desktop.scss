@@ -218,6 +218,24 @@
 }
 /*header ends*/
 
+#know-more-sled {
+    article {
+        footer {
+            width:680px;
+            padding-top:34px;
+                        a {
+                            clear:none;
+                            &.button-left {
+                                float:left;
+                            }
+                            &.button-right{
+                                float:right;
+                            }
+                        }
+        }
+    }
+}
+
 /*know-more*/
 #know-more {
     article {

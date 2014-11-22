@@ -105,10 +105,12 @@ angular.module('avalancheCanadaApp')
     $scope.forecastRegionList2 = $scope.forecastRegions.slice((third -1), (third*2));
     $scope.forecastRegionList3 = $scope.forecastRegions.slice((third*2), length+1);
 
-    $scope.dataMenu = [//{'display':'Observations','url':'/observations'},
+    $scope.dataMenu = [{'link':'<a href="/blogs" data-toggle="collapse" data-target=".navbar-collapse"><h2>Blogs<i class="fa fa-angle-right"></i></h2></a>'},
+                        {'link':'<a href="http://old.avalanche.ca/cac/library/incident-report-database/view" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Historic Incidents<i class="fa fa-angle-right"></i></h2></a>'}]
+                        //{'display':'Observations','url':'/observations'},
                        //{'display':'Incidents','url':'/incidents'},
-                       {'display':'Blogs','url':'/blogs'},
-                       {'display':'Summaries & Outlooks','url':'/conditions'}];//,
+                       //{'display':'Blogs','url':'/blogs'}]//,
+                       //{'display':'Summaries & Outlooks','url':'/conditions'}];//,
                        //{'display':'Weather Forecasts','url':'/weather'}];
 
     $scope.youth = [{'url':'#overview','display':'Overview'},

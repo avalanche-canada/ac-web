@@ -44,10 +44,8 @@ header#header.navbar-fixed-top(role='banner')
 
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
-                                                li(ng-repeat='item in dataMenu')
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='{{item.url}}')
-                                                            h2 {{item.display}}
-                                                                i.fa.fa-angle-right
+                                                li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
+
                                                 li
                                                          a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank")
                                                             h2 Trip Planner
