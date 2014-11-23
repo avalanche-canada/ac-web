@@ -22,7 +22,7 @@ angular.module('avalancheCanadaApp')
               scope.pushMenuOpen = false;
               scope.multiExpand = function() { scope.pushMenuOpen = true; angular.element(ele).multilevelpushmenu('expand'); };
               scope.multiCollapse = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
-              scope.itemClicked = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); },
+              scope.itemClicked = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
