@@ -23,7 +23,7 @@ var jwtCheck = jwt({
 
 var OBS_TABLE = 'mountain-info-network';
 
-router.post('/submissions', function (req, res) {
+router.post('/submissions', jwtCheck, function (req, res) {
     var form = new multiparty.Form();
     var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
