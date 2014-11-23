@@ -9,7 +9,6 @@ angular.module('avalancheCanadaApp')
           templateUrl: 'components/navbar/pushmenu.html',
           link: function(scope, ele, attrs) {
 
-
               angular.element(ele).multilevelpushmenu({
                   containersToPush: [$('#page-wrap')],
                   menuWidth: '320px',
@@ -23,6 +22,7 @@ angular.module('avalancheCanadaApp')
               scope.pushMenuOpen = false;
               scope.multiExpand = function() { scope.pushMenuOpen = true; angular.element(ele).multilevelpushmenu('expand'); };
               scope.multiCollapse = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
+              scope.itemClicked = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); },
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
