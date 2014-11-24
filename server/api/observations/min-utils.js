@@ -5,6 +5,8 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
+var im = require('imagemagick-stream');
+var changeCase = require('change-case');
 
 var AWS = require('aws-sdk');
 var DOC = require("dynamodb-doc");
@@ -13,6 +15,8 @@ var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
+var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
+var UPLOADS_BUCKET_URL = +UPLOADS_BUCKET;
 
 function itemsToSubmissions(items) {
     var subs = _.chain(items)
@@ -28,7 +32,8 @@ function itemsToSubmissions(items) {
             var obs = obs.map(function (ob) {
                 return {
                     obtype: ob.obtype,
-                    obid: ob.obid
+                    obid: ob.obid,
+                    shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + ob.obid
                 };
             });
 
@@ -43,37 +48,51 @@ function itemsToSubmissions(items) {
         .value();
 
     return subs;
-};
+}
 
 function itemToObservation(item) {
     return itemsToObservations([item])[0];
-};
+}
 
 function itemsToObservations(items) {
-    var obs = _.map(items, function (item) {
-        return {
-            subid: item.subid,
-            obid: item.obid,
-            datetime: item.datetime,
-            obtype: item.obtype,
-            latlng: item.ob.latlng
-        }
-    });
+    if(items[0]){
+        var obs = _.map(items, function (item) {
+            return {
+                subid: item.subid,
+                obid: item.obid,
+                title: item.ob.title,
+                datetime: item.datetime,
+                user: item.user,
+                obtype: item.obtype,
+                latlng: item.ob.latlng,
+                uploads: item.ob.uploads,
+                ridingConditions: item.ob.ridingConditions,
+                avalancheConditions: item.ob.avalancheConditions,
+                comment: item.ob.comment
+            }
+        });
 
-    return obs;
-};
+        return obs;
+    } else {
+        return [];
+    }
+}
 
 function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
-};
+}
+
+function validateItem(item) {
+    return item.ob.latlng.length === 2;
+}
 
 exports.saveSubmission = function (user, form, callback) {
-    var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
         subid: uuid.v4(),
         userid: user.user_id,
+        user: user.nickname || 'unknown',
         acl: 'public',
         obtype: 'quick',
         ob: {
@@ -83,64 +102,86 @@ exports.saveSubmission = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        switch(name){
-            case "location":
-                item.ob.latlng = value;
-                item.geohash = geohash.encode(item.ob.latlng.split(',')[0], value.split(',')[1]);
-                break;
-            case "datetime":
-                item.ob.datetime = value;
-                item.epoch = moment(item.ob.datetime).unix();
-                break;
-            default:
-                item.ob[name] = value;
-                break;
+        console.log('Saving field: %s for MIN submission with value: %s', name, value);
+        try {
+            switch(name){
+                case "latlng":
+                    item.ob.latlng = JSON.parse(value);
+                    item.geohash = geohash.encode(item.ob.latlng[0], item.ob.latlng[1]);
+                    break;
+                case "datetime":
+                    item.ob.datetime = value;
+                    item.epoch = moment(item.ob.datetime).unix();
+                    break;
+                default:
+                    if(/^\{|^\[/.test(value)) {
+                        value = JSON.parse(value);
+                    }
+                    item.ob[name] = value;
+                    break;
+            }
+        } catch (e) {
+            callback(e);
         }
     });
 
     form.on('part', function(part) {
+        var validExtentions = ['.png', '.jpg', '.jpeg', '.gif'];
         var uploadId = uuid.v4()
         var ext = path.extname(part.filename);
         var key = keyPrefix + uploadId + ext;
 
-        console.log('uploading: ' + key);
+        if(validExtentions.indexOf(ext) !== -1) {
+            console.log('Uploading %s to S3.', key);
 
-        item.ob.uploads.push(key);
+            item.ob.uploads.push(key);
 
-        var upload = s3Stream.upload({
-          Bucket: bucket,
-          Key: key,
-          ACL: "private"
-        });
+            var upload = s3Stream.upload({
+              Bucket: UPLOADS_BUCKET,
+              Key: key,
+              ACL: "private"
+            });
 
-        part.pipe(upload);
+            part.pipe(upload);
 
-        upload.on('error', function (error) {
-          console.log(error);
-        });
+            upload.on('error', function (error) {
+              callback("Error uploading object to S3 : %s", error);
+            });
 
-        upload.on('uploaded', function (details) {
-          console.log(details);
-        });
+            upload.on('uploaded', function (details) {
+              console.log("Uploaded object to S3 : %s", details);
+            });
+        } else {
+            callback({error: 'Invalid file extention. Valid file extentions are ' + validExtentions.join()});
+        }
 
     });
 
     form.on('error', function (err) {
-        console.log('error accepting obs form: ' + err)
+        callback('error accepting obs form: ' + err);
     });
 
     form.on('close', function (err) {
-        docClient.putItem({
-            TableName: OBS_TABLE,
-            Item: item,
-        }, function (err, data) {
-            if (err) {
-                callback({error: 'error saving you submission.'});
-            } else {
-                var sub =  itemToSubmission(item);
-                callback(null, sub);
-            }
-        });
+        var valid = validateItem(item);
+
+        if(valid){
+            docClient.putItem({
+                TableName: OBS_TABLE,
+                Item: item,
+            }, function (err, data) {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    callback({error: 'error saving you submission: saving'});
+                } else {
+                    console.log('successfully saved item');
+                    var sub =  itemToSubmission(item);
+                    callback(null, sub);
+                }
+            });
+        } else {
+            callback({error: 'error saving you submission: invalid'});
+        }
+        
     });
 };
 
@@ -205,13 +246,13 @@ exports.getObservations = function (filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    console.log('dates = %s', filters.dates)
     //todo: validate temporal query string values
-
     if (filters.last) {
-        startDate = moment().subtract(filters.last.split(':')[0], filters.last.split(':')[1]);
+        var number = filters.last.split(':')[0];
+        var unit = filters.last.split(':')[1];
+        startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-
+        console.log('dates = %s', filters.dates);
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
@@ -239,7 +280,6 @@ exports.getObservation = function (obid, callback) {
         FilterExpression: 'obid = :obid',
         ExpressionAttributeValues: {':obid' : obid}
     };
-
     docClient.scan(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
@@ -248,4 +288,21 @@ exports.getObservation = function (obid, callback) {
             callback(null, sub);
         }
     });
+};
+
+exports.getUploadAsStream = function (key, size) {
+    var s3 = new AWS.S3();
+    var params = {
+        Bucket: UPLOADS_BUCKET,
+        Key: key
+    };
+    var resize = im().resize(size).quality(90);
+
+    var stream = s3.getObject(params).createReadStream();
+
+    if(size === 'fullsize'){
+        return stream;
+    } else {
+        return stream.pipe(resize);
+    }
 };
