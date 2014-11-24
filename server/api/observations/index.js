@@ -21,7 +21,7 @@ var jwtCheck = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
-var OBS_TABLE = 'mountain-info-network';
+var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
 
 router.post('/submissions', jwtCheck, function (req, res) {
     var form = new multiparty.Form();
