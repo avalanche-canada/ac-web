@@ -67,7 +67,7 @@ function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
 };
 
-exports.saveSubmission = function (form, callcack) {
+exports.saveSubmission = function (form, callback) {
     var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
