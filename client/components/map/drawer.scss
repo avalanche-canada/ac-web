@@ -3,7 +3,7 @@
 // todo: extract out colors and box-shadow
 .ac-drawer {
     position: absolute;
-    top: 0;
+    top: 75px;
     height: 100%;
     width: 100%;
     right: -100%;
@@ -12,7 +12,7 @@
     box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
     border-top: 1px solid #eee;
     transition: all 0.3s linear;
-    z-index: 10000;
+    z-index: 1000;
     @media (min-width: $screen-sm-min) {
         width: 350px;
         right: -350px;
