@@ -67,15 +67,15 @@ function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
 };
 
-exports.saveSubmission = function (form, callback) {
+exports.saveSubmission = function (user, form, callback) {
     var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
         subid: uuid.v4(),
+        userid: user.user_id,
         acl: 'public',
         obtype: 'quick',
-        userid: '2f158fab-2e60-43cb-a96c-2655b1dd6b57',
         ob: {
             uploads: []
         }
