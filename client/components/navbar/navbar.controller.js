@@ -120,7 +120,13 @@ angular.module('avalancheCanadaApp')
 
     /*
     $scope.login = function() {
-        auth.signin({}, function(profile, token) {
+        var params = {
+            authParams: {
+                scope: 'openid profile'
+            }
+        };
+
+        auth.signin(params, function(profile, token) {
           // Success callback
           store.set('profile', profile);
           store.set('token', token);
