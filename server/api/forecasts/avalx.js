@@ -236,11 +236,23 @@ function parksForecast(caaml, region){
         });
     }
 
+    var dates = {
+        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
+        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0]
+    };
+
+    // park dates aren't always consistant
+    // they sometimes miss the Z (UTC) designator
+    for(var d in dates) {
+        var date = dates[d];
+        if(!/Z$/g.test(date)) dates[d] = date + 'Z';
+    }
+
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
-        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0],
+        dateIssued: dates.dateIssued,
+        validUntil: dates.validUntil,
         bulletinTitle: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
         highlights: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0],
         confidence: (function (confidence) {
