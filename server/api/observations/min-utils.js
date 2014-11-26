@@ -84,15 +84,19 @@ exports.saveSubmission = function (user, form, callback) {
     form.on('field', function(name, value) {
         value = value.trim();
         switch(name){
-            case "location":
-                item.ob.latlng = value;
-                item.geohash = geohash.encode(item.ob.latlng.split(',')[0], value.split(',')[1]);
+            case "latlng":
+                item.ob.latlng = JSON.parse(value);
+                item.geohash = geohash.encode(item.ob.latlng[0], item.ob.latlng[1]);
                 break;
             case "datetime":
                 item.ob.datetime = value;
                 item.epoch = moment(item.ob.datetime).unix();
                 break;
             default:
+                if(/^\{|^\[/.test(value)) {
+                    value = JSON.parse(value);
+                }
+                // console.log(value)
                 item.ob[name] = value;
                 break;
         }
@@ -130,11 +134,13 @@ exports.saveSubmission = function (user, form, callback) {
     });
 
     form.on('close', function (err) {
+        console.log(item)
         docClient.putItem({
             TableName: OBS_TABLE,
             Item: item,
         }, function (err, data) {
             if (err) {
+                console.log('dynamodb error: ' + err);
                 callback({error: 'error saving you submission.'});
             } else {
                 var sub =  itemToSubmission(item);
