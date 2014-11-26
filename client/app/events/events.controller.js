@@ -3,11 +3,14 @@
 angular.module('avalancheCanadaApp')
   .controller('EventsCtrl', function ($scope, Prismic, $log) {
 
+    var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
+
     Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
 
-        var query = '[[:d = at(document.type, "event")]]';
+        var query = '[[:d = at(document.type, "event")][:d = date.after(my.event.start_date,"'+yesterday+'")]]';
+        $log.debug(query);
         ctx.api.form('everything').query(query)
             .orderings('[my.event.start_date]')
                 .ref(ctx.ref).submit(function(err, documents){
@@ -21,7 +24,8 @@ angular.module('avalancheCanadaApp')
                     $scope.paginationRange = _.range(1, documents.total_pages+1);
                 }
 
-                query = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])]]';
+                query = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])][:d = date.after(my.event.start_date,"'+yesterday+'")]]';
+                $log.debug(query);
                 ctx.api.form('everything').query(query)
                                             .orderings('[my.event.start_date]')
                                                 .ref(ctx.ref).submit(function(err, documents){

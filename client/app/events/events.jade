@@ -59,7 +59,7 @@
                         p
                             a(href='#/events/{{featured.id}}/{{featured.slug}}') More details
                                 i.fa.fa-circle
-                                time(datetime='{{featured.getDate("event.start_date")}}') {{featured.getDate('event.start_date') | date:'EEEE MMMM d, y h:mm a' }}
+                                time(datetime='{{featured.getDate("event.start_date")}}') {{featured.getDate('event.start_date') |  dateUtc:"dddd MMMM Do" }}
 
                 article.list-rows(ng-repeat=' document in events' ng-class='"list-row-" + ($index+2)')
                     header
@@ -73,7 +73,7 @@
                         p
                             a(href='#/events/{{document.id}}/{{document.slug}}') Read More
                             i.fa.fa-circle
-                            time {{document.getDate('event.start_date') | date:'EEEE MMMM d, y h:mm a' }}
+                            time {{document.getDate('event.start_date') | dateUtc:"dddd MMMM Do" }}
                 // news-blog-event list rows ends
             // /#news-blog-event-list-rows
             #mobile-sidebar-container.col-xs-12.col-md-3

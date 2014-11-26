@@ -70,7 +70,7 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($scope, $location, $document) { //, auth, store
 
 
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="/forecasts/banff-yoho-kootenay" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
@@ -118,6 +118,7 @@ angular.module('avalancheCanadaApp')
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
 
+    /*
     $scope.login = function() {
         auth.signin({}, function(profile, token) {
           // Success callback
@@ -136,5 +137,6 @@ angular.module('avalancheCanadaApp')
       store.remove('token');
       $scope.isAuthenticated = false;
     };
+    */
 
   });
