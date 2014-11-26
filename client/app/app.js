@@ -20,19 +20,19 @@ angular.module('avalancheCanadaApp', [
         'ngSanitize',
         'prismic.io',
         'acComponents',
-        'foundation',
-        'auth0',
-        'angular-storage',
-        'angular-jwt'
+        'foundation'//,
+        //'auth0',
+        //'angular-storage',
+        //'angular-jwt'
     ])
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) { //, authProvider
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
 
         $locationProvider.html5Mode(true);
 
-        //$urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
@@ -76,10 +76,10 @@ angular.module('avalancheCanadaApp', [
             return retVal;
         });
 
-        authProvider.init({
+        /*authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-        });
+        });*/
     })
 
     // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
@@ -91,10 +91,11 @@ angular.module('avalancheCanadaApp', [
     //     $httpProvider.interceptors.push('jwtInterceptor');
     // }])
 
-    .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
+    .run(function(ENV, $rootScope ) { //, $location, auth, store, jwtHelper
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
+        /*
         auth.hookEvents();
 
         $rootScope.$on('$locationChangeStart', function() {
@@ -109,7 +110,7 @@ angular.module('avalancheCanadaApp', [
                 }
               }
             }
-        });
+        });*/
     })
 
     .controller('AlertCtrl', function ($scope) {

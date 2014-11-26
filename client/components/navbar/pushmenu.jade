@@ -16,7 +16,7 @@ nav
                     a(href='#') Forecasts
                     h2 Forecasts
                     ul
-                        li(ng-repeat='region in forecastRegions' ng-bind-html='region.link')
+                        li(ng-repeat='region in forecastRegions' ng-bind-html='region.link' ng-click='itemClicked()')
                 li
                     a(href='#') Data
                     h2 Data

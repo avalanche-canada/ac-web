@@ -27,8 +27,7 @@ angular.module('avalancheCanadaApp')
     Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
-        var date = new Date();
-        var today = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+        var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD') ;
         var sledQuery = sledPage ? '[:d = any(document.tags, ["Snowmobiler"])]' : '' ;
 
         var queryStr = '[[:d = at(document.type, "news")]' + sledQuery + ']';
@@ -64,7 +63,7 @@ angular.module('avalancheCanadaApp')
                 });
             }
         });
-        queryStr = '[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+today+'")] ' + sledQuery + ']';
+        queryStr = '[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+yesterday+'")] ' + sledQuery + ']';
         $log.debug(queryStr);
         ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.event.start_date]')
@@ -74,7 +73,7 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                queryStr = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+today+'")]' + sledQuery + ']';
+                queryStr = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+yesterday+'")]' + sledQuery + ']';
                 $log.debug(queryStr);
                 ctx.api.form('everything').query(queryStr)
                                               .orderings('[my.event.start_date]')

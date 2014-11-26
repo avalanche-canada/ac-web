@@ -4,18 +4,7 @@
 // =================================
 module.exports = {
   // Server IP
-  ip:       process.env.IP ||
-            undefined,
-
+  ip:       process.env.IP || undefined,
   // Server port
-  port:     process.env.PORT ||
-            8080,
-
-  // MongoDB connection options
-  /*mongo: {
-    uri:    process.env.MONGOLAB_URI ||
-            process.env.MONGOHQ_URL ||
-            process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/avalanchecanada'
-  }*/
+  port:     process.env.PORT || 8080,
 };

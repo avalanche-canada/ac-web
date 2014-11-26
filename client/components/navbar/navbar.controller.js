@@ -9,7 +9,6 @@ angular.module('avalancheCanadaApp')
           templateUrl: 'components/navbar/pushmenu.html',
           link: function(scope, ele, attrs) {
 
-
               angular.element(ele).multilevelpushmenu({
                   containersToPush: [$('#page-wrap')],
                   menuWidth: '320px',
@@ -23,6 +22,7 @@ angular.module('avalancheCanadaApp')
               scope.pushMenuOpen = false;
               scope.multiExpand = function() { scope.pushMenuOpen = true; angular.element(ele).multilevelpushmenu('expand'); };
               scope.multiCollapse = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
+              scope.itemClicked = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
 
               //! \todo is this nescessary ?
               angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
@@ -70,7 +70,7 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($scope, $location, $document) { //, auth, store
 
 
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="/forecasts/banff-yoho-kootenay" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
@@ -118,6 +118,7 @@ angular.module('avalancheCanadaApp')
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
 
+    /*
     $scope.login = function() {
         auth.signin({}, function(profile, token) {
           // Success callback
@@ -136,5 +137,6 @@ angular.module('avalancheCanadaApp')
       store.remove('token');
       $scope.isAuthenticated = false;
     };
+    */
 
   });

@@ -161,7 +161,18 @@ function getLikelihoodIcon(likelihood) {
     return 'http://old.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
 }
 
+function normalizeSizes(size, i) {
+    if(/[0-5]\.(0|5)/.test(size)){
+        return (Number(size) * 2) + ( 2 - i );
+    } else {
+        return Number(size) + ( 2 - i );
+    }
+}
+
 function getSizeIcon(sizes) {
+    // little hack to normalize parks sizes into images indexes
+    sizes = sizes.map(normalizeSizes);
+
     var from = parseInt(sizes[0]);
     var to = parseInt(sizes[1]);
 
@@ -184,7 +195,8 @@ function getProblems(caamlProblems) {
             aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
             expectedSize: (function (expectedSizes) {
-                return [expectedSizes[ns+'min'][0], expectedSizes[ns+'max'][0]];
+                var sizes = [expectedSizes[ns+'min'][0], expectedSizes[ns+'max'][0]];
+                return sizes.map(normalizeSizes);
             })(caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0]),
             comment: caamlAvProblem[ns+'comment'][0],
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
@@ -236,11 +248,23 @@ function parksForecast(caaml, region){
         });
     }
 
+    var dates = {
+        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
+        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0]
+    };
+
+    // park dates aren't always consistant
+    // they sometimes miss the Z (UTC) designator
+    for(var d in dates) {
+        var date = dates[d];
+        if(!/Z$/g.test(date)) dates[d] = date + 'Z';
+    }
+
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
-        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0],
+        dateIssued: dates.dateIssued,
+        validUntil: dates.validUntil,
         bulletinTitle: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
         highlights: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0],
         confidence: (function (confidence) {
