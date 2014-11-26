@@ -27,10 +27,7 @@
     "Leaflet.awesome-markers": "~2.0.2",
     "PruneCluster": "~0.10.1",
     "ac-components": "avalanche-canada/ac-components#v0.0.3",
-    "a0-angular-storage": "~0.0.6",
     "angular-jwt": "~0.0.4",
-    "auth0-lock": "~6.4.0",
-    "auth0-angular": "~3.0.5",
     "prismic.io": "~1.0.22",
     "moment": "~2.8.3"
   },
