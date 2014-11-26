@@ -1,5 +1,4 @@
 'use strict';
-require('graphdat');
 
 // Production specific configuration
 // =================================
