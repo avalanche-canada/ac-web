@@ -29,7 +29,7 @@
                 a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         article#news-blog-event-landing-content.col-xs-12.col-md-9
-            section#post-date {{date | date:'EEEE MMMM d' }}
+            section#post-date {{date |  dateUtc:"dddd MMMM Do"  }}
             section#post-location &nbsp;
             section#blog-tags
             ///    a(href='#') Tag One
