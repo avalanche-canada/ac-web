@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $state, ENV, acForecast, acObservation) {
+    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $state, ENV, acForecast, acObservation, obs, ob) {
         angular.extend($scope, {
             env: ENV,
             current: {},
@@ -26,9 +26,11 @@ angular.module('avalancheCanadaApp')
             $scope.regions = forecasts;
         });
 
-        acObservation.byPeriod('2:days').then(function (obs) {
+        if(obs && obs.length > 0) {
             $scope.obs = obs;
-        });
+        } else {
+            $scope.obs = ob;
+        }
 
         $scope.$watch('current.region', function (newRegion, oldRegion) {
             if(newRegion && newRegion !== oldRegion) {
