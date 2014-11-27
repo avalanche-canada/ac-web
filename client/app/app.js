@@ -20,7 +20,8 @@ angular.module('avalancheCanadaApp', [
         'ngSanitize',
         'prismic.io',
         'acComponents',
-        'foundation'//,
+        'foundation',
+        'ngToast'
         //'auth0',
         //'angular-storage',
         //'angular-jwt'
@@ -28,11 +29,12 @@ angular.module('avalancheCanadaApp', [
 
     .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) { //, authProvider
 
-        $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
+        //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
+        $sceProvider.enabled(false);
 
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/');
+        //$urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
@@ -76,11 +78,22 @@ angular.module('avalancheCanadaApp', [
             return retVal;
         });
 
+
         /*authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });*/
     })
+
+
+    .config(['ngToastProvider', function(ngToast) {
+        //! ng toast configuration
+        ngToast.configure({
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          maxNumber: 1
+        });
+    }])
 
     // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
     //     jwtInterceptorProvider.tokenGetter = function(store) {
@@ -113,11 +126,39 @@ angular.module('avalancheCanadaApp', [
         });*/
     })
 
-    .controller('AlertCtrl', function ($scope) {
-        $scope.alert = { type: 'danger', msg: 'SPAW Example !' };
-    //{ type: 'success', msg: 'Well done! You successfully read this important alert message.
-    })
-;
+    .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
+
+        var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
+        var tomorrow  = moment.utc(moment().startOf('day').add(1,'days')).format('YYYY-MM-DD');
+
+        Prismic.ctx().then(function(ctx){
+
+            var query =  '[[:d = at(document.type, "highlight")]';
+                query += '[:d = date.before(my.highlight.start_date,"'+tomorrow+'")]';
+                query += '[:d = date.after(my.highlight.end_date,"'+yesterday+'")]]';
+            $log.debug(query);
+            ctx.api.form('everything').query(query)
+                    .ref(ctx.ref).submit(function(err, documents){
+                if (err) {
+                    $log.error('error getting highlight from prismic');
+                }
+
+                else {
+                    if(documents.results.size > 0){
+                        var highlight = documents.results[0];
+                        ngToast.create({
+                            'content': highlight.getStructuredText('highlight.description').asHtml(ctx),
+                            'class': highlight.getText('highlight.style') || 'danger',
+                            'dismissOnTimeout': false,
+                            'dismissButton': true,
+                            'dismissButtonHtml': '&times;'
+                        });
+                    }
+                }
+
+            });
+        });
+    });
 
 
 

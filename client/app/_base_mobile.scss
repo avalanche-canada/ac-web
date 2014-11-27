@@ -16,9 +16,27 @@
 /* =Base Mobile Layout and Styles
 ----------------------------------------------------------------------------------*/
 
-#alert
-{
+.ng-toast__list{
+    width:75%;
+}
+
+.ng-toast--top{
+    margin-top:80px;
+}
+
+.ng-toast__message{
+    width:100%;
+}
+
+#alert{
     margin-top: 75px;
+}
+
+.alert-danger{
+    width:100%;
+    background-color: #D82631;
+    border-color: #FFF;
+    color: #FFF;
 }
 
 .anchor:before {

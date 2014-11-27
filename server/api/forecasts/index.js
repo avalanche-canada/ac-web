@@ -32,7 +32,7 @@ router.param('region', function (req, res, next) {
     var date = req.query.date;
     req.region = _.find(regions.features, {id: regionId});
 
-    if(req.region.properties.type === 'avalx') {
+    if(!date && req.region.properties.type === 'avalx') {
         if(req.region.properties.owner === 'avalanche-canada') {
             webcache.get(req.region.properties.url).then(function (data) {
                 req.forecast = {
