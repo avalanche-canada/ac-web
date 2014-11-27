@@ -128,14 +128,13 @@ angular.module('avalancheCanadaApp', [
 
     .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
 
-        var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
-        var tomorrow  = moment.utc(moment().startOf('day').add(1,'days')).format('YYYY-MM-DD');
+        var today     = moment.utc(moment().startOf('day')).format('YYYY-MM-DD');
 
         Prismic.ctx().then(function(ctx){
 
             var query =  '[[:d = at(document.type, "highlight")]';
-                query += '[:d = date.after(my.highlight.start_date,"'+yesterday+'")]';
-                query += '[:d = date.after(my.highlight.end_date,"'+tomorrow+'")]]';
+                query += '[:d = date.before(my.highlight.start_date,"'+today+'")]';
+                query += '[:d = date.after(my.highlight.end_date,"'+today+'")]]';
             $log.debug(query);
             ctx.api.form('everything').query(query)
                     .ref(ctx.ref).submit(function(err, documents){
@@ -148,7 +147,7 @@ angular.module('avalancheCanadaApp', [
                         var highlight = documents.results[0];
                         ngToast.create({
                             'content': highlight.getStructuredText('highlight.description').asHtml(ctx),
-                            'class': 'danger',
+                            'class': highlight.getText('highlight.style') || 'danger',
                             'dismissOnTimeout': false,
                             'dismissButton': true,
                             'dismissButtonHtml': '&times;'
