@@ -20,9 +20,16 @@
     width:75%;
 }
 
+.ng-toast--top{
+    margin-top:80px;
+}
+
 .ng-toast__message{
     width:100%;
-    margin-top:75px;
+}
+
+#alert{
+    margin-top: 75px;
 }
 
 .alert-danger{

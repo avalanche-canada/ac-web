@@ -126,18 +126,36 @@ angular.module('avalancheCanadaApp', [
         });*/
     })
 
-    .controller('HighlighCtrl', function (ngToast) {
-        ngToast.create({
-            'content': 'Another message as <a href="#" class="">HTML</a>',
-            'class': 'danger',
-            'dismissOnTimeout': false,
-            'dismissButton': true,
-            'dismissButtonHtml': '&times;'
+    .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
+
+        var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
+
+        Prismic.ctx().then(function(ctx){
+
+            var query = '[[:d = at(document.type, "highlight")][:d = date.after(my.highlight.start_date,"'+yesterday+'")]]';
+            $log.debug(query);
+            ctx.api.form('everything').query(query)
+                    .ref(ctx.ref).submit(function(err, documents){
+                if (err) {
+                    $log.error('error getting highlight from prismic');
+                }
+
+                else {
+                    if(documents.results){
+                        var highlight = documents.results[0];
+                        ngToast.create({
+                            'content': highlight.getStructuredText('highlight.description').asHtml(ctx),
+                            'class': 'danger',
+                            'dismissOnTimeout': false,
+                            'dismissButton': true,
+                            'dismissButtonHtml': '&times;'
+                        });
+                    }
+                }
+
+            });
         });
-        //$scope.alert = { type: 'danger', msg: 'SPAW Example !' };
-    //{ type: 'success', msg: 'Well done! You successfully read this important alert message.
-    })
-;
+    });
 
 
 
