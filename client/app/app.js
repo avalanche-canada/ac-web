@@ -41,7 +41,10 @@ angular.module('avalancheCanadaApp', [
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html'
+                templateUrl: 'app/template.html',
+                controller: ['$scope','$state',  function($scope, $state){
+                    $scope.url = $state.href($state.current.name, $state.params, {absolute: true});
+                }]
             })
         ;
 
@@ -104,7 +107,7 @@ angular.module('avalancheCanadaApp', [
     //     $httpProvider.interceptors.push('jwtInterceptor');
     // }])
 
-    .run(function(ENV, $rootScope ) { //, $location, auth, store, jwtHelper
+    .run(function(ENV, $rootScope, $state ) { //, $location, auth, store, jwtHelper
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
