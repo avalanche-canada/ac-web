@@ -80,7 +80,6 @@ router.get('/observations/:obid.:format?', function (req, res) {
             res.send(500, {error: 'error retreiving observation'})
         } else {
             if(req.params.format === 'html'){
-                console.log(ob)
                 var locals = {
                     title: ob.title || 'title',
                     datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
@@ -92,7 +91,8 @@ router.get('/observations/:obid.:format?', function (req, res) {
                         weather: flatten(ob.ridingConditions.weather.options),
                     },
                     avalancheConditions: ob.avalancheConditions,
-                    comment: ob.comment
+                    comment: ob.comment,
+                    shareurl: 'http://'+req.get('host')+'/share/'+ob.obid
                 };
 
                 console.log(locals)
