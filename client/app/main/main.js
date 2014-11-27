@@ -21,7 +21,7 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                  obs: function ($http) {
+                  obs: function () {
                     return [];
                   },
                   ob: function ($stateParams, $http) {
