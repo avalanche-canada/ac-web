@@ -56,7 +56,10 @@ function itemsToObservations(items) {
             obid: item.obid,
             datetime: item.datetime,
             obtype: item.obtype,
-            latlng: item.ob.latlng
+            latlng: item.ob.latlng,
+            ridingConditions: item.ob.ridingConditions,
+            avalancheConditions: item.ob.avalancheConditions,
+            comment: item.ob.comment
         }
     });
 
@@ -93,6 +96,9 @@ exports.saveSubmission = function (user, form, callback) {
                 item.epoch = moment(item.ob.datetime).unix();
                 break;
             default:
+                if(/^\{|^\[/.test(value)) {
+                    value = JSON.parse(value);
+                }
                 item.ob[name] = value;
                 break;
         }
@@ -239,7 +245,6 @@ exports.getObservation = function (obid, callback) {
         FilterExpression: 'obid = :obid',
         ExpressionAttributeValues: {':obid' : obid}
     };
-
     docClient.scan(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});

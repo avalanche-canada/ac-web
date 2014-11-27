@@ -4,6 +4,7 @@ var _ = require('lodash');
 var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
+var moment = require('moment');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -61,14 +62,43 @@ router.get('/observations', function (req, res) {
     });
 });
 
-router.get('/observations/:obid', function (req, res) {
-    var obid = req.params.obid;
+function flatten(obj){
+    return _.reduce(obj, function (memo, v, k) {
+        if (v) memo.push(k);
+        return memo;
+    }, []).join(', ');
+}
 
-    minUtils.getObservation(obid, function (err, ob) {
+router.get('/observations/:obid.:format?', function (req, res) {
+    var params = {
+        TableName: 'ac-obs',
+        Key: {obid: req.params.obid}
+    };
+
+    minUtils.getObservation(req.params.obid, function (err, ob) {
         if (err) {
             res.send(500, {error: 'error retreiving observation'})
         } else {
-            res.json(ob);
+            if(req.params.format === 'html'){
+                console.log(ob)
+                var locals = {
+                    title: ob.title || 'title',
+                    datetime: moment(ob.datetime).format(),
+                    ridingConditions: {
+                        ridingQuality: ob.ridingConditions.ridingQuality.selected,
+                        snowConditions: flatten(ob.ridingConditions.snowConditions.options),
+                        rideType: flatten(ob.ridingConditions.rideType.options),
+                        stayedAway: flatten(ob.ridingConditions.stayedAway.options),
+                    },
+                    avalancheConditions: ob.avalancheConditions,
+                    comment: ob.comment
+                };
+
+                console.log(locals)
+                res.render('observations/ob', locals);
+            } else {
+                res.json(ob);
+            }
         }
     });
 });
