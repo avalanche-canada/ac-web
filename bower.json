@@ -26,7 +26,7 @@
     "nouislider": "~7.0.9",
     "Leaflet.awesome-markers": "~2.0.2",
     "PruneCluster": "~0.10.1",
-    "ac-components": "avalanche-canada/ac-components",
+    "ac-components": "avalanche-canada/ac-components#master",
     "angular-jwt": "~0.0.4",
     "prismic.io": "~1.0.22",
     "moment": "~2.8.3",
