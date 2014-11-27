@@ -1,0 +1,24 @@
+h2 #{title}
+
+p Submitted by FloJam on #{datetime}
+
+p 
+    | Riding quality was #{ridingConditions.ridingQuality}.
+    | Snow conditions were #{ridingConditions.snowConditions}.
+    | We rode #{ridingConditions.rideType}.
+    | We stayed away from #{ridingConditions.stayedAway}.
+
+p The day was #{ridingConditions.weather}.
+
+h4 Avalanche Conditions:
+
+p
+    if avalancheConditions.sound
+        | There were signs of snowpack instability including whumpfs, shooting cracks or drum-like sounds.  
+    if avalancheConditions.snow
+        | There was loading within the past 48 hours including roughly 30 cm of new snow or more, significant wind transport or rain.  
+    if avalancheConditions.temp
+        | There were recent rapid rise in temparature to near 0C.  
+    if avalancheConditions.slab
+        | There were signs of slab avalanches in the area yesterday or today.  
+p Comment: #{comment}

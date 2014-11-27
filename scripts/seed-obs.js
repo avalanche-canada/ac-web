@@ -9,8 +9,8 @@ var geohash = require('ngeohash');
 var moment = require('moment');
 
 var o = {
-    sc: '{"slab":false,"sound":false,"snow":false,"temp":false}',
-    ac: '{"ridingQuality":{"prompt":"Riding quality was:","options":["Amazing","Good","OK","Terrible"],"selected":"null"},"snowConditions":{"prompt":"Snow conditions were:","options":{"Crusty":false,"Powder":false,"Deep powder":false,"Wet":false,"Heavy":false,"Wind affected":false,"Hard":false}},"rideType":{"prompt":"We rode:","options":{"Mellow slopes":false,"Steep slopes":false,"Convex slopes":false,"Sunny slopes":false,"Cut-blocks":false,"Open trees":false,"Dense trees":false,"Alpine slopes":false}},"stayedAway":{"prompt":"We stayed away from:","options":{"Steep slopes":false,"Convex slopes":false,"Sunny slopes":false,"Cut-blocks":false,"Open trees":false,"Alpine slopes":false}},"weather":{"prompt":"The day was:","options":{"Stormy":false,"Windy":false,"Sunny":false,"Cold":false,"Warm":false,"Cloudy":false,"Foggy":false,"Wet":false}}}'
+    ac: '{"slab":true,"sound":false,"snow":true,"temp":false}',
+    rc: '{"ridingQuality":{"prompt":"Riding quality was:","options":["Amazing","Good","OK","Terrible"],"selected":"OK"},"snowConditions":{"prompt":"Snow conditions were:","options":{"Crusty":false,"Powder":true,"Deep powder":false,"Wet":false,"Heavy":false,"Wind affected":true,"Hard":false}},"rideType":{"prompt":"We rode:","options":{"Mellow slopes":false,"Steep slopes":true,"Convex slopes":false,"Sunny slopes":false,"Cut-blocks":true,"Open trees":false,"Dense trees":true,"Alpine slopes":false}},"stayedAway":{"prompt":"We stayed away from:","options":{"Steep slopes":false,"Convex slopes":true,"Sunny slopes":false,"Cut-blocks":false,"Open trees":true,"Alpine slopes":false}},"weather":{"prompt":"The day was:","options":{"Stormy":true,"Windy":false,"Sunny":false,"Cold":false,"Warm":false,"Cloudy":false,"Foggy":true,"Wet":false}}}'
 };
 
 //obs.features = [obs.features[0]]
@@ -22,8 +22,8 @@ obs.features.forEach(function (ob) {
         formData: {
             latlng: JSON.stringify([coord[1], coord[0]]),
             datetime: moment().format(),
-            avalancheCondtions: o.ac,
-            ridingConditions: o.sc,
+            avalancheConditions: o.ac,
+            ridingConditions: o.rc,
             comment: 'my comment',
             attachments: [
                 fs.createReadStream(__dirname + '/fixtures/attachment.png'),
