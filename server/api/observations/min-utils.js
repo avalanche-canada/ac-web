@@ -55,6 +55,7 @@ function itemsToObservations(items) {
             subid: item.subid,
             obid: item.obid,
             datetime: item.datetime,
+            user: item.user,
             obtype: item.obtype,
             latlng: item.ob.latlng,
             ridingConditions: item.ob.ridingConditions,
@@ -77,6 +78,7 @@ exports.saveSubmission = function (user, form, callback) {
         obid: uuid.v4(),
         subid: uuid.v4(),
         userid: user.user_id,
+        user: user.nickname || 'unknown',
         acl: 'public',
         obtype: 'quick',
         ob: {

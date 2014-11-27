@@ -83,6 +83,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                 var locals = {
                     title: ob.title || 'title',
                     datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
+                    user: ob.user,
                     ridingConditions: {
                         ridingQuality: ob.ridingConditions.ridingQuality.selected,
                         snowConditions: flatten(ob.ridingConditions.snowConditions.options),
