@@ -83,12 +83,13 @@ router.get('/observations/:obid.:format?', function (req, res) {
                 console.log(ob)
                 var locals = {
                     title: ob.title || 'title',
-                    datetime: moment(ob.datetime).format(),
+                    datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
                     ridingConditions: {
                         ridingQuality: ob.ridingConditions.ridingQuality.selected,
                         snowConditions: flatten(ob.ridingConditions.snowConditions.options),
                         rideType: flatten(ob.ridingConditions.rideType.options),
                         stayedAway: flatten(ob.ridingConditions.stayedAway.options),
+                        weather: flatten(ob.ridingConditions.weather.options),
                     },
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment
