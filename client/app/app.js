@@ -34,7 +34,7 @@ angular.module('avalancheCanadaApp', [
 
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/');
+        //$urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
