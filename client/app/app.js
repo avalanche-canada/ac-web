@@ -130,7 +130,6 @@ angular.module('avalancheCanadaApp', [
 
         var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
         var tomorrow  = moment.utc(moment().startOf('day').add(1,'days')).format('YYYY-MM-DD');
-        var today     = moment.utc(moment().startOf('day')).format('YYYY-MM-DD');
 
         Prismic.ctx().then(function(ctx){
 
