@@ -129,10 +129,13 @@ angular.module('avalancheCanadaApp', [
     .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
 
         var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
+        var tomorrow  = moment.utc(moment().startOf('day').add(1,'days')).format('YYYY-MM-DD');
 
         Prismic.ctx().then(function(ctx){
 
-            var query = '[[:d = at(document.type, "highlight")][:d = date.after(my.highlight.start_date,"'+yesterday+'")]]';
+            var query =  '[[:d = at(document.type, "highlight")]'
+                query += '[:d = date.after(my.highlight.start_date,"'+yesterday+'")]'
+                query += '[:d = date.after(my.highlight.end_date,"'+tomorrow+'")]]';
             $log.debug(query);
             ctx.api.form('everything').query(query)
                     .ref(ctx.ref).submit(function(err, documents){
