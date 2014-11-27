@@ -30,7 +30,7 @@ angular.module('avalancheCanadaApp', [
 
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
         $locationProvider.html5Mode(true);
-        $locationProvider.hashPrefix('!')
+        $locationProvider.hashPrefix('!');
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
@@ -39,7 +39,7 @@ angular.module('avalancheCanadaApp', [
         });
 
         authProvider.on('loginSuccess', function($location, profilePromise, idToken, store) {
-            console.log("Login Success");
+            console.log('Login Success');
             profilePromise.then(function(profile) {
               store.set('profile', profile);
               store.set('token', idToken);
@@ -48,8 +48,8 @@ angular.module('avalancheCanadaApp', [
             $location.path('/');
         });
 
-        authProvider.on('authenticated', function($location) {
-            console.log("Authenticated");
+        authProvider.on('authenticated', function() {
+            console.log('Authenticated');
         });
 
         authProvider.on('logout', function(store) {
