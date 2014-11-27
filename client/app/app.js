@@ -144,8 +144,8 @@ angular.module('avalancheCanadaApp', [
                 }
 
                 else {
-                    if(documents.results.size > 0){
-                        var highlight = documents.results[0];
+                    var highlight = documents.results[0];
+                    if(highlight){
                         ngToast.create({
                             'content': highlight.getStructuredText('highlight.description').asHtml(ctx),
                             'class': highlight.getText('highlight.style') || 'danger',
