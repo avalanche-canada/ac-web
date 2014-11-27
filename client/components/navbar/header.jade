@@ -178,11 +178,11 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/auctions' target='_blank') Web Auction
 
-                ///a#nav-search-desktop(href='#')
-                ///    i.fa.fa-search
-                ///a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                 ///   i.fa.fa-lg.fa-sign-in
-                ///a.sign-in(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
-                ///    i.fa.fa-lg.fa-sign-out
+                //- a#nav-search-desktop(href='#')
+                    i.fa.fa-search
+                a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                    i.fa.fa-lg.fa-sign-in
+                a.sign-out(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                    i.fa.fa-lg.fa-sign-out
                 a#nav-donate-desktop(href='/foundation') Donate
     ///#header
