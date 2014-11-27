@@ -1,6 +1,6 @@
 div(ng-include='"components/navbar/navbar.html"')
 
-div#alert(ng-controller="HighlighCtrl" collapse="false")
+div(ng-controller="HighlighCtrl" collapse="false")
     ng-toast
 
 div(ui-view='' ng-class='pageClass' autoscroll='true')
