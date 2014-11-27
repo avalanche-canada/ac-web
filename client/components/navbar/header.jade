@@ -180,9 +180,9 @@ header#header.navbar-fixed-top(role='banner')
 
                 //- a#nav-search-desktop(href='#')
                     i.fa.fa-search
-                a.sign-in(href='#', ng-click="login()", ng-hide="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                a.sign-in(href='#', ng-click="auth.signin()", ng-hide="auth.isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
                     i.fa.fa-lg.fa-sign-in
-                a.sign-out(href='#', ng-click="logout()", ng-show="isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
+                a.sign-out(href='#', ng-click="auth.signout()", ng-show="auth.isAuthenticated", style="position: absolute; top: 28px; right: -40px;")
                     i.fa.fa-lg.fa-sign-out
                 a#nav-donate-desktop(href='/foundation') Donate
     ///#header

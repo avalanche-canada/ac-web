@@ -30,8 +30,33 @@ angular.module('avalancheCanadaApp', [
 
         //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
         $sceProvider.enabled(false);
-
         $locationProvider.html5Mode(true);
+        $locationProvider.hashPrefix('!')
+
+        authProvider.init({
+            domain: 'avalancheca.auth0.com',
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
+            loginUrl: '/'
+        });
+
+        authProvider.on('loginSuccess', function($location, profilePromise, idToken, store) {
+            console.log("Login Success");
+            profilePromise.then(function(profile) {
+              store.set('profile', profile);
+              store.set('token', idToken);
+            });
+            $location.hash('');
+            $location.path('/');
+        });
+
+        authProvider.on('authenticated', function($location) {
+            console.log("Authenticated");
+        });
+
+        authProvider.on('logout', function(store) {
+            store.remove('profile');
+            store.remove('token');
+        });
 
         //$uiViewScrollProvider.defaultScroll = 'anchor';
         $uiViewScrollProvider.useAnchorScroll();
@@ -83,10 +108,6 @@ angular.module('avalancheCanadaApp', [
             return retVal;
         });
 
-        authProvider.init({
-            domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-        });
     })
 
 
