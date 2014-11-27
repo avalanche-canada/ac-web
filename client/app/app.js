@@ -133,8 +133,8 @@ angular.module('avalancheCanadaApp', [
 
         Prismic.ctx().then(function(ctx){
 
-            var query =  '[[:d = at(document.type, "highlight")]'
-                query += '[:d = date.after(my.highlight.start_date,"'+yesterday+'")]'
+            var query =  '[[:d = at(document.type, "highlight")]';
+                query += '[:d = date.after(my.highlight.start_date,"'+yesterday+'")]';
                 query += '[:d = date.after(my.highlight.end_date,"'+tomorrow+'")]]';
             $log.debug(query);
             ctx.api.form('everything').query(query)
