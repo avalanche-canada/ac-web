@@ -5,7 +5,7 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
-var im = require('imagemagick-stream');
+// var im = require('imagemagick-stream');
 
 var AWS = require('aws-sdk');
 var DOC = require("dynamodb-doc");
@@ -267,13 +267,13 @@ exports.getUploadAsStream = function (key, size) {
         Bucket: UPLOADS_BUCKET,
         Key: key
     };
-    var resize = im().resize(size).quality(90);
+    // var resize = im().resize(size).quality(90);
 
-    var stream = s3.getObject(params).createReadStream();
+    return s3.getObject(params).createReadStream();
 
-    if(size === 'fullsize'){
-        return stream;
-    } else {
-        return stream.pipe(resize);
-    }
+    // if(size === 'fullsize'){
+    //     return stream;
+    // } else {
+    //     return stream.pipe(resize);
+    // }
 };
