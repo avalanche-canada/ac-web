@@ -17,7 +17,7 @@ angular.module('avalancheCanadaApp')
                 }
             })
             .state('ac.share', {
-                url: '^/share/:obid',
+                url: '^/share/:title/:obid',
                 templateUrl: 'app/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
