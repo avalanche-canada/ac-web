@@ -43,7 +43,7 @@ angular.module('avalancheCanadaApp', [
                 url: '/',
                 templateUrl: 'app/template.html',
                 controller: ['$scope','$state',  function($scope, $state){
-                    $scope.url = $state.href($state.current.name, $state.params, {absolute: true});
+                    $scope.url = $state.href($state.current.name, $state.params, {absolute: true, inherit: true});
                 }]
             })
         ;
