@@ -114,8 +114,6 @@ router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
     var size = req.query.size || 'fullsize';
 
-    console.log('getting upload : ' + uploadKey);
-
     minUtils.getUploadAsStream(uploadKey, size).pipe(res);
 });
 
