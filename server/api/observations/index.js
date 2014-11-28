@@ -5,6 +5,7 @@ var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
 var moment = require('moment');
+var lingo = require('lingo');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -63,10 +64,12 @@ router.get('/observations', function (req, res) {
 });
 
 function flatten(obj){
-    return _.reduce(obj, function (memo, v, k) {
-        if (v) memo.push(k);
+    var words = _.reduce(obj, function (memo, v, k) {
+        if (v) memo.push(k.toLowerCase());
         return memo;
-    }, []).join(', ');
+    }, []);
+
+    return lingo.join(words);
 }
 
 router.get('/observations/:obid.:format?', function (req, res) {
@@ -109,7 +112,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
 router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
     var size = req.query.size || 'fullsize';
-    
+
     minUtils.getUploadAsStream(uploadKey, size).pipe(res);
 });
 
