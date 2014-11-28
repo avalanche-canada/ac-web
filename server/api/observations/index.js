@@ -6,6 +6,7 @@ var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
 var moment = require('moment');
 var lingo = require('lingo');
+var changeCase = require('change-case');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -96,7 +97,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     },
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment,
-                    shareurl: 'http://'+req.get('host')+'/share/'+ob.obid,
+                    shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
                     uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
                 };
 

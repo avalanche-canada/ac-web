@@ -57,6 +57,7 @@ function itemsToObservations(items) {
         return {
             subid: item.subid,
             obid: item.obid,
+            title: item.ob.title,
             datetime: item.datetime,
             user: item.user,
             obtype: item.obtype,
