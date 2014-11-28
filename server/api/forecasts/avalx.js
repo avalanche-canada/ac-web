@@ -161,22 +161,15 @@ function getLikelihoodIcon(likelihood) {
     return 'http://www.avalanche.ca/assets/images/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
 }
 
-function normalizeSizes(size, i) {
-    if(/[0-5]\.(0|5)/.test(size)){
-        return (Number(size) * 2) + ( 2 - i );
-    } else {
-        return Number(size) + ( 2 - i );
-    }
-}
 
 function getSizeIcon(sizes) {
-    // little hack to normalize parks sizes into images indexes
-    //sizes = sizes.map(normalizeSizes);
+    //! image file names uses size without the decimal place (*10)
+    //! thus size-0-10 represents a min of 0 and a max of 1
+    //! or size-15-45 represents 1.5 to 4.5
+    var min = parseInt(sizes.min*10);
+    var max = parseInt(sizes.max*10);
 
-    var from = parseInt(sizes[0]*10);
-    var to = parseInt(sizes[1]*10);
-
-    return 'http://www.avalanche.ca/assets/images/size/Size-'+ from +'-'+ to +'_EN.png';
+    return 'http://www.avalanche.ca/assets/images/size/Size-'+ min +'-'+ max +'_EN.png';
 }
 
 function getProblems(caamlProblems) {
@@ -194,10 +187,8 @@ function getProblems(caamlProblems) {
             elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
             aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
-            expectedSize: (function (expectedSizes) {
-                var sizes = [expectedSizes[ns+'min'][0], expectedSizes[ns+'max'][0]];
-                return sizes.map(normalizeSizes);
-            })(caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0]),
+            expectedSize: {min: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'min'][0],
+                           max: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'max'][0]},
             comment: caamlAvProblem[ns+'comment'][0],
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
