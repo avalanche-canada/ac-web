@@ -76,19 +76,36 @@
                             time {{document.getDate('event.start_date') | dateUtc:"dddd MMMM Do" }}
                 // news-blog-event list rows ends
             // /#news-blog-event-list-rows
-            #mobile-sidebar-container.col-xs-12.col-md-3
-                aside
-                    .dark-ribbon
-                    .sidebar-inner
-                        h3 Related
-                        article.first.sidebar-related
-                            h4
-                                a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') First Impressions
-                        article.sidebar-related
-                            h4
-                                a(href='/news/VEVZWiYAACUATW97/new-website') New Website
-                        article.last.sidebar-related
-                        ul.sidebar-related-links
+           #mobile-sidebar-container.col-xs-12.col-md-3
+            aside
+                .dark-ribbon
+                .sidebar-inner
+                    h3 Related
+                    article.first.sidebar-related
+                        h4
+                            a(href='/news/VHeP1ykAACgAzhln/spaw-nov-28-2014') Special Public Avalanche Warning for BC Interior Ranges, Including North & South Rockies
+
+                    article.first.sidebar-related
+                        h4
+                            a(href='/blogs/VHZ5mSgAACkAw7a8/developing-avalanche-scenario') Blog - Developing Avalanche Scenario and the Human Factor
+
+                    article.first.sidebar-related
+                        h4
+                            a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') Blog - First Impressions
+                    article.sidebar-related
+                        h4
+                            a(href='/news/VEVZWiYAACUATW97/new-website') News - New Website
+
+                    ul.sidebar-related-links
+                        li
+                            a(href="https://twitter.com/intent/tweet?url={{url}}")
+                                i.fa.fa-twitter.fa-fw.fa-lg
+                        li
+                            a(href="https://www.facebook.com/sharer/sharer.php?u={{url}}")
+                                i.fa.fa-facebook.fa-fw.fa-lg
+                        li
+                            a(href="https://plus.google.com/share?url={{url}}")
+                                i.fa.fa-google-plus.fa-fw.fa-lg
     // /#news-blog-event-content
     .push
     div(ng-include='"components/footer/footer.html"')
