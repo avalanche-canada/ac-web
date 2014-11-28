@@ -93,7 +93,8 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     },
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment,
-                    shareurl: 'http://'+req.get('host')+'/share/'+ob.obid
+                    shareurl: 'http://'+req.get('host')+'/share/'+ob.obid,
+                    uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
                 };
 
                 console.log(locals)
@@ -106,13 +107,10 @@ router.get('/observations/:obid.:format?', function (req, res) {
 });
 
 router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
-    var params = {
-        Bucket: 'ac-user-uploads',
-        Key: [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/')
-    };
-
-    var s3 = new AWS.S3();
-    s3.getObject(params).createReadStream().pipe(res);
+    var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
+    var size = req.query.size || 'fullsize';
+    
+    minUtils.getUploadAsStream(uploadKey, size).pipe(res);
 });
 
 module.exports = router;

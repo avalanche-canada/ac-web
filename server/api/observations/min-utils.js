@@ -5,6 +5,7 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
+var im = require('imagemagick-stream');
 
 var AWS = require('aws-sdk');
 var DOC = require("dynamodb-doc");
@@ -13,6 +14,8 @@ var docClient = new DOC.DynamoDB();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
+var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
+var UPLOADS_BUCKET_URL = +UPLOADS_BUCKET;
 
 function itemsToSubmissions(items) {
     var subs = _.chain(items)
@@ -58,6 +61,7 @@ function itemsToObservations(items) {
             user: item.user,
             obtype: item.obtype,
             latlng: item.ob.latlng,
+            uploads: item.ob.uploads,
             ridingConditions: item.ob.ridingConditions,
             avalancheConditions: item.ob.avalancheConditions,
             comment: item.ob.comment
@@ -72,7 +76,6 @@ function itemToSubmission(item) {
 };
 
 exports.saveSubmission = function (user, form, callback) {
-    var bucket = 'ac-user-uploads';
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
@@ -116,7 +119,7 @@ exports.saveSubmission = function (user, form, callback) {
         item.ob.uploads.push(key);
 
         var upload = s3Stream.upload({
-          Bucket: bucket,
+          Bucket: UPLOADS_BUCKET,
           Key: key,
           ACL: "private"
         });
@@ -255,4 +258,21 @@ exports.getObservation = function (obid, callback) {
             callback(null, sub);
         }
     });
+};
+
+exports.getUploadAsStream = function (key, size) {
+    var s3 = new AWS.S3();
+    var params = {
+        Bucket: UPLOADS_BUCKET,
+        Key: key
+    };
+    var resize = im().resize(size).quality(90);
+
+    var stream = s3.getObject(params).createReadStream();
+
+    if(size === 'fullsize'){
+        return stream;
+    } else {
+        return stream.pipe(resize);
+    }
 };

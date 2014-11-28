@@ -26,6 +26,12 @@ p
 
 p Comment: #{comment}
 
+H4 Uploads:
+ul.list-inline
+    each url in uploads
+        li
+            img(src=url)
+
 H4 Share this report:
 ul.list-inline
     li
