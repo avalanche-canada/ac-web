@@ -80,9 +80,12 @@
                             ///    a(href='#') Tag Two
                             ///    a(href='#') Tag Three
                             p
-                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                time {{blog.getDate('blog.date')| dateUtc:"dddd MMMM Do" }}
                                 i.fa.fa-circle
-                                time {{blog.getDate('news.date')| dateUtc:"dddd MMMM Do" }}
+                                time {{blog.getText('blog.category')}}
+                                i.fa.fa-circle
+                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+
 
             // /#news-blog-event-list-rows
             #mobile-sidebar-container.col-xs-12.col-md-3

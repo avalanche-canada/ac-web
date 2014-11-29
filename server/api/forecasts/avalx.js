@@ -3,6 +3,7 @@ var _ = require('lodash');
 var request = require('request');
 var semanticafy = require('semanticafy');
 var Q = require('q');
+var moment = require('moment');
 
 var ratings = {
     Low: '1',
@@ -79,7 +80,7 @@ function getElevationIcon(elevations) {
         return memo;
     }, [0,0,0]);
 
-    return 'http://old.avalanche.ca/Images/bulletin/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
+    return 'http://www.avalanche.ca/assets/images/Elevation/Elevation-'+ zones[0] +'-'+ zones[1] +'-'+ zones[2] +'_EN.png';
 }
 
 function getCompassIcon(aspects) {
@@ -117,7 +118,7 @@ function getCompassIcon(aspects) {
     }, [0,0,0,0,0,0,0,0]);
 
     //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
-    return 'http://old.avalanche.ca/Images/bulletin/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
+    return 'http://www.avalanche.ca/assets/images/Compass/compass-'+ result[0]+'-'+ result[1] +'-'+ result[2] +'-'+ result[3] +'-'+ result[4] +'-'+ result[5] +'-'+ result[6] +'-'+ result[7]+'_EN.png';
 }
 
 function getLikelihoodIcon(likelihood) {
@@ -158,25 +159,18 @@ function getLikelihoodIcon(likelihood) {
         nLikelihood = Number(likelihood);
     }
 
-    return 'http://old.avalanche.ca/Images/bulletin/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
+    return 'http://www.avalanche.ca/assets/images/Likelihood/Likelihood-'+ nLikelihood +'_EN.png';
 }
 
-function normalizeSizes(size, i) {
-    if(/[0-5]\.(0|5)/.test(size)){
-        return (Number(size) * 2) + ( 2 - i );
-    } else {
-        return Number(size) + ( 2 - i );
-    }
-}
 
 function getSizeIcon(sizes) {
-    // little hack to normalize parks sizes into images indexes
-    sizes = sizes.map(normalizeSizes);
+    //! image file names uses size without the decimal place (*10)
+    //! thus size-0-10 represents a min of 0 and a max of 1
+    //! or size-15-45 represents 1.5 to 4.5
+    var min = sizes.min*10;
+    var max = sizes.max*10;
 
-    var from = parseInt(sizes[0]);
-    var to = parseInt(sizes[1]);
-
-    return 'http://old.avalanche.ca/Images/bulletin/Size/Size-'+ from +'-'+ to +'_EN.png';
+    return 'http://www.avalanche.ca/assets/images/size/Size-'+ min +'-'+ max +'_EN.png';
 }
 
 function getProblems(caamlProblems) {
@@ -194,10 +188,8 @@ function getProblems(caamlProblems) {
             elevations: _.map(caamlAvProblem[ns+'validElevation'], getComponents),
             aspects: _.map(caamlAvProblem[ns+'validAspect'], getComponents),
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
-            expectedSize: (function (expectedSizes) {
-                var sizes = [expectedSizes[ns+'min'][0], expectedSizes[ns+'max'][0]];
-                return sizes.map(normalizeSizes);
-            })(caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0]),
+            expectedSize: {min: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'min'][0],
+                           max: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'max'][0]},
             comment: caamlAvProblem[ns+'comment'][0],
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
@@ -222,7 +214,7 @@ function parksForecast(caaml, region){
 
     function getDangerRatings(caamlDangerRatings){
         var daysDangerRatings = _.groupBy(caamlDangerRatings, function (dr) {
-            return dr['validTime'][0]['TimeInstant'][0]['timePosition'][0];
+            return moment.utc(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
         });
 
         function formatDangerRating(dangerRating) {
@@ -249,16 +241,17 @@ function parksForecast(caaml, region){
     }
 
     var dates = {
-        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
-        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0]
+        dateIssued: moment.utc(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
+        validUntil: moment.utc(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
     };
 
     // park dates aren't always consistant
     // they sometimes miss the Z (UTC) designator
+    /*
     for(var d in dates) {
         var date = dates[d];
         if(!/Z$/g.test(date)) dates[d] = date + 'Z';
-    }
+    }*/
 
     return {
         id: caamlBulletin['$']['gml:id'],
@@ -290,7 +283,7 @@ function avalancheCaForecast(caaml, region){
     function getDangerRatings(caamlDangerRatings){
         return _.map(caamlDangerRatings, function (dangerRating) {
             return {
-                "date": dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0],
+                "date": moment.utc(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
                 "dangerRating": {
                     "alp": formatDangerRating(dangerRating['caaml:dangerRatingAlpValue'][0]),
                     "tln": formatDangerRating(dangerRating['caaml:dangerRatingTlnValue'][0]),
@@ -300,10 +293,21 @@ function avalancheCaForecast(caaml, region){
         });
     }
 
+
+    _.each(caamlProblems['caaml:avProblem'], function (p, index) {
+        var min = parseInt(caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0]);
+        var max = parseInt(caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0]);
+        caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] = (min * 0.5) + 0.5;
+        caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] = (max * 0.5) + 0.5;
+    });
+
+    //['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] * 0.5 ) + 0.5;
+    //caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] * 0.5 ) + 0.5;
+
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-        dateIssued: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0],
+        dateIssued: moment.utc(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
         validUntil: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0],
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
