@@ -92,6 +92,7 @@ exports.saveSubmission = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
+        console.log('Saving field: %s for MIN submission with value: %s', name, value);
         try {
             switch(name){
                 case "latlng":
