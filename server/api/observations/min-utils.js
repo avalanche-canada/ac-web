@@ -92,21 +92,25 @@ exports.saveSubmission = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        switch(name){
-            case "location":
-                item.ob.latlng = value;
-                item.geohash = geohash.encode(item.ob.latlng.split(',')[0], value.split(',')[1]);
-                break;
-            case "datetime":
-                item.ob.datetime = value;
-                item.epoch = moment(item.ob.datetime).unix();
-                break;
-            default:
-                if(/^\{|^\[/.test(value)) {
-                    value = JSON.parse(value);
-                }
-                item.ob[name] = value;
-                break;
+        try {
+            switch(name){
+                case "latlng":
+                    item.ob.latlng = JSON.parse(value);
+                    item.geohash = geohash.encode(item.ob.latlng[0], item.ob.latlng[1]);
+                    break;
+                case "datetime":
+                    item.ob.datetime = value;
+                    item.epoch = moment(item.ob.datetime).unix();
+                    break;
+                default:
+                    if(/^\{|^\[/.test(value)) {
+                        value = JSON.parse(value);
+                    }
+                    item.ob[name] = value;
+                    break;
+            }
+        } catch (e) {
+            callback(e);
         }
     });
 
@@ -115,7 +119,7 @@ exports.saveSubmission = function (user, form, callback) {
         var ext = path.extname(part.filename);
         var key = keyPrefix + uploadId + ext;
 
-        console.log('uploading: ' + key);
+        console.log('Uploading %s to S3.', key);
 
         item.ob.uploads.push(key);
 
@@ -128,17 +132,17 @@ exports.saveSubmission = function (user, form, callback) {
         part.pipe(upload);
 
         upload.on('error', function (error) {
-          console.log(error);
+          callback("Error uploading object to S3 : %s", error);
         });
 
         upload.on('uploaded', function (details) {
-          console.log(details);
+          console.log("Uploaded object to S3 : %s", details);
         });
 
     });
 
     form.on('error', function (err) {
-        console.log('error accepting obs form: ' + err)
+        callback('error accepting obs form: ' + err);
     });
 
     form.on('close', function (err) {

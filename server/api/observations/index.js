@@ -19,6 +19,7 @@ router.post('/submissions', jwtCheck, function (req, res) {
 
     minUtils.saveSubmission(req.user, form, function (err, obs) {
         if (err) {
+            console.log("There was an error while saving a submission.");
             res.send(500, {error: 'error saving submission'})
         } else {
             res.json(201, obs);
