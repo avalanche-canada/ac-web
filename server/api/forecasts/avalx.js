@@ -3,6 +3,7 @@ var _ = require('lodash');
 var request = require('request');
 var semanticafy = require('semanticafy');
 var Q = require('q');
+var moment = require('moment-timezone');
 
 var ratings = {
     Low: '1',
@@ -178,8 +179,8 @@ function getSizeIcon(sizes) {
     //! image file names uses size without the decimal place (*10)
     //! thus size-0-10 represents a min of 0 and a max of 1
     //! or size-15-45 represents 1.5 to 4.5
-    var min = parseInt(sizes.min*10);
-    var max = parseInt(sizes.max*10);
+    var min = sizes.min*10;
+    var max = sizes.max*10;
 
     return 'http://www.avalanche.ca/assets/images/size/Size-'+ min +'-'+ max +'_EN.png';
 }
@@ -225,7 +226,7 @@ function parksForecast(caaml, region){
 
     function getDangerRatings(caamlDangerRatings){
         var daysDangerRatings = _.groupBy(caamlDangerRatings, function (dr) {
-            return dr['validTime'][0]['TimeInstant'][0]['timePosition'][0];
+            return parseDate(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
         });
 
         function formatDangerRating(dangerRating) {
@@ -252,16 +253,17 @@ function parksForecast(caaml, region){
     }
 
     var dates = {
-        dateIssued: caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0],
-        validUntil: caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0]
+        dateIssued: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
+        validUntil: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
     };
 
     // park dates aren't always consistant
     // they sometimes miss the Z (UTC) designator
+    /*
     for(var d in dates) {
         var date = dates[d];
         if(!/Z$/g.test(date)) dates[d] = date + 'Z';
-    }
+    }*/
 
     return {
         id: caamlBulletin['$']['gml:id'],
@@ -293,7 +295,7 @@ function avalancheCaForecast(caaml, region){
     function getDangerRatings(caamlDangerRatings){
         return _.map(caamlDangerRatings, function (dangerRating) {
             return {
-                "date": dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0],
+                "date": parseDate(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
                 "dangerRating": {
                     "alp": formatDangerRating(dangerRating['caaml:dangerRatingAlpValue'][0]),
                     "tln": formatDangerRating(dangerRating['caaml:dangerRatingTlnValue'][0]),
@@ -303,12 +305,22 @@ function avalancheCaForecast(caaml, region){
         });
     }
 
+
+    _.each(caamlProblems['caaml:avProblem'], function (p, index) {
+        var min = parseInt(caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0]);
+        var max = parseInt(caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0]);
+        caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] = (min * 0.5) + 0.5;
+        caamlProblems['caaml:avProblem'][index]['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] = (max * 0.5) + 0.5;
+    });
+
+    //['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] * 0.5 ) + 0.5;
+    //caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] * 0.5 ) + 0.5;
+
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-
-        dateIssued: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0],
-        validUntil: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0],
+        dateIssued: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
+        validUntil: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
         confidence: (function (confidence) {
