@@ -3,7 +3,7 @@ var _ = require('lodash');
 var request = require('request');
 var semanticafy = require('semanticafy');
 var Q = require('q');
-var moment = require('moment-timezone');
+var moment = require('moment');
 
 var ratings = {
     Low: '1',
@@ -60,18 +60,6 @@ var dangerRatingStyles = {
         'undefined:': colors.black
     }
 };
-
-var parseDate = function(dateIn){
-    var dateOut = '';
-    if(!/(Z|PST|MST)$/g.test(dateIn)){
-        dateOut = moment.tz(dateIn, "America/Los_Angeles").format();
-    }
-    else
-    {
-        dateOut = moment(dateIn);
-    }
-    return dateOut;
-}
 
 function getElevationIcon(elevations) {
     var zones = elevations.reduce(function (memo, elevation) {
@@ -226,7 +214,7 @@ function parksForecast(caaml, region){
 
     function getDangerRatings(caamlDangerRatings){
         var daysDangerRatings = _.groupBy(caamlDangerRatings, function (dr) {
-            return parseDate(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
+            return moment.utc(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
         });
 
         function formatDangerRating(dangerRating) {
@@ -242,7 +230,7 @@ function parksForecast(caaml, region){
 
         return _.map(daysDangerRatings, function (dayDangerRatings) {
             return {
-                date: parseDate(dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0]),
+                date: dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0],
                 dangerRating: {
                     alp: getRatingByZone(dayDangerRatings, 'Alp'),
                     tln: getRatingByZone(dayDangerRatings, 'Tln'),
@@ -253,8 +241,8 @@ function parksForecast(caaml, region){
     }
 
     var dates = {
-        dateIssued: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
-        validUntil: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
+        dateIssued: moment.utc(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
+        validUntil: moment.utc(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
     };
 
     // park dates aren't always consistant
@@ -295,7 +283,7 @@ function avalancheCaForecast(caaml, region){
     function getDangerRatings(caamlDangerRatings){
         return _.map(caamlDangerRatings, function (dangerRating) {
             return {
-                "date": parseDate(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
+                "date": moment.utc(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
                 "dangerRating": {
                     "alp": formatDangerRating(dangerRating['caaml:dangerRatingAlpValue'][0]),
                     "tln": formatDangerRating(dangerRating['caaml:dangerRatingTlnValue'][0]),
@@ -319,8 +307,8 @@ function avalancheCaForecast(caaml, region){
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-        dateIssued: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
-        validUntil: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
+        dateIssued: moment.utc(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
+        validUntil: caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0],
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
         confidence: (function (confidence) {
