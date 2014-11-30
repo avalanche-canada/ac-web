@@ -14,13 +14,14 @@ var jwtCheck = jwt({
 });
 
 router.post('/submissions', jwtCheck, function (req, res) {
+    console.log(req.get('content-type'));
     var form = new multiparty.Form();
     form.parse(req);
 
     minUtils.saveSubmission(req.user, form, function (err, obs) {
         if (err) {
             console.log('Error saving MIN submission : %s', err);
-            res.send(500, {error: 'There was an error while saving a submission.'})
+            res.send(500, {error: 'There was an error while saving your submission.'})
         } else {
             res.json(201, obs);
         }
