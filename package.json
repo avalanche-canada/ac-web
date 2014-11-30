@@ -33,7 +33,8 @@
     "static-favicon": "~1.0.1",
     "webcache": "git://github.com/tesera/node-webcache",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "moment-timezone": "^0.2.5"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
