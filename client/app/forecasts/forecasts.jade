@@ -58,15 +58,15 @@
                                 .panel-group
                                     .panel.panel-primary
                                         .panel-heading
-                                                | {{ forecast.dangerRatings[0].date | date:'EEEE' }}
+                                                | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
                                         .panel-body.forecast-nowcast
                                             img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
                                         table.table.table-condensed.ac-forecast-days
                                             thead.ac-thead-dark
                                                 tr
                                                     th
-                                                    th {{ forecast.dangerRatings[1].date | date:'EEEE' }}
-                                                    th {{ forecast.dangerRatings[2].date | date:'EEEE' }}
+                                                    th {{ forecast.dangerRatings[1].date | dateUtc:'dddd' }}
+                                                    th {{ forecast.dangerRatings[2].date | dateUtc:'dddd' }}
                                             tbody
                                                 tr
                                                     td.ac-veg-zone--alp
