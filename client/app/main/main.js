@@ -1,8 +1,8 @@
 'use strict';
-angular.module('avalancheCanadaApp')
 
-  .config(function ($stateProvider) {
-    $stateProvider
+angular.module('avalancheCanadaApp')
+    .config(function ($stateProvider) {
+        $stateProvider
             .state('ac.map', {
                 url: '',
                 templateUrl: 'app/main/map.html',
@@ -26,7 +26,7 @@ angular.module('avalancheCanadaApp')
                   },
                   ob: function ($stateParams, $http) {
                     return $http.get('/api/min/observations/' + $stateParams.obid).then(function (res) {
-                        return [res.data];
+                        return res.data;
                     });
                   }
                 }
@@ -50,21 +50,6 @@ angular.module('avalancheCanadaApp')
                       return false;
                   }]
                 }
-            })
-            ;
-  });
-
-
-/*    .config(function ($routeProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'app/main/map.html',
-            controller: 'MapCtrl'
-        })
-        .when('/more', {
-            templateUrl: 'app/main/more.html',
-            controller: 'MoreCtrl'
-        });
-  });
-*/
+            });
+    });
 

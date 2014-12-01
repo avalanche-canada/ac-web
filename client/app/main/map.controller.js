@@ -3,34 +3,29 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $state, ENV, acForecast, acObservation, obs, ob) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, obs, ob) {
         angular.extend($scope, {
-            env: ENV,
-            current: {},
+            current: {
+                ob: ob
+            },
             drawer: {
                 visible: false
             },
             filters: {
                 obsType: [],
                 obsPeriod: ['7-days']
-            }
+            },
+            obs: obs
         });
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
             $state.go('ac.more');
-            //$location.path('/more');
         };
 
         acForecast.fetch().then(function (forecasts) {
             $scope.regions = forecasts;
         });
-
-        if(obs && obs.length > 0) {
-            $scope.obs = obs;
-        } else {
-            $scope.obs = ob;
-        }
 
         $scope.$watch('current.region', function (newRegion, oldRegion) {
             if(newRegion && newRegion !== oldRegion) {
@@ -48,25 +43,6 @@ angular.module('avalancheCanadaApp')
                 }, 800);
             }
         });
-
-        // acBreakpoints.setBreakpoints({
-        //             xs: 480,
-        //             sm: 600,
-        //             md: 1025,
-        //         });
-
-        // $rootScope.$on('breakpoint', function (e, breakpoint) {
-        //     $scope.device.size = breakpoint;
-        // });
-
-
-        // $scope.toggleForm = function (form) {
-        //     $scope.obs.form = form;
-        // };
-        
-        // acObservation.byPeriod('7:days').then(function (obs) {
-        //     $scope.observations = obs;
-        // });
 
         // $scope.toggleFilter = function (filter) {
         //     var filterType = filter.split(':')[0];
