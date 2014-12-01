@@ -19,7 +19,13 @@ Contact admin@avalanche.ca for more details or to get invoved.
 * [Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.  
 * [Bower](http://bower.io/) package management
 * [Compass](http://compass-style.org/)  
-* [SASS](http://sass-lang.com/)  
+* [SASS](http://sass-lang.com/) 
+* [AC-COMPONENTS](https://github.com/avalanche-canada/ac-components) Re-Usable components developer by Avalanche Canada
+* [Prismi.io](https://prismic.io/) Content Management
+* [Leaflet](http://leafletjs.com/) Mobile Friendly Interactive Maps
+* [Mapbox](https://www.mapbox.com/)
+
+
 
 ### server side
 * NodeJS
