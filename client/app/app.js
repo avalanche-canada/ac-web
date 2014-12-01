@@ -74,7 +74,7 @@ angular.module('avalancheCanadaApp', [
     })
 
     // auth0 configuration
-    .config(function (authProvider, $httpProvider, jwtInterceptorProvider) {
+    .config(['authProvider', '$httpProvider', 'jwtInterceptorProvider', function (authProvider, $httpProvider, jwtInterceptorProvider) {
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
@@ -101,12 +101,12 @@ angular.module('avalancheCanadaApp', [
             store.remove('token');
         });
 
-        jwtInterceptorProvider.tokenGetter = function(store) {
+        jwtInterceptorProvider.tokenGetter = ['store', function (store) {
             return store.get('token');
-        };
+        }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
-    })
+    }])
 
     .run(function(ENV, $rootScope, $location, auth) {
         //! make env (environemnt constants) available globaly
