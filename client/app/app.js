@@ -115,12 +115,12 @@ angular.module('avalancheCanadaApp', [
 
         jwtInterceptorProvider.tokenGetter = function(store) {
             return store.get('token');
-        }
+        };
 
         $httpProvider.interceptors.push('jwtInterceptor');
     })
 
-    .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
+    .run(function(ENV, $rootScope, $location, auth) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
