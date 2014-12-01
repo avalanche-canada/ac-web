@@ -21,11 +21,60 @@ angular.module('avalancheCanadaApp', [
         'angular-jwt'
     ])
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, authProvider) {
-
+    // main module configuration
+    .config(function ($locationProvider, $stateProvider, $urlRouterProvider, $sceProvider) {
         $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
+
+        $urlRouterProvider.otherwise('/');
+
+        //! define abstract ac state
+        $stateProvider
+            .state('ac', {
+                abstract: true,
+                url: '/',
+                templateUrl: 'app/template.html'
+            });
+    })
+
+    // Prismic.io configuration
+    .config(function (PrismicProvider) {
+
+        PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
+        PrismicProvider.setAccessToken('');
+        PrismicProvider.setClientId('');
+        PrismicProvider.setClientSecret('');
+        PrismicProvider.setLinkResolver(function(ctx, documentLink) {
+            var link = '';
+
+            if (documentLink.isBroken) {
+                console.log.error('prismic link resolver documentLink.isBroken');
+            } else {
+                /* Static pages based on bookmark name of the document */
+                if(documentLink.id === ctx.api.bookmarks.about) {
+                    link = '/about' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+                if(documentLink.id === ctx.api.bookmarks.jobs) {
+                    link = '/jobs' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+
+                /* Based on document type of the document */
+                if(documentLink.type === 'events') {
+                    link = '/events/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+                if(documentLink.type === 'news') {
+                    link = '/news/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+            }
+
+            return link;
+        });
+
+    })
+
+    // auth0 configuration
+    .config(function (authProvider, $httpProvider, jwtInterceptorProvider) {
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
@@ -52,94 +101,21 @@ angular.module('avalancheCanadaApp', [
             store.remove('token');
         });
 
-        $urlRouterProvider.otherwise('/');
+        jwtInterceptorProvider.tokenGetter = function(store) {
+            return store.get('token');
+        }
 
-        //! define abstract ac state
-        $stateProvider
-            .state('ac', {
-                abstract: true,
-                url: '/',
-                templateUrl: 'app/template.html'
-            })
-        ;
-
-        //! Prismic.io configuration
-        PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
-        PrismicProvider.setAccessToken('');
-        PrismicProvider.setClientId('');
-        PrismicProvider.setClientSecret('');
-        PrismicProvider.setLinkResolver(function(ctx, documentLink) {
-            var retVal = '';
-
-            if (documentLink.isBroken) {
-                console.log.error('prismic link resolver documentLink.isBroken');
-            }
-            else
-            {
-                /* Static pages based on bookmark name of the document */
-                if(documentLink.id === ctx.api.bookmarks.about) {
-                    retVal = '/about' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
-                }
-                if(documentLink.id === ctx.api.bookmarks.jobs) {
-                    retVal = '/jobs' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
-                }
-
-                /* Based on document type of the document */
-                if(documentLink.type === 'events') {
-                    retVal = '/events/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
-                }
-                if(documentLink.type === 'news') {
-                    retVal = '/news/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
-                }
-            }
-
-            return retVal;
-        });
-
+        $httpProvider.interceptors.push('jwtInterceptor');
     })
-
-    // .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
-    //     jwtInterceptorProvider.tokenGetter = function(store) {
-    //         // Return the saved token
-    //         return store.get('token');
-    //     };
-
-    //     $httpProvider.interceptors.push('jwtInterceptor');
-    // }])
 
     .run(function(ENV, $rootScope, $location, auth, store, jwtHelper) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
+        // hooks routing requiresLogin data attribute
         auth.hookEvents();
-
-        // $rootScope.$on('$locationChangeStart', function() {
-        //     if (!auth.isAuthenticated) {
-        //       var token = store.get('token');
-        //       if (token) {
-        //         if (!jwtHelper.isTokenExpired(token)) {
-        //           auth.authenticate(store.get('profile'), token);
-        //         } else {
-        //           // Either show Login page or use the refresh token to get a new idToken
-        //           $location.path('/');
-        //         }
-        //       }
-        //     }
-        // });
     })
 
     .controller('AlertCtrl', function ($scope) {
         $scope.alert = { type: 'danger', msg: 'SPAW Example !' };
-        //{ type: 'success', msg: 'Well done! You successfully read this important alert message.
     });
-
-
-
-
-
-
-
-
-
-
-
