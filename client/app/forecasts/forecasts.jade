@@ -27,13 +27,13 @@
                             img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1417026153/acf_yf8vmx.png')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
-                        | Date Issued &nbsp;
+                        | Date Issued
                         br.visible-xs-inline
-                        span  {{ forecast.dateIssued | dateUtc:'dddd MMMM D, YYYY' | uppercase }}
+                        span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
-                        | Valid Until &nbsp;
+                        | Valid Until
                         br.visible-xs-inline
-                        span {{ forecast.validUntil | dateUtc:'dddd MMMM D, YYYY' | uppercase }}
+                        span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
 
                 section#forecast-body.col-xs-12.col-md-9
                     div#highlights(ng-bind-html='forecast.highlights')
@@ -58,15 +58,15 @@
                                 .panel-group
                                     .panel.panel-primary
                                         .panel-heading
-                                                | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                                | {{ forecast.dangerRatings[0].date | date:'EEEE' }}
                                         .panel-body.forecast-nowcast
                                             img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
                                         table.table.table-condensed.ac-forecast-days
                                             thead.ac-thead-dark
                                                 tr
                                                     th
-                                                    th {{ forecast.dangerRatings[1].date | dateUtc:'dddd' }}
-                                                    th {{ forecast.dangerRatings[2].date | dateUtc:'dddd' }}
+                                                    th {{ forecast.dangerRatings[1].date | date:'EEEE' }}
+                                                    th {{ forecast.dangerRatings[2].date | date:'EEEE' }}
                                             tbody
                                                 tr
                                                     td.ac-veg-zone--alp
