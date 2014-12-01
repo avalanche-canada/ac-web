@@ -1,10 +1,5 @@
 'use strict';
 
-// todo: move this somewhere else, also tooltips are buggy, keeps flickering
-// $('body').tooltip({
-//     selector: 'a[rel="tooltip"], [data-toggle="tooltip"]'
-// });
-
 angular.module('acComponents').constant('AC_API_ROOT_URL', '');
 
 //angular.module('avalancheCanadaApp.filters', []);
@@ -135,19 +130,19 @@ angular.module('avalancheCanadaApp', [
 
         auth.hookEvents();
 
-        $rootScope.$on('$locationChangeStart', function() {
-            if (!auth.isAuthenticated) {
-              var token = store.get('token');
-              if (token) {
-                if (!jwtHelper.isTokenExpired(token)) {
-                  auth.authenticate(store.get('profile'), token);
-                } else {
-                  // Either show Login page or use the refresh token to get a new idToken
-                  $location.path('/');
-                }
-              }
-            }
-        });
+        // $rootScope.$on('$locationChangeStart', function() {
+        //     if (!auth.isAuthenticated) {
+        //       var token = store.get('token');
+        //       if (token) {
+        //         if (!jwtHelper.isTokenExpired(token)) {
+        //           auth.authenticate(store.get('profile'), token);
+        //         } else {
+        //           // Either show Login page or use the refresh token to get a new idToken
+        //           $location.path('/');
+        //         }
+        //       }
+        //     }
+        // });
     })
 
     .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
