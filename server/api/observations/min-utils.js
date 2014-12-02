@@ -46,11 +46,11 @@ function itemsToSubmissions(items) {
         .value();
 
     return subs;
-};
+}
 
 function itemToObservation(item) {
     return itemsToObservations([item])[0];
-};
+}
 
 function itemsToObservations(items) {
     var obs = _.map(items, function (item) {
@@ -70,11 +70,15 @@ function itemsToObservations(items) {
     });
 
     return obs;
-};
+}
 
 function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
-};
+}
+
+function validateItem(item) {
+    return item.ob.latlng.length === 2;
+}
 
 exports.saveSubmission = function (user, form, callback) {
     var keyPrefix = moment().format('YYYY/MM/DD/');
@@ -147,17 +151,25 @@ exports.saveSubmission = function (user, form, callback) {
     });
 
     form.on('close', function (err) {
-        docClient.putItem({
-            TableName: OBS_TABLE,
-            Item: item,
-        }, function (err, data) {
-            if (err) {
-                callback({error: 'error saving you submission.'});
-            } else {
-                var sub =  itemToSubmission(item);
-                callback(null, sub);
-            }
-        });
+        var valid = validateItem(item);
+
+        if(valid){
+            docClient.putItem({
+                TableName: OBS_TABLE,
+                Item: item,
+            }, function (err, data) {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    callback({error: 'error saving you submission: saving'});
+                } else {
+                    var sub =  itemToSubmission(item);
+                    callback(null, sub);
+                }
+            });
+        } else {
+            callback({error: 'error saving you submission: invalid'});
+        }
+        
     });
 };
 
