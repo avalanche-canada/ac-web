@@ -23,8 +23,11 @@ angular.module('avalancheCanadaApp', [
 
     // main module configuration
     .config(function ($locationProvider, $stateProvider, $urlRouterProvider, $sceProvider) {
-        $sceProvider.enabled(false); //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
+        //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
+        $sceProvider.enabled(false);
+        // enables html5 push state
         $locationProvider.html5Mode(true);
+        // little hack for auth0 to be able to interpret social callbacks properlly
         $locationProvider.hashPrefix('!');
 
         $urlRouterProvider.otherwise('/');
@@ -108,12 +111,27 @@ angular.module('avalancheCanadaApp', [
         $httpProvider.interceptors.push('jwtInterceptor');
     }])
 
-    .run(function(ENV, $rootScope, $location, auth) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
         // hooks routing requiresLogin data attribute
         auth.hookEvents();
+
+        // makes sure login spans refreshes
+        $rootScope.$on('$locationChangeStart', function() {
+            if (!auth.isAuthenticated) {
+                var token = store.get('token');
+                if (token) {
+                    if (!jwtHelper.isTokenExpired(token)) {
+                        auth.authenticate(store.get('profile'), token);
+                    } else {
+                      // Either show Login page or use the refresh token to get a new idToken
+                      $location.path('/');
+                    }
+                }
+            }
+        });
     })
 
     .controller('AlertCtrl', function ($scope) {
