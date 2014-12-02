@@ -2,5 +2,5 @@
 
 angular.module('avalancheCanadaApp')
     .controller('SubmitCtrl', function () {
-
+        
     });

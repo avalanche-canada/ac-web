@@ -6,6 +6,9 @@ angular.module('avalancheCanadaApp')
             .state('ac.submit', {
                 url: '^/submit',
                 templateUrl: 'app/submit/submit.html',
-                controller: 'SubmitCtrl'
+                controller: 'SubmitCtrl',
+                data: {
+                  requiresLogin: true
+                }
             });
     });

@@ -94,7 +94,7 @@ angular.module('avalancheCanadaApp', [
         authProvider.init({
             domain: 'avalancheca.auth0.com',
             clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
-            loginUrl: '/'
+            loginState: 'ac.login'
         });
 
         function onLoginSucccess($location, profilePromise, idToken, store) {
@@ -131,7 +131,7 @@ angular.module('avalancheCanadaApp', [
         $httpProvider.interceptors.push('jwtInterceptor');
     }])
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
@@ -146,8 +146,7 @@ angular.module('avalancheCanadaApp', [
                     if (!jwtHelper.isTokenExpired(token)) {
                         auth.authenticate(store.get('profile'), token);
                     } else {
-                      // Either show Login page or use the refresh token to get a new idToken
-                      // $location.path('/');
+                      $state.go('ac.login');
                     }
                 }
             }

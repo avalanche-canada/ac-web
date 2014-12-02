@@ -3,6 +3,13 @@
 angular.module('avalancheCanadaApp')
     .config(function ($stateProvider) {
         $stateProvider
+            .state('ac.login', {
+                url: '^/login',
+                templateUrl: 'app/main/map.html',
+                controller: function ($scope, auth) {
+                    auth.signin({authParams: {scope: "openid profile"}});
+                }
+            })
             .state('ac.map', {
                 url: '',
                 templateUrl: 'app/main/map.html',
