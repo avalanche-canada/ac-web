@@ -107,14 +107,18 @@ angular.module('avalancheCanadaApp', [
             $location.path('/');
         });
 
-        // authProvider.on('authenticated', function() {
-        //     console.log('Authenticated');
-        // });
+        authProvider.on('authenticated', function() {
+            console.log('Authenticated');
+        });
 
-        authProvider.on('logout', function(store) {
+        function logout(store){
             store.remove('profile');
             store.remove('token');
-        });
+        }
+
+        logout.$inject = ['store'];
+
+        authProvider.on('logout', logout);
 
         jwtInterceptorProvider.tokenGetter = ['store', function (store) {
             return store.get('token');
