@@ -7,7 +7,7 @@ angular.module('avalancheCanadaApp')
                 url: '^/login',
                 templateUrl: 'app/main/map.html',
                 controller: function ($scope, auth) {
-                    auth.signin({authParams: {scope: "openid profile"}});
+                    auth.signin({authParams: {scope: 'openid profile'}});
                 }
             })
             .state('ac.map', {
