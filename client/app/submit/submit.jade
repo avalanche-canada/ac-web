@@ -1,51 +1,16 @@
 .full-height.page
-    #news-blog-event-content.container
-        #top-link.visible-xs-block
-            i.fa.fa-chevron-up
-            br
-            | Top
+    .container
         .row
             header.col-xs-12
-                #header-inner
-                    h1
+                #header-inner(style="padding: 34px 0 20px;")
+                    h1(style="margin: 0;")
                         | Submit a Report
-                    #sponsor-desktop.hidden-xs
-                        p Brought to you by
-                        a(target='_blank', href='http://www.mammut.ch/en/index.html ')
-                            img(src='http://res.cloudinary.com/avalanche-ca/image/upload/v1415214658/logos/MAMMUT_mobunc.svg')
                     .blue-border
-            #sponsor-mobile.col-xs-12.visible-xs-block
-                #sponsor-mobile-inner
-                    p.pull-left
-                        | Brought
-                        br
-                        | to you by
-                    a.pull-right(target='_blank', href='http://localhost:9000/assets/images/arcteryx-logo.jpg')
+            .col-xs-12.col-md-9
+                div(ac-min-report-form, style="margin: 30px 0 30px 0;")
+        .row
             .col-xs-12
-                #sponsor-ad-container(ng-hide='true')
-                    p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
-                    a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                        img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
-            #news-blog-event-list-rows.col-xs-12.col-md-9
-                article.list-rows.list-row-1
-                    section
-                        div(ac-min-report-form)
-
-            #mobile-sidebar-container.col-xs-12.col-md-3
-                aside
-                    .dark-ribbon
-                    .sidebar-inner
-                        h3 Related
-                        article.first.sidebar-related
-                            h4
-                                a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') First Impressions
-                        article.sidebar-related
-                            h4
-                                a(href='/news/VEVZWiYAACUATW97/new-website') New Website
-                        article.last.sidebar-related
-                        ul.sidebar-related-links
-    .push
-    div(ng-include='"components/footer/footer.html"')
+                div(ng-include='"components/footer/footer.html"')
 
 
 
