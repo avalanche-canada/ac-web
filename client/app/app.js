@@ -95,9 +95,9 @@ angular.module('avalancheCanadaApp', [
             $location.path('/');
         });
 
-        authProvider.on('authenticated', function() {
-            console.log('Authenticated');
-        });
+        // authProvider.on('authenticated', function() {
+        //     console.log('Authenticated');
+        // });
 
         authProvider.on('logout', function(store) {
             store.remove('profile');
