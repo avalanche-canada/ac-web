@@ -61,6 +61,7 @@ var dangerRatingStyles = {
     }
 };
 
+//! If timezone is not specified set to PST where the majority of our regions are
 var parseDate = function(dateIn){
     var dateOut = '';
     if(!/(Z|PST|MST)$/g.test(dateIn)){
@@ -225,8 +226,9 @@ function parksForecast(caaml, region){
     var caamlProblems = caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['avProblems'][0];
 
     function getDangerRatings(caamlDangerRatings){
+        //! Day danger ratings are UTC
         var daysDangerRatings = _.groupBy(caamlDangerRatings, function (dr) {
-            return parseDate(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
+            return moment.utc(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
         });
 
         function formatDangerRating(dangerRating) {
@@ -253,6 +255,7 @@ function parksForecast(caaml, region){
     }
 
     var dates = {
+        //! Date Issued and Valid Until are timezone sensitive (not UTC)
         dateIssued: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
         validUntil: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
     };
@@ -295,7 +298,8 @@ function avalancheCaForecast(caaml, region){
     function getDangerRatings(caamlDangerRatings){
         return _.map(caamlDangerRatings, function (dangerRating) {
             return {
-                "date": parseDate(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
+                //! Daily danger ratings are UTC
+                "date": moment.utc(dangerRating['gml:validTime'][0]['gml:TimeInstant'][0]['gml:timePosition'][0]),
                 "dangerRating": {
                     "alp": formatDangerRating(dangerRating['caaml:dangerRatingAlpValue'][0]),
                     "tln": formatDangerRating(dangerRating['caaml:dangerRatingTlnValue'][0]),
@@ -319,6 +323,7 @@ function avalancheCaForecast(caaml, region){
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
+        //! Date Issued and Valid Until are timezone sensitive
         dateIssued: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
         validUntil: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
