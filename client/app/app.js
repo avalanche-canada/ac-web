@@ -85,7 +85,7 @@ angular.module('avalancheCanadaApp', [
             loginUrl: '/'
         });
 
-        authProvider.on('loginSuccess', function($location, profilePromise, idToken, store) {
+        function onLoginSucccess($location, profilePromise, idToken, store) {
             console.log('Login Success');
             profilePromise.then(function(profile) {
               store.set('profile', profile);
@@ -93,7 +93,11 @@ angular.module('avalancheCanadaApp', [
             });
             $location.hash('');
             $location.path('/');
-        });
+        }
+
+        onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store'];
+
+        authProvider.on('loginSuccess', onLoginSucccess);
 
         authProvider.on('authenticated', function() {
             console.log('Authenticated');
