@@ -38,7 +38,7 @@ angular.module('foundation',[
 
                 var width = window.innerWidth;
                 var height = window.innerHeight;
-                $scope.myInterval = 5000;
+                $scope.myInterval = 5000000000000000000000000;
                 $scope.slides = [{
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           text1: 'Raising money for <a href="/">Avalanche Canada<a>',

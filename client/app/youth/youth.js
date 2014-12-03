@@ -9,8 +9,9 @@ angular.module('avalancheCanadaApp')
         controller: 'YouthCtrl'
       });
   })
+  .controller('YouthCtrl', function ($scope, $anchorScroll , Prismic) {
 
-  .controller('YouthCtrl', function ($scope, Prismic) {
+         $anchorScroll()
 
         Prismic.ctx().then(function(ctx){
             Prismic.bookmark('youth-overview').then(function(doc){
@@ -22,7 +23,7 @@ angular.module('avalancheCanadaApp')
             });
 
              Prismic.bookmark('youth-resources').then(function(doc){
-                    $scope.resources = doc.getStructuredText('generic.body').asHtml(ctx);
+                    //$scope.resources = doc.getStructuredText('generic.body').asHtml(ctx);
             });
 
             Prismic.bookmark('youth-curriculum').then(function(doc){

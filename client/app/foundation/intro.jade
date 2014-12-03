@@ -3,7 +3,7 @@
         slide(ng-repeat='slide in slides' active='slide.active')
             img(ng-src='{{slide.image}}')
             .carousel-caption
-                   .row
+                   .row#caption
                          article.col-xs-12
                                  header
                                         span(ng-bind-html='slide.text1')
@@ -13,6 +13,9 @@
                                  footer
                                          a(href='/foundation/programs')
                                                  | Donate Now
+                    #padding
+                    #footer
+                        h2 blah
 
 //.scroll-nav.scroll-nav--down
 //            a(href="", ng-click="showMore()") More
