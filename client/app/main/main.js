@@ -3,13 +3,6 @@
 angular.module('avalancheCanadaApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('ac.login', {
-                url: '^/login',
-                templateUrl: 'app/main/map.html',
-                controller: function ($scope, auth) {
-                    auth.signin({authParams: {scope: 'openid profile'}});
-                }
-            })
             .state('ac.map', {
                 url: '',
                 templateUrl: 'app/main/map.html',
@@ -17,10 +10,13 @@ angular.module('avalancheCanadaApp')
                 resolve: {
                   obs: function (acObservation) {
                     return acObservation.byPeriod('2:days');
-                  },
-                  ob: function () {
-                    return null;
                   }
+                }
+            })
+            .state('ac.map.login', {
+                url: 'login',
+                data: {
+                  isLogin: true
                 }
             })
             .state('ac.share', {
@@ -28,14 +24,14 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                  obs: function () {
-                    return [];
-                  },
-                  ob: function ($stateParams, $http) {
+                  obs: function ($stateParams, $http) {
                     return $http.get('/api/min/observations/' + $stateParams.obid).then(function (res) {
-                        return res.data;
+                        return [res.data];
                     });
                   }
+                },
+                data: {
+                  isShare: true
                 }
             })
             .state('ac.sled', {
