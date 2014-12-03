@@ -13,8 +13,15 @@ angular.module('avalancheCanadaApp')
                   }
                 }
             })
-            .state('ac.map.login', {
+            .state('ac.login', {
                 url: 'login',
+                templateUrl: 'app/main/map.html',
+                controller: 'MapCtrl',
+                resolve: {
+                   obs: function (acObservation) {
+                    return []
+                  }
+                },
                 data: {
                   isLogin: true
                 }
