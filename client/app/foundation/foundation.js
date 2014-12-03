@@ -136,23 +136,27 @@ angular.module('foundation',[
                     $scope.ctx = ctx;
 
                     Prismic.bookmark('foundation-programs-hincks').then(function(doc){
-                            $scope.hincks = doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.hincks = doc;
                     });
 
                     Prismic.bookmark('foundation-programs-kelly').then(function(doc){
-                            $scope.kelly = doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.kelly = doc;
                     });
 
                     Prismic.bookmark('foundation-programs-ac').then(function(doc){
-                            $scope.ac =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.ac = doc;
+                    });
+
+                    Prismic.bookmark('foundation-programs-other').then(function(doc){
+                            $scope.other = doc;
                     });
 
                     Prismic.bookmark('foundation-programs-shea').then(function(doc){
-                            $scope.shea =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.shea =  doc;
                     });
 
                     Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
-                            $scope.hodgson =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.hodgson =  doc;
                     });
 
                 });

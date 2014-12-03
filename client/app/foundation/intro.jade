@@ -11,11 +11,12 @@
                                         span(ng-bind-html='slide.text2')
 
                                  footer
-                                         a(href='/foundation/programs')
-                                                 | Donate Now
-                    #padding
-                    #footer
-                        h2 blah
+                                    form(target='_top', method='post', action='https://www.paypal.com/cgi-bin/webscr')
+                                        input(type='hidden', value='_s-xclick', name='cmd')
+                                        input(type='hidden', value='87JTBQBSCN6PS', name='hosted_button_id')
+                                        input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='http://www.avalanche.ca/assets/images/donate_now.png')
+                                        img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
+
 
 //.scroll-nav.scroll-nav--down
 //            a(href="", ng-click="showMore()") More
