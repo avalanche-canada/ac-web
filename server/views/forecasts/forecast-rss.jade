@@ -3,11 +3,11 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
   channel
     title Avalanche Canada
     description Public Avalanche Forecast
-    link http://localhost:9000/api/forecasts/purcells.rss
+    link avalanche.ca
     category Canadian Public Avalanche Forecast
     item
         title #{forecast.bulletinTitle} - #{forecast.dateIssued}
-        link http://localhost:9000/api/forecasts/purcells.rss
+        link avalanche.ca/forecasts/#{forecast.region}
         description <![CDATA[
                 include forecast.jade
                 ]]>

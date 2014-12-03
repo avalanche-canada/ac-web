@@ -29,11 +29,13 @@
                     #date-issued.forecast-date-inner
                         | Date Issued
                         br.visible-xs-inline
+                        /// span  {{ forecast.dateIssued | date:'EEEE MMMM d' | uppercase }}
                         span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
                         | Valid Until
                         br.visible-xs-inline
                         span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+                        /// span {{ forecast.validUntil | date:'EEEE MMMM d' | uppercase }}
 
                 section#forecast-body.col-xs-12.col-md-9
                     div#highlights(ng-bind-html='forecast.highlights')

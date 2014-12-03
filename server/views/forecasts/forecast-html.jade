@@ -2,6 +2,7 @@ doctype
 html
   head
     title #{forecast.bulletinTitle}
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    style
+        include forecast.css
   body
    include forecast.jade

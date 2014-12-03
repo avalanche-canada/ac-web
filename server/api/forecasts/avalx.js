@@ -61,11 +61,23 @@ var dangerRatingStyles = {
     }
 };
 
-//! If timezone is not specified set to PST where the majority of our regions are
-var parseDate = function(dateIn){
+
+var parsePstDate = function(dateIn){
     var dateOut = '';
     if(!/(Z|PST|MST)$/g.test(dateIn)){
         dateOut = moment.tz(dateIn, "America/Los_Angeles").format();
+    }
+    else
+    {
+        dateOut = moment(dateIn);
+    }
+    return dateOut;
+}
+
+var parseUtcDate = function(dateIn){
+    var dateOut = '';
+    if(!/(Z|PST|MST)$/g.test(dateIn)){
+        dateOut = moment.utc(dateIn);
     }
     else
     {
@@ -244,7 +256,7 @@ function parksForecast(caaml, region){
 
         return _.map(daysDangerRatings, function (dayDangerRatings) {
             return {
-                date: parseDate(dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0]),
+                date: dayDangerRatings[0]['validTime'][0]['TimeInstant'][0]['timePosition'][0],
                 dangerRating: {
                     alp: getRatingByZone(dayDangerRatings, 'Alp'),
                     tln: getRatingByZone(dayDangerRatings, 'Tln'),
@@ -256,8 +268,8 @@ function parksForecast(caaml, region){
 
     var dates = {
         //! Date Issued and Valid Until are timezone sensitive (not UTC)
-        dateIssued: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
-        validUntil: parseDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
+        dateIssued: parseUtcDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['beginPosition'][0]),
+        validUntil: parseUtcDate(caamlBulletin['validTime'][0]['TimePeriod'][0]['endPosition'][0])
     };
 
     // park dates aren't always consistant
@@ -324,8 +336,8 @@ function avalancheCaForecast(caaml, region){
         id: caamlBulletin['$']['gml:id'],
         region: region,
         //! Date Issued and Valid Until are timezone sensitive
-        dateIssued: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
-        validUntil: parseDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
+        dateIssued: parsePstDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
+        validUntil: parsePstDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
         confidence: (function (confidence) {
