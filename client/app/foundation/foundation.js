@@ -41,33 +41,33 @@ angular.module('foundation',[
                 $scope.myInterval = 5000;
                 $scope.slides = [{
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Raising money for <a hre="/">Avalanche Canada<a>',
+                          text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
                         },
 
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'develop and coordinate public avalanche education'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'deliver youth awareness and training seminars'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'contribute to snow safety research'
                         }];
 
