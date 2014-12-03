@@ -19,7 +19,9 @@ angular.module('avalancheCanadaApp')
             auth.signin({authParams: {scope: 'openid profile'}});
 
             auth.config.auth0lib.on('hidden', function () {
-                if(!auth.isAuthenticated) $state.go('ac.map');
+                if(!auth.isAuthenticated) {
+                    $state.go('ac.map');
+                }
             });
         }
 
