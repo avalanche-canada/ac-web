@@ -66,13 +66,13 @@ router.get('/observations', function (req, res) {
     });
 });
 
-function flatten(obj){
-    var words = _.reduce(obj, function (memo, v, k) {
-        if (v) memo.push(k.toLowerCase());
-        return memo;
-    }, []);
+function getOptions(options){
+    var selections = [];
+    for(var option in options) {
+        if(options[option]) selections.push(option);
+    }
 
-    return lingo.join(words);
+    return selections;
 }
 
 router.get('/observations/:obid.:format?', function (req, res) {
@@ -92,10 +92,10 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     user: ob.user,
                     ridingConditions: {
                         ridingQuality: ob.ridingConditions.ridingQuality.selected,
-                        snowConditions: flatten(ob.ridingConditions.snowConditions.options),
-                        rideType: flatten(ob.ridingConditions.rideType.options),
-                        stayedAway: flatten(ob.ridingConditions.stayedAway.options),
-                        weather: flatten(ob.ridingConditions.weather.options),
+                        snowConditions: getOptions(ob.ridingConditions.snowConditions.options),
+                        rideType: getOptions(ob.ridingConditions.rideType.options),
+                        stayedAway: getOptions(ob.ridingConditions.stayedAway.options),
+                        weather: getOptions(ob.ridingConditions.weather.options)
                     },
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment,
