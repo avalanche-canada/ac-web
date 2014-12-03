@@ -3,20 +3,27 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, obs, ob) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, obs, auth) {
         angular.extend($scope, {
-            current: {
-                ob: ob
-            },
+            current: {},
             drawer: {
                 visible: false
             },
             filters: {
                 obsType: [],
                 obsPeriod: ['7-days']
-            },
-            obs: obs
+            }
         });
+
+        if($state.current.data && $state.current.data.isLogin) {
+            auth.signin({authParams: {scope: 'openid profile'}});
+        }
+
+        if($state.current.data && $state.current.data.isShare) {
+            $scope.current.ob = obs[0];
+        } else {
+            $scope.obs = obs;
+        }
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
