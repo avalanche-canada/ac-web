@@ -19,7 +19,7 @@ angular.module('avalancheCanadaApp')
                 controller: 'MapCtrl',
                 resolve: {
                    obs: function (acObservation) {
-                    return []
+                    return acObservation.byPeriod('2:days');
                   }
                 },
                 data: {
