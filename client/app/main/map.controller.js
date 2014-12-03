@@ -25,11 +25,11 @@ angular.module('avalancheCanadaApp')
             });
         }
 
-        if($state.current.data && $state.current.data.isShare) {
-            $scope.current.ob = obs[0];
-        } else {
-            $scope.obs = obs;
-        }
+        // if($state.current.data && $state.current.data.isShare) {
+        //     $scope.current.ob = obs[0];
+        // } else {
+        //     $scope.obs = obs;
+        // }
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';

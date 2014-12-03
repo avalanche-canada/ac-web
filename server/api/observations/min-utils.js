@@ -53,23 +53,27 @@ function itemToObservation(item) {
 }
 
 function itemsToObservations(items) {
-    var obs = _.map(items, function (item) {
-        return {
-            subid: item.subid,
-            obid: item.obid,
-            title: item.ob.title,
-            datetime: item.datetime,
-            user: item.user,
-            obtype: item.obtype,
-            latlng: item.ob.latlng,
-            uploads: item.ob.uploads,
-            ridingConditions: item.ob.ridingConditions,
-            avalancheConditions: item.ob.avalancheConditions,
-            comment: item.ob.comment
-        }
-    });
+    if(items[0]){
+        var obs = _.map(items, function (item) {
+            return {
+                subid: item.subid,
+                obid: item.obid,
+                title: item.ob.title,
+                datetime: item.datetime,
+                user: item.user,
+                obtype: item.obtype,
+                latlng: item.ob.latlng,
+                uploads: item.ob.uploads,
+                ridingConditions: item.ob.ridingConditions,
+                avalancheConditions: item.ob.avalancheConditions,
+                comment: item.ob.comment
+            }
+        });
 
-    return obs;
+        return obs;
+    } else {
+        return [];
+    }
 }
 
 function itemToSubmission(item) {
