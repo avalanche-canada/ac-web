@@ -12,6 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="icon" type="image/gif" href="/assets/Avalanche_Canada_icon16x16.gif" />
+    <link rel="icon" href="/assets/Avalanche_Canada_icon16x16.ico" />
+
     <!-- generated -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
@@ -39,7 +42,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ui-view=""></div>
+    <div ui-view="" autoscroll='false'></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -137,6 +140,7 @@
           <script src="app/weather/weather.js"></script>
           <script src="app/youth/youth.js"></script>
           <script src="components/footer/footer.controller.js"></script>
+          <script src="components/foundation_footer/footer.controller.js"></script>
           <script src="components/foundation_navbar/navbar.controller.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->

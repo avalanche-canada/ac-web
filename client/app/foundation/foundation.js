@@ -41,33 +41,39 @@ angular.module('foundation',[
                 $scope.myInterval = 5000;
                 $scope.slides = [{
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Raising money for <a hre="/">Avalanche Canada<a>',
+                          credits:'Chris Christie',
+                          text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          credits:'Silas Patterson',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
                         },
 
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          credits:'Kirstie SImpson',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'develop and coordinate public avalanche education'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          credits:'Steve Ruskay',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'deliver youth awareness and training seminars'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          credits:'Jonathan Reich',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          text1: 'Your donations help <a hre="/">Avalanche Canada<a>',
+                          credits:'Raven Eye Photography',
+                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'contribute to snow safety research'
                         }];
 
@@ -119,6 +125,10 @@ angular.module('foundation',[
                             $scope.honourary =  doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
+                    Prismic.bookmark('foundation-contact').then(function(doc){
+                            $scope.contact =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
                 });
             }]
 
@@ -136,23 +146,35 @@ angular.module('foundation',[
                     $scope.ctx = ctx;
 
                     Prismic.bookmark('foundation-programs-hincks').then(function(doc){
-                            $scope.hincks = doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.hincks = doc;
                     });
 
                     Prismic.bookmark('foundation-programs-kelly').then(function(doc){
-                            $scope.kelly = doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.kelly = doc;
                     });
 
                     Prismic.bookmark('foundation-programs-ac').then(function(doc){
-                            $scope.ac =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.ac = doc;
+                    });
+
+                    Prismic.bookmark('foundation-programs-other').then(function(doc){
+                            $scope.other = doc;
+                    });
+
+                    Prismic.bookmark('foundation-programs-memorial-funds').then(function(doc){
+                            $scope.memorialFunds =  doc;
+                    });
+
+                    Prismic.bookmark('foundation-programs-memorial-donations').then(function(doc){
+                            $scope.memorialDonations =  doc;
                     });
 
                     Prismic.bookmark('foundation-programs-shea').then(function(doc){
-                            $scope.shea =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.shea =  doc;
                     });
 
                     Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
-                            $scope.hodgson =  doc.getStructuredText('generic.body').asHtml(ctx);
+                            $scope.hodgson =  doc;
                     });
 
                 });

@@ -26,14 +26,17 @@ angular.module('avalancheCanadaApp', [
         //'angular-jwt'
     ])
 
-    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider) { //, authProvider
+    .config(function ($locationProvider, PrismicProvider, $stateProvider, $urlRouterProvider, $sceProvider, $uiViewScrollProvider) { //, authProvider
 
         //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
         $sceProvider.enabled(false);
 
         $locationProvider.html5Mode(true);
 
-        //$urlRouterProvider.otherwise('/');
+        //$uiViewScrollProvider.defaultScroll = 'anchor';
+        $uiViewScrollProvider.useAnchorScroll();
+        //$anchorScrollProvider.disableAutoScrolling();
+        $urlRouterProvider.otherwise('/');
 
         //! define abstract ac state
         $stateProvider
@@ -106,7 +109,7 @@ angular.module('avalancheCanadaApp', [
     //     $httpProvider.interceptors.push('jwtInterceptor');
     // }])
 
-    .run(function(ENV, $rootScope ) { //, $location, auth, store, jwtHelper
+    .run(function(ENV, $rootScope) { //, $location, auth, store, jwtHelper
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 

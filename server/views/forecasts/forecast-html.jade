@@ -1,7 +1,8 @@
 doctype
 html
   head
-    title #{title} - My Site
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title #{forecast.bulletinTitle}
+    style
+        include forecast.css
   body
    include forecast.jade

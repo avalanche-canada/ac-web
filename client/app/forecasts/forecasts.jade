@@ -27,13 +27,15 @@
                             img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1417026153/acf_yf8vmx.png')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
-                        | Date Issued &nbsp;
+                        | Date Issued
                         br.visible-xs-inline
-                        span  {{ forecast.dateIssued | dateUtc:'dddd MMMM D, YYYY' | uppercase }}
+                        /// span  {{ forecast.dateIssued | date:'EEEE MMMM d' | uppercase }}
+                        span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
-                        | Valid Until &nbsp;
+                        | Valid Until
                         br.visible-xs-inline
-                        span {{ forecast.validUntil | dateUtc:'dddd MMMM D, YYYY' | uppercase }}
+                        span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+                        /// span {{ forecast.validUntil | date:'EEEE MMMM d' | uppercase }}
 
                 section#forecast-body.col-xs-12.col-md-9
                     div#highlights(ng-bind-html='forecast.highlights')
@@ -172,6 +174,8 @@
 
                             ul.sidebar-related-links
                                 li
+                                    a(href="/api/forecasts/{{region}}.html" target='_blank') Print friendly
+                                li
                                     a(href="https://twitter.com/intent/tweet?url={{url}}")
                                         i.fa.fa-twitter.fa-fw.fa-lg
                                 li
@@ -181,33 +185,6 @@
                                     a(href="https://plus.google.com/share?url={{url}}")
                                         i.fa.fa-google-plus.fa-fw.fa-lg
 
-                #mobile-sidebar-container.col-xs-12.col-md-3(ng-hide='true')
-                    aside
-                        .dark-ribbon
-                        .sidebar-inner
-                            h3 Related
-                            article.first.sidebar-related
-                                h4
-                                    a(href='#') Spring Conditions Scenario Series
-                                section.sidebar-related-author
-                                    | By
-                                    a(href='#') Karl Klassen
-                                section.sidebar-related-pubdate Date 00, 0000
-                            article.sidebar-related
-                                h4
-                                    a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
-                                section.sidebar-related-pubdate Date 00, 0000
-                            article.last.sidebar-related
-                                h4
-                                    a(href='#') Avalanche Incident Description at Frisby Ridge, Revelstoke
-                                section.sidebar-related-pubdate Date 00, 0000
-                            ul.sidebar-related-links
-                                li.first
-                                    a(href='/forecasts/archive') Forecast Archive
-                                ///li
-                                ///    a(href='#') Forecast Archive
-                                ///li.last
-                                ///    a(href='#') Any Additional Links
 
                 footer#forecast-bulletin.col-xs-12
                     #accordion.panel-group
