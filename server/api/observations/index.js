@@ -61,6 +61,7 @@ router.get('/observations', function (req, res) {
         if (err) {
             res.send(500, {error: 'error retreiving observations'})
         } else {
+            console.log('returning %s obs', obs.length);
             res.json(obs);
         }
     });

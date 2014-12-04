@@ -9,7 +9,7 @@ angular.module('avalancheCanadaApp')
                 controller: 'MapCtrl',
                 resolve: {
                   obs: function (acObservation) {
-                    return acObservation.byPeriod('2:days');
+                    return acObservation.byPeriod('48:hours');
                   }
                 }
             })
@@ -19,7 +19,7 @@ angular.module('avalancheCanadaApp')
                 controller: 'MapCtrl',
                 resolve: {
                    obs: function (acObservation) {
-                    return acObservation.byPeriod('2:days');
+                    return acObservation.byPeriod('48:hours');
                   }
                 },
                 data: {

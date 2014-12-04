@@ -246,13 +246,13 @@ exports.getObservations = function (filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    console.log('dates = %s', filters.dates)
     //todo: validate temporal query string values
-
     if (filters.last) {
-        startDate = moment().subtract(filters.last.split(':')[0], filters.last.split(':')[1]);
+        var number = filters.last.split(':')[0];
+        var unit = filters.last.split(':')[1];
+        startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-
+        console.log('dates = %s', filters.dates);
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
