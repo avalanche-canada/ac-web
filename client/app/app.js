@@ -15,7 +15,10 @@ angular.module('avalancheCanadaApp', [
         'prismic.io',
         'acComponents',
         'foundation',
-        'ngToast'
+        'ngToast',
+        'auth0',
+        'angular-storage',
+        'angular-jwt'
     ])
 
     // main module configuration
@@ -86,7 +89,7 @@ angular.module('avalancheCanadaApp', [
     }])
 
     // auth0 configuration
-    .config(['authProvider', '$httpProvider', 'jwtInterceptorProvider', function (authProvider, $httpProvider, jwtInterceptorProvider) {
+    .config(function (authProvider, $httpProvider, jwtInterceptorProvider) {
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
@@ -126,7 +129,7 @@ angular.module('avalancheCanadaApp', [
         }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
-    }])
+    })
 
     .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
         //! make env (environemnt constants) available globaly
@@ -149,7 +152,7 @@ angular.module('avalancheCanadaApp', [
             }
         });
     })
-    
+
     .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
 
         var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
