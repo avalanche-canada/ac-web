@@ -134,7 +134,7 @@ angular.module('avalancheCanadaApp', [
                     if (!jwtHelper.isTokenExpired(token)) {
                         auth.authenticate(store.get('profile'), token);
                     } else {
-                      $state.go('ac.login');
+                      // $state.go('ac.login');
                     }
                 }
             }
