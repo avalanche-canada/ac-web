@@ -6,6 +6,7 @@ var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
 var im = require('imagemagick-stream');
+var changeCase = require('change-case');
 
 var AWS = require('aws-sdk');
 var DOC = require("dynamodb-doc");
@@ -31,7 +32,8 @@ function itemsToSubmissions(items) {
             var obs = obs.map(function (ob) {
                 return {
                     obtype: ob.obtype,
-                    obid: ob.obid
+                    obid: ob.obid,
+                    shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + ob.obid
                 };
             });
 
@@ -124,29 +126,34 @@ exports.saveSubmission = function (user, form, callback) {
     });
 
     form.on('part', function(part) {
+        var validExtentions = ['.png', '.jpg', '.jpeg', '.gif'];
         var uploadId = uuid.v4()
         var ext = path.extname(part.filename);
         var key = keyPrefix + uploadId + ext;
 
-        console.log('Uploading %s to S3.', key);
+        if(validExtentions.indexOf(ext) !== -1) {
+            console.log('Uploading %s to S3.', key);
 
-        item.ob.uploads.push(key);
+            item.ob.uploads.push(key);
 
-        var upload = s3Stream.upload({
-          Bucket: UPLOADS_BUCKET,
-          Key: key,
-          ACL: "private"
-        });
+            var upload = s3Stream.upload({
+              Bucket: UPLOADS_BUCKET,
+              Key: key,
+              ACL: "private"
+            });
 
-        part.pipe(upload);
+            part.pipe(upload);
 
-        upload.on('error', function (error) {
-          callback("Error uploading object to S3 : %s", error);
-        });
+            upload.on('error', function (error) {
+              callback("Error uploading object to S3 : %s", error);
+            });
 
-        upload.on('uploaded', function (details) {
-          console.log("Uploaded object to S3 : %s", details);
-        });
+            upload.on('uploaded', function (details) {
+              console.log("Uploaded object to S3 : %s", details);
+            });
+        } else {
+            callback({error: 'Invalid file extention. Valid file extentions are ' + validExtentions.join()});
+        }
 
     });
 
@@ -166,6 +173,7 @@ exports.saveSubmission = function (user, form, callback) {
                     console.log(JSON.stringify(err));
                     callback({error: 'error saving you submission: saving'});
                 } else {
+                    console.log('successfully saved item');
                     var sub =  itemToSubmission(item);
                     callback(null, sub);
                 }
