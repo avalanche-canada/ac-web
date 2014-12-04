@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, obs, auth) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, acObservation, obs, auth) {
         angular.extend($scope, {
             current: {},
             drawer: {
