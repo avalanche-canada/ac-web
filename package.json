@@ -5,6 +5,7 @@
   "dependencies": {
     "aws-sdk": "^2.0.23",
     "body-parser": "~1.0.0",
+    "change-case": "^2.1.5",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
     "cookie-parser": "~1.0.1",
@@ -18,9 +19,11 @@
     "hiredis": "^0.1.17",
     "imagemagick-stream": "^1.1.0",
     "jade": "^1.7.0",
+    "lingo": "0.0.5",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
     "moment": "^2.8.3",
+    "moment-timezone": "^0.2.5",
     "morgan": "~1.0.0",
     "multiparty": "~4.0.0",
     "newrelic": "^1.13.2",
@@ -34,8 +37,7 @@
     "static-favicon": "~1.0.1",
     "webcache": "git://github.com/tesera/node-webcache",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
-    "xml2js": "^0.4.4",
-    "moment-timezone": "^0.2.5"
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
