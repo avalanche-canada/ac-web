@@ -119,6 +119,10 @@ angular.module('foundation',[
                             $scope.honourary =  doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
+                    Prismic.bookmark('foundation-contact').then(function(doc){
+                            $scope.contact =  doc.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
                 });
             }]
 

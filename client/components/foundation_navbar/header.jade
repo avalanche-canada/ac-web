@@ -15,22 +15,22 @@ header#header.navbar-fixed-top(role='banner')
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li.dropdown
-                        a(href='/foundation/about')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | About
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in about')
                                     a(href='foundation/about#{{item.name}}') {{item.display}}
                     li.dropdown
-                        a(href='/foundation/programs')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Programs
                             span.arrow-down
-                        ///ul.dropdown-menu
-                        ///    li(ng-repeat='item in programs')
-                        ///            a(href='foundation/programs#{{item.name}}') {{item.display}}
+                        ul.dropdown-menu
+                            li(ng-repeat='item in programs')
+                                a(href='foundation/programs#{{item.name}}') {{item.display}}
 
                     li.dropdown
-                        a(href='/foundation/contributors')
+                        a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Contributors
                             span.arrow-down
                         ul.dropdown-menu

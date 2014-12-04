@@ -1,8 +1,4 @@
 #more.ac-view-more
-    ///.scroll-nav.scroll-nav--up
-    ///    a(href="", ng-click="showIntro()")
-    ///        i.fa.fa-chevron-up.fa-inverse.fa-lg
-    ///        | Intro
 
     .container
         .row
@@ -124,5 +120,7 @@
                                 a(href='#/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+    .push
+div(ng-include='"components/foundation_footer/footer.html"')
 
 
