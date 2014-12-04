@@ -151,6 +151,14 @@ angular.module('foundation',[
                             $scope.other = doc;
                     });
 
+                    Prismic.bookmark('foundation-programs-memorial-funds').then(function(doc){
+                            $scope.memorialFunds =  doc;
+                    });
+
+                    Prismic.bookmark('foundation-programs-memorial-donations').then(function(doc){
+                            $scope.memorialDonations =  doc;
+                    });
+
                     Prismic.bookmark('foundation-programs-shea').then(function(doc){
                             $scope.shea =  doc;
                     });

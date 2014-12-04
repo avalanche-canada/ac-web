@@ -14,7 +14,7 @@ angular.module('foundation')
 
         $scope.ctx = ctx;
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["foundation"])]]')
+        ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["Foundation"])]]')
                                     .orderings('[news.date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -22,7 +22,7 @@ angular.module('foundation')
             }
             else {
                 var news = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["foundation"])] [:d = any(document.tags, ["featured"])]]')
+                ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["Foundation"])] [:d = any(document.tags, ["featured"])]]')
                                             .orderings('[news.date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
@@ -45,7 +45,7 @@ angular.module('foundation')
             }
         });
 
-        ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["foundation"])]]')
+        ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["Foundation"])]]')
                                     .orderings('[event.start_date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -53,7 +53,7 @@ angular.module('foundation')
             }
             else {
                 var events = documents.results;
-                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["foundation"])] [:d = any(document.tags, ["featured"])]]')
+                ctx.api.form('everything').query('[[:d = at(document.type, "event")] [:d = any(document.tags, ["Foundation"])] [:d = any(document.tags, ["featured"])]]')
                                               .orderings('[event.start_date desc]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
