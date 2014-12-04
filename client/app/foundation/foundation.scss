@@ -1,3 +1,12 @@
+#text{
+   margin-top:12%
+}
+
+#credits{
+    margin-top:15%;
+    margin-left: 90%;
+}
+
 #banner {
     background-image:url(#{$assets_path}/foundation_more_banner.png);
     background-repeat: no-repeat;
@@ -52,7 +61,7 @@
 }
 
 .carousel-caption{
-    bottom: 40%;
+    top: 25%;
 }
 
 .foundation-intro {

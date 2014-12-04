@@ -41,32 +41,38 @@ angular.module('foundation',[
                 $scope.myInterval = 5000000000000000000000000;
                 $scope.slides = [{
                           image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Chris Christie',
                           text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Silas Patterson',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
                         },
 
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Kirstie SImpson',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'develop and coordinate public avalanche education'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Steve Ruskay',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'deliver youth awareness and training seminars'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Jonathan Reich',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
                         },
                         {
                           image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          credits:'Raven Eye Photography',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'contribute to snow safety research'
                         }];
