@@ -15,13 +15,10 @@ angular.module('avalancheCanadaApp', [
         'prismic.io',
         'acComponents',
         'foundation',
-        'ngToast',
-        'auth0',
-        'angular-storage',
-        'angular-jwt'
+        'ngToast'
     ])
 
-    // main module configuration                            
+    // main module configuration
     .config(function ($locationProvider, $stateProvider, $urlRouterProvider, $sceProvider) {
         //! \todo *hack* set up $sce properly so that it doesnt remove iframes from prismic content
         $sceProvider.enabled(false);
@@ -152,7 +149,7 @@ angular.module('avalancheCanadaApp', [
             }
         });
     })
-
+    
     .controller('HighlighCtrl', function (ngToast, Prismic, $log) {
 
         var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');

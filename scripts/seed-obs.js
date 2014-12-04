@@ -7,6 +7,7 @@ var shortId = require('shortid');
 var uuid = require('node-uuid');
 var geohash = require('ngeohash');
 var moment = require('moment');
+var randomWords = require('random-words');
 
 var o = {
     ac: '{"slab":true,"sound":false,"snow":true,"temp":false}',
@@ -20,6 +21,7 @@ obs.features.forEach(function (ob) {
     var options =  {
         url: 'http://localhost:9000/api/min/submissions',
         formData: {
+            title: randomWords(3).join(' '),
             latlng: JSON.stringify([coord[1], coord[0]]),
             datetime: moment().format(),
             avalancheConditions: o.ac,
