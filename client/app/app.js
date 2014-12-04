@@ -119,7 +119,7 @@ angular.module('avalancheCanadaApp', [
         $httpProvider.interceptors.push('jwtInterceptor');
     }])
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
