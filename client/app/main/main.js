@@ -1,12 +1,45 @@
 'use strict';
-angular.module('avalancheCanadaApp')
 
-  .config(function ($stateProvider) {
-    $stateProvider
+angular.module('avalancheCanadaApp')
+    .config(function ($stateProvider) {
+        $stateProvider
             .state('ac.map', {
                 url: '',
                 templateUrl: 'app/main/map.html',
-                controller: 'MapCtrl'
+                controller: 'MapCtrl',
+                resolve: {
+                  obs: function (acObservation) {
+                    return acObservation.byPeriod('48:hours');
+                  }
+                }
+            })
+            .state('ac.login', {
+                url: 'login',
+                templateUrl: 'app/main/map.html',
+                controller: 'MapCtrl',
+                resolve: {
+                   obs: function (acObservation) {
+                    return acObservation.byPeriod('48:hours');
+                  }
+                },
+                data: {
+                  isLogin: true
+                }
+            })
+            .state('ac.share', {
+                url: '^/share/:title/:obid',
+                templateUrl: 'app/main/map.html',
+                controller: 'MapCtrl',
+                resolve: {
+                  obs: function ($stateParams, $http) {
+                    return $http.get('/api/min/observations/' + $stateParams.obid).then(function (res) {
+                        return [res.data];
+                    });
+                  }
+                },
+                data: {
+                  isShare: true
+                }
             })
             .state('ac.sled', {
                 url: '^/sled',
@@ -27,21 +60,6 @@ angular.module('avalancheCanadaApp')
                       return false;
                   }]
                 }
-            })
-            ;
-  });
-
-
-/*    .config(function ($routeProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'app/main/map.html',
-            controller: 'MapCtrl'
-        })
-        .when('/more', {
-            templateUrl: 'app/main/more.html',
-            controller: 'MoreCtrl'
-        });
-  });
-*/
+            });
+    });
 

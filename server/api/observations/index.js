@@ -1,139 +1,131 @@
-var _ = require('lodash');
 var express = require('express');
 var router = express.Router();
-var multiparty = require('multiparty');
-var util = require('util');
-var moment = require('moment');
-var uuid = require('node-uuid');
-var path = require('path');
-var geohash = require('ngeohash');
+var _ = require('lodash');
 var jwt = require('express-jwt');
-
-var AWS = require('aws-sdk');
-AWS.config.update({region: 'us-west-2'});
-var DOC = require("dynamodb-doc");
-var docClient = new DOC.DynamoDB();
-var s3Stream = require('s3-upload-stream')(new AWS.S3());
+var multiparty = require('multiparty');
+var minUtils = require('./min-utils');
+var moment = require('moment');
+var lingo = require('lingo');
+var changeCase = require('change-case');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
   audience: process.env.AUTH0_CLIENT_ID
 });
 
-router.post('/', function (req, res) {
+router.post('/submissions', jwtCheck, function (req, res) {
+    console.log(req.get('content-type'));
     var form = new multiparty.Form();
-    var bucket = 'ac-user-uploads';
-    var keyPrefix = 'obs/quick' + moment().format('/YYYY/MM/DD/');
-    var item = {
-        obid: uuid.v4(),
-        acl: 'private',
-        obtype: 'quick',
-        user: '2f158fab-2e60-43cb-a96c-2655b1dd6b57',
-        ob: {
-            uploads: []
-        }
-    };
-
-    form.on('field', function(name, value) {
-        console.log('field %s with value %s', name, value);
-        switch(name){
-            case "location":
-                item.ob.latlng = value;
-                item.geohash = geohash.encode(item.ob.latlng.split(',')[0], value.split(',')[1]);
-                break;
-            case "datetime":
-                item.ob.datetime = value;
-                item.epoch = moment(item.ob.datetime).unix();
-                break;
-            default:
-                item.ob[name] = value;
-                break;
-        }
-    });
-
-    form.on('part', function(part) {
-        var uploadId = uuid.v4()
-        var ext = path.extname(part.filename);
-        var key = keyPrefix + uploadId + ext;
-
-        console.log('uploading: ' + key);
-
-        item.ob.uploads.push(key);
-
-        var upload = s3Stream.upload({
-          Bucket: bucket,
-          Key: key,
-          ACL: "private"
-        });
-
-        part.pipe(upload);
-
-        upload.on('error', function (error) {
-          console.log(error);
-        });
-
-        upload.on('uploaded', function (details) {
-          console.log(details);
-        });
-
-    });
-
-    form.on('error', function (err) {
-        console.log('error accepting obs form: ' + err)
-    });
-
-    form.on('close', function (err) {
-        docClient.putItem({
-            TableName: "ac-obs",
-            Item: item
-        }, function (result) {
-            console.log(result);
-            res.send(201, "OK");
-        });
-    });
-
     form.parse(req);
-});
 
-router.get('/', function (req, response) {
-    var params = {
-        TableName: 'ac-obs',
-        ProjectionExpression: 'obid, obtype, ob.latlng'
-    };
-
-    docClient.scan(params, function(err, res) {
+    minUtils.saveSubmission(req.user, form, function (err, obs) {
         if (err) {
-            console.log(err);
-            response.json(500, {error: "error fetching observations"})
+            console.log('Error saving MIN submission : %s', JSON.stringify(err));
+            res.send(500, {error: 'There was an error while saving your submission.'})
         } else {
-            var obs = res.Items.map(function (item) {
-                return {
-                    obid: item.obid,
-                    obtype: item.obtype,
-                    latlng: item.ob.latlng.split(',')
-                }
-            });
-
-            response.json(obs);
+            res.json(201, obs);
         }
     });
 });
 
-router.get('/:obid', function (req, response) {
+router.get('/submissions', function (req, res) {
+    var filters = req.query;
+    console.log('fetching submissions with fiters: %s', JSON.stringify(filters));
+
+    minUtils.getSubmissions(filters, function (err, subs) {
+        if (err) {
+            res.send(500, {error: 'error retreiving submissions'})
+        } else {
+            res.json(subs);
+        }
+    });
+}); 
+
+router.get('/submissions/:subid', function (req, res) {
+    var subid = req.params.subid;
+
+    minUtils.getSubmission(subid, function (err, sub) {
+        if (err) {
+            res.send(500, {error: 'error retreiving submission'})
+        } else {
+            res.json(sub);
+        }
+    });
+});
+
+router.get('/observations', function (req, res) {
+    var filters = req.query;
+    console.log('fetching submissions with fiters: %s', JSON.stringify(filters));
+
+    minUtils.getObservations(filters, function (err, obs) {
+        if (err) {
+            res.send(500, {error: 'error retreiving observations'})
+        } else {
+            console.log('returning %s obs', obs.length);
+            res.json(obs);
+        }
+    });
+});
+
+function getOptions(options){
+    var selections = [];
+    for(var option in options) {
+        if(options[option]) selections.push(option);
+    }
+
+    return selections;
+}
+
+router.get('/observations/:obid.:format?', function (req, res) {
     var params = {
         TableName: 'ac-obs',
         Key: {obid: req.params.obid}
     };
 
-    docClient.getItem(params, function(err, res) {
+    minUtils.getObservation(req.params.obid, function (err, ob) {
         if (err) {
-            console.log(err);
-            response.json(500, {error: "error fetching observation"})
+            res.send(500, {error: 'error retreiving observation'})
         } else {
-            res.Item.ob.obid = res.Item.obid
-            response.json(res.Item.ob);
+            if(req.params.format === 'html'){
+                var locals = {
+                    title: ob.title || 'title',
+                    datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
+                    user: ob.user,
+                    ridingConditions: {
+                        ridingQuality: ob.ridingConditions.ridingQuality.selected || '',
+                        snowConditions: getOptions(ob.ridingConditions.snowConditions.options),
+                        rideType: getOptions(ob.ridingConditions.rideType.options),
+                        stayedAway: getOptions(ob.ridingConditions.stayedAway.options),
+                        weather: getOptions(ob.ridingConditions.weather.options)
+                    },
+                    avalancheConditions: ob.avalancheConditions,
+                    comment: ob.comment,
+                    shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
+                    uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
+                };
+
+                function hasValues(memo, v, k){
+                    var l = v.length || +v; // +true=>1, +false=>0
+                    return memo || l > 0;
+                }
+
+                locals.hasRidingConditions = _.reduce(locals.ridingConditions, hasValues, false);
+                locals.hasAvalancheConditions = _.reduce(locals.avalancheConditions, hasValues, false);
+
+                console.log(locals)
+                res.render('observations/ob', locals);
+            } else {
+                res.json(ob);
+            }
         }
     });
+});
+
+router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
+    var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
+    var size = req.query.size || 'fullsize';
+
+    minUtils.getUploadAsStream(uploadKey, size).pipe(res);
 });
 
 module.exports = router;

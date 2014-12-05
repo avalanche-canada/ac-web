@@ -70,9 +70,8 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document) { //, auth, store
-
-
+  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
+    $scope.auth = auth;
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="/forecasts/banff-yoho-kootenay" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="/forecasts/glacier" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
                             {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
@@ -105,39 +104,17 @@ angular.module('avalancheCanadaApp')
     $scope.forecastRegionList2 = $scope.forecastRegions.slice((third -1), (third*2));
     $scope.forecastRegionList3 = $scope.forecastRegions.slice((third*2), length+1);
 
-    $scope.dataMenu = [{'link':'<a href="/blogs" data-toggle="collapse" data-target=".navbar-collapse"><h2>Blogs<i class="fa fa-angle-right"></i></h2></a>'},
-                        {'link':'<a href="http://old.avalanche.ca/cac/library/incident-report-database/view" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Historic Incidents<i class="fa fa-angle-right"></i></h2></a>'},
-                        {'link':'<a href="/conditions" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Summaries & Outlooks<i class="fa fa-angle-right"></i></h2></a>'}];
-                        //{'display':'Observations','url':'/observations'},
-                       //{'display':'Incidents','url':'/incidents'},
-                       //{'display':'Blogs','url':'/blogs'}]//,
-                       //{'display':'Summaries & Outlooks','url':'/conditions'}];//,
-                       //{'display':'Weather Forecasts','url':'/weather'}];
+    $scope.dataMenu = [
+        {'link':'<a href="/blogs" data-toggle="collapse" data-target=".navbar-collapse"><h2>Blogs<i class="fa fa-angle-right"></i></h2></a>'},
+        {'link':'<a href="http://old.avalanche.ca/cac/library/incident-report-database/view" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Historic Incidents<i class="fa fa-angle-right"></i></h2></a>'},
+        {'link':'<a href="/conditions" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Summaries & Outlooks<i class="fa fa-angle-right"></i></h2></a>'},
+        {'link':'<a href="/submit" data-toggle="collapse" data-target=".navbar-collapse"><h2>Submit Information<i class="fa fa-angle-right"></i></h2></a>'}
+    ];
+
 
     $scope.youth = [{'url':'#overview','display':'Overview'},
                     {'url':'#programs','display':'Programs'},
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
-
-    /*
-    $scope.login = function() {
-        auth.signin({}, function(profile, token) {
-          // Success callback
-          store.set('profile', profile);
-          store.set('token', token);
-          $location.path('/');
-          $scope.isAuthenticated = true;
-        }, function() {
-          // Error callback
-        });
-    };
-
-    $scope.logout = function() {
-      auth.signout();
-      store.remove('profile');
-      store.remove('token');
-      $scope.isAuthenticated = false;
-    };
-    */
 
   });
