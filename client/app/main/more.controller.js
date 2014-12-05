@@ -63,7 +63,7 @@ angular.module('avalancheCanadaApp')
                 });
             }
         });
-        queryStr  = '[[:d = at(document.type, "event")]'
+        queryStr  = '[[:d = at(document.type, "event")]';
         queryStr += ' [:d = date.after(my.event.start_date, "'+yesterday+'")] ' + sledQuery + ']';
         $log.debug(queryStr);
         ctx.api.form('everything').query(queryStr)
@@ -74,8 +74,8 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                queryStr  = '[[:d = at(document.type, "event")]'
-                queryStr += ' [:d = any(document.tags, ["featured"])]'
+                queryStr  = '[[:d = at(document.type, "event")]';
+                queryStr += ' [:d = any(document.tags, ["featured"])]';
                 queryStr += ' [:d = date.after(my.event.start_date, "'+yesterday+'")]' + sledQuery + ']';
                 $log.debug(queryStr);
                 ctx.api.form('everything').query(queryStr)
