@@ -51,6 +51,7 @@ angular.module('avalancheCanadaApp', [
         PrismicProvider.setAccessToken('');
         PrismicProvider.setClientId('');
         PrismicProvider.setClientSecret('');
+        PrismicProvider.setUsePrismicDefaultRequestHandler(true);
         PrismicProvider.setLinkResolver(function(ctx, documentLink) {
             var link = '';
 
