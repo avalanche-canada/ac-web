@@ -38,7 +38,7 @@
                         header
                             /// span Forecasters' Blog
                             h2
-                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc:"dddd MMMM YYYY" }}/{{ item.getText("conditions-summary.type")}}')
+                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc:"YYYY-MM-DD" }}/{{ item.getText("conditions-summary.type")}}')
                                     {{item.getDate('conditions-summary.date') | dateUtc:'dddd MMMM YYYY' }} - {{displayType(item.getText('conditions-summary.type'))}}
                         section.news-blog-event-body
                             /// img(alt='', src='assets/img/sub-blog-img.jpg')
@@ -50,7 +50,7 @@
                             ///    a(href='#') Tag Two
                             ///    a(href='#') Tag Three
                             p
-                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc }}/{{ item.getText("conditions-summary.type")}}') Read More
+                                a(href= '#/conditions/{{item.getDate("conditions-summary.date") | dateUtc:"YYYY-MM-DD" }}/{{ item.getText("conditions-summary.type")}}') Read More
                              ///   i.fa.fa-circle
                              ///   time {{blog.getDate('news.date') | date:'EEEE MMMM d ' }}
 
