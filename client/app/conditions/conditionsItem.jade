@@ -24,7 +24,7 @@
                     img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955423/logos/Logos%20png/arcteryx.png')
         // /#sponsor-mobile
         .col-xs-12
-            #sponsor-ad-container
+            #sponsor-ad-container(ng-hide='true')
                 p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
                 a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
@@ -66,36 +66,36 @@
                 ///                span Newer
                 ///                br
                 ///                | New Fundraiser for Avalanche Canada
-            #mobile-sidebar-container.col-xs-12.col-md-3
-                aside
-                    .dark-ribbon
-                    .sidebar-inner
-                        h3 Related
-                        article.first.sidebar-related
-                            h4
-                                a(href='/news/VHeP1ykAACgAzhln/spaw-nov-28-2014') Special Public Avalanche Warning for BC Interior Ranges, Including North & South Rockies
+        #mobile-sidebar-container.col-xs-12.col-md-3
+            aside
+                .dark-ribbon
+                .sidebar-inner
+                    h3 Related
+                    article.first.sidebar-related
+                        h4
+                            a(href='/news/VHeP1ykAACgAzhln/spaw-nov-28-2014') Special Public Avalanche Warning for BC Interior Ranges, Including North & South Rockies
 
-                        article.first.sidebar-related
-                            h4
-                                a(href='/blogs/VHZ5mSgAACkAw7a8/developing-avalanche-scenario') Blog - Developing Avalanche Scenario and the Human Factor
+                    article.first.sidebar-related
+                        h4
+                            a(href='/blogs/VHZ5mSgAACkAw7a8/developing-avalanche-scenario') Blog - Developing Avalanche Scenario and the Human Factor
 
-                        article.first.sidebar-related
-                            h4
-                                a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') Blog - First Impressions
-                        article.sidebar-related
-                            h4
-                                a(href='/news/VEVZWiYAACUATW97/new-website') News - New Website
+                    article.first.sidebar-related
+                        h4
+                            a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') Blog - First Impressions
+                    article.sidebar-related
+                        h4
+                            a(href='/news/VEVZWiYAACUATW97/new-website') News - New Website
 
-                        ul.sidebar-related-links
-                            li
-                                a(href="https://twitter.com/intent/tweet?url={{url}}")
-                                    i.fa.fa-twitter.fa-fw.fa-lg
-                            li
-                                a(href="https://www.facebook.com/sharer/sharer.php?u={{url}}")
-                                    i.fa.fa-facebook.fa-fw.fa-lg
-                            li
-                                a(href="https://plus.google.com/share?url={{url}}")
-                                    i.fa.fa-google-plus.fa-fw.fa-lg
+                    ul.sidebar-related-links
+                        li
+                            a(href="https://twitter.com/intent/tweet?url={{url}}")
+                                i.fa.fa-twitter.fa-fw.fa-lg
+                        li
+                            a(href="https://www.facebook.com/sharer/sharer.php?u={{url}}")
+                                i.fa.fa-facebook.fa-fw.fa-lg
+                        li
+                            a(href="https://plus.google.com/share?url={{url}}")
+                                i.fa.fa-google-plus.fa-fw.fa-lg
     .push
 div.footer(ng-include='"components/footer/footer.html"')
 
