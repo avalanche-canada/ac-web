@@ -128,7 +128,7 @@ exports.saveSubmission = function (user, form, callback) {
     form.on('part', function(part) {
         var validExtentions = ['.png', '.jpg', '.jpeg', '.gif'];
         var uploadId = uuid.v4()
-        var ext = path.extname(part.filename);
+        var ext = path.extname(part.filename).toLowerCase();
         var key = keyPrefix + uploadId + ext;
 
         if(validExtentions.indexOf(ext) !== -1) {
