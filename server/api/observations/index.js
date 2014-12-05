@@ -92,7 +92,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
                     user: ob.user,
                     ridingConditions: {
-                        ridingQuality: ob.ridingConditions.ridingQuality.selected,
+                        ridingQuality: ob.ridingConditions.ridingQuality.selected || '',
                         snowConditions: getOptions(ob.ridingConditions.snowConditions.options),
                         rideType: getOptions(ob.ridingConditions.rideType.options),
                         stayedAway: getOptions(ob.ridingConditions.stayedAway.options),
@@ -103,6 +103,14 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
                     uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
                 };
+
+                function hasValues(memo, v, k){
+                    var l = v.length || +v; // +true=>1, +false=>0
+                    return memo || l > 0;
+                }
+
+                locals.hasRidingConditions = _.reduce(locals.ridingConditions, hasValues, false);
+                locals.hasAvalancheConditions = _.reduce(locals.avalancheConditions, hasValues, false);
 
                 console.log(locals)
                 res.render('observations/ob', locals);
