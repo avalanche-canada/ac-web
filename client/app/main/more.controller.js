@@ -63,7 +63,8 @@ angular.module('avalancheCanadaApp')
                 });
             }
         });
-        queryStr = '[[:d = at(document.type, "event")] [:d = date.after(my.event.start_date, "'+yesterday+'")] ' + sledQuery + ']';
+        queryStr  = '[[:d = at(document.type, "event")]'
+        queryStr += ' [:d = date.after(my.event.start_date, "'+yesterday+'")] ' + sledQuery + ']';
         $log.debug(queryStr);
         ctx.api.form('everything').query(queryStr)
                                     .orderings('[my.event.start_date]')
@@ -73,7 +74,9 @@ angular.module('avalancheCanadaApp')
             }
             else {
                 var events = documents.results;
-                queryStr = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])] [:d = date.after(my.event.start_date, "'+yesterday+'")]' + sledQuery + ']';
+                queryStr  = '[[:d = at(document.type, "event")]'
+                queryStr += ' [:d = any(document.tags, ["featured"])]'
+                queryStr += ' [:d = date.after(my.event.start_date, "'+yesterday+'")]' + sledQuery + ']';
                 $log.debug(queryStr);
                 ctx.api.form('everything').query(queryStr)
                                               .orderings('[my.event.start_date]')
@@ -106,7 +109,7 @@ angular.module('avalancheCanadaApp')
                 $log.error('error getting blogs from prismic');
             }
             else {
-                $scope.blogs = documents.results.slice(0,1);
+                $scope.blogs = documents.results.slice(0,2);
             }
         });
 
