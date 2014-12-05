@@ -10,3 +10,4 @@ dist
 newrelic_agent.log
 aws.json
 .env
+dump.rdb

@@ -3,23 +3,36 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($scope, $rootScope, $timeout, $state, ENV, acForecast) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, acObservation, obs, auth) {
         angular.extend($scope, {
-            env: ENV,
             current: {},
             drawer: {
                 visible: false
             },
             filters: {
-                obsType: [],
-                obsPeriod: ['7-days']
+                obsPeriod: '48-hours'
             }
         });
+
+        if($state.current.data && $state.current.data.isLogin) {
+            auth.signin({authParams: {scope: 'openid profile'}});
+
+            auth.config.auth0lib.on('hidden', function () {
+                if(!auth.isAuthenticated) {
+                    $state.go('ac.map');
+                }
+            });
+        }
+
+        if($state.current.data && $state.current.data.isShare) {
+            $scope.current.ob = obs[0];
+        } else {
+            $scope.obs = obs;
+        }
 
         $scope.showMore = function () {
             $rootScope.pageClass = 'page-down';
             $state.go('ac.more');
-            //$location.path('/more');
         };
 
         acForecast.fetch().then(function (forecasts) {
@@ -43,42 +56,23 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-        // acBreakpoints.setBreakpoints({
-        //             xs: 480,
-        //             sm: 600,
-        //             md: 1025,
-        //         });
+        $scope.toggleFilter = function (filter) {
+            if(filter || !$scope.filters.obsPeriod){
+                filter = filter || 'obsPeriod:48-hours';
+                var filterType = filter.split(':')[0];
+                var filterValue = filter.split(':')[1];
 
-        // $rootScope.$on('breakpoint', function (e, breakpoint) {
-        //     $scope.device.size = breakpoint;
-        // });
-
-
-        // $scope.toggleForm = function (form) {
-        //     $scope.obs.form = form;
-        // };
-        
-        // acObservation.byPeriod('7:days').then(function (obs) {
-        //     $scope.observations = obs;
-        // });
-
-        // $scope.toggleFilter = function (filter) {
-        //     var filterType = filter.split(':')[0];
-        //     var filterValue = filter.split(':')[1];
-
-        //     if(filterType === 'obsPeriod') {
-        //         $scope.filters[filterType] = [];
-        //         var period = filterValue.replace('-', ':');
-        //         acObservation.byPeriod(period).then(function (obs) {
-        //             $scope.observations = obs;
-        //         });
-        //     }
-
-        //     if(_.contains($scope.filters[filterType], filterValue) ){
-        //         $scope.filters[filterType] = _.without($scope.filters[filterType], filterValue);
-        //     } else {
-        //         $scope.filters[filterType].push(filterValue);
-        //     }
-        // };
+                if(filterType === 'obsPeriod') {
+                    $scope.filters[filterType] = filterValue;
+                    var period = filterValue.replace('-', ':');
+                    acObservation.byPeriod(period).then(function (obs) {
+                        $scope.obs = obs;
+                    });
+                }
+            } else {
+                $scope.obs = [];
+                $scope.filters.obsPeriod = '';
+            }
+        };
 
     });

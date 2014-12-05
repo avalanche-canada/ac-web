@@ -2,6 +2,10 @@
 
 // todo: extract out colors and box-shadow
 .ac-drawer {
+    // todo: hack until this is really fixed. yr
+    #forecast {
+        margin-top: 0 !important;
+    }
     position: absolute;
     top: 75px;
     height: 100%;
@@ -35,7 +39,8 @@
     .ac-drawer-body {
         height: 100%;
         overflow-y: scroll;
-        overflow-x: auto;
+        overflow-x: hidden;
+        padding-bottom: 75px;
     }
     .ac-drawer-tools {
         position: absolute;
