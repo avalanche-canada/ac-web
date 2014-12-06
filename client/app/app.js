@@ -51,7 +51,6 @@ angular.module('avalancheCanadaApp', [
         PrismicProvider.setAccessToken('');
         PrismicProvider.setClientId('');
         PrismicProvider.setClientSecret('');
-        PrismicProvider.setUsePrismicDefaultRequestHandler(true);
         PrismicProvider.setLinkResolver(function(ctx, documentLink) {
             var link = '';
 
@@ -124,6 +123,15 @@ angular.module('avalancheCanadaApp', [
         logout.$inject = ['store'];
 
         authProvider.on('logout', logout);
+
+        $httpProvider.interceptors.push(function() {
+            return {
+                request: function(config) {
+                    config.skipAuthorization = /^https:\/\/avalancheca.prismic.io\/api/.test(config.url);
+                    return config;
+                }
+            };
+        });
 
         jwtInterceptorProvider.tokenGetter = ['store', function (store) {
             return store.get('token');
