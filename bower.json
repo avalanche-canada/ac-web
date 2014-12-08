@@ -25,7 +25,7 @@
     "angular-route": "~1.2.25",
     "PruneCluster": "~0.10.1",
     "ac-components": "avalanche-canada/ac-components#0.0.5",
-    "prismic.io": "1.0.26",
+    "prismic.io": "~1.0.22",
     "moment": "~2.8.3",
     "ngtoast": "~1.2.0"
   },
