@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, acObservation, obs, auth) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, acObservation, obs, auth, $location) {
         angular.extend($scope, {
             current: {},
             drawer: {
@@ -19,7 +19,7 @@ angular.module('avalancheCanadaApp')
 
             auth.config.auth0lib.on('hidden', function () {
                 if(!auth.isAuthenticated) {
-                    $state.go('ac.map');
+                    $location.url('/');
                 }
             });
         }
