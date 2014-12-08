@@ -69,7 +69,7 @@
                         header
                             /// span Forecasters' Blog
                             h2
-                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
+                                a(href='/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                         section.news-blog-event-body
                             /// img(alt='', src='assets/img/sub-blog-img.jpg')
                             p
@@ -84,7 +84,7 @@
                                 i.fa.fa-circle
                                 time {{blog.getText('blog.category')}}
                                 i.fa.fa-circle
-                                a(href='#/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                a(href='/blogs/{{blog.id}}/{{blog.slug}}') Full article
 
             #mobile-sidebar-container.col-xs-12.col-md-3
                 aside
