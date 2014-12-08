@@ -93,8 +93,7 @@ angular.module('avalancheCanadaApp', [
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
-            loginState: 'ac.login'
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
 
         function onLoginSucccess($location, profilePromise, idToken, store) {
@@ -103,26 +102,28 @@ angular.module('avalancheCanadaApp', [
               store.set('profile', profile);
               store.set('token', idToken);
             });
-            $location.hash('');
-            $location.path('/');
+
+            var redirectUrl = store.get('loginredirecturl');
+            if(redirectUrl) {
+                $location.url(redirectUrl);
+                store.remove('loginredirectstate');
+            } else {
+                $location.url('/');
+            }
         }
 
         onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store'];
 
         authProvider.on('loginSuccess', onLoginSucccess);
 
-        authProvider.on('authenticated', function() {
-            console.log('Authenticated');
-        });
-
-        function logout(store){
+        function onLogout(store){
             store.remove('profile');
             store.remove('token');
         }
 
-        logout.$inject = ['store'];
+        onLogout.$inject = ['store'];
 
-        authProvider.on('logout', logout);
+        authProvider.on('logout', onLogout);
 
         $httpProvider.interceptors.push(function() {
             return {
@@ -144,18 +145,22 @@ angular.module('avalancheCanadaApp', [
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
-        // hooks routing requiresLogin data attribute
-        auth.hookEvents();
-
-        // makes sure login spans refreshes
         $rootScope.$on('$locationChangeStart', function() {
+            var secureUrls = ['/submit'];
+            var requestedUrl = $location.url();
+
+            if(secureUrls.indexOf(requestedUrl) !== -1 && !auth.isAuthenticated) {
+                event.preventDefault();
+                store.set('loginredirecturl', requestedUrl);
+                $location.url('/login');
+            }
+
+            // makes sure login spans refreshes
             if (!auth.isAuthenticated) {
                 var token = store.get('token');
                 if (token) {
                     if (!jwtHelper.isTokenExpired(token)) {
                         auth.authenticate(store.get('profile'), token);
-                    } else {
-                      // $state.go('ac.login');
                     }
                 }
             }

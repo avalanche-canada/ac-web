@@ -4,7 +4,7 @@ angular.module('avalancheCanadaApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('ac.submit', {
-                url: '^/submit',
+                url: 'submit',
                 templateUrl: 'app/submit/submit.html',
                 controller: 'SubmitCtrl',
                 data: {
