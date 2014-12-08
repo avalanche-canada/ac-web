@@ -106,7 +106,7 @@ angular.module('avalancheCanadaApp', [
             var redirectUrl = store.get('loginredirecturl');
             if(redirectUrl) {
                 $location.url(redirectUrl);
-                store.remove('loginredirectstate');
+                store.remove('loginredirecturl');
             } else {
                 $location.url('/');
             }
