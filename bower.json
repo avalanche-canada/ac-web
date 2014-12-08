@@ -27,7 +27,7 @@
     "prismic.io": "~1.0.22",
     "moment": "~2.8.3",
     "ngtoast": "~1.2.0",
-    "angular-prismicio": "master"
+    "angular-prismicio": "awulder/angular-prismicio#master"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
