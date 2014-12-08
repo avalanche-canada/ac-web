@@ -124,6 +124,15 @@ angular.module('avalancheCanadaApp', [
 
         authProvider.on('logout', logout);
 
+        $httpProvider.interceptors.push(function() {
+            return {
+                request: function(config) {
+                    config.skipAuthorization = /^https:\/\/avalancheca.prismic.io\/api/.test(config.url);
+                    return config;
+                }
+            };
+        });
+
         jwtInterceptorProvider.tokenGetter = ['store', function (store) {
             return store.get('token');
         }];

@@ -126,19 +126,24 @@ exports.saveSubmission = function (user, form, callback) {
     });
 
     form.on('part', function(part) {
-        var validExtentions = ['.png', '.jpg', '.jpeg', '.gif'];
-        var uploadId = uuid.v4()
-        var ext = path.extname(part.filename).toLowerCase();
-        var key = keyPrefix + uploadId + ext;
+        var validMimeTypes = ['image/png', 'image/jpeg'];
+        var uploadId = uuid.v4();
+        var key = keyPrefix + uploadId;
 
-        if(validExtentions.indexOf(ext) !== -1) {
-            console.log('Uploading %s to S3.', key);
+        var mimeType = part.headers['content-type'];
 
+        console.log('upload mime type is %s', mimeType);
+
+        if(validMimeTypes.indexOf(mimeType) !== -1) {
+            key += '.' + mimeType.split('/')[1];
             item.ob.uploads.push(key);
+
+            console.log('Uploading %s to S3.', key);
 
             var upload = s3Stream.upload({
               Bucket: UPLOADS_BUCKET,
               Key: key,
+              ContentType: part.type,
               ACL: "private"
             });
 
@@ -149,10 +154,10 @@ exports.saveSubmission = function (user, form, callback) {
             });
 
             upload.on('uploaded', function (details) {
-              console.log("Uploaded object to S3 : %s", details);
+              console.log("Uploaded object to S3 : %s", JSON.stringify(details));
             });
         } else {
-            callback({error: 'Invalid file extention. Valid file extentions are ' + validExtentions.join()});
+            callback({error: 'Invalid file extention. Valid file extentions are ' + validMimeTypes.join()});
         }
 
     });
