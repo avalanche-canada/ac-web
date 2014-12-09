@@ -50,28 +50,28 @@
                     header
                         span Featured
                         h2
-                             a(href='#/events/{{featured.id}}/{{featured.slug}}')
+                             a(href='/events/{{featured.id}}/{{featured.slug}}')
                                     {{featured.getText('event.title')}}
                     section.news-blog-event-body
                         p
                             | {{featured.getStructuredText('event.shortlede').asText(ctx)}}
                     footer
                         p
-                            a(href='#/events/{{featured.id}}/{{featured.slug}}') More details
+                            a(href='/events/{{featured.id}}/{{featured.slug}}') More details
                                 i.fa.fa-circle
                                 time(datetime='{{featured.getDate("event.start_date")}}') {{featured.getDate('event.start_date') |  dateUtc:"dddd MMMM Do" }}
 
                 article.list-rows(ng-repeat=' document in events' ng-class='"list-row-" + ($index+2)')
                     header
                         h2
-                            a(href='#/events/{{document.id}}/{{document.slug}}')
+                            a(href='/events/{{document.id}}/{{document.slug}}')
                                 {{document.getText('event.title')}}
                     section.news-blog-event-body
                         p
                             | {{document.getStructuredText('event.shortlede').asText(ctx)}}
                     footer
                         p
-                            a(href='#/events/{{document.id}}/{{document.slug}}') Read More
+                            a(href='/events/{{document.id}}/{{document.slug}}') Read More
                             i.fa.fa-circle
                             time {{document.getDate('event.start_date') | dateUtc:"dddd MMMM Do" }}
 
