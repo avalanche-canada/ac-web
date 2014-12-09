@@ -48,26 +48,26 @@
                         header
                             span Featured
                             h2
-                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}')
+                                a(href='/news/{{featuredNews.id}}/{{featuredNews.slug}}')
                                     {{featuredNews.getText('news.title')}}
                         section.news-body
                             p
                                 | {{featuredNews.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='#/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
+                                a(href='/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
                             h2
-                                a(href='#/news/{{item.id}}/{{item.slug}}')
+                                a(href='/news/{{item.id}}/{{item.slug}}')
                                     | {{item.getText('news.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='#/news/{{item.id}}/{{item.slug}}') Full article
+                                a(href='/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
 
@@ -98,26 +98,26 @@
                         header
                             span Featured
                             h2
-                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
+                                a(href='/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
                                     {{featuredEvent.getText('event.title')}}
                         section.news-body
                             p
                                 | {{featuredEvent.getStructuredText('event.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='#/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
+                                a(href='/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
                                 {{featuredEvent .getDate('event.date')}}
 
                     article.list-rows(ng-repeat="item in events")
                         header
                             h2
-                                a(href='#/events/{{item.id}}/{{item.slug}}')
+                                a(href='/events/{{item.id}}/{{item.slug}}')
                                     | {{item.getText('event.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='#/events/{{item.id}}/{{item.slug}}') Full article
+                                a(href='/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
     .push

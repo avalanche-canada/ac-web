@@ -51,28 +51,28 @@
                     header
                         span Featured
                         h2
-                             a(href='#/news/{{featured.id}}/{{featured.slug}}')
+                             a(href='/news/{{featured.id}}/{{featured.slug}}')
                                     {{featured.getText('news.title')}}
                     section.news-blog-event-body
                         p
                             | {{featured.getStructuredText('news.shortlede').asText(ctx)}}
                     footer
                         p
-                            a(href='#/news/{{featured.id}}/{{featured.slug}}') Read More
+                            a(href='/news/{{featured.id}}/{{featured.slug}}') Read More
                                 i.fa.fa-circle
                                 time(datetime='{{featured.getDate("news.date")}}') {{featured.getDate('news.date') | dateUtc:"dddd MMMM Do" }}
 
                 article.list-rows(ng-repeat=' document in news' ng-class='"list-row-" + ($index+2)')
                     header
                         h2
-                            a(href='#/news/{{document.id}}/{{document.slug}}')
+                            a(href='/news/{{document.id}}/{{document.slug}}')
                                 {{document.getText('news.title')}}
                     section.news-blog-event-body
                         p
                             | {{document.getStructuredText('news.shortlede').asText(ctx)}}
                     footer
                         p
-                            a(href='#/news/{{document.id}}/{{document.slug}}') Read More
+                            a(href='/news/{{document.id}}/{{document.slug}}') Read More
                             i.fa.fa-circle
                             time {{document.getDate('news.date') | dateUtc:"dddd MMMM Do"  }}
                 // news-blog-event list rows ends
@@ -111,8 +111,3 @@
     // /#news-blog-event-content
     .push
     div(ng-include='"components/footer/footer.html"')
-
-
-
-
-
