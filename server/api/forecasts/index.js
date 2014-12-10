@@ -128,23 +128,14 @@ router.param('region', function (req, res, next) {
     }
 });
 
+
 router.get('/', function(req, res) {
-    // todo: need to delete original url prop, could clone then serve.
-    // regions.features.forEach(function (r) { delete r.properties.url; });
     res.json(regions);
 });
 
 router.get('/areas', function(req, res) {
     res.json(areas);
 });
-
-// router.get('/:region/title.json', function(req, res) {
-//     if(req.forecast.json) {
-//         res.json(req.forecast.json.bulletinTitle);
-//     } else {
-//         res.send(500);
-//     }
-// });
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
     var ratingStyles = {
