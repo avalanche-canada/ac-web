@@ -30,7 +30,7 @@ if(process.env.NO_CACHE_REFRESH) {
 // webcache middleware
 router.use(function (req, res, next) {
     var url = req.protocol + '://' + req.headers.host + req.originalUrl;
-    // console.log(_.keys(req))
+
     var webcacher = function (data) {
         if(typeof data === 'object'){
             data = JSON.stringify(data);
@@ -38,7 +38,7 @@ router.use(function (req, res, next) {
         webcache.cacheUrl(url, data);
     };
 
-    if(req.query.fresh) {
+    if(req.headers['cache-control'] === 'no-cache') {
         console.log('cache by-pass for %s', url);
         req.webcache = webcacher;
         next();
