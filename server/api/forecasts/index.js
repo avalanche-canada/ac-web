@@ -27,30 +27,6 @@ if(process.env.NO_CACHE_REFRESH) {
     webcache.seed();
 }
 
-router.use(function (req, res, next) {
-    var url = req.protocol + '://' + req.get('host') + req.originalUrl;
-
-    console.log('got ' + url);
-
-    webcache.get(url).then(function (data) {
-        if(data){
-            console.log('cache hit for %s', url);
-            req.webcached = data;
-        } else {
-            console.log('cache miss for %s', url);
-            req.webcache = function (data) {
-                if(typeof data === 'object'){
-                    data = JSON.stringify(data);
-                }
-
-                webcache.cacheUrl(url, data);
-            }
-        }
-
-        next();
-    });
-});
-
 router.param('region', function (req, res, next) {
     var regionId = req.params.region;
     var date = req.query.date;
@@ -130,7 +106,7 @@ router.get('/areas', function(req, res) {
 });
 
 router.get('/:region/title.json', function(req, res) {
-    if(req.forecast.json) {
+    if(req.forecast.json){
         res.json(req.forecast.json.bulletinTitle);
     } else {
         res.send(500);
@@ -144,79 +120,32 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: ''
     };
 
+    if(req.region.properties.type === 'avalx'){
+        ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
+    }
+
     res.header('Cache-Control', 'no-cache');
     res.header('Content-Type', 'image/svg+xml');
-
-    if(!req.webcached && req.region.properties.type === 'avalx') {
-        ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
-        res.render('forecasts/danger-icon', ratingStyles, function (err, svg) {
-            if(err) {
-                res.send(500);
-            } else {
-                req.webcache(svg);
-                res.send(svg)
-            }
-        });
-    } else {
-        res.send(req.webcached);
-    }
+    res.render('forecasts/danger-icon', ratingStyles);
 });
 
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json'
 
     if (req.forecast) {
-        switch(req.params.format) {
+        switch(req.params.format){
             case 'xml':
                 res.header('Content-Type', 'application/xml');
-                if(req.webcached) {
-                    res.send(req.webcached);
-                } else {
-                    req.webcache(req.forecast.caaml);
-                    res.send(req.forecast.caaml);
-                }
+                res.send(req.forecast.caaml);
                 break;
             case 'json':
-                if(req.webcached) {
-                    res.send(req.webcached);
-                } else {
-                    req.webcache(req.forecast.json);
-                    res.json(req.forecast.json);
-                }
+                res.json(req.forecast.json);
                 break;
             case 'rss':
-                if(req.webcached) {
-                    res.send(req.webcached);
-                } else {
-                    var locals = {
-                        url: "url", 
-                        forecast: req.forecast.json
-                    };
-
-                    res.render('forecasts/forecast-rss', locals, function (err, xml) {
-                        if(err) {
-                            res.send(500);
-                        } else {
-                            req.webcache(xml);
-                            res.send(xml)
-                        }
-                    });
-                }
-                
+                res.render('forecasts/forecast-rss', {url: "url",forecast: req.forecast.json});
                 break;
             case 'html':
-                var locals = { 
-                    forecast: req.forecast.json
-                };
-
-                res.render('forecasts/forecast-html', locals, function (err, html) {
-                    if(err) {
-                        res.send(500);
-                    } else {
-                        req.webcache(html);
-                        res.send(html)
-                    }
-                });
+                res.render('forecasts/forecast-html', {forecast: req.forecast.json});
                 break;
         }
     }
@@ -225,23 +154,14 @@ router.get('/:region.:format', function(req, res) {
 router.get('/:region/nowcast.svg', function(req, res) {
     var ratingStyles;
 
-    res.header('Cache-Control', 'no-cache');
-    res.header('Content-Type', 'image/svg+xml');
-
-
-    if(!req.webcached && req.region.properties.type === 'avalx') {
+    if(req.forecast.json){
         ratingStyles = avalx.getNowcastStyles(req.forecast.json);
-
-        res.render('forecasts/nowcast', ratingStyles, function (err, svg) {
-            if(err) {
-                res.send(500);
-            } else {
-                req.webcache(svg);
-                res.send(svg)
-            }
-        });
-    } else {
-        res.send(req.webcached);
+        res.header('Cache-Control', 'no-cache');
+        res.header('Content-Type', 'image/svg+xml');
+        res.render('forecasts/nowcast', ratingStyles);
+    }
+    else{
+        res.send(500);
     }
 });
 
