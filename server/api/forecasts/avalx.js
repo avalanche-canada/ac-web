@@ -472,6 +472,30 @@ function getDangerIconStyles(forecast) {
     };
 }
 
+//! this function is used to get the colors used by the forecast (danger rating) table
+//! this function is used when there is not access to css and no nowcast (RSS and Print views)
+//! [in] forecast
+//! [out] danger rating colours for each elevation band for all three days (today, today+1, today+2)
+function getForecastTableColors(forecast){
+    return {
+        day0: {
+            alp: dangerRatingStyles.bannerFill[forecast.dangerRatings[0].dangerRating.alp],
+            tln: dangerRatingStyles.bannerFill[forecast.dangerRatings[0].dangerRating.tln],
+            btl: dangerRatingStyles.bannerFill[forecast.dangerRatings[0].dangerRating.btl]
+        },
+        day1: {
+            alp: dangerRatingStyles.bannerFill[forecast.dangerRatings[1].dangerRating.alp],
+            tln: dangerRatingStyles.bannerFill[forecast.dangerRatings[1].dangerRating.tln],
+            btl: dangerRatingStyles.bannerFill[forecast.dangerRatings[1].dangerRating.btl]
+        },
+        day2: {
+            alp: dangerRatingStyles.bannerFill[forecast.dangerRatings[2].dangerRating.alp],
+            tln: dangerRatingStyles.bannerFill[forecast.dangerRatings[2].dangerRating.tln],
+            btl: dangerRatingStyles.bannerFill[forecast.dangerRatings[2].dangerRating.btl]
+        },
+    }
+}
+
 function getNowcastStyles(forecast) {
     var todaysRating = forecast.dangerRatings[0].dangerRating;
 
@@ -504,5 +528,6 @@ module.exports = {
     fetchCaamlForecast: fetchCaamlForecast,
     parseCaamlForecast: parseCaamlForecast,
     getDangerIconStyles: getDangerIconStyles,
-    getNowcastStyles: getNowcastStyles
+    getNowcastStyles: getNowcastStyles,
+    getForecastTableColors: getForecastTableColors
 };

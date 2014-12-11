@@ -10,35 +10,40 @@
                 section#forecast-body.col-xs-12.col-md-9
                     #highlights !{forecast.highlights}
                     #forecast
-                        .forecast-image
-                            img.img-responsive(alt='', src='http://avalanche-canada-dev.elasticbeanstalk.com/api/forecasts/#{forecast.region}/nowcast.svg')
-                        table.table.table-condensed.ac-forecast-days
+                        table.table.table-condensed.ac-forecast-days(style='border-spacing:0px; border-color: black; border-collapse: collapse;')
                                 thead.ac-thead-dark
                                     tr
                                         th
+                                        th #{ forecast.dangerRatings[0].date }
                                         th #{ forecast.dangerRatings[1].date }
                                         th #{ forecast.dangerRatings[2].date }
                                 tbody
                                     tr
-                                        td.ac-veg-zone--alp
+                                        td.ac-veg-zone--alp(style='background-color:#ddeefa;  border: 1px solid black; padding:2px;')
                                             strong Alpine
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}")
+                                        td(style='background-color: #{ratingColors.day0.alp}; border: 1px solid black; padding:2px;')
+                                            strong #{ forecast.dangerRatings[0].dangerRating.alp.replace(':', ' ') }
+                                        td(style='background-color: #{ratingColors.day1.alp}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}")
+                                        td(style='background-color: #{ratingColors.day2.alp}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }
                                     tr
-                                        td.ac-veg-zone--tln
+                                        td.ac-veg-zone--tln(style='background-color:#d1d9a3; border: 1px solid black; padding:2px;')
                                             strong Treeline
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}")
+                                        td(style='background-color: #{ratingColors.day0.tln}; border: 1px solid black; padding:2px;')
+                                            strong #{ forecast.dangerRatings[0].dangerRating.tln.replace(':', ' ') }
+                                        td(style='background-color: #{ratingColors.day1.tln}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}")
+                                        td(style='background-color: #{ratingColors.day2.tln}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }
                                     tr
-                                        td.ac-veg-zone--btl
-                                            strong Bellow Treeline
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}")
+                                        td.ac-veg-zone--btl(style='background-color:#aebfac; border: 1px solid black; padding:2px;')
+                                            strong Below Treeline
+                                        td(style='background-color: #{ratingColors.day0.btl}; border: 1px solid black; padding:2px;')
+                                            strong #{ forecast.dangerRatings[0].dangerRating.btl.replace(':', ' ') }
+                                        td(style='background-color: #{ratingColors.day1.btl}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }
-                                        td(class="ac-danger-rating--#{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}")
+                                        td(style='background-color: #{ratingColors.day2.btl}; border: 1px solid black; padding:2px;')
                                             strong #{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }
                                     tr
                                         td

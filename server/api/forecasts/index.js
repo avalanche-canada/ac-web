@@ -81,7 +81,7 @@ router.param('region', function (req, res, next) {
             }, function (e) {
                 console.log(e);
                 res.send(500);
-            }); 
+            });
         }
     } else {
         req.forecast = {
@@ -142,10 +142,12 @@ router.get('/:region.:format', function(req, res) {
                 res.json(req.forecast.json);
                 break;
             case 'rss':
-                res.render('forecasts/forecast-rss', {url: "url",forecast: req.forecast.json});
+                var ratingColors = avalx.getForecastTableColors(req.forecast.json);
+                res.render('forecasts/forecast-rss', {'ratingColors': ratingColors, 'forecast': req.forecast.json});
                 break;
             case 'html':
-                res.render('forecasts/forecast-html', {forecast: req.forecast.json});
+                var ratingColors = avalx.getForecastTableColors(req.forecast.json);
+                res.render('forecasts/forecast-html', {'ratingColors': ratingColors, 'forecast': req.forecast.json});
                 break;
         }
     }
