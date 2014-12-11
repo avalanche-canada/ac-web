@@ -174,7 +174,14 @@
 
                             ul.sidebar-related-links
                                 li
-                                    a(href="/api/forecasts/{{region}}.html" target='_blank') Print friendly
+                                    a(href="/api/forecasts/{{region}}.html" target='_blank')
+                                        i.fa.fa-print.fa-fw.fa-lg
+                                        | Print friendly
+                                li
+                                    a(href="/api/forecasts/{{region}}.rss" target='_blank')
+                                        i.fa.fa-rss.fa-fw.fa-lg
+                                        | RSS feed
+
                                 li
                                     a(href="https://twitter.com/intent/tweet?url={{url}}")
                                         i.fa.fa-twitter.fa-fw.fa-lg
