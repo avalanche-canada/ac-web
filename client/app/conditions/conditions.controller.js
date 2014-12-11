@@ -29,7 +29,7 @@ angular.module('avalancheCanadaApp')
 
         var query = '[[:d = at(document.type, "conditions-summary")]]';
         ctx.api.form('everything').query(query)
-            .orderings('[my.conditions-summary.date]')
+            .orderings('[my.conditions-summary.date desc]')
                 .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting conditions-summary events from prismic');
