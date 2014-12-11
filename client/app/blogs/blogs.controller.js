@@ -19,7 +19,9 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
 
 
-        ctx.api.form('everything').query(query).ref(ctx.ref).submit(function(err, documents){
+        ctx.api.form('everything').query(query)
+            .orderings('[my.blog.date desc]')
+                .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs events from prismic');
             }

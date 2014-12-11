@@ -103,7 +103,6 @@ angular.module('avalancheCanadaApp')
 
 
         ctx.api.form('everything').query('[[:d = at(document.type, "blog")]]')
-                                    .orderings('[my.blog.date]')
                                         .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs from prismic');
