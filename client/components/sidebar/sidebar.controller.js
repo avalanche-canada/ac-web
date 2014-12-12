@@ -21,13 +21,13 @@ angular.module('avalancheCanadaApp')
                     switch(item.type){
                         case 'blog':
                             $scope.items.push({
-                                'title': item.getText('blog.title'),
+                                'title': 'Blog&mdash;' + item.getText('blog.title'),
                                 'link': '/blogs/'+ item.id + '/' + item.slug
                             });
                             break;
                         case 'news':
                             $scope.items.push({
-                                'title': item.getText('news.title'),
+                                'title': 'News&mdash;' + item.getText('news.title'),
                                 'link': '/news/'+ item.id + '/' + item.slug
                             });
                             break;
