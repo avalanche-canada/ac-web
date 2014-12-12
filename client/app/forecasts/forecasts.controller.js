@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ForecastsCtrl', function ($scope, $stateParams, acForecast, AC_API_ROOT_URL, Prismic) {
+  .controller('ForecastsCtrl', function ($scope, $stateParams, acForecast, AC_API_ROOT_URL, Prismic, urlBuilder) {
     $scope.region = $stateParams.region;
     $scope.api = AC_API_ROOT_URL;
+    $scope.url = urlBuilder.get();
 
     $scope.sponsor = '';
 
