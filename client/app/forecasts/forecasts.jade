@@ -183,25 +183,18 @@
                         .panel.panel-default.first
                             h4.panel-title
                                 a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
-                                    | Bulletin Disclaimer
+                                    | {{disclaimer.getText('generic.title')}}
                             #collapseOne.panel-collapse.collapse
-                                .panel-body
-                                        h2 USE AT YOUR OWN RISK
+                                .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
 
-                                        p The CAC Public Avalanche Bulletin, and other information and services provided by CAC, are intended for personal and recreational purposes only
 
-                                        p THIS INFORMATION IS PROVIDED "AS IS" AND IN NO EVENT SHALL THE PROVIDERS BE LIABLE FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES RESULTING FROM DISCOMFORT, INJURY, OR DEATH, CLAIMS BY THIRD PARTIES OR FOR OTHER SIMILAR COSTS, OR ANY SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OF THE INFORMATION.
-
-                                        p The user acknowledges that it is impossible to accurately predict natural events such as avalanches in every instance, and uses the data in this bulletin with this always foremost in mind. The accuracy or reliability of the data is not guaranteed or warranted in any way and the Providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.
-
-                        .panel.panel-default.last(ng-hide='true')
+                        .panel.panel-default.last
                             h4.panel-title
                                 a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
-                                    | Setting Up Your RSS Feed
+                                    | {{rss.getText('generic.title')}}
                             #collapseTwo.panel-collapse.collapse
-                                .panel-body
-                                    p
-                                        | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                .panel-body(ng-bind-html="rss.getStructuredText('generic.body').asHtml(ctx)")
+
 // /#forecast
 
 

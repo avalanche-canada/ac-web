@@ -17,12 +17,21 @@ angular.module('avalancheCanadaApp')
             .orderings('[my.blog.date desc]')
                 .ref(ctx.ref).submit(function(err, documents){
             if (err) {
-                $log.error('error getting blogs events from prismic');
+                $log.error('error getting sponsor from prismic');
             }
             else {
                 $scope.sponsor = documents.results[0];
             }
         });
+
+        Prismic.bookmark('forecast-disclaimer').then(function(doc){
+                $scope.disclaimer = doc;
+        });
+
+        Prismic.bookmark('forecast-rss-instructions').then(function(doc){
+                $scope.rss = doc;
+        });
+
     });
 
     acForecast.fetch().then(function(regionData){
