@@ -141,7 +141,7 @@ angular.module('avalancheCanadaApp', [
     .factory('urlBuilder', function ($state) {
         return {
             get: function () {
-                return $state.href($state.current.name, $state.params, {absolute: true, inherit: true});;
+                return $state.href($state.current.name, $state.params, {absolute: true, inherit: true});
             }
         };
     })
