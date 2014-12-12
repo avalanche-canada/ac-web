@@ -18,7 +18,6 @@ angular.module('avalancheCanadaApp')
 
         $scope.ctx = ctx;
 
-
         ctx.api.form('everything').query(query)
             .orderings('[my.blog.date desc]')
                 .ref(ctx.ref).submit(function(err, documents){

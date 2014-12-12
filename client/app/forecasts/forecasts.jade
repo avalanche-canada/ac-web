@@ -14,8 +14,8 @@
                         h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
                         #forecast-sponsor-desktop.hidden-xs
                             p Brought to you by
-                            a(target='_blank', href='http://www.cpr.ca/en')
-                                img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955422/logos/Logos%20png/cp.png')
+                            a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                                img(src='{{sponsor.getText("sponsor.image-229")}}')
                         .blue-border
                 #forecast-sponsor-mobile.col-xs-12.visible-xs-block
                     #forecast-sponsor-mobile-inner
@@ -23,8 +23,8 @@
                             | Brought
                             br
                             | to you by
-                        a.pull-right(target='_blank', href='http://www.cpr.ca/en')
-                            img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955422/logos/Logos%20png/cp.png')
+                        a.pull-right(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                            img(src='{{sponsor.getText("sponsor.image-229")}}')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
                         | Date Issued
@@ -156,22 +156,7 @@
                     aside
                         .dark-ribbon
                         .sidebar-inner
-                            h3 Related
-                            article.first.sidebar-related
-                                h4
-                                    a(href='/news/VHeP1ykAACgAzhln/spaw-nov-28-2014') Special Public Avalanche Warning for BC Interior Ranges, Including North & South Rockies
-
-                            article.first.sidebar-related
-                                h4
-                                    a(href='/blogs/VHZ5mSgAACkAw7a8/developing-avalanche-scenario') Blog - Developing Avalanche Scenario and the Human Factor
-
-                            article.first.sidebar-related
-                                h4
-                                    a(href='/blogs/VG_qoCYAALYhWT3m/first-impressions') Blog - First Impressions
-                            article.sidebar-related
-                                h4
-                                    a(href='/news/VEVZWiYAACUATW97/new-website') News - New Website
-
+                            ng-include(src='"components/sidebar/sidebar.html"')
                             ul.sidebar-related-links
                                 li
                                     a(href="/api/forecasts/{{region}}.html" target='_blank')
