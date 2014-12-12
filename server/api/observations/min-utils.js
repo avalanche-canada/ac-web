@@ -61,7 +61,7 @@ function itemsToObservations(items) {
                 subid: item.subid,
                 obid: item.obid,
                 title: item.ob.title,
-                datetime: item.datetime,
+                datetime: item.ob.datetime,
                 user: item.user,
                 obtype: item.obtype,
                 latlng: item.ob.latlng,
