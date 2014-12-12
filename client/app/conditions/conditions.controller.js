@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ConditionsCtrl', function ($scope, Prismic, $log) {
-
+  .controller('ConditionsCtrl', function ($scope, Prismic, $log, urlBuilder) {
+    $scope.url = urlBuilder.get();
      Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;

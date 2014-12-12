@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('EventsCtrl', function ($scope, Prismic, $log) {
-
+  .controller('EventsCtrl', function ($scope, Prismic, $log, urlBuilder) {
+    $scope.url = urlBuilder.get();
     var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
 
     Prismic.ctx().then(function(ctx){

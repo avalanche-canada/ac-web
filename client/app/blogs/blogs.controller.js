@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogsCtrl', function ($scope, Prismic, $stateParams, $log) {
-
+  .controller('BlogsCtrl', function ($scope, Prismic, urlBuilder, $stateParams, $log) {
+    $scope.url = urlBuilder.get();
      var query = '';
 
      if($stateParams.category)
