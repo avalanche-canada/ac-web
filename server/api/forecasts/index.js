@@ -58,19 +58,17 @@ router.use(function (req, res, next) {
 });
 
 router.param('region', function (req, res, next) {
+    var regionId = req.params.region;
+    req.region = _.find(regions.features, {id: regionId});
+
     if(req.webcached) {
         next();
     } else {
-        var regionId = req.params.region;
-        var date = req.query.date;
-        req.region = _.find(regions.features, {id: regionId});
-
-        if(!date && req.region.properties.type === 'avalx') {
+        if(req.region.properties.type === 'avalx') {
             if(req.region.properties.owner === 'avalanche-canada') {
                 webcache.get(req.region.properties.url).then(function (data) {
                     req.forecast = {
                         region: regionId,
-                        date: date,
                         caaml: data
                     };
 
@@ -91,11 +89,10 @@ router.param('region', function (req, res, next) {
             }
 
             if(!req.forecast || !req.forecast.xml || !req.forecast.json) {
-                avalx.fetchCaamlForecast(req.region, date, function (caamlForecast) {
+                avalx.fetchCaamlForecast(req.region, function (caamlForecast) {
                     if(caamlForecast){
                         req.forecast = {
                             region: regionId,
-                            date: date,
                             caaml: caamlForecast
                         };
 
@@ -199,10 +196,13 @@ router.get('/:region.:format', function(req, res) {
 
 router.get('/:region/nowcast.:format', function(req, res) {
     var styles;
+    var mimeType = req.params.format === 'svg' ? 'image/svg+xml' : 'image/png';
+
+    res.header('Cache-Control', 'no-cache');
+    res.header('Content-Type', mimeType);
 
     if(!req.webcached && req.region.properties.type === 'avalx') {
         styles = avalx.getNowcastStyles(req.forecast.json);
-        res.header('Cache-Control', 'no-cache');
 
         res.render('forecasts/nowcast', styles, function (err, svg) {
             if(err) {
@@ -210,12 +210,11 @@ router.get('/:region/nowcast.:format', function(req, res) {
             } else {
                 switch(req.params.format) {
                     case 'svg':
-                        res.header('Content-Type', 'image/svg+xml');
+                    console.log('svg')
                         req.webcache(svg);
                         res.send(svg);
                         break;
                     case 'png':
-                        res.header('Content-Type', 'image/png');
                         var buf = new Buffer(svg);
                         gm(buf, 'nowcast.svg')
                             .options({imageMagick: true})

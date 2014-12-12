@@ -351,38 +351,18 @@ function avalancheCaForecast(caaml, region){
      };
 }
 
-function fetchCaamlForecast(region, date, successCallback, errorCallback) {
-    var url = '';
-    var today;
-
-    if (region.properties.url){
-        url = region.properties.url;
-
-        if(!date){
-            today = new Date;
-            date = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
-            //date = "2013-03-03"; //! for testing purposes use a day with actual data
-        }
-
-        //! adding dates causing an issue for now only fetch the most recent forecast
-        if (region.properties.owner === "parks-canada") {
-            //url = [url, date].join('&d=');
-        } else { //assume avalanche ca
-            //url = [url, date].join('/');
-        }
-
-        request(url, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                if (body) {
-                    successCallback(body);
-                } else {
-                    errorCallback("parsed data invalid");
-                }
+function fetchCaamlForecast(region, successCallback, errorCallback) {
+    if (region && region.properties && region.properties.url){
+        request(region.properties.url, function (error, response, body) {
+            if (!error && response.statusCode == 200 && body) {
+                successCallback(body);
             } else {
-                // log something...
+                errorCallback("empty response from avalx server");
             }
         });
-    } else errorCallback("region not found");
+    } else { 
+        errorCallback("invalid avalx region");
+    }
 }
 
 function cleanHtml(forecast){
