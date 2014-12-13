@@ -37,7 +37,8 @@
     "static-favicon": "~1.0.1",
     "webcache": "git://github.com/tesera/node-webcache",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "coffee-script": "^1.8.0"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",
