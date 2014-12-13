@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ConditionsItemCtrl', function ($scope, Prismic, $log, $stateParams) {
+  .controller('ConditionsItemCtrl', function ($scope, Prismic, $log, $stateParams, urlBuilder) {
+    $scope.url = urlBuilder.get();
     var date = $stateParams.date;
     var category = $stateParams.category;
 

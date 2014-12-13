@@ -1,0 +1,6 @@
+
+div(ng-controller='SidebarCtrl')
+    h3 Latest
+    article.first.sidebar-related(ng-repeat='item in items')
+        h4
+                a(href='{{item.link}}' ng-bind-html='item.title')

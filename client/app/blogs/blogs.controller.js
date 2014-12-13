@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogsCtrl', function ($scope, Prismic, $stateParams, $log) {
-
+  .controller('BlogsCtrl', function ($scope, Prismic, urlBuilder, $stateParams, $log) {
+    $scope.url = urlBuilder.get();
      var query = '';
 
      if($stateParams.category)
@@ -18,8 +18,9 @@ angular.module('avalancheCanadaApp')
 
         $scope.ctx = ctx;
 
-
-        ctx.api.form('everything').query(query).ref(ctx.ref).submit(function(err, documents){
+        ctx.api.form('everything').query(query)
+            .orderings('[my.blog.date desc]')
+                .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs events from prismic');
             }

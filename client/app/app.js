@@ -37,10 +37,7 @@ angular.module('avalancheCanadaApp', [
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html',
-                controller: ['$scope','$state',  function($scope, $state){
-                    $scope.url = $state.href($state.current.name, $state.params, {absolute: true, inherit: true});
-                }]
+                templateUrl: 'app/template.html'
             });
     })
 
@@ -139,6 +136,14 @@ angular.module('avalancheCanadaApp', [
         }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
+    })
+
+    .factory('urlBuilder', function ($state) {
+        return {
+            get: function () {
+                return $state.href($state.current.name, $state.params, {absolute: true, inherit: true});
+            }
+        };
     })
 
     .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
