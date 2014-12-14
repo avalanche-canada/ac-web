@@ -219,7 +219,15 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/, '/auth0/', '/a0-angular-storage/','/auth0-lock/','/auth0-angular/', '/angular-jwt/' ]
+        exclude: [
+          /bootstrap-sass-official/, 
+          /bootstrap.js/, 
+          '/json3/', 
+          '/es5-shim/', 
+          /bootstrap.css/, 
+          /font-awesome.css/, 
+          /auth0-lock/
+        ]
       }
     },
 
@@ -253,7 +261,11 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
-      js: [ '<%= yeoman.dist %>/public/{,*/}*.js', '!<%= yeoman.dist %>/public/bower_components/auth0.js', '!<%= yeoman.dist %>/public/bower_components/mapbox.js'],
+      js: [ 
+        '<%= yeoman.dist %>/public/{,*/}*.js', 
+        '!<%= yeoman.dist %>/public/bower_components/auth0.js', 
+        '!<%= yeoman.dist %>/public/bower_components/mapbox.js'
+      ],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/public',
@@ -353,7 +365,6 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
-            'assets/js/**/*',
             'index.html',
             'api/**/*'
           ]
@@ -370,6 +381,12 @@ module.exports = function (grunt) {
             'server/**/*',
             '.ebextensions/**/*'
           ]
+        }, {
+          expand: true,
+          flatten: true,
+          cwd: '<%= yeoman.client %>',
+          dest: '<%= yeoman.dist %>/public/app/images',
+          src: ['bower_components/mapbox.js/images/*.png']
         }]
       },
       styles: {

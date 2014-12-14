@@ -2,7 +2,6 @@
 
 angular.module('foundation',[
         'ngCookies',
-        'ngResource',
         'ngSanitize',
         'ui.router',
         'ui.bootstrap',
