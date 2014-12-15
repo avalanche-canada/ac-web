@@ -9,26 +9,28 @@ angular.module('avalancheCanadaApp')
         $scope.ctx = ctx;
         var query = '[[:d = any(document.tags, ["featured"])]]';
         ctx.api.form('everything').query(query)
-            .orderings('[my.blog.date desc, my.event.start_date, my.news.date desc]')
+            //.orderings('[my.news.date desc, my.blog.date desc, my.event.start_date]')
                 .ref(ctx.ref).submit(function(err, documents){
             if (err) {
                 $log.error('error getting blogs events from prismic');
             }
             else {
-                var items = documents.results.slice(0,5);
+                var items = []
 
-                _.forEach(items, function(item){
+                _.forEach(documents.results, function(item){
                     switch(item.type){
                         case 'blog':
-                            $scope.items.push({
+                            items.push({
                                 'title': 'Blog&mdash;' + item.getText('blog.title'),
-                                'link': '/blogs/'+ item.id + '/' + item.slug
+                                'link': '/blogs/'+ item.id + '/' + item.slug,
+                                'date': item.getDate('blog.date')
                             });
                             break;
                         case 'news':
-                            $scope.items.push({
+                            items.push({
                                 'title': 'News&mdash;' + item.getText('news.title'),
-                                'link': '/news/'+ item.id + '/' + item.slug
+                                'link': '/news/'+ item.id + '/' + item.slug,
+                                'date': item.getDate('news.date')
                             });
                             break;
                         case 'event':
@@ -40,6 +42,9 @@ angular.module('avalancheCanadaApp')
                             break;
                     }
                 });
+
+                items = _.sortBy(items, function(ob){ob['date']});
+                $scope.items = items.slice(0,5);
 
             }
         });
