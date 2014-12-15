@@ -76,6 +76,28 @@ function getOptions(options){
     return selections;
 }
 
+function formatDate(datetimeString){
+    var datetime = moment(datetimeString);
+    var offset = moment.parseZone(datetimeString).zone();
+    var prefixes = {
+        480: 'P',
+        420: 'M',
+        360: 'C',
+        300: 'E',
+        240: 'A',
+        180: 'N'
+    };
+    var suffix = datetime.isDST() ? 'DT' : 'ST';
+    var zoneAbbr = 'UTC';
+    
+    if(offset in prefixes) {
+        zoneAbbr = prefixes[offset] + suffix;
+        datetime.subtract(offset, 'minutes');
+    }
+
+    return datetime.format('MMM Do, YYYY [at] HH:mm [' + zoneAbbr + ']')
+}
+
 router.get('/observations/:obid.:format?', function (req, res) {
     var params = {
         TableName: 'ac-obs',
@@ -89,7 +111,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
             if(req.params.format === 'html'){
                 var locals = {
                     title: ob.title || 'title',
-                    datetime: moment(ob.datetime).format('MMM Do, YYYY [at] HH:mm'),
+                    datetime: formatDate(ob.datetime),
                     user: ob.user,
                     ridingConditions: {
                         ridingQuality: ob.ridingConditions.ridingQuality.selected || '',
