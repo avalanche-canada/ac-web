@@ -107,9 +107,9 @@ style.
             small (click/tap to enlarge)
         ul.list-inline
             each url in uploads
-                li
+                li(style="height: 50px;")
                     a(href=url, target="_blank")
-                        img(src=url+'?size=50x50', style="height: 50px;")
+                        img(src=url+'?size=50x50')
 
     H5 
         i.fa.fa-share-alt-square
