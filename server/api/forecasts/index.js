@@ -150,7 +150,16 @@ router.get('/:region.:format', function(req, res) {
             break;
         case 'json':
             if(req.webcached) {
-                res.send(req.webcached);
+                var forecast;
+
+                try {
+                    forecast = JSON.parse(req.webcached);
+                } catch (e) {
+                    console.log('error parsing json forecast');
+                    res.send(500);
+                }
+                
+                res.json(forecast);
             } else {
                 req.webcache(req.forecast.json);
                 res.json(req.forecast.json);
