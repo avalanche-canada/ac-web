@@ -23,14 +23,14 @@ angular.module('avalancheCanadaApp')
                             items.push({
                                 'title': 'Blog&mdash;' + item.getText('blog.title'),
                                 'link': '/blogs/'+ item.id + '/' + item.slug,
-                                'date': item.getDate('blog.date')
+                                'date': moment(item.getDate('blog.date'))
                             });
                             break;
                         case 'news':
                             items.push({
                                 'title': 'News&mdash;' + item.getText('news.title'),
                                 'link': '/news/'+ item.id + '/' + item.slug,
-                                'date': item.getDate('news.date')
+                                'date': moment(item.getDate('news.date'))
                             });
                             break;
                         case 'event':
@@ -43,7 +43,8 @@ angular.module('avalancheCanadaApp')
                     }
                 });
 
-                items = _.sortBy(items, function(ob){ob['date']});
+                items = _.sortBy(items, function(ob){return ob['date']});
+                items = items.reverse();
                 $scope.items = items.slice(0,5);
 
             }
