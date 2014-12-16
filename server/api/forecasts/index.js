@@ -5,6 +5,7 @@ var avalx = require('./avalx');
 var regions = require('./forecast-regions');
 var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
+var moment = require('moment');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.owner === 'avalanche-canada' && feature.properties.type === 'avalx';
@@ -133,6 +134,16 @@ router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json'
 
     if (req.forecast) {
+
+        var ratingColors = avalx.getForecastTableColors(req.forecast.json);
+        var dates = {
+            'issued' : moment(req.forecast.json.dateIssued).format('ddd, DD MMM YYYY HH:mm'),
+            'until'  : moment(req.forecast.json.validUntil).format('ddd, DD MMM YYYY HH:mm'),
+            'day0'   : moment.utc(req.forecast.json.dangerRatings[0].date ).format('ddd, DD MMM'),
+            'day1'   : moment.utc(req.forecast.json.dangerRatings[1].date ).format('ddd, DD MMM'),
+            'day2'   : moment.utc(req.forecast.json.dangerRatings[2].date ).format('ddd, DD MMM')
+        };
+
         switch(req.params.format){
             case 'xml':
                 res.header('Content-Type', 'application/xml');
@@ -142,12 +153,10 @@ router.get('/:region.:format', function(req, res) {
                 res.json(req.forecast.json);
                 break;
             case 'rss':
-                var ratingColors = avalx.getForecastTableColors(req.forecast.json);
-                res.render('forecasts/forecast-rss', {'ratingColors': ratingColors, 'forecast': req.forecast.json});
+                res.render('forecasts/forecast-rss', {'dates': dates, 'ratingColors': ratingColors, 'forecast': req.forecast.json});
                 break;
             case 'html':
-                var ratingColors = avalx.getForecastTableColors(req.forecast.json);
-                res.render('forecasts/forecast-html', {'ratingColors': ratingColors, 'forecast': req.forecast.json});
+                res.render('forecasts/forecast-html', {'dates': dates, 'ratingColors': ratingColors, 'forecast': req.forecast.json});
                 break;
         }
     }
