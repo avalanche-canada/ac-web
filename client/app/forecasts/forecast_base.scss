@@ -18,6 +18,7 @@
         margin-bottom: 0px;
     }
     .ac-forecast-mini-body {
+        margin-bottom: 75px;
         padding: 0 15px;
     }
     .small {
@@ -45,6 +46,12 @@
         padding: 0;
         overflow: hidden;
         height: 150px;
+        @media (min-width: $screen-sm-min) {
+            height: 120px;
+        }
+        @media (min-width: $screen-md-min) {
+            height: 150px;
+        }
         .ac-nowcast {
             height: 100px;
             z-index: 1;
