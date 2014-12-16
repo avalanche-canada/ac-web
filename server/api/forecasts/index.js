@@ -42,11 +42,13 @@ router.use(function (req, res, next) {
     if(req.headers['cache-control'] === 'no-cache') {
         console.log('cache by-pass for %s', url);
         req.webcache = webcacher;
+        webcache.cacheUrl(url);
         next();
     } else {
         webcache.get(url).then(function (data) {
             if(data){
                 console.log('cache hit for %s', url);
+                webcache.cacheUrl(url);
                 req.webcached = data;
             } else {
                 console.log('cache miss for %s', url);
