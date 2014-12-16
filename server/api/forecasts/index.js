@@ -46,10 +46,9 @@ router.param('region', function (req, res, next) {
 
                     avalx.parseCaamlForecast(req.forecast, req.region.properties.owner, function (jsonForecast) {
                         req.forecast.json = jsonForecast;
-                        next();
+                        return next();
                     }, function () {
                         console.log('error parsing %s caaml forecast.', regionId);
-                        res.send(500);
                     });
                 } else {
                     console.log('cache miss for forecast for %s', regionId);
