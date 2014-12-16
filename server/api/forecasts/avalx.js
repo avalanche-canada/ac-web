@@ -4,6 +4,7 @@ var request = require('request');
 var semanticafy = require('semanticafy');
 var Q = require('q');
 var moment = require('moment-timezone');
+var parseString = require('xml2js').parseString;
 
 var ratings = {
     Low: '1',
@@ -351,17 +352,17 @@ function avalancheCaForecast(caaml, region){
      };
 }
 
-function fetchCaamlForecast(region, successCallback, errorCallback) {
+function fetchCaamlForecast(region, callback) {
     if (region && region.properties && region.properties.url){
         request(region.properties.url, function (error, response, body) {
             if (!error && response.statusCode == 200 && body) {
-                successCallback(body);
+                callback(null, body);
             } else {
-                errorCallback("empty response from avalx server");
+                callback("empty response from avalx server");
             }
         });
     } else { 
-        errorCallback("invalid avalx region");
+        callback("invalid avalx region");
     }
 }
 
@@ -407,37 +408,39 @@ function cleanHtml(forecast){
     return Q.allSettled(cleans);
 }
 
+function parseForecast(caaml, region){
+    if (region.properties.owner === "parks-canada") {
+        return parksForecast(caaml, region.id);
+    } else if (region.properties.owner === "avalanche-canada") {
+        return  avalancheCaForecast(caaml, region.id);
+    } else {
+        throw new Error("Invalid region: " + caamlForecast.region);
+    }
+}
 
-function parseCaamlForecast(caamlForecast, forecastSource, successCallback, errorCallback) {
-    var parseString = require('xml2js').parseString;
+function cleanForecast(forecast){
+    return cleanHtml(forecast).then(function () {
+        return Q.allSettled(_.map(forecast.problems, function (problem) {
+            return cleanHtml(problem);
+        }));
+    }).then(function () {
+        return forecast;
+    });
+}
 
-    parseString(caamlForecast.caaml, function (err, caaml) {
-        var forecast;
+function parseCaamlForecast(caaml, region, callback) {
+    parseString(caaml, function (err, caamlJson) {
+        if (!err && caamlJson) {
+            var forecast = parseForecast(caamlJson, region);
 
-        if (caaml) {
-            if (forecastSource === "parks-canada") {
-                forecast = parksForecast(caaml, caamlForecast.region);
-                cleanHtml(forecast).then(function () {
-                    return Q.allSettled(_.map(forecast.problems, function (problem) {
-                        return cleanHtml(problem);
-                    }));
-                }).then(function () {
-                    successCallback(forecast);
-                });
-            } else if (forecastSource === "avalanche-canada") {
-                forecast = avalancheCaForecast(caaml, caamlForecast.region);
-                cleanHtml(forecast).then(function () {
-                    return Q.allSettled(_.map(forecast.problems, function (problem) {
-                        return cleanHtml(problem);
-                    }));
-                }).then(function () {
-                    successCallback(forecast);
-                });
-            } else {
-                errorCallback("Invalid region: " + caamlForecast.region);
-            }
+            cleanForecast(forecast)
+                .then(function (cleaned) {
+                    callback(null, cleaned);
+                }).catch(function (e) {
+                    callback(e);
+                }).done();
         } else {
-            errorCallback("parsed data invalid");
+            callback("parsed data invalid");
         }
     });
 }
