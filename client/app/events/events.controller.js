@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('EventsCtrl', function ($scope, Prismic, $log, urlBuilder) {
+  .controller('EventsCtrl', function ($scope, Prismic, $log, $stateParams, urlBuilder) {
     $scope.url = urlBuilder.get();
     var yesterday = moment.utc(moment().startOf('day').subtract(1,'days')).format('YYYY-MM-DD');
 
@@ -9,9 +9,14 @@ angular.module('avalancheCanadaApp')
 
         $scope.ctx = ctx;
 
-        var query = '[[:d = at(document.type, "event")][:d = date.after(my.event.start_date,"'+yesterday+'")]]';
-        $log.debug(query);
-        ctx.api.form('everything').query(query)
+        var query = '[:d = at(document.type, "event")]';
+        query    += '[:d = date.after(my.event.start_date,"'+yesterday+'")]';
+        if($stateParams.tag){
+            query += '[:d = any(document.tags, ["'+$stateParams.tag+'"])]';
+        }
+
+        $log.debug('[' + query + ']');
+        ctx.api.form('everything').query('[' + query + ']')
             .orderings('[my.event.start_date]')
                 .ref(ctx.ref).submit(function(err, documents){
             if (err) {
@@ -19,31 +24,37 @@ angular.module('avalancheCanadaApp')
             }
 
             else {
-                var results = documents.results;
+                var events = documents.results;
+                $scope.events = events;
+                $scope.featured = null;
+
                 if (documents.total_pages > 1){
                     $scope.paginationRange = _.range(1, documents.total_pages+1);
                 }
 
-                query = '[[:d = at(document.type, "event")] [:d = any(document.tags, ["featured"])][:d = date.after(my.event.start_date,"'+yesterday+'")]]';
-                $log.debug(query);
-                ctx.api.form('everything').query(query)
+                query += '[:d = any(document.tags, ["featured"])]';
+                $log.debug('[' + query + ']');
+                ctx.api.form('everything').query('[' + query + ']')
                                             .orderings('[my.event.start_date]')
                                                 .ref(ctx.ref).submit(function(err, documents){
                     if (err) {
                         $log.error('error getting featured event from prismic');
                     }
                     else {
-                        var featured = documents.results[0];
-                        var events = [];
 
-                        _.forEach(results, function(val){
-                            if (featured.id && val.id !== featured.id){
-                                events.push(val);
-                            }
-                        });
+                        if (documents.results.length > 0){
+                            var featured = documents.results[0];
+                            var updated = [];
 
-                        $scope.events = events;
-                        $scope.featured = featured;
+                            _.forEach(events, function(val){
+                                if (featured.id && val.id !== featured.id){
+                                    updated.push(val);
+                                }
+                            });
+
+                            $scope.events = updated;
+                            $scope.featured = featured;
+                        }
                     }
                 });
             }

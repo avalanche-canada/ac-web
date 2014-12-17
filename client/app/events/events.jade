@@ -31,7 +31,7 @@
                         img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
             #news-blog-event-list-rows.col-xs-12.col-md-9
                 // news list rows
-                article.list-rows.list-row-1
+                article.list-rows.list-row-1(ng-hide='featured===null')
                     section.news-blog-event-image
                         img.img(alt='', src=" {{ featured.getImageView('event.featured_image', 'preview').url }} ")
                         ///ul.news-blog-event-social

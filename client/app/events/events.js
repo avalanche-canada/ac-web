@@ -23,6 +23,11 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/events/events.html',
         controller: 'EventsCtrl'
       })
+      .state('ac.eventsFilter', {
+        url: '^/events/:tag',
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsCtrl'
+      })
       .state('ac.eventDetail', {
         url: '^/events/{id}/{slug}',
         templateUrl: 'app/events/eventDetail.html',
