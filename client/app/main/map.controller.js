@@ -7,11 +7,13 @@ angular.module('avalancheCanadaApp')
         angular.extend($scope, {
             current: {},
             drawer: {
-                visible: false
+                visible: false,
+                enabled: true
             },
             filters: {
                 obsPeriod: '48-hours'
-            }
+            },
+            regionsVisible: true
         });
 
         if($state.current.data && $state.current.data.isLogin) {
@@ -58,7 +60,7 @@ angular.module('avalancheCanadaApp')
 
         $scope.toggleFilter = function (filter) {
             if(filter || !$scope.filters.obsPeriod){
-                filter = filter || 'obsPeriod:48-hours';
+                filter = filter || 'obsPeriod:7-days';
                 var filterType = filter.split(':')[0];
                 var filterValue = filter.split(':')[1];
 
