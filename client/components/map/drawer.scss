@@ -59,7 +59,6 @@
             box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
             cursor: pointer;
             transition: all 0.2s linear;
-            border-bottom: 5px solid transparent;
             small, strong {
               display: block;
               margin: auto;
@@ -70,8 +69,13 @@
             & small:first-child {
               padding-top: 3px;
             }
+            i {
+                color: rgba(255, 255, 255, 0.2);
+            }
             &.on {
-              border-bottom: 5px solid rgb(0, 86, 183);
+              i {
+                color: rgb(0, 86, 183);
+              }
             }
         }
     }
