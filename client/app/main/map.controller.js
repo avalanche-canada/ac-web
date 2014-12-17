@@ -7,7 +7,8 @@ angular.module('avalancheCanadaApp')
         angular.extend($scope, {
             current: {},
             drawer: {
-                visible: false
+                visible: false,
+                enabled: true
             },
             filters: {
                 obsPeriod: '48-hours'
