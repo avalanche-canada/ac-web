@@ -12,7 +12,8 @@ angular.module('avalancheCanadaApp')
             },
             filters: {
                 obsPeriod: '48-hours'
-            }
+            },
+            regionsVisible: true
         });
 
         if($state.current.data && $state.current.data.isLogin) {
