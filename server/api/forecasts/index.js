@@ -223,14 +223,14 @@ router.get('/:region/nowcast.:format', function(req, res) {
                         req.webcache(svg);
                         res.send(svg);
                         break;
-                    case 'png':
-                        var buf = new Buffer(svg);
-                        gm(buf, 'nowcast.svg')
-                            .options({imageMagick: true})
-                            .resize(450, 150)
-                            .stream('png')
-                            .pipe(res);
-                        break;
+                    // case 'png':
+                    //     var buf = new Buffer(svg);
+                    //     gm(buf, 'nowcast.svg')
+                    //         .options({imageMagick: true})
+                    //         .resize(450, 150)
+                    //         .stream('png')
+                    //         .pipe(res);
+                    //     break;
                     default:
                         res.send(404);
                         break;
