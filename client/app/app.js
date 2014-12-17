@@ -5,7 +5,6 @@ angular.module('acComponents').constant('AC_API_ROOT_URL', '');
 //angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
         'ngCookies',
-        'ngResource',
         'ngSanitize',
         'ngAnimate',
         'ui.router',
@@ -16,8 +15,8 @@ angular.module('avalancheCanadaApp', [
         'acComponents',
         'foundation',
         'ngToast',
-        'auth0',
         'angular-storage',
+        'auth0',
         'angular-jwt'
     ])
 
