@@ -15,7 +15,7 @@ angular.module('avalancheCanadaApp')
                 $log.error('error getting blogs events from prismic');
             }
             else {
-                var items = []
+                var items = [];
 
                 _.forEach(documents.results, function(item){
                     switch(item.type){
@@ -43,7 +43,7 @@ angular.module('avalancheCanadaApp')
                     }
                 });
 
-                items = _.sortBy(items, function(ob){return ob['date']});
+                items = _.sortBy(items, function(ob){return ob.date;});
                 items = items.reverse();
                 $scope.items = items.slice(0,5);
 
