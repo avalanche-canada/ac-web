@@ -77,6 +77,14 @@
                 color: rgb(0, 86, 183);
               }
             }
+            .danger-icon polygon {
+                fill: rgba(255, 255, 255, 0.2);
+            }
+            &.on {
+              .danger-icon polygon {
+                fill: rgb(0, 86, 183);
+              }
+            }
         }
     }
 }
