@@ -39,7 +39,7 @@
                             /// span Forecasters' Blog
                             h2
                                 a(href='/conditions/{{item.getDate("conditions-summary.date") | dateUtc:"YYYY-MM-DD"}}/{{item.getText("conditions-summary.type")}}')
-                                    {{item.getText('conditions-summary.type') | uppercase}}  {{item.getDate('conditions-summary.date') | dateUtc:'MMM DD' }}
+                                    {{item.getText('conditions-summary.type') | uppercase}}  {{item.getDate('conditions-summary.date') | dateUtc:'MMM DD' | uppercase}}
 
                         section.news-blog-event-body
                             /// img(alt='', src='assets/img/sub-blog-img.jpg')

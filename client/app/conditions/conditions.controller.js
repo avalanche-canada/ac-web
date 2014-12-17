@@ -18,10 +18,6 @@ angular.module('avalancheCanadaApp')
             return str;
         };*/
 
-        $scope.displayType = function(input){
-            return display[input];
-        };
-
         var query = '[[:d = at(document.type, "conditions-summary")]]';
         ctx.api.form('everything').query(query)
             .orderings('[my.conditions-summary.date desc]')
