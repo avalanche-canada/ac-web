@@ -168,7 +168,7 @@ router.get('/:region.:format', function(req, res) {
             if(req.webcached) {
                 res.send(req.webcached);
             } else {
-                locals = getTableLocals(req.forecast.json);
+                locals = avalx.getTableLocals(req.forecast.json);
 
                 res.render('forecasts/forecast-rss', locals, function (err, xml) {
                     if(err) {
@@ -179,14 +179,12 @@ router.get('/:region.:format', function(req, res) {
                     }
                 });
             }
-            
             break;
         case 'html':
             if(req.webcached) {
                 res.send(req.webcached);
             } else {
-                locals = getTableLocals(req.forecast.json);
-
+                locals = avalx.getTableLocals(req.forecast.json);
                 res.render('forecasts/forecast-html', locals, function (err, html) {
                     if(err) {
                         res.send(500);

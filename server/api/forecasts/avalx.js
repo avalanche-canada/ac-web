@@ -508,19 +508,19 @@ function getNowcastStyles(forecast) {
 }
 
 function getTableLocals(forecast){
-    var ratingColors = avalx.getForecastTableColors(req.forecast.json);
+    var ratingColors = getForecastTableColors(forecast);
     var dates = {
-        issued : moment(req.forecast.json.dateIssued).format('ddd, DD MMM YYYY HH:mm'),
-        until  : moment(req.forecast.json.validUntil).format('ddd, DD MMM YYYY HH:mm'),
-        day0   : moment.utc(req.forecast.json.dangerRatings[0].date ).format('ddd, DD MMM'),
-        day1   : moment.utc(req.forecast.json.dangerRatings[1].date ).format('ddd, DD MMM'),
-        day2   : moment.utc(req.forecast.json.dangerRatings[2].date ).format('ddd, DD MMM')
+        issued : moment(forecast.dateIssued).format('ddd, DD MMM YYYY HH:mm'),
+        until : moment(forecast.validUntil).format('ddd, DD MMM YYYY HH:mm'),
+        day0 : moment.utc(forecast.dangerRatings[0].date ).format('ddd, DD MMM'),
+        day1 : moment.utc(forecast.dangerRatings[1].date ).format('ddd, DD MMM'),
+        day2 : moment.utc(forecast.dangerRatings[2].date ).format('ddd, DD MMM')
     };
 
     return {
         dates: dates,
         ratingColors: ratingColors, 
-        forecast: req.forecast.json
+        forecast: forecast
     }
 }
 
