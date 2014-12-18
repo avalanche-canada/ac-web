@@ -11,7 +11,7 @@ angular.module('avalancheCanadaApp')
                 enabled: true
             },
             filters: {
-                obsPeriod: '48-hours'
+                obsPeriod: '7-days'
             },
             regionsVisible: true
         });
@@ -58,22 +58,35 @@ angular.module('avalancheCanadaApp')
             }
         });
 
+        $scope.dateFilters = ['7-days', '14-days', '30-days'];
         $scope.toggleFilter = function (filter) {
-            if(filter || !$scope.filters.obsPeriod){
-                filter = filter || 'obsPeriod:7-days';
+            if(filter){
                 var filterType = filter.split(':')[0];
                 var filterValue = filter.split(':')[1];
 
-                if(filterType === 'obsPeriod') {
+                if(filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
                     $scope.filters[filterType] = filterValue;
                     var period = filterValue.replace('-', ':');
+
                     acObservation.byPeriod(period).then(function (obs) {
                         $scope.obs = obs;
                     });
+
+                    $timeout(function () {
+                        var i = $scope.dateFilters.indexOf(filterValue);
+                        $scope.dateFilters.splice(i, 1);
+                        $scope.dateFilters.unshift(filterValue);
+                        $scope.expanded = false;
+                    }, 0);
                 }
+
             } else {
-                $scope.obs = [];
-                $scope.filters.obsPeriod = '';
+                if($scope.filters.obsPeriod === '') {
+                    $scope.toggleFilter('obsPeriod:' + $scope.dateFilters[0]);
+                } else {
+                    $scope.obs = [];
+                    $scope.filters.obsPeriod = '';
+                }
             }
         };
 
