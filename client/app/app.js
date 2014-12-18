@@ -31,12 +31,16 @@ angular.module('avalancheCanadaApp', [
 
         $urlRouterProvider.otherwise('/');
 
-        //! define abstract ac state
         $stateProvider
+            //! define abstract ac state
             .state('ac', {
                 abstract: true,
                 url: '/',
                 templateUrl: 'app/template.html'
+            })
+            .state('mobileSplash', {
+                url: '/mobileSplash',
+                templateUrl: 'app/mobileSplash.html'
             });
     })
 
@@ -145,9 +149,16 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, navigator) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
+
+        var android = navigator.userAgent.match(/Android/i);
+        var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+
+        if (android || ios){
+            $state.go('mobileSplash');
+        }
 
         $rootScope.$on('$locationChangeStart', function() {
             var secureUrls = ['/submit'];
