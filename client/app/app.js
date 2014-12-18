@@ -93,37 +93,37 @@ angular.module('avalancheCanadaApp', [
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
+            callbackUrl: location.href,
+            loginState: 'ac.login'
         });
 
         function onLoginSucccess($location, profilePromise, idToken, store) {
-            console.log('Login Success');
             profilePromise.then(function(profile) {
               store.set('profile', profile);
               store.set('token', idToken);
             });
 
-            var redirectUrl = store.get('loginredirecturl');
-            if(redirectUrl) {
-                $location.url(redirectUrl);
-                store.remove('loginredirecturl');
+            // if we use the state service to go to the ac.submit state
+            // it doesn't remove the #access_token=... part of the url that comes back from auth0
+            var loginRedirectUrl = store.get('loginRedirectUrl');
+            if(loginRedirectUrl) {
+                $location.url(loginRedirectUrl);
+                store.remove('loginredirectstate');
             } else {
                 $location.url('/');
             }
         }
 
-        onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store'];
+        onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store', '$state', '$urlRouter'];
 
         authProvider.on('loginSuccess', onLoginSucccess);
 
-        function onLogout(store){
+        authProvider.on('logout', ['store', '$state', function onLogout(store, $state){
             store.remove('profile');
             store.remove('token');
-        }
-
-        onLogout.$inject = ['store'];
-
-        authProvider.on('logout', onLogout);
+            $state.go('ac.map');
+        }]);
 
         $httpProvider.interceptors.push(function() {
             return {
@@ -149,27 +149,18 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, navigator) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
+        //! if on mobile redirect to splash page on load
         var android = navigator.userAgent.match(/Android/i);
         var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-
         if (android || ios){
             $state.go('mobileSplash');
         }
 
-        $rootScope.$on('$locationChangeStart', function() {
-            var secureUrls = ['/submit'];
-            var requestedUrl = $location.url();
-
-            if(secureUrls.indexOf(requestedUrl) !== -1 && !auth.isAuthenticated) {
-                event.preventDefault();
-                store.set('loginredirecturl', requestedUrl);
-                $location.url('/login');
-            }
-
+        $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
             if (!auth.isAuthenticated) {
                 var token = store.get('token');
@@ -178,6 +169,14 @@ angular.module('avalancheCanadaApp', [
                         auth.authenticate(store.get('profile'), token);
                     }
                 }
+            }
+
+            // using the native auth0 auth.hookEvents() does not work with the hack in
+            // the login success handler. Keeps cycling thought the root abstract state.
+            if(toState.data && toState.data.requiresLogin && !auth.isAuthenticated) {
+                event.preventDefault();
+                $state.go('ac.login');
+                store.set('loginRedirectUrl', toState.url);
             }
         });
     })
