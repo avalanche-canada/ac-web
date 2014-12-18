@@ -5,7 +5,7 @@
                 header.col-xs-12
                     #header-inner
                         h1 #{forecast.bulletinTitle}
-                        | Date Issued: #{ forecast.dateIssued } Valid Until: #{ forecast.validUntil }
+                        | Date Issued: #{ dates.issued } Valid Until: #{ dates.until }
 
                 section#forecast-body.col-xs-12.col-md-9
                     #highlights !{forecast.highlights}
@@ -14,9 +14,9 @@
                                 thead.ac-thead-dark
                                     tr
                                         th
-                                        th #{ forecast.dangerRatings[0].date }
-                                        th #{ forecast.dangerRatings[1].date }
-                                        th #{ forecast.dangerRatings[2].date }
+                                        th #{ dates.day0 }
+                                        th #{ dates.day1 }
+                                        th #{ dates.day2 }
                                 tbody
                                     tr
                                         td.ac-veg-zone--alp(style='background-color:#ddeefa;  border: 1px solid black; padding:2px;')

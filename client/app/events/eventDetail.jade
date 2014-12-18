@@ -9,28 +9,12 @@
                 h1
                     {{event.getText('event.title')}}
                     br.visible-xs-block
-                #sponsor-desktop.hidden-xs
-                    p Brought to you by
-                    a(target='_blank', href='http://www.outdoorresearch.ca/')
-                        img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955436/logos/Logos%20png/or.png')
                 .blue-border
-        #sponsor-mobile.col-xs-12.visible-xs-block
-            #sponsor-mobile-inner
-                p.pull-left
-                    | Brought
-                    br
-                    | to you by
-                a.pull-right(target='_blank', href='http://www.outdoorresearch.ca/')
-                    img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955436/logos/Logos%20png/or.png')
-        // /#sponsor-mobile
-        .col-xs-12
-            #sponsor-ad-container(ng-hide='true')
-                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
-                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-                    img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         article#news-blog-event-landing-content.col-xs-12.col-md-9
             section#post-date {{event.getDate('event.start_date') | dateUtc:"dddd MMMM Do" }}
             section#post-location {{event.getText('event.location')}}
+            section#post-date {{event.getText('event.hour_beginning')}}:{{event.getText('event.minutes_beginning') || '00'}} {{event.getText('event.am_pm_beginning')}} {{event.getText('event.length')}}
+            section#post-location  {{event.getText('event.type')}} Event
             section#blog-tags
             ///    a(href='#') Tag One
             ///    a(href='#') Tag Two
@@ -39,34 +23,9 @@
             ///    h1 {{header}}
             section#news-blog-event-landing-body
                 #description(ng-bind-html='event.getStructuredText("event.description").asHtml(ctx);')
+                img.img(alt='', src=" {{ event.getImageView('event.featured_image', 'main').url }} ")
 
-            footer
-                ///section#blog-author
-                ///    a#poster-image(href='#')
-                ///        img(width='57', height='54', src='assets/imag/posted-by.jpg')
-                ///    p
-                ///        a(href='#')
-                ///            | James Foyer
-                ///            span Senior Avalanche Forecaster
-                ///    p
-                ///        | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
-                ///section#news-blog-pager
-                ///    #news-blog-pager-left.pull-left.news-blog-pager-box
-                ///        a.pager-arrows(href='#')
-                ///            i.fa.fa-chevron-left
-                ///        #news-blog-pager-older.news-blog-pager-text.hidden-xs
-                ///            a(href='#')
-                ///                span Older
-                ///                br
-                ///                | Share Your Knowledge
-                ///    #news-blog-pager-right.pull-right.news-blog-pager-box
-                ///        a.pager-arrows(href='#')
-                ///            i.fa.fa-chevron-right
-                ///        #news-blog-pager-newer.news-blog-pager-text.hidden-xs
-                ///            a(href='#')
-                ///                span Newer
-                ///                br
-                ///                | New Fundraiser for Avalanche Canada
+
         // /#news-blog-event-content
         #mobile-sidebar-container.col-xs-12.col-md-3
             aside

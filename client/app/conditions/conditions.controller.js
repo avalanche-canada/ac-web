@@ -18,15 +18,6 @@ angular.module('avalancheCanadaApp')
             return str;
         };*/
 
-        var display = {
-            'conditions-summary' : 'Conditions Summary',
-             'weather-outlook' : 'Weather Outlook',
-             'conditions-outlook' : 'Conditions Outlook'};
-
-        $scope.displayType = function(input){
-            return display[input];
-        };
-
         var query = '[[:d = at(document.type, "conditions-summary")]]';
         ctx.api.form('everything').query(query)
             .orderings('[my.conditions-summary.date desc]')

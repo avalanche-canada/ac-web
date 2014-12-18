@@ -7,7 +7,7 @@
         header.col-xs-12
             #header-inner
                 h1
-                    {{category}} - {{date}}
+                    {{category | uppercase}}
                     br.visible-xs-block
                 #sponsor-desktop.hidden-xs
                     p Brought to you by
@@ -30,7 +30,7 @@
                     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         article#news-blog-event-landing-content.col-xs-12.col-md-9
             section#post-date {{date | date:'EEEE MMMM d' }}
-            section#post-location {{category}}
+            section#post-location &nbsp;
             section#blog-tags
             ///    a(href='#') Tag One
             ///    a(href='#') Tag Two
