@@ -94,7 +94,7 @@ angular.module('avalancheCanadaApp', [
             loginState: 'ac.login'
         });
 
-        function onLoginSucccess($location, profilePromise, idToken, store, $state, $urlRouter) {
+        function onLoginSucccess($location, profilePromise, idToken, store) {
             profilePromise.then(function(profile) {
               store.set('profile', profile);
               store.set('token', idToken);
@@ -149,7 +149,7 @@ angular.module('avalancheCanadaApp', [
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
             if (!auth.isAuthenticated) {
                 var token = store.get('token');
