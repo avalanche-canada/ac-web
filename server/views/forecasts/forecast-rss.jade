@@ -5,7 +5,7 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
     description Public Avalanche Forecast
     link <a href="http://avalanche.ca" rel="nofollow">http://avalanche.ca</a>
     atom:link(href='<a href="http://avalanche.ca/api/forecast/#{forecast.region}.rss" rel="nofollow">http://avalanche.ca/api/forecast/#{forecast.region}.rss</a>', rel='self', type='application/rss+xml')
-    pubDate #{dates.issued}
+    pubDate #{dates.issued}:00 -0800
 
     category Canadian Public Avalanche Forecast
     item
