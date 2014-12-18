@@ -16,6 +16,10 @@ $dangerRatingNoRating: white;
     @extend .ac-forecast-base;
 }
 
+.ac-forecast-mini .panel .panel-body {
+    min-height: 500px;
+}
+
 .ac-veg-zone--alp {
     background-color: $vegZoneAlp;
 }
