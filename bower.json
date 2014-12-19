@@ -21,7 +21,7 @@
     "mapbox.js": "~2.1.0",
     "leaflet-pip": "~0.1.0",
     "Leaflet.label": "~0.2.1",
-    "ac-components": "avalanche-canada/ac-components#0.0.6",
+    "ac-components": "avalanche-canada/ac-components#master",
     "prismic.io": "~1.0.22",
     "angular-prismicio": "awulder/angular-prismicio#master",
     "a0-angular-storage": "~0.0.9",
