@@ -89,9 +89,7 @@ angular.module('avalancheCanadaApp', [
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
-            callbackUrl: location.href,
-            loginState: 'ac.login'
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
 
         function onLoginSucccess($location, profilePromise, idToken, store) {
@@ -105,7 +103,7 @@ angular.module('avalancheCanadaApp', [
             var loginRedirectUrl = store.get('loginRedirectUrl');
             if(loginRedirectUrl) {
                 $location.url(loginRedirectUrl);
-                store.remove('loginredirectstate');
+                store.remove('loginRedirectUrl');
             } else {
                 $location.url('/');
             }
