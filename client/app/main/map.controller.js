@@ -25,7 +25,9 @@ angular.module('avalancheCanadaApp')
                         $state.go('ac.map');
                     }
                 });
-            } else $state.go('ac.map');
+            } else {
+                $state.go('ac.map');
+            }
         }
 
         if($state.current.data && $state.current.data.isShare) {
