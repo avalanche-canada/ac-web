@@ -17,13 +17,17 @@ angular.module('avalancheCanadaApp')
         });
 
         if($state.current.data && $state.current.data.isLogin) {
-            auth.signin({authParams: {scope: 'openid profile'}});
+            if(!auth.isAuthenticated) {
+                auth.signin({authParams: {scope: 'openid profile'}});
 
-            auth.config.auth0lib.on('hidden', function () {
-                if(!auth.isAuthenticated) {
-                    $location.url('/');
-                }
-            });
+                auth.config.auth0lib.on('hidden', function () {
+                    if(!auth.isAuthenticated) {
+                        $state.go('ac.map');
+                    }
+                });
+            } else {
+                $state.go('ac.map');
+            }
         }
 
         if($state.current.data && $state.current.data.isShare) {
