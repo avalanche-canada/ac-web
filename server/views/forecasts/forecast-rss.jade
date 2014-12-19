@@ -3,15 +3,15 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
   channel
     title Avalanche Canada
     description Public Avalanche Forecast
-    link <a href="http://avalanche.ca" rel="nofollow">http://avalanche.ca</a>
-    atom:link(href='<a href="http://avalanche.ca/api/forecast/#{forecast.region}.rss" rel="nofollow">http://avalanche.ca/api/forecast/#{forecast.region}.rss</a>', rel='self', type='application/rss+xml')
+    link http://avalanche.ca
+    atom:link(href='http://avalanche.ca/api/forecast/#{forecast.region}.rss', rel='self', type='application/rss+xml')
     pubDate #{dates.issued}:00 -0800
 
     category Canadian Public Avalanche Forecast
     item
         title #{forecast.bulletinTitle}
-        link <a href="avalanche.ca/forecasts/#{forecast.region}"> avalanche.ca/forecasts/#{forecast.region} </a>
+        link http://avalanche.ca/forecasts/#{forecast.region}
         description <![CDATA[
             include forecast.jade
             | ]]>
-        guid(isPermaLink='false') <a href="http://avalanche.ca/api/forecast/#{forecast.region}.rss" rel="nofollow">http://avalanche.ca/api/forecast/#{forecast.region}.rss</a>
+        guid(isPermaLink='false') http://avalanche.ca/api/forecast/#{forecast.region}.rss

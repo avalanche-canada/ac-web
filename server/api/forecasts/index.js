@@ -157,7 +157,7 @@ router.get('/:region.:format', function(req, res) {
                     console.log('error parsing json forecast');
                     res.send(500);
                 }
-                
+
                 res.json(forecast);
             } else {
                 req.webcache(req.forecast.json);
@@ -175,6 +175,7 @@ router.get('/:region.:format', function(req, res) {
                         res.send(500);
                     } else {
                         req.webcache(xml);
+                        res.header('Content-Type', 'application/rss+xml');
                         res.send(xml)
                     }
                 });
