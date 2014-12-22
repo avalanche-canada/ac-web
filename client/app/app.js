@@ -31,12 +31,16 @@ angular.module('avalancheCanadaApp', [
 
         $urlRouterProvider.otherwise('/');
 
-        //! define abstract ac state
         $stateProvider
+            //! define abstract ac state
             .state('ac', {
                 abstract: true,
                 url: '/',
                 templateUrl: 'app/template.html'
+            })
+            .state('mobileSplash', {
+                url: '/mobileSplash',
+                templateUrl: 'app/mobileSplash.html'
             });
     })
 
@@ -98,7 +102,7 @@ angular.module('avalancheCanadaApp', [
               store.set('token', idToken);
             });
 
-            // if we use the state service to go to the ac.submit state 
+            // if we use the state service to go to the ac.submit state
             // it doesn't remove the #access_token=... part of the url that comes back from auth0
             var loginRedirectUrl = store.get('loginRedirectUrl');
             if(loginRedirectUrl) {
@@ -143,9 +147,16 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
+
+        //! if on mobile redirect to splash page on load
+        var android = navigator.userAgent.match(/Android/i);
+        var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        if (android || ios){
+            $state.go('mobileSplash');
+        }
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
@@ -158,7 +169,7 @@ angular.module('avalancheCanadaApp', [
                 }
             }
 
-            // using the native auth0 auth.hookEvents() does not work with the hack in 
+            // using the native auth0 auth.hookEvents() does not work with the hack in
             // the login success handler. Keeps cycling thought the root abstract state.
             if(toState.data && toState.data.requiresLogin && !auth.isAuthenticated) {
                 event.preventDefault();

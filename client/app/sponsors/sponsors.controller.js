@@ -20,7 +20,7 @@ angular.module('avalancheCanadaApp')
                         case 'partner':
                             $scope.partner = documents.results;
                             break;
-                        case 'founding sponsor':
+                        case 'Founding Sponsor':
                             $scope.founding = documents.results;
                             break;
                         case 'supplier':
@@ -38,7 +38,7 @@ angular.module('avalancheCanadaApp')
         };
 
         getSponsor('partner');
-        getSponsor('founding sponsor');
+        getSponsor('Founding Sponsor');
         getSponsor('supplier');
         getSponsor('associate');
     });

@@ -3,25 +3,24 @@
         .container
             .page-inner
                 #partner
-                    h1 Partners
-                    ul
-                        li(ng-repeat='sponsor in partner')
-                            {{sponsor.getText('sponsor.name')}}
+                    h1 Founding Partners
+                    a(ng-repeat='sponsor in partner' href="{{sponsor.getText('sponsor.url')}}")
+                        img.img( src="{{sponsor.getText('sponsor.image')}}")
+
                 #founding
                     h1 Founding Sponsors
-                    ul
-                        li(ng-repeat='sponsor in founding')
-                            {{sponsor.getText('sponsor.name')}}
+                    a(ng-repeat='sponsor in founding' href="{{sponsor.getText('sponsor.url')}}")
+                        img.img( src="{{sponsor.getText('sponsor.image')}}")
+
                 #supplier
-                    h1 Suppliers
-                    ul
-                        li(ng-repeat='sponsor in supplier')
-                            {{sponsor.getText('sponsor.name')}}
+                    h1 Founding Suppliers
+                    a(ng-repeat='sponsor in supplier' href="{{sponsor.getText('sponsor.url')}}")
+                        img.img( src="{{sponsor.getText('sponsor.image')}}")
+
                 #associate
-                    h1 Associate
-                    ul
-                        li(ng-repeat='sponsor in associate')
-                            {{sponsor.getText('sponsor.name')}}
+                    h1 Founding Associates
+                    a(ng-repeat='sponsor in associate' href="{{sponsor.getText('sponsor.url')}}")
+                        img.img( src="{{sponsor.getText('sponsor.image')}}")
         .push
     div.footer(ng-include='"components/footer/footer.html"')
 
