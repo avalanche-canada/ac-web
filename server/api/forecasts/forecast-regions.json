@@ -2208,7 +2208,7 @@
         "id": "jasper",
         "properties": {
             "name": "Jasper National Park",
-            "type": "link",
+            "type": "parks",
             "centroid": [-117.61837126412318, 52.44555760194238],
             "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=2",
             "forecastUrl": "/api/forecasts/jasper.json",
@@ -2308,7 +2308,7 @@
         "id": "banff-yoho-kootenay",
         "properties": {
             "name": "Banff Yoho & Kootenay National Park",
-            "type": "link",
+            "type": "parks",
             "centroid": [-116.20262661353584, 51.3972247624282],
             "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
             "forecastUrl": "/api/forecasts/banff-yoho-kootenay.json",
@@ -2421,7 +2421,7 @@
         "id": "waterton",
         "properties": {
             "name": "Waterton National Park",
-            "type": "link",
+            "type": "parks",
             "centroid": [-113.97633774226135, 49.08133839179962],
             "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4",
             "forecastUrl": "/api/forecasts/waterton.json",
@@ -2492,7 +2492,7 @@
         "id": "glacier",
         "properties": {
             "name": "Glacier National Park",
-            "type": "link",
+            "type": "parks",
             "centroid": [-117.52623359552985, 51.26915594273202],
             "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY",
             "forecastUrl": "/api/forecasts/glacier.json",
