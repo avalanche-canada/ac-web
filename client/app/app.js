@@ -154,8 +154,11 @@ angular.module('avalancheCanadaApp', [
         //! if on mobile redirect to splash page on load
         var android = navigator.userAgent.match(/Android/i);
         var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        if (android || ios){
-            $state.go('mobileSplash');
+        if (!store.get('mobileSplash')){
+            if (android || ios){
+                store.set('mobileSplash', true);
+                $state.go('mobileSplash');
+            }
         }
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
