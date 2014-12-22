@@ -151,15 +151,18 @@ angular.module('avalancheCanadaApp', [
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
-        //! if on mobile redirect to splash page on load
+        //! if on mobile redirect to splash if they have not been there before page on load
+        //! user should only be taken to this mobile splash page the first time they visit the site
+        //! save this redirect to user storage
         var android = navigator.userAgent.match(/Android/i);
         var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
         if (!store.get('mobileSplash')){
             if (android || ios){
-                store.set('mobileSplash', true);
                 $state.go('mobileSplash');
             }
+            store.set('mobileSplash', true);
         }
+
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
