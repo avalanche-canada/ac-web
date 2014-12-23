@@ -93,9 +93,7 @@ angular.module('avalancheCanadaApp', [
 
         authProvider.init({
             domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC',
-            callbackUrl: location.href,
-            loginState: 'ac.login'
+            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
         });
 
         function onLoginSucccess($location, profilePromise, idToken, store) {
@@ -109,7 +107,7 @@ angular.module('avalancheCanadaApp', [
             var loginRedirectUrl = store.get('loginRedirectUrl');
             if(loginRedirectUrl) {
                 $location.url(loginRedirectUrl);
-                store.remove('loginredirectstate');
+                store.remove('loginRedirectUrl');
             } else {
                 $location.url('/');
             }
@@ -149,16 +147,22 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
-        //! if on mobile redirect to splash page on load
+        //! if on mobile redirect to splash if they have not been there before page on load
+        //! user should only be taken to this mobile splash page the first time they visit the site
+        //! save this redirect to user storage
         var android = navigator.userAgent.match(/Android/i);
         var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        if (android || ios){
-            $state.go('mobileSplash');
+        if (!store.get('mobileSplash')){
+            if (android || ios){
+                $state.go('mobileSplash');
+            }
+            store.set('mobileSplash', true);
         }
+
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
