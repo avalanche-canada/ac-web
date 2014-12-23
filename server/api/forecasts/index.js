@@ -3,13 +3,14 @@ var Q = require('q');
 var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
-var regions = require('./forecast-regions');
+var webRegions = require('./forecast-regions-web');
+var mobileRegions = require('./forecast-regions-mobile');
 var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 
-var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
+var acAvalxUrls = _.chain(mobileRegions.features).filter(function (feature) {
     return feature.properties.type === 'avalx';
 }).map(function (feature) {
     return feature.properties.url;
@@ -125,9 +126,17 @@ router.param('region', function (req, res, next) {
     }
 });
 
-
+//! remove this route once we have updated the mobile app
 router.get('/', function(req, res) {
-    res.json(regions);
+    res.json(mobileRegions);
+});
+
+router.get('/region/mobile', function(req, res) {
+    res.json(mobileRegions);
+});
+
+router.get('/region/web', function(req, res) {
+    res.json(webRegions);
 });
 
 router.get('/areas', function(req, res) {
