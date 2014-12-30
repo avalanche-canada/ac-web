@@ -99,7 +99,7 @@ router.param('region', function (req, res, next) {
                                 deferred.resolve({
                                     region: req.region.id,
                                     caaml: caaml,
-                                    externalUrl: req.region.properties.url,
+                                    externalUrl: req.region.properties.externalUrl,
                                     json: json});
                             }
 
@@ -269,7 +269,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     res.header('Content-Type', 'image/svg+xml');
 
     if(!req.webcached) {
-        if(req.region.properties.type === 'avalx') {
+        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
             ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
         }
 

@@ -2210,7 +2210,8 @@
             "name": "Jasper National Park",
             "type": "parks",
             "centroid": [-117.61837126412318, 52.44555760194238],
-            "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=2",
+            "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=2",
+            "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=2",
             "forecastUrl": "/api/forecasts/jasper.json",
             "dangerIconUrl": "/api/forecasts/jasper/danger-rating-icon.svg",
             "owner": "parks-canada"
@@ -2310,7 +2311,8 @@
             "name": "Banff Yoho & Kootenay National Park",
             "type": "parks",
             "centroid": [-116.20262661353584, 51.3972247624282],
-            "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
+            "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
+            "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=1",
             "forecastUrl": "/api/forecasts/banff-yoho-kootenay.json",
             "dangerIconUrl": "/api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg",
             "owner": "parks-canada"
@@ -2423,7 +2425,8 @@
             "name": "Waterton National Park",
             "type": "parks",
             "centroid": [-113.97633774226135, 49.08133839179962],
-            "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4",
+            "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4",
+            "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?d=TODAY&r=4",
             "forecastUrl": "/api/forecasts/waterton.json",
             "dangerIconUrl": "/api/forecasts/waterton/danger-rating-icon.svg",
             "owner": "parks-canada"
@@ -2494,7 +2497,8 @@
             "name": "Glacier National Park",
             "type": "parks",
             "centroid": [-117.52623359552985, 51.26915594273202],
-            "url": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY",
+            "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY",
+            "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=3",
             "forecastUrl": "/api/forecasts/glacier.json",
             "dangerIconUrl": "/api/forecasts/glacier/danger-rating-icon.svg",
             "owner": "parks-canada"
