@@ -3,14 +3,13 @@ var Q = require('q');
 var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
-var webRegions = require('./forecast-regions-web');
-var mobileRegions = require('./forecast-regions-mobile');
+var regions = require('./forecast-regions');
 var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 
-var acAvalxUrls = _.chain(mobileRegions.features).filter(function (feature) {
+var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.type === 'avalx';
 }).map(function (feature) {
     return feature.properties.url;
@@ -64,7 +63,7 @@ router.param('region', function (req, res, next) {
     if(req.region && req.webcached) {
         next();
     } else if (req.region) {
-        if(req.region.properties.type === 'avalx') {
+        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
             avalxWebcache.get(req.region.properties.url).then(function (caaml) {
                 var deferred = Q.defer();
 
@@ -91,11 +90,19 @@ router.param('region', function (req, res, next) {
                         if(err || !json) {
                             deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
                         } else {
-                            deferred.resolve({
-                                region: req.region.id,
-                                caaml: caaml,
-                                json: json
-                            });
+                            if (req.region.properties.type === 'avalx'){
+                                deferred.resolve({
+                                    region: req.region.id,
+                                    caaml: caaml,
+                                    json: json});
+                            }else if (req.region.properties.type === 'parks'){
+                                deferred.resolve({
+                                    region: req.region.id,
+                                    caaml: caaml,
+                                    externalUrl: req.region.properties.url,
+                                    json: json});
+                            }
+
                         }
                     });
                 } else {
@@ -110,7 +117,7 @@ router.param('region', function (req, res, next) {
                 console.log(e);
                 res.send(500);
             }).done();
-        } else if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
+        } else if(req.region.properties.type === 'link') {
             req.forecast = {
                 json: {
                     id: req.region.id,
@@ -131,15 +138,7 @@ router.param('region', function (req, res, next) {
 
 //! remove this route once we have updated the mobile app
 router.get('/', function(req, res) {
-    res.json(mobileRegions);
-});
-
-router.get('/region/mobile', function(req, res) {
-    res.json(mobileRegions);
-});
-
-router.get('/region/web', function(req, res) {
-    res.json(webRegions);
+    res.json(regions);
 });
 
 router.get('/areas', function(req, res) {
