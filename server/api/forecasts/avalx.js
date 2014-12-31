@@ -361,7 +361,7 @@ function fetchCaamlForecast(region, callback) {
                 callback("empty response from avalx server");
             }
         });
-    } else { 
+    } else {
         callback("invalid avalx region");
     }
 }
@@ -514,12 +514,13 @@ function getTableLocals(forecast){
         until : moment(forecast.validUntil).format('ddd, DD MMM YYYY HH:mm'),
         day0 : moment.utc(forecast.dangerRatings[0].date ).format('ddd, DD MMM'),
         day1 : moment.utc(forecast.dangerRatings[1].date ).format('ddd, DD MMM'),
-        day2 : moment.utc(forecast.dangerRatings[2].date ).format('ddd, DD MMM')
+        day2 : moment.utc(forecast.dangerRatings[2].date ).format('ddd, DD MMM'),
     };
 
     return {
+        guid: moment(forecast.dateIssued).unix(),
         dates: dates,
-        ratingColors: ratingColors, 
+        ratingColors: ratingColors,
         forecast: forecast
     }
 }

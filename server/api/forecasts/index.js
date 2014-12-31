@@ -63,7 +63,7 @@ router.param('region', function (req, res, next) {
     if(req.region && req.webcached) {
         next();
     } else if (req.region) {
-        if(req.region.properties.type === 'avalx') {
+        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
             avalxWebcache.get(req.region.properties.url).then(function (caaml) {
                 var deferred = Q.defer();
 
@@ -90,11 +90,21 @@ router.param('region', function (req, res, next) {
                         if(err || !json) {
                             deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
                         } else {
-                            deferred.resolve({
-                                region: req.region.id,
-                                caaml: caaml,
-                                json: json
-                            });
+                            if (req.region.properties.type === 'avalx'){
+                                //json.bulletinTitle = req.region.properties.name;
+                                deferred.resolve({
+                                    region: req.region.id,
+                                    caaml: caaml,
+                                    json: json});
+                            }else if (req.region.properties.type === 'parks'){
+                                json.parksUrl = req.region.properties.externalUrl;
+                                json.name        = req.region.properties.name;
+                                deferred.resolve({
+                                    region: req.region.id,
+                                    caaml: caaml,
+                                    json: json});
+                            }
+
                         }
                     });
                 } else {
@@ -109,7 +119,7 @@ router.param('region', function (req, res, next) {
                 console.log(e);
                 res.send(500);
             }).done();
-        } else {
+        } else if(req.region.properties.type === 'link') {
             req.forecast = {
                 json: {
                     id: req.region.id,
@@ -118,14 +128,17 @@ router.param('region', function (req, res, next) {
                 }
             };
             next();
+        } else {
+            console.log('unknown/undefined type');
         }
+
     } else {
         console.log('forecast region not found');
         res.send(404);
     }
 });
 
-
+//! remove this route once we have updated the mobile app
 router.get('/', function(req, res) {
     res.json(regions);
 });
@@ -210,37 +223,41 @@ router.get('/:region/nowcast.:format', function(req, res) {
     res.header('Cache-Control', 'no-cache');
     res.header('Content-Type', mimeType);
 
-    if(!req.webcached && req.region.properties.type === 'avalx') {
-        styles = avalx.getNowcastStyles(req.forecast.json);
+    if (req.region.properties.type === 'parks' || req.region.properties.type === 'avalx')
+    {
+        if(!req.webcached) {
+            styles = avalx.getNowcastStyles(req.forecast.json);
 
-        res.render('forecasts/nowcast', styles, function (err, svg) {
-            if(err) {
-                res.send(500);
-            } else {
-                switch(req.params.format) {
-                    case 'svg':
-                        req.webcache(svg);
-                        res.send(svg);
-                        break;
-                    // case 'png':
-                    //     var buf = new Buffer(svg);
-                    //     gm(buf, 'nowcast.svg')
-                    //         .options({imageMagick: true})
-                    //         .resize(450, 150)
-                    //         .stream('png')
-                    //         .pipe(res);
-                    //     break;
-                    default:
-                        res.send(404);
-                        break;
+            res.render('forecasts/nowcast', styles, function (err, svg) {
+                if(err) {
+                    res.send(500);
+                } else {
+                    switch(req.params.format) {
+                        case 'svg':
+                            req.webcache(svg);
+                            res.send(svg);
+                            break;
+                        // case 'png':
+                        //     var buf = new Buffer(svg);
+                        //     gm(buf, 'nowcast.svg')
+                        //         .options({imageMagick: true})
+                        //         .resize(450, 150)
+                        //         .stream('png')
+                        //         .pipe(res);
+                        //     break;
+                        default:
+                            res.send(404);
+                            break;
+                    }
                 }
-            }
-        });
-    } else if (req.region.properties.type === 'avalx'){
-        res.send(req.webcached);
-    } else {
+            });
+        } else {
+            res.send(req.webcached);
+        }
+    }else{
         res.send(404);
     }
+
 });
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
@@ -254,7 +271,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     res.header('Content-Type', 'image/svg+xml');
 
     if(!req.webcached) {
-        if(req.region.properties.type === 'avalx') {
+        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
             ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
         }
 
