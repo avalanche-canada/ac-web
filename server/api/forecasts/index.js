@@ -97,7 +97,7 @@ router.param('region', function (req, res, next) {
                                     caaml: caaml,
                                     json: json});
                             }else if (req.region.properties.type === 'parks'){
-                                json.externalUrl = req.region.properties.externalUrl;
+                                json.parksUrl = req.region.properties.externalUrl;
                                 json.name        = req.region.properties.name;
                                 deferred.resolve({
                                     region: req.region.id,
