@@ -2422,7 +2422,7 @@
         "type": "Feature",
         "id": "waterton",
         "properties": {
-            "name": "Waterton National Park",
+            "name": "Waterton Lakes National Park",
             "type": "parks",
             "centroid": [-113.97633774226135, 49.08133839179962],
             "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4",
