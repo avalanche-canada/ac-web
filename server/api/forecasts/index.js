@@ -10,7 +10,7 @@ var gm = require('gm');
 var moment = require('moment');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
-    return feature.properties.type === 'avalx';
+    return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
 }).map(function (feature) {
     return feature.properties.url;
 }).value();
