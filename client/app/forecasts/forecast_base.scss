@@ -2,6 +2,11 @@
 
 }
 
+.problem{
+    padding-left:10px;
+    padding-right:10px;
+}
+
 .forecast-nowcast{
     padding:0px;
 }
@@ -127,6 +132,7 @@
         }
     }
     .panel {
+        min-height:115px;
         margin-bottom: 0;
         .panel-body {
             position: relative;
