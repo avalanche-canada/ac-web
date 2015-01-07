@@ -9,9 +9,6 @@ angular.module('avalancheCanadaApp')
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
 
-                $scope.getDate = function(item){
-                    return moment.utc(item.getDate('weather-forecast.date')).format('dddd MMMM Do');
-                };
                 //! \todo decrement index to show previous forecasts
                 $scope.index = 0;
 
