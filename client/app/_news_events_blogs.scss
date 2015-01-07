@@ -958,8 +958,8 @@ aside {
             //typography here
              h1{
                 margin-bottom: 25px;
-                padding:34px 0px 25px;
-                background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
+                //padding:34px 0px 25px;
+                //background:transparent url(#{$assets_path}/ribbon-bg.png) center bottom repeat-x;
                 position:relative;
                 @include font-size(3.6, 3.8);
                 font-family:$font-family-google;
@@ -1012,7 +1012,7 @@ aside {
             #news-blog-event-landing-body {
                     padding-bottom:20px;
                     img {
-                        width:300px;
+                        //width:300px;
                     }
 
                     .body-image-right {
