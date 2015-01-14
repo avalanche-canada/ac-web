@@ -5,9 +5,9 @@
 "features": [
 { "type": "Feature", "properties": { "display": "North Shore" }, "geometry": { "type": "Point", "coordinates": [ -123.06970757379233, 49.381767393632863 ] } },
 { "type": "Feature", "properties": { "display": "Eastern Canada" }, "geometry": { "type": "Point", "coordinates": [ -66.086855782900884, 48.909684297640425 ] } },
-{ "type": "Feature", "properties": { "display": "Interior" }, "geometry": { "type": "Point", "coordinates": [ -117.06711861224099, 49.998837648133069 ] } },
 { "type": "Feature", "properties": { "display": "Northern Interior" }, "geometry": { "type": "Point", "coordinates": [ -120.49780458542037, 53.333801290959826 ] } },
 { "type": "Feature", "properties": { "display": "South Coast" }, "geometry": { "type": "Point", "coordinates": [ -123.21168926869539, 50.160127424271508 ] } },
-{ "type": "Feature", "properties": { "display": "North Coast" }, "geometry": { "type": "Point", "coordinates": [ -129.23274274931626, 56.034525591404886 ] } }
+{ "type": "Feature", "properties": { "display": "North Coast" }, "geometry": { "type": "Point", "coordinates": [ -129.23274274931626, 56.034525591404886 ] } },
+{ "type": "Feature", "properties": { "display": "Interior" }, "geometry": { "type": "Point", "coordinates": [ -117.06544510804352, 50.001723825047364 ] } }
 ]
 }
