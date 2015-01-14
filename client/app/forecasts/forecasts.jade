@@ -73,7 +73,7 @@
                                                 tr
                                                     td.ac-veg-zone--alp
                                                         strong Alpine
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                    td(tooltip-placement="right" tooltip="On the Right!" class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
                                                         strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
                                                     td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
                                                         strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
@@ -178,20 +178,27 @@
 
 
                 footer#forecast-bulletin.col-xs-12
-                    #accordion.panel-group
+                    .panel-group
+
                         .panel.panel-default.first
                             h4.panel-title
                                 a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
                                     | {{disclaimer.getText('generic.title')}}
-                            #collapseOne.panel-collapse.collapse
+                            #collapseOne.collapse
                                 .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
 
+                        .panel.panel-default
+                            h4.panel-title
+                                a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
+                                    | {{dangerRating.getText('generic.title')}}
+                            #collapseTwo.collapse
+                                .panel-body(ng-bind-html="dangerRating.getStructuredText('generic.body').asHtml(ctx)")
 
                         .panel.panel-default.last
                             h4.panel-title
-                                a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
+                                a.collapsed(href='' data-target='#collapseThree', data-parent='#accordion', data-toggle='collapse')
                                     | {{rss.getText('generic.title')}}
-                            #collapseTwo.panel-collapse.collapse
+                            #collapseThree.collapse
                                 .panel-body(ng-bind-html="rss.getStructuredText('generic.body').asHtml(ctx)")
 
 // /#forecast
