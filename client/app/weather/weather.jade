@@ -24,30 +24,37 @@
             header
                 h1 {{forecastContent.getText('weather-forecast.headline')}}
             section#news-blog-event-landing-body
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.structured").asHtml(ctx)')
-                h2 Synopsis
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.synopsis-500mb-image', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis-500mb-text").asHtml(ctx)')
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.synopsis-mslp-image', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis-mslp-text").asHtml(ctx)')
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.synopsis-wildcard1-image', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis-wildcard1-text").asHtml(ctx)')
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.synopsis-wildcard2-image', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis-wildcard2-text").asHtml(ctx)')
+                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis").asHtml(ctx)')
                 h2 {{forecastContent.getDate('weather-forecast.date') | dateUtc:"dddd MMMM Do" }}
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.today-image', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.today-text").asHtml(ctx)')
-                h2 Day 2 //todo display date
+                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.day1-image1', 'main').url }} ")
+                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.day1-text1").asHtml(ctx)')
+
+                h2 {{calculateDay2(forecastContent.getDate('weather-forecast.date')) | dateUtc:"dddd MMMM Do" }}
                 img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.day2-image1', 'main').url }} ")
                 #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.day2-text1").asHtml(ctx)')
                 img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.day2-image2', 'main').url }} ")
                 #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.day2-text2").asHtml(ctx)')
-                h2 Day 3 & 4 //todo display date
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.day3&4-image1', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.day3&4-text1").asHtml(ctx)')
-                img.img-responsive(src=" {{ forecastContent.getImageView('weather-forecast.day3&4-image2', 'main').url }} ")
-                #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.day3&4-text2").asHtml(ctx)')
 
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard1-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard1-image', 'main').url }} ")
+                #structured(ng-show="forecastContent.getStructuredText('weather-forecast.wildcard1-text').asHtml(ctx)" ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard1-text").asHtml(ctx)')
+
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard2-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard2-image', 'main').url }} ")
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.wildcard2-text").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard2-text").asHtml(ctx)')
+
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard3-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard3-image', 'main').url }} ")
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.wildcard3-text").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard3-text").asHtml(ctx)')
+
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard4-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard4-image', 'main').url }} ")
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.wildcard4-text").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard4-text").asHtml(ctx)')
+
+                h2 Outlook
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.outlook").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.outlook").asHtml(ctx)')
+
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard5-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard5-image', 'main').url }} ")
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.wildcard5-text").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard5-text").asHtml(ctx)')
+
+                img.img-responsive(ng-show="forecastContent.getImageView('weather-forecast.wildcard6-image', 'main').url" src=" {{forecastContent.getImageView('weather-forecast.wildcard6-image', 'main').url }} ")
+                #structured(ng-show='forecastContent.getStructuredText("weather-forecast.wildcard6-text").asHtml(ctx)' ng-bind-html='forecastContent.getStructuredText("weather-forecast.wildcard6-text").asHtml(ctx)')
 
 
         #mobile-sidebar-container.col-xs-12.col-md-3

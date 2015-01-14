@@ -14,6 +14,7 @@ angular.module('avalancheCanadaApp')
 
                 Prismic.ctx().then(function(ctx){
 
+                    $scope.calculateDay2 = function (day1) { return moment(day1).add(1,'day');}
                     $scope.ctx = ctx;
                     var query = '[[:d = at(document.type, "weather-forecast")]]';
                     ctx.api.form('everything').query(query)
