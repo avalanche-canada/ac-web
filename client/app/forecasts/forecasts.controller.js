@@ -24,6 +24,10 @@ angular.module('avalancheCanadaApp')
             }
         });
 
+        Prismic.bookmark('forecast-danger-rating').then(function(doc){
+                $scope.dangerRating = doc;
+        });
+
         Prismic.bookmark('forecast-disclaimer').then(function(doc){
                 $scope.disclaimer = doc;
         });

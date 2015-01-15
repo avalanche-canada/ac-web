@@ -91,7 +91,7 @@ router.param('region', function (req, res, next) {
                             deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
                         } else {
                             if (req.region.properties.type === 'avalx'){
-                                //json.bulletinTitle = req.region.properties.name;
+                                json.bulletinTitle = req.region.properties.name;
                                 deferred.resolve({
                                     region: req.region.id,
                                     caaml: caaml,
