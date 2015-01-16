@@ -1,0 +1,237 @@
+[
+  {
+    "name": "Yukon",
+    "type": "link",
+    "url": "http://avalanche.ca/blogs/yukon",
+    "forecastUrl": "/api/forecasts/yukon.json",
+    "dangerIconUrl": "/api/forecasts/yukon/danger-rating-icon.svg",
+    "owner": "yukon-avalanche-centre",
+    "id": "yukon",
+    "extId": "0"
+  },
+  {
+    "name": "Northwest Coastal",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Northwest-Coastal",
+    "forecastUrl": "/api/forecasts/northwest-coastal.json",
+    "dangerIconUrl": "/api/forecasts/northwest-coastal/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "northwest-coastal",
+    "extId": "1"
+  },
+  {
+    "name": "Northwest Inland",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Northwest-Inland",
+    "forecastUrl": "/api/forecasts/northwest-inland.json",
+    "dangerIconUrl": "/api/forecasts/northwest-inland/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "northwest-inland",
+    "extId": "2"
+  },
+  {
+    "name": "Sea To Sky",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Sea-to-Sky",
+    "forecastUrl": "/api/forecasts/sea-to-sky.json",
+    "dangerIconUrl": "/api/forecasts/sea-to-sky/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "sea-to-sky",
+    "extId": "3"
+  },
+  {
+    "name": "South Coast Inland",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Coast",
+    "forecastUrl": "/api/forecasts/south-coast-inland.json",
+    "dangerIconUrl": "/api/forecasts/south-coast-inland/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "south-coast-inland",
+    "extId": "4"
+  },
+  {
+    "name": "North Shore",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/North-Shore",
+    "forecastUrl": "/api/forecasts/north-shore.json",
+    "dangerIconUrl": "/api/forecasts/north-shore/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "north-shore",
+    "extId": "5"
+  },
+  {
+    "name": "North Rockies",
+    "type": "link",
+    "url": "http://avalanche.ca/blogs/north-rockies",
+    "forecastUrl": "/api/forecasts/north-rockies.json",
+    "dangerIconUrl": "/api/forecasts/north-rockies/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "north-rockies",
+    "extId": "6"
+  },
+  {
+    "name": "Cariboos",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Cariboos",
+    "forecastUrl": "/api/forecasts/cariboos.json",
+    "dangerIconUrl": "/api/forecasts/cariboos/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "cariboos",
+    "extId": "7"
+  },
+  {
+    "name": "North Columbia",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Monashees-Selkirks",
+    "forecastUrl": "/api/forecasts/north-columbia.json",
+    "dangerIconUrl": "/api/forecasts/north-columbia/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "north-columbia",
+    "extId": "8"
+  },
+  {
+    "name": "South Columbia",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Columbia",
+    "forecastUrl": "/api/forecasts/south-columbia.json",
+    "dangerIconUrl": "/api/forecasts/south-columbia/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "south-columbia",
+    "extId": "9"
+  },
+  {
+    "name": "Purcells",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Purcells",
+    "forecastUrl": "/api/forecasts/purcells.json",
+    "dangerIconUrl": "/api/forecasts/purcells/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "purcells",
+    "extId": "10"
+  },
+  {
+    "name": "Kootenay Boundary",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Kootenay-Boundary",
+    "forecastUrl": "/api/forecasts/kootenay-boundary.json",
+    "dangerIconUrl": "/api/forecasts/kootenay-boundary/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "kootenay-boundary",
+    "extId": "11"
+  },
+  {
+    "name": "South Rockies",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Rockies",
+    "forecastUrl": "/api/forecasts/south-rockies.json",
+    "dangerIconUrl": "/api/forecasts/south-rockies/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "south-rockies",
+    "extId": "12"
+  },
+  {
+    "name": "Lizard Range and Flathead",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Lizardrange",
+    "forecastUrl": "/api/forecasts/lizard-range.json",
+    "dangerIconUrl": "/api/forecasts/lizard-range/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "lizard-range",
+    "extId": "13"
+  },
+  {
+    "name": "Vancouver Island, VAIC",
+    "type": "link",
+    "url": "http://www.islandavalanchebulletin.com/",
+    "forecastUrl": "/api/forecasts/vancouver-island.json",
+    "dangerIconUrl": "/api/forecasts/vancouver-island/danger-rating-icon.svg",
+    "owner": "vancouver-island",
+    "id": "vancouver-island",
+    "extId": "14"
+  },
+  {
+    "name": "Whistler Blackcomb",
+    "type": "link",
+    "url": "http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx",
+    "forecastUrl": "/api/forecasts/whistler-blackcomb.json",
+    "dangerIconUrl": "/api/forecasts/whistler-blackcomb/danger-rating-icon.svg",
+    "owner": "whistler-blackcomb",
+    "id": "whistler-blackcomb",
+    "extId": "15"
+  },
+  {
+    "name": "Jasper National Park",
+    "type": "parks",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=2",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=2",
+    "forecastUrl": "/api/forecasts/jasper.json",
+    "dangerIconUrl": "/api/forecasts/jasper/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "id": "jasper",
+    "extId": "16"
+  },
+  {
+    "name": "Banff Yoho & Kootenay National Park",
+    "type": "parks",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=1",
+    "forecastUrl": "/api/forecasts/banff-yoho-kootenay.json",
+    "dangerIconUrl": "/api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "id": "banff-yoho-kootenay",
+    "extId": "22"
+  },
+  {
+    "name": "Kananaskis Country, Alberta Parks",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Kananaskis",
+    "forecastUrl": "/api/forecasts/kananaskis.json",
+    "dangerIconUrl": "/api/forecasts/kananaskis/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "id": "kananaskis",
+    "extId": "18"
+  },
+  {
+    "name": "Waterton Lakes National Park",
+    "type": "parks",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?d=TODAY&r=4",
+    "forecastUrl": "/api/forecasts/waterton.json",
+    "dangerIconUrl": "/api/forecasts/waterton/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "id": "waterton",
+    "extId": "19"
+  },
+  {
+    "name": "Chic Chocs, CAHG",
+    "type": "link",
+    "url": "http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-fr",
+    "forecastUrl": "/api/forecasts/chic-chocs.json",
+    "dangerIconUrl": "/api/forecasts/chic-chocs/danger-rating-icon.svg",
+    "owner": "chics-chocs",
+    "id": "chic-chocs",
+    "extId": "20"
+  },
+  {
+    "name": "Glacier National Park",
+    "type": "parks",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=3",
+    "forecastUrl": "/api/forecasts/glacier.json",
+    "dangerIconUrl": "/api/forecasts/glacier/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "id": "glacier",
+    "extId": "21"
+  },
+  {
+    "name": "Little Yoho",
+    "type": "parks",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=5",
+    "forecastUrl": "/api/forecasts/little-yoho.json",
+    "dangerIconUrl": "/api/forecasts/little-yoho/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "id": "little-yoho",
+    "extId": "23"
+  }
+]
