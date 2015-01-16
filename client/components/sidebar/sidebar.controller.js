@@ -47,7 +47,7 @@ angular.module('avalancheCanadaApp')
                 items = items.reverse();
                 items = items.slice(0,5);
                 items.push({
-                                'title': 'Daily Weather Forecast',
+                                'title': 'Daily Mountain Weather Forecast',
                                 'link': '/weather'});
                 $scope.items = items;
 
