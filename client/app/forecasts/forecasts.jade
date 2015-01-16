@@ -182,24 +182,24 @@
 
                         .panel.panel-default.first
                             h4.panel-title
-                                a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
-                                    | {{disclaimer.getText('generic.title')}}
-                            #collapseOne.collapse
-                                .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
-
-                        .panel.panel-default
-                            h4.panel-title
                                 a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
                                     | {{dangerRating.getText('generic.title')}}
                             #collapseTwo.collapse
                                 .panel-body(ng-bind-html="dangerRating.getStructuredText('generic.body').asHtml(ctx)")
 
-                        .panel.panel-default.last
+                        .panel.panel-default
                             h4.panel-title
                                 a.collapsed(href='' data-target='#collapseThree', data-parent='#accordion', data-toggle='collapse')
                                     | {{rss.getText('generic.title')}}
                             #collapseThree.collapse
                                 .panel-body(ng-bind-html="rss.getStructuredText('generic.body').asHtml(ctx)")
+
+                        .panel.panel-default.last
+                            h4.panel-title
+                                a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
+                                    | {{disclaimer.getText('generic.title')}}
+                            #collapseOne.collapse
+                                .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
 
 // /#forecast
 

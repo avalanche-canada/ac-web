@@ -107,7 +107,8 @@ angular.module('avalancheCanadaApp')
     $scope.dataMenu = [
         {'link':'<a href="/blogs" data-toggle="collapse" data-target=".navbar-collapse"><h2>Blogs<i class="fa fa-angle-right"></i></h2></a>'},
         {'link':'<a href="http://old.avalanche.ca/cac/library/incident-report-database/view" data-toggle="collapse" data-target=".navbar-collapse" target="_blank"><h2>Historic Incidents<i class="fa fa-angle-right"></i></h2></a>'},
-        {'link':'<a href="/conditions" data-toggle="collapse" data-target=".navbar-collapse"><h2>Summaries & Outlooks<i class="fa fa-angle-right"></i></h2></a>'}
+        {'link':'<a href="/conditions" data-toggle="collapse" data-target=".navbar-collapse"><h2>Summaries & Outlooks<i class="fa fa-angle-right"></i></h2></a>'},
+        {'link':'<a href="/weather" data-toggle="collapse" data-target=".navbar-collapse"><h2>Mountain Weather Forecast<i class="fa fa-angle-right"></i></h2></a>'}
     ];
 
 
