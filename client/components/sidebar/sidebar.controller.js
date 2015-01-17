@@ -45,7 +45,11 @@ angular.module('avalancheCanadaApp')
 
                 items = _.sortBy(items, function(ob){return ob.date;});
                 items = items.reverse();
-                $scope.items = items.slice(0,5);
+                items = items.slice(0,5);
+                items.push({
+                                'title': 'Daily Mountain Weather Forecast',
+                                'link': '/weather'});
+                $scope.items = items;
 
             }
         });

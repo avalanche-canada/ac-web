@@ -3,7 +3,34 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, acForecast, acObservation, obs, auth, $location) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location) {
+
+        Prismic.ctx().then(function(ctx){
+
+            $scope.ctx = ctx;
+
+            var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["forecast-sponsor"])]]';
+            ctx.api.form('everything').query(query)
+                .orderings('[my.blog.date desc]')
+                    .ref(ctx.ref).submit(function(err, documents){
+                if (err) {
+                    $log.error('error getting sponsor from prismic');
+                }
+                else {
+                    $scope.sponsor = documents.results[0];
+                }
+            });
+
+            Prismic.bookmark('forecast-danger-rating').then(function(doc){
+                    $scope.dangerRating = doc;
+            });
+
+            Prismic.bookmark('forecast-disclaimer').then(function(doc){
+                    $scope.disclaimer = doc;
+            });
+
+        });
+
         angular.extend($scope, {
             current: {},
             drawer: {
