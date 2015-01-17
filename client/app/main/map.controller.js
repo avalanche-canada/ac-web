@@ -11,7 +11,6 @@ angular.module('avalancheCanadaApp')
 
             var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["forecast-sponsor"])]]';
             ctx.api.form('everything').query(query)
-                .orderings('[my.blog.date desc]')
                     .ref(ctx.ref).submit(function(err, documents){
                 if (err) {
                     $log.error('error getting sponsor from prismic');
