@@ -39,38 +39,44 @@ angular.module('foundation',[
                 var height = window.innerHeight;
                 $scope.myInterval = 5000;
                 $scope.slides = [{
-                          image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536478/Foundation/DSC_0090.jpg',
                           credits:'Chris Christie',
                           text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
                         },
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421539307/Foundation/foundation_intro.png',
                           credits:'Silas Patterson',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
                         },
 
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536183/Foundation/PC230028.jpg',
                           credits:'Kirstie SImpson',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'develop and coordinate public avalanche education'
                         },
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image: 'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536253/Foundation/youth.jpg',
                           credits:'Steve Ruskay',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'deliver youth awareness and training seminars'
                         },
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536269/Foundation/sled2.jpg',
                           credits:'Jonathan Reich',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
                         },
                         {
-                          image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          //image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421537800/Foundation/research.jpg',
                           credits:'Raven Eye Photography',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'contribute to snow safety research'
