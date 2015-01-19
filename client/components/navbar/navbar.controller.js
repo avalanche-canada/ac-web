@@ -93,6 +93,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'Vancouver Island, VAIC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
                             {'name':'Whistler Blackcomb', 'link':'<a href="http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Whistler Blackcomb</a>'},
                             {'name':'Waterton Lakes National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Waterton Lakes National Park</a>'},
+                            {'name':'Little Yoho', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Little Yoho</a>'},
                             {'name':'Yukon', 'link':'<a href="/blogs/yukon" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
 
     $scope.forecastRegions = _.sortBy($scope.forecastRegions, 'name');
