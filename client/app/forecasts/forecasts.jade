@@ -34,12 +34,12 @@
                             img(src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
-                        | Date Issued
+                        | Date Issued &nbsp;
                         br.visible-xs-inline
                         /// span  {{ forecast.dateIssued | date:'EEEE MMMM d' | uppercase }}
                         span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
-                        | Valid Until
+                        | Valid Until &nbsp;
                         br.visible-xs-inline
                         span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                         /// span {{ forecast.validUntil | date:'EEEE MMMM d' | uppercase }}
@@ -184,22 +184,15 @@
                                         | Submit Information
                                 li
                                     a(href="/api/forecasts/{{region}}.html" target='_blank')
+                                        | Print Friendly
                                         i.fa.fa-print.fa-fw.fa-lg
-                                        | Print friendly
                                 li
                                     a(href="/api/forecasts/{{region}}.rss" target='_blank')
+                                        | RSS Feed
                                         i.fa.fa-rss.fa-fw.fa-lg
-                                        | RSS feed
-                                li
-                                    h4 Share
-                                    a(href="https://twitter.com/intent/tweet?url={{url}}")
-                                        i.fa.fa-twitter.fa-fw.fa-lg
 
-                                    a(href="https://www.facebook.com/sharer/sharer.php?u={{url}}")
-                                        i.fa.fa-facebook.fa-fw.fa-lg
 
-                                    a(href="https://plus.google.com/share?url={{url}}")
-                                        i.fa.fa-google-plus.fa-fw.fa-lg
+
 
 
                 footer#forecast-bulletin.col-xs-12

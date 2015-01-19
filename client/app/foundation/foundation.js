@@ -40,14 +40,14 @@ angular.module('foundation',[
                 $scope.myInterval = 5000;
                 $scope.slides = [{
                           //image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536478/Foundation/DSC_0090.jpg',
+                          image:'',
                           credits:'Chris Christie',
                           text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
                         },
                         {
                           //image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
-                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421539307/Foundation/foundation_intro.png',
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536478/Foundation/DSC_0090.jpg',
                           credits:'Silas Patterson',
                           text1: 'Your donations help <a href="/">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
