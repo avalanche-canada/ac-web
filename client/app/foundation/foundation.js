@@ -40,7 +40,7 @@ angular.module('foundation',[
                 $scope.myInterval = 5000;
                 $scope.slides = [{
                           //image: 'http://avalanche-canada.imgix.net/photos/forecast.jpg?fit=crop&h=' + height + '&q=80&w='+width,
-                          image:'',
+                          image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421709792/Foundation/cac_display_JD-Hare_edited_120404.jpg',
                           credits:'Chris Christie',
                           text1: 'Raising money for <a href="/">Avalanche Canada<a>',
                           text2: '&nbsp;'
