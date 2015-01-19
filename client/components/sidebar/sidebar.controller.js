@@ -50,7 +50,7 @@ angular.module('avalancheCanadaApp')
                                 'title': 'Daily Mountain Weather Forecast',
                                 'link': '/weather'});
                 items.push({
-                                'title': 'Submit Information to MIN',
+                                'title': 'Submit Mountain Information',
                                 'link': '/submit'});
                 $scope.items = items;
 
