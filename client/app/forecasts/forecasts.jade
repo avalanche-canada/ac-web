@@ -12,27 +12,34 @@
                 header.col-xs-12
                     #header-inner
                         h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
-                        #forecast-sponsor-desktop.hidden-xs
+                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis"')
                             p Brought to you by
                             a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
                                 img(src='{{sponsor.getText("sponsor.image-229")}}')
+                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region == "kananaskis"')
+                            p Brought to you by
+                            a(target='_blank', href='')
+                                img(style='width:120px;' src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                         .blue-border
                 #forecast-sponsor-mobile.col-xs-12.visible-xs-block
-                    #forecast-sponsor-mobile-inner
+                    #forecast-sponsor-mobile-inner(ng-if='forecast.region != "kananaskis"')
                         p.pull-left
                             | Brought
                             br
                             | to you by
                         a.pull-right(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
                             img(src='{{sponsor.getText("sponsor.image-229")}}')
+                    #forecast-sponsor-mobile-inner(ng-if='forecast.region == "kananaskis"')
+                        a.pull-right(target='_blank', href='')
+                            img(src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
-                        | Date Issued
+                        | Date Issued &nbsp;
                         br.visible-xs-inline
                         /// span  {{ forecast.dateIssued | date:'EEEE MMMM d' | uppercase }}
                         span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
-                        | Valid Until
+                        | Valid Until &nbsp;
                         br.visible-xs-inline
                         span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
                         /// span {{ forecast.validUntil | date:'EEEE MMMM d' | uppercase }}
@@ -155,26 +162,34 @@
                     aside
                         .dark-ribbon
                         .sidebar-inner
-                            ng-include(src='"components/sidebar/sidebar.html"')
+                            ng-include(ng-if='forecast.region != "kananaskis"' src='"components/sidebar/sidebar.html"')
+                            article.first.sidebar-related(ng-if='forecast.region == "kananaskis"')
+                                p This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program.
+
+                            ul.sidebar-related-links(ng-if='forecast.region == "kananaskis"')
+                                li
+                                    h4 Contact
+                                li Avalanche.safety@gov.ab.ca
+                                li 403-678-5508 is the Public Safety office phone number (weekdays)
+                                li 403-591-7755 Dispatch office non-emergency line
+                                li 911 for backcountry rescues and tell them you are in Kananaskis Country.
+                                li
+                                    a(href='https://www.facebook.com/KCPublicSafety')
+                                        i.fa.fa-facebook.fa-fw.fa-lg
+                                        | Facebook
+
                             ul.sidebar-related-links
                                 li
                                     a(href="/api/forecasts/{{region}}.html" target='_blank')
+                                        | Print Friendly
                                         i.fa.fa-print.fa-fw.fa-lg
-                                        | Print friendly
                                 li
                                     a(href="/api/forecasts/{{region}}.rss" target='_blank')
+                                        | RSS Feed
                                         i.fa.fa-rss.fa-fw.fa-lg
-                                        | RSS feed
 
-                                li
-                                    a(href="https://twitter.com/intent/tweet?url={{url}}")
-                                        i.fa.fa-twitter.fa-fw.fa-lg
-                                li
-                                    a(href="https://www.facebook.com/sharer/sharer.php?u={{url}}")
-                                        i.fa.fa-facebook.fa-fw.fa-lg
-                                li
-                                    a(href="https://plus.google.com/share?url={{url}}")
-                                        i.fa.fa-google-plus.fa-fw.fa-lg
+
+
 
 
                 footer#forecast-bulletin.col-xs-12

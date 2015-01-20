@@ -49,6 +49,9 @@ angular.module('avalancheCanadaApp')
                 items.push({
                                 'title': 'Daily Mountain Weather Forecast',
                                 'link': '/weather'});
+                items.push({
+                                'title': 'Submit Mountain Information',
+                                'link': '/submit'});
                 $scope.items = items;
 
             }
