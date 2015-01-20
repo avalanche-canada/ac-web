@@ -220,12 +220,12 @@ module.exports = function (grunt) {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
         exclude: [
-          /bootstrap-sass-official/, 
-          /bootstrap.js/, 
-          '/json3/', 
-          '/es5-shim/', 
-          /bootstrap.css/, 
-          /font-awesome.css/, 
+          /bootstrap-sass-official/,
+          /bootstrap.js/,
+          '/json3/',
+          '/es5-shim/',
+          /bootstrap.css/,
+          /font-awesome.css/,
           /auth0-lock/
         ]
       }
@@ -261,9 +261,9 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
-      js: [ 
-        '<%= yeoman.dist %>/public/{,*/}*.js', 
-        '!<%= yeoman.dist %>/public/bower_components/auth0.js', 
+      js: [
+        '<%= yeoman.dist %>/public/{,*/}*.js',
+        '!<%= yeoman.dist %>/public/bower_components/auth0.js',
         '!<%= yeoman.dist %>/public/bower_components/mapbox.js'
       ],
       options: {
@@ -360,7 +360,7 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.client %>',
           dest: '<%= yeoman.dist %>/public',
           src: [
-            '*.{ico,png,txt}',
+            '*.{ico,png,txt,xml}',
             '.htaccess',
             'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
