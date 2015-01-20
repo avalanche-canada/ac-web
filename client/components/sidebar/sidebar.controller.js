@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('SidebarCtrl', function ($scope, Prismic) {
-
+  .controller('SidebarCtrl', function ($scope, Prismic, urlBuilder) {
+    $scope.url = urlBuilder.get();
     $scope.items = [];
     Prismic.ctx().then(function(ctx){
 
@@ -46,12 +46,13 @@ angular.module('avalancheCanadaApp')
                 items = _.sortBy(items, function(ob){return ob.date;});
                 items = items.reverse();
                 items = items.slice(0,5);
-                items.push({
-                                'title': 'Daily Mountain Weather Forecast',
-                                'link': '/weather'});
-                items.push({
-                                'title': 'Submit Mountain Information',
-                                'link': '/submit'});
+                items.push({'title': 'Daily Mountain Weather Forecast',
+                            'link': '/weather'});
+                items.push({'title': 'Submit Mountain Information',
+                            'link': '/submit'});
+                items.push({'title': 'Upcoming Events',
+                            'link': '/events'});
+
                 $scope.items = items;
 
             }
