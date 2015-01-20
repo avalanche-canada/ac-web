@@ -2,6 +2,7 @@
   "name": "avalanche-canada",
   "version": "0.0.0",
   "main": "server/app.js",
+  "homepage": "http://www.avalanche.ca/",
   "dependencies": {
     "aws-sdk": "^2.0.23",
     "body-parser": "~1.0.0",
