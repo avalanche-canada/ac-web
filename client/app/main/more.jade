@@ -8,8 +8,8 @@
         .row
             .col-xs-12
                 #sponsor-ad-container(ng-if='!sledPage')
-                    a#sponsor-link(title='Looking for the CAA', href='http://www.avalancheassociation.ca/' target='_blank')
-                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417732160/logos/caa_banner.png')
+                    a#sponsor-link(title='Sponsored By', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211188/logos/Logos%20png/sponsor_banner_home.png')
                 #sponsor-ad-container(ng-if='sledPage')
                     a#sponsor-link(title='Smith Optics', href='/sponsors')
                         img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211257/logos/Logos%20png/sponsor_banner_sled.png')
@@ -198,11 +198,11 @@
                             h2
                                 | The
                                 br.visible-xs-inline
-                                | Avalanche
+                                | Avalanche &nbsp;
                                 br
-                                span Forecasters
+                                span Forecasters &nbsp;
                                 br.visible-xs-inline
-                                | Blog
+                                | Blog &nbsp;
                         section#blog-tagline-link
                             p We know Snow.
                             a#blog-link(href='/blogs')
@@ -241,24 +241,24 @@
                     article.list-rows
                         header
                             h3
-                                a(href='http://www.avalancheassociation.ca/')
+                                a(href='https://www.avalancheassociation.ca/?page=Training_Flowchart')
                                     | {{caa1.getText('generic.title')}}
                         section.blog-body
                             p {{caa1.getText('generic.body')}}
                         footer
                             p
-                                a(href='http://www.avalancheassociation.ca/')
+                                a(href='https://www.avalancheassociation.ca/?page=Training_Flowchart')
                                     | Read More
                     article.list-rows
                         header
                             h3
-                                a(href='http://www.avalancheassociation.ca/')
+                                a(href='https://www.avalancheassociation.ca/search/advanced.asp')
                                     | {{caa2.getText('generic.title')}}
                         section.blog-body
                             p {{caa2.getText('generic.body')}}
                         footer
                             p
-                                a(href='http://www.avalancheassociation.ca/')
+                                a(href='https://www.avalancheassociation.ca/search/advanced.asp')
                                     | Read More
 
     .push
