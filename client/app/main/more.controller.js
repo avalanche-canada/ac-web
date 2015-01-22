@@ -112,6 +112,36 @@ angular.module('avalancheCanadaApp')
             }
         });
 
+        ctx.api.form('everything').query('[[:d = at(document.type, "generic")][:d = any(document.tags, ["caa"])] [:d = any(document.tags, ["main"])]]')
+                                        .ref(ctx.ref).submit(function(err, documents){
+            if (err) {
+                $log.error('error getting data from prismic');
+            }
+            else {
+                $scope.caaMain = documents.results[0];
+            }
+        });
+
+        ctx.api.form('everything').query('[[:d = at(document.type, "generic")][:d = any(document.tags, ["caa"])] [:d = any(document.tags, ["column1"])]]')
+                                        .ref(ctx.ref).submit(function(err, documents){
+            if (err) {
+                $log.error('error getting data from prismic');
+            }
+            else {
+                $scope.caa1 = documents.results[0];
+            }
+        });
+
+        ctx.api.form('everything').query('[[:d = at(document.type, "generic")][:d = any(document.tags, ["caa"])] [:d = any(document.tags, ["column2"])]]')
+                                        .ref(ctx.ref).submit(function(err, documents){
+            if (err) {
+                $log.error('error getting data from prismic');
+            }
+            else {
+                $scope.caa2 = documents.results[0];
+            }
+        });
+
     });
 
   });
