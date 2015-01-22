@@ -225,7 +225,7 @@
                                 a(href='/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
                                 time {{blog.getDate('news.date') | dateUtc }}
-     .container
+     #blog.container
         .row
             .col-xs-12
                 // blog articles container
@@ -234,25 +234,32 @@
                         header
                             h2 {{caaMain.getText('generic.title')}}
                         section#blog-tagline-link
-                            p(ng-bind-html='caaMain.getStructuredText('generic.body').asHtml(ctx)')
+                            p {{caaMain.getText('generic.body')}}
                             a#blog-link(href='http://www.avalancheassociation.ca/')
-                                | Website
+                                | Website &nbsp;
                                 i.fa.fa-angle-right
                     article.list-rows
                         header
                             h3
                                 a(href='http://www.avalancheassociation.ca/')
-                                | {{caa1.getText('generic.title')}}
+                                    | {{caa1.getText('generic.title')}}
                         section.blog-body
                             p {{caa1.getText('generic.body')}}
+                        footer
+                            p
+                                a(href='http://www.avalancheassociation.ca/')
+                                    | Read More
                     article.list-rows
                         header
                             h3
                                 a(href='http://www.avalancheassociation.ca/')
-                                | {{caa2.getText('generic.title')}}
+                                    | {{caa2.getText('generic.title')}}
                         section.blog-body
+                            p {{caa2.getText('generic.body')}}
+                        footer
                             p
-                            | {{caa2.getText('generic.body')}}
+                                a(href='http://www.avalancheassociation.ca/')
+                                    | Read More
 
     .push
     div(ng-include='"components/footer/footer.html"')
