@@ -45,7 +45,7 @@
                         | Forecaster &nbsp;
                         br.visible-xs-inline
                         span {{ forecast.forecaster }}
-                    #date-valid.forecast-date-inner
+                    #date-valid.forecast-date-inner(ng-if='forecast.forecaster')
 
                 section#forecast-body.col-xs-12.col-md-9
                     div#highlights(ng-bind-html='forecast.highlights')
