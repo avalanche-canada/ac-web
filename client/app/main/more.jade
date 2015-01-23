@@ -8,8 +8,8 @@
         .row
             .col-xs-12
                 #sponsor-ad-container(ng-if='!sledPage')
-                    a#sponsor-link(title='Looking for the CAA', href='http://www.avalancheassociation.ca/' target='_blank')
-                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417732160/logos/caa_banner.png')
+                    a#sponsor-link(title='Sponsored By', href='/sponsors')
+                        img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211188/logos/Logos%20png/sponsor_banner_home.png')
                 #sponsor-ad-container(ng-if='sledPage')
                     a#sponsor-link(title='Smith Optics', href='/sponsors')
                         img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211257/logos/Logos%20png/sponsor_banner_sled.png')
@@ -196,15 +196,11 @@
                     #blog-header-wrap
                         header
                             h2
-                                | The
-                                br.visible-xs-inline
-                                | Avalanche
+                                | The Avalanche
                                 br
-                                span Forecasters
-                                br.visible-xs-inline
-                                | Blog
+                                span Forecasters Blog
                         section#blog-tagline-link
-                            p We know Snow.
+                            p We Know Snow.
                             a#blog-link(href='/blogs')
                                 | Read The Blog
                                 i.fa.fa-angle-right
@@ -225,6 +221,42 @@
                                 a(href='/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
                                 time {{blog.getDate('news.date') | dateUtc }}
+     #blog.container
+        .row
+            .col-xs-12
+                // blog articles container
+                article#blog-articles
+                    #blog-header-wrap
+                        header
+                            h2 {{caaMain.getText('generic.title')}}
+                        section#blog-tagline-link
+                            p {{caaMain.getText('generic.body')}}
+                            a#blog-link(href='http://www.avalancheassociation.ca/')
+                                | Website &nbsp;
+                                i.fa.fa-angle-right
+                    article.list-rows
+                        header
+                            h3
+                                a(href='https://www.avalancheassociation.ca/?page=Training_Flowchart')
+                                    | {{caa1.getText('generic.title')}}
+                        section.blog-body
+                            p {{caa1.getText('generic.body')}}
+                        footer
+                            p
+                                a(href='https://www.avalancheassociation.ca/?page=Training_Flowchart')
+                                    | Read More
+                    article.list-rows
+                        header
+                            h3
+                                a(href='https://www.avalancheassociation.ca/search/advanced.asp')
+                                    | {{caa2.getText('generic.title')}}
+                        section.blog-body
+                            p {{caa2.getText('generic.body')}}
+                        footer
+                            p
+                                a(href='https://www.avalancheassociation.ca/search/advanced.asp')
+                                    | Read More
+
     .push
     div(ng-include='"components/footer/footer.html"')
 

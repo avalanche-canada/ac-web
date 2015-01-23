@@ -339,6 +339,7 @@ function avalancheCaForecast(caaml, region){
         //! Date Issued and Valid Until are timezone sensitive
         dateIssued: parsePstDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:beginPosition'][0]),
         validUntil: parsePstDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
+        forecaster: caamlBulletin['caaml:obsMetaDataProperty'][0]['caaml:ObsMetaData'][0]['caaml:observedBy'][0]['caaml:PersonString'][0],
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
         highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
         confidence: (function (confidence) {
