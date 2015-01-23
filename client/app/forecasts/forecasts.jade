@@ -36,13 +36,16 @@
                     #date-issued.forecast-date-inner
                         | Date Issued &nbsp;
                         br.visible-xs-inline
-                        /// span  {{ forecast.dateIssued | date:'EEEE MMMM d' | uppercase }}
-                        span  {{ forecast.dateIssued | date:'EEEE MMMM d, y h:mm a' | uppercase }}
+                        span  {{ forecast.dateIssued | date:'EEE MMMM d, h:mm a' | uppercase }}
                     #date-valid.forecast-date-inner
-                        | Valid Until &nbsp;
+                        | &nbsp; Valid Until &nbsp;
                         br.visible-xs-inline
-                        span {{ forecast.validUntil | date:'EEEE MMMM d, y h:mm a' | uppercase }}
-                        /// span {{ forecast.validUntil | date:'EEEE MMMM d' | uppercase }}
+                        span {{ forecast.validUntil | date:'EEE MMMM d, h:mm a' | uppercase }}
+                    #date-issued.forecast-date-inner
+                        | Forecaster &nbsp;
+                        br.visible-xs-inline
+                        span {{ forecast.forecaster }}
+                    #date-valid.forecast-date-inner
 
                 section#forecast-body.col-xs-12.col-md-9
                     div#highlights(ng-bind-html='forecast.highlights')
