@@ -41,7 +41,7 @@
                         | &nbsp; Valid Until &nbsp;
                         br.visible-xs-inline
                         span {{ forecast.validUntil | date:'EEE MMMM d, h:mm a' | uppercase }}
-                    #date-issued.forecast-date-inner
+                    #date-issued.forecast-date-inner(ng-if='forecast.forecaster')
                         | Forecaster &nbsp;
                         br.visible-xs-inline
                         span {{ forecast.forecaster }}
@@ -83,7 +83,7 @@
                                                 tr
                                                     td.ac-veg-zone--alp
                                                         strong Alpine
-                                                    td(tooltip-placement="right" tooltip="On the Right!" class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
                                                         strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
                                                     td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
                                                         strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
