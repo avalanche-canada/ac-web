@@ -52,23 +52,7 @@
                                             span.ac-text-default #{ forecast.confidence }
 
                     for problem in forecast.problems
-                            hr
                             table
-                                thead.ac-thead-dark
-                                    tr
-                                        th
-
-                                        th
-                                            strong.small What Elevations?
-
-                                        th
-                                            strong.small What Aspects?
-
-                                        th
-                                            strong.small Chances of Avalanches?
-
-                                        th
-                                            strong.small Expected Size?
                                 tbody
 
                                     tr
@@ -87,7 +71,6 @@
                             div
                                 strong.small Travel and Terrain Advice
                                 p !{ problem.travelAndTerrainAdvice }
-                    hr
                     div
                         h2 Forecast Details
 
