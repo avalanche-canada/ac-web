@@ -11,7 +11,7 @@ angular.module('avalancheCanadaApp')
   })
   .controller('YouthCtrl', function ($scope , Prismic, $log) {
 
-        $scope.sections = ['powerpoints','photo','video','map'];
+        $scope.sections = ['powerpoints','photo','video','map','internet','handout','activities','ast','newsletter'];
         var resourceList = {};
 
         Prismic.ctx().then(function(ctx){
