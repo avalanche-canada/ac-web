@@ -88,7 +88,7 @@ angular.module('avalancheCanadaApp')
             }
         });
 
-        $scope.dateFilters = ['7-days', '14-days', '30-days'];
+        $scope.dateFilters = ['1-days','3-days','7-days', '14-days', '30-days'];
         $scope.toggleFilter = function (filter) {
             if(filter){
                 var filterType = filter.split(':')[0];
