@@ -16,7 +16,7 @@ angular.module('avalancheCanadaApp')
 
         Prismic.ctx().then(function(ctx){
 
-            $scope.sections.forEach(function(elm, index, array){
+            $scope.sections.forEach(function(elm){
                 var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])][:d = any(document.tags, ["'+elm+'"])]]';
                 $log.info(query);
                 ctx.api.form('everything').query(query)
