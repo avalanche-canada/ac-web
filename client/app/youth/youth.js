@@ -32,8 +32,7 @@ angular.module('avalancheCanadaApp')
                 $scope.resourceList = resourceList;
             } ;
 
-            var getTags = function() {
-                var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])]]';
+            var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])]]';
                 ctx.api.form('everything').query(query)
                     .ref(ctx.ref)
                         .submit(function(err, documents){
@@ -43,16 +42,14 @@ angular.module('avalancheCanadaApp')
                             else {
                                 documents.results.forEach(function(result){
                                     result.tags.forEach(function(tag){
-                                        if($scope.tags.indexOf(tag) === -1 && tag != 'youth'){
+                                        if($scope.tags.indexOf(tag) === -1 && tag !== 'youth'){
                                             $scope.tags.push(tag);
                                         }
-                                    })
-                                })
+                                    });
+                                });
                                 getResources();
                             }
                         });
-            }();
-
 
             var bookmarks = [['overview','youth-overview'],
                              ['programs','youth-programs'],
@@ -63,7 +60,7 @@ angular.module('avalancheCanadaApp')
                 Prismic.bookmark(bookmark[1]).then(function(doc){
                     $scope[bookmark[0]] = doc.getStructuredText('generic.body').asHtml(ctx);
                 });
-            })
+            });
 
         });
   })
