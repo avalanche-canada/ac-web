@@ -43,6 +43,15 @@
 
                 .anchor#programs(ng-bind-html='programs')
                 .anchor#resources(ng-bind-html='resources')
+                .anchor#resourceList(ng-repeat="tag in tags")
+                    h3{{tag}}
+                    div(ng-repeat="resource in resourceList[tag]")
+                        #resourceDesc(ng-bind-html="resource.getStructuredText('resource.description').asHtml(ctx)")
+                        a(href="{{resource.getText('resource.url')}}")
+                                | {{resource.getText('resource.label')}}
+
+
+
                 .anchor#curriculum(ng-bind-html='curriculum')
     .push
 div.footer(ng-include='"components/footer/footer.html"')
