@@ -65,100 +65,90 @@
         color:#b5b5b5;
     }
 }
-#filters-inner {
+#filters{
         border-bottom:2px solid #eeeff1;
         min-height:1px;
+        .well{
+            height:200px;
+        }
         @include clearfix();
-        .dropdown-filters {
-                position:relative;
-                padding-top:22px;
-                padding-bottom:24px;
-                button {
-                        border:none;
-                        cursor:pointer;
-                        padding:0;
-                        border-radius:none;
-                        box-shadow:none;
+        button {
+                border:none;
+                cursor:pointer;
+                padding:0;
+                border-radius:none;
+                box-shadow:none;
                 text-align:left;
                 background-color:#fff !important;
                 font-family:$font-family-google;
                 font-weight:bold;
                 text-transform:uppercase;
-                        @include font-size(1.6, 2.8);
-                        color:#b5b5b5;
-                //custom
-                        width:100%;
-                        display:block;
-                        span {color:#000;}
-                        .fa {
-                                color:#b5b5b5;
-                                position:absolute;
-                                right:0;
-                                top:28px;
-                        }
-                        &:visited,
-                        &:hover,
-                        &:active,
-                        &:focus {
-                                background-color:#fff;
-                                box-shadow:none;
-                        }
-                        &:hover {
-                                background-color:#fff;
-                                box-shadow:none;
-                        }
-                }
-                .dropdown-menu {
-                        border-top:none;
-                        border-bottom:2px solid #eeeff1;
-                        border-left:2px solid #eeeff1;
-                        border-right:2px solid #eeeff1;
-                        border-radius:0;
-                        background-color:#fff;
-                        width:100%;
-                        top:76px;
-                        box-shadow:none;
-                        margin:0;
-                        padding:0;
-                        li {
-                                .selected{
-                                    color:#000;
-                                }
-                                @include font-size(1.4, 4.0);
-                                border-bottom:2px solid #eeeff1;
-                                a {
-                                font-family:$font-family-google;
-                                font-weight:bold;
-                                text-transform:uppercase;
-                                        @include font-size(1.4, 4.0);
-                                        color:#b5b5b5;
-                                        padding:0 10px;
-                                        &:visited,
-                                        &:hover,
-                                        &:active,
-                                        &:focus {
-                                                text-decoration:none;
-                                        }
-                                        &:hover,
-                                        &:focus {
-                                                background-color:#fff;
-                                                color:#000;
-                                        }
-                                }
-                                &.last {border-bottom:2px solid #fff;}
-                        }
-                }
-                .btn-default:hover,
-                .btn-default:focus,
-                .btn-default:active,
-                .btn-default.active,
-                .open > .btn-default.dropdown-toggle {
-                background-color:#fff;
-                border-color:none;
+                @include font-size(1.6, 2.8);
                 color:#b5b5b5;
+                //custom
+                width:100%;
+                display:block;
+                span {color:#000;}
+        }
+        .fa {
+                color:#b5b5b5;
+                position:absolute;
+                right:0;
+                top:28px;
+        }
+        &:visited,
+        &:hover,
+        &:active,
+        &:focus {
+                background-color:#fff;
                 box-shadow:none;
+        }
+        &:hover {
+                background-color:#fff;
+                box-shadow:none;
+        }
+        #filters-inner {
+                background-color:#fff;
+                width:100%;
+                box-shadow:none;
+                margin:0;
+                padding:0;
+                .filter{
+                    .selected{
+                        color:#000;
+                    }
+                    @include font-size(1.4, 4.0);
+                    a {
+                            font-family:$font-family-google;
+                            font-weight:bold;
+                            text-transform:uppercase;
+                            @include font-size(1.2, 1.0);
+                            color:#b5b5b5;
+                            padding:0 10px;
+                            &:visited,
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                    text-decoration:none;
+                            }
+                            &:hover,
+                            &:focus {
+                                    background-color:#fff;
+                                    color:#000;
+                            }
+                    }
+                    &.last {border-bottom:2px solid #fff;}
                 }
         }
+        .btn-default:hover,
+        .btn-default:focus,
+        .btn-default:active,
+        .btn-default.active,
+        .open > .btn-default.dropdown-toggle {
+            background-color:#fff;
+            border-color:none;
+            color:#b5b5b5;
+            box-shadow:none;}
 }
 #sponsor-ad-container {
         //background-color:#eeeff1;

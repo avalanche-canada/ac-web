@@ -8,49 +8,45 @@ angular.module('avalancheCanadaApp')
     var query = '[:d = at(document.type, "news")]';
     var results;
 
-    if ($stateParams.tag){
-        query += '[:d = any(document.tags, ["'+$stateParams.tag+'"])]';
-    }
+    var getContent = function(){
+        $scope.featured = null;
+        $scope.news = [];
+        results.forEach(function(result){
+
+            var checkTagList = function() {
+                return $scope.tags.some(function(tag){return result.tags.indexOf(tag) !== -1;});
+            };
+
+            if($scope.tags.length === 0 || checkTagList())
+            {
+                if (result.tags.indexOf('featured') >= 0 && $scope.featured === null){
+                    $scope.featured = result;
+                }
+                else{
+                    $scope.news.push(result);
+                }
+            }
+        });
+    };
+
+    $scope.tagSelected = function(tag, index){
+
+        var indexInTag = $scope.tags.indexOf(tag);
+        if (indexInTag === -1){ // doesnt exist so add tag
+            $scope.tagList[index].selected = true;
+            $scope.tags.push(tag);
+        }
+        else{ //exists in list so remove tag
+             $scope.tagList[index].selected = false;
+             $scope.tags.splice(indexInTag, 1);
+        }
+
+        getContent();
+    };
+
 
     Prismic.ctx().then(function(ctx){
         $scope.ctx = ctx;
-
-        var getContent = function(){
-            $scope.featured = null;
-            $scope.news = [];
-            results.forEach(function(result){
-
-                var checkTagList = function() {
-                    return $scope.tags.some(function(tag){return result.tags.indexOf(tag) !== -1;});
-                };
-
-                if($scope.tags.length === 0 || checkTagList())
-                {
-                    if (result.tags.indexOf('featured') >= 0 && $scope.featured === null){
-                        $scope.featured = result;
-                    }
-                    else{
-                        $scope.news.push(result);
-                    }
-                }
-            });
-        };
-
-        $scope.tagSelected = function(tag, index){
-
-            var indexInTag = $scope.tags.indexOf(tag);
-            if (indexInTag === -1){ // doesnt exist so add tag
-                $scope.tagList[index].selected = true;
-                $scope.tags.push(tag);
-            }
-            else{ //exists in list so remove tag
-                 $scope.tagList[index].selected = false;
-                 $scope.tags.splice(indexInTag, 1);
-            }
-
-            getContent();
-        };
-
         ctx.api.form('everything').query('[' + query + ']')
             .orderings('[my.news.date desc]')
                 .ref(ctx.ref).submit(function(err, documents){
@@ -68,6 +64,18 @@ angular.module('avalancheCanadaApp')
                         }
                     });
                 });
+
+
+                if ($stateParams.tag){
+                    var tagIndex = -1;
+                    $scope.tagList.some(function(listItem, index){
+                        if(listItem.name == $stateParams.tag){
+                            tagIndex = index;
+                            return true;
+                        }
+                    });
+                    $scope.tagSelected($stateParams.tag, tagIndex);
+                }
 
                 getContent();
             }
