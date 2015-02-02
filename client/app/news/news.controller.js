@@ -9,7 +9,7 @@ angular.module('avalancheCanadaApp')
     var results;
 
     if ($stateParams.tag){
-        query += '[:d = any(document.tags, ["'+$stateParams.tag+'"])]'
+        query += '[:d = any(document.tags, ["'+$stateParams.tag+'"])]';
     }
 
     Prismic.ctx().then(function(ctx){
@@ -21,12 +21,12 @@ angular.module('avalancheCanadaApp')
             results.forEach(function(result){
 
                 var checkTagList = function() {
-                    return $scope.tags.some(function(tag){return result.tags.indexOf(tag) !== -1});
+                    return $scope.tags.some(function(tag){return result.tags.indexOf(tag) !== -1;});
                 };
 
                 if($scope.tags.length === 0 || checkTagList())
                 {
-                    if (result.tags.indexOf("featured") >= 0 && $scope.featured === null){
+                    if (result.tags.indexOf('featured') >= 0 && $scope.featured === null){
                         $scope.featured = result;
                     }
                     else{
@@ -63,8 +63,8 @@ angular.module('avalancheCanadaApp')
                 //! generate tag list by collating unique tags
                 results.forEach(function(result){
                     result.tags.forEach(function(tag){
-                        if($scope.tagList.every(function(listItem){return listItem.name !== tag })){
-                            $scope.tagList.push({'name': tag, 'selected': ""});
+                        if($scope.tagList.every(function(listItem){return listItem.name !== tag; })){
+                            $scope.tagList.push({'name': tag, 'selected': ''});
                         }
                     });
                 });
