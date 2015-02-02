@@ -36,13 +36,16 @@ angular.module('avalancheCanadaApp')
             });
         };
 
-        $scope.tagSelected = function(tag){
-            var index = $scope.tags.indexOf(tag)
-            if (index === -1){
+        $scope.tagSelected = function(tag, index){
+
+            var indexInTag = $scope.tags.indexOf(tag);
+            if (indexInTag === -1){ // doesnt exist so add tag
+                $scope.tagList[index].selected = true;
                 $scope.tags.push(tag);
             }
-            else{
-                 $scope.tags.splice(index, 1);
+            else{ //exists in list so remove tag
+                 $scope.tagList[index].selected = false;
+                 $scope.tags.splice(indexInTag, 1);
             }
 
             getContent();
@@ -60,8 +63,8 @@ angular.module('avalancheCanadaApp')
                 //! generate tag list by collating unique tags
                 results.forEach(function(result){
                     result.tags.forEach(function(tag){
-                        if($scope.tagList.indexOf(tag) === -1 ){
-                            $scope.tagList.push(tag);
+                        if($scope.tagList.every(function(listItem){return listItem.name !== tag })){
+                            $scope.tagList.push({'name': tag, 'selected': ""});
                         }
                     });
                 });
