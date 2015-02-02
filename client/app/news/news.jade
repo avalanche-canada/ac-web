@@ -25,6 +25,19 @@
                     a.pull-right(target='_blank', href='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955433/logos/Logos%20png/mammut.png')
             /// /#sponsor-mobile
 
+
+            #filters.col-xs-12
+              #filters-inner
+                .dropdown
+                  #filter-filter-dropdown.dropdown-filters(dropdown)
+                    button#filter-filters.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                      | Filters
+                      span ({{tagList.length}})
+                      i.fa.fa-chevron-down
+                    ul.dropdown-menu(role='menu', aria-labelledby='filter-filters')
+                      li(role='presentation' ng-repeat='tag in tagList')
+                        a(role='menuitem', tabindex='-1' ng-click='tagSelected(tag)') {{tag}}
+
             .col-xs-12
                 #sponsor-ad-container(ng-hide='true')
                     p#sponsor-text.hidden-xs Thanks To Our Title Sponsor

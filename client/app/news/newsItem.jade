@@ -32,9 +32,7 @@
             section#post-date {{date |  dateUtc:"dddd MMMM Do"  }}
             section#post-location &nbsp;
             section#blog-tags
-            ///    a(href='#') Tag One
-            ///    a(href='#') Tag Two
-            ///    a(href='#') Tag Three
+                a(ng-repeat='tag in tags' href='/news/{{tag}}') {{tag}}
             /// header
             ///    h1 {{header}}
             section#news-blog-event-landing-body(ng-bind-html='documentHtml')

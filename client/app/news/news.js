@@ -18,6 +18,11 @@
 angular.module('avalancheCanadaApp')
 .config(function ($stateProvider) {
     $stateProvider
+      .state('ac.newsTagged', {
+        url: '^/news/{tag}',
+        templateUrl: 'app/news/news.html',
+        controller: 'NewsCtrl'
+      })
       .state('ac.news', {
         url: '^/news',
         templateUrl: 'app/news/news.html',
