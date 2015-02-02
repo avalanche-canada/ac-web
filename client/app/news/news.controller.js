@@ -69,7 +69,7 @@ angular.module('avalancheCanadaApp')
                 if ($stateParams.tag){
                     var tagIndex = -1;
                     $scope.tagList.some(function(listItem, index){
-                        if(listItem.name == $stateParams.tag){
+                        if(listItem.name === $stateParams.tag){
                             tagIndex = index;
                             return true;
                         }
