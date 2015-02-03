@@ -34,8 +34,11 @@ header#header.navbar-fixed-top(role='banner')
                             | Contributors
                             span.arrow-down
                         ul.dropdown-menu
-                            li(ng-repeat='item in contributors')
-                                    a(href='foundation/contributors#{{item.name}}') {{item.display}}
+                            li
+                                a(href='foundation/donors') Donors
+                            li
+                                a(href='foundation/eventsponsor') Event Sponsors
+
 
                     li.dropdown
                         a(href='/foundation/news')

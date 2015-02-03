@@ -187,7 +187,7 @@ angular.module('foundation',[
 
       })
       .state('foundation.contributors', {
-        url: '/contributors',
+        url: '/donors',
         templateUrl: 'app/foundation/contributors.html',
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
@@ -201,8 +201,24 @@ angular.module('foundation',[
                             $scope.donors = doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
-                    Prismic.bookmark('foundation-contributors-event').then(function(doc){
-                            $scope.eventSponsor = doc.getStructuredText('generic.body').asHtml(ctx);
+                });
+            }]
+
+      })
+      .state('foundation.eventsponsor', {
+        url: '/eventsponsor',
+        templateUrl: 'app/foundation/eventsponsor.html',
+        controller: ['Prismic', '$scope',
+            function (Prismic, $scope) {
+                var query = '[:d = at(document.type, "foundation-event-sponsor")]';
+
+                Prismic.ctx().then(function(ctx){
+
+                    $scope.ctx = ctx;
+
+                    ctx.api.form('everything').query('[' + query + ']')
+                        .ref(ctx.ref).submit(function(err, doc){
+                            $scope.eventSponsor = doc;
                     });
 
                 });

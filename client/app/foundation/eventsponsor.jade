@@ -1,0 +1,14 @@
+.page-inner
+    .prismic-content
+        .col-xs-12
+            h2 Whistler Event Sponsors
+        .col-xs-3(ng-repeat='sponsor in eventSponsor.results' ng-if='sponsor.tags.indexOf("Whistler Event Sponsor") > -1')
+            a(href='{{sponsor.getText("foundation-event-sponsor.url")}}')
+                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
+        .col-xs-12
+            h2 Calgary Event Sponsor
+        .col-xs-3(ng-repeat='sponsor in eventSponsor.results' ng-if='sponsor.tags.indexOf("Calgary Event Sponsor") > -1')
+            a( href='{{sponsor.getText("foundation-event-sponsor.url")}}')
+                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
+    .push
+div(ng-include='"components/foundation_footer/footer.html"')
