@@ -210,16 +210,36 @@ angular.module('foundation',[
         templateUrl: 'app/foundation/eventsponsor.html',
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
-                var query = '[:d = at(document.type, "foundation-event-sponsor")]';
 
                 Prismic.ctx().then(function(ctx){
 
                     $scope.ctx = ctx;
+                    $scope.whistler = [];
+                    $scope.calgary  = [];
 
-                    ctx.api.form('everything').query('[' + query + ']')
-                        .ref(ctx.ref).submit(function(err, doc){
-                            $scope.eventSponsor = doc;
-                    });
+                    var page = 1;
+                    var getData = function getData(){
+                        var query = '[:d = at(document.type, "foundation-event-sponsor")]';
+
+                        ctx.api.form('everything').query('[' + query + ']')
+                            .page(page)
+                              .ref(ctx.ref).submit(function(err, doc){
+                                doc.results.forEach(function(item){
+                                    if(item.tags.indexOf("Whistler Event Sponsor") > -1){
+                                        $scope.whistler.push(item);
+                                    }
+                                    if(item.tags.indexOf("Calgary Event Sponsor") > -1){
+                                        $scope.calgary.push(item);
+                                    }
+
+                                    if (page <= doc.total_pages){
+                                        page = page + 1;
+                                        getData();
+                                    }
+                                });
+                        });
+                    };
+                    getData(1);
 
                 });
             }]
