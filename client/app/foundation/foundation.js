@@ -217,6 +217,14 @@ angular.module('foundation',[
                     $scope.whistler = [];
                     $scope.calgary  = [];
 
+                    Prismic.bookmark('foundation-calgary-event-sponsor').then(function(doc){
+                            $scope.calgaryText = doc; //.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    Prismic.bookmark('foundation-whistler-event-sponsor').then(function(doc){
+                            $scope.whistlerText = doc; //.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
                     var page = 1;
                     var getData = function getData(){
                         var query = '[:d = at(document.type, "foundation-event-sponsor")]';
