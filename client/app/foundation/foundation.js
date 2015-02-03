@@ -225,10 +225,10 @@ angular.module('foundation',[
                             .page(page)
                               .ref(ctx.ref).submit(function(err, doc){
                                 doc.results.forEach(function(item){
-                                    if(item.tags.indexOf("Whistler Event Sponsor") > -1){
+                                    if(item.tags.indexOf('Whistler Event Sponsor') > -1){
                                         $scope.whistler.push(item);
                                     }
-                                    if(item.tags.indexOf("Calgary Event Sponsor") > -1){
+                                    if(item.tags.indexOf('Calgary Event Sponsor') > -1){
                                         $scope.calgary.push(item);
                                     }
 
