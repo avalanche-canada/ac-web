@@ -5,6 +5,7 @@ angular.module('avalancheCanadaApp')
     $scope.url = urlBuilder.get();
     $scope.tags = [];
     $scope.tagList = [];
+    $scope.isCollapsed = true;
     var query = '[:d = at(document.type, "news")]';
     var results;
 
