@@ -1,6 +1,17 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
+.directive('textAndImage', function() {
+  return {
+    restrict: 'E',
+    scope: {
+      image:'=image',
+      text:'=text',
+    },
+    transclude: true,
+    templateUrl: 'app/weather/textAndImage.html'
+  };
+})
 .config(function ($stateProvider) {
     $stateProvider
       .state('ac.weather', {
@@ -11,10 +22,11 @@ angular.module('avalancheCanadaApp')
 
                 //! \todo decrement index to show previous forecasts
                 $scope.index = 0;
+                $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 
                 Prismic.ctx().then(function(ctx){
 
-                    $scope.calculateDay2 = function (day1) { return moment(day1).add(1,'day');};
+
                     $scope.ctx = ctx;
                     var query = '[[:d = at(document.type, "weather-forecast")]]';
                     ctx.api.form('everything').query(query)
