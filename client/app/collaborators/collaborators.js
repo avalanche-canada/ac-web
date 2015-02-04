@@ -16,6 +16,10 @@ angular.module('avalancheCanadaApp')
                             $scope.government = result.getStructuredText('generic.body').asHtml(ctx);
                     });
 
+                    Prismic.bookmark('collaborators-contribution').then(function(result){
+                            $scope.contribution = result.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
                     Prismic.bookmark('collaborators-other').then(function(result){
                             $scope.other = result.getStructuredText('generic.body').asHtml(ctx);
                     });

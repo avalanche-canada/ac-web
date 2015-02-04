@@ -187,7 +187,7 @@ angular.module('foundation',[
 
       })
       .state('foundation.contributors', {
-        url: '/contributors',
+        url: '/donors',
         templateUrl: 'app/foundation/contributors.html',
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
@@ -201,9 +201,53 @@ angular.module('foundation',[
                             $scope.donors = doc.getStructuredText('generic.body').asHtml(ctx);
                     });
 
-                    Prismic.bookmark('foundation-contributors-event').then(function(doc){
-                            $scope.eventSponsor = doc.getStructuredText('generic.body').asHtml(ctx);
+                });
+            }]
+
+      })
+      .state('foundation.eventsponsor', {
+        url: '/eventsponsor',
+        templateUrl: 'app/foundation/eventsponsor.html',
+        controller: ['Prismic', '$scope',
+            function (Prismic, $scope) {
+
+                Prismic.ctx().then(function(ctx){
+
+                    $scope.ctx = ctx;
+                    $scope.whistler = [];
+                    $scope.calgary  = [];
+
+                    Prismic.bookmark('foundation-calgary-event-sponsor').then(function(doc){
+                            $scope.calgaryText = doc; //.getStructuredText('generic.body').asHtml(ctx);
                     });
+
+                    Prismic.bookmark('foundation-whistler-event-sponsor').then(function(doc){
+                            $scope.whistlerText = doc; //.getStructuredText('generic.body').asHtml(ctx);
+                    });
+
+                    var page = 1;
+                    var getData = function getData(){
+                        var query = '[:d = at(document.type, "foundation-event-sponsor")]';
+
+                        ctx.api.form('everything').query('[' + query + ']')
+                            .page(page)
+                              .ref(ctx.ref).submit(function(err, doc){
+                                doc.results.forEach(function(item){
+                                    if(item.tags.indexOf('Whistler Event Sponsor') > -1){
+                                        $scope.whistler.push(item);
+                                    }
+                                    if(item.tags.indexOf('Calgary Event Sponsor') > -1){
+                                        $scope.calgary.push(item);
+                                    }
+
+                                    if (page <= doc.total_pages){
+                                        page = page + 1;
+                                        getData();
+                                    }
+                                });
+                        });
+                    };
+                    getData(1);
 
                 });
             }]

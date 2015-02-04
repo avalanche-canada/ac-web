@@ -56,7 +56,6 @@ angular.module('avalancheCanadaApp')
                             {'name':'memorialFunds','display':'Memorial Funds and Scholarships'},
                             {'name':'memorialDonations','display':'Memorial Donations'}];
 
-    $scope.contributors = [{'name':'donors','display':'Donors'},
-                            {'name':'sponsors','display':'Event Sponsors'}];
+    //$scope.contributors = [{'name':'donors','display':'Donors'}];
 
   });
