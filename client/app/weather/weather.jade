@@ -20,7 +20,10 @@
                     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         article#news-blog-event-landing-content.col-xs-12.col-md-9
             section#post-date {{forecastContent.getDate('weather-forecast.date') | dateUtc:"dddd MMMM Do" }}
-            section#post-location {{forecastContent.getText('weather-forecast.handle')}}
+            section#post-forecaster
+                | Created By: &nbsp;
+                br.visible-xs-inline
+                span {{forecastContent.getText('weather-forecast.handle')}}
             header
                 h1 {{forecastContent.getText('weather-forecast.headline')}}
             section#news-blog-event-landing-body

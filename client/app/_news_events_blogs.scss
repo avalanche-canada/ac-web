@@ -500,6 +500,11 @@
                 border-bottom:2px solid #eeeff1;
                 padding:20px 0;
     }
+    #post-forecaster{
+        @extend #post-location;
+        color:#0056b7;
+        span {color:#b5b5b5;}
+    }
     #post-date {border-top:2px solid #eeeff1;}
 
         #blog-tags {
