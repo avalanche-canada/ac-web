@@ -54,6 +54,8 @@ angular.module('avalancheCanadaApp')
                 var resourceList = {};
 
                 Prismic.ctx().then(function(ctx){
+
+                    //! for each tag get the youth resources with that tag
                     var getResources = function(){
                         tags.forEach(function(elm){
                             var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])][:d = any(document.tags, ["'+elm+'"])]]';
@@ -71,6 +73,7 @@ angular.module('avalancheCanadaApp')
                         deferred.resolve({'list': resourceList, 'tags': tags});
                     } ;
 
+                    //! Get all tags and then get the resources for each tag
                     var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])]]';
                     ctx.api.form('everything').query(query)
                         .ref(ctx.ref)
@@ -79,6 +82,7 @@ angular.module('avalancheCanadaApp')
                                     $log.error('error getting resource from prismic');
                                 }
                                 else {
+                                    //! add unique tags to the list
                                     documents.results.forEach(function(result){
                                         result.tags.forEach(function(tag){
                                             if(tags.indexOf(tag) === -1 && tag !== 'youth'){
@@ -103,6 +107,8 @@ angular.module('avalancheCanadaApp')
         $scope.curriculum = curriculum;
         $scope.tags = resourceList.tags;
         $scope.resourceList = resourceList.list;
+
+        //! once rendered call anchor scroll
         $timeout($anchorScroll, 0, false);
   })
 ;
