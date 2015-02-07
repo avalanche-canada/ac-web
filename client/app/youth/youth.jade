@@ -49,9 +49,6 @@
                         #resourceDesc(ng-bind-html="resource.getStructuredText('resource.description').asHtml(ctx)")
                         a(href="{{resource.getText('resource.url')}}")
                                 | {{resource.getText('resource.label')}}
-
-
-
                 .anchor#curriculum(ng-bind-html='curriculum')
     .push
 div.footer(ng-include='"components/footer/footer.html"')
