@@ -13,22 +13,17 @@
                     a(target='_blank', href='http://marmot.com/ ')
                         img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955435/logos/Logos%20png/marmot.png')
                 .blue-border
-        .col-xs-12
-            /// #sponsor-ad-container
-               /// p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
-               /// a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
-               ///     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         #news-blog-event-landing-content
             section#news-blog-event-landing-body
                 #overview(ng-bind-html='overview')
                 #vision(ng-bind-html='vision')
                 #board(ng-bind-html='board')
                 #staff
-                    li(ng-repeat='member in staff')
-                        {{member.getText('staff.title')}}
-                        {{member.getText('staff.full_name')}}
-                        {{member.getText('staff.email')}}
-                        {{member.getText('staff.phone')}}
+                    h2 Staff
+                    div(ng-repeat='member in staff')
+                        strong {{member.getText('staff.title')}}
+                        &nbsp; {{member.getText('staff.full_name')}} {{member.getText('staff.email')}} {{member.getText('staff.phone')}}
+                    br
                 #awards(ng-bind-html='awards')
                 #contact(ng-bind-html='contact')
     .push

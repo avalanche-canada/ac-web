@@ -14,7 +14,11 @@
         margin-top:75px;
         position:relative;
 }
-
+#news-blog-event-landing-body{
+    img{
+        @extend .img-responsive;
+    }
+}
 
 //Mobile
 #top-link {
