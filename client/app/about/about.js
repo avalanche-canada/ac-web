@@ -85,7 +85,7 @@ angular.module('avalancheCanadaApp')
         url: '^/tou',
         templateUrl: 'app/about/tou.html',
         controller: ['Prismic', '$scope',
-            function (Prismic, $scope, $timeout, $anchorScroll) {
+            function (Prismic, $scope) {
 
                 Prismic.ctx().then(function(ctx){
 
