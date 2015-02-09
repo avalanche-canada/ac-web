@@ -90,7 +90,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'Sea-to-Sky', 'link':'<a href="/forecasts/sea-to-sky" data-toggle="collapse" data-target=".navbar-collapse">Sea-to-Sky</a>'},
                             {'name':'South Columbia', 'link':'<a href="/forecasts/south-columbia" data-toggle="collapse" data-target=".navbar-collapse">South Columbia</a>'},
                             {'name':'South Coast Inland', 'link':'<a href="/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">South Coast Inland</a>'},
-                            {'name':'Vancouver Island, VAIC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
+                            {'name':'Vancouver Island, VIAC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
                             {'name':'Whistler Blackcomb', 'link':'<a href="http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Whistler Blackcomb</a>'},
                             {'name':'Waterton Lakes National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Waterton Lakes National Park</a>'},
                             {'name':'Little Yoho', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Little Yoho</a>'},

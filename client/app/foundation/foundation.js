@@ -300,7 +300,7 @@ angular.module('foundation',[
                                 });
                         });
                     };
-                    getData(1);
+                    getData();
 
                 });
             }]
