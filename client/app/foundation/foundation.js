@@ -161,7 +161,7 @@ angular.module('foundation',[
         resolve:{
             hincks: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-hincks').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -171,7 +171,7 @@ angular.module('foundation',[
 
             kelly: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-kelly').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -181,7 +181,7 @@ angular.module('foundation',[
 
             avalancheCanada: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-ac').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -191,7 +191,7 @@ angular.module('foundation',[
 
             other: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-other').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -201,7 +201,7 @@ angular.module('foundation',[
 
             shea: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-shea').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -211,7 +211,7 @@ angular.module('foundation',[
 
             hodgson: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -221,7 +221,7 @@ angular.module('foundation',[
 
             memorialFunds: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-memorial-funds').then(function(doc){
                         deferred.resolve(doc);
                     });
@@ -231,7 +231,7 @@ angular.module('foundation',[
 
             memorialDonations: function($q, Prismic){
                 var deferred = $q.defer();
-                Prismic.ctx().then(function(ctx){
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-memorial-donations').then(function(doc){
                         deferred.resolve(doc);
                     });

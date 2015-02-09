@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 
 angular.module('avalancheCanadaApp')
   .controller('EventsCtrl', function ($scope, Prismic, $log, $stateParams, urlBuilder) {
@@ -98,7 +97,7 @@ angular.module('avalancheCanadaApp')
                         }
                     }
                 });
-        }
+        };
 
         getContent();
     });

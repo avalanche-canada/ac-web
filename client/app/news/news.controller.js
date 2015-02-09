@@ -91,7 +91,7 @@ angular.module('avalancheCanadaApp')
                         }
                     }
                 });
-        }
+        };
 
         getContent();
     });
