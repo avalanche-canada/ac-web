@@ -22,6 +22,16 @@
                         | to you by
                     a.pull-right(target='_blank', href='http://www.labatt.com/?language=en')
                         img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955435/logos/Logos%20png/labatt.png')
+            #filters.col-xs-12
+              button.btn.btn-default(ng-click='isCollapsed = !isCollapsed')
+                | Filters
+                span ({{tagList.length}})
+                /// i.fa.fa-chevron-down
+              #filters-inner(collapse='isCollapsed')
+                .well.well-lg
+                    .filter.col-xs-3(ng-repeat='tag in tagList')
+                        a(ng-click='tagSelected(tag.name, $index)' ng-class="{selected: tag.selected === true}") {{tag.name}}
+
             // /#sponsor-mobile
 
             .col-xs-12(ng-show='false')

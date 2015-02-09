@@ -10,19 +10,18 @@ angular.module('foundation',[
         'prismic.io'])
 
 /* hack to disable nganimate which breaks the carousel  http://plnkr.co/edit/8HfZCaTOIeAesKVFSFpj?p=preview https://github.com/angular-ui/bootstrap/issues/1350*/
-    .directive('disableAnimation', function($animate){
-        return {
-            restrict: 'A',
-            link: function($scope, $element, $attrs){
-                $attrs.$observe('disableAnimation', function(value){
-                    $animate.enabled(!value, $element);
-                });
-            }
-        };
-    })
+.directive('disableAnimation', function($animate){
+    return {
+        restrict: 'A',
+        link: function($scope, $element, $attrs){
+            $attrs.$observe('disableAnimation', function(value){
+                $animate.enabled(!value, $element);
+            });
+        }
+    };
+})
 
- .config(function ($stateProvider) {
-
+.config(function ($stateProvider) {
     $stateProvider
       .state('foundation', {
         abstract:true,
@@ -106,85 +105,140 @@ angular.module('foundation',[
       .state('foundation.about', {
         url: '/about',
         templateUrl: 'app/foundation/about.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-
-
+        controller: 'FoundationAboutCtrl',
+        resolve:{
+            mission: function($q, Prismic){
+                var deferred = $q.defer();
                 Prismic.ctx().then(function(ctx){
-
-                    $scope.ctx = ctx;
-
                     Prismic.bookmark('foundation-about-mission').then(function(doc){
-                            $scope.mission = doc.getStructuredText('generic.body').asHtml(ctx);
+                        deferred.resolve(doc.getStructuredText('generic.body').asHtml(ctx));
                     });
-
-                    Prismic.bookmark('foundation-about-reports').then(function(doc){
-                            $scope.reports = doc.getStructuredText('generic.body').asHtml(ctx);
-                    });
-
-                    Prismic.bookmark('foundation-about-board').then(function(doc){
-                            $scope.board =  doc.getStructuredText('generic.body').asHtml(ctx);
-                    });
-
-                    Prismic.bookmark('foundation-directors-honourary').then(function(doc){
-                            $scope.honourary =  doc.getStructuredText('generic.body').asHtml(ctx);
-                    });
-
-                    Prismic.bookmark('foundation-contact').then(function(doc){
-                            $scope.contact =  doc.getStructuredText('generic.body').asHtml(ctx);
-                    });
-
                 });
-            }]
-
+                return deferred.promise;
+            },
+            reports: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(ctx){
+                    Prismic.bookmark('foundation-about-reports').then(function(doc){
+                        deferred.resolve(doc.getStructuredText('generic.body').asHtml(ctx));
+                    });
+                });
+                return deferred.promise;
+            },
+            board: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(ctx){
+                    Prismic.bookmark('foundation-about-board').then(function(doc){
+                        deferred.resolve(doc.getStructuredText('generic.body').asHtml(ctx));
+                    });
+                });
+                return deferred.promise;
+            },
+            honourary: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(ctx){
+                    Prismic.bookmark('foundation-directors-honourary').then(function(doc){
+                        deferred.resolve(doc.getStructuredText('generic.body').asHtml(ctx));
+                    });
+                });
+                return deferred.promise;
+            },
+            contact: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(ctx){
+                    Prismic.bookmark('foundation-contact').then(function(doc){
+                        deferred.resolve(doc.getStructuredText('generic.body').asHtml(ctx));
+                    });
+                });
+                return deferred.promise;
+            }
+        }
       })
       .state('foundation.programs', {
         url: '/programs',
         templateUrl: 'app/foundation/programs.html',
-        controller: ['Prismic', '$scope',
-            function (Prismic, $scope) {
-
-                $scope.panel = true;
-
-                Prismic.ctx().then(function(ctx){
-
-                    $scope.ctx = ctx;
-
+        controller: 'FoundationProgramsCtrl',
+        resolve:{
+            hincks: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
                     Prismic.bookmark('foundation-programs-hincks').then(function(doc){
-                            $scope.hincks = doc;
+                        deferred.resolve(doc);
                     });
-
-                    Prismic.bookmark('foundation-programs-kelly').then(function(doc){
-                            $scope.kelly = doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-ac').then(function(doc){
-                            $scope.ac = doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-other').then(function(doc){
-                            $scope.other = doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-memorial-funds').then(function(doc){
-                            $scope.memorialFunds =  doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-memorial-donations').then(function(doc){
-                            $scope.memorialDonations =  doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-shea').then(function(doc){
-                            $scope.shea =  doc;
-                    });
-
-                    Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
-                            $scope.hodgson =  doc;
-                    });
-
                 });
-            }]
+                return deferred.promise;
+            },
 
+            kelly: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-kelly').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            avalancheCanada: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-ac').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            other: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-other').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            shea: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-shea').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            hodgson: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-hodgson').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            memorialFunds: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-memorial-funds').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
+            memorialDonations: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-memorial-donations').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            }
+        }
       })
       .state('foundation.contributors', {
         url: '/donors',
@@ -203,7 +257,6 @@ angular.module('foundation',[
 
                 });
             }]
-
       })
       .state('foundation.eventsponsor', {
         url: '/eventsponsor',
@@ -247,11 +300,29 @@ angular.module('foundation',[
                                 });
                         });
                     };
-                    getData(1);
+                    getData();
 
                 });
             }]
-
       });
+})
+.controller('FoundationAboutCtrl', function ($anchorScroll, $timeout, $scope, mission, reports, board, honourary, contact) {
+    $scope.mission = mission;
+    $scope.reports = reports;
+    $scope.board   = board;
+    $scope.honourary = honourary;
+    $scope.contact = contact;
+    $timeout($anchorScroll, 0, false);
+})
+.controller('FoundationProgramsCtrl', function ($anchorScroll, $timeout, $scope, hincks, kelly, avalancheCanada,other,shea, hodgson, memorialDonations, memorialFunds) {
+    $scope.hincks = hincks;
+    $scope.kelly = kelly;
+    $scope.ac   = avalancheCanada;
+    $scope.other = other;
+    $scope.shea = shea;
+    $scope.hodgson = hodgson;
+    $scope.memorialDonations = memorialDonations;
+    $scope.memorialFunds = memorialFunds;
 
-  });
+    $timeout($anchorScroll, 0, false);
+});
