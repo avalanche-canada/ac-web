@@ -7,6 +7,8 @@ angular.module('avalancheCanadaApp')
         Prismic.document($stateParams.id).then(function(doc){
             if (doc.slug === $stateParams.slug) {
                 $scope.documentHtml = doc.getStructuredText('blog.body').asHtml(ctx);
+                $scope.vid1         = doc.getText('blog.video1-source');
+                $scope.vid2         = doc.getText('blog.video2-source');
                 $scope.header       = doc.getText('blog.title');
                 $scope.date         = doc.getDate('blog.date');
                 $scope.category     = doc.getText('blog.category');
