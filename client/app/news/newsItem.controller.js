@@ -11,6 +11,8 @@ angular.module('avalancheCanadaApp')
                     $scope.documentHtml =  doc.getStructuredText('news.body').asHtml(ctx);//doc.asHtml(ctx);
                     $scope.header       = doc.getText('news.title');
                     $scope.date         = doc.getDate('news.date');
+                    $scope.vid1         = doc.getText('news.video1-source');
+                    $scope.vid2         = doc.getText('news.video2-source');
             }
             else if (doc.slugs.indexOf($stateParams.slug) >= 0) {
                 $location.path('/news/'+doc.id+'/'+doc.slug);

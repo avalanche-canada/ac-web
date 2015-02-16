@@ -38,6 +38,10 @@
             /// header
             ///    h1 {{header}}
             section#news-blog-event-landing-body(ng-bind-html='documentHtml')
+            .embed-responsive.embed-responsive-16by9(ng-if='vid1')
+                iframe.embed-responsive-item(src='{{vid1}}')
+            .embed-responsive.embed-responsive-16by9(ng-if='vid2')
+                iframe.embed-responsive-item(src='{{vid2}}')
 
             footer
                 ///section#blog-author
@@ -66,8 +70,6 @@
                 ///                span Newer
                 ///                br
                 ///                | New Fundraiser for Avalanche Canada
-        // /#news-blog-event-content
-        // /#news-blog-event-list-rows
         #mobile-sidebar-container.col-xs-12.col-md-3
             aside
                 .dark-ribbon
