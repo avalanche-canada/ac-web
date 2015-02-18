@@ -40,7 +40,10 @@ angular.module('avalancheCanadaApp', [
             })
             .state('mobileSplash', {
                 url: '/mobileSplash',
-                templateUrl: 'app/mobileSplash.html'
+                templateUrl: 'app/mobileSplash.html',
+                controller: ['$scope','store', function($scope,store){
+                    $scope.dest = store.get('dest') || "ac.map";
+                }]
             });
     })
 
@@ -158,6 +161,7 @@ angular.module('avalancheCanadaApp', [
         var android = navigator.userAgent.match(/Android/i);
         var ios     = navigator.userAgent.match(/iPhone|iPad|iPod/i);
         if (!store.get('mobileSplash')){
+            store.set('dest', $state.current.name);
             if (android || ios){
                 $state.go('mobileSplash');
             }
