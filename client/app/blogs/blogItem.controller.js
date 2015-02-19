@@ -17,7 +17,7 @@ angular.module('avalancheCanadaApp')
                     var frameSource = doc.getText('blog.video'+i+'-source');
                     var frameText = doc.getStructuredText('blog.video'+i+'-desc');
                     if(frameText){
-                        frameText = frameText.asHtml(ctx)
+                        frameText = frameText.asHtml(ctx);
                     }
                     list.push({source: frameSource, text: frameText});
 
