@@ -38,10 +38,13 @@
             /// header
             ///    h1 {{header}}
             section#news-blog-event-landing-body(ng-bind-html='documentHtml')
-            .embed-responsive.embed-responsive-16by9(ng-if='vid1')
-                iframe.embed-responsive-item(src='{{vid1}}')
-            .embed-responsive.embed-responsive-16by9(ng-if='vid2')
-                iframe.embed-responsive-item(src='{{vid2}}')
+
+
+            div(ng-repeat='iframe in iFrameList')
+                .embed-responsive.embed-responsive-16by9(ng-if='iframe.source')
+                    iframe.embed-responsive-item(src='{{iframe.source}}')
+                section(ng-bind-html='iframe.text')
+
 
             footer
                 ///section#blog-author
