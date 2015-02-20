@@ -42,7 +42,7 @@ angular.module('avalancheCanadaApp', [
                 url: '/mobileSplash',
                 templateUrl: 'app/mobileSplash.html',
                 controller: ['$scope','store', function($scope,store){
-                    $scope.dest = store.get('dest') || "ac.map";
+                    $scope.dest = store.get('dest') || 'ac.map';
                 }]
             });
     })
