@@ -70,7 +70,7 @@ var parsePstDate = function(dateIn){
     }
     else
     {
-        dateOut = moment(dateIn);
+        dateOut = moment(dateIn).format();
     }
     return dateOut;
 }
@@ -78,11 +78,11 @@ var parsePstDate = function(dateIn){
 var parseUtcDate = function(dateIn){
     var dateOut = '';
     if(!/(Z|PST|MST)$/g.test(dateIn)){
-        dateOut = moment.utc(dateIn);
+        dateOut = moment.utc(dateIn).format();
     }
     else
     {
-        dateOut = moment(dateIn);
+        dateOut = moment(dateIn).format();
     }
     return dateOut;
 }
@@ -241,7 +241,7 @@ function parksForecast(caaml, region){
     function getDangerRatings(caamlDangerRatings){
         //! Day danger ratings are UTC
         var daysDangerRatings = _.groupBy(caamlDangerRatings, function (dr) {
-            return moment.utc(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]);
+            return moment.utc(dr['validTime'][0]['TimeInstant'][0]['timePosition'][0]).format();
         });
 
         function formatDangerRating(dangerRating) {
@@ -447,8 +447,29 @@ function parseCaamlForecast(caaml, region, callback) {
 }
 
 function getDangerIconStyles(forecast) {
-    var todaysRating = forecast.dangerRatings[0].dangerRating;
 
+    //! find todays danger rating
+    var todaysRating = _.find(forecast.dangerRatings, function (dr){
+            //! if the forecast is today or tomorrows
+            if (moment(dr.date).isSame(moment().utc(),'day') ||
+                moment(dr.date).isSame(moment().add(1, 'day').utc(),'day')){
+                return true;
+            }
+            return false;
+        });
+
+    //! if there is a danger rating for today found then display the danger rating
+    if(todaysRating){
+        todaysRating = todaysRating.dangerRating;
+    }
+    else{ //! no danger rating for today instead display no rating
+
+        todaysRating = {alp:'N/A:No Rating',
+                        tln:'N/A:No Rating',
+                        btl:'N/A:No Rating'};
+    }
+
+    //! return the danger rating style for the given danger rating
     return {
         alp: dangerRatingStyles.bannerFill[todaysRating.alp],
         tln: dangerRatingStyles.bannerFill[todaysRating.tln],
