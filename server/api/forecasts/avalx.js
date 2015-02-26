@@ -451,8 +451,8 @@ function getDangerIconStyles(forecast) {
     //! find todays danger rating
     var todaysRating = _.find(forecast.dangerRatings, function (dr){
             //! if the forecast is today or tomorrows
-            if (moment(dr.date).isSame(moment().utc(),'day') ||
-                moment(dr.date).isSame(moment().add(1, 'day').utc(),'day')){
+            if (moment(dr.date).isSame(moment(),'day') ||
+                moment(dr.date).isSame(moment().add(1, 'day'),'day')){
                 return true;
             }
             return false;

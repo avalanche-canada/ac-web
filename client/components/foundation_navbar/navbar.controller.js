@@ -50,7 +50,9 @@ angular.module('avalancheCanadaApp')
                             {'name':'reports','display':'Annual Reports and Financial Statements'},
                             {'name':'board','display':'Board Of Directors'},
                             {'name':'honourary','display':'Honourary Directors'},
-                            {'name':'contact','display':'Contact'}];
+                            {'name':'contact','display':'Contact'},
+                            {'name':'subscribe','display':'Subscribe to newsletter'}];
+
 
     $scope.programs = [{'name':'ac','display':'Avalanche Canada'},
                             {'name':'memorialFunds','display':'Memorial Funds and Scholarships'},
