@@ -16,12 +16,8 @@ angular.module('avalancheCanadaApp')
               var modalInstance = $modal.open({
                   template: '<img src="{{highRes}}" ng-click="close()">',
                   controller: ['$scope', 'highRes',
-                    function ($scope,highRes) {
+                    function ($scope, highRes) {
                       $scope.highRes = highRes;
-
-                      $scope.close = function () {
-                        $modalInstance.dismiss('cancel');
-                      };
                     }],
                   size: 'lg',
                   resolve: {
