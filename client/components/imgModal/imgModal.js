@@ -9,12 +9,12 @@ angular.module('avalancheCanadaApp')
               thumb: '=thumb',
               highRes: '=high'
           },
-          template: '<div class="imgModal"><a ng-click="openModal()"><img class="img-responsive" src="{{thumb}}"/></a></div>',
+          template: '<div class="imgModal"><a ng-click="openModal()"><img src="{{thumb}}" class="img-responsive"/></a></div>',
           link: function(scope, ele, attrs) {
 
             scope.openModal = function (size) {
               var modalInstance = $modal.open({
-                  template: '<img src="{{highRes}}" ng-click="close()">',
+                  template: '<img class="img-responsive" src="{{highRes}}" ng-click="close()">',
                   controller: ['$scope', 'highRes',
                     function ($scope, highRes) {
                       $scope.highRes = highRes;
