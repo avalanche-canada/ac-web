@@ -21,8 +21,8 @@
         article#news-blog-event-landing-content.col-xs-12.col-md-9
             div(style="display:inline-block")
                 section#post-date(style="height:80px")
-                    div(type='text', datepicker-popup, ng-model='dt', is-open='opened')
-                        | {{dt | dateUtc:"dddd MMMM Do"}} &nbsp;
+                    div(type='text', datepicker-popup, ng-model='dt', max-date='tomorrow', is-open='opened')
+                        | {{displayDate | dateUtc:"dddd MMMM Do"}} &nbsp;
                         button.btn.btn-default(ng-click='open($event)')
                             i.glyphicon.glyphicon-calendar
                 section#post-forecaster(style="height:80px")
