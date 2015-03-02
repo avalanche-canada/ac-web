@@ -78,7 +78,7 @@ angular.module('avalancheCanadaApp')
             return (moment(date).isSame(element.getDate('weather-forecast.date'),'day') &&
                     moment(date).isSame(element.getDate('weather-forecast.date'),'month') &&
                     moment(date).isSame(element.getDate('weather-forecast.date'),'year'));
-        }
+        };
 
         var result = _.find(weatherForecast, findForecast);//weatherForecast.find(findForecast);
 
