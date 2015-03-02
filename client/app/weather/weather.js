@@ -14,10 +14,12 @@ angular.module('avalancheCanadaApp')
 })
 .config(function ($stateProvider) {
 
+    //! get all weather forecasts
     var getWeather = function($q, $log, Prismic){
         var results = [];
         var page   = 1;
         var deferred = $q.defer();
+        //! recurcive function
         var queryPrimsic = function(){
             Prismic.ctx().then(function(ctx){
                 var query = '[[:d = at(document.type, "weather-forecast")]]';
@@ -48,6 +50,7 @@ angular.module('avalancheCanadaApp')
         queryPrimsic();
         return deferred.promise;
     };
+
     $stateProvider
         .state('ac.weatherToday', {
             url: '^/weather',
@@ -71,11 +74,13 @@ angular.module('avalancheCanadaApp')
     $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 
     var filterByDate = function(date){
-        var result = weatherForecast.find(function(element){
+        var findForecast = function (element){
             return (moment(date).isSame(element.getDate('weather-forecast.date'),'day') &&
                     moment(date).isSame(element.getDate('weather-forecast.date'),'month') &&
                     moment(date).isSame(element.getDate('weather-forecast.date'),'year'));
-        });
+        }
+
+        var result = _.find(weatherForecast, findForecast);//weatherForecast.find(findForecast);
 
         if(result){
             $log.info('filter match found');
