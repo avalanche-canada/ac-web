@@ -10,10 +10,10 @@ angular.module('avalancheCanadaApp')
               highRes: '=high'
           },
           template: '<div class="imgModal"><a ng-click="openModal()"><img src="{{thumb}}" class="img-responsive"/></a></div>',
-          link: function(scope, ele, attrs) {
+          link: function(scope) {
 
-            scope.openModal = function (size) {
-              var modalInstance = $modal.open({
+            scope.openModal = function () {
+              $modal.open({
                   template: '<img class="img-responsive" src="{{highRes}}" ng-click="close()">',
                   controller: ['$scope', 'highRes',
                     function ($scope, highRes) {

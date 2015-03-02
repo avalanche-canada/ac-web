@@ -15,22 +15,39 @@ angular.module('avalancheCanadaApp')
 .config(function ($stateProvider) {
 
     var getWeather = function($q, $log, Prismic){
+        var results = [];
+        var page   = 1;
         var deferred = $q.defer();
-        Prismic.ctx().then(function(ctx){
-            var query = '[[:d = at(document.type, "weather-forecast")]]';
-            ctx.api.form('everything').query(query)
-                                        .orderings('[my.weather-forecast.date desc]')
-                                            .ref(ctx.ref).submit(function(err, documents){
-                if (err) {
-                    $log.error('error getting blogs from prismic');
-                }
-                else {
-                    deferred.resolve(documents);
-                }
+        var queryPrimsic = function(){
+            Prismic.ctx().then(function(ctx){
+                var query = '[[:d = at(document.type, "weather-forecast")]]';
+                ctx.api.form('everything').query(query)
+                                            .pageSize(99)
+                                                .page(page)
+                                                    .orderings('[my.weather-forecast.date desc]')
+                                                        .ref(ctx.ref).submit(function(err, documents){
+                    if (err) {
+                        $log.error('error getting weather from prismic');
+                    }
+                    else {
+                        results = results.concat(documents.results);
+
+                        //! max records we can get from prismic is 100 so if there are multiple pages recurcively add them
+                        if (page <= documents.total_pages){
+                            page = page + 1;
+                            queryPrimsic();
+                        }
+                        else{
+                            deferred.resolve(results);
+                        }
+                    }
+                });
             });
-        });
+        };
+
+        queryPrimsic();
         return deferred.promise;
-    }
+    };
     $stateProvider
         .state('ac.weatherToday', {
             url: '^/weather',
@@ -54,20 +71,24 @@ angular.module('avalancheCanadaApp')
     $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 
     var filterByDate = function(date){
-        var result = weatherForecast.results.find(function(element, index, array){
-            return moment(date).isSame(element.getDate('weather-forecast.date'),'day');
+        var result = weatherForecast.find(function(element){
+            return (moment(date).isSame(element.getDate('weather-forecast.date'),'day') &&
+                    moment(date).isSame(element.getDate('weather-forecast.date'),'month') &&
+                    moment(date).isSame(element.getDate('weather-forecast.date'),'year'));
         });
 
         if(result){
             $log.info('filter match found');
             $scope.forecastContent = result;
+            $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
         }
         else{
-            $log.info('no match found, showing latest. date searched for', date);
-            $scope.forecastContent = weatherForecast.results[0];
+            $log.info('no match found, showing latest forecast. date searched for=', date);
+            $scope.forecastContent = weatherForecast[0];
+            $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
         }
-        $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
-        $log.info('dt vs fxDate', $scope.dt, $scope.forecastContent.getDate('weather-forecast.date'));
+        //$scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
+        //$log.info('dt vs fxDate', $scope.dt, $scope.forecastContent.getDate('weather-forecast.date'));
     };
 
 
@@ -86,19 +107,21 @@ angular.module('avalancheCanadaApp')
     };
 
     $scope.$watch('dt', function(newVal,oldVal){
-        if(moment(newVal).isSame(oldVal, 'day')==false){
+        if(moment(newVal).isSame(oldVal, 'day')===false){
             //! the day selected is in pst and then converted incorrectly to UTC thus off by a day
             filterByDate(moment(newVal).subtract(1,'day').format('YYYY-MM-DD'));
-            //$state.transitionTo ('ac.weather', {date: newVal}, { reload: false, notify: false });
         }
+        $state.transitionTo ('ac.weather', {date: moment(newVal).format('YYYY-MM-DD')}, { reload: false, notify: false });
     });
 
     if($stateParams.date){
-        filterByDate($stateParams.date);
+        filterByDate(moment($stateParams.date).utc().format('YYYY-MM-DD'));
+        $scope.dt = $stateParams.date;
     }
     else{
-        $scope.forecastContent = weatherForecast.results[0];
+        $scope.forecastContent = weatherForecast[0];
         $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
+        //! UTC to PST conversion
         $scope.dt = moment($scope.forecastContent.getDate('weather-forecast.date')).add(1,'day');
     }
 
