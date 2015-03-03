@@ -111,14 +111,6 @@ angular.module('avalancheCanadaApp')
         $scope.opened = true;
     };
 
-    $scope.$watch('dt', function(newVal,oldVal){
-        if(moment(newVal).isSame(oldVal, 'day')===false){
-            //! the day selected is in pst and then converted incorrectly to UTC thus off by a day
-            filterByDate(moment(newVal).subtract(1,'day').format('YYYY-MM-DD'));
-        }
-        $state.transitionTo ('ac.weather', {date: moment(newVal).format('YYYY-MM-DD')}, { reload: false, notify: false });
-    });
-
     if($stateParams.date){
         filterByDate(moment($stateParams.date).utc().format('YYYY-MM-DD'));
         $scope.dt = $stateParams.date;
@@ -129,6 +121,14 @@ angular.module('avalancheCanadaApp')
         //! UTC to PST conversion
         $scope.dt = moment($scope.forecastContent.getDate('weather-forecast.date')).add(1,'day');
     }
+
+    $scope.$watch('dt', function(newVal,oldVal){
+        if(moment(newVal).isSame(oldVal, 'day')===false){
+            //! the day selected is in pst and then converted incorrectly to UTC thus off by a day
+            filterByDate(moment(newVal).subtract(1,'day').format('YYYY-MM-DD'));
+            $state.transitionTo ('ac.weather', {date: moment(newVal).format('YYYY-MM-DD')}, { reload: false, notify: false });
+        }
+    });
 
 });
 
