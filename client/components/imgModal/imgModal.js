@@ -9,7 +9,7 @@ angular.module('avalancheCanadaApp')
               thumb: '=thumb',
               highRes: '=high'
           },
-          template: '<div class="imgModal"><a ng-click="openModal()"><img src="{{thumb}}" class="img-responsive"/></a></div>',
+          template: '<div class="imgModal"><a href="" ng-click="openModal()"><img src="{{thumb}}" class="img-responsive"/></a></div>',
           link: function(scope) {
 
             scope.openModal = function () {
