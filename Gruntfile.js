@@ -15,14 +15,41 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
-    injector: 'grunt-asset-injector'
+    injector: 'grunt-asset-injector',
   });
+
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+
+    htmlSnapshot: {
+      all: {
+        options: {
+          snapshotPath: 'snapshots/',
+          sitePath: 'http://127.0.0.1:9000/',
+          msWaitForPages: 1000,
+          urls: [
+            '/',
+            '/more',
+            '/about',
+            '/blogs',
+            '/weather',
+            '/submit',
+            '/conditions',
+            '/training',
+            '/youth',
+            '/gear',
+            '/sponsors',
+            '/collaborators',
+            '/news',
+            '/events'
+          ]
+        }
+      }
+    },
 
     // Project settings
     yeoman: {
@@ -524,6 +551,24 @@ module.exports = function (grunt) {
             ]
         }
       },
+
+        htmlSnapshot: {
+          debug: {
+            options: {
+              snapshotPath: 'snapshots/',
+              sitePath: 'http://localhost:9000/',
+              msWaitForPages: 1000,
+              urls: [
+                '/',
+                '/about',
+                '/weather'
+              ]
+            }
+          },
+          prod: {
+            options: {}
+          }
+        },
 
       // Inject component scss into app.scss
       sass: {
