@@ -2,6 +2,9 @@
 
 module.exports = function(app) {
 
+    //! prerender site for bots
+    app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
+
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
 
@@ -16,7 +19,7 @@ module.exports = function(app) {
         .get(function(req, res) {
             res.send(404);
         });
-        
+
 
     // All other routes should redirect to the index.html
     app.route('/*')
