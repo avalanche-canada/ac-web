@@ -2,8 +2,12 @@
 
 module.exports = function(app) {
 
-    //! prerender site for bots
-    app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
+    var env = app.get('env');
+
+    //! prerender site for bots in production only
+    if (env === 'production') {
+        app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
+    }
 
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
