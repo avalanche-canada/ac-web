@@ -13,6 +13,6 @@ module.exports = {
   imageDir: 'assets/images/',
   MAPBOX_ACCESS_TOKEN :'pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA#4',
   MAPBOX_MAP_ID: 'avalanchecanada.k8o347c9',
-  AC_API_ROOT_URL: '127.0.0.1:8081'
+  AC_API_ROOT_URL: 'http://www.avalanche.ca'
 };
 
