@@ -6,7 +6,7 @@
 // This file should not be tracked by git.
 
 module.exports = {
-  DOMAIN: 'http://avalanche-canada-qa.elasticbeanstalk.com/',
+  DOMAIN: 'http://avalanche-canada-qa.elasticbeanstalk.com',
   SESSION_SECRET: "avalanchecanada-secret",
   // Control debug level for modules using visionmedia/debug
   DEBUG: '',

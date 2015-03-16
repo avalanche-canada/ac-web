@@ -3,7 +3,7 @@ header#header.navbar-fixed-top(role='banner')
     .container
         nav#navigation.yamm.navbar.navbar-default(role='navigation')
             .navbar-header
-                a(rel='home', title='Avalanche Foundation', href='/foundation')
+                a(rel='home', title='Avalanche Foundation', href='{{env.DOMAIN}}/foundation')
                     h1.navbar-brand.foundation
             .visible-xs.visible-sm
                     a#nav-search(href='#')
@@ -20,14 +20,14 @@ header#header.navbar-fixed-top(role='banner')
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in about')
-                                    a(href='foundation/about#{{item.name}}') {{item.display}}
+                                    a(href='{{env.DOMAIN}}/foundation/about#{{item.name}}') {{item.display}}
                     li.dropdown
                         a.dropdown-toggle(href='#' data-toggle="dropdown")
                             | Programs
                             span.arrow-down
                         ul.dropdown-menu
                             li(ng-repeat='item in programs')
-                                a(href='foundation/programs#{{item.name}}') {{item.display}}
+                                a(href='{{env.DOMAIN}}/foundation/programs#{{item.name}}') {{item.display}}
 
                     li.dropdown
                         a.dropdown-toggle(href='#' data-toggle="dropdown")
@@ -35,9 +35,9 @@ header#header.navbar-fixed-top(role='banner')
                             span.arrow-down
                         ul.dropdown-menu
                             li
-                                a(href='foundation/donors') Donors
+                                a(href='{{env.DOMAIN}}/foundation/donors') Donors
                             li
-                                a(href='foundation/eventsponsor') Event Sponsors
+                                a(href='{{env.DOMAIN}}/foundation/eventsponsor') Event Sponsors
 
 
                     li.dropdown
@@ -46,9 +46,9 @@ header#header.navbar-fixed-top(role='banner')
                                 span.arrow-down
                         ///ul.dropdown-menu
                         ///    li
-                        ///        a(href='foundation/news') News
+                        ///        a(href='{{env.DOMAIN}}/foundation/news') News
                         ///    li
-                        ///        a(href='foundation/events') Events
+                        ///        a(href='{{env.DOMAIN}}/foundation/events') Events
 
 
                 a#nav-search-desktop(href='#')

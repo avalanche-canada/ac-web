@@ -8,10 +8,10 @@
         .row
             .col-xs-12
                 #sponsor-ad-container(ng-if='!sledPage')
-                    a#sponsor-link(title='Sponsored By', href='/sponsors')
+                    a#sponsor-link(title='Sponsored By', href='{{env.DOMAIN}}/sponsors')
                         img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211188/logos/Logos%20png/sponsor_banner_home.png')
                 #sponsor-ad-container(ng-if='sledPage')
-                    a#sponsor-link(title='Smith Optics', href='/sponsors')
+                    a#sponsor-link(title='Smith Optics', href='{{env.DOMAIN}}/sponsors')
                         img.img-responsive(alt='Smith Optics', src='http://res.cloudinary.com/avalanche-ca/image/upload/v1417211257/logos/Logos%20png/sponsor_banner_sled.png')
 
     #know-more-sled(ng-if='sledPage')
@@ -27,10 +27,10 @@
                         a.btn(href='http://membership.avalanche.ca/' target="_blank")
                             | Become a member
                             i.fa.fa-angle-right
-                        a.btn(href='/training#overview')
+                        a.btn(href='{{env.DOMAIN}}/training#overview')
                             | Take a course
                             i.fa.fa-angle-right
-                        a.btn(href='/gear')
+                        a.btn(href='{{env.DOMAIN}}/gear')
                             | Get the gear
                             i.fa.fa-angle-right
 
@@ -47,10 +47,10 @@
                         a.btn(href='http://membership.avalanche.ca/' target="_blank")
                             | Become a member
                             i.fa.fa-angle-right
-                        a.btn(href='/training#overview')
+                        a.btn(href='{{env.DOMAIN}}/training#overview')
                             | Take a course
                             i.fa.fa-angle-right
-                        a.btn(href='/gear')
+                        a.btn(href='{{env.DOMAIN}}/gear')
                             | Get the gear
                             i.fa.fa-angle-right
     #news.container
@@ -82,32 +82,32 @@
                         header
                             span Featured
                             h2
-                                a(href='/news/{{featuredNews.id}}/{{featuredNews.slug}}')
+                                a(href='{{env.DOMAIN}}/news/{{featuredNews.id}}/{{featuredNews.slug}}')
                                     {{featuredNews.getText('news.title')}}
                         section.news-body
                             p
                                 | {{featuredNews.getStructuredText('news.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
+                                a(href='{{env.DOMAIN}}/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
                                 {{featuredNews.getDate('news.date') | dateUtc:"dddd MMMM Do"  }}
 
                     article.list-rows(ng-repeat="item in news")
                         header
                             h2
-                                a(href='/news/{{item.id}}/{{item.slug}}')
+                                a(href='{{env.DOMAIN}}/news/{{item.id}}/{{item.slug}}')
                                     | {{item.getText('news.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/news/{{item.id}}/{{item.slug}}') Full article
+                                a(href='{{env.DOMAIN}}/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time {{item.getDate('news.date') | dateUtc:"dddd MMMM Do"  }}
                     article.list-rows
                         footer
                             p
-                                a(href='/news') See More
+                                a(href='{{env.DOMAIN}}/news') See More
 
     #news.container
         .row
@@ -137,26 +137,26 @@
                         header
                             span Featured
                             h2
-                                a(href='/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
+                                a(href='{{env.DOMAIN}}/events/{{featuredEvent.id}}/{{featuredEvent.slug}}')
                                     {{featuredEvent.getText('event.title')}}
                         section.news-body
                             p
                                 | {{featuredEvent.getStructuredText('event.shortlede').asText(ctx)}}
                         footer
                             p
-                                a(href='/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
+                                a(href='{{env.DOMAIN}}/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
                                 {{featuredEvent .getDate('event.date') | dateUtc:"dddd MMMM Do" }}
 
                     article.list-rows(ng-repeat="item in events")
                         header
                             h2
-                                a(href='/events/{{item.id}}/{{item.slug}}')
+                                a(href='{{env.DOMAIN}}/events/{{item.id}}/{{item.slug}}')
                                     | {{item.getText('event.title')}}
                                     i.fa.fa-angle-right
                         footer
                             p
-                                a(href='/events/{{item.id}}/{{item.slug}}') Full article
+                                a(href='{{env.DOMAIN}}/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
                                 time {{item.getDate('news.date') | dateUtc:"dddd MMMM Do" }}
                     article.list-rows
@@ -208,7 +208,7 @@
                     article.list-rows(ng-repeat='blog in blogs')
                         header
                             h3
-                                a(href='/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
+                                a(href='{{env.DOMAIN}}/blogs/{{blog.id}}/{{blog.slug}}') {{blog.getText('blog.title')}}
                         section.blog-author
                             p
                                 ///todo | by
@@ -218,7 +218,7 @@
                                {{blog.getText('blog.shortlede')}}
                         footer
                             p
-                                a(href='/blogs/{{blog.id}}/{{blog.slug}}') Full article
+                                a(href='{{env.DOMAIN}}/blogs/{{blog.id}}/{{blog.slug}}') Full article
                                 i.fa.fa-circle
                                 time {{blog.getDate('news.date') | dateUtc }}
      #blog.container

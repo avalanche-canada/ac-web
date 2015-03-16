@@ -5,6 +5,8 @@ angular.module('foundation')
 
   .controller('FoundationMoreCtrl', function ($scope, $rootScope, $state, Prismic, $log) {
 
+    $scope.env = $rootScope.env;
+
     $scope.showIntro = function () {
         $rootScope.pageClass = 'page-up';
          $state.go('foundation.intro');

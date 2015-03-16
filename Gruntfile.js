@@ -650,6 +650,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'template',
       'clean:server',
       'env:all',
       'injector:sass',

@@ -34,6 +34,7 @@ angular.module('foundation',[
         controller:  ['$scope', '$rootScope', '$state',
             function ($scope, $rootScope,$state) {
 
+                $scope.env = $rootScope.env;
                 var width = window.innerWidth;
                 var height = window.innerHeight;
                 $scope.myInterval = 5000;
@@ -48,7 +49,7 @@ angular.module('foundation',[
                           //image: 'http://avalanche-canada.imgix.net/photos/foundation_intro.png?fit=crop&h=' + height + '&q=80&w='+width,
                           image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536478/Foundation/DSC_0090.jpg',
                           credits:'Silas Patterson',
-                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="'+$scope.env.DOMAIN+'">Avalanche Canada<a>',
                           text2: 'provide daily public avalanche forecasts'
                         },
 
@@ -56,28 +57,28 @@ angular.module('foundation',[
                           //image: 'http://avalanche-canada.imgix.net/photos/education.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536183/Foundation/PC230028.jpg',
                           credits:'Kirstie Simpson',
-                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="'+$scope.env.DOMAIN+'">Avalanche Canada<a>',
                           text2: 'develop and coordinate public avalanche education'
                         },
                         {
                           //image: 'http://avalanche-canada.imgix.net/photos/youth.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           image: 'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536253/Foundation/DSC_7016.jpg',
                           credits:'Steve Ruskay',
-                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="'+$scope.env.DOMAIN+'">Avalanche Canada<a>',
                           text2: 'deliver youth awareness and training seminars'
                         },
                         {
                           //image: 'http://avalanche-canada.imgix.net/photos/sled2.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421536269/Foundation/sled2.jpg',
                           credits:'Jonathan Reich',
-                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="'+$scope.env.DOMAIN+'">Avalanche Canada<a>',
                           text2: 'create and deliver programs for specific user groups'
                         },
                         {
                           //image: 'http://avalanche-canada.imgix.net/photos/research.jpg?fit=crop&h=' + height + '&q=80&w='+width,
                           image:'http://res.cloudinary.com/avalanche-ca/image/upload/c_fill,h_'+height+',w_'+width+'/v1421537800/Foundation/research.jpg',
                           credits:'Raven Eye Photography',
-                          text1: 'Your donations help <a href="/">Avalanche Canada<a>',
+                          text1: 'Your donations help <a href="'+$scope.env.DOMAIN+'">Avalanche Canada<a>',
                           text2: 'contribute to snow safety research'
                         }];
 
