@@ -70,13 +70,13 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($scope, $rootScope, $location, $document, auth, store) {
     $scope.auth = auth;
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
                             {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
                             {'name':'Jasper National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=2" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Jasper National Park</a>'},
-                            {'name':'Kananaskis Country, Alberta Parks', 'link':'<a href="/forecasts/kananaskis" data-toggle="collapse" data-target=".navbar-collapse" >Kananaskis Country, Alberta Parks</a>'},
+                            {'name':'Kananaskis Country, Alberta Parks', 'link':'<a href="'+$rootScope.env.DOMAIN+'/forecasts/kananaskis" data-toggle="collapse" data-target=".navbar-collapse" >Kananaskis Country, Alberta Parks</a>'},
                             {'name':'Kootenay Boundary', 'link':'<a href="/forecasts/kootenay-boundary" data-toggle="collapse" data-target=".navbar-collapse"> Kootenay Boundary</a>'},
                             {'name':'Lizard Range and Flathead', 'link':'<a href="/forecasts/lizard-range" data-toggle="collapse" data-target=".navbar-collapse">Lizard Range and Flathead</a>'},
                             {'name':'North Columbia', 'link':'<a href="/forecasts/north-columbia" data-toggle="collapse" data-target=".navbar-collapse">North Columbia</a>'},

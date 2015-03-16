@@ -1,9 +1,43 @@
 'use strict';
 
 module.exports = function (grunt) {
+  var env = process.env.ENV;
+
+  if (!env){
+    //! if using Codeship.iop we cannot set env vars but have acces to the branch. set the env depending on which branch is used
+    var branch = process.env.CI_BRANCH;
+    if(branch){
+        switch(branch){
+            case 'master':
+                console.log('master branch setting env to production');
+                env = 'production';
+                break;
+            case 'dev':
+                console.log('dev branch setting env to development');
+                env = 'development';
+                break;
+            case 'qa':
+                console.log('qa branch setting env to qa');
+                env = 'qa';
+                break;
+            default:
+                console.log('unknown branch encountered setting env to production');
+                env = 'production';
+                break;
+        }
+    }
+  }
+
+  //! default branch
+  if(!env){
+    env = 'development';
+  }
+
+
+
   var localConfig;
   try {
-    localConfig = require('./server/config/local.env');
+    localConfig = require('./server/config/'+ env +'.env');
   } catch(e) {
     localConfig = {};
   }
@@ -462,6 +496,23 @@ module.exports = function (grunt) {
       all: localConfig
     },
 
+    //! add local config variables to angular
+    template: {
+     config: {
+      options: {
+        data: localConfig
+      },
+      files: {
+          // The .tmp destination is a yeoman
+          // default location. Set this dest
+          // to fit your own needs if not using
+          // yeoman
+          'client/app/constants.js':
+            ['client/app/constants.js.tpl']
+      }
+     }
+    },
+
     // Compiles Jade to html
     jade: {
       compile: {
@@ -661,6 +712,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build', [
+    'template',
     'clean:dist',
     'injector:sass',
     'concurrent:dist',
