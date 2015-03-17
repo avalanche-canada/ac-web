@@ -43,8 +43,9 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('FoundationNavbarCtrl', function ($scope, $location, $document) {
+  .controller('FoundationNavbarCtrl', function ($rootScope, $scope, $location, $document) {
 
+    $scope.env = $rootScope.env;
 
     $scope.about = [{'name':'mission','display':'Mission'},
                             {'name':'reports','display':'Annual Reports and Financial Statements'},
