@@ -29,14 +29,22 @@ angular.module('avalancheCanadaApp', [
         // little hack for auth0 to be able to interpret social callbacks properlly
         $locationProvider.hashPrefix('!');
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/404');
 
         $stateProvider
-            //! define abstract ac state
+
             .state('ac', {
                 abstract: true,
                 url: '/',
                 templateUrl: 'app/template.html'
+            })
+            .state('ac.404', {
+                url: '^/404',
+                templateUrl: 'app/404.html'
+            })
+            .state('ac.error', {
+                url: '^/error',
+                templateUrl: 'app/error.html'
             })
             .state('mobileSplash', {
                 url: '/mobileSplash',
@@ -168,6 +176,18 @@ angular.module('avalancheCanadaApp', [
             store.set('mobileSplash', true);
         }
 
+        //! Listen for state errors and handle gracefully
+        //! Capture any issues in the resolve functions
+        $rootScope.$on('$stateChangeError', function(event) {
+            $log.error('$stateChangeError', event);
+            $state.go('ac.error');
+        });
+
+        //! Capture any missing states (404)
+        $rootScope.$on('$stateNotFound', function(event, unfoundState){
+            $log.error('$stateNotFound', unfoundState.to, event);
+            $state.go('ac.404');
+        });
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes

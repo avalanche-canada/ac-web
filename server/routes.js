@@ -16,6 +16,10 @@ module.exports = function(app) {
         if (err.name === 'UnauthorizedError') {
             res.send(401, 'invalid token...');
         }
+        else{
+            res.status(500);
+            res.render('error', { error: err });
+        }
     });
 
     // All undefined asset or api routes should return a 404
@@ -24,10 +28,21 @@ module.exports = function(app) {
             res.send(404);
         });
 
+    app.route('/404')
+        .get(function(req, res) {
+            res.status(404);
+            res.sendfile(app.get('appPath') + '/index.html');
+        });
 
-    // All other routes should redirect to the index.html
-    app.route('/*')
+    // match routes handled by our app. /todo there must be a better way !
+    app.route(['/','/about*','/more*','/blogs*','/conditions*','/submit*','/share*','/weather*','/training*','/youth*','/gear*','/sponsors*','/forecasts*', '/collaborators*','/news*','/events*','/foundation*'])
         .get(function(req, res) {
             res.sendfile(app.get('appPath') + '/index.html');
         });
+
+    //! for routes not found still use the app but return 404. The app should also not know the route and display the 404 page
+    app.use(function(req, res, next) {
+        res.status(404);
+        res.sendfile(app.get('appPath') + '/index.html');
+    });
 };
