@@ -182,9 +182,10 @@ angular.module('avalancheCanadaApp', [
             $log.error('$stateChangeError', event);
             $state.go('ac.error');
         });
+
         //! Capture any missing states (404)
-        $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
-            $log.error('$stateNotFound', unfoundState.to);
+        $rootScope.$on('$stateNotFound', function(event, unfoundState){
+            $log.error('$stateNotFound', unfoundState.to, event);
             $state.go('ac.404');
         });
 
