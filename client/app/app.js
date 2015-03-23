@@ -29,6 +29,7 @@ angular.module('avalancheCanadaApp', [
         // little hack for auth0 to be able to interpret social callbacks properlly
         $locationProvider.hashPrefix('!');
 
+        //! warning this will only perform a soft 404. to perform a hard 404 check that the route does not exist in the express routes file
         $urlRouterProvider.otherwise('/404');
 
         $stateProvider
@@ -36,7 +37,12 @@ angular.module('avalancheCanadaApp', [
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html'
+                templateUrl: 'app/template.html',
+                data: {
+                    ogTitle: 'Avalanche Canada',
+                    ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',
+                    ogDescription: 'Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad.'
+                },
             })
             .state('ac.404', {
                 url: '^/404',
@@ -207,6 +213,12 @@ angular.module('avalancheCanadaApp', [
                 $state.go('ac.login');
                 store.set('loginRedirectUrl', toState.url);
             }
+
+            // add opengraph tags for the state
+            $rootScope.ogTitle= toState.data.ogTitle;
+            $rootScope.ogImage= toState.data.ogImage;
+            $rootScope.ogDescription= toState.data.ogDescription;
+
         });
     })
 
