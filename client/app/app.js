@@ -38,11 +38,11 @@ angular.module('avalancheCanadaApp', [
                 abstract: true,
                 url: '/',
                 templateUrl: 'app/template.html',
-                controller: ['$scope', function($scope){
-                    $scope.ogTitle = 'Avalanche Canada';
-                    $scope.ogImage = 'http://www.avalanche.ca/assets/avalanche_canada.png';
-                    $scope.ogDescription = 'Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad.';
-                }]
+                data: {
+                    ogTitle: 'Avalanche Canada',
+                    ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',
+                    ogDescription: 'Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad.'
+                },
             })
             .state('ac.404', {
                 url: '^/404',
@@ -213,6 +213,12 @@ angular.module('avalancheCanadaApp', [
                 $state.go('ac.login');
                 store.set('loginRedirectUrl', toState.url);
             }
+
+            // add opengraph tags for the state
+            $rootScope.ogTitle= toState.data.ogTitle;
+            $rootScope.ogImage= toState.data.ogImage;
+            $rootScope.ogDescription= toState.data.ogDescription;
+
         });
     })
 
