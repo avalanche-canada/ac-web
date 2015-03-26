@@ -13,8 +13,8 @@ angular.module('avalancheCanadaApp')
                 $scope.category     = doc.getText('blog.category');
 
                 $rootScope.ogTitle = $scope.header;
-                $rootScope.ogImage = $scope.forecastContent.getImageView('blog.preview_image', 'main').url || 'http://www.avalanche.ca/assets/avalanche_canada.png';
-                $rootScope.ogDescription = doc.getText('blog.shortlede');
+                $rootScope.ogImage = doc.getImageView('blog.preview_image', 'main') ? doc.getImageView('blog.preview_image', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png';
+                $rootScope.ogDescription = $scope.documentHtml;
 
                 var list = [];
                 for(var i = 0; i < $scope.iFrameCount; ++i){
