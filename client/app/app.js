@@ -221,10 +221,9 @@ angular.module('avalancheCanadaApp', [
             }
 
             // add opengraph tags for the state
-            $rootScope.ogTitle= toState.data.ogTitle;
-            $rootScope.ogImage= toState.data.ogImage;
-            $rootScope.ogDescription= toState.data.ogDescription;
-
+            $rootScope.ogTags  = [ {type: 'title', value: toState.data.ogTitle},
+                         {type: 'image', value: toState.data.ogImage},
+                         {type: 'description', value: toState.data.ogDescription} ];
         });
     })
 
