@@ -17,7 +17,7 @@ angular.module('avalancheCanadaApp')
                     {type: 'description', value: doc.getStructuredText('blog.body').asText(ctx)}];
 
                 if(doc.getText('blog.video1-source') && doc.getText('blog.video1-source') !== ''){
-                    $rootScope.ogTags.push({type: 'video', value: doc.getText('blog.video1-source')})
+                    $rootScope.ogTags.push({type: 'video', value: doc.getText('blog.video1-source')});
                 }
 
                 var list = [];
