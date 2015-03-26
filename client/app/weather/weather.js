@@ -43,8 +43,8 @@ angular.module('avalancheCanadaApp')
     $scope.index = 0;
     $scope.forecastContent = weatherForecast.results[$scope.index];
     $rootScope.ogTitle = $scope.forecastContent.getText('weather-forecast.headline');
-    $rootScope.ogImage = $scope.forecastContent.getImageView('weather-forecast.day1-image1', 'main').url | 'http://www.avalanche.ca/assets/avalanche_canada.png' ;
-    $rootScope.ogDescription = $scope.forecastContent.getStructuredText("weather-forecast.synopsis").asHtml(ctx);
+    $rootScope.ogImage = $scope.forecastContent.getImageView('weather-forecast.day1-image1', 'main').url || 'http://www.avalanche.ca/assets/avalanche_canada.png' ;
+    $rootScope.ogDescription = $scope.forecastContent.getStructuredText('weather-forecast.synopsis').asHtml();
     $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 });
 

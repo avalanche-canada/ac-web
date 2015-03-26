@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogItemCtrl', function ($scope, Prismic, $log, $stateParams, $location) {
+  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $stateParams, $location) {
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
         $scope.iFrameCount = 4;
@@ -13,7 +13,7 @@ angular.module('avalancheCanadaApp')
                 $scope.category     = doc.getText('blog.category');
 
                 $rootScope.ogTitle = $scope.header;
-                $rootScope.ogImage = $scope.forecastContent.getImageView('blog.preview_image', 'main').url | 'http://www.avalanche.ca/assets/avalanche_canada.png';
+                $rootScope.ogImage = $scope.forecastContent.getImageView('blog.preview_image', 'main').url || 'http://www.avalanche.ca/assets/avalanche_canada.png';
                 $rootScope.ogDescription = $scope.documentHtml;
 
                 var list = [];

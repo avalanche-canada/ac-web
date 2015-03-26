@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('NewsItemCtrl', function ($scope, Prismic, $log, $stateParams, $location, urlBuilder) {
+  .controller('NewsItemCtrl', function ($scope, Prismic, $log, $rootScope, $stateParams, $location, urlBuilder) {
     $scope.url = urlBuilder.get();
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
@@ -15,7 +15,7 @@ angular.module('avalancheCanadaApp')
                     $scope.vid2         = doc.getText('news.video2-source');
 
                     $rootScope.ogTitle = $scope.header;
-                    $rootScope.ogImage = $scope.forecastContent.getImageView('news.featured_image', 'main').url | 'http://www.avalanche.ca/assets/avalanche_canada.png';
+                    $rootScope.ogImage = $scope.forecastContent.getImageView('news.featured_image', 'main').url || 'http://www.avalanche.ca/assets/avalanche_canada.png';
                     $rootScope.ogDescription = $scope.documentHtml;
 
             }
