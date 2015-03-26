@@ -12,6 +12,10 @@ angular.module('avalancheCanadaApp')
                 $scope.date         = doc.getDate('blog.date');
                 $scope.category     = doc.getText('blog.category');
 
+                $rootScope.ogTitle = $scope.header;
+                $rootScope.ogImage = $scope.forecastContent.getImageView('blog.preview_image', 'main').url | 'http://www.avalanche.ca/assets/avalanche_canada.png';
+                $rootScope.ogDescription = $scope.documentHtml;
+
                 var list = [];
                 for(var i = 0; i < $scope.iFrameCount; ++i){
                     var frameSource = doc.getText('blog.video'+i+'-source');

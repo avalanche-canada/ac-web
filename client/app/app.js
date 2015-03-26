@@ -89,6 +89,12 @@ angular.module('avalancheCanadaApp', [
                 if(documentLink.type === 'news') {
                     link = '/news/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
                 }
+                if(documentLink.type === 'blogs') {
+                    link = '/blogs/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+                if(documentLink.type === 'weather-forecast') {
+                    link = '/weather' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
             }
 
             return link;
