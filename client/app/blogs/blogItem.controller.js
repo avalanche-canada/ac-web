@@ -12,9 +12,13 @@ angular.module('avalancheCanadaApp')
                 $scope.date         = doc.getDate('blog.date');
                 $scope.category     = doc.getText('blog.category');
 
-                $rootScope.ogTitle = $scope.header;
-                $rootScope.ogImage = doc.getImageView('blog.preview_image', 'main') ? doc.getImageView('blog.preview_image', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png';
-                $rootScope.ogDescription = doc.getStructuredText('blog.body').asText(ctx);
+                $rootScope.ogTags  = [ {type: 'title', value: $scope.header},
+                    {type: 'image', value: doc.getImageView('blog.preview_image', 'main') ? doc.getImageView('blog.preview_image', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png'},
+                    {type: 'description', value: doc.getStructuredText('blog.body').asText(ctx)}];
+
+                if(doc.getText('blog.video1-source') && doc.getText('blog.video1-source') !== ''){
+                    $rootScope.ogTags.push({type: 'video', value: doc.getText('blog.video1-source')})
+                }
 
                 var list = [];
                 for(var i = 0; i < $scope.iFrameCount; ++i){

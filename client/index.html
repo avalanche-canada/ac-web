@@ -15,9 +15,8 @@
 
     <!-- Facebook meta data -->
     <meta property="og:site_name" content="Avalanche Canada"/>
-    <meta property="og:title" content="{{ogTitle}}" />
-    <meta property="og:image" content="{{ogImage}}" />
-    <meta property="og:description" content="{{ogDescription}}" />
+
+    <meta ng-repeat= 'prop in ogTags' property="og:{{prop.type}}" content="{{prop.value}}" />
 
     <!-- tell bots that this is a javascript site -->
     <meta name="fragment" content="!">
