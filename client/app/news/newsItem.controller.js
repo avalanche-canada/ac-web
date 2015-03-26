@@ -15,9 +15,8 @@ angular.module('avalancheCanadaApp')
                     $scope.vid2         = doc.getText('news.video2-source');
 
                     $rootScope.ogTitle = $scope.header;
-                    $rootScope.ogImage = $scope.forecastContent.getImageView('news.featured_image', 'main').url || 'http://www.avalanche.ca/assets/avalanche_canada.png';
-                    $rootScope.ogDescription = $scope.documentHtml;
-
+                    $rootScope.ogImage = doc.getImageView('news.featured_image', 'main') ? doc.getImageView('news.featured_image', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png';
+                    $rootScope.ogDescription = doc.getStructuredText('news.body').asText(ctx);
             }
             else if (doc.slugs.indexOf($stateParams.slug) >= 0) {
                 $location.path('/news/'+doc.id+'/'+doc.slug);

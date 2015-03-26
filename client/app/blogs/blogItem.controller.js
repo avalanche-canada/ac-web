@@ -14,7 +14,7 @@ angular.module('avalancheCanadaApp')
 
                 $rootScope.ogTitle = $scope.header;
                 $rootScope.ogImage = doc.getImageView('blog.preview_image', 'main') ? doc.getImageView('blog.preview_image', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png';
-                $rootScope.ogDescription = $scope.documentHtml;
+                $rootScope.ogDescription = doc.getStructuredText('blog.body').asText(ctx);
 
                 var list = [];
                 for(var i = 0; i < $scope.iFrameCount; ++i){
