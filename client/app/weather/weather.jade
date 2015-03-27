@@ -19,14 +19,21 @@
                 a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
                     img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
         article#news-blog-event-landing-content.col-xs-12.col-md-9
-            section#post-date {{forecastContent.getDate('weather-forecast.date') | dateUtc:"dddd MMMM Do" }}
-            section#post-forecaster
-                | Created By: &nbsp;
-                br.visible-xs-inline
-                span {{forecastContent.getText('weather-forecast.handle')}}
-            header
-                h1 {{forecastContent.getText('weather-forecast.headline')}}
+            div(style="display:inline-block")
+                section#post-date(style="height:80px")
+                    div(type='text', datepicker-popup, ng-model='dt', max-date='tomorrow', is-open='opened')
+                        | {{displayDate | dateUtc:"dddd MMMM Do"}} &nbsp;
+                        button.btn.btn-default(ng-click='open($event)')
+                            i.glyphicon.glyphicon-calendar
+                section#post-forecaster(style="height:80px")
+                    | Created By: &nbsp;
+                    br.visible-xs-inline
+                    span {{forecastContent.getText('weather-forecast.handle')}}
+
             section#news-blog-event-landing-body
+
+                h1 {{forecastContent.getText('weather-forecast.headline')}}
+
                 #structured(ng-bind-html='forecastContent.getStructuredText("weather-forecast.synopsis").asHtml(ctx)')
 
                 h2 {{forecastContent.getDate('weather-forecast.date') | dateUtc:"dddd MMMM Do" }}
