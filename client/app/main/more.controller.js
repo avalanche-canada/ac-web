@@ -4,6 +4,8 @@ angular.module('avalancheCanadaApp')
 
   .controller('MoreCtrl', function ($scope, $rootScope, $state, Prismic, $log, sledPage) {
 
+    $scope.env = $rootScope.env;
+
     $scope.sledPage = sledPage;
 
     //! does not handle resize should use ac-components breakpoints function

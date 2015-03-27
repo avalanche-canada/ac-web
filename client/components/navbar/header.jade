@@ -38,9 +38,6 @@ header#header.navbar-fixed-top(role='banner')
                                                     h2 &nbsp;
                                                 li(ng-repeat='region in forecastRegionList3' ng-bind-html='region.link')
 
-                                                ///li
-                                                ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/forecasts/archive') Archive
-
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
@@ -68,21 +65,24 @@ header#header.navbar-fixed-top(role='banner')
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    h2 Avalanche Canada Training Courses
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training')
+                                                        h2
+                                                            | Avalanche Canada Training Courses
+                                                            i.fa.fa-angle-right
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#overview') Overview
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#overview') Overview
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#online-primer') Online Avalanche Tutorial
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#online-primer') Online Avalanche Tutorial
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast1') Avalanche Skills Training 1
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#ast1') Avalanche Skills Training 1
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast2') Avalanche Skills Training 2
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#ast2') Avalanche Skills Training 2
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#crs') Companion Rescue Skills
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#crs') Companion Rescue Skills
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/sled') Mountain Snowmobiling
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sled') Mountain Snowmobiling
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
                                                 li
@@ -90,21 +90,19 @@ header#header.navbar-fixed-top(role='banner')
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    h2 Youth
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/youth')
+                                                        h2
+                                                            | Youth
+                                                            i.fa.fa-angle-right
                                                 li(ng-repeat='page in youth')
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/youth{{page.url}}') {{page.display}}
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/youth{{page.url}}') {{page.display}}
                                         .col-md-4.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/gear')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/gear')
                                                         h2
                                                             | Gear
                                                             i.fa.fa-angle-right
-                                                ///li
-                                                ///    a(data-toggle="collapse" data-target=".navbar-collapse" href='/library')
-                                                ///        h2
-                                                ///            | Library
-                                                ///            i.fa.fa-angle-right
 
 
 
@@ -119,25 +117,25 @@ header#header.navbar-fixed-top(role='banner')
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='about')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/about')
                                                         h2
                                                             | About
                                                             i.fa.fa-angle-right
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#vision') Vision, Mission and Value Statements
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/about#vision') Vision, Mission and Value Statements
 
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#board') Board Of Directors
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/about#board') Board Of Directors
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#staff') Staff
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/about#staff') Staff
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/about#awards') Service Awards
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/about#awards') Service Awards
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/foundation') Avalanche Canada Foundation
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/foundation') Avalanche Canada Foundation
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='sponsors')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp')
                                                         h2
                                                             | Membership
                                                             i.fa.fa-angle-right
@@ -151,40 +149,40 @@ header#header.navbar-fixed-top(role='banner')
                                         .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='sponsors')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sponsors')
                                                         h2
                                                             | Sponsors
                                                             i.fa.fa-angle-right
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#partner') Founding Partners
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sponsors#partner') Founding Partners
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#founding') Founding Sponsors
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sponsors#founding') Founding Sponsors
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#supplier') Founding Suppliers
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sponsors#supplier') Founding Suppliers
                                                         li
-                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/sponsors#associate') Founding Associates
+                                                            a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sponsors#associate') Founding Associates
                                         .col-md-3.mega-content-inner
                                                 ul.mega-sub-menu
                                                     li
-                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='collaborators')
+                                                        a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/collaborators')
                                                             h2
                                                                 | Collaborators
                                                                 i.fa.fa-angle-right
                                                             li
-                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/collaborators#government') Government Partners
+                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/collaborators#government') Government Partners
                                                             li
-                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/collaborators#contribution')   Contribution Programs
+                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/collaborators#contribution')   Contribution Programs
                                                             li
-                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/collaborators#other') Other Agencies and Organisation
+                                                                a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/collaborators#other') Other Agencies and Organisation
                     li#nav-news-events.dropdown
                         a.dropdown-toggle( href='#' data-toggle="dropdown")
                                 | News & Events
                                 span.arrow-down
                         ul.dropdown-menu
                             li
-                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/news') News
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/news') News
                             li
-                                a(data-toggle="collapse" data-target=".navbar-collapse" href='/events') Events
+                                a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/events') Events
 
                     li#nav-store.dropdown
                         a.dropdown-toggle(href='#' data-toggle="dropdown")

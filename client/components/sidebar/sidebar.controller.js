@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('SidebarCtrl', function ($scope, Prismic, urlBuilder) {
+  .controller('SidebarCtrl', function ($scope, $rootScope, Prismic, urlBuilder) {
+
+    $scope.env = $rootScope.env;
     $scope.url = urlBuilder.get();
     $scope.items = [];
     Prismic.ctx().then(function(ctx){
@@ -22,14 +24,14 @@ angular.module('avalancheCanadaApp')
                         case 'blog':
                             items.push({
                                 'title': 'Blog&mdash;' + item.getText('blog.title'),
-                                'link': '/blogs/'+ item.id + '/' + item.slug,
+                                'link': $scope.env.DOMAIN+'/blogs/'+ item.id + '/' + item.slug,
                                 'date': moment(item.getDate('blog.date'))
                             });
                             break;
                         case 'news':
                             items.push({
                                 'title': 'News&mdash;' + item.getText('news.title'),
-                                'link': '/news/'+ item.id + '/' + item.slug,
+                                'link': $scope.env.DOMAIN+'/news/'+ item.id + '/' + item.slug,
                                 'date': moment(item.getDate('news.date'))
                             });
                             break;
@@ -47,11 +49,11 @@ angular.module('avalancheCanadaApp')
                 items = items.reverse();
                 items = items.slice(0,5);
                 items.push({'title': 'Daily Mountain Weather Forecast',
-                            'link': '/weather'});
+                            'link': $scope.env.DOMAIN+'/weather'});
                 items.push({'title': 'Submit Mountain Information',
-                            'link': '/submit'});
+                            'link': $scope.env.DOMAIN+'/submit'});
                 items.push({'title': 'Upcoming Events',
-                            'link': '/events'});
+                            'link': $scope.env.DOMAIN+'/events'});
 
                 $scope.items = items;
 

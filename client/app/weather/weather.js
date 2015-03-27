@@ -69,7 +69,9 @@ angular.module('avalancheCanadaApp')
             controller: 'WeatherCtrl'
         });
 })
-.controller('WeatherCtrl',  function ($scope, $log, weatherForecast, $location, $stateParams, $state) {
+.controller('WeatherCtrl',  function ($scope, $log, weatherForecast, $rootScope, $location, $stateParams, $state) {
+
+
 
     $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 
@@ -92,6 +94,10 @@ angular.module('avalancheCanadaApp')
             $scope.forecastContent = weatherForecast[0];
             $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
         }
+
+        $rootScope.ogTags  = [ {type: 'title', value: $scope.forecastContent.getText('weather-forecast.headline')},
+             {type: 'image', value: $scope.forecastContent.getImageView('weather-forecast.day1-image1', 'main')? $scope.forecastContent.getImageView('weather-forecast.day1-image1', 'main').url : 'http://www.avalanche.ca/assets/avalanche_canada.png'},
+             {type: 'description', value: $scope.forecastContent.getStructuredText('weather-forecast.synopsis').asText()} ];
         //$scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
         //$log.info('dt vs fxDate', $scope.dt, $scope.forecastContent.getDate('weather-forecast.date'));
     };
