@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ForecastsCtrl', function ($scope, $stateParams, acForecast, AC_API_ROOT_URL, Prismic, urlBuilder) {
+  .controller('ForecastsCtrl', function ($scope, $rootScope, $filter, $stateParams, acForecast, AC_API_ROOT_URL, Prismic, urlBuilder) {
     $scope.region = $stateParams.region;
     $scope.api = AC_API_ROOT_URL;
     $scope.url = urlBuilder.get();
@@ -43,6 +43,9 @@ angular.module('avalancheCanadaApp')
         acForecast.getOne($scope.region).then (function(forecast)
         {
             $scope.forecast = forecast;
+            $rootScope.ogTags  = [ {type: 'title', value: forecast.bulletinTitle +' '+ $filter('date')(forecast.dateIssued, 'EEE MMMM d') },
+                    {type: 'image', value: $scope.api+'/api/forecasts/'+$scope.region+'/nowcast.svg'},
+                    {type: 'description', value: forecast.highlights}];
         });
     });
 
