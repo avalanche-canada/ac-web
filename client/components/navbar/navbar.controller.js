@@ -2,31 +2,19 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-
-  .directive('multiLevelPushMenu', function($document) {
+  
+  .directive('responsivePushMenu', function($document) {
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
           link: function(scope, ele, attrs) {
+            window.slideoutPushmenu = new Slideout({
+              'panel': document.getElementById('app-body'),
+              'menu': document.getElementById('app-pushmenu'),
+              'padding': 256,
+              'tolerance': 70
+            });
 
-              angular.element(ele).multilevelpushmenu({
-                  containersToPush: [$('#page-wrap')],
-                  menuWidth: '320px',
-                  menuHeight: '100%',
-                  collapsed: true,
-                  fullCollapse: true,
-                  backText: '',
-                  overlapWidth:60
-              });
-
-              scope.pushMenuOpen = false;
-              scope.multiExpand = function() { scope.pushMenuOpen = true; angular.element(ele).multilevelpushmenu('expand'); };
-              scope.multiCollapse = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
-              scope.itemClicked = function() { scope.pushMenuOpen = false; angular.element(ele).multilevelpushmenu('collapse'); };
-
-              //! \todo is this nescessary ?
-              angular.element(ele).multilevelpushmenu('option', 'menuHeight', $document.height());
-              angular.element(ele).multilevelpushmenu('redraw');
           }
       };
   })
@@ -112,6 +100,10 @@ angular.module('avalancheCanadaApp')
         {'link':'<a href="/weather" data-toggle="collapse" data-target=".navbar-collapse"><h2>Mountain Weather Forecast<i class="fa fa-angle-right"></i></h2></a>'}
     ];
 
+    $scope.togglePushmenu = function() {
+      console.log("toggled")
+      window.slideoutPushmenu.toggle()
+    }
 
     $scope.youth = [{'url':'#overview','display':'Overview'},
                     {'url':'#programs','display':'Programs'},

@@ -2,13 +2,13 @@ header#header.navbar-fixed-top(role='banner')
     .container
         nav#navigation.yamm.navbar.navbar-default(role='navigation')
             .navbar-header
-                a(rel='home', title='TITLE HERE', href='/')
+                a(rel='home', title='Avalanche Canada', href='/')
                     h1.navbar-brand.ac
                 .visible-xs.visible-sm
                     ///a#nav-search(href='#')
                     ///    i.fa.fa-search
                     a#nav-donate.visible-sm(href='#') Donate
-                    a#multi-expand.navbar-toggle(role='button', href='#', ng-click='multiExpand()')
+                    a#multi-expand.navbar-toggle(role='button', href='#', ng-click='togglePushmenu()')
                         i.fa.fa-reorder
             .collapse.navbar-collapse
                 ul.nav.navbar-nav
