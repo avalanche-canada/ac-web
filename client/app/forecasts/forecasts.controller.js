@@ -46,8 +46,8 @@ angular.module('avalancheCanadaApp')
         acForecast.getOne($scope.region).then (function(forecast)
         {
             $scope.forecast = forecast;
-            $rootScope.ogTags  = [ {type: 'title', value: forecast.bulletinTitle +' '+ $filter('date')(forecast.dateIssued, 'EEE MMMM d') },
-                    {type: 'image', value: $rootScope.env.DOMAIN +'/api/forecasts/'+$scope.region+'/nowcast.svg'},
+            $rootScope.ogTags  = [ {type: 'title', value: 'Avalanche Forecast-' + forecast.bulletinTitle +', Issued '+ $filter('date')(forecast.dateIssued, 'MMMM d') },
+                    //{type: 'image', value: $rootScope.env.DOMAIN +'/api/forecasts/'+$scope.region+'/nowcast.svg'},
                     //! temporary fix to remove html tags from string.
                     //! Should be able to use angualr sanitize instead
                     {type: 'description', value: forecast.highlights.replace(/(<p>|<span>|<\/p>|<\/span>|&#xA0;)/g,'')}]    ;
