@@ -1,12 +1,15 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ForecastsCtrl', function ($scope, $rootScope, $filter, $stateParams, acForecast, AC_API_ROOT_URL, Prismic, urlBuilder) {
+  .controller('ForecastsCtrl', function ($scope, $rootScope, $filter, $stateParams, $sanitize, acForecast, AC_API_ROOT_URL, Prismic, urlBuilder) {
     $scope.region = $stateParams.region;
     $scope.api = AC_API_ROOT_URL;
     $scope.url = urlBuilder.get();
 
     $scope.sponsor = '';
+
+
+
 
     Prismic.ctx().then(function(ctx){
 
@@ -44,8 +47,10 @@ angular.module('avalancheCanadaApp')
         {
             $scope.forecast = forecast;
             $rootScope.ogTags  = [ {type: 'title', value: forecast.bulletinTitle +' '+ $filter('date')(forecast.dateIssued, 'EEE MMMM d') },
-                    {type: 'image', value: $scope.api+'/api/forecasts/'+$scope.region+'/nowcast.svg'},
-                    {type: 'description', value: forecast.highlights}];
+                    {type: 'image', value: $rootScope.env.DOMAIN +'/api/forecasts/'+$scope.region+'/nowcast.svg'},
+                    //! temporary fix to remove html tags from string.
+                    //! Should be able to use angualr sanitize instead
+                    {type: 'description', value: forecast.highlights.replace(/(<p>|<span>|<\/p>|<\/span>|&#xA0;)/g,'')}]    ;
         });
     });
 
