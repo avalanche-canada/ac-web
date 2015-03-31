@@ -1,4 +1,5 @@
 <!doctype html>
+<html ng-app="avalancheCanadaApp">
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -14,9 +15,11 @@
 
     <!-- Facebook meta data -->
     <meta property="og:site_name" content="Avalanche Canada"/>
-    <meta property="og:title" content="Avalanche Canada" />
-    <meta property="og:image" content="http://www.avalanche.ca/assets/avalanche_canada.png" />
-    <meta property="og:description" content="Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad." />
+
+    <meta ng-repeat= 'prop in ogTags' property="og:{{prop.type}}" content="{{prop.value}}" />
+
+    <!-- tell bots that this is a javascript site -->
+    <meta name="fragment" content="!">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" type="image/png" href="http://avalanche.ca/assets/Avalanche_Canada_logo32x32.png" />
@@ -41,7 +44,7 @@
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="avalancheCanadaApp">
+  <body>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -139,6 +142,7 @@
       <script src="components/footer/footer.controller.js"></script>
       <script src="components/foundation_footer/footer.controller.js"></script>
       <script src="components/foundation_navbar/navbar.controller.js"></script>
+      <script src="components/imgModal/imgModal.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/sidebar/sidebar.controller.js"></script>
       <!-- endinjector -->

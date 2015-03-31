@@ -30,14 +30,28 @@ angular.module('avalancheCanadaApp', [
         // little hack for auth0 to be able to interpret social callbacks properlly
         $locationProvider.hashPrefix('!');
 
-        $urlRouterProvider.otherwise('/');
+        //! warning this will only perform a soft 404. to perform a hard 404 check that the route does not exist in the express routes file
+        $urlRouterProvider.otherwise('/404');
 
         $stateProvider
-            //! define abstract ac state
+
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html'
+                templateUrl: 'app/template.html',
+                data: {
+                    ogTitle: 'Avalanche Canada',
+                    ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',
+                    ogDescription: 'Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad.'
+                },
+            })
+            .state('ac.404', {
+                url: '^/404',
+                templateUrl: 'app/404.html'
+            })
+            .state('ac.error', {
+                url: '^/error',
+                templateUrl: 'app/error.html'
             })
             .state('mobileSplash', {
                 url: '/mobileSplash',
@@ -75,6 +89,12 @@ angular.module('avalancheCanadaApp', [
                 }
                 if(documentLink.type === 'news') {
                     link = '/news/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+                if(documentLink.type === 'blogs') {
+                    link = '/blogs/' + documentLink.id + '/' + documentLink.slug + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
+                }
+                if(documentLink.type === 'weather-forecast') {
+                    link = '/weather' + (ctx.maybeRef ? '?ref=' + ctx.maybeRef : '');
                 }
             }
 
@@ -169,6 +189,18 @@ angular.module('avalancheCanadaApp', [
             store.set('mobileSplash', true);
         }
 
+        //! Listen for state errors and handle gracefully
+        //! Capture any issues in the resolve functions
+        $rootScope.$on('$stateChangeError', function(event) {
+            $log.error('$stateChangeError', event);
+            $state.go('ac.error');
+        });
+
+        //! Capture any missing states (404)
+        $rootScope.$on('$stateNotFound', function(event, unfoundState){
+            $log.error('$stateNotFound', unfoundState.to, event);
+            $state.go('ac.404');
+        });
 
         $rootScope.$on('$stateChangeStart', function(event, toState){
             // makes sure login spans refreshes
@@ -188,6 +220,11 @@ angular.module('avalancheCanadaApp', [
                 $state.go('ac.login');
                 store.set('loginRedirectUrl', toState.url);
             }
+
+            // add opengraph tags for the state
+            $rootScope.ogTags  = [ {type: 'title', value: toState.data.ogTitle},
+                         {type: 'image', value: toState.data.ogImage},
+                         {type: 'description', value: toState.data.ogDescription} ];
         });
     })
 

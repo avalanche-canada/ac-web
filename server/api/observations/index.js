@@ -39,7 +39,7 @@ router.get('/submissions', function (req, res) {
             res.json(subs);
         }
     });
-}); 
+});
 
 router.get('/submissions/:subid', function (req, res) {
     var subid = req.params.subid;
@@ -89,7 +89,7 @@ function formatDate(datetimeString){
     };
     var suffix = datetime.isDST() ? 'DT' : 'ST';
     var zoneAbbr = 'UTC';
-    
+
     if(offset in prefixes) {
         zoneAbbr = prefixes[offset] + suffix;
         datetime.subtract(offset, 'minutes');
@@ -137,6 +137,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                 console.log(locals)
                 res.render('observations/ob', locals);
             } else {
+                ob.thumbs = ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; });
                 res.json(ob);
             }
         }
