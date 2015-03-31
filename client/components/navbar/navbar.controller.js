@@ -3,7 +3,7 @@
 
 angular.module('avalancheCanadaApp')
 
-  .directive('responsivePushMenu', function($document) {
+  .directive('responsivePushMenu', function($document, Slideout) {
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
@@ -103,8 +103,7 @@ angular.module('avalancheCanadaApp')
 
     $scope.togglePushmenu = function($event) {
       window.slideoutPushmenu.toggle();
-      //false
-    }
+    };
 
     $scope.$on('$locationChangeStart', function(event) {
       window.slideoutPushmenu.close();
