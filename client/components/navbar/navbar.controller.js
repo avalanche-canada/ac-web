@@ -103,7 +103,6 @@ angular.module('avalancheCanadaApp')
 
     $scope.togglePushmenu = function($event) {
       window.slideoutPushmenu.toggle();
-      // $event.preventDefault()
       false
     }
 
