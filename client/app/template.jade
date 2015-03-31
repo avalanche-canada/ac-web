@@ -1,6 +1,10 @@
-div(ng-include='"components/navbar/navbar.html"')
+nav(id="app-pushmenu" responsive-push-menu='' ng-controller='NavbarCtrl')
 
-div(ng-controller="HighlighCtrl")
-    toast
+main(id="app-body")
+  div(ng-include='"components/navbar/navbar.html"')
 
-div(ui-view='' ng-class='pageClass')
+
+  div(ng-controller="HighlighCtrl")
+      toast
+
+  div(ui-view='' ng-class='pageClass')

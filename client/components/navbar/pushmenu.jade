@@ -1,87 +1,84 @@
-//div#menu
+ul
+    li
+        h2
+            i.close-nav.pull-right.fa.fa-times(ng-click="togglePushmenu()")
+            | Forecasts
+        ul
+            li
+                ul
+                    li(ng-repeat='region in forecastRegions' ng-bind-html='region.link')
+        h2 Avalanche Information
+        ul
+            li
+                ul
+                    li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
 
-nav
+                    li
+                        a(href="", ui-sref="ac.submit", ui-sref-opts="{reload: true}", data-toggle="collapse", data-target=".navbar-collapse") Submit Information
 
-    h2
-        a#multi-collapse(href='#' ng-click="multiCollapse()")
-            i.fa.fa-times
-        a#multinav-collapse(href='/')
-            i.fa.fa-home
-    ul
-        li
-            a(href='#') Avalanche Information
-            h2 Avalanche Information
-            ul
-                li
-                    a(href='#') Forecasts
-                    h2 Forecasts
-                    ul
-                        li(ng-repeat='region in forecastRegions' ng-bind-html='region.link' ng-click='itemClicked()')
-                li
-                    a(href='#') Data
-                    h2 Data
-                    ul
-                        li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
-        li
-            a(href='#') Learn
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank") Trip Planner
+
+
+    li
+        ul
+            li
+                h2 Learn
                 ul
                     li
-                        a(href='#') Avalanche Canada Training Courses
-                        h2 Avalanche Canada Training Courses
-                        ul
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#overview') Overview
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#online-primer') Online Avalanche Primer
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast1') Avalanche Skills Training 1
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast2') Avalanche Skills Training 2
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#crs') Companion Rescue Skills
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/sled') Mountain Snowmobiling
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.old.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
-                            li
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.old.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
-
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#overview') Avalanche Canada Training Courses
                     li
-                        a(href='#') Youth
-                        h2 Youth
-                        ul
-                            li(ng-repeat='page in youth')
-                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='/youth{{page.url}}') {{page.display}}
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#online-primer') Online Avalanche Primer
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/fr/cac/training/online-course' target="_blank") Cours d’avalanche en ligne (francais)
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast1') Avalanche Skills Training 1
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#ast2') Avalanche Skills Training 2
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#crs') Companion Rescue Skills
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/sled') Mountain Snowmobiling
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.old.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.old.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
+
                     li
                         a(href='/gear') Gear
-        li
-            a(href='#') About Us
-                ul
-                    li
-                        a(href='/about') About
-                    li
-                        a(target="_blank" href='http://membership.avalanche.ca/') Membership
-                    li
-                        a(href='/sponsors') Sponsors
-                    li
-                        a(href='/collaborators') Collaborators
-        li
-            a(href='#') News & events
-                ul
-                    li
-                        a(href='/events') Events
-                    li
-                        a(href='/news') News
-        li
-            a(href='#') Store
-                ul
-                    li
-                        a(href='/store') Store
-                    li
-                        a(href='http://old.avalanche.ca/cac/auctions' target='_blank') Auction
 
-        li#multilevel-donate
-            a(href='/foundation/donate') Donate
-// /#multilevel menu
+            li
+                h2 Youth
+                ul
+                    li(ng-repeat='page in youth')
+                            a(data-toggle="collapse" data-target=".navbar-collapse" href='/youth{{page.url}}') {{page.display}}
+    li
+        h2 About Us
+        ul
+            li
+                a(href='/about') About
+            li
+                a(target="_blank" href='http://membership.avalanche.ca/') Membership
+            li
+                a(data-toggle="collapse" data-target=".navbar-collapse" target="_blank" href=' https://membership.avalanche.ca/np/clients/cac/login.jsp') Already A Member ?
+            li
+                a(href='/sponsors') Sponsors
+            li
+                a(href='/collaborators') Collaborators
+    li
+        h2 News & events
+        ul
+            li
+                a(href='/events') Events
+            li
+                a(href='/news') News
+    li
+        h2 Store
+        ul
+            li
+                a(href='http://old.avalanche.ca/cac/auctions' target='_blank') Web Auction
+
+
+    li
+        br
+        a#donate-btn(href='/foundation') Donate
