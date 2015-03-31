@@ -28,3 +28,64 @@ body {
 .slideout-open .slideout-menu {
   display: block;
 }
+
+nav#app-pushmenu {
+  padding: 0;
+  background: #EBEBEB;
+
+  h2 {
+    font-size: 2rem;
+    line-height: 2.2rem;
+    font-weight: bold;
+    border-bottom: 4px solid #DCDCDC;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  ul {
+    margin: 0; padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0; padding: 0;
+
+      #donate-btn {
+        background: #CF0920;
+        color: #fff;
+        font-weight: bold;
+        width: 100%;
+        padding: 15px 90px;
+        margin-top: 25px;
+      }
+
+      .close-nav {
+        margin-right: 20px;
+        font-size: 1.2em;
+        cursor: hand;
+      }
+
+      a {
+        font-size: 14px;
+        color: #003CAB;
+        font-weight: bold;
+        display: inline-block;
+        width: 255px;
+        padding: 5px 10px;
+        i {
+          display: none;
+        }
+
+        h2 {
+          margin: 0; padding: 0;
+          text-indent: 0;
+          font-size: 14px;
+          font-weight: bold;
+          border-bottom: none;
+        }
+      }
+    }
+
+  }
+
+
+}

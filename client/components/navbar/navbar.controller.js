@@ -58,7 +58,7 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, $location, $document, auth, store) {
     $scope.auth = auth;
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
@@ -100,10 +100,15 @@ angular.module('avalancheCanadaApp')
         {'link':'<a href="/weather" data-toggle="collapse" data-target=".navbar-collapse"><h2>Mountain Weather Forecast<i class="fa fa-angle-right"></i></h2></a>'}
     ];
 
-    $scope.togglePushmenu = function() {
-      console.log("toggled")
-      window.slideoutPushmenu.toggle()
+    $scope.togglePushmenu = function($event) {
+      window.slideoutPushmenu.toggle();
+      // $event.preventDefault()
+      false
     }
+
+    $scope.$on('$locationChangeStart', function(event) {
+      window.slideoutPushmenu.close();
+    });
 
     $scope.youth = [{'url':'#overview','display':'Overview'},
                     {'url':'#programs','display':'Programs'},
