@@ -3,7 +3,7 @@
 
 angular.module('avalancheCanadaApp')
 
-  .directive('responsivePushMenu', function($document, Slideout) {
+  .directive('responsivePushMenu', function($document) {
       return {
           //restrict: 'E',
           templateUrl: 'components/navbar/pushmenu.html',
