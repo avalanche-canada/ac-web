@@ -1,20 +1,21 @@
 ul
     li
-        h2
+        h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-forcasts-nav" aria-expanded="false" aria-controls="slideout-forcasts-nav")
             i.close-nav.pull-right.fa.fa-times(ng-click="togglePushmenu()")
             | Forecasts
-        ul
+        ul(id="slideout-forcasts-nav" class="collapse")
             li
                 ul
                     li(ng-repeat='region in forecastRegions' ng-bind-html='region.link')
-        h2 Avalanche Information
-        ul
+        h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-avalanche-info" aria-expanded="false" aria-controls="slideout-avalanche-info")
+            | Avalanche Information
+        ul(id="slideout-avalanche-info" class="collapse")
             li
                 ul
-                    li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
-
                     li
                         a(href="", ui-sref="ac.submit", ui-sref-opts="{reload: true}", data-toggle="collapse", data-target=".navbar-collapse") Submit Information
+
+                    li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
 
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank") Trip Planner
@@ -23,8 +24,10 @@ ul
     li
         ul
             li
-                h2 Learn
-                ul
+                h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-learn" aria-expanded="false" aria-controls="slideout-learn")
+                    | Learn
+                
+                ul(id="slideout-learn" class="collapse")
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#overview') Avalanche Canada Training Courses
                     li
@@ -48,13 +51,15 @@ ul
                         a(href='/gear') Gear
 
             li
-                h2 Youth
-                ul
+                h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-youth" aria-expanded="false" aria-controls="slideout-youth")
+                    | Youth
+                ul(id="slideout-youth" class="collapse")
                     li(ng-repeat='page in youth')
                             a(data-toggle="collapse" data-target=".navbar-collapse" href='/youth{{page.url}}') {{page.display}}
     li
-        h2 About Us
-        ul
+        h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-about-us" aria-expanded="false" aria-controls="slideout-about-us")
+            | About Us
+        ul(id="slideout-about-us" class="collapse")
             li
                 a(href='/about') About
             li
@@ -66,15 +71,17 @@ ul
             li
                 a(href='/collaborators') Collaborators
     li
-        h2 News & events
-        ul
+        h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-news-and-events" aria-expanded="false" aria-controls="slideout-news-and-events")
+            | News & events
+        ul(id="slideout-news-and-events" class="collapse")
             li
                 a(href='/events') Events
             li
                 a(href='/news') News
     li
-        h2 Store
-        ul
+        h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-store" aria-expanded="false" aria-controls="slideout-store")
+            | Store
+        ul(id="slideout-store" class="collapse")
             li
                 a(href='http://old.avalanche.ca/cac/auctions' target='_blank') Web Auction
 

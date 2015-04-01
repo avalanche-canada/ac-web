@@ -42,6 +42,10 @@ nav#app-pushmenu {
     padding-left: 10px;
   }
 
+  h2.collapse-toggle {
+    cursor: hand; cursor: pointer; 
+  }
+
   ul {
     margin: 0; padding: 0;
     list-style: none;
@@ -61,7 +65,7 @@ nav#app-pushmenu {
       .close-nav {
         margin-right: 20px;
         font-size: 1.2em;
-        cursor: hand;
+        cursor: hand; cursor: pointer; 
       }
 
       a {
