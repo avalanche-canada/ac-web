@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  
+
   .directive('responsivePushMenu', function($document) {
       return {
           //restrict: 'E',
@@ -103,7 +103,7 @@ angular.module('avalancheCanadaApp')
 
     $scope.togglePushmenu = function($event) {
       window.slideoutPushmenu.toggle();
-    }
+    };
 
     $scope.$on('$locationChangeStart', function(event) {
       window.slideoutPushmenu.close();
