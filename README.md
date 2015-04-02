@@ -86,6 +86,11 @@ $ bower install
 $ grunt serve
 ````
 
+To run jslint to check javascript quality run:
+````sh
+grunt jshint
+````
+
 #### Configuring AWS environments
 
 For production the best practice is to use an ec2 instance profiles and set the required permissions on it using policies.
