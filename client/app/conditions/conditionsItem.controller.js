@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('ConditionsItemCtrl', function ($scope, Prismic, $log, $stateParams) {
+  .controller('ConditionsItemCtrl', function ($scope, $rootScope, $filter, Prismic, $log, $stateParams) {
     var date = $stateParams.date;
     var category = $stateParams.category;
 
@@ -20,6 +20,10 @@ angular.module('avalancheCanadaApp')
                         $scope.documentHtml = doc.results[0].getStructuredText('conditions-summary.body').asHtml(ctx);
                         $scope.date         = moment.utc(doc.results[0].getDate('conditions-summary.date')).format('YYYY-MM-DD');
                         $scope.category     = doc.results[0].getText('conditions-summary.type');
+
+                        $rootScope.ogTags  = [  {type: 'title', value: $scope.category},
+                                                {type: 'image', value:  'http://www.avalanche.ca/assets/avalanche_canada.png'},
+                                                {type: 'description', value: doc.results[0].getStructuredText('conditions-summary.body').asText(ctx)}];
                     }
                     else {
                         // Should display some kind of error; will just redirect to / for now
