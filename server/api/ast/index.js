@@ -66,7 +66,7 @@ router.put('/providers/:provid', jsonParser, function (req, res) {
         res.send(500, {error: 'error adding provider'})
     };
 
-    ast.addProvider(req, success, fail);
+    ast.updateProvider(req.params.provid, req.body, success, fail);
 });
 
 module.exports = router;

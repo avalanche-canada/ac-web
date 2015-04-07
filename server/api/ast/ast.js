@@ -8,7 +8,7 @@ var docClient = new DOC.DynamoDB();
 
 var AST_TABLE = process.env.AST_DYNAMODB_TABLE;
 
-exports.getProviderList = function (filters, success, fail) {
+exports.getProviderList = function getProviderList(filters, success, fail) {
 
     console.log('getting provders from' + AST_TABLE);
 
@@ -24,7 +24,7 @@ exports.getProviderList = function (filters, success, fail) {
     });
 };
 
-exports.getProvider = function (provId, success, fail) {
+exports.getProvider = function getProvider(provId, success, fail) {
     var params = { TableName: AST_TABLE };
     params.KeyConditions = [docClient.Condition('providerid', 'EQ', provId)];
 
@@ -40,36 +40,44 @@ exports.getProvider = function (provId, success, fail) {
     });
 };
 
-exports.addProvider = function (provider, success, fail) {
+exports.addProvider = function addProvider(provider, success, fail) {
     var params  = { TableName: AST_TABLE };
     params.Item =  provider;
     params.Item.providerid = uuid.v4();
 
     console.log('Adding provider to ' + AST_TABLE + ' provider = ', JSON.stringify(params.Item));
-    //success(params.Item);
+
     docClient.
-    putItem(params, function(err, res) {
-        if (err) {
-            fail(err);
-        } else {
-            //var providerList = res.Items;
-            success(res);
-        }
-    });
+        putItem(params, function(err, res) {
+            if (err) {
+                fail(err);
+            } else {
+                //var providerList = res.Items;
+                success(res);
+            }
+        });
 };
 
-exports.updateProvider = function (provider, success, fail) {
-    var params  = { TableName: AST_TABLE };
-    params.Item =  provider;
+exports.updateProvider = function updateProvider(provId, provider, success, fail) {
+    var params  = {}
+    params.TableName = AST_TABLE;
+    params.Key = {providerid:provId};
 
-    console.log('getting provider from' + AST_TABLE + 'with id' + provId);
+    provider.providerid = provId;
 
-    docClient.putItem(params, function(err, res) {
-        if (err) {
-            fail(err);
-        } else {
-            var providerList = res.Items;
-            success(providerList);
-        }
-    });
+    params.UpdateExpression = 'SET #a = :x';
+    params.ExpressionAttributeNames  = {'#a' : 'provider'};
+    params.ExpressionAttributeValues = {':x' : provider};
+
+    console.log('Updating provider = ', JSON.stringify(params.ExpressionAttributeValues));
+
+    docClient.
+        updateItem(params, function(err, res) {
+            if (err) {
+                fail(err);
+            } else {
+                //var providerList = res.Items;
+                success(res);
+            }
+        });
 };
