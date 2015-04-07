@@ -5,7 +5,7 @@
   "homepage": "http://www.avalanche.ca/",
   "dependencies": {
     "aws-sdk": "^2.0.23",
-    "body-parser": "~1.0.0",
+    "body-parser": "^1.0.2",
     "change-case": "^2.1.5",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",

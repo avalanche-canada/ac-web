@@ -2,8 +2,6 @@
 var _ = require('lodash');
 var moment = require('moment');
 var uuid = require('node-uuid');
-var moment = require('moment');
-var im = require('imagemagick-stream');
 
 var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
@@ -43,5 +41,35 @@ exports.getProvider = function (provId, success, fail) {
 };
 
 exports.addProvider = function (provider, success, fail) {
-    success({blah:'blah'});
+    var params  = { TableName: AST_TABLE };
+    params.Item =  provider;
+    params.Item.providerid = uuid.v4();
+
+    console.log('Adding provider to ' + AST_TABLE + ' provider = ', JSON.stringify(params.Item));
+    //success(params.Item);
+    docClient.
+    putItem(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            //var providerList = res.Items;
+            success(res);
+        }
+    });
+};
+
+exports.updateProvider = function (provider, success, fail) {
+    var params  = { TableName: AST_TABLE };
+    params.Item =  provider;
+
+    console.log('getting provider from' + AST_TABLE + 'with id' + provId);
+
+    docClient.putItem(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            var providerList = res.Items;
+            success(providerList);
+        }
+    });
 };

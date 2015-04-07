@@ -18,8 +18,9 @@ module.exports = function(app) {
             res.send(401, 'invalid token...');
         }
         else{
+            console.log('Error occured', err);
             res.status(500);
-            res.render('error', { error: err });
+            res.send('error', { error: err });
         }
     });
 
