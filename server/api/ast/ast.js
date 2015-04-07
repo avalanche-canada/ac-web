@@ -11,11 +11,35 @@ var docClient = new DOC.DynamoDB();
 var AST_TABLE = process.env.AST_DYNAMODB_TABLE;
 
 exports.getProviderList = function (filters, success, fail) {
-    success([{blah:'blah'}, {blah:'blah'}, {blah:'blah'}, {blah:'blah'}]);
+
+    console.log('getting provders from' + AST_TABLE);
+
+    var params = { TableName: AST_TABLE };
+
+    docClient.scan(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            var providerList = res.Items;
+            success(providerList);
+        }
+    });
 };
 
 exports.getProvider = function (provId, success, fail) {
-    success({blah:'blah'});
+    var params = { TableName: AST_TABLE };
+    params.KeyConditions = [docClient.Condition('providerid', 'EQ', provId)];
+
+    console.log('getting provider from' + AST_TABLE + 'with id' + provId);
+
+    docClient.query(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            var providerList = res.Items;
+            success(providerList);
+        }
+    });
 };
 
 exports.addProvider = function (provider, success, fail) {

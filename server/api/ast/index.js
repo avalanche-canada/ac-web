@@ -14,8 +14,8 @@ router.get('/providers', function (req, res) {
     };
 
     var fail = function fail(err){
-        debug('Error retrieving providers' + err);
-        res.send(500, {error: 'error retreiving providers'})
+        console.log ('Error retrieving providers', err);
+        res.send(500, {error: 'error retreiving providers '})
     };
 
     ast.getProviderList(filters, success, fail);
@@ -31,7 +31,7 @@ router.get('/providers/:provid', function (req, res) {
     };
 
     var fail = function fail(err){
-        debug('Error retrieving provider' + err + 'with id' + provid);
+        console.log('Error retrieving provider with id' + provid ,  err);
         res.send(500, {error: 'error retrieving providers'})
     };
 
