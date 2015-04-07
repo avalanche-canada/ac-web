@@ -16,8 +16,46 @@ angular.module('avalancheCanadaApp')
       .state('ac.blogItem', {
         url: '^/blogs/:id/:slug',
         templateUrl: 'app/blogs/blogItem.html',
-        controller: 'BlogItemCtrl'
-      });
+        controller: 'BlogItemCtrl',
+        resolve:{
+            id: function($stateParams){
+                return $stateParams.id;
+            },
+
+            slug: function($stateParams){
+                return $stateParams.slug;
+            }
+        }
+      })
+      .state('ac.spring', {
+        url: '^/spring',
+        templateUrl: 'app/blogs/blogItem.html',
+        controller: 'BlogItemCtrl',
+        resolve:{
+            id: function(){
+                return 'VSG7EScAACUAntS-';
+            },
+
+            slug: function(){
+                return 'spring-overview';
+            }
+        }
+      })
+      .state('ac.springDr', {
+        url: '^/springDr',
+        templateUrl: 'app/blogs/blogItem.html',
+        controller: 'BlogItemCtrl',
+        resolve:{
+            id: function(){
+                return 'VSGIeycAACYAndeN';
+            },
+
+            slug: function(){
+                return 'spring-strategy';
+            }
+        }
+      })
+      ;
 
   });
 

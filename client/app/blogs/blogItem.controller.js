@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $stateParams, $location) {
+  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $location, id, slug) {
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
         $scope.iFrameCount = 4;
-        Prismic.document($stateParams.id).then(function(doc){
-            if (doc.slug === $stateParams.slug) {
+        Prismic.document(id).then(function(doc){
+            if (doc.slug === slug) {
                 $scope.documentHtml = doc.getStructuredText('blog.body').asHtml(ctx);
                 $scope.header       = doc.getText('blog.title');
                 $scope.date         = doc.getDate('blog.date');
@@ -32,9 +32,9 @@ angular.module('avalancheCanadaApp')
                 }
                 $scope.iFrameList = list;
             }
-            else if (doc.slugs.indexOf($stateParams.slug) >= 0) {
-                $location.path('/blogs/'+doc.id+'/'+doc.slug);
-            }
+            //else if (doc.slugs.indexOf(slug) >= 0) {
+            //    $location.path('/blogs/'+doc.id+'/'+doc.slug);
+            //}
             else {
                 // Should display some kind of error; will just redirect to / for now
                 $log.error('error document slug not found');
