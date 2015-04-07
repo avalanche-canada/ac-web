@@ -32,11 +32,11 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/blogs/blogItem.html',
         controller: 'BlogItemCtrl',
         resolve:{
-            id: function($stateParams){
+            id: function(){
                 return 'VSG7EScAACUAntS-';
             },
 
-            slug: function($stateParams){
+            slug: function(){
                 return 'spring-overview';
             }
         }
@@ -46,11 +46,11 @@ angular.module('avalancheCanadaApp')
         templateUrl: 'app/blogs/blogItem.html',
         controller: 'BlogItemCtrl',
         resolve:{
-            id: function($stateParams){
+            id: function(){
                 return 'VSGIeycAACYAndeN';
             },
 
-            slug: function($stateParams){
+            slug: function(){
                 return 'spring-strategy';
             }
         }

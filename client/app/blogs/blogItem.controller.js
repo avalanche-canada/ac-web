@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $stateParams, $location, id, slug) {
+  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $location, id, slug) {
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
         $scope.iFrameCount = 4;
