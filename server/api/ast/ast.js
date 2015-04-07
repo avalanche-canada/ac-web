@@ -8,14 +8,16 @@ var im = require('imagemagick-stream');
 var DOC = require("dynamodb-doc");
 var docClient = new DOC.DynamoDB();
 
-exports.getProviderList = function (filters, success, fail) {
+var AST_TABLE = process.env.AST_DYNAMODB_TABLE;
 
+exports.getProviderList = function (filters, success, fail) {
+    success([{blah:'blah'}, {blah:'blah'}, {blah:'blah'}, {blah:'blah'}]);
 };
 
 exports.getProvider = function (provId, success, fail) {
-
+    success({blah:'blah'});
 };
 
 exports.addProvider = function (provider, success, fail) {
-
+    success({blah:'blah'});
 };

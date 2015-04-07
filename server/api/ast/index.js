@@ -31,9 +31,11 @@ router.get('/providers/:provid', function (req, res) {
     };
 
     var fail = function fail(err){
-        debug('Error retrieving provider' + err + 'with id' + id);
+        debug('Error retrieving provider' + err + 'with id' + provid);
         res.send(500, {error: 'error retrieving providers'})
     };
 
-    ast.getProvider(id, success, fail);
+    ast.getProvider(provid, success, fail);
 });
+
+module.exports = router;
