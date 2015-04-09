@@ -3,9 +3,7 @@ var router = express.Router();
 var ast  = require('./ast');
 var _ = require('lodash');
 var bodyParser = require('body-parser');
-
 var debug = require('debug')('dev');
-
 var jsonParser = bodyParser.json();
 
 var errorCallback = function(res, errStr){
@@ -45,23 +43,23 @@ router.post('/providers', jsonParser, function (req, res) {
 });
 
 //! Update provider[id] details
-router.put('/providers/:provid/details', jsonParser, function (req, res) {
-    ast.updateProviderDetails(req.params.provid,
+router.put('/providers/:provid', jsonParser, function (req, res) {
+    ast.updateProvider(req.params.provid,
                               req.body,
                               successCallback(res),
                               errorCallback(res, 'Error updating provider'));
 });
 
-//! Add provider[id] Course
-router.post('/providers/:provid/course', jsonParser, function (req, res) {
+//! Add Course for provider[id]
+router.post('/courses/:provid', jsonParser, function (req, res) {
    ast.addCourse(req.params.provid,
                  req.body,
                  successCallback(res),
                  errorCallback(res, 'Error adding course'));
 });
 
-//! Update provider[id] course[id]
-router.put('/providers/:provid/course/:courseid', jsonParser, function (req, res) {
+//! Update course[id]
+router.put('/course/:courseid', jsonParser, function (req, res) {
     ast.updateCourse(req.params.provid,
                      req.params.courseid,
                      req.body,
@@ -69,8 +67,8 @@ router.put('/providers/:provid/course/:courseid', jsonParser, function (req, res
                      errorCallback(res, 'Error updating course'));
 });
 
-//! Add provider[id] Instructor
-router.post('/providers/:provid/instructor', jsonParser, function (req, res) {
+//! Add Instructor for provider[id]
+router.post('/instructor/:provid', jsonParser, function (req, res) {
    ast.addInstructor(req.params.provid,
                      req.body,
                      successCallback(res),
@@ -78,12 +76,11 @@ router.post('/providers/:provid/instructor', jsonParser, function (req, res) {
 });
 
 //! Update provider[id] Instructor[id]
-router.put('/providers/:provid/course/:courseid', jsonParser, function (req, res) {
+router.put('/instructor/:courseid', jsonParser, function (req, res) {
    ast.updateInstructor(req.params.provid,
                         req.body,
                         successCallback(res),
                         errorCallback(res, 'Error updating instructor'));
 });
-
 
 module.exports = router;
