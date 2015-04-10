@@ -8,7 +8,7 @@ var docClient = new DOC.DynamoDB();
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
 var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
-var AST_INSTRUCTOR_TABLE = process.env.AST_INSTRUCTOR_TABLE;
+
 
 var validProvider = function (provider){
     return (provider.pos &&
@@ -37,8 +37,7 @@ var provider = function (id, providerDetails){
             license_expiry: providerDetails.license_expiry,
             insurance_expiry: providerDetails.insurance_expiry,
             license_agreement: providerDetails.license_agreement,
-            courses:[],
-            instructors:[]};
+            instructors: {}};
 };
 
 var validInstructor = function (instructor){
@@ -46,7 +45,26 @@ var validInstructor = function (instructor){
 };
 
 var validCourse = function (course){
-    return (true);
+    return (course.providerid &&
+            course.pos &&
+            course.pos.lat &&
+            course.pos.lng &&
+            course.name &&
+            course.date &&
+            course.level &&
+            course.desc &&
+            course.tags);
+};
+
+var course = function (courseId, courseDetails){
+    return {courseid: courseId,
+            providerid: courseDetails.providerid,
+            geohash: geohash.encode(courseDetails.pos.lat, courseDetails.pos.lng),
+            name: courseDetails.name,
+            date: courseDetails.date,
+            level: courseDetails.level,
+            desc: courseDetails.desc,
+            tags: courseDetails.tags};
 };
 
 exports.getProviderList = function getProviderList(filters, success, fail) {
@@ -81,7 +99,6 @@ exports.addProvider = function addProvider(providerDetails, success, fail) {
     if (validProvider(providerDetails)){
         var params  = { TableName: AST_PROVIDER_TABLE,
                         Item: provider(uuid.v4(), providerDetails)};
-
         docClient.
             putItem(params, function(err, res) {
                 if (err) {
@@ -99,16 +116,30 @@ exports.addProvider = function addProvider(providerDetails, success, fail) {
 exports.updateProvider = function updateProvider(provId, providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
-        var params  = { TableName: AST_PROVIDER_TABLE,
-                        Item: provider(provId, providerDetails)};
+        var params  = {}
+        params.TableName = AST_PROVIDER_TABLE;
+        params.Key = {'providerid':provId};
+        params.UpdateExpression = 'SET #name = :name, \
+                                   geohash = :geohash, \
+                                   contact = :contact, \
+                                   sponsor = :sponsor, \
+                                   license_expiry = :license_expiry, \
+                                   license_agreement = :license_agreement, \
+                                   insurance_expiry = :insurance_expiry';
 
-        params.ConditionExpression = 'providerid = :id';
-        params.ExpressionAttributeValues = {':id': provId};
+        params.ExpressionAttributeNames = {'#name' : 'name'};
+        params.ExpressionAttributeValues = {':name' : providerDetails.name,
+                                            ':geohash' : geohash.encode(providerDetails.pos.lat, providerDetails.pos.lng),
+                                            ':contact' : providerDetails.contact,
+                                            ':sponsor' : providerDetails.sponsor,
+                                            ':license_expiry' : providerDetails.license_expiry,
+                                            ':license_agreement' : providerDetails.license_agreement,
+                                            ':insurance_expiry' : providerDetails.insurance_expiry };
 
         docClient.
-            putItem(params, function(err, res) {
+            updateItem(params, function(err, res) {
                 if (err) {
-                    fail(JSON.stringify(err));
+                    fail(err);
                 } else {
                     success(res.items);
                 }
@@ -119,17 +150,61 @@ exports.updateProvider = function updateProvider(provId, providerDetails, succes
     }
 };
 
-exports.addCourse = function addCourse(provId, courseDetails, success, fail) {
 
+exports.getCourseList = function getCourseList(filters, success, fail) {
+    var params = { TableName: AST_COURSE_TABLE };
+
+    docClient.scan(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            var providerList = res.Items;
+            success(providerList);
+        }
+    });
+};
+
+exports.getCourse = function getCourse(courseId, success, fail) {
+    var params = { TableName: AST_PROVIDER_TABLE };
+    params.KeyConditions = [docClient.Condition('courseid', 'EQ', courseId)];
+
+    docClient.query(params, function(err, res) {
+        if (err) {
+            fail(err);
+        } else {
+            var providerList = res.Items;
+            success(providerList);
+        }
+    });
+};
+
+exports.addCourse = function addCourse(courseDetails, success, fail) {
+
+    if (validCourse(courseDetails)){
+        var params  = { TableName: AST_COURSE_TABLE,
+                        Item: course(uuid.v4(), courseDetails)};
+        docClient.
+            putItem(params, function(err, res) {
+                if (err) {
+                    fail(JSON.stringify(err));
+                } else {
+                    success(res.items);
+                }
+            });
+    }
+    else{
+        fail('unable to add course invalid input where course = ' + JSON.stringify(courseDetails));
+    }
+
+    /*
     var courseId = uuid.v4();
 
     var params  = {}
     params.TableName = AST_TABLE;
     params.Key = {providerid:provId};
-    params.UpdateExpression = 'SET #courses#i = :x';
-    params.ExpressionAttributeNames  = {'#courses' : 'courses'};
-    params.ExpressionAttributeValues = {':x' : courseDetails};
+    params.UpdateExpression = 'SET courses.#i = :x';
     params.ExpressionAttributeNames = {'#i' : courseId};
+    params.ExpressionAttributeValues = {':x' : courseDetails};
 
     console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
 
@@ -141,7 +216,7 @@ exports.addCourse = function addCourse(provId, courseDetails, success, fail) {
                 console.log('Sucesfully Added c', JSON.stringify(params.ExpressionAttributeValues));
                 success(res.items);
             }
-        });
+        });*/
 }
 
 exports.updateCourse = function updateCourse(provId, courseId, course, success, fail) {
@@ -168,7 +243,29 @@ exports.updateCourse = function updateCourse(provId, courseId, course, success, 
         });
 }
 
-exports.addInstructor = function addInstructor(provId, inctructor, success, fail) {}
+exports.addInstructor = function addInstructor(provId, inctructorDetails, success, fail) {
+
+    var instructorId = uuid.v4();
+
+    var params  = {}
+    params.TableName = AST_TABLE;
+    params.Key = {providerid:provId};
+    params.UpdateExpression = 'SET instructors.#i = :x';
+    params.ExpressionAttributeNames = {'#i' : instructorId};
+    params.ExpressionAttributeValues = {':x' : inctructorDetails};
+
+    console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
+
+    docClient.
+        updateItem(params, function(err, res) {
+            if (err) {
+                fail(err);
+            } else {
+                console.log('Sucesfully Added c', JSON.stringify(params.ExpressionAttributeValues));
+                success(res.items);
+            }
+        });
+}
 
 exports.updateInstructor = function updateInstructor(provId, inctructorId, inctructor, success, fail) {}
 

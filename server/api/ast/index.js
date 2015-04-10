@@ -50,16 +50,29 @@ router.put('/providers/:provid', jsonParser, function (req, res) {
                               errorCallback(res, 'Error updating provider'));
 });
 
+router.get('/courses', function (req, res) {
+    var filters = req.query; //! \todo
+    ast.getCourseList(filters,
+                        successCallback(res),
+                        errorCallback(res, 'Error retrieving courses'));
+});
+
+router.get('/courses/:courseId', function (req, res) {
+    var courseId = req.params.courseId;
+    ast.getCourse(courseId,
+                    successCallback(res),
+                    errorCallback(res, 'Error fetching course with id '+ courseId));
+});
+
 //! Add Course for provider[id]
-router.post('/courses/:provid', jsonParser, function (req, res) {
-   ast.addCourse(req.params.provid,
-                 req.body,
+router.post('/courses', jsonParser, function (req, res) {
+   ast.addCourse(req.body,
                  successCallback(res),
                  errorCallback(res, 'Error adding course'));
 });
 
 //! Update course[id]
-router.put('/course/:courseid', jsonParser, function (req, res) {
+router.put('/courses/:courseid', jsonParser, function (req, res) {
     ast.updateCourse(req.params.provid,
                      req.params.courseid,
                      req.body,
@@ -68,7 +81,7 @@ router.put('/course/:courseid', jsonParser, function (req, res) {
 });
 
 //! Add Instructor for provider[id]
-router.post('/instructor/:provid', jsonParser, function (req, res) {
+router.post('/providers/:provid/instructor', jsonParser, function (req, res) {
    ast.addInstructor(req.params.provid,
                      req.body,
                      successCallback(res),
@@ -76,7 +89,7 @@ router.post('/instructor/:provid', jsonParser, function (req, res) {
 });
 
 //! Update provider[id] Instructor[id]
-router.put('/instructor/:courseid', jsonParser, function (req, res) {
+router.put('/providers/:provid/instructor/:instructorid', jsonParser, function (req, res) {
    ast.updateInstructor(req.params.provid,
                         req.body,
                         successCallback(res),
