@@ -81,7 +81,7 @@ router.put('/courses/:courseid', jsonParser, function (req, res) {
 });
 
 //! Add Instructor for provider[id]
-router.post('/providers/:provid/instructor', jsonParser, function (req, res) {
+router.post('/providers/:provid/instructors', jsonParser, function (req, res) {
    ast.addInstructor(req.params.provid,
                      req.body,
                      successCallback(res),
@@ -89,7 +89,7 @@ router.post('/providers/:provid/instructor', jsonParser, function (req, res) {
 });
 
 //! Update provider[id] Instructor[id]
-router.put('/providers/:provid/instructor/:instructorid', jsonParser, function (req, res) {
+router.put('/providers/:provid/instructors/:instructorid', jsonParser, function (req, res) {
    ast.updateInstructor(req.params.provid,
                         req.body,
                         successCallback(res),

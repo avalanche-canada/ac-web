@@ -113,6 +113,7 @@ exports.addProvider = function addProvider(providerDetails, success, fail) {
     }
 };
 
+//! cannot simply overwrite as that would remove instructor list. instead update all fields except instructors
 exports.updateProvider = function updateProvider(provId, providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
@@ -196,51 +197,27 @@ exports.addCourse = function addCourse(courseDetails, success, fail) {
         fail('unable to add course invalid input where course = ' + JSON.stringify(courseDetails));
     }
 
-    /*
-    var courseId = uuid.v4();
-
-    var params  = {}
-    params.TableName = AST_TABLE;
-    params.Key = {providerid:provId};
-    params.UpdateExpression = 'SET courses.#i = :x';
-    params.ExpressionAttributeNames = {'#i' : courseId};
-    params.ExpressionAttributeValues = {':x' : courseDetails};
-
-    console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
-
-    docClient.
-        updateItem(params, function(err, res) {
-            if (err) {
-                fail(err);
-            } else {
-                console.log('Sucesfully Added c', JSON.stringify(params.ExpressionAttributeValues));
-                success(res.items);
-            }
-        });*/
 }
 
-exports.updateCourse = function updateCourse(provId, courseId, course, success, fail) {
-    var params  = {}
-    params.TableName = AST_TABLE;
-    params.Key = {providerid:provId};
-    params.ConditionExpression = ":x.id = :y";
-    params.UpdateExpression = 'SET #courses = list_append(#courses, :x)';
-    params.ExpressionAttributeNames  = {'#courses' : 'courses'};
-    params.ExpressionAttributeValues = {':x' : course};
-    params.ExpressionAttributeValues = {':y' : courseId};
+exports.updateCourse = function updateCourse(courseId, course, success, fail) {
 
+    if (validCourse(courseDetails)){
+        var params  = { TableName: AST_COURSE_TABLE,
+                        Item: course(courseId, courseDetails)};
 
-    console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
-
-    docClient.
-        updateItem(params, function(err, res) {
-            if (err) {
-                fail(err);
-            } else {
-                console.log('Sucesfully Added c', JSON.stringify(params.ExpressionAttributeValues));
-                success(res.items);
-            }
-        });
+        //! \todo verify course exists
+        docClient.
+            putItem(params, function(err, res) {
+                if (err) {
+                    fail(JSON.stringify(err));
+                } else {
+                    success(res.items);
+                }
+            });
+    }
+    else{
+        fail('unable to add course invalid input where course = ' + JSON.stringify(courseDetails));
+    }
 }
 
 exports.addInstructor = function addInstructor(provId, inctructorDetails, success, fail) {
@@ -248,7 +225,7 @@ exports.addInstructor = function addInstructor(provId, inctructorDetails, succes
     var instructorId = uuid.v4();
 
     var params  = {}
-    params.TableName = AST_TABLE;
+    params.TableName = AST_PROVIDER_TABLE;
     params.Key = {providerid:provId};
     params.UpdateExpression = 'SET instructors.#i = :x';
     params.ExpressionAttributeNames = {'#i' : instructorId};
@@ -267,6 +244,26 @@ exports.addInstructor = function addInstructor(provId, inctructorDetails, succes
         });
 }
 
-exports.updateInstructor = function updateInstructor(provId, inctructorId, inctructor, success, fail) {}
+exports.updateInstructor = function updateInstructor(provId, inctructorId, inctructor, success, fail) {
+
+    var params  = {}
+    params.TableName = AST_PROVIDER_TABLE;
+    params.Key = {providerid:provId};
+    params.UpdateExpression = 'SET instructors.#i = :x';
+    params.ExpressionAttributeNames = {'#i' : instructorId};
+    params.ExpressionAttributeValues = {':x' : inctructorDetails};
+
+    console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
+
+    docClient.
+        updateItem(params, function(err, res) {
+            if (err) {
+                fail(err);
+            } else {
+                console.log('Sucesfully Added c', JSON.stringify(params.ExpressionAttributeValues));
+                success(res.items);
+            }
+        });
+}
 
 
