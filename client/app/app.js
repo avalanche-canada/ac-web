@@ -38,7 +38,7 @@ angular.module('avalancheCanadaApp', [
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html',
+                templateUrl: 'app/avalanchecanada/template.html',
                 data: {
                     ogTitle: 'Avalanche Canada',
                     ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',

@@ -9,7 +9,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.about', {
         url: '^/about',
-        templateUrl: 'app/about/about.html',
+        templateUrl: 'app/avalanchecanada/about/about.html',
         resolve:{
             overview: function($q, Prismic){
                 var deferred = $q.defer();
@@ -83,7 +83,7 @@ angular.module('avalancheCanadaApp')
       })
       .state('ac.terms', {
         url: '^/tou',
-        templateUrl: 'app/about/tou.html',
+        templateUrl: 'app/avalanchecanada/about/tou.html',
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
 

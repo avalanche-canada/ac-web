@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
     .state('ac.training', {
         url: '^/training',
-        templateUrl: 'app/training/training.html',
+        templateUrl: 'app/avalanchecanada/training/training.html',
         controller: 'TrainingCtrl',
         resolve:{
             overview: function($q, Prismic){

@@ -6,7 +6,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.gear', {
         url: '^/gear',
-        templateUrl: 'app/gear/gear.html',
+        templateUrl: 'app/avalanchecanada/gear/gear.html',
         controller: ['Prismic', '$scope',
             function (Prismic, $scope) {
                 Prismic.ctx().then(function(ctx){

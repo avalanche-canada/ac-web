@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.forecasts', {
         url: '^/forecasts/{region}',
-        templateUrl: 'app/forecasts/forecasts.html',
+        templateUrl: 'app/avalanchecanada/forecasts/forecasts.html',
         controller: 'ForecastsCtrl'
       });
   });

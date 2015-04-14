@@ -21,9 +21,8 @@ var successCallback = function(res){
 
 //! Get Provider List
 router.get('/providers', function (req, res) {
-    var filters = req.query; //! \todo
-    ast.getProviderList(filters,
-                        successCallback(res),
+    //var filters = req.query; //! \todo
+    ast.getProviderList(successCallback(res),
                         errorCallback(res, 'Error retrieving providers'));
 });
 
@@ -50,13 +49,13 @@ router.put('/providers/:provid', jsonParser, function (req, res) {
                               errorCallback(res, 'Error updating provider'));
 });
 
+//! Get a list of courses
 router.get('/courses', function (req, res) {
-    var filters = req.query; //! \todo
-    ast.getCourseList(filters,
-                        successCallback(res),
+    ast.getCourseList(successCallback(res),
                         errorCallback(res, 'Error retrieving courses'));
 });
 
+//! Get course[id]
 router.get('/courses/:courseId', function (req, res) {
     var courseId = req.params.courseId;
     ast.getCourse(courseId,

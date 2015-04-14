@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
     .state('ac.youth', {
         url: '^/youth',
-        templateUrl: 'app/youth/youth.html',
+        templateUrl: 'app/avalanchecanada/youth/youth.html',
         controller: 'YouthCtrl',
         resolve:{
             overview: function($q, Prismic){

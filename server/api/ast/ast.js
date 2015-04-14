@@ -9,11 +9,11 @@ var docClient = new DOC.DynamoDB();
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
 var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
 
-
+//! \return true if provider is valid (contains required fields)
 var validProvider = function (provider){
     return (provider.pos &&
-            provider.pos.lat &&
-            provider.pos.lng &&
+            provider.pos.latitude &&
+            provider.pos.longitude &&
             provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
@@ -24,9 +24,10 @@ var validProvider = function (provider){
             provider.license_agreement);
 };
 
+//! \return a provider as they are represented in the database
 var provider = function (id, providerDetails){
     return { providerid : id,
-            geohash : geohash.encode(providerDetails.pos.lat, providerDetails.pos.lng),
+            geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
             name : providerDetails.name,
             contact : {
                 phone: providerDetails.contact.phone,
@@ -40,15 +41,20 @@ var provider = function (id, providerDetails){
             instructors: {}};
 };
 
+//! \return true if instructor is valid (contains required fields)
 var validInstructor = function (instructor){
-    return (true);
+    return (instructor.name &&
+            instructor.email &&
+            instructor.caalevel &&
+            instructor.memerships);
 };
 
+//! \return true if course is valid (contains required fields)
 var validCourse = function (course){
     return (course.providerid &&
             course.pos &&
-            course.pos.lat &&
-            course.pos.lng &&
+            course.pos.latitude &&
+            course.pos.longitude &&
             course.name &&
             course.date &&
             course.level &&
@@ -56,10 +62,11 @@ var validCourse = function (course){
             course.tags);
 };
 
+//! create a course as it is represented in the db
 var course = function (courseId, courseDetails){
     return {courseid: courseId,
             providerid: courseDetails.providerid,
-            geohash: geohash.encode(courseDetails.pos.lat, courseDetails.pos.lng),
+            geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
             name: courseDetails.name,
             date: courseDetails.date,
             level: courseDetails.level,
@@ -67,7 +74,7 @@ var course = function (courseId, courseDetails){
             tags: courseDetails.tags};
 };
 
-exports.getProviderList = function getProviderList(filters, success, fail) {
+exports.getProviderList = function getProviderList(success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
 
     docClient.scan(params, function(err, res) {
@@ -75,6 +82,9 @@ exports.getProviderList = function getProviderList(filters, success, fail) {
             fail(err);
         } else {
             var providerList = res.Items;
+            providerList.forEach(function(provider){
+                provider.pos = geohash.decode(provider.geohash);
+            })
             success(providerList);
         }
     });
@@ -89,6 +99,9 @@ exports.getProvider = function getProvider(provId, success, fail) {
             fail(err);
         } else {
             var providerList = res.Items;
+            providerList.forEach(function(provider){
+                provider.pos = geohash.decode(provider.geohash);
+            })
             success(providerList);
         }
     });
@@ -130,7 +143,7 @@ exports.updateProvider = function updateProvider(provId, providerDetails, succes
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
-                                            ':geohash' : geohash.encode(providerDetails.pos.lat, providerDetails.pos.lng),
+                                            ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
                                             ':contact' : providerDetails.contact,
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,
@@ -152,15 +165,18 @@ exports.updateProvider = function updateProvider(provId, providerDetails, succes
 };
 
 
-exports.getCourseList = function getCourseList(filters, success, fail) {
+exports.getCourseList = function getCourseList(success, fail) {
     var params = { TableName: AST_COURSE_TABLE };
 
     docClient.scan(params, function(err, res) {
         if (err) {
             fail(err);
         } else {
-            var providerList = res.Items;
-            success(providerList);
+            var courseList = res.Items;
+            courseList.forEach(function(course){
+                course.pos = geohash.decode(course.geohash);
+            });
+            success(courseList);
         }
     });
 };
@@ -174,6 +190,9 @@ exports.getCourse = function getCourse(courseId, success, fail) {
             fail(err);
         } else {
             var providerList = res.Items;
+            providerList.forEach(function(provider){
+                provider.pos = geohash.decode(provider.geohash);
+            });
             success(providerList);
         }
     });

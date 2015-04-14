@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
         $stateProvider
             .state('ac.map', {
                 url: '',
-                templateUrl: 'app/main/map.html',
+                templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
                   obs: function (acObservation) {
@@ -15,7 +15,7 @@ angular.module('avalancheCanadaApp')
             })
             .state('ac.login', {
                 url: 'login',
-                templateUrl: 'app/main/map.html',
+                templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
                    obs: function (acObservation) {
@@ -28,7 +28,7 @@ angular.module('avalancheCanadaApp')
             })
             .state('ac.share', {
                 url: '^/share/:title/:obid',
-                templateUrl: 'app/main/map.html',
+                templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
                   obs: function ($stateParams, $http) {
@@ -43,7 +43,7 @@ angular.module('avalancheCanadaApp')
             })
             .state('ac.sled', {
                 url: '^/sled',
-                templateUrl: 'app/main/more.html',
+                templateUrl: 'app/avalanchecanada/main/more.html',
                 controller: 'MoreCtrl',
                 resolve:{
                   sledPage: [function(){
@@ -53,7 +53,7 @@ angular.module('avalancheCanadaApp')
             })
             .state('ac.more', {
                 url: '^/more',
-                templateUrl: 'app/main/more.html',
+                templateUrl: 'app/avalanchecanada/main/more.html',
                 controller: 'MoreCtrl',
                 resolve:{
                   sledPage: [function(){
