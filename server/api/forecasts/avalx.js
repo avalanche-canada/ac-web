@@ -295,9 +295,11 @@ function parksForecast(caaml, region){
         problems: getProblems(caamlProblems),
         avalancheSummary: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['avActivityComment'][0],
         snowpackSummary: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['snowpackStructureComment'][0],
-        weatherForecast: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['wxSynopsisComment'][0]
+        weatherForecast: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['wxSynopsisComment'][0],
+        dangerMode: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['dangerMode'][0] //! Early season, Regular season, Spring situation, Off season
     };
 };
+
 
 function avalancheCaForecast(caaml, region){
     var caamlBulletin      = caaml['caaml:ObsCollection']['caaml:observations'][0]['caaml:Bulletin'][0];
