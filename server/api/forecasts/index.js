@@ -268,8 +268,9 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: ''
     };
 
-    var renderIcon = function(){
-        if(!req.webcached) {
+    if(!req.webcached) {
+
+        var renderIcon = function(){
             res.render('forecasts/danger-icon', ratingStyles, function (err, svg) {
                 if(err) {
                     res.send(500);
@@ -280,37 +281,37 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
                     res.send(svg)
                 }
             });
+        };
 
-        } else {
-            res.header('Cache-Control', 'no-cache');
-            res.header('Content-Type', 'image/svg+xml');
-            res.send(req.webcached);
-        }
-    };
+        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
+            if(!req.webcached) {
+                ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
+            }
 
-    if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
-        ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
-        // Early season, Regular season, Spring situation, Off season
-        if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
-            renderIcon();
-        }
-        else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
-            res.header('Cache-Control', 'no-cache');
-            res.header('Content-Type', 'image/svg+xml');
-            var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
-            request(url).pipe(res);
+            // Early season, Regular season, Spring situation, Off season
+            if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+                renderIcon();
+            }
+            else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+                res.header('Cache-Control', 'no-cache');
+                res.header('Content-Type', 'image/svg+xml');
+                var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
+                request(url).pipe(res);
+            }
+            else{
+                console.log("unknown danger mode");
+                res.send(500);
+            }
         }
         else{
-            console.log("unknown danger mode");
-            res.send(500);
+            renderIcon();
         }
+
+    } else {
+        res.header('Cache-Control', 'no-cache');
+        res.header('Content-Type', 'image/svg+xml');
+        res.send(req.webcached);
     }
-    else{
-        renderIcon();
-    }
-
-
-
 
 });
 
