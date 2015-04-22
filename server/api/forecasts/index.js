@@ -268,13 +268,12 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: ''
     };
 
-    res.header('Cache-Control', 'no-cache');
-    res.header('Content-Type', 'image/svg+xml');
 
-    if(!req.webcached) {
 
-        // Early season, Regular season, Spring situation, Off season
-        if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+
+    // Early season, Regular season, Spring situation, Off season
+    if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+        if(!req.webcached) {
 
             if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
                 ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
@@ -284,22 +283,28 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
                 if(err) {
                     res.send(500);
                 } else {
+                    res.header('Cache-Control', 'no-cache');
+                    res.header('Content-Type', 'image/svg+xml');
                     req.webcache(svg);
                     res.send(svg)
                 }
             });
-        }
-        else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
-            var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
-            request(url).pipe(res);
-        }
-        else{
-            res.send(500);
-        }
 
-    } else {
-        res.send(req.webcached);
+        } else {
+            res.send(req.webcached);
+        }
     }
+    else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+        res.header('Cache-Control', 'no-cache');
+        res.header('Content-Type', 'image/svg+xml');
+        var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
+        request(url).pipe(res);
+    }
+    else{
+        res.send(500);
+    }
+
+
 });
 
 module.exports = router;
