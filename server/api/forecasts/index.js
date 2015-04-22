@@ -8,6 +8,7 @@ var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
+var request = require('request');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -271,18 +272,31 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     res.header('Content-Type', 'image/svg+xml');
 
     if(!req.webcached) {
-        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
-            ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
+
+        // Early season, Regular season, Spring situation, Off season
+        if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+
+            if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
+                ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
+            }
+
+            res.render('forecasts/danger-icon', ratingStyles, function (err, svg) {
+                if(err) {
+                    res.send(500);
+                } else {
+                    req.webcache(svg);
+                    res.send(svg)
+                }
+            });
+        }
+        else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+            var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
+            request(url).pipe(res);
+        }
+        else{
+            res.send(500);
         }
 
-        res.render('forecasts/danger-icon', ratingStyles, function (err, svg) {
-            if(err) {
-                res.send(500);
-            } else {
-                req.webcache(svg);
-                res.send(svg)
-            }
-        });
     } else {
         res.send(req.webcached);
     }
