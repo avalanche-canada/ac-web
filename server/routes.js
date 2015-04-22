@@ -18,7 +18,7 @@ module.exports = function(app) {
         }
         else{
             res.status(500);
-            res.render('error', { error: err });
+            res.send('error', { error: err });
         }
     });
 
