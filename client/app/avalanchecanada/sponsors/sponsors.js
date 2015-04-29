@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
         .state('ac.sponsors', {
             url: '^/sponsors',
-            templateUrl: 'app/sponsors/sponsors.html',
+            templateUrl: 'app/avalanchecanada/sponsors/sponsors.html',
             controller: 'SponsorsCtrl',
             resolve:{
                 partner: function($q, $log, Prismic){

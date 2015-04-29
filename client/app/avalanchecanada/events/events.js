@@ -20,17 +20,17 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.events', {
         url: '^/events',
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/avalanchecanada/events/events.html',
         controller: 'EventsCtrl'
       })
       .state('ac.eventsFilter', {
         url: '^/events/:tag',
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/avalanchecanada/events/events.html',
         controller: 'EventsCtrl'
       })
       .state('ac.eventDetail', {
         url: '^/events/{id}/{slug}',
-        templateUrl: 'app/events/eventDetail.html',
+        templateUrl: 'app/avalanchecanada/events/eventDetail.html',
         controller: 'EventDetailCtrl'
       });
 

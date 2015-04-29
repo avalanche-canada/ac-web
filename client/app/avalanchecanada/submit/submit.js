@@ -5,7 +5,7 @@ angular.module('avalancheCanadaApp')
         $stateProvider
             .state('ac.submit', {
                 url: 'submit',
-                templateUrl: 'app/submit/submit.html',
+                templateUrl: 'app/avalanchecanada/submit/submit.html',
                 controller: 'SubmitCtrl',
                 data: {
                   requiresLogin: true

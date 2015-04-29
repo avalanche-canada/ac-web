@@ -9,7 +9,7 @@ angular.module('avalancheCanadaApp')
       text:'=text',
     },
     transclude: true,
-    templateUrl: 'app/weather/textAndImage.html'
+    templateUrl: 'app/avalanchecanada/weather/textAndImage.html'
   };
 })
 .config(function ($stateProvider) {
@@ -54,7 +54,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
         .state('ac.weatherToday', {
             url: '^/weather',
-            templateUrl: 'app/weather/weather.html',
+            templateUrl: 'app/avalanchecanada/weather/weather.html',
             resolve:{
                 weatherForecast: getWeather
             },
@@ -62,7 +62,7 @@ angular.module('avalancheCanadaApp')
         })
         .state('ac.weather', {
             url: '^/weather/:date',
-            templateUrl: 'app/weather/weather.html',
+            templateUrl: 'app/avalanchecanada/weather/weather.html',
             resolve:{
                 weatherForecast: getWeather
             },

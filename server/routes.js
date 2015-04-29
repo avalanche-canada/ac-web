@@ -11,12 +11,14 @@ module.exports = function(app) {
 
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
+    app.use('/api/ast', require('./api/ast'));
 
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
             res.send(401, 'invalid token...');
         }
         else{
+            console.log('Error occured', err);
             res.status(500);
             res.send('error', { error: err });
         }

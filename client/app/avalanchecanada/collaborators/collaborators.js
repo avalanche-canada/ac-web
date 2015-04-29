@@ -4,7 +4,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
         .state('ac.collaborators', {
             url: '^/collaborators',
-            templateUrl: 'app/collaborators/collaborators.html',
+            templateUrl: 'app/avalanchecanada/collaborators/collaborators.html',
             controller: 'CollaboratorsCtrl',
             resolve:{
                 government: function($q, $log, Prismic){

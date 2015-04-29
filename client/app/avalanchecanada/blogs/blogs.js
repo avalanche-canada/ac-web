@@ -5,17 +5,17 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.blogs', {
         url: '^/blogs',
-        templateUrl: 'app/blogs/blogs.html',
+        templateUrl: 'app/avalanchecanada/blogs/blogs.html',
         controller: 'BlogsCtrl'
       })
       .state('ac.blogsCategory', {
         url: '^/blogs/:category',
-        templateUrl: 'app/blogs/blogs.html',
+        templateUrl: 'app/avalanchecanada/blogs/blogs.html',
         controller: 'BlogsCtrl'
       })
       .state('ac.blogItem', {
         url: '^/blogs/:id/:slug',
-        templateUrl: 'app/blogs/blogItem.html',
+        templateUrl: 'app/avalanchecanada/blogs/blogItem.html',
         controller: 'BlogItemCtrl',
         resolve:{
             id: function($stateParams){
@@ -29,7 +29,7 @@ angular.module('avalancheCanadaApp')
       })
       .state('ac.spring', {
         url: '^/spring',
-        templateUrl: 'app/blogs/blogItem.html',
+        templateUrl: 'app/avalanchecanada/blogs/blogItem.html',
         controller: 'BlogItemCtrl',
         resolve:{
             id: function(){
@@ -43,7 +43,7 @@ angular.module('avalancheCanadaApp')
       })
       .state('ac.springDr', {
         url: '^/springDr',
-        templateUrl: 'app/blogs/blogItem.html',
+        templateUrl: 'app/avalanchecanada/blogs/blogItem.html',
         controller: 'BlogItemCtrl',
         resolve:{
             id: function(){

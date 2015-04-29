@@ -20,17 +20,17 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.newsTagged', {
         url: '^/news/{tag}',
-        templateUrl: 'app/news/news.html',
+        templateUrl: 'app/avalanchecanada/news/news.html',
         controller: 'NewsCtrl'
       })
       .state('ac.news', {
         url: '^/news',
-        templateUrl: 'app/news/news.html',
+        templateUrl: 'app/avalanchecanada/news/news.html',
         controller: 'NewsCtrl'
       })
       .state('ac.newsItem', {
         url: '^/news/{id}/{slug}',
-        templateUrl: 'app/news/newsItem.html',
+        templateUrl: 'app/avalanchecanada/news/newsItem.html',
         controller: 'NewsItemCtrl'
       });
   });
