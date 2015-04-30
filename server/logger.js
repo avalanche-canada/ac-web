@@ -1,5 +1,5 @@
 var logger = require('winston');
-require('winston-papertrail').Papertrail;
+var winston = require('winston-papertrail').Papertrail;
 
 //! add papertrail in production dev and qa
 //if (process.env.NODE_ENV !== 'local' ) {
