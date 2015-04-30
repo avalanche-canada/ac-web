@@ -5,10 +5,11 @@ var _ = require('lodash');
 var bodyParser = require('body-parser');
 var debug = require('debug')('dev');
 var jsonParser = bodyParser.json();
+var logger = require('winston');
 
 var errorCallback = function(res, errStr){
     return function(err){
-        console.log (errStr, err);
+        logger.log('warn',errStr, err);
         res.send(500, {error: errStr})
     };
 };

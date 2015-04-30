@@ -9,6 +9,7 @@ var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
+var logger = require('winston');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -40,17 +41,20 @@ router.use(function (req, res, next) {
     };
 
     if(req.headers['cache-control'] === 'no-cache') {
-        console.log('cache bypass for %s', url);
+        //console.log('cache bypass for %s', url);
+        logger.log('info','cache bypass for', url);
         req.webcache = webcacher;
         next();
     } else {
         apiWebcache.get(url).then(function (data) {
             if(data){
-                console.log('cache hit for %s', url);
+                //console.log('cache hit for %s', url);
+                //logger.log('info','cache hit for', url);
                 apiWebcache.cacheUrl(url);
                 req.webcached = data;
             } else {
-                console.log('cache miss for %s', url);
+                //console.log('cache miss for %s', url);
+                logger.log('info','cache miss for', url);
                 req.webcache = webcacher;
             }
             next();
@@ -69,10 +73,11 @@ router.param('region', function (req, res, next) {
                 var deferred = Q.defer();
 
                 if(caaml){
-                    console.log('avalx cache hit for forecast for %s', req.region.id);
+                    //console.log('avalx cache hit for forecast for %s', req.region.id);
+                    //logger.log('info','avalx cache hit for forecast for', req.region.id);
                     deferred.resolve(caaml);
                 } else {
-                    console.log('avalx cache miss for forecast for %s', req.region.id);
+                    logger.log('info','avalx cache miss for forecast for %s', req.region.id);
                     avalx.fetchCaamlForecast(req.region, function (err, caaml) {
                         if(err || !caaml) {
                             deferred.reject('error fetching ' + req.region.id + ' caaml forecast.');
@@ -130,11 +135,11 @@ router.param('region', function (req, res, next) {
             };
             next();
         } else {
-            console.log('unknown/undefined type');
+            logger.log('info','unknown/undefined type');
         }
 
     } else {
-        console.log('forecast region not found');
+        logger.log('info','forecast region not found');
         res.send(404);
     }
 });
@@ -168,7 +173,7 @@ router.get('/:region.:format', function(req, res) {
                 try {
                     forecast = JSON.parse(req.webcached);
                 } catch (e) {
-                    console.log('error parsing json forecast');
+                    logger.log('info','error parsing json forecast');
                     res.send(500);
                 }
 

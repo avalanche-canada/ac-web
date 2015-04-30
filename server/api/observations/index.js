@@ -7,6 +7,7 @@ var minUtils = require('./min-utils');
 var moment = require('moment');
 var lingo = require('lingo');
 var changeCase = require('change-case');
+var logger = require('winston');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -20,7 +21,7 @@ router.post('/submissions', jwtCheck, function (req, res) {
 
     minUtils.saveSubmission(req.user, form, function (err, obs) {
         if (err) {
-            console.log('Error saving MIN submission : %s', JSON.stringify(err));
+            logger.log('info','Error saving MIN submission : %s', JSON.stringify(err));
             res.send(500, {error: 'There was an error while saving your submission.'})
         } else {
             res.json(201, obs);
@@ -30,7 +31,7 @@ router.post('/submissions', jwtCheck, function (req, res) {
 
 router.get('/submissions', function (req, res) {
     var filters = req.query;
-    console.log('fetching submissions with fiters: %s', JSON.stringify(filters));
+    logger.log('info', 'fetching submissions with fiters: %s', JSON.stringify(filters));
 
     minUtils.getSubmissions(filters, function (err, subs) {
         if (err) {
@@ -55,7 +56,7 @@ router.get('/submissions/:subid', function (req, res) {
 
 router.get('/observations', function (req, res) {
     var filters = req.query;
-    console.log('fetching submissions with fiters: %s', JSON.stringify(filters));
+    logger.log('info','fetching submissions with fiters: %s', JSON.stringify(filters));
 
     minUtils.getObservations(filters, function (err, obs) {
         if (err) {
