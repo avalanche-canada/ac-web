@@ -1,0 +1,193 @@
+#ast-search-bar.ast-providers
+  #ast-search-nav(ng-include='"/app/avalanchecanada/ast/ast-search-nav.html"')
+
+  #ast-search-filters
+    .container
+      .row
+        .col-xs-12
+          h1 Find a provider
+      .row
+        // filter-courses
+        #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner
+            button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
+              | Courses
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-courses')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') AST 1
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') AST 2
+              li.last(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') Companion Rescue
+        // filter-courses ends
+        // filter-specialties
+        #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner
+            button#filter-specialties.dropdown-toggle(type='button', data-toggle='dropdown')
+              | Specialties
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-specialties')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') Specialties 1
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') Specialties 2
+              li.last(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') Specialties 3
+        // filter-specialties ends
+        #location-filter.col-xs-12.col-md-3
+          .input-group
+            input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+            span#location-addon.input-group-addon
+              i.fa.fa-map-marker
+        #submit-filter.col-xs-12.col-md-3
+          button.blue-button(type='button')
+            | Search  
+            i.fa.fa-angle-right
+  // /#ast-search-filters
+// /#ast-search-bar
+#ast-page-content.container
+  .row
+    header.col-xs-12
+      #header-inner
+        h2 All Providers
+        .blue-border
+  .row
+    .col-xs-12
+      .table-responsive
+        table#ast-table.table
+          thead
+            tr
+              th Provider
+              th Location
+              th Courses
+              th(colspan='2') Specialties
+            tr.space
+              th(colspan='5')  
+            tr.sponsors-head
+              th(colspan='5') Our Sponsors
+          tbody
+            tr.sponsors
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr.sponsors
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr.sponsors
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus.hide(href='')
+                  i.fa.fa-plus
+                a.minus(href='')
+                  i.fa.fa-minus
+            // more info cell here
+            tr.more-info.sponsor-last
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+              td(colspan='3')
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            // more info cell here ends
+            // sponsor cells ends
+            tr
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus.hide(href='')
+                  i.fa.fa-plus
+                a.minus(href='')
+                  i.fa.fa-minus
+            // more info cell here
+            tr.more-info
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+              td(colspan='3')
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            // more info cell here ends
+            tr
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr
+              td Trigger Point Training
+              td Revelstoke, BC
+              td
+                a(href='#') AST 1, 2 Companion Rescue
+              td Ski, Youth
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            // more info cell here
+            tr.more-info
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+              td(colspan='3')
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            // more info cell here ends
+// /#ast-page-content

@@ -1,0 +1,206 @@
+
+#ast-search-bar.ast-courses
+  #ast-search-nav(ng-include='"/app/avalanchecanada/ast/ast-search-nav.html"')
+
+  #ast-search-filters
+    .container
+      .row
+        .col-xs-12
+          h1 Find a course
+      .row
+        #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner
+            button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
+              | Type
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-courses')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') AST 1
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') AST 2
+              li.last(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#') Companion Rescue
+        #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner
+            button#filter-specialties(type='button')
+              | Start Date
+              i.fa.fa-calendar
+        #location-filter.col-xs-12.col-md-3
+          .input-group
+            input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+            span#location-addon.input-group-addon
+              i.fa.fa-map-marker
+        #submit-filter.col-xs-12.col-md-3
+          button.blue-button(type='button')
+            | Search  
+            i.fa.fa-angle-right
+#ast-page-content.container
+  .row
+    header.col-xs-12
+      #header-inner
+        h2 All Courses
+        .blue-border
+  .row
+    .col-xs-12
+      .table-responsive
+        table#ast-table.table
+          thead
+            tr
+              th Dates
+              th Type
+              th Location
+              th User Group
+              th(colspan='2') Provider
+            tr.space
+              th(colspan='6')  
+            tr.sponsors-head
+              th(colspan='6') Our Sponsors
+          tbody
+            tr.sponsors
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr.sponsors
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr.sponsors
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus.hide(href='')
+                  i.fa.fa-plus
+                a.minus(href='')
+                  i.fa.fa-minus
+            tr.more-info.sponsor-last
+              td(colspan='4')
+                strong Course Details
+                br
+                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            tr
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus.hide(href='')
+                  i.fa.fa-plus
+                a.minus(href='')
+                  i.fa.fa-minus
+            tr.more-info
+              td(colspan='4')
+                strong Course Details
+                br
+                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            tr
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus(href='')
+                  i.fa.fa-plus
+                a.hide.minus(href='')
+                  i.fa.fa-minus
+            tr
+              td
+                | Jan 00, 0000 to 
+                br
+                | Jan 00, 0000
+              td
+                a(href='#') AST
+              td Revelstoke, BC
+              td Ski, Youth
+              td Trigger Point Training
+              td
+                a.plus.hide(href='')
+                  i.fa.fa-plus
+                a.minus(href='')
+                  i.fa.fa-minus
+            tr.more-info
+              td(colspan='4')
+                strong Course Details
+                br
+                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
+              td(colspan='2')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
