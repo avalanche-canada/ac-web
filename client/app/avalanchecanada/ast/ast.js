@@ -15,9 +15,18 @@ angular.module('avalancheCanadaApp')
     });
 
 })
-.controller('AstProvidersCtrl', function ($scope, $log) {
+.controller('AstProvidersCtrl', function ($scope, $http, $log) {
+  $scope.providers = []
+  $http.get('/api/ast/providers').then(function (res) {
+    $scope.providers = res.data;
+  });
+
   $log.debug("AstProvidersCtrl Initialized")
 })
-.controller('AstCoursesCtrl', function ($scope, $log) {
+.controller('AstCoursesCtrl', function ($scope, $http, $log) {
+  $scope.courses = [];
+  $http.get('/api/ast/courses').then(function (res) {
+    $scope.courses = res.data;
+  });
   $log.debug("AstCoursesCtrl Initialized")
 });

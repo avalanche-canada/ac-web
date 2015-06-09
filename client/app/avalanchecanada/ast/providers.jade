@@ -7,7 +7,6 @@
         .col-xs-12
           h1 Find a provider
       .row
-        // filter-courses
         #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
           .dropdown-filters-inner
             button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
@@ -21,8 +20,6 @@
                 a(role='menuitem', tabindex='-1', href='#') AST 2
               li.last(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#') Companion Rescue
-        // filter-courses ends
-        // filter-specialties
         #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
           .dropdown-filters-inner
             button#filter-specialties.dropdown-toggle(type='button', data-toggle='dropdown')
@@ -36,7 +33,6 @@
                 a(role='menuitem', tabindex='-1', href='#') Specialties 2
               li.last(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#') Specialties 3
-        // filter-specialties ends
         #location-filter.col-xs-12.col-md-3
           .input-group
             input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
@@ -46,8 +42,7 @@
           button.blue-button(type='button')
             | Search  
             i.fa.fa-angle-right
-  // /#ast-search-filters
-// /#ast-search-bar
+
 #ast-page-content.container
   .row
     header.col-xs-12
@@ -68,126 +63,77 @@
               th(colspan='5')  
             tr.sponsors-head
               th(colspan='5') Our Sponsors
-          tbody
+          tbody(ng-if="providers.length == 0")
+            tr
+              td(colspan="6")
+                | Loading ...
+
+
+
+          tbody(ng-repeat="provider in providers | filter:{sponsor: true}")
             tr.sponsors
-              td Trigger Point Training
-              td Revelstoke, BC
+              td {{provider.name}}
               td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
+                | Revelstoke, BC (TODO)
+              td
+                | AST 1, 2 Companion Rescue (TODO)
+              td
+                | Ski, Youth (TODO)
               td
                 a.plus(href='')
                   i.fa.fa-plus
                 a.hide.minus(href='')
                   i.fa.fa-minus
-            tr.sponsors
-              td Trigger Point Training
-              td Revelstoke, BC
-              td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
-              td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            tr.sponsors
-              td Trigger Point Training
-              td Revelstoke, BC
-              td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
-              td
-                a.plus.hide(href='')
-                  i.fa.fa-plus
-                a.minus(href='')
-                  i.fa.fa-minus
-            // more info cell here
-            tr.more-info.sponsor-last
+
+            tr.more-info.sponsor-last.hidden
               td(colspan='2')
                 strong Telephone
-                |     000 000 0000
+                a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
                 br
                 strong Email
-                a(href='mailto:test@example.com') test@example.com
+                a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
+
                 br
                 strong Website
-                a(href='http://www.kickinghorseresort.com') test@example.com
+                a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
               td(colspan='3')
                 strong Location
                 |      000 street, City, Province, 
                 br
                 strong Contact
                 |       Contact Name here
-            // more info cell here ends
-            // sponsor cells ends
+
+            tr.sponsor-last(ng-if="$last")
+
+          tbody(ng-repeat="provider in providers | filter:{sponsor: fals}")
             tr
-              td Trigger Point Training
-              td Revelstoke, BC
+              td {{provider.name}}
               td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
+                | Revelstoke, BC (TODO)
               td
-                a.plus.hide(href='')
+                | AST 1, 2 Companion Rescue (TODO)
+              td
+                | Ski, Youth (TODO)
+              td
+                a.plus(href='')
                   i.fa.fa-plus
-                a.minus(href='')
+                a.hide.minus(href='')
                   i.fa.fa-minus
-            // more info cell here
-            tr.more-info
+
+            tr.more-info.hidden
               td(colspan='2')
                 strong Telephone
-                |     000 000 0000
+                a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
                 br
                 strong Email
-                a(href='mailto:test@example.com') test@example.com
+                a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
+
                 br
                 strong Website
-                a(href='http://www.kickinghorseresort.com') test@example.com
+                a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
               td(colspan='3')
                 strong Location
                 |      000 street, City, Province, 
                 br
                 strong Contact
                 |       Contact Name here
-            // more info cell here ends
-            tr
-              td Trigger Point Training
-              td Revelstoke, BC
-              td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
-              td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            tr
-              td Trigger Point Training
-              td Revelstoke, BC
-              td
-                a(href='#') AST 1, 2 Companion Rescue
-              td Ski, Youth
-              td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            // more info cell here
-            tr.more-info
-              td(colspan='2')
-                strong Telephone
-                |     000 000 0000
-                br
-                strong Email
-                a(href='mailto:test@example.com') test@example.com
-                br
-                strong Website
-                a(href='http://www.kickinghorseresort.com') test@example.com
-              td(colspan='3')
-                strong Location
-                |      000 street, City, Province, 
-                br
-                strong Contact
-                |       Contact Name here
-            // more info cell here ends
-// /#ast-page-content

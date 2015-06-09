@@ -41,6 +41,7 @@
       #header-inner
         h2 All Courses
         .blue-border
+
   .row
     .col-xs-12
       .table-responsive
@@ -56,58 +57,30 @@
               th(colspan='6')  
             tr.sponsors-head
               th(colspan='6') Our Sponsors
-          tbody
+          tbody(ng-if="courses.length == 0")
+            tr
+              td(colspan="6")
+                | Loading ...
+          tbody(ng-repeat="course in courses | filter:{sponsor:true}")
             tr.sponsors
               td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
+                {{course.date}}
               td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
+                {{course.name}}
+              td Revelstoke, BC (TODO)
+              td Ski, Youth (TODO)
+              td Trigger Point Training (TODO)
               td
                 a.plus(href='')
                   i.fa.fa-plus
                 a.hide.minus(href='')
                   i.fa.fa-minus
-            tr.sponsors
-              td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
-              td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
-              td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            tr.sponsors
-              td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
-              td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
-              td
-                a.plus.hide(href='')
-                  i.fa.fa-plus
-                a.minus(href='')
-                  i.fa.fa-minus
-            tr.more-info.sponsor-last
-              td(colspan='4')
+            tr.more-info.hidden
+              td(colspan='2')
                 strong Course Details
                 br
                 |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
-              td(colspan='2')
+              td(colspan='4')
                 strong Telephone
                 |     000 000 0000
                 br
@@ -116,81 +89,35 @@
                 br
                 strong Website
                 a(href='http://www.kickinghorseresort.com') test@example.com
+                br
                 strong Location
                 |      000 street, City, Province, 
                 br
                 strong Contact
                 |       Contact Name here
+            tr.sponsor-last(ng-if="$last")
+          tbody(ng-repeat="course in courses | filter:{sponsor:false}")
             tr
               td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
+                {{course.date}}
               td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
-              td
-                a.plus.hide(href='')
-                  i.fa.fa-plus
-                a.minus(href='')
-                  i.fa.fa-minus
-            tr.more-info
-              td(colspan='4')
-                strong Course Details
-                br
-                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
-              td(colspan='2')
-                strong Telephone
-                |     000 000 0000
-                br
-                strong Email
-                a(href='mailto:test@example.com') test@example.com
-                br
-                strong Website
-                a(href='http://www.kickinghorseresort.com') test@example.com
-                strong Location
-                |      000 street, City, Province, 
-                br
-                strong Contact
-                |       Contact Name here
-            tr
-              td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
-              td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
+                {{course.name}}
+
+              td Revelstoke, BC (TODO)
+              td Ski, Youth (TODO)
+              td Trigger Point Training (TODO)
+
               td
                 a.plus(href='')
                   i.fa.fa-plus
                 a.hide.minus(href='')
                   i.fa.fa-minus
-            tr
-              td
-                | Jan 00, 0000 to 
-                br
-                | Jan 00, 0000
-              td
-                a(href='#') AST
-              td Revelstoke, BC
-              td Ski, Youth
-              td Trigger Point Training
-              td
-                a.plus.hide(href='')
-                  i.fa.fa-plus
-                a.minus(href='')
-                  i.fa.fa-minus
-            tr.more-info
-              td(colspan='4')
+            tr.more-info.hidden
+              td(colspan='2')
                 strong Course Details
                 br
                 |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
-              td(colspan='2')
+              td(colspan='4')
                 strong Telephone
                 |     000 000 0000
                 br
@@ -199,6 +126,7 @@
                 br
                 strong Website
                 a(href='http://www.kickinghorseresort.com') test@example.com
+                br
                 strong Location
                 |      000 street, City, Province, 
                 br
