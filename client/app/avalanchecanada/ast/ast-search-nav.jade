@@ -3,10 +3,10 @@
     .col-xs-12
       ul
         li#nav-courses
-          a.active(href='/ast/courses' title="AST Courses")
+          a(href='/ast/courses' title="AST Courses" ng-class="{active: courses_page }")
             | Courses
             span.arrow-down
         li#nav-providers
-          a(href='/ast/providers' title="AST Providers")
+          a(href='/ast/providers' title="AST Providers" ng-class="{active: providers_page }")
             | Providers
             span.arrow-down
