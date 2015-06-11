@@ -61,14 +61,15 @@
             tr
               td(colspan="6")
                 | Loading ...
-          tbody(ng-repeat="course in courses | filter:{sponsor:true}")
+          tbody(ng-repeat="course in courses")
             tr.sponsors
               td
                 {{course.date}}
               td
                 {{course.name}}
               td Revelstoke, BC (TODO)
-              td Ski, Youth (TODO)
+              td
+                {{course.level}}
               td Trigger Point Training (TODO)
               td
                 a.plus(href='')
@@ -79,7 +80,7 @@
               td(colspan='2')
                 strong Course Details
                 br
-                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
+                {{course.level}}
               td(colspan='4')
                 strong Telephone
                 |     000 000 0000
