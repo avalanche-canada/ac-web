@@ -4,7 +4,9 @@ var moment = require('moment');
 var uuid = require('node-uuid');
 var geohash = require('ngeohash');
 var DOC = require("dynamodb-doc");
+var geolib = require("geolib");
 var docClient = new DOC.DynamoDB();
+
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
 var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
@@ -74,7 +76,18 @@ var course = function (courseId, courseDetails){
             tags: courseDetails.tags};
 };
 
-exports.getProviderList = function getProviderList(success, fail) {
+
+function getProviderDistanceList(success, fail, origin) {
+    getProviderList(function(providerList){
+                        providerList.forEach(function(provider){
+                            provider.distance = geolib.getDistance(provider.pos, origin);
+                        })
+                        success(providerList);
+                    },
+                    fail);
+};
+
+function getProviderList(success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
 
     docClient.scan(params, function(err, res) {
@@ -90,7 +103,8 @@ exports.getProviderList = function getProviderList(success, fail) {
     });
 };
 
-exports.getProvider = function getProvider(provId, success, fail) {
+
+function getProvider(provId, success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
     params.KeyConditions = [docClient.Condition('providerid', 'EQ', provId)];
 
@@ -107,7 +121,9 @@ exports.getProvider = function getProvider(provId, success, fail) {
     });
 };
 
-exports.addProvider = function addProvider(providerDetails, success, fail) {
+
+
+function addProvider(providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
         var params  = { TableName: AST_PROVIDER_TABLE,
@@ -127,7 +143,7 @@ exports.addProvider = function addProvider(providerDetails, success, fail) {
 };
 
 //! cannot simply overwrite as that would remove instructor list. instead update all fields except instructors
-exports.updateProvider = function updateProvider(provId, providerDetails, success, fail) {
+function updateProvider(provId, providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
         var params  = {}
@@ -164,8 +180,7 @@ exports.updateProvider = function updateProvider(provId, providerDetails, succes
     }
 };
 
-
-exports.getCourseList = function getCourseList(success, fail) {
+function getCourseList(success, fail) {
     var params = { TableName: AST_COURSE_TABLE };
 
     docClient.scan(params, function(err, res) {
@@ -181,7 +196,7 @@ exports.getCourseList = function getCourseList(success, fail) {
     });
 };
 
-exports.getCourse = function getCourse(courseId, success, fail) {
+function getCourse(courseId, success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
     params.KeyConditions = [docClient.Condition('courseid', 'EQ', courseId)];
 
@@ -198,7 +213,7 @@ exports.getCourse = function getCourse(courseId, success, fail) {
     });
 };
 
-exports.addCourse = function addCourse(courseDetails, success, fail) {
+function addCourse(courseDetails, success, fail) {
 
     if (validCourse(courseDetails)){
         var params  = { TableName: AST_COURSE_TABLE,
@@ -218,7 +233,7 @@ exports.addCourse = function addCourse(courseDetails, success, fail) {
 
 }
 
-exports.updateCourse = function updateCourse(courseId, course, success, fail) {
+function updateCourse(courseId, course, success, fail) {
 
     if (validCourse(courseDetails)){
         var params  = { TableName: AST_COURSE_TABLE,
@@ -239,7 +254,7 @@ exports.updateCourse = function updateCourse(courseId, course, success, fail) {
     }
 }
 
-exports.addInstructor = function addInstructor(provId, inctructorDetails, success, fail) {
+function addInstructor(provId, inctructorDetails, success, fail) {
 
     var instructorId = uuid.v4();
 
@@ -263,7 +278,7 @@ exports.addInstructor = function addInstructor(provId, inctructorDetails, succes
         });
 }
 
-exports.updateInstructor = function updateInstructor(provId, inctructorId, inctructor, success, fail) {
+function updateInstructor(provId, inctructorId, inctructor, success, fail) {
 
     var params  = {}
     params.TableName = AST_PROVIDER_TABLE;
@@ -285,4 +300,18 @@ exports.updateInstructor = function updateInstructor(provId, inctructorId, inctr
         });
 }
 
+
+module.exports = {
+    getProviderList:getProviderList,
+    getProvider:getProvider,
+    addProvider:addProvider,
+    updateProvider:updateProvider,
+    getCourseList:getCourseList,
+    getCourse:getCourse,
+    addCourse:addCourse,
+    updateCourse:updateCourse,
+    addInstructor:addInstructor,
+    updateInstructor:updateInstructor,
+    getProviderDistanceList:getProviderDistanceList
+}
 

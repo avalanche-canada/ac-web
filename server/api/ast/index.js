@@ -23,6 +23,21 @@ var successCallback = function(res){
 //! Get Provider List
 router.get('/providers', function (req, res) {
     //var filters = req.query; //! \todo
+
+    if(req.query.latitude && req.query.longitude){
+        ast.getProviderDistanceList(successCallback(res),
+                        errorCallback(res, 'Error retrieving providers'),
+                        req.query);
+    }else{
+         ast.getProviderList(successCallback(res),
+                        errorCallback(res, 'Error retrieving providers'));
+    }
+
+});
+
+//! Get Provider List
+router.get('/providers/distance/:', function (req, res) {
+    //var filters = req.query; //! \todo
     ast.getProviderList(successCallback(res),
                         errorCallback(res, 'Error retrieving providers'));
 });
