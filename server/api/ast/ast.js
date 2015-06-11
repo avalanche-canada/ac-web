@@ -180,6 +180,16 @@ function updateProvider(provId, providerDetails, success, fail) {
     }
 };
 
+function getCourseDistanceList(success, fail, origin) {
+    getCourseList(function(courseList){
+                        courseList.forEach(function(course){
+                            course.distance = geolib.getDistance(course.pos, origin);
+                        })
+                        success(courseList);
+                    },
+                    fail);
+};
+
 function getCourseList(success, fail) {
     var params = { TableName: AST_COURSE_TABLE };
 
@@ -312,6 +322,7 @@ module.exports = {
     updateCourse:updateCourse,
     addInstructor:addInstructor,
     updateInstructor:updateInstructor,
-    getProviderDistanceList:getProviderDistanceList
+    getProviderDistanceList:getProviderDistanceList,
+    getCourseDistanceList:getCourseDistanceList
 }
 

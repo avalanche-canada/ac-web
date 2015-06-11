@@ -35,13 +35,6 @@ router.get('/providers', function (req, res) {
 
 });
 
-//! Get Provider List
-router.get('/providers/distance/:', function (req, res) {
-    //var filters = req.query; //! \todo
-    ast.getProviderList(successCallback(res),
-                        errorCallback(res, 'Error retrieving providers'));
-});
-
 //! get provider with id
 router.get('/providers/:provid', function (req, res) {
     var provid = req.params.provid;
@@ -67,8 +60,16 @@ router.put('/providers/:provid', jsonParser, function (req, res) {
 
 //! Get a list of courses
 router.get('/courses', function (req, res) {
-    ast.getCourseList(successCallback(res),
-                        errorCallback(res, 'Error retrieving courses'));
+
+    if(req.query.latitude && req.query.longitude){
+        ast.getCourseDistanceList(successCallback(res),
+                        errorCallback(res, 'Error retrieving providers'),
+                        req.query);
+    }else{
+         ast.getCourseList(successCallback(res),
+                        errorCallback(res, 'Error retrieving providers'));
+    }
+
 });
 
 //! Get course[id]
