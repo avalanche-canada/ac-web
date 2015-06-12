@@ -10,6 +10,9 @@ Contact admin@avalanche.ca for more details or to get invoved.
 
 ## Technical Architecture
 
+### systems diagram
+![image of systems diagram](/docs/images/systems-diagram.png?raw=true)
+
 ### client side
 * Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack).   
 * [AngularJS](http://angularjs.org) .
