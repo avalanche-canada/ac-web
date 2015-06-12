@@ -10,8 +10,17 @@ Contact admin@avalanche.ca for more details or to get invoved.
 
 ## Technical Architecture
 
-### systems diagram
-![image of systems diagram](/docs/images/systems-diagram.png?raw=true)
+### system diagram
+![image of system diagram](/docs/images/systems-diagram.png?raw=true)
+
+### system components
+* aws-elastic beanstalk - is the deployment environment for ac-web.  
+* ac-web is the node.js + express app which provides the /forecasts api and /observations api
+* aws-redis supports /forecasts api and stores the forecast cache for node-webcache with the node-webcache-redis adapter.  These facilities seed and update the forecasts from the legacy avalx server.  They then provide the forecasts to ac-web **quickly**.  
+* aws-dynamodb supports /observatons api and stores the *mountain-info-network* and *mountain-info-network-qa* DynamoDB tables.  These tables store and serve the user contributed mountain information network submissions.  DynamoDB can be easily and readily scaled by modifying the Provisioned Throughput *Read and Write Capacity Units.*
+* aws-s3 supports /observations api and stores the user images associated with user contributed mountain information network submissions.  The event chain can be seen below. 
+![image /observations](/docs/images/observations.png?raw=true)
+
 
 ### client side
 * Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack).   
