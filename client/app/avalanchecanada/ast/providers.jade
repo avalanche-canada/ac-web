@@ -80,12 +80,11 @@
               td
                 | Ski, Youth (TODO)
               td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
+                a.plus(href='' ng-click="toggleMoreInfo(provider)")
+                  i.fa.fa-plus(ng-if="!provider.more_info")
+                  i.fa.fa-minus(ng-if="provider.more_info")
 
-            tr.more-info.sponsor-last.hidden
+            tr.more-info.sponsor-last(ng-class="{hidden: !provider.more_info}")
               td(colspan='2')
                 strong Telephone
                 a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
@@ -105,7 +104,7 @@
 
             tr.sponsor-last(ng-if="$last")
 
-          tbody(ng-repeat="provider in providers | filter:{sponsor: fals}")
+          tbody(ng-repeat="provider in providers | filter:{sponsor: false}")
             tr
               td {{provider.name}}
               td
@@ -115,12 +114,11 @@
               td
                 | Ski, Youth (TODO)
               td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
+                a.plus(href='' ng-click="toggleMoreInfo(provider)")
+                  i.fa.fa-plus(ng-if="!provider.more_info")
+                  i.fa.fa-minus(ng-if="provider.more_info")
 
-            tr.more-info.hidden
+            tr.more-info(ng-class="{hidden: !provider.more_info}")
               td(colspan='2')
                 strong Telephone
                 a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}

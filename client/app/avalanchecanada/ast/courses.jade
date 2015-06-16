@@ -72,15 +72,15 @@
                 {{course.level}}
               td Trigger Point Training (TODO)
               td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            tr.more-info.hidden
+                a.plus(href='' ng-click="toggleMoreInfo(course)")
+                  i.fa.fa-plus(ng-if="!course.more_info")
+                  i.fa.fa-minus(ng-if="course.more_info")
+
+            tr.more-info(ng-class="{hidden: !course.more_info}")
               td(colspan='2')
                 strong Course Details
                 br
-                {{course.level}}
+                {{course.desc}}
               td(colspan='4')
                 strong Telephone
                 |     000 000 0000
@@ -96,7 +96,7 @@
                 br
                 strong Contact
                 |       Contact Name here
-            tr.sponsor-last(ng-if="$last")
+            
           tbody(ng-repeat="course in courses | filter:{sponsor:false}")
             tr
               td
@@ -109,15 +109,14 @@
               td Trigger Point Training (TODO)
 
               td
-                a.plus(href='')
-                  i.fa.fa-plus
-                a.hide.minus(href='')
-                  i.fa.fa-minus
-            tr.more-info.hidden
+                a.plus(href='' ng-click="toggleMoreInfo(course)")
+                  i.fa.fa-plus(ng-if="!course.more_info")
+                  i.fa.fa-minus(ng-if="course.more_info")
+            tr.more-info(ng-class="{hidden: !course.more_info}")
               td(colspan='2')
                 strong Course Details
                 br
-                |                       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere.
+                {{course.desc}}
               td(colspan='4')
                 strong Telephone
                 |     000 000 0000
