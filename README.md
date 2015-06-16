@@ -22,14 +22,15 @@ Contact admin@avalanche.ca for more details or to get invoved.
 ![image /observations](/docs/images/observations.png?raw=true)
 
 ### saas dependencies
-#### crirical saas dependencies
+These are required to support functional aspects of the Avalanche Canada platform.
 * [Mapbox](https://www.mapbox.com/) Provides the custom basemaps used in ac-web and ac-mobile
 * [Prismi.io](https://prismic.io/) Provides Content Management for ac-web client.
 * [Amazon Web Services](https://aws.amazon.com) Provides the infrastructure and components.
 * [Auth0](http://auth0.com) Provides the identity managment and authentication systems. 
 * [Google Analytics](https://www.google.com/analytics/) Provides the analyics tracking in ac-web and ac-mobile.
 
-#### productivity saas dependencies
+#### saas services
+These are used by the development team to provide efficiency.  
 * [Github.com](https://github.com) Provides the version management and service hooks for continuous deployment.
 * [Codeship.io](codeship.io) Provides the continuous deployment by hooking into Github.com and automatically building to Elastic Beanstalk. 
 * [Phonegap](https://build.phonegap.com) Provides the build methods to quickly build ac-mobile for Android and iOS. 
@@ -51,7 +52,8 @@ Contact admin@avalanche.ca for more details or to get invoved.
 ### server side dependencies
 * NodeJS
 * ExpressJS
-
+* node-webcache
+* node-webcache-redis
 
 ## Prerequisites
 The RESTful api uses a few external resource which need to be configured.
