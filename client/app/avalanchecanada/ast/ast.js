@@ -60,7 +60,7 @@ angular.module('avalancheCanadaApp')
   $scope.levels = [];
   $scope.current_level = null;
   $scope.courses_page = true;
-  $scope.dt = null;
+  $scope.current_date = null;
 
 
   //! Setup calendar
@@ -68,7 +68,7 @@ angular.module('avalancheCanadaApp')
   $scope.minDate = moment.utc(moment().startOf('day').subtract(6, 'months')).format('YYYY-MM-DD');  // Ideally this is the first course date the api returns.
 
   $scope.today = function() {
-    $scope.dt = new Date();
+    $scope.current_date = new Date();
   };
 
   $scope.opened = false;
@@ -83,7 +83,7 @@ angular.module('avalancheCanadaApp')
 
   $scope.openCalendar = function($event) {
 
-    if($scope.dt == null){
+    if($scope.current_date == null){
       $scope.today();
     }
 

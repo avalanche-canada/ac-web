@@ -28,12 +28,12 @@
         .col-xs-12.col-md-3
           .dropdown-filters-inner.dropdown-filters
             button#filter-specialties(type='button' ng-click="openCalendar($event)")
-              span(ng-if="dt == null")
+              span(ng-if="current_date == null")
                 | Start Date
-              span(ng-if="dt")
-                {{dt | date : mediumDate}}
+              span(ng-if="current_date")
+                {{current_date | date : mediumDate}}
               i.fa.fa-calendar
-          .date-picker-container(datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
+          .date-picker-container(datepicker-popup ng-model="current_date" is-open="opened" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
 
         #location-filter.col-xs-12.col-md-3
           .input-group
