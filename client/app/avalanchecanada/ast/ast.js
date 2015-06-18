@@ -64,8 +64,9 @@ angular.module('avalancheCanadaApp')
 
 
   //! Setup calendar
-  $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')); // Ideally this is the last course date the api returns.
-  
+  $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')).format('YYYY-MM-DD'); // Ideally this is the last course date the api returns.
+  $scope.minDate = moment.utc(moment().startOf('day').subtract(6, 'months')).format('YYYY-MM-DD');  // Ideally this is the first course date the api returns.
+
   $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -80,7 +81,7 @@ angular.module('avalancheCanadaApp')
   };
 
 
-  $scope.open = function($event) {
+  $scope.openCalendar = function($event) {
 
     if($scope.dt == null){
       $scope.today();

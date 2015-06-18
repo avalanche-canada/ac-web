@@ -25,15 +25,16 @@
               li(role='presentation' ng-repeat="level in levels")
                 a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
                   {{level}}
-        #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
-          .dropdown-filters-inner.dropdown
-            div(datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions")
-              button#filter-specialties(type='button' ng-click="open($event)")
-                span(ng-if="dt == null")
-                  | Start Date
-                span(ng-if="dt")
-                  {{dt | date : mediumDate}}
-                i.fa.fa-calendar
+        .col-xs-12.col-md-3
+          .dropdown-filters-inner.dropdown-filters
+            button#filter-specialties(type='button' ng-click="openCalendar($event)")
+              span(ng-if="dt == null")
+                | Start Date
+              span(ng-if="dt")
+                {{dt | date : mediumDate}}
+              i.fa.fa-calendar
+          .date-picker-container(datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
+
         #location-filter.col-xs-12.col-md-3
           .input-group
             input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
