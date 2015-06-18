@@ -9,27 +9,31 @@
           h1 Find a course
       .row
         #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
-          .dropdown-filters-inner
+          .dropdown-filters-inner.dropdown
             button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
-              | Type
+              span(ng-if="current_level == null")
+                | Type
+              span(ng-if="current_level != null")
+                {{current_level}}
               i.fa.fa-chevron-down
               i.fa.fa-chevron-up
             ul.dropdown-menu(role='menu', aria-labelledby='filter-courses')
-              li(role='presentation')
-                a(role='menuitem', tabindex='-1', href='#') AST 1
-              li(role='presentation')
-                a(role='menuitem', tabindex='-1', href='#') AST 2
-              li.last(role='presentation')
-                a(role='menuitem', tabindex='-1', href='#') Companion Rescue
+              li(role='presentation' ng-if="current_level != null")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(null)")
+                  | All Courses
+
+              li(role='presentation' ng-repeat="level in levels")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
+                  {{level}}
         #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
-          .dropdown-filters-inner
+          .dropdown-filters-inner.dropdown
             button#filter-specialties(type='button')
               | Start Date
               i.fa.fa-calendar
         #location-filter.col-xs-12.col-md-3
           .input-group
             input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
-            span#location-addon.input-group-addon
+            span#location-addon
               i.fa.fa-map-marker
         #submit-filter.col-xs-12.col-md-3
           button.blue-button(type='button')
@@ -70,7 +74,8 @@
               td Revelstoke, BC (TODO)
               td
                 {{course.level}}
-              td Trigger Point Training (TODO)
+              td
+                {{course.provider.name}}
               td
                 a.plus(href='' ng-click="toggleMoreInfo(course)")
                   i.fa.fa-plus(ng-if="!course.more_info")
@@ -103,10 +108,11 @@
                 {{course.date}}
               td
                 {{course.name}}
-
-              td Revelstoke, BC (TODO)
+              td
+                {{course.level}}
               td Ski, Youth (TODO)
-              td Trigger Point Training (TODO)
+              td
+                {{course.provider.name}}
 
               td
                 a.plus(href='' ng-click="toggleMoreInfo(course)")
