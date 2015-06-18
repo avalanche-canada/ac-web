@@ -15,7 +15,7 @@ angular.module('avalancheCanadaApp')
     });
 
 })
-.controller('AstProvidersCtrl', function ($scope, $http, $log) {
+.controller('AstProvidersCtrl', function ($scope, $http) {
   $scope.providers_page = true;
   $scope.loading = true;
   $scope.providers = [];
@@ -34,7 +34,7 @@ angular.module('avalancheCanadaApp')
         var provider = _.find($scope.providers, {providerid: course.providerid});
 
         if(provider){
-          if(typeof provider.courses == "undefined"){
+          if(typeof provider.courses === 'undefined'){
             provider.courses = [];
           }
           provider.courses.push(course);
@@ -50,12 +50,12 @@ angular.module('avalancheCanadaApp')
 
   $scope.toggleMoreInfo = function(provider){
     provider.more_info = !provider.more_info;
-  }
+  };
 
   $scope.selectLevel = function(level){
     $scope.current_level = level;
     return false;
-  }
+  };
 
   $scope.search = function() {
     $scope.providers = $scope.unfiltered_providers;
@@ -65,16 +65,16 @@ angular.module('avalancheCanadaApp')
     // TODO
 
     //! Filter out course_level (aka AST1, AST2)
-    if($scope.current_level != null){
+    if($scope.current_level !== null){
       $scope.providers = _.where($scope.providers, function(provider){
-        return _.where(provider.courses, {level: $scope.current_level}).length > 0
+        return _.where(provider.courses, {level: $scope.current_level}).length > 0;
       });
     }
-  }
+  };
 
 
 })
-.controller('AstCoursesCtrl', function ($scope, $http, $log) {
+.controller('AstCoursesCtrl', function ($scope, $http) {
   $scope.courses_page = true;
   $scope.loading = true;
   $scope.courses = [];
@@ -105,7 +105,7 @@ angular.module('avalancheCanadaApp')
 
   $scope.openCalendar = function($event) {
 
-    if($scope.current_date == null){
+    if($scope.current_date === null){
       $scope.today();
     }
 
@@ -135,25 +135,25 @@ angular.module('avalancheCanadaApp')
 
   $scope.toggleMoreInfo = function(course){
     course.more_info = !course.more_info;
-  }
+  };
 
   $scope.selectLevel = function(level){
     $scope.current_level = level;
     return false;
-  }
+  };
 
   $scope.search = function() {
     $scope.courses = $scope.unfiltered_courses;
     // TODO: Sort by location nearests to queried location
 
     //! Filter courses by current_date
-    if($scope.current_date != null){
+    if($scope.current_date !== null){
       // TODO
     }
 
     //! Filter out course_level (aka AST1, AST2)
-    if($scope.current_level != null){
-      $scope.courses = _.where($scope.courses, {level: $scope.current_level})
+    if($scope.current_level !== null){
+      $scope.courses = _.where($scope.courses, {level: $scope.current_level});
     }
-  }
+  };
 });
