@@ -1,0 +1,145 @@
+#ast-search-bar.ast-providers
+  #ast-search-nav(ng-include='"/app/avalanchecanada/ast/ast-search-nav.html"')
+
+  #ast-search-filters
+    .container
+      .row
+        .col-xs-12
+          h1 Find a provider
+      .row
+        #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner.dropdown
+            button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
+              span(ng-if="current_level == null")
+                | Courses
+              span(ng-if="current_level != null")
+                {{current_level}}
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-courses')
+              li(role='presentation' ng-if="current_level != null")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(null)")
+                  | All Courses
+
+              li(role='presentation' ng-repeat="level in levels")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
+                  {{level}}
+
+        #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner.dropdown
+            button#filter-specialties.dropdown-toggle(type='button', data-toggle='dropdown')
+              | Specialties
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-specialties')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1') Specialties 1
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1') Specialties 2
+              li.last(role='presentation')
+                a(role='menuitem', tabindex='-1') Specialties 3
+        #location-filter.col-xs-12.col-md-3
+          .input-group
+            input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+            span#location-addon
+              i.fa.fa-map-marker
+        #submit-filter.col-xs-12.col-md-3
+          button.blue-button(type='button' ng-click="search()")
+            | Search  
+            i.fa.fa-angle-right
+
+#ast-page-content.container
+  .row
+    header.col-xs-12
+      #header-inner
+        h2 All Providers
+        .blue-border
+  .row
+    .col-xs-12
+      .table-responsive
+        table#ast-table.table
+          thead
+            tr
+              th Provider
+              th Location
+              th Courses
+              th(colspan='2') Specialties
+            tr.space
+              th(colspan='5')  
+            tr.sponsors-head
+              th(colspan='5') Our Sponsors
+          tbody(ng-if="providers.length == 0")
+            tr
+              td(colspan="6" ng-if="loading")
+                | Loading ...
+              td(colspan="6" ng-if="!loading")
+                | No results match that criteria.
+
+
+
+          tbody(ng-repeat="provider in providers | filter:{sponsor: true}")
+            tr.sponsors
+              td {{provider.name}}
+              td
+                | Revelstoke, BC (TODO)
+              td
+                span(ng-repeat="course in provider.courses")
+                  {{course.name}}
+              td
+                | Ski, Youth (TODO)
+              td
+                a.plus(href='' ng-click="toggleMoreInfo(provider)")
+                  i.fa.fa-plus(ng-if="!provider.more_info")
+                  i.fa.fa-minus(ng-if="provider.more_info")
+
+            tr.more-info.sponsor-last(ng-class="{hidden: !provider.more_info}")
+              td(colspan='2')
+                strong Telephone
+                a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
+                br
+                strong Email
+                a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
+
+                br
+                strong Website
+                a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
+              td(colspan='3')
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+
+            tr.sponsor-last(ng-if="$last")
+
+          tbody(ng-repeat="provider in providers | filter:{sponsor: false}")
+            tr
+              td {{provider.name}}
+              td
+                | Revelstoke, BC (TODO)
+              td
+                | AST 1, 2 Companion Rescue (TODO)
+              td
+                | Ski, Youth (TODO)
+              td
+                a.plus(href='' ng-click="toggleMoreInfo(provider)")
+                  i.fa.fa-plus(ng-if="!provider.more_info")
+                  i.fa.fa-minus(ng-if="provider.more_info")
+
+            tr.more-info(ng-class="{hidden: !provider.more_info}")
+              td(colspan='2')
+                strong Telephone
+                a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
+                br
+                strong Email
+                a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
+
+                br
+                strong Website
+                a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
+              td(colspan='3')
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here

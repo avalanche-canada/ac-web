@@ -37,7 +37,7 @@ module.exports = function(app) {
         });
 
     // match routes handled by our app. /todo there must be a better way !
-    app.route(['/','/about*','/more*','/blogs*','/conditions*','/submit*','/share*','/weather*','/training*','/youth*','/gear*','/sponsors*','/forecasts*', '/collaborators*','/news*','/events*','/foundation*', '/spring*'])
+    app.route(['/','/about*','/more*','/blogs*','/conditions*','/submit*','/share*','/weather*','/training*','/youth*','/gear*','/sponsors*','/forecasts*', '/collaborators*','/news*','/events*','/foundation*', '/spring*', '/ast/providers*'])
         .get(function(req, res) {
             res.sendfile(app.get('appPath') + '/index.html');
         });
