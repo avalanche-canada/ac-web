@@ -1,0 +1,148 @@
+
+#ast-search-bar.ast-courses
+  #ast-search-nav(ng-include='"/app/avalanchecanada/ast/ast-search-nav.html"')
+
+  #ast-search-filters
+    .container
+      .row
+        .col-xs-12
+          h1 Find a course
+      .row
+        #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
+          .dropdown-filters-inner.dropdown
+            button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
+              span(ng-if="current_level == null")
+                | Type
+              span(ng-if="current_level != null")
+                {{current_level}}
+              i.fa.fa-chevron-down
+              i.fa.fa-chevron-up
+            ul.dropdown-menu(role='menu', aria-labelledby='filter-courses')
+              li(role='presentation' ng-if="current_level != null")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(null)")
+                  | All Courses
+
+              li(role='presentation' ng-repeat="level in levels")
+                a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
+                  {{level}}
+        .col-xs-12.col-md-3
+          .dropdown-filters-inner.dropdown-filters
+            button#filter-specialties(type='button' ng-click="openCalendar($event)")
+              span(ng-if="current_date == null")
+                | Start Date
+              span(ng-if="current_date")
+                {{current_date | date : mediumDate}}
+              i.fa.fa-calendar
+          .date-picker-container(datepicker-popup ng-model="current_date" is-open="opened" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
+
+        #location-filter.col-xs-12.col-md-3
+          .input-group
+            input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+            span#location-addon
+              i.fa.fa-map-marker
+        #submit-filter.col-xs-12.col-md-3
+          button.blue-button(type='button' ng-click="search()")
+            | Search  
+            i.fa.fa-angle-right
+#ast-page-content.container
+  .row
+    header.col-xs-12
+      #header-inner
+        h2 All Courses
+        .blue-border
+
+  .row
+    .col-xs-12
+      .table-responsive
+        table#ast-table.table
+          thead
+            tr
+              th Dates
+              th Type
+              th Location
+              th User Group
+              th(colspan='2') Provider
+            tr.space
+              th(colspan='6')  
+            tr.sponsors-head
+              th(colspan='6') Our Sponsors
+          tbody(ng-if="courses.length == 0")
+            tr
+              td(colspan="6" ng-if="loading")
+                | Loading ...
+              td(colspan="6" ng-if="!loading")
+                | No results match that criteria.
+
+          tbody(ng-repeat="course in courses")
+            tr.sponsors
+              td
+                {{course.date}}
+              td
+                {{course.name}}
+              td Revelstoke, BC (TODO)
+              td
+                {{course.level}}
+              td
+                {{course.provider.name}}
+              td
+                a.plus(href='' ng-click="toggleMoreInfo(course)")
+                  i.fa.fa-plus(ng-if="!course.more_info")
+                  i.fa.fa-minus(ng-if="course.more_info")
+
+            tr.more-info(ng-class="{hidden: !course.more_info}")
+              td(colspan='2')
+                strong Course Details
+                br
+                {{course.desc}}
+              td(colspan='4')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+                br
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here
+            
+          tbody(ng-repeat="course in courses | filter:{sponsor:false}")
+            tr
+              td
+                {{course.date}}
+              td
+                {{course.name}}
+              td
+                {{course.level}}
+              td Ski, Youth (TODO)
+              td
+                {{course.provider.name}}
+
+              td
+                a.plus(href='' ng-click="toggleMoreInfo(course)")
+                  i.fa.fa-plus(ng-if="!course.more_info")
+                  i.fa.fa-minus(ng-if="course.more_info")
+            tr.more-info(ng-class="{hidden: !course.more_info}")
+              td(colspan='2')
+                strong Course Details
+                br
+                {{course.desc}}
+              td(colspan='4')
+                strong Telephone
+                |     000 000 0000
+                br
+                strong Email
+                a(href='mailto:test@example.com') test@example.com
+                br
+                strong Website
+                a(href='http://www.kickinghorseresort.com') test@example.com
+                br
+                strong Location
+                |      000 street, City, Province, 
+                br
+                strong Contact
+                |       Contact Name here

@@ -10,7 +10,33 @@ Contact admin@avalanche.ca for more details or to get invoved.
 
 ## Technical Architecture
 
-### client side
+### system diagram
+![image of system diagram](/docs/images/systems-diagram.png?raw=true)
+
+### system components
+* aws-elastic beanstalk - is the deployment environment for ac-web.  It creates and manages the ec2 servers, security groups, and load balanching for ac-web.  
+* ac-web is the node.js + express app which provides the /forecasts api and /observations api
+* aws-elasticache (redis) supports /forecasts api and stores the forecast cache for node-webcache with the node-webcache-redis adapter.  These facilities seed and update the forecasts from the legacy avalx server.  They then provide the forecasts to ac-web **quickly**.  
+* aws-dynamodb supports /observatons api and stores the *mountain-info-network* and *mountain-info-network-qa* DynamoDB tables.  These tables store and serve the user contributed mountain information network submissions.  DynamoDB can be easily and readily scaled by modifying the Provisioned Throughput *Read and Write Capacity Units.*
+* aws-s3 supports /observations api and stores the user images associated with user contributed mountain information network submissions.  The event chain can be seen below. 
+![image /observations](/docs/images/observations.png?raw=true)
+
+### saas dependencies
+These are required to support functional aspects of the Avalanche Canada platform.
+* [Mapbox](https://www.mapbox.com/) Provides the custom basemaps used in ac-web and ac-mobile
+* [Prismi.io](https://prismic.io/) Provides Content Management for ac-web client.
+* [Amazon Web Services](https://aws.amazon.com) Provides the infrastructure and components.
+* [Auth0](http://auth0.com) Provides the identity managment and authentication systems. 
+* [Google Analytics](https://www.google.com/analytics/) Provides the analyics tracking in ac-web and ac-mobile.
+
+#### saas services
+These are used by the development team to provide efficiency.  
+* [Github.com](https://github.com) Provides the version management and service hooks for continuous deployment.
+* [Codeship.io](codeship.io) Provides the continuous deployment by hooking into Github.com and automatically building to Elastic Beanstalk. 
+* [Phonegap](https://build.phonegap.com) Provides the build methods to quickly build ac-mobile for Android and iOS. 
+
+
+### client side dependencies
 * Boilerplate scaffolded using Yeoman and the [generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack).   
 * [AngularJS](http://angularjs.org) .
 * [Angular UI](http://angular-ui.github.io).  
@@ -20,20 +46,14 @@ Contact admin@avalanche.ca for more details or to get invoved.
 * [Bower](http://bower.io/) package management
 * [Compass](http://compass-style.org/)  
 * [SASS](http://sass-lang.com/) 
-* [AC-COMPONENTS](https://github.com/avalanche-canada/ac-components) Re-Usable components developer by Avalanche Canada
-* [Prismi.io](https://prismic.io/) Content Management
+* [AC-COMPONENTS](https://github.com/avalanche-canada/ac-components) Re-Usable components developed by Avalanche Canada
 * [Leaflet](http://leafletjs.com/) Mobile Friendly Interactive Maps
-* [Mapbox](https://www.mapbox.com/)
 
-
-
-### server side
+### server side dependencies
 * NodeJS
 * ExpressJS
-* Redis via AWS Elasticache
-* AWS DynamoDB
-* AWS S3
-
+* node-webcache
+* node-webcache-redis
 
 ## Prerequisites
 The RESTful api uses a few external resource which need to be configured.
