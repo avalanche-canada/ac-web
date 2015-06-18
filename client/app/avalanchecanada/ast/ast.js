@@ -19,6 +19,7 @@ angular.module('avalancheCanadaApp')
   $scope.providers_page = true;
   $scope.loading = true;
   $scope.providers = [];
+  $scope.unfiltered_providers = [];
   $scope.courses = [];
   $scope.levels = [];
   $scope.current_level = null;
@@ -41,6 +42,7 @@ angular.module('avalancheCanadaApp')
 
       });
 
+      $scope.unfiltered_providers = $scope.providers;
       $scope.loading = false;
     });
 
@@ -54,6 +56,22 @@ angular.module('avalancheCanadaApp')
     $scope.current_level = level;
     return false;
   }
+
+  $scope.search = function() {
+    $scope.providers = $scope.unfiltered_providers;
+    // TODO: Sort by location nearests to queried location
+
+    //! Filter courses by specialities
+    // TODO
+
+    //! Filter out course_level (aka AST1, AST2)
+    if($scope.current_level != null){
+      $scope.providers = _.where($scope.providers, function(provider){
+        return _.where(provider.courses, {level: $scope.current_level}).length > 0
+      });
+    }
+  }
+
 
 })
 .controller('AstCoursesCtrl', function ($scope, $http, $log) {
@@ -137,6 +155,5 @@ angular.module('avalancheCanadaApp')
     if($scope.current_level != null){
       $scope.courses = _.where($scope.courses, {level: $scope.current_level})
     }
-
   }
 });
