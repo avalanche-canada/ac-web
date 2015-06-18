@@ -60,6 +60,39 @@ angular.module('avalancheCanadaApp')
   $scope.levels = [];
   $scope.current_level = null;
   $scope.courses_page = true;
+  $scope.dt = null;
+
+
+  //! Setup calendar
+  $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')); // Ideally this is the last course date the api returns.
+  
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+
+  $scope.opened = false;
+  
+  $scope.format = 'dd-MMMM-yyyy';
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+
+  $scope.open = function($event) {
+
+    if($scope.dt == null){
+      $scope.today();
+    }
+
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  //! Get data
 
   $http.get('/api/ast/courses').then(function (res) {
     $scope.courses = res.data;

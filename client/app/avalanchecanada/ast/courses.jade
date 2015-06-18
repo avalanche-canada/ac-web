@@ -27,9 +27,13 @@
                   {{level}}
         #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
           .dropdown-filters-inner.dropdown
-            button#filter-specialties(type='button')
-              | Start Date
-              i.fa.fa-calendar
+            div(datepicker-popup ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions")
+              button#filter-specialties(type='button' ng-click="open($event)")
+                span(ng-if="dt == null")
+                  | Start Date
+                span(ng-if="dt")
+                  {{dt | date : mediumDate}}
+                i.fa.fa-calendar
         #location-filter.col-xs-12.col-md-3
           .input-group
             input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
