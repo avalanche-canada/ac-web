@@ -16,11 +16,12 @@ angular.module('avalancheCanadaApp')
 
 })
 .controller('AstProvidersCtrl', function ($scope, $http, $log) {
+  $scope.providers_page = true;
+  $scope.loading = true;
   $scope.providers = [];
   $scope.courses = [];
   $scope.levels = [];
   $scope.current_level = null;
-  $scope.providers_page = true;
 
   $http.get('/api/ast/providers').then(function (res) {
     $scope.providers = res.data;
@@ -40,6 +41,7 @@ angular.module('avalancheCanadaApp')
 
       });
 
+      $scope.loading = false;
     });
 
   });
@@ -55,11 +57,13 @@ angular.module('avalancheCanadaApp')
 
 })
 .controller('AstCoursesCtrl', function ($scope, $http, $log) {
+  $scope.courses_page = true;
+  $scope.loading = true;
   $scope.courses = [];
+  $scope.unfiltered_courses = [];
   $scope.providers = [];
   $scope.levels = [];
   $scope.current_level = null;
-  $scope.courses_page = true;
   $scope.current_date = null;
 
 
@@ -96,16 +100,17 @@ angular.module('avalancheCanadaApp')
   //! Get data
 
   $http.get('/api/ast/courses').then(function (res) {
-    $scope.courses = res.data;
+    $scope.unfiltered_courses = res.data;
     $scope.levels = _.unique(_.pluck(res.data, 'level'));
 
     $http.get('/api/ast/providers').then(function (res) {
       var providers = res.data;
-      $scope.courses.forEach(function(course){
+      $scope.unfiltered_courses.forEach(function(course){
         course.provider = _.find(providers, {providerid: course.providerid}); 
       });
 
-      window.courses = $scope.courses;
+      $scope.courses = $scope.unfiltered_courses;
+      $scope.loading = false;
     });
 
   });
@@ -117,5 +122,21 @@ angular.module('avalancheCanadaApp')
   $scope.selectLevel = function(level){
     $scope.current_level = level;
     return false;
+  }
+
+  $scope.search = function() {
+    $scope.courses = $scope.unfiltered_courses;
+    // TODO: Sort by location nearests to queried location
+
+    //! Filter courses by current_date
+    if($scope.current_date != null){
+      // TODO
+    }
+
+    //! Filter out course_level (aka AST1, AST2)
+    if($scope.current_level != null){
+      $scope.courses = _.where($scope.courses, {level: $scope.current_level})
+    }
+
   }
 });

@@ -41,7 +41,7 @@
             span#location-addon
               i.fa.fa-map-marker
         #submit-filter.col-xs-12.col-md-3
-          button.blue-button(type='button')
+          button.blue-button(type='button' ng-click="search()")
             | Search  
             i.fa.fa-angle-right
 #ast-page-content.container
@@ -68,8 +68,11 @@
               th(colspan='6') Our Sponsors
           tbody(ng-if="courses.length == 0")
             tr
-              td(colspan="6")
+              td(colspan="6" ng-if="loading")
                 | Loading ...
+              td(colspan="6" ng-if="!loading")
+                | No results match that criteria.
+
           tbody(ng-repeat="course in courses")
             tr.sponsors
               td
