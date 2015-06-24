@@ -66,7 +66,7 @@ var validCourse = function (course){
 
 //! create a course as it is represented in the db
 var course = function (courseId, courseDetails){
-    return {courseid: courseId,
+    return {courseid: courseid,
             providerid: courseDetails.providerid,
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
             name: courseDetails.name,
