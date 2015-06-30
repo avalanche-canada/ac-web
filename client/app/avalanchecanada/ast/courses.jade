@@ -1,6 +1,6 @@
 .full-height.page
   #ast-search-bar.ast-courses
-    #ast-search-nav(ng-include='"/app/avalanchecanada/ast/ast-search-nav.html"')
+    #ast-search-nav(ng-include='"app/avalanchecanada/ast/ast-search-nav.html"')
 
     #ast-search-filters
       .container
@@ -105,11 +105,11 @@
                   a(href='http://www.kickinghorseresort.com') test@example.com
                   br
                   strong Location
-                  |      000 street, City, Province, 
+                  |      000 street, City, Province,
                   br
                   strong Contact
                   |       Contact Name here
-              
+
             tbody(ng-repeat="course in courses | filter:{sponsor:false}")
               tr
                 td
@@ -142,7 +142,7 @@
                   a(href='http://www.kickinghorseresort.com') test@example.com
                   br
                   strong Location
-                  |      000 street, City, Province, 
+                  |      000 street, City, Province,
                   br
                   strong Contact
                   |       Contact Name here
