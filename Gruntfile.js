@@ -124,7 +124,8 @@ module.exports = function (grunt) {
       jade: {
         files: [
           '<%= yeoman.client %>/{app,components}/*',
-          '<%= yeoman.client %>/{app,components}/**/*.jade'],
+          '<%= yeoman.client %>/{app,components}/**/*.jade',
+          '<%= yeoman.client %>/{app,components}/**/**/*.jade'],
         tasks: ['jade']
       },
       gruntfile: {
