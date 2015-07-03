@@ -15,7 +15,9 @@ angular.module('avalancheCanadaApp')
     });
 
 })
-.controller('AstProvidersCtrl', function ($scope, $http) {
+
+
+.controller('AstProvidersCtrl', function ($scope, $http, $log, MAPBOX_ACCESS_TOKEN) {
   $scope.providers_page = true;
   $scope.loading = true;
   $scope.providers = [];
@@ -24,29 +26,39 @@ angular.module('avalancheCanadaApp')
   $scope.levels = [];
   $scope.current_level = null;
 
-  $http.get('/api/ast/providers').then(function (res) {
-    $scope.providers = res.data;
+  var getProviders = function(latitude, longitude){
 
-    $http.get('/api/ast/courses').then(function (res) {
-      $scope.levels = _.unique(_.pluck(res.data, 'level'));
+       var queryStr = '/api/ast/providers';
 
-      res.data.forEach(function(course){
-        var provider = _.find($scope.providers, {providerid: course.providerid});
+       if($scope.location && latitude && longitude){
+            queryStr = queryStr + '?latitude=' + latitude + '&longitude=' + longitude;
+       }
 
-        if(provider){
-          if(typeof provider.courses === 'undefined'){
-            provider.courses = [];
-          }
-          provider.courses.push(course);
-        }
+      $http.get(queryStr).then(function (res) {
+        $scope.providers = res.data;
+
+        $http.get('/api/ast/courses').then(function (res) {
+          $scope.levels = _.unique(_.pluck(res.data, 'level'));
+
+          res.data.forEach(function(course){
+            var provider = _.find($scope.providers, {providerid: course.providerid});
+
+            if(provider){
+              if(typeof provider.courses === 'undefined'){
+                provider.courses = [];
+              }
+              provider.courses.push(course);
+            }
+
+          });
+
+          $scope.unfiltered_providers = $scope.providers;
+          $scope.loading = false;
+        });
 
       });
+  };
 
-      $scope.unfiltered_providers = $scope.providers;
-      $scope.loading = false;
-    });
-
-  });
 
   $scope.toggleMoreInfo = function(provider){
     provider.more_info = !provider.more_info;
@@ -59,7 +71,30 @@ angular.module('avalancheCanadaApp')
 
   $scope.search = function() {
     $scope.providers = $scope.unfiltered_providers;
-    // TODO: Sort by location nearests to queried location
+
+
+    if($scope.location){
+        var queryStr = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+$scope.location+'.json?access_token='+MAPBOX_ACCESS_TOKEN;
+        console.log(queryStr);
+        //! convert location to coords (forward geocode)
+        // http://api.tiles.mapbox.com/v4/geocode/{dataset}/{query}.json?proximity={longitude},{latitude}&access_token=<your access token>
+        $http.get(queryStr).
+            success(function(data, status, headers, config) {
+                var longitude = data.features[0].geometry.coordinates[0];
+                var latitude  = data.features[0].geometry.coordinates[1];
+
+                $log.info('geocode success lat: ' + latitude + ' lon: ' + longitude);
+                getProviders(latitude, longitude);
+            }).
+            error(function(data, status, headers, config) {
+                $log.error('error getting coords from name (forward geocode)');
+            });
+
+    }
+
+
+
+
 
     //! Filter courses by specialities
     // TODO
@@ -72,9 +107,14 @@ angular.module('avalancheCanadaApp')
     }
   };
 
+  //! run stuff
+  getProviders();
+
+
 
 })
-.controller('AstCoursesCtrl', function ($scope, $http) {
+
+.controller('AstCoursesCtrl', function ($scope, $http, MAPBOX_ACCESS_TOKEN) {
   $scope.courses_page = true;
   $scope.loading = true;
   $scope.courses = [];
@@ -94,7 +134,7 @@ angular.module('avalancheCanadaApp')
   };
 
   $scope.opened = false;
-  
+
   $scope.format = 'dd-MMMM-yyyy';
 
   $scope.dateOptions = {
@@ -124,7 +164,7 @@ angular.module('avalancheCanadaApp')
     $http.get('/api/ast/providers').then(function (res) {
       var providers = res.data;
       $scope.unfiltered_courses.forEach(function(course){
-        course.provider = _.find(providers, {providerid: course.providerid}); 
+        course.provider = _.find(providers, {providerid: course.providerid});
       });
 
       $scope.courses = $scope.unfiltered_courses;

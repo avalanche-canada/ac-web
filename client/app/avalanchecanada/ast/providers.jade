@@ -41,7 +41,7 @@
                   a(role='menuitem', tabindex='-1') Specialties 3
           #location-filter.col-xs-12.col-md-3
             .input-group
-              input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+              input.form-control(type='text', aria-describedby='location-addon', placeholder='Location' ng-model='location')
               span#location-addon
                 i.fa.fa-map-marker
           #submit-filter.col-xs-12.col-md-3
@@ -50,11 +50,7 @@
               i.fa.fa-angle-right
 
   #ast-page-content.container
-    .row
-      header.col-xs-12
-        #header-inner
-          h2 All Providers
-          .blue-border
+
     .row
       .col-xs-12
         .table-responsive
@@ -65,6 +61,8 @@
                 th Location
                 th Courses
                 th(colspan='2') Specialties
+                th Distance
+
               tr.space
                 th(colspan='5')  
               tr.sponsors-head
@@ -82,7 +80,7 @@
               tr.sponsors
                 td {{provider.name}}
                 td
-                  | Revelstoke, BC (TODO)
+                  | {{provider.location.location_name}}
                 td
                   span(ng-repeat="course in provider.courses")
                     {{course.name}}

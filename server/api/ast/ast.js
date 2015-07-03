@@ -16,6 +16,7 @@ var validProvider = function (provider){
     return (provider.pos &&
             provider.pos.latitude &&
             provider.pos.longitude &&
+            provider.pos.location_name &&
             provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
@@ -30,6 +31,7 @@ var validProvider = function (provider){
 var provider = function (id, providerDetails){
     return { providerid : id,
             geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
+            location: providerDetails.pos.location_name,
             name : providerDetails.name,
             contact : {
                 phone: providerDetails.contact.phone,
@@ -57,6 +59,7 @@ var validCourse = function (course){
             course.pos &&
             course.pos.latitude &&
             course.pos.longitude &&
+            course.pos.location_name &&
             course.name &&
             course.date &&
             course.level &&
@@ -69,6 +72,7 @@ var course = function (courseId, courseDetails){
     return {courseid: courseid,
             providerid: courseDetails.providerid,
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
+            location: courseDetails.pos.location_name,
             name: courseDetails.name,
             date: courseDetails.date,
             level: courseDetails.level,
@@ -102,6 +106,7 @@ function getProviderList(success, fail) {
         }
     });
 };
+
 
 
 function getProvider(provId, success, fail) {
@@ -151,6 +156,7 @@ function updateProvider(provId, providerDetails, success, fail) {
         params.Key = {'providerid':provId};
         params.UpdateExpression = 'SET #name = :name, \
                                    geohash = :geohash, \
+                                   location = :location, \
                                    contact = :contact, \
                                    sponsor = :sponsor, \
                                    license_expiry = :license_expiry, \
@@ -160,6 +166,7 @@ function updateProvider(provId, providerDetails, success, fail) {
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
                                             ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
+                                            ':location' : providerDetails.pos.location_name,
                                             ':contact' : providerDetails.contact,
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,
@@ -188,6 +195,22 @@ function getCourseDistanceList(success, fail, origin) {
                         success(courseList);
                     },
                     fail);
+};
+
+function getCourseTagList(success, fail) {
+
+    getCourseList(function(courseList){
+        var tagList = [];
+        courseList.forEach(function(course){
+            if(course.tags && course.tags.length > 0){
+                tagList = tagList.concat(course.tags);
+            }
+        });
+
+        success(tagList);
+    },
+    fail);
+
 };
 
 function getCourseList(success, fail) {
@@ -323,6 +346,7 @@ module.exports = {
     addInstructor:addInstructor,
     updateInstructor:updateInstructor,
     getProviderDistanceList:getProviderDistanceList,
-    getCourseDistanceList:getCourseDistanceList
+    getCourseDistanceList:getCourseDistanceList,
+    getCourseTagList:getCourseTagList
 }
 

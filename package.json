@@ -11,12 +11,15 @@
     "compression": "~1.0.1",
     "cookie-parser": "~1.0.1",
     "cors": "^2.4.2",
+    "debug": "^2.1.3",
     "dotenv": "~0.4.0",
     "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
     "express-jwt": "~0.5.0",
     "express-session": "~1.0.2",
+    "geocoder": "^0.2.2",
+    "geolib": "^2.0.17",
     "gm": "~1.17.0",
     "hiredis": "^0.1.17",
     "imagemagick-stream": "^1.1.0",
@@ -41,11 +44,9 @@
     "static-favicon": "~1.0.1",
     "webcache": "git://github.com/tesera/node-webcache.git#v0.0.3",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
-    "xml2js": "^0.4.4",
-    "debug": "^2.1.3",
     "winston": "^1.0.0",
     "winston-papertrail": "^1.0.1",
-    "geolib": "^2.0.17"
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",

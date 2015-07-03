@@ -6,10 +6,11 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('dev');
 var jsonParser = bodyParser.json();
 var logger = require('winston');
+var geocoder = require('geocoder');
 
 var errorCallback = function(res, errStr){
     return function(err){
-        logger.log('warn',errStr, err);
+        logger.log('warn', errStr, err);
         res.send(500, {error: errStr})
     };
 };
@@ -45,9 +46,32 @@ router.get('/providers/:provid', function (req, res) {
 
 //! Add provider (details + courses + instructors)
 router.post('/providers', jsonParser, function (req, res) {
-    ast.addProvider(req.body,
-                    successCallback(res),
-                    errorCallback(res, 'Error adding provider'));
+
+    var provider = req.body;
+
+    //! if not lat long provided then get one using location name
+    if(!provider.pos.latitude && !provider.pos.longitude && provider.pos.location_name){
+        geocoder.geocode(provider.pos.location_name , function ( err, data ) {
+            if(err){
+                errorCallback(res, 'error retrieving coordinates from geocode service')();
+            }
+            else{
+                provider.pos.latitude  = data.results[0].geometry.location.lat;
+                provider.pos.longitude = data.results[0].geometry.location.lng;
+                addProvider();
+            }
+        });
+    }
+    else{
+        addProvider();
+    }
+
+    var addProvider = function(provider){
+        ast.addProvider(req.body,
+                        successCallback(res),
+                        errorCallback(res, 'Error adding provider'));
+    }
+
 });
 
 //! Update provider[id] details
@@ -75,9 +99,18 @@ router.get('/courses', function (req, res) {
 //! Get course[id]
 router.get('/courses/:courseId', function (req, res) {
     var courseId = req.params.courseId;
-    ast.getCourse(courseId,
+
+    console.log(courseId);
+    if (courseId === 'tags'){
+            ast.getCourseTagList(successCallback(res),
+                        errorCallback(res, 'Error retrieving course tag list'));
+    }
+    else{
+            ast.getCourse(courseId,
                     successCallback(res),
                     errorCallback(res, 'Error fetching course with id '+ courseId));
+    }
+
 });
 
 //! Add Course for provider[id]
