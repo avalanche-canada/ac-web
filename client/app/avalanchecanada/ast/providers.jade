@@ -78,7 +78,7 @@
 
 
 
-            tbody(ng-repeat="provider in providers | filter:{sponsor: true}")
+            tbody(ng-repeat="provider in providers | filter:{sponsor: true} | orderBy:'distance'")
               tr.sponsors
                 td {{provider.name}}
                 td
@@ -115,7 +115,7 @@
 
               tr.sponsor-last(ng-if="$last")
 
-            tbody(ng-repeat="provider in providers | filter:{sponsor: false}")
+            tbody(ng-repeat="provider in providers | filter:{sponsor: false} | orderBy:'distance'")
               tr
                 td {{provider.name}}
                 td
