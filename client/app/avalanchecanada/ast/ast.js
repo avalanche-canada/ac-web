@@ -79,14 +79,14 @@ angular.module('avalancheCanadaApp')
         //! convert location to coords (forward geocode)
         // http://api.tiles.mapbox.com/v4/geocode/{dataset}/{query}.json?proximity={longitude},{latitude}&access_token=<your access token>
         $http.get(queryStr).
-            success(function(data, status, headers, config) {
+            success(function(data) {
                 var longitude = data.features[0].geometry.coordinates[0];
                 var latitude  = data.features[0].geometry.coordinates[1];
 
                 $log.info('geocode success lat: ' + latitude + ' lon: ' + longitude);
                 getProviders(latitude, longitude);
             }).
-            error(function(data, status, headers, config) {
+            error(function() {
                 $log.error('error getting coords from name (forward geocode)');
             });
 
@@ -114,7 +114,7 @@ angular.module('avalancheCanadaApp')
 
 })
 
-.controller('AstCoursesCtrl', function ($scope, $http, MAPBOX_ACCESS_TOKEN) {
+.controller('AstCoursesCtrl', function ($scope, $http) {
   $scope.courses_page = true;
   $scope.loading = true;
   $scope.courses = [];
