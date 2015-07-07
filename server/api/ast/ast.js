@@ -69,7 +69,7 @@ var validCourse = function (course){
 
 //! create a course as it is represented in the db
 var course = function (courseId, courseDetails){
-    return {courseid: courseid,
+    return {courseid: courseId,
             providerid: courseDetails.providerid,
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
             location: courseDetails.pos.location_name,
@@ -203,7 +203,12 @@ function getCourseTagList(success, fail) {
         var tagList = [];
         courseList.forEach(function(course){
             if(course.tags && course.tags.length > 0){
-                tagList = tagList.concat(course.tags);
+                course.tags.forEach(function(tag){
+                    if (tagList.indexOf(tag) === -1){
+                        tagList.push(tag);
+                    }
+                })
+                //tagList = tagList.concat(course.tags);
             }
         });
 
@@ -268,9 +273,9 @@ function addCourse(courseDetails, success, fail) {
 
 function updateCourse(courseId, course, success, fail) {
 
-    if (validCourse(courseDetails)){
+    if (validCourse(course)){
         var params  = { TableName: AST_COURSE_TABLE,
-                        Item: course(courseId, courseDetails)};
+                        Item: course(courseId, course)};
 
         //! \todo verify course exists
         docClient.
@@ -283,7 +288,7 @@ function updateCourse(courseId, course, success, fail) {
             });
     }
     else{
-        fail('unable to add course invalid input where course = ' + JSON.stringify(courseDetails));
+        fail('unable to add course invalid input where course = ' + JSON.stringify(course));
     }
 }
 

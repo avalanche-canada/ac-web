@@ -38,7 +38,7 @@ angular.module('avalancheCanadaApp')
         $scope.providers = res.data;
 
         $http.get('/api/ast/courses').then(function (res) {
-          $scope.levels = _.unique(_.pluck(res.data, 'level'));
+            $scope.levels = _.unique(_.pluck(res.data, 'level'));
 
           res.data.forEach(function(course){
             var provider = _.find($scope.providers, {providerid: course.providerid});
@@ -57,6 +57,10 @@ angular.module('avalancheCanadaApp')
         });
 
       });
+
+        $http.get('/api/ast/courses/tags').then(function (res) {
+            $scope.specialities = res.data;
+        });
   };
 
 

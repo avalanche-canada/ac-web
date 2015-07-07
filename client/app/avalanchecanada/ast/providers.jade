@@ -33,12 +33,10 @@
                 i.fa.fa-chevron-down
                 i.fa.fa-chevron-up
               ul.dropdown-menu(role='menu', aria-labelledby='filter-specialties')
-                li(role='presentation')
-                  a(role='menuitem', tabindex='-1') Specialties 1
-                li(role='presentation')
-                  a(role='menuitem', tabindex='-1') Specialties 2
-                li.last(role='presentation')
-                  a(role='menuitem', tabindex='-1') Specialties 3
+                li(role='presentation' ng-repeat="speciality in specialities")
+                  a(role='menuitem', tabindex='-1', ng-click="selectSpeciality(speciality)")
+                    {{speciality}}
+
           #location-filter.col-xs-12.col-md-3
             .input-group
               input.form-control(type='text', aria-describedby='location-addon', placeholder='Location' ng-model='location')
