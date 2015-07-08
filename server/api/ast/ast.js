@@ -156,7 +156,7 @@ function updateProvider(provId, providerDetails, success, fail) {
         params.Key = {'providerid':provId};
         params.UpdateExpression = 'SET #name = :name, \
                                    geohash = :geohash, \
-                                   location = :location, \
+                                   location_name = :location_name, \
                                    contact = :contact, \
                                    sponsor = :sponsor, \
                                    license_expiry = :license_expiry, \
@@ -166,7 +166,7 @@ function updateProvider(provId, providerDetails, success, fail) {
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
                                             ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-                                            ':location' : providerDetails.pos.location_name,
+                                            ':location_name' : providerDetails.pos.location_name,
                                             ':contact' : providerDetails.contact,
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,

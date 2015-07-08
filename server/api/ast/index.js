@@ -87,31 +87,9 @@ router.get('/providers/:provid', function (req, res) {
 
 //! Add provider (details + courses + instructors)
 router.post('/providers', jsonParser, function (req, res) {
-
-    var provider = req.body;
-
-    //! if not lat long provided then get one using location name
-    if(!provider.pos.latitude && !provider.pos.longitude && provider.pos.location_name){
-        geocoder.geocode(provider.pos.location_name , function ( err, data ) {
-            if(err){
-                errorCallback(res, 'error retrieving coordinates from geocode service')();
-            }
-            else{
-                provider.pos.latitude  = data.results[0].geometry.location.lat;
-                provider.pos.longitude = data.results[0].geometry.location.lng;
-                addProvider();
-            }
-        });
-    }
-    else{
-        addProvider();
-    }
-
-    var addProvider = function(provider){
-        ast.addProvider(req.body,
-                        successCallback(res),
-                        errorCallback(res, 'Error adding provider'));
-    }
+    ast.addProvider(req.body,
+                    successCallback(res),
+                    errorCallback(res, 'Error adding provider'));
 
 });
 
