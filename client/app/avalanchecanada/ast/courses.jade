@@ -37,7 +37,7 @@
 
           #location-filter.col-xs-12.col-md-3
             .input-group
-              input.form-control(type='text', aria-describedby='location-addon', placeholder='Location')
+              input.form-control(type='text', aria-describedby='location-addon', placeholder='Location', ng-model='location')
               span#location-addon
                 i.fa.fa-map-marker
           #submit-filter.col-xs-12.col-md-3
@@ -65,7 +65,7 @@
                 td(colspan="6" ng-if="!loading")
                   | No results match that criteria.
 
-            tbody(ng-repeat="course in courses")
+            tbody(ng-repeat="course in sponsored_courses | orderBy:'distance'")
               tr.sponsors
                 td
                   {{course.date}}
@@ -88,19 +88,19 @@
                   br
                   {{course.desc}}
                 td(colspan='4')
-                  strong Telephone
+                  strong Telephone:&nbsp;
                   | {{course.provider.contact.phone}}
                   br
-                  strong Email
+                  strong Email:&nbsp;
                   a(href='mailto:{{course.provider.contact.email}}') {{course.provider.contact.email}}
                   br
-                  strong Website
+                  strong Website:&nbsp;
                   a(href='{{course.provider.contact.website}}') {{course.provider.contact.website}}
                   br
-                  strong Location
+                  strong Location:&nbsp;
                   | {{course.location_name}}
 
-            tbody(ng-repeat="course in courses")
+            tbody(ng-repeat="course in unsponsoured_courses | orderBy:'distance'")
               tr
                 td
                   {{course.date}}
@@ -111,6 +111,7 @@
                 td Ski, Youth (TODO)
                 td
                   {{course.provider.name}}
+
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(course)")
                     i.fa.fa-plus(ng-if="!course.more_info")
@@ -121,14 +122,14 @@
                   br
                   {{course.desc}}
                 td(colspan='4')
-                 strong Telephone
+                 strong Telephone:&nbsp;
                   | {{course.provider.contact.phone}}
                   br
-                  strong Email
+                  strong Email:&nbsp;
                   a(href='mailto:{{course.provider.contact.email}}') {{course.provider.contact.email}}
                   br
-                  strong Website
+                  strong Website:&nbsp;
                   a(href='{{course.provider.contact.website}}') {{course.provider.contact.website}}
                   br
-                  strong Location
+                  strong Location:&nbsp;
                   | {{course.location_name}}
