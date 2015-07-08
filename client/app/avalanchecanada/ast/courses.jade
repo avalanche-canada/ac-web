@@ -46,12 +46,6 @@
               i.fa.fa-angle-right
   #ast-page-content.container
     .row
-      header.col-xs-12
-        #header-inner
-          h2 All Courses
-          .blue-border
-
-    .row
       .col-xs-12
         .table-responsive
           table#ast-table.table
@@ -62,8 +56,6 @@
                 th Location
                 th User Group
                 th(colspan='2') Provider
-              tr.space
-                th(colspan='6')  
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
             tbody(ng-if="courses.length == 0")
@@ -79,7 +71,8 @@
                   {{course.date}}
                 td
                   {{course.name}}
-                td {{course.location_name}}
+                td
+                    {{course.location_name}}
                 td
                   {{course.level}}
                 td
@@ -96,21 +89,18 @@
                   {{course.desc}}
                 td(colspan='4')
                   strong Telephone
-                  |     000 000 0000
+                  | {{course.provider.contact.phone}}
                   br
                   strong Email
-                  a(href='mailto:test@example.com') test@example.com
+                  a(href='mailto:{{course.provider.contact.email}}') {{course.provider.contact.email}}
                   br
                   strong Website
-                  a(href='http://www.kickinghorseresort.com') test@example.com
+                  a(href='{{course.provider.contact.website}}') {{course.provider.contact.website}}
                   br
                   strong Location
-                  |      000 street, City, Province,
-                  br
-                  strong Contact
-                  |       Contact Name here
+                  | {{course.location_name}}
 
-            tbody(ng-repeat="course in courses | filter:{sponsor:false}")
+            tbody(ng-repeat="course in courses")
               tr
                 td
                   {{course.date}}
@@ -121,7 +111,6 @@
                 td Ski, Youth (TODO)
                 td
                   {{course.provider.name}}
-
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(course)")
                     i.fa.fa-plus(ng-if="!course.more_info")
@@ -132,17 +121,14 @@
                   br
                   {{course.desc}}
                 td(colspan='4')
-                  strong Telephone
-                  |     000 000 0000
+                 strong Telephone
+                  | {{course.provider.contact.phone}}
                   br
                   strong Email
-                  a(href='mailto:test@example.com') test@example.com
+                  a(href='mailto:{{course.provider.contact.email}}') {{course.provider.contact.email}}
                   br
                   strong Website
-                  a(href='http://www.kickinghorseresort.com') test@example.com
+                  a(href='{{course.provider.contact.website}}') {{course.provider.contact.website}}
                   br
                   strong Location
-                  |      000 street, City, Province,
-                  br
-                  strong Contact
-                  |       Contact Name here
+                  | {{course.location_name}}

@@ -63,7 +63,6 @@
                 th Location
                 th Courses
                 th(colspan='2') Specialties
-                th Distance
 
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
@@ -78,38 +77,34 @@
 
             tbody(ng-repeat="provider in providers | filter:{sponsor: true} | orderBy:'distance'")
               tr.sponsors
-                td {{provider.name}}
                 td
-                  | {{provider.location.location_name}}
+                  | {{provider.name}}
+                td
+                  | {{provider.location_name}}
                 td
                   span(ng-repeat="course in provider.courses")
                     {{course.name}}
                 td
                   | Ski, Youth (TODO)
+
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(provider)")
                     i.fa.fa-plus(ng-if="!provider.more_info")
                     i.fa.fa-minus(ng-if="provider.more_info")
-                td
-                    | {{provider.distance}}
 
               tr.more-info.sponsor-last(ng-class="{hidden: !provider.more_info}")
                 td(colspan='2')
-                  strong Telephone
-                  a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
+                  strong Telephone: &nbsp;
+                    a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
                   br
-                  strong Email
-                  a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
-
+                  strong Email: &nbsp;
+                    a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
                   br
-                  strong Website
-                  a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
+                  strong Website: &nbsp;
+                    a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
                 td(colspan='3')
-                  strong Location
-                  |      000 street, City, Province,
-                  br
-                  strong Contact
-                  |       Contact Name here
+                  strong Location: &nbsp;
+                  |  {{provider.location_name}}
 
               tr.sponsor-last(ng-if="$last")
 
@@ -119,7 +114,8 @@
                 td
                   | {{provider.location_name}}
                 td
-                  | AST 1, 2 Companion Rescue (TODO)
+                  span(ng-repeat="course in provider.courses")
+                    {{course.name}}
                 td
                   | Ski, Youth (TODO)
                 td
@@ -129,18 +125,15 @@
 
               tr.more-info(ng-class="{hidden: !provider.more_info}")
                 td(colspan='2')
-                  strong Telephone
-                  a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
+                  strong Telephone: &nbsp;
+                    a(href="tel:{{provider.contact.phone}}") {{provider.contact.phone}}
                   br
-                  strong Email
-                  a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
-
+                  strong Email:&nbsp;
+                    a(href='mailto:{{provider.contact.email}}') {{provider.contact.email}}
                   br
-                  strong Website
-                  a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
+                  strong Website: &nbsp;
+                    a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
                 td(colspan='3')
                   strong Location
-                  |      000 street, City, Province,
-                  br
-                  strong Contact
-                  |       Contact Name here
+                  |      {{provider.location_name}}
+
