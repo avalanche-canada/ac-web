@@ -16,7 +16,7 @@ var validProvider = function (provider){
     return (provider.pos &&
             provider.pos.latitude &&
             provider.pos.longitude &&
-            provider.pos.location_name &&
+            provider.location_name &&
             provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
@@ -31,7 +31,7 @@ var validProvider = function (provider){
 var provider = function (id, providerDetails){
     return { providerid : id,
             geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-            location_name: providerDetails.pos.location_name,
+            location_name: providerDetails.location_name,
             name : providerDetails.name,
             contact : {
                 phone: providerDetails.contact.phone,
@@ -59,7 +59,7 @@ var validCourse = function (course){
             course.pos &&
             course.pos.latitude &&
             course.pos.longitude &&
-            course.pos.location_name &&
+            course.location_name &&
             course.name &&
             course.date &&
             course.level &&
@@ -72,7 +72,7 @@ var course = function (courseId, courseDetails){
     return {courseid: courseId,
             providerid: courseDetails.providerid,
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
-            location_name: courseDetails.pos.location_name,
+            location_name: courseDetails.location_name,
             name: courseDetails.name,
             date: courseDetails.date,
             level: courseDetails.level,
@@ -166,7 +166,7 @@ function updateProvider(provId, providerDetails, success, fail) {
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
                                             ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-                                            ':location_name' : providerDetails.pos.location_name,
+                                            ':location_name' : providerDetails.location_name,
                                             ':contact' : providerDetails.contact,
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,

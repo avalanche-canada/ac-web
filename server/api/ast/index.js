@@ -25,8 +25,8 @@ var successCallback = function(res){
 
 router.use('/providers/:provid', function (req, res, next) {
     //! if not lat long provided then get one using location name
-    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.pos.location_name){
-        geocoder.geocode(req.body.pos.location_name , function ( err, data ) {
+    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
+        geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
                 errorCallback(res, 'error retrieving coordinates from geocode service')();
             }
@@ -44,8 +44,8 @@ router.use('/providers/:provid', function (req, res, next) {
 
 router.use('/courses/:courseid', function (req, res, next) {
     //! if not lat long provided then get one using location name
-    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.pos.location_name){
-        geocoder.geocode(req.body.pos.location_name , function ( err, data ) {
+    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
+        geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
                 errorCallback(res, 'error retrieving coordinates from geocode service')();
             }
