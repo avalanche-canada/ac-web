@@ -31,7 +31,7 @@ var validProvider = function (provider){
 var provider = function (id, providerDetails){
     return { providerid : id,
             geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-            location: providerDetails.pos.location_name,
+            location_name: providerDetails.pos.location_name,
             name : providerDetails.name,
             contact : {
                 phone: providerDetails.contact.phone,
@@ -72,7 +72,7 @@ var course = function (courseId, courseDetails){
     return {courseid: courseId,
             providerid: courseDetails.providerid,
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
-            location: courseDetails.pos.location_name,
+            location_name: courseDetails.pos.location_name,
             name: courseDetails.name,
             date: courseDetails.date,
             level: courseDetails.level,
