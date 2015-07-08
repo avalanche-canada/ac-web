@@ -10,7 +10,7 @@
 
 //Mobile
 #ast-search-bar {
-  margin-top:75px;
+  //margin-top:75px;
   width:100%;
   min-height:125px;
   @include clearfix();
@@ -54,7 +54,7 @@
         &:active,
         &:focus {
           background-color:transparent;
-        } 
+        }
         &:hover,
         &.active {
           background-color:#377cd9;
@@ -63,8 +63,8 @@
         .arrow-down {
           position:absolute;
           top:0px;
-          width:0; 
-          height:0; 
+          width:0;
+          height:0;
           border-left:10px solid transparent;
           border-right:10px solid transparent;
           border-top:10px solid #1e59a9;
@@ -76,7 +76,7 @@
     #nav-providers .arrow-down {left:57px;}
   }
   #ast-search-filters {
-    height:398px; 
+    height:398px;
     h1 {
       @include font-size(3.6, 3.8);
       font-family:$font-family-google;
@@ -117,7 +117,7 @@
         border-radius:0;
         border:none;
         box-shadow:none;
-        width:80%;    
+        width:80%;
         background-color:#1e59a9;
         @include font-size(1.6, 2.8);
         li {
@@ -133,7 +133,7 @@
             &:focus {
               color:#fff;
               text-decoration:none;
-            } 
+            }
             &:hover {
               text-decoration:none;
               background-color:transparent;
@@ -179,7 +179,7 @@
         display:block;
         padding:0 24px;
         height:60px;
-        border:none;        
+        border:none;
       }
     }
   }
@@ -187,7 +187,7 @@
 
 #ast-page-content {
   min-height:200px;
-  @include clearfix();  
+  @include clearfix();
   margin-top:5px;
   margin-bottom:60px;
   position:relative;
@@ -205,7 +205,7 @@
     float:left;
     margin:18px 0 0 0;
   }
-  @include clearfix();  
+  @include clearfix();
   background:transparent url(../assets/images/ribbon-bg.png) center bottom repeat-x;
   position:relative;
   padding:0 0 34px 0;
@@ -218,8 +218,8 @@
         padding-top:22px;
         padding-left:16px;
         font-family:$font-family-google;
-        font-weight:bold;   
-        text-transform:uppercase;  
+        font-weight:bold;
+        text-transform:uppercase;
         @include font-size(1.6, 2.8);
         color:#b5b5b5;
         border-left:2px solid #eeeff1;
@@ -238,12 +238,12 @@
         th {
           color:#fff;
           font-family:$font-family-google;
-          font-weight:bold;   
-          text-transform:uppercase;  
+          font-weight:bold;
+          text-transform:uppercase;
           @include font-size(1.6, 1.6);
           border:none;
           padding:10px;
-        }       
+        }
       }
     }
   }
@@ -297,7 +297,7 @@
             &:focus {
               color:#5b5b5b;
               text-decoration:none;
-            } 
+            }
             &:hover {
               text-decoration:none;
             }
@@ -310,7 +310,7 @@
 //end of mobile styles
 
 
-//Tablet Styles 
+//Tablet Styles
 @media screen and (min-width: $screen-tablet) {
 
   #ast-search-bar #ast-search-filters h1 {
@@ -322,7 +322,7 @@
       @include font-size(5.0, 5.2);
       margin:28px 0 0 0;
     }
-  } 
+  }
   .filters .filters-inner a {
     width:50%;
     border-left:none;
@@ -355,7 +355,7 @@
     h2 {
       margin:48px 0 0 0; //dekstop
     }
-  } 
+  }
   #ast-search-bar #ast-search-filters .dropdown-filters button,
   #ast-search-bar #ast-search-filters #location-filter .input-group {
     width:100%;
