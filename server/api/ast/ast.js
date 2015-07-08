@@ -271,12 +271,13 @@ function addCourse(courseDetails, success, fail) {
 
 }
 
-function updateCourse(courseId, course, success, fail) {
+function updateCourse(courseId, courseDetails, success, fail) {
 
-    if (validCourse(course)){
+    if (validCourse(courseDetails)){
         var params  = { TableName: AST_COURSE_TABLE,
-                        Item: course(courseId, course)};
+                        Item: course(courseId, courseDetails)};
 
+        console.log('updating course');
         //! \todo verify course exists
         docClient.
             putItem(params, function(err, res) {
@@ -288,7 +289,7 @@ function updateCourse(courseId, course, success, fail) {
             });
     }
     else{
-        fail('unable to add course invalid input where course = ' + JSON.stringify(course));
+        fail('unable to add course invalid input where course = ' + JSON.stringify(courseDetails));
     }
 }
 

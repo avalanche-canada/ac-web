@@ -10,6 +10,7 @@ var geocoder = require('geocoder');
 
 var errorCallback = function(res, errStr){
     return function(err){
+        console.log('Something went wrong')
         logger.log('warn', errStr, err);
         res.send(500, {error: errStr})
     };
@@ -20,6 +21,46 @@ var successCallback = function(res){
         res.json(ret);
     }
 };
+
+
+router.use('/providers/:provid', function (req, res, next) {
+    //! if not lat long provided then get one using location name
+    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.pos.location_name){
+        geocoder.geocode(req.body.pos.location_name , function ( err, data ) {
+            if(err){
+                errorCallback(res, 'error retrieving coordinates from geocode service')();
+            }
+            else{
+                req.body.pos.latitude  = data.results[0].geometry.location.lat;
+                req.body.pos.longitude = data.results[0].geometry.location.lng;
+                next();
+            }
+        });
+    }
+    else{
+        next();
+    }
+});
+
+router.use('/courses/:courseid', function (req, res, next) {
+    //! if not lat long provided then get one using location name
+    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.pos.location_name){
+        geocoder.geocode(req.body.pos.location_name , function ( err, data ) {
+            if(err){
+                errorCallback(res, 'error retrieving coordinates from geocode service')();
+            }
+            else{
+                req.body.pos.latitude  = data.results[0].geometry.location.lat;
+                req.body.pos.longitude = data.results[0].geometry.location.lng;
+                next();
+            }
+        });
+    }
+    else{
+        next();
+    }
+});
+
 
 //! Get Provider List
 router.get('/providers', function (req, res) {
@@ -122,8 +163,7 @@ router.post('/courses', jsonParser, function (req, res) {
 
 //! Update course[id]
 router.put('/courses/:courseid', jsonParser, function (req, res) {
-    ast.updateCourse(req.params.provid,
-                     req.params.courseid,
+    ast.updateCourse(req.params.courseid,
                      req.body,
                      successCallback(res),
                      errorCallback(res, 'Error updating course'));
