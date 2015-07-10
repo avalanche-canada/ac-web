@@ -103,7 +103,7 @@ angular.module('avalancheCanadaApp')
     if($scope.location){
       geocode($scope.location).then(getProviders,
                                     function(err){
-                                        $log.error(err)
+                                        $log.error(err);
                                     });
     }
 
@@ -198,7 +198,7 @@ angular.module('avalancheCanadaApp')
               $scope.loading = false;
             });
     });
-  }
+  };
 
 
   $scope.toggleMoreInfo = function(course){
@@ -216,7 +216,7 @@ angular.module('avalancheCanadaApp')
     if($scope.location){
       geocode($scope.location).then(getCourses,
                                     function(err){
-                                        $log.error(err)
+                                        $log.error(err);
                                     });
     }
 
