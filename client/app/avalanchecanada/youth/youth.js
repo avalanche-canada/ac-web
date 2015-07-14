@@ -48,51 +48,29 @@ angular.module('avalancheCanadaApp')
                 return deferred.promise;
             },
 
-            resourceList: function($q, $log, Prismic){
+            youthResources: function($q, $log, Prismic){
                 var deferred = $q.defer();
                 var tags =  [];
+                var categories = [];
+                var grades = [];
                 var resourceList = {};
 
                 Prismic.ctx().then(function(ctx){
-
-                    //! for each tag get the youth resources with that tag
-                    var getResources = function(){
-                        tags.forEach(function(elm){
-                            var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])][:d = any(document.tags, ["'+elm+'"])]]';
-                            $log.info(query);
-                            ctx.api.form('everything').query(query)
-                                    .ref(ctx.ref).submit(function(err, documents){
-                                        if (err) {
-                                            $log.error('error getting resource tags from prismic');
-                                        }
-                                        else {
-                                            resourceList[elm] = documents.results;
-                                        }
-                            });
-                        });
-                        deferred.resolve({'list': resourceList, 'tags': tags});
-                    } ;
-
-                    //! Get all tags and then get the resources for each tag
-                    var query  = '[[:d = any(document.type, ["resource"])][:d = any(document.tags, ["youth"])]]';
+                    var query  = '[[:d = any(document.type, ["youth-resource"])]]';
+                    $log.info(query);
                     ctx.api.form('everything').query(query)
-                        .ref(ctx.ref)
-                            .submit(function(err, documents){
-                                if (err) {
-                                    $log.error('error getting resource from prismic');
-                                }
-                                else {
-                                    //! add unique tags to the list
-                                    documents.results.forEach(function(result){
-                                        result.tags.forEach(function(tag){
-                                            if(tags.indexOf(tag) === -1 && tag !== 'youth'){
-                                                tags.push(tag);
-                                            }
-                                        });
-                                    });
-                                    getResources();
-                                }
-                            });
+                        .ref(ctx.ref).submit(function(err, documents){
+                            if (err) {
+                                $log.error('error getting resource tags from prismic');
+                            }
+                            else {
+                                resourceList = documents.results;
+                                categories = _.unique(resourceList.map(function(elm){ return elm.getText('youth-resource.category')}));
+                                grades = _.unique(resourceList.map(function(elm){return elm.getText('youth-resource.grade')}));
+                                deferred.resolve({'list': resourceList, 'categories':categories, 'grades': grades });
+                            }
+                    });
+
                 });
 
                 return deferred.promise;
@@ -100,13 +78,57 @@ angular.module('avalancheCanadaApp')
         }
       });
   })
-  .controller('YouthCtrl', function ($scope, $log, $anchorScroll, $timeout, Prismic, overview, programs,resource, curriculum, resourceList) {
+  .controller('YouthCtrl', function ($scope, $log, $anchorScroll, $timeout, Prismic, overview, programs,resource, curriculum, youthResources) {
         $scope.overview = overview;
         $scope.programs = programs;
         $scope.resource = resource;
         $scope.curriculum = curriculum;
-        $scope.tags = resourceList.tags;
-        $scope.resourceList = resourceList.list;
+        $scope.resourceList = youthResources.list;
+        $scope.resourceCategories = youthResources.categories;
+        $scope.resourceGrades = youthResources.grades;
+        $scope.selected_grade = null;
+        $scope.selected_category = null;
+
+        var applyFilter = function(){
+            var list = [];
+            youthResources.list.forEach(function(resource){
+                var add = false;
+
+                if($scope.selected_grade === null && $scope.selected_category === null){
+                    add = true;
+                }
+                else{
+                    if(resource.getText('youth-resource.category') === $scope.selected_category &&
+                       $scope.selected_grade === null){
+                        add = true;
+                    }
+                    else if($scope.selected_category === null &&
+                       resource.getText('youth-resource.grade') === $scope.selected_grade){
+                        add = true;
+                    }
+                    else if(resource.getText('youth-resource.category') === $scope.selected_category &&
+                       resource.getText('youth-resource.grade') === $scope.selected_grade){
+                        add = true;
+                    }
+                }
+
+                if(add){
+                    list.push(resource);
+                }
+
+            })
+            $scope.resourceList = list;
+        };
+
+        $scope.selectGrade = function(grade){
+            $scope.selected_grade = grade;
+            applyFilter();
+        };
+
+        $scope.selectCategory = function(category){
+            $scope.selected_category = category;
+            applyFilter();
+        };
 
         //! once rendered call anchor scroll
         $timeout($anchorScroll, 0, false);

@@ -43,12 +43,47 @@
 
                 .anchor#programs(ng-bind-html='programs')
                 .anchor#resources(ng-bind-html='resources')
-                .anchor#resourceList(ng-repeat="tag in tags")
-                    h3{{tag}}
-                    div(ng-repeat="resource in resourceList[tag]")
-                        #resourceDesc(ng-bind-html="resource.getStructuredText('resource.description').asHtml(ctx)")
-                        a(href="{{resource.getText('resource.url')}}")
-                                | {{resource.getText('resource.label')}}
+                .anchor#resourceList
+                    .dropdown-filters-inner.dropdown
+                        button#filter-grades.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | Grade {{selected_grade}}
+                            i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade(null)")
+                                | All
+                            li(role='presentation' ng-repeat="grade in resourceGrades")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade(grade)")
+                                {{grade}}
+
+                    .dropdown-filters-inner.dropdown
+                        button#filter-category.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | Category {{selected_category}}
+                            i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-category')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectCategory(null)")
+                                | All
+                            li(role='presentation' ng-repeat="category in resourceCategories")
+                              a(role='menuitem', tabindex='-1', ng-click="selectCategory(category)")
+                                {{category}}
+                    .table-responsive
+                        table#resource-table.table
+                            thead
+                              tr
+                                th Name
+                                th Description
+                                th Category
+                                th Grade
+                                th Link
+                            tbody(ng-repeat="resource in resourceList")
+                              tr
+                                td {{resource.getText('youth-resource.label')}}
+                                td {{resource.getStructuredText('youth-resource.description').asText(ctx)}}
+                                td {{resource.getText('youth-resource.category')}}
+                                td {{resource.getText('youth-resource.grade')}}
+                                td {{resource.getText('youth-resource.url')}}
+
                 .anchor#curriculum(ng-bind-html='curriculum')
     .push
 div.footer(ng-include='"components/footer/footer.html"')

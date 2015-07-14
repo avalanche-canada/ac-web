@@ -211,13 +211,15 @@ angular.module('avalancheCanadaApp')
   };
 
   $scope.search = function() {
-    $scope.courses = $scope.unfiltered_courses;
 
     if($scope.location){
       geocode($scope.location).then(getCourses,
                                     function(err){
                                         $log.error(err);
                                     });
+    }
+    else{
+      getCourses();
     }
 
     //! Filter courses by current_date
@@ -227,7 +229,8 @@ angular.module('avalancheCanadaApp')
 
     //! Filter out course_level (aka AST1, AST2)
     if($scope.current_level !== null){
-      $scope.courses = _.where($scope.courses, {level: $scope.current_level});
+      $scope.sponsored_courses = _.where($scope.sponsored_courses, {level: $scope.current_level});
+      $scope.unsponsoured_courses = _.where($scope.unsponsoured_courses, {level: $scope.current_level});
     }
   };
 
