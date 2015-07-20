@@ -50,7 +50,6 @@ angular.module('avalancheCanadaApp')
 
             youthResources: function($q, $log, Prismic){
                 var deferred = $q.defer();
-                var tags =  [];
                 var categories = [];
                 var grades = [];
                 var resourceList = {};
@@ -65,8 +64,12 @@ angular.module('avalancheCanadaApp')
                             }
                             else {
                                 resourceList = documents.results;
-                                categories = _.unique(resourceList.map(function(elm){ return elm.getText('youth-resource.category')}));
-                                grades = _.unique(resourceList.map(function(elm){return elm.getText('youth-resource.grade')}));
+                                categories = _.unique(resourceList.map(function(elm){
+                                    return elm.getText('youth-resource.category');
+                                }));
+                                grades = _.unique(resourceList.map(function(elm){
+                                    return elm.getText('youth-resource.grade');
+                                }));
                                 deferred.resolve({'list': resourceList, 'categories':categories, 'grades': grades });
                             }
                     });
@@ -116,7 +119,7 @@ angular.module('avalancheCanadaApp')
                     list.push(resource);
                 }
 
-            })
+            });
             $scope.resourceList = list;
         };
 

@@ -8,7 +8,7 @@
           .col-xs-12
             h1 Find a course
         .row
-          #filter-courses-dropdown.col-xs-12.col-md-3.dropdown-filters
+          #filter-courses-dropdown.col-xs-12.col-md-2.dropdown-filters
             .dropdown-filters-inner.dropdown
               button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
                 span(ng-if="current_level == null")
@@ -21,26 +21,47 @@
                 li(role='presentation' ng-if="current_level != null")
                   a(role='menuitem', tabindex='-1', ng-click="selectLevel(null)")
                     | All Courses
-
                 li(role='presentation' ng-repeat="level in levels")
                   a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
                     {{level}}
-          .col-xs-12.col-md-3
-            .dropdown-filters-inner.dropdown-filters
-              button#filter-specialties(type='button' ng-click="openCalendar($event)")
-                span(ng-if="current_date == null")
-                  | Start Date
-                span(ng-if="current_date")
-                  {{current_date | date : mediumDate}}
-                i.fa.fa-calendar
-            .date-picker-container(datepicker-popup ng-model="current_date" is-open="opened" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
 
-          #location-filter.col-xs-12.col-md-3
+          .col-xs-12.col-md-2
+            .dropdown-filters-inner.dropdown-filters
+              button#filter-specialties(type='button' ng-click="openCalendar($event,'from')")
+                span(ng-if="date_from == null")
+                  | Date From
+                span(ng-if="date_from")
+                  {{date_from | date : mediumDate}}
+                i.fa.fa-calendar
+            .date-picker-container(datepicker-popup ng-model="date_from" is-open="opened.from" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
+
+          .col-xs-12.col-md-2
+            .dropdown-filters-inner.dropdown-filters
+              button#filter-specialties(type='button' ng-click="openCalendar($event,'to')")
+                span(ng-if="date_to == null")
+                  | Date To
+                span(ng-if="date_to")
+                  {{date_to| date : mediumDate}}
+                i.fa.fa-calendar
+            .date-picker-container(datepicker-popup ng-model="date_to" is-open="opened.to" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
+
+          #location-filter.col-xs-12.col-md-2
             .input-group
               input.form-control(type='text', aria-describedby='location-addon', placeholder='Location', ng-model='location')
               span#location-addon
                 i.fa.fa-map-marker
-          #submit-filter.col-xs-12.col-md-3
+
+          #filter-distance-dropdown.col-xs-12.col-md-2.dropdown-filters
+            .dropdown-filters-inner.dropdown
+              button#filter-distance.dropdown-toggle(type='button', data-toggle='dropdown')
+                {{current_distance}}km
+                i.fa.fa-chevron-down
+              ul.dropdown-menu(role='menu', aria-labelledby='filter-distance')
+                li(role='presentation' ng-repeat="distance in distanceList")
+                  a(role='menuitem', tabindex='-1', ng-click="setDistance(distance)")
+                    {{distance}}km
+
+          #submit-filter.col-xs-12.col-md-2
             button.blue-button(type='button' ng-click="search()")
               | Search  
               i.fa.fa-angle-right
@@ -50,11 +71,14 @@
         .table-responsive
           table#ast-table.table
             thead
+
+              tr.space
+                th(colspan='5')  
               tr
                 th Dates
-                th Type
+                th Name
                 th Location
-                th User Group
+                th Type
                 th(colspan='2') Provider
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
@@ -65,14 +89,14 @@
                 td(colspan="6" ng-if="!loading")
                   | No results match that criteria.
 
-            tbody(ng-repeat="course in sponsored_courses | orderBy:'distance'")
+            tbody(ng-repeat="course in sponsored_courses | orderBy:'date'")
               tr.sponsors
                 td
                   {{course.date}}
                 td
-                  {{course.name}}
+                  {{course.distance/1000}}
                 td
-                    {{course.location_name}}
+                  {{course.location_name}}
                 td
                   {{course.level}}
                 td
@@ -107,8 +131,9 @@
                 td
                   {{course.name}}
                 td
+                  {{course.location_name}}
+                td
                   {{course.level}}
-                td Ski, Youth (TODO)
                 td
                   {{course.provider.name}}
 
