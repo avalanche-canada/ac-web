@@ -161,4 +161,6 @@ AUTH0_CLIENT_SECRET=myauth0clientsecret
 REDIS_HOST='yourredishost'
 NO_CACHE_REFRESH=true
 MINSUB_DYNAMODB_TABLE='dynamotablename'
+USE_PRERENDER=false
 ````
+

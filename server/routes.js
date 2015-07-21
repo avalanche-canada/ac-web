@@ -4,8 +4,8 @@ module.exports = function(app) {
 
     var env = app.get('env');
 
-    //! prerender site for bots in production only
-    if (env === 'production') {
+    var use_prerender = (process.env.USE_PRERENDER === 'false') ? false : true;
+    if (use_prerender) {
         app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
     }
 
