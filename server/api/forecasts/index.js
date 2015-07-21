@@ -17,14 +17,21 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.url;
 }).value();
 
-var webcacheOptions = {
-    store: new WebCacheRedis(6379, process.env.REDIS_HOST)
-};
 
-var apiWebcache = new WebCache(webcacheOptions);
+var apiWebcache = null,
+    avalxWebcache = null;
 
-if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000;
-var avalxWebcache = new WebCache(webcacheOptions);
+if(process.env.REDIS_HOST) {
+    var webcacheOptions ={ store: new WebCacheRedis(6379, process.env.REDIS_HOST) };
+    if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000;
+    apiWebcache = new WebCache(webcacheOptions);
+    avalxWebcache = new WebCache(webcacheOptions);
+}
+else {
+    apiWebcache = new WebCache();
+    avalxWebcache = new WebCache();
+}
+
 
 avalxWebcache.seed(acAvalxUrls);
 avalxWebcache.on('refreshed', _.bind(apiWebcache.refresh, apiWebcache));
