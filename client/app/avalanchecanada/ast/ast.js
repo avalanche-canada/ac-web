@@ -2,7 +2,11 @@
 
 angular.module('avalancheCanadaApp')
 
-.config(function ($stateProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
+
+  //! redirect /ast to ast/courses
+  $urlRouterProvider.when('/ast', '/ast/courses');
+
   $stateProvider
     .state('ac.astProviders', {
       url: '^/ast/providers',
@@ -26,15 +30,9 @@ angular.module('avalancheCanadaApp')
         // http://api.tiles.mapbox.com/v4/geocode/{dataset}/{query}.json?proximity={longitude},{latitude}&access_token=<your access token>
         $http.get(queryStr).
             success(function(data) {
-                //var longitude = data.features[0].geometry.coordinates[0];
-                //var latitude  = data.features[0].geometry.coordinates[1];
-
-                $log.info('geocode success');
-                //deferred.resolve({'latitude':latitude,'longitude':longitude});
                 deferred.resolve(data);
             }).
             error(function() {
-                //$log.error('error getting coords from name (forward geocode)');
                 deferred.reject('error getting coords from name (forward geocode)');
             });
 
@@ -55,7 +53,7 @@ angular.module('avalancheCanadaApp')
 
        var queryStr = '/api/ast/providers';
 
-       if($scope.location && pos.latitude && pos.longitude){
+       if($scope.location && pos && pos.latitude && pos.longitude){
             queryStr = queryStr + '?latitude=' + pos.latitude + '&longitude=' + pos.longitude;
        }
 
@@ -99,15 +97,22 @@ angular.module('avalancheCanadaApp')
   };
 
   var geocodeSuccess = function(data){
-    console.log(data);
 
-    //! update location name to the resolved location name
-    $scope.location =  data.features[0].place_name;
+    if(data.features.length > 0){
+        //! update location name to the resolved location name
+        $scope.location =  data.features[0].place_name;
 
-    //! call get providers with updated geometry
-    var longitude = data.features[0].geometry.coordinates[0];
-    var latitude  = data.features[0].geometry.coordinates[1];
-    getProviders({'latitude':latitude,'longitude':longitude});
+        //! call get providers with updated geometry
+        var longitude = data.features[0].geometry.coordinates[0];
+        var latitude  = data.features[0].geometry.coordinates[1];
+        getProviders({'latitude':latitude,'longitude':longitude});
+    }
+    else{
+        $log.error("geolocation error: unable to resolve data for " + $scope.location)
+        getProviders();
+    }
+
+
   };
 
   $scope.search = function() {
@@ -119,9 +124,6 @@ angular.module('avalancheCanadaApp')
                                         $log.error(err);
                                     });
     }
-
-    //! Filter courses by specialities
-    // TODO
 
     //! Filter out course_level (aka AST1, AST2)
     if($scope.current_level !== null){
@@ -190,7 +192,7 @@ angular.module('avalancheCanadaApp')
     $scope.unsponsoured_courses = [];
 
     var queryStr = '/api/ast/courses';
-    if($scope.location && pos.latitude && pos.longitude){
+    if($scope.location && pos && pos.latitude && pos.longitude){
         queryStr = queryStr + '?latitude=' + pos.latitude + '&longitude=' + pos.longitude;
     }
 
@@ -202,9 +204,6 @@ angular.module('avalancheCanadaApp')
               var providers = res.data;
               $scope.unfiltered_courses.forEach(function(course){
                 course.provider = _.find(providers, {providerid: course.providerid});
-               //! \todo $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')).format('YYYY-MM-DD'); // Ideally this is the last course date the api returns.
-               //! \todo $scope.minDate = moment.utc(moment().startOf('day').subtract(12, 'months')).format('YYYY-MM-DD');  // Ideally this is the first course date the api returns.
-
 
                 if(course.provider.sponsor === true){
                     $scope.sponsored_courses.push(course);
@@ -224,15 +223,21 @@ angular.module('avalancheCanadaApp')
   };
 
   var geocodeSuccess = function(data){
-    console.log(data);
 
-    //! update location name to the resolved location name
-    $scope.location =  data.features[0].place_name;
+    if(data.features.length > 0){
+        //! update location name to the resolved location name
+        $scope.location =  data.features[0].place_name;
 
-    //! call get providers with updated geometry
-    var longitude = data.features[0].geometry.coordinates[0];
-    var latitude  = data.features[0].geometry.coordinates[1];
-    getCourses({'latitude':latitude,'longitude':longitude});
+        //! call get providers with updated geometry
+        var longitude = data.features[0].geometry.coordinates[0];
+        var latitude  = data.features[0].geometry.coordinates[1];
+        getCourses({'latitude':latitude,'longitude':longitude});
+    }
+    else{
+        $log.error("unable to geo reference location");
+        getCourses();
+    }
+
   };
 
   $scope.toggleMoreInfo = function(course){
@@ -265,6 +270,7 @@ angular.module('avalancheCanadaApp')
   var applyFilters = function(){
 
     var distanceFilter = function(course){
+        //! if no distance for course then show it. Else if distance is less than requested show it
         return (!course.distance || (course.distance && (course.distance/1000) <= $scope.current_distance));
     };
 
