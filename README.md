@@ -81,7 +81,6 @@ aws_secret_access_key = ...
 
 ````
 
-
 For development add a ``.env`` file in the project root with the following contents:
 ````
 AWS_PROFILE=avalanche-canada

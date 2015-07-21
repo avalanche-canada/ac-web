@@ -21,7 +21,7 @@ angular.module('avalancheCanadaApp')
 
 })
 
-.factory('geocode', function (MAPBOX_ACCESS_TOKEN, $http, $q, $log){
+.factory('geocode', function (MAPBOX_ACCESS_TOKEN, $http, $q){
     return function (location){
         var deferred = $q.defer();
         var queryStr = 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+location+'.json?access_token='+MAPBOX_ACCESS_TOKEN;
@@ -108,7 +108,7 @@ angular.module('avalancheCanadaApp')
         getProviders({'latitude':latitude,'longitude':longitude});
     }
     else{
-        $log.error("geolocation error: unable to resolve data for " + $scope.location)
+        $log.error('geolocation error: unable to resolve data for' + $scope.location);
         getProviders();
     }
 
@@ -234,7 +234,7 @@ angular.module('avalancheCanadaApp')
         getCourses({'latitude':latitude,'longitude':longitude});
     }
     else{
-        $log.error("unable to geo reference location");
+        $log.error('unable to geo reference location');
         getCourses();
     }
 
