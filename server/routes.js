@@ -9,9 +9,13 @@ module.exports = function(app) {
         app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
     }
 
+    app.use('/api/ast', require('./components/tokenMiddleware'));
+
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
     app.use('/api/ast', require('./api/ast'));
+
+    var geocoder = require('geocoder');
 
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {

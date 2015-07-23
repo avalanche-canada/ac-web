@@ -24,6 +24,7 @@
     "hiredis": "^0.1.17",
     "imagemagick-stream": "^1.1.0",
     "jade": "^1.7.0",
+    "jsonwebtoken": "^5.0.4",
     "lingo": "0.0.5",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
