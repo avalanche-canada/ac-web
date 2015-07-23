@@ -1111,3 +1111,31 @@ aside {
         }
     }
 }
+
+#resourceList {
+  margin-top: 2em;
+  #filter-grade-dropdown,
+  #filter-category-dropdown  {
+    float: left;
+    padding-right: 1em;
+    font-size: 1.1em;
+    .fa-chevron-down {
+      color: #0056b7;
+      padding-left: 15px;
+    }
+  }
+  #filter-grades,
+  #filter-category {
+    padding: 8px;
+    background-color: #fff;
+    border: 1px solid #aaa;
+  }
+
+  .no-results {
+    text-align: center;
+    color: #aaa;
+    font-style: italic;
+  }
+}
+
+

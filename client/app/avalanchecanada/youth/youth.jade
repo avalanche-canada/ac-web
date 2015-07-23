@@ -44,9 +44,9 @@
                 .anchor#programs(ng-bind-html='programs')
                 .anchor#resources(ng-bind-html='resources')
                 .anchor#resourceList
-                    .dropdown-filters-inner.dropdown
+                    .dropdown-filters-inner.dropdown#filter-grade-dropdown
                         button#filter-grades.dropdown-toggle(type='button', data-toggle='dropdown')
-                            | Grade {{selected_grade}}
+                            | Grade<span ng-if="selected_grade">:</span> {{selected_grade}}
                             i.fa.fa-chevron-down
                         ul.dropdown-menu(role='menu', aria-labelledby='filter-grades')
                             li
@@ -56,10 +56,10 @@
                               a(role='menuitem', tabindex='-1', ng-click="selectGrade(grade)")
                                 {{grade}}
 
-                    .dropdown-filters-inner.dropdown
+                    .dropdown-filters-inner.dropdown#filter-category-dropdown
                         button#filter-category.dropdown-toggle(type='button', data-toggle='dropdown')
-                            | Category {{selected_category}}
-                            i.fa.fa-chevron-down
+                          | Category<span ng-if="selected_category">:</span> {{selected_category}}
+                          i.fa.fa-chevron-down
                         ul.dropdown-menu(role='menu', aria-labelledby='filter-category')
                             li
                               a(role='menuitem', tabindex='-1', ng-click="selectCategory(null)")
@@ -75,13 +75,15 @@
                                 th Category
                                 th Grade
                                 th Link
-                            tbody(ng-repeat="resource in resourceList")
-                              tr
+                            tbody
+                              tr(ng-repeat="resource in resourceList")
                                 td {{resource.getStructuredText('youth-resource.description').asText(ctx)}}
                                 td {{resource.getText('youth-resource.category')}}
                                 td {{resource.getText('youth-resource.grade')}}
                                 td
                                     a(href='{{resource.getText("youth-resource.url")}}') {{resource.getText('youth-resource.label')}}
+                              tr(ng-show='resourceList.length == 0')
+                                td.no-results(colspan=5) No results
 
                 .anchor#curriculum(ng-bind-html='curriculum')
     .push
