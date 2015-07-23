@@ -80,7 +80,8 @@
                                 td {{resource.getStructuredText('youth-resource.description').asText(ctx)}}
                                 td {{resource.getText('youth-resource.category')}}
                                 td {{resource.getText('youth-resource.grade')}}
-                                td a(href='{{resource.getText('youth-resource.url')}}') {{resource.getText('youth-resource.label')}}
+                                td
+                                    a(href='{{resource.getText("youth-resource.url")}}') {{resource.getText('youth-resource.label')}}
 
                 .anchor#curriculum(ng-bind-html='curriculum')
     .push

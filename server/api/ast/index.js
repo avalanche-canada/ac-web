@@ -23,8 +23,9 @@ var successCallback = function(res){
 };
 
 
+//! middleware for provider updates/construction
+//! if no lat long provided then get one using location name to get one from georeference
 router.use('/providers/:provid', function (req, res, next) {
-    //! if not lat long provided then get one using location name
     if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
         geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
@@ -42,8 +43,9 @@ router.use('/providers/:provid', function (req, res, next) {
     }
 });
 
+//! middleware for course updates/construction
+//! if no lat long provided then get one using location name to get one from georeference
 router.use('/courses/:courseid', function (req, res, next) {
-    //! if not lat long provided then get one using location name
     if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
         geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
