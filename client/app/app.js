@@ -18,7 +18,8 @@ angular.module('avalancheCanadaApp', [
         'ngToast',
         'angular-storage',
         'auth0',
-        'angular-jwt'
+        'angular-jwt',
+        'datatables'
     ])
 
     // main module configuration

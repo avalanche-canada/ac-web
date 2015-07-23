@@ -63,12 +63,18 @@ angular.module('avalancheCanadaApp')
                                 $log.error('error getting resource tags from prismic');
                             }
                             else {
-                                resourceList = documents.results;
+                                resourceList = documents.results.map(function(resource){
+                                    return {'category':resource.getText('youth-resource.category'),
+                                            'grade':   resource.getText('youth-resource.grade') ,
+                                            'description': resource.getStructuredText('youth-resource.description').asText(ctx),
+                                            'url': resource.getText('youth-resource.url'),
+                                            'label':resource.getText('youth-resource.label')};
+                                });
                                 categories = _.unique(resourceList.map(function(elm){
-                                    return elm.getText('youth-resource.category');
+                                    return elm.category;
                                 }));
                                 grades = _.unique(resourceList.map(function(elm){
-                                    return elm.getText('youth-resource.grade');
+                                    return elm.grade;
                                 }));
                                 deferred.resolve({'list': resourceList, 'categories':categories, 'grades': grades });
                             }
@@ -101,16 +107,16 @@ angular.module('avalancheCanadaApp')
                     add = true;
                 }
                 else{
-                    if(resource.getText('youth-resource.category') === $scope.selected_category &&
+                    if(resource.category === $scope.selected_category &&
                        $scope.selected_grade === null){
                         add = true;
                     }
                     else if($scope.selected_category === null &&
-                       resource.getText('youth-resource.grade') === $scope.selected_grade){
+                       resource.grade === $scope.selected_grade){
                         add = true;
                     }
-                    else if(resource.getText('youth-resource.category') === $scope.selected_category &&
-                       resource.getText('youth-resource.grade') === $scope.selected_grade){
+                    else if(resource.category === $scope.selected_category &&
+                       resource.grade === $scope.selected_grade){
                         add = true;
                     }
                 }
