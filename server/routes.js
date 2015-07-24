@@ -14,7 +14,7 @@ module.exports = function(app) {
     var jwt = require('jsonwebtoken');
     // \todo var secret = router.get('superSecret') | add auth0 secret key as an env var
     var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
-    app.use('/api/ast', expressJwt({secret: secret}).unless({ method: 'GET' }));
+    app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
 
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
