@@ -4,12 +4,17 @@ module.exports = function(app) {
 
     var env = app.get('env');
 
+    //! \todo make pre render token an env var
     var use_prerender = (process.env.USE_PRERENDER === 'false') ? false : true;
     if (use_prerender) {
         app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
     }
 
-    app.use('/api/ast', require('./components/tokenMiddleware'));
+    var expressJwt = require('express-jwt');
+    var jwt = require('jsonwebtoken');
+    // \todo var secret = router.get('superSecret') | add auth0 secret key as an env var
+    var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
+    app.use('/api/ast', expressJwt({secret: secret}).unless({ method: 'GET' }));
 
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
@@ -17,8 +22,10 @@ module.exports = function(app) {
 
     var geocoder = require('geocoder');
 
+    //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
+            console.log('Unauthorized Access');
             res.send(401, 'invalid token...');
         }
         else{

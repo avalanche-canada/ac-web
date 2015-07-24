@@ -127,7 +127,7 @@ angular.module('avalancheCanadaApp', [
               store.set('token', idToken);
             });
 
-            $location.url('/submit');
+            //$location.url('/submit');
             // if we use the state service to go to the ac.submit state
             // it doesn't remove the #access_token=... part of the url that comes back from auth0
             /*var loginRedirectUrl = store.get('loginRedirectUrl');
@@ -173,7 +173,7 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
+    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state, $log) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 
