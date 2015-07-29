@@ -16,12 +16,14 @@ var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
+//! Initialise logger
+var logger = require('./logger.js');
+
 // Start server
 server.listen(config.port, config.ip, function () {
-  console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+  logger.log('debug','Express server listening on %d, in %s mode', config.port, app.get('env'));
 });
 
-var logger = require('./logger.js');
 
 // Expose app
 exports = module.exports = app;

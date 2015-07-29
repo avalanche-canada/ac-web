@@ -51,7 +51,8 @@ angular.module('avalancheCanadaApp')
             youthResources: function($q, $log, Prismic){
                 var deferred = $q.defer();
                 var categories = [];
-                var grades = [];
+                var grades_from = [];
+                var grades_to = [];
                 var resourceList = {};
 
                 Prismic.ctx().then(function(ctx){
@@ -65,18 +66,16 @@ angular.module('avalancheCanadaApp')
                             else {
                                 resourceList = documents.results.map(function(resource){
                                     return {'category':resource.getText('youth-resource.category'),
-                                            'grade':   resource.getText('youth-resource.grade') ,
+                                            'grade_to':   resource.getText('youth-resource.grade_to') ,
+                                            'grade_from':   resource.getText('youth-resource.grade_from') ,
                                             'description': resource.getStructuredText('youth-resource.description').asText(ctx),
                                             'url': resource.getText('youth-resource.url'),
                                             'label':resource.getText('youth-resource.label')};
                                 });
-                                categories = _.unique(resourceList.map(function(elm){
+                                categories = _.sortBy(_.unique(resourceList.map(function(elm){
                                     return elm.category;
-                                }));
-                                grades = _.unique(resourceList.map(function(elm){
-                                    return elm.grade;
-                                }));
-                                deferred.resolve({'list': resourceList, 'categories':categories, 'grades': grades });
+                                })));
+                                deferred.resolve({'list': resourceList, 'categories':categories, 'grades_to': grades_to, 'grades_from': grades_from});
                             }
                     });
 
@@ -94,29 +93,44 @@ angular.module('avalancheCanadaApp')
         $scope.curriculum = curriculum;
         $scope.resourceList = youthResources.list;
         $scope.resourceCategories = youthResources.categories;
-        $scope.resourceGrades = youthResources.grades;
-        $scope.selected_grade = null;
+        $scope.selected_grade = {'from':null,'to':null};
         $scope.selected_category = null;
+
+        $scope.filterGrades = ['k','1','2','3','4','5','6','7','8','9','10','11','12'];
+        var gradeFilterMap = {'k':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'11':11,'12':12};
+
+        var gradeComparison = function(source_from, source_to, filter_from, filter_to){
+            if (source_from === 'All' || source_to === 'All'|| filter_from === 'All' || filter_to === 'All'){
+                return true;
+            }
+            else if((gradeFilterMap[source_from] >= gradeFilterMap[filter_from] && gradeFilterMap[source_from] <= gradeFilterMap[filter_to])||
+                    (gradeFilterMap[source_to] <= gradeFilterMap[filter_to] && gradeFilterMap[source_to] >= gradeFilterMap[filter_from])){
+                    return true;
+            }
+            else{
+                    return false;
+            }
+        };
 
         var applyFilter = function(){
             var list = [];
             youthResources.list.forEach(function(resource){
                 var add = false;
 
-                if($scope.selected_grade === null && $scope.selected_category === null){
+                if(($scope.selected_grade.from === null || $scope.selected_grade.to === null) && $scope.selected_category === null){
                     add = true;
                 }
                 else{
                     if(resource.category === $scope.selected_category &&
-                       $scope.selected_grade === null){
+                       ($scope.selected_grade.from === null || $scope.selected_grade.to === null)){
                         add = true;
                     }
                     else if($scope.selected_category === null &&
-                       resource.grade === $scope.selected_grade){
+                       gradeComparison(resource.grade_from,resource.grade_to,$scope.selected_grade.from,$scope.selected_grade.to)){
                         add = true;
                     }
                     else if(resource.category === $scope.selected_category &&
-                       resource.grade === $scope.selected_grade){
+                       gradeComparison(resource.grade_from,resource.grade_to,$scope.selected_grade.from,$scope.selected_grade.to)){
                         add = true;
                     }
                 }
@@ -129,8 +143,9 @@ angular.module('avalancheCanadaApp')
             $scope.resourceList = list;
         };
 
-        $scope.selectGrade = function(grade){
-            $scope.selected_grade = grade;
+        $scope.selectGrade = function(type, grade){
+            $scope.selected_grade[type] = grade;
+
             applyFilter();
         };
 

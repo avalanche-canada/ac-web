@@ -44,16 +44,30 @@
                 .anchor#programs(ng-bind-html='programs')
                 .anchor#resources(ng-bind-html='resources')
                 .anchor#resourceList
-                    .dropdown-filters-inner.dropdown#filter-grade-dropdown
-                        button#filter-grades.dropdown-toggle(type='button', data-toggle='dropdown')
-                            | Grade<span ng-if="selected_grade">:</span> {{selected_grade}}
+                    .grade
+                    | Grade:
+                    .dropdown-filters-inner.dropdown#filter-grade-from-dropdown
+                        button#filter-grades-from.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | From <span ng-if="selected_grade['from']">: {{selected_grade['from']}}</span>
                             i.fa.fa-chevron-down
-                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades')
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades-from')
                             li
-                              a(role='menuitem', tabindex='-1', ng-click="selectGrade(null)")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('from',null)")
                                 | All Grades
-                            li(role='presentation' ng-repeat="grade in resourceGrades")
-                              a(role='menuitem', tabindex='-1', ng-click="selectGrade(grade)")
+                            li(role='presentation' ng-repeat="grade in filterGrades")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('from',grade)")
+                                {{grade}}
+
+                    .dropdown-filters-inner.dropdown#filter-grade-to-dropdown
+                        button#filter-grades-to.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | To<span ng-if="selected_grade['to']">: {{selected_grade['to']}}</span>
+                            i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades-to')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('to',null)")
+                                | All Grades
+                            li(role='presentation' ng-repeat="grade in filterGrades")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('to',grade)")
                                 {{grade}}
 
                     .dropdown-filters-inner.dropdown#filter-category-dropdown
@@ -73,13 +87,15 @@
                               tr
                                 th Description
                                 th Category
-                                th Grade
+                                th Grade From
+                                th Grade To
                                 th Link
                             tbody
                               tr(ng-repeat="resource in resourceList")
                                 td {{resource.description}}
                                 td {{resource.category}}
-                                td {{resource.grade}}
+                                td {{resource.grade_from}}
+                                td {{resource.grade_to}}
                                 td
                                  a(target='_blank' href='{{resource.url}}') {{resource.label}}
 

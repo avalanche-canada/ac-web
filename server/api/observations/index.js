@@ -5,9 +5,8 @@ var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
 var moment = require('moment');
-var lingo = require('lingo');
 var changeCase = require('change-case');
-var logger = require('winston');
+var logger = require('../../logger.js');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -62,7 +61,7 @@ router.get('/observations', function (req, res) {
         if (err) {
             res.send(500, {error: 'error retreiving observations'})
         } else {
-            console.log('returning %s obs', obs.length);
+            logger.log('info','returning %s obs', obs.length);
             res.json(obs);
         }
     });
@@ -135,7 +134,6 @@ router.get('/observations/:obid.:format?', function (req, res) {
                 locals.hasRidingConditions = _.reduce(locals.ridingConditions, hasValues, false);
                 locals.hasAvalancheConditions = _.reduce(locals.avalancheConditions, hasValues, false);
 
-                console.log(locals)
                 res.render('observations/ob', locals);
             } else {
                 ob.thumbs = ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; });
