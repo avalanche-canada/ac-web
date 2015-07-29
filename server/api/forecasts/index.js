@@ -9,7 +9,7 @@ var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
-var logger = require('winston');
+var logger = require('../../logger.js');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -129,7 +129,7 @@ router.param('region', function (req, res, next) {
                 req.forecast = forecast;
                 next();
             }).catch(function (e) {
-                console.log(e);
+                logger.log('error',e);
                 res.send(500);
             }).done();
         } else if(req.region.properties.type === 'link') {

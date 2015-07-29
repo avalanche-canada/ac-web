@@ -5,13 +5,14 @@ var _ = require('lodash');
 var bodyParser = require('body-parser');
 var debug = require('debug')('dev');
 var jsonParser = bodyParser.json();
-var logger = require('winston');
+var logger = require('../../logger.js');
 var geocoder = require('geocoder');
+
 
 var errorCallback = function(res, errStr){
     return function(err){
         console.log('Something went wrong')
-        logger.log('warn', errStr, err);
+        logger.log('error', errStr, err);
         res.send(500, {error: errStr})
     };
 };

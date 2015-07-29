@@ -3,9 +3,11 @@
 module.exports = function(app) {
 
     var env = app.get('env');
+   var logger = require('./logger.js');
 
     var use_prerender = (process.env.USE_PRERENDER === 'false') ? false : true;
     if (use_prerender) {
+        logger.log('info','using prerender');
         app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
     }
 
@@ -15,10 +17,11 @@ module.exports = function(app) {
 
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
-            res.send(401, 'invalid token...');
+            logger.log('warn','UnauthorizedError');
+            res.send(401, 'UnauthorizedError');
         }
         else{
-            console.log('Error occured', err);
+            logger.log('error','Error occured', err);
             res.status(500);
             res.send('error', { error: err });
         }
