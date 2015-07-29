@@ -1,15 +1,6 @@
 var winston = require('winston');
 var papertrail = require('winston-papertrail').Papertrail;
 
-/*
-logger.add(logger.transports.Papertrail, {
-        host: 'logs2.papertrailapp.com',
-        port: 49854
-    });
-module.exports=logger;
-*/
-
-
 var logger,
     consoleLogger = new winston.transports.Console({
         level: 'debug',
@@ -29,11 +20,15 @@ var logger,
     });
 
 ptTransport.on('error', function(err) {
-    logger && logger.error(err);
+    if(logger){
+        logger.error(err);
+    }
 });
 
 ptTransport.on('connect', function(message) {
-    logger && logger.info(message);
+    if(logger){
+        logger.info(message);
+    }
 });
 
 var logger = new winston.Logger({

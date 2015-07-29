@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('lodash');
 var request = require('request');
-var semanticafy = require('semanticafy');
 var Q = require('q');
 var moment = require('moment-timezone');
 var parseString = require('xml2js').parseString;
@@ -370,47 +369,6 @@ function fetchCaamlForecast(region, callback) {
     }
 }
 
-function cleanHtml(forecast){
-    var rules = [
-        {
-            styleContains: 'bold',
-            wrapWith: 'strong'
-        },
-        {
-            styleContains: 'Italic',
-            wrapWith: 'i'
-        }
-    ];
-
-    function clean(html){
-        var deferred = Q.defer();
-
-        if(html.indexOf('<style') !== -1){
-            semanticafy.parse(html, rules, function (err, cleaned) {
-                if(err) {
-                    deferred.reject(err);
-                } else {
-                    // parks bulleting start with !_! not too sure why...?
-                    deferred.resolve(cleaned.replace('!_!', ''));
-                }
-            });
-            return deferred.promise;
-        } else {
-            return html;
-        }
-    }
-
-
-    var cleans = _.map(forecast, function (v, k) {
-        if (_.isString(v)) {
-            return Q.when(clean(v), function (cleaned) {
-                forecast[k] = cleaned;
-            });
-        }
-    });
-
-    return Q.allSettled(cleans);
-}
 
 function parseForecast(caaml, region){
     if (region.properties.owner === "parks-canada") {
@@ -422,27 +380,11 @@ function parseForecast(caaml, region){
     }
 }
 
-function cleanForecast(forecast){
-    return cleanHtml(forecast).then(function () {
-        return Q.allSettled(_.map(forecast.problems, function (problem) {
-            return cleanHtml(problem);
-        }));
-    }).then(function () {
-        return forecast;
-    });
-}
-
 function parseCaamlForecast(caaml, region, callback) {
     parseString(caaml, function (err, caamlJson) {
         if (!err && caamlJson) {
             var forecast = parseForecast(caamlJson, region);
-
-            cleanForecast(forecast)
-                .then(function (cleaned) {
-                    callback(null, cleaned);
-                }).catch(function (e) {
-                    callback(e);
-                }).done();
+            callback(null, forecast);
         } else {
             callback("parsed data invalid");
         }

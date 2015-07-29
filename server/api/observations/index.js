@@ -5,7 +5,6 @@ var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var minUtils = require('./min-utils');
 var moment = require('moment');
-var lingo = require('lingo');
 var changeCase = require('change-case');
 var logger = require('../../logger.js');
 
