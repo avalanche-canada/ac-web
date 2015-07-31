@@ -6,12 +6,12 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('dev');
 var jsonParser = bodyParser.json();
 var logger = require('../../logger.js');
+var role = require('../../components/role/role.js');
 var geocoder = require('geocoder');
 
 
 var errorCallback = function(res, errStr){
     return function(err){
-        console.log('Something went wrong')
         logger.log('error', errStr, err);
         res.send(500, {error: errStr})
     };
@@ -24,10 +24,49 @@ var successCallback = function(res){
 };
 
 
+//! Check that the user has permission to perform the attempted action
+//! For everything that is not GET(POST, PUT, DELETE etc) the user needs to be either an AstAdmin, AstProvider, or Admin
+router.use(function (req, res, next) {
+
+    logger.log('check role', req.user);
+
+    if(req.method !== 'GET'){
+
+        var unauthorized = function(){
+                logger.log('warn','AST Role Error: User does not have permission to access');
+                res.send(401, 'UnauthorizedError');
+        }
+
+        var checkRole = function(roleList){
+            logger.log('role list', roleList);
+
+            if (roleList && (roleList.indexOf('Admin') >=0 || roleList.indexOf('AstProvider') >=0 || roleList.indexOf('AstAdmin')>=0)) {
+                next();
+            }
+            else{
+                unauthorized();
+            }
+        }
+
+        if(req.user){
+           roles = role.getRoles(req.user,
+                      checkRole,
+                      errorCallback(res, 'Error getting role'));
+        }
+        else{
+            unauthorized();
+        }
+
+    }
+    else{
+        next();
+    }
+});
+
 //! middleware for provider updates/construction
 //! if no lat long provided then get one using location name to get one from georeference
 router.use('/providers/:provid', function (req, res, next) {
-    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
+    if(req.body.pos && !req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
         geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
                 errorCallback(res, 'error retrieving coordinates from geocode service')();
@@ -47,7 +86,7 @@ router.use('/providers/:provid', function (req, res, next) {
 //! middleware for course updates/construction
 //! if no lat long provided then get one using location name to get one from georeference
 router.use('/courses/:courseid', function (req, res, next) {
-    if(!req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
+    if(req.body.pos && !req.body.pos.latitude && !req.body.pos.longitude && req.body.location_name){
         geocoder.geocode(req.body.location_name , function ( err, data ) {
             if(err){
                 errorCallback(res, 'error retrieving coordinates from geocode service')();
