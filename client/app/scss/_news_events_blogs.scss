@@ -1143,4 +1143,12 @@ aside {
   }
 }
 
+#tutorial-container {
+  @extend #news-blog-event-content;
+  @extend .container;
+}
 
+#tutorial-page-header,
+.tutorial-page-content {
+  @extend .row;
+}

@@ -1,0 +1,13 @@
+include _header.jade
+
+#tutorial-container
+  +header('Online Avalanche Tutorial')
+  h2.tutorial-page-header {{page_header}}
+
+  .embed-responsive.embed-responsive-16by9(ng-if='video_source')
+      iframe.embed-responsive-item(src='{{video_source}}')
+
+  .tutorial-problem-badge(ng-if="problem_badge")
+    img(src="{{problem_badge}}")
+
+  .tutorial-page-content(ng-bind-html="body_content")
