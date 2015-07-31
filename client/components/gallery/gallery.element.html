@@ -1,0 +1,10 @@
+
+<div class="gallery">
+  <div class="gallery--row" ng-repeat="row in rows">
+    <div class="gallery--photo" ng-repeat="pic in row">
+      <a target="_new" href="{{pic.url}}">
+        <img ng-src="{{pic.thumbnail}}" />
+      </a>
+    </div>
+  </div>
+</div>
