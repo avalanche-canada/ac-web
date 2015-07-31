@@ -1114,10 +1114,15 @@ aside {
 
 #resourceList {
   margin-top: 2em;
+
+  .table-responsive {
+    clear: left;
+  }
+
   #filter-grade-dropdown,
   #filter-category-dropdown  {
     float: left;
-    padding-right: 1em;
+    padding: 0 1em 0 0;
     font-size: 1.1em;
     .fa-chevron-down {
       color: #0056b7;
