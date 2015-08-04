@@ -15,12 +15,8 @@
     "dotenv": "~0.4.0",
     "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
     "errorhandler": "~1.0.0",
-<<<<<<< HEAD
     "express": "~4.8.0",
-=======
-    "express": "~4.0.0",
     "express-http-proxy": "^0.6.0",
->>>>>>> Add basic gallery page
     "express-jwt": "~0.5.0",
     "express-session": "~1.0.2",
     "geocoder": "^0.2.2",
