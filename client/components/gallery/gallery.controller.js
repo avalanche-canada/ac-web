@@ -24,14 +24,14 @@ angular.module('avalancheCanadaApp')
             scope.pageNum = 1;
 
             var backwards_pages = [];
-            var next_page = undefined;
+            var next_page;
 
             scope.next_page = function() {
               get_taged_images(next_page);
             };
 
             scope.prev_page = function() {
-              next_page = backwards_pages.pop()
+              next_page = backwards_pages.pop();
 
               get_taged_images(backwards_pages[backwards_pages.length-1]);
             };
