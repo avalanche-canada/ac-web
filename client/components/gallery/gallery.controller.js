@@ -21,22 +21,53 @@ angular.module('avalancheCanadaApp')
             var rows    = attrs.rows || 4,
                 columns = attrs.columns || 4;
 
-            Cloudinary
-              .getByTag(attrs.tag, {rows: rows, columns: columns, width: 200, height: 200 })
-              .then(function(result){
-                  scope.imageList = result;
+            scope.pageNum = 1;
 
-                  scope.rows = _.reduce(result, function(acc, x, n){
-                    if(n % columns === 0) {
-                        acc.push([]);
-                      }
-                    _.last(acc).push(x);
-                    return acc;
-                  }, []);
+            var backwards_pages = [];
+            var next_page = undefined;
 
-                  console.log(scope.rows);
+            scope.next_page = function() {
+              get_taged_images(next_page);
+            };
 
-              });
+            scope.prev_page = function() {
+              next_page = backwards_pages.pop()
+
+              get_taged_images(backwards_pages[backwards_pages.length-1]);
+            };
+
+
+            var get_taged_images = function(next_cursor) {
+              var opts = {rows: rows, columns: columns, width: 200, height: 200 };
+              if(typeof(next_cursor) !== 'undefined') {
+                opts.next_cursor = next_cursor;
+              }
+
+              Cloudinary
+                .getByTag(attrs.tag, opts)
+                .then(function(result){
+                    scope.imageList = result;
+
+                    scope.rows = _.reduce(result.resources, function(acc, x, n){
+                      if(n % columns === 0) {
+                          acc.push([]);
+                        }
+                      _.last(acc).push(x);
+                      return acc;
+                    }, []);
+
+
+                    if(typeof(next_page) !== 'undefined') {
+                      backwards_pages.push(next_page);
+                    }
+                    next_page = result.next_cursor;
+
+                    scope.pageNum = backwards_pages.length + 1;
+                });
+            };
+
+            get_taged_images(next_page);
+
         }
     };
 })
@@ -61,24 +92,30 @@ angular.module('avalancheCanadaApp')
             };
             var params = _.extend(_defaults, options);
             params.max_results = params.rows * params.columns;
-            var resources =  $http.get(tagURL + tag, {params: _.pick(params, 'max_results')})
+            var data =  $http.get(tagURL + tag, {params: _.pick(params, 'max_results', 'next_cursor')})
                 .then(function(result) {
-                    return result.data.resources;
+                    console.log( result.data );
+                    return result.data;
                 });
 
             if(typeof(options) !== 'undefined') {
-                resources = resources.then(function(resources){
-                    return _.map(resources, mapToSize(options.width, options.height));
+                data = data.then(function(data){
+                    return { 
+                      next_cursor: data.next_cursor,
+                      resources: _.map(data.resources, mapToSize(options.width, options.height))
+                    };
                 });
 
             } else {
-                resources = resources.then(function(resources) {
-                    return _.map(resources, function(i) {
+                data = data.then(function(data) {
+                    return { 
+                      next_cursor: data.next_cursor,
+                      resources:  _.map(data.resources, function(i) {
                         return {url: i.url};
-                    });
+                    })};
                 });
             }
-            return resources;
+            return data;
         }
     };
 

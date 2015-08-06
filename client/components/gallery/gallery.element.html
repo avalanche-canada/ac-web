@@ -7,4 +7,19 @@
       </a>
     </div>
   </div>
+  <nav>
+    <ul class="pagination">
+      <li>
+        <a href="#" ng-click="prev_page()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li ng-bind="pageNum"></li>
+      <li>
+        <a href="#" ng-click="next_page()" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>
