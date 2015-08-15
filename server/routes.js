@@ -14,7 +14,7 @@ module.exports = function(app) {
 
     var expressJwt = require('express-jwt');
     var jwt = require('jsonwebtoken');
-    // \todo var secret = router.get('superSecret') | add auth0 secret key as an env var
+
     var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
     app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
 
@@ -28,7 +28,7 @@ module.exports = function(app) {
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
             logger.log('warn','UnauthorizedError');
-            res.send(401, 'UnauthorizedError');
+            res.status(401).send('UnauthorizedError');
         }
         else{
             logger.log('error','Error occured', err);

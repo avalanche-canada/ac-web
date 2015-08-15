@@ -30,35 +30,34 @@ router.use(function (req, res, next) {
 
     logger.log('check role', req.user);
 
+    var unauthorized = function(){
+            logger.log('warn','AST Role Error: User does not have permission to access');
+            res.status(401).send('UnauthorizedError');
+    }
+
+    var checkRole = function(roleList){
+        logger.log('role list', roleList);
+
+        if (roleList && (roleList.indexOf('Admin') >=0 || roleList.indexOf('AstProvider') >=0 || roleList.indexOf('AstAdmin')>=0)) {
+            next();
+        }
+        else{
+            unauthorized();
+        }
+    }
+
     if(req.method !== 'GET'){
 
-        var unauthorized = function(){
-                logger.log('warn','AST Role Error: User does not have permission to access');
-                res.send(401, 'UnauthorizedError');
-        }
-
-        var checkRole = function(roleList){
-            logger.log('role list', roleList);
-
-            if (roleList && (roleList.indexOf('Admin') >=0 || roleList.indexOf('AstProvider') >=0 || roleList.indexOf('AstAdmin')>=0)) {
-                next();
-            }
-            else{
-                unauthorized();
-            }
-        }
-
         if(req.user){
-           roles = role.getRoles(req.user,
+           res.locals.user = req.user;
+
+           roles = role.getRoles(req.user.sub,
                       checkRole,
                       errorCallback(res, 'Error getting role'));
         }
         else{
             unauthorized();
-        }
-
-    }
-    else{
+        } } else{
         next();
     }
 });
@@ -137,10 +136,19 @@ router.post('/providers', jsonParser, function (req, res) {
 
 //! Update provider[id] details
 router.put('/providers/:provid', jsonParser, function (req, res) {
-    ast.updateProvider(req.params.provid,
-                              req.body,
-                              successCallback(res),
-                              errorCallback(res, 'Error updating provider'));
+    
+    ast.isProviderAdmin(req.params.provid, res.locals.user.sub)
+    .then(function(isAdmin) {
+      if(!isAdmin) {
+        res.status(401).send("Not authorized");
+      } else {
+        ast.updateProvider(req.params.provid,
+                           req.body,
+                           successCallback(res),
+                           errorCallback(res, 'Error updating provider'));
+      }
+    });
+
 });
 
 //! Get a list of courses

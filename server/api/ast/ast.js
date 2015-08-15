@@ -6,6 +6,8 @@ var geohash = require('ngeohash');
 var DOC = require("dynamodb-doc");
 var geolib = require("geolib");
 var docClient = new DOC.DynamoDB();
+var logger = require('../../logger.js');
+var Q = require('q');
 
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
@@ -187,6 +189,24 @@ function updateProvider(provId, providerDetails, success, fail) {
     }
 };
 
+function getProviderPromise(providerId) {
+  return Q.Promise(function(resolve, reject){
+    getProvider(providerId, resolve, reject);
+  });
+}
+
+function isProviderAdmin(providerId, userId, success, err) {
+    return getProviderPromise(providerId).then(function(providerList){
+
+        if(providerList.length !== 1) {
+          logger.warn('Unexprected number of providers(' + providers.length +') returned');
+          reject("Unable to authenticate: Cannot find provider with that id");
+        }
+
+        return (userId === providerList[0].owner_id);
+    });
+}
+
 function getCourseDistanceList(success, fail, origin) {
     getCourseList(function(courseList){
                         courseList.forEach(function(course){
@@ -345,6 +365,7 @@ module.exports = {
     getProvider:getProvider,
     addProvider:addProvider,
     updateProvider:updateProvider,
+    isProviderAdmin:isProviderAdmin,
     getCourseList:getCourseList,
     getCourse:getCourse,
     addCourse:addCourse,
