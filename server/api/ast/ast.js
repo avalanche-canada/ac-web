@@ -194,8 +194,13 @@ function getProviderPromise(providerId) {
     getProvider(providerId, resolve, reject);
   });
 }
+function getCoursePromise(courseId) {
+  return Q.Promise(function(resolve, reject){
+    getCourse(courseId, resolve, reject);
+  });
+}
 
-function isProviderAdmin(providerId, userId, success, err) {
+function isProviderAdmin(providerId, userId) {
     return getProviderPromise(providerId).then(function(providerList){
 
         if(providerList.length !== 1) {
@@ -205,6 +210,12 @@ function isProviderAdmin(providerId, userId, success, err) {
 
         return (userId === providerList[0].owner_id);
     });
+}
+
+function isCourseAdmin(courseId, userId) {
+  return getCoursePromise(courseId)
+    .then(function(course) { return course[0].providerid; })
+    .then(_.partial(isProviderAdmin, _, userId));
 }
 
 function getCourseDistanceList(success, fail, origin) {
@@ -255,7 +266,7 @@ function getCourseList(success, fail) {
 };
 
 function getCourse(courseId, success, fail) {
-    var params = { TableName: AST_PROVIDER_TABLE };
+    var params = { TableName: AST_COURSE_TABLE };
     params.KeyConditions = [docClient.Condition('courseid', 'EQ', courseId)];
 
     docClient.query(params, function(err, res) {
@@ -366,6 +377,7 @@ module.exports = {
     addProvider:addProvider,
     updateProvider:updateProvider,
     isProviderAdmin:isProviderAdmin,
+    isCourseAdmin:isCourseAdmin,
     getCourseList:getCourseList,
     getCourse:getCourse,
     addCourse:addCourse,

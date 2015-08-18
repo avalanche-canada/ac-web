@@ -24,16 +24,16 @@ var successCallback = function(res){
 };
 
 
+var unauthorizedCallback = function(res){
+    logger.log('warn','AST Role Error: User does not have permission to access');
+    res.status(401).send('UnauthorizedError');
+}
 //! Check that the user has permission to perform the attempted action
 //! For everything that is not GET(POST, PUT, DELETE etc) the user needs to be either an AstAdmin, AstProvider, or Admin
 router.use(function (req, res, next) {
 
     logger.log('check role', req.user);
 
-    var unauthorized = function(){
-            logger.log('warn','AST Role Error: User does not have permission to access');
-            res.status(401).send('UnauthorizedError');
-    }
 
     var checkRole = function(roleList){
         logger.log('role list', roleList);
@@ -55,9 +55,11 @@ router.use(function (req, res, next) {
                       checkRole,
                       errorCallback(res, 'Error getting role'));
         }
-        else{
-            unauthorized();
-        } } else{
+        else {
+            unauthorizedCallback(res);
+        } 
+
+    } else{
         next();
     }
 });
@@ -191,10 +193,19 @@ router.post('/courses', jsonParser, function (req, res) {
 
 //! Update course[id]
 router.put('/courses/:courseid', jsonParser, function (req, res) {
-    ast.updateCourse(req.params.courseid,
-                     req.body,
-                     successCallback(res),
-                     errorCallback(res, 'Error updating course'));
+    
+    ast.isCourseAdmin(req.params.courseid, res.locals.user.sub)
+      .then(function(isAuthed){
+        logger.debug('DONE THE THING:', isAuthed);
+        if(isAuthed) {
+          ast.updateCourse(req.params.courseid,
+                           req.body,
+                           successCallback(res),
+                           errorCallback(res, 'Error updating course'));
+        } else {
+          unauthorizedCallback(res);
+        }
+      });
 });
 
 //! Add Instructor for provider[id]
