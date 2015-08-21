@@ -1149,6 +1149,29 @@ aside {
 }
 
 #tutorial-page-header,
-.tutorial-page-content {
+.tutorial-wrapper {
   @extend .row;
+}
+
+.tutorial-nav {
+  @extend .col-md-3;
+}
+
+.tutorial-content {
+  @extend .col-md-9;
+}
+.tutorial-content {
+  @extend .col-md-9;
+}
+.tutorial-nav {
+  ul {
+    padding-left: 1em;
+  }
+  a.active {
+    font-weight: bold;
+  }
+}
+
+.tutorial-img img {
+  max-width: 100%;
 }
