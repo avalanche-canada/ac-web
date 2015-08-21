@@ -45,6 +45,9 @@ function makeTree(stuffs, titleMap) {
 }
 
 angular.module('avalancheCanadaApp')
+.factory('MenuCache', ['$cacheFactory', function($cacheFactory) {
+    return $cacheFactory('menu-cache');
+}])
 .config(function($stateProvider) {
     $stateProvider
         .state('ac.tutorial', {
@@ -53,36 +56,40 @@ angular.module('avalancheCanadaApp')
             controller: 'TutorialCtl'
         });
 })
-.controller('TutorialCtl', function ($rootScope, $scope, Prismic, $state, $stateParams, $log) {
+.controller('TutorialCtl', function (MenuCache, $scope, Prismic, $state, $stateParams, $log) {
     var slug = $stateParams.slug || 'empty';
 
     $scope.isActive = function(linkSlug) {
       return (linkSlug === slug) ? 'active' : '';
     };
     
-    Prismic.ctx().then(function(ctx){
-      ctx.api.form('everything')
-        .ref(ctx.ref)
-        .query(['at', 'document.type', 'tutorial-page'])
-        .pageSize(100)
-        .submit(function(err, response){
-          var slugs = [],
-              slug2title = {};
+    $scope.menuItems = MenuCache.get('menu-items');
+    if(!$scope.menuItems) {
+      Prismic.ctx().then(function(ctx){
+        ctx.api.form('everything')
+          .ref(ctx.ref)
+          .query(['at', 'document.type', 'tutorial-page'])
+          .pageSize(100)
+          .submit(function(err, response){
+            var slugs = [],
+                slug2title = {};
 
-          _.map(response.results, function(res){
-            var slug  = res.fragments['tutorial-page.slug'].value,
-                title = res.fragments['tutorial-page.title'].value;
+            _.map(response.results, function(res){
+              var slug  = res.fragments['tutorial-page.slug'].value,
+                  title = res.fragments['tutorial-page.title'].value;
 
-            slugs.push(slug);
-            slug2title[slug] = title;
+              slugs.push(slug);
+              slug2title[slug] = title;
+            });
+
+            var menuTree = makeTree(slugs, slug2title);
+
+
+            MenuCache.put('menu-items', menuTree);
+            $scope.menuItems = menuTree;
           });
-
-          var menuTree = makeTree(slugs, slug2title);
-
-
-          $scope.menuItems = menuTree;
-        });
-    });
+      });
+    }
     Prismic.ctx().then(function(ctx){
 
         ctx.api
