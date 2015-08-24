@@ -2,7 +2,7 @@
 'use strict';
 
 //TODO(wnh): Encapulate this a bit better
-function makeTree(stuffs, titleMap) {
+function makeTree(availableSlugs, allSlugs, titleMap) {
 
   var blank = function(){
     return {
@@ -20,12 +20,15 @@ function makeTree(stuffs, titleMap) {
   };
 
   var getChild = function(key, parent) {
-    return _.find(parent.children, function(ch){ 
+    return _.find(parent.children, function(ch){
       return ch.slug === mkSlug(parent.slug, key);
     });
   };
 
-  var paths = _.map(stuffs, function(p){ return p.split('/'); }),
+  availableSlugs = _.filter(allSlugs, function(s) {
+    return _(availableSlugs).contains(s);
+  });
+  var paths = _.map(availableSlugs, function(p){ return p.split('/'); }),
       root = blank();
 
   _.each(paths, function(p){
@@ -45,32 +48,54 @@ function makeTree(stuffs, titleMap) {
 }
 
 angular.module('avalancheCanadaApp')
-.factory('MenuCache', ['$cacheFactory', function($cacheFactory) {
-    return $cacheFactory('menu-cache');
-}])
-.config(function($stateProvider) {
-    $stateProvider
-        .state('ac.tutorial', {
-            url: '^/tutorial/*slug',
-            templateUrl: 'app/avalanchecanada/tutorial/template.html',
-            controller: 'TutorialCtl'
-        });
-})
-.controller('TutorialCtl', function (MenuCache, $scope, Prismic, $state, $stateParams, $log) {
-    var slug = $stateParams.slug || 'empty';
+.config(function($stateProvider, $urlMatcherFactoryProvider) {
 
-    $scope.isActive = function(linkSlug) {
-      return (linkSlug === slug) ? 'active' : '';
-    };
-    
-    $scope.menuItems = MenuCache.get('menu-items');
-    if(!$scope.menuItems) {
-      Prismic.ctx().then(function(ctx){
-        ctx.api.form('everything')
-          .ref(ctx.ref)
-          .query(['at', 'document.type', 'tutorial-page'])
-          .pageSize(100)
-          .submit(function(err, response){
+  function valToString(val) {
+    return (val !== null && typeof(val) !== 'undefined') ? val.toString() : val;
+  }
+  
+  $urlMatcherFactoryProvider.type('nonURIEncoded', {
+      encode: valToString,
+      decode: valToString,
+      is: function () { return true; }
+  });
+  $stateProvider
+    .state('ac.tutorial', {
+      url: '^/tutorial/{slug:nonURIEncoded}',
+      templateUrl: 'app/avalanchecanada/tutorial/template.html',
+      controller: 'TutorialCtl'
+    })
+    .state('ac.tutorialHome', {
+      url: '^/tutorial',
+      templateUrl: 'app/avalanchecanada/tutorial/home.html',
+      controller: 'TutorialHomeCtl'
+    });
+
+
+})
+.factory('TutorialContents', function ($q,Prismic,$cacheFactory,tutorialContentsFlat) {
+    var menuCache = $cacheFactory('menu-cache'),
+        menuItems = menuCache.get('menu-items');
+
+    if(menuItems) {
+      return $q.resolve(menuItems);
+    } else {
+      var tree = Prismic.ctx().then(function(ctx){
+        return $q(function(resolve, reject){
+          ctx.api.form('everything')
+            .ref(ctx.ref)
+            .query(['at', 'document.type', 'tutorial-page'])
+            .pageSize(100)
+            .submit(function(err, response){
+              if(err) {
+                reject(err);
+              } else {
+                resolve(response);
+              }
+            });
+        });
+      }).then(function(response){
+
             var slugs = [],
                 slug2title = {};
 
@@ -82,14 +107,45 @@ angular.module('avalancheCanadaApp')
               slug2title[slug] = title;
             });
 
-            var menuTree = makeTree(slugs, slug2title);
+            var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
 
 
-            MenuCache.put('menu-items', menuTree);
-            $scope.menuItems = menuTree;
-          });
+            menuCache.put('menu-items', menuTree);
+            return menuTree;
+       });
+       return tree;
+     }
+})
+.controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
+    console.log('home controller');
+    $scope.isActive = function() { return false; };
+
+    TutorialContents
+      .then(function(menuTree){
+        $scope.menuItems = menuTree;
+        $scope.next = menuTree[0];
       });
-    }
+
+    Prismic.bookmark('tutorial-home')
+      .then(function(result){
+        $scope.title = result.getText('generic.title');
+        $scope.body  = result.getStructuredText('generic.body').asHtml();
+      });
+})
+.controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
+    console.log('page controller');
+    var slug = $stateParams.slug || 'empty';
+
+    $scope.isActive = function(linkSlug) {
+      return (linkSlug === slug) ? 'active' : '';
+    };
+
+    TutorialContents
+      .then(function(menuTree){
+        $scope.menuItems = menuTree;
+      });
+
+
     Prismic.ctx().then(function(ctx){
 
         ctx.api
@@ -102,7 +158,7 @@ angular.module('avalancheCanadaApp')
                    $log.error('error getting tutorial page from prismic');
                } else {
                    if (documents.results_size <= 0) {
-                       $state.go('ac.404');
+                       //$state.go('ac.404');
                    }
 
 
@@ -116,24 +172,31 @@ angular.module('avalancheCanadaApp')
                    {
                      var img = galleryA[i];
                      var pic = img.getImage('picture');
-                     var main = pic ? pic.main : null; 
+                     var main = pic ? pic.main : null;
                      gallery.push({
                        url: main ? main.url : null,
                        caption: img.getText('caption'),
                        credit: img.getText('credit')
                      });
                    }
-                       
+
+                   var maybeHtml = function(doc, key) {
+                     var txt = doc.getStructuredText(key);
+                     if(txt){
+                       return txt.asHtml();
+                     } else {
+                       return undefined;
+                     }
+                   };
                    $scope.doc = {
                      title:        doc.getText('tutorial-page.title'),
-
-                     text1:        doc.getText('tutorial-page.text1'),
+                     text1:        maybeHtml(doc,'tutorial-page.text1'),
                      videoSource:  doc.getText('tutorial-page.video-source'),
-                     text2:        doc.getText('tutorial-page.text2'),
+                     text2:        maybeHtml(doc, 'tutorial-page.text2'),
                      gallery:      gallery,
-                     text3:        doc.getText('tutorial-page.text3'),
+                     text3:        maybeHtml(doc,'tutorial-page.text3'),
                      embedded:     doc.getText('tutorial-page.embedded_content'),
-                     text4:        doc.getText('tutorial-page.text4')
+                     text4:        maybeHtml(doc, 'tutorial-page.text4')
 
                    };
                }

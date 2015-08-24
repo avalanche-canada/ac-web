@@ -1,11 +1,12 @@
 
 <script type="text/ng-template" id="menuTree">
-  <a href="/tutorial/{{menu.slug}}" class="{{isActive(menu.slug)}}">{{ menu.title }}</a>
+  <a ui-sref="ac.tutorial({slug:menu.slug})" class="{{isActive(menu.slug)}}">{{ menu.title }}</a>
   <ul ng-if="menu.children">
     <li ng-repeat="menu in menu.children" ng-include="'menuTree'"></li>
   </ul>
 </script>
 
 <ul>
-  <li ng-repeat="menu in menuItems" ng-include="'menuTree'">
+  <li><a ui-sref="ac.tutorialHome" class="{{isActive(menu.slug)}}">Tutorial Home</a></li>
+  <li ng-repeat="menu in menuItems" ng-include="'menuTree'"></li>
 </ul>
