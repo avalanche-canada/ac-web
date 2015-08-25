@@ -56,9 +56,9 @@ angular.module('avalancheCanadaApp')
                 var resourceList = {};
 
                 Prismic.ctx().then(function(ctx){
-                    var query  = '[[:d = any(document.type, ["youth-resource"])]]';
-                    $log.info(query);
-                    ctx.api.form('everything').query(query)
+                    ctx.api.form('everything')
+                        .query(['at', 'document.type', 'youth-resource'])
+                        .pageSize(200)
                         .ref(ctx.ref).submit(function(err, documents){
                             if (err) {
                                 $log.error('error getting resource tags from prismic');
