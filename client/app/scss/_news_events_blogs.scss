@@ -1174,4 +1174,39 @@ aside {
 
 .tutorial-img img {
   max-width: 100%;
+  border: 1px solid rgb(225, 225, 225);
+  text-align: center;
+}
+.tutorial-next-link {
+  text-align: right;
+}
+
+.tutorial-next-link a {
+  display: inline-block;
+}
+.tutorial-next-link a:hover {
+  text-decoration: none;
+}
+
+.tutorial-next-link a:after {
+  font-family: 'FontAwesome';
+  content: "\f0a9";
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 20px;
+}
+
+.tutorial-img{
+  margin: 1em;
+}
+.tutorial-img__caption{
+  padding: 5px;
+  background: rgba(173, 186, 224, 0.62);
+  text-align: left;
+}
+.tutorial-img__credit:before{
+  font-family: 'FontAwesome';
+  content: "\f030";
+  display: inline-block;
+  padding: 0 5px 0 10px;
 }

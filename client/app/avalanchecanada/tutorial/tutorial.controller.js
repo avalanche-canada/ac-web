@@ -117,7 +117,6 @@ angular.module('avalancheCanadaApp')
      }
 })
 .controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
-    console.log('home controller');
     $scope.isActive = function() { return false; };
 
     TutorialContents
@@ -133,16 +132,33 @@ angular.module('avalancheCanadaApp')
       });
 })
 .controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
-    console.log('page controller');
     var slug = $stateParams.slug || 'empty';
 
     $scope.isActive = function(linkSlug) {
       return (linkSlug === slug) ? 'active' : '';
     };
 
+
+    var menuWalk = function(node, fn) {
+      fn(node);
+      _.each(node.children, function(n){
+        menuWalk(n, fn);
+      });
+    };
+
     TutorialContents
       .then(function(menuTree){
         $scope.menuItems = menuTree;
+        var me = [];
+        menuWalk({children:menuTree}, function(n){me.push(n);});
+        me = me.slice(1);
+
+        for(var i=0; i < me.length; i++) {
+          if(me[i].slug === slug && i+1 < me.length) {
+            $scope.next = me[i + 1];
+            break;
+          }
+        }
       });
 
 

@@ -20,13 +20,17 @@ include _header.jade
 
       .tutorial-gallery
         .tutorial-img(ng-repeat="img in doc.gallery")
-          img(src="{{img.url}}")
-          .tutorial-img__caption(ng-bind="img.caption")
-          .tutorial-img__credit Photo: {{img.credit}}
+          img(ng-src="{{img.url}}")
+          .tutorial-img__caption
+            span(ng-bind="img.caption")
+            span.tutorial-img__credit(ng-if="img.credit") Photo: {{img.credit}}
 
       .tutorial-page-content(ng-bind-html="doc.text3")
 
       .tutorial-embedded(ng-bind-html="doc.embedded")
 
       .tutorial-page-content(ng-bind-html="doc.text4")
+
+      .tutorial-next-link(ng-if="next")
+        a(ui-sref="ac.tutorial({slug: next.slug})") {{next.title}}
 
