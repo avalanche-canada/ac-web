@@ -75,6 +75,7 @@ angular.module('avalancheCanadaApp')
 })
 .factory('TutorialContents', function ($q,Prismic,$cacheFactory,tutorialContentsFlat) {
     var menuCache = $cacheFactory('menu-cache'),
+        idToSlug  = {},
         menuItems = menuCache.get('menu-items');
 
     if(menuItems) {
@@ -99,9 +100,11 @@ angular.module('avalancheCanadaApp')
             var slugs = [],
                 slug2title = {};
 
-            _.map(response.results, function(res){
+            _.each(response.results, function(res){
               var slug  = res.fragments['tutorial-page.slug'].value,
                   title = res.fragments['tutorial-page.title'].value;
+
+              idToSlug[res.id] = slug;
 
               slugs.push(slug);
               slug2title[slug] = title;
@@ -111,7 +114,10 @@ angular.module('avalancheCanadaApp')
 
 
             menuCache.put('menu-items', menuTree);
-            return menuTree;
+            return {
+              menuTree: menuTree,
+              idToSlug:  idToSlug
+            };
        });
        return tree;
      }
@@ -120,9 +126,9 @@ angular.module('avalancheCanadaApp')
     $scope.isActive = function() { return false; };
 
     TutorialContents
-      .then(function(menuTree){
-        $scope.menuItems = menuTree;
-        $scope.next = menuTree[0];
+      .then(function(contents){
+        $scope.menuItems = contents.menuTree;
+        $scope.next = contents.menuTree[0];
       });
 
     Prismic.bookmark('tutorial-home')
@@ -147,10 +153,10 @@ angular.module('avalancheCanadaApp')
     };
 
     TutorialContents
-      .then(function(menuTree){
-        $scope.menuItems = menuTree;
+      .then(function(contents){
+        $scope.menuItems = contents.menuTree;
         var me = [];
-        menuWalk({children:menuTree}, function(n){me.push(n);});
+        menuWalk({children:contents.menuTree}, function(n){me.push(n);});
         me = me.slice(1);
 
         for(var i=0; i < me.length; i++) {
@@ -169,6 +175,7 @@ angular.module('avalancheCanadaApp')
            .query(['at', 'document.type', 'tutorial-page'],
                   ['at', 'my.tutorial-page.slug', slug])
            .ref(ctx.ref)
+           .fetchLinks('slug')
            .submit(function(err, documents){
                if (err) {
                    $log.error('error getting tutorial page from prismic');
@@ -196,25 +203,36 @@ angular.module('avalancheCanadaApp')
                      });
                    }
 
-                   var maybeHtml = function(doc, key) {
-                     var txt = doc.getStructuredText(key);
-                     if(txt){
-                       return txt.asHtml();
-                     } else {
-                       return undefined;
-                     }
-                   };
-                   $scope.doc = {
-                     title:        doc.getText('tutorial-page.title'),
-                     text1:        maybeHtml(doc,'tutorial-page.text1'),
-                     videoSource:  doc.getText('tutorial-page.video-source'),
-                     text2:        maybeHtml(doc, 'tutorial-page.text2'),
-                     gallery:      gallery,
-                     text3:        maybeHtml(doc,'tutorial-page.text3'),
-                     embedded:     doc.getText('tutorial-page.embedded_content'),
-                     text4:        maybeHtml(doc, 'tutorial-page.text4')
 
-                   };
+                   TutorialContents.then(function(contents){
+
+                     var maybeHtml = function(doc, key) {
+                       var txt = doc.getStructuredText(key);
+                       if(txt){
+                         return txt.asHtml({
+                           linkResolver: function(ctx, doc, isBroken){
+                             if(isBroken) {
+                               return '#broken_link';
+                             }
+                             return '/tutorial/' + contents.idToSlug[doc.id];
+                           }
+                         });
+                       } else {
+                         return undefined;
+                       }
+                     };
+                     $scope.doc = {
+                       title:        doc.getText('tutorial-page.title'),
+                       text1:        maybeHtml(doc,'tutorial-page.text1'),
+                       videoSource:  doc.getText('tutorial-page.video-source'),
+                       text2:        maybeHtml(doc, 'tutorial-page.text2'),
+                       gallery:      gallery,
+                       text3:        maybeHtml(doc,'tutorial-page.text3'),
+                       embedded:     doc.getText('tutorial-page.embedded_content'),
+                       text4:        maybeHtml(doc, 'tutorial-page.text4')
+
+                     };
+                   });
                }
            });
     });
