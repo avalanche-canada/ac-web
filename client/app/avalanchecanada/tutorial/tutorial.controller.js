@@ -211,7 +211,9 @@ angular.module('avalancheCanadaApp')
                        if(txt){
                          return txt.asHtml({
                            linkResolver: function(ctx, doc, isBroken){
-                             if(isBroken) return '#broken_link';
+                             if(isBroken) {
+                               return '#broken_link';
+                             }
                              return '/tutorial/' + contents.idToSlug[doc.id];
                            }
                          });
