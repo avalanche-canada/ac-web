@@ -38,11 +38,11 @@ router.use(function (req, res, next) {
     var checkRole = function(roleList){
         logger.log('role list', roleList);
 
-        if (roleList && (roleList.indexOf('Admin') >=0 || roleList.indexOf('AstProvider') >=0 || roleList.indexOf('AstAdmin')>=0)) {
+        if (roleList && (roleList.indexOf('ADMIN') >=0 || roleList.indexOf('AST_PROVIDER') >=0)) {
             next();
         }
         else{
-            unauthorized();
+            unauthorizedCallback();
         }
     }
 
