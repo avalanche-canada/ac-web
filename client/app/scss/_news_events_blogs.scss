@@ -1204,10 +1204,11 @@ aside {
 
 .tutorial-img{
   margin: 1em;
+  border: 4px solid #CCD4EC;
 }
 .tutorial-img__caption{
   padding: 5px;
-  background: rgba(173, 186, 224, 0.62);
+  background: #CCD4EC;
   text-align: left;
 }
 .tutorial-img__credit:before{
