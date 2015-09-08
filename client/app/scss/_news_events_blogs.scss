@@ -1172,9 +1172,15 @@ aside {
   }
 }
 
+.tutorial-gallery {
+  text-align: center;
+}
+.tutorial-img {
+  display: inline-block;
+}
 .tutorial-img img {
   max-width: 100%;
-  border: 1px solid rgb(225, 225, 225);
+  //border: 1px solid rgb(225, 225, 225);
   text-align: center;
 }
 .tutorial-next-link {
@@ -1210,3 +1216,46 @@ aside {
   display: inline-block;
   padding: 0 5px 0 10px;
 }
+
+.callout-info,
+.callout-warning {
+  display:block;
+  padding: 1rem 2rem;
+  width: 95%;
+  margin: 0 auto;
+
+  font-style: italic;
+  font-size: 1.7rem;
+  line-height: 3rem;
+
+  &:before {
+   @extend .fa; 
+   font-size: 5em;
+   float:left;
+   padding-right: 2rem;
+  }
+  &:after {
+    content:'';
+    display: block;
+    clear:both;
+
+  }
+}
+.callout-warning {
+  background: $alert-danger-bg;
+  border: 1px solid $alert-danger-border;
+  color: $alert-danger-text;
+  &:before {
+   @extend .fa-exclamation-triangle;
+ }
+}
+
+.callout-info {
+  border: 1px solid $alert-info-border;
+  background: $alert-info-bg;
+  color: $alert-info-text;
+  &:before {
+   @extend .fa-info-circle; 
+  }
+}
+
