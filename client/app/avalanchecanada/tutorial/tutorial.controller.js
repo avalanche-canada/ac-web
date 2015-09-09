@@ -143,7 +143,7 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList) {
+.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList) {
     var slug = $stateParams.slug || 'empty';
 
     $scope.isActive = function(linkSlug) {
@@ -236,14 +236,23 @@ angular.module('avalancheCanadaApp')
                    $scope.doc = {
                      title:        doc.getText('tutorial-page.title'),
                      text1:        maybeHtml(doc,'tutorial-page.text1'),
-                     videoSource:  doc.getText('tutorial-page.video-source'),
                      text2:        maybeHtml(doc, 'tutorial-page.text2'),
                      gallery:      gallery,
                      text3:        maybeHtml(doc,'tutorial-page.text3'),
                      embedded:     doc.getText('tutorial-page.embedded_content'),
                      text4:        maybeHtml(doc, 'tutorial-page.text4')
-
                    };
+
+                   var videoSource = doc.getText('tutorial-page.video-source');
+                   if(videoSource) {
+                    $http
+                      .jsonp('https://vimeo.com/api/oembed.json', {params:{url: videoSource, callback:'JSON_CALLBACK'}})
+                      .then(function(result){
+                        console.log(result);
+                        $scope.doc.videoSource = result.data.html;
+                      });
+                   }
+
                   });
                }
            });
