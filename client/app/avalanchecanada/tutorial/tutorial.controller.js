@@ -1,52 +1,53 @@
 'use strict';
 
-//TODO(wnh): Encapulate this a bit better
-function makeTree(availableSlugs, allSlugs, titleMap) {
-
-  var blank = function(){
-    return {
-      title: null,
-      slug: '',
-      children: []
-    };
-  };
-
-  var mkSlug = function(parentSlug, key) {
-    if(parentSlug !== '') {
-      parentSlug += '/';
-    }
-    return parentSlug + key;
-  };
-
-  var getChild = function(key, parent) {
-    return _.find(parent.children, function(ch){
-      return ch.slug === mkSlug(parent.slug, key);
-    });
-  };
-
-  availableSlugs = _.filter(allSlugs, function(s) {
-    return _(availableSlugs).contains(s);
-  });
-  var paths = _.map(availableSlugs, function(p){ return p.split('/'); }),
-      root = blank();
-
-  _.each(paths, function(p){
-    var parent = root;
-    _.each(p, function(elem){
-      var child = getChild(elem, parent);
-      if(!child) {
-        child = blank();
-        child.slug = mkSlug(parent.slug, elem);
-        child.title = titleMap[child.slug];
-        parent.children.push(child);
-      }
-      parent = child;
-    });
-  });
-  return root.children;
-}
 
 angular.module('avalancheCanadaApp')
+.factory('makeTree', function(){
+  return function makeTree(availableSlugs, allSlugs, titleMap) {
+
+    var blank = function(){
+      return {
+        title: null,
+        slug: '',
+        children: []
+      };
+    };
+
+    var mkSlug = function(parentSlug, key) {
+      if(parentSlug !== '') {
+        parentSlug += '/';
+      }
+      return parentSlug + key;
+    };
+
+    var getChild = function(key, parent) {
+      return _.find(parent.children, function(ch){
+        return ch.slug === mkSlug(parent.slug, key);
+      });
+    };
+
+    availableSlugs = _.filter(allSlugs, function(s) {
+      return _(availableSlugs).contains(s);
+    });
+    var paths = _.map(availableSlugs, function(p){ return p.split('/'); }),
+        root = blank();
+
+    _.each(paths, function(p){
+      var parent = root;
+      _.each(p, function(elem){
+        var child = getChild(elem, parent);
+        if(!child) {
+          child = blank();
+          child.slug = mkSlug(parent.slug, elem);
+          child.title = titleMap[child.slug];
+          parent.children.push(child);
+        }
+        parent = child;
+      });
+    });
+    return root.children;
+  };
+})
 .config(function($stateProvider, $urlMatcherFactoryProvider) {
 
   function valToString(val) {
@@ -102,7 +103,7 @@ angular.module('avalancheCanadaApp')
     TutorialMenuCache.put('menu-items', tree);
     return tree;
 })
-.factory('TutorialContents', function ($q,TutorialMenuCache,Prismic,TutorialPageList,tutorialContentsFlat) {
+.factory('TutorialContents', function ($q,TutorialMenuCache,Prismic,TutorialPageList,tutorialContentsFlat, makeTree) {
     var menuTree = TutorialMenuCache.get('menu-tree');
     if(menuTree) {
       return menuTree;
