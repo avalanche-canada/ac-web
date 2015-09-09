@@ -144,7 +144,12 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList) {
+.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList, $anchorScroll) {
+
+    // Scroll to top when loaded to fix issue with the long menu
+    $anchorScroll();
+
+
     var slug = $stateParams.slug || 'empty';
 
     $scope.isActive = function(linkSlug) {
