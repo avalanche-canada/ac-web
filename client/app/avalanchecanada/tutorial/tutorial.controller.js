@@ -73,48 +73,61 @@ angular.module('avalancheCanadaApp')
 
 
 })
-.factory('TutorialContents', function ($q,Prismic,$cacheFactory,tutorialContentsFlat) {
-    var menuCache = $cacheFactory('menu-cache'),
-        menuItems = menuCache.get('menu-items');
+.factory('TutorialMenuCache', function ($cacheFactory) {
+  return $cacheFactory('menu-cache');
+})
+.factory('TutorialPageList', function ($q, Prismic, TutorialMenuCache) {
+    var menuItems = TutorialMenuCache.get('menu-items');
+    var tree;
 
     if(menuItems) {
       return $q.resolve(menuItems);
-    } else {
-      var tree = Prismic.ctx().then(function(ctx){
-        return $q(function(resolve, reject){
-          ctx.api.form('everything')
-            .ref(ctx.ref)
-            .query(['at', 'document.type', 'tutorial-page'])
-            .pageSize(100)
-            .submit(function(err, response){
-              if(err) {
-                reject(err);
-              } else {
-                resolve(response);
-              }
-            });
-        });
-      }).then(function(response){
+    }
+    tree = Prismic.ctx().then(function(ctx){
+      return $q(function(resolve, reject){
 
-            var slugs = [],
-                slug2title = {};
+        ctx.api.form('everything')
+          .ref(ctx.ref)
+          .query(['at', 'document.type', 'tutorial-page'])
+          .pageSize(100)
+          .submit(function(err, response){
+            if(err) {
+              reject(err);
+            } else {
+              resolve(response);
+            }
+          });
+        
+      });
+    });
+    TutorialMenuCache.put('menu-items', tree);
+    return tree;
+})
+.factory('TutorialContents', function ($q,TutorialMenuCache,Prismic,TutorialPageList,tutorialContentsFlat) {
+    var menuTree = TutorialMenuCache.get('menu-tree');
+    if(menuTree) {
+      return menuTree;
+    }
+    var tree  = TutorialPageList.then(function(response){
 
-            _.map(response.results, function(res){
-              var slug  = res.fragments['tutorial-page.slug'].value,
-                  title = res.fragments['tutorial-page.title'].value;
+          var slugs = [],
+              slug2title = {};
 
-              slugs.push(slug);
-              slug2title[slug] = title;
-            });
+          _.map(response.results, function(res){
+            var slug  = res.fragments['tutorial-page.slug'].value,
+                title = res.fragments['tutorial-page.title'].value;
 
-            var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
+            slugs.push(slug);
+            slug2title[slug] = title;
+          });
+
+          var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
 
 
-            menuCache.put('menu-items', menuTree);
-            return menuTree;
-       });
-       return tree;
-     }
+         return menuTree;
+     });
+     TutorialMenuCache.put('menu-tree', tree);
+     return tree;
 })
 .controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
     $scope.isActive = function() { return false; };
@@ -131,8 +144,9 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
+.controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList) {
     var slug = $stateParams.slug || 'empty';
+
 
     $scope.isActive = function(linkSlug) {
       return (linkSlug === slug) ? 'active' : '';
@@ -196,14 +210,30 @@ angular.module('avalancheCanadaApp')
                      });
                    }
 
+                  TutorialPageList.then(function(results){
+                    var id_to_slug = {};
+                    _.each(results.results, function(d){
+                      id_to_slug[d.id] = d.fragments['tutorial-page.slug'].value;
+                    });
+                    return id_to_slug;
+                  }).then(function(idToSlug){
+
                    var maybeHtml = function(doc, key) {
                      var txt = doc.getStructuredText(key);
                      if(txt){
-                       return txt.asHtml();
+                       return txt.asHtml({
+                         linkResolver: function linkResolver(ctx,doc,isBroken){
+                           if(isBroken) {
+                             return '#broken-link';
+                           }
+                           return '/tutorial/' + idToSlug[doc.id];
+                         }
+                       });
                      } else {
                        return undefined;
                      }
                    };
+
                    $scope.doc = {
                      title:        doc.getText('tutorial-page.title'),
                      text1:        maybeHtml(doc,'tutorial-page.text1'),
@@ -215,6 +245,7 @@ angular.module('avalancheCanadaApp')
                      text4:        maybeHtml(doc, 'tutorial-page.text4')
 
                    };
+                  });
                }
            });
     });
