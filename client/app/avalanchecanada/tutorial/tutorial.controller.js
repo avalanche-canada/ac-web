@@ -1,4 +1,3 @@
-
 'use strict';
 
 //TODO(wnh): Encapulate this a bit better
@@ -133,9 +132,9 @@ angular.module('avalancheCanadaApp')
     $scope.isActive = function() { return false; };
 
     TutorialContents
-      .then(function(menuTree){
-        $scope.menuItems = menuTree;
-        $scope.next = menuTree[0];
+      .then(function(contents){
+        $scope.menuItems = contents;
+        $scope.next = contents[0];
       });
 
     Prismic.bookmark('tutorial-home')
@@ -146,7 +145,6 @@ angular.module('avalancheCanadaApp')
 })
 .controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList) {
     var slug = $stateParams.slug || 'empty';
-
 
     $scope.isActive = function(linkSlug) {
       return (linkSlug === slug) ? 'active' : '';
@@ -161,10 +159,10 @@ angular.module('avalancheCanadaApp')
     };
 
     TutorialContents
-      .then(function(menuTree){
-        $scope.menuItems = menuTree;
+      .then(function(contents){
+        $scope.menuItems = contents;
         var me = [];
-        menuWalk({children:menuTree}, function(n){me.push(n);});
+        menuWalk({children:contents}, function(n){me.push(n);});
         me = me.slice(1);
 
         for(var i=0; i < me.length; i++) {
@@ -183,6 +181,7 @@ angular.module('avalancheCanadaApp')
            .query(['at', 'document.type', 'tutorial-page'],
                   ['at', 'my.tutorial-page.slug', slug])
            .ref(ctx.ref)
+           .fetchLinks('slug')
            .submit(function(err, documents){
                if (err) {
                    $log.error('error getting tutorial page from prismic');
