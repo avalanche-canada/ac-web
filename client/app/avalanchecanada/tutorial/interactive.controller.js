@@ -4,7 +4,7 @@ angular.module('avalancheCanadaApp')
 .config(function($stateProvider) {
   $stateProvider
     .state('ac.atesQuiz', {
-      url: '^/ates-quiz',
+      url: '^/tutorial/ates-quiz',
       templateUrl: 'app/avalanchecanada/tutorial/ates.html',
       controller: 'AtesCtrl'
     });
@@ -25,7 +25,6 @@ angular.module('avalancheCanadaApp')
   $http
     .get('/app/avalanchecanada/tutorial/ates_exercise.json')
     .then(function(response){
-      console.log(response);
       $scope.atesContent = response.data;
     });
 })

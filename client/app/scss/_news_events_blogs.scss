@@ -1212,11 +1212,13 @@ aside {
   background: #CCD4EC;
   text-align: left;
 }
-.tutorial-img__credit:before{
-  font-family: 'FontAwesome';
-  content: "\f030";
-  display: inline-block;
-  padding: 0 5px 0 10px;
+.tutorial-img__credit {
+  &:before{
+    font-family: 'FontAwesome';
+    content: "\f030";
+    display: inline-block;
+    padding: 0 5px 0 10px;
+  }
 }
 
 .callout-info,
@@ -1278,4 +1280,45 @@ aside {
   font-style: italic;
   margin-bottom: 2em;
   padding: 2px 12px;
+}
+
+
+.ates__question {
+  margin: 5rem 0;
+    & {
+      margin-top: 1rem;
+    }
+}
+
+.ates__response--incorrect {
+  @extend .alert;
+  background-color: $alert-danger-bg;
+  border-color: $alert-danger-border;
+  color: $alert-danger-text;
+  max-width: 550px;
+  width: 100%;
+}
+
+.ates__response--correct {
+  width: 100%;
+  max-width: 550px;
+  @extend .alert;
+  background-color: $alert-success-bg;
+  border-color: $alert-success-border;
+  color: $alert-success-text;
+}
+
+.ates__img { @extend .tutorial-img; }
+.ates__caption { @extend .tutorial-img__caption; }
+.ates__caption__credit { @extend .tutorial-img__credit; }
+
+.ates__answer {
+  display: inline-block;
+  width: 25%;
+  font-weight: 200;
+  input {
+    position: relative;
+    top: 3px;
+    margin-right: 5px
+  }
 }
