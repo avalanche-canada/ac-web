@@ -201,21 +201,35 @@ function getCoursePromise(courseId) {
 }
 
 function isProviderAdmin(providerId, userId) {
+  if(providerId && userId) {
     return getProviderPromise(providerId).then(function(providerList){
 
-        if(providerList.length !== 1) {
-          logger.warn('Unexprected number of providers(' + providers.length +') returned');
-          reject("Unable to authenticate: Cannot find provider with that id");
-        }
 
-        return (userId === providerList[0].owner_id);
+        return providerList.length > 0
+          ? (userId === providerList[0].owner_id)
+          : false;
+    })
+    .catch(function(err) {
+      logger.error('isproviderAdmin', err);
     });
+  } else {
+    return false;
+  }
 }
 
 function isCourseAdmin(courseId, userId) {
   return getCoursePromise(courseId)
-    .then(function(course) { return course[0].providerid; })
-    .then(_.partial(isProviderAdmin, _, userId));
+    .then(function(course) {
+      if(course.length > 0) {
+        return course[0].providerid;
+      } else {
+        return false;
+      }
+    })
+    .then(_.partial(isProviderAdmin, _, userId))
+    .catch(function(err){
+      logger.error('isCourseAdmin::err', err);
+    });
 }
 
 function getCourseDistanceList(success, fail, origin) {
