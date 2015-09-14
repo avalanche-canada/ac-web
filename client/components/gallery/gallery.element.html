@@ -8,16 +8,15 @@
     </div>
   </div>
   <nav>
-    <ul class="pagination">
-      <li>
+    <ul class="pager">
+      <li class="previous">
         <a href="#" ng-click="prev_page()" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
+          <span aria-hidden="true">&laquo;</span> Previous
         </a>
       </li>
-      <li ng-bind="pageNum"></li>
-      <li>
+      <li class="next">
         <a href="#" ng-click="next_page()" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
+          Next <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
     </ul>
