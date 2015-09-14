@@ -52,7 +52,7 @@
 }
 
 .youth__programs--photo {
-  padding: 85px 0 0 2em;
+  padding: 85px 0 2em 2em;
   float: right;
 }
 
@@ -78,9 +78,15 @@
   padding: 1em;
   strong {
     text-transform: uppercase;
+    line-height: 3;
   }
 }
 
+///  Fix tab navigation for youth page  ///
+#news-blog-event-landing-content ul.nav-tabs li {
+  margin-bottom: -1px;
+  cursor: pointer;
+}
 
 
 #resourceList {

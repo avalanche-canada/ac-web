@@ -41,11 +41,13 @@
                     span(class="fa fa-vimeo-square")
                     p Follow Us on Vimeo
 
-                .youth__programs--photo
-                  img(src="assets/images/youth/classroom-big.jpg")
-                .youth__programs.anchor#programs(ng-bind-html='programs')
+                .row
+                  .youth__programs--photo
+                    img(src="assets/images/youth/classroom-big.jpg")
+                  .youth__programs.anchor#programs(ng-bind-html='programs')
 
                 .row
+                  h2 Avalanche Canada Programs
                   .youth__program
                     .youth__program__wrap
                       .img-wrap
@@ -91,22 +93,6 @@
                   tab(heading="Avalanche Photos")
                     ac-gallery(tag="Avalanche", rows=4, columns=4, width=200, height=200)
 
-                #know-more
-                    .container
-                        .row
-                            article.col-xs-12
-                                header
-                                    h2
-                                        | Know More.
-                                        br
-                                        span Go Farther.
-                                footer
-                                    a.btn(href='/training#online-primer')
-                                        | Online Tutorial
-                                    a.btn(href='/training#ast1')
-                                        | AST 1
-                                    a.btn(href='/training#crs')
-                                        | Companion Rescue
                 .anchor#resources(ng-bind-html='resources')
 
                 h1 Curriculum &amp; Resources
