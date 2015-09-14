@@ -1112,37 +1112,6 @@ aside {
     }
 }
 
-#resourceList {
-  margin-top: 2em;
-
-  .table-responsive {
-    clear: left;
-  }
-
-  #filter-grade-dropdown,
-  #filter-category-dropdown  {
-    float: left;
-    padding: 0 1em 0 0;
-    font-size: 1.1em;
-    .fa-chevron-down {
-      color: #0056b7;
-      padding-left: 15px;
-    }
-  }
-  #filter-grades,
-  #filter-category {
-    padding: 8px;
-    background-color: #fff;
-    border: 1px solid #aaa;
-  }
-
-  .no-results {
-    text-align: center;
-    color: #aaa;
-    font-style: italic;
-  }
-}
-
 #tutorial-container {
   @extend #news-blog-event-content;
   @extend .container;
