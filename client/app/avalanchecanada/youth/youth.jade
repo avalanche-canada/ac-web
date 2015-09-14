@@ -84,6 +84,13 @@
                 .row
                   h3 Photos
                   p You can find educcational and avalanche photos in the the gallery below. Feel free to use these in your presentations. You can scroll through the gallery or search using the tag education or avalanche. 
+
+                tabset
+                  tab(heading="Education Photos")
+                    ac-gallery(tag="Education", rows=4, columns=4, width=200, height=200)
+                  tab(heading="Avalanche Photos")
+                    ac-gallery(tag="Avalanche", rows=4, columns=4, width=200, height=200)
+
                 #know-more
                     .container
                         .row

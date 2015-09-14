@@ -18,8 +18,10 @@ angular.module('avalancheCanadaApp')
         scope: {},
         link: function(scope, elem, attrs) {
             scope.tag = attrs.tag;
-            var rows    = attrs.rows || 4,
-                columns = attrs.columns || 4;
+            var rows    = attrs.rows    || 4,
+                columns = attrs.columns || 4,
+                width   = attrs.width   || 200,
+                height  = attrs.height  || 200;
 
             scope.pageNum = 1;
 
@@ -38,7 +40,7 @@ angular.module('avalancheCanadaApp')
 
 
             var get_taged_images = function(next_cursor) {
-              var opts = {rows: rows, columns: columns, width: 200, height: 200 };
+              var opts = {rows: rows, columns: columns, width: width, height: height };
               if(typeof(next_cursor) !== 'undefined') {
                 opts.next_cursor = next_cursor;
               }
@@ -79,7 +81,7 @@ angular.module('avalancheCanadaApp')
     var mapToSize = function(width, height) {
         return function(resource) {
                 var transform = 'c_fill,h_'+height+',w_'+width;
-                var thumb_url =  resourcePrefix + transform + '/' + resource.public_id + '.' + resource.format;
+                var thumb_url =  resourcePrefix + transform + '/' + resource.public_id + '.' + 'png';
                 return {url: resource.url, thumbnail: thumb_url};
         };
     };
