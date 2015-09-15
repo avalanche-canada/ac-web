@@ -48,6 +48,23 @@ angular.module('avalancheCanadaApp')
   $scope.courses = [];
   $scope.levels = [];
   $scope.current_level = null;
+  $scope.current_specialty = null;
+
+  $scope.selectSpeciality = function(s) {
+    $scope.current_specialty = s;
+  };
+
+  $scope.filterSpecialty = function(value /*, index, array */) {
+    if(!$scope.current_specialty) {
+      return true;
+    } else {
+      return (
+        typeof value.tags !== 'undefined' && 
+        value.tags.indexOf($scope.current_specialty) > -1
+      );
+    }
+  };
+ 
 
   var getProviders = function(pos){
 

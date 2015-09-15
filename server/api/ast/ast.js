@@ -26,7 +26,8 @@ var validProvider = function (provider){
             provider.sponsor &&
             provider.license_expiry &&
             provider.insurance_expiry &&
-            provider.license_agreement);
+            provider.license_agreement &&
+            provider.tags);
 };
 
 //! \return a provider as they are represented in the database
@@ -163,7 +164,8 @@ function updateProvider(provId, providerDetails, success, fail) {
                                    sponsor = :sponsor, \
                                    license_expiry = :license_expiry, \
                                    license_agreement = :license_agreement, \
-                                   insurance_expiry = :insurance_expiry';
+                                   insurance_expiry = :insurance_expiry, \
+                                   tags = :tags';
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
@@ -173,7 +175,8 @@ function updateProvider(provId, providerDetails, success, fail) {
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,
                                             ':license_agreement' : providerDetails.license_agreement,
-                                            ':insurance_expiry' : providerDetails.insurance_expiry };
+                                            ':insurance_expiry' : providerDetails.insurance_expiry,
+                                            ':tags' : providerDetails.tags };
 
         docClient.
             updateItem(params, function(err, res) {
@@ -243,6 +246,10 @@ function getCourseDistanceList(success, fail, origin) {
 };
 
 function getCourseTagList(success, fail) {
+
+    //TODO(wnh): Fix this
+    success(['SKI_SNOWBOARD', 'YOUTH', 'SLED', 'SNOWSHOE']);
+    return;
 
     getCourseList(function(courseList){
         var tagList = [];
