@@ -8,6 +8,7 @@ var geolib = require("geolib");
 var docClient = new DOC.DynamoDB();
 var logger = require('../../logger.js');
 var Q = require('q');
+var role = require('../../components/role/role');
 
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
@@ -205,23 +206,27 @@ function getCoursePromise(courseId) {
 
 function isProviderAdmin(providerId, userId) {
   if(providerId && userId) {
-    return getProviderPromise(providerId).then(function(providerList){
-
-
+    var provAdmin = getProviderPromise(providerId)
+      .then(function(providerList){
         return providerList.length > 0
           ? (userId === providerList[0].owner_id)
           : false;
-    })
-    .catch(function(err) {
-      logger.error('isproviderAdmin', err);
-    });
+      });
+
+    return Q.all([provAdmin, role.isRole(userId, 'ADMIN'), role.isRole(userId, 'AST_PROVIDER')])
+      .spread(function(provAdmin, adminRole, provRole){
+        return adminRole || (provRole && provAdmin);
+      })
+      .catch(function(err) {
+        logger.error('isproviderAdmin', err);
+      });
   } else {
     return false;
   }
 }
 
 function isCourseAdmin(courseId, userId) {
-  return getCoursePromise(courseId)
+  var isAdmin = getCoursePromise(courseId)
     .then(function(course) {
       if(course.length > 0) {
         return course[0].providerid;
@@ -232,6 +237,11 @@ function isCourseAdmin(courseId, userId) {
     .then(_.partial(isProviderAdmin, _, userId))
     .catch(function(err){
       logger.error('isCourseAdmin::err', err);
+    });
+
+  return Q.all([role.isRole(userId, 'ADMIN'), role.isRole(userId, 'AST_PROVIDER'), isAdmin])
+    .spread(function(adminRole, provRole, courseAdmin){
+      return adminRole || (provRole && courseAdmin);
     });
 }
 
