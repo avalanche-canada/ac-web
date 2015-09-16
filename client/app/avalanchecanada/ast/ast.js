@@ -64,6 +64,18 @@ angular.module('avalancheCanadaApp')
       );
     }
   };
+
+  $scope.filterLevel = function(value /*, index, array */) {
+    if(!$scope.current_level) {
+      return true;
+    } else {
+      var levels = _.map(value.courses, _.property('level'));
+      return (
+        typeof value.tags !== 'undefined' && 
+        levels.indexOf($scope.current_level) > -1
+      );
+    }
+  };
  
 
   var getProviders = function(pos){
