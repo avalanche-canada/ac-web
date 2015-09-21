@@ -91,7 +91,7 @@
             tbody(ng-repeat="course in sponsored_courses | orderBy:'date'")
               tr.sponsors
                 td
-                  {{course.date}}
+                  {{course.date_start | date}} to {{course.date_end}}
                 td
                   {{course.location_name}}
                 td
@@ -124,7 +124,7 @@
             tbody(ng-repeat="course in unsponsoured_courses | orderBy:'distance'")
               tr
                 td
-                  {{course.date}}
+                  {{course.date_start | date}} to {{course.date_end | date}}
                 td
                   {{course.location_name}}
                 td

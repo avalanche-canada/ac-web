@@ -65,7 +65,8 @@ var validCourse = function (course){
             course.pos.longitude &&
             course.location_name &&
             course.name &&
-            course.date &&
+            course.date_start &&
+            course.date_end &&
             course.level &&
             course.desc &&
             course.tags);
@@ -78,7 +79,8 @@ var course = function (courseId, courseDetails){
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
             location_name: courseDetails.location_name,
             name: courseDetails.name,
-            date: courseDetails.date,
+            date_start: courseDetails.date_start,
+            date_end: courseDetails.date_end,
             level: courseDetails.level,
             desc: courseDetails.desc,
             tags: courseDetails.tags};
