@@ -121,8 +121,8 @@
                   strong Location:&nbsp;
                   | {{course.location_name}}
 
-            tbody(ng-repeat="course in unsponsoured_courses | orderBy:'distance'")
-              tr
+            tbody
+              tr(ng-repeat="course in unsponsoured_courses | orderBy:'distance' | filter:filterLevel")
                 td
                   {{course.date_start | date}} to {{course.date_end | date}}
                 td

@@ -215,6 +215,43 @@ angular.module('avalancheCanadaApp')
     $scope.opened[calendar] = ! $scope.opened[calendar];
   };
 
+  $scope.filterLevel = function(value /*, index, array */) {
+    //level
+    var passedLevel = false;
+    if(!$scope.current_level) {
+      passedLevel =  true;
+    } else {
+      passedLevel  = (
+        typeof value.level !== 'undefined' && 
+        value.level === $scope.current_level
+      );
+    }
+
+    var passedDateFrom = false;
+    if(!$scope.date_from) {
+      passedDateFrom =  true;
+    } else {
+      var de = new Date(value.date_end);
+      passedDateFrom  = (
+        typeof value.date_end !== 'undefined' && 
+        de > $scope.date_from
+      );
+    }
+
+    var passedDateTo = false;
+    if(!$scope.date_to) {
+      passedDateTo =  true;
+    } else {
+      var ds = new Date(value.date_start);
+      passedDateTo  = (
+        typeof value.date_start !== 'undefined' && 
+        ds < $scope.date_to
+      );
+    }
+
+    return passedLevel && passedDateFrom && passedDateTo;
+  };
+
   var getCourses = function(pos){
 
     $scope.sponsored_courses = [];
