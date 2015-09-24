@@ -78,7 +78,9 @@
                 th Dates
                 th Location
                 th Type
-                th(colspan='2') Provider
+                th Provider
+                th(colspan='2') Distance
+
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
             tbody(ng-if="courses.length == 0")
@@ -88,7 +90,7 @@
                 td(colspan="6" ng-if="!loading")
                   | No results match that criteria.
 
-            tbody(ng-repeat="course in sponsored_courses | orderBy:'date'")
+            tbody(ng-repeat="course in sponsored_courses | orderBy:'date' | orderBy: 'distance'")
               tr.sponsors
                 td
                   {{course.date_start | date}} to {{course.date_end}}
@@ -98,6 +100,10 @@
                   {{course.level}}
                 td
                   {{course.provider.name}}
+
+                td
+                  span(ng-if="course.distance") {{course.distance / 1000 | number:0}}km
+
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(course)")
                     i.fa.fa-plus(ng-if="!course.more_info")
@@ -131,6 +137,10 @@
                   {{course.level}}
                 td
                   {{course.provider.name}}
+
+                td
+                  span(ng-if="course.distance") {{course.distance / 1000 | number:0}}km
+
 
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(course)")
