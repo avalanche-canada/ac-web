@@ -23,11 +23,6 @@ var validProvider = function (provider){
             provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
-            provider.contact.website &&
-            provider.sponsor &&
-            provider.license_expiry &&
-            provider.insurance_expiry &&
-            provider.license_agreement &&
             provider.tags);
 };
 
@@ -46,6 +41,7 @@ var provider = function (id, providerDetails){
             license_expiry: providerDetails.license_expiry,
             insurance_expiry: providerDetails.insurance_expiry,
             license_agreement: providerDetails.license_agreement,
+            is_active: providerDetails.is_active,
             instructors: {}};
 };
 
@@ -155,31 +151,48 @@ function addProvider(providerDetails, success, fail) {
 
 //! cannot simply overwrite as that would remove instructor list. instead update all fields except instructors
 function updateProvider(provId, providerDetails, success, fail) {
-
     if (validProvider(providerDetails)){
         var params  = {}
         params.TableName = AST_PROVIDER_TABLE;
         params.Key = {'providerid':provId};
-        params.UpdateExpression = 'SET #name = :name, \
-                                   geohash = :geohash, \
-                                   location_name = :location_name, \
-                                   contact = :contact, \
-                                   sponsor = :sponsor, \
-                                   license_expiry = :license_expiry, \
+        params.UpdateExpression = 'SET #name = :name,                      \
+                                   geohash = :geohash,                     \
+                                   location_name = :location_name,         \
+                                   contact = :contact,                     \
+                                   mailing_address = :mailing_address,     \
+                                   sponsor = :sponsor,                     \
+                                   license_expiry = :license_expiry,       \
                                    license_agreement = :license_agreement, \
-                                   insurance_expiry = :insurance_expiry, \
+                                   insurance_expiry = :insurance_expiry,   \
+                                   is_active = :is_active,                 \
                                    tags = :tags';
+
+        if(typeof providerDetails.is_active === 'undefined') {
+          providerDetails.is_active = false;
+        }
+
+        if(typeof providerDetails.mailing_address === 'undefined' || providerDetails.mailing_address === '') {
+          providerDetails.mailing_address = null;
+        }
+        
+        if(typeof providerDetails.contact.website === 'undefined' || providerDetails.contact.website === '') {
+          providerDetails.contact.website = null;
+        }
+        console.dir(providerDetails);
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
         params.ExpressionAttributeValues = {':name' : providerDetails.name,
                                             ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
                                             ':location_name' : providerDetails.location_name,
+                                            ':mailing_address' : providerDetails.mailing_address,
                                             ':contact' : providerDetails.contact,
                                             ':sponsor' : providerDetails.sponsor,
                                             ':license_expiry' : providerDetails.license_expiry,
                                             ':license_agreement' : providerDetails.license_agreement,
                                             ':insurance_expiry' : providerDetails.insurance_expiry,
-                                            ':tags' : providerDetails.tags };
+                                            ':is_active' : providerDetails.is_active,
+                                            ':tags' : providerDetails.tags,
+        };
 
         docClient.
             updateItem(params, function(err, res) {
