@@ -65,6 +65,25 @@
             button.blue-button(type='button' ng-click="search()")
               | Search  
               i.fa.fa-angle-right
+
+        .row
+          #filter-tags-dropdown.col-xs-12.col-md-2.dropdown-filters
+            .dropdown-filters-inner.dropdown
+              button#filter-tags.dropdown-toggle(type='button', data-toggle='dropdown')
+                span(ng-if="current_tag == null")
+                  | Tags
+                span(ng-if="current_tag != null")
+                  {{current_tag}}
+                i.fa.fa-chevron-down
+                i.fa.fa-chevron-up
+              ul.dropdown-menu(role='menu', aria-labelledby='filter-tags')
+                li(role='presentation' ng-if="current_tag != null")
+                  a(role='menuitem', tabindex='-1', ng-click="selectTag(null)")
+                    | All Tags
+                li(role='presentation' ng-repeat="tag in ALL_TAGS")
+                  a(role='menuitem', tabindex='-1', ng-click="selectTag(tag)")
+                    {{tag}}
+
   #ast-page-content.container
     .row
       .col-xs-12
@@ -128,7 +147,7 @@
                   | {{course.location_name}}
 
             tbody
-              tr(ng-repeat="course in unsponsoured_courses | orderBy:'distance' | filter:filterLevel")
+              tr(ng-repeat="course in unsponsoured_courses | orderBy:'distance' | filter:filterCourses")
                 td
                   {{course.date_start | date}} to {{course.date_end | date}}
                 td
