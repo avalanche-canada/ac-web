@@ -8,7 +8,7 @@
           .col-xs-12
             h1 Find a course
         .row
-          #filter-courses-dropdown.col-xs-12.col-md-2.dropdown-filters
+          #filter-courses-dropdown.col-xs-12.col-md-4.dropdown-filters
             .dropdown-filters-inner.dropdown
               button#filter-courses.dropdown-toggle(type='button', data-toggle='dropdown')
                 span(ng-if="current_level == null")
@@ -25,7 +25,7 @@
                   a(role='menuitem', tabindex='-1', ng-click="selectLevel(level)")
                     {{level}}
 
-          .col-xs-12.col-md-2
+          .col-xs-12.col-md-4
             .dropdown-filters-inner.dropdown-filters
               button#filter-specialties(type='button' ng-click="openCalendar($event,'from')")
                 span(ng-if="date_from == null")
@@ -35,7 +35,7 @@
                 i.fa.fa-calendar
             .date-picker-container(datepicker-popup ng-model="date_from" is-open="opened.from" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
 
-          .col-xs-12.col-md-2
+          .col-xs-12.col-md-4
             .dropdown-filters-inner.dropdown-filters
               button#filter-specialties(type='button' ng-click="openCalendar($event,'to')")
                 span(ng-if="date_to == null")
@@ -45,7 +45,26 @@
                 i.fa.fa-calendar
             .date-picker-container(datepicker-popup ng-model="date_to" is-open="opened.to" min-date="minDate" max-date="maxDate" show-weeks="false" datepicker-options="dateOptions")
 
-          #location-filter.col-xs-12.col-md-2
+
+        .row
+          #filter-tags-dropdown.col-xs-12.col-md-4.dropdown-filters
+            .dropdown-filters-inner.dropdown
+              button#filter-tags.dropdown-toggle(type='button', data-toggle='dropdown')
+                span(ng-if="current_tag == null")
+                  | Tags
+                span(ng-if="current_tag != null")
+                  {{current_tag}}
+                i.fa.fa-chevron-down
+                i.fa.fa-chevron-up
+              ul.dropdown-menu(role='menu', aria-labelledby='filter-tags')
+                li(role='presentation' ng-if="current_tag != null")
+                  a(role='menuitem', tabindex='-1', ng-click="selectTag(null)")
+                    | All Tags
+                li(role='presentation' ng-repeat="tag in ALL_TAGS")
+                  a(role='menuitem', tabindex='-1', ng-click="selectTag(tag)")
+                    {{tag}}
+
+          #location-filter.col-xs-12.col-md-4
             .input-group
               input.form-control(type='text', aria-describedby='location-addon', placeholder='Location', ng-model='location')
               span#location-addon
@@ -65,24 +84,6 @@
             button.blue-button(type='button' ng-click="search()")
               | Search  
               i.fa.fa-angle-right
-
-        .row
-          #filter-tags-dropdown.col-xs-12.col-md-2.dropdown-filters
-            .dropdown-filters-inner.dropdown
-              button#filter-tags.dropdown-toggle(type='button', data-toggle='dropdown')
-                span(ng-if="current_tag == null")
-                  | Tags
-                span(ng-if="current_tag != null")
-                  {{current_tag}}
-                i.fa.fa-chevron-down
-                i.fa.fa-chevron-up
-              ul.dropdown-menu(role='menu', aria-labelledby='filter-tags')
-                li(role='presentation' ng-if="current_tag != null")
-                  a(role='menuitem', tabindex='-1', ng-click="selectTag(null)")
-                    | All Tags
-                li(role='presentation' ng-repeat="tag in ALL_TAGS")
-                  a(role='menuitem', tabindex='-1', ng-click="selectTag(tag)")
-                    {{tag}}
 
   #ast-page-content.container
     .row
