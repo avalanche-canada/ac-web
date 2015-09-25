@@ -146,8 +146,8 @@
                   strong Location:&nbsp;
                   | {{course.location_name}}
 
-            tbody
-              tr(ng-repeat="course in unsponsoured_courses | orderBy:'distance' | filter:filterCourses")
+            tbody(ng-repeat="course in unsponsoured_courses | orderBy:'distance' | filter:filterCourses")
+              tr
                 td
                   {{course.date_start | date}} to {{course.date_end | date}}
                 td
