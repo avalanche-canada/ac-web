@@ -16,33 +16,41 @@ var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
 
 //! \return true if provider is valid (contains required fields)
 var validProvider = function (provider){
-    return (provider.pos &&
-            provider.pos.latitude &&
-            provider.pos.longitude &&
-            provider.location_name &&
-            provider.name &&
+    return (provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
-            provider.tags);
+            provider.location_name &&
+            provider.pos &&
+            provider.pos.latitude &&
+            provider.pos.longitude);
 };
 
 //! \return a provider as they are represented in the database
 var provider = function (id, providerDetails){
-    return { providerid : id,
-            geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-            location_name: providerDetails.location_name,
-            name : providerDetails.name,
-            contact : {
-                phone: providerDetails.contact.phone,
-                email: providerDetails.contact.email,
-                website:providerDetails.contact.website
-            },
-            sponsor: providerDetails.sponsor,
-            license_expiry: providerDetails.license_expiry,
-            insurance_expiry: providerDetails.insurance_expiry,
-            license_agreement: providerDetails.license_agreement,
-            is_active: providerDetails.is_active,
-            instructors: {}};
+
+    var prov = { providerid : id,
+                 owner_id : providerDetails.owner_id,
+                 geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
+                 location_name: providerDetails.location_name,
+                 name : providerDetails.name,
+                 contact : {
+                     phone: providerDetails.contact.phone,
+                     email: providerDetails.contact.email,
+                     website:providerDetails.contact.website
+                 },
+                 sponsor: providerDetails.sponsor,
+                 license_expiry: providerDetails.license_expiry,
+                 insurance_expiry: providerDetails.insurance_expiry,
+                 license_agreement: providerDetails.license_agreement,
+                 is_active: providerDetails.is_active,
+                 instructors: {}};
+
+    prov.sponsor           = prov.sponsor           === '' ? null : prov.sponsor;
+    prov.license_expiry    = prov.license_expiry    === '' ? null : prov.license_expiry;
+    prov.insurance_expiry  = prov.insurance_expiry  === '' ? null : prov.insurance_expiry;
+    prov.license_agreement = prov.license_agreement === '' ? null : prov.license_agreement;
+    prov.is_active         = prov.is_active         === '' ? null : prov.is_active;
+    return prov;
 };
 
 //! \return true if instructor is valid (contains required fields)
@@ -151,48 +159,45 @@ function addProvider(providerDetails, success, fail) {
 
 //! cannot simply overwrite as that would remove instructor list. instead update all fields except instructors
 function updateProvider(provId, providerDetails, success, fail) {
+
     if (validProvider(providerDetails)){
-        var params  = {}
+        var params  = {};
         params.TableName = AST_PROVIDER_TABLE;
         params.Key = {'providerid':provId};
-        params.UpdateExpression = 'SET #name = :name,                      \
-                                   geohash = :geohash,                     \
-                                   location_name = :location_name,         \
-                                   contact = :contact,                     \
-                                   mailing_address = :mailing_address,     \
-                                   sponsor = :sponsor,                     \
-                                   license_expiry = :license_expiry,       \
-                                   license_agreement = :license_agreement, \
-                                   insurance_expiry = :insurance_expiry,   \
-                                   is_active = :is_active,                 \
-                                   tags = :tags';
 
-        if(typeof providerDetails.is_active === 'undefined') {
-          providerDetails.is_active = false;
-        }
+        var updateKeys =['name',
+                         'geohash',
+                         'location_name',
+                         'contact',
+                         'mailing_address',
+                         'sponsor',
+                         'license_expiry',
+                         'license_agreement',
+                         'insurance_expiry',
+                         'owner_id',
+                         'is_active',
+                         'tags'];
+        params.ExpressionAttributeValues = {};
 
-        if(typeof providerDetails.mailing_address === 'undefined' || providerDetails.mailing_address === '') {
-          providerDetails.mailing_address = null;
-        }
-        
-        if(typeof providerDetails.contact.website === 'undefined' || providerDetails.contact.website === '') {
-          providerDetails.contact.website = null;
-        }
-        console.dir(providerDetails);
+        var pairs = []
+        _.each(updateKeys, function(key){
+          if(typeof providerDetails[key] !== 'undefined') {
+            var prefix = ''
+            if(key === 'name') prefix = '#';
+            pairs.push(prefix + key + ' = :' + key);
+
+            params.ExpressionAttributeValues[':'+key] = providerDetails[key];
+            
+            if(params.ExpressionAttributeValues[':'+key] === '') {
+              params.ExpressionAttributeValues[':'+key] = null;
+            }
+            
+
+          }
+        });
+        params.UpdateExpression = 'SET ' + pairs.join(', ');
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
-        params.ExpressionAttributeValues = {':name' : providerDetails.name,
-                                            ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-                                            ':location_name' : providerDetails.location_name,
-                                            ':mailing_address' : providerDetails.mailing_address,
-                                            ':contact' : providerDetails.contact,
-                                            ':sponsor' : providerDetails.sponsor,
-                                            ':license_expiry' : providerDetails.license_expiry,
-                                            ':license_agreement' : providerDetails.license_agreement,
-                                            ':insurance_expiry' : providerDetails.insurance_expiry,
-                                            ':is_active' : providerDetails.is_active,
-                                            ':tags' : providerDetails.tags,
-        };
 
         docClient.
             updateItem(params, function(err, res) {
@@ -202,8 +207,7 @@ function updateProvider(provId, providerDetails, success, fail) {
                     success(res.items);
                 }
             });
-    }
-    else{
+    } else {
         fail('unable to update provider invalid input where provider = ' + JSON.stringify(providerDetails));
     }
 };
