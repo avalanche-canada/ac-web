@@ -14,8 +14,11 @@ angular.module('avalancheCanadaApp')
                     Prismic.ctx().then(function(ctx){
                         var tag = 'partner';
                         var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["'+tag+'"])]]';
-                        ctx.api.form('everything').query(query)
-                                .ref(ctx.ref).submit(function(err, doc){
+                        ctx.api.form('everything')
+                          .query(query)
+                          .pageSize(40)
+                          .ref(ctx.ref)
+                          .submit(function(err, doc){
                             if (err) {
                                 $log.error('error getting '+ tag +' from prismic');
                             }
@@ -34,8 +37,11 @@ angular.module('avalancheCanadaApp')
                     Prismic.ctx().then(function(ctx){
                         var tag = 'Founding Sponsor';
                         var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["'+tag+'"])]]';
-                        ctx.api.form('everything').query(query)
-                                .ref(ctx.ref).submit(function(err, doc){
+                        ctx.api.form('everything')
+                          .query(query)
+                          .pageSize(40)
+                          .ref(ctx.ref)
+                          .submit(function(err, doc){
                             if (err) {
                                 $log.error('error getting '+ tag +' from prismic');
                             }
@@ -54,8 +60,11 @@ angular.module('avalancheCanadaApp')
                     Prismic.ctx().then(function(ctx){
                         var tag = 'supplier';
                         var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["'+tag+'"])]]';
-                        ctx.api.form('everything').query(query)
-                                .ref(ctx.ref).submit(function(err, doc){
+                        ctx.api.form('everything')
+                          .query(query)
+                          .pageSize(40)
+                          .ref(ctx.ref)
+                          .submit(function(err, doc){
                             if (err) {
                                 $log.error('error getting '+ tag +' from prismic');
                             }
@@ -74,8 +83,11 @@ angular.module('avalancheCanadaApp')
                     Prismic.ctx().then(function(ctx){
                         var tag = 'associate';
                         var query  = '[[:d = at(document.type, "sponsor")] [:d = any(document.tags, ["'+tag+'"])]]';
-                        ctx.api.form('everything').query(query)
-                                .ref(ctx.ref).submit(function(err, doc){
+                        ctx.api.form('everything')
+                          .query(query)
+                          .pageSize(40)
+                          .ref(ctx.ref)
+                          .submit(function(err, doc){
                             if (err) {
                                 $log.error('error getting '+ tag +' from prismic');
                             }
