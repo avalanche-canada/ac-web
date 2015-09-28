@@ -286,6 +286,10 @@ angular.module('avalancheCanadaApp')
               $scope.unfiltered_courses.forEach(function(course){
                 course.provider = _.find(providers, {providerid: course.providerid});
 
+                // Skip if it has no provider entry. Either a data
+                // inconsistency or the provider is inactive
+                if(typeof course.provider === 'undefined') { return; }
+
                 if(course.provider.sponsor === true){
                     $scope.sponsored_courses.push(course);
                 }
