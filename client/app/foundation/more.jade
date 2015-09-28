@@ -29,7 +29,7 @@
                     article.list-row-1
                         section.news-image
                             img.im(alt='', src=" {{ featuredNews.getImageView('news.featured_image', 'preview').url }} ")
-                            ul.news-social
+                            //ul.news-social
                                 li
                                     a(href='#')
                                         i.fa.fa-facebook
@@ -54,7 +54,7 @@
                             p
                                 a(href='{{env.DOMAIN}}/news/{{featuredNews.id}}/{{featuredNews.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date')}}
+                                time(datetime='{{featuredNews.getDate("news.date")}}') {{featuredNews.getDate('news.date') | date}}
 
                     article.list-rows(ng-repeat="item in news")
                         header
@@ -66,7 +66,7 @@
                             p
                                 a(href='/news/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date')}}
+                                time(datetime='{{item.getDate("news.date")}}') {{item.getDate('news.date') | date}}
 
     #news.container
         .row
@@ -79,7 +79,7 @@
                     article.list-row-1
                         section.news-image
                             img.im(alt='', src=" {{ featuredEvent.getImageView('event.featured_image', 'preview').url }} ")
-                            ul.news-social
+                            //ul.news-social
                                 li
                                     a(href='#')
                                         i.fa.fa-facebook
@@ -104,7 +104,7 @@
                             p
                                 a(href='{{env.DOMAIN}}/events/{{featuredEvent.id}}/{{featuredEvent.slug}}') Full article
                                 i.fa.fa-circle
-                                {{featuredEvent .getDate('event.date')}}
+                                {{featuredEvent .getDate('event.start_date') | date}}
 
                     article.list-rows(ng-repeat="item in events")
                         header
@@ -116,7 +116,7 @@
                             p
                                 a(href='{{env.DOMAIN}}/events/{{item.id}}/{{item.slug}}') Full article
                                 i.fa.fa-circle
-                                time(datetime='{{item.getDate("event.date")}}') {{item.getDate('event.date')}}
+                                time(datetime='{{item.getDate("event.start_date")}}') {{item.getDate('event.start_date') | date}}
     .push
 div(ng-include='"components/foundation_footer/footer.html"')
 

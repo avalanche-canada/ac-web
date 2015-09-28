@@ -26,7 +26,12 @@ angular.module('foundation',[
       .state('foundation', {
         abstract:true,
         url: '/foundation',
-        templateUrl: 'app/foundation/foundation.html'
+        templateUrl: 'app/foundation/foundation.html',
+        data: {
+          ogTitle: 'Avalanche Canada Foundation',
+          ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',
+          ogDescription: 'Avalanche Canada is a non-government, not-for-profit organization dedicated to public avalanche safety. We issue daily avalanche forecasts throughout the winter for much of the mountainous regions of western Canada, providing this free information via our website and our app, Avalanche Canada Mobile. We also coordinate and deliver avalanche awareness and education programs, provide curriculum and support to instructors of Avalanche Canada training programs, act as a central point-of-contact for avalanche information, and work closely with many different avalanche research projects, both at home and abroad.'
+        }
       })
       .state('foundation.intro', {
         url: '',

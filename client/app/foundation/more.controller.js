@@ -15,7 +15,6 @@ angular.module('foundation')
     Prismic.ctx().then(function(ctx){
 
         $scope.ctx = ctx;
-
         ctx.api.form('everything').query('[[:d = at(document.type, "news")] [:d = any(document.tags, ["Foundation"])]]')
                                     .orderings('[news.date desc]')
                                         .ref(ctx.ref).submit(function(err, documents){
@@ -31,17 +30,12 @@ angular.module('foundation')
                         $log.error('error getting featured news from prismic');
                     }
                     else {
-                        var featured = documents.results[0];
-                        $scope.news = [];
-
-                        _.forEach(news, function(val){
-                            if (val.id !== featured.id){
-                                $scope.news.push(val);
-                            }
-                        });
-
-                        $scope.news = $scope.news.slice(0,2);
-                        $scope.featuredNews = featured;
+                        var removeId = -1;
+                        if(documents.results.length > 0) {
+                          $scope.featuredNews = documents.results[0];
+                          removeId = $scope.featuredNews.id;
+                        }
+                        $scope.news = _(news).filter(function(e){ return e.id !== removeId; }).take(3).value();
                     }
                 });
             }
@@ -62,17 +56,18 @@ angular.module('foundation')
                         $log.error('error getting featured events from prismic');
                     }
                     else {
-                        var featured = documents.results[0];
-                        $scope.events = [];
+                        var removeId = -1;
+                        if(documents.results.length > 0) {
+                          $scope.featuredEvent = documents.results[0];
+                          removeId = $scope.featuredEvent.id;
+                        }
 
-                        _.forEach(events, function(val){
-                            if (val.id !== featured.id){
-                                $scope.events.push(val);
-                            }
-                        });
+                        $scope.events =
+                          _(events)
+                            .filter(function(e){ return e.id !== removeId; })
+                            .take(3)
+                            .value();
 
-                        $scope.events = $scope.events.slice(0,2);
-                        $scope.featuredEvent = featured;
                     }
                 });
             }
