@@ -1,0 +1,24 @@
+
+<div class="gallery">
+  <div class="gallery--row" ng-repeat="row in rows">
+    <div class="gallery--photo" ng-repeat="pic in row">
+      <a target="_new" href="{{pic.url}}">
+        <img ng-src="{{pic.thumbnail}}" style="max-width:{{width}}; max-height:{{height}}"/>
+      </a>
+    </div>
+  </div>
+  <nav>
+    <ul class="pager">
+      <li class="previous">
+        <a href="#" ng-click="prev_page()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span> Previous
+        </a>
+      </li>
+      <li class="next">
+        <a href="#" ng-click="next_page()" aria-label="Next">
+          Next <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
