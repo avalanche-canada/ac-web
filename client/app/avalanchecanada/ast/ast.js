@@ -48,6 +48,35 @@ angular.module('avalancheCanadaApp')
   $scope.courses = [];
   $scope.levels = [];
   $scope.current_level = null;
+  $scope.current_specialty = null;
+
+  $scope.selectSpeciality = function(s) {
+    $scope.current_specialty = s;
+  };
+
+  $scope.filterSpecialty = function(value /*, index, array */) {
+    if(!$scope.current_specialty) {
+      return true;
+    } else {
+      return (
+        typeof value.tags !== 'undefined' && 
+        value.tags.indexOf($scope.current_specialty) > -1
+      );
+    }
+  };
+
+  $scope.filterLevel = function(value /*, index, array */) {
+    if(!$scope.current_level) {
+      return true;
+    } else {
+      var levels = _.map(value.courses, _.property('level'));
+      return (
+        typeof value.tags !== 'undefined' && 
+        levels.indexOf($scope.current_level) > -1
+      );
+    }
+  };
+ 
 
   var getProviders = function(pos){
 
@@ -160,6 +189,11 @@ angular.module('avalancheCanadaApp')
   $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')).format('YYYY-MM-DD'); // Ideally this is the last course date the api returns.
   $scope.minDate = moment.utc(moment().startOf('day').subtract(12, 'months')).format('YYYY-MM-DD');  // Ideally this is the first course date the api returns.
 
+
+  $http.get('/api/ast/courses/tags').then(function (res) {
+      $scope.ALL_TAGS = res.data;
+  });
+
   $scope.today = function() {
     $scope.current_date = new Date();
   };
@@ -184,6 +218,53 @@ angular.module('avalancheCanadaApp')
     $event.stopPropagation();
 
     $scope.opened[calendar] = ! $scope.opened[calendar];
+  };
+
+  $scope.filterCourses = function(value /*, index, array */) {
+    //level
+    var passedLevel = false;
+    if(!$scope.current_level) {
+      passedLevel =  true;
+    } else {
+      passedLevel  = (
+        typeof value.level !== 'undefined' && 
+        value.level === $scope.current_level
+      );
+    }
+
+    var passedDateFrom = false;
+    if(!$scope.date_from) {
+      passedDateFrom =  true;
+    } else {
+      var de = new Date(value.date_end);
+      passedDateFrom  = (
+        typeof value.date_end !== 'undefined' && 
+        de > $scope.date_from
+      );
+    }
+
+    var passedDateTo = false;
+    if(!$scope.date_to) {
+      passedDateTo =  true;
+    } else {
+      var ds = new Date(value.date_start);
+      passedDateTo  = (
+        typeof value.date_start !== 'undefined' && 
+        ds < $scope.date_to
+      );
+    }
+
+    var passedType = false;
+    if(!$scope.current_tag) {
+      passedType =  true;
+    } else {
+      passedType  = (
+        typeof value.tags !== 'undefined' && 
+        value.tags.indexOf($scope.current_tag) > -1
+      );
+    }
+
+    return passedLevel && passedDateFrom && passedDateTo && passedType;
   };
 
   var getCourses = function(pos){
@@ -246,6 +327,11 @@ angular.module('avalancheCanadaApp')
 
   $scope.selectLevel = function(level){
     $scope.current_level = level;
+    return false;
+  };
+
+  $scope.selectTag = function(tag){
+    $scope.current_tag = tag;
     return false;
   };
 

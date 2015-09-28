@@ -182,6 +182,10 @@
         border:none;
       }
     }
+
+    .row:last-child {
+      margin-top: 1em;
+    }
   }
 }
 

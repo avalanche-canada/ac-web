@@ -49,7 +49,7 @@ router.use(function (req, res, next) {
 
     if(req.headers['cache-control'] === 'no-cache') {
         //console.log('cache bypass for %s', url);
-        logger.log('info','cache bypass for', url);
+        logger.log('info','cache bypass for', url, req);
         req.webcache = webcacher;
         next();
     } else {

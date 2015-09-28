@@ -29,10 +29,16 @@
           #filter-specialties-dropdown.col-xs-12.col-md-3.dropdown-filters
             .dropdown-filters-inner.dropdown
               button#filter-specialties.dropdown-toggle(type='button', data-toggle='dropdown')
-                | Specialties
+                span(ng-if="current_specialty == null")
+                  | Specialties
+                span(ng-if="current_specialty != null")
+                  {{current_specialty}}
                 i.fa.fa-chevron-down
                 i.fa.fa-chevron-up
               ul.dropdown-menu(role='menu', aria-labelledby='filter-specialties')
+                li(role='presentation' ng-if="current_specialty != null")
+                  a(role='menuitem', tabindex='-1', ng-click="selectSpeciality(null)")
+                    | All Specialties
                 li(role='presentation' ng-repeat="speciality in specialities")
                   a(role='menuitem', tabindex='-1', ng-click="selectSpeciality(speciality)")
                     {{speciality}}
@@ -61,16 +67,15 @@
               tr
                 th Provider
                 th Location
-                th Courses
-                th(colspan='2') Specialties
+                th(colspan=2) Specialties
 
               tr.sponsors-head
-                th(colspan='6') Our Sponsors
+                th(colspan='5') Our Sponsors
             tbody(ng-if="providers.length == 0")
               tr
-                td(colspan="6" ng-if="loading")
+                td(colspan="5" ng-if="loading")
                   | Loading ...
-                td(colspan="6" ng-if="!loading")
+                td(colspan="5" ng-if="!loading")
                   | No results match that criteria.
 
 
@@ -81,11 +86,9 @@
                   | {{provider.name}}
                 td
                   | {{provider.location_name}}
+
                 td
-                  span(ng-repeat="course in provider.courses")
-                    {{course.name}}
-                td
-                  | Ski, Youth (TODO)
+                   {{provider.tags.join(', ')}}
 
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(provider)")
@@ -102,22 +105,20 @@
                   br
                   strong Website: &nbsp;
                     a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
-                td(colspan='3')
+                td(colspan='2')
                   strong Location: &nbsp;
                   |  {{provider.location_name}}
 
               tr.sponsor-last(ng-if="$last")
 
-            tbody(ng-repeat="provider in providers | filter:{sponsor: false} | orderBy:'distance'")
+            tbody(ng-repeat="provider in providers | filter:{sponsor: false} | orderBy:'distance' | filter:filterSpecialty | filter:filterLevel")
               tr
                 td {{provider.name}}
                 td
                   | {{provider.location_name}}
                 td
-                  span(ng-repeat="course in provider.courses")
-                    {{course.name}}
-                td
-                  | Ski, Youth (TODO)
+                   {{provider.tags.join(', ')}}
+
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(provider)")
                     i.fa.fa-plus(ng-if="!provider.more_info")
@@ -133,7 +134,7 @@
                   br
                   strong Website: &nbsp;
                     a(ng-href='{{provider.contact.website}}') {{provider.contact.website}}
-                td(colspan='3')
+                td(colspan='2')
                   strong Location
                   |      {{provider.location_name}}
 

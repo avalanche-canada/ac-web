@@ -5,20 +5,30 @@ module.exports = function(app) {
     var env = app.get('env');
    var logger = require('./logger.js');
 
+    //! \todo make pre render token an env var
     var use_prerender = (process.env.USE_PRERENDER === 'false') ? false : true;
     if (use_prerender) {
         logger.log('info','using prerender');
         app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
     }
 
+    var expressJwt = require('express-jwt');
+    var jwt = require('jsonwebtoken');
+
+    var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
+    app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
+
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
     app.use('/api/ast', require('./api/ast'));
 
+    var geocoder = require('geocoder');
+
+    //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
             logger.log('warn','UnauthorizedError');
-            res.send(401, 'UnauthorizedError');
+            res.status(401).send('UnauthorizedError');
         }
         else{
             logger.log('error','Error occured', err);

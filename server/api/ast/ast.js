@@ -6,6 +6,9 @@ var geohash = require('ngeohash');
 var DOC = require("dynamodb-doc");
 var geolib = require("geolib");
 var docClient = new DOC.DynamoDB();
+var logger = require('../../logger.js');
+var Q = require('q');
+var role = require('../../components/role/role');
 
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
@@ -13,36 +16,41 @@ var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
 
 //! \return true if provider is valid (contains required fields)
 var validProvider = function (provider){
-    return (provider.pos &&
-            provider.pos.latitude &&
-            provider.pos.longitude &&
-            provider.location_name &&
-            provider.name &&
+    return (provider.name &&
             provider.contact.phone &&
             provider.contact.email &&
-            provider.contact.website &&
-            provider.sponsor &&
-            provider.license_expiry &&
-            provider.insurance_expiry &&
-            provider.license_agreement);
+            provider.location_name &&
+            provider.pos &&
+            provider.pos.latitude &&
+            provider.pos.longitude);
 };
 
 //! \return a provider as they are represented in the database
 var provider = function (id, providerDetails){
-    return { providerid : id,
-            geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-            location_name: providerDetails.location_name,
-            name : providerDetails.name,
-            contact : {
-                phone: providerDetails.contact.phone,
-                email: providerDetails.contact.email,
-                website:providerDetails.contact.website
-            },
-            sponsor: providerDetails.sponsor,
-            license_expiry: providerDetails.license_expiry,
-            insurance_expiry: providerDetails.insurance_expiry,
-            license_agreement: providerDetails.license_agreement,
-            instructors: {}};
+
+    var prov = { providerid : id,
+                 owner_id : providerDetails.owner_id,
+                 geohash : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
+                 location_name: providerDetails.location_name,
+                 name : providerDetails.name,
+                 contact : {
+                     phone: providerDetails.contact.phone,
+                     email: providerDetails.contact.email,
+                     website:providerDetails.contact.website
+                 },
+                 sponsor: providerDetails.sponsor,
+                 license_expiry: providerDetails.license_expiry,
+                 insurance_expiry: providerDetails.insurance_expiry,
+                 license_agreement: providerDetails.license_agreement,
+                 is_active: providerDetails.is_active,
+                 instructors: {}};
+
+    prov.sponsor           = prov.sponsor           === '' ? null : prov.sponsor;
+    prov.license_expiry    = prov.license_expiry    === '' ? null : prov.license_expiry;
+    prov.insurance_expiry  = prov.insurance_expiry  === '' ? null : prov.insurance_expiry;
+    prov.license_agreement = prov.license_agreement === '' ? null : prov.license_agreement;
+    prov.is_active         = prov.is_active         === '' ? null : prov.is_active;
+    return prov;
 };
 
 //! \return true if instructor is valid (contains required fields)
@@ -61,7 +69,8 @@ var validCourse = function (course){
             course.pos.longitude &&
             course.location_name &&
             course.name &&
-            course.date &&
+            course.date_start &&
+            course.date_end &&
             course.level &&
             course.desc &&
             course.tags);
@@ -74,7 +83,8 @@ var course = function (courseId, courseDetails){
             geohash: geohash.encode(courseDetails.pos.latitude, courseDetails.pos.longitude),
             location_name: courseDetails.location_name,
             name: courseDetails.name,
-            date: courseDetails.date,
+            date_start: courseDetails.date_start,
+            date_end: courseDetails.date_end,
             level: courseDetails.level,
             desc: courseDetails.desc,
             tags: courseDetails.tags};
@@ -151,27 +161,43 @@ function addProvider(providerDetails, success, fail) {
 function updateProvider(provId, providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
-        var params  = {}
+        var params  = {};
         params.TableName = AST_PROVIDER_TABLE;
         params.Key = {'providerid':provId};
-        params.UpdateExpression = 'SET #name = :name, \
-                                   geohash = :geohash, \
-                                   location_name = :location_name, \
-                                   contact = :contact, \
-                                   sponsor = :sponsor, \
-                                   license_expiry = :license_expiry, \
-                                   license_agreement = :license_agreement, \
-                                   insurance_expiry = :insurance_expiry';
+
+        var updateKeys =['name',
+                         'geohash',
+                         'location_name',
+                         'contact',
+                         'mailing_address',
+                         'sponsor',
+                         'license_expiry',
+                         'license_agreement',
+                         'insurance_expiry',
+                         'owner_id',
+                         'is_active',
+                         'tags'];
+        params.ExpressionAttributeValues = {};
+
+        var pairs = []
+        _.each(updateKeys, function(key){
+          if(typeof providerDetails[key] !== 'undefined') {
+            var prefix = ''
+            if(key === 'name') prefix = '#';
+            pairs.push(prefix + key + ' = :' + key);
+
+            params.ExpressionAttributeValues[':'+key] = providerDetails[key];
+            
+            if(params.ExpressionAttributeValues[':'+key] === '') {
+              params.ExpressionAttributeValues[':'+key] = null;
+            }
+            
+
+          }
+        });
+        params.UpdateExpression = 'SET ' + pairs.join(', ');
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
-        params.ExpressionAttributeValues = {':name' : providerDetails.name,
-                                            ':geohash' : geohash.encode(providerDetails.pos.latitude, providerDetails.pos.longitude),
-                                            ':location_name' : providerDetails.location_name,
-                                            ':contact' : providerDetails.contact,
-                                            ':sponsor' : providerDetails.sponsor,
-                                            ':license_expiry' : providerDetails.license_expiry,
-                                            ':license_agreement' : providerDetails.license_agreement,
-                                            ':insurance_expiry' : providerDetails.insurance_expiry };
 
         docClient.
             updateItem(params, function(err, res) {
@@ -181,11 +207,62 @@ function updateProvider(provId, providerDetails, success, fail) {
                     success(res.items);
                 }
             });
-    }
-    else{
+    } else {
         fail('unable to update provider invalid input where provider = ' + JSON.stringify(providerDetails));
     }
 };
+
+function getProviderPromise(providerId) {
+  return Q.Promise(function(resolve, reject){
+    getProvider(providerId, resolve, reject);
+  });
+}
+function getCoursePromise(courseId) {
+  return Q.Promise(function(resolve, reject){
+    getCourse(courseId, resolve, reject);
+  });
+}
+
+function isProviderAdmin(providerId, userId) {
+  if(providerId && userId) {
+    var provAdmin = getProviderPromise(providerId)
+      .then(function(providerList){
+        return providerList.length > 0
+          ? (userId === providerList[0].owner_id)
+          : false;
+      });
+
+    return Q.all([provAdmin, role.isRole(userId, 'ADMIN'), role.isRole(userId, 'AST_PROVIDER')])
+      .spread(function(provAdmin, adminRole, provRole){
+        return adminRole || (provRole && provAdmin);
+      })
+      .catch(function(err) {
+        logger.error('isproviderAdmin', err);
+      });
+  } else {
+    return false;
+  }
+}
+
+function isCourseAdmin(courseId, userId) {
+  var isAdmin = getCoursePromise(courseId)
+    .then(function(course) {
+      if(course.length > 0) {
+        return course[0].providerid;
+      } else {
+        return false;
+      }
+    })
+    .then(_.partial(isProviderAdmin, _, userId))
+    .catch(function(err){
+      logger.error('isCourseAdmin::err', err);
+    });
+
+  return Q.all([role.isRole(userId, 'ADMIN'), role.isRole(userId, 'AST_PROVIDER'), isAdmin])
+    .spread(function(adminRole, provRole, courseAdmin){
+      return adminRole || (provRole && courseAdmin);
+    });
+}
 
 function getCourseDistanceList(success, fail, origin) {
     getCourseList(function(courseList){
@@ -198,6 +275,10 @@ function getCourseDistanceList(success, fail, origin) {
 };
 
 function getCourseTagList(success, fail) {
+
+    //TODO(wnh): Fix this
+    success(['SKI_SNOWBOARD', 'YOUTH', 'SLED', 'SNOWSHOE']);
+    return;
 
     getCourseList(function(courseList){
         var tagList = [];
@@ -235,7 +316,7 @@ function getCourseList(success, fail) {
 };
 
 function getCourse(courseId, success, fail) {
-    var params = { TableName: AST_PROVIDER_TABLE };
+    var params = { TableName: AST_COURSE_TABLE };
     params.KeyConditions = [docClient.Condition('courseid', 'EQ', courseId)];
 
     docClient.query(params, function(err, res) {
@@ -345,6 +426,8 @@ module.exports = {
     getProvider:getProvider,
     addProvider:addProvider,
     updateProvider:updateProvider,
+    isProviderAdmin:isProviderAdmin,
+    isCourseAdmin:isCourseAdmin,
     getCourseList:getCourseList,
     getCourse:getCourse,
     addCourse:addCourse,
