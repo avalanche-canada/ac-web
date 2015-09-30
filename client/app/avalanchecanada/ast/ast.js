@@ -10,13 +10,17 @@ angular.module('avalancheCanadaApp')
   $stateProvider
     .state('ac.astProviders', {
       url: '^/ast/providers',
-      templateUrl: 'app/avalanchecanada/ast/providers.html',
-      controller: 'AstProvidersCtrl'
+      //templateUrl: 'app/avalanchecanada/ast/providers.html',
+      //controller: 'AstProvidersCtrl'
+      template: 'Redirecting to provider list...',
+      controller: function($window){ $window.location.href = 'http://old.avalanche.ca/cac/training/ast/providers';}
     })
     .state('ac.astCourses', {
       url: '^/ast/courses',
-      templateUrl: 'app/avalanchecanada/ast/courses.html',
-      controller: 'AstCoursesCtrl'
+      //templateUrl: 'app/avalanchecanada/ast/courses.html',
+      //controller: 'AstCoursesCtrl'
+      template: 'Redirecting to course list...',
+      controller: function($window){ $window.location.href = 'http://old.avalanche.ca/cac/training/ast/courses';}
     });
 
 })
