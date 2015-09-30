@@ -2,25 +2,25 @@
     .page-inner
         .prismic-content
             #partner.col-xs-12
-                h1 Founding Partners
+                h1 Program Partners
             .col-xs-3(ng-repeat='sponsor in partner')
                 a.sponsor(href="{{sponsor.getText('sponsor.url')}}")
                     img.img-responsive(src="{{sponsor.getText('sponsor.image')}}")
 
             #founding.col-xs-12
-                h1 Founding Sponsors
+                h1 Premier Sponsors
             .col-xs-3(ng-repeat='sponsor in foundingSponsor')
                 a.sponsor(href="{{sponsor.getText('sponsor.url')}}")
                     img.img-responsive(src="{{sponsor.getText('sponsor.image')}}")
 
             #supplier.col-xs-12
-                h1 Founding Suppliers
+                h1 Supporters
             .col-xs-3(ng-repeat='sponsor in supplier')
                 a.sponsor(href="{{sponsor.getText('sponsor.url')}}")
                     img.img-responsive(src="{{sponsor.getText('sponsor.image')}}")
 
             #associate.col-xs-12
-                h1 Founding Associates
+                h1 Contributors
             .col-xs-3(ng-repeat='sponsor in associate')
                 a.sponsor(href="{{sponsor.getText('sponsor.url')}}")
                     img.img-responsive(src="{{sponsor.getText('sponsor.image')}}")
