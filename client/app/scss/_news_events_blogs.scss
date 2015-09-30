@@ -1141,9 +1141,15 @@ aside {
   }
 }
 
+.tutorial-gallery {
+  text-align: center;
+}
+.tutorial-img {
+  display: inline-block;
+}
 .tutorial-img img {
   max-width: 100%;
-  border: 1px solid rgb(225, 225, 225);
+  //border: 1px solid rgb(225, 225, 225);
   text-align: center;
 }
 .tutorial-next-link {
@@ -1190,17 +1196,63 @@ aside {
 
 .tutorial-img{
   margin: 1em;
+  border: 4px solid #CCD4EC;
+  max-width: 100%;
 }
 .tutorial-img__caption{
   padding: 5px;
-  background: rgba(173, 186, 224, 0.62);
+  background: #CCD4EC;
   text-align: left;
 }
-.tutorial-img__credit:before{
-  font-family: 'FontAwesome';
-  content: "\f030";
-  display: inline-block;
-  padding: 0 5px 0 10px;
+.tutorial-img__credit {
+  &:before{
+    font-family: 'FontAwesome';
+    content: "\f030";
+    display: inline-block;
+    padding: 0 5px 0 10px;
+  }
+}
+
+.callout-info,
+.callout-warning {
+  display:block;
+  padding: 1rem 2rem;
+  width: 95%;
+  margin: 0 auto;
+
+  font-style: italic;
+  font-size: 1.7rem;
+  line-height: 3rem;
+
+  &:before {
+   @extend .fa; 
+   font-size: 5em;
+   float:left;
+   padding-right: 2rem;
+  }
+  &:after {
+    content:'';
+    display: block;
+    clear:both;
+
+  }
+}
+.callout-warning {
+  background: $alert-danger-bg;
+  border: 1px solid $alert-danger-border;
+  color: $alert-danger-text;
+  &:before {
+   @extend .fa-exclamation-triangle;
+ }
+}
+
+.callout-info {
+  border: 1px solid $alert-info-border;
+  background: $alert-info-bg;
+  color: $alert-info-text;
+  &:before {
+   @extend .fa-info-circle; 
+  }
 }
 
 .tutorial-page-content p img {
@@ -1220,4 +1272,45 @@ aside {
   font-style: italic;
   margin-bottom: 2em;
   padding: 2px 12px;
+}
+
+
+.ates__question {
+  margin: 5rem 0;
+    & {
+      margin-top: 1rem;
+    }
+}
+
+.ates__response--incorrect {
+  @extend .alert;
+  background-color: $alert-danger-bg;
+  border-color: $alert-danger-border;
+  color: $alert-danger-text;
+  max-width: 550px;
+  width: 100%;
+}
+
+.ates__response--correct {
+  width: 100%;
+  max-width: 550px;
+  @extend .alert;
+  background-color: $alert-success-bg;
+  border-color: $alert-success-border;
+  color: $alert-success-text;
+}
+
+.ates__img { @extend .tutorial-img; }
+.ates__caption { @extend .tutorial-img__caption; }
+.ates__caption__credit { @extend .tutorial-img__credit; }
+
+.ates__answer {
+  display: inline-block;
+  width: 25%;
+  font-weight: 200;
+  input {
+    position: relative;
+    top: 3px;
+    margin-right: 5px
+  }
 }

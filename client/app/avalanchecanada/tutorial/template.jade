@@ -14,8 +14,7 @@ include _header.jade
       .tutorial-page-content(ng-bind-html="doc.text1")
 
       .tutorial-page-video-wrapper(ng-if='doc.videoSource')
-        .embed-responsive.embed-responsive-16by9
-            iframe.embed-responsive-item(src='{{doc.videoSource}}')
+        .embed-responsive.embed-responsive-16by9(ng-bind-html='doc.videoSource')
 
       .tutorial-page-content(ng-bind-html="doc.text2")
 

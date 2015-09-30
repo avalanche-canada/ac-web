@@ -1,53 +1,53 @@
-
 'use strict';
 
-//TODO(wnh): Encapulate this a bit better
-function makeTree(availableSlugs, allSlugs, titleMap) {
-
-  var blank = function(){
-    return {
-      title: null,
-      slug: '',
-      children: []
-    };
-  };
-
-  var mkSlug = function(parentSlug, key) {
-    if(parentSlug !== '') {
-      parentSlug += '/';
-    }
-    return parentSlug + key;
-  };
-
-  var getChild = function(key, parent) {
-    return _.find(parent.children, function(ch){
-      return ch.slug === mkSlug(parent.slug, key);
-    });
-  };
-
-  availableSlugs = _.filter(allSlugs, function(s) {
-    return _(availableSlugs).contains(s);
-  });
-  var paths = _.map(availableSlugs, function(p){ return p.split('/'); }),
-      root = blank();
-
-  _.each(paths, function(p){
-    var parent = root;
-    _.each(p, function(elem){
-      var child = getChild(elem, parent);
-      if(!child) {
-        child = blank();
-        child.slug = mkSlug(parent.slug, elem);
-        child.title = titleMap[child.slug];
-        parent.children.push(child);
-      }
-      parent = child;
-    });
-  });
-  return root.children;
-}
 
 angular.module('avalancheCanadaApp')
+.factory('makeTree', function(){
+  return function makeTree(availableSlugs, allSlugs, titleMap) {
+
+    var blank = function(){
+      return {
+        title: null,
+        slug: '',
+        children: []
+      };
+    };
+
+    var mkSlug = function(parentSlug, key) {
+      if(parentSlug !== '') {
+        parentSlug += '/';
+      }
+      return parentSlug + key;
+    };
+
+    var getChild = function(key, parent) {
+      return _.find(parent.children, function(ch){
+        return ch.slug === mkSlug(parent.slug, key);
+      });
+    };
+
+    availableSlugs = _.filter(allSlugs, function(s) {
+      return _(availableSlugs).contains(s);
+    });
+    var paths = _.map(availableSlugs, function(p){ return p.split('/'); }),
+        root = blank();
+
+    _.each(paths, function(p){
+      var parent = root;
+      _.each(p, function(elem){
+        var child = getChild(elem, parent);
+        if(!child) {
+          child = blank();
+          child.slug = mkSlug(parent.slug, elem);
+          child.title = titleMap[child.slug];
+          parent.children.push(child);
+        }
+        parent = child;
+      });
+    });
+    return root.children;
+  };
+})
 .config(function($stateProvider, $urlMatcherFactoryProvider) {
 
   function valToString(val) {
@@ -73,62 +73,69 @@ angular.module('avalancheCanadaApp')
 
 
 })
-.factory('TutorialContents', function ($q,Prismic,$cacheFactory,tutorialContentsFlat) {
-    var menuCache = $cacheFactory('menu-cache'),
-        idToSlug  = {},
-        menuItems = menuCache.get('menu-items');
+.factory('TutorialMenuCache', function ($cacheFactory) {
+  return $cacheFactory('menu-cache');
+})
+.factory('TutorialPageList', function ($q, Prismic, TutorialMenuCache) {
+    var menuItems = TutorialMenuCache.get('menu-items');
+    var tree;
 
     if(menuItems) {
       return $q.resolve(menuItems);
-    } else {
-      var tree = Prismic.ctx().then(function(ctx){
-        return $q(function(resolve, reject){
-          ctx.api.form('everything')
-            .ref(ctx.ref)
-            .query(['at', 'document.type', 'tutorial-page'])
-            .pageSize(100)
-            .submit(function(err, response){
-              if(err) {
-                reject(err);
-              } else {
-                resolve(response);
-              }
-            });
-        });
-      }).then(function(response){
+    }
+    tree = Prismic.ctx().then(function(ctx){
+      return $q(function(resolve, reject){
 
-            var slugs = [],
-                slug2title = {};
+        ctx.api.form('everything')
+          .ref(ctx.ref)
+          .query(['at', 'document.type', 'tutorial-page'])
+          .pageSize(100)
+          .submit(function(err, response){
+            if(err) {
+              reject(err);
+            } else {
+              resolve(response);
+            }
+          });
+        
+      });
+    });
+    TutorialMenuCache.put('menu-items', tree);
+    return tree;
+})
+.factory('TutorialContents', function ($q,TutorialMenuCache,Prismic,TutorialPageList,tutorialContentsFlat, makeTree) {
+    var menuTree = TutorialMenuCache.get('menu-tree');
+    if(menuTree) {
+      return menuTree;
+    }
+    var tree  = TutorialPageList.then(function(response){
 
-            _.each(response.results, function(res){
-              var slug  = res.fragments['tutorial-page.slug'].value,
-                  title = res.fragments['tutorial-page.title'].value;
+          var slugs = [],
+              slug2title = {};
 
-              idToSlug[res.id] = slug;
+          _.map(response.results, function(res){
+            var slug  = res.fragments['tutorial-page.slug'].value,
+                title = res.fragments['tutorial-page.title'].value;
 
-              slugs.push(slug);
-              slug2title[slug] = title;
-            });
+            slugs.push(slug);
+            slug2title[slug] = title;
+          });
 
-            var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
+          var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
 
 
-            menuCache.put('menu-items', menuTree);
-            return {
-              menuTree: menuTree,
-              idToSlug:  idToSlug
-            };
-       });
-       return tree;
-     }
+         return menuTree;
+     });
+     TutorialMenuCache.put('menu-tree', tree);
+     return tree;
 })
 .controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
     $scope.isActive = function() { return false; };
 
     TutorialContents
       .then(function(contents){
-        $scope.menuItems = contents.menuTree;
-        $scope.next = contents.menuTree[0];
+        $scope.menuItems = contents;
+        $scope.next = contents[0];
       });
 
     Prismic.bookmark('tutorial-home')
@@ -137,7 +144,12 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
+.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList, $anchorScroll) {
+
+    // Scroll to top when loaded to fix issue with the long menu
+    $anchorScroll();
+
+
     var slug = $stateParams.slug || 'empty';
 
     $scope.isActive = function(linkSlug) {
@@ -154,9 +166,9 @@ angular.module('avalancheCanadaApp')
 
     TutorialContents
       .then(function(contents){
-        $scope.menuItems = contents.menuTree;
+        $scope.menuItems = contents;
         var me = [];
-        menuWalk({children:contents.menuTree}, function(n){me.push(n);});
+        menuWalk({children:contents}, function(n){me.push(n);});
         me = me.slice(1);
 
         for(var i=0; i < me.length; i++) {
@@ -203,36 +215,51 @@ angular.module('avalancheCanadaApp')
                      });
                    }
 
+                  TutorialPageList.then(function(results){
+                    var id_to_slug = {};
+                    _.each(results.results, function(d){
+                      id_to_slug[d.id] = d.fragments['tutorial-page.slug'].value;
+                    });
+                    return id_to_slug;
+                  }).then(function(idToSlug){
 
-                   TutorialContents.then(function(contents){
-
-                     var maybeHtml = function(doc, key) {
-                       var txt = doc.getStructuredText(key);
-                       if(txt){
-                         return txt.asHtml({
-                           linkResolver: function(ctx, doc, isBroken){
-                             if(isBroken) {
-                               return '#broken_link';
-                             }
-                             return '/tutorial/' + contents.idToSlug[doc.id];
+                   var maybeHtml = function(doc, key) {
+                     var txt = doc.getStructuredText(key);
+                     if(txt){
+                       return txt.asHtml({
+                         linkResolver: function linkResolver(ctx,doc,isBroken){
+                           if(isBroken) {
+                             return '#broken-link';
                            }
-                         });
-                       } else {
-                         return undefined;
-                       }
-                     };
-                     $scope.doc = {
-                       title:        doc.getText('tutorial-page.title'),
-                       text1:        maybeHtml(doc,'tutorial-page.text1'),
-                       videoSource:  doc.getText('tutorial-page.video-source'),
-                       text2:        maybeHtml(doc, 'tutorial-page.text2'),
-                       gallery:      gallery,
-                       text3:        maybeHtml(doc,'tutorial-page.text3'),
-                       embedded:     doc.getText('tutorial-page.embedded_content'),
-                       text4:        maybeHtml(doc, 'tutorial-page.text4')
+                           return '/tutorial/' + idToSlug[doc.id];
+                         }
+                       });
+                     } else {
+                       return undefined;
+                     }
+                   };
 
-                     };
-                   });
+                   $scope.doc = {
+                     title:        doc.getText('tutorial-page.title'),
+                     text1:        maybeHtml(doc,'tutorial-page.text1'),
+                     text2:        maybeHtml(doc, 'tutorial-page.text2'),
+                     gallery:      gallery,
+                     text3:        maybeHtml(doc,'tutorial-page.text3'),
+                     embedded:     doc.getText('tutorial-page.embedded_content'),
+                     text4:        maybeHtml(doc, 'tutorial-page.text4')
+                   };
+
+                   var videoSource = doc.getText('tutorial-page.video-source');
+                   if(videoSource) {
+                    $http
+                      .jsonp('https://vimeo.com/api/oembed.json', {params:{url: videoSource, callback:'JSON_CALLBACK'}})
+                      .then(function(result){
+                        console.log(result);
+                        $scope.doc.videoSource = result.data.html;
+                      });
+                   }
+
+                  });
                }
            });
     });

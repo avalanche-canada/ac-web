@@ -1,0 +1,34 @@
+
+include _header.jade
+#tutorial-container
+
+  +header('ATES Quiz')
+
+  .tutorial-wrapper
+    nav.tutorial-nav
+      include _menu.html
+      
+    .tutorial-content
+      .ates(ng-repeat="page in atesContent")
+        h2 {{page.title}}
+        .ates__desc(ng-bind-html="page.desc")
+        .ates__question(ng-repeat="img in page.images")
+          .ates__img
+            img(ng-src="{{img.url}}")
+            .ates__caption 
+              | {{img.caption}} 
+              span.ates__caption__credit {{img.photo_credit}}
+
+          div
+            label.ates__answer
+              input(ng-model='img.current_answer', type='radio', value="SIMPLE") 
+              | Simple
+            label.ates__answer
+              input(ng-model='img.current_answer', type='radio', value="CHALLENGING") 
+              | Challenging
+            label.ates__answer
+              input(ng-model='img.current_answer', type='radio', value="COMPLEX") 
+              | Complex
+
+          .ates__response--correct(ng-if="isCorrect(img)") YOU'RE RIGHT
+          .ates__response--incorrect(ng-if="isNotCorrect(img)") YOU'RE WRONG
