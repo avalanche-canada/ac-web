@@ -103,7 +103,7 @@ angular.module('avalancheCanadaApp')
     TutorialMenuCache.put('menu-items', tree);
     return tree;
 })
-.factory('TutorialContents', function ($q,TutorialMenuCache,Prismic,TutorialPageList,tutorialContentsFlat, makeTree) {
+.factory('TutorialContents', function ($q, TutorialMenuCache, Prismic, TutorialPageList, tutorialContentsFlat, makeTree) {
     var menuTree = TutorialMenuCache.get('menu-tree');
     if(menuTree) {
       return menuTree;
@@ -134,7 +134,7 @@ angular.module('avalancheCanadaApp')
 
     TutorialContents
       .then(function(contents){
-        $scope.menuItems = contents;
+        $scope.menuItems = _.map(contents, function(m) { return _.pick(m, 'title', 'slug'); });
         $scope.next = contents[0];
       });
 
@@ -177,7 +177,39 @@ angular.module('avalancheCanadaApp')
             break;
           }
         }
-      });
+
+        return contents;
+      }).then(function(content){
+        content = _.cloneDeep(content);
+        var containsSlug = function(slug, node) {
+          if(node.slug === slug) { return true; }
+
+          var childIsTrue = false;
+
+          _.each(node.children, function(c){
+            if(containsSlug(slug, c)) {
+              childIsTrue = true;
+            }
+          });
+
+          return childIsTrue;
+        };
+
+
+        var prune = function(nodes) {
+         _.each(nodes, function(n){ 
+            if(!containsSlug(slug,n)) {
+              n.children = [];
+            } else {
+              prune(n.children);
+            }
+          });
+        };
+       
+        prune(content);
+        $scope.menuItems = content;
+
+      }).catch(console.log.bind(console));
 
 
     Prismic.ctx().then(function(ctx){
