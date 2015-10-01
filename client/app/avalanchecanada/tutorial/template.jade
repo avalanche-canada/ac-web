@@ -3,11 +3,9 @@ include _header.jade
 #tutorial-container
   +header('Online Avalanche Tutorial')
 
-
-
   .tutoral-wrapper
     nav.tutorial-nav
-      include _menu.html
+      tutorial-menu(current-slug="currentSlug")
       
     div.tutorial-content
       h2.tutorial-page-header {{doc.title}}

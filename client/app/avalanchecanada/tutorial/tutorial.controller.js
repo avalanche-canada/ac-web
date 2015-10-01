@@ -22,23 +22,60 @@ angular.module('avalancheCanadaApp')
     .state('ac.tutorialHome', {
       url: '^/tutorial',
       templateUrl: 'app/avalanchecanada/tutorial/home.html',
-      controller: 'TutorialHomeCtl'
+      controller: 'TutorialHomeCtl',
     });
 
 
 })
-.controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune) {
-    $scope.isActive = function() { return false; };
+.directive('tutorialMenu', function() {
+  return {
+    restrict: 'E',
+    scope: {
+      currentSlug: '='
+    },
+    templateUrl: 'app/avalanchecanada/tutorial/_menu.html',
+    controller: function($scope, TutorialContents, getTutorialContentsPrune) {
 
-    TutorialContents
-      .then(function(contents){
-        $scope.next = contents[0];
-      });
+      $scope.isActive = function(linkSlug) {
+        return (linkSlug === $scope.currentSlug) ? 'active' : '';
+      };
 
-    getTutorialContentsPrune('/')
-      .then(function(contents){
-        $scope.menuItems = contents;
-      });
+      var menuWalk = function(node, fn) {
+        fn(node);
+        _.each(node.children, function(n){
+          menuWalk(n, fn);
+        });
+      };
+
+      TutorialContents
+        .then(function(contents){
+          if($scope.currentSlug === '/') {
+            $scope.next = contents[0];
+          }
+
+          var slug = $scope.currentSlug;
+          var me = [];
+          menuWalk({children:contents}, function(n){me.push(n);});
+          me = me.slice(1);
+
+          for(var i=0; i < me.length; i++) {
+            if(me[i].slug === slug && i+1 < me.length) {
+              $scope.next = me[i + 1];
+              break;
+            }
+          }
+
+          return contents;
+        });
+
+        getTutorialContentsPrune($scope.currentSlug)
+          .then(function(contents){
+            $scope.menuItems = contents;
+          });
+    }
+  };
+})
+.controller('TutorialHomeCtl', function ($scope, Prismic) {
 
     Prismic.bookmark('tutorial-home')
       .then(function(result){
@@ -52,40 +89,10 @@ angular.module('avalancheCanadaApp')
     $anchorScroll();
 
 
-    var slug = $stateParams.slug || 'empty';
+    var slug = $stateParams.slug || 'EMPTY';
 
-    $scope.isActive = function(linkSlug) {
-      return (linkSlug === slug) ? 'active' : '';
-    };
+    $scope.currentSlug = slug; 
 
-
-    var menuWalk = function(node, fn) {
-      fn(node);
-      _.each(node.children, function(n){
-        menuWalk(n, fn);
-      });
-    };
-
-    TutorialContents
-      .then(function(contents){
-        var me = [];
-        menuWalk({children:contents}, function(n){me.push(n);});
-        me = me.slice(1);
-
-        for(var i=0; i < me.length; i++) {
-          if(me[i].slug === slug && i+1 < me.length) {
-            $scope.next = me[i + 1];
-            break;
-          }
-        }
-
-        return contents;
-      });
-
-    getTutorialContentsPrune(slug)
-      .then(function(contents){
-        $scope.menuItems = contents;
-      });
 
     Prismic.ctx().then(function(ctx){
 
@@ -161,7 +168,6 @@ angular.module('avalancheCanadaApp')
                     $http
                       .jsonp('https://vimeo.com/api/oembed.json', {params:{url: videoSource, callback:'JSON_CALLBACK'}})
                       .then(function(result){
-                        console.log(result);
                         $scope.doc.videoSource = result.data.html;
                       });
                    }

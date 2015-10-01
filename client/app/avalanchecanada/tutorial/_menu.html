@@ -7,6 +7,6 @@
 </script>
 
 <ul>
-  <li><a ui-sref="ac.tutorialHome" class="{{isActive(menu.slug)}}">Tutorial Home</a></li>
+  <li><a ui-sref="ac.tutorialHome" class="{{isActive('/')}}">Tutorial Home</a></li>
   <li ng-repeat="menu in menuItems" ng-include="'menuTree'"></li>
 </ul>

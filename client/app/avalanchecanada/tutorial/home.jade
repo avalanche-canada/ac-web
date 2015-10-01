@@ -7,7 +7,7 @@ include _header.jade
 
   .tutoral-wrapper
     nav.tutorial-nav
-      include _menu.html
+      tutorial-menu(current-slug=" '/' ")
       
     div.tutorial-content
       h2.tutorial-page-header(ng-bind-html="title")
