@@ -129,13 +129,56 @@ angular.module('avalancheCanadaApp')
      TutorialMenuCache.put('menu-tree', tree);
      return tree;
 })
-.controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents) {
+.factory('getTutorialContentsPrune', function (TutorialContents) {
+  
+  return function(slug) {
+    var prunedTree =
+    TutorialContents
+    .then(function(content){
+      content = _.cloneDeep(content);
+      var containsSlug = function(slug, node) {
+        if(node.slug === slug) { return true; }
+
+        var childIsTrue = false;
+
+        _.each(node.children, function(c){
+          if(containsSlug(slug, c)) {
+            childIsTrue = true;
+          }
+        });
+
+        return childIsTrue;
+      };
+
+
+      var prune = function(nodes) {
+       _.each(nodes, function(n){ 
+          if(!containsSlug(slug,n)) {
+            n.hasChildren = n.children.length > 0;
+            n.children = [];
+          } else {
+            prune(n.children);
+          }
+        });
+      };
+     
+      prune(content);
+      return content;
+    });
+    return prunedTree;
+  };
+})
+.controller('TutorialHomeCtl', function ($q,$scope, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune) {
     $scope.isActive = function() { return false; };
 
     TutorialContents
       .then(function(contents){
-        $scope.menuItems = _.map(contents, function(m) { return _.pick(m, 'title', 'slug'); });
         $scope.next = contents[0];
+      });
+
+    getTutorialContentsPrune('/')
+      .then(function(contents){
+        $scope.menuItems = contents;
       });
 
     Prismic.bookmark('tutorial-home')
@@ -144,7 +187,7 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, TutorialPageList, $anchorScroll) {
+.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll) {
 
     // Scroll to top when loaded to fix issue with the long menu
     $anchorScroll();
@@ -166,7 +209,6 @@ angular.module('avalancheCanadaApp')
 
     TutorialContents
       .then(function(contents){
-        $scope.menuItems = contents;
         var me = [];
         menuWalk({children:contents}, function(n){me.push(n);});
         me = me.slice(1);
@@ -179,39 +221,12 @@ angular.module('avalancheCanadaApp')
         }
 
         return contents;
-      }).then(function(content){
-        content = _.cloneDeep(content);
-        var containsSlug = function(slug, node) {
-          if(node.slug === slug) { return true; }
+      });
 
-          var childIsTrue = false;
-
-          _.each(node.children, function(c){
-            if(containsSlug(slug, c)) {
-              childIsTrue = true;
-            }
-          });
-
-          return childIsTrue;
-        };
-
-
-        var prune = function(nodes) {
-         _.each(nodes, function(n){ 
-            if(!containsSlug(slug,n)) {
-              n.hasChildren = n.children.length > 0;
-              n.children = [];
-            } else {
-              prune(n.children);
-            }
-          });
-        };
-       
-        prune(content);
-        $scope.menuItems = content;
-
-      }).catch(console.log.bind(console));
-
+    getTutorialContentsPrune(slug)
+      .then(function(contents){
+        $scope.menuItems = contents;
+      });
 
     Prismic.ctx().then(function(ctx){
 
