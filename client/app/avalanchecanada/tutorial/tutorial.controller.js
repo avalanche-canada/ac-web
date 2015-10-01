@@ -199,6 +199,7 @@ angular.module('avalancheCanadaApp')
         var prune = function(nodes) {
          _.each(nodes, function(n){ 
             if(!containsSlug(slug,n)) {
+              n.hasChildren = n.children.length > 0;
               n.children = [];
             } else {
               prune(n.children);
