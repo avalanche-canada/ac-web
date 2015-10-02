@@ -1,14 +1,6 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-.config(function($stateProvider) {
-  $stateProvider
-    .state('ac.atesQuiz', {
-      url: '^/tutorial/ates-quiz',
-      templateUrl: 'app/avalanchecanada/tutorial/ates.html',
-      controller: 'AtesCtrl'
-    });
-})
 .controller('AtesCtrl', function($scope, $http){
 
 

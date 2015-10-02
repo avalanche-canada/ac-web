@@ -96,6 +96,12 @@ angular.module('avalancheCanadaApp')
             slug2title[slug] = title;
           });
 
+          //CUSTOM PAGES
+
+          slugs.push('avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise');
+          slug2title['avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'] = 
+            'ATES Exercises';
+
           var menuTree = makeTree(slugs, tutorialContentsFlat, slug2title);
 
 

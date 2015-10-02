@@ -14,6 +14,11 @@ angular.module('avalancheCanadaApp')
       is: function () { return true; }
   });
   $stateProvider
+    .state('ac.atesQuiz', {
+      url: '^/tutorial/avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise',
+      templateUrl: 'app/avalanchecanada/tutorial/ates.html',
+      controller: 'AtesCtrl'
+    })
     .state('ac.tutorial', {
       url: '^/tutorial/{slug:nonURIEncoded}',
       templateUrl: 'app/avalanchecanada/tutorial/template.html',

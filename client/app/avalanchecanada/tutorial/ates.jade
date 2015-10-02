@@ -6,7 +6,7 @@ include _header.jade
 
   .tutorial-wrapper
     nav.tutorial-nav
-      include _menu.html
+      tutorial-menu(current-slug="'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'" )
       
     .tutorial-content
       .ates(ng-repeat="page in atesContent")
