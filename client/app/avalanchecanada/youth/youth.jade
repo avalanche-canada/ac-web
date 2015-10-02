@@ -1,0 +1,158 @@
+
+.youth__header-image
+
+.youth__content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12.youth__header-text
+            #header-inner
+                h1
+                    | Go Farther &mdash; Get Avalanche Trained
+                #sponsor-desktop.hidden-xs
+                    p Brought to you by
+                    a(target='_blank', href='http://www.rbc.com/community-sustainability/community/index.html?utm_campaign=April%203,%202012%20-%20FR&utm_medium=email&utm_source=CampaignCog')
+                        img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955455/logos/Logos%20png/rbc.png')
+                .blue-border
+        .col-xs-12
+            #sponsor-ad-container(ng-hide='true')
+                p#sponsor-text.hidden-xs Thanks To Our Title Sponsor
+                a#sponsor-link(title='Smith Optics', target='_blank', href='http://www.smithoptics.com/')
+                    img.img-responsive(alt='Smith Optics', src='assets/images/sponsor-mobile-smith-logo.png')
+        #news-blog-event-landing-content
+            section#news-blog-event-landing-body
+                .anchor#overview(ng-bind-html='overview')
+
+                .youth__social-media
+                  a(href="https://www.facebook.com/avalanchecanada").youth__social-media__icon
+                    span(class="fa fa-facebook-square")
+                    p Like us on Facebook
+                  a(href="https://instagram.com/avalanchecanada/").youth__social-media__icon 
+                    span(class="fa fa-instagram")
+                    p Follow Us on instagram
+                  a(href="https://twitter.com/avalancheca").youth__social-media__icon 
+                    span(class="fa fa-twitter-square")
+                    p Follow Us on Twitter
+                  a(href="https://vimeo.com/avalanchecanada").youth__social-media__icon 
+                    span(class="fa fa-vimeo-square")
+                    p Follow Us on Vimeo
+
+                .row
+                  .youth__programs--photo
+                    img(src="assets/images/youth/classroom-big.jpg")
+                  .youth__programs.anchor#programs(ng-bind-html='programs')
+
+                h1 Curriculum &amp; Resources
+                p 
+                  | Avalanche Canada is a hub of ideas and lesson plans for teachers, youth leader and parents. The table below has hand-outs, power-point presentations, activities, the Youth Educators Newsletter and much more. You can search by grade and catagories to find what you need. 
+                p Contact our <a href="mailto:swerner@avalanche.ca">Youth Education Coordinator</a>.
+                .anchor#resourceList
+                    .dropdown-filters-inner.dropdown#filter-grade-from-dropdown
+                        button#filter-grades-from.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | From <span ng-if="selected_grade['from']">: {{selected_grade['from']}}</span>
+                            i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades-from')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('from',null)")
+                                | All Grades
+                            li(role='presentation' ng-repeat="grade in filterGrades")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('from',grade)")
+                                {{grade}}
+
+                    .dropdown-filters-inner.dropdown#filter-grade-to-dropdown
+                        button#filter-grades-to.dropdown-toggle(type='button', data-toggle='dropdown')
+                            | To<span ng-if="selected_grade['to']">: {{selected_grade['to']}}</span>
+                            i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-grades-to')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('to',null)")
+                                | All Grades
+                            li(role='presentation' ng-repeat="grade in filterGrades")
+                              a(role='menuitem', tabindex='-1', ng-click="selectGrade('to',grade)")
+                                {{grade}}
+
+                    .dropdown-filters-inner.dropdown#filter-category-dropdown
+                        button#filter-category.dropdown-toggle(type='button', data-toggle='dropdown')
+                          | Category<span ng-if="selected_category">:</span> {{selected_category}}
+                          i.fa.fa-chevron-down
+                        ul.dropdown-menu(role='menu', aria-labelledby='filter-category')
+                            li
+                              a(role='menuitem', tabindex='-1', ng-click="selectCategory(null)")
+                                | All Categories
+                            li(role='presentation' ng-repeat="category in resourceCategories")
+                              a(role='menuitem', tabindex='-1', ng-click="selectCategory(category)")
+                                {{category}}
+                    .table-responsive
+                        table#resource-table.table(datatable="ng")
+                            thead
+                              tr
+                                th Description
+                                th Category
+                                th Grade From
+                                th Grade To
+                                th Link
+                            tbody
+                              tr(ng-repeat="resource in resourceList")
+                                td {{resource.description}}
+                                td {{resource.category}}
+                                td {{resource.grade_from}}
+                                td {{resource.grade_to}}
+                                td
+                                 a(target='_blank' href='{{resource.url}}') {{resource.label}}
+
+                .row
+                  h3 Photos
+                  p You can find educcational and avalanche photos in the the gallery below. Feel free to use these in your presentations. You can scroll through the gallery or search using the tag education or avalanche. 
+
+                tabset
+                  tab(heading="Education Photos")
+                    ac-gallery(tag="Education", rows=2, columns=4, width=200, height=200)
+                  tab(heading="Avalanche Photos")
+                    ac-gallery(tag="Avalanche", rows=2, columns=4, width=200, height=200)
+
+                .row
+                  h2 Avalanche Canada Programs
+                  .youth__program
+                    .youth__program__wrap
+                      .img-wrap
+                        img(src="assets/images/youth/tutorial-big.jpg")
+                      .text
+                        strong Online Avalanche Tutorial
+                        p.
+                          Looking for an introduction to backcountry safety? This is a great place to start. Our <a href="http://avalanche.ca/tutorial">online avalanche tutorial</a> takes you through the basics of avalanche formation, recognizing avalanche terrain, and avalanche rescue response. Also available in <a href="http://old.avalanche.ca/fr/cac/training/online-course">French</a>.
+
+                  .youth__program
+                    .youth__program__wrap
+                      .img-wrap
+                        img(src="assets/images/youth/pit-large.jpg")
+                      .text
+                        strong Avalanche Canada Training Courses
+                        p.
+                          Avalanche Canada  has come up with guidelines for teaching Avalanche Skills Training (AST) courses to youth. Avalanche Skills Training (AST) 1 is a two-day course with one full day in the field and suggests 16 as a minimum age for this course but individual providers may make an exception. Click <a href="http://old.avalanche.ca/cac/training/ast/courses">here</a> to find a course near you, or click <a href="http://old.avalanche.ca/cac/training/ast/providers">here</a> to find an instructor near you. For additional info please contact programservices@avalanche.ca or contact Nancy Geismar at 250-837-2141Avalanche Skills Training (AST) 1 is a two-day course with one full day in the field. <br>
+                .row
+                  p.col-xs-12.
+                    <strong>External Programs</strong><br>There are many organizations with excellent material and curriculum that deliver avalanche safety messages to youth audiences. If you do not find a program in your area, please email our Youth Education Coordinator and we may be able to link you to a professional in your community. Avalanche Canada aims to increase the profile and reach of existing programs. Do you deliver a winter safety program? Email us with your program details and contact information, and we’ll add you to our list.
+
+                  p.col-xs-6.
+                    <a href="https://www.adventuresmart.ca/kids/ssep.htm">AdventureSmart’s Snow Safety &amp; Education Program</a><br>Canada-wide, Grades 4 -6<br>
+                    <a href="http://www.skiwhitewater.com/aabbs_youth_avy_skills_training.php">Avalanche Awareness Beyond the Boundaries Society</a><br>Nelson, BC and area, ages 12 and up<br>
+                    <a href="http://www.bluelakecentre.com/camppages/school-programs/">Blue Lake Centre Winter Blast</a><br>Kootenay-Columbia region, ages 15 – 18 <br>
+                    <a href="http://www.companyofadventurers.com/">Company of Adventurers</a><br>Calgary and surrounding area, Grades 6 – 12<br>
+                    <a href="http://sd48howesound.files.wordpress.com/2013/02/hss-ol-application-2013_14.pdf">Howe Sound Secondary School Outdoor Leadership Academy</a><br>Squamish, BC, Grades 11 – 12<br>
+
+                  p.col-xs-6.
+                    <a href="http://www.albertaparks.ca/kananaskis-country/education/environmental-education-programs-resources/field-programs-for-students.aspx">Kananaskis Country Winter Safety </a><br>Calgary and Bow Valley region, Grades K - 12<br>
+                    <a href="http://www.skimarmot.com/plan-your-trip/groups/marmot-learning-centre">Marmot Learning Centre</a><br>Marmot Basin, AB, Grades K – 12<br>
+                    <a href="http://www.thepalisadescentre.ca/index.php/programs">Palisades Stewardship Education Centre</a><br>Jasper Park, AB, Grades 10 – 12<br>
+                    <a href="http://www.mwskipatrol.com/page/training/vancouver-island-junior-ski-patroller-program">Vancouver Island School Ski Patroller Program</a><br>Vancouver Island, ages 16 – 19 <br>
+                    <a href="http://www.youthsafeoutdoors.ca/">Youth Safe Outdoors</a><br>BC, AB (province wide), Grades K – 12<br>
+
+
+                .anchor#resources(ng-bind-html='resources')
+
+
+                .anchor#curriculum(ng-bind-html='curriculum')
+    .push
+div.footer(ng-include='"components/footer/footer.html"')

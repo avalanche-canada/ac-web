@@ -12,3 +12,4 @@ aws.json
 .env
 dump.rdb
 npm-debug.log
+*.db

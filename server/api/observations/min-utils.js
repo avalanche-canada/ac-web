@@ -7,6 +7,7 @@ var geohash = require('ngeohash');
 var moment = require('moment');
 var im = require('imagemagick-stream');
 var changeCase = require('change-case');
+var logger = require('winston');
 
 var AWS = require('aws-sdk');
 var DOC = require("dynamodb-doc");
@@ -102,7 +103,7 @@ exports.saveSubmission = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        console.log('Saving field: %s for MIN submission with value: %s', name, value);
+        logger.log('info','Saving field: %s for MIN submission with value: %s', name, value);
         try {
             switch(name){
                 case "latlng":
@@ -132,7 +133,7 @@ exports.saveSubmission = function (user, form, callback) {
 
         var mimeType = part.headers['content-type'];
 
-        console.log('upload mime type is %s', mimeType);
+        logger.log('info','upload mime type is %s', mimeType);
 
         if(validMimeTypes.indexOf(mimeType) !== -1) {
             key += '.' + mimeType.split('/')[1];
@@ -175,10 +176,10 @@ exports.saveSubmission = function (user, form, callback) {
                 Item: item,
             }, function (err, data) {
                 if (err) {
-                    console.log(JSON.stringify(err));
+                    logger.log('info', JSON.stringify(err));
                     callback({error: 'error saving you submission: saving'});
                 } else {
-                    console.log('successfully saved item');
+                    logger.log('info','successfully saved item');
                     var sub =  itemToSubmission(item);
                     callback(null, sub);
                 }
@@ -186,7 +187,7 @@ exports.saveSubmission = function (user, form, callback) {
         } else {
             callback({error: 'error saving you submission: invalid'});
         }
-        
+
     });
 };
 
@@ -210,9 +211,9 @@ exports.getSubmissions = function (filters, callback) {
     }
 
     console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
-    
+
     params.KeyConditions = [
-        docClient.Condition("acl", "EQ", "public"), 
+        docClient.Condition("acl", "EQ", "public"),
         docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
     ];
 
@@ -263,9 +264,9 @@ exports.getObservations = function (filters, callback) {
     }
 
     console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
-    
+
     params.KeyConditions = [
-        docClient.Condition("acl", "EQ", "public"), 
+        docClient.Condition("acl", "EQ", "public"),
         docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
     ];
 

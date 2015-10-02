@@ -1,0 +1,8 @@
+#!/bin/sh
+
+grunt jshint
+rc=$?
+if [[ $rc != 0 ]]; then 
+  echo "Aborting commit -- Lint errors"
+  exit $rc; 
+fi

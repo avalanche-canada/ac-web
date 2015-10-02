@@ -1,0 +1,18 @@
+
+include _header.jade
+
+#tutorial-container
+  +header('Online Avalanche Tutorial')
+
+
+  .tutoral-wrapper
+    nav.tutorial-nav
+      tutorial-menu(current-slug=" '/' ")
+      
+    div.tutorial-content
+      h2.tutorial-page-header(ng-bind-html="title")
+      .tutorial-page-content(ng-bind-html="body")
+
+
+  .tutorial-next-link
+    a(ui-sref="ac.tutorial({slug: next.slug})") {{next.title}}

@@ -18,7 +18,8 @@ angular.module('avalancheCanadaApp', [
         'ngToast',
         'angular-storage',
         'auth0',
-        'angular-jwt'
+        'angular-jwt',
+        'datatables'
     ])
 
     // main module configuration
@@ -38,7 +39,7 @@ angular.module('avalancheCanadaApp', [
             .state('ac', {
                 abstract: true,
                 url: '/',
-                templateUrl: 'app/template.html',
+                templateUrl: 'app/avalanchecanada/template.html',
                 data: {
                     ogTitle: 'Avalanche Canada',
                     ogImage: 'http://www.avalanche.ca/assets/avalanche_canada.png',
@@ -126,7 +127,7 @@ angular.module('avalancheCanadaApp', [
               store.set('token', idToken);
             });
 
-            $location.url('/submit');
+            //$location.url('/submit');
             // if we use the state service to go to the ac.submit state
             // it doesn't remove the #access_token=... part of the url that comes back from auth0
             /*var loginRedirectUrl = store.get('loginRedirectUrl');
@@ -172,7 +173,7 @@ angular.module('avalancheCanadaApp', [
         };
     })
 
-    .run(function ($rootScope, auth, store, jwtHelper, $location, ENV, $state) {
+    .run(function ($location, $log, $rootScope, $state, ENV, auth, jwtHelper, store) {
         //! make env (environemnt constants) available globaly
         $rootScope.env = ENV;
 

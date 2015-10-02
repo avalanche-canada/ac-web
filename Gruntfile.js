@@ -124,7 +124,8 @@ module.exports = function (grunt) {
       jade: {
         files: [
           '<%= yeoman.client %>/{app,components}/*',
-          '<%= yeoman.client %>/{app,components}/**/*.jade'],
+          '<%= yeoman.client %>/{app,components}/**/*.jade',
+          '<%= yeoman.client %>/{app,components}/**/**/*.jade'],
         tasks: ['jade']
       },
       gruntfile: {
@@ -368,12 +369,12 @@ module.exports = function (grunt) {
       },
       main: {
         cwd: '<%= yeoman.client %>',
-        src: ['{app,components}/**/*.html'],
+        src: ['{app,components}/**/*.html','{app}/**/**/*.html' ],
         dest: '.tmp/templates.js'
       },
       tmp: {
         cwd: '.tmp',
-        src: ['{app,components}/**/*.html'],
+        src: ['{app,components}/**/*.html','{app}/**/**/*.html'],
         dest: '.tmp/tmp-templates.js'
       }
     },
@@ -427,7 +428,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.client %>',
         dest: '.tmp/',
-        src: ['{app,components}/**/*.css']
+        src: ['{app,components}/**/*.css','{app}/**/*.css']
       }
     },
 
@@ -525,7 +526,8 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.client %>',
           src: [
-            '{app,components}/**/*.jade'
+            '{app,components}/**/*.jade',
+            '{app,components}/**/**/*.jade'
           ],
           dest: '.tmp',
           ext: '.html'
@@ -569,6 +571,7 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.client %>/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+              '{.tmp,<%= yeoman.client %>}/{app}/**/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']

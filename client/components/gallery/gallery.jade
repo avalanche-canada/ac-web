@@ -1,0 +1,12 @@
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                  | Photos: {{tag}}
+
+    ac-gallery(tag="{{tag}}", rows=4, columns=4, width=200, height=200)

@@ -1,0 +1,34 @@
+include _header.jade
+
+#tutorial-container
+  +header('Online Avalanche Tutorial')
+
+  .tutoral-wrapper
+    nav.tutorial-nav
+      tutorial-menu(current-slug="currentSlug")
+      
+    div.tutorial-content
+      h2.tutorial-page-header {{doc.title}}
+      .tutorial-page-content(ng-bind-html="doc.text1")
+
+      .tutorial-page-video-wrapper(ng-if='doc.videoSource')
+        .embed-responsive.embed-responsive-16by9(ng-bind-html='doc.videoSource')
+
+      .tutorial-page-content(ng-bind-html="doc.text2")
+
+      .tutorial-gallery
+        .tutorial-img(ng-repeat="img in doc.gallery")
+          img(ng-src="{{img.url}}")
+          .tutorial-img__caption
+            span(ng-bind="img.caption")
+            span.tutorial-img__credit(ng-if="img.credit") Photo: {{img.credit}}
+
+      .tutorial-page-content(ng-bind-html="doc.text3")
+
+      .tutorial-embedded(ng-bind-html="doc.embedded")
+
+      .tutorial-page-content(ng-bind-html="doc.text4")
+
+      .tutorial-next-link(ng-if="next")
+        a(ui-sref="ac.tutorial({slug: next.slug})") {{next.title}}
+

@@ -9,6 +9,7 @@ var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
+var logger = require('../../logger.js');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -16,14 +17,21 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return feature.properties.url;
 }).value();
 
-var webcacheOptions = {
-    store: new WebCacheRedis(6379, process.env.REDIS_HOST)
-};
 
-var apiWebcache = new WebCache(webcacheOptions);
+var apiWebcache = null,
+    avalxWebcache = null;
 
-if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000;
-var avalxWebcache = new WebCache(webcacheOptions);
+if(process.env.REDIS_HOST) {
+    var webcacheOptions ={ store: new WebCacheRedis(6379, process.env.REDIS_HOST) };
+    if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000;
+    apiWebcache = new WebCache(webcacheOptions);
+    avalxWebcache = new WebCache(webcacheOptions);
+}
+else {
+    apiWebcache = new WebCache();
+    avalxWebcache = new WebCache();
+}
+
 
 avalxWebcache.seed(acAvalxUrls);
 avalxWebcache.on('refreshed', _.bind(apiWebcache.refresh, apiWebcache));
@@ -40,17 +48,20 @@ router.use(function (req, res, next) {
     };
 
     if(req.headers['cache-control'] === 'no-cache') {
-        console.log('cache bypass for %s', url);
+        //console.log('cache bypass for %s', url);
+        logger.log('info','cache bypass for', url, req);
         req.webcache = webcacher;
         next();
     } else {
         apiWebcache.get(url).then(function (data) {
             if(data){
-                console.log('cache hit for %s', url);
+                //console.log('cache hit for %s', url);
+                //logger.log('info','cache hit for', url);
                 apiWebcache.cacheUrl(url);
                 req.webcached = data;
             } else {
-                console.log('cache miss for %s', url);
+                //console.log('cache miss for %s', url);
+                logger.log('info','cache miss for', url);
                 req.webcache = webcacher;
             }
             next();
@@ -69,10 +80,11 @@ router.param('region', function (req, res, next) {
                 var deferred = Q.defer();
 
                 if(caaml){
-                    console.log('avalx cache hit for forecast for %s', req.region.id);
+                    //console.log('avalx cache hit for forecast for %s', req.region.id);
+                    //logger.log('info','avalx cache hit for forecast for', req.region.id);
                     deferred.resolve(caaml);
                 } else {
-                    console.log('avalx cache miss for forecast for %s', req.region.id);
+                    logger.log('info','avalx cache miss for forecast for %s', req.region.id);
                     avalx.fetchCaamlForecast(req.region, function (err, caaml) {
                         if(err || !caaml) {
                             deferred.reject('error fetching ' + req.region.id + ' caaml forecast.');
@@ -117,7 +129,7 @@ router.param('region', function (req, res, next) {
                 req.forecast = forecast;
                 next();
             }).catch(function (e) {
-                console.log(e);
+                logger.log('error',e);
                 res.send(500);
             }).done();
         } else if(req.region.properties.type === 'link') {
@@ -130,11 +142,11 @@ router.param('region', function (req, res, next) {
             };
             next();
         } else {
-            console.log('unknown/undefined type');
+            logger.log('info','unknown/undefined type');
         }
 
     } else {
-        console.log('forecast region not found');
+        logger.log('info','forecast region not found');
         res.send(404);
     }
 });
@@ -168,7 +180,7 @@ router.get('/:region.:format', function(req, res) {
                 try {
                     forecast = JSON.parse(req.webcached);
                 } catch (e) {
-                    console.log('error parsing json forecast');
+                    logger.log('info','error parsing json forecast');
                     res.send(500);
                 }
 
