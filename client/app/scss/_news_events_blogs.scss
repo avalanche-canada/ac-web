@@ -1197,7 +1197,9 @@ aside {
 .tutorial-img{
   margin: 1em;
   border: 4px solid #CCD4EC;
+  background: #CCD4EC;
   max-width: 100%;
+  text-align: center;
 }
 .tutorial-img__caption{
   padding: 5px;
@@ -1205,6 +1207,7 @@ aside {
   text-align: left;
 }
 .tutorial-img__credit {
+  display: block;
   &:before{
     font-family: 'FontAwesome';
     content: "\f030";

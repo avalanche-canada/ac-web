@@ -30,5 +30,7 @@ include _header.jade
               input(ng-model='img.current_answer', type='radio', value="COMPLEX") 
               | Complex
 
-          .ates__response--correct(ng-if="isCorrect(img)") YOU'RE RIGHT
-          .ates__response--incorrect(ng-if="isNotCorrect(img)") YOU'RE WRONG
+          .ates__response--correct(ng-if="isCorrect(img)") 
+            | Well done &mdash; You&rsquo;re right!
+          .ates__response--incorrect(ng-if="isNotCorrect(img)") 
+            | Sorry, that isn&rsquo;t the right answer. Try again!
