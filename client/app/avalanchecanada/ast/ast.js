@@ -69,7 +69,7 @@ angular.module('avalancheCanadaApp')
     if(!$scope.current_level) {
       return true;
     } else {
-      var levels = _.map(value.courses, _.property('level'));
+      var levels = _.sortBy(_.map(value.courses, _.property('level')), _.identity);
       return (
         typeof value.tags !== 'undefined' && 
         levels.indexOf($scope.current_level) > -1
@@ -90,7 +90,7 @@ angular.module('avalancheCanadaApp')
         $scope.providers = res.data;
 
         $http.get('/api/ast/courses').then(function (res) {
-            $scope.levels = _.unique(_.pluck(res.data, 'level'));
+            $scope.levels = _.sortBy(_.unique(_.pluck(res.data, 'level')), _.identity);
 
           res.data.forEach(function(course){
             var provider = _.find($scope.providers, {providerid: course.providerid});
@@ -279,7 +279,7 @@ angular.module('avalancheCanadaApp')
 
     $http.get(queryStr).then(function (res) {
         $scope.unfiltered_courses = res.data;
-        $scope.levels = _.unique(_.pluck(res.data, 'level'));
+        $scope.levels = _.sortBy(_.unique(_.pluck(res.data, 'level')), _.identity);
 
         $http.get('/api/ast/providers').then(function (res) {
               var providers = res.data;
