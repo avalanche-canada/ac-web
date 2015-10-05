@@ -50,6 +50,9 @@ var provider = function (id, providerDetails){
     prov.insurance_expiry  = prov.insurance_expiry  === '' ? null : prov.insurance_expiry;
     prov.license_agreement = prov.license_agreement === '' ? null : prov.license_agreement;
     prov.is_active         = prov.is_active         === '' ? null : prov.is_active;
+
+    prov.contact.website   = prov.contact.website   === '' ? null : prov.contact.website;;
+
     return prov;
 };
 
@@ -161,6 +164,7 @@ function addProvider(providerDetails, success, fail) {
 function updateProvider(provId, providerDetails, success, fail) {
 
     if (validProvider(providerDetails)){
+        providerDetails = provider(provId, providerDetails);
         var params  = {};
         params.TableName = AST_PROVIDER_TABLE;
         params.Key = {'providerid':provId};
