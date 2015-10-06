@@ -9,10 +9,14 @@ var docClient = new DOC.DynamoDB();
 var logger = require('../../logger.js');
 var Q = require('q');
 var role = require('../../components/role/role');
+var schemas = require('./ast.schemas.json');
+var JSCK = require('jsck');
 
 
 var AST_PROVIDER_TABLE = process.env.AST_PROVIDER_TABLE;
 var AST_COURSE_TABLE = process.env.AST_COURSE_TABLE;
+
+var courseSchema = new JSCK.draft4(schemas.Course);
 
 //! \return true if provider is valid (contains required fields)
 var validProvider = function (provider){
@@ -66,17 +70,7 @@ var validInstructor = function (instructor){
 
 //! \return true if course is valid (contains required fields)
 var validCourse = function (course){
-    return (course.providerid &&
-            course.pos &&
-            course.pos.latitude &&
-            course.pos.longitude &&
-            course.location_name &&
-            course.name &&
-            course.date_start &&
-            course.date_end &&
-            course.level &&
-            course.desc &&
-            course.tags);
+    return courseSchema.validate(course)
 };
 
 //! create a course as it is represented in the db
@@ -337,8 +331,8 @@ function getCourse(courseId, success, fail) {
 };
 
 function addCourse(courseDetails, success, fail) {
-
-    if (validCourse(courseDetails)){
+    var valid = validCourse(courseDetails);
+    if (valid.valid){
         var params  = { TableName: AST_COURSE_TABLE,
                         Item: course(uuid.v4(), courseDetails)};
         docClient.

@@ -1,0 +1,63 @@
+{
+  "Course": {
+    "type": "object",
+    "properties": {
+      "providerid": {
+        "type": "string",
+        "pattern": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+      },
+      "name": {
+        "type": "string"
+      },
+      "desc": {
+        "type": "string"
+      },
+      "level": {
+        "type": "string",
+        "enum": [
+          "AST1",
+          "AST2",
+          "CRS"
+        ]
+      },
+      "date_start": {
+        "type": "string"
+      },
+      "location_name": {
+        "type": "string"
+      },
+      "pos": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          },
+          "longitude": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ]
+      },
+      "tags": {
+        "type": "array",
+        "uniqueItems": true
+      }
+    },
+    "required": [
+      "providerid",
+      "name",
+      "desc",
+      "level",
+      "location_name",
+      "pos",
+      "tags"
+    ]
+  }
+}
