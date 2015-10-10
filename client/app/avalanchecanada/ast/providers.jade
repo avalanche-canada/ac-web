@@ -32,7 +32,7 @@
                 span(ng-if="current_specialty == null")
                   | Specialties
                 span(ng-if="current_specialty != null")
-                  {{current_specialty}}
+                  {{current_specialty | displayTag}}
                 i.fa.fa-chevron-down
                 i.fa.fa-chevron-up
               ul.dropdown-menu(role='menu', aria-labelledby='filter-specialties')
@@ -41,7 +41,7 @@
                     | All Specialties
                 li(role='presentation' ng-repeat="speciality in specialities")
                   a(role='menuitem', tabindex='-1', ng-click="selectSpeciality(speciality)")
-                    {{speciality}}
+                    {{speciality | displayTag}}
 
           #location-filter.col-xs-12.col-md-3
             .input-group
@@ -88,7 +88,7 @@
                   | {{provider.location_name}}
 
                 td
-                   {{provider.tags.join(', ')}}
+                  {{provider.tags | displayTags}}
 
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(provider)")
@@ -117,7 +117,7 @@
                 td
                   | {{provider.location_name}}
                 td
-                   {{provider.tags.join(', ')}}
+                  {{provider.tags | displayTags}}
 
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(provider)")

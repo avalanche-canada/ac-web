@@ -189,7 +189,6 @@ angular.module('avalancheCanadaApp')
   $scope.maxDate = moment.utc(moment().startOf('day').add(1,'year')).format('YYYY-MM-DD'); // Ideally this is the last course date the api returns.
   $scope.minDate = moment.utc(moment().startOf('day').subtract(12, 'months')).format('YYYY-MM-DD');  // Ideally this is the first course date the api returns.
 
-
   $http.get('/api/ast/courses/tags').then(function (res) {
       $scope.ALL_TAGS = res.data;
   });
@@ -389,5 +388,31 @@ angular.module('avalancheCanadaApp')
 
   //! do stuff
   getCourses();
+
+})
+.filter('displayTags', function(){
+  var ts = {
+    SKI_SNOWBOARD: 'Ski / Snowboard',
+    YOUTH: 'Youth',
+    SLED: 'Snowmobile',
+    SNOWSHOE: 'Snowshoeing',
+  };
+
+  return function(lst) {
+    return _.map(lst, function(t){ return ts[t]; }).join(', ')
+  };
+})
+.filter('displayTag', function(){
+
+  var ts = {
+    SKI_SNOWBOARD: 'Ski / Snowboard',
+    YOUTH: 'Youth',
+    SLED: 'Snowmobile',
+    SNOWSHOE: 'Snowshoeing',
+  };
+
+  return function(t) {
+    return ts[t];
+  };
 
 });
