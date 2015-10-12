@@ -99,7 +99,8 @@
                 th Location
                 th Type
                 th Provider
-                th(colspan='2') Distance
+                th(colspan='2') 
+                  span(ng-if="unsponsoured_courses[0].distance || sponsoured_courses[0].distance") Distance
 
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
