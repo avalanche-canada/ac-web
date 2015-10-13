@@ -399,7 +399,7 @@ angular.module('avalancheCanadaApp')
   };
 
   return function(lst) {
-    return _.map(lst, function(t){ return ts[t]; }).join(', ')
+    return _.map(lst, function(t){ return ts[t]; }).join(', ');
   };
 })
 .filter('displayTag', function(){
