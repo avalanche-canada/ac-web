@@ -81,38 +81,30 @@ angular.module('avalancheCanadaApp')
   var getProviders = function(pos){
 
        var queryStr = '/api/ast/providers';
+       var isLocationSearch = false;
 
        if($scope.location && pos && pos.latitude && pos.longitude){
             queryStr = queryStr + '?latitude=' + pos.latitude + '&longitude=' + pos.longitude;
+            isLocationSearch = true;
        }
 
       $http.get(queryStr).then(function (res) {
         $scope.providers = res.data;
 
         $http.get('/api/ast/courses').then(function (res) {
-            $scope.levels = _.sortBy(_.unique(_.pluck(res.data, 'level')), _.identity);
-
-          res.data.forEach(function(course){
-            var provider = _.find($scope.providers, {providerid: course.providerid});
-
-            if(provider){
-              if(typeof provider.courses === 'undefined'){
-                provider.courses = [];
-              }
-              provider.courses.push(course);
-            }
-
-          });
-
-          $scope.unfiltered_providers = $scope.providers;
-          $scope.loading = false;
+          $scope.levels = _.sortBy(_.unique(_.pluck(res.data, 'level')), _.identity);
         });
+
+        if(isLocationSearch) {
+          $scope.providers = _.sortBy($scope.providers, _.property('distance'));
+        }
 
       });
+      $scope.isLocationSearch = isLocationSearch;
 
-        $http.get('/api/ast/courses/tags').then(function (res) {
-            $scope.specialities = res.data;
-        });
+      $http.get('/api/ast/courses/tags').then(function (res) {
+        $scope.specialities = res.data;
+      });
   };
 
 

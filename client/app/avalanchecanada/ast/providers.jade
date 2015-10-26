@@ -67,6 +67,7 @@
               tr
                 th Provider
                 th Location
+                th(ng-if="isLocationSearch") Distance
                 th(colspan=2) Specialties
 
               tr.sponsors-head
@@ -87,6 +88,7 @@
                 td
                   | {{provider.location_name}}
 
+                td(ng-if='isLocationSearch') {{provider.distance / 1000 | number:0 }} km
                 td
                   {{provider.tags | displayTags}}
 
@@ -105,7 +107,7 @@
                   br
                   strong Website: &nbsp;
                     a(ng-href='http://{{provider.contact.website}}') http://{{provider.contact.website}}
-                td(colspan='2')
+                td(colspan='{{isLocationSearch ? 3 : 2}}')
                   strong Location: &nbsp;
                   |  {{provider.location_name}}
 
@@ -116,6 +118,7 @@
                 td {{provider.name}}
                 td
                   | {{provider.location_name}}
+                td(ng-if='isLocationSearch') {{provider.distance / 1000 | number:0 }} km
                 td
                   {{provider.tags | displayTags}}
 
@@ -134,7 +137,7 @@
                   br
                   strong Website: &nbsp;
                     a(ng-href='http://{{provider.contact.website}}') http://{{provider.contact.website}}
-                td(colspan='2')
+                td(colspan='{{isLocationSearch ? 3 : 2}}')
                   strong Location
                   |      {{provider.location_name}}
 
