@@ -22,6 +22,14 @@ check-server:
 check: check-client check-server
 
 
+clean:
+	grunt clean
+
+serve:
+	grunt serve
+
+
+
 HEAD=$(shell git log | head -n1 | cut -d' ' -f2)
 BRANCH=$(shell git branch | grep -e '^\*' | cut -d' ' -f2)
 DATE:=$(shell date +'%Y-%m-%d-%H-%M-%S')
@@ -34,5 +42,5 @@ zip:
 	cd dist && zip -r ../ac-web.custom.$(BRANCH).$(HEAD).$(DATE).zip *
 	cd dist && zip -r ../ac-web.custom.$(BRANCH).$(HEAD).$(DATE).zip .ebextensions
 
-.PHONY: check check-client check-server zip d
+.PHONY: check check-client check-server zip serve clean
 
