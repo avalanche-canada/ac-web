@@ -77,6 +77,13 @@ angular.module('avalancheCanadaApp')
     }
   };
  
+  $scope.filterLevel = function(provider /*, index, array */) {
+    if(provider.sponsor) {
+        return false;
+    } else {
+        return true;
+    }
+  };
 
   var getProviders = function(pos){
 
