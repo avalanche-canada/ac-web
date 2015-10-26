@@ -270,9 +270,12 @@ angular.module('avalancheCanadaApp')
     $scope.sponsored_courses = [];
     $scope.unsponsoured_courses = [];
 
+    var isLocationSearch = false;
+
     var queryStr = '/api/ast/courses';
     if($scope.location && pos && pos.latitude && pos.longitude){
         queryStr = queryStr + '?latitude=' + pos.latitude + '&longitude=' + pos.longitude;
+        isLocationSearch = true;
     }
 
     $http.get(queryStr).then(function (res) {
@@ -303,6 +306,8 @@ angular.module('avalancheCanadaApp')
               $scope.loading = false;
             });
     });
+
+    $scope.isLocationSearch = isLocationSearch;
   };
 
   var geocodeSuccess = function(data){

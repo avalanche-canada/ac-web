@@ -97,10 +97,10 @@
               tr
                 th Dates
                 th Location
+                th(ng-if="isLocationSearch") Distance
                 th Type
                 th Provider
-                th(colspan='2') 
-                  span(ng-if="unsponsoured_courses[0].distance || sponsoured_courses[0].distance") Distance
+                th Details
 
               tr.sponsors-head
                 th(colspan='6') Our Sponsors
@@ -117,13 +117,12 @@
                   {{course.date_start | date}} to {{course.date_end | date}}
                 td
                   {{course.location_name}}
+                td(ng-if="isLocationSearch") {{course.distance / 1000 | number:0}} km
                 td
                   {{course.level}}
                 td
                   {{course.provider.name}}
 
-                td
-                  span(ng-if="course.distance") {{course.distance / 1000 | number:0}}km
 
                 td
                   a.plus(href='' ng-click="toggleMoreInfo(course)")
@@ -131,11 +130,11 @@
                     i.fa.fa-minus(ng-if="course.more_info")
 
               tr.more-info(ng-class="{hidden: !course.more_info}")
-                td(colspan='2')
+                td(colspan='{{isLocationSearch ? 4 : 3}}')
                   strong Course Details
                   br
                   {{course.desc}}
-                td(colspan='4')
+                td(colspan='2')
                   strong Telephone:&nbsp;
                   | {{course.provider.contact.phone}}
                   br
@@ -154,13 +153,12 @@
                   {{course.date_start | date}} to {{course.date_end | date}}
                 td
                   {{course.location_name}}
+                td(ng-if="course.distance") {{course.distance / 1000 | number:0}} km
                 td
                   {{course.level}}
                 td
                   {{course.provider.name}}
 
-                td
-                  span(ng-if="course.distance") {{course.distance / 1000 | number:0}}km
 
 
                 td
