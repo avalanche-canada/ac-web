@@ -1,0 +1,51 @@
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                  | {{page.title}}
+                #sponsor-desktop.hidden-xs
+                    p Brought to you by
+                    a(target='_blank', href='http://marmot.com/ ')
+                        img(src='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_229/v1416955435/logos/Logos%20png/marmot.png')
+                .blue-border
+    .row
+       #news-blog-event-landing-content.col-xs-12.col-md-9
+         section#news-blog-event-landing-body
+           div(ng-bind-html='page.body')
+       #mobile-sidebar-container.col-xs-12.col-md-3
+         aside.min-landing-aside
+           .sidebar-inner
+              ul.sidebar-related-links
+                  li
+                      h5 Share This &nbsp;
+                          a(href="https://twitter.com/intent/tweet?url={{page.url}}")
+                              i.fa.fa-twitter.fa-fw.fa-lg
+
+                          a(href="https://www.facebook.com/sharer/sharer.php?u={{page.url}}")
+                              i.fa.fa-facebook.fa-fw.fa-lg
+
+                          a(href="https://plus.google.com/share?url={{page.url}}")
+                              i.fa.fa-google-plus.fa-fw.fa-lg
+                  li
+                      h5 Follow Us &nbsp;
+                          a(href="https://twitter.com/avalancheca" target="_blank")
+                              i.fa.fa-twitter.fa-fw.fa-lg
+
+                          a(href="https://www.facebook.com/avalanchecanada" target="_blank")
+                              i.fa.fa-facebook.fa-fw.fa-lg
+
+                          a(href="http://instagram.com/avalanchecanada" target="_blank")
+                              i.fa.fa-instagram.fa-fw.fa-lg
+                  li
+                      h5 Contact Us &nbsp;
+                          a(href="mailto:info@avalanche.ca")
+                              i.fa.fa-envelope.fa-fw.fa-lg
+
+
+    .push
+div.footer(ng-include='"components/footer/footer.html"')

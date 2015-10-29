@@ -24,15 +24,18 @@
 			border:none;
 			/*main nav and mega yamm menu*/
 			ul.nav {
-				margin-left:77px;
+				margin-left:2em;
 				> li {
 					//position:relative;
 					> a {
+            &.three-line { padding-top: 11px; }
+            &.two-line   { padding-top: 19px; }
 						display:block;
 						height:75px;
 						color:#000;
 						position:relative;
-						@include font-size(1.5, 1.5);
+            text-align: center;
+						@include font-size(1.5, 1.7);
 						.arrow-down {
 							position:absolute;
 							z-index:$zindex-popover;
@@ -60,9 +63,10 @@
 						}
 					}
 				}
-				#nav-avalanche-info .arrow-down {left:76px;}
-				#nav-learn .arrow-down {left:23px;}
-				#nav-community .arrow-down {left:43px;}
+				#nav-min .arrow-down {left: 43px;}
+				#nav-avalanche-info .arrow-down {left:45px;}
+				#nav-learn .arrow-down {left:25px;}
+				#nav-community .arrow-down {left:39px;}
 				#nav-news-events .arrow-down {left:51px;}
 				#nav-store .arrow-down {left:22px;}
 				.dropdown-menu {

@@ -12,9 +12,19 @@ header#header.navbar-fixed-top(role='banner')
                         i.fa.fa-reorder
             .collapse.navbar-collapse.hidden-xs.hidden-sm
                 ul.nav.navbar-nav
+                    li#nav-min.dropdown.yamm-fw
+                        a.dropdown-toggle.three-line(href='#' data-toggle="dropdown")
+                            | Mountain<br/>Information<br/>Network
+                            span.arrow-down
+                        ul.dropdown-menu
+                          li
+                            a(data-toggle="collapse" data-target=".navbar-collapse" href="/mountain-information-network") Overview
+                          li 
+                            a.btn.btn-primary(data-toggle="collapse" data-target=".navbar-collapse" href="/submit") Submit 
+
                     li#nav-avalanche-info.dropdown.yamm-fw
-                        a.dropdown-toggle(href='#' data-toggle="dropdown")
-                            | Avalanche Information
+                        a.dropdown-toggle.two-line(href='#' data-toggle="dropdown")
+                            | Avalanche<br/>Information
                             span.arrow-down
                         ul.dropdown-menu
                             li
