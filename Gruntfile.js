@@ -57,6 +57,23 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+    concat: {
+      options: {
+        /**
+         * This adds a double semicolon separator to the JS files before they
+         * are concatenated. The concat task is called implicitly by the
+         * `usemin` task. Unfortunatly it uses the same config for both css and
+         * js so if we use the `separator` option it will do the same with css
+         * causing a syntax error;
+         */
+        process: function (src, filepath) {
+          if (filepath.split(/\./).pop() === 'js') {
+            return src + '\n;;\n';
+          }
+          return src;
+        }
+      }
+    },
 
     // Project settings
     yeoman: {
