@@ -1,5 +1,9 @@
 
+@import "_custom_cac_variables";
 
+
+//$photoshop-red:  #ed1c24;
+$red: #CF0920;
 
 .min-landing-aside {
   margin-top: 1rem;
@@ -8,3 +12,67 @@
     border-bottom: 0;
   }
 }
+
+.min-video {
+  position: relative;
+  &:after {
+    display:block;
+    content: '';
+    padding-top: percentage(281/500);
+  }
+  .inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.min-submit-button {
+  display: inline-block;
+  text-align: center;
+  background-color: $red;
+  color: #fff;
+  padding: 0.9rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px -1px rgba(0,0,0,0.4);
+  font-size: 2rem;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 2px 6px -1px rgba(0,0,0,0.6);
+
+  }
+  span {
+    display:block;
+  }
+}
+.min-submit-wrapper {
+  float: right;
+  padding: 2rem 0 2rem 3rem;
+
+  @media screen and (max-width: $screen-tablet) {
+    float: none;
+    text-align: center;
+    padding: 2rem 0;
+  }
+}
+.min-store-buttons {
+  text-align: center;
+}
+.min-screen-shot {
+  text-align: center;
+}
+
+#app-pushmenu .submit-button {
+  background: #CF0920;
+  color: #fff;
+  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  margin-top: 1em;
+  text-align: center;
+}
+
