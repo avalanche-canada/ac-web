@@ -39,10 +39,11 @@ $red: #CF0920;
   box-shadow: 0 2px 6px -1px rgba(0,0,0,0.4);
   font-size: 2rem;
 
+  &:active,
   &:hover {
     color: #fff;
     text-decoration: none;
-    box-shadow: 0 2px 6px -1px rgba(0,0,0,0.6);
+    box-shadow: 0 2px 10px -1px rgba(0,0,0,0.7);
 
   }
   span {
@@ -66,6 +67,8 @@ $red: #CF0920;
   text-align: center;
 }
 
+
+.dropdown-menu > li > a.min-menu-submit-button,
 #app-pushmenu .submit-button {
   background: #CF0920;
   color: #fff;
@@ -74,5 +77,9 @@ $red: #CF0920;
   padding: 15px;
   margin-top: 1em;
   text-align: center;
+}
+.dropdown-menu > li > a.min-menu-submit-button {
+  padding: 15px 20px;
+  text-align: left;
 }
 
