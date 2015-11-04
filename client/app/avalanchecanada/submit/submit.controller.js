@@ -15,8 +15,8 @@ angular.module('avalancheCanadaApp')
 
   })
 
-.service('PrsmBookmark', function($q, Prismic){
-  return function PrsmBookmark(id) {
+.service('prsmBookmark', function($q, Prismic){
+  return function prsmBookmark(id) {
     var deferred = $q.defer();
 
     Prismic.ctx().then(function(){
@@ -30,9 +30,9 @@ angular.module('avalancheCanadaApp')
     return deferred.promise;
   };
 })
-.controller('MINLandingCtrl', function($q, $location, $window, PrsmBookmark){
+.controller('MINLandingCtrl', function($q, $location, $window, prsmBookmark){
   var that = this;
-  PrsmBookmark('min-landing').then(function(content){
+  prsmBookmark('min-landing').then(function(content){
     that.url = $window.encodeURIComponent($location.absUrl());
     that.title = content.getText('generic.title');
     that.body  = content.getStructuredText('generic.body').asHtml(null);
