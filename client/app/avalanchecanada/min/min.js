@@ -6,7 +6,7 @@ angular.module('avalancheCanadaApp')
     $stateProvider
       .state('ac.minOverview', {
         url: '^/mountain-information-network',
-        templateUrl: 'app/avalanchecanada/submit/min-overview.html',
+        templateUrl: 'app/avalanchecanada/min/min-overview.html',
         controllerAs: 'page',
         controller: 'MINLandingCtrl'
       });
