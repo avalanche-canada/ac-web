@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('avalancheCanadaApp')
   .config(function ($stateProvider) {
 
