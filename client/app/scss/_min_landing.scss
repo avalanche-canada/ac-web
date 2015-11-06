@@ -4,6 +4,9 @@
 
 //$photoshop-red:  #ed1c24;
 $red: #CF0920;
+.min-landing {
+  padding-top: 2em;
+}
 
 .min-landing-aside {
   margin-top: 1rem;
@@ -51,14 +54,11 @@ $red: #CF0920;
   }
 }
 .min-submit-wrapper {
-  float: right;
-  padding: 2rem 0 2rem 3rem;
+  text-align: center;
+}
 
-  @media screen and (max-width: $screen-tablet) {
-    float: none;
-    text-align: center;
-    padding: 2rem 0;
-  }
+.min-guidelines {
+  margin-top: 2rem;
 }
 .min-store-buttons {
   text-align: center;

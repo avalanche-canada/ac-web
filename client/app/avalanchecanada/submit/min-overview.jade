@@ -9,12 +9,17 @@
                 h1
                   | {{page.title}}
                 .blue-border
-    .row
+    .min-landing.row
        .col-xs-12.col-md-9
-         section
-           .min-submit-wrapper
+         section.row
+           .min-submit-wrapper.col-md-3.col-md-push-9
              a.min-submit-button(href="/submit") Submit to the <span>MIN</span>
-           .min-body(ng-bind-html='page.body')
+
+             p.min-guidelines
+              a(href="http://www.avalanche.ca/fxresources/Submissions+Guidelines.pdf") Submission Guidelines
+
+            //.col-md-pull-3
+           .min-body.col-md-9.col-md-pull-3(ng-bind-html='page.body')
           .row
              div.col-md-6
                .min-video
