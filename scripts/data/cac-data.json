@@ -151,11 +151,11 @@
   },
   {
     "name": "Whistler Blackcomb",
-    "type": "link",
-    "url": "http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Whistler-Blackcomb",
     "forecastUrl": "/api/forecasts/whistler-blackcomb.json",
     "dangerIconUrl": "/api/forecasts/whistler-blackcomb/danger-rating-icon.svg",
-    "owner": "whistler-blackcomb",
+    "owner": "avalanche-canada",
     "id": "whistler-blackcomb",
     "extId": "15"
   },
