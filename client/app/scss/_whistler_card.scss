@@ -1,13 +1,17 @@
+// mini forecast card
 
 .ac-forcast-mini--wbc-logo {
-  background: #BF2C37;
-  padding: 5px;
+  margin-bottom: 0.75em;
 
-  svg {
-    display: inline-block;
-    width: 150px;
-    height: 44px;
-    fill: rgb(255, 255, 255);
+  .wbc-logo {
+  }
+
+  .whs-logo {
+    margin-right: 55px;
+  }
+
+  .xc-logo {
+    margin-top: 9px;
   }
 }
 
@@ -17,5 +21,17 @@
     i {
       font-size: 40px;
     }
+  }
+}
+
+// full page forecast
+
+#forecast {
+  article header #header-inner h1.forecast-wbc {
+    margin-top: 0;
+    max-width: 66%;
+  }
+  article header #header-inner #forecast-sponsor-desktop.forecast-wbc {
+    width: 33%;
   }
 }

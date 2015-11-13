@@ -11,11 +11,17 @@
             .row
                 header.col-xs-12
                     #header-inner
-                        h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
-                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis"')
+                        h1(class="{{forecast.region === 'whistler-blackcomb' ? 'forecast-wbc' : '' }}") {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
+                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis" && forecast.region != "whistler-blackcomb"')
                             p Brought to you by
                             a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
                                 img(src='{{sponsor.getText("sponsor.image-229")}}')
+                        #forecast-sponsor-desktop.forecast-wbc.hidden-xs(ng-if='forecast.region == "whistler-blackcomb"')
+                            p Brought to you by
+                            a(target='_blank', href='')
+                                img.wbc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367526/logos/OriginalSizeLogos/WBWhoosh_RedBlack.png")
+                                img.whs-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367393/logos/OriginalSizeLogos/Whistler_HeliSki_Logo.png")
+                                img.xc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_100/v1447367393/logos/OriginalSizeLogos/EC_black.png")
                         #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region == "kananaskis"')
                             p Brought to you by
                             a(target='_blank', href='')
