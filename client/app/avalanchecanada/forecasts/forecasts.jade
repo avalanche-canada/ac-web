@@ -11,15 +11,22 @@
             .row
                 header.col-xs-12
                     #header-inner
-                        h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
-                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis"')
-                            p Brought to you by
-                            a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
-                                img(src='{{sponsor.getText("sponsor.image-229")}}')
-                        #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region == "kananaskis"')
-                            p Brought to you by
-                            a(target='_blank', href='')
-                                img(style='width:120px;' src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                        h1(class="{{forecast.region === 'whistler-blackcomb' ? 'forecast-wbc' : '' }}") {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
+                        div(ng-switch="forecast.region")
+                          #forecast-sponsor-desktop.hidden-xs(ng-switch-default)
+                              p Brought to you by
+                              a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                                  img(src='{{sponsor.getText("sponsor.image-229")}}')
+                          #forecast-sponsor-desktop.forecast-wbc.hidden-xs(ng-switch-when='whistler-blackcomb')
+                              p Brought to you by
+                              div.wbc-logos
+                                  img.wbc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367526/logos/OriginalSizeLogos/WBWhoosh_RedBlack.png")
+                                  img.xc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_75/v1447367393/logos/OriginalSizeLogos/EC_black.png")
+                                  img.whs-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367393/logos/OriginalSizeLogos/Whistler_HeliSki_Logo.png")
+                          #forecast-sponsor-desktop.hidden-xs(ng-switch-when='kananaskis')
+                              p Brought to you by
+                              a(target='_blank', href='')
+                                  img(style='width:120px;' src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                         .blue-border
                 #forecast-sponsor-mobile.col-xs-12.visible-xs-block
                     #forecast-sponsor-mobile-inner(ng-if='forecast.region != "kananaskis"')
@@ -217,7 +224,15 @@
                                 a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
                                     | {{disclaimer.getText('generic.title')}}
                             #collapseOne.collapse
-                                .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
+                                div(ng-switch="forecast.region")
+                                  div(ng-switch-when="whistler-blackcomb")
+                                    h2 USE AT YOUR OWN RISK
+                                    p The Whistler Blackcomb Avalanche Bulletin, and other information and services provided by Whistler Blackcomb and Avalanche Canada are intended for personal and recreational purposes only
+                                    p
+                                      strong THIS INFORMATION IS PROVIDED "AS IS" AND IN NO EVENT SHALL THE PROVIDERS BE LIABLE FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES RESULTING FROM DISCOMFORT, INJURY, OR DEATH, CLAIMS BY THIRD PARTIES OR FOR OTHER SIMILAR COSTS, OR ANY SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OF THE INFORMATION.
+                                    p The user acknowledges that it is impossible to accurately predict natural events such as avalanches in every instance, and uses the data in this bulletin with this always foremost in mind. The accuracy or reliability of the data is not guaranteed or warranted in any way and the Providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.
+                                  div(ng-switch-default)
+                                    .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
 
 // /#forecast
 

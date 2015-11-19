@@ -1,0 +1,48 @@
+// mini forecast card
+
+.ac-forcast-mini--wbc-logo {
+  margin-bottom: 0.75em;
+
+  .logo-row {
+    text-align: center;
+    
+    img { display: inline-block; }
+  }
+
+  .wbc-logo { }
+  .whs-logo { }
+  .xc-logo { margin-top: 9px; }
+}
+
+.ac-forecast-mini--whistler-links {
+  .panel-default {
+    border: 0;
+  }
+  .social-media {
+    text-align:right;
+    i {
+      font-size: 40px;
+    }
+  }
+}
+
+// full page forecast
+
+#forecast {
+  article header #header-inner h1.forecast-wbc {
+    margin-top: 0;
+    max-width: 49%;
+  }
+  article header #header-inner #forecast-sponsor-desktop.forecast-wbc {
+    width: 50%;
+
+    .wbc-logos { text-align: center; }
+
+    .wbc-logo,
+    .whs-logo,
+    .xc-logo {
+      display: inline-block;
+    }
+    .xc-logo { margin: 0 15px; }
+  }
+}
