@@ -104,17 +104,6 @@ router.param('region', function (req, res, next) {
                             deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
                         } else {
                             if (req.region.properties.type === 'avalx'){
-
-                                //FIXME(wnh): This is a horrible hack to get
-                                //whistlers danger ratings back a whole day.
-                                //This needs to be fixed in the data services
-                                if (req.region.id === 'whistler-blackcomb') {
-                                  console.log('HACK: Fixing dates on Whistler Forecast');
-                                  _.each(json.dangerRatings, function(d){
-                                    d.date = d.date.subtract(1, 'day')
-                                  });
-                                }
-
                                 json.bulletinTitle = req.region.properties.name;
                                 deferred.resolve({
                                     region: req.region.id,

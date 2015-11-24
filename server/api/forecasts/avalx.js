@@ -396,16 +396,8 @@ function getDangerIconStyles(forecast) {
     //! find todays danger rating
     var todaysRating = _.find(forecast.dangerRatings, function (dr){
             //! if the forecast is today or tomorrows
-
-            var ratingDate = moment(dr.date);
-            // FIXME(wnh): force danger-rating dates to be in PST for Whistler. 
-            // Danger-rating dates are coming back in local time but with a
-            // Zulu time designator making them 8h off
-            if(forecast.region === 'whistler-blackcomb') {
-                var ratingDate = moment(dr.date).zone('-08:00');
-            }
-            if (ratingDate.isSame(moment(),'day') ||
-                ratingDate.isSame(moment().add(1, 'day'),'day')){
+            if (moment(dr.date).isSame(moment(),'day') ||
+                moment(dr.date).isSame(moment().add(1, 'day'),'day')){
                 return true;
             }
             return false;
