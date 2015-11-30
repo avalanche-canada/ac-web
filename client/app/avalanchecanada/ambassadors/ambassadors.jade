@@ -1,0 +1,37 @@
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                  | Avalanche Ambassadors
+                .blue-border
+    .ambassador(ng-repeat="a in ambassadors")
+
+      .ambassador--actionshot
+        img(ng-src="{{a.actionshot}}")
+
+      .blue-border
+
+      .ambassador--headshot
+        img(ng-src="{{a.headshot}}")
+        
+        .ambassador--social
+          a(ng-if="a.facebook" ng-href="{{a.facebook}}" target="_blank")
+            i.fa.fa-facebook-square
+
+          a(ng-if="a.twitter" ng-href="{{a.twitter}}" target="_blank")
+            i.fa.fa-twitter-square
+
+          a(ng-if="a.instagram" ng-href="{{a.instagram}}" target="_blank")
+            i.fa.fa-instagram
+
+          a(ng-if="a.website" ng-href="{{a.website}}" target="_blank")
+            i.fa.fa-globe
+
+      .ambassador--info
+        h3.ambassador--name {{a.name}}
+        p.ambassador--bio {{a.bio}}
