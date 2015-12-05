@@ -22,7 +22,20 @@ angular.module('avalancheCanadaApp')
     .state('ac.tutorial', {
       url: '^/tutorial/{slug:nonURIEncoded}',
       templateUrl: 'app/avalanchecanada/tutorial/template.html',
-      controller: 'TutorialCtl'
+      controller: 'TutorialCtl',
+      resolve: {
+        interactiveQuestions: function($http) {
+          return $http
+          .get('/assets/interactive_questions.json')
+          .then(function(response) {
+            var idx  = {};
+            _.each(response.data, function(q){
+              idx[ q['id'] ] = q;
+            });
+            return idx;
+          });
+        }
+      }
     })
     .state('ac.tutorialHome', {
       url: '^/tutorial',
@@ -88,13 +101,17 @@ angular.module('avalancheCanadaApp')
         $scope.body  = result.getStructuredText('generic.body').asHtml();
       });
 })
-.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll) {
+.controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll, interactiveQuestions) {
 
     // Scroll to top when loaded to fix issue with the long menu
     $anchorScroll();
 
+    var slug = $stateParams.slug || 'empty';
 
-    var slug = $stateParams.slug || 'EMPTY';
+    $scope.isActive = function(linkSlug) {
+      return (linkSlug === slug) ? 'active' : '';
+    };
+
 
     $scope.currentSlug = slug; 
 
@@ -181,5 +198,7 @@ angular.module('avalancheCanadaApp')
                }
            });
     });
+
+    $scope.interactiveQuestions = interactiveQuestions[slug];
 
 });

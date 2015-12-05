@@ -1277,6 +1277,27 @@ aside {
   padding: 2px 12px;
 }
 
+.tutorial-question {
+}
+
+.tutorial-question--wrap {
+  @extend .row;
+}
+
+.tutorial-question--answers {
+  @extend .col-md-5;
+  background: #ECECF4;
+}
+
+.tutorial-question--response {
+  @extend .col-md-7;
+  background: #ECECF4;
+
+  &.OK      { background: #EEF2D9; }
+  &.CAUTION { background: #FAD3D8;   }
+  &.NETURAL { /* NO CHANGE */  }
+}
+
 
 .ates__question {
   margin: 5rem 0;
