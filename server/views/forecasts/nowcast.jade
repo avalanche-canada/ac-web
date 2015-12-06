@@ -1,3 +1,4 @@
+- var font='Helvetica Neue,Helvetica,Arial,sans-serif';
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 doctype svg
 svg#Layer_1(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', viewBox='255 205 450 150', enable-background='new 255 205 450 150', xml:space='preserve')
@@ -64,9 +65,9 @@ svg#Layer_1(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http
               stop(offset='0', style='stop-color: #507F4F;')
               stop(offset='1', style='stop-color: #6EA469;')
             path(fill='url(#SVGID_5_)', d='M343.7,351l-46.1-25.5l-37.3-4.4l15.1-23.2c1.8-0.1,3.2-0.3,3.4-0.3c0.5,0,10.6-1.8,23,3.1s14.8,6.3,20.8,9.7c4.5,2.5,9.7,5.1,15.5,5.9L343.7,351z')
-          text(transform='matrix(1 0 0 1 300.8696 265.1904)', font-family='\'OpenSans\'', font-size='8.4415') Alpine
-          text(transform='matrix(1 0 0 1 289.4009 292.1025)', font-family='\'OpenSans\'', font-size='8.4415') Treeline
-          text(transform='matrix(1 0 0 1 268.4595 319.0742)', font-family='\'OpenSans\'', font-size='8.4415') Below Treeline
+          text(transform='matrix(1 0 0 1 300.8696 265.1904)', font-family='#{font}', font-size='8.4415') Alpine
+          text(transform='matrix(1 0 0 1 289.4009 292.1025)', font-family='#{font}', font-size='8.4415') Treeline
+          text(transform='matrix(1 0 0 1 268.4595 319.0742)', font-family='#{font}', font-size='8.4415') Below Treeline
 
 
 
@@ -74,15 +75,15 @@ svg#Layer_1(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http
 
     //- alp
     rect(fill=alp.bannerFill, stroke=alp.bannerStroke, x='403.7', y='211.5', stroke-width='0.3144', stroke-miterlimit='10', width='301.5', height='36.2')
-    text(fill=alp.textFill, transform='matrix(1 0 0 1 457.5054 234.0146)', font-family='\'OpenSans-Bold\'', font-size='18')=alp.rating
+    text(fill=alp.textFill, transform='matrix(1 0 0 1 457.5054 234.0146)', font-family='#{font}', font-size='18')=alp.rating
 
     //- tln
     rect#desc_2_(fill=tln.bannerFill, stroke=tln.bannerStroke, stroke-width='0.3144', stroke-miterlimit='10', x='423.6', y='261.9', width='281.3', height='36.2')
-    text(fill=tln.textFill, transform='matrix(1 0 0 1 477.061 284.7412)', font-family='\'OpenSans-Bold\'', font-size='18')=tln.rating
+    text(fill=tln.textFill, transform='matrix(1 0 0 1 477.061 284.7412)', font-family='#{font}', font-size='18')=tln.rating
 
     //- btl
     rect(fill=btl.bannerFill, stroke=btl.bannerStroke, x='437.3', y='310.7', stroke-width='0.3187', stroke-miterlimit='10', width='267.5', height='36.2')
-    text(fill=btl.textFill, transform='matrix(1.0279 0 0 1 492.5684 333.6943)', font-family='\'OpenSans-Bold\'', font-size='18')=btl.rating
+    text(fill=btl.textFill, transform='matrix(1.0279 0 0 1 492.5684 333.6943)', font-family='#{font}', font-size='18')=btl.rating
 
 
     //- ICONS
