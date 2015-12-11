@@ -46,9 +46,12 @@ angular.module('avalancheCanadaApp')
         acForecast.getOne($scope.region).then(function(forecast)
         {
             $scope.forecast = forecast;
-            $rootScope.ogTags  = [ {type: 'title', value: forecast.bulletinTitle +' Avalanche Forecast' },
-                    {type: 'image', value: 'https://res.cloudinary.com/avalanche-ca/image/upload/c_pad,g_center,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg'},
-                    {type: 'description', value: 'Get the latest forecast for the ' + forecast.bulletinTitle + ' region'}]    ;
+            $rootScope.ogTags = [ 
+              {type: 'title',       value: forecast.bulletinTitle +' Avalanche Forecast' },
+              {type: 'image',       value: 'https://res.cloudinary.com/avalanche-ca/image/upload/c_pad,g_center,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg'},
+              {type: 'description', value: 'Get the latest forecast for the ' + forecast.bulletinTitle + ' region'},
+              {type: 'ttl',         value: 60*60*6 /* keep pages for 6h */}
+            ];
         }).catch(function(err){
             $state.go('ac.404');
         });
