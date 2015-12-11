@@ -3,18 +3,19 @@
         i.fa.fa-chevron-up
         br
         | Top
-    .row
+    .row.ambassador-header
         header.col-xs-12
             #header-inner
                 h1
                   | Avalanche Ambassadors
                 .blue-border
-    .ambassador(ng-repeat="a in ambassadors")
+    .ambassador(ng-repeat="a in ambassadors" id="{{a.anchor}}")
 
       .ambassador--actionshot
-        img(ng-src="{{a.actionshot}}")
-
-      .blue-border
+        img(ng-src="{{a.actionshot.img}}")
+        span.ambassador--photo-credit
+          i.fa.fa-camera
+          span.ambassador--photo-credit--name {{a.actionshot.credit}}
 
       .ambassador--headshot
         img(ng-src="{{a.headshot}}")
@@ -34,4 +35,4 @@
 
       .ambassador--info
         h3.ambassador--name {{a.name}}
-        p.ambassador--bio {{a.bio}}
+        p.ambassador--bio(ng-bind-html="a.bio")

@@ -1,4 +1,7 @@
 
+.ambassador-header {
+  margin-bottom: 5em;
+}
 .ambassador {
   @extend .row;
   margin-bottom: 5em;
@@ -14,6 +17,27 @@
     margin: 1em 0 2em 0;
     background: url("../assets/images/ribbon-bg.png") repeat-x scroll center bottom transparent ;
   }
+}
+.ambassador--photo-credit {
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  top: -25px;
+  left: 10px;
+  cursor: pointer;
+
+  i.fa {
+    margin-right: 0.6em;
+  }
+  .ambassador--photo-credit--name {
+    visibility: hidden;
+  }
+
+  &:hover .ambassador--photo-credit--name {
+    visibility: visible;
+  }
+}
+.ambassador--photo-credit--name {
+  visibility: hidden;
 }
 
 .ambassador--headshot {
@@ -32,6 +56,7 @@
 
 .ambassador--bio {
   line-height: 1.5;
+  color: #5b5b5b;
 }
 
 .ambassador--social {
