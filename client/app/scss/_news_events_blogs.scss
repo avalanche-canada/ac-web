@@ -1281,18 +1281,28 @@ aside {
 }
 
 .tutorial-question--wrap {
-  @extend .row;
+  margin: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  background: #ECECF4;
 }
 
 .tutorial-question--answers {
-  @extend .col-md-5;
-  background: #ECECF4;
+  width: 30%;
+  padding: 10px;
+  display: table-cell;
+  vertical-align: top;
+  border-right: 2px solid #fff;
 }
 
 .tutorial-question--response {
-  @extend .col-md-7;
-  background: #ECECF4;
+  padding: 10px;
+  width: 70%;
+  display: table-cell;
+  vertical-align: top;
 
+  background: #ECECF4;
   &.OK      { background: #EEF2D9; }
   &.CAUTION { background: #FAD3D8;   }
   &.NETURAL { /* NO CHANGE */  }
