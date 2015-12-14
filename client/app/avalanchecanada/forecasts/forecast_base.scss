@@ -165,8 +165,7 @@
     }
     .ac-forecast-days {
         td {
-            border: 1px solid white;
-            font-size: 0.7em;
+          border: 1px solid white;
         }
     }
 }
@@ -515,8 +514,6 @@
                             tbody {
                                 tr {
                                     td {
-                                        ///border:none;
-                                        color:#5b5b5b;
                                         @include font-size(1.5, 2.2);
                                     }
                                 }
