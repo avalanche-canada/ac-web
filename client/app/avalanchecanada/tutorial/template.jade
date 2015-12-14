@@ -29,6 +29,9 @@ include _header.jade
 
       .tutorial-page-content(ng-bind-html="doc.text4")
 
+      .tutorial-page-questions
+        div(ng-repeat="q in interactiveQuestions.questions" ac-tutorial-question question="q")
+
       .tutorial-next-link(ng-if="next")
         a(ui-sref="ac.tutorial({slug: next.slug})") {{next.title}}
 
