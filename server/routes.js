@@ -3,19 +3,28 @@
 module.exports = function(app) {
 
     var env = app.get('env');
-   var logger = require('./logger.js');
+    var logger = require('./logger.js');
 
-    //! \todo make pre render token an env var
-    var use_prerender = (process.env.USE_PRERENDER === 'false') ? false : true;
-    if (use_prerender) {
-        logger.log('info','using prerender');
-        app.use(require('prerender-node').set('prerenderToken', '02L7Pq1BhiL3t6gzWX78'));
-    }
+
+    var prerenderMiddleware = 
+        require('prerender-node')
+            .set('prerenderToken', '02L7Pq1BhiL3t6gzWX78')
+            .blacklisted(['^/api']);
+
+    app.use(function(req, res, next){
+        if(req.hostname === 'avalanche.ca' || req.hostname === 'www.avalanche.ca') {
+          prerenderMiddleware(req, res, next);
+        } else {
+          next();
+        }
+    });
 
     var expressJwt = require('express-jwt');
     var jwt = require('jsonwebtoken');
 
     var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
+
+
     app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
 
     app.use('/api/forecasts', require('./api/forecasts'));

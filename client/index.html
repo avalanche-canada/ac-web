@@ -20,6 +20,7 @@
 
     <!-- tell bots that this is a javascript site -->
     <meta name="fragment" content="!">
+    <meta ng-repeat="tag in metatags" name="{{tag.name}}" content="{{tag.content}}" />
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" type="image/png" href="http://avalanche.ca/assets/Avalanche_Canada_logo32x32.png" />
