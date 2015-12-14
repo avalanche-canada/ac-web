@@ -52,8 +52,8 @@ angular.module('avalancheCanadaApp')
               {type: 'description', value: 'Get the latest forecast for the ' + forecast.bulletinTitle + ' region'},
               {type: 'ttl',         value: 60*60*6 /* keep pages for 6h */}
             ];
-        }).catch(function(err){
-            $state.go('ac.404');
+        }).catch(function(){
+          $state.go('ac.404');
         });
     });
 
