@@ -58,33 +58,7 @@ angular.module('avalancheCanadaApp')
         return (linkSlug === $scope.currentSlug) ? 'active' : '';
       };
 
-      var menuWalk = function(node, fn) {
-        fn(node);
-        _.each(node.children, function(n){
-          menuWalk(n, fn);
-        });
-      };
 
-      TutorialContents
-        .then(function(contents){
-          if($scope.currentSlug === '/') {
-            $scope.next = contents[0];
-          }
-
-          var slug = $scope.currentSlug;
-          var me = [];
-          menuWalk({children:contents}, function(n){me.push(n);});
-          me = me.slice(1);
-
-          for(var i=0; i < me.length; i++) {
-            if(me[i].slug === slug && i+1 < me.length) {
-              $scope.next = me[i + 1];
-              break;
-            }
-          }
-
-          return contents;
-        });
 
         getTutorialContentsPrune($scope.currentSlug)
           .then(function(contents){
@@ -93,12 +67,16 @@ angular.module('avalancheCanadaApp')
     }
   };
 })
-.controller('TutorialHomeCtl', function ($scope, Prismic) {
+.controller('TutorialHomeCtl', function ($scope, Prismic, TutorialContents) {
 
     Prismic.bookmark('tutorial-home')
       .then(function(result){
         $scope.title = result.getText('generic.title');
         $scope.body  = result.getStructuredText('generic.body').asHtml();
+      });
+    TutorialContents
+      .then(function(contents){
+          $scope.next = contents[0];
       });
 })
 .controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll, interactiveQuestions) {
@@ -201,4 +179,36 @@ angular.module('avalancheCanadaApp')
 
     $scope.interactiveQuestions = interactiveQuestions[slug];
 
+    console.log('DEBUG TutorialCtrl- next-link:', $scope.next);
+    
+    var menuWalk = function(node, fn) {
+      fn(node);
+      _.each(node.children, function(n){
+        menuWalk(n, fn);
+      });
+    };
+
+    TutorialContents
+      .then(function(contents){
+        if($scope.currentSlug === '/') {
+          $scope.next = contents[0];
+        }
+
+        var slug = $scope.currentSlug;
+        var me = [];
+        menuWalk({children:contents}, function(n){me.push(n);});
+        me = me.slice(1);
+
+        for(var i=0; i < me.length; i++) {
+          if(me[i].slug === slug && i+1 < me.length) {
+            $scope.next = me[i + 1];
+            break;
+          }
+        }
+        
+        console.log('DEBUG menu - next-link:', $scope.next);
+        return contents;
+      });
+
+        
 });
