@@ -30,7 +30,7 @@ angular.module('avalancheCanadaApp')
           .then(function(response) {
             var idx  = {};
             _.each(response.data, function(q){
-              idx[ q['id'] ] = q;
+              idx[q.id] = q;
             });
             return idx;
           });
