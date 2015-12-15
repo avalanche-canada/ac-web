@@ -3,7 +3,6 @@
 angular.module('avalancheCanadaApp')
 .controller('AtesCtrl', function($scope, $http){
 
-
   $scope.isCorrect = function(img) {
     return  typeof(img.current_answer) !== 'undefined' && 
             img.current_answer === img.answer;
@@ -15,7 +14,7 @@ angular.module('avalancheCanadaApp')
   };
 
   $http
-    .get('/app/avalanchecanada/tutorial/ates_exercise.json')
+    .get('/assets/ates_exercise.json')
     .then(function(response){
       $scope.atesContent = response.data;
     });
