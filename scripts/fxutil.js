@@ -3,13 +3,23 @@
 var fs = require('fs');
 var _ = require('lodash');
 
-var data = JSON.parse(fs.readFileSync(__dirname + '/data/cac-data.json'));
-var centroids = JSON.parse(fs.readFileSync(__dirname + '/data/cac-polygons-centroids.geojson'));
-var polygons = JSON.parse(fs.readFileSync(__dirname + '/data/cac-polygons.geojson'));
+
+var DATA      = process.argv[3], //__dirname + '/data/cac-data.json',
+    CENTROIDS = process.argv[4], //__dirname + '/data/cac-polygons-centroids.geojson',
+    POLY      = process.argv[5], //__dirname + '/data/cac-polygons.geojson';
+    FORECASTS = process.argv[2]; //__dirname + '/data/cac-forecasts.json'
+
+
+var data      = JSON.parse(fs.readFileSync(DATA)),
+    centroids = JSON.parse(fs.readFileSync(CENTROIDS)),
+    polygons  = JSON.parse(fs.readFileSync(POLY));
 
 var forecasts = polygons.features.map(function (p) {
-    var centroid = _.find(centroids.features, function(c) { return c.properties.id === p.properties.id });
-    var fxData = _.find(data, { extId: p.properties.id });
+
+    var centroid = _.find(centroids.features, function(c) { 
+      return c.properties.id === p.properties.id 
+    });
+    var fxData = _.find(data, { id: p.properties.id });
 
     p.id = fxData.id;
     _.extend(p.properties, fxData);
@@ -23,7 +33,8 @@ var forecasts = polygons.features.map(function (p) {
 });
 
 polygons.features = forecasts;
-fs.writeFile(__dirname + '/data/cac-forecasts.json', JSON.stringify(polygons));
+console.log('Updated Region API data');
+fs.writeFile(FORECASTS, JSON.stringify(polygons));
 
 
 // was used to extract geojson props from api forecast.json file and write cac-data.json
