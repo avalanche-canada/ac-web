@@ -1,0 +1,69 @@
+#news-blog-event-content.container
+    #top-link.visible-xs-block
+        i.fa.fa-chevron-up
+        br
+        | Top
+    .row
+        header.col-xs-12
+            #header-inner
+                h1
+                  | {{page.title}}
+                .blue-border
+    .min-landing.row
+       .col-xs-12.col-md-9
+         section.row
+           .min-submit-wrapper.col-md-3.col-md-push-9
+             a.min-submit-button(href="/submit") Submit to the <span>MIN</span>
+
+             p.min-guidelines
+              a(href="http://www.avalanche.ca/fxresources/Submissions+Guidelines.pdf") Submission Guidelines
+
+            //.col-md-pull-3
+           .min-body.col-md-9.col-md-pull-3(ng-bind-html='page.body')
+          .row
+             div.col-md-6
+               .min-video
+                 .inner
+                    iframe(src="https://player.vimeo.com/video/141111236?badge=0&byline=0&portrait=0" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen) 
+             .min-store-buttons.col-md-3.col-sm-6
+               p To download the app click on the links below
+               p
+                 a(href="https://play.google.com/store/apps/details?id=com.idearebel.avalanchereports")
+                   img(alt="Get it on Google Play" src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png")
+               p
+                 a(href="https://geo.itunes.apple.com/ca/app/avalanche-canada/id348430895?mt=8" style="display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;width:136px;height:40px;")
+             .min-screen-shot.col-md-3.col-sm-6
+               img(src='assets/images/app-screenshot.jpg')
+
+       #mobile-sidebar-container.col-xs-12.col-md-3
+         aside.min-landing-aside
+           .sidebar-inner
+              ul.sidebar-related-links
+                  li
+                      h5 Share This &nbsp;
+                          a(href="https://twitter.com/intent/tweet?url={{page.url}}")
+                              i.fa.fa-twitter.fa-fw.fa-lg
+
+                          a(href="https://www.facebook.com/sharer/sharer.php?u={{page.url}}")
+                              i.fa.fa-facebook.fa-fw.fa-lg
+
+                          a(href="https://plus.google.com/share?url={{page.url}}")
+                              i.fa.fa-google-plus.fa-fw.fa-lg
+                  li
+                      h5 Follow Us &nbsp;
+                          a(href="https://twitter.com/avalancheca" target="_blank")
+                              i.fa.fa-twitter.fa-fw.fa-lg
+
+                          a(href="https://www.facebook.com/avalanchecanada" target="_blank")
+                              i.fa.fa-facebook.fa-fw.fa-lg
+
+                          a(href="http://instagram.com/avalanchecanada" target="_blank")
+                              i.fa.fa-instagram.fa-fw.fa-lg
+                  li
+                      h5 Contact Us &nbsp;
+                          a(href="mailto:info@avalanche.ca")
+                              i.fa.fa-envelope.fa-fw.fa-lg
+
+
+    .push
+div.footer(ng-include='"components/footer/footer.html"')

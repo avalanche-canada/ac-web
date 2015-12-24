@@ -1,0 +1,85 @@
+
+@import "_custom_cac_variables";
+
+
+//$photoshop-red:  #ed1c24;
+$red: #CF0920;
+.min-landing {
+  padding-top: 2em;
+}
+
+.min-landing-aside {
+  margin-top: 1rem;
+  min-height: 0;
+  li:last-child {
+    border-bottom: 0;
+  }
+}
+
+.min-video {
+  position: relative;
+  &:after {
+    display:block;
+    content: '';
+    padding-top: percentage(281/500);
+  }
+  .inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.min-submit-button {
+  display: inline-block;
+  text-align: center;
+  background-color: $red;
+  color: #fff;
+  padding: 0.9rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px -1px rgba(0,0,0,0.4);
+  font-size: 2rem;
+
+  &:active,
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 2px 10px -1px rgba(0,0,0,0.7);
+
+  }
+  span {
+    display:block;
+  }
+}
+.min-submit-wrapper {
+  text-align: center;
+}
+
+.min-guidelines {
+  margin-top: 2rem;
+}
+.min-store-buttons {
+  text-align: center;
+}
+.min-screen-shot {
+  text-align: center;
+}
+
+
+.dropdown-menu > li > a.min-menu-submit-button,
+#app-pushmenu .submit-button {
+  background: #CF0920;
+  color: #fff;
+  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  margin-top: 1em;
+  text-align: center;
+}
+.dropdown-menu > li > a.min-menu-submit-button {
+  padding: 15px 20px;
+  text-align: left;
+}
+

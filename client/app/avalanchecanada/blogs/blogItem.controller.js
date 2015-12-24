@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('BlogItemCtrl', function ($scope, $rootScope, Prismic, $log, $location, id, slug) {
+  .controller('BlogItemCtrl', function ($scope, $rootScope, $state, Prismic, $log, $location, id, slug) {
     Prismic.ctx().then(function(ctx) {
         $scope.ctx = ctx;
         $scope.iFrameCount = 4;
@@ -38,7 +38,7 @@ angular.module('avalancheCanadaApp')
             else {
                 // Should display some kind of error; will just redirect to / for now
                 $log.error('error document slug not found');
-                $location.path('/');
+                $state.go('ac.404');
             }
         });
     });

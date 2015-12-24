@@ -48,7 +48,12 @@ angular.module('avalancheCanadaApp', [
             })
             .state('ac.404', {
                 url: '^/404',
-                templateUrl: 'app/404.html'
+                templateUrl: 'app/404.html',
+                controller: function($rootScope) {
+                  $rootScope.metatags = [
+                    {name: 'prerender-status-code', content: '404'}
+                  ];       
+                }
             })
             .state('ac.error', {
                 url: '^/error',

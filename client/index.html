@@ -20,6 +20,7 @@
 
     <!-- tell bots that this is a javascript site -->
     <meta name="fragment" content="!">
+    <meta ng-repeat="tag in metatags" name="{{tag.name}}" content="{{tag.content}}" />
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="shortcut icon" type="image/png" href="http://avalanche.ca/assets/Avalanche_Canada_logo32x32.png" />
@@ -140,6 +141,7 @@
       <script src="app/avalanchecanada/main/main.js"></script>
       <script src="app/avalanchecanada/main/map.controller.js"></script>
       <script src="app/avalanchecanada/main/more.controller.js"></script>
+      <script src="app/avalanchecanada/min/min.js"></script>
       <script src="app/avalanchecanada/news/news.controller.js"></script>
       <script src="app/avalanchecanada/news/news.js"></script>
       <script src="app/avalanchecanada/news/newsItem.controller.js"></script>
