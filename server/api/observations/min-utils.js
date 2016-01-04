@@ -283,11 +283,12 @@ exports.getObservations = function (filters, callback) {
 exports.getObservation = function (obid, callback) {
     var params = {
         TableName: OBS_TABLE,
-        FilterExpression: 'obid = :obid',
+        KeyConditionExpression: 'obid = :obid',
         ExpressionAttributeValues: {':obid' : obid}
     };
-    docClient.scan(params, function(err, res) {
+    docClient.query(params, function(err, res) {
         if (err) {
+            console.log(err);
             callback({error: "error fetching observations"});
         } else {
             var sub = itemToObservation(res.Items[0]);
