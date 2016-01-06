@@ -288,8 +288,11 @@ exports.getObservation = function (obid, callback) {
     };
     docClient.query(params, function(err, res) {
         if (err) {
-            console.log(err);
+            logger.err(err);
             callback({error: "error fetching observations"});
+        } else if(typeof sub === 'undefined') {
+            logger.error('Undefined returned for observation obid='+obid+');
+            callback({error: "error fetching observation"});
         } else {
             var sub = itemToObservation(res.Items[0]);
             callback(null, sub);
