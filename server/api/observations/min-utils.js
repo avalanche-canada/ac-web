@@ -290,7 +290,7 @@ exports.getObservation = function (obid, callback) {
         if (err) {
             logger.err(err);
             callback({error: "error fetching observations"});
-        } else if(typeof sub === 'undefined') {
+        } else if(typeof res === 'undefined') {
             logger.error('Undefined returned for observation obid='+obid);
             callback({error: "error fetching observation"});
         } else {
