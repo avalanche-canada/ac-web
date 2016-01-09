@@ -1,10 +1,8 @@
 
-.ambassador-header {
-  margin-bottom: 5em;
-}
 .ambassador {
   @extend .row;
   margin-bottom: 5em;
+  padding-top: 85px;
 }
 .ambassador--actionshot {
   @extend .col-md-12;

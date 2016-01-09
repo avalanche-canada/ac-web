@@ -6,5 +6,10 @@ angular.module('avalancheCanadaApp')
       url: '^/ambassadors',
       templateUrl: 'app/avalanchecanada/ambassadors/ambassadors.html',
       controller: 'AmbassadorsCtrl'
+    })
+    .state('ac.ambassadors_anchor', {
+      url: '^/ambassadors/:anchor',
+      templateUrl: 'app/avalanchecanada/ambassadors/ambassadors.html',
+      controller: 'AmbassadorsCtrl'
     });
 });

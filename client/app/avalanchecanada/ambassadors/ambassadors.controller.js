@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('AmbassadorsCtrl', function ($scope) {
+  .controller('AmbassadorsCtrl', function ($scope, $stateParams, $anchorScroll) {
     $scope.ambassadors = [
       { name: 'Nadine Overwater',
         anchor: 'Nadine-Overwater',
@@ -20,13 +20,18 @@ angular.module('avalancheCanadaApp')
         bio: 'Robin is a professional snowboarder living in Whistler. Although she grew up skiing, she switched to a snowboard when she was 15. She started competing in international events while studying at the University of Calgary and although she had some good success in competition, Robin felt the draw of the backcountry. In 2003 she began coaching and guiding for SASS Global Travel in Argentina and hasn’t missed a summer since. Robin also has a very busy film career, working with a number of production companies and appearing in virtually every industry publication. Over the past 10 years she has worked to improve her understanding of the mountains through avalanche education and has developed a passion for encouraging other like-minded individuals to do the same.',
         headshot: 'https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_300/v1448309894/Avalanche%20Ambassadors/Robin_VanGyn_Headshot_Av_Am.jpg',
         actionshot: {
-            img: 'https://res.cloudinary.com/avalanche-ca/image/upload/v1449873395/Avalanche%20Ambassadors/robin-hanyes-banner-full.jpg',
-          credit: 'Great Photographer'
+          img: 'https://res.cloudinary.com/avalanche-ca/image/upload/v1449873395/Avalanche%20Ambassadors/robin-hanyes-banner-full.jpg',
+          credit: 'Oli Gagnon / Roxy'
         },
         facebook: 'https://www.facebook.com/robinvangyn',
         twitter: 'https://twitter.com/robinvangyn',
         instagram: 'https://www.instagram.com/robinvangyn/',
         website: 'http://robinvangyn.com/' }
     ];
-  })
+
+   if($stateParams.anchor) {
+     console.log()
+     $anchorScroll($stateParams.anchor);
+   }
+ })
 ;

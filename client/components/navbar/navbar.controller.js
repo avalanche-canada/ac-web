@@ -114,4 +114,11 @@ angular.module('avalancheCanadaApp')
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
 
+    $scope.sledPages = 
+        [ {url:'', display:'Snowmobile Committee'},
+          {url:'', display:'Throttle Decisions'},
+          {url:'', display:'Mountain Information Network'},
+          {url:'', display:'Al Hodgins Memorial Fund'},
+          {url:'/gear', display:'Essential gear'} ];
+
   });
