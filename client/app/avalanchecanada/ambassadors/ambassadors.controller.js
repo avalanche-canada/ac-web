@@ -2,7 +2,7 @@
 
 angular.module('avalancheCanadaApp')
   .controller('AmbassadorsCtrl', function ($scope, $stateParams, $anchorScroll, page) {
-    $scope.page = page;
+    $scope.intro = page.getStructuredText('ambassador-page.intro').asText();
 
     $scope.ambassadors = 
       page

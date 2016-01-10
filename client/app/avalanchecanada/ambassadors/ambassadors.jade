@@ -9,6 +9,7 @@
                 h1
                   | Avalanche Ambassadors
                 .blue-border
+    p.ambassadors--intro(ng-bind='intro')
     .ambassador(ng-repeat="a in ambassadors" id="{{a.anchor}}")
 
       .ambassador--actionshot
