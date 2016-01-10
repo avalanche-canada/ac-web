@@ -1,7 +1,37 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-  .controller('AmbassadorsCtrl', function ($scope, $stateParams, $anchorScroll) {
+  .controller('AmbassadorsCtrl', function ($scope, $stateParams, $anchorScroll, page) {
+    $scope.page = page;
+
+    $scope.ambassadors = 
+      page
+        .getGroup('ambassador-page.ambassadors')
+        .toArray()
+        .map(function(a){
+          window.stufff = a.getStructuredText('bio');
+          var name = a.getText('name'),
+              anchor = name.toLowerCase().replace(/ /g, '-');
+
+          return {
+            name: name,
+            anchor: anchor,
+            headshot: a.getText('headshot'),
+            bio: a.getStructuredText('bio').asText(null),
+            actionshot: {
+              img: a.getText('action_img'),
+              credit: a.getText('action_credit')
+            },
+            facebook:  a.getText('facebook'),
+            instagram: a.getText('instagram'),
+            twitter:   a.getText('twitter'),
+            website:   a.getText('website')
+          };
+        });
+
+
+
+    /*
     $scope.ambassadors = [
       { name: 'Nadine Overwater',
         anchor: 'Nadine-Overwater',
@@ -28,7 +58,7 @@ angular.module('avalancheCanadaApp')
         instagram: 'https://www.instagram.com/robinvangyn/',
         website: 'http://robinvangyn.com/' }
     ];
-
+   */
    if($stateParams.anchor) {
      console.log()
      $anchorScroll($stateParams.anchor);
