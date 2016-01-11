@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('avalancheCanadaApp')
 .config(function ($stateProvider) {
@@ -10,6 +11,7 @@ angular.module('avalancheCanadaApp')
         page: function(Prismic) { return Prismic.bookmark('ambassadors'); }
       }
     })
+  /*
     .state('ac.ambassadors_anchor', {
       url: '^/ambassadors/:anchor',
       templateUrl: 'app/avalanchecanada/ambassadors/ambassadors.html',
@@ -17,5 +19,7 @@ angular.module('avalancheCanadaApp')
       resolve: {
         page: function(Prismic) { return Prismic.bookmark('ambassadors'); }
       }
-    });
+    })
+  */
+    ;
 });
