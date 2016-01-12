@@ -27,6 +27,14 @@
         width:264px;
         display:block;
     }
+
+    @media screen and (max-width: $screen-phone) {
+        .ac {
+            width: 200px;
+            background-size: cover;
+        }
+    }
+
 	h1,
 	h1 a {
 	}

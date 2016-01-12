@@ -27,6 +27,15 @@
                               p Brought to you by
                               a(target='_blank', href='')
                                   img(style='width:120px;' src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                        //- h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
+                        //- #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis"')
+                        //-     p Brought to you by
+                        //-     a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                        //-         img(ng-src='{{sponsor.getText("sponsor.image-229")}}')
+                        //- #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region == "kananaskis"')
+                        //-     p Brought to you by
+                        //-     a(target='_blank', href='')
+                        //-         img(style='width:120px;' ng-src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                         .blue-border
                 #forecast-sponsor-mobile.col-xs-12.visible-xs-block
                     #forecast-sponsor-mobile-inner(ng-if='forecast.region != "kananaskis"')
@@ -35,10 +44,10 @@
                             br
                             | to you by
                         a.pull-right(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
-                            img(src='{{sponsor.getText("sponsor.image-229")}}')
+                            img(ng-src='{{sponsor.getText("sponsor.image-229")}}')
                     #forecast-sponsor-mobile-inner(ng-if='forecast.region == "kananaskis"')
                         a.pull-right(target='_blank', href='')
-                            img(src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                            img(ng-src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
                 section#forecast-date.col-xs-12
                     #date-issued.forecast-date-inner
                         | Date Issued &nbsp;
@@ -79,7 +88,7 @@
                                         .panel-heading
                                                 | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
                                         .panel-body.forecast-nowcast
-                                            img.img-responsive(alt='', src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
+                                            img.img-responsive(alt='', ng-src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
                                         table.table.table-condensed.ac-forecast-days
                                             thead.ac-thead-dark
                                                 tr

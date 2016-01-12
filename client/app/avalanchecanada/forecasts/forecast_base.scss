@@ -113,24 +113,7 @@
         color: black;
         padding: 5px 15px;
     }
-    .nav-pills { //todo: will replace with actual full page component + .mini
-        margin-bottom: 10px;
-        li {
-            a {
-                background-color: rgba(0, 86, 183, 0.4);
-                color: white;
-            }
-            &.active a {
-                background-color: rgb(0, 86, 183);
-            }
-            & > a {
-                padding: 5px 15px;
-                font-size: 0.8em;
-                border-radius: 0;
 
-            }
-        }
-    }
     .panel {
         margin-bottom: 0;
         .panel-body {

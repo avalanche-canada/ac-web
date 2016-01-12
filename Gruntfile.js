@@ -16,6 +16,10 @@ module.exports = function (grunt) {
                 console.log('dev branch setting env to development');
                 env = 'development';
                 break;
+            case 'min':
+                console.log('min branch setting env to min');
+                env = 'min';
+                break;
             case 'qa':
                 console.log('qa branch setting env to qa');
                 env = 'qa';
@@ -277,8 +281,7 @@ module.exports = function (grunt) {
           '/json3/',
           '/es5-shim/',
           /bootstrap.css/,
-          /font-awesome.css/,
-          /auth0-lock/
+          /font-awesome.css/
         ]
       }
     },
@@ -315,7 +318,6 @@ module.exports = function (grunt) {
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
       js: [
         '<%= yeoman.dist %>/public/{,*/}*.js',
-        '!<%= yeoman.dist %>/public/bower_components/auth0.js',
         '!<%= yeoman.dist %>/public/bower_components/mapbox.js'
       ],
       options: {

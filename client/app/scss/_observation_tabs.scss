@@ -1,0 +1,246 @@
+.observation-tabs {
+    ul {
+        margin-bottom: 10px;
+    }
+
+    li {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: -2px;
+        cursor: pointer;
+
+        &.completed {
+            a, a:hover {
+                border-bottom-color: #0056B7;
+                background-color: #ffffff;
+                color: #000000;
+
+                &.avalanche {
+                    border-bottom-color: $report-avalanche;
+                }
+
+                &.weather {
+                    border-bottom-color: $report-weather;
+                }
+
+                &.snowpack {
+                    border-bottom-color: $report-snowpack;
+                }
+
+                &.incident {
+                    border-bottom-color: $report-incident;
+                }
+
+                &.quick {
+                    border-bottom-color: $report-quick;
+                }
+            }
+
+            a:hover {
+                background-color: #eeeeee;
+            }
+        }
+
+        &.active {
+            a, a:hover, a:focus {
+                border-bottom-color: $main-blue;
+                background-color: $main-blue;
+                color: $white;
+            
+                &.avalanche {
+                    background-color: $report-avalanche;
+                    border-bottom-color: $report-avalanche;
+                    color: $white;
+                }
+
+                &.weather {
+                    background-color: $report-weather;
+                    border-bottom-color: $report-weather;
+                    color: $white;
+                }
+
+                &.snowpack {
+                    background-color: $report-snowpack;
+                    border-bottom-color: $report-snowpack;
+                    color: $white;
+                }
+
+                &.incident {
+                    background-color: $report-incident;
+                    border-bottom-color: $report-incident;
+                    color: $white;
+                }
+
+                &.quick {
+                    background-color: $report-quick;
+                    border-bottom-color: $report-quick;
+                    color: $white;
+                }
+            }
+        }
+
+        &.disabled {
+            a, a:hover {
+                border-bottom-color: $main-gray--40;
+                background-color: $white;
+                color: $main-gray--40;
+            }
+        }
+
+        a {
+            border-radius: 0;
+            color: #000000;
+            padding: 10px 7px;
+            width: 88px;
+            text-align: center;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border-bottom: 5px solid #AAACAD;
+            font-family: Monserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
+        }
+    }
+
+    &.bottom {
+        margin-top: 10px;
+
+        li {
+            &.completed {
+                a, a:hover {
+                    &.avalanche {
+                        border-top-color: $report-avalanche;
+                    }
+
+                    &.weather {
+                        border-top-color: $report-weather;
+                    }
+
+                    &.snowpack {
+                        border-top-color: $report-snowpack;
+                    }
+
+                    &.incident {
+                        border-top-color: $report-incident;
+                    }
+
+                    &.quick {
+                        border-top-color: $report-quick;
+                    }
+                }
+            }
+
+            &.active {
+                a, a:hover, a:focus {
+                    &.avalanche {
+                        border-top-color: $report-avalanche;
+                    }
+
+                    &.weather {
+                        border-top-color: $report-weather;
+                    }
+
+                    &.snowpack {
+                        border-top-color: $report-snowpack;
+                    }
+
+                    &.incident {
+                        border-top-color: $report-incident;
+                    }
+
+                    &.quick {
+                        border-top-color: $report-quick;
+                    }
+                }
+            }
+
+            &.disabled {
+                a, a:hover {
+                    border-top-color: $main-gray--40;
+                }
+            }
+
+            a {
+                border-top: 5px solid #AAACAD;
+                border-bottom: none;
+            }
+        }
+    }
+
+    .nav-justified {
+        li a{
+            width: auto;
+            margin-right:2px;
+            padding: 10px 10px;
+        }
+    }
+
+    @media screen and (max-width: $screen-tablet) {
+        li {
+            font-size: 10px;
+            a {
+                width: auto;
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+        }
+    }
+
+    @media screen and (min-width: $screen-tablet) and (max-width: $screen-lg-desktop) {
+        .nav-justified {
+            li {
+                font-size: 10px;
+                a {
+                    width: auto;
+                    padding-left: 3px;
+                    padding-right: 3px;
+                }
+            }
+        }
+    }
+
+
+    .tab-head {
+        text-transform: uppercase;
+    }
+}
+
+.observation-information {
+    margin-bottom: 5px;
+
+    .observation-item{
+        color: $gray-light;
+
+        i.fa-check{
+            margin-left: 10px;
+            margin-right: 1px;
+            color: #AAACAD;
+        }
+        span.value{
+            color: #000000; //$main-gray--80;
+            //font-size: 0.8em;
+            font-weight: 500;
+            font-family: Monserat, Helvetica Neue, Helvetica, Arial, sans-serif;
+            //text-transform: uppercase;
+        }
+        ul {
+            display: inline;
+            list-style: none;
+            padding-left:5px;
+            font-size: 1em;
+            color: #AAACAD;
+            li{
+                display:inline;
+            }
+        }
+    }
+}
+
+
+.observation-title{
+    max-width: 400px;
+    border-bottom: 3px solid #000000; //$main-blue;
+    color: #000000; //$main-blue;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 5px;
+}

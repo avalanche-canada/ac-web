@@ -1,6 +1,3 @@
-@import "scss/_custom_cac_variables";
-
-// todo: extract out colors and box-shadow
 .ac-drawer {
     // todo: hack until this is really fixed. yr
     #forecast {
@@ -12,27 +9,55 @@
     width: 100%;
     right: -100%;
     margin-bottom: 0;
-    background-color: rgb(255, 255, 255);
+    background-color: $white;
     box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
-    border-top: 1px solid #eee;
+    border-top: 1px solid $main-gray--10;
     transition: all 0.3s linear;
     z-index: 1000;
-    @media (min-width: $screen-sm-min) {
-        width: 350px;
-        right: -350px;
+    &-right {
+        @media (min-width: $screen-sm-min) {
+            width: 350px;
+            right: -350px;
+        }
+        @media (min-width: $screen-md-min) {
+            width: 515px;
+            right: -515px;
+        }
+        &.ac-drawer--expanded {
+            right: 0;
+        }
+        .ac-drawer-tools {
+            left: -60px;
+        }
     }
-    @media (min-width: $screen-md-min) {
-        width: 480px;
-        right: -480px;
+
+    &-left {
+        @media (max-width: $screen-sm-min) {
+            width: 100vw;
+            left: -100vw;
+        }
+        @media (min-width: $screen-sm-min) {
+            width: 350px;
+            left: -350px;
+        }
+        @media (min-width: $screen-md-min) {
+            width: 480px;
+            left: -480px;
+        }
+        &.ac-drawer--expanded {
+            left: 0;
+        }
+
+        .ac-drawer-tools {
+            right: -60px;
+        }
     }
-    &.ac-drawer--expanded {
-        right: 0;
-    }
+
     .ac-drawer-close {
         position: absolute;
         top: 10px;
         right: 10px;
-        color: rgb(177, 177, 177);
+        color: $main-gray--80;
         cursor: pointer;
         z-index: 10;
     }
@@ -45,46 +70,195 @@
     .ac-drawer-tools {
         position: absolute;
         top: 10px;
-        left: -50px;
+        z-index: -200;
         ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
         li {
-            height: 50px;
-            width: 50px;
+            height: 60px;
+            width: 60px;
             margin-bottom: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: -5px 0 15px rgba(43, 47, 51, 0.6);
+            background-color: $main-blue;
             cursor: pointer;
             transition: all 0.2s linear;
             small, strong {
-              display: block;
-              margin: auto;
-              color: white;
-              text-align: center;
-              line-height: 1.2em;
+                display: block;
+                margin: auto;
+                color: white;
+                text-align: center;
+                line-height: 1.2em;
             }
             & small:first-child {
-              padding-top: 3px;
+                padding-top: 3px;
             }
             i {
-                color: rgba(255, 255, 255, 0.2);
+                color: $main-blue--light;
             }
             &.on {
-              i {
-                color: rgb(0, 86, 183);
-              }
+                color: $white;
+                i {
+                    color: $white;
+                }
             }
-            .danger-icon polygon {
-                fill: rgba(255, 255, 255, 0.2);
+            .danger-icon {
+                svg{
+                    margin-top:-3px;
+                }
+                span {
+                    color: $main-blue--light;
+                    font-size: 0.6em;
+                    font-weight: bold;
+                    position: relative;
+                    top: -25px;
+                    left: 9px;
+                }
+                polygon {
+                    fill: $main-blue--light;
+                }
             }
             &.on {
-              .danger-icon polygon {
-                fill: rgb(0, 86, 183);
-              }
+                .danger-icon {
+                    span {
+                        color: $white;
+                    }
+                    polygon {
+                        fill: $white;
+                    }
+                }
             }
         }
     }
+
+    //moved from drawer.jade
+
+    .ac-filters ul {
+        position: relative;
+        user-select: none;
+        width: 60px;
+        &.opened {
+            width: 440px;
+        }
+
+        .ng-leave{
+            display: none!important;
+        }
+
+        li {
+            color: $main-blue--light;
+            i {
+                padding-top: 7px;
+                padding-left: 13px;
+            }
+            span {
+                display: block;
+                font-size: 0.6em;
+                text-transform: uppercase;
+                text-align:center;
+                margin-top:5px;
+            }
+        }
+    }
+    .ac-min-filters, .ac-default-filters{
+        ul li{
+            background-color: $white;
+            color: $main-gray--80;
+            margin-left: 1px;
+            overflow: hidden;
+            &:first-child{
+                margin-left:0px;
+            }
+            i {
+                color: $main-blue--light;
+                padding-left: 16px;
+                &.fa-calendar{
+                    padding-left: 13px!important;
+                }
+            }
+
+            &.on {
+                color: $white;
+                background-color: $main-blue;
+                i {
+                    color: $white;
+                }
+            }
+
+            &.ac-minfilter-button{
+                background-color: $main-blue;
+                color: $white;
+                i {
+                    color: $white;
+                    padding-left: 16px;
+                }
+            }
+
+            &.ac-default-button{
+                i{
+                    font-size: 1.5em;
+                    padding-left: 19px;
+                    &.fa-calendar{
+                        padding-left: 15px!important;
+                    }
+                }
+                span{
+                    margin-top:2px;
+                }
+            }
+        }
+        .report{
+            &-quick{
+                color: $report-quick!important;
+            }
+            &-avalanche{
+                color: $report-avalanche!important;
+            }
+            &-incident{
+                color: $report-incident!important;
+            }
+            &-snowpack{
+                color: $report-snowpack!important;
+            }
+            &-weather{
+                color: $report-weather!important;
+            }
+            &-all{
+                color: $report-cluster!important;
+            }
+            &-allmin{
+                margin-top: 7px;
+                margin-left:11px;
+            }
+
+        }
+    }
+    .ac-submit-report-tab{
+        background-color: $error-red!important;
+        i{
+            padding-left: 17px;
+            padding-top: 7px;
+        }
+        i.fa-plus{
+            font-size: 14px;
+            position: absolute;
+            top: 2px;
+            left: 9px;
+            background-color: $error-red;
+            padding: 3px;
+            border-radius: 50%;
+        }
+        span{
+            display: block;
+            font-size: 0.6em;
+            text-transform: uppercase;
+            text-align:center;
+            margin-top:0px;
+        }
+    }
+
+    .no-top{
+        margin-top:0px!important;
+    }
+
 }
