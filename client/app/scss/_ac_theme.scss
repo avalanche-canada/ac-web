@@ -40,3 +40,28 @@
     padding-left: 6px;
     padding-top: 2px;
 }
+
+.marker-cluster{
+    background-color: transparent!important;
+}
+
+div[class^='marker-cluster-'] div,
+div[class*=' marker-cluster-'] div{
+    color: #ffffff;
+    background-color: #4B6D6F!important;
+}
+
+a.pull-right img{
+    max-width: 160px;
+    margin: 10px 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}

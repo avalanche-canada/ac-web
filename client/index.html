@@ -26,7 +26,8 @@
     <link rel="shortcut icon" type="image/png" href="http://avalanche.ca/assets/Avalanche_Canada_logo32x32.png" />
     <link rel="apple-itouch-icon" href="http://avalanche.ca/assets/Avalanche_Canada_logo32x32.png" >
 
-
+      <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
+      <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
     <!-- generated -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
@@ -39,13 +40,14 @@
       <link rel="stylesheet" href="bower_components/leaflet.locatecontrol/src/L.Control.Locate.css"/>
       <link rel="stylesheet" href="bower_components/mapbox.js/mapbox.css" />
       <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css"/>
-    <!-- endbuild -->
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css"/>
+      <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
       <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
-    <link href="datatables.bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -78,23 +80,18 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/moment/moment.js"></script>
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-animate/angular-animate.js"></script>
       <script src="bower_components/ngtoast/dist/ngToast.js"></script>
       <script src="bower_components/multilevelpushmenu/jquery.multilevelpushmenu.js"></script>
       <script src="bower_components/mapbox.js/mapbox.js"></script>
-      <script src="bower_components/leaflet-pip/leaflet-pip.js"></script>
-      <script src="bower_components/leaflet.locatecontrol/src/L.Control.Locate.js"></script>
       <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+      <script src="bower_components/leaflet.locatecontrol/src/L.Control.Locate.js"></script>
       <script src="bower_components/ac-components/dist/ac-components.js"></script>
       <script src="bower_components/angular-prismicio/dist/angular-prismicio.min.js"></script>
-      <script src="bower_components/a0-angular-storage/dist/angular-storage.js"></script>
-      <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-      <script src="bower_components/auth0.js/build/auth0.js"></script>
-      <script src="bower_components/auth0-angular/build/auth0-angular.js"></script>
       <script src="bower_components/emitter-es6/browser/index.js"></script>
       <script src="bower_components/slideout/dist/slideout.js"></script>
       <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
@@ -106,6 +103,7 @@
       <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
       <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
       <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+      <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
       <!-- endbower -->
       <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
       <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
@@ -116,9 +114,14 @@
       <script src="bower_components/prismic.io/dist/prismic.io.js"></script>
       <script src="assets/js/geojson-utils.js"></script>
     <!-- endbuild -->
-
+    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <!-- some of the i18n modules in the lock.js lib break the set build process, package seperatly. -->
-    <script src="bower_components/auth0-lock/build/auth0-lock.min.js"></script>
+      <script src="//cdn.auth0.com/js/lock-7.12.min.js"></script>
+      <script type="text/javascript" src="//cdn.rawgit.com/auth0/angular-storage/master/dist/angular-storage.js"></script>
+      <script type="text/javascript" src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
+      <script src="//cdn.auth0.com/w2/auth0-angular-4.js"> </script>
+
+
 
     <!-- build:js({.tmp,client}) app/app.js -->
       <script src="app/app.js"></script>
@@ -145,7 +148,10 @@
       <script src="app/avalanchecanada/news/news.controller.js"></script>
       <script src="app/avalanchecanada/news/news.js"></script>
       <script src="app/avalanchecanada/news/newsItem.controller.js"></script>
+      <script src="app/avalanchecanada/page/page.controller.js"></script>
+      <script src="app/avalanchecanada/page/page.js"></script>
       <script src="app/avalanchecanada/redirect/redirect.js"></script>
+      <script src="app/avalanchecanada/reports/reports.controller.js"></script>
       <script src="app/avalanchecanada/sponsors/sponsors.js"></script>
       <script src="app/avalanchecanada/submit/submit.controller.js"></script>
       <script src="app/avalanchecanada/submit/submit.js"></script>

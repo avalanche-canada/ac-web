@@ -3,9 +3,10 @@ var _ = require('lodash');
 var moment = require('moment');
 var uuid = require('node-uuid');
 var geohash = require('ngeohash');
-var DOC = require("dynamodb-doc");
 var geolib = require("geolib");
-var docClient = new DOC.DynamoDB();
+var AWS = require('aws-sdk');
+AWS.config.update({region: 'us-west-2'});
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 var logger = require('../../logger.js');
 var Q = require('q');
 var role = require('../../components/role/role');
@@ -104,7 +105,7 @@ function getProviderDistanceList(success, fail, origin) {
 function getProviderList(success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
 
-    docClient.scan(params, function(err, res) {
+    dynamodb.scan(params, function(err, res) {
         if (err) {
             fail(err);
         } else {
@@ -121,9 +122,12 @@ function getProviderList(success, fail) {
 
 function getProvider(provId, success, fail) {
     var params = { TableName: AST_PROVIDER_TABLE };
-    params.KeyConditions = [docClient.Condition('providerid', 'EQ', provId)];
+    params.KeyConditionExpression = 'providerid = :provId';
+    params.ExpressionAttributeValues = {
+        ':provId': provId
+    };
 
-    docClient.query(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
             fail(err);
         } else {
@@ -143,8 +147,7 @@ function addProvider(providerDetails, success, fail) {
     if (validProvider(providerDetails)){
         var params  = { TableName: AST_PROVIDER_TABLE,
                         Item: provider(uuid.v4(), providerDetails)};
-        docClient.
-            putItem(params, function(err, res) {
+        dynamodb.put(params, function(err, res) {
                 if (err) {
                     fail(JSON.stringify(err));
                 } else {
@@ -187,11 +190,11 @@ function updateProvider(provId, providerDetails, success, fail) {
             pairs.push(prefix + key + ' = :' + key);
 
             params.ExpressionAttributeValues[':'+key] = providerDetails[key];
-            
+
             if(params.ExpressionAttributeValues[':'+key] === '') {
               params.ExpressionAttributeValues[':'+key] = null;
             }
-            
+
 
           }
         });
@@ -199,8 +202,7 @@ function updateProvider(provId, providerDetails, success, fail) {
 
         params.ExpressionAttributeNames = {'#name' : 'name'};
 
-        docClient.
-            updateItem(params, function(err, res) {
+        dynamodb.update(params, function(err, res) {
                 if (err) {
                     fail(err);
                 } else {
@@ -302,7 +304,7 @@ function getCourseTagList(success, fail) {
 function getCourseList(success, fail) {
     var params = { TableName: AST_COURSE_TABLE };
 
-    docClient.scan(params, function(err, res) {
+    dynamodb.scan(params, function(err, res) {
         if (err) {
             fail(err);
         } else {
@@ -317,9 +319,12 @@ function getCourseList(success, fail) {
 
 function getCourse(courseId, success, fail) {
     var params = { TableName: AST_COURSE_TABLE };
-    params.KeyConditions = [docClient.Condition('courseid', 'EQ', courseId)];
+    params.KeyConditionExpression = "courseid = :courseid";
+    params.ExpressionAttributeValues= {
+        ':courseid': courseId
+    };
 
-    docClient.query(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
             fail(err);
         } else {
@@ -337,8 +342,7 @@ function addCourse(courseDetails, success, fail) {
     if (validCourse(courseDetails)){
         var params  = { TableName: AST_COURSE_TABLE,
                         Item: course(uuid.v4(), courseDetails)};
-        docClient.
-            putItem(params, function(err, res) {
+        dynamodb.put(params, function(err, res) {
                 if (err) {
                     fail(JSON.stringify(err));
                 } else {
@@ -360,8 +364,7 @@ function updateCourse(courseId, courseDetails, success, fail) {
 
         console.log('updating course');
         //! \todo verify course exists
-        docClient.
-            putItem(params, function(err, res) {
+        dynamodb.put(params, function(err, res) {
                 if (err) {
                     fail(JSON.stringify(err));
                 } else {
@@ -387,8 +390,7 @@ function addInstructor(provId, inctructorDetails, success, fail) {
 
     console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
 
-    docClient.
-        updateItem(params, function(err, res) {
+    dynamodb.update(params, function(err, res) {
             if (err) {
                 fail(err);
             } else {
@@ -409,8 +411,7 @@ function updateInstructor(provId, inctructorId, inctructor, success, fail) {
 
     console.log('Adding Course = ', JSON.stringify(params.ExpressionAttributeValues));
 
-    docClient.
-        updateItem(params, function(err, res) {
+    dynamodb.update(params, function(err, res) {
             if (err) {
                 fail(err);
             } else {

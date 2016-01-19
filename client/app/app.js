@@ -19,7 +19,8 @@ angular.module('avalancheCanadaApp', [
         'angular-storage',
         'auth0',
         'angular-jwt',
-        'datatables'
+        'datatables',
+        'LocalStorageModule'
     ])
 
     // main module configuration
@@ -135,13 +136,13 @@ angular.module('avalancheCanadaApp', [
             //$location.url('/submit');
             // if we use the state service to go to the ac.submit state
             // it doesn't remove the #access_token=... part of the url that comes back from auth0
-            /*var loginRedirectUrl = store.get('loginRedirectUrl');
+            var loginRedirectUrl = store.get('loginRedirectUrl');
             if(loginRedirectUrl) {
                 $location.url(loginRedirectUrl);
                 store.remove('loginRedirectUrl');
             } else {
                 $location.url('/');
-            }*/
+            }
         }
 
         onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store', '$state', '$urlRouter'];
@@ -168,6 +169,23 @@ angular.module('avalancheCanadaApp', [
         }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
+    })
+
+    //client=web to all requests
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push(function () {
+            return {
+                'request': function (config) {
+                    var reqUrl = config.url;
+
+                    if(config.method === 'GET' && (reqUrl.indexOf('submissions') !== -1 || reqUrl.indexOf('observations') !== -1 )){
+                        config.url = config.url + '?client=web';
+                    }
+                    return config;
+                }
+
+            };
+        });
     })
 
     .factory('urlBuilder', function ($state) {
@@ -244,7 +262,6 @@ angular.module('avalancheCanadaApp', [
             var query =  '[[:d = at(document.type, "highlight")]';
                 query += '[:d = date.before(my.highlight.start_date,"'+tomorrow+'")]';
                 query += '[:d = date.after(my.highlight.end_date,"'+yesterday+'")]]';
-            $log.debug(query);
             ctx.api.form('everything').query(query)
                     .ref(ctx.ref).submit(function(err, documents){
                 if (err) {
