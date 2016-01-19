@@ -72,7 +72,7 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 .container
                                     .row
-                                        .col-md-4.mega-content-inner
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training')
@@ -92,12 +92,21 @@ header#header.navbar-fixed-top(role='banner')
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/training#crs') Companion Rescue Skills
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sled') Mountain Snowmobiling
-                                                li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/training/ast/providers' target="_blank") Find a provider
-                                        .col-md-4.mega-content-inner
+                                                li
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/gear') Essential Gear
+                                        .col-md-3.mega-content-inner
+                                            ul.mega-sub-menu
+                                                li
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/sled')
+                                                        h2
+                                                            | Snowmobile
+                                                            i.fa.fa-angle-right
+                                                li(ng-repeat='page in sledPages')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/{{page.url}}') {{page.display}}
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/youth')
@@ -106,13 +115,20 @@ header#header.navbar-fixed-top(role='banner')
                                                             i.fa.fa-angle-right
                                                 li(ng-repeat='page in youth')
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/youth{{page.url}}') {{page.display}}
-                                        .col-md-4.mega-content-inner
+
+                                        .col-md-3.mega-content-inner
                                             ul.mega-sub-menu
                                                 li
-                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/gear')
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/ambassadors')
                                                         h2
-                                                            | Gear
+                                                            | Ambassadors
                                                             i.fa.fa-angle-right
+                                                li
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/ambassadors') Overview
+                                                li
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/ambassadors#Nadine-Overwater') Nadine Overwater
+                                                li
+                                                    a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/ambassadors#Robin-van-Gyn') Robin van Gyn
 
 
 
