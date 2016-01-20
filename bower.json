@@ -37,7 +37,9 @@
   },
   "resolutions": {
     "jquery": "~1.11.0",
-    "angular-animate":"~1.4.3",
-    "angular":"~1.4.3"
+    "angular-animate": "~1.4.3",
+    "angular": "~1.4.3",
+    "angular-sanitize": "~1.4.8",
+    "mapbox.js": "~2.2.3"
   }
 }
