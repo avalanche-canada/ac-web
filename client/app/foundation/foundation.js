@@ -225,6 +225,16 @@ angular.module('foundation',[
                 return deferred.promise;
             },
 
+            issw: function($q, Prismic){
+                var deferred = $q.defer();
+                Prismic.ctx().then(function(){
+                    Prismic.bookmark('foundation-programs-issw').then(function(doc){
+                        deferred.resolve(doc);
+                    });
+                });
+                return deferred.promise;
+            },
+
             memorialFunds: function($q, Prismic){
                 var deferred = $q.defer();
                 Prismic.ctx().then(function(){
@@ -320,13 +330,14 @@ angular.module('foundation',[
     $scope.contact = contact;
     $timeout($anchorScroll, 0, false);
 })
-.controller('FoundationProgramsCtrl', function ($anchorScroll, $timeout, $scope, hincks, kelly, avalancheCanada,other,shea, hodgson, memorialDonations, memorialFunds) {
+.controller('FoundationProgramsCtrl', function ($anchorScroll, $timeout, $scope, hincks, kelly, avalancheCanada,other,shea, hodgson, memorialDonations, memorialFunds, issw) {
     $scope.hincks = hincks;
     $scope.kelly = kelly;
     $scope.ac   = avalancheCanada;
     $scope.other = other;
     $scope.shea = shea;
     $scope.hodgson = hodgson;
+    $scope.issw = issw;
     $scope.memorialDonations = memorialDonations;
     $scope.memorialFunds = memorialFunds;
 

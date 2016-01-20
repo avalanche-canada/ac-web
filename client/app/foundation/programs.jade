@@ -49,6 +49,10 @@
                         input(type='hidden', value='JTGK858347H3Y', name='hosted_button_id')
                         input(type='image', border='0', alt='PayPal - The safer, easier way to pay online!', name='submit', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif')
                         img(width='1', height='1', border='0', src='https://www.paypalobjects.com/en_US/i/scr/pixel.gif', alt='')
+
+                accordion-group(heading='ISSW Fund')
+                    .anchor#issw-fund(ng-bind-html='issw.getStructuredText("generic.body").asHtml(ctx)')
+
         .anchor#memorialDonations
             h1{{memorialDonations.getText('generic.title')}}
             span(ng-bind-html='memorialDonations.getStructuredText("generic.body").asHtml(ctx)')
