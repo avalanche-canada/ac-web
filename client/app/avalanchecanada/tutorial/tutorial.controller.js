@@ -80,13 +80,15 @@ angular.module('avalancheCanadaApp')
     }
   };
 })
-.controller('TutorialHomeCtl', function ($scope, Prismic) {
-
-    Prismic.bookmark('tutorial-home')
-      .then(function(result){
-        $scope.title = result.getText('generic.title');
-        $scope.body  = result.getStructuredText('generic.body').asHtml();
-      });
+.controller('TutorialHomeCtl', function ($scope, $q, Prismic, TutorialContents) {
+  $q.all({
+    homepage: Prismic.bookmark('tutorial-home'),
+    contents: TutorialContents,
+  }).then(function(results){
+    $scope.title = results.homepage.getText('generic.title');
+    $scope.body  = results.homepage.getStructuredText('generic.body').asHtml();
+    $scope.next =  results.contents[0];
+  });
 })
 .controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll) {
 
