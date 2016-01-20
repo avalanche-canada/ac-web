@@ -28,48 +28,48 @@ style.
 
 .min-popup
     h1 Quick Report
-    h5 
+    h5
         i.fa.fa-newspaper-o
         |  #{title}
     h5
-        i.fa.fa-clock-o 
+        i.fa.fa-clock-o
         strong  Submitted by:
         span(style="font-weight: normal;")  #{user} on #{datetime}
 
     if hasRidingConditions
         h5
-            i.fa.fa-info-circle 
+            i.fa.fa-info-circle
             strong  Riding Conditions:
         ul
             if ridingConditions.ridingQuality
-                li 
+                li
                     | Riding quality was:
                     span(style="margin-left: 5px;")
                         i.fa.fa-check
                         em #{ridingConditions.ridingQuality}
             if ridingConditions.snowConditions.length > 0
-                li 
+                li
                     | Snow conditions were:
                     each item in ridingConditions.snowConditions
                         span(style="margin-left: 5px;")
                             i.fa.fa-check
                             em #{item}
             if ridingConditions.rideType.length > 0
-                li 
+                li
                     | We rode:
                     each item in ridingConditions.rideType
                         span(style="margin-left: 5px;")
                             i.fa.fa-check
                             em #{item}
             if ridingConditions.stayedAway.length > 0
-                li 
+                li
                     | We stayed away from:
                     each item in ridingConditions.stayedAway
                         span(style="margin-left: 5px;")
                             i.fa.fa-check
                             em #{item}
             if ridingConditions.weather.length > 0
-                li 
+                li
                     | The day was:
                     each item in ridingConditions.weather
                         span(style="margin-left: 5px;")
@@ -83,27 +83,27 @@ style.
         ul
             if avalancheConditions.sound
                 li
-                    | There were signs of snowpack instability including whumpfs, shooting cracks or drum-like sounds.  
+                    | There were signs of snowpack instability including whumpfs, shooting cracks or drum-like sounds.
             if avalancheConditions.snow
                 li
-                    | There was loading within the past 48 hours including roughly 30 cm of new snow or more, significant wind transport or rain.  
+                    | There was loading within the past 48 hours including roughly 30 cm of new snow or more, significant wind transport or rain.
             if avalancheConditions.temp
                 li
-                    | There were recent rapid rise in temparature to near 0C.  
+                    | There were recent rapid rise in temparature to near 0C.
             if avalancheConditions.slab
                 li
-                    | There were signs of slab avalanches in the area yesterday or today. 
- 
+                    | There were signs of slab avalanches in the area yesterday or today.
+
     if comment
-        h5 
+        h5
             i.fa.fa-comments
-            strong  Comments: 
+            strong  Comments:
         p(style="margin-left: 20px;") #{comment}
 
     if uploads.length > 0
         H5
             i.fa.fa-camera
-            strong  Uploads: 
+            strong  Uploads:
             small (click/tap to enlarge)
         ul.list-inline
             each url in uploads
@@ -111,7 +111,7 @@ style.
                     a(href=url, target="_blank")
                         img(src=url+'?size=50x50')
 
-    H5 
+    H5
         i.fa.fa-share-alt-square
         strong  Share this report:
     ul.ac-min-shares.list-inline(style="margin-left: 15px;", data-ac-shareurl=shareurl)

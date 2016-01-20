@@ -12,9 +12,6 @@ ul
         ul(id="slideout-avalanche-info" class="collapse")
             li
                 ul
-                    li
-                        a(href="", ui-sref="ac.submit", ui-sref-opts="{reload: true}", data-toggle="collapse", data-target=".navbar-collapse") Submit Information
-
                     li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
 
                     li
@@ -31,7 +28,7 @@ ul
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='/mountain-information-network') Overview
                     li
-                        a.submit-button(data-toggle="collapse" data-target=".navbar-collapse" href='/submit') Submit to the MIN
+                        a.submit-button(data-toggle="collapse" data-target=".navbar-collapse" href='/submit') Create Report
     li
         ul
             li

@@ -28,11 +28,24 @@ angular.module('avalancheCanadaApp')
     return deferred.promise;
   };
 })
-.controller('MINLandingCtrl', function($q, $location, $window, prsmBookmark){
-  var that = this;
-  prsmBookmark('min-landing').then(function(content){
-    that.url = $window.encodeURIComponent($location.absUrl());
-    that.title = content.getText('generic.title');
-    that.body  = content.getStructuredText('generic.body').asHtml(null);
-  });
+.controller('MINLandingCtrl', function($scope, $modal){
+    $scope.playMobile = function() {
+        $modal.open({
+            animation: true,
+            template: '<iframe src="https://player.vimeo.com/video/141111236" width="588" height="336" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
+            windowClass: 'min-video-modal',
+            //size: 'lg',
+            //keyboard: false,
+            //backdrop: 'static'
+        });
+    };
+
+    $scope.playDesktop = function() {
+        $modal.open({
+            animation: true,
+            template: '<iframe src="https://player.vimeo.com/video/151970678" width="588" height="336" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
+            windowClass: 'min-video-modal',
+        });
+    };
+
 });

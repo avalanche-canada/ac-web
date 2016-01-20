@@ -44,10 +44,13 @@ router.get('/submissions', function (req, res) {
 router.get('/submissions/:subid', function (req, res) {
     var subid = req.params.subid;
 
-    minUtils.getSubmission(subid, function (err, sub) {
+    minUtils.getSubmission(subid, req.query.client, function (err, sub) {
         if (err) {
             res.send(500, {error: 'error retreiving submission'})
         } else {
+            if(req.query && req.query.client){
+                sub = mapWebSubResponse(sub, req);
+            }
             res.json(sub);
         }
     });
@@ -62,10 +65,39 @@ router.get('/observations', function (req, res) {
             res.send(500, {error: 'error retreiving observations'})
         } else {
             logger.log('info','returning %s obs', obs.length);
+            if(filters && filters.client){
+                obs = mapWebObsResponse(obs, req);
+            }
             res.json(obs);
         }
     });
 });
+
+function mapWebObsResponse(obs, req){
+    return _.reduce(obs, function(results, ob, key){
+
+        results[key] = ob;
+        results[key].focusUrl= 'http://'+req.get('host')+'/focus/'+ ob.obid;
+        results[key].shareUrl= 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid;
+        results[key].thumbs = ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
+        results[key].dateFormatted = formatDate(ob.datetime);
+
+        return results;
+    },[]);
+}
+
+function mapWebSubResponse(subs, req){
+    return _.reduce(subs, function(results, sub){
+
+        results = sub;
+        results.focusUrl= 'http://'+req.get('host')+'/focus/'+ sub.subid;
+        results.shareUrl= 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(sub.title) + '/' + sub.subid;
+        results.thumbs = sub.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
+        results.dateFormatted = formatDate(sub.datetime);
+
+        return results;
+    },{});
+}
 
 function getOptions(options){
     var selections = [];
@@ -136,7 +168,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
 
                 res.render('observations/ob', locals);
             } else {
-                ob.thumbs = ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; });
+                ob.thumbs = (ob.uploads)?ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; }):[];
                 res.json(ob);
             }
         }

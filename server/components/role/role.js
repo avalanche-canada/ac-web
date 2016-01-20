@@ -1,7 +1,8 @@
 'use strict';
 var _ = require('lodash');
-var DOC = require("dynamodb-doc");
-var docClient = new DOC.DynamoDB();
+var AWS = require('aws-sdk');
+AWS.config.update({region: 'us-west-2'});
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 var logger = require('../../logger');
 var ROLE_TABLE = process.env.ROLE_TABLE || 'ast-roles-dev';
 var Q = require('q');
@@ -9,9 +10,11 @@ var Q = require('q');
 module.exports.getRoles = function getRoles(uid, success, fail) {
     var params = { TableName: ROLE_TABLE };
 
-    params.KeyConditions = [docClient.Condition('userId', 'EQ', uid)];
-
-    docClient.query(params, function(err, res) {
+    params.KeyConditionExpression = 'userId = :userId';
+    params.ExpressionAttributeValues = {
+        ':userId': uid
+    };
+    dynamodb.query(params, function(err, res) {
         if (err) {
             fail(err);
         } else {

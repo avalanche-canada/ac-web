@@ -20,7 +20,7 @@ header#header.navbar-fixed-top(role='banner')
                           li
                             a(data-toggle="collapse" data-target=".navbar-collapse" href="/mountain-information-network") Overview
                           li 
-                            a.min-menu-submit-button(data-toggle="collapse" data-target=".navbar-collapse" href="/submit") Submit 
+                            a.min-menu-submit-button(data-toggle="collapse" data-target=".navbar-collapse" href="/submit") Create Report 
 
                     li#nav-avalanche-info.dropdown.yamm-fw
                         a.dropdown-toggle.two-line(href='#' data-toggle="dropdown")
@@ -52,11 +52,6 @@ header#header.navbar-fixed-top(role='banner')
                                             ul.mega-sub-menu
                                                 li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
 
-                                                li
-                                                    a(href="", ui-sref="ac.submit", ui-sref-opts="{reload: true}", data-toggle="collapse", data-target=".navbar-collapse")
-                                                        h2
-                                                            |Submit Information
-                                                            i.fa.fa-angle-right
 
                                                 li
                                                     a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank")

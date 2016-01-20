@@ -16,6 +16,10 @@ module.exports = function (grunt) {
                 console.log('dev branch setting env to development');
                 env = 'development';
                 break;
+            case 'min':
+                console.log('min branch setting env to min');
+                env = 'min';
+                break;
             case 'qa':
                 console.log('qa branch setting env to qa');
                 env = 'qa';
@@ -47,7 +51,6 @@ module.exports = function (grunt) {
     express: 'grunt-express-server',
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector'
   });
@@ -277,8 +280,7 @@ module.exports = function (grunt) {
           '/json3/',
           '/es5-shim/',
           /bootstrap.css/,
-          /font-awesome.css/,
-          /auth0-lock/
+          /font-awesome.css/
         ]
       }
     },
@@ -315,7 +317,6 @@ module.exports = function (grunt) {
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
       js: [
         '<%= yeoman.dist %>/public/{,*/}*.js',
-        '!<%= yeoman.dist %>/public/bower_components/auth0.js',
         '!<%= yeoman.dist %>/public/bower_components/mapbox.js'
       ],
       options: {
@@ -396,12 +397,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -745,7 +740,6 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
     'rev',

@@ -27,18 +27,26 @@ angular.module('avalancheCanadaApp')
                 }
             })
             .state('ac.share', {
-                url: '^/share/:title/:obid',
+                url: '^/share/:title/:subid',
                 templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                  obs: function ($stateParams, $http) {
-                    return $http.get('/api/min/observations/' + $stateParams.obid).then(function (res) {
-                        return [res.data];
-                    });
+                  obs: function (acSubmission, $stateParams) {
+                   return acSubmission.getOne($stateParams.subid);
                   }
                 },
                 data: {
                   isShare: true
+                }
+            })
+            .state('ac.focus', {
+                url: '^/focus/:markerid',
+                templateUrl: 'app/avalanchecanada/main/map.html',
+                controller: 'MapCtrl',
+                resolve: {
+                    obs: function (acObservation) {
+                        return acObservation.byPeriod('7:days');
+                    }
                 }
             })
             .state('ac.sled', {
@@ -59,6 +67,16 @@ angular.module('avalancheCanadaApp')
                   sledPage: [function(){
                       return false;
                   }]
+                }
+            })
+            .state('ac.reports', {
+                url: '^/reports/:subid',
+                templateUrl: 'app/avalanchecanada/reports/reportsFullPage.html',
+                controller: 'ReportsCtrl',
+                resolve: {
+                    report: function (acSubmission, $stateParams) {
+                        return acSubmission.getOne($stateParams.subid);
+                    }
                 }
             });
     });

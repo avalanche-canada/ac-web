@@ -4,7 +4,7 @@
   "main": "server/app.js",
   "homepage": "http://www.avalanche.ca/",
   "dependencies": {
-    "aws-sdk": "^2.0.23",
+    "aws-sdk": "^2.2.12",
     "body-parser": "^1.0.2",
     "change-case": "^2.1.5",
     "composable-middleware": "^0.3.0",
@@ -69,7 +69,6 @@
     "grunt-dom-munger": "^3.4.0",
     "grunt-env": "~0.4.1",
     "grunt-express-server": "~0.4.17",
-    "grunt-google-cdn": "~0.4.0",
     "grunt-karma": "~0.8.2",
     "grunt-mocha-test": "~0.10.2",
     "grunt-newer": "~0.7.0",
