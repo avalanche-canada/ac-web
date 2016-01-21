@@ -275,11 +275,12 @@ exports.getSubmissions = function (filters, callback) {
 exports.getSubmission = function (subid, client, callback) {
     var params = {
         TableName: OBS_TABLE,
-        FilterExpression: 'attribute_exists(obid) and subid = :subid',
+        IndexName: 'subid-index',
+        KeyConditionExpression: 'subid = :subid',
         ExpressionAttributeValues: {':subid' : subid}
     };
 
-    dynamodb.scan(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
         } else {
@@ -331,9 +332,9 @@ exports.getObservation = function (obid, callback) {
         KeyConditionExpression: 'obid = :obid',
         ExpressionAttributeValues: {':obid' : obid}
     };
-    dynamodb.scan(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
-            logger.err(err);
+            logger.error(err);
             callback({error: "error fetching observations"});
         } else if(typeof res === 'undefined') {
             logger.error('Undefined returned for observation obid='+obid);

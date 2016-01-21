@@ -131,10 +131,6 @@ function formatDate(datetimeString){
 }
 
 router.get('/observations/:obid.:format?', function (req, res) {
-    var params = {
-        TableName: 'ac-obs',
-        Key: {obid: req.params.obid}
-    };
 
     minUtils.getObservation(req.params.obid, function (err, ob) {
         if (err) {
