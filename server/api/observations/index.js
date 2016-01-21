@@ -137,17 +137,24 @@ router.get('/observations/:obid.:format?', function (req, res) {
             res.send(500, {error: 'error retreiving observation'})
         } else {
             if(req.params.format === 'html'){
-                var locals = {
-                    title: ob.title || 'title',
-                    datetime: formatDate(ob.datetime),
-                    user: ob.user,
-                    ridingConditions: {
+
+                var ridingCond = {};
+                if (typeof ob.ridingConditions !== 'undefined'){
+                    ridingCond = {
                         ridingQuality: ob.ridingConditions.ridingQuality.selected || '',
                         snowConditions: getOptions(ob.ridingConditions.snowConditions.options),
                         rideType: getOptions(ob.ridingConditions.rideType.options),
                         stayedAway: getOptions(ob.ridingConditions.stayedAway.options),
                         weather: getOptions(ob.ridingConditions.weather.options)
-                    },
+                    }
+                } else {
+                    console.warn('WARN: Riding conditions are undefined for obid=' + ob.obid);
+                }
+                var locals = {
+                    title: ob.title || 'title',
+                    datetime: formatDate(ob.datetime),
+                    user: ob.user,
+                    ridingConditions: ridingCond,
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment,
                     shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
