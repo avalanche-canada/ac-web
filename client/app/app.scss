@@ -23,6 +23,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 // Component styles are injected through grunt
 // injector
+@import 'avalanchecanada/ambassadors/ambassadors.scss';
 @import 'avalanchecanada/blogs/blogs.scss';
 @import 'avalanchecanada/collaborators/collaborators.scss';
 @import 'avalanchecanada/events/events.scss';

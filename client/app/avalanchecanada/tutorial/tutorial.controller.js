@@ -58,26 +58,22 @@ angular.module('avalancheCanadaApp')
         return (linkSlug === $scope.currentSlug) ? 'active' : '';
       };
 
-
-
-        getTutorialContentsPrune($scope.currentSlug)
-          .then(function(contents){
-            $scope.menuItems = contents;
-          });
+      getTutorialContentsPrune($scope.currentSlug)
+        .then(function(contents){
+          $scope.menuItems = contents;
+        });
     }
   };
 })
-.controller('TutorialHomeCtl', function ($scope, Prismic, TutorialContents) {
-
-    Prismic.bookmark('tutorial-home')
-      .then(function(result){
-        $scope.title = result.getText('generic.title');
-        $scope.body  = result.getStructuredText('generic.body').asHtml();
-      });
-    TutorialContents
-      .then(function(contents){
-          $scope.next = contents[0];
-      });
+.controller('TutorialHomeCtl', function ($scope, $q, Prismic, TutorialContents) {
+  $q.all({
+    homepage: Prismic.bookmark('tutorial-home'),
+    contents: TutorialContents,
+  }).then(function(results){
+    $scope.title = results.homepage.getText('generic.title');
+    $scope.body  = results.homepage.getStructuredText('generic.body').asHtml();
+    $scope.next =  results.contents[0];
+  });
 })
 .controller('TutorialCtl', function ($q, $scope, $http, Prismic, $state, $stateParams, $log, TutorialContents, getTutorialContentsPrune, TutorialPageList, $anchorScroll, interactiveQuestions) {
 
@@ -93,6 +89,28 @@ angular.module('avalancheCanadaApp')
 
     $scope.currentSlug = slug; 
 
+    var menuWalk = function(node, fn) {
+      fn(node);
+      _.each(node.children, function(n){
+        menuWalk(n, fn);
+      });
+    };
+
+    TutorialContents
+      .then(function(contents){
+
+        var me = [];
+        menuWalk({children:contents}, function(n){me.push(n);});
+        me = me.slice(1);
+
+        for(var i=0; i < me.length; i++) {
+          if(me[i].slug === slug && i+1 < me.length) {
+            $scope.next = me[i + 1];
+            break;
+          }
+        }
+
+      });
 
     Prismic.ctx().then(function(ctx){
 

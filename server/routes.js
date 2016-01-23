@@ -34,10 +34,18 @@ module.exports = function(app) {
 
     var geocoder = require('geocoder');
 
+
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
-            logger.log('warn','UnauthorizedError');
+
+            logger.warn('UnauthorizedError', req.method, req.path, req.params, '--', err.code+':', err.message);
+
+            var auth = req.get('Authorization');
+            if(typeof auth !== 'undefined'){
+                logger.warn('Token=' + auth);
+            }
+
             res.status(401).send('UnauthorizedError');
         }
         else{
