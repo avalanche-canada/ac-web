@@ -1,5 +1,5 @@
-
 'use strict';
+
 angular.module('avalancheCanadaApp')
 .service('AcAuth', function(store, auth, ngToast){
     function loginCallback(profile, idToken, accessToken, state, refreshToken) {
@@ -19,7 +19,9 @@ angular.module('avalancheCanadaApp')
 
     function signin() {
       auth.signin(
-          {authParams: {scope: 'openid profile'}}, 
+          {
+            authParams: {scope: 'openid profile'}
+          }, 
           loginCallback, 
           errorCallback
       );
@@ -36,10 +38,17 @@ angular.module('avalancheCanadaApp')
       });
     } 
 
+    function profile() {
+      if(auth.isAuthenticated) {
+        return auth.profile;
+      } else {
+        return {};
+      }
+    }
+
     return {
       signin:        signin,
       signout:       signout,
-      loginCallback: loginCallback,
-      errorCallback: errorCallback
+      profile:       profile
     };
 });

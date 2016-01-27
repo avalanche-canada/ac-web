@@ -64,6 +64,8 @@ angular.module('avalancheCanadaApp')
 
     $scope.signin  = AcAuth.signin;
     $scope.signout = AcAuth.signout;
+    $scope.profile = AcAuth.profile();
+    console.log(AcAuth.profile());
 
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
