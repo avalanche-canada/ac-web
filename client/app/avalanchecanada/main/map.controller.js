@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth) {
 
         Prismic.ctx().then(function(ctx){
 
@@ -55,13 +55,7 @@ angular.module('avalancheCanadaApp')
 
         if($state.current.data && $state.current.data.isLogin) {
             if(!auth.isAuthenticated) {
-                auth.signin({authParams: {scope: 'openid profile'}});
-
-                auth.config.auth0lib.on('hidden', function () {
-                    if(!auth.isAuthenticated) {
-                        $state.go('ac.map');
-                    }
-                });
+                AcAuth.signin();
             } else {
                 $state.go('ac.map');
             }

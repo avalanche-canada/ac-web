@@ -119,58 +119,6 @@ angular.module('avalancheCanadaApp', [
         });
     }])
 
-    // auth0 configuration
-    .config(function (authProvider, $httpProvider, jwtInterceptorProvider) {
-
-        authProvider.init({
-            domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-        });
-
-        function onLoginSucccess($location, profilePromise, idToken, store) {
-            profilePromise.then(function(profile) {
-              store.set('profile', profile);
-              store.set('token', idToken);
-            });
-
-            //$location.url('/submit');
-            // if we use the state service to go to the ac.submit state
-            // it doesn't remove the #access_token=... part of the url that comes back from auth0
-            var loginRedirectUrl = store.get('loginRedirectUrl');
-            if(loginRedirectUrl) {
-                $location.url(loginRedirectUrl);
-                store.remove('loginRedirectUrl');
-            } else {
-                $location.url('/');
-            }
-        }
-
-        onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store', '$state', '$urlRouter'];
-
-        authProvider.on('loginSuccess', onLoginSucccess);
-
-        authProvider.on('logout', ['store', '$state', function onLogout(store, $state){
-            store.remove('profile');
-            store.remove('token');
-            $state.go('ac.map');
-        }]);
-
-        $httpProvider.interceptors.push(function() {
-            return {
-                request: function(config) {
-                    config.skipAuthorization = /^https:\/\/avalancheca.prismic.io\/api/.test(config.url);
-                    return config;
-                }
-            };
-        });
-
-        jwtInterceptorProvider.tokenGetter = ['store', function (store) {
-            return store.get('token');
-        }];
-
-        $httpProvider.interceptors.push('jwtInterceptor');
-    })
-
     //client=web to all requests
     .config(function($httpProvider) {
         $httpProvider.interceptors.push(function () {

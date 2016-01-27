@@ -58,9 +58,13 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $rootScope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($scope, $rootScope, $location, $document, auth, store, AcAuth) {
     $scope.env = $rootScope.env;
     $scope.auth = auth;
+
+    $scope.signin  = AcAuth.signin;
+    $scope.signout = AcAuth.signout;
+
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
                             {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},

@@ -214,9 +214,9 @@ header#header.navbar-fixed-top(role='banner')
                                 a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/auctions' target='_blank') Web Auction
 
                     li
-                        a.sign-in(href='#', ui-sref="ac.login", ng-hide="auth.isAuthenticated", title="Login")
+                        a.sign-in(href='#', ng-click="signin()", ng-hide="auth.isAuthenticated", title="Login")
                             i.fa.fa-lg.fa-sign-in
-                        a.sign-out(href='#', ng-click="auth.signout()", ng-show="auth.isAuthenticated", title="Logout")
+                        a.sign-out(href='#', ng-click="signout()", ng-show="auth.isAuthenticated", title="Logout")
                             i.fa.fa-lg.fa-sign-out
                 //- a#nav-search-desktop(href='#')
                     i.fa.fa-search
