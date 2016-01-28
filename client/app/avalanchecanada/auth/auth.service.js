@@ -1,16 +1,14 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-.service('AcAuth', function(store, auth, ngToast){
+.service('AcAuth', function(ENV, $location, store, auth, ngToast){
     function loginCallback(profile, idToken, accessToken, state, refreshToken) {
-        console.log('Using My new callback');
-
         store.set('profile', profile);
         store.set('token', idToken);
     };
 
     function errorCallback(error) {
-      console.log('Error logging in:',error);
+      console.log('Error authenticating user:',error);
       ngToast.create({
         content: 'Error logging in: ' + JSON.stringify(error),
         class: 'warn'
@@ -18,23 +16,22 @@ angular.module('avalancheCanadaApp')
     };
 
     function signin() {
+      console.log('setting loginRedirectUrl=', $location.url());
+      store.set('loginRedirectUrl', $location.url());
       auth.signin(
           {
-            authParams: {scope: 'openid profile'}
-          }, 
-          loginCallback, 
-          errorCallback
+            authParams: {scope: 'openid profile'},
+            callbackURL: ENV.DOMAIN + '/login-complete',
+            responseType: 'token'
+          }//, 
+          //loginCallback, 
+          //errorCallback
       );
     };
     
     function signout() {
-      console.log("In custom signout");
       auth.signout(function(){
         console.log('yayayayay');
-      });
-      ngToast.create({
-        class: 'success',
-        content: 'You have been logged out'
       });
     } 
 
