@@ -22,8 +22,7 @@ module.exports = function(app) {
     var expressJwt = require('express-jwt');
     var jwt = require('jsonwebtoken');
 
-    var secret = new Buffer('pT6ehAfy_LiHB1c7-GyUJUDsEjiJUt_w0qGa10TLJUMCho8gGqUjRDVobboLdwOy', 'base64');
-
+    var secret = new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
 
     app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
 
