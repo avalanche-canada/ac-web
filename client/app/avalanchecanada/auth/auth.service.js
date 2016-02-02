@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-.service('AcAuth', function(ENV, $location, store, auth, ngToast){
+.service('AcAuth', function(ENV, $location, store, auth){
 
     function signin() {
       console.log('setting loginRedirectUrl=', $location.url());
@@ -11,7 +11,7 @@ angular.module('avalancheCanadaApp')
         callbackURL: ENV.DOMAIN + '/login-complete',
         responseType: 'token'
       });
-    };
+    }
     
     function signout() {
       auth.signout();
