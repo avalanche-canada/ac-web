@@ -1112,65 +1112,6 @@ aside {
     }
 }
 
-#tutorial-container {
-  @extend #news-blog-event-content;
-  @extend .container;
-}
-
-#tutorial-page-header,
-.tutorial-wrapper {
-  @extend .row;
-}
-
-.tutorial-nav {
-  @extend .col-md-3;
-}
-
-.tutorial-content {
-  @extend .col-md-9;
-}
-.tutorial-content {
-  @extend .col-md-9;
-}
-.tutorial-nav {
-  ul {
-    padding-left: 1em;
-  }
-  a.active {
-    font-weight: bold;
-  }
-}
-
-.tutorial-gallery {
-  text-align: center;
-}
-.tutorial-img {
-  display: inline-block;
-}
-.tutorial-img img {
-  max-width: 100%;
-  //border: 1px solid rgb(225, 225, 225);
-  text-align: center;
-}
-.tutorial-next-link {
-  text-align: right;
-}
-
-.tutorial-next-link a {
-  display: inline-block;
-}
-.tutorial-next-link a:hover {
-  text-decoration: none;
-}
-
-.tutorial-next-link a:after {
-  font-family: 'FontAwesome';
-  content: "\f0a9";
-  display: inline-block;
-  padding: 0 10px;
-  font-size: 20px;
-}
-
 .gallery {
   @extend .row;
   .gallery--row{
@@ -1191,28 +1132,6 @@ aside {
     img:hover {
         border-color: #DDD;
     }
-  }
-}
-
-.tutorial-img{
-  margin: 1em;
-  border: 4px solid #CCD4EC;
-  background: #CCD4EC;
-  max-width: 100%;
-  text-align: center;
-}
-.tutorial-img__caption{
-  padding: 5px;
-  background: #CCD4EC;
-  text-align: left;
-}
-.tutorial-img__credit {
-  display: block;
-  &:before{
-    font-family: 'FontAwesome';
-    content: "\f030";
-    display: inline-block;
-    padding: 0 5px 0 0;
   }
 }
 
@@ -1255,65 +1174,5 @@ aside {
   color: $alert-info-text;
   &:before {
    @extend .fa-info-circle; 
-  }
-}
-
-.tutorial-page-content p img {
-  max-width: 100%;
-}
-
-.tutorial-page-video-wrapper {
-  padding: 0.5em 1.0em;
-  background-image: url("http://old.avalanche.ca/images/online_course/video_tiled_bkg.gif");
-  margin-bottom: 2em;
-}
-.tutorial-page-content .image-caption {
-  background: #F0F0F0;
-  border-bottom: 1px solid #C5C5C5;
-  display: block;
-  font-family: serif;
-  font-style: italic;
-  margin-bottom: 2em;
-  padding: 2px 12px;
-}
-
-
-.ates__question {
-  margin: 5rem 0;
-    & {
-      margin-top: 1rem;
-    }
-}
-
-.ates__response--incorrect {
-  @extend .alert;
-  background-color: $alert-danger-bg;
-  border-color: $alert-danger-border;
-  color: $alert-danger-text;
-  max-width: 550px;
-  width: 100%;
-}
-
-.ates__response--correct {
-  width: 100%;
-  max-width: 550px;
-  @extend .alert;
-  background-color: $alert-success-bg;
-  border-color: $alert-success-border;
-  color: $alert-success-text;
-}
-
-.ates__img { @extend .tutorial-img; }
-.ates__caption { @extend .tutorial-img__caption; }
-.ates__caption__credit { @extend .tutorial-img__credit; }
-
-.ates__answer {
-  display: inline-block;
-  width: 25%;
-  font-weight: 200;
-  input {
-    position: relative;
-    top: 3px;
-    margin-right: 5px
   }
 }
