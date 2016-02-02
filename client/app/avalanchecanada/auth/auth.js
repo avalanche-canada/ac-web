@@ -15,8 +15,8 @@ angular.module('avalancheCanadaApp')
         });
     }]);
 
-      authProvider.on('authenticated', function($location) {
-        console.log('auth.js::authenticated')
+      authProvider.on('authenticated', function() {
+        console.log('auth.js::authenticated');
         // This is after a refresh of the page
         // If the user is still authenticated, you get this event
       });
