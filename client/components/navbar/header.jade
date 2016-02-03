@@ -213,11 +213,24 @@ header#header.navbar-fixed-top(role='banner')
                             li
                                 a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/auctions' target='_blank') Web Auction
 
-                    li
-                        a.sign-in(href='#', ui-sref="ac.login", ng-hide="auth.isAuthenticated", title="Login")
+                    li.dropdown(ng-hide="auth.isAuthenticated")
+                        a.sign-in(href='#', ng-click="signin()" title="Login")
                             i.fa.fa-lg.fa-sign-in
-                        a.sign-out(href='#', ng-click="auth.signout()", ng-show="auth.isAuthenticated", title="Logout")
-                            i.fa.fa-lg.fa-sign-out
+
+                    li.dropdown(ng-show="auth.isAuthenticated")
+                        a.dropdown-toggle(href='#' title="User Menu" data-toggle="dropdown")
+                            i.fa.fa-lg.fa-user
+                            span.arrow-down
+                        ul.dropdown-menu
+                            li.user-profile
+                              .user-profile--avatar
+                                img.img-circle(ng-src="{{profile.picture}}" width="50" height="50" style="") 
+                              .user-profile--nickname(ng-bind="profile.nickname")
+                            li
+                              a.sign-out(href='#', ng-click="signout()", title="Logout" data-toggle="collapse")
+                                i.fa.fa-lg.fa-sign-out
+                                span &nbsp;&nbsp;&nbsp;Signout
+
                 //- a#nav-search-desktop(href='#')
                     i.fa.fa-search
                 a#nav-donate-desktop(href='/foundation') Donate
