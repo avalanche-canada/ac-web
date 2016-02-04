@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     var secret = new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
 
-    app.use('/api', expressJwt({secret: secret}).unless({ method: 'GET' }));
+    app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
 
     app.use('/api/forecasts', require('./api/forecasts'));
     app.use('/api/min', require('./api/observations'));
