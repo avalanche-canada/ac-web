@@ -53,8 +53,9 @@ router.param('region', function (req, res, next) {
     // Bail out if there is no region with that ID
     if (!req.region) {
         logger.log('info','forecast region not found');
-        res.send(404);
-        return next();
+        res.status(404)
+           .end("Not Found");
+        return
     }
 
 
@@ -125,59 +126,36 @@ router.get('/:region.:format', function(req, res) {
     switch(req.params.format) {
         case 'xml':
             res.header('Content-Type', 'application/xml');
-            if(req.webcached) {
-                res.send(req.webcached);
-            } else {
-                req.webcache(req.forecast.caaml);
-                res.send(req.forecast.caaml);
-            }
+            res.send(req.forecast.caaml);
             break;
+
         case 'json':
-            if(req.webcached) {
-                try {
-                    forecast = JSON.parse(req.webcached);
-                } catch (e) {
-                    logger.log('info','error parsing json forecast');
-                    res.send(500);
-                }
-
-                res.json(forecast);
-            } else {
-                req.webcache(req.forecast.json);
-                res.json(req.forecast.json);
-            }
+            res.header('Content-Type', 'application/json');
+            res.json(req.forecast.json);
             break;
-        case 'rss':
-            if(req.webcached) {
-                res.send(req.webcached);
-            } else {
-                locals = avalx.getTableLocals(req.forecast.json);
 
-                res.render('forecasts/forecast-rss', locals, function (err, xml) {
-                    if(err) {
-                        res.send(500);
-                    } else {
-                        req.webcache(xml);
-                        res.header('Content-Type', 'application/rss+xml');
-                        res.send(xml)
-                    }
-                });
-            }
+        case 'rss':
+            locals = avalx.getTableLocals(req.forecast.json);
+
+            res.render('forecasts/forecast-rss', locals, function (err, xml) {
+                if(err) {
+                    res.send(500);
+                } else {
+                    res.header('Content-Type', 'application/rss+xml');
+                    res.send(xml)
+                }
+            });
             break;
         case 'html':
-            if(req.webcached) {
-                res.send(req.webcached);
-            } else {
-                locals = avalx.getTableLocals(req.forecast.json);
-                res.render('forecasts/forecast-html', locals, function (err, html) {
-                    if(err) {
-                        res.send(500);
-                    } else {
-                        req.webcache(html);
-                        res.send(html)
-                    }
-                });
-            }
+            locals = avalx.getTableLocals(req.forecast.json);
+            res.render('forecasts/forecast-html', locals, function (err, html) {
+                if(err) {
+                    res.send(500);
+                } else {
+                    //req.webcache(html);
+                    res.send(html)
+                }
+            });
             break;
         default:
             res.send(404);
