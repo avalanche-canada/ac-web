@@ -40,7 +40,7 @@ router.use(function (req, res, next) {
     var url = req.protocol + '://' + req.headers.host + req.originalUrl;
 
     var webcacher = function (data) {
-        DEBUG('NOT CACHING THIS THING');
+        DEBUG('NOT CACHING THIS THING: ', url);
     };
 
     req.webcache = webcacher;
@@ -50,12 +50,13 @@ router.use(function (req, res, next) {
 router.param('region', function (req, res, next) {
     req.region = _.find(regions.features, {id: req.params.region});
 
-    // Bail if there is no region with that ID
+    // Bail out if there is no region with that ID
     if (!req.region) {
         logger.log('info','forecast region not found');
         res.send(404);
         return next();
     }
+
 
 
     if(req.region.properties.type === 'link') {
@@ -69,81 +70,34 @@ router.param('region', function (req, res, next) {
         return next();
     }
 
-    /*
-     * The Psudo code for below:
-     *
-     * cachedCaaml = webcache.get(region.url);
-     * if(!cachedCaaml) {
-     *   cachedCaaml = getLiveCaaml(region.url)
-     *   webcache.put(region.url, cachedCaaml);
-     * } 
-     *
-     * req.forecast = {
-     *  caaml: cachedCaml,
-     *  json: parseCaamlToJson(cachedCaaml)
-     * }
-     *
-     */
-
-    var fetchCaamlProm = function(region) {
-        return Q.Promise(function(resolve,reject){
-            avalx.fetchCaamlForecast(region, function (err, live_caaml) {
-                if(err || !live_caaml) {
-                    reject(err);
-                } else {
-                    resolve(live_caaml);
-                }
-            });
-        });
-    };
-
-    var parseCaamlProm = function(caaml, region){
-        return Q.Promise(function(resolve,reject){
-            avalx.parseCaamlForecast(caaml, region, function (err, json) {
-                if(err) { reject(err) ;  }
-                else    { resolve(json); }
-            });
-        });
-    };
-    if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
-        avalxWebcache.get(req.region.properties.url)
+    avalxWebcache.get(req.region.properties.url)
         .then(function (cached_caaml) {
-          if(!cached_caaml) {
-              return fetchCaamlProm(req.region);   
-          } else {
-              DEBUG("USING CACHED CAAML");
-              return cached_caaml;
-          }
-        }).then(function (caaml) {
-            var deferred = Q.defer();
-
-            if(caaml){
-                avalx.parseCaamlForecast(caaml, req.region, function (err, json) {
-                    if(err || !json) {
-                        deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
-                    } else {
-                        if (req.region.properties.type === 'avalx'){
-                            json.bulletinTitle = req.region.properties.name;
-                            deferred.resolve({
-                                region: req.region.id,
-                                caaml: caaml,
-                                json: json});
-                        }else if (req.region.properties.type === 'parks'){
-                            json.parksUrl = req.region.properties.externalUrl;
-                            json.name        = req.region.properties.name;
-                            deferred.resolve({
-                                region: req.region.id,
-                                caaml: caaml,
-                                json: json});
-                        }
-
-                    }
-                });
+            if(!cached_caaml) {
+                return Q.nfcall(avalx.fetchCaamlForecast, req.region);   
             } else {
-                deferred.reject('error parsing ' + req.region.id + ' caaml forecast.');
+                DEBUG("USING CACHED CAAML");
+                return cached_caaml;
+            }
+        }).then(function (caaml) {
+            return [caaml, Q.nfcall(avalx.parseCaamlForecast, caaml, req.region)];
+        }).spread(function(caaml, json) {
+
+            DEBUG("THE JSON CALL WORKED");
+
+            if (req.region.properties.type === 'avalx'){
+                json.bulletinTitle = req.region.properties.name;
+
+            }else if (req.region.properties.type === 'parks'){
+                json.parksUrl = req.region.properties.externalUrl;
+                json.name        = req.region.properties.name;
             }
 
-            return deferred.promise;
+            return {
+                region: req.region.id,
+                caaml: caaml,
+                json: json
+            };
+
         }).then(function (forecast) {
             req.forecast = forecast;
             next();
@@ -151,7 +105,6 @@ router.param('region', function (req, res, next) {
             logger.log('error',e);
             res.send(500);
         }).done();
-    } 
 
 });
 
