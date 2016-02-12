@@ -10,6 +10,8 @@ var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
 var logger = require('../../logger.js');
+var config = require('../../config/environment');
+var fs = require('fs');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -36,6 +38,7 @@ avalxWebcache.seed(acAvalxUrls);
 var DEBUG = console.log.bind(console);
 
 // webcache middleware
+/*
 router.use(function (req, res, next) {
     var url = req.protocol + '://' + req.headers.host + req.originalUrl;
 
@@ -46,7 +49,7 @@ router.use(function (req, res, next) {
     req.webcache = webcacher;
     next();
 });
-
+*/
 router.param('region', function (req, res, next) {
     req.region = _.find(regions.features, {id: req.params.region});
 
@@ -171,38 +174,27 @@ router.get('/:region/nowcast.:format', function(req, res) {
     res.header('Cache-Control', 'no-cache');
     res.header('Content-Type', mimeType);
 
-    if (req.region.properties.type === 'parks' || req.region.properties.type === 'avalx')
-    {
-        if(!req.webcached) {
-            styles = avalx.getNowcastStyles(req.forecast.json);
+    if (req.region.properties.type === 'parks' 
+     || req.region.properties.type === 'avalx') {
 
-            res.render('forecasts/nowcast', styles, function (err, svg) {
-                if(err) {
-                    res.send(500);
-                } else {
-                    switch(req.params.format) {
-                        case 'svg':
-                            req.webcache(svg);
-                            res.send(svg);
-                            break;
-                        // case 'png':
-                        //     var buf = new Buffer(svg);
-                        //     gm(buf, 'nowcast.svg')
-                        //         .options({imageMagick: true})
-                        //         .resize(450, 150)
-                        //         .stream('png')
-                        //         .pipe(res);
-                        //     break;
-                        default:
-                            res.send(404);
-                            break;
-                    }
-                }
-            });
-        } else {
-            res.send(req.webcached);
-        }
-    }else{
+        styles = avalx.getNowcastStyles(req.forecast.json);
+
+        Q.nfcall(res.render.bind(res), 'forecasts/nowcast', styles)
+            .then(function (svg) {
+                switch(req.params.format) {
+                    case 'svg':
+                        res.send(svg);
+                        break;
+                    default:
+                        res.send(404);
+                        break;
+                 }
+            }).catch(function(err) {
+                console.log("Error generating nowcast:", err);
+                res.send(500);
+            }).done();
+
+    } else {
         res.send(404);
     }
 
@@ -215,49 +207,46 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: ''
     };
 
-    if(!req.webcached) {
 
-        var renderIcon = function(){
-            res.render('forecasts/danger-icon', ratingStyles, function (err, svg) {
-                if(err) {
-                    res.send(500);
-                } else {
-                    res.header('Cache-Control', 'no-cache');
-                    res.header('Content-Type', 'image/svg+xml');
-                    req.webcache(svg);
-                    res.send(svg)
-                }
-            });
-        };
-
-        if(req.region.properties.type === 'avalx' || req.region.properties.type === 'parks') {
-            if(!req.webcached) {
-                ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
-            }
-
-            // Early season, Regular season, Spring situation, Off season
-            if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
-                renderIcon();
-            }
-            else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+    var renderIcon = function(styles){
+        res.render('forecasts/danger-icon', styles, function (err, svg) {
+            if(err) {
+                res.send(500);
+            } else {
                 res.header('Cache-Control', 'no-cache');
                 res.header('Content-Type', 'image/svg+xml');
-                var url = 'http://www.avalanche.ca/assets/images/no_rating_icon.svg';
-                request(url).pipe(res);
+                res.send(svg)
             }
-            else{
-                console.log("unknown danger mode");
-                res.send(500);
-            }
-        }
-        else{
-            renderIcon();
-        }
+        });
+    };
 
-    } else {
-        res.header('Cache-Control', 'no-cache');
-        res.header('Content-Type', 'image/svg+xml');
-        res.send(req.webcached);
+    ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
+
+    // Render Empty for Links
+    if(req.region.properties.type === 'link') {
+        renderIcon({
+            alp: '',
+            tln: '',
+            btl: ''
+        });
+        return;
+    }
+    // Every other Region will be 'avalx' or 'parks'
+
+ 
+    // Early season, Regular season, Spring situation, Off season
+    if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+        renderIcon(ratingStyles);
+    }
+    else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+        res.header('cache-control', 'no-cache');
+        res.header('content-type', 'image/svg+xml');
+        fs.createReadStream(config.root + '/server/views/forecasts/no_rating_icon.svg')
+            .pipe(res);
+    }
+    else{
+        console.log("unknown danger mode: ", req.forecast.json.dangerMode);
+        res.send(500);
     }
 
 });
