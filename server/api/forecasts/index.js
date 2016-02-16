@@ -13,6 +13,14 @@ var logger = require('../../logger.js');
 var config = require('../../config/environment');
 var fs = require('fs');
 
+// XXX: es6-promiseRequired to polyfill the cache-manager package
+// When upgrading to a new version of node this may not be required
+// (currently required on nodejs v0.10.26)
+require('es6-promise');
+var cacheManager = require('cache-manager');
+var redisStore = require('cache-manager-redis');
+
+
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
 }).map(function (feature) {
@@ -21,19 +29,27 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
 
 
 var avalxWebcache = null;
+var fragmentCache = null; 
 
 if(process.env.REDIS_HOST) {
     var webcacheOptions ={ store: new WebCacheRedis(6379, process.env.REDIS_HOST) };
-    if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000;
+    if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
     avalxWebcache = new WebCache(webcacheOptions);
+
+    fragmentCache = cacheManager.caching({
+        store: redisStore,
+        host: process.env.REDIS_HOST, // default value
+        port: 6379, // default value
+        db: 1,
+        ttl: 60*5 /*seconds*/,
+    });
 }
 else {
     avalxWebcache = new WebCache();
+    fragmentCache = cacheManager.caching({store: 'memory', max: 100, ttl: 60*10/*seconds*/});
 }
 
-
 avalxWebcache.seed(acAvalxUrls);
-
 
 var DEBUG = console.log.bind(console);
 
@@ -77,16 +93,20 @@ router.param('region', function (req, res, next) {
     avalxWebcache.get(req.region.properties.url)
         .then(function (cached_caaml) {
             if(!cached_caaml) {
+                DEBUG("BUILDING forecast caaml for region:", req.region.id);
                 return Q.nfcall(avalx.fetchCaamlForecast, req.region);   
             } else {
-                DEBUG("USING CACHED CAAML");
                 return cached_caaml;
             }
         }).then(function (caaml) {
-            return [caaml, Q.nfcall(avalx.parseCaamlForecast, caaml, req.region)];
+            var cacheKey = 'forecast-data::json::' + req.region.id;
+            var json = fragmentCache.wrap(cacheKey, function(){
+                DEBUG("BUILDING forecast data...", cacheKey);
+                return Q.nfcall(avalx.parseCaamlForecast, caaml, req.region);
+            });
+            return [caaml, json];
         }).spread(function(caaml, json) {
 
-            DEBUG("THE JSON CALL WORKED");
 
             if (req.region.properties.type === 'avalx'){
                 json.bulletinTitle = req.region.properties.name;
@@ -167,32 +187,29 @@ router.get('/:region.:format', function(req, res) {
 
 });
 
-router.get('/:region/nowcast.:format', function(req, res) {
+router.get('/:region/nowcast.svg', function(req, res) {
     var styles;
-    var mimeType = req.params.format === 'svg' ? 'image/svg+xml' : 'image/png';
+    var mimeType = 'image/svg+xml';
 
-    res.header('Cache-Control', 'no-cache');
-    res.header('Content-Type', mimeType);
 
     if (req.region.properties.type === 'parks' 
      || req.region.properties.type === 'avalx') {
 
         styles = avalx.getNowcastStyles(req.forecast.json);
 
-        Q.nfcall(res.render.bind(res), 'forecasts/nowcast', styles)
-            .then(function (svg) {
-                switch(req.params.format) {
-                    case 'svg':
-                        res.send(svg);
-                        break;
-                    default:
-                        res.send(404);
-                        break;
-                 }
-            }).catch(function(err) {
-                console.log("Error generating nowcast:", err);
-                res.send(500);
-            }).done();
+        var cacheKey = "nowcast-image::" + req.region.id;
+        fragmentCache.wrap(cacheKey, function(){
+            DEBUG('BUILDING Nowcast image...', cacheKey);
+            return Q.nfcall(res.render.bind(res), 'forecasts/nowcast', styles);
+        }).then(function (svg) {
+                res.set('Cache-Control', 'no-cache');
+                res.set('Content-Type', mimeType);
+                res.send(svg);
+        }).catch(function(err) {
+          console.log("Error generating nowcast:", err);
+          res.send(500);
+        });
+        //.done();
 
     } else {
         res.send(404);
@@ -236,16 +253,26 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
  
     // Early season, Regular season, Spring situation, Off season
     if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
-        renderIcon(ratingStyles);
-    }
-    else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+        //renderIcon(ratingStyles);
+        var cacheKey = 'danger-rating-icon::' + req.region.id;
+        fragmentCache.wrap(cacheKey, function(){
+            DEBUG('BUILDING danger-rating-icon...', cacheKey);
+            return Q.nfcall(res.render.bind(res), 'forecasts/danger-icon', ratingStyles);
+        }).then(function(svg){
+            res.header('Cache-Control', 'no-cache');
+            res.header('Content-Type', 'image/svg+xml');
+            res.send(svg)
+        }).catch(function(err){
+            console.log("Error rendering danger rating:", err);
+            res.status(500).send(err);
+        });
+    } else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
         fs.createReadStream(config.root + '/server/views/forecasts/no_rating_icon.svg')
             .pipe(res);
-    }
-    else{
-        console.log("unknown danger mode: ", req.forecast.json.dangerMode);
+    } else{
+        console.log("ERROR: unknown danger mode: ", req.forecast.json.dangerMode);
         res.send(500);
     }
 
