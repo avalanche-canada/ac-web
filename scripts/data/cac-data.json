@@ -79,7 +79,7 @@
     "type": "link",
     "url": "http://avalanche.ca/blogs/north-rockies",
     "forecastUrl": "/api/forecasts/north-rockies.json",
-    "dangerIconUrl": "/api/forecasts/north-rockies/danger-rating-icon.svg",
+    "dangerIconUrl": "http://www.avalanche.ca/assets/images/forecasts/conditions-report-icon.svg",
     "owner": "avalanche-canada"
   },
   {
