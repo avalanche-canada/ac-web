@@ -421,7 +421,7 @@
                 }
                 em {
                         @include font-size(1.5, 2.2);
-                        color:#b7b7b7;
+                        color:#939393;
                 }
                 a {
                     @include font-size(1.5, 2.2);
@@ -438,11 +438,10 @@
                 li {
                         @include font-size(1.5);
                         margin:0;
-                        color:#0056b7;
+                        color:#5b5b5b;
                         p {
                                 margin:0;
                                 @include font-size(1.5);
-                                color:#5b5b5b;
                         }
                         a {
                             @include font-size(1.5);
@@ -466,11 +465,10 @@
                 li {
                         @include font-size(1.5);
                         margin:0;
-                        color:#0056b7;
+                        color:#5b5b5b;
                         p {
                                 margin:0;
                                 @include font-size(1.5);
-                                color:#5b5b5b;
                         }
                         a {
                             @include font-size(1.5);
