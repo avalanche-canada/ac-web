@@ -319,7 +319,7 @@ exports.getObservations = function (filters, callback) {
 
     dynamodb.query(params, function(err, res) {
         if (err) {
-            callback({error: "error fetching observations"});
+            callback(err);
         } else {
             callback(null, routeResponseForClient(res.Items, filters.client, 'observations'));
         }

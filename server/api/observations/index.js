@@ -62,7 +62,8 @@ router.get('/observations', function (req, res) {
 
     minUtils.getObservations(filters, function (err, obs) {
         if (err) {
-            res.send(500, {error: 'error retreiving observations'})
+            res.send(500, {message: 'error retreiving observations', error: err});
+            console.log("ERROR", 'error retreiving observations:', err);
         } else {
             logger.log('info','returning %s obs', obs.length);
             if(filters && filters.client){
