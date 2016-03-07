@@ -1,0 +1,96 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+header p {
+  font-size: 0.85em;
+  margin: 5px;
+}
+
+.image-container {
+  display: inline-block;
+  position: relative;
+  width: 175px;
+  height: 150px;
+}
+.image-container img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+section table caption {
+  caption-side: bottom;
+  text-align: left;
+}
+.table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+}
+thead > tr {
+  border: 1px solid transparent;
+}
+th {
+  line-height: 1.5em;
+}
+td {
+  border: 1px solid black;
+  padding: 5px;
+  font-weight: bold;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+tr td:first-child {
+  white-space: normal;
+}
+
+section table:last-child {
+  display: none;
+}
+
+@media screen and (max-device-width: 480px) {
+  body {
+    -webkit-text-size-adjust: none;
+  }
+}
+@media screen and (max-width: 400px) {
+  tr td:first-child,
+  tr th:first-child {
+    width: 80px;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 520px) {
+  tr td:first-child,
+  tr th:first-child {
+    width: 120px;
+  }
+}
+@media screen and (max-width: 520px) {
+  section table:last-child {
+    display: table;
+  }
+  /* The first table */
+  section table:first-child tr > td:nth-last-child(2),
+  section table:first-child tr > td:nth-last-child(1),
+  section table:first-child tr > td:last-child,
+  section table:first-child tr > th:nth-last-child(2),
+  section table:first-child tr > th:nth-last-child(1),
+  section table:first-child tr > th:last-child,
+  section table:first-child caption {
+    display: none;
+  }
+  /* The last table */
+  section table:last-child tr > td:nth-child(2),
+  section table:last-child tr > th:nth-child(2) {
+    display: none;
+  }
+}

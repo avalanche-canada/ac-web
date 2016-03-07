@@ -1,0 +1,26 @@
+table(style='border-spacing:0px; border-color: black; border-collapse: collapse; ')
+  thead
+    tr
+      th
+        th #{ dates.day0 }
+      th #{ dates.day1 }
+      th #{ dates.day2 }
+    tbody
+      tr
+        td(style='background-color: #ddeefa') Alpine
+        td(style='background-color: #{ratingColors.day0.alp}') #{ forecast.dangerRatings[0].dangerRating.alp.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day1.alp}') #{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day2.alp}') #{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }
+      tr
+        td(style='background-color: #d1d9a3') Treeline
+        td(style='background-color: #{ratingColors.day0.tln}') #{ forecast.dangerRatings[0].dangerRating.tln.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day1.tln}') #{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day2.tln}') #{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }
+      tr
+        td(style='background-color: #aebfac') Below Treeline
+        td(style='background-color: #{ratingColors.day0.btl}') #{ forecast.dangerRatings[0].dangerRating.btl.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day1.btl}') #{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }
+        td(style='background-color: #{ratingColors.day2.btl}') #{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }
+      caption
+        strong Confidence: 
+        span #{ forecast.confidence }
