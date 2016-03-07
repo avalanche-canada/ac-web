@@ -1,6 +1,7 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import 'font-awesome/scss/font-awesome';
 
 @import "scss/_custom_cac_variables";
@@ -22,6 +23,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 // Component styles are injected through grunt
 // injector
+@import 'avalanchecanada/ambassadors/ambassadors.scss';
 @import 'avalanchecanada/blogs/blogs.scss';
 @import 'avalanchecanada/collaborators/collaborators.scss';
 @import 'avalanchecanada/events/events.scss';
@@ -30,6 +32,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'avalanchecanada/forecasts/forecast_tablet.scss';
 @import 'avalanchecanada/forecasts/forecasts.scss';
 @import 'avalanchecanada/main/main.scss';
+@import 'avalanchecanada/min/min-overview.scss';
 @import 'avalanchecanada/news/news.scss';
 @import 'avalanchecanada/submit/submit.scss';
 @import 'foundation/foundation.scss';
@@ -37,12 +40,16 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'scss/_ast_pages.scss';
 @import 'scss/_base_mobile.scss';
 @import 'scss/_breakpoint_desktop.scss';
+@import 'scss/_breakpoint_phone.scss';
 @import 'scss/_breakpoint_tablet.scss';
 @import 'scss/_custom_cac_variables.scss';
 @import 'scss/_mobile_multilevel.scss';
 @import 'scss/_news_events_blogs.scss';
+@import 'scss/_observation_drawer.scss';
+@import 'scss/_observation_tabs.scss';
 @import 'scss/_prismic_content.scss';
 @import 'scss/_slideout_nav.scss';
+@import 'scss/_whistler_card.scss';
 @import 'scss/_youth.scss';
 @import 'scss/ie.scss';
 @import 'footer/footer.scss';

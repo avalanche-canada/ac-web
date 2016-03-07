@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('SubmitCtrl', function () {
-        
-    });
+  .controller('SubmitCtrl', function () {
+
+  });
+

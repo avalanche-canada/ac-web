@@ -16,6 +16,10 @@ module.exports = function (grunt) {
                 console.log('dev branch setting env to development');
                 env = 'development';
                 break;
+            case 'min':
+                console.log('min branch setting env to min');
+                env = 'min';
+                break;
             case 'qa':
                 console.log('qa branch setting env to qa');
                 env = 'qa';
@@ -47,7 +51,6 @@ module.exports = function (grunt) {
     express: 'grunt-express-server',
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector'
   });
@@ -57,6 +60,23 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+    concat: {
+      options: {
+        /**
+         * This adds a double semicolon separator to the JS files before they
+         * are concatenated. The concat task is called implicitly by the
+         * `usemin` task. Unfortunatly it uses the same config for both css and
+         * js so if we use the `separator` option it will do the same with css
+         * causing a syntax error;
+         */
+        process: function (src, filepath) {
+          if (filepath.split(/\./).pop() === 'js') {
+            return src + '\n;;\n';
+          }
+          return src;
+        }
+      }
+    },
 
     // Project settings
     yeoman: {
@@ -260,8 +280,7 @@ module.exports = function (grunt) {
           '/json3/',
           '/es5-shim/',
           /bootstrap.css/,
-          /font-awesome.css/,
-          /auth0-lock/
+          /font-awesome.css/
         ]
       }
     },
@@ -298,7 +317,6 @@ module.exports = function (grunt) {
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
       js: [
         '<%= yeoman.dist %>/public/{,*/}*.js',
-        '!<%= yeoman.dist %>/public/bower_components/auth0.js',
         '!<%= yeoman.dist %>/public/bower_components/mapbox.js'
       ],
       options: {
@@ -379,12 +397,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -728,7 +740,6 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
     'rev',

@@ -1,13 +1,12 @@
-.full-height.page
+.full-height.page.form-submission
     .container
         .row
-            header.col-xs-12
-                #header-inner(style="padding: 34px 0 20px;")
-                    h1(style="margin: 0;")
-                        | Submit a Report
-                    .blue-border
-            .col-xs-12.col-md-9
-                div(ac-min-report-form, style="margin: 30px 0 30px 0;")
+            header.submit-header.col-xs-12.no-padding
+                div(style="padding: 34px 0 20px;")
+                    h2
+                        | Mountain Information Network
+            .col-xs-12.form-holder
+                div(ac-min-report-form, style="margin: 10px 0 30px 0;")
         .row
             .col-xs-12
                 div(ng-include='"components/footer/footer.html"')

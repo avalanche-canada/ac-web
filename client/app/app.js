@@ -19,7 +19,8 @@ angular.module('avalancheCanadaApp', [
         'angular-storage',
         'auth0',
         'angular-jwt',
-        'datatables'
+        'datatables',
+        'LocalStorageModule'
     ])
 
     // main module configuration
@@ -48,7 +49,12 @@ angular.module('avalancheCanadaApp', [
             })
             .state('ac.404', {
                 url: '^/404',
-                templateUrl: 'app/404.html'
+                templateUrl: 'app/404.html',
+                controller: function($rootScope) {
+                  $rootScope.metatags = [
+                    {name: 'prerender-status-code', content: '404'}
+                  ];       
+                }
             })
             .state('ac.error', {
                 url: '^/error',
@@ -113,56 +119,21 @@ angular.module('avalancheCanadaApp', [
         });
     }])
 
-    // auth0 configuration
-    .config(function (authProvider, $httpProvider, jwtInterceptorProvider) {
-
-        authProvider.init({
-            domain: 'avalancheca.auth0.com',
-            clientID: 'mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC'
-        });
-
-        function onLoginSucccess($location, profilePromise, idToken, store) {
-            profilePromise.then(function(profile) {
-              store.set('profile', profile);
-              store.set('token', idToken);
-            });
-
-            //$location.url('/submit');
-            // if we use the state service to go to the ac.submit state
-            // it doesn't remove the #access_token=... part of the url that comes back from auth0
-            /*var loginRedirectUrl = store.get('loginRedirectUrl');
-            if(loginRedirectUrl) {
-                $location.url(loginRedirectUrl);
-                store.remove('loginRedirectUrl');
-            } else {
-                $location.url('/');
-            }*/
-        }
-
-        onLoginSucccess.$inject = ['$location', 'profilePromise', 'idToken', 'store', '$state', '$urlRouter'];
-
-        authProvider.on('loginSuccess', onLoginSucccess);
-
-        authProvider.on('logout', ['store', '$state', function onLogout(store, $state){
-            store.remove('profile');
-            store.remove('token');
-            $state.go('ac.map');
-        }]);
-
-        $httpProvider.interceptors.push(function() {
+    //client=web to all requests
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push(function () {
             return {
-                request: function(config) {
-                    config.skipAuthorization = /^https:\/\/avalancheca.prismic.io\/api/.test(config.url);
+                'request': function (config) {
+                    var reqUrl = config.url;
+
+                    if(config.method === 'GET' && (reqUrl.indexOf('submissions') !== -1 || reqUrl.indexOf('observations') !== -1 )){
+                        config.url = config.url + '?client=web';
+                    }
                     return config;
                 }
+
             };
         });
-
-        jwtInterceptorProvider.tokenGetter = ['store', function (store) {
-            return store.get('token');
-        }];
-
-        $httpProvider.interceptors.push('jwtInterceptor');
     })
 
     .factory('urlBuilder', function ($state) {
@@ -239,7 +210,6 @@ angular.module('avalancheCanadaApp', [
             var query =  '[[:d = at(document.type, "highlight")]';
                 query += '[:d = date.before(my.highlight.start_date,"'+tomorrow+'")]';
                 query += '[:d = date.after(my.highlight.end_date,"'+yesterday+'")]]';
-            $log.debug(query);
             ctx.api.form('everything').query(query)
                     .ref(ctx.ref).submit(function(err, documents){
                 if (err) {

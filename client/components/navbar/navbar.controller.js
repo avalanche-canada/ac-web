@@ -12,7 +12,8 @@ angular.module('avalancheCanadaApp')
               'panel': document.getElementById('app-body'),
               'menu': document.getElementById('app-pushmenu'),
               'padding': 256,
-              'tolerance': 70
+              'tolerance': 70,
+              'touch': false
             });
 
           }
@@ -58,9 +59,15 @@ angular.module('avalancheCanadaApp')
       };
   })
 
-  .controller('NavbarCtrl', function ($scope, $rootScope, $location, $document, auth, store) {
+  .controller('NavbarCtrl', function ($scope, $rootScope, $location, $document, auth, store, AcAuth) {
     $scope.env = $rootScope.env;
     $scope.auth = auth;
+
+    $scope.signin  = AcAuth.signin;
+    $scope.signout = AcAuth.signout;
+    $scope.profile = AcAuth.profile();
+    console.log(AcAuth.profile());
+
     $scope.forecastRegions = [{'name':'Banff Yoho & Kootenay National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Banff Yoho & Kootenay National Park</a>'},
                             {'name':'Glacier National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Glacier National Park</a>'},
                             {'name':'Chic-Chocs, CAHG', 'link':'<a href="http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-en" target="_blank" data-toggle="collapse" data-target=".navbar-collapse" >Chic-Chocs, CAHG</a>'},
@@ -80,7 +87,7 @@ angular.module('avalancheCanadaApp')
                             {'name':'South Columbia', 'link':'<a href="'+$scope.env.DOMAIN+'/forecasts/south-columbia" data-toggle="collapse" data-target=".navbar-collapse">South Columbia</a>'},
                             {'name':'South Coast Inland', 'link':'<a href="'+$scope.env.DOMAIN+'/forecasts/south-coast-inland" data-toggle="collapse" data-target=".navbar-collapse">South Coast Inland</a>'},
                             {'name':'Vancouver Island, VIAC', 'link':'<a href="http://www.islandavalanchebulletin.com/" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Vancouver Island, VAIC</a>'},
-                            {'name':'Whistler Blackcomb', 'link':'<a href="http://www.whistlerblackcomb.com/the-mountain/backcountry/avalanche-advisory.aspx" data-toggle="collapse" data-target=".navbar-collapse" target="_blank">Whistler Blackcomb</a>'},
+                            {'name':'Whistler Blackcomb', 'link':'<a href="'+$scope.env.DOMAIN+'/forecasts/whistler-blackcomb" data-toggle="collapse" data-target=".navbar-collapse">Whistler Blackcomb</a>'},
                             {'name':'Waterton Lakes National Park', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?d=TODA&r=4" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Waterton Lakes National Park</a>'},
                             {'name':'Little Yoho', 'link':'<a href="http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY" target="_blank" data-toggle="collapse" data-target=".navbar-collapse">Little Yoho</a>'},
                             {'name':'Yukon', 'link':'<a href="'+$scope.env.DOMAIN+'/forecasts/yukon" data-toggle="collapse" data-target=".navbar-collapse">Yukon</a>'}];
@@ -113,5 +120,12 @@ angular.module('avalancheCanadaApp')
                     {'url':'#programs','display':'Programs'},
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
+
+    $scope.sledPages = 
+        [ //{url:'', display:'Snowmobile Committee'},
+          {url:'sled#video-featured', display:'Throttle Decisions'},
+          {url:'mountain-information-network', display:'Mountain Information Network'},
+          {url:'foundation/programs#memorialFunds', display:'Al Hodgson Memorial Fund'},
+          {url:'gear', display:'Essential gear'} ];
 
   });

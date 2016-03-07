@@ -67,29 +67,33 @@ The application uses Redis as a caching layer. Redis need to be installed and ru
 
 
 #### Local Development
-For development the recommended startegy is to use profiles via ``~/.aws/credentials`` file.
+For development the recommended startegy is to use AWS profiles within the credentials file ``~/.aws/credentials``. For more details on how to configure the AWS CLI/SDK see: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 
 ````
-[default] ; the default profile
+[default]
 aws_access_key_id = ...
 aws_secret_access_key = ...
 
-[personal-account] ; my "avalanche-canada" profile
+[avalanche-canada]
 aws_access_key_id = ...
 aws_secret_access_key = ...
 
 ````
 
 For development add a ``.env`` file in the project root with the following contents:
-````
+
+```
+$cat .env
 AWS_PROFILE=avalanche-canada
-SESSION_SECRET=mysessionsecret
-AUTH0_CLIENT_ID=myauth0clientid
-AUTH0_CLIENT_SECRET=myauth0clientsecret
-REDIS_HOST='127.0.0.1'
+SESSION_SECRET='mysecret'
+AUTH0_CLIENT_ID='client-id'
+AUTH0_CLIENT_SECRET='client-secret'
 NO_CACHE_REFRESH=true
-MINSUB_DYNAMODB_TABLE='mountain-info-network'
-````
+MINSUB_DYNAMODB_TABLE='mountain-info-network-qa'
+AST_PROVIDER_TABLE='ast-provider-dev'
+AST_COURSE_TABLE='ast-course-dev'
+CLOUDINARY_AUTH='mykey'
+```
 
 The ``NO_CACHE_REFRESH`` environment variable controls wether the cache refreshes on a specified interval set in the application. For local and dev env its recommended to leave this to true.
 
@@ -99,7 +103,7 @@ Install Node.js and Ruby then:
 
 ````sh
 $ gem install compass
-$ sudo npm -g install grunt-cli karma bower 
+$ npm -g install grunt-cli karma bower 
 $ npm install
 $ bower install
 $ grunt serve
@@ -153,6 +157,7 @@ For production the best practice is to use an ec2 instance profiles and set the 
 When using elastic beanstalk you can set the instance profile at environment creation using the console, cli or eb tool. You can also change the instance profile using the same tools at a later point.
 
 The follwing environment variables also need to be set on the server:
+
 ````
 SESSION_SECRET=mysessionsecret
 AUTH0_CLIENT_ID=myauth0clientid

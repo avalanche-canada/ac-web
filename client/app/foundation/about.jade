@@ -2,17 +2,8 @@
     .prismic-content
         .anchor#mission(ng-bind-html='mission')
         .anchor#subscribe
-            h1 Join Our Mailing List
-            #mc_embed_signup
-              form#mc-embedded-subscribe-form.validate(action='//avalanche.us2.list-manage.com/subscribe/post?u=865353c8e713ab831d1fde08f&id=7e4b64d8a2', method='post', name='mc-embedded-subscribe-form', target='_blank', novalidate='')
-                #mc_embed_signup_scroll
-                  label(for='mce-EMAIL') Subscribe to our mailing list &nbsp;
-                  input#mce-EMAIL.email(type='email', value='', name='EMAIL', placeholder='email address', required='')
-                  // real people should not fill this in and expect good things - do not remove this or risk form bot signups
-                  div(style='position: absolute; left: -5000px;')
-                    input(type='text', name='b_865353c8e713ab831d1fde08f_7e4b64d8a2', tabindex='-1', value='')
-                  .clear
-                    input#mc-embedded-subscribe.button(type='submit', value='Subscribe', name='subscribe')
+          h1 Join Our Mailing List
+          include ./mc-signup.html
 
         .anchor#reports(ng-bind-html='reports')
         .anchor#board(ng-bind-html='board')

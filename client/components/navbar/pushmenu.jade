@@ -12,15 +12,23 @@ ul
         ul(id="slideout-avalanche-info" class="collapse")
             li
                 ul
-                    li
-                        a(href="", ui-sref="ac.submit", ui-sref-opts="{reload: true}", data-toggle="collapse", data-target=".navbar-collapse") Submit Information
-
                     li(ng-repeat='item in dataMenu' ng-bind-html='item.link')
 
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning' target="_blank") Trip Planner
 
 
+    li
+        ul
+            li
+                h2(class="collapse-toggle" data-toggle="collapse" data-parent="#app-body" href="#slideout-min" aria-expanded="false" aria-controls="slideout-min")
+                    | Mountain Information Network
+                
+                ul(id="slideout-min" class="collapse")
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='/mountain-information-network') Overview
+                    li
+                        a.submit-button(data-toggle="collapse" data-target=".navbar-collapse" href='/submit') Create Report
     li
         ul
             li
@@ -42,6 +50,8 @@ ul
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='/training#crs') Companion Rescue Skills
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='/sled') Mountain Snowmobiling
+                    li
+                        a(data-toggle="collapse" data-target=".navbar-collapse" href='{{env.DOMAIN}}/ambassadors') Avalanche Ambassadors
                     li
                         a(data-toggle="collapse" data-target=".navbar-collapse" href='http://www.old.avalanche.ca/cac/training/ast/courses' target="_blank") Find a course
                     li

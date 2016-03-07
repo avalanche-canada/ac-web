@@ -5,12 +5,12 @@
         .col-xs-12(ng-bind-html="whistlerText.getStructuredText('generic.body').asHtml(ctx)")
         .col-xs-3(ng-repeat='sponsor in whistler')
             a.sponsor(href='{{sponsor.getText("foundation-event-sponsor.url")}}')
-                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
+                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', ng-src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
         .col-xs-12
             h1 {{calgaryText.getText('generic.title')}}
         .col-xs-12(ng-bind-html="calgaryText.getStructuredText('generic.body').asHtml(ctx)")
         .col-xs-3(ng-repeat='sponsor in calgary')
             a.sponsor( href='{{sponsor.getText("foundation-event-sponsor.url")}}')
-                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
+                img.img-responsive(alt='{{sponsor.getText("foundation-event-sponsor.name")}}', ng-src='{{sponsor.getLink("foundation-event-sponsor.image").url(ctx)}}')
     .push
 div(ng-include='"components/foundation_footer/footer.html"')

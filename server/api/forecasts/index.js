@@ -10,6 +10,7 @@ var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
 var logger = require('../../logger.js');
+var config = require('../../config/environment');
 
 var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
     return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
@@ -279,6 +280,14 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         tln: '',
         btl: ''
     };
+
+    // TODO(wnh): Remove this giant hack
+    if(req.region.id === 'north-rockies')
+    {
+      console.log("Sending static conditions-report icon");
+      res.sendFile(config.root + '/server/views/forecasts/conditions-report-icon.svg');
+      return
+    }
 
     if(!req.webcached) {
 

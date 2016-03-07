@@ -8,11 +8,12 @@ var moment = require('moment');
 var im = require('imagemagick-stream');
 var changeCase = require('change-case');
 var logger = require('winston');
+var multiparty = require('multiparty');
+var q = require('q');
 
 var AWS = require('aws-sdk');
-var DOC = require("dynamodb-doc");
 AWS.config.update({region: 'us-west-2'});
-var docClient = new DOC.DynamoDB();
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
@@ -34,7 +35,7 @@ function itemsToSubmissions(items) {
                 return {
                     obtype: ob.obtype,
                     obid: ob.obid,
-                    shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + ob.obid
+                    shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + subid
                 };
             });
 
@@ -100,6 +101,7 @@ exports.saveSubmission = function (user, form, callback) {
             uploads: []
         }
     };
+    var tempObs = {};
 
     form.on('field', function(name, value) {
         value = value.trim();
@@ -113,6 +115,9 @@ exports.saveSubmission = function (user, form, callback) {
                 case "datetime":
                     item.ob.datetime = value;
                     item.epoch = moment(item.ob.datetime).unix();
+                    break;
+                case "obs":
+                    tempObs = JSON.parse(value);
                     break;
                 default:
                     if(/^\{|^\[/.test(value)) {
@@ -168,24 +173,62 @@ exports.saveSubmission = function (user, form, callback) {
     });
 
     form.on('close', function (err) {
-        var valid = validateItem(item);
 
-        if(valid){
-            docClient.putItem({
-                TableName: OBS_TABLE,
-                Item: item,
-            }, function (err, data) {
-                if (err) {
-                    logger.log('info', JSON.stringify(err));
-                    callback({error: 'error saving you submission: saving'});
-                } else {
-                    logger.log('info','successfully saved item');
-                    var sub =  itemToSubmission(item);
-                    callback(null, sub);
-                }
-            });
+        if(_.isEmpty(tempObs)){
+            saveOb(item)
+                .then(function(ob){
+                    callback(null, ob);
+                }, function (err){
+                    callback(err);
+                });
         } else {
-            callback({error: 'error saving you submission: invalid'});
+            saveAllObs(callback);
+        }
+
+
+        function saveOb(item){
+            var valid = validateItem(item);
+            var defer = q.defer();
+
+            if(valid){
+                dynamodb.put({
+                    TableName: OBS_TABLE,
+                    Item: item
+                }, function (err, data) {
+                    if (err) {
+                        logger.log('info', JSON.stringify(err));
+                        defer.reject({error: 'error saving you submission: saving'});
+                    } else {
+                        logger.log('info','successfully saved item');
+                        var sub =  itemToSubmission(item);
+                        defer.resolve(sub);
+                    }
+                });
+            } else {
+                defer.reject({error: 'error saving you submission: invalid'});
+            }
+            return defer.promise;
+        }
+
+        function saveAllObs(callback){
+            var obsPromises = [];
+            _.forEach(tempObs, function (ob, key){
+                var itemClone = _.cloneDeep(item);
+                itemClone.obid = uuid.v4();
+                itemClone.obtype = key.replace('Report','');
+                _.assign(itemClone.ob, ob);
+
+                var p = saveOb(itemClone);
+
+                obsPromises.push(p);
+            });
+
+            q.all(obsPromises)
+                .then(function (results){
+                    callback(null, results[0]);
+                }, function (err){
+                    callback(err);
+                });
         }
 
     });
@@ -212,12 +255,14 @@ exports.getSubmissions = function (filters, callback) {
 
     console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
-    params.KeyConditions = [
-        docClient.Condition("acl", "EQ", "public"),
-        docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
-    ];
+    params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
+    params.ExpressionAttributeValues= {
+        ':auth': 'public',
+        ':start': startDate.unix(),
+        ':end': endDate.unix()
+    };
 
-    docClient.query(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
         } else {
@@ -227,19 +272,19 @@ exports.getSubmissions = function (filters, callback) {
     });
 };
 
-exports.getSubmission = function (subid, callback) {
+exports.getSubmission = function (subid, client, callback) {
     var params = {
         TableName: OBS_TABLE,
-        FilterExpression: 'attribute_exists(obid) and subid = :subid',
+        IndexName: 'subid-index',
+        KeyConditionExpression: 'subid = :subid',
         ExpressionAttributeValues: {':subid' : subid}
     };
 
-    docClient.scan(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
         } else {
-            var sub = itemToSubmission(res.Items[0]);
-            callback(null, sub);
+            callback(null, routeResponseForClient(res.Items, client, 'submissions'));
         }
     });
 };
@@ -265,17 +310,18 @@ exports.getObservations = function (filters, callback) {
 
     console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
-    params.KeyConditions = [
-        docClient.Condition("acl", "EQ", "public"),
-        docClient.Condition("epoch", "BETWEEN", startDate.unix(), endDate.unix())
-    ];
+    params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
+    params.ExpressionAttributeValues= {
+        ':auth': 'public',
+        ':start': startDate.unix(),
+        ':end': endDate.unix()
+    };
 
-    docClient.query(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
-            callback({error: "error fetching observations"});
+            callback(err);
         } else {
-            var subs = itemsToObservations(res.Items);
-            callback(null, subs);
+            callback(null, routeResponseForClient(res.Items, filters.client, 'observations'));
         }
     });
 };
@@ -283,12 +329,16 @@ exports.getObservations = function (filters, callback) {
 exports.getObservation = function (obid, callback) {
     var params = {
         TableName: OBS_TABLE,
-        FilterExpression: 'obid = :obid',
+        KeyConditionExpression: 'obid = :obid',
         ExpressionAttributeValues: {':obid' : obid}
     };
-    docClient.scan(params, function(err, res) {
+    dynamodb.query(params, function(err, res) {
         if (err) {
+            logger.error(err);
             callback({error: "error fetching observations"});
+        } else if(typeof res === 'undefined') {
+            logger.error('Undefined returned for observation obid='+obid);
+            callback({error: "error fetching observation"});
         } else {
             var sub = itemToObservation(res.Items[0]);
             callback(null, sub);
@@ -312,3 +362,77 @@ exports.getUploadAsStream = function (key, size) {
         return stream.pipe(resize);
     }
 };
+
+function routeResponseForClient(results, client, type){
+    //if client, then is request from web
+    if (client && client === 'web'){
+        if (type && type === 'observations') {
+            return mapWebObsResults(results);
+        } else {
+            return mapWebSubResults(results);
+        }
+    } else {
+        if (type && type === 'observations'){
+            return itemsToObservations(_.filter(results, { obtype:'quick'}));
+        } else {
+            return itemsToSubmissions(results);
+        }
+    }
+}
+
+function mapWebObsResults(results){
+    return _.map(results, function (item) {
+        var ob = _.cloneDeep(item.ob);
+        delete ob.title;
+        delete ob.datetime;
+        delete ob.latlng;
+        delete ob.uploads;
+
+        return {
+            subid: item.subid,
+            obid: item.obid,
+            title: item.ob.title,
+            datetime: item.ob.datetime,
+            user: item.user,
+            obtype: item.obtype,
+            latlng: item.ob.latlng,
+            uploads: item.ob.uploads,
+            ob: ob
+        }
+    });
+}
+
+function mapWebSubResults(items){
+    var subs = _.chain(items)
+        .groupBy('subid')
+        .map(function (obs, subid) {
+            var meta = {
+                subid: subid,
+                latlng: obs[0].ob.latlng,
+                datetime: obs[0].ob.datetime,
+                uploads: obs[0].ob.uploads,
+                user: obs[0].user,
+                title: obs[0].ob.title
+            };
+
+            var obs = obs.map(function (ob) {
+                delete ob.ob.title;
+                delete ob.ob.datetime;
+                delete ob.ob.latlng;
+                delete ob.ob.uploads;
+                return {
+                    obtype: ob.obtype,
+                    obid: ob.obid,
+                    shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(meta.title) + '/' + ob.obid,
+                    ob: ob.ob
+                };
+            });
+
+            meta.obs = obs;
+
+            return meta;
+        })
+        .value();
+
+    return subs;
+}
