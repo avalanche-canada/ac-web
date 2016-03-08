@@ -152,6 +152,10 @@ angular.module('avalancheCanadaApp')
             $location.path('/submit');
         };
 
+        $scope.goToHotZoneReport = function(){
+            $location.path('/hotzone');
+        };
+
         $scope.toggleForecast = function (){
             $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
             $scope.regionsVisible = !$scope.regionsVisible;
