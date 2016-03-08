@@ -30,7 +30,10 @@ angular.module('avalancheCanadaApp')
 
         });
 
+        var storage = sessionStorage;
         var displayedMinFilters = ['all min'];
+        var obsPeriodKey = 'ac.min.obsPeriod';
+        var obsPeriod = storage.getItem(obsPeriodKey) || '7-days';
 
         angular.extend($scope, {
             current: {},
@@ -44,7 +47,7 @@ angular.module('avalancheCanadaApp')
                 }
             },
             filters: {
-                obsPeriod: '7-days',
+                obsPeriod: obsPeriod,
                 minFilters: acConfig.minFilters
             },
             regionsVisible: true,
@@ -118,6 +121,7 @@ angular.module('avalancheCanadaApp')
                 var filterValue = filter.split(':')[1];
 
                 if(filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
+                    storage.setItem(obsPeriodKey, filterValue);
                     $scope.filters[filterType] = filterValue;
                     var period = filterValue.replace('-', ':');
 
