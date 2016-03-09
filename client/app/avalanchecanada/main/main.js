@@ -8,8 +8,8 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                  obs: function (acObservation) {
-                    return acObservation.byPeriod('7:days');
+                  obs: function (acObservation, AcAppState) {
+                    return acObservation.byPeriod(AcAppState.getObsPeriod());
                   }
                 }
             })
@@ -18,8 +18,8 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                   obs: function (acObservation) {
-                    return acObservation.byPeriod('7:days');
+                   obs: function (acObservation, AcAppState) {
+                    return acObservation.byPeriod(AcAppState.getObsPeriod());
                   }
                 },
                 data: {
@@ -44,8 +44,8 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/avalanchecanada/main/map.html',
                 controller: 'MapCtrl',
                 resolve: {
-                    obs: function (acObservation) {
-                        return acObservation.byPeriod('7:days');
+                    obs: function (acObservation, AcAppState) {
+                        return acObservation.byPeriod(AcAppState.getObsPeriod());
                     }
                 }
             })
@@ -80,4 +80,3 @@ angular.module('avalancheCanadaApp')
                 }
             });
     });
-
