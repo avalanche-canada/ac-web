@@ -161,6 +161,11 @@ angular.module('avalancheCanadaApp')
             $scope.regionsVisible = !$scope.regionsVisible;
         };
 
+        $scope.toggleHotZone = function (){
+            $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
+            $scope.current.hotzone = true;
+        };
+
         function toggleMinFilters(filterValue){
 
             function cleanMinFilters(){
