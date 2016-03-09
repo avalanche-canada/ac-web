@@ -53,19 +53,6 @@ avalxWebcache.seed(acAvalxUrls);
 
 var DEBUG = console.log.bind(console);
 
-// webcache middleware
-/*
-router.use(function (req, res, next) {
-    var url = req.protocol + '://' + req.headers.host + req.originalUrl;
-
-    var webcacher = function (data) {
-        DEBUG('NOT CACHING THIS THING: ', url);
-    };
-
-    req.webcache = webcacher;
-    next();
-});
-*/
 router.param('region', function (req, res, next) {
     req.region = _.find(regions.features, {id: req.params.region});
 
