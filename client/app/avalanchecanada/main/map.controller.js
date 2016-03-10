@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acHotZone, acObservation, obs, auth, $location, acConfig, AcAuth) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth) {
 
         Prismic.ctx().then(function(ctx){
 
@@ -80,10 +80,6 @@ angular.module('avalancheCanadaApp')
             $scope.regions = forecasts;
         });
 
-        acHotZone.fetch().then(function (hotZones) {
-            $scope.hotZones = hotZones;
-        });
-
         $scope.$watch('current.report', function(newValue, oldValue){
             if(newValue && newValue.latlng) {
                 $scope.drawer.left.visible = true;
@@ -97,27 +93,12 @@ angular.module('avalancheCanadaApp')
                 $scope.drawer.right.visible = false;
                 $scope.imageLoaded = false;
 
-                if(!newRegion.feature.properties.forecast) {
+                if(!newRegion.feature.properties.forecast && newRegion.feature.properties.type !=='hotzone') {
                     acForecast.getOne(newRegion.feature.id).then(function (forecast) {
                         newRegion.feature.properties.forecast = forecast;
                     });
-                }
+                } else {
 
-                $timeout(function () {
-                    $scope.drawer.right.visible = true;
-                }, 800);
-            }
-        });
-
-        $scope.$watch('current.hotZone', function (newRegion, oldRegion) {
-            if(newRegion && newRegion !== oldRegion) {
-                $scope.drawer.right.visible = false;
-                $scope.imageLoaded = false;
-
-                if(!newRegion.feature.properties.report) {
-                    acHotZone.getOne(newRegion.feature.id).then(function (report) {
-                        newRegion.feature.properties.report = report;
-                    });
                 }
 
                 $timeout(function () {
@@ -181,12 +162,6 @@ angular.module('avalancheCanadaApp')
         $scope.toggleForecast = function (){
             $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
             $scope.regionsVisible = !$scope.regionsVisible;
-        };
-
-        $scope.toggleHotZone = function (){
-            $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
-            $scope.hotZonesVisible = !$scope.hotZonesVisible;
-            $scope.current.hotzone = true;
         };
 
         function toggleMinFilters(filterValue){

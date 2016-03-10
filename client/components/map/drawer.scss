@@ -259,18 +259,10 @@
 
     .ac-report-tab{
         background-color: $main-blue!important;
+        color: rgba($white, 0.6);
         i{
             padding-left: 17px;
             padding-top: 7px;
-        }
-        i.fa-plus{
-            font-size: 14px;
-            position: absolute;
-            top: 2px;
-            left: 9px;
-            background-color: $main-blue;
-            padding: 3px;
-            border-radius: 50%;
         }
         span{
             display: block;
@@ -278,6 +270,12 @@
             text-transform: uppercase;
             text-align:center;
             margin-top:0px;
+        }
+        &.on {
+            color: $white;
+            i {
+                color: $white;
+            }
         }
     }
 

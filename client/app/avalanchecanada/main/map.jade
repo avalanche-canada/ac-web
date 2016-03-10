@@ -1,10 +1,15 @@
 .page.container-fluid.ac-no-gutter.ac-view-map
-    div(ac-mapbox-map, ac-regions='regions', ac-region='current.region', ac-hot-zone='current.hotZone', ac-hot-zones='hotZones', ac-show-hot-zones='hotZonesVisible', ac-report = "current.report", ac-show-regions="regionsVisible", ac-obs="obs", ac-ob="current.ob", ac-min-filters="filters.minFilters",top-offset="75", style="width: 100%;")
-    div.ac-drawer-right(ac-drawer, ac-drawer-position='right', ng-class="{'ac-drawer--expanded': (current.region && current.region.feature.properties.forecast && drawer.right.visible && drawer.right.enabled && regionsVisible) || (drawer.right.enabled && current.hotzone)}")
-        div(ng-show='!current.hotzone', ac-forecast-mini='ac-forecast-mini', ac-forecast='current.region.feature.properties.forecast', danger-rating='dangerRating', disclaimer='disclaimer', sponsor='sponsor')
-        div(ng-show='current.hotzone', ac-hot-zone-mini='ac-hot-zone-mini')
+    div(ac-mapbox-map, ac-regions='regions', ac-region='current.region', ac-report = "current.report", ac-show-regions="regionsVisible", ac-obs="obs", ac-ob="current.ob", ac-min-filters="filters.minFilters",top-offset="75", style="width: 100%;")
+
+    div.ac-drawer-right(ac-drawer, ac-drawer-position='right', ng-class="{'ac-drawer--expanded': (current.region && (current.region.feature.properties.forecast || current.region.feature.properties.type === 'hotzone') && drawer.right.visible && drawer.right.enabled && regionsVisible)}")
+
+        div(ng-if='current.region.feature.properties.type !== "hotzone"', ac-forecast-mini='ac-forecast-mini', ac-forecast='current.region.feature.properties.forecast', danger-rating='dangerRating', disclaimer='disclaimer', sponsor='sponsor')
+
+        div(ng-if='current.region.feature.properties.type === "hotzone"', ac-hot-zone-mini='ac-hot-zone-mini')
+
     div.ac-drawer-left(ac-drawer, ac-drawer-position='left', ng-class="{'ac-drawer--expanded': current.report && drawer.left.visible}")
         div(ac-observation-min='ac-observation-min', observation='current.report', sponsor='sponsor')
+
     div(ac-loading-indicator, ng-if="requestInProgress")
 
 .scroll-nav.scroll-nav--down

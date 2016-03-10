@@ -27,7 +27,6 @@ module.exports = function(app) {
     app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
 
     app.use('/api/forecasts', require('./api/forecasts'));
-    app.use('/api/hotzones', require('./api/hotzones'));
     app.use('/api/min', require('./api/observations'));
     app.use('/api/ast', require('./api/ast'));
     app.use('/vendor/cloudinary/', require('./api/proxy'));
