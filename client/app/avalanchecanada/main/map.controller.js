@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, acHZRSubmission, obs, auth, $location, acConfig, AcAuth) {
 
         Prismic.ctx().then(function(ctx){
 
@@ -78,6 +78,10 @@ angular.module('avalancheCanadaApp')
 
         acForecast.fetch().then(function (forecasts) {
             $scope.regions = forecasts;
+        });
+
+        acHZRSubmission.getAll().then(function (reports) {
+            $scope.activeHotZones = reports;
         });
 
         $scope.$watch('current.report', function(newValue, oldValue){

@@ -22,7 +22,6 @@ exports.saveHZR = function (user, form, callback) {
     var item = {
         hzid: uuid.v4(),
         subid: uuid.v4(),
-        epoch: moment().unix(),
         userid: user.user_id,
         user: user.nickname || 'unknown',
         acl: 'public',
@@ -34,8 +33,12 @@ exports.saveHZR = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        console.log(name);
-        console.log(value);
+        if (name === 'dateissued') {
+            item.dateissued = moment(value).unix();
+        }
+        if (name === 'datevalid') {
+            item.datevalid = moment(value).unix();
+        }
         item.report[name] = value;
     });
 
@@ -108,5 +111,33 @@ exports.saveHZR = function (user, form, callback) {
             return defer.promise;
         }
 
+    });
+};
+
+exports.getReports = function (callback) {
+    var params = {
+        TableName: HZR_TABLE,
+        IndexName: 'acl-datevalid-index'
+    };
+    var today = moment();
+
+    console.log('getting valid reports for  %s', today.format('YYYY-MM-DD'));
+
+    params.KeyConditionExpression = "acl = :auth and datevalid >= :today";
+    params.ExpressionAttributeValues= {
+        ':auth': 'public',
+        ':today': today.unix()
+    };
+
+    console.log(params);
+
+    dynamodb.query(params, function(err, res) {
+        if (err) {
+            console.log(err);
+            callback({error: "error fetching hot zone reports"});
+        } else {
+            // var subs = itemsToSubmissions(res.Items);
+            callback(null, res.Items);
+        }
     });
 };

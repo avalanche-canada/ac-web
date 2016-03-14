@@ -28,18 +28,17 @@ router.post('/submissions', jwtCheck, function (req, res) {
     });
 });
 
-// router.get('/submissions', function (req, res) {
-//     var filters = req.query;
-//     logger.log('info', 'fetching reports with fiters: %s', JSON.stringify(filters));
+router.get('/submissions', function (req, res) {
+    logger.log('info', 'fetching hot zone reports');
 
-//     hzrUtils.getReports(filters, function (err, subs) {
-//         if (err) {
-//             res.send(500, {error: 'error retrieving reports'})
-//         } else {
-//             res.json(subs);
-//         }
-//     });
-// });
+    hzrUtils.getReports(function (err, hzr) {
+        if (err) {
+            res.send(500, {error: 'error retrieving reports'})
+        } else {
+            res.json(hzr);
+        }
+    });
+});
 
 // router.get('/submissions/:subid', function (req, res) {
 //     var subid = req.params.subid;
