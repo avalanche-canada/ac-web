@@ -107,11 +107,11 @@ angular.module('avalancheCanadaApp')
 
 .controller('SponsorsCtrl', function ($scope, $anchorScroll, $timeout, partner, foundingSponsor, supplier, associate) {
 
-    function chunk(array, idx) {
+    function chunk(array, len) {
         var ret = [],
             tmp = [];
         for(var i=0; i<array.length; i++) {
-            if (i % 4 == 0 && i > 0) {
+            if (i % len === 0 && i > 0) {
                 ret.push(tmp);
                 tmp = [];
             }
@@ -122,8 +122,6 @@ angular.module('avalancheCanadaApp')
         }
         return ret;
     }
-
-    console.log(chunk(supplier, 4));
 
     $scope.partner         = chunk(partner, 4);
     $scope.foundingSponsor = chunk(foundingSponsor, 4);
