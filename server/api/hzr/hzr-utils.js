@@ -147,7 +147,9 @@ exports.getReports = function (callback) {
                     return item.datevalid;
                 }));
             }
-            console.log(reports);
+            reports.forEach(function (r) {
+                r.report.data = JSON.parse(r.report.data);
+            });
             callback(null, reports);
         }
     });

@@ -40,19 +40,4 @@ router.get('/submissions', function (req, res) {
     });
 });
 
-// router.get('/submissions/:subid', function (req, res) {
-//     var subid = req.params.subid;
-
-//     hzrUtils.getReport(subid, req.query.client, function (err, sub) {
-//         if (err) {
-//             res.send(500, {error: 'error retrieving report'})
-//         } else {
-//             if(req.query && req.query.client){
-//                 sub = mapWebSubResponse(sub, req);
-//             }
-//             res.json(sub);
-//         }
-//     });
-// });
-
 module.exports = router;
