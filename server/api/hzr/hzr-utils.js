@@ -33,16 +33,33 @@ exports.saveHZR = function (user, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        if (name === 'dateissued') {
-            item.dateissued = moment(value).unix();
+        try {
+            switch(name){
+                case "dateissued":
+                    item.dateissued = moment(value).unix();
+                    item.report[name] = value;
+                    break;
+                case "datevalid":
+                    item.datevalid = moment(value).unix();
+                    item.report[name] = value;
+                    break;
+                case "hotzoneid":
+                    item.hotzoneid = value;
+                    item.report[name] = value;
+                    break;
+                case "data":
+                    item.report[name] = JSON.parse(value);
+                    break;
+                default:
+                    if(/^\{|^\[/.test(value)) {
+                        value = JSON.parse(value);
+                    }
+                    item.report[name] = value;
+                    break;
+            }
+        } catch (e) {
+            callback(e);
         }
-        if (name === 'datevalid') {
-            item.datevalid = moment(value).unix();
-        }
-        if (name === 'hotzoneid') {
-            item.hotzoneid = value;
-        }
-        item.report[name] = value;
     });
 
     form.on('part', function(part) {
@@ -147,9 +164,6 @@ exports.getReports = function (callback) {
                     return item.datevalid;
                 }));
             }
-            reports.forEach(function (r) {
-                r.report.data = JSON.parse(r.report.data);
-            });
             callback(null, reports);
         }
     });
