@@ -39,6 +39,9 @@ exports.saveHZR = function (user, form, callback) {
         if (name === 'datevalid') {
             item.datevalid = moment(value).unix();
         }
+        if (name === 'hotzoneid') {
+            item.hotzoneid = value;
+        }
         item.report[name] = value;
     });
 
@@ -136,8 +139,16 @@ exports.getReports = function (callback) {
             console.log(err);
             callback({error: "error fetching hot zone reports"});
         } else {
-            // var subs = itemsToSubmissions(res.Items);
-            callback(null, res.Items);
+            var reports = [];
+            var groupedItems = _.groupBy(res.Items, 'hotzoneid');
+            console.log(groupedItems);
+            for (var key in groupedItems) {
+                reports.push(_.max(groupedItems[key], function (item) {
+                    return item.datevalid;
+                }));
+            }
+            console.log(reports);
+            callback(null, reports);
         }
     });
 };
