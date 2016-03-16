@@ -41,7 +41,8 @@ router.get('/submissions', function (req, res) {
 
     hzrUtils.getReports(function (err, hzr) {
         if (err) {
-            res.send(500, {error: 'error retrieving reports: ' + err})
+            console.log(err);
+            res.send(500, {error: 'error retrieving reports: ' + JSON.stringify(err)})
         } else {
             mapWebHZRResponse(hzr, req);
             res.json(hzr);
