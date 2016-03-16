@@ -154,7 +154,7 @@ exports.getReports = function (callback) {
     dynamodb.query(params, function(err, res) {
         if (err) {
             console.log(err);
-            callback({error: "error fetching hot zone reports"});
+            callback({error: "error fetching hot zone reports: " + JSON.stringify(err)});
         } else {
             var reports = [];
             var groupedItems = _.groupBy(res.Items, 'hotzoneid');
