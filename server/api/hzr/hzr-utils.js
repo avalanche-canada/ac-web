@@ -158,7 +158,6 @@ exports.getReports = function (callback) {
         } else {
             var reports = [];
             var groupedItems = _.groupBy(res.Items, 'hotzoneid');
-            console.log(groupedItems);
             for (var key in groupedItems) {
                 reports.push(_.max(groupedItems[key], function (item) {
                     return item.datevalid;

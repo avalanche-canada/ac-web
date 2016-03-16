@@ -13,6 +13,14 @@ var jwtCheck = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
+function mapWebHZRResponse(hzr, req){
+    return _.reduce(hzr, function(results, r, key){
+        results[key] = r;
+        results[key].report.thumbs = r.report.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
+        return results;
+    },[]);
+}
+
 router.post('/submissions', jwtCheck, function (req, res) {
     console.log(req.get('content-type'));
     var form = new multiparty.Form();
@@ -35,6 +43,7 @@ router.get('/submissions', function (req, res) {
         if (err) {
             res.send(500, {error: 'error retrieving reports'})
         } else {
+            mapWebHZRResponse(hzr, req);
             res.json(hzr);
         }
     });
