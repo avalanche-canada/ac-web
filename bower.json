@@ -27,10 +27,6 @@
     "angular-datatables": "~0.4.3",
     "angular-local-storage": "~0.2.3"
   },
-  "devDependencies": {
-    "angular-mocks": "~1.4.8",
-    "angular-scenario": "~1.4.8"
-  },
   "resolutions": {
     "jquery": "~1.11.0",
     "angular": "1.4.8",
