@@ -178,7 +178,7 @@ angular.module('avalancheCanadaApp')
             return auth.isAuthenticated && _.find(auth.profile.app_metadata.roles, function (role) {
                 return role.toLowerCase() === 'forecaster';
             });
-        }
+        };
 
         function toggleMinFilters(filterValue){
 
