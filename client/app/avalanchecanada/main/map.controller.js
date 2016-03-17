@@ -170,6 +170,16 @@ angular.module('avalancheCanadaApp')
             $scope.regionsVisible = !$scope.regionsVisible;
         };
 
+        $scope.toggleDateFilters = function (){
+            $scope.expandedDate = !$scope.expandedDate;
+        };
+
+        $scope.isForecaster = function () {
+            return auth.isAuthenticated && _.find(auth.profile.app_metadata.roles, function (role) {
+                return role.toLowerCase() === 'forecaster';
+            });
+        }
+
         function toggleMinFilters(filterValue){
 
             function cleanMinFilters(){
@@ -204,8 +214,4 @@ angular.module('avalancheCanadaApp')
                 displayedMinFilters = $scope.filters.minFilters;
             }
         }
-
-        $scope.toggleDateFilters = function (){
-            $scope.expandedDate = !$scope.expandedDate;
-        };
     });
