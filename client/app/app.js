@@ -53,7 +53,7 @@ angular.module('avalancheCanadaApp', [
                 controller: function($rootScope) {
                   $rootScope.metatags = [
                     {name: 'prerender-status-code', content: '404'}
-                  ];       
+                  ];
                 }
             })
             .state('ac.error', {
@@ -187,7 +187,7 @@ angular.module('avalancheCanadaApp', [
 
             // using the native auth0 auth.hookEvents() does not work with the hack in
             // the login success handler. Keeps cycling thought the root abstract state.
-            if(toState.data && toState.data.requiresLogin && !auth.isAuthenticated) {
+            if(toState.data && toState.data.requiresLogin && !auth.isAuthenticated || (toState.data.roles.length && !_.contains(toState.data.roles, auth.profile.app_metadata.roles[0])) ) {
                 event.preventDefault();
                 $state.go('ac.login');
                 store.set('loginRedirectUrl', toState.url);

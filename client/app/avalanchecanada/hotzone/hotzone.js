@@ -8,7 +8,8 @@ angular.module('avalancheCanadaApp')
                 templateUrl: 'app/avalanchecanada/hotzone/hotzone.html',
                 controller: 'HotZoneCtrl',
                 data: {
-                  requiresLogin: true
+                  requiresLogin: true,
+                  roles: ['FORECASTER']
                 }
             });
     });
