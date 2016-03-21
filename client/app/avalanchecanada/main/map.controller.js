@@ -47,6 +47,7 @@ angular.module('avalancheCanadaApp')
                 obsPeriod: '7-days',
                 minFilters: acConfig.minFilters
             },
+            isForecaster: AcAuth.isForecaster(),
             regionsVisible: true,
             hotZonesVisible: true,
             expandedDate: false,
@@ -172,12 +173,6 @@ angular.module('avalancheCanadaApp')
 
         $scope.toggleDateFilters = function (){
             $scope.expandedDate = !$scope.expandedDate;
-        };
-
-        $scope.isForecaster = function () {
-            return auth.isAuthenticated && _.find(auth.profile.app_metadata.roles, function (role) {
-                return role.toLowerCase() === 'forecaster';
-            });
         };
 
         function toggleMinFilters(filterValue){
