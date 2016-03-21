@@ -69,6 +69,16 @@ angular.module('avalancheCanadaApp')
                   }]
                 }
             })
+            .state('ac.forecast', {
+                url: '^/forecast/:regionid',
+                templateUrl: 'app/avalanchecanada/main/map.html',
+                controller: 'MapCtrl',
+                resolve:{
+                    obs: function (acObservation) {
+                        return acObservation.byPeriod('7:days');
+                    }
+                }
+            })
             .state('ac.reports', {
                 url: '^/reports/:subid',
                 templateUrl: 'app/avalanchecanada/reports/reportsFullPage.html',
