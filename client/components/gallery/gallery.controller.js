@@ -25,6 +25,29 @@ angular.module('avalancheCanadaApp')
 
             var pageNum = 0;
             var page_stack = [];
+            var get_taged_images = function(next_cursor) {
+              var opts = {rows: rows, columns: columns, width: width, height: height };
+              if(typeof(next_cursor) !== 'undefined') {
+                opts.next_cursor = next_cursor;
+              }
+
+              return Cloudinary
+                .getByTag(attrs.tag, opts)
+                .then(function(result){
+                    var ret = {};
+                    ret.next_cursor = result.next_cursor;
+
+                    ret.rows = _.reduce(result.resources, function(acc, x, n){
+                      if(n % columns === 0) {
+                          acc.push([]);
+                        }
+                      _.last(acc).push(x);
+                      return acc;
+                    }, []);
+                    return ret;
+
+                });
+            };
 
             var goto_page = function(n, stack) {
                 if (stack.length === 0) {
@@ -57,31 +80,6 @@ angular.module('avalancheCanadaApp')
                 pageNum--;
                 pageNum = (pageNum < 0) ? 0 : pageNum;
                 goto_page(pageNum, page_stack);
-            };
-
-
-            var get_taged_images = function(next_cursor) {
-              var opts = {rows: rows, columns: columns, width: width, height: height };
-              if(typeof(next_cursor) !== 'undefined') {
-                opts.next_cursor = next_cursor;
-              }
-
-              return Cloudinary
-                .getByTag(attrs.tag, opts)
-                .then(function(result){
-                    var ret = {};
-                    ret.next_cursor = result.next_cursor;
-
-                    ret.rows = _.reduce(result.resources, function(acc, x, n){
-                      if(n % columns === 0) {
-                          acc.push([]);
-                        }
-                      _.last(acc).push(x);
-                      return acc;
-                    }, []);
-                    return ret;
-
-                });
             };
 
             goto_page(0, page_stack);
