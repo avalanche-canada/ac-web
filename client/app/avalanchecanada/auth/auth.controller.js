@@ -11,6 +11,9 @@ angular.module('avalancheCanadaApp')
 })
 .controller('AcAuthCtl', function ($location, store) {
   var redir = store.get('loginRedirectUrl');
-  console.log('AcAuthCtl:: redirecting to:', redir);
-  $location.path('/' + redir);
+  if (redir) {
+      console.log('AcAuthCtl:: redirecting to:', redir);
+      $location.path('/' + redir);
+  }
+  $location.path('/');
 });

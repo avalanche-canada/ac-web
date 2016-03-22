@@ -16,6 +16,7 @@ var jwtCheck = jwt({
 function mapWebHZRResponse(hzr, req){
     return _.reduce(hzr, function(results, r, key){
         results[key] = r;
+        results[key].new = r.dateissued > moment().subtract(1, 'days').unix();
         results[key].report.thumbs = r.report.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
         return results;
     },[]);
