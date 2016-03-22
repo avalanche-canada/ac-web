@@ -26,6 +26,28 @@ angular.module('avalancheCanadaApp')
             var pageNum = 0;
             var page_stack = [];
 
+            var goto_page = function(n, stack) {
+                if (stack.length === 0) {
+                    get_taged_images()
+                        .then(function(res) {
+                            stack.push(res);
+                            scope.rows = res.rows;
+                        });
+                } else if (n >= stack.length) {
+                    var c = stack[stack.length-1].next_cursor;
+                    get_taged_images(c)
+                        .then(function(res) {
+                            stack.push(res);
+                            scope.rows = res.rows;
+                        });
+                } else if( n >=0 && n < stack.length) {
+                    scope.rows = stack[n].rows;
+                } else {
+                    $log.warn('Page number out of range. pageNum:', n, 'stack:', stack);
+                }
+
+            };
+
             scope.next_page = function() {
                 pageNum++;
                 goto_page(pageNum, page_stack);
@@ -33,7 +55,7 @@ angular.module('avalancheCanadaApp')
 
             scope.prev_page = function() {
                 pageNum--;
-                pageNum = (pageNum < 0) ? 0 : pageNum; 
+                pageNum = (pageNum < 0) ? 0 : pageNum;
                 goto_page(pageNum, page_stack);
             };
 
@@ -60,28 +82,6 @@ angular.module('avalancheCanadaApp')
                     return ret;
 
                 });
-            };
-            
-            var goto_page = function(n, stack) {
-                if (stack.length === 0) {
-                    get_taged_images()
-                        .then(function(res) {
-                            stack.push(res);
-                            scope.rows = res.rows;
-                        });
-                } else if (n >= stack.length) {
-                    var c = stack[stack.length-1].next_cursor;
-                    get_taged_images(c)
-                        .then(function(res) {
-                            stack.push(res);
-                            scope.rows = res.rows;
-                        });
-                } else if( n >=0 && n < stack.length) {
-                    scope.rows = stack[n].rows;
-                } else {
-                    $log.warn('Page number out of range. pageNum:', n, 'stack:', stack);
-                }
-
             };
 
             goto_page(0, page_stack);
@@ -117,7 +117,7 @@ angular.module('avalancheCanadaApp')
 
             if(typeof(options) !== 'undefined') {
                 data = data.then(function(data){
-                    return { 
+                    return {
                       next_cursor: data.next_cursor,
                       resources: _.map(data.resources, mapToSize(options.width, options.height))
                     };
@@ -125,7 +125,7 @@ angular.module('avalancheCanadaApp')
 
             } else {
                 data = data.then(function(data) {
-                    return { 
+                    return {
                       next_cursor: data.next_cursor,
                       resources:  _.map(data.resources, function(i) {
                         return {url: i.url};

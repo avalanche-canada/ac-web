@@ -55,6 +55,41 @@ angular.module('avalancheCanadaApp')
             minFilters : _.sortBy(displayedMinFilters.concat(acConfig.minFilters), function(val) { return ['all min', 'quick', 'avalanche', 'snowpack', 'weather', 'incident'].indexOf(val); })
         });
 
+        function toggleMinFilters(filterValue){
+
+            function cleanMinFilters(){
+                displayedMinFilters = [];
+                $scope.filters.minFilters = [];
+            }
+
+            function setAllMinFilters(){
+                displayedMinFilters = ['all min'];
+                $scope.filters.minFilters = acConfig.minFilters;
+            }
+
+            var previousMinFilter = displayedMinFilters[0];
+
+            if( previousMinFilter === 'all min'){
+                cleanMinFilters();
+            }
+
+            if (filterValue === 'all min'){
+                if (previousMinFilter === 'all min'){
+                    cleanMinFilters();
+                } else{
+                    setAllMinFilters();
+                }
+
+            } else {
+                if(_.indexOf($scope.filters.minFilters, filterValue) !== -1){
+                    $scope.filters.minFilters = _.without($scope.filters.minFilters, filterValue);
+                } else {
+                    $scope.filters.minFilters.push(filterValue);
+                }
+                displayedMinFilters = $scope.filters.minFilters;
+            }
+        }
+
         if($state.current.data && $state.current.data.isLogin) {
             if(!auth.isAuthenticated) {
                 AcAuth.signin();
@@ -174,39 +209,4 @@ angular.module('avalancheCanadaApp')
         $scope.toggleDateFilters = function (){
             $scope.expandedDate = !$scope.expandedDate;
         };
-
-        function toggleMinFilters(filterValue){
-
-            function cleanMinFilters(){
-                displayedMinFilters = [];
-                $scope.filters.minFilters = [];
-            }
-
-            function setAllMinFilters(){
-                displayedMinFilters = ['all min'];
-                $scope.filters.minFilters = acConfig.minFilters;
-            }
-
-            var previousMinFilter = displayedMinFilters[0];
-
-            if( previousMinFilter === 'all min'){
-                cleanMinFilters();
-            }
-
-            if (filterValue === 'all min'){
-                if (previousMinFilter === 'all min'){
-                    cleanMinFilters();
-                } else{
-                    setAllMinFilters();
-                }
-
-            } else {
-                if(_.indexOf($scope.filters.minFilters, filterValue) !== -1){
-                    $scope.filters.minFilters = _.without($scope.filters.minFilters, filterValue);
-                } else {
-                    $scope.filters.minFilters.push(filterValue);
-                }
-                displayedMinFilters = $scope.filters.minFilters;
-            }
-        }
     });
