@@ -81,6 +81,7 @@
     "grunt-svgmin": "~0.4.0",
     "grunt-template": "^0.2.3",
     "grunt-usemin": "~2.1.1",
+    "hooker": "^0.2.3",
     "jit-grunt": "^0.10.0",
     "jshint-stylish": "~0.1.5",
     "karma": "~0.12.9",
