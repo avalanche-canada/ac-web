@@ -96,6 +96,7 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
+    "maxmin": "^2.1.0",
     "open": "~0.0.4",
     "phantomjs-prebuilt": "^2.1.6",
     "random-words": "0.0.1",
