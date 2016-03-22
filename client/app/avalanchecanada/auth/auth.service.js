@@ -24,7 +24,11 @@ angular.module('avalancheCanadaApp')
     }
 
     function isForecaster() {
-        return auth.isAuthenticated && _.find(auth.profile.app_metadata.roles, function (role) {
+        return auth.isAuthenticated &&
+            auth.profile &&
+            auth.profile.app_metadata &&
+            auth.profile.app_metadata.roles &&
+            _.find(auth.profile.app_metadata.roles, function (role) {
             return role.toLowerCase() === 'forecaster';
         }) !== undefined;
     }
