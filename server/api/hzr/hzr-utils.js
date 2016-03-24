@@ -167,3 +167,20 @@ exports.getReports = function (callback) {
         }
     });
 };
+
+exports.getReport = function (subid, client, callback) {
+    var params = {
+        TableName: HZR_TABLE,
+        IndexName: 'subid-index',
+        KeyConditionExpression: 'subid = :subid',
+        ExpressionAttributeValues: {':subid' : subid}
+    };
+
+    dynamodb.query(params, function(err, res) {
+        if (err) {
+            callback({error: "error fetching report"});
+        } else {
+            callback(null, res.Items);
+        }
+    });
+};

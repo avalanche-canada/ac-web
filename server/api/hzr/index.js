@@ -16,6 +16,7 @@ var jwtCheck = jwt({
 function mapWebHZRResponse(hzr, req){
     return _.reduce(hzr, function(results, r, key){
         results[key] = r;
+        results[key].focusUrl= 'http://'+req.get('host')+'/forecast/'+ r.hotzoneid;
         results[key].new = r.dateissued > moment().subtract(1, 'days').unix();
         results[key].report.thumbs = r.report.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
         return results;
@@ -47,6 +48,21 @@ router.get('/submissions', function (req, res) {
         } else {
             mapWebHZRResponse(hzr, req);
             res.json(hzr);
+        }
+    });
+});
+
+router.get('/submissions/:subid', function (req, res) {
+    var subid = req.params.subid;
+
+    hzrUtils.getReport(subid, req.query.client, function (err, hzr) {
+        if (err) {
+            res.send(500, {error: 'error retreiving submission'})
+        } else {
+            if(req.query && req.query.client){
+                hzr = mapWebHZRResponse(hzr, req);
+            }
+            res.json(hzr[0]);
         }
     });
 });

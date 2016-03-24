@@ -88,6 +88,16 @@ angular.module('avalancheCanadaApp')
                         return acSubmission.getOne($stateParams.subid);
                     }
                 }
+            })
+            .state('ac.hzr', {
+                url: '^/hzr/:subid',
+                templateUrl: 'app/avalanchecanada/reports/reportsFullPage.html',
+                controller: 'ReportsCtrl',
+                resolve:{
+                    report: function (acHZRSubmission, $stateParams) {
+                        return acHZRSubmission.getOne($stateParams.subid);
+                    }
+                }
             });
     });
 
