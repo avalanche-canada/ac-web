@@ -3,5 +3,8 @@
         a#back-link(ng-href="{{report.focusUrl}}")
             i.fa.fa-chevron-left
 
-        article.container
+        article.container(ng-if="!report.hotzoneid")
             div(ac-min-report-full-page, report='report', sponsor='sponsor')
+
+        article.container(ng-if="report.hotzoneid")
+            div(ac-hot-zone-report-full-page, report='report')
