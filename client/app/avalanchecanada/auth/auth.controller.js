@@ -14,6 +14,8 @@ angular.module('avalancheCanadaApp')
   if (redir) {
       console.log('AcAuthCtl:: redirecting to:', redir);
       $location.path('/' + redir);
+  } else {
+      $location.path('/');
   }
-  $location.path('/');
+
 });
