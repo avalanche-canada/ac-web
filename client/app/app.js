@@ -73,8 +73,7 @@ angular.module('avalancheCanadaApp', [
     // Prismic.io configuration
     .config(function (PrismicProvider) {
 
-        // PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
-        PrismicProvider.setApiEndpoint('https://karlguillotte.prismic.io/api');
+        PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
         PrismicProvider.setAccessToken('');
         PrismicProvider.setClientId('');
         PrismicProvider.setClientSecret('');
