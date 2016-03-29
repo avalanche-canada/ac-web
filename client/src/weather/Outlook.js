@@ -9,7 +9,7 @@ function Outlook({ document }) {
 	const image1 = document.get('weather-forecast.outlook-image1')
 	const text1 = document.get('weather-forecast.outlook-text1')
 
-	if (!outlook || !image1 || !text1) {
+	if (outlook === null) {
 		return <noscript></noscript>
 	}
 

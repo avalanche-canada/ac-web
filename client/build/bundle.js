@@ -2945,7 +2945,7 @@ webpackJsonp([0],{
 		var image1 = document.get('weather-forecast.outlook-image1');
 		var text1 = document.get('weather-forecast.outlook-text1');
 	
-		if (!outlook || !image1 || !text1) {
+		if (outlook === null) {
 			return _react2.default.createElement('noscript', null);
 		}
 	
