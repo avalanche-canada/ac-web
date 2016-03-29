@@ -1,0 +1,40 @@
+:root {
+	--grey: #121212;
+	--blue: #245EAC;
+}
+
+.List {
+	list-style: none;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+.ListItem {
+	display: inline-block;
+	min-width: 100px;
+	padding: 8px 10px;
+	text-align: center;
+	color: black !important;
+	border-bottom: 5px solid #AAACAD;
+	cursor: pointer;
+	margin-bottom: 5px;
+
+	&:hover {
+		background-color: #eeeeee;
+	}
+}
+.ListItem--active {
+	composes: ListItem;
+	background-color: var(--blue);
+	border-bottom-color: var(--blue);
+	color: white !important;
+
+	&:hover {
+		background-color: var(--blue);
+	}
+}
+
+.Content {
+	padding: 10px;
+}

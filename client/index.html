@@ -45,6 +45,7 @@
       <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
       <link rel="stylesheet" href="app/app.css">
+	  <link rel="stylesheet" href="build/style.css">
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
@@ -104,6 +105,9 @@
       <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
       <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
       <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+      <script src="bower_components/react/react.js"></script>
+      <script src="bower_components/react/react-dom.js"></script>
+      <script src="bower_components/ngReact/ngReact.js"></script>
       <!-- endbower -->
       <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
       <script src="bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
@@ -122,6 +126,10 @@
       <script src="//cdn.auth0.com/w2/auth0-angular-4.js"> </script>
 
 
+	<!-- build:js app/bundle.js -->
+		<script src="build/vendor.bundle.js"></script>
+		<script src="build/bundle.js"></script>
+	<!-- endbuild -->
 
     <!-- build:js({.tmp,client}) app/app.js -->
       <script src="app/app.js"></script>
@@ -177,6 +185,7 @@
       <script src="components/gallery/gallery.controller.js"></script>
       <script src="components/imgModal/imgModal.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
+      <script src="components/react.js"></script>
       <script src="components/sidebar/sidebar.controller.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->

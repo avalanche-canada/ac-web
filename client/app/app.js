@@ -5,7 +5,8 @@ angular.module('acComponents').constant('AC_API_ROOT_URL', '');
 
 //angular.module('avalancheCanadaApp.filters', []);
 angular.module('avalancheCanadaApp', [
-        'ngCookies',
+		'react',
+		'ngCookies',
         'ngSanitize',
         'ngAnimate',
         'ui.router',
@@ -53,7 +54,7 @@ angular.module('avalancheCanadaApp', [
                 controller: function($rootScope) {
                   $rootScope.metatags = [
                     {name: 'prerender-status-code', content: '404'}
-                  ];       
+                  ];
                 }
             })
             .state('ac.error', {
@@ -72,7 +73,8 @@ angular.module('avalancheCanadaApp', [
     // Prismic.io configuration
     .config(function (PrismicProvider) {
 
-        PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
+        // PrismicProvider.setApiEndpoint('https://avalancheca.prismic.io/api');
+        PrismicProvider.setApiEndpoint('https://karlguillotte.prismic.io/api');
         PrismicProvider.setAccessToken('');
         PrismicProvider.setClientId('');
         PrismicProvider.setClientSecret('');
