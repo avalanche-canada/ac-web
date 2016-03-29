@@ -13,4 +13,4 @@ aws.json
 dump.rdb
 npm-debug.log
 *.db
-/build
+/build/*
