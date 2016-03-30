@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 
 Tab.propTypes = {
-	title: PropTypes.node.isRequired
+	title: PropTypes.node.isRequired,
 }
 
 export default function Tab({ children }) {

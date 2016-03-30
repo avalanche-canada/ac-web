@@ -35,6 +35,12 @@
 	}
 }
 
-.Content {
-	padding: 10px;
+.Panel {
+	display: none;
+	margin: 10px;
+}
+
+.Panel--active {
+	composes: Panel;
+	display: block;
 }

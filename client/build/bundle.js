@@ -51,11 +51,11 @@ webpackJsonp([0],{
 	
 	var _TabSet2 = _interopRequireDefault(_TabSet);
 	
-	var _Outlook = __webpack_require__(668);
+	var _Outlook = __webpack_require__(669);
 	
 	var _Outlook2 = _interopRequireDefault(_Outlook);
 	
-	var _Footer = __webpack_require__(669);
+	var _Footer = __webpack_require__(670);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
@@ -454,11 +454,11 @@ webpackJsonp([0],{
 	
 	var _prismic = __webpack_require__(448);
 	
-	var _Loop = __webpack_require__(639);
+	var _Loop = __webpack_require__(640);
 	
 	var _Loop2 = _interopRequireDefault(_Loop);
 	
-	var _Image = __webpack_require__(644);
+	var _Image = __webpack_require__(645);
 	
 	var _Image2 = _interopRequireDefault(_Image);
 	
@@ -568,7 +568,7 @@ webpackJsonp([0],{
 	
 	var _TabSet3 = _interopRequireDefault(_TabSet2);
 	
-	var _Tab2 = __webpack_require__(638);
+	var _Tab2 = __webpack_require__(639);
 	
 	var _Tab3 = _interopRequireDefault(_Tab2);
 	
@@ -600,7 +600,11 @@ webpackJsonp([0],{
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
-	var _Tab = __webpack_require__(637);
+	var _Panel = __webpack_require__(637);
+	
+	var _Panel2 = _interopRequireDefault(_Panel);
+	
+	var _Tab = __webpack_require__(638);
 	
 	var _Tab2 = _interopRequireDefault(_Tab);
 	
@@ -669,8 +673,8 @@ webpackJsonp([0],{
 				this.activeIndex = Math.min(activeIndex, length - 1);
 			}
 		}, {
-			key: 'renderTab',
-			value: function renderTab(tab, index) {
+			key: 'renderTabHeader',
+			value: function renderTabHeader(tab, index) {
 				var _this2 = this;
 	
 				var styleName = index === this.activeIndex ? 'ListItem--active' : 'ListItem';
@@ -680,8 +684,17 @@ webpackJsonp([0],{
 	
 				return _react2.default.createElement(
 					'li',
-					_extends({ key: index }, { onClick: onClick, styleName: styleName }),
+					_extends({ role: 'tab', key: index }, { onClick: onClick, styleName: styleName }),
 					tab.props.title
+				);
+			}
+		}, {
+			key: 'renderTabPanel',
+			value: function renderTabPanel(tab, index) {
+				return _react2.default.createElement(
+					_Panel2.default,
+					{ active: this.activeIndex === index },
+					tab.props.children
 				);
 			}
 		}, {
@@ -689,21 +702,16 @@ webpackJsonp([0],{
 			value: function render() {
 				var tabs = this.tabs;
 	
-				var tab = tabs[this.activeIndex];
 	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'ul',
-						{ styleName: 'List' },
-						tabs.map(this.renderTab, this)
+						{ role: 'tablist', styleName: 'List' },
+						tabs.map(this.renderTabHeader, this)
 					),
-					_react2.default.createElement(
-						'div',
-						{ styleName: 'Content' },
-						tab && tab.props.children
-					)
+					tabs.map(this.renderTabPanel, this)
 				);
 			}
 		}, {
@@ -736,14 +744,57 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 637:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
-	module.exports = {"List":"Tab__List___g5V8O","ListItem":"Tab__ListItem___1v3pE","ListItem--active":"Tab__ListItem--active___2Ie3c Tab__ListItem___1v3pE","Content":"Tab__Content___36Fc2"};
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(3);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactCssModules = __webpack_require__(457);
+	
+	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
+	
+	var _Tab = __webpack_require__(638);
+	
+	var _Tab2 = _interopRequireDefault(_Tab);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	Panel.propTypes = {
+		active: _react.PropTypes.bool
+	};
+	
+	function Panel(_ref) {
+		var children = _ref.children;
+		var _ref$active = _ref.active;
+		var active = _ref$active === undefined ? false : _ref$active;
+	
+		return _react2.default.createElement(
+			'div',
+			{ styleName: active === true ? 'Panel--active' : 'Panel', role: 'tabpanel' },
+			children
+		);
+	}
+	
+	exports.default = (0, _reactCssModules2.default)(Panel, _Tab2.default);
 
 /***/ },
 
 /***/ 638:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"List":"Tab__List___g5V8O","ListItem":"Tab__ListItem___1v3pE","ListItem--active":"Tab__ListItem--active___2Ie3c Tab__ListItem___1v3pE","Panel":"Tab__Panel___16HTS","Panel--active":"Tab__Panel--active___1gxeJ Tab__Panel___16HTS"};
+
+/***/ },
+
+/***/ 639:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -775,7 +826,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 639:
+/***/ 640:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -792,19 +843,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _animation = __webpack_require__(640);
+	var _animation = __webpack_require__(641);
 	
-	var _Url = __webpack_require__(646);
+	var _Url = __webpack_require__(647);
 	
-	var _keycode = __webpack_require__(664);
+	var _keycode = __webpack_require__(665);
 	
 	var _keycode2 = _interopRequireDefault(_keycode);
 	
-	var _lodash = __webpack_require__(665);
+	var _lodash = __webpack_require__(666);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
-	var _lodash3 = __webpack_require__(667);
+	var _lodash3 = __webpack_require__(668);
 	
 	var _lodash4 = _interopRequireDefault(_lodash3);
 	
@@ -1028,7 +1079,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 640:
+/***/ 641:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1038,19 +1089,19 @@ webpackJsonp([0],{
 	});
 	exports.Title = exports.Toolbar = exports.Image = exports.Animation = undefined;
 	
-	var _Animation2 = __webpack_require__(641);
+	var _Animation2 = __webpack_require__(642);
 	
 	var _Animation3 = _interopRequireDefault(_Animation2);
 	
-	var _Image2 = __webpack_require__(643);
+	var _Image2 = __webpack_require__(644);
 	
 	var _Image3 = _interopRequireDefault(_Image2);
 	
-	var _Toolbar2 = __webpack_require__(650);
+	var _Toolbar2 = __webpack_require__(651);
 	
 	var _Toolbar3 = _interopRequireDefault(_Toolbar2);
 	
-	var _Title2 = __webpack_require__(663);
+	var _Title2 = __webpack_require__(664);
 	
 	var _Title3 = _interopRequireDefault(_Title2);
 	
@@ -1063,7 +1114,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 641:
+/***/ 642:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1076,7 +1127,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Animation = __webpack_require__(642);
+	var _Animation = __webpack_require__(643);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
@@ -1100,7 +1151,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 642:
+/***/ 643:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -1108,7 +1159,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 643:
+/***/ 644:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1127,11 +1178,11 @@ webpackJsonp([0],{
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
-	var _Animation = __webpack_require__(642);
+	var _Animation = __webpack_require__(643);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
-	var _Image = __webpack_require__(644);
+	var _Image = __webpack_require__(645);
 	
 	var _Image2 = _interopRequireDefault(_Image);
 	
@@ -1153,7 +1204,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 644:
+/***/ 645:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1168,7 +1219,7 @@ webpackJsonp([0],{
 	
 	var _recompose = __webpack_require__(160);
 	
-	var _Image = __webpack_require__(645);
+	var _Image = __webpack_require__(646);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1206,7 +1257,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 645:
+/***/ 646:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1219,7 +1270,7 @@ webpackJsonp([0],{
 	
 	exports.mapUrlToSrc = mapUrlToSrc;
 	
-	var _Url = __webpack_require__(646);
+	var _Url = __webpack_require__(647);
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -1244,7 +1295,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 646:
+/***/ 647:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1259,7 +1310,7 @@ webpackJsonp([0],{
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
-	var _lodash = __webpack_require__(647);
+	var _lodash = __webpack_require__(648);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -1305,7 +1356,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 650:
+/***/ 651:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1320,11 +1371,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _button = __webpack_require__(651);
+	var _button = __webpack_require__(652);
 	
 	var _button2 = _interopRequireDefault(_button);
 	
-	var _Animation = __webpack_require__(642);
+	var _Animation = __webpack_require__(643);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
@@ -1332,7 +1383,7 @@ webpackJsonp([0],{
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
-	var _icons = __webpack_require__(655);
+	var _icons = __webpack_require__(656);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1418,7 +1469,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 651:
+/***/ 652:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1428,11 +1479,11 @@ webpackJsonp([0],{
 	});
 	exports.Top = exports.default = undefined;
 	
-	var _Button = __webpack_require__(652);
+	var _Button = __webpack_require__(653);
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
-	var _Top2 = __webpack_require__(654);
+	var _Top2 = __webpack_require__(655);
 	
 	var _Top3 = _interopRequireDefault(_Top2);
 	
@@ -1443,7 +1494,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 652:
+/***/ 653:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1459,7 +1510,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Button = __webpack_require__(653);
+	var _Button = __webpack_require__(654);
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
@@ -1494,7 +1545,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 653:
+/***/ 654:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -1502,7 +1553,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 654:
+/***/ 655:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1511,7 +1562,7 @@ webpackJsonp([0],{
 		value: true
 	});
 	
-	var _Button = __webpack_require__(652);
+	var _Button = __webpack_require__(653);
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
@@ -1534,7 +1585,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 655:
+/***/ 656:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1544,27 +1595,27 @@ webpackJsonp([0],{
 	});
 	exports.ChevronRight = exports.ChevronLeft = exports.Play = exports.Pause = exports.Last = exports.First = exports.LastPage = exports.FirstPage = undefined;
 	
-	var _First2 = __webpack_require__(656);
+	var _First2 = __webpack_require__(657);
 	
 	var _First3 = _interopRequireDefault(_First2);
 	
-	var _Last2 = __webpack_require__(658);
+	var _Last2 = __webpack_require__(659);
 	
 	var _Last3 = _interopRequireDefault(_Last2);
 	
-	var _Pause2 = __webpack_require__(659);
+	var _Pause2 = __webpack_require__(660);
 	
 	var _Pause3 = _interopRequireDefault(_Pause2);
 	
-	var _Play2 = __webpack_require__(660);
+	var _Play2 = __webpack_require__(661);
 	
 	var _Play3 = _interopRequireDefault(_Play2);
 	
-	var _ChevronLeft2 = __webpack_require__(661);
+	var _ChevronLeft2 = __webpack_require__(662);
 	
 	var _ChevronLeft3 = _interopRequireDefault(_ChevronLeft2);
 	
-	var _ChevronRight2 = __webpack_require__(662);
+	var _ChevronRight2 = __webpack_require__(663);
 	
 	var _ChevronRight3 = _interopRequireDefault(_ChevronRight2);
 	
@@ -1581,7 +1632,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 656:
+/***/ 657:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1594,7 +1645,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1622,7 +1673,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 657:
+/***/ 658:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1666,7 +1717,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 658:
+/***/ 659:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1679,7 +1730,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1707,7 +1758,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 659:
+/***/ 660:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1720,7 +1771,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1748,7 +1799,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 660:
+/***/ 661:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1761,7 +1812,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1788,7 +1839,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 661:
+/***/ 662:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1801,7 +1852,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1829,7 +1880,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 662:
+/***/ 663:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1842,7 +1893,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Icon = __webpack_require__(657);
+	var _Icon = __webpack_require__(658);
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1870,7 +1921,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 663:
+/***/ 664:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1883,7 +1934,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Animation = __webpack_require__(642);
+	var _Animation = __webpack_require__(643);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
@@ -1907,7 +1958,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 668:
+/***/ 669:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1922,7 +1973,7 @@ webpackJsonp([0],{
 	
 	var _prismic = __webpack_require__(448);
 	
-	var _lodash = __webpack_require__(667);
+	var _lodash = __webpack_require__(668);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -1965,7 +2016,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 669:
+/***/ 670:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1978,13 +2029,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _button = __webpack_require__(651);
-	
-	var _button2 = _interopRequireDefault(_button);
-	
 	var _recompose = __webpack_require__(160);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var MAILTO = 'mailto:ec@canada.ca?subject=Mountain Weather Forecast feedback';
 	
 	function ForecastFooter(_ref) {
 		var href = _ref.href;
@@ -1998,31 +2047,13 @@ webpackJsonp([0],{
 			' ',
 			_react2.default.createElement(
 				'a',
-				{ href: href, onClick: onClick },
-				text
+				{ href: MAILTO },
+				'Send us feedback'
 			)
 		);
 	}
 	
-	var HASH = '#';
-	var MAILTO = 'mailto:ec@canada.ca?subject=Mountain Weather Forecast feedback';
-	
-	exports.default = (0, _recompose.compose)((0, _recompose.withState)('href', 'setHref', HASH), (0, _recompose.mapProps)(function (_ref2) {
-		var setHref = _ref2.setHref;
-		var href = _ref2.href;
-		return {
-			onClick: function onClick(event) {
-				if (href !== HASH) {
-					return;
-				}
-	
-				event.preventDefault();
-				setHref(MAILTO);
-			},
-			text: href === HASH ? 'Send us feedback' : '[Click again] Send us feedback',
-			href: href
-		};
-	}), _recompose.pure)(ForecastFooter);
+	exports.default = (0, _recompose.pure)(ForecastFooter);
 
 /***/ }
 

@@ -28,8 +28,13 @@
 	background-color: #245EAC;
 }
 
-.Tab__Content___36Fc2 {
-	padding: 10px;
+.Tab__Panel___16HTS {
+	display: none;
+	margin: 10px;
+}
+
+.Tab__Panel--active___1gxeJ {
+	display: block;
 }
 .Animation__Container___2-rB2 {
 	position: relative;

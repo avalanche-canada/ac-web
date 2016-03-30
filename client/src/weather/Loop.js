@@ -122,9 +122,6 @@ export default class Loop extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
 	}
-	componentWillReceiveProps() {
-		this.first()
-	}
 	onKeyDown({ keyCode }) {
 		const { left, right } = keycode.codes
 
