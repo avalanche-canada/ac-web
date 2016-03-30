@@ -4,9 +4,6 @@ import padstart from 'lodash.padstart'
 const DOMAIN = 'http://msc.avalanche.ca'
 const PATH = 'loops/images'
 
-function formatDate(value = new Date()) {
-	return moment(value).format('YYYYMMDDHH')
-}
 const resolutions = [{
 	suffix: 'small',
 	width: 500,
@@ -18,10 +15,12 @@ const resolutions = [{
 	width: 1500,
 }]
 
-export function format({type, date, hour}) {
-	const run = padstart(String(hour), 3, '0')
+export function format({type, date, run, hour}) {
+	hour = padstart(String(hour), 3, '0')
+	run = padstart(String(run), 2, '0')
+	date = moment(date).format('YYYYMMDD')
 
-	return `${DOMAIN}/${PATH}/${type}_${formatDate(date)}_${run}HR.jpg`
+	return `${DOMAIN}/${PATH}/${type}_${date}${run}_${hour}HR.jpg`
 }
 
 export function asSrcSet(url) {

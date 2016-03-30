@@ -39,9 +39,11 @@ function WeatherTabSet({ document }) {
 							return <div dangerouslySetInnerHTML={html} />
 						case 'loop':
 							const [loop] = slice.value.toArray()
+							const [type, run] = loop.getText('type').split('@')
 							const props = {
-								date: loop.getTimestamp('date'),
-								type: loop.getText('type')
+								type,
+								date: loop.getDate('date'),
+								run: Number(run)
 							}
 
 							return <Loop {...props} />
