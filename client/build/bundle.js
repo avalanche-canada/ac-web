@@ -79,8 +79,7 @@ webpackJsonp([0],{
 			_react2.default.createElement(_prismic.Html, { fragment: 'weather-forecast.synopsis' }),
 			_react2.default.createElement(_TabSet2.default, null),
 			_react2.default.createElement(_DaySet2.default, { start: date }),
-			_react2.default.createElement(_Outlook2.default, null),
-			_react2.default.createElement(_Footer2.default, null)
+			_react2.default.createElement(_Outlook2.default, null)
 		);
 	}
 	
