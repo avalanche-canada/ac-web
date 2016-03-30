@@ -1,5 +1,6 @@
-import React, { Component, PropTypes, Children } from 'react'
+import React, { Component, PropTypes, Children, cloneElement } from 'react'
 import CSSModules from 'react-css-modules'
+import Panel from './Panel'
 import styles from './Tab.css'
 
 function childrenToTabs(children) {
@@ -48,28 +49,32 @@ class TabSet extends React.Component {
 
 		this.activeIndex = Math.min(activeIndex, length - 1)
 	}
-	renderTab(tab, index) {
+	renderTabHeader(tab, index) {
 		const styleName = index === this.activeIndex ? 'ListItem--active' : 'ListItem'
 		const onClick = () => this.activeIndex = index
 
 		return (
-			<li key={index} {...{onClick, styleName}} >
+			<li role='tab' key={index} {...{onClick, styleName}} >
 				{tab.props.title}
 			</li>
 		)
 	}
+	renderTabPanel(tab, index) {
+		return (
+			<Panel active={this.activeIndex === index}>
+				{tab.props.children}
+			</Panel>
+		)
+	}
 	render() {
 		const { tabs } = this
-		const tab = tabs[this.activeIndex]
 
 		return (
 			<div>
-				<ul styleName='List'>
-					{tabs.map(this.renderTab, this)}
+				<ul role='tablist' styleName='List'>
+					{tabs.map(this.renderTabHeader, this)}
 				</ul>
-				<div styleName='Content'>
-					{tab && tab.props.children}
-				</div>
+				{tabs.map(this.renderTabPanel, this)}
 			</div>
 		)
 	}
