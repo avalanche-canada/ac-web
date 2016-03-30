@@ -20,7 +20,6 @@ function Forecast({ content }) {
 			<TabSet />
 			<DaySet start={date} />
 			<Outlook />
-			<Footer />
 		</section>
 	)
 }
