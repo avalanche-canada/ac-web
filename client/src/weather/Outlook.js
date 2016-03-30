@@ -19,7 +19,7 @@ function Outlook({ document }) {
 			<Html fragment='weather-forecast.outlook' />
 			{sequence.map(increment => (
 				<div key={increment}>
-					<Image fragment={`weather-forecast.outlook-image${increment}`} />
+					<Image fragment={`weather-forecast.outlook-image${increment}`} openNewTab />
 					<Html fragment={`weather-forecast.outlook-text${increment}`} />
 				</div>
 			))}

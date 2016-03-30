@@ -42,6 +42,7 @@ const TYPES = [...HOURS.keys()]
 export default class Loop extends Component {
 	static propTypes = {
 		type: PropTypes.oneOf(TYPES).isRequired,
+		run: PropTypes.oneOf(range(0, 24, 6)),
 		date: PropTypes.instanceOf(Date).isRequired,
 	}
 	state = {
@@ -143,9 +144,9 @@ export default class Loop extends Component {
 		return `${this.cursor + 1} of ${this.hours.length}`
 	}
 	render() {
-		const { type, date } = this.props
+		const { type, date, run } = this.props
 		const hour = this.hours[this.cursor]
-		const url = format({ type, date, hour })
+		const url = format({ type, date, run, hour })
 		const toolbar = {
 			isPlaying: this.state.isPlaying,
 			onNext: this.handleNext,
