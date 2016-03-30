@@ -1,5 +1,6 @@
 'use strict';
 
+
 module.exports = function (grunt) {
   var env = process.env.ENV;
 
@@ -52,11 +53,14 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     protractor: 'grunt-protractor-runner',
-    injector: 'grunt-asset-injector'
+    injector: 'grunt-asset-injector',
+    webpack: 'grunt-webpack'
   });
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
+
+  require('es6-promise');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -76,6 +80,9 @@ module.exports = function (grunt) {
           return src;
         }
       }
+    },
+	webpack: {
+        app: require('./webpack.config.js')
     },
 
     // Project settings
@@ -138,6 +145,10 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+	  webpack: {
+		  files: 'client/src/**/*.js',
+		  tasks: ['webpack', 'useminPrepare', 'usemin']
+	  },
       livereload: {
         files: [
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
@@ -670,6 +681,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
+	'webpack',
     'cssmin',
     'uglify',
     'rev',
