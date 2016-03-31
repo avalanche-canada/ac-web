@@ -20,7 +20,7 @@
     "multilevelpushmenu": "~2.1.4",
     "mapbox.js": "~2.2.3",
     "Leaflet.label": "~0.2.1",
-    "ac-components": "avalanche-canada/ac-components#ae182c291ccef7ad045e039831529b8041a80205",
+    "ac-components": "avalanche-canada/ac-components#2e61d12caef66d9f3ba74525cd1ca0feade6abc5",
     "prismic.io": "~2.1.0",
     "angular-prismicio": "awulder/angular-prismicio#master",
     "slideout": "https://github.com/Mango/slideout.git#~0.1.5",
