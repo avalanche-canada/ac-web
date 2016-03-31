@@ -201,9 +201,13 @@ angular.module('avalancheCanadaApp')
             $location.path('/hotzone');
         };
 
-        $scope.toggleForecast = function (){
-            $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
-            $scope.regionsVisible = !$scope.regionsVisible;
+        $scope.toggleForecast = function (type){
+            if (type === 'hotzone') {
+                $scope.hotZonesVisible = !$scope.hotZonesVisible;
+            } else {
+                $scope.regionsVisible = !$scope.regionsVisible;
+            }
+
         };
 
         $scope.toggleDateFilters = function (){

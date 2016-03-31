@@ -1,7 +1,7 @@
 .page.container-fluid.ac-no-gutter.ac-view-map
-    div(ac-mapbox-map, ac-regions='regions', ac-region='current.region', ac-report = "current.report", ac-show-regions="regionsVisible", ac-obs="obs", ac-ob="current.ob", ac-min-filters="filters.minFilters", ac-active-hot-zones='activeHotZones', top-offset="75", style="width: 100%;")
+    div(ac-mapbox-map, ac-regions='regions', ac-region='current.region', ac-report = "current.report", ac-show-regions="regionsVisible", ac-show-hot-zones="hotZonesVisible" ac-obs="obs", ac-ob="current.ob", ac-min-filters="filters.minFilters", ac-active-hot-zones='activeHotZones', top-offset="75", style="width: 100%;")
 
-    div.ac-drawer-right(ac-drawer, ac-drawer-position='right', ng-class="{'ac-drawer--expanded': (current.region && (current.region.feature.properties.forecast || (current.region.feature.properties.type === 'hotzone' && current.hotzone)) && drawer.right.visible && drawer.right.enabled && regionsVisible)}")
+    div.ac-drawer-right(ac-drawer, ac-drawer-position='right', ng-class="{'ac-drawer--expanded': (current.region && (current.region.feature.properties.forecast || (current.region.feature.properties.type === 'hotzone' && current.hotzone)) && drawer.right.visible)}")
 
         div(ng-if='current.region.feature.properties.type !== "hotzone"', ac-forecast-mini='ac-forecast-mini', ac-forecast='current.region.feature.properties.forecast', danger-rating='dangerRating', disclaimer='disclaimer', sponsor='sponsor')
 
