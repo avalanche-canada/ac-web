@@ -12,7 +12,8 @@ angular.module('avalancheCanadaApp')
               'panel': document.getElementById('app-body'),
               'menu': document.getElementById('app-pushmenu'),
               'padding': 256,
-              'tolerance': 70
+              'tolerance': 70,
+              'touch': false
             });
 
           }

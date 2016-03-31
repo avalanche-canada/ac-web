@@ -106,10 +106,27 @@ angular.module('avalancheCanadaApp')
 })
 
 .controller('SponsorsCtrl', function ($scope, $anchorScroll, $timeout, partner, foundingSponsor, supplier, associate) {
-    $scope.partner         = partner;
-    $scope.foundingSponsor = foundingSponsor;
-    $scope.supplier        = supplier;
-    $scope.associate       = associate;
+
+    function chunk(array, len) {
+        var ret = [],
+            tmp = [];
+        for(var i=0; i<array.length; i++) {
+            if (i % len === 0 && i > 0) {
+                ret.push(tmp);
+                tmp = [];
+            }
+            tmp.push(array[i]);
+        }
+        if(tmp.length > 0) {
+            ret.push(tmp);
+        }
+        return ret;
+    }
+
+    $scope.partner         = chunk(partner, 4);
+    $scope.foundingSponsor = chunk(foundingSponsor, 4);
+    $scope.supplier        = chunk(supplier, 4);
+    $scope.associate       = chunk(associate, 4);
     //! once rendered call anchor scroll
     $timeout($anchorScroll, 0, false);
 });

@@ -20,22 +20,20 @@
     "multilevelpushmenu": "~2.1.4",
     "mapbox.js": "~2.2.3",
     "Leaflet.label": "~0.2.1",
-    "ac-components": "avalanche-canada/ac-components#873f456639744ab55cf434fb3f7ead2dc4163339",
-    "prismic.io": "~1.0.22",
+    "ac-components": "avalanche-canada/ac-components#ae182c291ccef7ad045e039831529b8041a80205",
+    "prismic.io": "~2.1.0",
     "angular-prismicio": "awulder/angular-prismicio#master",
     "slideout": "https://github.com/Mango/slideout.git#~0.1.5",
     "angular-datatables": "~0.4.3",
-    "angular-local-storage": "~0.2.3"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.4.8",
-    "angular-scenario": "~1.4.8"
+    "angular-local-storage": "~0.2.3",
+    "ngReact": "^0.2.0"
   },
   "resolutions": {
     "jquery": "~1.11.0",
     "angular": "1.4.8",
     "angular-animate": "1.4.8",
     "angular-sanitize": "1.4.8",
-    "mapbox.js": "~2.2.3"
+    "mapbox.js": "~2.2.3",
+    "prismic.io": "~2.1.0"
   }
 }

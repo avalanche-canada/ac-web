@@ -53,19 +53,6 @@ avalxWebcache.seed(acAvalxUrls);
 
 var DEBUG = console.log.bind(console);
 
-// webcache middleware
-/*
-router.use(function (req, res, next) {
-    var url = req.protocol + '://' + req.headers.host + req.originalUrl;
-
-    var webcacher = function (data) {
-        DEBUG('NOT CACHING THIS THING: ', url);
-    };
-
-    req.webcache = webcacher;
-    next();
-});
-*/
 router.param('region', function (req, res, next) {
     req.region = _.find(regions.features, {id: req.params.region});
 
@@ -224,6 +211,13 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: ''
     };
 
+    // TODO(wnh): Remove this giant hack
+    if(req.region.id === 'north-rockies')
+    {
+      console.log("Sending static conditions-report icon");
+      res.sendFile(config.root + '/server/views/forecasts/conditions-report-icon.svg');
+      return
+    }
 
     var renderIcon = function(styles){
         res.render('forecasts/danger-icon', styles, function (err, svg) {

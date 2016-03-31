@@ -1,89 +1,36 @@
-#forecast
-    #inner-forecast
-        article.container
-            .row
-                header.col-xs-12
-                    #header-inner
-                        h1 #{forecast.bulletinTitle}
-                        | Date Issued: #{ dates.issued } Valid Until: #{ dates.until }
-
-                section#forecast-body.col-xs-12.col-md-9
-                    #highlights !{forecast.highlights}
-                    #forecast
-                        table.table.table-condensed.ac-forecast-days(style='border-spacing:0px; border-color: black; border-collapse: collapse;')
-                                thead.ac-thead-dark
-                                    tr
-                                        th
-                                        th #{ dates.day0 }
-                                        th #{ dates.day1 }
-                                        th #{ dates.day2 }
-                                tbody
-                                    tr
-                                        td.ac-veg-zone--alp(style='background-color:#ddeefa;  border: 1px solid black; padding:2px;')
-                                            strong Alpine
-                                        td(style='background-color: #{ratingColors.day0.alp}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[0].dangerRating.alp.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day1.alp}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day2.alp}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }
-                                    tr
-                                        td.ac-veg-zone--tln(style='background-color:#d1d9a3; border: 1px solid black; padding:2px;')
-                                            strong Treeline
-                                        td(style='background-color: #{ratingColors.day0.tln}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[0].dangerRating.tln.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day1.tln}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day2.tln}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }
-                                    tr
-                                        td.ac-veg-zone--btl(style='background-color:#aebfac; border: 1px solid black; padding:2px;')
-                                            strong Below Treeline
-                                        td(style='background-color: #{ratingColors.day0.btl}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[0].dangerRating.btl.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day1.btl}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }
-                                        td(style='background-color: #{ratingColors.day2.btl}; border: 1px solid black; padding:2px;')
-                                            strong #{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }
-                                    tr
-                                        td
-                                            strong Confidence:
-                                        td(colspan="2")
-                                            span.ac-text-default #{ forecast.confidence }
-
-                    for problem in forecast.problems
-                            table
-                                tbody
-
-                                    tr
-                                        td
-                                            h1 #{ problem.type }
-                                        td
-                                            img.center-block(src="#{problem.icons.elevations}")
-                                        td
-
-                                            img.center-block(src="#{problem.icons.aspects}")
-                                        td
-
-                                            img.center-block(src="#{problem.icons.likelihood}")
-                                        td
-                                            img.center-block(src="#{problem.icons.expectedSize}")
-                            div
-                                strong.small Travel and Terrain Advice
-                                p !{ problem.travelAndTerrainAdvice }
-                    div
-                        h2 Forecast Details
-
-                        h3 Avalanche Summary
-                        p !{forecast.avalancheSummary}
-
-                        h3 Snowpack Summary
-                        p !{forecast.snowpackSummary}
-
-                        h3 Weather Forecast
-                        p !{forecast.weatherForecast}
-
-
-
-
-
+article
+  header
+    h1 #{forecast.bulletinTitle}
+    p Date Issued: 
+      date(datetime=forecast.dateIssued) #{dates.issued}
+    p Valid Until: 
+      date(datetime=forecast.validUntil) #{dates.until}
+    p Forecaster: #{forecast.forecaster}
+  section
+    p !{forecast.highlights}
+    .table-container
+      include forecast-table
+      include forecast-table
+          
+    for problem in forecast.problems
+      div.problem
+        h2 #{ problem.type }
+        .image-container
+          img(src="#{problem.icons.elevations}")
+        .image-container
+          img(src="#{problem.icons.aspects}")
+        .image-container
+          img(src="#{problem.icons.likelihood}")
+        .image-container
+          img(src="#{problem.icons.expectedSize}")
+        div
+          strong Travel and Terrain Advice
+          p !{ problem.travelAndTerrainAdvice }
+          
+    h2 Forecast Details
+    h3 Avalanche Summary
+    p !{forecast.avalancheSummary}
+    h3 Snowpack Summary
+    p !{forecast.snowpackSummary}
+    h3 Weather Forecast
+    p !{forecast.weatherForecast}

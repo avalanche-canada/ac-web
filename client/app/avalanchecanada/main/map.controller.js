@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth, AcAppState) {
 
         Prismic.ctx().then(function(ctx){
 
@@ -44,7 +44,7 @@ angular.module('avalancheCanadaApp')
                 }
             },
             filters: {
-                obsPeriod: '7-days',
+                obsPeriod: AcAppState.getObsPeriod().replace(':', '-'),
                 minFilters: acConfig.minFilters
             },
             regionsVisible: true,
@@ -118,6 +118,7 @@ angular.module('avalancheCanadaApp')
                 var filterValue = filter.split(':')[1];
 
                 if(filterType === 'obsPeriod' && $scope.filters[filterType] !== filterValue) {
+                    AcAppState.setObsPeriod(filterValue);
                     $scope.filters[filterType] = filterValue;
                     var period = filterValue.replace('-', ':');
 
