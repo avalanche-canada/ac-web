@@ -49,9 +49,34 @@ td {
   word-wrap: break-word;
   white-space: nowrap;
 }
+
 tr td:first-child {
   white-space: normal;
 }
+
+.spring-situation .spring-message {
+  padding: 0 2%;
+  text-align: center;
+}
+.spring-situation .spring-message img {
+  display: inline-block;
+  vertical-align: top;
+  width: 150px;
+  max-width: 25%;
+  padding-right: 3%;
+}
+.spring-situation .spring-message div {
+  display: inline-block;
+  vertical-align: top;
+  width: 75%;
+}
+
+@media screen and (max-width: 520px) {
+  .spring-situation .spring-message div {
+    width: 90%;
+  }
+}
+
 
 section table:last-child {
   display: none;

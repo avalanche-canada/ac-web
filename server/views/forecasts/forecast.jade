@@ -8,9 +8,13 @@ article
     p Forecaster: #{forecast.forecaster}
   section
     p !{forecast.highlights}
-    .table-container
-      include forecast-table
-      include forecast-table
+    if forecast.dangerMode == "Spring situation"
+      include forecast-table-spring
+    else
+      .table-container
+        include forecast-table
+        include forecast-table
+
           
     for problem in forecast.problems
       div.problem
