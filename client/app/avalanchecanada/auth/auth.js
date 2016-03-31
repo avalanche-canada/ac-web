@@ -21,15 +21,6 @@ angular.module('avalancheCanadaApp')
         // If the user is still authenticated, you get this event
       });
 
-    authProvider.on('logout', ['store', '$state', 'ngToast', function onLogout(store, $state, ngToast){
-        store.remove('profile');
-        store.remove('token');
-        ngToast.create({
-          class: 'success',
-          content: 'You have been logged out'
-        });
-    }]);
-
     $httpProvider.interceptors.push(function() {
         return {
             request: function(config) {
