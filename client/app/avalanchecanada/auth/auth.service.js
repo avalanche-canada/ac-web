@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-.service('AcAuth', function(ENV, $location, store, auth, ngToast, $state){
+.service('AcAuth', function(ENV, $location, $timeout, store, auth, ngToast, $state){
 
     function signin() {
       auth.signin({
@@ -19,7 +19,11 @@ angular.module('avalancheCanadaApp')
         class: 'success',
         content: 'You have been logged out'
       });
-      $state.go('ac.map', {}, {reload: true});
+      if ($state.current.name !== 'ac.map') {
+        $timeout(function () {
+          $state.go('ac.map', {}, {reload: true});
+        }, 10);
+      }
     }
 
     function profile() {

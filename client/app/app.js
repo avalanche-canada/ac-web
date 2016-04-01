@@ -190,7 +190,7 @@ angular.module('avalancheCanadaApp', [
             if(toState.data && toState.data.requiresLogin && !auth.isAuthenticated || (toState.data && toState.data.roles && !_.contains(toState.data.roles, auth.profile.app_metadata.roles[0])) ) {
                 event.preventDefault();
                 $state.go('ac.login');
-                store.set('loginRedirectUrl', toState.url);
+                store.set('loginRedirect', toState.name);
             }
 
             // add opengraph tags for the state

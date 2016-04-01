@@ -15,11 +15,15 @@ angular.module('avalancheCanadaApp')
         });
     }]);
 
-      authProvider.on('authenticated', function() {
+    authProvider.on('authenticated', function() {
         console.log('auth.js::authenticated');
         // This is after a refresh of the page
         // If the user is still authenticated, you get this event
-      });
+    });
+
+    authProvider.on('logout', function () {
+        console.log('auth.js::logoutSuccess');
+    });
 
     $httpProvider.interceptors.push(function() {
         return {

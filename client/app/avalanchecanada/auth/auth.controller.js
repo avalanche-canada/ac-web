@@ -9,14 +9,14 @@ angular.module('avalancheCanadaApp')
       controller: 'AcAuthCtl',
     });
 })
-.controller('AcAuthCtl', function ($location, store) {
-  var redir = store.get('loginRedirectUrl');
-  store.remove('loginRedirectUrl');
+.controller('AcAuthCtl', function ($state, store) {
+  var redir = store.get('loginRedirect');
+  store.remove('loginRedirect');
   if (redir) {
       console.log('AcAuthCtl:: redirecting to:', redir);
-      $location.path('/' + redir);
+      $state.go(redir);
   } else {
-      $location.path('/');
+      $state.go('ac.map');
   }
 
 });
