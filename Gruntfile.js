@@ -186,7 +186,10 @@ module.exports = function (grunt) {
       },
       all: {
         src: [
-          '<%= yeoman.client %>/{app,components}/**/*.js'
+          '<%= yeoman.client %>/{app,components}/**/*.js',
+          // Ignore ngReact becuase its vendored and fails on single/double
+          // quote issues
+          '!<%= yeoman.client %>/app/ngReact.js'
         ]
       }
     },
@@ -673,6 +676,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'injector:sass',
     'concurrent:dist',
+    'webpack',
     'injector',
     'bowerInstall',
     'useminPrepare',
@@ -681,7 +685,6 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-	'webpack',
     'cssmin',
     'uglify',
     'rev',

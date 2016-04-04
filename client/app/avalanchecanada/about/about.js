@@ -66,13 +66,13 @@ angular.module('avalancheCanadaApp')
 
                 Prismic.ctx().then(function(ctx){
                     ctx.api.form('everything')
-                        .query('[[:d = at(document.type, "staff")]]')
+                        .query('[[:d = at(document.type, "staff-members")]]')
                             .ref(ctx.ref).submit(function(err, doc){
                                 if (err) {
                                     $log.error('error getting events from prismic');
                                 }
                                 else {
-                                    deferred.resolve(doc.results);
+                                    deferred.resolve(doc.results[0]);
                                 }
                         });
                 });
@@ -115,4 +115,3 @@ angular.module('avalancheCanadaApp')
     $timeout($anchorScroll, 0, false);
 
 });
-

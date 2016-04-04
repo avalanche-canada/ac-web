@@ -22,6 +22,13 @@ var colors = {
     white: 'white'
 };
 
+var CAAML_MODES = {
+    REGULAR_SEASON: 'Regular season',
+    SPRING_SITUATION: 'Spring situation',
+    OFF_SEASON: 'Off season',
+    EARLY_SEASON: 'Early season'
+};
+
 var dangerRatingStyles = {
     iconFill: {
         '1:Low': colors.green,
@@ -300,7 +307,7 @@ function parksForecast(caaml, region){
 };
 
 
-function avalancheCaForecast(caaml, region){
+function avalancheCaForecast(caaml, region, dangerMode){
     var caamlBulletin      = caaml['caaml:ObsCollection']['caaml:observations'][0]['caaml:Bulletin'][0];
     var caamlDangerRatings = caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:dangerRatings'][0]['caaml:DangerRating'];
     var caamlProblems      = caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avProblems'][0];
@@ -334,6 +341,24 @@ function avalancheCaForecast(caaml, region){
     //['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:min'][0] * 0.5 ) + 0.5;
     //caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] = ( caamlProblems['caaml:expectedAvSize'][0]['caaml:Values'][0]['caaml:max'][0] * 0.5 ) + 0.5;
 
+    var publicDangerMode = CAAML_MODES.REGULAR_SEASON;
+    if(typeof dangerMode !== undefined) {
+        switch(dangerMode) {
+          case 'SPRING':
+            publicDangerMode = CAAML_MODES.SPRING_SITUATION;
+            break;
+          case 'SUMMER':
+            publicDangerMode = CAAML_MODES.OFF_SEASON;
+            break;
+          case 'EARLY_SEASON':
+            publicDangerMode = CAAML_MODES.EARLY_SEASON;
+            break;
+          case 'REGULAR':
+            publicDangerMode = CAAML_MODES.REGULAR_SEASON;
+            break;
+        }
+    }
+
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
@@ -351,7 +376,7 @@ function avalancheCaForecast(caaml, region){
         avalancheSummary: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avActivityComment'][0],
         snowpackSummary: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:snowpackStructureComment'][0],
         weatherForecast: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:wxSynopsisComment'][0],
-        dangerMode : 'Regular season' //! \todo Early season, Regular season, Spring situation, Off season
+        dangerMode : publicDangerMode //'Regular season' //! \todo Early season, Regular season, Spring situation, Off season
      };
 }
 
@@ -370,20 +395,20 @@ function fetchCaamlForecast(region, callback) {
 }
 
 
-function parseForecast(caaml, region){
+function parseForecast(caaml, region, dangerModes){
     if (region.properties.owner === "parks-canada") {
         return parksForecast(caaml, region.id);
     } else if (region.properties.owner === "avalanche-canada") {
-        return  avalancheCaForecast(caaml, region.id);
+        return  avalancheCaForecast(caaml, region.id, dangerModes);
     } else {
         throw new Error("Invalid region: " + caamlForecast.region);
     }
 }
 
-function parseCaamlForecast(caaml, region, callback) {
+function parseCaamlForecast(caaml, region, dangerModes, callback) {
     parseString(caaml, function (err, caamlJson) {
         if (!err && caamlJson) {
-            var forecast = parseForecast(caamlJson, region);
+            var forecast = parseForecast(caamlJson, region, dangerModes);
             callback(null, forecast);
         } else {
             callback("parsed data invalid");

@@ -84,44 +84,56 @@
                         .tab-content
                             #public-forecast.tab-pane.active
                                 .panel-group
-                                    .panel.panel-primary
-                                        .panel-heading
-                                                | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
-                                        .panel-body.forecast-nowcast
-                                            img.img-responsive(alt='', ng-src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
-                                        table.table.table-condensed.ac-forecast-days
-                                            thead.ac-thead-dark
-                                                tr
-                                                    th
-                                                    th {{ forecast.dangerRatings[1].date | dateUtc:'dddd' }}
-                                                    th {{ forecast.dangerRatings[2].date | dateUtc:'dddd' }}
-                                            tbody
-                                                tr
-                                                    td.ac-veg-zone--alp
-                                                        strong Alpine
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
-                                                tr
-                                                    td.ac-veg-zone--tln
-                                                        strong Treeline
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
-                                                tr
-                                                    td.ac-veg-zone--btl
-                                                        strong Below Treeline
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
-                                                    td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}")
-                                                        strong {{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
-                                                tr
-                                                    td
-                                                        strong Confidence:
-                                                    td(colspan="2")
-                                                        span.ac-text-default {{ forecast.confidence }}
+                                    .div(ng-switch="forecast.dangerMode")
+                                      div(ng-switch-when="Spring situation")
+                                        .panel.panel-primary
+                                          .panel-heading Spring Conditions: {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                          .panel-body
+                                            .col-xs-4
+                                              img(style="max-width:90%" src="http://www.avalanche.ca/assets/images/spring_situation_icon.svg")
+                                            .col-xs-8 
+                                              ac-spring-conditions-text
+                                              // The avalanche danger is variable and can range from Low to High. Travelling early in the day is recommended, as conditions can change rapidly in short periods of time due to daytime warming. Pay careful attention to the integrity of the surface crusts fromed overnight and rising air temperatures during the day. Dry slab avalanche danger may also exist during spring snow storms.
+
+                                      .panel.panel-primary(ng-switch-default)
+                                          .panel-heading
+                                                  | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                          .panel-body.forecast-nowcast
+                                              img.img-responsive(alt='', ng-src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
+                                          table.table.table-condensed.ac-forecast-days
+                                              thead.ac-thead-dark
+                                                  tr
+                                                      th
+                                                      th {{ forecast.dangerRatings[1].date | dateUtc:'dddd' }}
+                                                      th {{ forecast.dangerRatings[2].date | dateUtc:'dddd' }}
+                                              tbody
+                                                  tr
+                                                      td.ac-veg-zone--alp
+                                                          strong Alpine
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
+                                                  tr
+                                                      td.ac-veg-zone--tln
+                                                          strong Treeline
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
+                                                  tr
+                                                      td.ac-veg-zone--btl
+                                                          strong Below Treeline
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
+                                                  tr
+                                                      td
+                                                          strong Confidence:
+                                                      td(colspan="2")
+                                                          span.ac-text-default {{ forecast.confidence }}
+
                                     .panel.panel-primary(ng-repeat="problem in forecast.problems")
                                         .panel-heading
                                             h4.panel-title

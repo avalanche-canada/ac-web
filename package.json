@@ -57,7 +57,8 @@
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
     "winston": "^1.0.0",
     "winston-papertrail": "^1.0.1",
-    "xml2js": "^0.4.4"
+    "xml2js": "^0.4.4",
+    "babel-polyfill": "^6.7.4"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",

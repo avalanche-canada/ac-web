@@ -12,6 +12,7 @@ var request = require('request');
 var logger = require('../../logger.js');
 var config = require('../../config/environment');
 var fs = require('fs');
+var Prismic = require('prismic.io');
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required
@@ -85,11 +86,15 @@ router.param('region', function (req, res, next) {
             } else {
                 return cached_caaml;
             }
-        }).then(function (caaml) {
+        })
+        .then(function (caaml) {
+            return [caaml, getDangerModes()];
+        }).spread(function (caaml, dangerModes) {
             var cacheKey = 'forecast-data::json::' + req.region.id;
+            var dangerMode = dangerModes[req.region.id];
             var json = fragmentCache.wrap(cacheKey, function(){
                 DEBUG("BUILDING forecast data...", cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, req.region);
+                return Q.nfcall(avalx.parseCaamlForecast, caaml, req.region, dangerMode);
             });
             return [caaml, json];
         }).spread(function(caaml, json) {
@@ -158,6 +163,7 @@ router.get('/:region.:format', function(req, res) {
             break;
         case 'html':
             locals = avalx.getTableLocals(req.forecast.json);
+            locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
             res.render('forecasts/forecast-html', locals, function (err, html) {
                 if(err) {
                     res.send(500);
@@ -245,8 +251,9 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     // Every other Region will be 'avalx' or 'parks'
 
  
+    console.log(req.forecast.region, req.forecast.json.dangerMode);
     // Early season, Regular season, Spring situation, Off season
-    if (req.forecast.json.dangerMode === 'Regular season' || req.forecast.json.dangerMode === 'Off season'){
+    if (req.forecast.json.dangerMode === 'Regular season'){
         //renderIcon(ratingStyles);
         var cacheKey = 'danger-rating-icon::' + req.region.id;
         fragmentCache.wrap(cacheKey, function(){
@@ -260,16 +267,56 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
             console.log("Error rendering danger rating:", err);
             res.status(500).send(err);
         });
-    } else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Spring situation'){
+    } else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Off season') {
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
         fs.createReadStream(config.root + '/server/views/forecasts/no_rating_icon.svg')
             .pipe(res);
-    } else{
+    } else if (req.forecast.json.dangerMode === 'Spring situation') {
+        res.header('cache-control', 'no-cache');
+        res.header('content-type', 'image/svg+xml');
+        fs.createReadStream(config.root + '/server/views/forecasts/spring_situation_icon_map.svg')
+            .pipe(res);
+    } else {
         console.log("ERROR: unknown danger mode: ", req.forecast.json.dangerMode);
         res.send(500);
     }
 
 });
+
+
+
+function getDangerModes() {
+    return fragmentCache.wrap('danger-modes', function(){
+        console.log("BUILDING danger-modes");
+        /*
+         * Use Q.Promise because the promise handleing in the Prismic library
+         * wasnt working as expected
+         */
+        return Q.Promise(function(resolve, reject) {
+            Prismic.api("https://avalancheca.prismic.io/api", function(err, api){
+                if(err) { reject(err); return; }
+                var dangerId = api.bookmarks['danger-modes'];
+
+                api.getByID(dangerId, {}, function(err2, doc){
+                    if(err2) { reject(err2); return; }
+                    resolve(doc);
+                });
+            });
+        }).then(function(doc){
+            var ids = _.map(regions.features, function(x){ return x.id; });
+            var modes = {};
+            var dangerModes = _.each(ids, function(id){
+                var value = doc.data['forecast-conditions.' + id];
+                if(value) {
+                    modes[id] = value.value;
+                }
+            });
+            return modes;
+        });
+    });
+}
+
+
 
 module.exports = router;

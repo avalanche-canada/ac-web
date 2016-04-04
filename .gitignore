@@ -3,6 +3,7 @@ public
 .tmp
 .sass-cache
 client/bower_components
+client/build
 dist
 /server/config/local.env.js
 .elasticbeanstalk/
@@ -13,4 +14,3 @@ aws.json
 dump.rdb
 npm-debug.log
 *.db
-/build/*
