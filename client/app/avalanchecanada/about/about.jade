@@ -18,12 +18,7 @@
                 #overview(ng-bind-html='overview')
                 #vision(ng-bind-html='vision')
                 #board(ng-bind-html='board')
-                #staff
-                    h2 Staff
-                    div(ng-repeat='member in staff')
-                        strong {{member.getText('staff.title')}}
-                        &nbsp; {{member.getText('staff.full_name')}} {{member.getText('staff.email')}} {{member.getText('staff.phone')}}
-                    br
+                react-component(name="Staff" props="{document: staff}")
                 #awards(ng-bind-html='awards')
                 #contact(ng-bind-html='contact')
     .push

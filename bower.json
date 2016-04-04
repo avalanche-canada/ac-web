@@ -25,8 +25,7 @@
     "angular-prismicio": "awulder/angular-prismicio#master",
     "slideout": "https://github.com/Mango/slideout.git#~0.1.5",
     "angular-datatables": "~0.4.3",
-    "angular-local-storage": "~0.2.3",
-    "ngReact": "^0.2.0"
+    "angular-local-storage": "~0.2.3"
   },
   "resolutions": {
     "jquery": "~1.11.0",
