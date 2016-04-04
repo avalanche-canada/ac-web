@@ -24,7 +24,11 @@ webpackJsonp([0],{
 	
 	var _Forecast3 = _interopRequireDefault(_Forecast2);
 	
+<<<<<<< HEAD
 	var _about = __webpack_require__(973);
+=======
+	var _about = __webpack_require__(964);
+>>>>>>> feature/staff
 	
 	var _about2 = _interopRequireDefault(_about);
 	
@@ -76,10 +80,11 @@ webpackJsonp([0],{
 	
 	var _recompose = __webpack_require__(452);
 	
-	var _DaySet = __webpack_require__(648);
+	var _DaySet = __webpack_require__(640);
 	
 	var _DaySet2 = _interopRequireDefault(_DaySet);
 	
+<<<<<<< HEAD
 	var _TabSet = __webpack_require__(755);
 	
 	var _TabSet2 = _interopRequireDefault(_TabSet);
@@ -93,6 +98,21 @@ webpackJsonp([0],{
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
 	var _prismic = __webpack_require__(749);
+=======
+	var _TabSet = __webpack_require__(747);
+	
+	var _TabSet2 = _interopRequireDefault(_TabSet);
+	
+	var _Outlook = __webpack_require__(962);
+	
+	var _Outlook2 = _interopRequireDefault(_Outlook);
+	
+	var _Footer = __webpack_require__(963);
+	
+	var _Footer2 = _interopRequireDefault(_Footer);
+	
+	var _prismic = __webpack_require__(741);
+>>>>>>> feature/staff
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -129,7 +149,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 648:
+/***/ 640:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -142,11 +162,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _moment = __webpack_require__(649);
+	var _moment = __webpack_require__(641);
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
+<<<<<<< HEAD
 	var _Day = __webpack_require__(748);
+=======
+	var _Day = __webpack_require__(740);
+>>>>>>> feature/staff
 	
 	var _Day2 = _interopRequireDefault(_Day);
 	
@@ -178,7 +202,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 748:
+=======
+/***/ 740:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -191,9 +219,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _prismic = __webpack_require__(749);
 	
 	var _Date = __webpack_require__(754);
+=======
+	var _prismic = __webpack_require__(741);
+	
+	var _Date = __webpack_require__(746);
+>>>>>>> feature/staff
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -240,7 +274,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 749:
+=======
+/***/ 741:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -250,19 +288,27 @@ webpackJsonp([0],{
 	});
 	exports.getDocument = exports.Image = exports.Text = exports.Html = undefined;
 	
+<<<<<<< HEAD
 	var _Html2 = __webpack_require__(750);
+=======
+	var _Html2 = __webpack_require__(742);
+>>>>>>> feature/staff
 	
 	var _Html3 = _interopRequireDefault(_Html2);
 	
-	var _Text2 = __webpack_require__(752);
+	var _Text2 = __webpack_require__(744);
 	
 	var _Text3 = _interopRequireDefault(_Text2);
 	
-	var _Image2 = __webpack_require__(753);
+	var _Image2 = __webpack_require__(745);
 	
 	var _Image3 = _interopRequireDefault(_Image2);
 	
+<<<<<<< HEAD
 	var _getDocument2 = __webpack_require__(751);
+=======
+	var _getDocument2 = __webpack_require__(743);
+>>>>>>> feature/staff
 	
 	var _getDocument3 = _interopRequireDefault(_getDocument2);
 	
@@ -275,7 +321,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 750:
+=======
+/***/ 742:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -288,7 +338,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _getDocument = __webpack_require__(751);
+=======
+	var _getDocument = __webpack_require__(743);
+>>>>>>> feature/staff
 	
 	var _getDocument2 = _interopRequireDefault(_getDocument);
 	
@@ -315,7 +369,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 751:
+=======
+/***/ 743:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -339,7 +397,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 752:
+=======
+/***/ 744:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -352,7 +414,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _getDocument = __webpack_require__(751);
+=======
+	var _getDocument = __webpack_require__(743);
+>>>>>>> feature/staff
 	
 	var _getDocument2 = _interopRequireDefault(_getDocument);
 	
@@ -387,7 +453,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 753:
+=======
+/***/ 745:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -400,7 +470,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _getDocument = __webpack_require__(751);
+=======
+	var _getDocument = __webpack_require__(743);
+>>>>>>> feature/staff
 	
 	var _getDocument2 = _interopRequireDefault(_getDocument);
 	
@@ -441,7 +515,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 754:
+=======
+/***/ 746:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -451,7 +529,7 @@ webpackJsonp([0],{
 	});
 	exports.format = format;
 	
-	var _moment = __webpack_require__(649);
+	var _moment = __webpack_require__(641);
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
@@ -467,7 +545,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 755:
+=======
+/***/ 747:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -482,15 +564,25 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _tab = __webpack_require__(756);
 	
 	var _prismic = __webpack_require__(749);
+=======
+	var _tab = __webpack_require__(748);
 	
-	var _Loop = __webpack_require__(943);
+	var _prismic = __webpack_require__(741);
+>>>>>>> feature/staff
+	
+	var _Loop = __webpack_require__(933);
 	
 	var _Loop2 = _interopRequireDefault(_Loop);
 	
+<<<<<<< HEAD
 	var _Image = __webpack_require__(948);
+=======
+	var _Image = __webpack_require__(938);
+>>>>>>> feature/staff
 	
 	var _Image2 = _interopRequireDefault(_Image);
 	
@@ -586,7 +678,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 756:
+=======
+/***/ 748:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -596,11 +692,19 @@ webpackJsonp([0],{
 	});
 	exports.Tab = exports.TabSet = undefined;
 	
+<<<<<<< HEAD
 	var _TabSet2 = __webpack_require__(757);
 	
 	var _TabSet3 = _interopRequireDefault(_TabSet2);
 	
 	var _Tab2 = __webpack_require__(942);
+=======
+	var _TabSet2 = __webpack_require__(749);
+	
+	var _TabSet3 = _interopRequireDefault(_TabSet2);
+	
+	var _Tab2 = __webpack_require__(932);
+>>>>>>> feature/staff
 	
 	var _Tab3 = _interopRequireDefault(_Tab2);
 	
@@ -611,7 +715,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 757:
+=======
+/***/ 749:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -628,15 +736,23 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactCssModules = __webpack_require__(758);
+=======
+	var _reactCssModules = __webpack_require__(750);
+>>>>>>> feature/staff
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
-	var _Panel = __webpack_require__(940);
+	var _Panel = __webpack_require__(930);
 	
 	var _Panel2 = _interopRequireDefault(_Panel);
 	
+<<<<<<< HEAD
 	var _Tab = __webpack_require__(941);
+=======
+	var _Tab = __webpack_require__(931);
+>>>>>>> feature/staff
 	
 	var _Tab2 = _interopRequireDefault(_Tab);
 	
@@ -775,7 +891,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 940:
+=======
+/***/ 930:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -788,11 +908,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactCssModules = __webpack_require__(758);
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
 	var _Tab = __webpack_require__(941);
+=======
+	var _reactCssModules = __webpack_require__(750);
+	
+	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
+	
+	var _Tab = __webpack_require__(931);
+>>>>>>> feature/staff
 	
 	var _Tab2 = _interopRequireDefault(_Tab);
 	
@@ -818,7 +946,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 941:
+=======
+/***/ 931:
+>>>>>>> feature/staff
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -826,7 +958,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 942:
+=======
+/***/ 932:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -858,7 +994,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 943:
+=======
+/***/ 933:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -875,19 +1015,27 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _animation = __webpack_require__(944);
+=======
+	var _animation = __webpack_require__(934);
+>>>>>>> feature/staff
 	
-	var _Url = __webpack_require__(950);
+	var _Url = __webpack_require__(940);
 	
-	var _keycode = __webpack_require__(967);
+	var _keycode = __webpack_require__(958);
 	
 	var _keycode2 = _interopRequireDefault(_keycode);
 	
-	var _lodash = __webpack_require__(968);
+	var _lodash = __webpack_require__(959);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
+<<<<<<< HEAD
 	var _lodash3 = __webpack_require__(970);
+=======
+	var _lodash3 = __webpack_require__(961);
+>>>>>>> feature/staff
 	
 	var _lodash4 = _interopRequireDefault(_lodash3);
 	
@@ -1111,7 +1259,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 944:
+=======
+/***/ 934:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1121,19 +1273,27 @@ webpackJsonp([0],{
 	});
 	exports.Title = exports.Toolbar = exports.Image = exports.Animation = undefined;
 	
+<<<<<<< HEAD
 	var _Animation2 = __webpack_require__(945);
+=======
+	var _Animation2 = __webpack_require__(935);
+>>>>>>> feature/staff
 	
 	var _Animation3 = _interopRequireDefault(_Animation2);
 	
-	var _Image2 = __webpack_require__(947);
+	var _Image2 = __webpack_require__(937);
 	
 	var _Image3 = _interopRequireDefault(_Image2);
 	
-	var _Toolbar2 = __webpack_require__(953);
+	var _Toolbar2 = __webpack_require__(944);
 	
 	var _Toolbar3 = _interopRequireDefault(_Toolbar2);
 	
+<<<<<<< HEAD
 	var _Title2 = __webpack_require__(966);
+=======
+	var _Title2 = __webpack_require__(957);
+>>>>>>> feature/staff
 	
 	var _Title3 = _interopRequireDefault(_Title2);
 	
@@ -1146,7 +1306,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 945:
+=======
+/***/ 935:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1159,11 +1323,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Animation = __webpack_require__(946);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
 	var _reactCssModules = __webpack_require__(758);
+=======
+	var _Animation = __webpack_require__(936);
+	
+	var _Animation2 = _interopRequireDefault(_Animation);
+	
+	var _reactCssModules = __webpack_require__(750);
+>>>>>>> feature/staff
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
@@ -1183,7 +1355,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 946:
+=======
+/***/ 936:
+>>>>>>> feature/staff
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -1191,7 +1367,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 947:
+=======
+/***/ 937:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1206,6 +1386,7 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactCssModules = __webpack_require__(758);
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
@@ -1215,6 +1396,17 @@ webpackJsonp([0],{
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
 	var _Image = __webpack_require__(948);
+=======
+	var _reactCssModules = __webpack_require__(750);
+	
+	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
+	
+	var _Animation = __webpack_require__(936);
+	
+	var _Animation2 = _interopRequireDefault(_Animation);
+	
+	var _Image = __webpack_require__(938);
+>>>>>>> feature/staff
 	
 	var _Image2 = _interopRequireDefault(_Image);
 	
@@ -1236,7 +1428,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 948:
+=======
+/***/ 938:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1251,7 +1447,11 @@ webpackJsonp([0],{
 	
 	var _recompose = __webpack_require__(452);
 	
+<<<<<<< HEAD
 	var _Image = __webpack_require__(949);
+=======
+	var _Image = __webpack_require__(939);
+>>>>>>> feature/staff
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1289,7 +1489,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 949:
+=======
+/***/ 939:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1302,7 +1506,11 @@ webpackJsonp([0],{
 	
 	exports.mapUrlToSrc = mapUrlToSrc;
 	
+<<<<<<< HEAD
 	var _Url = __webpack_require__(950);
+=======
+	var _Url = __webpack_require__(940);
+>>>>>>> feature/staff
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
@@ -1327,7 +1535,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 950:
+=======
+/***/ 940:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1338,11 +1550,15 @@ webpackJsonp([0],{
 	exports.format = format;
 	exports.asSrcSet = asSrcSet;
 	
-	var _moment = __webpack_require__(649);
+	var _moment = __webpack_require__(641);
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
+<<<<<<< HEAD
 	var _lodash = __webpack_require__(951);
+=======
+	var _lodash = __webpack_require__(941);
+>>>>>>> feature/staff
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -1388,7 +1604,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 953:
+=======
+/***/ 944:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1403,19 +1623,27 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _button = __webpack_require__(954);
+=======
+	var _button = __webpack_require__(945);
+>>>>>>> feature/staff
 	
 	var _button2 = _interopRequireDefault(_button);
 	
-	var _Animation = __webpack_require__(946);
+	var _Animation = __webpack_require__(936);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
-	var _reactCssModules = __webpack_require__(758);
+	var _reactCssModules = __webpack_require__(750);
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
+<<<<<<< HEAD
 	var _icons = __webpack_require__(958);
+=======
+	var _icons = __webpack_require__(949);
+>>>>>>> feature/staff
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1501,7 +1729,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 954:
+=======
+/***/ 945:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1511,11 +1743,19 @@ webpackJsonp([0],{
 	});
 	exports.Top = exports.default = undefined;
 	
+<<<<<<< HEAD
 	var _Button = __webpack_require__(955);
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
 	var _Top2 = __webpack_require__(957);
+=======
+	var _Button = __webpack_require__(946);
+	
+	var _Button2 = _interopRequireDefault(_Button);
+	
+	var _Top2 = __webpack_require__(948);
+>>>>>>> feature/staff
 	
 	var _Top3 = _interopRequireDefault(_Top2);
 	
@@ -1526,7 +1766,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 955:
+=======
+/***/ 946:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1542,13 +1786,21 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Button = __webpack_require__(956);
+=======
+	var _Button = __webpack_require__(947);
+>>>>>>> feature/staff
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
 	var _recompose = __webpack_require__(452);
 	
+<<<<<<< HEAD
 	var _reactCssModules = __webpack_require__(758);
+=======
+	var _reactCssModules = __webpack_require__(750);
+>>>>>>> feature/staff
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
@@ -1577,7 +1829,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 956:
+=======
+/***/ 947:
+>>>>>>> feature/staff
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -1585,7 +1841,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 957:
+=======
+/***/ 948:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1594,7 +1854,11 @@ webpackJsonp([0],{
 		value: true
 	});
 	
+<<<<<<< HEAD
 	var _Button = __webpack_require__(955);
+=======
+	var _Button = __webpack_require__(946);
+>>>>>>> feature/staff
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
@@ -1617,7 +1881,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 958:
+=======
+/***/ 949:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1627,6 +1895,7 @@ webpackJsonp([0],{
 	});
 	exports.ChevronRight = exports.ChevronLeft = exports.Play = exports.Pause = exports.Last = exports.First = exports.LastPage = exports.FirstPage = undefined;
 	
+<<<<<<< HEAD
 	var _First2 = __webpack_require__(959);
 	
 	var _First3 = _interopRequireDefault(_First2);
@@ -1648,6 +1917,29 @@ webpackJsonp([0],{
 	var _ChevronLeft3 = _interopRequireDefault(_ChevronLeft2);
 	
 	var _ChevronRight2 = __webpack_require__(965);
+=======
+	var _First2 = __webpack_require__(950);
+	
+	var _First3 = _interopRequireDefault(_First2);
+	
+	var _Last2 = __webpack_require__(952);
+	
+	var _Last3 = _interopRequireDefault(_Last2);
+	
+	var _Pause2 = __webpack_require__(953);
+	
+	var _Pause3 = _interopRequireDefault(_Pause2);
+	
+	var _Play2 = __webpack_require__(954);
+	
+	var _Play3 = _interopRequireDefault(_Play2);
+	
+	var _ChevronLeft2 = __webpack_require__(955);
+	
+	var _ChevronLeft3 = _interopRequireDefault(_ChevronLeft2);
+	
+	var _ChevronRight2 = __webpack_require__(956);
+>>>>>>> feature/staff
 	
 	var _ChevronRight3 = _interopRequireDefault(_ChevronRight2);
 	
@@ -1664,7 +1956,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 959:
+=======
+/***/ 950:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1677,7 +1973,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1705,7 +2005,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 960:
+=======
+/***/ 951:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1749,7 +2053,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 961:
+=======
+/***/ 952:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1762,7 +2070,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1790,7 +2102,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 962:
+=======
+/***/ 953:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1803,7 +2119,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1831,7 +2151,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 963:
+=======
+/***/ 954:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1844,7 +2168,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1871,7 +2199,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 964:
+=======
+/***/ 955:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1884,7 +2216,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1912,7 +2248,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 965:
+=======
+/***/ 956:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1925,7 +2265,11 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Icon = __webpack_require__(960);
+=======
+	var _Icon = __webpack_require__(951);
+>>>>>>> feature/staff
 	
 	var _Icon2 = _interopRequireDefault(_Icon);
 	
@@ -1953,7 +2297,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 966:
+=======
+/***/ 957:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1966,11 +2314,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Animation = __webpack_require__(946);
 	
 	var _Animation2 = _interopRequireDefault(_Animation);
 	
 	var _reactCssModules = __webpack_require__(758);
+=======
+	var _Animation = __webpack_require__(936);
+	
+	var _Animation2 = _interopRequireDefault(_Animation);
+	
+	var _reactCssModules = __webpack_require__(750);
+>>>>>>> feature/staff
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
@@ -1990,7 +2346,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 971:
+=======
+/***/ 962:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2003,9 +2363,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _prismic = __webpack_require__(749);
 	
 	var _lodash = __webpack_require__(970);
+=======
+	var _prismic = __webpack_require__(741);
+	
+	var _lodash = __webpack_require__(961);
+>>>>>>> feature/staff
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -2048,7 +2414,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 972:
+=======
+/***/ 963:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2089,15 +2459,26 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 973:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReactAbout"] = __webpack_require__(974);
+=======
+/***/ 964:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReactAbout"] = __webpack_require__(965);
+>>>>>>> feature/staff
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 974:
+=======
+/***/ 965:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2107,11 +2488,19 @@ webpackJsonp([0],{
 	});
 	exports.Staff = Staff;
 	
+<<<<<<< HEAD
 	var _MemberList = __webpack_require__(975);
 	
 	var _MemberList2 = _interopRequireDefault(_MemberList);
 	
 	var _Section = __webpack_require__(977);
+=======
+	var _MemberList = __webpack_require__(966);
+	
+	var _MemberList2 = _interopRequireDefault(_MemberList);
+	
+	var _Section = __webpack_require__(968);
+>>>>>>> feature/staff
 	
 	var _Section2 = _interopRequireDefault(_Section);
 	
@@ -2131,7 +2520,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 975:
+=======
+/***/ 966:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2146,7 +2539,11 @@ webpackJsonp([0],{
 	
 	var _recompose = __webpack_require__(452);
 	
+<<<<<<< HEAD
 	var _Member = __webpack_require__(976);
+=======
+	var _Member = __webpack_require__(967);
+>>>>>>> feature/staff
 	
 	var _Member2 = _interopRequireDefault(_Member);
 	
@@ -2178,7 +2575,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 976:
+=======
+/***/ 967:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2232,7 +2633,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 977:
+=======
+/***/ 968:
+>>>>>>> feature/staff
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2245,11 +2650,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactCssModules = __webpack_require__(758);
 	
 	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
 	
 	var _Section = __webpack_require__(978);
+=======
+	var _reactCssModules = __webpack_require__(750);
+	
+	var _reactCssModules2 = _interopRequireDefault(_reactCssModules);
+	
+	var _Section = __webpack_require__(969);
+>>>>>>> feature/staff
 	
 	var _Section2 = _interopRequireDefault(_Section);
 	
@@ -2283,7 +2696,11 @@ webpackJsonp([0],{
 
 /***/ },
 
+<<<<<<< HEAD
 /***/ 978:
+=======
+/***/ 969:
+>>>>>>> feature/staff
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
