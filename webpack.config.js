@@ -5,7 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	entry: {
 		app: path.resolve(__dirname, 'client/src/index.js'),
-		vendor: ['react', 'react-dom', 'recompose', 'react-css-modules', 'keycode', 'moment', 'lodash', 'lodash.padstart', 'lodash.memoize', 'lodash.range'],
+		vendor: ['babel-polyfill', 'react', 'react-dom', 'recompose', 'react-css-modules', 'keycode', 'moment', 'lodash', 'lodash.padstart', 'lodash.memoize', 'lodash.range'],
 	},
 	output: {
 		path: path.resolve(__dirname, 'client/build'),
