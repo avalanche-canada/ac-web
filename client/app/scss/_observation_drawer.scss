@@ -75,6 +75,16 @@
     }
 }
 
+.ac-forecast-mini{
+    .close-drawer {
+        cursor: pointer;
+        margin-right: 20px;
+        margin-top: 15px;
+        font-size: 1.2em;
+        color: $main-gray;
+    }
+}
+
 @media print {
     .ac-observation-fullpage{
         .close-drawer, .print-link, a#back-link, a.pull-right, .share-report{
