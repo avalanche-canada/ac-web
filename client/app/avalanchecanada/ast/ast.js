@@ -63,7 +63,7 @@ angular.module('avalancheCanadaApp')
       return true;
     } else {
       return (
-        typeof value.tags !== 'undefined' && 
+        typeof value.tags !== 'undefined' &&
         value.tags.indexOf($scope.current_specialty) > -1
       );
     }
@@ -75,12 +75,12 @@ angular.module('avalancheCanadaApp')
     } else {
       var levels = _.map(value.courses, _.property('level'));
       return (
-        typeof value.tags !== 'undefined' && 
+        typeof value.tags !== 'undefined' &&
         levels.indexOf($scope.current_level) > -1
       );
     }
   };
- 
+
 
   var getProviders = function(pos){
 
@@ -231,7 +231,7 @@ angular.module('avalancheCanadaApp')
       passedLevel =  true;
     } else {
       passedLevel  = (
-        typeof value.level !== 'undefined' && 
+        typeof value.level !== 'undefined' &&
         value.level === $scope.current_level
       );
     }
@@ -242,7 +242,7 @@ angular.module('avalancheCanadaApp')
     } else {
       var de = new Date(value.date_end);
       passedDateFrom  = (
-        typeof value.date_end !== 'undefined' && 
+        typeof value.date_end !== 'undefined' &&
         de > $scope.date_from
       );
     }
@@ -253,7 +253,7 @@ angular.module('avalancheCanadaApp')
     } else {
       var ds = new Date(value.date_start);
       passedDateTo  = (
-        typeof value.date_start !== 'undefined' && 
+        typeof value.date_start !== 'undefined' &&
         ds < $scope.date_to
       );
     }
@@ -263,12 +263,42 @@ angular.module('avalancheCanadaApp')
       passedType =  true;
     } else {
       passedType  = (
-        typeof value.tags !== 'undefined' && 
+        typeof value.tags !== 'undefined' &&
         value.tags.indexOf($scope.current_tag) > -1
       );
     }
 
     return passedLevel && passedDateFrom && passedDateTo && passedType;
+  };
+
+  var applyFilters = function(){
+
+    var distanceFilter = function(course){
+        //! if no distance for course then show it. Else if distance is less than requested show it
+        return (!course.distance || (course.distance && (course.distance/1000) <= $scope.current_distance));
+    };
+
+    var dateFilter = function(course){
+        return (course.date <= $scope.date_to && course.date >= $scope.date_from);
+    };
+
+    //! filter courses by distance
+    if($scope.current_distance && $scope.location){
+      $scope.sponsored_courses = _.filter($scope.sponsored_courses, distanceFilter);
+      $scope.unsponsoured_courses = _.filter($scope.unsponsoured_courses, distanceFilter);
+    }
+
+    //! Filter courses by current_date
+    if($scope.date_from !== null && $scope.date_to !== null){
+      $scope.sponsored_courses = _.where($scope.sponsored_courses, dateFilter);
+      $scope.unsponsoured_courses = _.where($scope.unsponsoured_courses, dateFilter);
+    }
+
+    //! Filter out course_level (aka AST1, AST2)
+    if($scope.current_level !== null){
+      $scope.sponsored_courses = _.where($scope.sponsored_courses, {level: $scope.current_level});
+      $scope.unsponsoured_courses = _.where($scope.unsponsoured_courses, {level: $scope.current_level});
+    }
   };
 
   var getCourses = function(pos){
@@ -358,36 +388,6 @@ angular.module('avalancheCanadaApp')
     }
     else{
       getCourses();
-    }
-  };
-
-  var applyFilters = function(){
-
-    var distanceFilter = function(course){
-        //! if no distance for course then show it. Else if distance is less than requested show it
-        return (!course.distance || (course.distance && (course.distance/1000) <= $scope.current_distance));
-    };
-
-    var dateFilter = function(course){
-        return (course.date <= $scope.date_to && course.date >= $scope.date_from);
-    };
-
-    //! filter courses by distance
-    if($scope.current_distance && $scope.location){
-      $scope.sponsored_courses = _.filter($scope.sponsored_courses, distanceFilter);
-      $scope.unsponsoured_courses = _.filter($scope.unsponsoured_courses, distanceFilter);
-    }
-
-    //! Filter courses by current_date
-    if($scope.date_from !== null && $scope.date_to !== null){
-      $scope.sponsored_courses = _.where($scope.sponsored_courses, dateFilter);
-      $scope.unsponsoured_courses = _.where($scope.unsponsoured_courses, dateFilter);
-    }
-
-    //! Filter out course_level (aka AST1, AST2)
-    if($scope.current_level !== null){
-      $scope.sponsored_courses = _.where($scope.sponsored_courses, {level: $scope.current_level});
-      $scope.unsponsoured_courses = _.where($scope.unsponsoured_courses, {level: $scope.current_level});
     }
   };
 

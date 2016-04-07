@@ -69,6 +69,16 @@ angular.module('avalancheCanadaApp')
                   }]
                 }
             })
+            .state('ac.forecast', {
+                url: '^/forecast/:regionid',
+                templateUrl: 'app/avalanchecanada/main/map.html',
+                controller: 'MapCtrl',
+                resolve:{
+                    obs: function (acObservation) {
+                        return acObservation.byPeriod('7:days');
+                    }
+                }
+            })
             .state('ac.reports', {
                 url: '^/reports/:subid',
                 templateUrl: 'app/avalanchecanada/reports/reportsFullPage.html',
@@ -76,6 +86,16 @@ angular.module('avalancheCanadaApp')
                 resolve: {
                     report: function (acSubmission, $stateParams) {
                         return acSubmission.getOne($stateParams.subid);
+                    }
+                }
+            })
+            .state('ac.hzr', {
+                url: '^/hzr/:subid',
+                templateUrl: 'app/avalanchecanada/reports/reportsFullPage.html',
+                controller: 'ReportsCtrl',
+                resolve:{
+                    report: function (acHZRSubmission, $stateParams) {
+                        return acHZRSubmission.getOne($stateParams.subid);
                     }
                 }
             });

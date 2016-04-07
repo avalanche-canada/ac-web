@@ -1,5 +1,5 @@
 var winston = require('winston');
-var papertrail = require('winston-papertrail').Papertrail;
+var Papertrail = require('winston-papertrail').Papertrail;
 var os = require('os');
 
 var ptHostname = process.env.LOG_PREFIX + '-' + os.hostname();
@@ -14,7 +14,7 @@ var logger,
         },
         colorize: true
     }),
-    ptTransport = new papertrail({
+    ptTransport = new Papertrail({
         host: 'logs2.papertrailapp.com',
         port: 49854,
         hostname: ptHostname,
