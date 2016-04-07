@@ -138,7 +138,7 @@ angular.module('avalancheCanadaApp')
                         newRegion.feature.properties.forecast = forecast;
                     });
                 } else if (newRegion.feature.properties.type === 'hotzone') {
-                    $scope.current.hotzone = _.findWhere($scope.activeHotZones, function(zone) {
+                    $scope.current.hotzone = _.find($scope.activeHotZones, function(zone) {
                         return newRegion.feature.properties.id === zone.hotzoneid;
                     }) || 'default';
                 }
