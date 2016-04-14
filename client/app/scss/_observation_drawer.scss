@@ -83,6 +83,16 @@
         font-size: 1.2em;
         color: $main-gray;
     }
+
+    .terrain-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .highlight {
+        color: red;
+        font-weight: bold;
+    }
 }
 
 @media print {
