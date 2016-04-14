@@ -91,8 +91,16 @@
 }
 
 .terrain-highlight {
-    color: red;
+    color: #d82631;
     font-weight: bold;
+}
+
+.terrain-title {
+    color: #245EAC;
+}
+
+.terrain-icon {
+    padding-top: 3px;
 }
 
 @media print {
