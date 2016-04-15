@@ -5,7 +5,7 @@
 
         div(ng-if='current.region.feature.properties.type !== "hotzone"', ac-forecast-mini='ac-forecast-mini', ac-forecast='current.region.feature.properties.forecast', danger-rating='dangerRating', disclaimer='disclaimer', sponsor='sponsor')
 
-        div(ng-if='current.region.feature.properties.type === "hotzone"', ac-hot-zone-mini='ac-hot-zone-mini', ac-hot-zone='current.hotzone', ac-region='current.region.feature.properties')
+        div(ng-if='current.region.feature.properties.type === "hotzone"', ac-hot-zone-mini='ac-hot-zone-mini', ac-hot-zone='current.hotzone', ac-region='current.region.feature.properties', sponsor='sponsor')
 
     div.ac-drawer-left(ac-drawer, ac-drawer-position='left', ng-class="{'ac-drawer--expanded': current.report && drawer.left.visible}")
         div(ac-observation-min='ac-observation-min', observation='current.report', sponsor='sponsor')

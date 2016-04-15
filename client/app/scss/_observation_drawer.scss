@@ -85,6 +85,25 @@
     }
 }
 
+.ac-forecast-mini-body {
+    .full-page-link {
+        cursor:pointer;
+    }
+    .section-label {
+        color: $main-gray--40;
+        margin-top: 15px;
+        margin-bottom: 3px;
+        span {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-family: Monserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+    }
+}
+
 .terrain-list {
     list-style-type: none;
     padding: 0;
