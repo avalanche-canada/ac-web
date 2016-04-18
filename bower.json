@@ -20,7 +20,7 @@
     "multilevelpushmenu": "~2.1.4",
     "mapbox.js": "~2.2.3",
     "Leaflet.label": "~0.2.1",
-    "ac-components": "git://github.com/tesera/ac-components#d931e12b307329cfcccf9b8b47294466221f3887",
+    "ac-components": "git://github.com/tesera/ac-components#253d16bf2af0a0d8e2f0e4cad37fc1e57a8190dd",
     "prismic.io": "~1.0.22",
     "angular-prismicio": "awulder/angular-prismicio#master",
     "slideout": "https://github.com/Mango/slideout.git#~0.1.5",
