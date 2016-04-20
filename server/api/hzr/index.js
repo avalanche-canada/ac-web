@@ -7,6 +7,7 @@ var hzrUtils = require('./hzr-utils');
 var moment = require('moment');
 var changeCase = require('change-case');
 var logger = require('../../logger.js');
+var config = require('../../config/environment');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -65,6 +66,16 @@ router.get('/submissions/:subid', function (req, res) {
             res.json(hzr[0]);
         }
     });
+});
+
+router.get('/:type/icon.svg', function(req, res) {
+    var type = req.params.type;
+
+    if (type === 'active') {
+        res.sendFile(config.root + '/server/images/hzr/circle_blue.svg');
+    } else {
+        res.sendFile(config.root + '/server/images/hzr/circle_grey.svg');
+    }
 });
 
 module.exports = router;

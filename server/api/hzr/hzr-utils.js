@@ -36,7 +36,7 @@ exports.saveHZR = function (user, form, callback) {
         try {
             switch(name){
                 case "dateissued":
-                    item.dateissued = moment(value).unix();
+                    item.dateissued = moment(value, 'YYYY-MM-DD hh:mm A').unix();
                     item.report[name] = value;
                     break;
                 case "datevalid":
