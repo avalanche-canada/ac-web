@@ -10,6 +10,8 @@ article
     p !{forecast.highlights}
     if forecast.dangerMode == "Spring situation"
       include forecast-table-spring
+    if forecast.dangerMode == "Off season"
+      include forecast-table-summer
     else
       .table-container
         include forecast-table
