@@ -85,6 +85,43 @@
     }
 }
 
+.ac-forecast-mini-body {
+    .full-page-link {
+        cursor:pointer;
+    }
+    .section-label {
+        color: $main-gray--40;
+        margin-top: 15px;
+        margin-bottom: 3px;
+        span {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-family: Monserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+    }
+}
+
+.terrain-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.terrain-highlight {
+    color: #d82631;
+    font-weight: bold;
+}
+
+.terrain-title {
+    color: #245EAC;
+}
+
+.terrain-icon {
+    padding-top: 3px;
+}
+
 @media print {
     .ac-observation-fullpage{
         .close-drawer, .print-link, a#back-link, a.pull-right, .share-report{
