@@ -1,6 +1,7 @@
 import React, { PropTypes, createElement } from 'react'
 
 Text.propTypes = {
+    document: PropTypes.object.isRequired,
     fragment: PropTypes.string.isRequired,
     component: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 }

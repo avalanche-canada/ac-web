@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 
 Html.propTypes = {
     fragment: PropTypes.string.isRequired,
-    document: PropTypes.string.isRequired,
+    document: PropTypes.object.isRequired,
 }
 
 export default function Html({ fragment, document }) {

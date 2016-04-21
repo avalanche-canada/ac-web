@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 
 Image.propTypes = {
+	document: PropTypes.object.isRequired,
 	fragment: PropTypes.string.isRequired,
 	openNewTab: PropTypes.bool
 }

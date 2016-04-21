@@ -23,27 +23,30 @@ const NAMES = [...TABS.keys()]
 
 function createTabs(forecast) {
     return NAMES.map(name => {
-		const zone = forecast.get(`weather-forecast.${name}`)
+        const zone = forecast.getSliceZone(`weather-forecast.${name}`)
 
         if (zone === null) {
             return null
         }
 
-		return (
-			<Tab key={name} {...TABS.get(name)}>
+        return (
+            <Tab key={name} {...TABS.get(name)}>
                 <SliceZone zone={zone} />
-			</Tab>
-		)
-	}).filter(tab => tab !== null)
+            </Tab>
+        )
+    }).filter(tab => tab !== null)
 }
 
 function WeatherTabSet({ forecast }) {
+    const tabs = createTabs(forecast)
+
+    if (tabs.length === 0) {
+        return null
+    }
+
 	return (
         <TabSet>
-            {createTabs(forecast)}
-            <Tab name='faq' title='FAQ'>
-                <FAQ />
-            </Tab>
+            {tabs}
         </TabSet>
     )
 }

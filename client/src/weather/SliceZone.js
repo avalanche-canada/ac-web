@@ -18,6 +18,10 @@ function SliceZone({ zone, forecast }) {
     const date = forecast.getDate('weather-forecast.date')
     const slices = zone.value
 
+    if (!slices) {
+        return null
+    }
+
     return (
         <div>
             {slices.map(slice => {
