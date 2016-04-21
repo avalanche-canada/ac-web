@@ -1,21 +1,20 @@
 import React, { PropTypes } from 'react'
-import styles from './Button.css'
-import { setPropTypes, setDisplayName, pure } from 'recompose'
 import CSSModules from 'react-css-modules'
+import styles from './Button.css'
 
 export const PRIMARY = 'primary'
 export const SECONDARY = 'secondary'
 
-export default CSSModules(setPropTypes({
-	type: PropTypes.oneOf([PRIMARY, SECONDARY])
-}, function Button({
-	type = PRIMARY,
-	children,
-	...props
-}) {
+Button.propTypes = {
+    type: PropTypes.oneOf([PRIMARY, SECONDARY])
+}
+
+function Button({ type = PRIMARY, children, ...rest }) {
 	return (
-		<button styleName={type} {...props}>
+		<button styleName={type} {...rest}>
 			{children}
 		</button>
 	)
-}), styles)
+}
+
+export default CSSModules(Button, styles)

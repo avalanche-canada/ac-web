@@ -6,16 +6,13 @@ Image.propTypes = {
 	url: PropTypes.string.isRequired,
 	openNewTab: PropTypes.bool,
 }
-Image.defaultProps = {
-	openNewTab: false
-}
 
-function Image({openNewTab, ...props}) {
-	const image = <img {...props} />
+function Image({ openNewTab = false, ...rest }) {
+	const image = <img {...rest} />
 
 	if (openNewTab) {
 		return (
-			<a href={props.url} target='_blank'>
+			<a href={rest.src} target='_blank'>
 				{image}
 			</a>
 		)
@@ -24,4 +21,8 @@ function Image({openNewTab, ...props}) {
 	return image
 }
 
-export default mapProps(props => mapUrlToSrc(props, true), Image)
+function propsMapper(props) {
+    return mapUrlToSrc(props, true)
+}
+
+export default mapProps(propsMapper)(Image)

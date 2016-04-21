@@ -25,12 +25,13 @@
                         | {{displayDate | dateUtc:"dddd MMMM Do"}} &nbsp;
                         button.btn.btn-default(ng-click='open($event)')
                             i.glyphicon.glyphicon-calendar
+                        span Issued at {{issuedAt | dateUtc:"H:mm"}}
                 section#post-forecaster(style="height:80px")
                     | Created By: &nbsp;
                     br.visible-xs-inline
                     span {{forecastContent.getText('weather-forecast.handle')}}
 
-            react-component(name="WeatherForecast" props="{content: forecastContent}")
+            react-component(name="WeatherForecast" props="{forecast: forecastContent, isAuthenticated: isAuthenticated, faq: faqContent}")
         #mobile-sidebar-container.col-xs-12.col-md-3
             aside
                 .dark-ribbon

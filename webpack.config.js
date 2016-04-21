@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+require('es6-promise')
+
 module.exports = {
 	entry: {
 		app: path.resolve(__dirname, 'client/src/index.js'),

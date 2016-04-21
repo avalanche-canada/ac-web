@@ -51,12 +51,31 @@ angular.module('avalancheCanadaApp')
         return deferred.promise;
     };
 
+    function getFAQ($q, $log, Prismic) {
+        return $q(function(resolve, reject) {
+            Prismic.ctx().then(function(ctx) {
+                var query = '[[:d = at(document.type, "weather-forecast-faq")]]';
+
+                ctx.api.form('everything').query(query).ref(ctx.ref).submit(function(err, doc) {
+                    if (err) {
+                        var message = 'error getting weather faq from prismic';
+                        $log.error(message);
+                        reject(message);
+                    } else {
+                        resolve(doc.results[0]);
+                    }
+                });
+            });
+        });
+    };
+
     $stateProvider
         .state('ac.weatherToday', {
             url: '^/weather',
             templateUrl: 'app/avalanchecanada/weather/weather.html',
             resolve:{
-                weatherForecast: getWeather
+                weatherForecast: getWeather,
+                weatherFAQ: getFAQ
             },
             controller: 'WeatherCtrl'
         })
@@ -64,15 +83,16 @@ angular.module('avalancheCanadaApp')
             url: '^/weather/:date',
             templateUrl: 'app/avalanchecanada/weather/weather.html',
             resolve:{
-                weatherForecast: getWeather
+                weatherForecast: getWeather,
+                weatherFAQ: getFAQ
             },
             controller: 'WeatherCtrl'
         });
 })
-.controller('WeatherCtrl',  function ($scope, $log, weatherForecast, $rootScope, $location, $stateParams, $state) {
+.controller('WeatherCtrl',  function ($scope, $log, weatherForecast, weatherFAQ, $rootScope, $location, $stateParams, $state, auth) {
 
-
-
+    $scope.isAuthenticated = auth.isAuthenticated;
+    $scope.faqContent = weatherFAQ;
     $scope.calculateDay = function (base, add) { return moment(base).add(add,'day');};
 
     var filterByDate = function(date){
@@ -84,15 +104,18 @@ angular.module('avalancheCanadaApp')
 
         var result = _.find(weatherForecast, findForecast);//weatherForecast.find(findForecast);
 
+
         if(result){
             $log.info('filter match found');
             $scope.forecastContent = result;
             $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
+            $scope.issuedAt = $scope.forecastContent.getTimestamp('weather-forecast.issued');
         }
         else{
             $log.info('no match found, showing latest forecast. date searched for=', date);
             $scope.forecastContent = weatherForecast[0];
             $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
+            $scope.issuedAt = $scope.forecastContent.getTimestamp('weather-forecast.issued');
         }
 
         $rootScope.ogTags  = [ {type: 'title', value: $scope.forecastContent.getText('weather-forecast.headline')},
@@ -124,6 +147,7 @@ angular.module('avalancheCanadaApp')
     else{
         $scope.forecastContent = weatherForecast[0];
         $scope.displayDate = $scope.forecastContent.getDate('weather-forecast.date');
+        $scope.issuedAt = $scope.forecastContent.getTimestamp('weather-forecast.issued');
         //! UTC to PST conversion
         $scope.dt = moment($scope.forecastContent.getDate('weather-forecast.date')).add(1,'day');
     }

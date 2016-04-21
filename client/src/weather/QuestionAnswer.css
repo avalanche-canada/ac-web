@@ -1,0 +1,13 @@
+.Question {
+    &:before {
+        content: 'Question: ';
+        font-weight: bold;
+    }
+}
+
+.Answer {
+    &:before {
+        content: 'Answer: ';
+        font-weight: bold;
+    }
+}

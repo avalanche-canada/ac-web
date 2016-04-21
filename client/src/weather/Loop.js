@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { Animation, Toolbar, Image, Title } from './animation'
-import { format } from './utils/Url'
+import { formatLoop as format } from './utils/Url'
 import keycode from 'keycode'
 import memoize from 'lodash.memoize'
 import range from 'lodash.range'

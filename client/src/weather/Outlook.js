@@ -1,16 +1,17 @@
 import React from 'react'
-import { Html, Image, getDocument } from '../prismic'
 import range from 'lodash.range'
+import { Html, Image } from '../prismic'
+import getForecast from './getForecast'
 
 const sequence = [1, 2, 3, 4]
 
-function Outlook({ document }) {
-	const outlook = document.get('weather-forecast.outlook')
-	const image1 = document.get('weather-forecast.outlook-image1')
-	const text1 = document.get('weather-forecast.outlook-text1')
+function Outlook({ forecast }) {
+	const outlook = forecast.get('weather-forecast.outlook')
+	const image1 = forecast.get('weather-forecast.outlook-image1')
+	const text1 = forecast.get('weather-forecast.outlook-text1')
 
 	if (outlook === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return (
@@ -19,12 +20,12 @@ function Outlook({ document }) {
 			<Html fragment='weather-forecast.outlook' />
 			{sequence.map(increment => (
 				<div key={increment}>
-					<Image fragment={`weather-forecast.outlook-image${increment}`} openNewTab />
-					<Html fragment={`weather-forecast.outlook-text${increment}`} />
+					<Image document={forecast} fragment={`weather-forecast.outlook-image${increment}`} openNewTab />
+					<Html document={forecast} fragment={`weather-forecast.outlook-text${increment}`} />
 				</div>
 			))}
 		</section>
 	)
 }
 
-export default getDocument(Outlook)
+export default getForecast(Outlook)

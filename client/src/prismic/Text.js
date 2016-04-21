@@ -1,21 +1,16 @@
 import React, { PropTypes, createElement } from 'react'
-import getDocument from './getDocument'
 
-const { string, node, oneOfType } = PropTypes
+Text.propTypes = {
+    fragment: PropTypes.string.isRequired,
+    component: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+}
 
-function Text({ document, fragment, component = 'p' }) {
+export default function Text({ document, fragment, component = 'p' }) {
 	const frag = document.get(fragment)
 
 	if (frag === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return createElement(component, null, frag.asText())
 }
-
-Text.propTypes = {
-	fragment: string.isRequired,
-	component: oneOfType([string, node])
-}
-
-export default getDocument(Text)
