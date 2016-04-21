@@ -40,9 +40,9 @@ function createTabs(forecast) {
 function WeatherTabSet({ forecast }) {
     const tabs = createTabs(forecast)
 
-    if (tabs.length === 0) {
-        return null
-    }
+	if (tabs.length === 0) {
+		return null
+	}
 
 	return (
         <TabSet>

@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Icon from './Icon'
-import { pure } from 'recompose'
 
-function Play({ inverse = false, ...props }) {
+export default function Play({ inverse = false, ...props }) {
 	return (
 		<Icon {...props}>
 			<path d='M8 5v14l11-7z' fill={inverse ? 'white' : 'black'} />
@@ -10,4 +9,3 @@ function Play({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
-export default pure(Play)

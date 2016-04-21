@@ -1,20 +1,25 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes, DOM } from 'react'
+import { compose, setPropTypes, setDisplayName, mapProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Button.css'
 
-export const PRIMARY = 'primary'
-export const SECONDARY = 'secondary'
+export const PRIMARY = 'Primary'
+export const SECONDARY = 'Secondary'
 
-Button.propTypes = {
+const { button } = DOM
+const propTypes = {
     type: PropTypes.oneOf([PRIMARY, SECONDARY])
 }
 
-function Button({ type = PRIMARY, children, ...rest }) {
-	return (
-		<button styleName={type} {...rest}>
-			{children}
-		</button>
-	)
+function propsMapper({ type = PRIMARY, ...props }) {
+    return {
+        ...props,
+        styleName: type,
+    }
 }
 
-export default CSSModules(Button, styles)
+export default compose(
+    setDisplayName('Button'),
+    setPropTypes(propTypes),
+    mapProps(propsMapper)
+)(CSSModules(button, styles))

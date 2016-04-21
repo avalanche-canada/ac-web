@@ -1,0 +1,170 @@
+@import "../../styles/colors.css";
+@import "../../styles/components.css";
+
+:root {
+    --navbar-height: 75px;
+}
+
+.Container {
+    height: var(--navbar-height);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    box-shadow: 0 8px 4px -4px rgba(43, 47, 51, 0.25);
+}
+
+.ItemSet {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.Item {
+    position: relative;
+    max-width: 150px;
+
+    & > a {
+        display: inline-block;
+        line-height: var(--navbar-height);
+        color: var(--black);
+        text-align: center;
+        padding: 0 15px;
+
+        & > span {
+            display: inline-block;
+            line-height: normal;
+            vertical-align: middle;
+        }
+    }
+
+    &:hover {
+        background-color: var(--gray-lighter);
+    }
+}
+
+.Item--active {
+    composes: Item;
+
+    & > a {
+        color: white;
+        background-color: var(--black);
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        border-color: color(var(--black)) transparent transparent transparent;
+        border-style: solid;
+        border-width: 8px;
+        margin-left: -8px;
+    }
+}
+
+.CoreBrand {
+    width: 200px;
+    height: var(--navbar-height);
+    padding: 0 15px;
+    float: left;
+    min-width: 100px;
+    max-width: 200px;
+}
+
+.Brand {
+    composes: CoreBrand;
+    composes: import AvalancheCanada from '../../styles/logos.css';
+}
+
+.Brand--Foundation {
+    composes: CoreBrand;
+    composes: import AvalancheCanadaFoundation from '../../styles/logos.css';
+}
+
+.Menu {
+    display: none;
+    position: fixed;
+    justify-content:space-between;
+    left: 0;
+    right: 0;
+    top: var(--navbar-height);
+    padding: 30px;
+    background-color: var(--gray-lighter);
+    border-top: var(--gray-light) solid 6px;
+}
+
+.Menu--inline {
+    left: auto;
+    right: auto;
+}
+
+.Menu--opened {
+    composes: Menu;
+    display: flex;
+}
+
+.Section {
+    padding: 0 15px;
+    flex-grow: 1;
+
+    & + .Section {
+        border-left: var(--gray-light) solid 2px;
+    }
+}
+
+.Header {
+    color: var(--black);
+    font-size: 1rem;
+
+    & + .Header {
+        margin: 10px 0 0 0;
+        border-top: var(--gray-light) solid 2px;
+    }
+
+    & > .Link {
+        font-size: 1rem;
+        color: var(--black);
+        text-align: left;
+
+        &:hover {
+            color: var(--brand-primary)
+        }
+
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 26px;
+            background-image: url('./ChevronRight.svg');
+            vertical-align: middle;
+        }
+    }
+}
+
+.Headline {
+    color: var(--gray-darker);
+}
+
+.Donate {
+    border-left: white solid 2px;
+    color: white;
+    line-height: var(--navbar-height);
+    padding: 0 15px;
+    background-color: var(--brand-secondary);
+}
+
+.Link {
+    display: block;
+    color: var(--brand-primary);
+    text-align: left;
+    line-height: normal;
+    padding: 10px 0 0 0;
+
+    &:hover {
+        color: var(--black);
+    }
+}

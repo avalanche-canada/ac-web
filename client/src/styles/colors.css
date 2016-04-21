@@ -1,12 +1,12 @@
-.primaryText {
-	color: #720;
-}
-.secondaryText {
-	color: #777;
-}
-.primaryBackground {
-	background-color: #121212;
-}
-.secondaryBackground {
-	background-color: #0056b7;
+:root {
+    --brand-primary: #0056B7;
+    --brand-secondary: #E6252F;
+
+    --black: #0F0F0F;
+
+    --gray-darker: gray(0, 65%);
+    --gray-dark: gray(0, 50%);
+    --gray: gray(0, 35%);
+    --gray-light: gray(0, 20%);
+    --gray-lighter: gray(0, 15%);
 }
