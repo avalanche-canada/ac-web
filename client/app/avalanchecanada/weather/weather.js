@@ -49,7 +49,7 @@ angular.module('avalancheCanadaApp')
 
         queryPrimsic();
         return deferred.promise;
-    }
+    };
 
     function getFAQ($q, $log, Prismic) {
         return $q(function(resolve, reject) {
