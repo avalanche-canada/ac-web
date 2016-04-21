@@ -1,0 +1,27 @@
+@import "../../styles/colors.css";
+
+.Container {
+    color: var(--gray);
+    margin: 5px;
+    padding: 5px;
+    line-height: 1.5em;
+}
+
+.Header {
+    font-weight: bold;
+}
+
+.Name {
+    color: var(--brand-primary);
+}
+
+.Title {
+    margin-left: 5px;
+    color: var(--gray-dark);
+}
+
+.Media {
+    height: 100%;
+    float: left;
+    margin-right: 10px;
+}

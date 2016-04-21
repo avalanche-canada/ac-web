@@ -10,7 +10,7 @@ function Outlook({ document }) {
 	const text1 = document.get('weather-forecast.outlook-text1')
 
 	if (outlook === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return (

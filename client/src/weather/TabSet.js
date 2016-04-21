@@ -60,7 +60,7 @@ function WeatherTabSet({ document }) {
 	}).filter(tab => !!tab)
 
 	if (tabs.length === 0) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return <TabSet>{tabs}</TabSet>

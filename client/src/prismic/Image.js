@@ -10,7 +10,7 @@ function Image({ fragment, document, openNewTab = false }) {
 	const image = document.getImage(fragment)
 
 	if (image === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	const { url } = image.main

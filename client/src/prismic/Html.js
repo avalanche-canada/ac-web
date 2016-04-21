@@ -5,7 +5,7 @@ function Html({ fragment, document }) {
 	const frag = document.get(fragment)
 
 	if (frag === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return (

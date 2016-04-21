@@ -15,7 +15,7 @@ function Day({ document, date, index }) {
 	}
 
 	if (!get('image', 1) && !get('text', 1)) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return (

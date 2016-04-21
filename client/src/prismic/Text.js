@@ -7,7 +7,7 @@ function Text({ document, fragment, component = 'p' }) {
 	const frag = document.get(fragment)
 
 	if (frag === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	return createElement(component, null, frag.asText())

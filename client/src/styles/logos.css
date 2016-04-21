@@ -1,0 +1,13 @@
+.AvalancheCanada {
+    background-image: url('./AvalancheCanada.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.AvalancheCanadaFoundation {
+    background-image: url('./AvalancheCanadaFoundation.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

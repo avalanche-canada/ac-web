@@ -1,0 +1,5 @@
+@import "./colors.css";
+
+.Hash {
+    background: repeating-linear-gradient(-45deg, var(--gray), white 1px, white 3px)
+}

@@ -1,0 +1,19 @@
+@import "./colors.css";
+
+:root {
+    --component-bg: var(--gray);
+    --component-bg-hover: color(var(--gray) alpha(-15%));
+    --component-bg-active: color(var(--gray) alpha(-30%));
+
+    --component-active-bg: var(--brand-primary);
+    --component-active-bg-hover: color(var(--brand-primary) alpha(-15%));
+    --component-active-bg-active: color(var(--brand-primary) alpha(-30%));
+
+    --component-primary-bg: var(--black);
+    --component-primary-bg-hover: color(var(--black) alpha(-15%));
+    --component-primary-bg-active: color(var(--black) alpha(-30%));
+
+    --component-secondary-bg: var(--brand-primary);
+    --component-secondary-bg-hover: color(var(--brand-primary) alpha(-15%));
+    --component-secondary-bg-active: color(var(--brand-primary) alpha(-30%));
+}
