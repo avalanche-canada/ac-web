@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { Ribbon, BroughtBy, Avatar, Br } from './index'
+import { Ribbon, BroughtBy, Avatar, Br, Date, DateTime, Time } from './index'
 
 const path = 'avatars1.githubusercontent.com/u/744011?v=3&s=40'
 
@@ -12,3 +12,6 @@ storiesOf('Misc')
 .add('BroughtBy', () => <BroughtBy></BroughtBy>)
 .add('Br', () => <Br />)
 .add('Br w/ ribbon', () => <Br withRibbon />)
+.add('Time', () => <Time />)
+.add('Date', () => <Date />)
+.add('DateTime', () => <DateTime />)
