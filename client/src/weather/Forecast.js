@@ -10,7 +10,6 @@ import styles from './Forecast.css'
 
 Forecast.propTypes = {
 	forecast: PropTypes.object.isRequired,
-	faq: PropTypes.object,
     isAuthenticated: PropTypes.bool.isRequired,
 }
 
@@ -31,13 +30,11 @@ function Forecast({ forecast, isAuthenticated = false }) {
 
 const childContextTypes = {
 	forecast: PropTypes.object.isRequired,
-    faq: PropTypes.object,
 }
 
 function getChildContext(props) {
 	return {
 		forecast: props.forecast,
-        faq: props.faq,
 	}
 }
 
