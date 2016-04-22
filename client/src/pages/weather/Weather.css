@@ -1,5 +1,15 @@
+@import "../../styles/colors.css";
+
 .Date {
     text-align: center;
     white-space: nowrap;
     margin: 25px;
+}
+
+.Headline {
+    & > small {
+        color: var(--gray);
+        display: block;
+        font-size: 0.65em;
+    }
 }

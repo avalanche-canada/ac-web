@@ -33,9 +33,6 @@ module.exports = {
 	devtool: 'sourcemap',
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-		new ExtractTextPlugin('style.css', { allChunks: true }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
-        })
+		new ExtractTextPlugin('style.css', { allChunks: true })
 	]
 }

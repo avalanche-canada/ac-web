@@ -10,7 +10,7 @@ function Page({ title, children }) {
         <div>
             <header>
                 <h1>{title}</h1>
-                <Br />
+                <Br withRibbon />
             </header>
             <article>
                 {children}

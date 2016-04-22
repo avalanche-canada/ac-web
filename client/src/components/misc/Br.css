@@ -1,10 +1,14 @@
 @import "../../styles/colors.css";
 
-.Br {
+.Main {
     composes: import Hash from "../../styles/textures.css";
     display: block;
     height: 8px;
+}
 
+.Ribbon {
+    composes: Main;
+    
     &:before {
         content: '';
         display: inline-block;
