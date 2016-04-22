@@ -27,6 +27,7 @@ module.exports = {
         }]
 	},
 	postcss: [
+        require('postcss-import'),
 		require('postcss-cssnext')
 	],
 	devtool: 'sourcemap',

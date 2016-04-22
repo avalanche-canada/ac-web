@@ -1,8 +1,5 @@
 #news-blog-event-content.container
-    #top-link.visible-xs-block
-        i.fa.fa-chevron-up
-        br
-        | Top
+    react-component(name="WeatherPage" props="{forecast: forecastContent, isAuthenticated: isAuthenticated, faq: faqContent}")
     .row
         header.col-xs-12
             #header-inner
@@ -30,7 +27,7 @@
                     br.visible-xs-inline
                     span {{forecastContent.getText('weather-forecast.handle')}}
 
-            react-component(name="WeatherForecast" props="{forecast: forecastContent, isAuthenticated: isAuthenticated, faq: faqContent}")
+            //- react-component(name="WeatherForecast" props="{forecast: forecastContent, isAuthenticated: isAuthenticated, faq: faqContent}")
         #mobile-sidebar-container.col-xs-12.col-md-3
             aside
                 .dark-ribbon
