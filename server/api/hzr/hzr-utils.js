@@ -36,12 +36,14 @@ exports.saveHZR = function (user, form, callback) {
         try {
             switch(name){
                 case "dateissued":
-                    item.dateissued = moment(value, 'YYYY-MM-DD hh:mm A').unix();
-                    item.report[name] = value;
+                    var val = moment(value, 'YYYY-MM-DD hh:mm A').utc();
+                    item.dateissued = val.unix();
+                    item.report[name] = val.format();
                     break;
                 case "datevalid":
-                    item.datevalid = moment(value).unix();
-                    item.report[name] = value;
+                    var val = moment(value, 'YYYY-MM-DD hh:mm A').utc();
+                    item.datevalid = val.unix();
+                    item.report[name] = val.format();
                     break;
                 case "hotzoneid":
                     item.hotzoneid = value;
