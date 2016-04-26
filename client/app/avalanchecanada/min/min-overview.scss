@@ -12,7 +12,7 @@
   position: relative;
   text-align: center;
   img { max-width: 100%;}
-  i { 
+  i {
     cursor: pointer;
     font-size: 90px;
     position:absolute;
@@ -221,5 +221,13 @@ $red: #CF0920;
 .dropdown-menu > li > a.min-menu-submit-button {
   padding: 15px 20px;
   text-align: left;
+}
+
+.sm-pad-left {
+    padding-left: 5px;
+}
+
+.sm-pad-right {
+    padding-right: 5px;
 }
 
