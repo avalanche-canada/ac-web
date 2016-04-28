@@ -9,35 +9,29 @@ import { Text, Html } from '../prismic'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
-	forecast: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    document: PropTypes.object.isRequired,
 }
 
-function Forecast({ forecast, isAuthenticated = false }) {
-	const date = forecast.getDate('weather-forecast.date')
+function Forecast({ document, isAuthenticated = false }) {
+	const date = document.getDate(`${document.type}.date`)
+    const handle = document.getText(`${document.type}.handle`)
+    const headline = document.getText(`${document.type}.headline`)
+    const isOld = document.get(`${document.type}.content-1-2`) === null
 
 	return (
-		<section id='news-blog-event-landing-body' styleName='Container'>
-			<Text document={forecast} fragment='weather-forecast.headline' component='h1' />
-			<Html document={forecast} fragment='weather-forecast.synopsis' />
-            <TabSet />
-			<DaySet start={date} />
-			<Outlook />
+		<section styleName='Container'>
+            <h2 styleName='Headline'>
+                {headline}
+                <small>Created by: {handle}</small>
+            </h2>
+			{isOld && <Html document={document} fragment={`${document.type}.synopsis`} />}
+            <TabSet forecast={document} />
+			<DaySet start={date} forecast={document} />
+			<Outlook forecast={document} />
             <Footer showFeedbackAnchor={isAuthenticated} />
 		</section>
 	)
 }
 
-const childContextTypes = {
-	forecast: PropTypes.object.isRequired,
-}
-
-function getChildContext(props) {
-	return {
-		forecast: props.forecast,
-	}
-}
-
-export default withContext(
-    childContextTypes, getChildContext
-)(CSSModules(Forecast, styles))
+export default CSSModules(Forecast, styles)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import Weather from './weather'
+// import Weather from './weather'
 
 const weather = {
     headline: 'Today is warm!',
@@ -9,4 +9,4 @@ const weather = {
 }
 
 storiesOf('Pages', module)
-.add('Weather', () => <Weather {...weather} />)
+.add('Weather', () => <div {...weather} />)

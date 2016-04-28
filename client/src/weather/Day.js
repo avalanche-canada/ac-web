@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react'
 import { Html, Image } from '../prismic'
-import getForecast from './getForecast';
 import { format } from './utils/Date'
 
 Day.propTypes = {
 	date: PropTypes.instanceOf(Date).isRequired,
 	index: PropTypes.oneOf([0, 1, 2, 3]).isRequired,
+    forecast: PropTypes.object
 }
 
 const sequence = [1, 2, 3, 4]
 
-function Day({ forecast, date, index }) {
+export default function Day({ forecast, date, index }) {
 	function get(type, increment) {
-		return forecast.get(`weather-forecast.day${index+1}-${type}${increment}`)
+		return forecast.get(`${forecast.type}.day${index+1}-${type}${increment}`)
 	}
 
 	if (!get('image', 1) && !get('text', 1)) {
@@ -24,12 +24,10 @@ function Day({ forecast, date, index }) {
 			<h2>{format(date)}</h2>
 			{sequence.map(increment => (
 				<div key={increment}>
-					<Image document={forecast} fragment={`weather-forecast.day${index+1}-image${increment}`} />
-					<Html document={forecast} fragment={`weather-forecast.day${index+1}-text${increment}`} />
+					<Image document={forecast} fragment={`${forecast.type}.day${index+1}-image${increment}`} />
+					<Html document={forecast} fragment={`${forecast.type}.day${index+1}-text${increment}`} />
 				</div>
 			))}
 		</section>
 	)
 }
-
-export default getForecast(Day)

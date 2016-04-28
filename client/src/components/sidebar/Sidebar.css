@@ -1,30 +1,33 @@
 @import "../../styles/colors.css";
 
 .Sidebar {
-    composes: import Hash from "../../styles/textures.css";
+    composes: import Hash from "../../styles/Textures.css";
     min-height: 800px;
-    margin-top: 100px;
-    width: 200px;
+    margin-left: 20px;
     padding: 18px 20px 40px;
 }
 
 .Header {
-    font-size: 2rem;
+    font-size: 2.6rem;
     font-weight: 700;
     margin-bottom: 34px;
     color: var(--brand-primary);
 }
 
 .Item {
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 2.4rem;
+    display: block;
     margin: 10px 0;
     border-bottom: white solid 4px;
     color: var(--black);
+    font-size: 1.75rem;
+    padding-bottom: 5px;
 
     & a {
         color: var(--black);
+        line-height: 2.4rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+        text-decoration: none;
 
         &:hover {
             color: var(--brand-primary);
@@ -33,17 +36,11 @@
 
 }
 
-.Links {
-    position: relative;
-    top: 4px;
+.SocialItem {
+    composes: Item;
+    color: var(--brand-primary);
 
     & a {
         padding: 5px;
     }
-}
-
-.SocialItem {
-    composes: Item;
-    font-size: 1.25em;
-    color: var(--brand-primary);
 }

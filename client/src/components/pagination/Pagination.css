@@ -29,7 +29,7 @@
 .Left {
     composes: Segment;
     justify-content: flex-start;
-    border-right: white solid 2px;
+    /*border-right: white solid 2px;*/
 
     & > .Navigation {
         order: 1;
@@ -43,7 +43,7 @@
 .Right {
     composes: Segment;
     justify-content: flex-end;
-    border-left: white solid 2px;
+    /*border-left: white solid 2px;*/
 
     & > .Description {
         order: 1;
@@ -53,6 +53,19 @@
         order: 2;
     }
 
+    & .Hint {
+        text-align: right;
+    }
+
+}
+
+.Left--hidden {
+    composes: Left;
+    visibility: hidden;
+}
+.Right--hidden {
+    composes: Right;
+    visibility: hidden;
 }
 
 .Center {

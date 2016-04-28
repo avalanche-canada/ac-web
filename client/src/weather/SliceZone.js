@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import Loop from './Loop'
 import Image from './Image'
 import Meteogram from './Meteogram'
-import getForecast from './getForecast'
 
 const STATIC_LOOPS = new Set([
     'AC_GDPS_EPA_clouds-th-500hts',
@@ -11,11 +10,11 @@ const STATIC_LOOPS = new Set([
 ])
 
 SliceZone.propTypes = {
-    zone: PropTypes.object.isRequired
+    zone: PropTypes.object.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function SliceZone({ zone, forecast }) {
-    const date = forecast.getDate('weather-forecast.date')
+export default function SliceZone({ zone, date }) {
     const slices = zone.value
 
     if (!slices) {
@@ -53,8 +52,7 @@ function SliceZone({ zone, forecast }) {
                         return <Loop {...props} />
                     }
                     case 'image': {
-                        const [image] = slice.value.toArray()
-                        const { url } = image.getImage('image')
+                        const { url } = slice.value
 
                         return <Image src={url} openNewTab />
                     }
@@ -78,6 +76,3 @@ function SliceZone({ zone, forecast }) {
         </div>
     )
 }
-
-
-export default getForecast(SliceZone)

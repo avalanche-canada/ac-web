@@ -22,8 +22,11 @@ module.exports = {
 			test: /\.css$/,
 			loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss')
 		}, {
-            test: /\.(jpg|svg|eot|woff|woff2|ttf)$/,
+            test: /\.(png|jpg|svg|eot|woff|woff2|ttf)$/,
             loader: 'file'
+        }, {
+            test: /\.json$/,
+            loader: 'json'
         }]
 	},
 	postcss: [

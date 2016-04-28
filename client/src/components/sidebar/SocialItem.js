@@ -12,9 +12,7 @@ function SocialItem({ text, children }) {
     return (
         <section styleName='SocialItem'>
             {text}
-            <span styleName='Links'>
-                {children}
-            </span>
+            {children}
         </section>
     )
 }

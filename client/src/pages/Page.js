@@ -1,25 +1,19 @@
 import React, { PropTypes } from 'react'
-import { Br } from '../components/misc'
+import CSSModules from 'react-css-modules'
+import styles from './Page.css'
+import Header from './Header'
 
 Page.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
 }
 
 function Page({ title, children }) {
     return (
-        <div>
-            <header>
-                <h1>{title}</h1>
-                <Br withRibbon />
-            </header>
-            <article>
-                {children}
-            </article>
-            <aside>
-                
-            </aside>
-        </div>
+        <main styleName='Main'>
+            {title && <Header title={title} />}
+            {children}
+        </main>
     )
 }
 
-export default Page
+export default CSSModules(Page, styles)

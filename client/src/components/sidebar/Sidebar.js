@@ -15,12 +15,12 @@ function Sidebar({ children, noSocial = false }) {
     const withSocial = !noSocial
 
     return (
-        <div styleName='Sidebar'>
+        <nav styleName='Sidebar'>
             {children}
             {withSocial && <Share />}
             {withSocial && <Follow />}
             {withSocial && <Contact />}
-        </div>
+        </nav>
     )
 }
 

@@ -23,10 +23,11 @@ function Segment({
     position,
     onNavigate = K,
     hint = hints.get(position),
+    hidden = false,
     children
 }) {
     return (
-        <div styleName={position}>
+        <div styleName={`${position}${hidden ? '--hidden' : ''}`}>
             <div styleName='Navigation'>
                 <Button onClick={onNavigate}>
                     {icons.get(position)}
@@ -46,6 +47,7 @@ const propTypes = {
     onNavigate: PropTypes.func.isRequired,
     hint: PropTypes.string.isRequired,
     children: PropTypes.string.isRequired,
+    hidden: PropTypes.bool.isRequired,
 }
 
 function segment(position) {

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { TabSet, Tab } from '../components/tab'
-import getForecast from './getForecast'
 import SliceZone from './SliceZone'
 import FAQ from './FAQ'
 
@@ -22,8 +21,10 @@ const TABS = new Map([
 const NAMES = [...TABS.keys()]
 
 function createTabs(forecast) {
+    const date = forecast.getDate(`${forecast.type}.date`)
+
     return NAMES.map(name => {
-        const zone = forecast.getSliceZone(`weather-forecast.${name}`)
+        const zone = forecast.getSliceZone(`${forecast.type}.${name}`)
 
         if (zone === null) {
             return null
@@ -31,13 +32,13 @@ function createTabs(forecast) {
 
         return (
             <Tab key={name} {...TABS.get(name)}>
-                <SliceZone zone={zone} />
+                <SliceZone date={date} zone={zone} />
             </Tab>
         )
     }).filter(tab => tab !== null)
 }
 
-function WeatherTabSet({ forecast }) {
+export default function WeatherTabSet({ forecast }) {
     const tabs = createTabs(forecast)
 
 	if (tabs.length === 0) {
@@ -50,5 +51,3 @@ function WeatherTabSet({ forecast }) {
         </TabSet>
     )
 }
-
-export default getForecast(WeatherTabSet)

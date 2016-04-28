@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { storiesOf, action } from '@kadira/storybook'
 import { Sidebar, Header, Item } from './index'
-import Link from '../navbar/Link'
 
 storiesOf('Sidebar')
 .add('Sidebar', () => (
