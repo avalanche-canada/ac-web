@@ -1,36 +1,37 @@
 import React, { PropTypes } from 'react'
+import CSSModules from 'react-css-modules'
 import { withContext } from 'recompose'
 import DaySet from './DaySet'
 import TabSet from './TabSet'
 import Outlook from './Outlook'
 import Footer from './Footer'
-import { Html, Text } from '../prismic'
+import { Text, Html } from '../prismic'
+import styles from './Forecast.css'
 
 Forecast.propTypes = {
-	content: PropTypes.object.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    document: PropTypes.object.isRequired,
 }
 
-function Forecast({ content }) {
-	const date = content.getDate('weather-forecast.date')
+function Forecast({ document, isAuthenticated = false }) {
+	const date = document.getDate(`${document.type}.date`)
+    const handle = document.getText(`${document.type}.handle`)
+    const headline = document.getText(`${document.type}.headline`)
+    const isOld = document.get(`${document.type}.content-1-2`) === null
 
 	return (
-		<section id='news-blog-event-landing-body'>
-			<Text fragment='weather-forecast.headline' component='h1' />
-			<Html fragment='weather-forecast.synopsis' />
-			<TabSet />
-			<DaySet start={date} />
-			<Outlook />
+		<section styleName='Container'>
+            <h2 styleName='Headline'>
+                {headline}
+                <small>Created by: {handle}</small>
+            </h2>
+			{isOld && <Html document={document} fragment={`${document.type}.synopsis`} />}
+            <TabSet forecast={document} />
+			<DaySet start={date} forecast={document} />
+			<Outlook forecast={document} />
+            <Footer showFeedbackAnchor={isAuthenticated} />
 		</section>
 	)
 }
 
-const childContextTypes = {
-	document: PropTypes.object.isRequired
-}
-function getChildContext(props) {
-	return {
-		document: props.content
-	}
-}
-
-export default withContext(childContextTypes, getChildContext, Forecast)
+export default CSSModules(Forecast, styles)

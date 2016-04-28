@@ -1,14 +1,17 @@
 import React, { PropTypes } from 'react'
+import CSSModules from 'react-css-modules'
 import Button from '../../components/button'
 import styles from './Animation.css'
-import CSSModules from 'react-css-modules'
-import { FirstPage, LastPage, Play, Pause, ChevronRight, ChevronLeft} from '../../components/icons'
+import {
+    FirstPage,
+    LastPage,
+    Play,
+    Pause,
+    ChevronRight,
+    ChevronLeft
+} from '../../components/icons'
 
-function AnimateButton({
-	isPlaying,
-	onPause,
-	onPlay,
-}) {
+function AnimateButton({ isPlaying, onPause, onPlay }) {
 	const title = `${isPlaying ? 'Pause' : 'Play'} the animation`
 	const onClick = isPlaying ? onPause : onPlay
 
@@ -60,13 +63,13 @@ AnimationToolbar.propTypes = {
 }
 
 function AnimationToolbar({
+    isPlaying = true,
 	onNext,
 	onPrevious,
 	onFirst,
 	onLast,
 	onPause,
 	onPlay,
-	isPlaying = true,
 }) {
 	return (
 		<div styleName='Toolbar'>

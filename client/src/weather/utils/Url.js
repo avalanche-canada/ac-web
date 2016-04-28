@@ -1,8 +1,7 @@
 import moment from 'moment'
 import padstart from 'lodash.padstart'
 
-const DOMAIN = 'http://msc.avalanche.ca'
-const PATH = 'loops/images'
+export const DOMAIN = 'http://msc.avalanche.ca'
 
 const resolutions = [{
 	suffix: 'small',
@@ -15,12 +14,12 @@ const resolutions = [{
 	width: 1500,
 }]
 
-export function format({type, date, run, hour}) {
+export function formatLoop({type, date, run, hour}) {
 	hour = padstart(String(hour), 3, '0')
 	run = padstart(String(run), 2, '0')
 	date = moment(date).format('YYYYMMDD')
 
-	return `${DOMAIN}/${PATH}/${type}_${date}${run}_${hour}HR.jpg`
+	return `${DOMAIN}/loops/images/${type}_${date}${run}_${hour}HR.jpg`
 }
 
 export function asSrcSet(url) {

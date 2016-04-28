@@ -2,6 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+require('es6-promise')
+
 module.exports = {
 	entry: {
 		app: path.resolve(__dirname, 'client/src/index.js'),
@@ -20,16 +22,23 @@ module.exports = {
 			test: /\.css$/,
 			loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss')
 		}, {
-            test: /\.(jpg|svg|eot|woff|woff2|ttf)$/,
+            test: /\.(png|jpg|svg|eot|woff|woff2|ttf)$/,
             loader: 'file'
+        }, {
+            test: /\.json$/,
+            loader: 'json'
         }]
 	},
 	postcss: [
+        require('postcss-import'),
 		require('postcss-cssnext')
 	],
 	devtool: 'sourcemap',
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-		new ExtractTextPlugin('style.css', { allChunks: true })
+		new ExtractTextPlugin('style.css', { allChunks: true }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
 	]
 }

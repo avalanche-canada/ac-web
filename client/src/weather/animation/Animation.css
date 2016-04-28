@@ -26,6 +26,7 @@
 	display: block;
 	position: relative;
 
+    /* TODO: Move to base image component */
 	&:after {
 		content: "We're sorry, the image is broken :(";
 

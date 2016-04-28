@@ -1,45 +1,36 @@
-.common {
-	font-family: Montserrat, Helvetica, Arial, sans-serif;
-	font-size: 12px;
+@import "../../styles/components.css";
+
+.Common {
 	font-weight: bold;
 	text-transform: uppercase;
 	color: white;
 	padding: 6px 12px;
 	border: none;
+    cursor: pointer;
 }
 
-.primary {
-	composes: common;
-	background-color: #0F0F0F;
+.Primary {
+	composes: Common;
+	background-color: var(--component-primary-bg);
+
 	&:hover {
-		background-color: #373737;
+		background-color: var(--component-primary-bg-hover);
 	}
+
 	&:active {
-		background-color: #606060;
+		background-color: var(--component-primary-bg-active);
 	}
 }
 
-.secondary {
-	composes: common;
-	background-color: #0740A7;
-	&:hover {
-		background-color: #1A63DD;
-	}
-	&:active {
-		background-color: #3583FB;
-	}
-}
+.Secondary {
+	composes: Common;
+        background-color: var(--component-secondary-bg);
 
-.chevron {
-	position: relative;
-	text-align: center;
-	padding: 12px;
-	margin-bottom: 6px;
-	height: 60px;
-	width: 200px;
-}
+    &:hover {
+        background-color: var(--component-secondary-bg-hover);
+	}
 
-.top {
-	composes: primary;
-	composes: chevron;
+    &:active {
+        background-color: var(--component-secondary-bg-active);
+	}
 }

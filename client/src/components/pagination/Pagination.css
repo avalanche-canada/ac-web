@@ -1,0 +1,73 @@
+@import "../../styles/colors.css";
+
+.Container {
+    display: flex;
+    align-items: center;
+    background-color: var(--gray-lighter);
+    height: 80px;
+    position: relative;
+}
+
+
+.Navigation {
+
+}
+
+.Description {
+    margin: 5px;
+}
+
+.Hint {
+    color: var(--brand-primary);
+}
+
+.Segment {
+    flex: 1 50%;
+    display: flex;
+}
+
+.Left {
+    composes: Segment;
+    justify-content: flex-start;
+    /*border-right: white solid 2px;*/
+
+    & > .Navigation {
+        order: 1;
+    }
+
+    & > .Description {
+        order: 2;
+    }
+}
+
+.Right {
+    composes: Segment;
+    justify-content: flex-end;
+    /*border-left: white solid 2px;*/
+
+    & > .Description {
+        order: 1;
+    }
+
+    & > .Navigation {
+        order: 2;
+    }
+
+    & .Hint {
+        text-align: right;
+    }
+
+}
+
+.Left--hidden {
+    composes: Left;
+    visibility: hidden;
+}
+.Right--hidden {
+    composes: Right;
+    visibility: hidden;
+}
+
+.Center {
+    padding: 10px;
+}

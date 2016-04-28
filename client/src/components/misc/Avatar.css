@@ -1,0 +1,35 @@
+@import "../../styles/colors.css";
+
+.Avatar {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    margin: 0 auto;
+    background-color: var(--brand-primary);
+    border-radius: 20px;
+    color: white;
+
+    & > img {
+        height: 100%;
+        width: 100%;
+    }
+
+    &:after {
+        content: attr(data-initials);
+        color: white;
+        font-size: 1rem;
+        line-height: 2.5rem;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+        vertical-align: middle;
+    }
+}
+
+
+.Initials {
+    composes: Avatar;
+    & > img {
+        display: none;
+    }
+}

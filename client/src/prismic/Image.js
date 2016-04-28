@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react'
-import getDocument from './getDocument'
 
 Image.propTypes = {
+	document: PropTypes.object.isRequired,
 	fragment: PropTypes.string.isRequired,
 	openNewTab: PropTypes.bool
 }
 
-function Image({ fragment, document, openNewTab = false }) {
+export default function Image({ fragment, document, openNewTab = false }) {
 	const image = document.getImage(fragment)
 
 	if (image === null) {
-		return <noscript></noscript>
+		return null
 	}
 
 	const { url } = image.main
@@ -28,5 +28,3 @@ function Image({ fragment, document, openNewTab = false }) {
 		<img src={url} />
 	)
 }
-
-export default getDocument(Image)

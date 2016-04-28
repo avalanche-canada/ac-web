@@ -7,13 +7,16 @@ function childrenToTabs(children) {
 	return Children.toArray(children).filter(tab => !!tab)
 }
 
+function K() {}
+
 class TabSet extends React.Component {
 	static propTypes = {
 		activeIndex: PropTypes.number,
 		onActivate: PropTypes.func,
 	}
 	static defaultProps = {
-		activeIndex: 0
+		activeIndex: 0,
+        onActivate: K,
 	}
 	constructor(props, ...args) {
 	  super(props, ...args)
@@ -34,11 +37,7 @@ class TabSet extends React.Component {
 		return childrenToTabs(this.props.children)
 	}
 	handleActivate() {
-		const { onActivate } = this.props
-
-		if (typeof onActivate === 'function') {
-			onActivate(activeIndex)
-		}
+		this.props.onActivate(this.state.activeIndex)
 	}
 	componentWillReceiveProps({ activeIndex, children }) {
 		if (typeof activeIndex !== 'number') {
@@ -52,12 +51,14 @@ class TabSet extends React.Component {
 	renderTabHeader(tab, index) {
 		const styleName = index === this.activeIndex ? 'ListItem--active' : 'ListItem'
 		const onClick = () => this.activeIndex = index
-
-		return (
-			<li role='tab' key={index} {...{onClick, styleName}} >
+        const item = (
+            <li role='tab' key={index} {...{onClick, styleName}} >
 				{tab.props.title}
 			</li>
-		)
+        )
+// console.log(this.props.styles)
+return item
+		return CSSModules(item, styles)
 	}
 	renderTabPanel(tab, index) {
 		return (

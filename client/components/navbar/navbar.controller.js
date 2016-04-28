@@ -121,7 +121,7 @@ angular.module('avalancheCanadaApp')
                     {'url':'#resources','display':'Resources'},
                     {'url':'#curriculum','display':'Curriculum'}];
 
-    $scope.sledPages = 
+    $scope.sledPages =
         [ //{url:'', display:'Snowmobile Committee'},
           {url:'sled#video-featured', display:'Throttle Decisions'},
           {url:'mountain-information-network', display:'Mountain Information Network'},

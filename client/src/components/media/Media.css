@@ -1,0 +1,17 @@
+@import "../../styles/colors.css";
+
+.Container {
+    border: 4px solid var(--gray-lighter);
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.Caption {
+    padding: 15px 10px;
+    background-color: var(--gray-lighter);
+}
+
+.Image {
+    composes: Container;
+}

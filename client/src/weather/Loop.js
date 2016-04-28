@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { Animation, Toolbar, Image, Title } from './animation'
-import { format } from './utils/Url'
+import { formatLoop as format } from './utils/Url'
 import keycode from 'keycode'
 import memoize from 'lodash.memoize'
 import range from 'lodash.range'
@@ -42,9 +42,13 @@ const TYPES = [...HOURS.keys()]
 export default class Loop extends Component {
 	static propTypes = {
 		type: PropTypes.oneOf(TYPES).isRequired,
-		run: PropTypes.oneOf(range(0, 24, 6)),
+		run: PropTypes.oneOf(range(0, 24, 6)).isRequired,
 		date: PropTypes.instanceOf(Date).isRequired,
 	}
+    static defaultProps = {
+        run: 0,
+        date: new Date(),
+    }
 	state = {
 		cursor: 0,
 		isPlaying: false,

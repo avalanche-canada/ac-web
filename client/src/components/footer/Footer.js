@@ -1,8 +1,16 @@
 import React from 'react'
 import { pure } from 'recompose'
-import { Link } from 'react-router'
+// import { Link } from 'react-router'
 import CSSModules from 'react-css-modules'
-import styles from 'Footer.css'
+import styles from './Footer.css'
+
+function Link({ children, ...props }) {
+    return (
+        <a {...props}>
+            {children}
+        </a>
+    )
+}
 
 function Footer() {
 	const year = new Date().getFullYear()

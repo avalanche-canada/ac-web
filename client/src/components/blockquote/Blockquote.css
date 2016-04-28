@@ -1,0 +1,36 @@
+@import "../../styles/colors.css";
+
+.Blockquote {
+    position: relative;
+    color: color(var(--brand-primary) l(50%));
+    font-size: 1.25em;
+    border-bottom: var(--gray-light) solid 3px;
+    margin: 25px;
+    padding: 15px 0 15px 55px;
+
+    &:before {
+        content: '‘‘';
+        position: absolute;
+        left: 0;
+        top: -30px;
+        color: color(var(--brand-primary) l(35%));
+        font-size: 6em;
+        font-weight: bold;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 55px;
+        border-top: var(--gray-light) solid 3px;
+    }
+}
+
+.Footer {
+    font-size: 0.6em;
+    color: var(--gray);
+    padding-top: 10px;
+    text-transform: uppercase;
+}

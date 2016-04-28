@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import { compose, mapProps, setPropTypes, setDisplayName } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Animation.css'
 import Image from '../Image'
@@ -9,12 +10,10 @@ AnimationImage.propTypes = {
 	onLoad: PropTypes.func,
 }
 
-function K() {}
-
 function AnimationImage(props) {
-	return (
-		<Image styleName='Image' {...props} />
-	)
+    return (
+        <Image styleName='Image' {...props} />
+    )
 }
 
 export default CSSModules(AnimationImage, styles)

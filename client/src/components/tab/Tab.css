@@ -1,7 +1,4 @@
-:root {
-	--grey: #121212;
-	--blue: #245EAC;
-}
+@import "../../styles/components.css";
 
 .List {
 	list-style: none;
@@ -16,22 +13,22 @@
 	padding: 8px 10px;
 	text-align: center;
 	color: black !important;
-	border-bottom: 5px solid #AAACAD;
+	border-bottom: 5px solid var(--component-bg);
 	cursor: pointer;
 	margin-bottom: 5px;
 
 	&:hover {
-		background-color: #eeeeee;
+		background-color: var(--component-bg-hover);
 	}
 }
 .ListItem--active {
 	composes: ListItem;
-	background-color: var(--blue);
-	border-bottom-color: var(--blue);
+	background-color: var(--component-active-bg);
+	border-bottom-color: var(--component-active-bg);
 	color: white !important;
 
 	&:hover {
-		background-color: var(--blue);
+		background-color: var(--component-active-bg);
 	}
 }
 

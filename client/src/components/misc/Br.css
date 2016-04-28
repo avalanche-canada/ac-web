@@ -1,0 +1,20 @@
+@import "../../styles/colors.css";
+
+.Main {
+    composes: import Hash from "../../styles/Textures.css";
+    display: block;
+    height: 8px;
+}
+
+.Ribbon {
+    composes: Main;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        float: left;
+        background-color: var(--brand-primary);
+        width: 50px;
+        height: 100%;
+    }
+}
