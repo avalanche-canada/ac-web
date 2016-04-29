@@ -3,14 +3,14 @@ import { compose, getContext } from 'recompose'
 import { resolve } from 'react-resolver'
 import CSSModules from 'react-css-modules'
 import moment from 'moment'
-import { Pagination, Left, Right, Center } from '../../components/pagination'
-import { Date as DateElement, DateTime } from '../../components/misc'
-import Nav from '../Nav'
-import { Forecast } from '../../weather'
-import styles from './Weather.css'
-import { Query, Api, Predicates } from '../../prismic'
+import { Pagination, Left, Right, Center } from '../../../components/pagination'
+import { Date as DateElement, DateTime, Time } from '../../../components/misc'
+import Nav from '../../Nav'
+import { Forecast } from '../../../weather'
+import styles from '../Weather.css'
+import { Query, Api, Predicates } from '../../../prismic'
 
-@resolve('forecasts', function fetchForecast(props) {
+function fetchForecasts(props) {
     const type = 'new-weather-forecast'
     const after = moment().subtract(1, 'w').toDate()
     const predicates = [
@@ -23,7 +23,9 @@ import { Query, Api, Predicates } from '../../prismic'
            .orderings(`[my.${type}.date desc]`)
            .submit()
     )).then(res => res.results)
-})
+}
+
+@resolve('forecasts', fetchForecasts)
 @CSSModules(styles)
 export default class Container extends Component {
     static propTypes = {
@@ -63,27 +65,24 @@ export default class Container extends Component {
 
         let date = forecast.getDate(`${forecast.type}.date`)
         date = moment(date).add(1, 'd').toDate()
-        const yesterday = moment(date).add(-1, 'd').toDate()
-        const tomorrow = moment(date).add(1, 'd').toDate()
         const issued = forecast.getTimestamp(`${forecast.type}.issued`)
+        const handle = forecast.getText(`${forecast.type}.handle`)
 
         return (
             <div>
                 <Nav>
                     <Pagination>
-                        <Left onNavigate={this.handleOlder} hidden={!this.hasOlder}>
-                            <DateElement value={yesterday} />
-                        </Left>
+                        <Left onNavigate={this.handleOlder} hidden={!this.hasOlder} />
                         <Center>
-                            <h3 styleName='Date'>
+                            <h3 styleName='Header'>
                                 <DateElement value={date} />
                                 <br />
-                                {issued && <small>Issued: <DateTime value={issued} /></small>}
+                            <small>
+                                Issued at <Time value={issued} /> by <span>{handle}</span>
+                            </small>
                             </h3>
                         </Center>
-                        <Right onNavigate={this.handleNewer} hidden={!this.hasNewer}>
-                            <DateElement value={tomorrow} />
-                        </Right>
+                        <Right onNavigate={this.handleNewer} hidden={!this.hasNewer} />
                     </Pagination>
                 </Nav>
                 <Forecast isAuthenticated={isAuthenticated} document={forecast} />
