@@ -4,8 +4,6 @@ import Loop from '../../../weather/Loop'
 import Image from '../../../weather/Image'
 import { TabSet, Tab } from '../../../components/tab'
 import ArticleHeader from '../../ArticleHeader'
-import infra1 from './images/new_satellite_ir_composite.png'
-import infra2 from './images/new_satellite_ir_redtop.png'
 
 export default function Satellite() {
     return (
@@ -13,9 +11,9 @@ export default function Satellite() {
             <ArticleHeader>Satellite imagery</ArticleHeader>
             <TabSet>
                 <Tab title='Infrared'>
-                    <Image url={infra1} />
+                    <Image url={'http://avalanche.ca/assets/images/weather/new_satellite_ir_composite.png'} />
                     <br />
-                    <Image url={infra2} />
+                    <Image url={'http://avalanche.ca/assets/images/weather/new_satellite_ir_redtop.png'} />
                 </Tab>
                 <Tab title='Visible wave length'>
                     Coming soon!
