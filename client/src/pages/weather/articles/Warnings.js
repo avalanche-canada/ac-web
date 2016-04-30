@@ -3,7 +3,6 @@ import { QueryDocument, Html } from '../../../prismic'
 import { resolve } from 'react-resolver'
 import ArticleHeader from '../../ArticleHeader'
 import Image from '../../../weather/Image'
-import warnings from './images/warnings.png';
 
 function fetchWarnings() {
     return QueryDocument('VyOU5yYAAPU6X40L')
@@ -14,7 +13,7 @@ function Warnings({ document }) {
         <div>
             <ArticleHeader>Weather warnings</ArticleHeader>
             <Html document={document} />
-            <Image url={warnings} />
+            <Image url={'http://avalanche.ca/assets/images/weather/warnings.png'} />
         </div>
     )
 }
