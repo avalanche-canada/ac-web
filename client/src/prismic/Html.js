@@ -1,18 +1,22 @@
 import React, { PropTypes } from 'react'
 
 Html.propTypes = {
-    fragment: PropTypes.string.isRequired,
+    fragment: PropTypes.string,
     document: PropTypes.object.isRequired,
 }
 
 export default function Html({ fragment, document }) {
-	const frag = document.get(fragment)
+    let doc = document
 
-	if (frag === null) {
-		return null
-	}
+    if (typeof fragment === 'string') {
+        doc = document.get(fragment)
 
-	return (
-		<div dangerouslySetInnerHTML={{ __html: frag.asHtml() }} />
-	)
+        if (doc === null) {
+            return null
+        }
+    }
+
+    return (
+        <div dangerouslySetInnerHTML={{ __html: doc.asHtml() }} />
+    )
 }

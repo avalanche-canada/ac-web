@@ -23,6 +23,10 @@
     }
 }
 
+.ArticleHeader {
+
+}
+
 .Nav {
     order: 2;
     flex: 1 1 75%;

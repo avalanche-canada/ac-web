@@ -2,63 +2,66 @@ import React, { PropTypes } from 'react'
 import { compose, withContext, withState } from 'recompose'
 import Loop from '../../weather/Loop'
 import Page from '../Page'
-import Aside from '../Aside'
 import Article from '../Article'
+import Aside from '../Aside'
 import Sidebar from './Sidebar'
-import FAQ from './FAQ'
-import Forecast from './Forecast'
+import Forecast from './articles/Forecast'
+import FAQ from './articles/FAQ'
+import MSLP from './articles/MSLP'
+import Precipitations from './articles/Precipitations'
+import Temperatures from './articles/Temperatures'
+import Winds from './articles/Winds'
+import Radar from './articles/Radar'
+import Satellite from './articles/Satellite'
+import Warnings from './articles/Warnings'
 import { Fetch } from '../../prismic'
 
 const links = new Map([
     ['forecast', {
         label: 'Forecast',
-        component: <Forecast />
+        article: <Forecast />
     }],
     ['faq', {
         label: 'FAQ',
-        title: 'FAQ',
-        component: <FAQ />
+        article: <FAQ />
     }],
-    ['1-hour-precipitation', {
-        label: '1 hour precipitation',
-        title: '1 hour precipitation',
-        component: <Loop type='AC_HRDPS_BC_wms-1hr-precip' />
+    ['precipitations', {
+        label: 'Precipitations',
+        article: <Precipitations />
     }],
-    ['3-hour-precipitation', {
-        label: '3 hour precipitation',
-        title: '3 hour precipitation',
-        component: <Loop type='AC_RDPS_BC_3hr-precip' />
+    ['temperatures', {
+        label: 'Temperature aloft',
+        article: <Temperatures />
     }],
-    ['12-hour-precipitation', {
-        label: '12 hour precipitation',
-        title: '12 hour precipitation',
-        component: <Loop type='AC_RDPS_BC_12hr-precip' />
+    ['winds', {
+        label: 'Winds aloft',
+        article: <Winds />
     }],
-    ['1500-metres-temperatures', {
-        label: '1500 metres temperatures',
-        title: '1500 metres temperatures',
-        component: <Loop type='AC_GDPS_BC_1500m-temp' />
+    ['mslp', {
+        label: 'MSLP',
+        article: <MSLP />
     }],
-    ['2500-metres-winds', {
-        label: '2500 metres winds',
-        title: '2500 metres winds',
-        component: <Loop type='AC_GDPS_BC_2500m-wind' />
+    ['radar', {
+        label: 'Radar',
+        article: <Radar />
     }],
-    ['radar-imagery', {
-        label: 'Radar imagery',
-        title: 'Radar imagery',
-        component: <p>Coming soon!</p>
+    ['satellite', {
+        label: 'Satellite',
+        article: <Satellite />
+    }],
+    ['warnings', {
+        label: 'Warnings',
+        article: <Warnings />
     }],
 ])
 
 function Root({ path, onPathChange }) {
-    const { component, title } = links.get(path)
+    const { article } = links.get(path)
 
     return (
         <Page title='Mountain Weather'>
             <Article>
-                {title && <h2>{title}</h2>}
-                {component}
+                {article}
             </Article>
             <Aside>
                 <Sidebar {...{links, onPathChange}} />

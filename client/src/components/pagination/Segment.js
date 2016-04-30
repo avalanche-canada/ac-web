@@ -15,8 +15,8 @@ const icons = new Map([
     [RIGHT, <ChevronRight inverse />],
 ])
 const hints = new Map([
-    [LEFT, 'Older'],
-    [RIGHT, 'Newer'],
+    [LEFT, 'Previous'],
+    [RIGHT, 'Next'],
 ])
 
 function Segment({

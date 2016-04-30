@@ -15,16 +15,12 @@ Forecast.propTypes = {
 
 function Forecast({ document, isAuthenticated = false }) {
 	const date = document.getDate(`${document.type}.date`)
-    const handle = document.getText(`${document.type}.handle`)
     const headline = document.getText(`${document.type}.headline`)
     const isOld = document.get(`${document.type}.content-1-2`) === null
 
 	return (
 		<section styleName='Container'>
-            <h2 styleName='Headline'>
-                {headline}
-                <small>Created by: {handle}</small>
-            </h2>
+            <h2 styleName='Headline'>{headline}</h2>
 			{isOld && <Html document={document} fragment={`${document.type}.synopsis`} />}
             <TabSet forecast={document} />
 			<DaySet start={date} forecast={document} />
