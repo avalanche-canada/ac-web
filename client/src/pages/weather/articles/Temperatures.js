@@ -2,6 +2,7 @@ import React from 'react'
 import { TabSet, Tab } from '../../../components/tab'
 import Loop from '../../../weather/Loop'
 import Image from '../../../weather/Image'
+import range from 'lodash.range'
 
 export default function Temperatures() {
     return (
@@ -13,12 +14,10 @@ export default function Temperatures() {
                 <Image url='http://avalanche.ca/assets/images/weather/freezing_level.png' />
             </Tab>
             <Tab title='1500 metres ASL AM'>
-                <p>Need to apply the logic...</p>
-                <Loop type='AC_GDPS_BC_1500m-temp' />
+                <Loop type='AC_GDPS_BC_1500m-temp' hours={range(12, 144, 24)} />
             </Tab>
             <Tab title='1500 metres ASL PM'>
-                <p>Need to apply the logic...</p>
-                <Loop type='AC_GDPS_BC_1500m-temp' />
+                <Loop type='AC_GDPS_BC_1500m-temp' hours={range(0, 144, 24)} />
             </Tab>
         </TabSet>
     )

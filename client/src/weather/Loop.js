@@ -13,7 +13,7 @@ const HOURS = new Map([
 	['AC_RDPS_BC_weather-systems', range(0, 48, 6)],
 	['AC_GDPS_BC_12hr-precip', range(0, 144, 12)],
 	['AC_GDPS_BC_1500m-temp', range(0, 144, 6)],
-	['AC_GDPS_BC_2500m-wind', range(0, 144, 6)],
+    ['AC_GDPS_BC_2500m-wind', range(0, 144, 6)],
 	['AC_GDPS_EPA_clouds-500hgts', range(0, 144, 6)],
 	['AC_GDPS_EPA_pacific-systems', range(0, 144, 6)],
 	['AC_GDPS_EPA_precipitable-water', range(0, 144, 6)],
@@ -44,7 +44,7 @@ const RUNS = new Map([
 	['AC_RDPS_BC_weather-systems', range(0, 24, 6)],
 	['AC_GDPS_BC_12hr-precip', range(0, 24, 6)],
 	['AC_GDPS_BC_1500m-temp', range(0, 24, 6)],
-	['AC_GDPS_BC_2500m-wind', range(0, 24, 6)],
+    ['AC_GDPS_BC_2500m-wind', range(0, 24, 6)],
 	['AC_GDPS_EPA_clouds-500hgts', range(0, 24, 6)],
 	['AC_GDPS_EPA_pacific-systems', range(0, 24, 6)],
 	['AC_GDPS_EPA_precipitable-water', range(0, 24, 6)],
@@ -73,6 +73,7 @@ export default class Loop extends Component {
 		type: PropTypes.oneOf(TYPES).isRequired,
 		run: PropTypes.number.isRequired,
 		date: PropTypes.instanceOf(Date).isRequired,
+        hours: PropTypes.arrayOf(PropTypes.number),
 	}
     static defaultProps = {
         date: new Date(),
@@ -112,7 +113,7 @@ export default class Loop extends Component {
 		this.setState({ isBroken })
 	}
 	get hours() {
-		return HOURS.get(this.props.type)
+		return this.props.hours || HOURS.get(this.props.type)
 	}
 	next() {
 		if (this.maxCursor === this.cursor) {
