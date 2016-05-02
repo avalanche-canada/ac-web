@@ -4,17 +4,15 @@ import { withContext } from 'recompose'
 import DaySet from './DaySet'
 import TabSet from './TabSet'
 import Outlook from './Outlook'
-import Footer from './Footer'
 import { Text, Html } from '../prismic'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
     document: PropTypes.object.isRequired,
 }
 
-function Forecast({ document, isAuthenticated = false }) {
-	const date = document.getDate(`${document.type}.date`)
+function Forecast({ document }) {
+    const date = document.getDate(`${document.type}.date`)
     const headline = document.getText(`${document.type}.headline`)
     const isOld = document.get(`${document.type}.content-1-2`) === null
 
@@ -25,7 +23,6 @@ function Forecast({ document, isAuthenticated = false }) {
             <TabSet forecast={document} />
 			<DaySet start={date} forecast={document} />
 			<Outlook forecast={document} />
-            <Footer showFeedbackAnchor={isAuthenticated} />
 		</section>
 	)
 }

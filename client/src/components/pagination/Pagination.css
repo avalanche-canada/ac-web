@@ -19,6 +19,7 @@
 
 .Hint {
     color: var(--brand-primary);
+    line-height: 2em;
 }
 
 .Segment {

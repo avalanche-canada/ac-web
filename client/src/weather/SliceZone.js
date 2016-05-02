@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react'
 import Loop from './Loop'
 import Meteogram from './Meteogram'
 import { Html } from '../prismic'
-import { Date as DateElement } from '../components/misc'
-import moment from 'moment'
 
 const STATIC_LOOPS = new Set([
     'AC_GDPS_EPA_clouds-th-500hts',
@@ -39,22 +37,6 @@ export default function SliceZone({ zone, date }) {
                 switch (sliceType) {
                     case 'text':
                         return <Html document={slice} />
-                    case 'day-1':
-                    case 'day-2': {
-                        const day = Number(sliceType.match(/(\d+)/)[0])
-                        const d = moment(date).add(day + 1, 'd').toDate()
-
-                        return (
-                            <section>
-                                <header>
-                                    <h4>
-                                        <DateElement value={d} />
-                                    </h4>
-                                </header>
-                                <Html document={slice} />
-                            </section>
-                        )
-                    }
                     case 'loop': {
                         const [loop] = slice.value.toArray()
                         const [type, run] = loop.getText('type').split('@')

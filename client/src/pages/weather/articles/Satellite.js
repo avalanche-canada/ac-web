@@ -1,24 +1,23 @@
 import React from 'react'
-import Article from '../../Article'
+import { TabSet, Tab } from '../../../components/tab'
 import Loop from '../../../weather/Loop'
 import Image from '../../../weather/Image'
-import { TabSet, Tab } from '../../../components/tab'
-import ArticleHeader from '../../ArticleHeader'
 
 export default function Satellite() {
     return (
-        <Article>
-            <ArticleHeader>Satellite imagery</ArticleHeader>
-            <TabSet>
-                <Tab title='Infrared'>
-                    <Image url={'http://avalanche.ca/assets/images/weather/new_satellite_ir_composite.png'} />
-                    <br />
-                    <Image url={'http://avalanche.ca/assets/images/weather/new_satellite_ir_redtop.png'} />
-                </Tab>
-                <Tab title='Visible wave length'>
-                    Coming soon!
-                </Tab>
-            </TabSet>
-        </Article>
+        <TabSet>
+            <Tab title='Water Vapour/Jet'>
+                <Image url='http://avalanche.ca/assets/images/weather/satellite_water_vapour.png' />
+            </Tab>
+            <Tab title='IR Pacific'>
+                <Image url='http://avalanche.ca/assets/images/weather/new_satellite_ir_redtop.png' />
+            </Tab>
+            <Tab title='IR West Coast'>
+                <Image url='http://avalanche.ca/assets/images/weather/ir-west-coast.png' />
+            </Tab>
+            <Tab title='Composite IR-VIS'>
+                <Image url='http://avalanche.ca/assets/images/weather/new_satellite_ir_composite.png' />
+            </Tab>
+        </TabSet>
     )
 }

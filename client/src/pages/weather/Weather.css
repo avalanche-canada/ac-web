@@ -9,3 +9,11 @@
         }
     }
 }
+
+.Footer {
+    order: 5;
+    height: 75px;
+    line-height: 75px;
+    vertical-align: middle;
+    font-style: italic;
+}

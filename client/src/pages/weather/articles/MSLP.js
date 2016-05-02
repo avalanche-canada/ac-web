@@ -1,22 +1,16 @@
 import React from 'react'
-import Loop from '../../../weather/Loop'
 import { TabSet, Tab } from '../../../components/tab'
-import ArticleHeader from '../../ArticleHeader'
+import Loop from '../../../weather/Loop'
 
 export default function MSLP() {
     return (
-        <div>
-            <ArticleHeader>
-                Mean sea level pressure (MSLP)
-            </ArticleHeader>
-            <TabSet>
-                <Tab title='Short range'>
-                    <Loop type='AC_RDPS_W-CST_3hr-precip-clds-th-slp' />
-                </Tab>
-                <Tab title='Long range'>
-                    <Loop type='AC_GDPS_EPA_pacific-systems' />
-                </Tab>
-            </TabSet>
-        </div>
+        <TabSet>
+            <Tab title='0-48 hours RDPS'>
+                <Loop type='AC_RDPS_W-CST_3hr-precip-clds-th-slp' />
+            </Tab>
+            <Tab title='0-144 hours GDPS'>
+                <Loop type='AC_GDPS_EPA_pacific-systems' />
+            </Tab>
+        </TabSet>
     )
 }
