@@ -1,4 +1,5 @@
 @import "../../styles/components.css";
+@import "../../styles/colors.css";
 
 .List {
 	list-style: none;
@@ -12,10 +13,20 @@
 	min-width: 100px;
 	padding: 8px 10px;
 	text-align: center;
-	color: black !important;
+	color: var(--black) !important;
 	border-bottom: 5px solid var(--component-bg);
 	cursor: pointer;
 	margin-bottom: 5px;
+
+    & > a {
+        color: var(--black) !important;
+        text-decoration: none;
+
+        & > svg {
+            position: relative;
+            top: 2px;
+        }
+    }
 
 	&:hover {
 		background-color: var(--component-bg-hover);
@@ -25,7 +36,11 @@
 	composes: ListItem;
 	background-color: var(--component-active-bg);
 	border-bottom-color: var(--component-active-bg);
-	color: white !important;
+    color: white !important;
+
+    & > a {
+        color: white !important;
+    }
 
 	&:hover {
 		background-color: var(--component-active-bg);
