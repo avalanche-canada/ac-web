@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { TabSet, Tab } from '../components/tab'
 import SliceZone from './SliceZone'
+import Bulletin from './Bulletin'
 import FAQ from './FAQ'
 import { Date as DateElement } from '../components/misc'
 import moment from 'moment'
@@ -74,6 +75,11 @@ export default function WeatherTabSet({ forecast }) {
 	return (
         <TabSet>
             {tabs}
+            <Tab title='Bulletin'>
+                <Bulletin>
+                    Here goes the bulletin!
+                </Bulletin>
+            </Tab>
         </TabSet>
     )
 }
