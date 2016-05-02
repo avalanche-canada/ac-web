@@ -21,7 +21,7 @@
     "mapbox.js": "~2.2.3",
     "Leaflet.label": "~0.2.1",
     "prismic.io": "~2.1.0",
-    "ac-components": "git://github.com/avalanche-canada/ac-components#5da48cc0b8c54b8ecba6e88b40ef22d4593e1756",
+    "ac-components": "git://github.com/avalanche-canada/ac-components#299710bd30d4c8d1fbf563556b739d2ae3e6fad0",
     "angular-prismicio": "awulder/angular-prismicio#master",
     "slideout": "https://github.com/Mango/slideout.git#~0.1.5",
     "angular-datatables": "~0.4.3",
