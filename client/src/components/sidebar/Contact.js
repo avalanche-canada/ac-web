@@ -7,7 +7,7 @@ export default function Contact() {
     return (
         <SocialItem text='Contact Us'>
             <Mailto>
-                <Email width={28} height={28} fill={'#0056B7'} />
+                <Email fill='#245EAC' />
             </Mailto>
         </SocialItem>
     )
