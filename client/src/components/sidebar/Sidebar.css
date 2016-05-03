@@ -33,14 +33,17 @@
             color: var(--brand-primary);
         }
     }
-
 }
 
 .SocialItem {
     composes: Item;
     color: var(--brand-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
 
     & a {
+        position: relative;
+        top: 5px;
         padding: 5px;
     }
 }
