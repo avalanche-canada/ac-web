@@ -1,7 +1,7 @@
 import React from 'react'
 import { pure } from 'recompose'
 
-function Navbar() {
+function Footer() {
 	const year = new Date().getFullYear()
 
 	return (

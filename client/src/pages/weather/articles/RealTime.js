@@ -14,7 +14,7 @@ function fetchWarnings() {
 const Warnings = resolve('document', fetchWarnings)(Html)
 const link = (
     <a href='http://weather.gc.ca/warnings/index_e.html?prov=bc' target='_blank'>
-        MSC Web site <Launch height={14} width={14} />
+        Warnings Text <Launch height={14} width={14} />
     </a>
 )
 export default function RealTime() {
@@ -24,7 +24,7 @@ export default function RealTime() {
                 <Image url='http://avalanche.ca/assets/images/weather/warnings.png' />
             </Tab>
             <Tab title={link} onClick={handleClick} />
-            <Tab title='Observations'>
+        <Tab title='Temperatures/MSLP'>
                 <Image url='http://avalanche.ca/assets/images/weather/RealTimeWeather-Temperatures.png' />
                 <Warnings />
             </Tab>

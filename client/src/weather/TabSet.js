@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import { TabSet, Tab } from '../components/tab'
 import SliceZone from './SliceZone'
-import Bulletin from './Bulletin'
 import FAQ from './FAQ'
 import { Date as DateElement } from '../components/misc'
 import moment from 'moment'
@@ -22,9 +21,6 @@ const TABS = new Map([
 	['day-6-10', {
 		title: 'Day 6-10'
 	}],
-	['bulletins', {
-		title: 'Bulletins'
-	}],
 ])
 
 const NAMES = [...TABS.keys()]
@@ -43,7 +39,7 @@ function createTabs(forecast) {
 
         if (name === 'day-1' || name === 'day-2') {
             const day = Number(name.match(/(\d+)/)[0])
-            const d = moment(date).add(day + 1, 'd').toDate()
+            const d = moment(date).add(day, 'd').toDate()
 
             child = (
                 <section>
@@ -75,11 +71,6 @@ export default function WeatherTabSet({ forecast }) {
 	return (
         <TabSet>
             {tabs}
-            <Tab title='Bulletin'>
-                <Bulletin>
-                    Here goes the bulletin!
-                </Bulletin>
-            </Tab>
         </TabSet>
     )
 }

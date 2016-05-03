@@ -60,8 +60,8 @@ const articles = new Map([
         article: <Satellite />
     }],
     ['real-time', {
-        title: 'Real Time Weather',
-        label: 'Real Time',
+        title: 'Real-Time Weather',
+        label: 'Real-Time',
         article: <RealTime />
     }],
     ['faq', {

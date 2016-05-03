@@ -74,13 +74,15 @@ export default class Loop extends Component {
 		run: PropTypes.number.isRequired,
 		date: PropTypes.instanceOf(Date).isRequired,
         hours: PropTypes.arrayOf(PropTypes.number),
+        interval: PropTypes.number,
 	}
     static defaultProps = {
         date: new Date(),
+        interval: 1000,
     }
 	state = {
 		cursor: 0,
-		isPlaying: false,
+		isPlaying: true,
 		isBroken: true,
 	}
 	constructor(...args) {
@@ -96,13 +98,21 @@ export default class Loop extends Component {
 
 		this.handleImageError = this.onImageError.bind(this)
 		this.handleImageLoad = this.onImageLoad.bind(this)
+
+        this.boundShake = this.shake.bind(this)
 	}
 	get cursor() {
 		return this.state.cursor
 	}
 	set cursor(cursor) {
-		this.setState({ cursor })
+        this.setState({ cursor }, this.boundShake)
 	}
+    get isPlaying() {
+        return this.state.isPlaying
+    }
+    set isPlaying(isPlaying) {
+        this.setState({ isPlaying }, this.boundShake)
+    }
 	get maxCursor() {
 		return this.hours.length - 1
 	}
@@ -115,45 +125,56 @@ export default class Loop extends Component {
 	get hours() {
 		return this.props.hours || HOURS.get(this.props.type)
 	}
+    clearTimeout() {
+        window.clearTimeout(this.timeoutID)
+    }
+    setTimeout() {
+        const { interval } = this.props
+
+        this.timeoutID = window.setTimeout(this.handleNext, interval)
+    }
+    shake() {
+        this.clearTimeout()
+
+        if (this.isPlaying) {
+            this.setTimeout()
+        }
+    }
 	next() {
 		if (this.maxCursor === this.cursor) {
-			this.first()
+            this.cursor = 0
 		} else {
 			this.cursor = this.cursor + 1
 		}
 	}
 	prev() {
 		if (this.cursor === 0) {
-			this.last()
+            this.cursor = this.maxCursor
 		} else {
 			this.cursor = this.cursor - 1
 		}
 	}
 	first() {
+        this.pause()
 		this.cursor = 0
 	}
 	last() {
+        this.pause()
 		this.cursor = this.maxCursor
 	}
 	play() {
-		const isPlaying = true
-
-		this.setState({ isPlaying }, () => {
-			this.intervalID = window.setInterval(this.handleNext, 1500)
-		})
+        this.isPlaying = true
 	}
-	pause() {
-		const isPlaying = false
-
-		this.setState({ isPlaying }, () => {
-			window.clearInterval(this.intervalID)
-		})
-	}
+    pause() {
+        this.isPlaying = false
+    }
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
+        this.shake()
 	}
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
+        this.clearTimeout()
 	}
 	onKeyDown({ keyCode }) {
 		const { left, right } = keycode.codes
