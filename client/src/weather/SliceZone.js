@@ -9,6 +9,12 @@ const STATIC_LOOPS = new Set([
     'AC_GDPS_EPA_pacific-systems'
 ])
 
+function htmlSerializer({url, type}, content) {
+    if (type === 'hyperlink') {
+        return `<a href="${url}" target="_blank">${content}</a>`
+    }
+}
+
 SliceZone.propTypes = {
     zone: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
@@ -36,7 +42,7 @@ export default function SliceZone({ zone, date }) {
 
                 switch (sliceType) {
                     case 'text':
-                        return <Html document={slice} />
+                        return <Html document={slice.value} htmlSerializer={htmlSerializer} />
                     case 'loop': {
                         const [loop] = slice.value.toArray()
                         const [type, run] = loop.getText('type').split('@')

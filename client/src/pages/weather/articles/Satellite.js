@@ -15,7 +15,7 @@ export default function Satellite() {
             <Tab title='IR West Coast'>
                 <Image url='http://avalanche.ca/assets/images/weather/ir-west-coast.png' />
             </Tab>
-            <Tab title='Composite IR-VIS'>
+            <Tab title='IR-VIS BC'>
                 <Image url='http://avalanche.ca/assets/images/weather/new_satellite_ir_composite.png' />
             </Tab>
         </TabSet>

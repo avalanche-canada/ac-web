@@ -6,7 +6,7 @@ Share.propTypes = {
     url: PropTypes.string.isRequired
 }
 
-export default function Share({ url }) {
+export default function Share({ url = document.location.href }) {
     return (
         <SocialItem text='Share This'>
             <a href={`www.facebook.com/share?url=${url}`}>

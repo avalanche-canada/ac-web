@@ -13,11 +13,6 @@
 
 .Headline {
     font-weight: bold;
-    & small {
-        color: var(--gray);
-        display: block;
-        font-size: 0.5em;
-    }
 }
 
 .Bulletin {

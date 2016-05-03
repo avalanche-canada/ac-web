@@ -4,7 +4,8 @@ angular.module('avalancheCanadaApp')
 .config(function ($stateProvider) {
     $stateProvider.state('ac.weather', {
         url: 'weather',
-        templateUrl: 'app/avalanchecanada/weather/weather.html'
+        templateUrl: 'app/avalanchecanada/weather/weather.html',
+        controller: 'WeatherCtrl'
     });
 })
 .controller('WeatherCtrl',  function ($scope, auth) {
