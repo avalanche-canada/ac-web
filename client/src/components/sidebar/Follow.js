@@ -5,13 +5,13 @@ import SocialItem from './SocialItem'
 export default function Follow() {
     return (
         <SocialItem text='Follow Us'>
-            <a href='http://www.facebook.com'>
+            <a href='https://www.facebook.com/avalanchecanada'>
                 <Facebook />
             </a>
-            <a href='http://www.twitter.com'>
+            <a href='https://twitter.com/avalancheca'>
                 <Twitter />
             </a>
-            <a href='http://www.instagram.com'>
+            <a href='http://instagram.com/avalanchecanada'>
                 <Instagram />
             </a>
         </SocialItem>

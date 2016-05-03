@@ -9,13 +9,13 @@ Share.propTypes = {
 export default function Share({ url = document.location.href }) {
     return (
         <SocialItem text='Share This'>
-            <a href={`www.facebook.com/share?url=${url}`}>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}>
                 <Facebook />
             </a>
-            <a href={`www.twitter.com/share?url=${url}`}>
+            <a href={`https://twitter.com/intent/tweet?url=${url}`}>
                 <Twitter />
             </a>
-            <a href={`www.google.com/plus/share?url=${url}`}>
+            <a href={`https://plus.google.com/share?url=${url}`}>
                 <GooglePlus />
             </a>
         </SocialItem>
