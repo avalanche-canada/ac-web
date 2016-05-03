@@ -14,7 +14,7 @@ Forecast.propTypes = {
 function Forecast({ document }) {
     const date = document.getDate(`${document.type}.date`)
     const headline = document.getText(`${document.type}.headline`)
-    const isOld = document.get(`${document.type}.content-1-2`) === null
+    const isOld = document.get(`${document.type}.day-1`) === null
 
 	return (
 		<section styleName='Container'>

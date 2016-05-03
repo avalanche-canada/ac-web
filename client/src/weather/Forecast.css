@@ -12,6 +12,7 @@
 }
 
 .Headline {
+    font-weight: bold;
     & small {
         color: var(--gray);
         display: block;
