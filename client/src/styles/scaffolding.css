@@ -3,6 +3,22 @@ body {
     font-size: 14px;
 }
 
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+
 a {
     text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media print {
+    a:after {
+        content: " (" attr(href) ")";
+    }
 }

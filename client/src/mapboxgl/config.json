@@ -1,0 +1,7 @@
+{
+    "accessToken": "pk.eyJ1Ijoia2d1aWxsb3R0ZSIsImEiOiJjaW95czF5bHMwMXprdWNtODhndnhpM2wwIn0.ySK8KKQ5AVs3FYQ9fbQJVg",
+    "styles": {
+        "default": "mapbox://styles/mapbox/outdoors-v9",
+        "light": "mapbox://styles/mapbox/light-v9"
+    }
+}

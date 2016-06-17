@@ -1,0 +1,20 @@
+@import "../../styles/colors.css";
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.Content {
+    /*display: flex;
+    flex-direction: column;
+    justify-content: space-between;*/
+
+    flex: 1;
+
+    position: relative;
+    overflow-y: auto;
+}

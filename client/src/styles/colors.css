@@ -1,12 +1,16 @@
 :root {
     --brand-primary: #245EAC;
+    --primary: #245EAC;
     --brand-secondary: #E6252F;
+    --secondary: #0F0F0F;
 
     --black: #0F0F0F;
 
-    --gray-darker: gray(0, 65%);
-    --gray-dark: gray(0, 50%);
-    --gray: gray(0, 35%);
-    --gray-light: gray(0, 20%);
-    --gray-lighter: gray(0, 15%);
+    --gray-darkest: gray(15%);
+    --gray-darker: gray(35%);
+    --gray-dark: gray(50%);
+    --gray: gray(70%);
+    --gray-light: gray(80%);
+    --gray-lighter: gray(90%);
+    --gray-lightest: gray(97%);
 }

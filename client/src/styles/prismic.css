@@ -1,0 +1,5 @@
+:global(.block-img) {
+    & > img {
+        max-width: 100%;
+    }
+}

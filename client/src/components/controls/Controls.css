@@ -1,0 +1,74 @@
+@import "../../styles/colors.css";
+
+.Common {
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+    padding-left: 10px;
+    border: none;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.Native {
+    appearance: none;
+}
+
+.Input {
+    composes: Native;
+    composes: Common;
+}
+
+.Input--WithIcon {
+    composes: Input;
+
+    padding-right: 24px;
+}
+
+.WithIcon {
+    background-position: 99.25% center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+}
+
+.CloseState {
+    composes: WithIcon;
+
+    background-image: url("../icons/expand-more.svg");
+}
+
+.Select {
+    composes: Native;
+    composes: Common;
+    composes: CloseState;
+}
+
+.Dropdown {
+    composes: Common;
+    composes: CloseState;
+
+    position: relative;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.Dropdown--Open {
+    composes: Dropdown;
+
+    background-image: url("../icons/expand-less.svg");
+}
+
+.Dropdown__OptionList {
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+}
+
+.Dropdown__Option {
+    composes: Common;
+}
+
+.Placeholder {
+    color: var(--gray-dark);
+}

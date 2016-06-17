@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { TabSet, Tab } from './index'
+import { TabSet, Tab, COMPACT, LOOSE } from './index'
 
 function tabSet(props = {}) {
     return (
@@ -26,3 +26,5 @@ storiesOf('Tab', module)
     onActivate: action('tab'),
     activeIndex: 2
 }))
+.add('Compact TabSet', () => tabSet({theme: COMPACT}))
+.add('Loose TabSet', () => tabSet({theme: LOOSE}))

@@ -1,92 +1,115 @@
-import React, { PropTypes, Component } from 'react'
-import { compose, getContext } from 'recompose'
-import { resolve } from 'react-resolver'
-import CSSModules from 'react-css-modules'
+import React, {PropTypes, Component} from 'react'
+import {findDOMNode} from 'react-dom'
+import {compose, withState, toClass} from 'recompose'
 import moment from 'moment'
-import { Pagination, Left, Right, Center } from '../../../components/pagination'
-import { Date as DateElement, DateTime, Time } from '../../../components/misc'
-import Nav from '../../Nav'
-import { Forecast } from '../../../weather'
-import styles from '../Weather.css'
-import { Query, Api, Predicates } from '../../../prismic'
+import {withRouter} from 'react-router'
+import {resolve} from 'react-resolver'
+import {Article} from 'components/page'
+import {Date as DateElement, DateTime, Loading, Muted} from 'components/misc'
+import {ExpandMore} from 'components/icons'
+import Button, {SUBTILE} from 'components/button'
+import {Metadata, Entry} from 'components/metadata'
+import Callout, {BOTTOM} from 'components/callout'
+import Forecast from 'components/weather'
+import {Api, Predicates} from 'prismic'
+import {Overlay} from 'react-overlays'
+import DayPicker, {DateUtils} from 'react-day-picker'
+import 'react-day-picker/lib/style.css'
 
-function fetchForecasts(props) {
+const ButtonClass = toClass(Button)
+const {isSameDay} = DateUtils
+
+function fetchForecast({params: {date = new Date()}}) {
     const type = 'new-weather-forecast'
-    const after = moment().subtract(1, 'w').toDate()
     const predicates = [
         Predicates.at('document.type', type),
-        Predicates.dateAfter(`my.${type}.date`, after),
+        Predicates.at(`my.${type}.date`, moment(date).format('YYYY-MM-DD')),
     ]
 
-    return Api().then(api => (
-        api.query(...predicates)
-           .orderings(`[my.${type}.date desc]`)
-           .submit()
-    )).then(res => res.results)
+    return Api.Api()
+        .then(api => api.query(...predicates).submit())
+        .then(response => response.results[0], err => new Error('Error happened while fetching forecast.'))
 }
 
-@resolve('forecasts', fetchForecasts)
-@CSSModules(styles)
+@withRouter
+@resolve('forecast', fetchForecast)
 export default class Container extends Component {
     static propTypes = {
-        isAuthenticated: PropTypes.bool.isRequired,
+        isAuthenticated: PropTypes.bool,
     }
     static defaultProps = {
         isAuthenticated: false
     }
     state = {
-        cursor: 0
+        showCalendar: false,
+        isFetching: false,
     }
-    constructor(...args) {
-        super(...args)
+    set showCalendar(showCalendar) {
+        this.setState({showCalendar})
+    }
+    get showCalendar() {
+        return this.state.showCalendar
+    }
+    set isFetching(isFetching) {
+        this.setState({isFetching})
+    }
+    toggleCalendar = event => {
+        this.showCalendar = !this.showCalendar
+    }
+    handleDayClick = (event, date, modifiers) => {
+        if (modifiers.disabled) {
+            return
+        }
 
-        this.handleNewer = () => {
-            this.cursor = this.cursor - 1
-        }
-        this.handleOlder = () => {
-            this.cursor = this.cursor + 1
-        }
-    }
-    set cursor(cursor) {
-        this.setState({ cursor })
-    }
-    get cursor() {
-        return this.state.cursor
-    }
-    get hasNewer() {
-        return this.cursor !== 0
-    }
-    get hasOlder() {
-        return this.props.forecasts.length > (this.cursor + 1)
+        const location = `/weather/forecast/${moment(date).format('YYYY-MM-DD')}`
+
+        this.showCalendar = false
+        this.props.router.push(location)
     }
     render() {
-        const { forecasts, isAuthenticated } = this.props
-        const forecast = forecasts[this.cursor]
-
-        let date = forecast.getDate(`${forecast.type}.date`)
-        date = moment(date).add(1, 'd').toDate()
-        const issued = forecast.getTimestamp(`${forecast.type}.issued`)
-        const handle = forecast.getText(`${forecast.type}.handle`)
+        const {params, isAuthenticated, forecast, children} = this.props
+        const {showCalendar, isFetching} = this.state
+        const date = moment(params.date).toDate()
+        const issued = forecast && forecast.getTimestamp(`${forecast.type}.issued`)
+        const handle = forecast && forecast.getText(`${forecast.type}.handle`)
+        const today = new Date()
 
         return (
-            <div>
-                <Nav>
-                    <Pagination>
-                        <Left onNavigate={this.handleOlder} hidden={!this.hasOlder} />
-                        <Center>
-                            <h3 styleName='Header'>
-                                <DateElement value={date} />
-                                <br />
-                            <small>
-                                Issued at <Time value={issued} /> by <span>{handle}</span>
-                            </small>
-                            </h3>
-                        </Center>
-                        <Right onNavigate={this.handleNewer} hidden={!this.hasNewer} />
-                    </Pagination>
-                </Nav>
+            <Article>
+                <Metadata>
+                    <Entry term='Date'>
+                        <DateElement value={date} />
+                        <ButtonClass ref='target' icon={<ExpandMore />} kind={SUBTILE} onClick={this.toggleCalendar} />
+                    </Entry>
+                    {issued &&
+                        <Entry term='Issued'>
+                            <DateTime value={issued} />
+                        </Entry>
+                    }
+                    {handle &&
+                        <Entry term='Created by'>
+                            {handle}
+                        </Entry>
+                    }
+                </Metadata>
+                <Overlay show={showCalendar} placement='bottom' shouldUpdatePosition target={() => findDOMNode(this.refs.target)}>
+                    <div style={{position: 'absolute'}}>
+                        <Callout placement={BOTTOM}>
+                            <DayPicker
+                                selectedDays={day => moment(day).isSame(date, 'day')}
+                                disabledDays={day => moment(day).isAfter(today, 'day')}
+                                onDayClick={this.handleDayClick} />
+                        </Callout>
+                    </div>
+                </Overlay>
+                <Loading show={isFetching}>
+                    Loading weather forecast for <DateElement value={date} />...
+                </Loading>
+                <Muted show={!isFetching && !forecast}>
+                    No weather forecast available for <DateElement value={date} />.
+                </Muted>
                 <Forecast isAuthenticated={isAuthenticated} document={forecast} />
-            </div>
+            </Article>
         )
     }
 }

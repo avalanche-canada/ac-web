@@ -1,0 +1,52 @@
+@import "../../../styles/colors.css";
+
+.Drawer {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    box-shadow: 0 0 12px color(black alpha(25%));
+}
+
+.Drawer--Left {
+    composes: Drawer;
+
+    left: 0;
+
+    & .Header {
+        justify-content: space-between;
+    }
+
+    & .Close {
+        order: 1;
+    }
+}
+
+.Drawer--Right {
+    composes: Drawer;
+
+    right: 0;
+
+    & .Header {
+        justify-content: flex-start;
+    }
+
+    & .Close {
+        order: -1;
+    }
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Content {
+    flex: 100%;
+
+    overflow-y: scroll;
+    padding: 1em;
+}

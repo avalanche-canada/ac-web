@@ -1,0 +1,65 @@
+@import "../../../styles/colors.css";
+@import "../../../styles/components.css";
+
+.Container {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}
+
+.Input {
+    composes: import Common from "../Controls.css";
+    composes: import CloseState from "../Controls.css";
+}
+
+.Input--Open {
+    composes: Input;
+
+    background-image: url("../../icons/expand-less.svg");
+}
+
+.OptionSet {
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    /*max-height: 280px;*/
+    right: -1px;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.Option {
+    composes: import Common from "../Controls.css";
+
+    background-color: var(--component-primary-bg);
+    color: white;
+    line-height: 40px;
+
+    &:hover {
+        background-color: var(--component-primary-bg-hover);
+    }
+}
+
+.Option--Active {
+    composes: Option;
+
+    &, &:hover {
+        background-color: var(--component-primary-bg-active);
+    }
+}
+
+.Holder {
+    line-height: 40px;
+    composes: import Placeholder from "../Controls.css"
+}
+
+.Placeholder {
+    composes: Holder;
+}
+
+.Valueholder {
+    composes: Holder;
+
+    color: inherit;
+}

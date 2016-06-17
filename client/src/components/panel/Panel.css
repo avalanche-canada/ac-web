@@ -1,0 +1,68 @@
+@import "../../styles/colors.css";
+
+:root {
+    --border: 1px solid var(--gray-light);
+}
+
+.Container {
+    border-top: var(--border);
+
+    &:last-child {
+        border-bottom: var(--border);
+    }
+}
+
+.Header {
+    position: relative;
+    color: var(--primary);
+    font-weight: 700;
+    line-height: 2.5em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    @media print {
+        font-size: 1.5em;
+    }
+}
+
+.Header--Expandable {
+    composes: Header;
+
+    cursor: pointer;
+
+    & svg {
+        transform: translateY(6px);
+        & path:not([fill="none"]) {
+            fill: var(--primary);
+        }
+    }
+
+    @media print {
+        & svg {
+            display: none;
+        }
+    }
+}
+
+.Content {
+    overflow: hidden;
+    padding: 0 1em;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: var(--gray-lightest);
+    }
+
+    @media print {
+        & * {
+            height: auto !important;
+        }
+    }
+}

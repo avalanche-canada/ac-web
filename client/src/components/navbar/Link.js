@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
+import {Link} from 'react-router'
 import styles from './Navbar.css'
 
 const isExternalRegExp = new RegExp('^http(s):\/\/')
@@ -11,19 +12,24 @@ function isExternal(to) {
     return isExternalRegExp.test(to)
 }
 
-Link.propTypes = {
+Anchor.propTypes = {
     to: PropTypes.string.isRequired
 }
 
-function Link({ to, children, ...props }) {
-    const target = isExternal(to) ? '_blank' : null
-    const styleName = 'Link'
-    
+function Anchor({ to = '#', children, ...props }) {
+    if (isExternal(to)) {
+        return (
+            <a href={to} target='_blank' styleName='Link' {...props} >
+                {children}
+            </a>
+        )
+    }
+
     return (
-        <a href={to} {...{target, styleName}} {...props} >
+        <Link styleName='Link' to={to} {...props}>
             {children}
-        </a>
+        </Link>
     )
 }
 
-export default CSSModules(Link, styles)
+export default CSSModules(Anchor, styles)

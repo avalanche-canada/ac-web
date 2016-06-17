@@ -1,17 +1,8 @@
-import React, { PropTypes } from 'react'
-import CSSModules from 'react-css-modules'
+import {DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Sidebar.css'
 
-Header.propTypes = {
-    children: PropTypes.string.isRequired
-}
+const name = 'Header'
+const component = DOM.header
 
-function Header({ children }) {
-    return (
-        <header styleName='Header'>
-            {children}
-        </header>
-    )
-}
-
-export default CSSModules(Header, styles)
+export default Element({name, styles, component})

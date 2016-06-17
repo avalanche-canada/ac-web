@@ -1,58 +1,192 @@
 @import "../../styles/components.css";
 @import "../../styles/colors.css";
+@import "../../styles/shapes.css";
+
+@custom-media --as-list (width > 500px);
+@custom-media --do-not-use-empty-room (width > 800px);
 
 .List {
-	list-style: none;
-	display: inline-block;
+    display: flex;
+    flex-direction: column;
+
 	padding: 0;
 	margin: 0;
+    list-style: none;
+
+    @media (--as-list) {
+        flex-direction: row;
+    }
+
+    @media print {
+        display: none;
+    }
+}
+
+.List--Compact {
+    composes: List;
+
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        width: 100%;
+        z-index: -1;
+        background-color: var(--component-bg);
+    }
+}
+
+.List--Loose {
+    composes: List;
+
+    background-color: color(var(--primary) lightness(75%));
+}
+
+.List--Opened {
+    & .ListItem {
+        display: block;
+    }
 }
 
 .ListItem {
-	display: inline-block;
-	min-width: 100px;
-	padding: 8px 10px;
+    flex: 1;
+
+    display: none;
+	/*min-width: 100px;*/
+	padding: 1em;
 	text-align: center;
-	color: var(--black) !important;
-	border-bottom: 5px solid var(--component-bg);
+	color: var(--black);
+    white-space: nowrap;
 	cursor: pointer;
-	margin-bottom: 5px;
+    text-decoration: none;
 
-    & > a {
-        color: var(--black) !important;
-        text-decoration: none;
+    & > a > svg {
+        /* ICON */
+        position: relative;
+        top: 2px;
+    }
 
-        & > svg {
-            position: relative;
-            top: 2px;
-        }
+    & .ListItem__ExpandButton {
+        display: none;
     }
 
 	&:hover {
 		background-color: var(--component-bg-hover);
 	}
+
+    @media (--as-list) {
+        display: block;
+    }
+
+    @media (--do-not-use-empty-room) {
+        flex: 0;
+    }
 }
+
 .ListItem--active {
 	composes: ListItem;
-	background-color: var(--component-active-bg);
-	border-bottom-color: var(--component-active-bg);
-    color: white !important;
 
-    & > a {
-        color: white !important;
-    }
+    order: -1;
+
+    display: block;
+	background-color: var(--component-active-bg);
+    color: white;
 
 	&:hover {
 		background-color: var(--component-active-bg);
 	}
+
+    & .ListItem__ExpandButton {
+        display: block;
+    }
+
+    @media (--as-list) {
+        order: 0;
+
+        & .ListItem__ExpandButton {
+            display: none;
+        }
+    }
+}
+
+.ListItem--Compact {
+    composes: ListItem;
+
+    border-bottom: 5px solid var(--component-bg);
+}
+.ListItem--Compact--active {
+    composes: ListItem--active;
+
+    position: relative;
+    background-color: var(--primary);
+    border-bottom-color: var(--component-bg);
+}
+
+
+.ListItem--Loose {
+    composes: ListItem;
+    composes: import ArrowDown from "../../styles/shapes.css";
+
+    position: relative;
+    padding: 1.5em 3.5em;
+    font-weight: 700;
+    color: white;
+    border-right: 1px solid white;
+
+    &:before {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        z-index: 1;
+        border-top-color: transparent;
+        margin-left: calc(-1 * var(--arrow-width));
+        pointer-events: none;
+    }
+
+    @media (--as-list) {
+        &:hover:before {
+            border-top-color: var(--component-bg-hover);
+        }
+        &:last-child {
+            border-right: none;
+        }
+    }
+}
+
+.ListItem--Loose--active {
+    composes: ListItem--active;
+    composes: ListItem--Loose;
+
+    @media (--as-list) {
+        &:before, &:hover:before {
+            border-top-color: var(--primary);
+        }
+    }
 }
 
 .Panel {
 	display: none;
-	margin: 10px;
+	margin: 1em;
+
+    @media print {
+        display: block;
+    }
 }
 
 .Panel--active {
 	composes: Panel;
+
 	display: block;
+}
+
+.ListItem__ExpandButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
 }

@@ -1,0 +1,46 @@
+@import "./colors.css";
+
+:root {
+    --arrow-width: 7px;
+}
+
+.ArrowCommon:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: var(--arrow-width);
+    pointer-events: none;
+}
+
+.ArrowDown {
+    composes: ArrowCommon;
+
+    &:before {
+        border-color: var(--primary) transparent transparent transparent;
+    }
+}
+
+.ArrowLeft {
+    composes: ArrowCommon;
+
+    &:before {
+        border-color: transparent var(--primary) transparent transparent;
+    }
+}
+
+.ArrowUp {
+    composes: ArrowCommon;
+
+    &:before {
+        border-color: transparent transparent var(--primary) transparent;
+    }
+}
+
+.ArrowRight {
+    composes: ArrowCommon;
+
+    &:before {
+        border-color: transparent transparent transparent var(--primary);
+    }
+}

@@ -1,0 +1,87 @@
+@import "../../../styles/colors.css";
+
+@custom-media --two-columns (width > 420px);
+@custom-media --four-columns (width > 840px);
+
+.Container {
+    composes: import Section from "../Forecast.css";
+
+    display: flex;
+    flex-direction: column;
+
+    @media (--two-columns) {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+.Header {
+    composes: import SectionHeader from "../Forecast.css";
+
+    flex: 100%;
+    white-space: nowrap;
+}
+.SubHeader {
+    composes: import SubSectionHeader from "../Forecast.css";
+
+    white-space: nowrap;
+}
+
+.Topic {
+    composes: import SubSection from "../Forecast.css";
+
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+
+    flex: 100%;
+
+    @media (--two-columns) {
+        flex: 50%;
+        max-width: 50%;
+
+        &:nth-child(odd) {
+            box-sizing: border-box;
+            border-left: 2px solid white;
+        }
+    }
+    @media (--four-columns) {
+        flex: 25%;
+        max-width: 25%;
+
+        &:nth-child(4) {
+            box-sizing: border-box;
+            border-left: 2px solid white;
+        }
+    }
+}
+
+.TopicImage {
+    display: block;
+    margin: auto;
+}
+
+.FullWidthSubSection {
+    composes: import SubSection from "../Forecast.css";
+
+    flex: 100%;
+
+    & > div {
+        padding: 1em;
+        color: var(--gray-dark);
+    }
+}
+
+.Comment {
+    composes: FullWidthSubSection;
+    composes: import Border from "../Forecast.css";
+
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+}
+
+.Advice {
+    composes: FullWidthSubSection;
+    composes: import SubSection from "../Forecast.css";
+}

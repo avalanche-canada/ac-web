@@ -1,27 +1,51 @@
 @import "../../styles/colors.css";
 @import "../../styles/components.css";
 
+@custom-media --full-nav (width > 768px);
+
 :root {
     --navbar-height: 75px;
 }
 
 .Container {
+    z-index: 1;
     height: var(--navbar-height);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
+
     box-sizing: border-box;
-    box-shadow: 0 8px 4px -4px rgba(43, 47, 51, 0.25);
+    box-shadow: 0 6px 4px 0 color(black alpha(25%));
 }
 
-.ItemSet {
-    list-style: none;
+.Navbar {
+
+}
+
+.Navigation {
+    display: flex;
+    justify-content: space-between;
+
+    max-width: 1026px;
     width: 100%;
+    margin: 0 auto;
+}
+
+.Center {
+    flex: 1 0;
+}
+
+.ItemSet--Container {
+    flex: 1 0;
+    display: none;
+    @media (--full-nav) {
+        display: block;
+    }
+}
+.ItemSet {
+    display: flex;
+    list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
 }
+
 
 .Item {
     position: relative;
@@ -63,6 +87,7 @@
         border-style: solid;
         border-width: 8px;
         margin-left: -8px;
+        z-index: 1;
     }
 }
 
@@ -70,7 +95,6 @@
     width: 200px;
     height: var(--navbar-height);
     padding: 0 15px;
-    float: left;
     min-width: 100px;
     max-width: 200px;
 }
@@ -85,6 +109,37 @@
     composes: import AvalancheCanadaFoundation from '../../styles/logos.css';
 }
 
+.Burger--Container {
+    composes: Center;
+
+    @media (--full-nav) {
+        display: none;
+    }
+}
+.Burger {
+    float: right;
+    height: var(--navbar-height);
+    padding-left: 20px;
+    padding-right: 20px;
+
+    &:hover {
+        background-color: var(--gray-lighter);
+    }
+}
+
+.Donate {
+    line-height: var(--navbar-height);
+    border-left: transparent solid 2px;
+    color: white;
+    padding: 0 20px;
+    background-color: var(--brand-secondary);
+
+    &:hover {
+        background-color: color(var(--brand-secondary) blackness(15%));
+    }
+}
+
+/* Menu */
 .Menu {
     display: none;
     position: fixed;
@@ -149,14 +204,6 @@
     color: var(--gray-darker);
 }
 
-.Donate {
-    border-left: white solid 2px;
-    color: white;
-    line-height: var(--navbar-height);
-    padding: 0 15px;
-    background-color: var(--brand-secondary);
-}
-
 .Link {
     display: block;
     color: var(--brand-primary);
@@ -167,4 +214,8 @@
     &:hover {
         color: var(--black);
     }
+}
+
+.UserProfile {
+    display: inline-block;
 }

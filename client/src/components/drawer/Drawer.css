@@ -1,0 +1,107 @@
+@import "../../styles/colors.css";
+
+:root {
+    --margin: 50px;
+}
+
+.Container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /*background-color: color(var(--gray-dark) alpha(75%))*/
+}
+
+.Drawer {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    transform: translateX(0);
+
+    background-color: var(--gray-lighter);
+    height: 100%;
+
+    &:last-child {
+        right: var(--margin);
+        z-index: 0;
+
+        & .Close {
+            background-image: url('../icons/close.svg');
+            background-size: 24px;
+        }
+
+    }
+    &:nth-last-child(2) {
+        right: calc(2 * var(--margin));
+        z-index: 1;
+        background-color: var(--gray-light);
+        & .Toolbar {
+            border-bottom: 5px solid var(--gray);
+        }
+    }
+    &:nth-last-child(3) {
+        right: calc(3 * var(--margin));
+        z-index: 2;
+        background-color: var(--gray);
+        & .Toolbar {
+            border-bottom: 5px solid var(--gray-dark);
+        }
+    }
+    &:nth-last-child(4) {
+        right: calc(4 * var(--margin));
+        z-index: 3;
+        background-color: var(--gray-dark);
+        & .Toolbar {
+            border-bottom: 5px solid var(--gray-darker);
+        }
+    }
+}
+
+.Toolbar {
+    height: var(--margin);
+    border-bottom: 5px solid var(--gray-light);
+}
+
+.ItemSet {
+    margin: 0;
+    padding-top: calc(var(--margin) / 2);
+    list-style: none;
+}
+
+.ItemSet--Container {
+    margin: 0 var(--margin) 0 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.Item {
+    font-size: 1.15em;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+.Header {
+    composes: Item;
+}
+
+.Navigation {
+    display: inline-block;
+    height: 100%;
+    width: var(--margin);
+    background-position: center;
+    background-size: 28px;
+    background-repeat: no-repeat;
+}
+
+.Close {
+    composes: Navigation;
+    float: right;
+    background-image: url('../icons/chevron-left.svg');
+}
+
+.Home {
+    composes: Navigation;
+    background-image: url('../icons/home.svg');
+}

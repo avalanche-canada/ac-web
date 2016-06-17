@@ -1,20 +1,39 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
-import { Sidebar, Item } from '../../components/sidebar'
+import { Sidebar, Item, Header } from 'components/sidebar'
 
-export default function WeatherSidebar({ articles, onPathChange }) {
+export default function WeatherSidebar({ forecasts, current, onPathChange }) {
     return (
         <Sidebar>
-            {[...articles].map(([key, {label}]) => (
-                <Item>
-                    <Link href='#' onClick={event => {
-                            event.preventDefault()
-                            onPathChange(key)
-                        }} >
-                        {label}
-                    </Link>
-                </Item>
-            ))}
+            <Header>Forecast</Header>
+            <Item>
+                <Link to='/weather'>Weather</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/precipitation'>Precipitation</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/precipitation-12h'>Precipitation 12h</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/temperatures'>Temperatures</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/winds'>Winds</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/surface-maps'>Surface Maps</Link>
+            </Item>
+            <Header>Current Conditions</Header>
+            <Item>
+                <Link to='/weather/radar'>Radar</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/satellite'>Satellite</Link>
+            </Item>
+            <Item>
+                <Link to='/weather/warnings'>Warnings</Link>
+            </Item>
         </Sidebar>
     )
 }

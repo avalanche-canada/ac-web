@@ -6,6 +6,8 @@ Image.propTypes = {
 	openNewTab: PropTypes.bool
 }
 
+// TODO: Use more from components/misc
+
 export default function Image({ fragment, document, openNewTab = false }) {
 	const image = document.getImage(fragment)
 

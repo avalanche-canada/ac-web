@@ -1,19 +1,12 @@
-.Header {
-    text-align: center;
-    white-space: nowrap;
-    margin: 25px;
-
-    & > small {
-        & time, & span {
-            font-weight: bold;
-        }
-    }
+.Footer {
+    margin: 2em 0;
+    font-style: italic;
 }
 
-.Footer {
-    order: 5;
-    height: 75px;
-    line-height: 75px;
-    vertical-align: middle;
-    font-style: italic;
+/* SHAME: it should be handled by the component. */
+.Page {
+    & dl:first-child > dd > time {
+        position: relative;
+        top: -7px;
+    }
 }

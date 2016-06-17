@@ -1,9 +1,14 @@
 @import "../../styles/colors.css";
 
+:root {
+    --br-thickness: 8px;
+}
+
 .Main {
     composes: import Hash from "../../styles/Textures.css";
     display: block;
-    height: 8px;
+    width: 100%;
+    height: var(--br-thickness);
 }
 
 .Ribbon {
@@ -16,5 +21,28 @@
         background-color: var(--brand-primary);
         width: 50px;
         height: 100%;
+    }
+}
+
+.MainDecorator {
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: var(--br-thickness);
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 1px, var(--gray-lighter) 3px, var(--gray-lighter) 4px);
+    }
+}
+.RibbonDecorator {
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: var(--br-thickness);
+        background-color: var(--brand-primary);
     }
 }

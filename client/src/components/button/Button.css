@@ -1,36 +1,80 @@
 @import "../../styles/components.css";
 
 .Common {
-	font-weight: bold;
-	text-transform: uppercase;
+    height: 2.5em;
+    padding: 0 12px;
+    font-weight: 700;
+    text-transform: uppercase;
 	color: white;
-	padding: 6px 12px;
 	border: none;
     cursor: pointer;
+
+    @media print {
+        display: none;
+    }
 }
 
 .Primary {
 	composes: Common;
+
 	background-color: var(--component-primary-bg);
 
 	&:hover {
 		background-color: var(--component-primary-bg-hover);
 	}
 
-	&:active {
+	&:active, &.Active {
 		background-color: var(--component-primary-bg-active);
 	}
 }
 
 .Secondary {
 	composes: Common;
-        background-color: var(--component-secondary-bg);
+
+    background-color: var(--component-secondary-bg);
 
     &:hover {
         background-color: var(--component-secondary-bg-hover);
 	}
 
-    &:active {
+    &:active, &.Active {
         background-color: var(--component-secondary-bg-active);
 	}
+}
+
+.Incognito {
+    composes: Common;
+
+    background-color: transparent;
+    color: var(--black);
+}
+
+.Subtile {
+    composes: Common;
+
+    background-color: transparent;
+    color: var(--gray);
+
+    & .IconContainer {
+        & path:not([fill="none"]) {
+            fill: var(--gray) !important;
+        }
+    }
+}
+
+.IconContainer {
+    display: flex;
+    align-items: center;
+
+    & > :not(:first-child) {
+        margin-left: 0.25em;
+    }
+
+    & > :only-child {
+
+    }
+}
+
+.IconOnly {
+    padding: 0 6px;
 }

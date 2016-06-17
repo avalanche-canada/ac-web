@@ -1,15 +1,17 @@
 import React from 'react'
-import { compose, setDisplayName, mapProps } from 'recompose'
+import { compose, setDisplayName, withProps } from 'recompose'
 import { ExpandLess } from '../icons'
 import Button from './Button'
 
 function scrollTop(event) {
 	event.preventDefault()
+    
 	window.scrollTop = 0
 }
 
-function propsMapper() {
-    return {
+export default compose(
+    setDisplayName('Top'),
+    withProps({
         children: (
             <span>
                 <ExpandLess inverse height={8} viewBox='0 8 24 8' />
@@ -17,11 +19,5 @@ function propsMapper() {
             </span>
         ),
         onClick: scrollTop
-    }
-}
-
-
-export default compose(
-    setDisplayName('Top'),
-    mapProps(propsMapper)
+    })
 )(Button)

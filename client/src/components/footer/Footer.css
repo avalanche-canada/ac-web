@@ -1,11 +1,77 @@
-.Container {
+@import "../../styles/colors.css";
 
+@custom-media --nav-one-row (width > 600px);
+@custom-media --footer-one-row (width > 900px);
+
+.Container {
+    margin-top: 2em;
+    padding: 1em;
+    border-top: 1px solid var(--gray-lighter);
+}
+
+.Content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1026px;
+
+    @media (--footer-one-row) {
+        flex-direction: row;
+    }
+}
+
+.Nav {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media(--nav-one-row) {
+        flex-wrap: nowrap;
+    }
+
+    @media (--footer-one-row) {
+        flex: 60%;
+    }
 }
 
 .Link {
+    white-space: nowrap;
+    line-height: 2rem;
+    box-sizing: border-box;
+    flex: 50%;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--brand-primary)
+    }
+
+    @media(--nav-one-row) {
+        flex: 25%;
+        text-align: center;
+
+        &:first-child {
+            border-right: 2px solid var(--gray-light);
+        }
+
+        @media (--footer-one-row) {
+            flex: 0;
+            line-height: 2rem;
+            padding: 0 20px;
+        }
+    }
 
 }
 
-.Info {
-	float: right;
+.Rights {
+    color: var(--gray);
+    line-height: 4rem;
+    white-space: nowrap;
+
+    @media (--footer-one-row) {
+        flex: 40%;
+        line-height: 2rem;
+        text-align: right;
+    }
 }

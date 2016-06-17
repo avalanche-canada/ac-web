@@ -1,0 +1,6 @@
+export { RED as EXTREME } from 'constants/forecast/palette'
+export { BLACK as HIGH } from 'constants/forecast/palette'
+export { BLACK as CONSIDERABLE } from 'constants/forecast/palette'
+export { BLACK as MODERATE } from 'constants/forecast/palette'
+export { BLACK as LOW } from 'constants/forecast/palette'
+export { BLACK as NOTHING } from 'constants/forecast/palette'

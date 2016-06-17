@@ -1,30 +1,10 @@
 import React from 'react'
+import { withState } from 'recompose'
 import { storiesOf, action } from '@kadira/storybook'
 import { Pagination, Left, Right, Center } from './index'
 
+const Controlled = withState('active', 'onSelect', props => props.active || 0)(Pagination)
+
 storiesOf('Pagination', module)
-.add('Pagination', () => (
-    <Pagination>
-        <Left onNavigate={action('onPrevious')}>
-            Previous blog post
-        </Left>
-        <Right onNavigate={action('onNext')}>
-            Previous blog post
-        </Right>
-    </Pagination>
-))
-.add('Pagination w/ center', () => (
-    <Pagination>
-        <Left onNavigate={action('onPrevious')}>
-            Previous blog post
-        </Left>
-        <Center>
-            <h3 style={{whiteSpace: 'nowrap'}}>
-                Some information
-            </h3>
-        </Center>
-        <Right onNavigate={action('onNext')}>
-            Previous blog post
-        </Right>
-    </Pagination>
-))
+.add('Pagination #1', () => <Pagination pages={10} />)
+.add('Pagination #2', () => <Controlled pages={10} active={4} first previous next last />)

@@ -1,6 +1,6 @@
 import { Api as PrismicApi, Predicates } from 'prismic.io'
+import {endpoint} from './config.json'
 
-const endpoint = 'https://avalancheca.prismic.io/api'
 const form = 'everything'
 
 function setter(api) {
@@ -17,4 +17,8 @@ export function Query(...predicates) {
 
 export function QueryDocument(id) {
     return Query(Predicates.at('document.id', id)).then(res => res.results[0])
+}
+
+export function QueryDocumentByUid(uid) {
+    return Query(Predicates.at('my.page.uid', uid)).then(res => res.results[0])
 }

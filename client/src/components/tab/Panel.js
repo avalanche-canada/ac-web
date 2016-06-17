@@ -7,8 +7,10 @@ Panel.propTypes = {
 }
 
 function Panel({ children, active = false }) {
+    const styleName = active === true ? 'Panel--active' : 'Panel'
+    
 	return (
-		<div styleName={active === true ? 'Panel--active' : 'Panel'} role='tabpanel'>
+		<div styleName={styleName} role='tabpanel'>
 			{children}
 		</div>
 	)

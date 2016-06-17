@@ -1,0 +1,58 @@
+@import "../../styles/colors.css";
+
+:root {
+    --primary-dark: color(var(--primary) blackness(50%));
+    --primary-light: color(var(--primary) lightness(50%));
+}
+
+.Container {
+    background-color: color(var(--primary-light) alpha(85%));
+    border-top: 5px solid var(--primary-dark);
+}
+
+.Set {
+    display: flex;
+
+    max-width: 1026px;
+    list-style: none;
+	padding: 0;
+	margin: 0 auto;
+}
+
+.Item {
+    position: relative;
+    min-width: 100px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    font-weight: 700;
+    cursor: pointer;
+
+
+    &:not(:last-child):after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: 0;
+        bottom: 10px;
+        width: 1px;
+        background-color: color(var(--gray-light) alpha(25%));
+    }
+}
+
+.Item--Active {
+    composes: Item;
+    composes: import ArrowDown from "../../styles/shapes.css";
+
+    position: relative;
+    color: white;
+
+    &:before {
+        border-top-color: var(--primary-dark);
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -7px;
+    }
+}

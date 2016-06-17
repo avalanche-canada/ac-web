@@ -1,0 +1,5 @@
+:global(.mapboxgl-map) {
+    &.Container {
+        position: absolute 0;
+    }
+}

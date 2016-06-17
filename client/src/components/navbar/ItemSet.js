@@ -4,21 +4,19 @@ import styles from './Navbar.css'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
 
-class ItemSet extends Component {
+@CSSModules(styles)
+export default class ItemSet extends Component {
     state = {
         activeIndex: null
-    }
-    constructor(...args) {
-        super(...args)
-
-        this.onKeyUp = this.handleKeyUp.bind(this)
-        this.close = this.close.bind(this)
     }
     set activeIndex(activeIndex) {
         this.setState({ activeIndex })
     }
     get activeIndex() {
         return this.state.activeIndex
+    }
+    get opened() {
+        return this.activeIndex !== null
     }
     handleClick(index) {
         if (this.activeIndex === index) {
@@ -27,7 +25,7 @@ class ItemSet extends Component {
             this.open(index)
         }
     }
-    handleKeyUp({ keyCode }) {
+    handleKeyUp = ({ keyCode }) => {
         if (keycode.codes.esc !== keyCode ) {
             return
         }
@@ -37,18 +35,18 @@ class ItemSet extends Component {
     open(index) {
         this.activeIndex = index
     }
-    close() {
+    close = () => {
         this.activeIndex = null
     }
     componentDidMount() {
-        window.addEventListener('keyup', this.onKeyUp)
+        window.addEventListener('keyup', this.handleKeyUp)
     }
     componentWillUnmount() {
-        window.removeEventListener('keyup', this.onKeyUp)
+        window.removeEventListener('keyup', this.handleKeyUp)
     }
     render() {
         return (
-            <div>
+            <div styleName='ItemSet--Container'>
                 <ul styleName='ItemSet'>
                     {Children.map(this.props.children, (item, index) => {
                         const isActive = this.activeIndex === index
@@ -71,10 +69,8 @@ class ItemSet extends Component {
                         return cloneElement(item, props, children)
                     })}
                 </ul>
-                <Backdrop onClick={this.close} />
+                {this.opened && <Backdrop onClick={this.close} />}
             </div>
         )
     }
 }
-
-export default CSSModules(ItemSet, styles)

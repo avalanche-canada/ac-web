@@ -1,0 +1,27 @@
+.Image {
+	min-height: 200px;
+	line-height: 2;
+	text-align: center;
+	width: 100%;
+	height: auto;
+	display: block;
+	position: relative;
+
+	&:after {
+		content: "We're sorry, the image is broken :(";
+
+		display: block;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: white;
+		color: rgb(100, 100, 100);
+
+		background-image: url("./broken-image.svg");
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+}

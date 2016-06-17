@@ -1,0 +1,265 @@
+#forecast
+    #inner-forecast
+        a#back-link(ui-sref='ac.map')
+            i.fa.fa-chevron-left
+
+        /// #top-link
+        ///    i.fa.fa-chevron-up
+        ///    br
+        ///    | Top
+        article.container
+            .row
+                header.col-xs-12
+                    #header-inner
+                        h1(class="{{forecast.region === 'whistler-blackcomb' ? 'forecast-wbc' : '' }}") {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
+                        div(ng-switch="forecast.region")
+                          #forecast-sponsor-desktop.hidden-xs(ng-switch-default)
+                              p Brought to you by
+                              a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                                  img(src='{{sponsor.getText("sponsor.image-229")}}')
+                          #forecast-sponsor-desktop.forecast-wbc.hidden-xs(ng-switch-when='whistler-blackcomb')
+                              p Brought to you by
+                              div.wbc-logos
+                                  img.wbc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367526/logos/OriginalSizeLogos/WBWhoosh_RedBlack.png")
+                                  img.xc-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_75/v1447367393/logos/OriginalSizeLogos/EC_black.png")
+                                  img.whs-logo(src="https://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_200/v1447367393/logos/OriginalSizeLogos/Whistler_HeliSki_Logo.png")
+                          #forecast-sponsor-desktop.hidden-xs(ng-switch-when='kananaskis')
+                              p Brought to you by
+                              a(target='_blank', href='')
+                                  img(style='width:120px;' src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                        //- h1 {{ forecast.bulletinTitle | acNormalizeForecastTitle }}
+                        //- #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region != "kananaskis"')
+                        //-     p Brought to you by
+                        //-     a(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                        //-         img(ng-src='{{sponsor.getText("sponsor.image-229")}}')
+                        //- #forecast-sponsor-desktop.hidden-xs(ng-if='forecast.region == "kananaskis"')
+                        //-     p Brought to you by
+                        //-     a(target='_blank', href='')
+                        //-         img(style='width:120px;' ng-src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                        .blue-border
+                #forecast-sponsor-mobile.col-xs-12.visible-xs-block
+                    #forecast-sponsor-mobile-inner(ng-if='forecast.region != "kananaskis"')
+                        p.pull-left
+                            | Brought
+                            br
+                            | to you by
+                        a.pull-right(target='_blank', href='{{sponsor.getText("sponsor.url")}}')
+                            img(ng-src='{{sponsor.getText("sponsor.image-229")}}')
+                    #forecast-sponsor-mobile-inner(ng-if='forecast.region == "kananaskis"')
+                        a.pull-right(target='_blank', href='')
+                            img(ng-src='http://www.avalanche.ca/assets/images/kananaskis.jpg')
+                section#forecast-date.col-xs-12
+                    #date-issued.forecast-date-inner
+                        | Date Issued &nbsp;
+                        br.visible-xs-inline
+                        span  {{ forecast.dateIssued | date:'EEE MMMM d, h:mm a' | uppercase }}
+                    #date-valid.forecast-date-inner
+                        | &nbsp; Valid Until &nbsp;
+                        br.visible-xs-inline
+                        span {{ forecast.validUntil | date:'EEE MMMM d, h:mm a' | uppercase }}
+                    #date-issued.forecast-date-inner(ng-if='forecast.forecaster')
+                        | Forecaster &nbsp;
+                        br.visible-xs-inline
+                        span {{ forecast.forecaster }}
+                    #date-valid.forecast-date-inner(ng-if='forecast.forecaster')
+
+                section#forecast-body.col-xs-12.col-md-9
+                    div#highlights(ng-bind-html='forecast.highlights')
+
+                    #forecast-tabs
+                        // Nav tabs
+                        ul.nav.nav-tabs(role='tablist')
+                          li.active#public-forecast-li.active
+                            a(data-toggle='tab', data-target="#public-forecast", role='tab', href='')
+                              | Public Avalanche Forecast
+                              i.fa.fa-chevron-down.visible-xs-block
+                              span.hidden-xs.arrow-down
+                          li#forecast-details-li
+                            a(data-toggle='tab', role='tab', href='', data-target="#forecast-details")
+                              | Forecast Details
+                              i.fa.fa-chevron-down.visible-xs-block
+                              span.hidden-xs.arrow-down
+                          ///li#blank-forecast-tab.hidden-xs.hidden-sm
+                        // Tab panes
+                        .tab-content
+                            #public-forecast.tab-pane.active
+                                .panel-group
+                                    .div(ng-switch="forecast.dangerMode")
+                                      div(ng-switch-when="Spring situation")
+                                        .panel.panel-primary
+                                          .panel-heading Spring Conditions: {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                          .panel-body
+                                            .col-xs-4
+                                              img(style="max-width:90%" src="http://www.avalanche.ca/assets/images/spring_situation_icon.svg")
+                                            .col-xs-8 
+                                              ac-spring-conditions-text
+                                      div(ng-switch-when="Off season")
+                                        .panel.panel-primary
+                                          .panel-heading Summer Conditions: {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                          .panel-body
+                                            .col-xs-4
+                                              img(style="max-width:90%" src="http://www.avalanche.ca/assets/images/summer_conditions_icon.svg")
+                                            .col-xs-8 
+                                              ac-summer-conditions-text
+
+                                      .panel.panel-primary(ng-switch-default)
+                                          .panel-heading
+                                                  | {{ forecast.dangerRatings[0].date | dateUtc:'dddd' }}
+                                          .panel-body.forecast-nowcast
+                                              img.img-responsive(alt='', ng-src='{{api}}/api/forecasts/{{region}}/nowcast.svg')
+                                          table.table.table-condensed.ac-forecast-days
+                                              thead.ac-thead-dark
+                                                  tr
+                                                      th
+                                                      th {{ forecast.dangerRatings[1].date | dateUtc:'dddd' }}
+                                                      th {{ forecast.dangerRatings[2].date | dateUtc:'dddd' }}
+                                              tbody
+                                                  tr
+                                                      td.ac-veg-zone--alp
+                                                          strong Alpine
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.alp.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }}
+                                                  tr
+                                                      td.ac-veg-zone--tln
+                                                          strong Treeline
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.tln.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }}
+                                                  tr
+                                                      td.ac-veg-zone--btl
+                                                          strong Below Treeline
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[1].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }}
+                                                      td(class="ac-danger-rating--{{ forecast.dangerRatings[2].dangerRating.btl.split(':')[1].toLowerCase()}}")
+                                                          strong {{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }}
+                                                  tr
+                                                      td
+                                                          strong Confidence:
+                                                      td(colspan="2")
+                                                          span.ac-text-default {{ forecast.confidence }}
+
+                                    .panel.panel-primary(ng-repeat="problem in forecast.problems")
+                                        .panel-heading
+                                            h4.panel-title
+                                                a(href='', data-target="#problem{{$index}}", data-toggle='collapse', data-parent='#problemsAccordion')
+                                                    | {{ problem.type }}
+                                         div(id="problem{{$index}}")
+                                            .panel-body
+                                                .row
+                                                    .col-md-3.problem
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small What Elevations?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--elevations
+                                                                img.center-block(ng-src="{{problem.icons.elevations}}")
+                                                    .col-md-3.problem
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small What Aspects?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--aspects
+                                                                img.center-block(ng-src="{{problem.icons.aspects}}")
+                                                    .col-md-3.problem
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small Chances of Avalanches?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--likelihood
+                                                                img.center-block(ng-src="{{problem.icons.likelihood}}")
+                                                    .col-md-3.problem
+                                                        .panel.panel-default
+                                                            .panel-heading
+                                                                strong.small Expected Size?
+                                                            .panel-body.ac-problem-icon.ac-problem-icon--expected-size
+                                                                img.center-block(ng-src="{{problem.icons.expectedSize}}")
+                                                .row
+                                                    .col-md-12
+                                                        p.ac-problem.narative(ng-bind-html='problem.comment')
+                                                        .panel.panel-default.ac-problem-travel-advice
+                                                            .panel-heading
+                                                                strong.small Travel and Terrain Advice
+                                                            .panel-body
+                                                                p(ng-bind-html='problem.travelAndTerrainAdvice')
+                                #forecast-by
+                                    /// todo
+                                    ///| Prepared by
+                                    ///a(href='#') rbuhler
+
+                            #forecast-details.tab-pane
+                                h3 Avalanche Summary
+                                p(ng-bind-html='forecast.avalancheSummary')
+
+                                h3 Snowpack Summary
+                                p(ng-bind-html='forecast.snowpackSummary')
+
+                                h3 Weather Forecast
+                                p(ng-bind-html='forecast.weatherForecast')
+
+                #mobile-sidebar-container.col-xs-12.col-md-3
+                    aside
+                        .dark-ribbon
+                        .sidebar-inner
+                            ng-include(ng-if='forecast.region != "kananaskis"' src='"components/sidebar/sidebar.html"')
+                            article.first.sidebar-related(ng-if='forecast.region == "kananaskis"')
+                                p This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program.
+
+                            ul.sidebar-related-links(ng-if='forecast.region == "kananaskis"')
+                                li
+                                    h4 Contact
+                                li Avalanche.safety@gov.ab.ca
+                                li 403-678-5508 is the Public Safety office phone number (weekdays)
+                                li 403-591-7755 Dispatch office non-emergency line
+                                li 911 for backcountry rescues and tell them you are in Kananaskis Country.
+                                li
+                                    a(href='https://www.facebook.com/KCPublicSafety')
+                                        i.fa.fa-facebook.fa-fw.fa-lg
+                                        | Facebook
+
+                            ul.sidebar-related-links
+                                li
+                                    a(href="/api/forecasts/{{region}}.html" target='_blank')
+                                        | Print Friendly
+                                        i.fa.fa-print.fa-fw.fa-lg
+                                li
+                                    a(href="/api/forecasts/{{region}}.rss" target='_blank')
+                                        | RSS Feed
+                                        i.fa.fa-rss.fa-fw.fa-lg
+
+
+
+
+
+                footer#forecast-bulletin.col-xs-12
+                    .panel-group
+
+                        .panel.panel-default.first
+                            h4.panel-title
+                                a.collapsed(href='' data-target='#collapseTwo', data-parent='#accordion', data-toggle='collapse')
+                                    | {{dangerRating.getText('generic.title')}}
+                            #collapseTwo.collapse
+                                .panel-body(ng-bind-html="dangerRating.getStructuredText('generic.body').asHtml(ctx)")
+
+                        .panel.panel-default
+                            h4.panel-title
+                                a.collapsed(href='' data-target='#collapseThree', data-parent='#accordion', data-toggle='collapse')
+                                    | {{rss.getText('generic.title')}}
+                            #collapseThree.collapse
+                                .panel-body(ng-bind-html="rss.getStructuredText('generic.body').asHtml(ctx)")
+
+                        .panel.panel-default.last
+                            h4.panel-title
+                                a.collapsed(href='', data-target="#collapseOne" data-parent='#accordion', data-toggle='collapse')
+                                    | {{disclaimer.getText('generic.title')}}
+                            #collapseOne.collapse
+                                div(ng-switch="forecast.region")
+                                  div(ng-switch-when="whistler-blackcomb")
+                                    h2 USE AT YOUR OWN RISK
+                                    p The Whistler Blackcomb Avalanche Bulletin, and other information and services provided by Whistler Blackcomb and Avalanche Canada are intended for personal and recreational purposes only
+                                    p
+                                      strong THIS INFORMATION IS PROVIDED "AS IS" AND IN NO EVENT SHALL THE PROVIDERS BE LIABLE FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, DAMAGES RESULTING FROM DISCOMFORT, INJURY, OR DEATH, CLAIMS BY THIRD PARTIES OR FOR OTHER SIMILAR COSTS, OR ANY SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OF THE INFORMATION.
+                                    p The user acknowledges that it is impossible to accurately predict natural events such as avalanches in every instance, and uses the data in this bulletin with this always foremost in mind. The accuracy or reliability of the data is not guaranteed or warranted in any way and the Providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.
+                                  div(ng-switch-default)
+                                    .panel-body(ng-bind-html="disclaimer.getStructuredText('generic.body').asHtml(ctx)")
+
+// /#forecast

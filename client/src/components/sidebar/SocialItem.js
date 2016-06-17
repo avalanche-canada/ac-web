@@ -10,10 +10,10 @@ SocialItem.propTypes = {
 
 function SocialItem({ text, children }) {
     return (
-        <section styleName='SocialItem'>
+        <div styleName='SocialItem'>
             {text}
             {children}
-        </section>
+        </div>
     )
 }
 

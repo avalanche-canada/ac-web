@@ -1,25 +1,43 @@
 import React, { PropTypes, DOM } from 'react'
-import { compose, setPropTypes, setDisplayName, mapProps } from 'recompose'
+import { compose, setPropTypes, setDisplayName, mapProps, defaultProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Button.css'
-
-export const PRIMARY = 'Primary'
-export const SECONDARY = 'Secondary'
-
-const { button } = DOM
-const propTypes = {
-    type: PropTypes.oneOf([PRIMARY, SECONDARY])
-}
-
-function propsMapper({ type = PRIMARY, ...props }) {
-    return {
-        ...props,
-        styleName: type,
-    }
-}
+import * as KINDS from './kinds'
+import {asValues} from 'constants/utils'
 
 export default compose(
     setDisplayName('Button'),
-    setPropTypes(propTypes),
-    mapProps(propsMapper)
-)(CSSModules(button, styles))
+    setPropTypes({
+        children: PropTypes.node,
+        active: PropTypes.bool,
+        kind: PropTypes.oneOf(asValues(KINDS)),
+        icon: PropTypes.element,
+    }),
+    defaultProps({
+        kind: KINDS.default,
+        active: false,
+    }),
+    mapProps(({icon, active, kind, ...props}) => {
+        const styleName = `${kind} ${active ? 'Active' : ''}`
+
+        if (!icon) {
+            return {...props, styleName}
+        }
+
+        const {children} = props
+
+        return {
+            ...props,
+            styleName: `${styleName} ${children ? '' : 'IconOnly'}`,
+            children: (
+                <div styleName='IconContainer'>
+                    {icon}
+                    {typeof children === 'string' ?
+                        <span>{children}</span> :
+                        children
+                    }
+                    </div>
+            )
+        }
+    }),
+)(CSSModules(DOM.button, styles, { allowMultiple: true }))

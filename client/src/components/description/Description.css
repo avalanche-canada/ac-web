@@ -1,0 +1,36 @@
+@import "../../styles/colors.css";
+
+.List {
+    margin: 0;
+}
+
+.List--Horizontal {
+    composes: List;
+
+    & > .Term {
+        clear: both;
+        float: left;
+    }
+    & > .Element {
+        float: left;
+    }
+}
+
+.List--1Columns {
+    columns: 1;
+}
+.List--2Columns {
+    columns: 2;
+}
+
+.Term {
+    width: 25%;
+    color: var(--gray-darker);
+    font-weight: 700;
+    line-height: 1.5em;
+}
+
+.Element {
+    color: var(--gray);
+    line-height: 1.5em;
+}

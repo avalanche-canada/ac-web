@@ -4,9 +4,9 @@ import styles from './Navbar.css'
 
 function Section({ children }) {
     return (
-        <section styleName='Section'>
+        <div styleName='Section'>
             {children}
-        </section>
+        </div>
     )
 }
 

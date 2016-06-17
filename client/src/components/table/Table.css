@@ -1,0 +1,93 @@
+@import "../../styles/colors.css";
+
+.Table {
+    width: 100%;
+    border-collapse: collapse;
+    position: relative;
+}
+
+.TBody {
+}
+
+.TBody--Featured {
+    composese: TBody;
+    composes: import Hash from "../../styles/Textures.css";
+
+    border-bottom: 5px solid black;
+
+    & > .Row {
+        font-weight: 700;
+        border-bottom-color: white;
+    }
+
+    & > .Row--Controlled {
+        font-weight: inherit;
+    }
+
+    & > .Row:first-child {
+        border-top: 29px solid black;
+    }
+
+    &:before {
+        content: attr(data-title);
+        position: absolute;
+        padding: 7px;
+        text-transform: uppercase;
+        color: white;
+    }
+}
+
+.Row {
+    border-bottom: 2px solid var(--gray-lighter);
+}
+
+.Row--Controlled {
+    composes: Row;
+
+    background-color: var(--gray-lightest);
+}
+
+.Row--Hide {
+    display: none;
+}
+
+.Cell {
+    color: var(--gray-darker);
+    padding: 15px 10px;
+    position: relative;
+    vertical-align: middle;
+
+    & button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+.Header {
+    &:after {
+        content: '';
+        display: block;
+        height: 25px;
+    }
+}
+
+.HeaderCell {
+    composes: Cell;
+
+    border-left: 2px solid var(--gray-lighter);
+    color: var(--gray);
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &:first-child {
+        border-left: none;
+    }
+}
+
+.HeaderCell--Sortable {
+    composes: HeaderCell;
+
+    padding-right: 36px;
+}

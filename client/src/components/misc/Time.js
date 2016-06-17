@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { compose, setDisplayName, withProps } from 'recompose'
+import React, {PropTypes} from 'react'
+import {compose, setDisplayName, withProps} from 'recompose'
 import moment from 'moment'
 
 Time.propTypes = {
@@ -18,7 +18,7 @@ export default function Time({ value = new Date(), format = 'hh:mm', children })
     const date = moment(value)
 
     return (
-        <time datetime={date.format()}>
+        <time dateTime={date.format()}>
             {children || date.format(format)}
         </time>
     )

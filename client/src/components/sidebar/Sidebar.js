@@ -1,25 +1,22 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Sidebar.css'
 import Follow from './Follow'
 import Share from './Share'
 import Contact from './Contact'
-import Item from './Item'
 
 Sidebar.propTypes = {
     noSocial: PropTypes.bool,
-    children: PropTypes.arrayOf(Item),
+    children: PropTypes.arrayOf(PropTypes.node),
 }
 
-function Sidebar({ children, noSocial = false }) {
-    const withSocial = !noSocial
-
+function Sidebar({ noSocial = false, children }) {
     return (
         <nav styleName='Sidebar'>
             {children}
-            {withSocial && <Share />}
-            {withSocial && <Follow />}
-            {withSocial && <Contact />}
+            {noSocial || <Share />}
+            {noSocial || <Follow />}
+            {noSocial || <Contact />}
         </nav>
     )
 }

@@ -1,0 +1,25 @@
+@import "../../styles/colors.css";
+
+.Container {
+    min-height: 100vh !important;
+    margin-bottom: -50px;
+
+    &:after {
+        content: "";
+        display: block;
+        height: 50px;
+    }
+}
+
+.Headline {
+    font-weight: bold;
+}
+
+.Bulletin {
+    font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+}

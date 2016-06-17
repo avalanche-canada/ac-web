@@ -1,0 +1,124 @@
+@import "../../styles/colors.css";
+
+@custom-media --header-horizontal (width > 600px);
+@custom-media --side-by-side (width > 800px);
+@custom-media --full-width (width > 1054px);
+
+.Page {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    max-width: 1026px;
+
+    margin-left: 1em;
+    margin-right: 1em;
+
+    @media (--full-width) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (--side-by-side) {
+        flex-direction: row;
+    }
+}
+
+.Main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    flex: 75%;
+
+
+    @media (--side-by-side) {
+        padding-right: 1em;
+        box-sizing: border-box;
+    }
+}
+
+.Banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 380px;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.BannerForm {
+    composes: import Form from "../form/Form.css";
+
+    margin: auto 3em;
+
+    & legend {
+        width: 100%;
+        color: white;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+}
+
+.Article {
+
+}
+
+.Header {
+    composes: import MainDecorator from "../misc/Br.css";
+    composes: import RibbonDecorator from "../misc/Br.css";
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 100%;
+
+    position: relative;
+
+    margin: 0;
+    padding-bottom: 1.5em;
+    padding-top: 1.5em;
+
+    @media (--header-horizontal) {
+        flex-direction: row;
+        align-items: baseline;
+
+        & > :first-child {
+            flex: 66%;
+        }
+
+        & > :last-child {
+            flex: 33%;
+            margin: 0 auto;
+        }
+    }
+}
+
+.ArticleHeader {
+
+}
+
+.Section {
+
+}
+
+.Section--Headline {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.Aside {
+    flex: 25%;
+
+    @media (--side-by-side) {
+        /*padding-left: 1em;*/
+    }
+}
+
+.Nav {
+
+}

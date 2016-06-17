@@ -1,27 +1,31 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
+import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
-import Link from './Link'
+import Donate from './Donate'
 import styles from './Navbar.css'
 
+const paypal = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=87JTBQBSCN6PS'
+function K() {}
+
 Navbar.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node),
-    isFoundation: PropTypes.bool,
+    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    isFoundation: PropTypes.bool.isRequired,
+    onBurgerClick: PropTypes.func.isRequired,
 }
 
-const paypal = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=87JTBQBSCN6PS'
-
-function Navbar({ children = [], isFoundation = false }) {
+function Navbar({ isFoundation = false, onBurgerClick = K, children = [] }) {
     return (
-        <div styleName='Container'>
-            <Brand isFoundation={isFoundation} />
-            <ItemSet>
-                {children}
-            </ItemSet>
-            <Link to={isFoundation ? paypal : 'foundation'} styleName='Donate' >
-                Donate
-            </Link>
+        <div styleName='Navbar'>
+            <nav styleName='Navigation'>
+                <Brand isFoundation={isFoundation} />
+                <Burger onClick={onBurgerClick} />
+                <ItemSet>
+                    {children}
+                </ItemSet>
+                <Donate isFoundation={isFoundation} />
+            </nav>
         </div>
     )
 }

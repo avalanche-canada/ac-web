@@ -1,0 +1,22 @@
+
+.Container {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.Title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	color: white !important;
+	padding: 10px;
+	background-color: black;
+}
+
+.Toolbar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+}

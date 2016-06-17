@@ -11,7 +11,7 @@ const propTypes = {
 function propsMapper({ isFoundation = false }) {
     return {
         to: isFoundation ? 'foundation' : '',
-        title: `Avalanche Canada${isFoundation ? ' Foundation' : ''}`,
+        title: isFoundation ? 'Avalanche Canada Foundation' : 'Avalanche Canada',
         styleName: isFoundation ? 'Brand--Foundation' : 'Brand'
     }
 }

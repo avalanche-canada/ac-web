@@ -1,17 +1,7 @@
-import React, { PropTypes } from 'react'
-import CSSModules from 'react-css-modules'
+import {PropTypes, DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Sidebar.css'
 
-Item.propTypes = {
-    children: PropTypes.string.isRequired
-}
+const name = 'Item'
 
-function Item({ children }) {
-    return (
-        <section styleName='Item'>
-            {children}
-        </section>
-    )
-}
-
-export default CSSModules(Item, styles)
+export default Element({name, styles})

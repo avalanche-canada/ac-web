@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
+import {InnerHTML} from 'components/misc'
 
 Html.propTypes = {
-    fragment: PropTypes.string,
     document: PropTypes.object.isRequired,
+    fragment: PropTypes.string,
     linkResolver: PropTypes.func,
     htmlSerializer: PropTypes.func,
 }
@@ -18,9 +19,9 @@ export default function Html({ fragment, document, linkResolver, htmlSerializer 
         }
     }
 
-    const __html = doc.asHtml(linkResolver, htmlSerializer)
-
     return (
-        <div dangerouslySetInnerHTML={{ __html }} />
+        <InnerHTML>
+            {doc.asHtml(linkResolver, htmlSerializer)}
+        </InnerHTML>
     )
 }
