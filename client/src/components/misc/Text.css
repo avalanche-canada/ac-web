@@ -1,0 +1,9 @@
+@import "../../styles/colors.css";
+
+.Text {
+    color: var(--gray);
+}
+
+.Loading {
+    composes: Text;
+}

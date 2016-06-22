@@ -5,7 +5,7 @@ import moment from 'moment'
 import {withRouter} from 'react-router'
 import {resolve} from 'react-resolver'
 import {Article} from 'components/page'
-import {Date as DateElement, DateTime, Loading, Muted} from 'components/misc'
+import {DateElement, DateTime, Loading, Muted} from 'components/misc'
 import {ExpandMore} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import {Metadata, Entry} from 'components/metadata'
@@ -102,7 +102,7 @@ export default class Container extends Component {
                         </Callout>
                     </div>
                 </Overlay>
-                <Loading show={isFetching}>
+                <Loading hide={!isFetching}>
                     Loading weather forecast for <DateElement value={date} />...
                 </Loading>
                 <Muted show={!isFetching && !forecast}>

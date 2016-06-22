@@ -1,4 +1,3 @@
-import {createText} from './Text'
 import {createTime} from './Time'
 
 export Ribbon from './Ribbon'
@@ -12,8 +11,12 @@ export Phone from './Phone'
 
 export Br from './Br'
 
+const now = new Date()
+
 export Time from './Time'
-export const Date = createTime('Date', 'dddd MMMM Do')
+export const DateElement = createTime('Date', function format(value) {
+    return value.getFullYear() === now.getFullYear() ? 'dddd MMMM Do' : 'dddd MMMM Do, YYYY'
+})
 export const DateTime = createTime('DateTime', 'dddd MMMM Do, hh:mm')
 export const Day = createTime('Day', 'dddd')
 
@@ -26,8 +29,7 @@ export InteractiveImage from './InteractiveImage'
 
 export Collapse from './Collapse'
 
-export const Loading = createText('Loading', 'Loading...')
-// export const Loading = createText('Loading', 'Loading...')
 export Muted from './Text'
+export Loading from './Text'
 
 export Image from './Image'

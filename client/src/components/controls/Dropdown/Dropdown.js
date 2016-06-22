@@ -15,7 +15,7 @@ export default class Dropdown extends Component {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
         onChange: PropTypes.func.isRequired,
-        value: PropTypes.string,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         placeholder: PropTypes.string,
     }
     static defaultProps = {
@@ -53,6 +53,11 @@ export default class Dropdown extends Component {
         const option = options.find(option => option.props.value === value)
 
         return option && option.props.children
+    }
+    close(callback = K) {
+        this.setState({
+            open: true
+        }, callback)
     }
     valueAt(index) {
         const options = Children.toArray(this.props.children)
@@ -115,13 +120,17 @@ export default class Dropdown extends Component {
         this.target = target
     }
     handleBlur = ({target}) => {
-        this.open = false
         target.removeEventListener('keyup', this.handleKeyUp)
         target.removeEventListener('keydown', this.handleKeyDown)
+
+        // SHAME
+        setTimeout(() => {
+            this.open = false
+        }, 100)
     }
     render() {
         const {open, active} = this
-        const {onChange, placeholder, children} = this.props
+        const {onChange, placeholder, children, value} = this.props
         const styleName = open ? 'Input--Open' : 'Input'
 
         return (
@@ -133,8 +142,10 @@ export default class Dropdown extends Component {
                     <div styleName='OptionSet'>
                         {Children.map(children, (option, index) => (
                             cloneElement(option, {
-                                active: index === active,
-                                onClick: event => onChange(option.props.value),
+                                active: value === option.props.value,
+                                onClick: event => {
+                                    this.close(() => onChange(option.props.value))
+                                },
                             })
                         ))}
                     </div>

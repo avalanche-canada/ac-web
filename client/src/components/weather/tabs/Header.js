@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Date as DateElement} from 'components/misc'
+import {DateElement} from 'components/misc'
 
 Header.propTypes = {
     date: PropTypes.instanceOf(Date),

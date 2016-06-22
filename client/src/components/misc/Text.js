@@ -1,38 +1,37 @@
-import React, { PropTypes, DOM } from 'react'
-import {compose, setDisplayName, mapProps} from 'recompose'
-import CSSModules from 'react-css-modules'
-import styles from './Misc.css'
+import React, {PropTypes, DOM, createElement} from 'react'
+import {compose, branch, renderComponent, renderNothing, setPropTypes, withProps} from 'recompose'
+import {Element} from 'compose'
+import styles from './Text.css'
 
-// TODO: Need to extend to all type of text....see Bootstrap for example
-// TODO: Show should be removed...and perhaps replace with hide !!!!
+// TODO Better recompose usage
+
+function I(component) {
+    return component
+}
+const component = DOM.p
+const element = Element({
+    name: 'Text',
+    component,
+    styles,
+})
 
 Text.propTypes = {
-    children: PropTypes.node,
-    show: PropTypes.bool,
+    children: PropTypes.element,
+    hide: PropTypes.bool,
 }
 
-function Text({show = false, children}) {
-    if (!show) {
+export default function Text({children, hide = false}) {
+    if (hide) {
         return null
     }
 
-    return (
-        <p styleName='Text'>
-            {children}
-        </p>
-    )
+    return createElement(element, null, children)
 }
 
-Text = CSSModules(Text, styles)
-
-export default Text
-
-export function createText(displayName, defaultText) {
-    return compose(
-        setDisplayName(displayName),
-        mapProps(({children, ...rest}) => ({
-            ...rest,
-            children: children || defaultText
-        }))
-    )(Text)
-}
+export const Loading = withProps({
+    children: 'Loading...'
+})(Element({
+    name: 'Loading',
+    component,
+    styles,
+}))

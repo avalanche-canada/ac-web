@@ -11,7 +11,7 @@ Option.propTypes = {
     onClick: PropTypes.func,
 }
 
-function Option({ onClick = K, active = false, children }) {
+function Option({onClick = K, active = false, children}) {
     return (
         <div styleName={active ? 'Option--Active' : 'Option'} onClick={onClick}>
             {children}

@@ -6,7 +6,7 @@ Text.propTypes = {
     component: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 }
 
-export default function Text({ document, fragment, component = DOM.p }) {
+export default function Text({document, fragment, component = DOM.p}) {
 	const frag = document.get(fragment)
 
 	if (frag === null) {

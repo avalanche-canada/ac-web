@@ -3,24 +3,19 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// TODO: Remove once switch the newer versoin of Node
 require('es6-promise')
-
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
-var DefinePlugin = webpack.DefinePlugin
-var HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin
 
 module.exports = {
 	entry: {
-		vendor: ['babel-polyfill', 'react', 'react-dom', 'recompose', 'react-css-modules', 'keycode', 'moment', 'lodash', 'lodash.padstart', 'lodash.memoize', 'lodash.range'],
-        app: ['webpack-hot-middleware/client?reload=true', path.resolve(__dirname, 'client/src/main.js')],
+		app: path.resolve(__dirname, 'client/src/main.js'),
+        vendor: ['babel-polyfill', 'react', 'react-dom', 'recompose', 'react-css-modules', 'keycode', 'moment', 'lodash', 'lodash.padstart', 'lodash.memoize', 'lodash.range'],
 	},
-	output: {
+    output: {
         publicPath: '/',
-        path: path.resolve(__dirname, 'dist/public'),
+        path: path.join(__dirname, 'dist', 'public'),
         filename: '[name].js',
 	},
-	module: {
+    module: {
 		loaders: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
@@ -74,38 +69,21 @@ module.exports = {
             reducers: 'reducers',
         }
     },
-	postcss: [
-		require('postcss-import'),
+    postcss: [
+        require('postcss-import'),
 		require('postcss-cssnext'),
         require('rucksack-css'),
 	],
-    devtool: 'eval-source-map',
-    devServer: {
-        progress: true,
-        colors: true,
-        hot: true,
-        contentBase: 'dist/public',
-        historyApiFallback: true,
-        // proxy: {
-        //     '/api*': {
-        //         target: 'http://localhost/api',
-        //     },
-        // }
-    },
 	plugins: [
-		new CommonsChunkPlugin('vendor', 'vendor.js'),
+		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
 		new ExtractTextPlugin('style.css', { allChunks: true }),
-        new DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
-        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/src/index.tpl.html'),
             inject: 'body',
             filename: 'index.html',
         }),
-        new HotModuleReplacementPlugin(),
-	],
-    // stats: {
-    //     errorDetails: true
-    // }
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
+	]
 }

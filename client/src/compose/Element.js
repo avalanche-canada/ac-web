@@ -1,18 +1,15 @@
-import { PropTypes, DOM } from 'react'
+import {PropTypes, DOM} from 'react'
 import CSSModules from 'react-css-modules'
-import { compose, setDisplayName, setPropTypes, withProps } from 'recompose'
-
-const {div} = DOM
-const PROP_TYPES = {
-    children: PropTypes.element.isRequired,
-}
+import {compose, setDisplayName, setPropTypes, withProps} from 'recompose'
 
 export default function Element({
+    component = DOM.div,
     name,
     styleName = name,
     styles,
-    component = div,
-    propTypes = PROP_TYPES
+    propTypes = {
+        children: PropTypes.element,
+    }
 }) {
     if (styles) {
         component = CSSModules(component, styles)
@@ -20,7 +17,7 @@ export default function Element({
 
     return compose(
         setDisplayName(name),
-        setPropTypes(PROP_TYPES),
+        setPropTypes(propTypes),
         withProps({styleName}),
     )(component)
 }

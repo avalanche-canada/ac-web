@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Html, Image } from 'prismic'
-import {Date as DateElement} from 'components/misc'
+import {DateElement} from 'components/misc'
 
 Day.propTypes = {
 	date: PropTypes.instanceOf(Date).isRequired,
