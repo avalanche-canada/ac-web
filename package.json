@@ -7,6 +7,7 @@
     "aws-sdk": "^2.2.12",
     "babel-polyfill": "^6.7.4",
     "body-parser": "^1.0.2",
+    "brfs": "^1.4.3",
     "cache-manager": "^1.4.0",
     "cache-manager-redis": "^0.2.2",
     "change-case": "^2.1.5",
