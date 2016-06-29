@@ -1,25 +1,30 @@
 import {compose, mapProps, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
-import {getNewsFeed} from 'reducers/prismic'
-import {loadNews} from 'actions/prismic'
+import {getNewsFeedProps} from 'reducers/prismic/news'
+import {loadForType} from 'actions/prismic'
 import {NewsFeed} from 'pages'
 import {history} from 'router'
 
 const pathname = '/news'
 
 export default compose(
-    connect(getNewsFeed, {loadNews}),
+    connect(getNewsFeedProps, {loadForType}),
     lifecycle({
         componentDidMount() {
-            this.props.loadNews()
+            this.props.loadForType('news', {
+                pageSize: 100
+            })
         }
     }),
     mapProps(({location, ...rest}) => {
         const {query} = location
+        const {year, month, tags} = query
 
         return {
             ...rest,
-            ...query,
+            year: year ? Number(year) : year,
+            month,
+            tags,
             onYearChange(year) {
                 history.push({
                     pathname,
@@ -38,12 +43,12 @@ export default compose(
                     }
                 })
             },
-            onTagChange(tag) {
+            onTagChange(tags) {
                 history.push({
                     pathname,
                     query: {
                         ...query,
-                        tag
+                        tags
                     }
                 })
             },

@@ -1,8 +1,7 @@
-import React, {PropTypes, Component} from 'react'
-import {Animation, Toolbar, Title} from './animation'
-import Image from './Image'
+import React, {PropTypes} from 'react'
+import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import {Loop} from 'components/loop'
 import {formatLoop as format} from './utils/Url'
-import keycode from 'keycode'
 import range from 'lodash.range'
 
 const HOURS = new Map([
@@ -69,152 +68,27 @@ const RUNS = new Map([
 
 export const TYPES = [...HOURS.keys()]
 
-export default class Loop extends Component {
-	static propTypes = {
-		type: PropTypes.oneOf(TYPES).isRequired,
-		run: PropTypes.number.isRequired,
-		date: PropTypes.instanceOf(Date).isRequired,
-        hours: PropTypes.arrayOf(PropTypes.number),
-        interval: PropTypes.number,
-	}
-    static defaultProps = {
-        date: new Date(),
-        interval: 1000,
-    }
-	state = {
-		cursor: 0,
-		isPlaying: true,
-		isBroken: true,
-	}
-	get cursor() {
-		return this.state.cursor
-	}
-	set cursor(cursor) {
-        this.setState({ cursor }, this.boundShake)
-	}
-    get isPlaying() {
-        return this.state.isPlaying
-    }
-    set isPlaying(isPlaying) {
-        this.setState({ isPlaying }, this.boundShake)
-    }
-	get maxCursor() {
-		return this.hours.length - 1
-	}
-	get isBroken() {
-		return this.state.isBroken
-	}
-	set isBroken(isBroken) {
-		this.setState({ isBroken })
-	}
-	get hours() {
-		return this.props.hours || HOURS.get(this.props.type)
-	}
-    clearTimeout() {
-        window.clearTimeout(this.timeoutID)
-    }
-    setTimeout() {
-        const { interval } = this.props
-
-        this.timeoutID = window.setTimeout(this.handleNext, interval)
-    }
-    shake() {
-        this.clearTimeout()
-
-        if (this.isPlaying) {
-            this.setTimeout()
-        }
-    }
-	next = () => {
-		if (this.maxCursor === this.cursor) {
-            this.cursor = 0
-		} else {
-			this.cursor = this.cursor + 1
-		}
-	}
-	prev = () => {
-		if (this.cursor === 0) {
-            this.cursor = this.maxCursor
-		} else {
-			this.cursor = this.cursor - 1
-		}
-	}
-	first = () => {
-        this.pause()
-		this.cursor = 0
-	}
-	last = () => {
-        this.pause()
-		this.cursor = this.maxCursor
-	}
-	play = () => {
-        this.isPlaying = true
-	}
-    pause = () => {
-        this.isPlaying = false
-    }
-	componentDidMount() {
-		window.addEventListener('keydown', this.handleKeyDown)
-        this.shake()
-	}
-	componentWillUnmount() {
-		window.removeEventListener('keydown', this.handleKeyDown)
-        this.clearTimeout()
-	}
-	onKeyDown = ({ keyCode }) => {
-		const { left, right } = keycode.codes
-
-		switch (keyCode) {
-			case left:
-				this.prev()
-				break;
-			case right:
-				this.next()
-				break;
-		}
-	}
-	handleImageLoad = () => {
-		this.isBroken = false
-	}
-	handleImageError = () => {
-		this.isBroken = true
-	}
-	get of() {
-		return `${this.cursor + 1} of ${this.hours.length}`
-	}
-	render() {
-		const { type, date } = this.props
-        let { run } = this.props
-
-        if (typeof run !== 'number') {
-            run = RUNS.get(type)[0]
-        }
-
-		const hour = this.hours[this.cursor]
-		const src = format({ type, date, run, hour })
-
-        const toolbar = {
-			isPlaying: this.state.isPlaying,
-			onNext: this.next,
-			onPrevious: this.previous,
-			onFirst: this.first,
-			onLast: this.last,
-			onPlay: this.play,
-			onPause: this.pause,
-		}
-
-		const image = {
-			src,
-			onError: this.handleImageError,
-			onLoad: this.handleImageLoad,
-		}
-
-		return (
-			<Animation>
-				{this.isBroken || <Toolbar {...toolbar} />}
-				{this.isBroken || <Title>{this.of}</Title>}
-				<Image {...image} openNewTab />
-			</Animation>
-		)
-	}
+const propTypes = {
+    type: PropTypes.oneOf(TYPES).isRequired,
+    run: PropTypes.number.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    hours: PropTypes.arrayOf(PropTypes.number),
 }
+
+function propsMapper({
+    type,
+    run = RUNS.get(type)[0],
+    date = new Date(),
+    hours = HOURS.get(type)
+}) {
+    return {
+        urls: format({date, type, run, hours}),
+        openImageInNewTab: true,
+    }
+}
+
+export default compose(
+    setDisplayName('WeatherLoop'),
+    setPropTypes(propTypes),
+    mapProps(propsMapper),
+)(Loop)

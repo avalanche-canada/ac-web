@@ -3,12 +3,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-require('es6-promise')
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
+var DefinePlugin = webpack.DefinePlugin
 
 module.exports = {
 	entry: {
 		app: path.resolve(__dirname, 'client/src/main.js'),
-        vendor: ['babel-polyfill', 'react', 'react-dom', 'recompose', 'react-css-modules', 'keycode', 'moment', 'lodash', 'lodash.padstart', 'lodash.memoize', 'lodash.range'],
 	},
     output: {
         publicPath: '/',
@@ -67,6 +67,9 @@ module.exports = {
             prismic: 'prismic',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',
+            middleware: 'middleware',
+            api: 'api',
+            selectors: 'selectors',
         }
     },
     postcss: [
@@ -75,14 +78,17 @@ module.exports = {
         require('rucksack-css'),
 	],
 	plugins: [
-		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+        new CommonsChunkPlugin({
+            name: 'vendor',
+            minChunks: module => /node_modules/.test(module.resource),
+        }),
 		new ExtractTextPlugin('style.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/src/index.tpl.html'),
             inject: 'body',
             filename: 'index.html',
         }),
-        new webpack.DefinePlugin({
+        new DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         })
 	]

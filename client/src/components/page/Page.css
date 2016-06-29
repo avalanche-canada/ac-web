@@ -83,6 +83,15 @@
     padding-bottom: 1.5em;
     padding-top: 1.5em;
 
+    & a {
+        color: var(--black);
+        & svg {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+        }
+    }
+
     @media (--header-horizontal) {
         flex-direction: row;
         align-items: baseline;
@@ -106,7 +115,7 @@
 
 }
 
-.Section--Headline {
+.Headline {
     font-weight: 700;
     font-size: 1rem;
 }

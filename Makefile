@@ -44,6 +44,8 @@ push-dev: zip
 	  --environment-name avalanche-canada-dev \
 	  --version-label "$(LABEL)"
 
+	echo pushed to http://avalanche-canada-dev.elasticbeanstalk.com/
+
 
 server-copy:
 	cp client/.htaccess $(DIST)/public

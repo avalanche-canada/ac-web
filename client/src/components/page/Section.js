@@ -1,19 +1,25 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes, createElement} from 'react'
 import CSSModules from 'react-css-modules'
+import Headline from './Headline'
 import styles from './Page.css'
 
 Section.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
     title: PropTypes.string.isRequired,
     headline: PropTypes.string,
+    level: PropTypes.oneOf([2, 3, 4, 5, 6]),
 }
 
-function Section({ title, headline, children }) {
+// TODO No header tag if there is no headline
+
+function Section({ title, headline, children, level = 2 }) {
+    const header = `h${level}`
+
     return (
         <section styleName='Section'>
             <header>
-                <h2>{title}</h2>
-                {headline && <p styleName='Section--Headline'>{headline}</p>}
+                {createElement(header, null, title)}
+                {headline && <Headline>{headline}</Headline>}
             </header>
             {children}
         </section>

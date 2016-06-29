@@ -71,9 +71,9 @@ export function createItem({model: {id, label, noWrap, children}}) {
     return (
         <Item key={id} title={label} noWrap={noWrap} >
             {children &&
-            <Menu>
-                {sectionsReducer(children).map(createSection)}
-            </Menu>
+                <Menu>
+                    {sectionsReducer(children).map(createSection)}
+                </Menu>
             }
         </Item>
     )

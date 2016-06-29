@@ -36,10 +36,10 @@ if (isDeveloping) {
         res.end()
     })
 } else {
-    app.use(express.static(path.resolve(__dirname, '../dist/public')))
+    app.use(express.static(path.resolve(__dirname, '../public')))
 
     app.get('*', function response(req, res) {
-        res.sendFile(path.resolve(__dirname, '../dist/public/index.html'))
+        res.sendFile(path.resolve(__dirname, '../public/index.html'))
     })
 }
 

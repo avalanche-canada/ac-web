@@ -1,5 +1,5 @@
-import React, { PropTypes, Component, Children, cloneElement } from 'react'
-import { compose, withState } from 'recompose'
+import React, {PropTypes, Component, Children, cloneElement} from 'react'
+import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
 import Option from './Option'
@@ -123,14 +123,15 @@ export default class Dropdown extends Component {
         target.removeEventListener('keyup', this.handleKeyUp)
         target.removeEventListener('keydown', this.handleKeyDown)
 
-        // SHAME
+        // SHAME: Needs to be fixed
         setTimeout(() => {
             this.open = false
         }, 100)
     }
     render() {
         const {open, active} = this
-        const {onChange, placeholder, children, value} = this.props
+        let {children} = this.props
+        const {onChange, placeholder, value} = this.props
         const styleName = open ? 'Input--Open' : 'Input'
 
         return (

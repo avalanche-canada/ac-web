@@ -8,8 +8,6 @@ About.propTypes = {
 }
 
 export default function About({document}) {
-    console.log('document', document)
-
     if (!document) {
         return (
             <p>Loading...</p>

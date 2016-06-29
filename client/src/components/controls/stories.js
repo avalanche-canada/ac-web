@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import Input from './Input'
 import Select from './Select'
-import {Dropdown, Option, Controlled as ControlledDropdown} from './Dropdown'
+import {Dropdown, Option} from './Dropdown'
 
 const outer = {
     padding: 25
@@ -28,15 +28,5 @@ storiesOf('Controls', module)
             <Option value='youth'>Youth</Option>
             <Option value='companion-rescue'>Companion rescue</Option>
         </Dropdown>
-    </div>
-))
-.add('ControlledDropdown', () => (
-    <div style={outer}>
-        <ControlledDropdown value='sled' onChange={action('onChange')}>
-            <Option value='ski'>Ski</Option>
-            <Option value='sled'>Sled</Option>
-            <Option value='youth'>Youth</Option>
-            <Option value='companion-rescue'>Companion rescue</Option>
-        </ControlledDropdown>
     </div>
 ))

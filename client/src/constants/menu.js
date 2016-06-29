@@ -1,7 +1,4 @@
-import TreeModel from 'tree-model'
-import ForecastRegions from './forecast/regions'
-
-const ac = {
+export const AvalancheCanada = {
     id: '57d9c088-1871-11e6-b6ba-3e1d05defe78',
     children: [{
         id: '57d9c4d4-1871-11e6-b6ba-3e1d05defe78',
@@ -24,12 +21,8 @@ const ac = {
             id: '57d9ce20-1871-11e6-b6ba-3e1d05defe78',
             label: 'Forecasts',
             header: true,
-            to: '/forecasts',
-            children: ForecastRegions.map(({id, name, link}) => ({
-                id,
-                label: name,
-                to: link
-            }))
+            to: '/map/forecasts',
+            children: []
         }, {
             id: '57d9d3a2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Blogs',
@@ -283,7 +276,7 @@ const ac = {
         }]
     }]
 }
-const acf = {
+export const AvalancheCanadaFoundation = {
     id: 'f002466e-1b91-11e6-b6ba-3e1d05defe78',
     children: [{
         id: 'f0024aba-1b91-11e6-b6ba-3e1d05defe78',
@@ -368,6 +361,3 @@ const acf = {
         }]
     }]
 }
-
-export const AC = (new TreeModel()).parse(ac)
-export const ACF = (new TreeModel()).parse(acf)

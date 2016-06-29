@@ -6,7 +6,6 @@ export BannerForm from './BannerForm'
 export Article from './Article'
 export ArticleHeader from './ArticleHeader'
 export Header from './Header'
+export Headline from './Headline'
 export Aside from './Aside'
 export Nav from './Nav'
-
-export Drawer from './drawer'

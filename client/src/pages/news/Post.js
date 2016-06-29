@@ -1,31 +1,52 @@
 import React, { PropTypes } from 'react'
-import {Page, Main} from 'components/page'
+import {Page, Header, Main, Headline} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
-import {DateElement, InnerHtml} from 'components/misc'
+import {DateElement, InnerHTML, Muted} from 'components/misc'
 
 NewsPost.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    title: PropTypes.string.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    location: PropTypes.string,
+    post: PropTypes.shape({
+        featured: PropTypes.bool,
+        title: PropTypes.string.isRequired,
+        headline: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+        date: PropTypes.instanceOf(Date).isRequired,
+        media: PropTypes.string,
+        source: PropTypes.string,
+        location: PropTypes.string,
+    }),
+    message: PropTypes.string,
 }
 
-export default function NewsPost({title, date, location, headline, children}) {
+export default function NewsPost({post = {}, message}) {
+    const {featured, title, headline, content, date, media, source, location} = post
+
     return (
         <Page>
-            <Header title={title} />
+            <Header title={title || message} />
             <Metadata>
-                <Entry term='Date'>
-                    <DateElement value={date} />
-                </Entry>
-                <Entry term='Location'>
-                    {location}
-                </Entry>
+                {date &&
+                    <Entry term='Date'>
+                        <DateElement value={date} />
+                    </Entry>
+                }
+                {location &&
+                    <Entry term='Location'>
+                        {location}
+                    </Entry>
+                }
+                {source &&
+                    <Entry term='Source'>
+                        {source}
+                    </Entry>
+                }
             </Metadata>
-            <InnerHtml>
-                {headline}
-            </InnerHtml>
-            {children}
+            {headline && <Headline>{headline}</Headline>}
+            {message ?
+                <Muted>{message}</Muted> :
+                <InnerHTML>
+                    {content}
+                </InnerHTML>
+            }
         </Page>
     )
 }

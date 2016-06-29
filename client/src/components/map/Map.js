@@ -14,7 +14,7 @@ const revy = [-118.1957, 50.9981]
 @CSSModule(css)
 export default class Map extends Component {
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.node),
+        children: PropTypes.arrayOf(PropTypes.element),
         style: PropTypes.oneOf(STYLES),
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
@@ -29,6 +29,7 @@ export default class Map extends Component {
         failIfMajorPerformanceCaveat: PropTypes.bool,
         preserveDrawingBuffer: PropTypes.bool,
         maxBounds: PropTypes.instanceOf(LngLatBounds),
+        bounds: PropTypes.instanceOf(LngLatBounds),
         scrollZoom: PropTypes.bool,
         boxZoom: PropTypes.bool,
         dragRotate: PropTypes.bool,
@@ -83,6 +84,21 @@ export default class Map extends Component {
         // setTimeout(function removeMap() {
         //     map.remove()
         // }, 1)
+    }
+    componentWillReceiveProps({bounds = null}) {
+        if (bounds === null || bounds === this.props.bounds) {
+            return
+        }
+
+        this.map.fitBounds(bounds, {
+            offset: [125, 0],
+            padding: 25,
+        })
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            nextProps.children !== this.props.children,
+        )
     }
     render() {
         const {map} = this

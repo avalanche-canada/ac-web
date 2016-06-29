@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {compose} from 'recompose'
 import {FilterSet, FilterEntry} from 'components/filter'
 import {Page, Header, Main} from 'components/page'
-import {Dropdown, Option} from 'components/controls'
+import {DropdownFromOptions as Dropdown, DropdownOption} from 'components/controls'
 import {Muted} from 'components/misc'
 import Entry from './Entry'
 
@@ -12,12 +12,12 @@ Feed.propTypes = {
     feed: PropTypes.array.isRequired,
     message: PropTypes.string,
     year: PropTypes.number,
-    yearOptions: PropTypes.array,
+    yearOptions: PropTypes.instanceOf(Map),
     onYearChange: PropTypes.func.isRequired,
-    month: PropTypes.number,
-    monthOptions: PropTypes.array,
+    month: PropTypes.string,
+    monthOptions: PropTypes.instanceOf(Map),
     onMonthChange: PropTypes.func.isRequired,
-    tags: PropTypes.array,
+    tags: PropTypes.string,
     onTagChange: PropTypes.func.isRequired,
 }
 
@@ -25,11 +25,11 @@ export default function Feed({
     feed = [],
     message,
     year,
-    yearOptions = [],
+    yearOptions = new Map(),
     month,
-    monthOptions = [],
-    tags = [],
-    tagOptions = [],
+    monthOptions = new Map(),
+    tags,
+    tagOptions = new Map(),
     onYearChange = K,
     onMonthChange = K,
     onTagChange = K
@@ -39,19 +39,13 @@ export default function Feed({
             <Header title='Recent News' />
             <FilterSet>
                 <FilterEntry>
-                    <Dropdown placeholder='Year' value={Number(year)} onChange={onYearChange}>
-                        {/*{yearOptions.map((year, index) => <Option value={year}>{year}</Option>)}*/}
-                    </Dropdown>
+                    <Dropdown value={year} onChange={onYearChange} options={yearOptions} />
                 </FilterEntry>
                 <FilterEntry>
-                    <Dropdown placeholder='Month' value={Number(month)} onChange={onMonthChange}>
-                        {/*{monthOptions.map((month, index) => <Option value={index}>{month}</Option>)}*/}
-                    </Dropdown>
+                    <Dropdown value={month} onChange={onMonthChange} options={monthOptions} />
                 </FilterEntry>
                 <FilterEntry>
-                    <Dropdown placeholder={`Tags${tagOptions.length === 0 ? '' : ` (${tagOptions.length})`}`} onChange={onTagChange}>
-                        {tagOptions.map(tag => <Option value={tag}>{tag}</Option>)}
-                    </Dropdown>
+                    <Dropdown value={tags} onChange={onTagChange} options={tagOptions} />
                 </FilterEntry>
             </FilterSet>
             <Main>

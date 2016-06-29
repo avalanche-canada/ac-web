@@ -105,7 +105,7 @@ export default class Container extends Component {
                 <Loading hide={!isFetching}>
                     Loading weather forecast for <DateElement value={date} />...
                 </Loading>
-                <Muted show={!isFetching && !forecast}>
+                <Muted hide={forecast && !isFetching}>
                     No weather forecast available for <DateElement value={date} />.
                 </Muted>
                 <Forecast isAuthenticated={isAuthenticated} document={forecast} />

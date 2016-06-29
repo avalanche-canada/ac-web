@@ -2,8 +2,7 @@ import React from 'react'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
 import TutorialTab from './TutorialTab'
-import Loop from 'components/weather/Loop'
-import Image from 'components/weather/Image'
+import {Loop, Image} from 'components/weather'
 import Bulletin from './Bulletin'
 
 export default function Precipitation12h() {

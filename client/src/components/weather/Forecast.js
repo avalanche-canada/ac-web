@@ -1,4 +1,5 @@
 import React, {PropTypes, createElement} from 'react'
+import moment from 'moment'
 import CSSModules from 'react-css-modules'
 import {withContext} from 'recompose'
 import {TabSet, Tab} from 'components/tab'
@@ -39,12 +40,12 @@ function Forecast({document}) {
     }
 
     const {type} = document
-    const date = document.getDate(`${type}.date`)
+    const date = moment(document.getDate(`${type}.date`)).add(1, 'day').toDate()
     const headline = document.getText(`${type}.headline`)
     const isOld = document.get(`${type}.day-1`) === null
 
     if (isOld) {
-        console.log('Need to implement support for older weather forecast')
+        console.info('Need to implement support for older weather forecast')
         // {isOld && <Html document={document} fragment={`${type}.synopsis`} />}
         // <DaySet start={date} forecast={document} />
         // <Outlook forecast={document} />

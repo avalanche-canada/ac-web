@@ -1,11 +1,11 @@
 .Image {
-	min-height: 200px;
-	line-height: 2;
-	text-align: center;
-	width: 100%;
-	height: auto;
-	display: block;
-	position: relative;
+	/*min-height: 200px;*/
+	/*line-height: 2;*/
+	/*text-align: center;*/
+	/*width: 100%;*/
+	/*height: auto;*/
+	/*display: block;*/
+	/*position: relative;*/
 
 	&:after {
 		content: "We're sorry, the image is broken :(";

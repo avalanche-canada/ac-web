@@ -1,40 +1,46 @@
-import { Api as PrismicApi, Predicates } from 'prismic.io'
+import Prismic from 'prismic.io'
 import {endpoint} from './config.json'
 
-const form = 'everything'
+const {Predicates} = Prismic
 
-function defaultSetter(api) {
-    return Promise.resolve(api.form(form).ref(api.master()))
+export function Api() {
+    return Prismic.Api(endpoint).then(api => api.form('everything').ref(api.master()))
 }
 
-export function Api(setter = defaultSetter) {
-    return PrismicApi(endpoint).then(setter)
+export function Query(predicates, options) {
+    return Api().then(api => query(api, options, predicates))
 }
 
-export function Query({predicates, ...options}) {
-    return Api().then(
-        api => {
-            const keys = Object.keys(options)
-
-            api = api.query(...predicates)
-
-            keys.reduce((api, key) => api[key](options[key]), api)
-
-            return api.submit()
-        }
-    )
+export function QueryDocumentsOfType(type) {
+    return Query(Predicates.at('document.type', type))
 }
 
-function queryOne(predicate) {
-    return Query({
-        predicates: [predicate]
-    }).then(res => res.results[0])
+export function QueryDocumentByUid(type, uid) {
+    return Query(Predicates.at(`my.${type}.uid`, uid)).then(first)
 }
 
-export function QueryDocument(id) {
-    return queryOne(Predicates.at('document.id', id))
+export function QueryDocumentByBookmark(name) {
+    return Api().then(api => {
+        const id = api.bookmarks[name]
+
+        return query(api, undefined, Predicates.at('document.id', id))
+    }).then(first)
 }
 
-export function QueryDocumentByUid(uid) {
-    return queryOne(Predicates.at('my.page.uid', uid))
+function query(api, options = {}, ...predicates) {
+    api = api.query(...predicates)
+
+    api = setOptions(api, options)
+
+    return api.submit()
+}
+
+export function setOptions(api, options = {}) {
+    const keys = Object.keys(options)
+
+    return keys.reduce((api, key) => api[key](options[key]), api)
+}
+
+function first(response) {
+    return response.results[0]
 }

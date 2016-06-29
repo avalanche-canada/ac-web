@@ -2,8 +2,7 @@ import React from 'react'
 import {Article} from 'components/page'
 import {Tab, TabSet} from 'components/tab'
 import TutorialTab from './TutorialTab'
-import Loop from 'components/weather/Loop'
-import Image from 'components/weather/Image'
+import {Loop, Image} from 'components/weather'
 
 export default function Winds() {
     return (

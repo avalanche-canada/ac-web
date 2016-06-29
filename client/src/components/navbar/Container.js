@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {compose, withState, withProps, setDisplayName} from 'recompose'
-import {AC, ACF} from 'constants/menu'
 import Navbar from './Navbar'
 import Item from './Item'
 import Menu from './Menu'
@@ -69,6 +68,5 @@ export default compose(
     withProps(({isFoundation, isAuthenticated}) => ({
         showLogin: !isFoundation && !isAuthenticated,
         showLogout: !isFoundation && isAuthenticated,
-        menu: isFoundation ? ACF : AC,
     })),
 )(CSSModules(Container, styles))

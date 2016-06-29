@@ -1,8 +1,10 @@
 @import "../../styles/colors.css";
 
 .Entry {
+    display: flex;
     border-bottom: 2px solid var(--gray-light);
-    padding: 0 1em;
+    padding: 1em;
+    color: var(--gray-dark);
 
     &:last-child {
         border-bottom: none;
@@ -12,11 +14,29 @@
 .Entry--Featured {
     composes: Entry;
 
-    &:before {
+    & .Content:before {
         content: "featured";
         color: var(--brand-secondary);
         text-transform: uppercase;
         display: block;
+    }
+}
+
+.Image {
+    flex: 250px;
+    max-width: 250px;
+
+}
+
+.Content {
+    flex: 1 0;
+
+    & a {
+        color: var(--black);
+    }
+
+    & h2 {
+        margin-top: 0.25em;
     }
 }
 
@@ -28,7 +48,8 @@
     display: flex;
     color: var(--gray-light);
     text-transform: uppercase;
-    padding: 0 0.5em;
+    padding: 0;
+    list-style: none;
 
     & *:not(:first-child):before {
         content: "";

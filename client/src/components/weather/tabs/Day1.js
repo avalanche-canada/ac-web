@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 import {Html} from 'prismic'
+import {DateElement} from 'components/misc'
+import {Section} from 'components/page'
 import SliceSet from './SliceSet'
 import Loop from '../Loop'
 
@@ -10,14 +12,16 @@ Day1.propTypes = {
 }
 
 export default function Day1({group, slices, date}) {
+    const hasHardWired = group.fragments.length > 0
+
     return (
-        <section>
-            <Html document={group} fragment='above' />
-            <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} />
-            <Html document={group} fragment='between' />
-            <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} />
-            <Html document={group} fragment='below' />
+        <Section title={<DateElement value={date} />} level={3}>
+            {hasHardWired && <Html document={group} fragment='above' />}
+            {hasHardWired && <Loop type='AC_RDPS_BC_weather-systems' date={date} />}
+            {hasHardWired && <Html document={group} fragment='between' />}
+            {hasHardWired && <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} />}
+            {hasHardWired && <Html document={group} fragment='below' />}
             <SliceSet slices={slices} />
-        </section>
+        </Section>
     )
 }

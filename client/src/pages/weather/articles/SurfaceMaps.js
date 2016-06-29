@@ -6,7 +6,7 @@ import Loop from 'components/weather/Loop'
 
 export default function SurfaceMaps() {
     return (
-        <Article title='Mean Sea Level Pressure (MSLP)'>
+        <Article title='Surface Maps'>
             <TabSet>
                 <Tab title='0-48 hours (R)'>
                     <Loop type='AC_RDPS_W-CST_3hr-precip-clds-th-slp' />

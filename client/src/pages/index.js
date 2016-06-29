@@ -6,3 +6,5 @@ export Ast from './ast'
 export * from './news'
 
 export NotFound from './NotFound'
+
+export Simple from './Simple'

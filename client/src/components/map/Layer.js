@@ -49,7 +49,7 @@ export default class Layer extends Component {
     componentWillUnmount() {
         this.map.removeLayer(this.id)
     }
-    componentWillReceiveProps(nextProps) {
+    LATERcomponentWillReceiveProps(nextProps) {
         const {map, props, id} = this
 
         if (!map.loaded()) {
@@ -64,13 +64,13 @@ export default class Layer extends Component {
 
             switch (key) {
                 case 'paint':
-                    map.setPaintProperty(id, key, prop)
+                    map.setPaintProperty(id, key, prop.paint)
                     break
                 case 'layout':
-                    map.setLayoutProperty(id, key, prop)
+                    map.setLayoutProperty(id, key, prop.layout)
                     break
                 case 'filter':
-                    map.setFilter(id, prop)
+                    map.setFilter(id, prop.filter)
                     break
                 case 'minzoom':
                     zoomRange[0] = prop

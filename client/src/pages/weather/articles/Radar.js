@@ -2,7 +2,7 @@ import React from 'react'
 import {Article} from 'components/page'
 import {Tab, TabSet} from 'components/tab'
 import TutorialTab from './TutorialTab'
-import Image from 'components/weather/Image'
+import {Image} from 'components/weather'
 
 export default function Radar() {
     return (
