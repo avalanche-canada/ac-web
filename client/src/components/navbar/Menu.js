@@ -25,4 +25,4 @@ function Menu({ isOpened = false, inline = false, children }) {
     )
 }
 
-export default CSSModules(Menu, styles, { allowMultiple: true })
+export default CSSModules(Menu, styles, {allowMultiple: true})

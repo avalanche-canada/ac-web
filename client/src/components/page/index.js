@@ -9,3 +9,6 @@ export Header from './Header'
 export Headline from './Headline'
 export Aside from './Aside'
 export Nav from './Nav'
+
+export NotFound from './NotFound'
+export Loading from './Loading'

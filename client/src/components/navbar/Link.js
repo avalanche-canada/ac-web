@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import styles from './Navbar.css'
 
-const isExternalRegExp = new RegExp('^http(s):\/\/')
+const isExternalRegExp = new RegExp('^(https|http):\/\/')
 function isExternal(to) {
     if (typeof to !== 'string') {
         return false

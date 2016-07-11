@@ -1,10 +1,15 @@
 import React, {PropTypes} from 'react'
 import moment from 'moment'
 import {Html} from 'prismic'
-import {DateElement} from 'components/misc'
-import {Section} from 'components/page'
+import {DateElement, Image} from 'components/misc'
+import Section from './Section'
 import SliceSet from './SliceSet'
-import Loop from '../Loop'
+import {formatLoop as format} from '../utils/Url'
+
+function description() {
+    return 'Weather Systems'
+}
+const {keys} = Object
 
 Day2.propTypes = {
     group: PropTypes.object.isRequired,
@@ -13,15 +18,27 @@ Day2.propTypes = {
 }
 
 export default function Day2({group, slices, date}) {
-    const hasHardWired = group.fragments.length > 0
+    const hasHardWired = keys(group.fragments).length > 0
     const day = moment(date).add(1, 'day').toDate()
+    const title = <DateElement value={day} />
+    const type = 'AC_RDPS_BC_weather-systems'
+    const image1 = {
+        src: format({date, type, run: 6, hour: 30}),
+        alt: description(),
+        title: description(),
+    }
+    const image2 = {
+        src: format({date, type, run: 6, hour: 42}),
+        alt: description(),
+        title: description(),
+    }
 
     return (
-        <Section title={<DateElement value={day} />} level={3}>
+        <Section title={title}>
             {hasHardWired && <Html document={group} fragment='above' />}
-            {hasHardWired && <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} />}
+            {hasHardWired && <Image openImageInNewTab {...image1} />}
             {hasHardWired && <Html document={group} fragment='between' />}
-            {hasHardWired && <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} />}
+            {hasHardWired && <Image openImageInNewTab {...image2} />}
             {hasHardWired && <Html document={group} fragment='below' />}
             <SliceSet slices={slices} />
         </Section>

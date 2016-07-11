@@ -1,3 +1,1 @@
-import {Weather} from 'pages'
-
-export default Weather
+export default from 'components/page/weather'

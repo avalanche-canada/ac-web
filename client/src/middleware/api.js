@@ -31,17 +31,23 @@ const api = store => next => action => {
             payload: normalized,
             meta: payload,
         })
+
+        return normalized
     }
     function handleReject(response) {
+        const error = new Error('Can not fetch prismic documents.')
+
         next({
             type: types[2],
-            payload: new Error('Can not fetch prismic documents.'),
+            payload: error,
             error: true,
             meta: payload,
         })
+
+        return error
     }
 
-    Api.fetch(schema).then(handleFulfill, handleReject)
+    return Api.fetch(schema).then(handleFulfill, handleReject)
 }
 
 export default api

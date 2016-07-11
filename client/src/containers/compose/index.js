@@ -1,1 +1,0 @@
-export generic from './generic'

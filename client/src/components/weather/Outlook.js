@@ -1,5 +1,5 @@
 import React from 'react'
-import range from 'lodash.range'
+import range from 'lodash/range'
 import { Html, Image } from 'prismic'
 
 const sequence = [1, 2, 3, 4]

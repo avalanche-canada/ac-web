@@ -1,14 +1,17 @@
-import {compose, mapProps, lifecycle} from 'recompose'
+import {compose, defaultProps, mapProps, lifecycle, withProps} from 'recompose'
 import {connect} from 'react-redux'
-import {getNewsFeedProps} from 'reducers/prismic/news'
+import mapStateToProps from 'selectors/prismic/news/feed'
 import {loadForType} from 'actions/prismic'
-import {NewsFeed} from 'pages'
+import Feed from 'components/page/feed'
 import {history} from 'router'
 
 const pathname = '/news'
 
 export default compose(
-    connect(getNewsFeedProps, {loadForType}),
+    connect(mapStateToProps, {loadForType}),
+    withProps({
+        title: 'Recent News'
+    }),
     lifecycle({
         componentDidMount() {
             this.props.loadForType('news', {
@@ -54,4 +57,4 @@ export default compose(
             },
         }
     }),
-)(NewsFeed)
+)(Feed)

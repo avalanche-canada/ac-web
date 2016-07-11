@@ -1,12 +1,12 @@
 import {compose, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
-import {getNewsPostProps} from 'reducers/prismic/news'
+import mapStateToProps from 'selectors/prismic/news/post'
 import {loadForUid} from 'actions/prismic'
-import {NewsPost} from 'pages'
+import Post from 'components/page/post'
 import {history} from 'router'
 
 export default compose(
-    connect(getNewsPostProps, {loadForUid}),
+    connect(mapStateToProps, {loadForUid}),
     lifecycle({
         componentDidMount() {
             const {loadForUid, params: {uid}} = this.props
@@ -19,4 +19,4 @@ export default compose(
             }
         },
     }),
-)(NewsPost)
+)(Post)

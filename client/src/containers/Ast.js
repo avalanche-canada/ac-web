@@ -1,7 +1,7 @@
 import React from 'react'
 import {compose, withProps} from 'recompose'
 import {withRouter} from 'react-router'
-import {Ast} from 'pages'
+import Ast from 'components/page/ast'
 import {List, Term, Element} from 'components/description'
 import {Table, Row, Cell, Header, ControlledTBody, HeaderCell, HeaderCellOrders} from 'components/table'
 

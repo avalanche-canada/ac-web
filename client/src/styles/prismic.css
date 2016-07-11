@@ -3,3 +3,11 @@
         max-width: 100%;
     }
 }
+
+:global(.float-right) {
+    float: right;
+}
+
+:global(.float-left) {
+    float: left;
+}

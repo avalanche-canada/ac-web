@@ -65,7 +65,6 @@ module.exports = {
             styles: 'styles',
             components: 'components',
             compose: 'compose',
-            pages: 'pages',
             containers: 'containers',
             mapboxgl: 'mapboxgl',
             prismic: 'prismic',
@@ -74,6 +73,7 @@ module.exports = {
             middleware: 'middleware',
             api: 'api',
             selectors: 'selectors',
+            utils: 'utils',
         }
     },
 	postcss: [

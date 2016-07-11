@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Html} from 'prismic'
-import {Section} from 'components/page'
+import Section from './Section'
 import SliceSet from './SliceSet'
 import Loop from '../Loop'
 

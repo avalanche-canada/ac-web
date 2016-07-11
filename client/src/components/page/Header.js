@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
-import { Sponsor } from '../misc'
+import {Sponsor} from 'components/misc'
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
@@ -9,7 +9,7 @@ Header.propTypes = {
     children: PropTypes.node,
 }
 
-function Header({ title, sponsor, children }) {
+function Header({title, sponsor, children}) {
     if (!sponsor && !children) {
         return (
             <h1 styleName='Header'>

@@ -29,7 +29,6 @@ export default class Map extends Component {
         failIfMajorPerformanceCaveat: PropTypes.bool,
         preserveDrawingBuffer: PropTypes.bool,
         maxBounds: PropTypes.instanceOf(LngLatBounds),
-        bounds: PropTypes.instanceOf(LngLatBounds),
         scrollZoom: PropTypes.bool,
         boxZoom: PropTypes.bool,
         dragRotate: PropTypes.bool,
@@ -39,6 +38,10 @@ export default class Map extends Component {
         touchZoomRotate: PropTypes.bool,
         trackResize: PropTypes.bool,
         events: PropTypes.object,
+        action: PropTypes.shape({
+            type: PropTypes.string.isRequired,
+            payload: PropTypes.array,
+        }),
     }
     static defaultProps = {
         style: 'default',
@@ -59,9 +62,14 @@ export default class Map extends Component {
             map: this.map
         }
     }
+    run({type, payload}) {
+        const {map} = this
+
+        map[type].apply(map, payload)
+    }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, events, ...rest} = this.props
+        const {style, children, events, action, ...rest} = this.props
         const map = new mapboxgl.Map({
             ...rest,
             container,
@@ -77,23 +85,12 @@ export default class Map extends Component {
         this.setState({map})
     }
     componentWillUnmount() {
-        const {map} = this
-
-        map.off()
-
-        // setTimeout(function removeMap() {
-        //     map.remove()
-        // }, 1)
+        this.map.off()
     }
-    componentWillReceiveProps({bounds = null}) {
-        if (bounds === null || bounds === this.props.bounds) {
-            return
+    componentWillReceiveProps({action = null}) {
+        if (action !== null && action !== this.props.action) {
+            this.run(action)
         }
-
-        this.map.fitBounds(bounds, {
-            offset: [125, 0],
-            padding: 25,
-        })
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (

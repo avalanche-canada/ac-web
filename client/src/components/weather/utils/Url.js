@@ -1,5 +1,5 @@
 import moment from 'moment'
-import padstart from 'lodash.padstart'
+import padstart from 'lodash/padstart'
 import {domain} from './config.json'
 
 const resolutions = [{

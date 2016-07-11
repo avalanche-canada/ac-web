@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {Motion, spring, presets} from 'react-motion'
-import {compose, setDisplayName, withState, renameProp} from 'recompose'
+import {compose, setDisplayName, withState, renameProp, lifecycle} from 'recompose'
 import styles from './Drawer.css'
 import TreeModel from 'tree-model'
 import Cabinet from './Cabinet'
 import Drawer from './Drawer'
 import Item from './Item'
 import Link from './Link'
+import {history} from 'router'
 
 const preset = presets.noWobble
 
@@ -137,4 +138,9 @@ export default compose(
     setDisplayName('Container'),
     renameProp('menu', 'root'),
     withState('node', 'setNode'),
+    lifecycle({
+        componentDidMount() {
+            history.listenBefore(this.props.onClose)
+        }
+    })
 )(Animated)

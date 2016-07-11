@@ -1,0 +1,22 @@
+@import "../../styles/colors.css";
+
+@custom-media --side-by-side (width > 700px);
+
+
+.Ambassador {
+    display: flex;
+    flex-direction: column;
+
+    @media(--side-by-side) {
+        flex-direction: row;
+    }
+}
+
+.SocialSet {
+    display: flex;
+    align-items: center;
+}
+
+.SocialItem {
+    margin: 0.5em;
+}

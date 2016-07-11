@@ -17,7 +17,6 @@
 
 .Label {
     width: 6em;
-    margin-bottom: 2em;
     color: var(--gray-light);
     font-weight: 700;
     font-size: 0.75em;

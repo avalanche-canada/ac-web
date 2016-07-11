@@ -6,7 +6,6 @@ import Brand from './Brand'
 import Donate from './Donate'
 import styles from './Navbar.css'
 
-const paypal = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=87JTBQBSCN6PS'
 function K() {}
 
 Navbar.propTypes = {

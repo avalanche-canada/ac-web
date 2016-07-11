@@ -1,5 +1,5 @@
 import React, {createElement} from 'react'
-import { nest, branch } from 'recompose'
+import {nest, branch} from 'recompose'
 import Item from './Item'
 import Menu from './Menu'
 import Section from './Section'

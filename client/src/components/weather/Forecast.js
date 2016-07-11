@@ -45,7 +45,7 @@ function Forecast({document}) {
     const isOld = document.get(`${type}.day-1`) === null
 
     if (isOld) {
-        console.info('Need to implement support for older weather forecast')
+        console.warn('Need to implement support for older weather forecast')
         // {isOld && <Html document={document} fragment={`${type}.synopsis`} />}
         // <DaySet start={date} forecast={document} />
         // <Outlook forecast={document} />
@@ -56,8 +56,10 @@ function Forecast({document}) {
             <h2 styleName='Headline'>{headline}</h2>
             <TabSet>
                 {[...TABS].map(([name, {title, component}]) => {
-                    const group = document.getGroup(`${type}.${name}`)
-                    const zone = document.getSliceZone(`${type}.${name}-more`)
+                    const fragment = `${type}.${name}`
+                    const group = document.getGroup(fragment)
+                    const zone = document.getSliceZone(`${fragment}-more`) ||
+                                 document.getSliceZone(fragment)
 
                     if (!group && !zone) {
                         return null

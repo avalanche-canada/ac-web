@@ -1,10 +1,15 @@
 @import "../../styles/colors.css";
 
 .Container {
+    display: flex;
     color: var(--gray);
     margin: 5px;
     padding: 5px;
     line-height: 1.5em;
+}
+
+.Content {
+
 }
 
 .Header {
@@ -22,6 +27,11 @@
 
 .Media {
     height: 100%;
-    float: left;
     margin-right: 10px;
+}
+
+.Address {
+    & > * {
+        display: block;
+    }
 }

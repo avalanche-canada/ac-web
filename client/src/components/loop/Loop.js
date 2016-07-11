@@ -1,9 +1,9 @@
 import React, {PropTypes, Component} from 'react'
+import keycode from 'keycode'
+import {Image} from 'components/misc'
 import Animation from './Animation'
 import Toolbar from './Toolbar'
 import Title from './Title'
-import Image from './Image'
-import keycode from 'keycode'
 
 export default class Loop extends Component {
 	static propTypes = {
@@ -25,13 +25,13 @@ export default class Loop extends Component {
 		return this.state.cursor
 	}
 	set cursor(cursor) {
-        this.setState({ cursor }, this.boundShake)
+        this.setState({ cursor }, this.shake)
 	}
     get isPlaying() {
         return this.state.isPlaying
     }
     set isPlaying(isPlaying) {
-        this.setState({ isPlaying }, this.boundShake)
+        this.setState({ isPlaying }, this.shake)
     }
 	get maxCursor() {
 		return this.props.urls.length - 1
@@ -51,9 +51,9 @@ export default class Loop extends Component {
     setTimeout() {
         const { interval } = this.props
 
-        this.timeoutID = window.setTimeout(this.handleNext, interval)
+        this.timeoutID = window.setTimeout(this.next, interval)
     }
-    shake() {
+    shake = () => {
         this.clearTimeout()
 
         if (this.isPlaying) {
@@ -67,7 +67,7 @@ export default class Loop extends Component {
 			this.cursor = this.cursor + 1
 		}
 	}
-	prev = () => {
+	previous = () => {
 		if (this.cursor === 0) {
             this.cursor = this.maxCursor
 		} else {
@@ -96,12 +96,12 @@ export default class Loop extends Component {
 		window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
 	}
-	onKeyDown = ({ keyCode }) => {
+	handleKeyDown = ({ keyCode }) => {
 		const { left, right } = keycode.codes
 
 		switch (keyCode) {
 			case left:
-				this.prev()
+				this.previous()
 				break;
 			case right:
 				this.next()

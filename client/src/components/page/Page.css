@@ -31,6 +31,9 @@
 
     flex: 75%;
 
+    & > .Headline {
+        font-weight: 700;
+    }
 
     @media (--side-by-side) {
         padding-right: 1em;
@@ -94,7 +97,7 @@
 
     @media (--header-horizontal) {
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
 
         & > :first-child {
             flex: 66%;
@@ -116,7 +119,6 @@
 }
 
 .Headline {
-    font-weight: 700;
     font-size: 1rem;
 }
 

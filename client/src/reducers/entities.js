@@ -17,6 +17,10 @@ export function getEntitiesForSchema(state, schema) {
     return state.entities.get(key, MAP)
 }
 
+export function getEntityForSchema(state, schema, id) {
+    return getEntitiesForSchema(state, schema).get(id)
+}
+
 export function hasEntitiesForSchema(state, schema) {
     const key = schema.getKey()
 

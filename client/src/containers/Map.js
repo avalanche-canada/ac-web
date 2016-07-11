@@ -1,18 +1,19 @@
 import React from 'react'
-import {compose, onlyUpdateForKeys} from 'recompose'
+import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {Map, Source, Layer, Popup, Utils} from 'components/map'
 import {zoomChanged, centerChanged} from 'actions/map'
 import {getMapProps} from 'selectors/map'
+import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
 
 function handleMoveend({target}) {
-    centerChanged(target.getCenter().toArray())
+    return centerChanged(target.getCenter().toArray())
 }
 function handleZoomend({target}) {
-    zoomChanged(target.getZoom())
+    return zoomChanged(target.getZoom())
 }
 
-function MapContainer({moveend, zoomend, sources, layers, state, children, bounds}) {
+function MapContainer({moveend, zoomend, sources, layers, state, primary, action}) {
     const events = {
         moveend,
         zoomend,
@@ -20,11 +21,11 @@ function MapContainer({moveend, zoomend, sources, layers, state, children, bound
 
     return (
         <div>
-            <Map events={events} {...state} bounds={bounds} >
+            <Map events={events} {...state} action={action}>
                 {sources.map(source => <Source key={source.id} {...source} />)}
                 {layers.map(layer => <Layer key={layer.id} {...layer} />)}
             </Map>
-            {children}
+            {primary}
         </div>
     )
 }
@@ -33,6 +34,16 @@ export default compose(
     connect(getMapProps, {
         moveend: handleMoveend,
         zoomend: handleZoomend,
+        loadForecastRegions,
+        loadHotZoneAreas,
     }),
-    onlyUpdateForKeys(['children', 'layers', 'sources', 'bounds']),
+    lifecycle({
+        componentDidMount() {
+            const {loadForecastRegions, loadHotZoneAreas} = this.props
+
+            loadForecastRegions()
+            loadHotZoneAreas()
+        }
+    }),
+    onlyUpdateForKeys(['children', 'layers', 'sources', 'action']),
 )(MapContainer)

@@ -1,2 +1,1 @@
-export Biography from './Biography'
-export Staff from './Staff'
+export default from './Biography'

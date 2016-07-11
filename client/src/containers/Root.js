@@ -1,4 +1,4 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {PropTypes} from 'react'
 import Application, {Content} from 'components/application'
 import {AvalancheCanada} from 'containers/Navbar'
 import Footer from 'components/footer'

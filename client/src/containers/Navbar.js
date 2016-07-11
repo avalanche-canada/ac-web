@@ -1,13 +1,12 @@
 import {connect} from 'react-redux'
 import {compose, lifecycle, mapProps} from 'recompose'
-import {withRouter} from 'react-router'
 import Navbar from 'components/navbar'
 import {loadForecastRegions} from 'actions/entities'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
 import {getEntitiesForSchema} from 'reducers/entities'
 import {ForecastRegion} from 'api/schemas'
-
+import {history} from 'router'
 
 function getForeccastRegions(state) {
     return {
@@ -18,12 +17,16 @@ function getForeccastRegions(state) {
 function asTree(menu) {
     return (new TreeModel()).parse(menu)
 }
+function handleLogin() {
+    history.push('/login')
+}
+function handleLogout() {
+    history.push('/logout')
+}
+
 
 export const AvalancheCanada = compose(
-    withRouter,
     connect(getForeccastRegions, {
-        onLogin: ::console.log,
-        onLogout: ::console.log,
         loadForecastRegions,
     }),
     lifecycle({
@@ -31,7 +34,7 @@ export const AvalancheCanada = compose(
             this.props.loadForecastRegions()
         }
     }),
-    mapProps(({regions, router, ...props}) => {
+    mapProps(({regions, ...props}) => {
         let menu = menus.AvalancheCanada
 
         if (regions) {
@@ -47,6 +50,9 @@ export const AvalancheCanada = compose(
         }
 
         return {
+            ...props,
+            onLogin: handleLogin,
+            onLogout: handleLogout,
             menu: asTree(menu)
         }
     }),

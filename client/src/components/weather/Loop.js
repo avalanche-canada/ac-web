@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import {Loop} from 'components/loop'
 import {formatLoop as format} from './utils/Url'
-import range from 'lodash.range'
+import range from 'lodash/range'
 
 const HOURS = new Map([
 	['AC_RDPS_BC_12hr-precip', range(0, 48, 12)],
@@ -57,7 +57,7 @@ const RUNS = new Map([
 	['AC_GDPS_BC_750-wind', range(0, 24, 6)],
 	['AC_GDPS_BC_850-temp', range(0, 24, 6)],
 	['AC_GDPS_EPA_clouds-precip-th-slp', range(0, 24, 6)],
-	['AC_GDPS_EPA_clouds-th-500hts', range(0, 24, 6)],
+	['AC_GDPS_EPA_clouds-th-500hts', range(0, 24, 12)],
 	['AC_GDPS_EPA_tpw', range(0, 24, 6)],
 	['AC_GDPS_W-CAN_precip-th-slp', range(0, 24, 6)],
 	['AC_HRDPS_BC_wms-1hr-precip1', [6, 18]],
@@ -67,6 +67,9 @@ const RUNS = new Map([
 ])
 
 export const TYPES = [...HOURS.keys()]
+export const TITLES = new Map([
+    ['AC_RDPS_BC_weather-systems', 'Weather systems']
+])
 
 const propTypes = {
     type: PropTypes.oneOf(TYPES).isRequired,

@@ -2,12 +2,12 @@
 
 .Avatar {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     overflow: hidden;
     margin: 0 auto;
     background-color: var(--brand-primary);
-    border-radius: 20px;
+    border-radius: 30px;
     color: white;
 
     & > img {
@@ -19,7 +19,7 @@
         content: attr(data-initials);
         color: white;
         font-size: 1rem;
-        line-height: 2.5rem;
+        line-height: 3.7rem;
         display: inline-block;
         text-align: center;
         width: 100%;
