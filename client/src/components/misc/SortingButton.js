@@ -14,24 +14,28 @@ export const NUMBER = 'number'
 export const STRING = 'string'
 export const DATE = 'date'
 
-const SORTINGS = [NONE, ASC, DESC]
-const TYPES = [NUMBER, STRING, DATE]
+export const SORTINGS = [NONE, ASC, DESC]
+export const TYPES = [NUMBER, STRING, DATE]
 
-const COMPONENTS = new Map([
+const expandLess = <ExpandLess />
+const expandMore = <ExpandMore />
+const remove = <Remove />
+
+const ICONS = new Map([
     [STRING, new Map([
-        [ASC, ExpandLess],
-        [DESC, ExpandMore],
-        [NONE, Remove],
+        [ASC, expandLess],
+        [DESC, expandMore],
+        [NONE, remove],
     ])],
     [NUMBER, new Map([
-        [ASC, ExpandLess],
-        [DESC, ExpandMore],
-        [NONE, Remove],
+        [ASC, expandLess],
+        [DESC, expandMore],
+        [NONE, remove],
     ])],
     [DATE, new Map([
-        [ASC, ExpandLess],
-        [DESC, ExpandMore],
-        [NONE, Remove],
+        [ASC, expandLess],
+        [DESC, expandMore],
+        [NONE, remove],
     ])],
 ])
 
@@ -45,7 +49,7 @@ const propTypes = {
     type: PropTypes.oneOf(TYPES),
 }
 
-function SortingButton({ sorting = NONE, type = STRING, setSorting, onChange = K }) {
+function SortingButton({sorting = NONE, type = STRING, setSorting, onChange = K}) {
     function handleClick() {
         const next = nextSorting(sorting)
 
@@ -55,7 +59,7 @@ function SortingButton({ sorting = NONE, type = STRING, setSorting, onChange = K
 
     return (
         <button styleName='Main' onClick={handleClick}>
-            {createElement(COMPONENTS.get(type).get(sorting))}
+            {ICONS.get(type).get(sorting)}
         </button>
     )
 }

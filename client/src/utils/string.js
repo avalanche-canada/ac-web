@@ -1,5 +1,5 @@
 import startCase from 'lodash/startCase'
 
 export function classify(string) {
-    return startCase(string).replace(' ', '', 'g')
+    return startCase(string).replace(/\s/g, '')
 }

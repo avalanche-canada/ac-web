@@ -9,7 +9,6 @@ import {configure} from './store'
 import 'normalize.css'
 import './styles/scaffolding.css'
 import './styles/prismic.css'
-import 'leaflet/dist/leaflet.css'
 
 const store = configure()
 const element = document.getElementById('app')

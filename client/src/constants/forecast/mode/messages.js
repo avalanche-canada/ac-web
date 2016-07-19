@@ -12,3 +12,8 @@ The avalanche danger is variable and can range from Low to High. Travelling earl
 
 [More Spring Conditions Details](http://www.avalanche.ca/fxresources/spring_ovw.pdf)
 `
+export const OFF = `
+Information regarding summer mountain conditions can be found on the Mountain Conditions Report, published by the Association of Canadian Mountain Guides.
+
+[Summer Condition details](http://www.mountainconditions.com/)
+`

@@ -3,52 +3,52 @@ import moment from 'moment'
 import CSSModules from 'react-css-modules'
 import {withContext} from 'recompose'
 import {TabSet, Tab} from 'components/tab'
-import * as tabs from './tabs'
 import {Text, Html} from 'prismic'
+import Synopsis from './tabs/Synopsis'
+import Day1 from './tabs/Day1'
+import Day2 from './tabs/Day2'
+import SliceSet from './tabs/SliceSet'
+import Section from './tabs/Section'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
-    document: PropTypes.object,
+    forecast: PropTypes.object.isRequired,
 }
 
 const TABS = new Map([
 	['synopsis', {
         title: 'Synopsis',
-        component: tabs.Synopsis,
+        component: Synopsis,
     }],
-	['day-1', {
+	['day1', {
         title: 'Day 1',
-        component: tabs.Day1,
+        component: Day1,
     }],
-	['day-2', {
+	['day2', {
         title: 'Day 2',
-        component: tabs.Day2,
+        component: Day2,
     }],
-	['day-3-5', {
+	['day3To5', {
         title: 'Day 3-5',
-        component: tabs.Day3to5,
+        component: Section,
     }],
-	['day-6-10', {
+	['day6To10', {
         title: 'Day 6-10',
-        component: tabs.Day6to10,
+        component: Section,
     }],
 ])
 
-function Forecast({document}) {
-    if (!document) {
-        return null;
-    }
-
-    const {type} = document
-    const date = moment(document.getDate(`${type}.date`)).add(1, 'day').toDate()
-    const headline = document.getText(`${type}.headline`)
-    const isOld = document.get(`${type}.day-1`) === null
+function Forecast({forecast}) {
+    const {type} = forecast
+    const {date} = forecast
+    const {headline} = forecast
+    const isOld = forecast['day-1'] === null
 
     if (isOld) {
         console.warn('Need to implement support for older weather forecast')
-        // {isOld && <Html document={document} fragment={`${type}.synopsis`} />}
-        // <DaySet start={date} forecast={document} />
-        // <Outlook forecast={document} />
+        // {isOld && <Html forecast={forecast} fragment={`${type}.synopsis`} />}
+        // <DaySet start={date} forecast={forecast} />
+        // <Outlook forecast={forecast} />
     }
 
 	return (
@@ -56,22 +56,22 @@ function Forecast({document}) {
             <h2 styleName='Headline'>{headline}</h2>
             <TabSet>
                 {[...TABS].map(([name, {title, component}]) => {
-                    const fragment = `${type}.${name}`
-                    const group = document.getGroup(fragment)
-                    const zone = document.getSliceZone(`${fragment}-more`) ||
-                                 document.getSliceZone(fragment)
+                    const group = forecast[name]
+                    const slices = forecast[`${name}More`] || group
 
-                    if (!group && !zone) {
+                    if (!group && !slices) {
                         return null
+                    }
+
+                    const child = <SliceSet slices={slices} />
+                    const props = {
+                        ...group[0],
+                        date
                     }
 
                     return (
                         <Tab key={name} title={title}>
-                            {createElement(component, {
-                                group: group && group.value[0],
-                                slices: zone && zone.slices || [],
-                                date
-                            })}
+                            {createElement(component, props, child)}
                         </Tab>
                     )
                 })}

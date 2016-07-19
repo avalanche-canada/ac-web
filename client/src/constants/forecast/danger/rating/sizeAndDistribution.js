@@ -3,4 +3,4 @@ export const HIGH = 'Large avalanches in many areas;\n or very large avalanches 
 export const CONSIDERABLE = 'Small avalanches in many areas;\n or large avalanches in specific areas;\n or very large avalanches in isolated areas.'
 export const MODERATE = 'Small avalanches in specific areas;\n or large avalanches in isolated areas.'
 export const LOW = 'Small avalanches in isolated areas or extreme terrain.'
-export const NOTHING = null
+export const NO_RATING = null

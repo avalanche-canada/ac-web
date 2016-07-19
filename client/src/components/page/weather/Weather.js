@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
-import {withState} from 'recompose'
+import {connect} from 'react-redux'
+import {loadForType} from 'actions/prismic'
+import {compose, lifecycle} from 'recompose'
 import {Link} from 'react-router'
 import {Page, Header, Main, Article, ArticleHeader, Aside} from 'components/page'
 import {ChevronRight} from 'components/icons'
@@ -12,7 +14,7 @@ Weather.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
 }
 
-function Weather({ children, isAuthenticated = false }) {
+function Weather({children, isAuthenticated = false}) {
     const title = (
         <Link to='/weather'>
             Mountain Weather Forecast <ChevronRight />
@@ -33,4 +35,11 @@ function Weather({ children, isAuthenticated = false }) {
     )
 }
 
-export default CSSModules(Weather, styles)
+export default compose(
+    connect(null, {loadForType}),
+    lifecycle({
+        componentDidMount() {
+            this.props.loadForType('weather-forecast-tutorial')
+        }
+    })
+)(CSSModules(Weather, styles))

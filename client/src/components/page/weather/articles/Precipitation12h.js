@@ -1,8 +1,9 @@
 import React from 'react'
+import {Image} from 'components/misc'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
-import TutorialTab from './TutorialTab'
-import {Loop, Image} from 'components/weather'
+import Tutorial from './Tutorial'
+import {Loop} from 'components/weather'
 import Bulletin from './Bulletin'
 
 export default function Precipitation12h() {
@@ -23,7 +24,9 @@ export default function Precipitation12h() {
                         Here goes the bulletin!
                     </Bulletin>
                 </Tab>
-                <TutorialTab uid='precipitation-12h' />
+                <Tab title='Tutorial'>
+                    <Tutorial uid='precipitation-12h' />
+                </Tab>
             </TabSet>
         </Article>
     )

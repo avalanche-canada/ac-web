@@ -3,7 +3,7 @@ import { storiesOf, action } from '@kadira/storybook'
 import * as RATINGS from 'constants/forecast/danger/rating/values'
 import {DangerIcon, DangerCard} from './index'
 
-const {LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NOTHING} = RATINGS
+const {LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING} = RATINGS
 
 const story = storiesOf('Graphics', module)
 

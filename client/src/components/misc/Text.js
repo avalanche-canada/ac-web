@@ -16,7 +16,7 @@ const element = Element({
 })
 
 Text.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
     hide: PropTypes.bool,
 }
 

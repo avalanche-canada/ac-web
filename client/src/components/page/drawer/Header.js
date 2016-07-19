@@ -1,22 +1,20 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
-import {LEFT, RIGHT} from './Drawer'
-import Close from './Close'
+import Subject from './Subject'
 
 Header.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
-    onCloseClick: PropTypes.bool,
+    subject: PropTypes.string.isRequired,
+    children: PropTypes.element,
+    sponsor: PropTypes.object,
 }
 
-function Header({ onCloseClick, children }) {
+function Header({subject, sponsor, children}) {
     return (
         <div styleName='Header'>
-            {onCloseClick &&
-                <div styleName='Close'>
-                    <Close onClick={onCloseClick} />
-                </div>
-            }
+            <Subject>
+                {subject}
+            </Subject>
             {children}
         </div>
     )

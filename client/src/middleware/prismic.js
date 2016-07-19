@@ -90,11 +90,11 @@ const prismic = store => next => action => {
             meta: action.payload,
         })
 
-        const predicates = action.predicates || []
         const {payload} = action
+        let {predicates, ...options} = payload.options || {}
 
-        api = api.query(createBasePredicate(api, payload), ...predicates)
-        api = Prismic.setOptions(api, payload.options)
+        api = api.query(createBasePredicate(api, payload), ...(predicates || []))
+        api = Prismic.setOptions(api, options)
 
         return api.submit().then(
             response => {

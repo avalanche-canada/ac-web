@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import keycode from 'keycode'
 import {Image} from 'components/misc'
-import Animation from './Animation'
+import Container from './Container'
 import Toolbar from './Toolbar'
 import Title from './Title'
 
@@ -12,8 +12,8 @@ export default class Loop extends Component {
         openImageInNewTab: PropTypes.bool,
 	}
     static defaultProps = {
-        interval: 1000,
         urls: [],
+        interval: 1000,
         openImageInNewTab: false,
     }
 	state = {
@@ -136,11 +136,11 @@ export default class Loop extends Component {
 		}
 
 		return (
-			<Animation>
+			<Container>
 				{isBroken || <Toolbar {...toolbar} />}
 				{isBroken || <Title>{this.of}</Title>}
 				<Image {...image} />
-			</Animation>
+			</Container>
 		)
 	}
 }

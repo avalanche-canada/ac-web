@@ -1,13 +1,11 @@
 import React, { PropTypes, createElement } from 'react'
 import { Motion, spring, presets } from 'react-motion'
 import Drawer from './Drawer'
+import SIDE, {LEFT, RIGHT} from './constants/sides'
 
 function K() {}
 
 const preset = presets.noWobble
-
-export const LEFT = 'Left'
-export const RIGHT = 'Right'
 
 const defaultStyle = {
     x: 0
@@ -27,25 +25,20 @@ Cabinet.propTypes = {
     side: PropTypes.oneOf([LEFT, RIGHT]),
     open: PropTypes.bool,
     width: PropTypes.number,
-    closable: PropTypes.bool,
-    onClose: PropTypes.func,
-    onOpen: PropTypes.func,
+    onToggle: PropTypes.func,
 }
 
 export default function Cabinet({
     open = false,
-    side = LEFT,
-    closable = true,
+    side = SIDE,
     width = 250,
-    onClose = K,
-    onOpen = K,
+    onToggle = K,
     header = null,
     children
 }) {
     const motion = {
         defaultStyle,
         style: getMotionStyle(open, side),
-        onRest: open ? onOpen : onClose,
     }
 
     return (
@@ -56,6 +49,7 @@ export default function Cabinet({
                 side,
                 open,
                 header,
+                onToggle,
             }, children)}
         </Motion>
     )

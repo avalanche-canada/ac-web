@@ -1,5 +1,8 @@
 import {Fragments, Document, Prismic} from 'prismic.io'
 import camelCase from 'lodash/camelCase'
+import moment from 'moment'
+import linkResolver from './linkResolver'
+import htmlSerializer from './htmlSerializer'
 
 const {keys, assign} = Object
 const {isArray} = Array
@@ -15,16 +18,16 @@ function parseKey(key) {
 }
 
 export class Parser {
-    constructor(htmlSerializer) {
-        assign(this, {htmlSerializer})
+    constructor(linkResolver, htmlSerializer) {
+        assign(this, {linkResolver, htmlSerializer})
     }
     parse(document) {
-        const {fragments, type, uid, tags, id} = document
+        const {fragments, data, type, uid, tags, id} = document
         const asKey = document.constructor === Document ? parseKey : camelCase
-        const data = keys(fragments).reduce((value, key) => {
+        const parsed = keys(fragments).reduce((value, key) => {
             const fragment = fragments[key]
 
-            value[asKey(key)] = this.parseFragment(fragment)
+            value[asKey(key)] = this.parseFragment(fragment, data[key])
 
             return value
         }, {})
@@ -35,28 +38,28 @@ export class Parser {
                 uid,
                 tags: isArray(tags) ? tags.map(tag => tag.toLowerCase()) : [],
                 type,
-                ...data,
+                ...parsed,
             }
         } else {
-            return data
+            return parsed
         }
     }
-    parseSlice({sliceType, label, value}) {
+    parseSlice({sliceType, label, value}, data) {
         return {
             type: sliceType,
             label,
-            content: this.parseFragment(value)
+            content: this.parseFragment(value, data)
         }
     }
-    parseFragment(fragment) {
+    parseFragment(fragment, data) {
         switch (fragment.constructor) {
             case Fragments.Text:
-            case Fragments.FileLink:
             case Fragments.Select:
             case Fragments.Color:
                 return fragment.asText()
-            case Fragments.Number:
             case Fragments.Date:
+                return data ? moment(data.value, 'YYYY-MM-DD').toDate() : fragment.value
+            case Fragments.Number:
             case Fragments.Timestamp:
             case Fragments.Embed:
             case Fragments.ImageLink:
@@ -67,17 +70,17 @@ export class Parser {
                 return fragment.main
             case Fragments.WebLink:
             case Fragments.FileLink:
-                return fragment.url()
+                return fragment.url(this.linkResolver)
             case Fragments.GeoPoint:
                 return {...fragment}
             case Fragments.StructuredText:
-                return fragment.asHtml(this.htmlSerializer)
+                return fragment.asHtml(this.linkResolver, this.htmlSerializer)
             case Fragments.Group:
                 return fragment.value.map(::this.parseFragment)
             case Fragments.SliceZone:
                 return fragment.slices.map(::this.parseFragment)
             case Fragments.Slice:
-                return this.parseSlice(fragment)
+                return this.parseSlice(fragment, data)
             default:
                 if (fragment.fragments) {
                     return this.parse(fragment)
@@ -88,4 +91,4 @@ export class Parser {
     }
 }
 
-export default new Parser()
+export default new Parser(linkResolver, htmlSerializer)

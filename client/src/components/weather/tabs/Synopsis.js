@@ -1,22 +1,22 @@
 import React, {PropTypes} from 'react'
-import {Html} from 'prismic'
+import {InnerHTML} from 'components/misc'
 import Section from './Section'
-import SliceSet from './SliceSet'
 import Loop from '../Loop'
 
 Synopsis.propTypes = {
-    group: PropTypes.object.isRequired,
-    slice: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
+    above: PropTypes.string.isRequired,
+    below: PropTypes.string.isRequired,
+    children: PropTypes.element,
 }
 
-export default function Synopsis({group, slices, date}) {
+export default function Synopsis({date, above, below, children}) {
     return (
         <Section>
-            <Html document={group} fragment='above' />
+            <InnerHTML>{above}</InnerHTML>
             <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} run={12} />
-            <Html document={group} fragment='below' />
-            <SliceSet slices={slices} />
+            <InnerHTML>{below}</InnerHTML>
+            {children}
         </Section>
     )
 }

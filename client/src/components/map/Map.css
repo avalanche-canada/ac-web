@@ -1,4 +1,5 @@
 :global(.mapboxgl-map) {
+    /* TODO: Fix....should not need that */
     &.Container {
         position: absolute 0;
     }

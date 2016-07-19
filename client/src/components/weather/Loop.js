@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
-import {Loop} from 'components/loop'
-import {formatLoop as format} from './utils/Url'
+import moment from 'moment'
 import range from 'lodash/range'
+import padstart from 'lodash/padstart'
+import Loop from 'components/loop'
+import {domain} from './config.json'
 
 const HOURS = new Map([
 	['AC_RDPS_BC_12hr-precip', range(0, 48, 12)],
@@ -78,6 +80,21 @@ const propTypes = {
     hours: PropTypes.arrayOf(PropTypes.number),
 }
 
+
+export function formatUrl({type, date = new Date(), run, hour, hours}) {
+    if (Array.isArray(hours)) {
+        return hours.map(hour => formatUrl({type, date, run, hour}))
+    }
+
+	hour = padstart(String(hour), 3, '0')
+	run = padstart(String(run), 2, '0')
+	date = moment(date).format('YYYYMMDD')
+
+	return `${domain}/loops/images/${type}_${date}${run}_${hour}HR.jpg`
+}
+
+
+
 function propsMapper({
     type,
     run = RUNS.get(type)[0],
@@ -85,7 +102,7 @@ function propsMapper({
     hours = HOURS.get(type)
 }) {
     return {
-        urls: format({date, type, run, hours}),
+        urls: formatUrl({date, type, run, hours}),
         openImageInNewTab: true,
     }
 }

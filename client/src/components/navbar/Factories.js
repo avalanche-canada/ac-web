@@ -25,7 +25,7 @@ function createSection({label, headline, children = [], ...props}) {
     const column = Math.floor(children.length / 7)
 
     return (
-        <Section>
+        <Section key={props.id}>
             {label && createLink({headline, label, ...props})}
             {headline && <Headline>{headline}</Headline>}
             <ColumnSet count={column}>

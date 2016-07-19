@@ -1,8 +1,8 @@
 import React from 'react'
 import {Article} from 'components/page'
 import {Tab, TabSet} from 'components/tab'
-import TutorialTab from './TutorialTab'
-import {Image} from 'components/weather'
+import Tutorial from './Tutorial'
+import {Image} from 'components/misc'
 
 export default function Radar() {
     return (
@@ -17,7 +17,9 @@ export default function Radar() {
                 <Tab title='Sourth Interior'>
                     <Image src='http://avalanche.ca/assets/images/weather/new-radar_s_interior.png' />
                 </Tab>
-                <TutorialTab uid='radar' />
+                <Tab title='Tutorial'>
+                    <Tutorial uid='radar' />
+                </Tab>
             </TabSet>
         </Article>
     )

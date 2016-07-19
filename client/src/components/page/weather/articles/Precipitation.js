@@ -1,8 +1,9 @@
 import React from 'react'
+import {Image} from 'components/misc'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
-import TutorialTab from './TutorialTab'
-import {Loop, Image} from 'components/weather'
+import Tutorial from './Tutorial'
+import {Loop} from 'components/weather'
 
 export default function Precipitation() {
     return (
@@ -17,7 +18,9 @@ export default function Precipitation() {
                 <Tab title='Type (R)'>
                     <Image src='http://avalanche.ca/assets/images/weather/precipitation-precip_type.png' />
                 </Tab>
-                <TutorialTab uid='precipitation' />
+                <Tab title='Tutorial'>
+                    <Tutorial uid='precipitation' />
+                </Tab>
             </TabSet>
         </Article>
     )

@@ -3,3 +3,17 @@
 .Hash {
     background-image: repeating-linear-gradient(-45deg, transparent, transparent 1px, var(--gray-lighter) 3px, var(--gray-lighter) 4px);
 }
+
+.Hash--Before {
+    &:before {
+        content: "";
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 1px, var(--gray-lighter) 3px, var(--gray-lighter) 4px);
+    }
+}
+
+.Hash--After {
+    &:after {
+        content: "";
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 1px, var(--gray-lighter) 3px, var(--gray-lighter) 4px);
+    }
+}

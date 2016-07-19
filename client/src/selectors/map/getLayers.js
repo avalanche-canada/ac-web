@@ -28,8 +28,9 @@ function handleForecastRegionMousemove(event, [feature]) {
 
     layers.forEach(layer => map.setFilter(layer, filter))
 }
-function getActiveProps(state, {params, history}) {
-    if (history.isActive(`/map/forecasts/${params.name}`)) {
+
+function getActiveProps(state, {params, router}) {
+    if (router.isActive(`/map/forecasts/${params.name}`)) {
         return {
             schema: ForecastRegion,
             id: params.name,
@@ -125,9 +126,8 @@ const LAYERS = Immutable.List.of({
         layout: {
             'text-field': '{name}',
             'text-ignore-placement': true,
-            'icon-image': 'harbor-15',
             'text-size': 12,
-            'text-offset': [0, 0.6],
+            'text-offset': [0, 2.25],
             'text-anchor': 'top',
         },
         paint: {

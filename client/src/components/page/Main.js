@@ -4,6 +4,6 @@ import styles from './Page.css'
 
 export default Element({
     name: 'Main',
-    styles,
     component: DOM.main,
+    styles,
 })

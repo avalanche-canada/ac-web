@@ -1,5 +1,0 @@
-export Synopsis from './Synopsis'
-export Day1 from './Day1'
-export Day2 from './Day2'
-export Day3to5 from './Day3to5'
-export Day6to10 from './Day6to10'

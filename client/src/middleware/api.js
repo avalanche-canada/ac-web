@@ -10,7 +10,7 @@ const api = store => next => action => {
         return next(action)
     }
 
-    const {schema, types} = payload
+    const {schema, params, types} = payload
 
     next({
         type: types[0],
@@ -47,7 +47,7 @@ const api = store => next => action => {
         return error
     }
 
-    return Api.fetch(schema).then(handleFulfill, handleReject)
+    return Api.fetch(schema, params).then(handleFulfill, handleReject)
 }
 
 export default api

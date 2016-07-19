@@ -10,13 +10,25 @@ import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
 import {DateTime} from 'components/misc'
 import styles from './Forecast.css'
+import {VALUES} from 'constants/forecast/mode'
+
+const {OFF, SUMMER, SPRING} = VALUES
+
+const OFF_CONDITION_MODES = new Set([OFF, SUMMER, SPRING])
 
 Forecast.propTypes = {
-    title: PropTypes.string.isRequired,
-    dateIssued: PropTypes.instanceOf(Date).isRequired,
-    validUntil: PropTypes.instanceOf(Date).isRequired,
-    forecaster: PropTypes.string.isRequired,
-    highlights: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    dateIssued: PropTypes.instanceOf(Date),
+    validUntil: PropTypes.instanceOf(Date),
+    forecaster: PropTypes.string,
+    highlights: PropTypes.string,
+    avalancheSummary: PropTypes.string,
+    snowpackSummary: PropTypes.string,
+    weatherForecast: PropTypes.string,
+    problems: PropTypes.array,
+    dangerMode: PropTypes.string,
+    dangerRatings: PropTypes.array,
+    confidence: PropTypes.string,
 }
 
 function Forecast({
@@ -33,6 +45,8 @@ function Forecast({
     dangerRatings,
     confidence,
 }) {
+    const showTable = !OFF_CONDITION_MODES.has(dangerMode)
+
     return (
         <Article>
             <Header>
@@ -49,13 +63,15 @@ function Forecast({
             <Section>
                 <Headline>{highlights}</Headline>
                 <TabSet theme={LOOSE}>
-                    <Tab header='Public Avalanche Forecast'>
-                        <Condition mode={dangerMode} date={dates[0]} />
-                        <Table mode={dangerMode} confidence={confidence}>
-                            {dangerRatings.map(({date, dangerRating}) => (
-                                <Day date={date} {...dangerRating} />
-                            ))}
-                        </Table>
+                    <Tab title='Public Avalanche Forecast'>
+                        <Condition mode={dangerMode} />
+                        {showTable &&
+                            <Table mode={dangerMode} confidence={confidence}>
+                                {dangerRatings.map(({date, dangerRating}) => (
+                                    <Day date={date} {...dangerRating} />
+                                ))}
+                            </Table>
+                        }
                         {problems.map(({type, icons, comment, travelAndTerrainAdvice}) => (
                             <Problem title={type} >
                                 <Topic title='What Elevation?' src={icons.elevations} />
@@ -68,7 +84,7 @@ function Forecast({
                         ))}
                         <Footer author={forecaster} />
                     </Tab>
-                    <Tab header='Forecast Details'>
+                    <Tab title='Forecast Details'>
                         <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
                         <Summary title='Snowpack Summary'>{snowpackSummary}</Summary>
                         <Summary title='Weather Forecast'>{weatherForecast}</Summary>

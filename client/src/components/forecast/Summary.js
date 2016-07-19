@@ -5,10 +5,10 @@ import {InnerHTML} from 'components/misc'
 
 Summary.propTypes = {
     title: PropTypes.string.isRequired,
-    children: PropTypes.string.isRequired,
+    children: PropTypes.string,
 }
 
-function Summary({ title, children }) {
+function Summary({title, children}) {
     return (
         <div styleName='Summary'>
             <h3>{title}</h3>

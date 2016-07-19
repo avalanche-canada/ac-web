@@ -1,12 +1,12 @@
 import {PropTypes, DOM} from 'react'
 import {Element} from 'compose'
-import styles from './Animation.css'
+import styles from './Loop.css'
 
 export default Element({
+    name: 'Title',
     propTypes: {
         children: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     },
-    name: 'Title',
     component: DOM.p,
     styles,
 })

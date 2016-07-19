@@ -169,7 +169,7 @@
 }
 
 .Panel {
-	display: none;
+    display: none;
 	margin: 1em;
 
     @media print {
@@ -180,7 +180,7 @@
 .Panel--active {
 	composes: Panel;
 
-	display: block;
+    display: block;
 }
 
 .ListItem__ExpandButton {

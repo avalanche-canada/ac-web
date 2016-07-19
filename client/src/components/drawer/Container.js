@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {Motion, spring, presets} from 'react-motion'
-import {compose, setDisplayName, withState, renameProp, lifecycle} from 'recompose'
+import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle} from 'recompose'
 import styles from './Drawer.css'
 import TreeModel from 'tree-model'
 import Cabinet from './Cabinet'
@@ -115,13 +115,7 @@ function Animated({show = false, onClose = K, node, setNode, root}) {
     )
 }
 
-Container.propTypes = {
-    menu: PropTypes.object.isRequired,
-    show: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-}
-
-function Container({ style = null, node, setNode, root, onClose }) {
+function Container({style = null, node, setNode, root, onClose}) {
     const path = getPath(root, node)
     const context = { node, setNode, root, onClose }
 
@@ -138,6 +132,11 @@ export default compose(
     setDisplayName('Container'),
     renameProp('menu', 'root'),
     withState('node', 'setNode'),
+    setPropTypes({
+        menu: PropTypes.object.isRequired,
+        show: PropTypes.bool.isRequired,
+        onClose: PropTypes.func.isRequired,
+    }),
     lifecycle({
         componentDidMount() {
             history.listenBefore(this.props.onClose)

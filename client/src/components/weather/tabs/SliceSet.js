@@ -1,19 +1,7 @@
 import React, {PropTypes} from 'react'
 import Loop from '../Loop'
 import Meteogram from '../Meteogram'
-import {Html} from 'prismic'
-
-const STATIC_LOOPS = new Set([
-    'AC_GDPS_EPA_clouds-th-500hts',
-    'AC_RDPS_BC_weather-systems',
-    'AC_GDPS_EPA_pacific-systems'
-])
-
-function htmlSerializer({url, type}, content) {
-    if (type === 'hyperlink') {
-        return `<a href="${url}" target="_blank">${content}</a>`
-    }
-}
+import {InnerHTML} from 'components/misc'
 
 SliceSet.propTypes = {
     slices: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -23,26 +11,16 @@ SliceSet.propTypes = {
 export default function SliceSet({ slices = [], date }) {
     return (
         <div>
-            {slices.map(slice => {
-                const { sliceType } = slice
-
-                if (STATIC_LOOPS.has(sliceType)) {
-                    const [loop] = slice.value.toArray()
-                    const run = Number(loop.getText('run').replace('Z', ''))
-
-                    return <Loop type={sliceType} {...{date, run}} />
-                }
-
-
-                switch (sliceType) {
+            {slices.map(({type, content}) => {
+                switch (type) {
                     case 'text':
-                        return <Html document={slice.value} htmlSerializer={htmlSerializer} />
+                        return <InnerHTML>{content}</InnerHTML>
                     case 'loop': {
-                        const [loop] = slice.value.toArray()
-                        const [type, run] = loop.getText('type').split('@')
+                        const [loop] = content
+                        const [type, run] = loop.type.split('@')
                         const props = {
                             type,
-                            date: loop.getDate('date'),
+                            date: loop.date,
                             run: Number(run.replace('Z', ''))
                         }
 
@@ -50,14 +28,13 @@ export default function SliceSet({ slices = [], date }) {
                     }
                     case 'point-meteogram':
                     case 'group-meteogram':
-                        const [meteogram] = slice.value.toArray()
-                        const [model, run] = meteogram.getText('type').split('@')
-                        const [type] = slice.sliceType.split('-')
+                        const [meteogram] = content
+                        const [model, run] = meteogram.type.split('@')
                         const props = {
                             model,
                             run: Number(run.replace('Z', '')),
-                            type,
-                            location: meteogram.getText('location')
+                            type: type.split('-')[0],
+                            location: meteogram.location,
                         }
 
                         return <Meteogram {...props} />

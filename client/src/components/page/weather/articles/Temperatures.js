@@ -1,8 +1,9 @@
 import React from 'react'
+import {Image} from 'components/misc'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
-import TutorialTab from './TutorialTab'
-import {Loop, Image} from 'components/weather'
+import Tutorial from './Tutorial'
+import {Loop} from 'components/weather'
 import range from 'lodash/range'
 
 export default function Temperatures() {
@@ -21,7 +22,9 @@ export default function Temperatures() {
                 <Tab title='1500m pm (G)'>
                     <Loop type='AC_GDPS_BC_1500m-temp' hours={range(0, 144, 24)} />
                 </Tab>
-                <TutorialTab uid='temperatures' />
+                <Tab title='Tutorial'>
+                    <Tutorial uid='temperatures' />
+                </Tab>
             </TabSet>
         </Article>
     )

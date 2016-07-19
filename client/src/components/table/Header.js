@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
 Header.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.element.isRequired,
 }
 
 function Header({children}) {

@@ -2,7 +2,7 @@ import * as RATINGS from 'constants/forecast/danger/rating'
 import {keys, heading} from 'constants/utils'
 
 const {VALUES, TEXTS, ADVICES, LIKEHOOD, SIZE_AND_DISTRIBUTION} = RATINGS
-const KEYS = keys(VALUES).filter(key => key !== 'NOTHING')
+const KEYS = keys(VALUES).filter(key => key !== 'NO_RATING')
 
 function section(heading, key) {
     return `

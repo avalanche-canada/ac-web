@@ -25,8 +25,6 @@ export InnerHTML from './InnerHTML'
 export ExpandButton from './ExpandButton'
 export SortingButton from './SortingButton'
 
-export InteractiveImage from './InteractiveImage'
-
 export Collapse from './Collapse'
 
 export Muted from './Text'

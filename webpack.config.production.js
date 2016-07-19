@@ -5,6 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
 var DefinePlugin = webpack.DefinePlugin
+var ContextReplacementPlugin = webpack.ContextReplacementPlugin
 
 module.exports = {
 	entry: {
@@ -90,6 +91,7 @@ module.exports = {
         }),
         new DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
-        })
+        }),
+        new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
 	]
 }

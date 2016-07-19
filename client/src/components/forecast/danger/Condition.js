@@ -1,25 +1,23 @@
 import React, { PropTypes } from 'react'
-import {branch, renderComponent, renderNothing} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import {VALUES, TITLES, MESSAGES} from 'constants/forecast/mode'
 import {asMap, asValues} from 'constants/utils'
-import {Day} from 'components/misc'
 import MarkdownRenderer from 'react-markdown-renderer'
 
 const {SPRING, SUMMER, OFF} = VALUES
-const HANDLED = new Set([SUMMER, SPRING])
+const HANDLED = new Set([SUMMER, SPRING, OFF])
 
 const HEADERS = asMap(VALUES, TITLES)
 const MARKDOWNS = asMap(VALUES, MESSAGES)
 const ICONS = new Map([
     [SPRING, 'http://www.avalanche.ca/assets/images/spring_situation_icon.svg'],
     [SUMMER, 'http://www.avalanche.ca/assets/images/summer_conditions_icon.svg'],
+    [OFF, 'http://www.avalanche.ca/assets/images/summer_conditions_icon.svg'],
 ])
 
 Condition.propTypes = {
-    date: PropTypes.instanceOf(Date).isRequired,
-    mode: PropTypes.oneOf(asValues(VALUES)).isRequired,
+    mode: PropTypes.oneOf([...HANDLED]).isRequired,
 }
 
 const OPTIONS = {
@@ -27,11 +25,15 @@ const OPTIONS = {
     linkTarget: '_blank',
 }
 
-function Condition({ mode, date }) {
+function Condition({mode}) {
+    if (!HANDLED.has(mode)) {
+        return null
+    }
+
     return (
         <div styleName='Condition'>
             <h2 styleName='ConditionHeader'>
-                {HEADERS.get(mode)}: <Day value={date} />
+                {HEADERS.get(mode)}
             </h2>
             <img styleName='ConditionIcon' src={ICONS.get(mode)} />
             <MarkdownRenderer markdown={MARKDOWNS.get(mode)} options={OPTIONS} styleName='ConditionContent' />
@@ -39,10 +41,4 @@ function Condition({ mode, date }) {
     )
 }
 
-Condition = CSSModules(Condition, styles)
-
-export default branch(
-    ({mode = OFF}) => HANDLED.has(mode),
-    renderComponent(Condition),
-    renderNothing()
-)(Condition)
+export default CSSModules(Condition, styles)

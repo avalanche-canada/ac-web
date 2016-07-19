@@ -13,7 +13,7 @@ function isExternal(to) {
 }
 
 Anchor.propTypes = {
-    to: PropTypes.string.isRequired
+    to: PropTypes.string
 }
 
 function Anchor({ to = '#', children, ...props }) {

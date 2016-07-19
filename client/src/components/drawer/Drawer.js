@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
-import Item from './Item'
+import ItemSet from './ItemSet'
 
 function K() {}
 
@@ -10,8 +10,8 @@ Drawer.propTypes = {
     onHome: PropTypes.func,
     onClose: PropTypes.func,
     onClick: PropTypes.func,
-    style: PropTypes.number,
-    children: PropTypes.arrayOf(PropTypes.instanceOf(Item)).isRequired,
+    style: PropTypes.object,
+    children: PropTypes.instanceOf(ItemSet).isRequired,
 }
 
 function Drawer({ header, onClick = K, onHome = K, onClose = K, style = null, children }) {

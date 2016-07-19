@@ -3,10 +3,14 @@ import CSSModules from 'react-css-modules'
 import styles from './Forecast.css'
 
 Footer.propTypes = {
-    author: PropTypes.string.isRequired,
+    author: PropTypes.string,
 }
 
-function Footer({ author }) {
+function Footer({author}) {
+    if (!author) {
+        return null
+    }
+    
     return (
         <footer styleName='Footer'>
             <dl>

@@ -5,6 +5,10 @@ export Root from './Root'
 // Map - kind of the home page
 export Map from './Map'
 
+//
+export Forecast from './Forecast'
+export HotZoneReport from './HotZoneReport'
+
 // Feed and Post Pages
 export EventFeed from './EventFeed'
 export EventPost from './EventPost'
@@ -80,6 +84,10 @@ export const MountainInformationNetworkSubmit = prismic({
 export const MountainInformationNetworkFAQ = prismic({
     bookmark: 'mountain-information-network-faq',
     title: 'Mountain Information Network — FAQ',
+})
+export const MountainInformationNetworkSubmissionGuidelines = prismic({
+    bookmark: 'mountain-information-network-submission-guidelines',
+    title: 'Mountain Information Network — Submission Guidelines',
 })
 
 export PrimaryDrawer from './PrimaryDrawer'

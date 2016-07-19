@@ -92,19 +92,19 @@ export default class TabSet extends Component {
 	renderTabPanel(tab, index) {
         const {panel, children} = tab.props
 
-        if (!children) {
-            return null
-        }
-
         if (panel) {
             return cloneElement(panel, {index})
         }
 
-		return (
-			<Panel key={index} active={this.activeIndex === index}>
-				{tab.props.children}
-			</Panel>
-		)
+        if (children) {
+            return (
+                <Panel key={index} active={this.activeIndex === index}>
+                    {children}
+                </Panel>
+            )
+        }
+
+        return null
 	}
 	render() {
 		const {tabs, opened} = this

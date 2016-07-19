@@ -48,8 +48,7 @@ function getDrawerStyle({x}) {
 
 Cabinet.propTypes = {
     drawers: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.number.isRequired,
-        onHome: PropTypes.func.isRequired,
+        key: PropTypes.string.isRequired,
         data: PropTypes.shape({
             onClose: PropTypes.func.isRequired,
             children: PropTypes.arrayOf(PropTypes.node).isRequired,
@@ -67,14 +66,14 @@ function Cabinet({ drawers = [] }) {
                 <section>
                 {configs.map(({key, style, data: {children, label, ...drawer}}) =>
                     <Drawer key={key} style={getDrawerStyle(style)} {...drawer}>
-                        <ItemSet>
+                        <ItemSet key={key}>
                             <Item>{label}</Item>
-                            {children.map(({to, label, headline, children, onClick}) =>
-                            <Item>
-                                <Link to={to} title={headline || label} onClick={children && onClick}>
-                                    {label}
-                                </Link>
-                            </Item>
+                            {children.map(({to, label, headline, children, onClick}, index) =>
+                                <Item key={index}>
+                                    <Link to={to} title={headline || label} onClick={children && onClick}>
+                                        {label}
+                                    </Link>
+                                </Item>
                             )}
                         </ItemSet>
                     </Drawer>

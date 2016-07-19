@@ -9,8 +9,8 @@ import styles from './Navbar.css'
 function K() {}
 
 Navbar.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
-    isFoundation: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    isFoundation: PropTypes.bool,
     onBurgerClick: PropTypes.func.isRequired,
 }
 

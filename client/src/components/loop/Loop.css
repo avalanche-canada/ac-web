@@ -1,7 +1,10 @@
-
 .Container {
 	position: relative;
 	margin-bottom: 10px;
+
+    & img {
+        display: block;
+    }
 }
 
 .Title {

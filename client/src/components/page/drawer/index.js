@@ -1,3 +1,6 @@
-export default, {LEFT, RIGHT} from './Cabinet'
+export default from './Cabinet'
 export Header from './Header'
-export Close from './Close'
+export Body from './Body'
+export Content from './Content'
+
+export {LEFT, RIGHT} from './constants/sides'

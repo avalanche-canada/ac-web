@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 
+const {keys} = Object
+
 export default class Layer extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf(['fill', 'line', 'symbol', 'circle', 'raster', 'background']),
         metadata: PropTypes.object,
-        ref: PropTypes.string,
+        'layer-ref': PropTypes.string,
         source: PropTypes.string,
+        before: PropTypes.string,
         'source-layer': PropTypes.string,
         minzoom: PropTypes.number,
         maxzoom: PropTypes.number,
@@ -28,15 +31,18 @@ export default class Layer extends Component {
     get id() {
         return this.props.id
     }
-    componentWillMount() {
-        const {map, id} = this
-        const {events, ...layer} = this.props
+    add = () => {
+        const {map, id, props} = this
+        const {events, before, ...layer} = props
 
-        map.on('load', function addLayer() {
-            map.addLayer(layer)
-        })
+        if (layer['layer-ref']) {
+            layer.ref = layer['layer-ref']
+            delete layer['layer-ref']
+        }
 
-        Object.keys(events).forEach(function setListener(key) {
+        map.addLayer(layer, before)
+
+        keys(events).forEach(function setListener(key) {
             map.on(key, function listener(event) {
                 const features = map.queryRenderedFeatures(event.point, {
                     layers: [id]
@@ -46,14 +52,26 @@ export default class Layer extends Component {
             })
         })
     }
-    componentWillUnmount() {
+    remove() {
         this.map.removeLayer(this.id)
     }
+    componentDidMount() {
+        if (this.map.loaded()) {
+            this.add()
+        } else {
+            this.map.on('load', this.add)
+        }
+    }
+    componentWillUnmount() {
+        this.remove()
+    }
     componentWillReceiveProps(nextProps) {
+        return
+
         const {map, props, id} = this
         const zoomRange = [props.minzoom, props.maxzoom]
 
-        Object.keys(nextProps).forEach(function setLayerProperty(key) {
+        keys(nextProps).forEach(function setLayerProperty(key) {
             const prop = nextProps[key]
 
             switch (key) {
@@ -76,9 +94,9 @@ export default class Layer extends Component {
 
         })
 
-        map.setLayerZoomRange(id, ...zoomRange)
+        // map.setLayerZoomRange(id, ...zoomRange)
     }
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate() {
         return false
     }
     render() {

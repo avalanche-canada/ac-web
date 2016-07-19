@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import Button, {SECONDARY} from 'components/button'
-import styles from './Animation.css'
+import styles from './Loop.css'
 import {
     FirstPage,
     LastPage,

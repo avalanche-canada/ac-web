@@ -3,12 +3,10 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// TODO: Remove once switch the newer versoin of Node
-require('es6-promise')
-
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
 var DefinePlugin = webpack.DefinePlugin
 var HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin
+var ContextReplacementPlugin = webpack.ContextReplacementPlugin
 
 module.exports = {
 	entry: {
@@ -109,6 +107,7 @@ module.exports = {
             filename: 'index.html',
         }),
         new HotModuleReplacementPlugin(),
+        new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
 	],
     // stats: {
     //     errorDetails: true

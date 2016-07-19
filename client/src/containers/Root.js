@@ -5,7 +5,7 @@ import Footer from 'components/footer'
 
 Root.propTypes = {
     navbar: PropTypes.element,
-    content: PropTypes.element.isRequired,
+    content: PropTypes.element,
     footer: PropTypes.element,
     children: PropTypes.element,
 }

@@ -8,6 +8,11 @@ export default class Source extends Component {
             type: PropTypes.string.isRequired,
             features: PropTypes.array.isRequired,
         }),
+        url: PropTypes.string,
+        coordinates: PropTypes.array,
+    }
+    static defaultProps = {
+        type: 'geojson'
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
@@ -15,22 +20,48 @@ export default class Source extends Component {
     get map() {
         return this.context.map
     }
-    componentWillMount() {
-        const {map} = this
-        const {id, ...source} = this.props
+    get id() {
+        return this.props.id
+    }
+    add = () => {
+        const {map, props} = this
+        const {id, ...source} = props
 
-        map.on('load', function addSource() {
-            map.addSource(id, source)
-        })
+        if (map.getSource(id)) {
+            map.removeSource(id)
+        }
+
+        map.addSource(id, source)
+    }
+    remove() {
+        this.map.removeSource(this.id)
+    }
+    componentDidMount() {
+        if (this.map.loaded()) {
+            this.add()
+        } else {
+            this.map.on('load', this.add)
+        }
     }
     componentWillUnmount() {
-        this.map.removeSource(this.props.id)
+        this.remove()
     }
-    componentWillReceiveProps({id, ...source}) {
-        this.map.removeSource(id).addSource(id, source)
+    componentWillReceiveProps(nextProps) {
+        const {type, data, id} = nextProps
+
+        if (type === 'geojson') {
+            if (data !== this.props.data) {
+                const source = this.map.getSource(id)
+
+                if (source) {
+                    source.setData(data)
+                    return
+                }
+            }
+        }
     }
-    shouldComponentUpdate({data}) {
-        return data.features !== this.props.data.features
+    shouldComponentUpdate() {
+        return false
     }
     render() {
         return null

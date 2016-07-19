@@ -1,7 +1,6 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect} from 'react-router'
 import {loadForType, loadForBookmark} from 'actions/prismic'
-import {forecastRegionRouteEntered} from 'actions/map'
 import {
     Root,
     Map,
@@ -22,9 +21,11 @@ import {
     PrivacyPolicy,
     TermsOfUse,
     Forecast,
+    HotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
+    MountainInformationNetworkSubmissionGuidelines,
     Training,
     Tutorial,
     Gear,
@@ -36,14 +37,8 @@ import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 
-console.warn(Weather)
-
 export default function computeRoutes(store) {
     const {dispatch} = store
-
-    function handleForecastRouteEnter(...args) {
-        dispatch(forecastRegionRouteEntered(...args))
-    }
 
     function handleRootRouteEntered() {
         const options = {
@@ -76,11 +71,17 @@ export default function computeRoutes(store) {
             {/*AVALANCHE CANADA*/}
             <IndexRedirect to='map' />
             <Route path='map' components={{content: Map, footer: null}}>
-                <Route path='forecasts/:name' components={{primary: Forecast}} onEnter={handleForecastRouteEnter}/>
+                <Route path='forecasts'>
+                    <Route path=':name' components={{primary: Forecast}} />
+                </Route>
+                <Route path='hot-zone-reports'>
+                    <Route path=':name' components={{primary: HotZoneReport}} />
+                </Route>
             </Route>
             <Route path='mountain-information-network' component={MountainInformationNetwork} />
             <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
+            <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='about' component={About} />
             <Route path='events' component={EventFeed} onEnter={handleFeedEnter} />
             <Route path='events/:uid' component={EventPost} />

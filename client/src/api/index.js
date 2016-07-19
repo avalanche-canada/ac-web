@@ -1,4 +1,4 @@
-import {ForecastRegion, HotZoneArea} from './schemas'
+import {ForecastRegion, HotZoneArea, Forecast} from './schemas'
 import Axios, {defaults} from 'axios'
 import {baseURL} from './config.json'
 
@@ -15,8 +15,9 @@ function addIdForMapboxGl(feature) {
 }
 
 const ENDPOINTS = new Map([
-    [ForecastRegion, 'forecasts'],
-    [HotZoneArea, 'forecasts'],
+    [ForecastRegion, params => 'forecasts'],
+    [Forecast, params => `forecasts/${params.name}.json`],
+    [HotZoneArea, params => 'forecasts'],
 ])
 
 function transformForecastRegions(data) {
@@ -52,13 +53,13 @@ const api = Axios.create({
     baseURL
 })
 
-export function fetch(schema) {
+export function fetch(schema, params) {
     if (fetching.has(schema)) {
         return fetching.get(schema)
     }
 
     const config = CONFIGS.get(schema)
-    const endpoint = ENDPOINTS.get(schema)
+    const endpoint = ENDPOINTS.get(schema)(params)
     const clear = clearPromiseFactory(schema)
     const promise = api.get(endpoint, config).then(clear, clear)
 

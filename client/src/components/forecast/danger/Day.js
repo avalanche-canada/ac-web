@@ -14,9 +14,8 @@ const RATING_TEXTS = asMap(RATINGS.VALUES, RATINGS.TEXTS)
 const RATING_PALETTE = asMap(RATINGS.VALUES, RATINGS.PALETTE)
 
 const {ALP, TLN, BTL} = ELEVATIONS.VALUES
-const {NOTHING} = RATINGS.VALUES
 
-function Cell({ rating }) {
+function Cell({rating}) {
     const style = {
         backgroundColor: RATING_PALETTE.get(rating)
     }
@@ -29,7 +28,7 @@ function Cell({ rating }) {
 }
 Cell = CSSModules(Cell, styles)
 
-function RowHeader({ rating, type }) {
+function RowHeader({rating, type}) {
     const style = {
         backgroundColor: ELEVATION_PALETTE.get(type)
     }
@@ -51,7 +50,7 @@ function Row(props) {
     )
 }
 
-function ColumnHeader({ date, span = 2 }) {
+function ColumnHeader({date, span = 2}) {
     return (
         <tr>
             <th scope='column' colSpan={span} styleName='ColumnHeader'>
@@ -62,7 +61,7 @@ function ColumnHeader({ date, span = 2 }) {
 }
 ColumnHeader = CSSModules(ColumnHeader, styles)
 
-function Body({ date, alp, tln, btl }) {
+function Body({date, alp, tln, btl}) {
     return (
         <tbody>
             <ColumnHeader date={date} />
@@ -83,7 +82,7 @@ Day.propTypes = {
     btl: ratingPropType,
 }
 
-function CardRow({ showTravelAdvice, ...ratings }) {
+function CardRow({showTravelAdvice, ...ratings}) {
     return (
         <tr>
             <td style={{padding:0}} colSpan={2}>
@@ -93,7 +92,7 @@ function CardRow({ showTravelAdvice, ...ratings }) {
     )
 }
 
-export default function Day({ index, ...day }) {
+export default function Day({index, ...day}) {
     const {date, alp, tln, btl} = day
 
     switch (index) {
@@ -111,10 +110,10 @@ export default function Day({ index, ...day }) {
                         <Row rating={btl} type={BTL} />
                     </MediaQuery>
                     <MediaQuery minWidth={501} maxWidth={800} >
-                        <CardRow {...{alp, tln, btl }} />
+                        <CardRow {...{alp, tln, btl}} />
                     </MediaQuery>
                     <MediaQuery minWidth={801} >
-                        <CardRow {...{alp, tln, btl, showTravelAdvice: true }} />
+                        <CardRow {...{alp, tln, btl, showTravelAdvice: true}} />
                     </MediaQuery>
                 </tbody>
             )

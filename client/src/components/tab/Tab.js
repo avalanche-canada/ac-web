@@ -6,6 +6,6 @@ Tab.propTypes = {
     panel: PropTypes.element,
 }
 
-export default function Tab({ children }) {
+export default function Tab() {
 	return null
 }

@@ -8,7 +8,7 @@ export default function Element({
     styleName = name,
     styles,
     propTypes = {
-        children: PropTypes.element,
+        children: PropTypes.node,
     }
 }) {
     if (styles) {

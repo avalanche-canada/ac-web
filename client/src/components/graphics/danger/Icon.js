@@ -11,6 +11,6 @@ Icon.propTypes = {
     rating: PropTypes.oneOf(VALUES).isRequired,
 }
 
-export default function Icon({ rating = RATINGS.NOTHING }) {
+export default function Icon({ rating = RATINGS.NO_RATING }) {
     return ICONS_MAP.get(rating)
 }

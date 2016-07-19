@@ -1,20 +1,16 @@
 import React, { PropTypes, createElement, Component } from 'react'
 import CSSModule from 'react-css-modules'
 import mapboxgl, {styles} from 'mapboxgl'
+import {CanadianBounds, RevelstokeCenter} from 'constants/map'
 import css from './Map.css'
 
 const STYLES = Object.keys(styles)
-
-const {LngLatBounds, LngLat} = mapboxgl
-const sw = new LngLat(-174, 35)
-const ne = new LngLat(-48, 90)
-const canadianBounds = new LngLatBounds(sw, ne)
-const revy = [-118.1957, 50.9981]
+const {LngLatBounds} = mapboxgl
 
 @CSSModule(css)
 export default class Map extends Component {
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element),
+        children: PropTypes.node,
         style: PropTypes.oneOf(STYLES),
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
@@ -38,42 +34,40 @@ export default class Map extends Component {
         touchZoomRotate: PropTypes.bool,
         trackResize: PropTypes.bool,
         events: PropTypes.object,
-        action: PropTypes.shape({
-            type: PropTypes.string.isRequired,
-            payload: PropTypes.array,
+        bounds: PropTypes.shape({
+            bbox: PropTypes.instanceOf(LngLatBounds),
+            options: PropTypes.object,
         }),
     }
     static defaultProps = {
         style: 'default',
-        center: revy, // Revy: center of universe ;)
         zoom: 10,
-        maxBounds: canadianBounds,
+        center: RevelstokeCenter,
+        maxBounds: CanadianBounds,
         attributionControl: false,
     }
     static childContextTypes = {
-        map: PropTypes.object.isRequired,
+        map: PropTypes.object,
     }
     state = {}
     get map() {
         return this.state.map
+    }
+    set map(map) {
+        this.setState({map})
     }
     getChildContext() {
         return {
             map: this.map
         }
     }
-    run({type, payload}) {
-        const {map} = this
-
-        map[type].apply(map, payload)
-    }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, events, action, ...rest} = this.props
+        const {style, children, events, bounds, ...rest} = this.props
         const map = new mapboxgl.Map({
             ...rest,
             container,
-            style: styles[style],
+            style: style !== null ? styles[style] : null,
         })
 
         if (events) {
@@ -82,28 +76,23 @@ export default class Map extends Component {
             })
         }
 
-        this.setState({map})
+        this.map = map
     }
     componentWillUnmount() {
         this.map.off()
     }
-    componentWillReceiveProps({action = null}) {
-        if (action !== null && action !== this.props.action) {
-            this.run(action)
+    componentWillReceiveProps({bounds = null}) {
+        if (bounds !== null && bounds !== this.props.bounds) {
+            const {bbox, options} = bounds
+            if (bbox) {
+                this.map.fitBounds(bbox, options)
+            }
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        return (
-            nextProps.children !== this.props.children,
-        )
-    }
     render() {
-        const {map} = this
-        const {children} = this.props
-
         return (
             <div ref='container' styleName='Container' >
-                {map && children}
+                {this.map && this.props.children}
             </div>
         )
     }

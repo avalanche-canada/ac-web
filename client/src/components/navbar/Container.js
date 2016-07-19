@@ -16,9 +16,9 @@ import styles from './Navbar.css'
 function K() {}
 
 Container.propTypes = {
-    isFoundation: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
+    isFoundation: PropTypes.bool,
+    name: PropTypes.string,
+    avatar: PropTypes.string,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
 }

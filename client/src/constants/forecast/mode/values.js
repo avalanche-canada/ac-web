@@ -1,3 +1,3 @@
-export const OFF = 1
-export const SUMMER = 2
-export const SPRING = 3
+export const OFF = 'OFF'
+export const SUMMER = 'SUMMER'
+export const SPRING = 'SPRING'

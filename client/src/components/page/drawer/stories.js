@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import Drawer, {LEFT, RIGHT, Header, Close} from './index'
+import Drawer, {LEFT, RIGHT, Header} from './index'
 import { compose, withState } from 'recompose'
 import Button from 'components/button'
 
@@ -9,7 +9,7 @@ const background = {
     height: '100vh',
 }
 const header = (
-    <Header>
+    <Header subject='Avalanche Forecast'>
         <h1>Title</h1>
     </Header>
 )

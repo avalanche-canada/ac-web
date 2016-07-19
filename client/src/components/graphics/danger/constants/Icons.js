@@ -35,8 +35,8 @@ export const HIGH = (
 
 export const EXTREME = HIGH
 
-export const NOTHING = (
+export const NO_RATING = (
     <Svg width={82.46} height={82.47}>
-        {GROUPS.NOTHING}
+        {GROUPS.NO_RATING}
     </Svg>
 )

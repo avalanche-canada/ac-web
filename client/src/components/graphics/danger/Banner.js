@@ -24,10 +24,10 @@ const TEXT_FILL_COLORS = asMap(RATINGS.VALUES, TEXT_FILL)
 
 const GROUPS_MAP = asMap(RATINGS.VALUES, GROUPS)
 
-const {NOTHING, CONSIDERABLE} = RATINGS.VALUES
+const {NO_RATING, CONSIDERABLE} = RATINGS.VALUES
 
 function RatingText({ rating, showTravelAdvice }) {
-    const hasTravelAdvice = showTravelAdvice && rating !== NOTHING
+    const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TEXT_FILL_COLORS.get(rating)
     const y = hasTravelAdvice ? 14 : 23
@@ -46,7 +46,7 @@ function toLines(text, first = 0) {
     ))
 }
 function ExtraInformation({ rating, expanded }) {
-    if (rating === NOTHING) {
+    if (rating === NO_RATING) {
         return null
     }
 
@@ -62,7 +62,7 @@ function ExtraInformation({ rating, expanded }) {
 }
 
 function ExpandButton({ rating, x, onClick, expanded }) {
-    if (rating === NOTHING) {
+    if (rating === NO_RATING) {
         return null
     }
 
@@ -86,17 +86,24 @@ Banner.propTypes = {
     expandable: PropTypes.bool,
 }
 
+const ELEVATIONS_VALUES = new Map([
+    [ALP, 0],
+    [TLN, 1],
+    [BTL, 2],
+])
+
 export default function Banner({
     elevation = ALP,
-    rating = NOTHING,
+    rating = NO_RATING,
     showTravelAdvice = false,
     expanded,
     expandable = false,
     onExpandClick = K,
 }) {
-    const dx = 255 + 130 + elevation * 20
-    const dy = 205 + 6 + elevation * 50
-    const width = 301 - elevation * 20
+    const value = ELEVATIONS_VALUES.get(elevation)
+    const dx = 255 + 130 + value * 20
+    const dy = 205 + 6 + value * 50
+    const width = 301 - value * 20
 
     return (
         <g transform={`translate(${dx} ${dy})`} >

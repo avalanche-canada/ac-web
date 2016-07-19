@@ -1,46 +1,48 @@
 import React, {PropTypes} from 'react'
 import moment from 'moment'
-import {Html} from 'prismic'
+import {InnerHTML} from 'components/misc'
 import {DateElement, Image} from 'components/misc'
 import Section from './Section'
-import SliceSet from './SliceSet'
-import {formatLoop as format} from '../utils/Url'
+import {formatUrl} from '../Loop'
+
+const {keys} = Object
 
 function description() {
     return 'Weather Systems'
 }
-const {keys} = Object
 
 Day2.propTypes = {
-    group: PropTypes.object.isRequired,
-    slices: PropTypes.object.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
+    above: PropTypes.string.isRequired,
+    between: PropTypes.string.isRequired,
+    below: PropTypes.string.isRequired,
+    children: PropTypes.element,
 }
 
-export default function Day2({group, slices, date}) {
-    const hasHardWired = keys(group.fragments).length > 0
+export default function Day2({date, above, between, below, children}) {
+    const hasHardWired = above || between || below
     const day = moment(date).add(1, 'day').toDate()
     const title = <DateElement value={day} />
     const type = 'AC_RDPS_BC_weather-systems'
     const image1 = {
-        src: format({date, type, run: 6, hour: 30}),
+        src: formatUrl({date, type, run: 6, hour: 30}),
         alt: description(),
         title: description(),
     }
     const image2 = {
-        src: format({date, type, run: 6, hour: 42}),
+        src: formatUrl({date, type, run: 6, hour: 42}),
         alt: description(),
         title: description(),
     }
 
     return (
         <Section title={title}>
-            {hasHardWired && <Html document={group} fragment='above' />}
+            {hasHardWired && <InnerHTML>{above}</InnerHTML>}
             {hasHardWired && <Image openImageInNewTab {...image1} />}
-            {hasHardWired && <Html document={group} fragment='between' />}
+            {hasHardWired && <InnerHTML>{between}</InnerHTML>}
             {hasHardWired && <Image openImageInNewTab {...image2} />}
-            {hasHardWired && <Html document={group} fragment='below' />}
-            <SliceSet slices={slices} />
+            {hasHardWired && <InnerHTML>{below}</InnerHTML>}
+            {children}
         </Section>
     )
 }
