@@ -1,5 +1,5 @@
-import React, { PropTypes, createElement } from 'react'
-import { compose, withState, setPropTypes } from 'recompose'
+import React, {PropTypes} from 'react'
+import {compose, withState, setPropTypes} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './SortingButton.css'
 import { ExpandLess, ExpandMore, Remove } from '../icons'

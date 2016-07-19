@@ -8,11 +8,11 @@ Slice.propTypes = {
 }
 
 export default function Slice({type, label, content}) {
-    const component = require(`./${classify(type)}`).default
+    const module = require(`./${classify(type)}`)
 
-    if (!component) {
+    if (!module || !module.default) {
         throw new Error(`Component for ${type} not supported.`)
     }
 
-    return createElement(component, {content, label})
+    return createElement(module.default, {content, label})
 }

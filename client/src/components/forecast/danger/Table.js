@@ -1,20 +1,26 @@
 import React, { PropTypes, Children, cloneElement } from 'react'
-import { mapProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import Day from './Day'
+import {VALUES, TITLES, MESSAGES} from 'constants/forecast/mode'
+
+const {SPRING, SUMMER, OFF} = VALUES
+const UNHANDLED = new Set([SUMMER, SPRING, OFF])
 
 Table.propTypes = {
-    children: PropTypes.arrayOf(Day).isRequired,
-    confidence: PropTypes.string.isRequired,
-    // TODO: Change the server to have this shape instead of a string
-    // confidence: PropTypes.shape({
-    //     level: PropTypes.string.isRequired,
-    //     comment: PropTypes.string.isRequired,
-    // }).isRequired,
+    children: PropTypes.arrayOf(PropTypes.instanceOf(Day)).isRequired,
+    mode: PropTypes.string.isRequired,
+    confidence: PropTypes.shape({
+        level: PropTypes.string,
+        comment: PropTypes.string,
+    }),
 }
 
-function Table({ children, confidence: {level, comment} }) {
+function Table({confidence: {level, comment}, children, mode}) {
+    if (UNHANDLED.has(mode)) {
+        return null
+    }
+
     return (
         <table styleName='Table'>
             <caption styleName='Caption'>
@@ -30,17 +36,4 @@ function Table({ children, confidence: {level, comment} }) {
     )
 }
 
-// TODO: Remove this props mapper, when server returns the expected object
-function convertConfidence({confidence, children}) {
-    const [level, comment] = confidence.split(' - ')
-
-    return {
-        confidence: {
-            level,
-            comment
-        },
-        children,
-    }
-}
-
-export default mapProps(convertConfidence)(CSSModules(Table, styles))
+export default CSSModules(Table, styles)

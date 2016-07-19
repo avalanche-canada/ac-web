@@ -11,7 +11,7 @@ Donate.propTypes = {
 
 function Donate({isFoundation = false}) {
     return (
-        <Link to={isFoundation ? paypal : 'foundation'} styleName='Donate' >
+        <Link to={isFoundation ? paypal : '/foundation'} styleName='Donate' >
             Donate
         </Link>
     )

@@ -34,10 +34,16 @@ function transformDangerRating({date, dangerRating}) {
 }
 
 function transform(forecast) {
-    const {dangerRatings, dateIssued, validUntil, dangerMode} = forecast
+    const {dangerRatings, dateIssued, validUntil, dangerMode, confidence} = forecast
+    // TODO: Have the server to provide it as object instead of string
+    const [level, comment] = confidence.split(' - ')
 
     return {
         ...forecast,
+        confidence: {
+            level,
+            comment
+        },
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued: moment(dateIssued).toDate(),
         validUntil: moment(validUntil).toDate(),

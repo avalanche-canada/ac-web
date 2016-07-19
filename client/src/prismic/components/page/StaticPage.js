@@ -1,4 +1,4 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {PropTypes} from 'react'
 import {createSelector} from 'reselect'
 import {connect} from 'react-redux'
 import {Page, Header, Headline, Main, Banner} from 'components/page'

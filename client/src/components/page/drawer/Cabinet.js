@@ -7,10 +7,6 @@ function K() {}
 
 const preset = presets.noWobble
 
-const defaultStyle = {
-    x: 0
-}
-
 function getMotionStyle(open, side) {
     const value = Number(!open) * (side === LEFT ? -1 : 1)
 
@@ -36,13 +32,8 @@ export default function Cabinet({
     header = null,
     children
 }) {
-    const motion = {
-        defaultStyle,
-        style: getMotionStyle(open, side),
-    }
-
     return (
-        <Motion {...motion} >
+        <Motion style={getMotionStyle(open, side)}>
             {style => createElement(Drawer, {
                 position: style.x,
                 width,

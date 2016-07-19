@@ -66,7 +66,7 @@ function Forecast({forecast}) {
                     const child = <SliceSet slices={slices} />
                     const props = {
                         ...group[0],
-                        date
+                        date,
                     }
 
                     return (

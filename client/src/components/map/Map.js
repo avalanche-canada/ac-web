@@ -1,4 +1,4 @@
-import React, { PropTypes, createElement, Component } from 'react'
+import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
 import mapboxgl, {styles} from 'mapboxgl'
 import {CanadianBounds, RevelstokeCenter} from 'constants/map'

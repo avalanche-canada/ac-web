@@ -1,4 +1,4 @@
-import React, { PropTypes, createElement } from 'react'
+import React, {PropTypes} from 'react'
 import { compose, setDisplayName } from 'recompose'
 import words from 'lodash/words'
 import CSSModules from 'react-css-modules'

@@ -10,11 +10,6 @@ import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
 import {DateTime} from 'components/misc'
 import styles from './Forecast.css'
-import {VALUES} from 'constants/forecast/mode'
-
-const {OFF, SUMMER, SPRING} = VALUES
-
-const OFF_CONDITION_MODES = new Set([OFF, SUMMER, SPRING])
 
 Forecast.propTypes = {
     title: PropTypes.string,
@@ -28,7 +23,10 @@ Forecast.propTypes = {
     problems: PropTypes.array,
     dangerMode: PropTypes.string,
     dangerRatings: PropTypes.array,
-    confidence: PropTypes.string,
+    confidence: PropTypes.shape({
+        level: PropTypes.string,
+        comment: PropTypes.string,
+    }),
 }
 
 function Forecast({
@@ -45,8 +43,6 @@ function Forecast({
     dangerRatings,
     confidence,
 }) {
-    const showTable = !OFF_CONDITION_MODES.has(dangerMode)
-
     return (
         <Article>
             <Header>
@@ -65,13 +61,11 @@ function Forecast({
                 <TabSet theme={LOOSE}>
                     <Tab title='Public Avalanche Forecast'>
                         <Condition mode={dangerMode} />
-                        {showTable &&
-                            <Table mode={dangerMode} confidence={confidence}>
-                                {dangerRatings.map(({date, dangerRating}) => (
-                                    <Day date={date} {...dangerRating} />
-                                ))}
-                            </Table>
-                        }
+                        <Table mode={dangerMode} confidence={confidence}>
+                            {dangerRatings.map(({date, dangerRating}) => (
+                                <Day date={date} {...dangerRating} />
+                            ))}
+                        </Table>
                         {problems.map(({type, icons, comment, travelAndTerrainAdvice}) => (
                             <Problem title={type} >
                                 <Topic title='What Elevation?' src={icons.elevations} />

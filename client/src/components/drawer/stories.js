@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { Container } from './index'
 import { AC, ACF } from '../../constants/menu'

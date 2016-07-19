@@ -127,18 +127,6 @@
     }
 }
 
-.Donate {
-    line-height: var(--navbar-height);
-    border-left: transparent solid 2px;
-    color: white;
-    padding: 0 20px;
-    background-color: var(--brand-secondary);
-
-    &:hover {
-        background-color: color(var(--brand-secondary) blackness(15%));
-    }
-}
-
 /* Menu */
 .Menu {
     display: none;
@@ -218,4 +206,16 @@
 
 .UserProfile {
     display: inline-block;
+}
+
+.Donate {
+    line-height: var(--navbar-height);
+    border-left: transparent solid 2px;
+    color: white;
+    padding: 0 20px;
+    background-color: var(--brand-secondary);
+
+    &:hover {
+        background-color: color(var(--brand-secondary) blackness(15%));
+    }
 }
