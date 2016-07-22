@@ -6,7 +6,7 @@ import {Map, Source, Layer, Popup, Marker, Utils} from 'components/map'
 import {zoomChanged, centerChanged} from 'actions/map'
 import {getMapProps} from 'selectors/map'
 import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
-import {Primary, Secondary} from './Drawer'
+import {Primary, Secondary, Menu} from './Drawers'
 
 function handleMoveend({target}) {
     return centerChanged(target.getCenter().toArray())
@@ -34,6 +34,7 @@ function Container({moveend, zoomend, sources = [], layers = [], markers = [], s
             <Secondary>
                 {secondary}
             </Secondary>
+            <Menu />
         </div>
     )
 }

@@ -7,13 +7,6 @@ Time.propTypes = {
     format: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
-export function createTime(displayName, format) {
-    return compose(
-        setDisplayName(displayName),
-        withProps({format}),
-    )(Time)
-}
-
 export default function Time({ value = new Date(), format = 'hh:mm', children }) {
     const date = moment(value)
 
@@ -27,4 +20,11 @@ export default function Time({ value = new Date(), format = 'hh:mm', children })
             {children || date.format(format)}
         </time>
     )
+}
+
+export function createTime(displayName, format) {
+    return compose(
+        setDisplayName(displayName),
+        withProps({format}),
+    )(Time)
 }

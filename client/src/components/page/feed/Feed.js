@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import {compose} from 'recompose'
 import {FilterSet, FilterEntry} from 'components/filter'
 import {Page, Header, Main} from 'components/page'

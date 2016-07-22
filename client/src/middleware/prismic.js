@@ -66,7 +66,7 @@ const prismic = store => next => action => {
         meta: action.payload,
     })
 
-    Prismic.Api().then(
+    return Prismic.Api().then(
         api => {
             next({
                 type: PRISMIC_API_SUCCESS,
@@ -77,12 +77,16 @@ const prismic = store => next => action => {
             return api
         },
         error => {
+            const err = new Error('Can not access Avalanche Canada Prismic repository.', error)
+
             next({
                 type: PRISMIC_API_FAILURE,
-                payload: new Error('Can not access Avalanche Canada Prismic repository.'),
+                payload: err,
                 error: true,
                 meta: action.payload,
             })
+
+            throw err
         }
     ).then(api => {
         next({
@@ -105,12 +109,16 @@ const prismic = store => next => action => {
                 })
             },
             error => {
+                const err = new Error('Can not fetch prismic documents.', error)
+
                 next({
                     type: PRISMIC_FAILURE,
-                    payload: new Error('Can not fetch prismic documents.'),
+                    payload: err,
                     error: true,
                     meta: action.payload,
                 })
+
+                throw err
             },
         )
     })

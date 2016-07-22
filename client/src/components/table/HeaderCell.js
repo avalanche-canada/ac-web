@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import SortingButton, {SORTINGS, TYPES} from 'components/misc/SortingButton'
+import Sorting, {SORTINGS, TYPES} from 'components/button/Sorting'
 
-export {ASC, DESC, NONE, NUMBER, STRING, DATE} from 'components/misc/SortingButton'
+export {ASC, DESC, NONE, NUMBER, STRING, DATE} from 'components/button/Sorting'
 
 function K() {}
 
@@ -20,7 +20,7 @@ function HeaderCell({children, sorting = NONE, onSortingChange = K}) {
     return (
         <td styleName={sortable ? 'HeaderCell--Sortable' : 'HeaderCell'}>
             {children}
-            {sortable && <SortingButton sorting={sorting} onChange={onSortingChange} />}
+            {sortable && <Sorting sorting={sorting} onChange={onSortingChange} />}
         </td>
     )
 }

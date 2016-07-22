@@ -2,10 +2,14 @@ import React, { PropTypes, Component, cloneElement, Children } from 'react'
 import {findDOMNode} from 'react-dom'
 import {Motion, spring} from 'react-motion'
 
-export const HEIGHT = 'height'
-export const WIDTH = 'width'
+export const HEIGHT = 'HEIGHT'
+export const WIDTH = 'WIDTH'
 
-const CAPITALIZED = new Map([
+const DIMENSIONS = new Map([
+    [HEIGHT, 'height'],
+    [WIDTH, 'width'],
+])
+const TITLIZED = new Map([
     [HEIGHT, 'Height'],
     [WIDTH, 'Width'],
 ])
@@ -17,13 +21,17 @@ const MARGINS = new Map([
 function styleOf({style}, propertyName) {
     return parseInt(style[propertyName] || 0, 10)
 }
+function computeStyle(dimension, value, computed) {
+    if (value === computed) {
+        return {
+            [DIMENSIONS.get(dimension)]: '100%',
+        }
+    }
 
-const STYLE = {
-    position: 'relative',
-    paddingTop: 1,
-    marginTop: -1,
-    paddingBottom: 1,
-    marginBottom: -1,
+    return {
+        [DIMENSIONS.get(dimension)]: `${value}px`,
+        overflow: 'hidden',
+    }
 }
 
 export default class Collapse extends Component {
@@ -36,6 +44,13 @@ export default class Collapse extends Component {
         collapsed: true,
         dimension: HEIGHT,
     }
+    constructor(props, ...rest) {
+        super(props, ...rest)
+
+        this.state = {
+            opened: !props.collapsed
+        }
+    }
     collapsable = null
     get computed() {
         const {collapsable} = this
@@ -46,26 +61,27 @@ export default class Collapse extends Component {
 
         const {dimension} = this.props
         const margins = MARGINS.get(dimension)
-        const propertyName = `offset${CAPITALIZED.get(dimension)}`
+        const propertyName = `offset${TITLIZED.get(dimension)}`
 
         return collapsable[propertyName]
                 + styleOf(collapsable, margins[0])
                 + styleOf(collapsable, margins[1])
     }
     render() {
-        const { collapsed, dimension, children } = this.props
+        const {collapsed, dimension, children} = this.props
+        const {computed} = this
         const child = Children.only(children)
         const defaultStyle = {
-            [dimension]: collapsed ? 0 : this.computed,
+            value: collapsed ? 0 : computed,
         }
         const style = {
-            [dimension]: spring(collapsed ? 0 : this.computed),
+            value: spring(collapsed ? 0 : computed),
         }
 
         return (
             <Motion defaultStyle={defaultStyle} style={style}>
                 {style => (
-                    <div style={style} >
+                    <div style={computeStyle(dimension, style.value, computed)} >
                         {cloneElement(child, {
                             ref: ref => this.collapsable = ref
                         })}

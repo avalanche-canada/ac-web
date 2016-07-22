@@ -1,0 +1,5 @@
+export const QUICK = '#4CAF50'
+export const AVALANCHE = '#03A9F4'
+export const SNOWPACK = '#3F51B5'
+export const WEATHER = '#FFC107'
+export const INCIDENT = '#F44336'

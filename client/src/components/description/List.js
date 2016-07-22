@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Description.css'
 
@@ -9,12 +9,12 @@ List.propTypes = {
 }
 
 function List({ columns = 1, horizontal = false, children }) {
-    const styleNames = [horizontal ? 'List--Horizontal' : 'List']
+    let styleName = horizontal ? 'List--Horizontal' : 'List'
 
-    styleNames.push(`List--${columns}Columns`)
+    styleName += ` List--${columns}Columns`
 
     return (
-        <dl styleName={styleNames.join(' ')}>
+        <dl styleName={styleName}>
             {children}
         </dl>
     )

@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import Subject from './Subject'
 
 Header.propTypes = {
-    subject: PropTypes.string.isRequired,
+    subject: PropTypes.string,
     children: PropTypes.element,
     sponsor: PropTypes.object,
 }
@@ -12,9 +12,11 @@ Header.propTypes = {
 function Header({subject, sponsor, children}) {
     return (
         <div styleName='Header'>
-            <Subject>
-                {subject}
-            </Subject>
+            {subject &&
+                <Subject>
+                    {subject}
+                </Subject>
+            }
             {children}
         </div>
     )

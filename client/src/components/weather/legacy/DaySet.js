@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import moment from 'moment'
 import Day from './Day'
 

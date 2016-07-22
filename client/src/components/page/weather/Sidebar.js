@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import { Link } from 'react-router'
 import { Sidebar, Item, Header } from 'components/sidebar'
 
@@ -7,7 +7,7 @@ export default function WeatherSidebar({ forecasts, current, onPathChange }) {
         <Sidebar>
             <Header>Forecast</Header>
             <Item>
-                <Link to='/weather'>Weather</Link>
+                <Link to='/weather'>Mountain Weather Forecast</Link>
             </Item>
             <Item>
                 <Link to='/weather/precipitation'>Precipitation</Link>

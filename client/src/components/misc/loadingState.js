@@ -1,18 +1,14 @@
-import { compose, withState, withHandlers, mapProps } from 'recompose'
-
-function propsMapper({ isLoaded, hasError, ...rest }) {
-    return {
-        ...rest,
-        isLoaded,
-        hasError,
-        isLoading: hasError === false && isLoaded === false
-    }
-}
+import {compose, withState, withHandlers, mapProps} from 'recompose'
 
 export default compose(
     withState('isLoaded', 'setIsLoaded', false),
     withState('hasError', 'setHasError', false),
-    mapProps(propsMapper),
+    mapProps(({isLoaded, hasError, ...rest}) => ({
+        ...rest,
+        isLoaded,
+        hasError,
+        isLoading: hasError === false && isLoaded === false
+    })),
     withHandlers({
         onLoad: props => event => {
             props.setIsLoaded(true)

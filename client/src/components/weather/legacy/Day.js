@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import { Html, Image } from 'prismic'
 import {DateElement} from 'components/misc'
 

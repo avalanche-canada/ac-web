@@ -1,19 +1,9 @@
 import React, {PropTypes} from 'react'
 import { compose, setDisplayName } from 'recompose'
-import words from 'lodash/words'
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'
 import loadingState from './loadingState'
-
-function getInitials(name = null) {
-    if (name === null) {
-        return
-    }
-
-    const [first, second] = words(name)
-
-    return ((first[0] || '') + (second[0] || '')).toUpperCase()
-}
+import {getInitials} from 'utils/string'
 
 Avatar.propTypes = {
     name: PropTypes.string.isRequired,

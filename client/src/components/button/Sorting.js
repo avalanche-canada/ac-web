@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
-import {compose, withState, setPropTypes} from 'recompose'
-import CSSModules from 'react-css-modules'
-import styles from './SortingButton.css'
-import { ExpandLess, ExpandMore, Remove } from '../icons'
+import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps, withState} from 'recompose'
+import {ExpandLess, ExpandMore, Remove} from '../icons'
+import {SUBTILE} from './kinds'
+import Button from './Button'
 
 function K() {}
 
@@ -43,28 +43,27 @@ function nextSorting(sorting) {
     return SORTINGS[SORTINGS.indexOf(sorting) + 1] || SORTINGS[0]
 }
 
-const propTypes = {
-    sorting: PropTypes.oneOf(SORTINGS).isRequired,
-    onChange: PropTypes.func.isRequired,
-    type: PropTypes.oneOf(TYPES),
-}
-
-function SortingButton({sorting = NONE, type = STRING, setSorting, onChange = K}) {
-    function handleClick() {
-        const next = nextSorting(sorting)
-
-        setSorting(next)
-        onChange(next)
-    }
-
-    return (
-        <button styleName='Main' onClick={handleClick}>
-            {ICONS.get(type).get(sorting)}
-        </button>
-    )
-}
-
 export default compose(
-    setPropTypes(propTypes),
-    withState('sorting', 'setSorting', props => props.sorting)
-)(CSSModules(SortingButton, styles))
+    setDisplayName('Sorting'),
+    setPropTypes({
+        sorting: PropTypes.oneOf(SORTINGS).isRequired,
+        onChange: PropTypes.func.isRequired,
+        type: PropTypes.oneOf(TYPES),
+    }),
+    withProps({
+        kind: SUBTILE,
+        type: STRING,
+        onChange: K,
+    }),
+    mapProps(({sorting, type, onChange, setSorting, ...props}) => ({
+        ...props,
+        icon: ICONS.get(type).get(sorting),
+        onClick() {
+            const next = nextSorting(sorting)
+
+            setSorting(next)
+            onChange(next)
+        }
+    })),
+    withState('sorting', 'setSorting', props => props.sorting),
+)(Button)

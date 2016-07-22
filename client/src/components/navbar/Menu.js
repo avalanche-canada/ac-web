@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 
@@ -8,18 +8,18 @@ Menu.propTypes = {
 }
 
 function Menu({ isOpened = false, inline = false, children }) {
-    const styleNames = ['Menu']
+    let styleName = 'Menu'
 
     if (isOpened) {
-        styleNames.push('Menu--opened')
+        styleName += ' Menu--opened'
     }
 
     if (inline) {
-        styleNames.push('Menu--inline')
+        styleName += ' Menu--inline'
     }
 
     return (
-        <div styleName={styleNames.join(' ')}>
+        <div styleName={styleName}>
             {children}
         </div>
     )

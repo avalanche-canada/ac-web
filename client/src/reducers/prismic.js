@@ -10,9 +10,19 @@ import {
     PRISMIC_API_FAILURE,
 } from 'middleware/prismic'
 
-
-function isFetching(state = false, {type}) {
-    return state
+function fetchingCounter(state = 0, {type}) {
+    switch (type) {
+        case PRISMIC_API_REQUEST:
+        case PRISMIC_REQUEST:
+            return state + 1
+        case PRISMIC_API_SUCCESS:
+        case PRISMIC_API_FAILURE:
+        case PRISMIC_SUCCESS:
+        case PRISMIC_FAILURE:
+            return state - 1
+        default:
+            return state
+    }
 }
 
 function documents(state = new Immutable.Map(), {type, payload}) {
@@ -68,7 +78,7 @@ function uids(state = new Immutable.Map(), {type, payload}) {
 }
 
 export default combineReducers({
-    isFetching,
+    fetchingCounter,
     documents,
     bookmarks,
     types,
@@ -110,5 +120,5 @@ export function getDocumentForUid(state, type, uid) {
 }
 
 export function getIsFetching(state) {
-    return state.prismic.isFetching
+    return state.prismic.fetchingCounter > 0
 }

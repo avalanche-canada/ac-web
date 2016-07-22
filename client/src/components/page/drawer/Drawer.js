@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import SIDE, {LEFT, RIGHT} from './constants/sides'
@@ -22,17 +22,24 @@ Drawer.propTypes = {
     position: PropTypes.number.isRequired,
     width: PropTypes.number,
     header: PropTypes.element,
-    onToggle: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
 }
 
-function Drawer({side = SIDE, open, position, width, onToggle, children}) {
+function Drawer({side = SIDE, open, position, width, onOpen, onClose, children}) {
+    let styleName = STYLE_NAMES.get(side)
+
+    if (open) {
+        styleName += ' Open'
+    }
+
     return (
-        <div style={getDrawerStyle(position, width)} styleName={STYLE_NAMES.get(side)}>
-            <Toggle {...{side, open}} onClick={onToggle} />
+        <div style={getDrawerStyle(position, width)} styleName={styleName}>
+            <Toggle {...{side, open}} onOpen={onOpen} onClose={onClose} />
             {children}
         </div>
     )
 }
 
-export default CSSModules(Drawer, styles)
+export default CSSModules(Drawer, styles, {allowMultiple: true})

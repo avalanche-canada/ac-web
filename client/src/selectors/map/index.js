@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect'
+import mapboxgl from 'mapboxgl'
 import {getZoom, getCenter} from 'reducers/map'
 import getSources from './getSources'
 import getLayers from './getLayers'
@@ -8,9 +9,11 @@ import {loadForecastRegions} from 'actions/entities'
 import {ForecastRegion} from 'api/schemas'
 import bbox from 'turf-bbox'
 
+const {LngLatBounds} = mapboxgl
+
 function createFeatureBounds(feature) {
     return {
-        bbox: bbox(feature.toJSON()),
+        bbox: LngLatBounds.convert(bbox(feature.toJSON())),
         options: {
             offset: [-250, 0],
             padding: 25,
@@ -18,11 +21,8 @@ function createFeatureBounds(feature) {
     }
 }
 
-
 function getActiveFeature(state, {params}) {
-    const {name} = params
-
-    return getEntityForSchema(state, ForecastRegion, name)
+    return getEntityForSchema(state, ForecastRegion, params.name)
 }
 
 const getBounds = createSelector(

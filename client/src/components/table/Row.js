@@ -1,7 +1,7 @@
 import React, { PropTypes, Children, cloneElement } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import { ExpandButton } from '../misc'
+import {Expand} from 'components/button'
 
 function K() {}
 
@@ -16,20 +16,20 @@ Row.propTypes = {
 function Row({ children, expanded = null, onExpandedToggle = K, hide = false, controlled = false }) {
     const lastIndex = Children.count(children) - 1
     const expandable = expanded !== null
-    const styleNames = [controlled ? 'Row--Controlled' : 'Row']
+    let styleName = controlled ? 'Row--Controlled' : 'Row'
 
     if (hide) {
-        styleNames.push('Row--Hide')
+        styleName += ' Row--Hide'
     }
 
     return (
-        <tr styleName={styleNames.join(' ')}>
+        <tr styleName={styleName}>
             {expandable ? Children.map(children, (child, index) => {
                 if (index !== lastIndex) {
                     return child
                 }
 
-                const button = <ExpandButton expanded={expanded} onClick={onExpandedToggle} />
+                const button = <Expand expanded={expanded} onClick={onExpandedToggle} />
                 const style = {
                     paddingRight: 36
                 }

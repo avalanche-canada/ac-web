@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import { Facebook, Twitter, GooglePlus } from '../icons'
 import SocialItem from './SocialItem'
 

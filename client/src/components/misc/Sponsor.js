@@ -12,7 +12,9 @@ Sponsor.propTypes = {
 function Sponsor({name, src, url, term = 'Brought to you by'}) {
     return (
         <dl styleName='Container'>
-            <dt styleName='Label'>{term}</dt>
+            <dt styleName='Label'>
+                {term}
+            </dt>
             <dd styleName='Logo'>
                 <img src={src} title={name} />
             </dd>

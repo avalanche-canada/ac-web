@@ -9,20 +9,11 @@
     flex-direction: column;
     width: 100%;
 
-    &[min-width~="300px"] {
-        & .Entry {
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        & .Description {
-            margin-left: 0.5em;
-        }
-    }
-
-    &[min-width~="620px"] {
+    &[max-width~="500px"] {
         flex-direction: row;
         flex-wrap: wrap;
+
+        font-size: 0.75em;
 
         & .Entry {
             flex: 50%;
@@ -39,6 +30,36 @@
         }
     }
 
+    &[min-width~="500px"] {
+        & .Entry {
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        & .Description {
+            margin-left: 0.5em;
+        }
+    }
+
+    &[min-width~="600px"] {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        & .Entry {
+            flex: 50%;
+            flex-wrap: wrap;
+            flex-direction: row;
+            box-sizing: border-box;
+
+            &:nth-child(even) {
+                padding-left: 1em;
+                border-left: 2px solid var(--border-color);
+            }
+            &:nth-child(odd) {
+                padding-right: 0.5em;
+            }
+        }
+    }
 }
 
 

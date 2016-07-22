@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import * as RATINGS from 'constants/forecast/danger/rating'
 import * as ELEVATIONS from 'constants/forecast/elevation'
 import * as BANNER_FILL from './colors/BannerFill'

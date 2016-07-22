@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import {compose, withProps, mapProps, setPropTypes, setDisplayName} from 'recompose'
 import padstart from 'lodash/padstart'
 import {Image} from 'components/misc'

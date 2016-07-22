@@ -57,7 +57,7 @@
 
     & .IconContainer {
         & path:not([fill="none"]) {
-            fill: var(--gray) !important;
+            fill: var(--brand-primary) !important;
         }
     }
 }
@@ -68,6 +68,12 @@
 
     & > :not(:first-child) {
         margin-left: 0.25em;
+    }
+
+    & .IconContainer {
+        & path:not([fill="none"]) {
+            fill: var(--gray) !important;
+        }
     }
 
     & > :only-child {

@@ -1,17 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Header, Content, Body} from 'components/page/drawer'
-import Forecast from 'components/forecast'
+import Forecast, {Metadata} from 'components/forecast'
 import {compose, lifecycle} from 'recompose'
 import {getForecast} from 'selectors/forecast'
 import {loadForecast} from 'actions/entities'
 import {Muted} from 'components/misc'
 
-function Container({isLoading, forecast, title = 'South Columbia'}) {
+function Container({isLoading, forecast, title = 'Loading...'}) {
     return (
         <Content>
             <Header subject='Avalanche Forecast'>
                 <h1>{title}</h1>
+                {forecast && <Metadata {...forecast} />}
             </Header>
             <Body>
                 {isLoading ?

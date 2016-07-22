@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import { compose, mapProps, setDisplayName, setPropTypes } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'

@@ -45,6 +45,10 @@ function clearPromiseFactory(schema) {
     return function clearPromise(payload) {
         fetching.delete(schema)
 
+        if (payload instanceof Error) {
+            throw payload
+        }
+        
         return payload
     }
 }

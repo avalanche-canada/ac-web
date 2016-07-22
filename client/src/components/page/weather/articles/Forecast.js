@@ -6,7 +6,7 @@ import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, DateTime, Loading, Muted} from 'components/misc'
+import {DateElement, DateTime, Loading, Muted, Error} from 'components/misc'
 import {ExpandMore} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import {Metadata, Entry} from 'components/metadata'
@@ -35,12 +35,19 @@ export default class Container extends Component {
     }
     state = {
         showCalendar: false,
+        isError: false,
     }
     set showCalendar(showCalendar) {
         this.setState({showCalendar})
     }
     get showCalendar() {
         return this.state.showCalendar
+    }
+    set isError(isError) {
+        this.setState({isError})
+    }
+    get isError() {
+        return this.state.isError
     }
     toggleCalendar = event => {
         this.showCalendar = !this.showCalendar
@@ -61,17 +68,21 @@ export default class Container extends Component {
             this.load(params.date)
         }
     }
-    load(date = this.props.params.date) {
+    load(date = this.props.params.date || new Date()) {
         const type = 'new-weather-forecast'
         const options = {
             predicates: [Predicates.at(`my.${type}.date`, date)]
         }
 
-        this.props.loadForType(type, options)
+        this.isError = false
+
+        this.props.loadForType(type, options).catch(err => {
+            this.isError = true
+        })
     }
     render() {
         const {params, isAuthenticated, forecast, children, isLoading} = this.props
-        const {showCalendar} = this.state
+        const {showCalendar, isError} = this
         const date = moment(params.date).toDate()
         const today = new Date()
 
@@ -109,10 +120,15 @@ export default class Container extends Component {
                         Loading weather forecast for <DateElement value={date} />...
                     </Loading>
                 }
-                {(!isLoading && !forecast) &&
-                    <Muted hide={isLoading || !forecast}>
+                {(!isLoading && !isError && !forecast) &&
+                    <Muted>
                         No weather forecast available for <DateElement value={date} />.
                     </Muted>
+                }
+                {isError &&
+                    <Error>
+                        Error happened to load weather forecast for <DateElement value={date} />.
+                    </Error>
                 }
                 {forecast && <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />}
             </Article>

@@ -1,7 +1,8 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
 import mapboxgl, {styles} from 'mapboxgl'
-import {CanadianBounds, RevelstokeCenter} from 'constants/map'
+import {Revelstoke} from 'constants/map/locations'
+import {Canadian} from 'constants/map/bounds'
 import css from './Map.css'
 
 const STYLES = Object.keys(styles)
@@ -42,8 +43,8 @@ export default class Map extends Component {
     static defaultProps = {
         style: 'default',
         zoom: 10,
-        center: RevelstokeCenter,
-        maxBounds: CanadianBounds,
+        center: Revelstoke,
+        maxBounds: Canadian,
         attributionControl: false,
     }
     static childContextTypes = {

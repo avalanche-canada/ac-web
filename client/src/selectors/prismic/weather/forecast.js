@@ -1,25 +1,32 @@
 import {createSelector} from 'reselect'
-import {getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
 import {NewWeatherForecast} from 'prismic/types'
 
 function getDocument(state, {params: {date}}) {
     const type = 'new-weather-forecast'
     const documents = getDocumentsOfType(state, type)
 
-    function find(document) {
-            return date === document.data[`${type}.date`].value
+    function predicate(document) {
+        return date === document.data[`${type}.date`].value
     }
 
-    return documents.find(find)
+    return documents.find(predicate)
 }
 
 
 export default createSelector(
+    getIsFetching,
     getDocument,
-    document => {
-        if (!document) {
+    (isFetching, document) => {
+        if (isFetching && !document) {
             return {
                 isLoading: true,
+            }
+        }
+
+        if (!document) {
+            return {
+                isLoading: false,
             }
         }
 

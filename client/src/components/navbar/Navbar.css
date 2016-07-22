@@ -8,7 +8,7 @@
 }
 
 .Container {
-    z-index: 1;
+    z-index: 10;
     height: var(--navbar-height);
 
     box-sizing: border-box;

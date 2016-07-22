@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
-import {Forecast} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/entities'
+import {Forecast, ForecastRegion} from 'api/schemas'
+import {getEntitiesForSchema, getEntityForSchema} from 'reducers/entities'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
@@ -57,26 +57,35 @@ function getForecasts(state) {
     return getEntitiesForSchema(state, Forecast)
 }
 
+function getForecastRegion(state, {params}) {
+    return getEntityForSchema(state, ForecastRegion, params.name)
+}
+
 function getName(state, {params}) {
     return params.name
 }
 
 export const getForecast = createSelector(
     getForecasts,
+    getForecastRegion,
     getName,
-    (forecasts, name) => {
-        const forecast = forecasts.find(forecast => {
+    (forecasts, region, name) => {
+        let forecast = forecasts.find(forecast => {
             return forecast.get('region') === name
         })
 
         if (forecast) {
+            forecast = transform(forecast.toJSON())
+
             return {
                 isLoading: false,
-                forecast: transform(forecast.toJSON()),
+                title: forecast.bulletinTitle,
+                forecast,
             }
         } else {
             return {
                 isLoading: true,
+                title: region && region.getIn(['properties', 'name']),
             }
         }
     }

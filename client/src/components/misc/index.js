@@ -22,12 +22,15 @@ export const Day = createTime('Day', 'dddd')
 
 export InnerHTML from './InnerHTML'
 
-export ExpandButton from './ExpandButton'
-export SortingButton from './SortingButton'
-
 export Collapse from './Collapse'
 
 export Muted from './Text'
 export Loading from './Text'
+export {Error} from './Text'
 
 export Image from './Image'
+
+export Backdrop from './Backdrop'
+
+export DayPicker from './DayPicker'
+export {DateUtils} from 'react-day-picker'

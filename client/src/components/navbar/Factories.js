@@ -14,14 +14,18 @@ const {isArray} = Array
 const SectionHeaderLink = nest(Section, Header, Link)
 const HeaderLink = nest(Header, Link)
 
-function createLink({label, header, headline, ...props}) {
+function createLink({label, header, headline, ...rest}, index) {
     const hasHeader = header === true || typeof headline === 'string'
     const component = hasHeader ? HeaderLink : Link
+    const props = {
+        ...rest,
+        key: index
+    }
 
     return createElement(component, props, label)
 }
 
-function createSection({label, headline, children = [], ...props}) {
+function createSection({label, headline, children = [], ...props}, index) {
     const column = Math.floor(children.length / 7)
 
     return (

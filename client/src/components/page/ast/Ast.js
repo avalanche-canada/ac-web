@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import {Page, Banner, Main, Article, Header, BannerForm} from 'components/page'
 import {Select, Dropdown, Option, Input} from 'components/controls'
 import {Control} from 'components/form'
