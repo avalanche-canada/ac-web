@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import {AC, ACF} from 'constants/menu'
 import Navbar from './index'
 import Menu from './Menu'

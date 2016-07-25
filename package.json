@@ -51,6 +51,7 @@
     "prismic.io": "^2.1.3",
     "q": "^1.0.1",
     "react": "^15.0.0",
+    "react-addons-shallow-compare": "^15.2.1",
     "react-css-modules": "^3.7.8",
     "react-day-picker": "^2.2.0",
     "react-dom": "^15.0.0",

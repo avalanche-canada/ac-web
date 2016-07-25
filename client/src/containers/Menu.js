@@ -2,26 +2,72 @@ import React, {PropTypes} from 'react'
 import {compose, withProps, mapProps, nest} from 'recompose'
 import {connect} from 'react-redux'
 import getLayers from 'selectors/menu'
-import {toggleLayer, setFilter} from 'actions/drawers'
+import {toggleLayer, changeFilter} from 'actions/drawers'
 import {Header, Content} from 'components/page/drawer'
-import {LayerSet, Layer} from 'components/page/drawer/layers'
+import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
+import * as LAYERS from 'constants/map/layers'
+import {
+    Forecast,
+    HotZoneReport,
+    MountainConditionReport,
+    Meteogram,
+    MountainInformationNetwork,
+    SurfaceHoar,
+    WeatherStation,
+} from 'components/icons'
+
+const {
+    FORECASTS,
+    HOT_ZONE_REPORTS,
+    MOUNTAIN_CONDITION_REPORTS,
+    METEOGRAMS,
+    MOUNTAIN_INFORMATION_NETWORK,
+    SURFACE_HOAR,
+    WEATHER_STATION,
+} = LAYERS
+
+const ICONS = new Map([
+    [FORECASTS, <Forecast />],
+    [HOT_ZONE_REPORTS, <HotZoneReport />],
+    [MOUNTAIN_CONDITION_REPORTS, <MountainConditionReport />],
+    [METEOGRAMS, <Meteogram />],
+    [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
+    [SURFACE_HOAR, <SurfaceHoar />],
+    [WEATHER_STATION, <WeatherStation />],
+])
 
 Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
-function Menu({sets = []}) {
+function Menu({sets = [], toggleLayer, changeFilter}) {
     return (
         <div>
             <Header />
             <Content>
-                {sets.map(({title, layers}) => (
-                    <LayerSet title={title}>
-                    {layers.map(({title, active, filters}, type) => (
-                        <Layer key={type} {...{type, title, active, filters}} />
-                    ))}
-                    </LayerSet>
-                ))}
+                {sets.map(({title, layers}) => {
+                    return (
+                        <LayerSet title={title}>
+                            {layers
+                                .map(layer => layer.toObject())
+                                .map(({filters, ...layer}, type) => {
+                                    const handleFilterChange = changeFilter.bind(null, type)
+                                    const props = {
+                                        key: type,
+                                        icon: ICONS.get(type),
+                                        onClick: event => toggleLayer(type),
+                                    }
+
+                                    return (
+                                        <Layer {...props} {...layer}>
+                                            {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
+                                        </Layer>
+                                    )
+                                })
+                            }
+                        </LayerSet>
+                    )
+                })}
             </Content>
         </div>
     )
@@ -30,9 +76,9 @@ function Menu({sets = []}) {
 export default compose(
     connect(getLayers, {
         toggleLayer,
-        setFilter,
+        changeFilter,
     }),
-    mapProps(({layers}) => {
+    mapProps(({layers, ...props}) => {
         const sets = layers.groupBy(layer => layer.type).map((layers, title) => {
             return {
                 title,
@@ -41,7 +87,8 @@ export default compose(
         })
 
         return {
-            sets
+            ...props,
+            sets,
         }
     })
 )(Menu)

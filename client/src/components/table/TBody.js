@@ -1,5 +1,5 @@
-import React, { PropTypes, Children, cloneElement } from 'react'
-import { compose, withState, mapProps } from 'recompose'
+import React, { PropTypes, Children, cloneElement} from 'react'
+import {compose, withState, mapProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 

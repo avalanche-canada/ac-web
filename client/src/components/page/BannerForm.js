@@ -1,4 +1,4 @@
-import React, { PropTypes, Children } from 'react'
+import React, { PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
 import {Form, Fieldset, Legend, ControlSet, Control, Submit} from '../form'
 import styles from './Page.css'

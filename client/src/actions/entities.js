@@ -14,6 +14,10 @@ export const HOT_ZONE_AREAS_REQUEST = 'HOT_ZONE_AREAS_REQUEST'
 export const HOT_ZONE_AREAS_SUCCESS = 'HOT_ZONE_AREAS_SUCCESS'
 export const HOT_ZONE_AREAS_FAILURE = 'HOT_ZONE_AREAS_FAILURE'
 
+export const HOT_ZONE_REPORT_REQUEST = 'HOT_ZONE_REPORT_REQUEST'
+export const HOT_ZONE_REPORT_SUCCESS = 'HOT_ZONE_REPORT_SUCCESS'
+export const HOT_ZONE_REPORT_FAILURE = 'HOT_ZONE_REPORT_FAILURE'
+
 function createApiAction(schema, ...types) {
     return createAction(API, params => ({
         schema,
@@ -35,4 +39,9 @@ export const loadForecast = createApiAction(
 export const loadHotZoneAreas = createApiAction(
     Schemas.HotZoneArea,
     HOT_ZONE_AREAS_REQUEST, HOT_ZONE_AREAS_SUCCESS, HOT_ZONE_AREAS_FAILURE
+)
+
+export const loadHotZoneReports = createApiAction(
+    Schemas.HotZoneReport,
+    HOT_ZONE_REPORT_REQUEST, HOT_ZONE_REPORT_SUCCESS, HOT_ZONE_REPORT_FAILURE
 )

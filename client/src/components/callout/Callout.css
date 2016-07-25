@@ -12,7 +12,7 @@
 
 .Top {
     composes: Container;
-    composes: import ArrowDown from '../../styles/shapes.css';
+    composes: import ArrowDown from '../../styles/Shapes.css';
 
     &:before {
         border-top-color: var(--gray-lighter);
@@ -23,7 +23,7 @@
 }
 .Bottom {
     composes: Container;
-    composes: import ArrowUp from '../../styles/shapes.css';
+    composes: import ArrowUp from '../../styles/Shapes.css';
 
     &:before {
         border-bottom-color: var(--gray-lighter);
@@ -34,7 +34,7 @@
 }
 .Left {
     composes: Container;
-    composes: import ArrowRight from '../../styles/shapes.css';
+    composes: import ArrowRight from '../../styles/Shapes.css';
 
     &:before {
         border-left-color: var(--gray-lighter);
@@ -45,7 +45,7 @@
 }
 .Right {
     composes: Container;
-    composes: import ArrowLeft from '../../styles/shapes.css';
+    composes: import ArrowLeft from '../../styles/Shapes.css';
 
     &:before {
         border-right-color: var(--gray-lighter);

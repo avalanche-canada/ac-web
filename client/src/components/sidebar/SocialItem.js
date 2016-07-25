@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import { mapProps } from 'recompose'
+import {mapProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Sidebar.css'
 

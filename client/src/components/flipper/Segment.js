@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
-import { compose, setDisplayName, setPropTypes, mapProps } from 'recompose'
+import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import { ChevronLeft, ChevronRight } from '../icons'
+import {ChevronLeft, ChevronRight} from '../icons'
 import Button from '../button'
 import styles from './Flipper.css'
 

@@ -1,47 +1,19 @@
 import React, {PropTypes} from 'react'
 import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
-import * as TYPES from 'constants/map/layers'
-import {
-    Forecast,
-    HotZoneReport,
-    MountainConditionReport,
-    Meteogram,
-    MountainInformationNetwork,
-    SurfaceHoar,
-    WeatherStation,
-} from 'components/icons'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
 import {asValues} from 'constants/utils'
-import FilterSet from './FilterSet'
 import styles from './Layer.css'
 
-const {
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
-    METEOGRAMS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
-    WEATHER_STATION,
-} = TYPES
-
-const ICONS = new Map([
-    [FORECASTS, <Forecast />],
-    [HOT_ZONE_REPORTS, <HotZoneReport />],
-    [MOUNTAIN_CONDITION_REPORTS, <MountainConditionReport />],
-    [METEOGRAMS, <Meteogram />],
-    [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
-    [SURFACE_HOAR, <SurfaceHoar />],
-    [WEATHER_STATION, <WeatherStation />],
-])
+function K() {}
 
 Layer.propTypes = {
-    type: PropTypes.oneOf(asValues(TYPES)).isRequired,
     title: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
-    filters: PropTypes.object,
+    onClick: PropTypes.func,
+    icon: PropTypes.element,
+    children: PropTypes.element,
 }
 
 const {keys} = Object
@@ -56,25 +28,26 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Layer({type, title, active = true, filters = {}, expanded, setExpanded}) {
-    const hasFilters = keys(filters).length > 0
-    function handleClick() {
+function Layer({title, active = true, onClick = K, icon, children, expanded, setExpanded}) {
+    function handleClick(event) {
+        event.stopPropagation()
+
         setExpanded(!expanded)
     }
 
     return (
         <div styleName={active ? 'Layer--Active' : 'Layer'}>
-            <div styleName='Header'>
-                {ICONS.get(type)}
+            <div styleName='Header' onClick={onClick}>
+                {icon}
                 <span styleName='Title'>{title}</span>
-                {hasFilters &&
+                {children &&
                     <Expand expanded={expanded} onClick={handleClick} chevron />
                 }
             </div>
-            {hasFilters &&
+            {children &&
                 <Collapse collapsed={!expanded}>
                     <div style={STYLE} >
-                        <FilterSet filters={filters} />
+                        {children}
                     </div>
                 </Collapse>
             }

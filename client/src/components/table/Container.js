@@ -1,5 +1,5 @@
-import React, { PropTypes, Children } from 'react'
-import { compose } from 'recompose'
+import React, { PropTypes, Children} from 'react'
+import {compose} from 'recompose'
 import Table from './Table'
 import TBody from './TBody'
 

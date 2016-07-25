@@ -1,12 +1,12 @@
-import React, { PropTypes, Children, cloneElement, createElement } from 'react'
-import { compose, setDisplayName, withState, mapProps, setPropTypes } from 'recompose'
+import React, { PropTypes, Children, cloneElement, createElement} from 'react'
+import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import Drawer from './Drawer'
 import ItemSet from './ItemSet'
 import Item from './Item'
 import Link from './Link'
-import { TransitionMotion, spring, presets } from 'react-motion'
+import {TransitionMotion, spring, presets} from 'react-motion'
 
 const preset = presets.noWobble
 

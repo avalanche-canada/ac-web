@@ -1,6 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { TagSet, Tag } from './index'
+import {storiesOf, action} from '@kadira/storybook'
+import {TagSet, Tag} from './index'
 
 function tagSet(props = {}) {
     return (

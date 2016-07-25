@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react'
+import React, { PropTypes, Component} from 'react'
 import {render, unmountComponentAtNode} from 'react-dom'
 import mapbox from 'mapboxgl'
 

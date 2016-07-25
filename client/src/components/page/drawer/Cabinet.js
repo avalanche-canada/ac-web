@@ -1,5 +1,5 @@
-import React, { PropTypes, createElement } from 'react'
-import { Motion, spring, presets } from 'react-motion'
+import React, { PropTypes, createElement} from 'react'
+import {Motion, spring, presets } from 'react-motion'
 import Backdrop from './Backdrop'
 import Drawer from './Drawer'
 import SIDE, {LEFT, RIGHT} from './constants/sides'

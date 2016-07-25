@@ -4,23 +4,26 @@ import DateRange from './DateRange'
 import ListOfValues from './ListOfValues'
 import styles from './Layer.css'
 
-const {keys} = Object
+function K() {}
 
 FilterSet.propTypes = {
-    filters: PropTypes.object.isRequired,
+    filters: PropTypes.instanceOf(Map).isRequired,
+    onChange: PropTypes.func.isRequired,
 }
 
-function FilterSet({filters = {}}) {
+function FilterSet({filters = new Map(), onChange = K}) {
     return (
         <div styleName='FilterSet'>
-            {keys(filters).map(type => {
+            {[...filters].map(([name, {type, ...filter}]) => {
+                const handleChange = onChange.bind(null, name)
+
                 switch (type) {
                     case 'dateRange':
-                        return <DateRange {...filters[type]} />
+                        return <DateRange onChange={handleChange} {...filter} />
                     case 'listOfValues':
-                        return <ListOfValues {...filters[type]} />
+                        return <ListOfValues onChange={handleChange} {...filter} />
                     default:
-                        throw new Error(`Filter of type ${type} not suppoted.`)
+                        throw new Error(`Filter of type ${type} not supported.`)
                 }
             })}
         </div>

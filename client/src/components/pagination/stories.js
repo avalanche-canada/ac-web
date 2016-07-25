@@ -1,7 +1,7 @@
 import React from 'react'
-import { withState } from 'recompose'
-import { storiesOf, action } from '@kadira/storybook'
-import { Pagination, Left, Right, Center } from './index'
+import {withState} from 'recompose'
+import {storiesOf, action} from '@kadira/storybook'
+import {Pagination, Left, Right, Center} from './index'
 
 const Controlled = withState('active', 'onSelect', props => props.active || 0)(Pagination)
 

@@ -4,6 +4,39 @@
     --arrow-width: 7px;
 }
 
+.ArrowElementCommon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: var(--arrow-width);
+    pointer-events: none;
+}
+
+.ArrowElementDown {
+    composes: ArrowElementCommon;
+
+    border-color: var(--primary) transparent transparent transparent;
+}
+
+.ArrowElementLeft {
+    composes: ArrowElementCommon;
+
+    border-color: transparent var(--primary) transparent transparent;
+}
+
+.ArrowElementUp {
+    composes: ArrowElementCommon;
+
+    border-color: transparent transparent var(--primary) transparent;
+}
+
+.ArrowElementRight {
+    composes: ArrowElementCommon;
+
+    border-color: transparent transparent transparent var(--primary);
+}
+
+
 .ArrowCommon:before {
     content: "";
     width: 0;

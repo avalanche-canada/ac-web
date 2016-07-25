@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import { compose, withState } from 'recompose'
+import {compose, withState} from 'recompose'
 import styles from './Panel.css'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'

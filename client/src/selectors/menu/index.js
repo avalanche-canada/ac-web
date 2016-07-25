@@ -5,11 +5,9 @@ import LAYERS from 'constants/map/layers/instance'
 export default createSelector(
     getMenu,
     function computeMapProps({layers, filters}) {
-        function layerMapper(layer) {
-            return layer.merge({
-                active: layers.has(name),
-                filters: filters.get(name),
-            })
+        function layerMapper(layer, type) {
+            return layer.set('active', layers.has(type))
+                        .set('filters', filters.get(type))
         }
 
         return {

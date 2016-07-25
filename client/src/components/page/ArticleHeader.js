@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import { Br } from 'components/misc'
+import {Br} from 'components/misc'
 import styles from './Page.css'
 
 ArticleHeader.propTypes = {

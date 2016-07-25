@@ -1,5 +1,5 @@
-import React, { createElement } from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import React, { createElement} from 'react'
+import {storiesOf, action} from '@kadira/storybook'
 import * as Icons from './index'
 import * as MinIcons from './min/index'
 

@@ -34,6 +34,10 @@ function transformDangerRating({date, dangerRating}) {
 }
 
 function transform(forecast) {
+    if (!forecast.region) {
+        return forecast
+    }
+
     const {dangerRatings, dateIssued, validUntil, dangerMode, confidence} = forecast
     // TODO: Have the server to provide it as object instead of string
     const [level, comment] = confidence.split(' - ')
@@ -65,27 +69,38 @@ function getName(state, {params}) {
     return params.name
 }
 
-export const getForecast = createSelector(
+const getForecast = createSelector(
     getForecasts,
+    getName,
+    function findForecast(forecasts, name) {
+        return forecasts.find(forecast => (
+            forecast.get('region') === name || forecast.get('id') === name
+        ))
+    }
+)
+
+export default createSelector(
+    getForecast,
     getForecastRegion,
     getName,
-    (forecasts, region, name) => {
-        let forecast = forecasts.find(forecast => {
-            return forecast.get('region') === name
-        })
+    (forecast, region, name) => {
+        region = region && region.get('properties').toJSON()
 
         if (forecast) {
             forecast = transform(forecast.toJSON())
 
             return {
                 isLoading: false,
-                title: forecast.bulletinTitle,
+                title: forecast.bulletinTitle || forecast.name,
+                region,
                 forecast,
             }
         } else {
             return {
                 isLoading: true,
-                title: region && region.getIn(['properties', 'name']),
+                title: region && region.name,
+                region,
+                forecast,
             }
         }
     }

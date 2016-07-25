@@ -19,6 +19,10 @@ export const Text = text({
     name: 'Text',
 })
 
+export const Muted = text({
+    name: 'Muted',
+})
+
 export const Loading = text({
     name: 'Loading',
     children: 'Loading...',

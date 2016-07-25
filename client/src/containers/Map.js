@@ -26,7 +26,7 @@ function Container({moveend, zoomend, sources = [], layers = [], markers = [], s
             <Map events={events} {...state} action={action}>
                 {sources.map(source => <Source key={source.id} {...source} />)}
                 {layers.map(layer => <Layer key={layer.id} {...layer} />)}
-                {markers.map((marker, index) => <Marker key={index} {...marker} />)}
+                {markers.map(marker => <Marker key={marker.id} {...marker} />)}
             </Map>
             <Primary>
                 {primary}
@@ -55,5 +55,5 @@ export default compose(
             loadHotZoneAreas()
         }
     }),
-    onlyUpdateForKeys(['layers', 'sources', 'markers', 'action']),
+    onlyUpdateForKeys(['layers', 'sources', 'markers', 'action', 'state']),
 )(Container)

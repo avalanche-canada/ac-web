@@ -1,8 +1,8 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import Drawer, {LEFT, RIGHT, Header, Content} from './'
 import {LayerSet, Layer} from './layers'
-import { compose, withState } from 'recompose'
+import {compose, withState} from 'recompose'
 import Button from 'components/button'
 import * as TYPES from 'constants/map/layers'
 

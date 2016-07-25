@@ -8,7 +8,7 @@ import Link from './Link'
 import ColumnSet from './ColumnSet'
 import Headline from './Headline'
 import UserProfile from './UserProfile'
-import { Next as Login } from '../icons'
+import {Next as Login} from '../icons'
 
 const {isArray} = Array
 const SectionHeaderLink = nest(Section, Header, Link)

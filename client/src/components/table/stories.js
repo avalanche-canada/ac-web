@@ -1,12 +1,12 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import {List, Term, Element} from 'components/description'
 import Table from './Table'
-import TBody, { Controlled as ControlledTBody } from './TBody'
+import TBody, { Controlled as ControlledTBody} from './TBody'
 import Row from './Row'
 import Cell from './Cell'
 import Header from './Header'
-import HeaderCell, { ASC, DESC, NONE } from './HeaderCell'
+import HeaderCell, { ASC, DESC, NONE} from './HeaderCell'
 
 const description = (
     <List columns={2} horizontal>

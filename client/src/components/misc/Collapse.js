@@ -1,4 +1,4 @@
-import React, { PropTypes, Component, cloneElement, Children } from 'react'
+import React, { PropTypes, Component, cloneElement, Children} from 'react'
 import {findDOMNode} from 'react-dom'
 import {Motion, spring} from 'react-motion'
 

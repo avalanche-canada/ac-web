@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react'
 Tab.propTypes = {
     children: PropTypes.element.isRequired,
 	title: PropTypes.node.isRequired,
-    panel: PropTypes.element,
+    color: PropTypes.string,
 }
 
 export default function Tab() {

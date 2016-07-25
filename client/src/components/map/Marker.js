@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import mapboxgl from 'mapboxgl'
 
 const {LngLat} = mapboxgl
@@ -49,8 +50,9 @@ export default class Marker extends Component {
             this.marker.setLngLat(lnglat)
         }
     }
-    shouldComponentUpdate() {
+    shouldComponentUpdate(nextProps, nextState) {
         return false
+        // return shallowCompare(this, nextProps, nextState)
     }
     render() {
         this.marker = createMarker(this.props)

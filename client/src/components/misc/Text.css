@@ -4,6 +4,10 @@
     color: var(--gray);
 }
 
+.Muted {
+    composes: Text;
+}
+
 .Loading {
     composes: Text;
 }

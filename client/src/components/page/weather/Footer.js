@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Weather.css'
-import { Mailto } from 'components/misc'
+import {Mailto} from 'components/misc'
 
 const email = 'ec.cpipchefdesoperations-pspcheadofoperations.ec@canada.ca'
 const subject = 'Mountain Weather Forecast Feedback'

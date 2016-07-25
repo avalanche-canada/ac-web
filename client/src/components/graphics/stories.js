@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import * as RATINGS from 'constants/forecast/danger/rating/values'
 import {DangerIcon, DangerCard} from './index'
 

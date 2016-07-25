@@ -6,7 +6,7 @@ import getLayers from './getLayers'
 import getMarkers from './getMarkers'
 import {getEntityForSchema} from 'reducers/entities'
 import {loadForecastRegions} from 'actions/entities'
-import {ForecastRegion} from 'api/schemas'
+import {ForecastRegion, HotZoneArea} from 'api/schemas'
 import bbox from 'turf-bbox'
 
 const {LngLatBounds} = mapboxgl
@@ -21,19 +21,21 @@ function createFeatureBounds(feature) {
     }
 }
 
-function getActiveFeature(state, {params}) {
-    return getEntityForSchema(state, ForecastRegion, params.name)
+function getActiveFeature(state, {params, routes}) {
+    const {name} = params
+
+    if (routes.find(route => route.path === 'forecasts')) {
+        return getEntityForSchema(state, ForecastRegion, name)
+    } else if (routes.find(route => route.path === 'hot-zone-reports')) {
+        return getEntityForSchema(state, HotZoneArea, name)
+    }
+
+    return null
 }
 
 const getBounds = createSelector(
     getActiveFeature,
-    (region, hotZoneArea) => {
-        if (region) {
-            return createFeatureBounds(region)
-        } else {
-            return null
-        }
-    }
+    feature => feature ? createFeatureBounds(feature) : null
 )
 
 export const getMapProps = createSelector(

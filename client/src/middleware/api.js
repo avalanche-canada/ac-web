@@ -1,7 +1,7 @@
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
 
-export const API = 'AvCan Api Request'
+export const API = Symbol('AvCan Api Request')
 
 const api = store => next => action => {
     const {type, payload, meta} = action
@@ -34,8 +34,8 @@ const api = store => next => action => {
 
         return normalized
     }
-    function handleReject(response) {
-        const error = new Error('Can not fetch prismic documents.')
+    function handleReject(err) {
+        const error = new Error('Can not fetch Avalanche Canada API.', err)
 
         next({
             type: types[2],
@@ -44,7 +44,7 @@ const api = store => next => action => {
             meta: payload,
         })
 
-        return error
+        throw error
     }
 
     return Api.fetch(schema, params).then(handleFulfill, handleReject)

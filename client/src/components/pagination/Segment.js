@@ -1,5 +1,5 @@
-import React, { PropTypes, createElement } from 'react'
-import { compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps } from 'recompose'
+import React, { PropTypes, createElement} from 'react'
+import {compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps} from 'recompose'
 import * as Icons from 'components/icons'
 import Button from 'components/button'
 

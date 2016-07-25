@@ -1,10 +1,11 @@
-import React, { Component, PropTypes, Children } from 'react'
+import React, { Component, PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
 import Panel from './Panel'
 import Header from './Header'
 import styles from './Tab.css'
 import {ExpandLess, ExpandMore} from 'components/icons'
 import Button, {INCOGNITO} from 'components/button'
+import {init} from 'css-element-queries/src/ElementQueries'
 
 function toArray(children) {
 	return Children.toArray(children).filter(tab => !!tab)
@@ -21,14 +22,13 @@ export default class TabSet extends Component {
 		activeIndex: PropTypes.number,
 		onActivate: PropTypes.func,
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
+        arrow: PropTypes.bool,
 	}
-    static childContextTypes = {
-        theme: PropTypes.oneOf([LOOSE, COMPACT]),
-    }
 	static defaultProps = {
 		activeIndex: 0,
         onActivate: K,
         theme: COMPACT,
+        arrow: false,
 	}
     state = {
         opened: false
@@ -53,15 +53,16 @@ export default class TabSet extends Component {
     set opened(opened) {
         this.setState({opened})
     }
-    getChildContext() {
-        return {
-            theme: this.props.theme
-        }
-    }
 	handleActivate = () => {
         this.opened = false
 		this.props.onActivate(this.state.activeIndex)
 	}
+    componentDidMount() {
+        init()
+    }
+    componentDidUpdate() {
+        init()
+    }
 	componentWillReceiveProps({ activeIndex, children }) {
 		if (typeof activeIndex !== 'number') {
 			return
@@ -77,24 +78,22 @@ export default class TabSet extends Component {
         this.opened = !this.opened
     }
 	renderTabHeader(tab, index) {
+        const {arrow} = this.props
         const expanded = this.opened
         const active = index === this.activeIndex
         const handleClick = () => this.activeIndex = index
 		const onClick = tab.props.onClick || handleClick
         const onExpandClick = this.handleExpandClick
+        const {title, color} = tab.props
 
         return (
-            <Header key={index} {...{active, expanded, onClick, onExpandClick}}>
-                {tab.props.title}
+            <Header key={index} {...{active, expanded, onClick, onExpandClick, color, arrow}}>
+                {title}
             </Header>
         )
 	}
 	renderTabPanel(tab, index) {
-        const {panel, children} = tab.props
-
-        if (panel) {
-            return cloneElement(panel, {index})
-        }
+        const {children} = tab.props
 
         if (children) {
             return (
@@ -109,10 +108,16 @@ export default class TabSet extends Component {
 	render() {
 		const {tabs, opened} = this
         const {theme} = this.props
+        let styleName = `List--${theme}`
+
+        if (opened) {
+            styleName += ' List--Opened'
+        }
+
 
 		return (
 			<div>
-				<ul role='tablist' styleName={`List--${theme} ${opened ? 'List--Opened' : ''}`}>
+				<ul role='tablist' styleName={styleName}>
 					{tabs.map(this.renderTabHeader, this)}
 				</ul>
 				{tabs.map(this.renderTabPanel, this)}

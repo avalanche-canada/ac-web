@@ -1,4 +1,4 @@
-import React, { PropTypes, createElement, DOM } from 'react'
+import React, { PropTypes, createElement, DOM} from 'react'
 
 Text.propTypes = {
     document: PropTypes.object.isRequired,

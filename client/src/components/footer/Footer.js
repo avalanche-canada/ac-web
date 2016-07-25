@@ -1,6 +1,6 @@
 import React from 'react'
-import { pure } from 'recompose'
-import { Link } from 'react-router'
+import {pure} from 'recompose'
+import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './Footer.css'
 

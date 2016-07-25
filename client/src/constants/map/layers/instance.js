@@ -14,9 +14,8 @@ const {
 const Layer = Immutable.Record({
     type: null,
     title: null,
-    active: true,
-    disabled: false,
-    filters: {},
+    active: false,
+    filters: [],
 }, 'Layer')
 
 export default new Immutable.Map({
@@ -28,27 +27,24 @@ export default new Immutable.Map({
         title: 'Hot zone reports',
         type: 'Analysis',
     }),
-    [MOUNTAIN_CONDITION_REPORTS]: new Layer({
-        title: 'Mountain conditions reports',
-        type: 'Analysis',
-    }),
-    [METEOGRAMS]: new Layer({
-        title: 'Meteograms',
-        type: 'Observations',
-        disabled: true,
-    }),
     [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
         title: 'Mountain information network',
         type: 'Observations',
     }),
-    [SURFACE_HOAR]: new Layer({
-        title: 'Surface hoar',
+    [MOUNTAIN_CONDITION_REPORTS]: new Layer({
+        title: 'Mountain condition reports',
         type: 'Observations',
-        disabled: true,
     }),
+    // [METEOGRAMS]: new Layer({
+    //     title: 'Meteograms',
+    //     type: 'Observations',
+    // }),
+    // [SURFACE_HOAR]: new Layer({
+    //     title: 'Surface hoar',
+    //     type: 'Observations',
+    // }),
     [WEATHER_STATION]: new Layer({
         title: 'Weather station',
         type: 'Observations',
-        disabled: true,
     }),
 })

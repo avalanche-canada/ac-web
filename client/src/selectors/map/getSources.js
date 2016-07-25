@@ -35,14 +35,17 @@ const getHotZoneAreaSource = createSelector(
     features => features.toArray()
 )
 
+const forecastRegionKey = ForecastRegion.getKey()
+const hotZoneAreaKey = HotZoneArea.getKey()
+
 export default createSelector(
     getForecastRegions,
     getHotZoneAreaSource,
     function createSources(forecastRegions, hotZoneAreas) {
         return [
-            createSource(ForecastRegion.getKey(), forecastRegions),
-            createSource(`${ForecastRegion.getKey()}-centroid`, forecastRegions.map(toCentroid)),
-            createSource(HotZoneArea.getKey(), hotZoneAreas),
+            createSource(forecastRegionKey, forecastRegions),
+            createSource(`${forecastRegionKey}-centroid`, forecastRegions.map(toCentroid)),
+            createSource(hotZoneAreaKey, hotZoneAreas),
         ]
     }
 )

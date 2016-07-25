@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import { compose, setDisplayName } from 'recompose'
+import {compose, setDisplayName} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'
 import loadingState from './loadingState'

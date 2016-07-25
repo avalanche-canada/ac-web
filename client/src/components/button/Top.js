@@ -1,6 +1,6 @@
 import React from 'react'
-import { compose, setDisplayName, withProps } from 'recompose'
-import { ExpandLess } from '../icons'
+import {compose, setDisplayName, withProps} from 'recompose'
+import {ExpandLess} from '../icons'
 import Button from './Button'
 
 function scrollTop(event) {

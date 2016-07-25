@@ -1,34 +1,31 @@
-import {ForecastRegion, HotZoneArea, Forecast} from './schemas'
+import {ForecastRegion, HotZoneArea, Forecast, HotZoneReport} from './schemas'
 import Axios, {defaults} from 'axios'
 import {baseURL} from './config.json'
 
 function addIdForMapboxGl(feature) {
     // TODO: Remove the piece of code when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed
-    // But, have to look at the filter ['==', 'id', id]
-    if (!feature.id) {
-        return feature
-    }
+    // TODO: Payload should be more consistent and always provide an id
 
-    feature.properties.id = feature.id
+    const id = feature.id || feature.properties.id
+
+    feature.properties.id = id
+    feature.id = id
 
     return feature
 }
 
-const ENDPOINTS = new Map([
-    [ForecastRegion, params => 'forecasts'],
-    [Forecast, params => `forecasts/${params.name}.json`],
-    [HotZoneArea, params => 'forecasts'],
-])
+const {assign} = Object
+const fetching = new Map()
 
 function transformForecastRegions(data) {
     const features = data.features.filter(({properties}) => properties.type !== 'hotzone').map(addIdForMapboxGl)
 
-    return Object.assign(data, {features})
+    return assign(data, {features})
 }
 function transformHotZoneAreas(data) {
     const features = data.features.filter(({properties}) => properties.type === 'hotzone').map(addIdForMapboxGl)
 
-    return Object.assign(data, {features})
+    return assign(data, {features})
 }
 
 const CONFIGS = new Map([
@@ -40,7 +37,13 @@ const CONFIGS = new Map([
     }]
 ])
 
-const fetching = new Map()
+const ENDPOINTS = new Map([
+    [ForecastRegion, params => 'forecasts'],
+    [Forecast, params => `forecasts/${params.name}.json`],
+    [HotZoneArea, params => `forecasts`],
+    [HotZoneReport, params => `min/observations?client=web&last=${params.days}:days`],
+])
+
 function clearPromiseFactory(schema) {
     return function clearPromise(payload) {
         fetching.delete(schema)
@@ -48,7 +51,7 @@ function clearPromiseFactory(schema) {
         if (payload instanceof Error) {
             throw payload
         }
-        
+
         return payload
     }
 }
