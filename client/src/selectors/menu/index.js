@@ -4,7 +4,7 @@ import LAYERS from 'constants/map/layers/instance'
 
 export default createSelector(
     getMenu,
-    function computeMapProps({layers, filters}) {
+    function computeProps({layers, filters}) {
         function layerMapper(layer, type) {
             return layer.set('active', layers.has(type))
                         .set('filters', filters.get(type))

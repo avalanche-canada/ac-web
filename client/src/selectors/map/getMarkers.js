@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 import {Map, List} from 'immutable'
 import mapboxgl from 'mapboxgl'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/entities'
+import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getLayers} from 'reducers/drawers'
 import {
     FORECASTS,

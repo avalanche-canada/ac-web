@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/entities'
+import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import moment from 'moment'
 
 function transform(area) {

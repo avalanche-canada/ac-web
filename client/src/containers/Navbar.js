@@ -4,7 +4,7 @@ import Navbar from 'components/navbar'
 import {loadForecastRegions} from 'actions/entities'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
-import {getEntitiesForSchema} from 'reducers/entities'
+import {getEntitiesForSchema} from 'reducers/api/entities'
 import {ForecastRegion} from 'api/schemas'
 import {history} from 'router'
 

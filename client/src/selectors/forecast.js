@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/entities'
+import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
@@ -33,12 +33,16 @@ function transformDangerRating({date, dangerRating}) {
     }
 }
 
+function trim(text) {
+    return typeof text === 'string' ? text.trim() : text
+}
+
 function transform(forecast) {
     if (!forecast.region) {
         return forecast
     }
 
-    const {dangerRatings, dateIssued, validUntil, dangerMode, confidence} = forecast
+    const {dangerRatings, dateIssued, validUntil, dangerMode, confidence, avalancheSummary, snowpackSummary, weatherForecast} = forecast
     // TODO: Have the server to provide it as object instead of string
     const [level, comment] = confidence.split(' - ')
 
@@ -52,6 +56,9 @@ function transform(forecast) {
         dateIssued: moment(dateIssued).toDate(),
         validUntil: moment(validUntil).toDate(),
         dangerRatings: dangerRatings.map(transformDangerRating),
+        avalancheSummary: trim(avalancheSummary), 
+        snowpackSummary: trim(snowpackSummary),
+        weatherForecast: trim(weatherForecast),
     }
 }
 

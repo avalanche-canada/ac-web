@@ -61,9 +61,15 @@ export default function Forecast({
                     <Footer author={forecaster} />
                 </Tab>
                 <Tab title='Forecast Details'>
-                    <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
-                    <Summary title='Snowpack Summary'>{snowpackSummary}</Summary>
-                    <Summary title='Weather Forecast'>{weatherForecast}</Summary>
+                    {avalancheSummary &&
+                        <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
+                    }
+                    {snowpackSummary &&
+                        <Summary title='Snowpack Summary'>{snowpackSummary}</Summary>
+                    }
+                    {weatherForecast &&
+                        <Summary title='Weather Forecast'>{weatherForecast}</Summary>
+                    }
                 </Tab>
             </TabSet>
         </section>

@@ -4,22 +4,13 @@ import {getZoom, getCenter} from 'reducers/map'
 import getSources from './getSources'
 import getLayers from './getLayers'
 import getMarkers from './getMarkers'
-import {getEntityForSchema} from 'reducers/entities'
+import {getEntityForSchema} from 'reducers/api/entities'
 import {loadForecastRegions} from 'actions/entities'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
+import {getPrimary, getSecondary} from '../drawers'
 import bbox from 'turf-bbox'
 
 const {LngLatBounds} = mapboxgl
-
-function createFeatureBounds(feature) {
-    return {
-        bbox: LngLatBounds.convert(bbox(feature.toJSON())),
-        options: {
-            offset: [-250, 0],
-            padding: 25,
-        }
-    }
-}
 
 function getActiveFeature(state, {params, routes}) {
     const {name} = params
@@ -35,7 +26,30 @@ function getActiveFeature(state, {params, routes}) {
 
 const getBounds = createSelector(
     getActiveFeature,
-    feature => feature ? createFeatureBounds(feature) : null
+    getPrimary,
+    getSecondary,
+    (feature, primary, secondary) => {
+        if (!feature) {
+            return null
+        }
+
+        let x = 0
+
+        if (primary.open) {
+            x -= primary.width / 2
+        }
+        if (secondary.open) {
+            x += secondary.width / 2
+        }
+
+        return {
+            bbox: LngLatBounds.convert(bbox(feature.toJSON())),
+            options: {
+                offset: [x, 0],
+                padding: 25,
+            }
+        }
+    }
 )
 
 export const getMapProps = createSelector(

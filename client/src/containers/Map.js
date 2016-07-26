@@ -5,7 +5,11 @@ import {withRouter} from 'react-router'
 import {Map, Source, Layer, Popup, Marker, Utils} from 'components/map'
 import {zoomChanged, centerChanged} from 'actions/map'
 import {getMapProps} from 'selectors/map'
-import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
+import {
+    loadForecastRegions,
+    loadHotZoneAreas,
+    loadMountainInformationNetworkObservationsForDays,
+} from 'actions/entities'
 import {Primary, Secondary, Menu} from './Drawers'
 
 function handleMoveend({target}) {
@@ -46,13 +50,19 @@ export default compose(
         zoomend: handleZoomend,
         loadForecastRegions,
         loadHotZoneAreas,
+        loadMountainInformationNetworkObservationsForDays,
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForecastRegions, loadHotZoneAreas} = this.props
+            const {
+                loadForecastRegions,
+                loadHotZoneAreas,
+                loadMountainInformationNetworkObservationsForDays,
+            } = this.props
 
             loadForecastRegions()
             loadHotZoneAreas()
+            loadMountainInformationNetworkObservationsForDays(30)
         }
     }),
     onlyUpdateForKeys(['layers', 'sources', 'markers', 'action', 'state']),

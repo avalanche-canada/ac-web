@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/entities'
+import {getEntitiesForSchema} from 'reducers/api/entities'
 
 function toCentroid(feature) {
     const coordinates = feature.getIn(['properties', 'centroid'])

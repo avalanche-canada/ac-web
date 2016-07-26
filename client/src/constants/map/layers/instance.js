@@ -44,7 +44,7 @@ export default new Immutable.Map({
     //     type: 'Observations',
     // }),
     [WEATHER_STATION]: new Layer({
-        title: 'Weather station',
+        title: 'Weather stations',
         type: 'Observations',
     }),
 })

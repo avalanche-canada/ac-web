@@ -1,15 +1,28 @@
+import * as actions from 'redux-actions'
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
 
-export const API = Symbol('AvCan Api Request')
+const API = Symbol('AvCan Api Request')
+const {isArray} = Array
 
-const api = store => next => action => {
-    const {type, payload, meta} = action
+export function isApiAction(action) {
+    return action && action.type === API
+}
 
-    if (type !== API) {
+export function createAction(schema, ...types) {
+    return actions.createAction(API, params => ({
+        schema,
+        params,
+        types,
+    }))
+}
+
+export default store => next => action => {
+    if (!isApiAction(action)) {
         return next(action)
     }
 
+    const {type, payload} = action
     const {schema, params, types} = payload
 
     next({
@@ -22,14 +35,18 @@ const api = store => next => action => {
 
         if (data.type === 'FeatureCollection') {
             normalized = normalize(data.features, arrayOf(schema))
+        } else if (isArray(data)) {
+            normalized = normalize(data, arrayOf(schema))
         } else {
             normalized = normalize(data, schema)
         }
 
         next({
             type: types[1],
-            payload: normalized,
-            meta: payload,
+            payload: {
+                ...normalized,
+                ...payload,
+            },
         })
 
         return normalized
@@ -49,5 +66,3 @@ const api = store => next => action => {
 
     return Api.fetch(schema, params).then(handleFulfill, handleReject)
 }
-
-export default api

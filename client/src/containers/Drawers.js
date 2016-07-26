@@ -1,7 +1,7 @@
 import {compose, withProps, mapProps, nest} from 'recompose'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
-import {getPrimary, getSeconday, getMenu} from 'selectors/drawers'
+import {getPrimary, getSecondary, getMenu} from 'selectors/drawers'
 import {LEFT, RIGHT} from 'components/page/drawer'
 import {openMenu, closeMenu} from 'actions/drawers'
 import Drawer from 'components/page/drawer'
@@ -22,7 +22,7 @@ export const Primary = compose(
 
 export const Secondary = compose(
     withRouter,
-    connect(getSeconday),
+    connect(getSecondary),
     withProps({
         side: LEFT,
         onClose() {

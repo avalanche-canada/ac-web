@@ -1,4 +1,4 @@
-import {ForecastRegion, HotZoneArea, Forecast, HotZoneReport} from './schemas'
+import {ForecastRegion, HotZoneArea, Forecast, HotZoneReport, MountainInformationNetworkObservation} from './schemas'
 import Axios, {defaults} from 'axios'
 import {baseURL} from './config.json'
 
@@ -41,7 +41,8 @@ const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
     [Forecast, params => `forecasts/${params.name}.json`],
     [HotZoneArea, params => `forecasts`],
-    [HotZoneReport, params => `min/observations?client=web&last=${params.days}:days`],
+    [HotZoneReport, params => `not-a-valid-url`],
+    [MountainInformationNetworkObservation, params => `min/observations?client=web&last=${params.days}:days`],
 ])
 
 function clearPromiseFactory(schema) {

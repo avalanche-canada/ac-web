@@ -48,7 +48,7 @@
 }
 
 .Header {
-    margin: 5em 1.5em 0 1.5em;
+    margin-top: 5em;
 }
 
 .Subject {
@@ -75,7 +75,6 @@
     flex: 100%;
 
     margin: 0;
-    padding: 0 1.5em;
     overflow-y: auto;
     overflow-x: hidden;
 }

@@ -1,6 +1,5 @@
-import {createAction} from 'redux-actions'
 import * as Schemas from 'api/schemas'
-import {API} from 'middleware/api'
+import {createAction} from 'middleware/api'
 
 export const FORECAST_REQUEST = 'FORECAST_REQUEST'
 export const FORECAST_SUCCESS = 'FORECAST_SUCCESS'
@@ -18,30 +17,37 @@ export const HOT_ZONE_REPORT_REQUEST = 'HOT_ZONE_REPORT_REQUEST'
 export const HOT_ZONE_REPORT_SUCCESS = 'HOT_ZONE_REPORT_SUCCESS'
 export const HOT_ZONE_REPORT_FAILURE = 'HOT_ZONE_REPORT_FAILURE'
 
-function createApiAction(schema, ...types) {
-    return createAction(API, params => ({
-        schema,
-        params,
-        types,
-    }))
-}
+export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST'
+export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS'
+export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE'
 
-export const loadForecastRegions = createApiAction(
+export const loadForecastRegions = createAction(
     Schemas.ForecastRegion,
     FORECAST_REGIONS_REQUEST, FORECAST_REGIONS_SUCCESS, FORECAST_REGIONS_FAILURE
 )
 
-export const loadForecast = createApiAction(
+export const loadForecast = createAction(
     Schemas.Forecast,
     FORECAST_REQUEST, FORECAST_SUCCESS, FORECAST_FAILURE
 )
 
-export const loadHotZoneAreas = createApiAction(
+export const loadHotZoneAreas = createAction(
     Schemas.HotZoneArea,
     HOT_ZONE_AREAS_REQUEST, HOT_ZONE_AREAS_SUCCESS, HOT_ZONE_AREAS_FAILURE
 )
 
-export const loadHotZoneReports = createApiAction(
+export const loadHotZoneReports = createAction(
     Schemas.HotZoneReport,
     HOT_ZONE_REPORT_REQUEST, HOT_ZONE_REPORT_SUCCESS, HOT_ZONE_REPORT_FAILURE
 )
+
+const loadMountainInformationNetworkObservations = createAction(
+    Schemas.MountainInformationNetworkObservation,
+    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
+    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
+    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
+)
+
+export function loadMountainInformationNetworkObservationsForDays(days = 7) {
+    return loadMountainInformationNetworkObservations({days})
+}
