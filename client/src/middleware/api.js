@@ -1,21 +1,9 @@
-import * as actions from 'redux-actions'
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
+import {isApiAction} from 'api/utils'
+import {shouldDispatchLoadAction} from 'reducers/api/getters'
 
-const API = Symbol('AvCan Api Request')
 const {isArray} = Array
-
-export function isApiAction(action) {
-    return action && action.type === API
-}
-
-export function createAction(schema, ...types) {
-    return actions.createAction(API, params => ({
-        schema,
-        params,
-        types,
-    }))
-}
 
 export default store => next => action => {
     if (!isApiAction(action)) {
@@ -24,6 +12,11 @@ export default store => next => action => {
 
     const {type, payload} = action
     const {schema, params, types} = payload
+    const state = store.getState()
+
+    if (!shouldDispatchLoadAction(state, schema, action)) {
+        return Promise.resolve()
+    }
 
     next({
         type: types[0],

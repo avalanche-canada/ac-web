@@ -5,12 +5,8 @@ import {withRouter} from 'react-router'
 import {Map, Source, Layer, Popup, Marker, Utils} from 'components/map'
 import {zoomChanged, centerChanged} from 'actions/map'
 import {getMapProps} from 'selectors/map'
-import {
-    loadForecastRegions,
-    loadHotZoneAreas,
-    loadMountainInformationNetworkObservationsForDays,
-} from 'actions/entities'
 import {Primary, Secondary, Menu} from './Drawers'
+import {loadData} from 'actions/map'
 
 function handleMoveend({target}) {
     return centerChanged(target.getCenter().toArray())
@@ -48,22 +44,15 @@ export default compose(
     connect(getMapProps, {
         moveend: handleMoveend,
         zoomend: handleZoomend,
-        loadForecastRegions,
-        loadHotZoneAreas,
-        loadMountainInformationNetworkObservationsForDays,
+        loadData,
     }),
     lifecycle({
         componentDidMount() {
-            const {
-                loadForecastRegions,
-                loadHotZoneAreas,
-                loadMountainInformationNetworkObservationsForDays,
-            } = this.props
-
-            loadForecastRegions()
-            loadHotZoneAreas()
-            loadMountainInformationNetworkObservationsForDays(30)
+            this.props.loadData()
+        },
+        componentDidUpdate() {
+            this.props.loadData()
         }
     }),
-    onlyUpdateForKeys(['layers', 'sources', 'markers', 'action', 'state']),
+    onlyUpdateForKeys(['layers', 'sources', 'markers', 'state']),
 )(Container)

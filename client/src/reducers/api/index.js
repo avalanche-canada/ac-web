@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux'
 import entities from './entities'
-import pagination from './pagination'
+import results from './results'
 
 export default combineReducers({
     entities,
-    pagination,
+    results,
 })

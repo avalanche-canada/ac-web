@@ -1,32 +1,16 @@
-import {ForecastRegion, HotZoneArea, Forecast, HotZoneReport, MountainInformationNetworkObservation} from './schemas'
+import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
-import {baseURL} from './config.json'
+import {baseURL} from 'api/config.json'
+import {transformHotZoneAreas, transformForecastRegions} from './transformers'
+import Url from 'url'
 
-function addIdForMapboxGl(feature) {
-    // TODO: Remove the piece of code when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed
-    // TODO: Payload should be more consistent and always provide an id
-
-    const id = feature.id || feature.properties.id
-
-    feature.properties.id = id
-    feature.id = id
-
-    return feature
-}
-
-const {assign} = Object
-const fetching = new Map()
-
-function transformForecastRegions(data) {
-    const features = data.features.filter(({properties}) => properties.type !== 'hotzone').map(addIdForMapboxGl)
-
-    return assign(data, {features})
-}
-function transformHotZoneAreas(data) {
-    const features = data.features.filter(({properties}) => properties.type === 'hotzone').map(addIdForMapboxGl)
-
-    return assign(data, {features})
-}
+const {
+    ForecastRegion,
+    HotZoneArea,
+    Forecast,
+    HotZoneReport,
+    MountainInformationNetworkObservation,
+} = SCHEMAS
 
 const CONFIGS = new Map([
     [ForecastRegion, {
@@ -45,33 +29,46 @@ const ENDPOINTS = new Map([
     [MountainInformationNetworkObservation, params => `min/observations?client=web&last=${params.days}:days`],
 ])
 
-function clearPromiseFactory(schema) {
-    return function clearPromise(payload) {
-        fetching.delete(schema)
-
-        if (payload instanceof Error) {
-            throw payload
-        }
-
-        return payload
-    }
-}
+const fetching = new Map()
 
 const api = Axios.create({
     baseURL
 })
 
-export function fetch(schema, params) {
-    if (fetching.has(schema)) {
-        return fetching.get(schema)
-    }
+function deletePromise(response) {
+    const {url} = response.config
 
+    fetching.delete(url)
+
+    return response
+}
+
+api.interceptors.response.use(
+    deletePromise,
+    function (error) {
+        const {response} = error
+
+        if (response) {
+            deletePromise(response)
+        }
+
+        return Promise.reject(error)
+    }
+)
+
+export function fetch(schema, params) {
     const config = CONFIGS.get(schema)
     const endpoint = ENDPOINTS.get(schema)(params)
-    const clear = clearPromiseFactory(schema)
-    const promise = api.get(endpoint, config).then(clear, clear)
+    const url = `${baseURL}/${endpoint}`
 
-    fetching.set(schema, promise)
+    if (fetching.has(url)) {
+        return fetching.get(url)
+    } else {
+        const promise = api.get(endpoint, config)
 
-    return promise
+        fetching.set(url, promise)
+
+        return promise
+    }
+
 }

@@ -1,5 +1,5 @@
 import * as Schemas from 'api/schemas'
-import {createAction} from 'middleware/api'
+import {createApiAction} from 'api/utils'
 
 export const FORECAST_REQUEST = 'FORECAST_REQUEST'
 export const FORECAST_SUCCESS = 'FORECAST_SUCCESS'
@@ -21,27 +21,27 @@ export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST = 'MOUNTAIN_INFOR
 export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS'
 export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE'
 
-export const loadForecastRegions = createAction(
+export const loadForecastRegions = createApiAction(
     Schemas.ForecastRegion,
     FORECAST_REGIONS_REQUEST, FORECAST_REGIONS_SUCCESS, FORECAST_REGIONS_FAILURE
 )
 
-export const loadForecast = createAction(
+export const loadForecast = createApiAction(
     Schemas.Forecast,
     FORECAST_REQUEST, FORECAST_SUCCESS, FORECAST_FAILURE
 )
 
-export const loadHotZoneAreas = createAction(
+export const loadHotZoneAreas = createApiAction(
     Schemas.HotZoneArea,
     HOT_ZONE_AREAS_REQUEST, HOT_ZONE_AREAS_SUCCESS, HOT_ZONE_AREAS_FAILURE
 )
 
-export const loadHotZoneReports = createAction(
+export const loadHotZoneReports = createApiAction(
     Schemas.HotZoneReport,
     HOT_ZONE_REPORT_REQUEST, HOT_ZONE_REPORT_SUCCESS, HOT_ZONE_REPORT_FAILURE
 )
 
-const loadMountainInformationNetworkObservations = createAction(
+const loadMountainInformationNetworkObservations = createApiAction(
     Schemas.MountainInformationNetworkObservation,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
