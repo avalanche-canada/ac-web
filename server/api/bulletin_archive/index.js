@@ -161,7 +161,7 @@ function generateJsonBulletin(region, bulletin, problems, ratings) {
     var issued = moment(bulletin.DateIssued);
     var until  = moment(bulletin.ValidUntil);
     var out_bulletin = {
-        id:             'id_' + bulletin.bulletinID,
+        id:             'bid_' + bulletin.bulletinID,
         region:         region,
         dateIssued:     issued.utc().format(),
         validUntil:     until.utc().format(),
