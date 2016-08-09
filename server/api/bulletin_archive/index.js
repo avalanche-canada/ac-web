@@ -5,7 +5,6 @@ var moment  = require('moment');
 var mssql   = require('mssql');
 var _       = require('lodash');
 
-
 // TODO(wnh): merge your other work and make a single collection of this static
 // data
 var STATIC_RATINGS = [
@@ -16,6 +15,29 @@ var STATIC_RATINGS = [
     '4:High',
     '5:Extreme',
 ];
+
+var STATIC_LIKELIHOOD = {
+    1: 'Unlikely',
+    2: 'Possible - Unlikely',
+    3: 'Possible',
+    4: 'Likely - Possible',
+    5: 'Likely',
+    6: 'Very Likely - Likely',
+    7: 'Very Likely',
+    8: 'Certain - Very Likely',
+    9: 'Certain',
+};
+
+var STATIC_ASPECTS = {
+    "AspectNorth":      "N",
+    "AspectNorthEast":  "NE",
+    "AspectEast":       "E",
+    "AspectSouthEast":  "SE",
+    "AspectSouth":      "S",
+    "AspectSouthWest":  "SW",
+    "AspectWest":       "W",
+    "AspectNorthWest":  "NW",
+};
 
 
 // Setup Region names for validation
@@ -81,7 +103,6 @@ router.get('/:region/:date.json', (req, res) => {
     .then(getDangerRatings)
     // We really need the `spread` method on es6 promises
     .then((res) => {
-        console.dir(res);
         return generateJsonBulletin(regionId, res[0], res[1], res[2])
     })
     .then((j) =>{
@@ -121,6 +142,7 @@ function getFirstBulletin(bulletins) {
 
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
+    
     var issued = moment(bulletin.DateIssued);
     var until  = moment(bulletin.ValidUntil);
     var out_bulletin = {
@@ -137,11 +159,12 @@ function generateJsonBulletin(region, bulletin, problems, ratings) {
         weatherForecast:   bulletin.Outlook,
     };
     out_bulletin['dangerRatings'] = ratings.map(formatDangerRating(issued));
-    out_bulletin['problems']      = []; //problems.map(formatAvProblem(issued));
+    out_bulletin['problems']      = problems.filter((p) => p.ShowToPublic).map(formatAvProblem(issued));
     return out_bulletin;
 }
 /*
- * returns a formating function, useful for calling with `map`
+ * formatAvProblem returns a formating function, useful for calling with `map`
+ *  date -> ( Problem_row -> forcastJsonAvProblem)
  *  to actually format:
  *    formatAvProblem(date)(problemObj)
  */
@@ -149,13 +172,70 @@ function formatAvProblem(date) {
     return function(problem) {
         console.log(date.format(), problem);
         return {
-            really: 'maybe?'
+            type: problem.Type,
+            likelihood: formatLikelihood(problem),
+            travelAndTerrainAdvice: problem.TravelAdvisory,
+            comment: problem.Comments,
+            expectedSize: { min: String(problem.SizeMin), max: String(problem.SizeMax), },
+            aspects: formatAspects(problem),
+            icons: formatIcons(problem),
+            elevations: formatElevations(problem),
         };
     }
 }
 
+function formatIcons(prob) {
+    var ROOT = "http://www.avalanche.ca/assets/images"
+
+    var sizemin = prob.SizeMin*10;
+    var sizemax = prob.SizeMax*10;
+
+    var aspects = formatAspects(prob);
+    var ha = (a) => (aspects.indexOf(a) > -1) ? '1' : '0';
+    var compass = [
+        ha("N"),
+        ha("NE"),
+        ha("E"),
+        ha("SE"),
+        ha("S"),
+        ha("SW"),
+        ha("W"),
+        ha("NW"),
+    ].join('-');
+
+    var elev = formatElevations(prob);
+    var he = (e) => (elev.indexOf(e) > -1) ? '1' : '0'; 
+    var mtn = [he('Alp'), he('Tln'), he('Btl')].join('-');
+
+    return {
+        "likelihood":   ROOT + "/Likelihood/Likelihood-" + prob.LikelyhoodTypical + "_EN.png",
+        "expectedSize": ROOT + "/size/Size-"+sizemin+"-"+sizemax+"_EN.png",
+        "aspects":      ROOT + "/Compass/compass-"+compass+"_EN.png",
+        "elevations":   ROOT + "/Elevation/Elevation-"+mtn+"_EN.png",
+    };
+}
+
+function formatAspects(prob) {
+    return _.keys(STATIC_ASPECTS)
+        .filter((a) => prob.hasOwnProperty(a) && prob[a])
+        .map((a) => STATIC_ASPECTS[a]);
+}
+
+function formatLikelihood(p) {
+    return STATIC_LIKELIHOOD[p.LikelyhoodTypical];
+}
+
+function formatElevations(p) {
+    var elv = [];
+    if(p.Alpine)   { elv.push("Alp") };
+    if(p.Treeline) { elv.push("Tln") };
+    if(p.Below)    { elv.push("Btl") };
+    return elv;
+}
+
 /*
- * returns a formating function, useful for calling with `map`
+ * formatDangerRating returns a formating function, useful for calling with `map`
+ *  date -> ( DangerRating_row -> forcastJsonDangeRating)
  *  to actually format:
  *    formatDangerRating(date)(dangerObj)
  */
