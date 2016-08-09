@@ -140,6 +140,21 @@ function getFirstBulletin(bulletins) {
     return bulletins[0];
 }
 
+/*
+ * filterRatingsForRegion takes the 4 danger ratings from a bulletin object 
+ * (1 nowcast + 3 forecast) and return the appropriate ratings for a region
+ * depending on if they forecast in the morning or the day before.
+ *     Currently: 
+ *         Whistler      -> (1 nowcast + 2 forecast)
+ *         everyone else -> (3 forecast)
+ */
+function filterRatingsForRegion(region, ratings) {
+    if (region === 'whistler-blackcomb') {
+        return [ratings[0], ratings[1], ratings[2]];
+    } else {
+        return [ratings[1], ratings[2], ratings[3]];
+    }
+}
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
     
@@ -158,7 +173,7 @@ function generateJsonBulletin(region, bulletin, problems, ratings) {
         snowpackSummary:   bulletin.SnowPack,
         weatherForecast:   bulletin.Outlook,
     };
-    out_bulletin['dangerRatings'] = ratings.map(formatDangerRating(issued));
+    out_bulletin['dangerRatings'] = filterRatingsForRegion(region, ratings).map(formatDangerRating(issued));
     out_bulletin['problems']      = problems.filter((p) => p.ShowToPublic).map(formatAvProblem(issued));
     return out_bulletin;
 }
@@ -243,7 +258,7 @@ function formatDangerRating(date) {
     return function(rating) {
         // This needs to be copied because moment makes dates mutable o_O
         var d = moment(date);
-        d.add(rating.SortOrder, 'days');
+        d.add(rating.SortOrder - 1, 'days');
         return {
             date: d,
             dangerRating: {
