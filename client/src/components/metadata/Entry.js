@@ -4,7 +4,7 @@ import styles from './Metadata.css'
 
 Entry.propTypes = {
     term: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Entry({term, children}) {

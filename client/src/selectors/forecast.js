@@ -5,6 +5,9 @@ import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
 
+// TODO: Use constants server response to reduce client transformation.
+// See Maps below...
+
 const TO_RATINGS = new Map([
     ["Low", RATINGS.LOW],
     ["Moderate", RATINGS.MODERATE],
@@ -56,7 +59,7 @@ function transform(forecast) {
         dateIssued: moment(dateIssued).toDate(),
         validUntil: moment(validUntil).toDate(),
         dangerRatings: dangerRatings.map(transformDangerRating),
-        avalancheSummary: trim(avalancheSummary), 
+        avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
     }

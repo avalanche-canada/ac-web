@@ -92,6 +92,17 @@
     }
 }
 
+.ListItem--Disabled {
+    composes: ListItem;
+
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+		background-color: inherit;
+	}
+}
+
 .ListItem--Arrow {
     composes: import ArrowElementDown from "../../styles/Shapes.css";
 

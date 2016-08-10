@@ -4,10 +4,11 @@ import {getZoom, getCenter} from 'reducers/map'
 import getSources from './getSources'
 import getLayers from './getLayers'
 import getMarkers from './getMarkers'
+import getEvents from './getEvents'
+import {getPreviousLocation} from 'reducers'
 import {getEntityForSchema} from 'reducers/api/entities'
-import {loadForecastRegions} from 'actions/entities'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
-import {getPrimary, getSecondary} from '../drawers'
+import {getPrimary, getSecondary} from 'selectors/drawers'
 import bbox from 'turf-bbox'
 
 const {LngLatBounds} = mapboxgl
@@ -32,7 +33,6 @@ const getBounds = createSelector(
         if (!feature) {
             return null
         }
-
         let x = 0
 
         if (primary.open) {
@@ -52,20 +52,20 @@ const getBounds = createSelector(
     }
 )
 
-export const getMapProps = createSelector(
+export default createSelector(
     getBounds,
     getZoom,
     getCenter,
     getSources,
     getLayers,
     getMarkers,
-    function computeMapProps(bounds, zoom, center, sources, layers, markers) {
+    getEvents,
+    function computeMapProps(bounds, zoom, center, sources, layers, markers, events) {
         return {
-            state: {
-                zoom,
-                center,
-                bounds,
-            },
+            zoom,
+            center,
+            bounds,
+            ...events,
             sources,
             layers,
             markers,

@@ -5,3 +5,17 @@ export const Forecast = new Schema('forecasts')
 export const HotZoneArea = new Schema('hot-zone-areas')
 export const HotZoneReport = new Schema('hot-zone-reports')
 export const MountainInformationNetworkObservation = new Schema('mountain-information-network-observations', {idAttribute: 'obid'})
+export const MountainInformationNetworkSubmission = new Schema('mountain-information-network-submissions', {idAttribute: 'subid'})
+
+const Schemas = new Map([
+    [ForecastRegion.getKey(), ForecastRegion],
+    [Forecast.getKey(), Forecast],
+    [HotZoneArea.getKey(), HotZoneArea],
+    [HotZoneReport.getKey(), HotZoneReport],
+    [MountainInformationNetworkObservation.getKey(), MountainInformationNetworkObservation],
+    [MountainInformationNetworkSubmission.getKey(), MountainInformationNetworkSubmission],
+])
+
+export function getSchemaByKey(key) {
+    return Schemas.get(key)
+}

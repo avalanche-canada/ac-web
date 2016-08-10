@@ -1,42 +1,47 @@
 import {createSelector} from 'reselect'
-import {getMenu as getMenuReducer} from 'reducers/drawers'
+import {getLocation} from 'selectors/utils'
+import {getSchemaByKey} from 'api/schemas'
 
-function getPrimaryOpen(state, {router}) {
-    return router.isActive('/map/forecasts') ||
-           router.isActive('/map/hot-zone-reports')
-}
+const isPrimaryOpened = /^\/map\//i
 
-function getSecondaryOpen(state, {router}) {
-    const pathname = '/map'
-
-    return router.isActive({
-        pathname,
-        query: {
-            drawer: 'test'
-        }
-    })
+const PRIMARY = {
+    open: false,
+    width: 500,
 }
 
 export const getPrimary = createSelector(
-    getPrimaryOpen,
-    open => ({
-        open,
-        width: 500,
+    getLocation,
+    location => ({
+        ...PRIMARY,
+        open: isPrimaryOpened.test(location.pathname),
     })
 )
+
+const SECONDARY = {
+    open: false,
+    width: 350,
+    schema: null,
+    id: null,
+}
 
 export const getSecondary = createSelector(
-    getSecondaryOpen,
-    open => ({
-        open,
-        width: 350,
-    })
+    getLocation,
+    location => {
+        const {panel} = location.query
+
+        if (panel) {
+            const [key, id] = panel.split('/')
+
+            return {
+                ...SECONDARY,
+                open: true,
+                schema: getSchemaByKey(key),
+                id,
+            }
+        }
+
+        return SECONDARY
+    }
 )
 
-export function getMenu(state, props) {
-    const {open} = getMenuReducer(state)
-
-    return {
-        open
-    }
-}
+export {getMenu} from 'reducers/drawers'

@@ -2,21 +2,21 @@ import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
 import List from './List'
 import Term from './Term'
-import Element from './Element'
+import Definition from './Definition'
 
-function description(columns, horizontal) {
+function description(columns, theme) {
     return (
-        <List columns={columns} horizontal={horizontal} >
+        <List {...{columns, theme}} >
             <Term>Telephone</Term>
-            <Element>(000) 000-0000</Element>
+            <Definition>(000) 000-0000</Definition>
             <Term>Email</Term>
-            <Element>info@avalanche.ca</Element>
+            <Definition>info@avalanche.ca</Definition>
             <Term>Website</Term>
-            <Element>avalanche.ca</Element>
+            <Definition>avalanche.ca</Definition>
             <Term>Location</Term>
-            <Element>Revelstoke</Element>
+            <Definition>Revelstoke</Definition>
             <Term>Contact</Term>
-            <Element>Gilles Valade</Element>
+            <Definition>Gilles Valade</Definition>
         </List>
     )
 }
@@ -24,5 +24,5 @@ function description(columns, horizontal) {
 storiesOf('Description', module)
 .add('1 Column', () => description(1))
 .add('2 Columns', () => description(2))
-.add('horizontal 1 Column', () => description(1, true))
-.add('horizontal 2 Columns', () => description(2, true))
+.add('Inverse 1 Column', () => description(1, 'Inverse'))
+.add('Inverse 2 Columns', () => description(2, 'Inverse'))

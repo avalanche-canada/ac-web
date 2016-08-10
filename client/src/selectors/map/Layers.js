@@ -1,51 +1,14 @@
 import {Map, OrderedMap, List, fromJS} from 'immutable'
-import {history} from 'router'
-import {ForecastRegion, HotZoneArea} from 'api/schemas'
+import {
+    ForecastRegion,
+    HotZoneArea,
+    MountainInformationNetworkObservation,
+} from 'api/schemas'
 import * as LAYERS from 'constants/map/layers'
-
-const {
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-} = LAYERS
 
 const forecastRegionKey = ForecastRegion.getKey()
 const hotZoneAreaKey = HotZoneArea.getKey()
-
-const PATHS = new Map([
-    [ForecastRegion, 'forecasts'],
-    [HotZoneArea, 'hot-zone-reports'],
-])
-
-function handleFeatureClick(schema) {
-    return function handleClick(event, [feature]) {
-        // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: feature.properties.id > feature.id
-        if (feature) {
-            history.push(`/map/${PATHS.get(schema)}/${feature.properties.id}`)
-        }
-    }
-}
-function handleFeatureMousemove(schema) {
-    const key = schema.getKey()
-
-    return function handleMousemove(event, [feature]) {
-        // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: feature.properties.id > feature.id
-        const map = event.target
-        const canvas = map.getCanvas()
-        const layers = [`${key}-hover`, `${key}-contour-hover`]
-        const filter = ['==', 'id', feature ? feature.properties.id : '']
-        const cursor = feature ? 'pointer' : null
-
-        canvas.style.cursor = cursor
-
-        if (feature) {
-            canvas.setAttribute('title', feature.properties.name)
-        } else {
-            canvas.removeAttribute('title')
-        }
-
-        layers.forEach(layer => map.setFilter(layer, filter))
-    }
-}
+const mountainInformationNetworkObservationKey = MountainInformationNetworkObservation.getKey()
 
 export function updateVisibility(layers, visibleLayers = new Set()) {
     return layers.map((layers, type) => {
@@ -81,10 +44,6 @@ const ForecastLayers = new OrderedMap({
                 ]
             },
         },
-        events: {
-            click: handleFeatureClick(ForecastRegion),
-            mousemove: handleFeatureMousemove(ForecastRegion),
-        }
     },
     [`${forecastRegionKey}-hover`]: {
         id: `${forecastRegionKey}-hover`,
@@ -218,10 +177,6 @@ const HotZoneReportLayers = new OrderedMap({
             'fill-outline-color': '#FF00FF',
             'fill-opacity': 0.5
         },
-        events: {
-            click: handleFeatureClick(HotZoneArea),
-            mousemove: handleFeatureMousemove(HotZoneArea),
-        }
     },
     [`${hotZoneAreaKey}-hover`]: {
         id: `${hotZoneAreaKey}-hover`,
@@ -257,8 +212,45 @@ const HotZoneReportLayers = new OrderedMap({
     },
 })
 
+const MountainInformationNetworkLayers = new OrderedMap({
+    [mountainInformationNetworkObservationKey]: {
+        id: mountainInformationNetworkObservationKey,
+        source: mountainInformationNetworkObservationKey,
+        type: 'symbol',
+        layout: {
+            visibility: 'visible',
+            'icon-image': 'rocket-15',
+        }
+    },
+    [`${mountainInformationNetworkObservationKey}-cluster-circle`]: {
+        id: `${mountainInformationNetworkObservationKey}-cluster-circle`,
+        source: mountainInformationNetworkObservationKey,
+        type: 'circle',
+        layout: {
+            visibility: 'visible',
+        },
+        paint: {
+            'circle-color': '#4B6D6F',
+            'circle-radius': 16,
+        },
+    },
+    [`${mountainInformationNetworkObservationKey}-count-label`]: {
+        id: `${mountainInformationNetworkObservationKey}-count-label`,
+        source: mountainInformationNetworkObservationKey,
+        type: 'symbol',
+        layout: {
+            visibility: 'visible',
+            'text-field': '{point_count}',
+            'text-size': 12,
+        },
+        paint: {
+            'text-color': '#FFFFFF',
+        }
+    },
+})
 
 export default new Map({
-    [FORECASTS]: ForecastLayers,
-    [HOT_ZONE_REPORTS]: HotZoneReportLayers,
+    [LAYERS.FORECASTS]: ForecastLayers,
+    [LAYERS.HOT_ZONE_REPORTS]: HotZoneReportLayers,
+    [LAYERS.MOUNTAIN_INFORMATION_NETWORK]: MountainInformationNetworkLayers,
 })

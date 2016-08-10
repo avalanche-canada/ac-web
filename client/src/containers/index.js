@@ -9,6 +9,9 @@ export Map from './Map'
 export Forecast from './Forecast'
 export HotZoneReport from './HotZoneReport'
 
+// Full page
+export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
+
 // Feed and Post Pages
 export EventFeed from './EventFeed'
 export EventPost from './EventPost'
@@ -90,5 +93,4 @@ export const MountainInformationNetworkSubmissionGuidelines = prismic({
     title: 'Mountain Information Network — Submission Guidelines',
 })
 
-export PrimaryDrawer from './PrimaryDrawer'
 export Sponsor from './Sponsor'

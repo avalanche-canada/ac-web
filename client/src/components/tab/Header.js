@@ -14,6 +14,7 @@ Header.propTypes = {
     onExpandClick: PropTypes.func,
     color: PropTypes.string,
     arrow: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
 function computeArrowStyle({color}) {
@@ -49,12 +50,19 @@ function Header({
     onClick = K,
     onExpandClick = K,
     color,
+    disabled,
     children,
 }) {
     const icon = expanded ? <ExpandLess inverse /> : <ExpandMore inverse />
     const style = computeStyle({color, active, arrow})
-    const styleName = active ? 'ListItem--Active' : 'ListItem'
+    let styleName = 'ListItem'
     const showArrow = arrow && active
+
+    if (disabled) {
+        styleName = 'ListItem--Disabled'
+    } else if (active) {
+        styleName = 'ListItem--Active'
+    }
 
 	return (
         <li role='tab' {...{onClick, styleName, style}} >
@@ -67,4 +75,4 @@ function Header({
     )
 }
 
-export default CSSModules(Header, styles)
+export default CSSModules(Header, styles, { allowMultiple: true })

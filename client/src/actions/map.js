@@ -14,14 +14,16 @@ import {
     loadHotZoneAreas,
     loadMountainInformationNetworkObservationsForDays,
 } from 'actions/entities'
-import {shouldDispatchLoadAction} from 'reducers/api/results'
-
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
+export const CLUSTER_ACTIVATED = 'CLUSTER_ACTIVATED'
+export const CLUSTER_DEACTIVATED = 'CLUSTER_DEACTIVATED'
 
 export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
+export const activateCluster = createAction(CLUSTER_ACTIVATED)
+export const deactivateCluster = createAction(CLUSTER_DEACTIVATED)
 
 export function loadData() {
     return (dispatch, getState) => {

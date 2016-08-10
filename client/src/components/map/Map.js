@@ -5,39 +5,105 @@ import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
 import css from './Map.css'
 
-const STYLES = Object.keys(styles)
 const {LngLatBounds} = mapboxgl
+const STYLES = Object.keys(styles)
+const {bool, func, number, string, object, shape, node, arrayOf, instanceOf, oneOf} = PropTypes
+const EVENTS = new Map([
+    ['onWebglcontextlost', 'webglcontextlost'],
+    ['onWebglcontextrestored', 'webglcontextrestored'],
+    ['onMoveend', 'moveend'],
+    ['onMove', 'move'],
+    ['onMovestart', 'movestart'],
+    ['onDblclick', 'dblclick'],
+    ['onRender', 'render'],
+    ['onMouseout', 'mouseout'],
+    ['onMousedown', 'mousedown'],
+    ['onMouseup', 'mouseup'],
+    ['onMousemove', 'mousemove'],
+    ['onTouchstart', 'touchstart'],
+    ['onTouchend', 'touchend'],
+    ['onTouchmove', 'touchmove'],
+    ['onTouchcancel', 'touchcancel'],
+    ['onClick', 'click'],
+    ['onLoad', 'load'],
+    ['onContextmenu', 'contextmenu'],
+    ['onZoom', 'zoom'],
+    ['onZoomend', 'zoomend'],
+    ['onZoomstart', 'zoomstart'],
+    ['onBoxzoomstart', 'boxzoomstart'],
+    ['onBoxzoomend', 'boxzoomend'],
+    ['onBoxzoomcancel', 'boxzoomcancel'],
+    ['onRotateend', 'rotateend'],
+    ['onRotate', 'rotate'],
+    ['onRotatestart', 'rotatestart'],
+    ['onDragstart', 'dragstart'],
+    ['onDrag', 'drag'],
+    ['onDragend', 'dragend'],
+    ['onPitch', 'pitch'],
+])
 
 @CSSModule(css)
-export default class Map extends Component {
+export default class MapComponent extends Component {
     static propTypes = {
-        children: PropTypes.node,
-        style: PropTypes.oneOf(STYLES),
-        center: PropTypes.arrayOf(PropTypes.number),
-        zoom: PropTypes.number,
-        bearing: PropTypes.number,
-        pitch: PropTypes.number,
-        minZoom: PropTypes.number,
-        maxZoom: PropTypes.number,
-        interactive: PropTypes.bool,
-        bearingSnap: PropTypes.number,
-        classes: PropTypes.arrayOf(PropTypes.string),
-        attributionControl: PropTypes.bool,
-        failIfMajorPerformanceCaveat: PropTypes.bool,
-        preserveDrawingBuffer: PropTypes.bool,
-        maxBounds: PropTypes.instanceOf(LngLatBounds),
-        scrollZoom: PropTypes.bool,
-        boxZoom: PropTypes.bool,
-        dragRotate: PropTypes.bool,
-        dragPan: PropTypes.bool,
-        keyboard: PropTypes.bool,
-        doubleClickZoom: PropTypes.bool,
-        touchZoomRotate: PropTypes.bool,
-        trackResize: PropTypes.bool,
-        events: PropTypes.object,
-        bounds: PropTypes.shape({
-            bbox: PropTypes.instanceOf(LngLatBounds),
-            options: PropTypes.object,
+        children: node,
+        style: oneOf(STYLES),
+        center: arrayOf(number),
+        zoom: number,
+        bearing: number,
+        pitch: number,
+        minZoom: number,
+        maxZoom: number,
+        interactive: bool,
+        bearingSnap: number,
+        classes: arrayOf(string),
+        attributionControl: bool,
+        failIfMajorPerformanceCaveat: bool,
+        preserveDrawingBuffer: bool,
+        maxBounds: instanceOf(LngLatBounds),
+        scrollZoom: bool,
+        boxZoom: bool,
+        dragRotate: bool,
+        dragPan: bool,
+        keyboard: bool,
+        doubleClickZoom: bool,
+        touchZoomRotate: bool,
+        trackResize: bool,
+        workerCount: number,
+        onWebglcontextlost: func,
+        onWebglcontextrestored: func,
+        onMoveend: func,
+        onMove: func,
+        onMovestart: func,
+        onDblclick: func,
+        onRender: func,
+        onMouseout: func,
+        onMousedown: func,
+        onMouseup: func,
+        onMousemove: func,
+        onTouchstart: func,
+        onTouchend: func,
+        onTouchmove: func,
+        onTouchcancel: func,
+        onClick: func,
+        onLoad: func,
+        onContextmenu: func,
+        onZoom: func,
+        onZoomend: func,
+        onZoomstart: func,
+        onBoxzoomstart: func,
+        onBoxzoomend: func,
+        onBoxzoomcancel: func,
+        onRotateend: func,
+        onRotate: func,
+        onRotatestart: func,
+        onDragstart: func,
+        onDrag: func,
+        onDragend: func,
+        onPitch: func,
+        // Custom, i.e. not part of the mapboxgl.Map class
+        bounds: shape({
+            bbox: instanceOf(LngLatBounds),
+            options: object,
         }),
     }
     static defaultProps = {
@@ -48,7 +114,7 @@ export default class Map extends Component {
         attributionControl: false,
     }
     static childContextTypes = {
-        map: PropTypes.object,
+        map: object,
     }
     state = {}
     get map() {
@@ -64,25 +130,26 @@ export default class Map extends Component {
     }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, events, bounds, ...rest} = this.props
+        const {style, children, bounds, ...rest} = this.props
+
         const map = new mapboxgl.Map({
             ...rest,
             container,
             style: style !== null ? styles[style] : null,
         })
 
-        if (events) {
-            Object.keys(events).forEach(function setMapEvent(key) {
-                map.on(key, events[key])
-            })
-        }
+        EVENTS.forEach(function addMapEvent(name, method) {
+            if (rest[method]) {
+                map.on(name, rest[method])
+            }
+        })
 
         this.map = map
     }
     componentWillUnmount() {
         this.map.off()
     }
-    componentWillReceiveProps({bounds = null}) {
+    componentWillReceiveProps({bounds = null, ...rest}) {
         if (bounds !== null && bounds !== this.props.bounds) {
             const {bbox, options} = bounds
             if (bbox) {

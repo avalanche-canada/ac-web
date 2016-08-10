@@ -24,9 +24,7 @@ export InnerHTML from './InnerHTML'
 
 export Collapse from './Collapse'
 
-export {Muted} from './Text'
-export {Loading} from './Text'
-export {Error} from './Text'
+export {Muted, Loading, Error} from './Text'
 
 export Image from './Image'
 

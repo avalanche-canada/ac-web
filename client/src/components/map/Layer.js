@@ -17,10 +17,6 @@ export default class Layer extends Component {
         filter: PropTypes.array,
         layout: PropTypes.object,
         paint: PropTypes.object,
-        events: PropTypes.object,
-    }
-    static defaultProps = {
-        events: {},
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
@@ -33,7 +29,7 @@ export default class Layer extends Component {
     }
     add = () => {
         const {map, id} = this
-        const {events, before, ...layer} = this.props
+        const {before, ...layer} = this.props
 
         if (layer['layer-ref']) {
             layer.ref = layer['layer-ref']
@@ -41,16 +37,6 @@ export default class Layer extends Component {
         }
 
         map.addLayer(layer, before)
-
-        keys(events).forEach(function setListener(key) {
-            map.on(key, function listener(event) {
-                const features = map.queryRenderedFeatures(event.point, {
-                    layers: [id]
-                })
-
-                events[key].call(null, event, features)
-            })
-        })
     }
     remove() {
         this.map.removeLayer(this.id)

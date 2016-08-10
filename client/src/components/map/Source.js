@@ -55,7 +55,6 @@ export default class Source extends Component {
 
                 if (source) {
                     source.setData(data)
-                    return
                 }
             }
         }

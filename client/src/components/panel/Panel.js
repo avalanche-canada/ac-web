@@ -4,12 +4,18 @@ import {compose, withState} from 'recompose'
 import styles from './Panel.css'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
+import {titleOf} from 'utils/string'
+
+export const SIMPLE = 'Simple'
+export const INVERSE = 'Inverse'
 
 Panel.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
     expandable: PropTypes.bool,
     expanded: PropTypes.bool,
     header: PropTypes.string.isRequired,
+    theme: PropTypes.oneOf([INVERSE, SIMPLE]),
+
 }
 
 // Little hack to allow accurate mesuring even when chlidren have
@@ -22,8 +28,8 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Panel({ expandable = false, header, expanded = false, setExpanded, children }) {
-    const styleName = expandable ? 'Header--Expandable' : 'Header'
+function Panel({expandable = false, header, theme = SIMPLE, expanded = false, setExpanded, children}) {
+    const styleName = expandable ? `Container--${theme}--Expandable` : `Container--${theme}`
     function handleClick() {
         if (!expandable) {
             return
@@ -33,12 +39,12 @@ function Panel({ expandable = false, header, expanded = false, setExpanded, chil
     }
 
     return (
-        <div styleName='Container'>
-            <header styleName={styleName} onClick={handleClick}>
-                {expandable &&
-                    <Expand expanded={expanded} onClick={handleClick} />
-                }
-                {header}
+        <div styleName={styleName}>
+            <header styleName='Header' onClick={handleClick}>
+                {expandable && <Expand styleName='Expand' expanded={expanded} />}
+                <span styleName='Title' title={titleOf(header)}>
+                    {header}
+                </span>
             </header>
             <div styleName='Content'>
                 {expandable ?

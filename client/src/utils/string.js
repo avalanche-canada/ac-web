@@ -14,3 +14,11 @@ export function getInitials(name) {
 
     return ((first[0] || '') + (second[0] || '')).toUpperCase()
 }
+
+export function titleOf(children) {
+    if (typeof children === 'string' || typeof children === 'number') {
+        return children
+    }
+
+    return null
+}

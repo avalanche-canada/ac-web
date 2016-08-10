@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react'
-import {compose, withProps, mapProps, nest} from 'recompose'
+import {compose, mapProps, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
 import getLayers from 'selectors/menu'
 import {toggleLayer, changeFilter} from 'actions/drawers'
 import {Header, Content} from 'components/page/drawer'
 import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
 import * as LAYERS from 'constants/map/layers'
+import {loadData} from 'actions/map'
 import {
     Forecast,
     HotZoneReport,
@@ -77,6 +78,7 @@ export default compose(
     connect(getLayers, {
         toggleLayer,
         changeFilter,
+        loadData,
     }),
     mapProps(({layers, ...props}) => {
         const sets = layers.groupBy(layer => layer.type).map((layers, title) => {
@@ -89,6 +91,11 @@ export default compose(
         return {
             ...props,
             sets,
+        }
+    }),
+    lifecycle({
+        componentDidUpdate() {
+            this.props.loadData()
         }
     })
 )(Menu)

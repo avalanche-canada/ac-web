@@ -1,14 +1,20 @@
-import {handleAction} from 'redux-actions'
+import {handleAction, handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
-import {ZOOM_CHANGED, CENTER_CHANGED} from 'actions/map'
-
-function reducer(state, action) {
-    return action.payload
-}
+import {getPayload} from 'reducers/utils'
+import {
+    ZOOM_CHANGED,
+    CENTER_CHANGED,
+    CLUSTER_ACTIVATED,
+    CLUSTER_DEACTIVATED,
+} from 'actions/map'
 
 export default combineReducers({
-    center: handleAction(CENTER_CHANGED, reducer, [-125.527, 55.035]),
-    zoom: handleAction(ZOOM_CHANGED, reducer, 4),
+    center: handleAction(CENTER_CHANGED, getPayload, [-125.527, 55.035]),
+    zoom: handleAction(ZOOM_CHANGED, getPayload, 4),
+    cluster: handleActions({
+        CLUSTER_ACTIVATED: getPayload,
+        CLUSTER_DEACTIVATED: () => null,
+    }, null),
 })
 
 export function getZoom(state) {
@@ -16,4 +22,7 @@ export function getZoom(state) {
 }
 export function getCenter(state) {
     return state.map.center
+}
+export function getCluster(state) {
+    return state.map.cluster
 }

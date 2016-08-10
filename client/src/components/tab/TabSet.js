@@ -10,6 +10,21 @@ import {init} from 'css-element-queries/src/ElementQueries'
 function toArray(children) {
 	return Children.toArray(children).filter(tab => !!tab)
 }
+function isEnabled({props}) {
+    return !props.disabled
+}
+function validateActiveIndex({activeIndex, children}) {
+    const tabs = toArray(children)
+    const {disabled} = tabs[activeIndex].props
+
+    if (disabled === true) {
+        const enabled = tabs.find(isEnabled)
+
+        activeIndex = tabs.indexOf(enabled)
+    }
+
+    return Math.min(activeIndex, tabs.length - 1)
+}
 
 function K() {}
 
@@ -31,18 +46,18 @@ export default class TabSet extends Component {
         arrow: false,
 	}
     state = {
-        opened: false
+        opened: false,
     }
 	constructor(props, ...args) {
 	  super(props, ...args)
 
-	  this.state.activeIndex = props.activeIndex
+	  this.state.activeIndex = validateActiveIndex(props)
 	}
 	get activeIndex() {
 		return this.state.activeIndex
 	}
 	set activeIndex(activeIndex) {
-		this.setState({ activeIndex }, this.handleActivate)
+		this.setState({activeIndex}, this.handleActivate)
 	}
 	get tabs() {
 		return toArray(this.props.children)
@@ -63,14 +78,12 @@ export default class TabSet extends Component {
     componentDidUpdate() {
         init()
     }
-	componentWillReceiveProps({ activeIndex, children }) {
-		if (typeof activeIndex !== 'number') {
+	componentWillReceiveProps(nextProps) {
+		if (typeof nextProps.activeIndex !== 'number') {
 			return
 		}
 
-		const {length} = toArray(children)
-
-		this.activeIndex = Math.min(activeIndex, length - 1)
+		this.activeIndex = validateActiveIndex(nextProps)
 	}
     handleExpandClick = event => {
         event.stopPropagation()
@@ -78,16 +91,20 @@ export default class TabSet extends Component {
         this.opened = !this.opened
     }
 	renderTabHeader(tab, index) {
-        const {arrow} = this.props
-        const expanded = this.opened
-        const active = index === this.activeIndex
-        const handleClick = () => this.activeIndex = index
-		const onClick = tab.props.onClick || handleClick
-        const onExpandClick = this.handleExpandClick
-        const {title, color} = tab.props
+        const {title, color, disabled, onClick} = tab.props
+        const handleClick = event => this.activeIndex = index
+        const header = {
+            active: index === this.activeIndex,
+            expanded: this.opened,
+            onClick: disabled ? K : onClick || handleClick,
+            onExpandClick: this.handleExpandClick,
+            arrow: this.props.arrow,
+            color,
+            disabled,
+        }
 
         return (
-            <Header key={index} {...{active, expanded, onClick, onExpandClick, color, arrow}}>
+            <Header key={index} {...header}>
                 {title}
             </Header>
         )
@@ -113,7 +130,6 @@ export default class TabSet extends Component {
         if (opened) {
             styleName += ' List--Opened'
         }
-
 
 		return (
 			<div>

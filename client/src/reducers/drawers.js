@@ -1,6 +1,5 @@
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
-import moment from 'moment'
 import {MENU_OPENED, MENU_CLOSED, LAYER_TOGGLED,FILTER_CHANGED} from 'actions/drawers'
 import {
     FORECASTS,
@@ -18,6 +17,7 @@ function setOpen(state, open) {
         open
     }
 }
+
 function toggleLayer({layers, ...rest}, name) {
     if (layers.has(name)) {
         layers.delete(name)
@@ -57,19 +57,22 @@ function changeFilter({filters, ...rest}, {layer, name, value}) {
 const MENU = {
     open: false,
     // Defines to default active layers, could comes from localStorage as well
-    layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
+    layers: new Set([MOUNTAIN_INFORMATION_NETWORK]),
+    // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
     // Defines to default filters, could comes from localStorage as well
     filters: new Map([
         [MOUNTAIN_INFORMATION_NETWORK, new Map([
             ['days', {
                 type: 'listOfValues',
-                value: '7',
+                // value: '7',
+                value: '60',
                 options: new Map([
                     ['1', '1 day'],
                     ['3', '3 days'],
                     ['7', '7 days'],
                     ['14', '14 days'],
                     ['30', '30 days'],
+                    ['60', '60 days'],
             ])}],
             ['type', {
                 type: 'listOfValues',

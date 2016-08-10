@@ -3,23 +3,30 @@ import shallowCompare from 'react-addons-shallow-compare'
 import mapboxgl from 'mapboxgl'
 
 const {LngLat} = mapboxgl
-function createMarker({element, lnglat}) {
-    return new mapboxgl.Marker(element).setLngLat(lnglat)
+const {assign} = Object
+function createMarker({element, lnglat, options, onClick}) {
+    if (onClick) {
+        element = assign(element, {onclick: onClick})
+    }
+    
+    return new mapboxgl.Marker(element, options).setLngLat(lnglat)
 }
 
 export default class Marker extends Component {
     static propTypes = {
         lnglat: PropTypes.instanceOf(LngLat).isRequired,
         element: PropTypes.object.isRequired,
+        onClick: PropTypes.func,
+        options: PropTypes.object,
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
     }
     _marker = null
     set marker(marker) {
-        this._marker = marker
-
         this.remove()
+
+        this._marker = marker
 
         marker.addTo(this.map)
     }
@@ -39,10 +46,11 @@ export default class Marker extends Component {
             marker.remove()
         }
     }
-    componentWillReceiveProps({element, lnglat}) {
+    componentWillReceiveProps(nextProps) {
+        const {element, lnglat, options} = nextProps
 
         if (this.props.element !== element) {
-            this.marker = createMarker({element, lnglat})
+            this.marker = createMarker(nextProps)
             return
         }
 
@@ -50,9 +58,8 @@ export default class Marker extends Component {
             this.marker.setLngLat(lnglat)
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate() {
         return false
-        // return shallowCompare(this, nextProps, nextState)
     }
     render() {
         this.marker = createMarker(this.props)

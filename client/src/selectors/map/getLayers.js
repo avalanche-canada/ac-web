@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getLayers} from 'reducers/drawers'
+import {getLayers as getMenuLayers} from 'reducers/drawers'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
 import LAYERS, {updateVisibility} from './Layers'
 
@@ -13,7 +13,7 @@ function getActiveProps(state, {params, router}) {
 }
 
 const computeVisibleLayers = createSelector(
-    getLayers,
+    getMenuLayers,
     layers => updateVisibility(LAYERS, layers)
 )
 
@@ -22,16 +22,15 @@ const flattenLayers = createSelector(
     layers => layers.flatten(1).toList()
 )
 
-export default createSelector(
+const getLayers = createSelector(
     getActiveProps,
     flattenLayers,
     function computeLayers(active = null, layers) {
         return layers
-        
+
         if (active === null) {
             return layers
         }
-
 
         return layers.withMutations(layers => {
             [ForecastRegion].forEach(schema => {
@@ -47,4 +46,11 @@ export default createSelector(
             })
         })
     }
+)
+
+export default getLayers
+
+export const getIds = createSelector(
+    getLayers,
+    layers => layers.map(layer => layer.id).toArray()
 )

@@ -82,6 +82,7 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
+            <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetwork} />
             <Route path='about' component={About} />
             <Route path='events' component={EventFeed} onEnter={handleFeedEnter} />
             <Route path='events/:uid' component={EventPost} />
