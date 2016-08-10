@@ -1,3 +1,5 @@
+@import "./colors.css";
+
 body {
     font-family: Montserrat, Arial, sans-serif;
     font-size: 14px;
@@ -6,11 +8,24 @@ body {
 h1 {
     font-size: 3em;
     font-weight: 700;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+    & > a {
+        color: inherit;
+
+        &:after {
+            content: ' \203A';
+            color: var(--primary);
+        }
+    }
 }
 
 
 a {
     text-decoration: none;
+    color: var(--primary);
 }
 
 img {

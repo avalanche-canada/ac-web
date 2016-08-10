@@ -23,8 +23,7 @@ Cabinet.propTypes = {
     open: PropTypes.bool,
     width: PropTypes.number,
     backdrop: PropTypes.bool,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
+    onCloseClick: PropTypes.func,
 }
 
 export default function Cabinet({
@@ -33,15 +32,14 @@ export default function Cabinet({
     width = 250,
     header = null,
     backdrop = false,
-    onOpen,
-    onClose,
+    onCloseClick,
     children
 }) {
     const withBackdrop = open && backdrop
 
     return (
         <div>
-            {withBackdrop && <Backdrop onClick={onClose} />}
+            {withBackdrop && <Backdrop onClick={onCloseClick} />}
             <Motion style={getMotionStyle(open, side)}>
                 {style => createElement(Drawer, {
                     position: style.x,
@@ -49,8 +47,7 @@ export default function Cabinet({
                     side,
                     open,
                     header,
-                    onOpen,
-                    onClose,
+                    onCloseClick,
                 }, children)}
             </Motion>
         </div>

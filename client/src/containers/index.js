@@ -5,11 +5,8 @@ export Root from './Root'
 // Map - kind of the home page
 export Map from './Map'
 
-//
-export Forecast from './Forecast'
-export HotZoneReport from './HotZoneReport'
-
 // Full page
+export Forecast from './Forecast'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
 // Feed and Post Pages

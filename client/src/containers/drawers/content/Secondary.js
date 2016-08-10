@@ -15,7 +15,7 @@ const Components = new Map([
     [MountainInformationNetworkObservation, Submission],
 ])
 
-SecondaryContent.propTypes = {
+Secondary.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
 }
@@ -37,6 +37,7 @@ function mapStateToProps(state, {schema, id, open}) {
 
     return {
         title,
+        link: `/mountain-information-network/submissions/${subid}`,
         metadata: {
             submittedOn: datetime,
             submittedBy: user,
@@ -55,16 +56,14 @@ const Messages = new Map([
     }]
 ])
 
-function SecondaryContent({title, metadata, schema, isLoading, isError, props, messages, id}) {
+function Secondary({title, metadata, schema, isLoading, isError, props, messages, link}) {
     const {error, loading} = messages
 
     return (
         <Content>
             <Header subject='Mountain Information Network'>
                 <h1>
-                    <Link to={`/mountain-information-network/observations/${id}`}>
-                        {title}
-                    </Link>
+                    {link ? <Link to={link}>{title}</Link> : title}
                 </h1>
                 {metadata && <Metadata {...metadata} />}
             </Header>
@@ -96,4 +95,4 @@ export default compose(
             load()
         },
     })
-)(SecondaryContent)
+)(Secondary)

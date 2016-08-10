@@ -3,14 +3,14 @@ import {getLayers as getMenuLayers} from 'reducers/drawers'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
 import LAYERS, {updateVisibility} from './Layers'
 
-function getActiveProps(state, {params, router}) {
-    if (router.isActive(`/map/forecasts/${params.name}`)) {
-        return {
-            schema: ForecastRegion,
-            id: params.name,
-        }
-    }
-}
+// function getActiveProps(state, {params, router}) {
+//     if (router.isActive(`/map/forecasts/${params.name}`)) {
+//         return {
+//             schema: ForecastRegion,
+//             id: params.name,
+//         }
+//     }
+// }
 
 const computeVisibleLayers = createSelector(
     getMenuLayers,
@@ -23,28 +23,26 @@ const flattenLayers = createSelector(
 )
 
 const getLayers = createSelector(
-    getActiveProps,
+    // getActiveProps,
     flattenLayers,
-    function computeLayers(active = null, layers) {
+    function computeLayers(layers) {
         return layers
-
-        if (active === null) {
-            return layers
-        }
-
-        return layers.withMutations(layers => {
-            [ForecastRegion].forEach(schema => {
-                ['active', 'contour-active'].forEach(suffix => {
-                    const id = `${schema.getKey()}-${suffix}`
-                    const index = layers.findIndex(layer => layer.id === id)
-                    const value = schema === active.schema ? active.id : ''
-
-                    layer.filter = ['==', 'id', value],
-
-                    layers.set(index, layer)
-                })
-            })
-        })
+    //     if (active === null) {
+    //         return layers
+    //     }
+    //     return layers.withMutations(layers => {
+    //         [ForecastRegion].forEach(schema => {
+    //             ['active', 'contour-active'].forEach(suffix => {
+    //                 const id = `${schema.getKey()}-${suffix}`
+    //                 const index = layers.findIndex(layer => layer.id === id)
+    //                 const value = schema === active.schema ? active.id : ''
+    //
+    //                 layer.filter = ['==', 'id', value],
+    //
+    //                 layers.set(index, layer)
+    //             })
+    //         })
+    //     })
     }
 )
 

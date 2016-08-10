@@ -1,9 +1,9 @@
 import React, {PropTypes, createElement} from 'react'
 import {Link} from 'react-router'
-import {Page, Header, Main} from 'components/page'
+import {Header, Content, Body} from 'components/page/drawer'
 import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
-import forecast from './connectors/forecast';
+import forecast from '../../connectors/forecast'
 
 Container.propTypes = {
     type: PropTypes.string,
@@ -15,15 +15,19 @@ Container.propTypes = {
 
 function Container({isLoading, forecast, type, title = 'Loading...', isError, link}) {
     return (
-        <Page>
-            <Header title={link ? <Link {...link}>{title}</Link> : title} />
-            <Main>
+        <Content>
+            <Header subject='Avalanche Forecast'>
+                <h1>
+                    {link ? <Link {...link}>{title}</Link> : title}
+                </h1>
                 {forecast && <Metadata {...forecast} />}
+            </Header>
+            <Body>
                 {isLoading && <Muted>Loading forecast...</Muted>}
                 {isError && <Error>Error happened while loading forecast.</Error>}
                 {(forecast && forecast.region) && createElement(Forecast, forecast)}
-            </Main>
-        </Page>
+            </Body>
+        </Content>
     )
 }
 

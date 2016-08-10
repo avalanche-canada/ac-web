@@ -1,18 +1,17 @@
-import React from 'react'
-import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
+import React, {PropTypes} from 'react'
+import {compose, lifecycle, onlyUpdateForKeys, withContext} from 'recompose'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {withRouter} from 'react-router'
 import {Map, Source, Layer, Popup, Marker, Utils} from 'components/map'
 import {zoomChanged, centerChanged} from 'actions/map'
 import getMapProps from 'selectors/map'
-import {Primary, Secondary, Menu} from './Drawers'
+import {Primary, Secondary, Menu, OpenMenu} from './drawers'
 import {loadData} from 'actions/map'
 
 // TODO: Improve performance. Way too much rerendering...
 
 function Container({
-    location,
     sources = [],
     layers = [],
     markers = [],
@@ -51,12 +50,13 @@ function Container({
                     <Marker key={marker.id} {...marker} onClick={onMarkerClick.bind(null, marker)} />
                 ))}
             </Map>
-            <Primary location={location}>
+            <Primary>
                 {primary}
             </Primary>
-            <Secondary location={location}>
+            <Secondary>
                 {secondary}
             </Secondary>
+            <OpenMenu />
             <Menu />
         </div>
     )
@@ -91,7 +91,7 @@ function mergeProps(state, {dispatch, ...actions}, props) {
         onClick: state.onClick(dispatch),
         onMarkerClick(marker, event) {
             event.stopPropagation()
-            
+
             const {location, router} = props
             const {pathname, query} = location
 
@@ -104,8 +104,19 @@ function mergeProps(state, {dispatch, ...actions}, props) {
     }
 }
 
+function getLocation({location}) {
+    return {
+        location
+    }
+}
+
+const context = {
+    location: PropTypes.object,
+}
+
 export default compose(
     withRouter,
+    withContext(context, getLocation),
     connect(getMapProps, mapDispatchToProps, mergeProps),
     onlyUpdateForKeys(['layers', 'sources', 'markers', 'bounds', 'location']),
     lifecycle({

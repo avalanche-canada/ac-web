@@ -98,12 +98,31 @@ export default createSelector(
 
         if (forecast) {
             forecast = transform(forecast.toJSON())
+            const {externalUrl, parksUrl, region} = forecast
+            let link = null
+
+            if (externalUrl) {
+                link = {
+                    target: '_blank',
+                    to: externalUrl,
+                }
+            } else if (parksUrl) {
+                link = {
+                    target: '_blank',
+                    to: parksUrl,
+                }
+            } else {
+                link = {
+                    to: `/forecasts/${region}`,
+                }
+            }
 
             return {
                 isLoading: false,
                 title: forecast.bulletinTitle || forecast.name,
                 region,
                 forecast,
+                link,
             }
         } else {
             return {

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, mapProps, lifecycle} from 'recompose'
+import {compose, lifecycle, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import getLayers from 'selectors/menu'
 import {toggleLayer, changeFilter} from 'actions/drawers'
@@ -43,34 +43,31 @@ Menu.propTypes = {
 
 function Menu({sets = [], toggleLayer, changeFilter}) {
     return (
-        <div>
-            <Header />
-            <Content>
-                {sets.map(({title, layers}) => {
-                    return (
-                        <LayerSet title={title}>
-                            {layers
-                                .map(layer => layer.toObject())
-                                .map(({filters, ...layer}, type) => {
-                                    const handleFilterChange = changeFilter.bind(null, type)
-                                    const props = {
-                                        key: type,
-                                        icon: ICONS.get(type),
-                                        onClick: event => toggleLayer(type),
-                                    }
+        <Content>
+            {sets.map(({title, layers}) => {
+                return (
+                    <LayerSet title={title}>
+                        {layers
+                            .map(layer => layer.toObject())
+                            .map(({filters, ...layer}, type) => {
+                                const handleFilterChange = changeFilter.bind(null, type)
+                                const props = {
+                                    key: type,
+                                    icon: ICONS.get(type),
+                                    onClick: event => toggleLayer(type),
+                                }
 
-                                    return (
-                                        <Layer {...props} {...layer}>
-                                            {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
-                                        </Layer>
-                                    )
-                                })
-                            }
-                        </LayerSet>
-                    )
-                })}
-            </Content>
-        </div>
+                                return (
+                                    <Layer {...props} {...layer}>
+                                        {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
+                                    </Layer>
+                                )
+                            })
+                        }
+                    </LayerSet>
+                )
+            })}
+        </Content>
     )
 }
 
@@ -80,7 +77,7 @@ export default compose(
         changeFilter,
         loadData,
     }),
-    mapProps(({layers, ...props}) => {
+    withProps(({layers}) => {
         const sets = layers.groupBy(layer => layer.type).map((layers, title) => {
             return {
                 title,
@@ -89,7 +86,6 @@ export default compose(
         })
 
         return {
-            ...props,
             sets,
         }
     }),

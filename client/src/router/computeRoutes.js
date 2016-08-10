@@ -1,6 +1,7 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect} from 'react-router'
 import {loadForType, loadForBookmark} from 'actions/prismic'
+import * as DRAWERS from 'containers/drawers';
 import {
     Root,
     Map,
@@ -21,7 +22,6 @@ import {
     PrivacyPolicy,
     TermsOfUse,
     Forecast,
-    HotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
@@ -72,10 +72,10 @@ export default function computeRoutes(store) {
             <IndexRedirect to='map' />
             <Route path='map' components={{content: Map, footer: null}}>
                 <Route path='forecasts'>
-                    <Route path=':name' components={{primary: Forecast}} />
+                    <Route path=':name' components={{primary: DRAWERS.Forecast}} />
                 </Route>
                 <Route path='hot-zone-reports'>
-                    <Route path=':name' components={{primary: HotZoneReport}} />
+                    <Route path=':name' components={{primary: DRAWERS.HotZoneReport}} />
                 </Route>
             </Route>
             <Route path='mountain-information-network' component={MountainInformationNetwork} />
@@ -90,6 +90,7 @@ export default function computeRoutes(store) {
             <Route path='news/:uid' component={NewsPost} />
             <Route path='blogs' component={BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' component={BlogPost} />
+            <Route path='forecasts/:name' component={Forecast} />
             <Route path='weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />

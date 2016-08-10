@@ -17,11 +17,6 @@
     &.Open {
         box-shadow: 4px 0 8px color(black alpha(25%));
     }
-
-    & .Toggle {
-        left: 100%;
-        box-shadow: 4px 0 4px 0 color(black alpha(25%));
-    }
 }
 
 .Drawer--Right {
@@ -33,11 +28,6 @@
     &.Open {
         box-shadow: -4px 0 8px color(black alpha(25%));
     }
-
-    & .Toggle {
-        right: 100%;
-        box-shadow: -4px 0 4px 0 color(black alpha(25%));
-    }
 }
 
 .Content {
@@ -45,6 +35,7 @@
     flex-direction: column;
 
     position: absolute 0;
+    padding-top: 5em;
 
     & > * {
         padding: 0 1.5em;
@@ -52,7 +43,6 @@
 }
 
 .Header {
-    margin-top: 5em;
 }
 
 .Subject {
@@ -83,17 +73,9 @@
     overflow-x: hidden;
 }
 
-.Toggle {
-    position: absolute;
-    top: 15px;
-    width: 15px;
-    padding: 0;
-    background-color: white;
-
-    & > svg {
-        height: 100%;
-        width: 15px;
-    }
+.Close {
+    position: absolute 25px 15px auto auto;
+    z-index: 1;
 }
 
 .Backdrop {
