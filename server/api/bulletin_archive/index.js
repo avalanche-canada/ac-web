@@ -74,7 +74,7 @@ var DANGER_QUERY =
     '  where BulletinID = @bid '+
     '  order by SortOrder asc  ';
 
-router.get('/:region/:date.json', (req, res) => {
+router.get('/:date/:region.json', (req, res) => {
     // Validate :region is something we know about
     // TODO(wnh): Maybe not since its all old stuff and regions are in flux?
     var regionId = req.params.region;
