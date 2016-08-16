@@ -50,10 +50,10 @@ function propsMapper({children, expandedValues, setExpandedValues, ...rest}) {
             const controlled = true
             const previous = rows[index - 1]
             const hide = !expandedValues[index - 1]
-            const span = Children.count(previous.props.children)
+            const colSpan = Children.count(previous.props.children)
             const cell = Children.only(row.props.children)
 
-            return cloneElement(row, {hide, controlled}, cloneElement(cell, {span}))
+            return cloneElement(row, {hide, controlled}, cloneElement(cell, {colSpan}))
         }
 
         return row

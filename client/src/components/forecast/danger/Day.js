@@ -1,4 +1,4 @@
-import React, { PropTypes, Children, cloneElement} from 'react'
+import React, {PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import MediaQuery from 'react-responsive'
 import styles from './Danger.css'
@@ -50,10 +50,10 @@ function Row(props) {
     )
 }
 
-function ColumnHeader({date, span = 2}) {
+function ColumnHeader({date, colSpan = 2}) {
     return (
         <tr>
-            <th scope='column' colSpan={span} styleName='ColumnHeader'>
+            <th scope='column' colSpan={colSpan} styleName='ColumnHeader'>
                 <DayElement value={date} />
             </th>
         </tr>

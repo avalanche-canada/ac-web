@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Page, Banner, Main, Article, Header, BannerForm} from 'components/page'
-import {Select, Dropdown, Option, Input} from 'components/controls'
+import {Select, DropdownFromOptions, Input} from 'components/controls'
 import {Control} from 'components/form'
 import {Place, Calendar} from 'components/icons'
 import {Container, PillSet, Pill} from 'components/pill'
@@ -9,8 +9,10 @@ import {Link} from 'react-router'
 export const COURSES = 'courses'
 export const PROVIDERS = 'providers'
 
+const TYPES = [COURSES, PROVIDERS]
+
 Ast.propTypes = {
-    type: PropTypes.oneOf([COURSES, PROVIDERS]).isRequired,
+    type: PropTypes.oneOf(TYPES).isRequired,
 }
 
 const TITLES = new Map([
@@ -20,6 +22,13 @@ const TITLES = new Map([
 const LEGENDS = new Map([
     [COURSES, 'Find a course'],
     [PROVIDERS, 'Find a provider'],
+])
+
+const typeOptions = new Map([
+    ['ski', 'Ski'],
+    ['sled', 'Sled'],
+    ['youth', 'Youth'],
+    ['companion-rescue', 'Companion rescue'],
 ])
 
 export default function Ast({type = COURSES, children}) {
@@ -38,23 +47,13 @@ export default function Ast({type = COURSES, children}) {
                 </Container>
                 <BannerForm legend={LEGENDS.get(type)}>
                     <Control>
-                        <Dropdown onChange={::console.log} placeholder='Type' >
-                            <Option value='ski'>Ski</Option>
-                            <Option value='sled'>Sled</Option>
-                            <Option value='youth'>Youth</Option>
-                            <Option value='companion-rescue'>Companion rescue</Option>
-                        </Dropdown>
+                        <DropdownFromOptions onChange={::console.log} placeholder='Type' options={typeOptions} />
                     </Control>
                     <Control icon={<Calendar />}>
                         <Input placeholder='Start date' />
                     </Control>
                     <Control>
-                        <Dropdown onChange={::console.log} placeholder='Filter by' >
-                            <Option value='ski'>Ski</Option>
-                            <Option value='sled'>Sled</Option>
-                            <Option value='youth'>Youth</Option>
-                            <Option value='companion-rescue'>Companion rescue</Option>
-                        </Dropdown>
+                        <DropdownFromOptions onChange={::console.log} placeholder='Filter by' options={typeOptions} />
                     </Control>
                     <Control icon={<Place />}>
                         <Input placeholder='Location' />

@@ -1,6 +1,6 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import {List, Term, Element} from 'components/description'
+import {List, Term, Definition} from 'components/description'
 import Table from './Table'
 import TBody, { Controlled as ControlledTBody} from './TBody'
 import Row from './Row'
@@ -11,15 +11,15 @@ import HeaderCell, {ASC, DESC, NONE} from './HeaderCell'
 const description = (
     <List columns={2} horizontal>
         <Term>Telephone</Term>
-        <Element>(250) 123-4567</Element>
+        <Definition>(250) 123-4567</Definition>
         <Term>Email</Term>
-        <Element>info@avalanche.ca</Element>
+        <Definition>info@avalanche.ca</Definition>
         <Term>Website</Term>
-        <Element>avalanche.ca</Element>
+        <Definition>avalanche.ca</Definition>
         <Term>Location</Term>
-        <Element>Revelstoke</Element>
+        <Definition>Revelstoke</Definition>
         <Term>Contact</Term>
-        <Element>Gilles Valade</Element>
+        <Definition>Gilles Valade</Definition>
     </List>
 )
 const onSortingChange = action('onSortingChange')
