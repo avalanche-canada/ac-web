@@ -1,0 +1,40 @@
+@import "../../../styles/colors.css";
+
+.Table {
+    margin: auto;
+    border-collapse: collapse;
+    &, & td {
+        border: 2px solid var(--gray-lighter);
+        padding: 5px 10px;
+    }
+
+    & tr > td:first-child {
+        text-align: right;
+    }
+
+    & tr > td:not(:first-child) {
+        text-align: center;
+    }
+
+    & tbody {
+        & tr:first-child td {
+            border-top-width: 4px;
+        }
+    }
+
+    & thead {
+        & td {
+            font-weight: 700;
+        }
+    }
+}
+
+.Yes {
+    color: green;
+}
+.No {
+    color: red;
+}
+.NotAvailable {
+    /*color: var(--gray-darker);*/
+}

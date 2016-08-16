@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import {Page, Header, Main} from 'components/page'
 import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
-import forecast from './connectors/forecast';
+import {forecast} from './connectors'
 
 Container.propTypes = {
     type: PropTypes.string,

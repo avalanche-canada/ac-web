@@ -36,7 +36,7 @@ export const loadHotZoneAreas = createApiAction(
     HOT_ZONE_AREAS_REQUEST, HOT_ZONE_AREAS_SUCCESS, HOT_ZONE_AREAS_FAILURE
 )
 
-export const loadHotZoneReports = createApiAction(
+export const loadHotZoneReport = createApiAction(
     Schemas.HotZoneReport,
     HOT_ZONE_REPORT_REQUEST, HOT_ZONE_REPORT_SUCCESS, HOT_ZONE_REPORT_FAILURE
 )

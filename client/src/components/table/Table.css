@@ -69,7 +69,7 @@
     &:after {
         content: '';
         display: block;
-        height: 25px;
+        /*height: 25px;*/
     }
 }
 

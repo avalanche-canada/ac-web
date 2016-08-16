@@ -41,6 +41,7 @@ const EMPTY_LIST = new List()
 const RESULT = {
     isFetching: false,
     isLoaded: false,
+    isError: false,
     ids: new Set(),
 }
 
@@ -52,12 +53,14 @@ function resultsReducerFactory(schema, request, success, failure) {
                     ...state,
                     isFetching: true,
                     isLoaded: false,
+                    isError: false,
                 }
             case success:
                 return {
                     ...state,
                     isFetching: false,
                     isLoaded: true,
+                    isError: false,
                     ids: new Set([...state.ids, ...toArray(payload.result)]),
                 }
             case failure:
@@ -65,6 +68,7 @@ function resultsReducerFactory(schema, request, success, failure) {
                     ...state,
                     isFetching: false,
                     isLoaded: false,
+                    isError: true,
                 }
             default:
                 return state
@@ -122,7 +126,7 @@ export default combineReducers({
     ),
 })
 
-// TODO: More to getters file
+// TODO: Move to getters file
 export function getMountainInformationNetworkObservationsForDays(state, days) {
     const results = getResultsSetForSchema(MountainInformationNetworkObservation)
 

@@ -4,5 +4,6 @@ export Top from './Top'
 export Print from './Print'
 export Expand from './Expand'
 export Sorting from './Sorting'
+export PlayPause from './PlayPause'
 
 export * from './kinds'

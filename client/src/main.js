@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
-import {computeRouter} from './router'
-import {configure} from './store'
+import {computeRouter} from 'router'
+import {configure} from 'store'
 import ElementQueries from 'css-element-queries/src/ElementQueries'
 
 // TODO: Need to put these imports in a better spot

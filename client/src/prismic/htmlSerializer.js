@@ -9,6 +9,7 @@ function isModifiedEvent(event) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
+// SHAME: Well, adding something to global is bad. It is working for now.
 window.onPrismicHyperlinkClick = function onPrismicHyperlinkClick(element) {
     const {event} = window
 
@@ -23,36 +24,33 @@ window.onPrismicHyperlinkClick = function onPrismicHyperlinkClick(element) {
     history.push(element.getAttribute('data-path'))
 }
 
-function appAnchor({href, title = content, content}) {
+function appAnchor({href, content, title = `Visit: "${content}"`}) {
     return `<a href="${href}" data-path="${href}" title="${title}" onclick="onPrismicHyperlinkClick(this);">${content}</a>`
 }
 
 export default function htmlSerializer({type, ...props}, content) {
     switch (type) {
         case 'hyperlink': {
-            const {url: href, data: {type: linkType}} = props
+            const {url: href, data: {value, type: linkType}} = props
 
-            if (linkType === 'Link.document') {
-                return appAnchor({
-                    href,
-                    content,
-                })
-            }
-
-            if (linkType === 'Link.web') {
-                const {host, path} = Url.parse(href)
-
-                if (host.includes('avalanche.ca')) {
+            switch (linkType) {
+                case 'Link.document':
                     return appAnchor({
-                        href: path,
+                        href: href || `/pages/${value.document.uid}`,
                         content,
                     })
-                } else {
-                    return null
-                }
+                case 'Link.web':
+                    const {host, path, protocol} = Url.parse(href)
+
+                    if ((protocol === 'http:' || protocol === 'https:') && host.includes('avalanche.ca')) {
+                        return appAnchor({
+                            href: path,
+                            content,
+                        })
+                    }
             }
         }
-        default:
-            return null
     }
+
+    return null
 }

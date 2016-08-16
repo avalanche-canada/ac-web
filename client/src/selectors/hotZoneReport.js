@@ -1,15 +1,9 @@
 import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
-import moment from 'moment'
+import {getResultsSetForSchema} from 'reducers/api/getters'
 
-function transform(area) {
-    return {
-        ...area,
-    }
-}
-
-function getName(state, {params}) {
+function getName(state, params) {
     return params.name
 }
 
@@ -21,22 +15,34 @@ function getHotZoneReport(state, {params}) {
     return getEntityForSchema(state, HotZoneReport, params.name)
 }
 
+function getHotZoneReportResultsSet(state, {params}) {
+    return getResultsSetForSchema(state, HotZoneReport).null || {}
+
+}
+
 export default createSelector(
+    getName,
     getHotZoneArea,
     getHotZoneReport,
-    (area, report) => {
+    getHotZoneReportResultsSet,
+    (name, area, report, {isFetching, isError}) => {
         if (report) {
-            report = transform(report.toJSON())
+            report = report.toJSON()
 
             return {
-                isLoading: false,
+                isLoading: isFetching,
+                isError,
                 title: report.title,
                 report,
+                link: `/hot-zone-reports/${name}`,
             }
         } else {
+            const name = area && area.getIn(['properties', 'name'])
+
             return {
-                isLoading: true,
-                title: area && area.getIn(['properties', 'name']),
+                isLoading: isFetching,
+                isError,
+                title: isFetching ? name : name && `${name} report is not available`,
             }
         }
     }

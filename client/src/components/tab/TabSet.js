@@ -91,6 +91,7 @@ export default class TabSet extends Component {
         this.opened = !this.opened
     }
 	renderTabHeader(tab, index) {
+        const {theme, arrow} = this.props
         const {title, color, disabled, onClick} = tab.props
         const handleClick = event => this.activeIndex = index
         const header = {
@@ -98,7 +99,7 @@ export default class TabSet extends Component {
             expanded: this.opened,
             onClick: disabled ? K : onClick || handleClick,
             onExpandClick: this.handleExpandClick,
-            arrow: this.props.arrow,
+            arrow: theme === LOOSE ? true : arrow,
             color,
             disabled,
         }

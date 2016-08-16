@@ -154,13 +154,18 @@ export const AvalancheCanada = {
         noWrap: true,
         children: [{
             id: '57daed96-1871-11e6-b6ba-3e1d05defe78',
-            label: 'About',
+            label: 'About Us',
             header: true,
             to: '/about',
             children: [{
                 id: '57daee86-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Vison',
-                to: '/about#vison',
+                label: 'Vision',
+                to: '/about#vision',
+                children: []
+            }, {
+                id: '57daf5e8-1871-11e6-b6ba-3e1d05defe78',
+                label: 'Annual Reports',
+                to: '/about#annual-reports',
                 children: []
             }, {
                 id: '57daef80-1871-11e6-b6ba-3e1d05defe78',
@@ -176,11 +181,6 @@ export const AvalancheCanada = {
                 id: '57daf4da-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Awards',
                 to: '/about#awards',
-                children: []
-            }, {
-                id: '57daf5e8-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Foundation',
-                to: '/foundation',
                 children: []
             }]
         }, {

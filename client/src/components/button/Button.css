@@ -8,6 +8,7 @@
 	color: white;
 	border: none;
     cursor: pointer;
+    min-height: 30px;
 
     @media print {
         display: none;
@@ -39,6 +40,20 @@
 
     &:active, &.Active {
         background-color: var(--component-secondary-bg-active);
+	}
+}
+
+.Tertiary {
+	composes: Common;
+
+    background-color: var(--component-tertiary-bg);
+
+    &:hover {
+        background-color: var(--component-tertiary-bg-hover);
+	}
+
+    &:active, &.Active {
+        background-color: var(--component-tertiary-bg-active);
 	}
 }
 

@@ -26,7 +26,7 @@ const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
     [Forecast, params => `forecasts/${params.name}.json`],
     [HotZoneArea, params => `forecasts`],
-    [HotZoneReport, params => `not-a-valid-url`],
+    [HotZoneReport, params => `hzr/submissions?client=web`],
     [MountainInformationNetworkObservation, params => `min/observations?client=web&last=${params.days}:days`],
 ])
 

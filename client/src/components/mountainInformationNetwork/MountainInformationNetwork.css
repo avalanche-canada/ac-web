@@ -17,6 +17,7 @@
 
 .Section--Title {
     color: var(--primary);
+    /*font-size: 0.75em;*/
     text-transform: uppercase;
     padding-bottom: 0.75em;
     margin: 1em 0;

@@ -17,6 +17,7 @@ export default compose(
             position: 'fixed',
             top: 100,
             left: 15,
+            backgroundColor: 'white',
         }
     }),
     withHandlers({

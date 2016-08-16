@@ -68,6 +68,8 @@ module.exports = {
             prismic: 'prismic',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',
+            router: 'router',
+            store: 'store',
             middleware: 'middleware',
             api: 'api',
             selectors: 'selectors',

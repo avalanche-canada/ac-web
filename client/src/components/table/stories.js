@@ -6,7 +6,7 @@ import TBody, { Controlled as ControlledTBody} from './TBody'
 import Row from './Row'
 import Cell from './Cell'
 import Header from './Header'
-import HeaderCell, { ASC, DESC, NONE} from './HeaderCell'
+import HeaderCell, {ASC, DESC, NONE} from './HeaderCell'
 
 const description = (
     <List columns={2} horizontal>

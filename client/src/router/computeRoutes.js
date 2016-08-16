@@ -1,6 +1,7 @@
 import React from 'react'
-import {Route, IndexRoute, IndexRedirect} from 'react-router'
+import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
 import {loadForType, loadForBookmark} from 'actions/prismic'
+import {turnOnLayer} from 'actions/drawers'
 import * as DRAWERS from 'containers/drawers';
 import {
     Root,
@@ -32,10 +33,12 @@ import {
     Sled,
     Auction,
     Youth,
+    PrismicPage,
 } from 'containers'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
+import * as LAYERS from 'constants/map/layers'
 
 export default function computeRoutes(store) {
     const {dispatch} = store
@@ -66,15 +69,23 @@ export default function computeRoutes(store) {
         replace({...location, query})
     }
 
+    function handleHotZoneReportRouteEnter() {
+        dispatch(turnOnLayer(LAYERS.HOT_ZONE_REPORTS))
+    }
+
+    function handleForecastRouteEnter() {
+        dispatch(turnOnLayer(LAYERS.FORECASTS))
+    }
+
     return (
         <Route path='/' component={Root} onEnter={handleRootRouteEntered} >
             {/*AVALANCHE CANADA*/}
             <IndexRedirect to='map' />
             <Route path='map' components={{content: Map, footer: null}}>
-                <Route path='forecasts'>
+                <Route path='forecasts' onEnter={handleForecastRouteEnter} >
                     <Route path=':name' components={{primary: DRAWERS.Forecast}} />
                 </Route>
-                <Route path='hot-zone-reports'>
+                <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
                     <Route path=':name' components={{primary: DRAWERS.HotZoneReport}} />
                 </Route>
             </Route>
@@ -115,14 +126,21 @@ export default function computeRoutes(store) {
             <Route path='auction' component={Auction} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
-            {/*AUTHENTIFICATION*/}
+            <Route path='pages/:uid' component={PrismicPage} />
+            {/* REDIRECTS */}
+            <Redirect from='min' to='mountain-information-network' />
+            <Redirect from='min/submit' to='mountain-information-network/submit' />
+            <Redirect from='min/faq' to='mountain-information-network/faq' />
+            <Redirect from='min/submission-guidelines' to='mountain-information-network/submission-guidelines' />
+            <Redirect from='min/submissions/:id' to='mountain-information-network/submissions/:id' />
+            {/* AUTHENTIFICATION */}
             <Route path='login' onEnter={::console.log} onLeave={::console.log} />
             <Route path='logout' onEnter={::console.log} onLeave={::console.log} />
-            {/*AVALANCHE CANADA FOUNDATION*/}
+            {/* AVALANCHE CANADA FOUNDATION */}
             <Route path='foundation' components={{navbar: AvalancheCanadaFoundation, content: About}}>
-                {/*MORE FOUNDATION PAGES*/}
+                {/* MORE FOUNDATION PAGES */}
             </Route>
-            {/*FALLBACK*/}
+            {/* FALLBACK */}
             <Route path='*' component={NotFound} />
         </Route>
     )

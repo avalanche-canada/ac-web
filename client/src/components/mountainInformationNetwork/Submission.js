@@ -27,29 +27,29 @@ Submission.propTypes = {
     active: PropTypes.oneOf(TYPES),
 }
 
-function observationsReducer(observations, {obtype, ob}) {
+function reducer(observations, {obtype, ob}) {
     return observations.set(obtype, ob)
 }
 
 function Submission({observations = [], active = QUICK}) {
-    const observationsByType = observations.reduce(observationsReducer, new Map())
+    const observationsByType = observations.reduce(reducer, new Map())
     const activeIndex = TYPES.indexOf(active)
 
     return (
         <TabSet activeIndex={activeIndex} arrow>
             {TYPES.map(type => {
-                const observation = observationsByType.get(type)
+                const disabled = !observationsByType.has(type)
                 const tab = {
-                    key: type, 
+                    key: type,
                     title: Titles.get(type),
                     color: Colors.get(type),
-                    disabled: !observationsByType.has(type),
+                    disabled,
                 }
 
                 return (
                     <Tab {...tab}>
-                        {tab.disabled ||
-                            <Observation type={type} observation={observation} />
+                        {disabled ||
+                            <Observation type={type} observation={observationsByType.get(type)} />
                         }
                     </Tab>
                 )

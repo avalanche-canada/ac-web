@@ -1,6 +1,7 @@
 import {PropTypes} from 'react'
-import {compose, renameProp, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import Content from './Content'
+import {asTermAndDefinition} from 'components/description/utils'
 
 const {object, number, string} = PropTypes
 
@@ -25,10 +26,25 @@ export default compose(
         tempLatlng: string,
         snowpackObsComment: string,
     }),
-    renameProp('snowpackObsComment', 'comment'),
-    mapProps(props => {
-        delete props.tempLatlng
-
-        return props
-    })
+    renameProps({
+        snowpackObsType: 'Is this a point observation or a summary of your day?',
+        snowpackSiteElevation: 'Elevation',
+        snowpackSiteElevationBand: 'Elevation band',
+        snowpackSiteAspect: 'Aspect',
+        snowpackDepth: 'Snowpack depth (cm)',
+        snowpackWhumpfingObserved: 'Did you observe whumpfing?',
+        snowpackCrackingObserved: 'Did you observe cracking?',
+        snowpackSurfaceCondition: 'Surface condition',
+        snowpackFootPenetration: 'Foot penetration (cm)',
+        snowpackSkiPenetration: 'Ski penetration (cm)',
+        snowpackSledPenetration: 'Sled penetration (cm)',
+        snowpackTestInitiation: 'Snowpack test result',
+        snowpackTestFracture: 'Snowpack test fracture character',
+        snowpackTestFailure: 'Snowpack test failure depth',
+        snowpackTestFailureLayerCrystalType: 'Snowpack test failure layer crystal type',
+    }),
+    mapProps(({snowpackObsComment, tempLatlng, ...values}) => ({
+        comment: snowpackObsComment,
+        descriptions: asTermAndDefinition(values),
+    }))
 )(Content)

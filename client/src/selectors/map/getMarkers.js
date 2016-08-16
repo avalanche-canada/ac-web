@@ -59,8 +59,7 @@ function createForecastRegionMarker(region) {
         }),
         lnglat: createLngLat(region),
         options: {
-            // Option available in next mapbox-gl-js release
-            offset: [-25, 25]
+            offset: [-25, -25]
         },
     }
 }
@@ -80,8 +79,7 @@ function createHotZoneAreaMarker(area) {
         }),
         lnglat: createLngLat(area),
         options: {
-            // Available in next release
-            offset: [-25, 25]
+            offset: [-25, -25]
         },
     }
 }
@@ -130,8 +128,7 @@ function createMountainInformationNetworkObservationMarker({properties, geometry
         }),
         lnglat: LngLat.convert(geometry.coordinates),
         options: {
-            // Available in next release
-            offset: [-25, 25]
+            offset: [-25, -25]
         },
     }
 }

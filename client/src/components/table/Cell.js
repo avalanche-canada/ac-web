@@ -4,13 +4,12 @@ import styles from './Table.css'
 
 Cell.propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
-    span: PropTypes.number,
     style: PropTypes.object,
 }
 
-function Cell({span, style, children}) {
+function Cell({style, children, ...props}) {
     return (
-        <td style={style} styleName='Cell' colSpan={span}>
+        <td style={style} styleName='Cell' {...props}>
             {children}
         </td>
     )

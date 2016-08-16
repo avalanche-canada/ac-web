@@ -1,6 +1,12 @@
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
-import {MENU_OPENED, MENU_CLOSED, LAYER_TOGGLED,FILTER_CHANGED} from 'actions/drawers'
+import {
+    MENU_OPENED,
+    MENU_CLOSED,
+    LAYER_TOGGLED,
+    FILTER_CHANGED,
+    LAYER_TURNED_ON,
+} from 'actions/drawers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
@@ -18,7 +24,9 @@ function setOpen(state, open) {
     }
 }
 
-function toggleLayer({layers, ...rest}, name) {
+function toggleLayer(state, name) {
+    const {layers} = state
+
     if (layers.has(name)) {
         layers.delete(name)
     } else {
@@ -26,7 +34,22 @@ function toggleLayer({layers, ...rest}, name) {
     }
 
     return {
-        ...rest,
+        ...state,
+        layers: new Set([...layers]),
+    }
+}
+
+function turnOnLayer(state, name) {
+    const {layers} = state
+
+    if (layers.has(name)) {
+        return state
+    }
+
+    layers.add(name)
+
+    return {
+        ...state,
         layers: new Set([...layers]),
     }
 }
@@ -94,6 +117,7 @@ export default combineReducers({
         [MENU_OPENED]: state => setOpen(state, true),
         [MENU_CLOSED]: state => setOpen(state, false),
         [LAYER_TOGGLED]: (state, {payload}) => toggleLayer(state, payload),
+        [LAYER_TURNED_ON]: (state, {payload}) => turnOnLayer(state, payload),
         [FILTER_CHANGED]: (state, {payload}) => changeFilter(state, payload),
     }, MENU),
 })

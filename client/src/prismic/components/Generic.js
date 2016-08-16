@@ -1,42 +1,32 @@
-import React, {Component, PropTypes, createElement} from 'react'
-import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps} from 'recompose'
+import React, {Component, PropTypes} from 'react'
+import {compose, lifecycle, mapProps, flattenProp, branch, renderComponent, setDisplayName, setPropTypes, renameProp} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForBookmark} from 'actions/prismic'
-import {Loading} from 'components/page'
+import {Loading, InnerHTML} from 'components/misc'
 import factory from 'prismic/types/factory'
 import {getDocumentForBookmark} from 'reducers/prismic'
-import {classify} from 'utils/string'
 
 const mapStateToProps = createSelector(
     (state, {bookmark}) => getDocumentForBookmark(state, bookmark),
-    (state, {message, title}) => ({message, title}),
-    (document, props) => {
-        if (document) {
+    document => {
+        if (!document) {
             return {
-                ...props,
-                isLoading: false,
-                props: {...factory.getType(document)},
-                component: require(`./${classify(document.type)}`).default
+                isLoading: true
             }
         }
 
         return {
-            ...props,
-            isLoading: true
+            isLoading: false,
+            props: {...factory.getType(document)},
         }
     }
 )
 
-function Page({component, props}) {
-    return createElement(component, props)
-}
-
-const Prismic = compose(
-    setDisplayName('Page'),
+export default compose(
+    setDisplayName('Generic'),
     setPropTypes({
         bookmark: PropTypes.string.isRequired,
-        title: PropTypes.string,
         message: PropTypes.string,
     }),
     connect(mapStateToProps, {
@@ -51,14 +41,10 @@ const Prismic = compose(
     }),
     branch(
         props => props.isLoading,
-        renderComponent(Loading),
+        renderComponent(renameProp('message', 'children')(Loading)),
         // TODO: Remove with recompose newest release. Thrid argument default to identity
         Component => Component,
     ),
-)(Page)
-
-export default Prismic
-
-export function withPrismic(props) {
-    return withProps(props)(Prismic)
-}
+    flattenProp('props'),
+    renameProp('body', 'children'),
+)(InnerHTML)

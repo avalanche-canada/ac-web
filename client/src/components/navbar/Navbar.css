@@ -217,5 +217,6 @@
 
     &:hover {
         background-color: color(var(--brand-secondary) blackness(15%));
+        color: white;
     }
 }

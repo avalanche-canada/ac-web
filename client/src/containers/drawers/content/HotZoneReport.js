@@ -1,43 +1,24 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import {Link} from 'react-router'
 import {Header, Content, Body} from 'components/page/drawer'
-import Forecast, {Metadata} from 'components/forecast'
-import {compose, lifecycle} from 'recompose'
-import getHotZoneReport from 'selectors/hotZoneReport'
-import {loadHotZoneReport} from 'actions/entities'
-import {Muted} from 'components/misc'
+import {Loading, Error} from 'components/misc'
+import {hotZoneReport} from 'containers/connectors'
+import HotZoneReport, {Metadata} from 'components/hotZoneReport'
 
-function Container({isLoading, report, params, title = 'Loading...'}) {
+function Container({isLoading, report, params, title = 'Loading...', isError, link}) {
     return (
         <Content>
             <Header subject='Hot Zone Report'>
-                <h1>{title}</h1>
+                <h1>{link ? <Link {...link}>{title}</Link> : title}</h1>
                 {report && <Metadata {...report} />}
             </Header>
             <Body>
-                {isLoading ?
-                    <Muted>
-                        Loading hot zone report...
-                    </Muted> :
-                    <Muted>
-                        Ready for {params.name}!!!
-                    </Muted>
-                }
+                {isLoading && <Loading>Loading hot zone report...</Loading>}
+                {isError && <Error>An error happened!!!</Error>}
+                <HotZoneReport report={report} />
             </Body>
         </Content>
     )
 }
 
-export default compose(
-    connect(getHotZoneReport, {loadHotZoneReport}),
-    lifecycle({
-        componentDidMount() {
-            const {loadHotZoneReport, params} = this.props
-
-            loadHotZoneReport(params)
-        },
-        componentWillReceiveProps({params}) {
-            this.props.loadHotZoneReport(params)
-        },
-    })
-)(Container)
+export default hotZoneReport(Container)

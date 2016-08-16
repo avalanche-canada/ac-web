@@ -15,6 +15,10 @@ h1, h2, h3, h4, h5, h6 {
     & > a {
         color: inherit;
 
+        &:hover {
+            color: var(--primary);
+        }
+
         &:after {
             content: ' \203A';
             color: var(--primary);
@@ -30,6 +34,16 @@ a {
 
 img {
     max-width: 100%;
+}
+
+ul:not([class]) {
+    list-style: none;
+
+    & > li:before {
+        content: "•";
+        padding-right: 7px;
+        color: var(--primary);
+    }
 }
 
 @media print {

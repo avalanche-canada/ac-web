@@ -1,0 +1,23 @@
+
+
+.Container {
+    position: relative;
+    line-height: 0;
+
+    & iframe {
+        border: none;
+        min-width: 100%;
+
+        & .controls {
+            display: none !important;
+        }
+    }
+}
+
+.Player {
+
+}
+
+.Controls {
+    position: absolute auto auto 0 0;
+}

@@ -1,9 +1,9 @@
 import {DOM} from 'react'
 import {Element} from 'compose'
-import styles from './Table.css'
+import styles from './Media.css'
 
 export default Element({
-    component: DOM.table,
-    name: 'Table',
+    name: 'Caption',
+    component: DOM.figcaption,
     styles,
-});
+})

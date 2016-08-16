@@ -1,19 +1,19 @@
 import React, {PropTypes} from 'react'
 import Section from './Section'
 import Comment from './Comment'
-import {asTermAndDefinition} from './utils'
-import {List, Term, Definition} from 'components/description'
+import {List} from 'components/description'
 
 Content.propTypes = {
     comment: PropTypes.string.isRequired,
+    descriptions: PropTypes.arrayOf(PropTypes.element).isRequired,
 }
 
-export default function Content({comment, ...values}) {
+export default function Content({comment, descriptions}) {
     return (
         <div>
             <Section title='Information'>
                 <List bordered>
-                    {asTermAndDefinition(values)}
+                    {descriptions}
                 </List>
             </Section>
             <Comment>

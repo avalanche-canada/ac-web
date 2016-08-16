@@ -39,7 +39,7 @@ function Container({
 
     return (
         <div>
-            <Map {...props} >
+            <Map {...props}>
                 {sources.map(source => (
                     <Source key={source.id} {...source} />
                 ))}
