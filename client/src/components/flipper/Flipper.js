@@ -6,7 +6,7 @@ Flipper.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element)
 }
 
-function Flipper({ children }) {
+function Flipper({children}) {
     return (
         <div styleName='Container'>
             {children}

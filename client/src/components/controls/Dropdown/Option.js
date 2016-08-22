@@ -11,9 +11,13 @@ Option.propTypes = {
     onClick: PropTypes.func,
 }
 
-function Option({onClick = K, active = false, children}) {
+function Option({value, onClick = K, active = false, children}) {
+    function handleClick(event) {
+        onClick(value)
+    }
+
     return (
-        <div styleName={active ? 'Option--Active' : 'Option'} onClick={onClick}>
+        <div styleName={active ? 'Option--Active' : 'Option'} onClick={handleClick}>
             {children}
         </div>
     )

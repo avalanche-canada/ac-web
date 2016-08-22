@@ -10,8 +10,6 @@ import {TransitionMotion, spring, presets} from 'react-motion'
 
 const preset = presets.noWobble
 
-function K() {}
-
 // Motion logic
 function willEnter() {
     return {

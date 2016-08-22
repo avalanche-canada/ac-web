@@ -6,7 +6,7 @@ Entry.propTypes = {
     children: PropTypes.element.isRequired,
 }
 
-function Entry({ children }) {
+function Entry({children}) {
     return (
         <div styleName='Entry'>
             {children}

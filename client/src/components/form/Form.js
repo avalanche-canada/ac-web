@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Form.css'
 
+// TODO: Use Element from compose
+
 Form.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }

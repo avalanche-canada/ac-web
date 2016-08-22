@@ -62,7 +62,7 @@ export const Left = segment(LEFT)
 export const Right = segment(RIGHT)
 export const Center = CSSModules(Middle, styles)
 
-function Middle({ children }) {
+function Middle({children}) {
     return (
         <div styleName='Center'>
             {children}

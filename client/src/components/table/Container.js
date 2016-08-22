@@ -7,7 +7,7 @@ Container.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Container({ children }) {
+function Container({children}) {
     return (
         <div>
             <Table>

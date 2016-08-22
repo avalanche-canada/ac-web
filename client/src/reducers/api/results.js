@@ -14,6 +14,9 @@ import {
     HOT_ZONE_REPORT_REQUEST,
     HOT_ZONE_REPORT_SUCCESS,
     HOT_ZONE_REPORT_FAILURE,
+    INCIDENTS_REQUEST,
+    INCIDENTS_SUCCESS,
+    INCIDENTS_FAILURE,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
@@ -28,6 +31,7 @@ const {
     Forecast,
     HotZoneArea,
     HotZoneReport,
+    Incident,
 } = SCHEMAS
 
 const {isArray} = Array
@@ -123,6 +127,12 @@ export default combineReducers({
         HOT_ZONE_REPORT_REQUEST,
         HOT_ZONE_REPORT_SUCCESS,
         HOT_ZONE_REPORT_FAILURE,
+    ),
+    [Incident.getKey()]: resultsReducerFactory(
+        Incident,
+        INCIDENTS_REQUEST,
+        INCIDENTS_SUCCESS,
+        INCIDENTS_FAILURE,
     ),
 })
 

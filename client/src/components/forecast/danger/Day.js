@@ -8,6 +8,8 @@ import {asMap, asValues} from 'constants/utils'
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
 
+// TODO: Better code organization.
+
 const ELEVATION_TEXTS = asMap(ELEVATIONS.VALUES, ELEVATIONS.TEXTS)
 const ELEVATION_PALETTE = asMap(ELEVATIONS.VALUES, ELEVATIONS.PALETTE)
 const RATING_TEXTS = asMap(RATINGS.VALUES, RATINGS.TEXTS)

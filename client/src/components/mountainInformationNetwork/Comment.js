@@ -8,7 +8,7 @@ export default compose(
     }),
     branch(
         props => !props.children,
-        renderNothing(),
+        renderNothing,
         Component => Component,
     ),
 )(Section)

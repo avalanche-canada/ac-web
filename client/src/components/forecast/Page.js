@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import Metadata from './Metadata'
 import Forecast from './Forecast'
-import {Article, Header, Section} from 'components/page'
+import {Article, Header} from 'components/page'
 
 Page.propTypes = {
     title: PropTypes.string,

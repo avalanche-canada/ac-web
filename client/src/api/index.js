@@ -10,6 +10,7 @@ const {
     Forecast,
     HotZoneReport,
     MountainInformationNetworkObservation,
+    Incident,
 } = SCHEMAS
 
 const CONFIGS = new Map([
@@ -28,6 +29,7 @@ const ENDPOINTS = new Map([
     [HotZoneArea, params => `forecasts`],
     [HotZoneReport, params => `hzr/submissions?client=web`],
     [MountainInformationNetworkObservation, params => `min/observations?client=web&last=${params.days}:days`],
+    [Incident, params => `incidents`],
 ])
 
 const api = Axios.create({

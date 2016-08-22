@@ -18,6 +18,9 @@ export NewsPost from './NewsPost'
 export BlogFeed from './BlogFeed'
 export BlogPost from './BlogPost'
 
+export Incidents from './Incidents'
+export TripPlanner from './TripPlanner'
+
 // Training
 export Ast from './Ast'
 
@@ -95,6 +98,7 @@ export const AvalancheRiskReductionProcedures = withPrismic({
     title: 'Avalanche Risk Reduction Procedures',
 })
 
+// Dynamic static page
 export const PrismicPage = compose(
     flattenProp('params'),
     // TODO: SHAME: Change that...

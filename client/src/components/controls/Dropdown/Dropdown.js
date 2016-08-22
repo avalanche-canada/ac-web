@@ -15,8 +15,9 @@ export default class Dropdown extends Component {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
         onChange: PropTypes.func.isRequired,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Set)]),
         placeholder: PropTypes.string,
+        multiple: PropTypes.bool,
     }
     static defaultProps = {
         onChange: K,
@@ -26,6 +27,16 @@ export default class Dropdown extends Component {
         open: false,
         label: null,
         active: 0,
+        value: new Set(),
+    }
+    constructor(props) {
+        super(props)
+
+        if (props.value instanceof Set) {
+            this.state.value = props.value
+        } else {
+            this.state.value = new Set([props.value])
+        }
     }
     get open() {
         return this.state.open
@@ -47,14 +58,15 @@ export default class Dropdown extends Component {
 
         this.setState({active})
     }
-    get value() {
-        const {value, children} = this.props
-        const options = Children.toArray(children)
-        const option = options.find(option => option.props.value === value)
+    get holder() {
+        const {value} = this.state
+        const children = Children.toArray(this.props.children)
+        const options = children.filter(option => value.has(option.props.value))
 
-        return option && option.props.children
+        return options.map(option => option.props.children).join(', ')
     }
     close(callback = K) {
+        // TODO: What? open = true to close the Dropdown.
         this.setState({
             open: true
         }, callback)
@@ -63,16 +75,6 @@ export default class Dropdown extends Component {
         const options = Children.toArray(this.props.children)
 
         return options[index].props.value
-    }
-    indexOf(value) {
-        if (!value) {
-            return 0
-        }
-
-        const options = Children.toArray(this.props.children)
-        const option = options.find(option => option.props.value === value)
-
-        return options.indexOf(option)
     }
     handleClick = event => {
         this.open = !this.open
@@ -128,27 +130,57 @@ export default class Dropdown extends Component {
             this.open = false
         }, 100)
     }
+    handleOptionClick = option => {
+        const {onChange, value} = this.props
+
+        if (value instanceof Set) {
+            if (value.has(option)) {
+                value.delete(option)
+            } else {
+                value.add(option)
+            }
+
+            option = new Set([...value])
+        } else if (option === value) {
+            option = null
+        }
+
+        this.close(() => onChange(option))
+    }
+    componentWillReceiveProps({value}) {
+        if (value === this.props.value) {
+            return
+        }
+
+        if (props.value instanceof Set) {
+            this.setState({value})
+        } else {
+            this.setState({
+                value: new Set([...props.value])
+            })
+        }
+    }
     render() {
         const {open, active} = this
-        let {children} = this.props
-        const {onChange, placeholder, value} = this.props
+        const {children} = this.props
+        const {value} = this.state
+        const {placeholder} = this.props
         const styleName = open ? 'Input--Open' : 'Input'
+        function cloneOption(option) {
+            return cloneElement(option, {
+                active: value.has(option.props.value),
+                onClick: this.handleOptionClick,
+            })
+        }
 
         return (
             <div styleName='Container' onClick={this.handleClick}>
                 <div styleName={styleName} tabIndex={0} onFocus={this.handleFocus} onBlur={this.handleBlur} >
-                    <Holder value={this.value} placeholder={placeholder} />
+                    <Holder value={this.holder} placeholder={placeholder} />
                 </div>
                 {open &&
                     <div styleName='OptionSet'>
-                        {Children.map(children, (option, index) => (
-                            cloneElement(option, {
-                                active: value === option.props.value,
-                                onClick: event => {
-                                    this.close(() => onChange(option.props.value))
-                                },
-                            })
-                        ))}
+                        {Children.map(children, cloneOption, this)}
                     </div>
                 }
             </div>

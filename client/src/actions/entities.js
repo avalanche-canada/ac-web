@@ -21,6 +21,10 @@ export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST = 'MOUNTAIN_INFOR
 export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS'
 export const MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE = 'MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE'
 
+export const INCIDENTS_REQUEST = 'INCIDENTS_REQUEST'
+export const INCIDENTS_SUCCESS = 'INCIDENTS_SUCCESS'
+export const INCIDENTS_FAILURE = 'INCIDENTS_FAILURE'
+
 export const loadForecastRegions = createApiAction(
     Schemas.ForecastRegion,
     FORECAST_REGIONS_REQUEST, FORECAST_REGIONS_SUCCESS, FORECAST_REGIONS_FAILURE
@@ -51,3 +55,11 @@ const loadMountainInformationNetworkObservations = createApiAction(
 export function loadMountainInformationNetworkObservationsForDays(days = 7) {
     return loadMountainInformationNetworkObservations({days})
 }
+
+
+export const loadIncidents = createApiAction(
+    Schemas.Incident,
+    INCIDENTS_REQUEST,
+    INCIDENTS_SUCCESS,
+    INCIDENTS_FAILURE,
+)

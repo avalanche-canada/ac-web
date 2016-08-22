@@ -32,7 +32,7 @@ export const AvalancheCanada = {
             id: '57d9d596-1871-11e6-b6ba-3e1d05defe78',
             label: 'Historic Incidents',
             header: true,
-            to: 'http://old.avalanche.ca/cac/library/incident-report-database/view'
+            to: '/incidents'
         }, {
             id: '57d9d9c4-1871-11e6-b6ba-3e1d05defe78',
             label: 'Mountain Weather Forecast',
@@ -42,7 +42,7 @@ export const AvalancheCanada = {
             id: '57d9dbc2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Trip Planner',
             header: true,
-            to: 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning'
+            to: '/trip-planner'
         }]
     }, {
         id: '57d9de74-1871-11e6-b6ba-3e1d05defe78',

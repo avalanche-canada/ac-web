@@ -34,6 +34,8 @@ import {
     Auction,
     Youth,
     PrismicPage,
+    TripPlanner,
+    Incidents,
 } from 'containers'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
@@ -126,6 +128,8 @@ export default function computeRoutes(store) {
             <Route path='auction' component={Auction} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
+            <Route path='trip-planner' component={TripPlanner} />
+            <Route path='incidents' component={Incidents} />
             <Route path='pages/:uid' component={PrismicPage} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />

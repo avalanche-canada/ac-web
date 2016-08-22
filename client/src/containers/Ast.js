@@ -1,6 +1,6 @@
 import React from 'react'
 import Ast from 'components/page/ast'
-import {List, Term, Element} from 'components/description'
+import {List, Term, Definition} from 'components/description'
 import {Table, Row, Cell, Header, ControlledTBody, HeaderCell, HeaderCellOrders} from 'components/table'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
@@ -24,15 +24,15 @@ function controlled() {
             <Cell>
                 <List columns={2} horizontal>
                     <Term>Telephone</Term>
-                    <Element>(250) 123-4567</Element>
+                    <Definition>(250) 123-4567</Definition>
                     <Term>Email</Term>
-                    <Element>info@avalanche.ca</Element>
+                    <Definition>info@avalanche.ca</Definition>
                     <Term>Website</Term>
-                    <Element>avalanche.ca</Element>
+                    <Definition>avalanche.ca</Definition>
                     <Term>Location</Term>
-                    <Element>Revelstoke</Element>
+                    <Definition>Revelstoke</Definition>
                     <Term>Contact</Term>
-                    <Element>Gilles Valade</Element>
+                    <Definition>Gilles Valade</Definition>
                 </List>
             </Cell>
         </Row>

@@ -8,7 +8,7 @@ Submit.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Submit({ children }) {
+function Submit({children}) {
     return (
         <Button type='submit' styleName='Submit'>
             {children} <ChevronRight inverse />

@@ -15,6 +15,8 @@ Ast.propTypes = {
     type: PropTypes.oneOf(TYPES).isRequired,
 }
 
+// TODO: Should split this into two Components, actually use recompose to create these. 
+
 const TITLES = new Map([
     [COURSES, 'All courses'],
     [PROVIDERS, 'All providers'],

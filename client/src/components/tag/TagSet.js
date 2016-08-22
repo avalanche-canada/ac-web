@@ -6,7 +6,7 @@ TagSet.propTypes = {
     children: PropTypes.array
 }
 
-function TagSet({ children }) {
+function TagSet({children}) {
     return (
         <ul styleName='Set'>
             {children}

@@ -1,2 +1,2 @@
 export Pagination from './Pagination'
-export { Left, Right, Center} from './Segment'
+export {Left, Right, Center} from './Segment'

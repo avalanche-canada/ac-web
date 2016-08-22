@@ -7,7 +7,7 @@ Comment.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Comment({ children }) {
+function Comment({children}) {
     return (
         <div styleName='Comment'>
             <InnerHTML>

@@ -25,6 +25,11 @@ const onClick = createSelector(
     getLocation,
     (layers, router, location) => dispatch => event => {
         const map = event.target
+
+        if (!map.loaded()) {
+            return
+        }
+
         const features = map.queryRenderedFeatures(event.point, {layers})
 
         if (features.length === 0) {
@@ -64,6 +69,11 @@ const onMousemove = createSelector(
     getIds,
     layers => event => {
         const map = event.target
+
+        if (!map.loaded()) {
+            return
+        }
+
         const canvas = map.getCanvas()
         const features = map.queryRenderedFeatures(event.point, {layers})
         const [feature] = features

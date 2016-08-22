@@ -7,7 +7,7 @@ Holder.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
-function Holder({ value, placeholder }) {
+function Holder({value, placeholder}) {
     return (
         <span styleName={value ? 'Valueholder' : 'Placeholder'}>
             {value || placeholder}

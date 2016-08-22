@@ -6,7 +6,7 @@ Select.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }
 
-function Select({ children }) {
+function Select({children}) {
     return (
         <select styleName='Select'>
             {children}

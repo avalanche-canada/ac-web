@@ -6,7 +6,7 @@ Headline.propTypes = {
     children: PropTypes.node.isRequired
 }
 
-function Headline({ children }) {
+function Headline({children}) {
     return (
         <p styleName='Headline'>
             {children}

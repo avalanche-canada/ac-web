@@ -8,7 +8,7 @@ Advice.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Advice({ children }) {
+function Advice({children}) {
     return (
         <div styleName='Advice'>
             <h3 styleName='SubHeader'>

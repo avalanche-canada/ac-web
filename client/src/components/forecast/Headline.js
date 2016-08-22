@@ -7,7 +7,7 @@ Headline.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Headline({ children }) {
+function Headline({children}) {
     return (
         <header styleName='Headline'>
             <InnerHTML>

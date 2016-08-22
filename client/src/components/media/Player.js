@@ -14,7 +14,7 @@ function Player({Player, media}) {
                 {Player}
             </div>
             <div styleName="Controls">
-                <PlayPause isPlaying={isPlaying} onClick={playPause} />
+                {/* <PlayPause isPlaying={isPlaying} onClick={playPause} /> */}
                 {/* <Fullscreen /> */}
             </div>
         </div>

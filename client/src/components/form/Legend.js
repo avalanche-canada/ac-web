@@ -6,7 +6,7 @@ Legend.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Legend({ children }) {
+function Legend({children}) {
     return (
         <legend styleName='Legend'>
             {children}
