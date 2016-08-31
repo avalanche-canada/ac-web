@@ -1,0 +1,17 @@
+
+
+.PHONEY: init build test
+
+
+init:
+	@echo "Init CI Build..."
+	npm install
+
+build:
+	@echo "Building..."
+	make build
+
+test:
+	@echo "Testing..."
+	@echo "Not really"
+
