@@ -1,0 +1,99 @@
+{
+   "dangerRatings" : [
+      {
+         "dangerRating" : {
+            "btl" : "2:Moderate",
+            "tln" : "2:Moderate",
+            "alp" : "3:Considerable"
+         },
+         "date" : "2016-02-03T00:00:00"
+      },
+      {
+         "dangerRating" : {
+            "tln" : "2:Moderate",
+            "alp" : "3:Considerable",
+            "btl" : "2:Moderate"
+         },
+         "date" : "2016-02-04T00:00:00"
+      },
+      {
+         "date" : "2016-02-05T00:00:00",
+         "dangerRating" : {
+            "btl" : "2:Moderate",
+            "tln" : "2:Moderate",
+            "alp" : "3:Considerable"
+         }
+      }
+   ],
+   "bulletinTitle" : "Avalanche Bulletin - Little Yoho",
+   "weatherForecast" : "<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">High cloud cover with very light to no precipitation through Thursday. The wind will pick up slightly from the west into the moderate range late on Wednesday.</span></p>",
+   "problems" : [
+      {
+         "travelAndTerrainAdvice" : "<ul class='ttalist'><li>Avoid steep lee and cross-loaded features</li><li>If triggered the wind slabs may step down to deeper layers resulting in large avalanches.</li></ul>",
+         "expectedSize" : {
+            "min" : "1.0",
+            "max" : "2.0"
+         },
+         "aspects" : [
+            "NE",
+            "E",
+            "SE",
+            "N"
+         ],
+         "icons" : {
+            "likelihood" : "http://www.avalanche.ca/assets/images/Likelihood/Likelihood-3_EN.png",
+            "expectedSize" : "http://www.avalanche.ca/assets/images/size/Size-10-20_EN.png",
+            "aspects" : "http://www.avalanche.ca/assets/images/Compass/compass-1-1-1-1-0-0-0-0_EN.png",
+            "elevations" : "http://www.avalanche.ca/assets/images/Elevation/Elevation-0-0-1_EN.png"
+         },
+         "likelihood" : "Possible",
+         "comment" : "<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">Soft slabs 30 to 50cm deep exist in alpine lee areas. Although these slabs are slowly becoming more difficult to trigger, human triggering is still possible. </span></p>",
+         "type" : "Wind Slabs",
+         "elevations" : [
+            "Alp"
+         ]
+      },
+      {
+         "travelAndTerrainAdvice" : "<ul class='ttalist'><li>Avoid open slopes and convex rolls where buried surface hoar may be preserved.</li><li>Use careful route-finding and stick to moderate slope angles with low consequences</li></ul>",
+         "aspects" : [
+            "N",
+            "NE",
+            "E",
+            "NW",
+            "W",
+            "SW",
+            "S",
+            "SE"
+         ],
+         "expectedSize" : {
+            "min" : "1.5",
+            "max" : "3.0"
+         },
+         "icons" : {
+            "likelihood" : "http://www.avalanche.ca/assets/images/Likelihood/Likelihood-3_EN.png",
+            "elevations" : "http://www.avalanche.ca/assets/images/Elevation/Elevation-1-1-1_EN.png",
+            "expectedSize" : "http://www.avalanche.ca/assets/images/size/Size-15-30_EN.png",
+            "aspects" : "http://www.avalanche.ca/assets/images/Compass/compass-1-1-1-1-1-1-1-1_EN.png"
+         },
+         "comment" : "<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">30-70 cm of snow overlies the Jan 6 layer of surface hoar and facets. Test results on this layer show it is still in the range of human triggering with potential for failures to step down into deeper layers and result in large avalanches.</span></p>",
+         "likelihood" : "Possible",
+         "type" : "Persistent Slabs",
+         "elevations" : [
+            "Tln",
+            "Btl",
+            "Alp"
+         ]
+      }
+   ],
+   "avalancheSummary" : "<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">Lots of evidence of the previous widespread natural avalanche cycle up to size 3 on all aspects with some large propagations around Mt. Field today. </span></p>",
+   "dateIssued" : "2016-02-03T00:00:00Z",
+   "region" : "little-yoho",
+   "parksUrl" : "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=2016-02-02",
+   "dangerMode" : "Regular season",
+   "highlights" : "!_!<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n.s_2823317B { font-family: 'Arial';font-style: Normal;font-weight: bold;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">By definition, treeline is rated as moderate. </span><span class=\"s_2823317B\">However, be very cautious with steep open slopes and glades at treeline. Human triggering is still possible in these locations.</span></p>",
+   "validUntil" : "2016-02-04T00:00:00Z",
+   "snowpackSummary" : "<style type=\"text/css\">\n.p_CC664AAA { margin: 0px 0px 12px 0px;text-align: left;text-indent: 0pt;padding: 0px 0px 0px 0px; } \n.s_AA239A9B { font-family: 'Arial';font-style: Normal;font-weight: normal;font-size: 13px;color: #000000; } \n</style><p class=\"p_CC664AAA\"><span class=\"s_AA239A9B\">Wind slabs in alpine and treeline areas. 40-70cm of snow sits over the Jan 6 surface hoar/facet layer and remains reactive to skier triggering. Test results today on the Jan 6 layer were in the hard range. Isolated whumphing on Mt. Field today, likely on the Jan 6 layer.</span></p>",
+   "id" : "PC-5_2016-02-03T0000_d52ce7be-0af3-44f0-8171-eaeffe2f03a7",
+   "name" : "Little Yoho",
+   "confidence" : "Moderate - "
+}

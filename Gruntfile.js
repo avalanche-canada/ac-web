@@ -437,9 +437,7 @@ module.exports = function (grunt) {
         'sass',
       ],
       debug: {
-        tasks: [
-          'nodemon',
-        ],
+        tasks: [ 'nodemon' ],
         options: {
           logConcurrentOutput: true
         }
