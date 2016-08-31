@@ -16,7 +16,7 @@ init:
 	npm install sass
 	bower install
 
-build: init
+build:
 	@echo "Building..."
 	grunt
 
