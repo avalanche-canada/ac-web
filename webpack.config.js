@@ -61,10 +61,12 @@ module.exports = {
         alias: {
             constants: 'constants',
             styles: 'styles',
+            assets: 'assets',
             components: 'components',
             compose: 'compose',
             containers: 'containers',
-            mapboxgl: 'mapboxgl',
+            layouts: 'layouts',
+            mapbox: 'mapbox',
             prismic: 'prismic',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',
@@ -89,8 +91,11 @@ module.exports = {
         contentBase: 'dist/public',
         historyApiFallback: true,
         // proxy: {
-        //     '/api*': {
-        //         target: 'http://localhost/api',
+        //     '/api/providers': {
+        //         target: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/providers',
+        //     },
+        //     '/api/courses': {
+        //         target: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/courses',
         //     },
         // }
     },

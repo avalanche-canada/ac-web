@@ -9,9 +9,11 @@ Holder.propTypes = {
 
 function Holder({value, placeholder}) {
     return (
-        <span styleName={value ? 'Valueholder' : 'Placeholder'}>
-            {value || placeholder}
-        </span>
+        <div styleName={value ? 'Valueholder' : 'Placeholder'}>
+            <div styleName='Holder--Content'>
+                {value || placeholder}
+            </div>
+        </div>
     )
 }
 

@@ -1,17 +1,12 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {Element} from 'compose'
+import {PropTypes, DOM} from 'react'
 import styles from './Controls.css'
 
-Select.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
-}
-
-function Select({children}) {
-    return (
-        <select styleName='Select'>
-            {children}
-        </select>
-    )
-}
-
-export default CSSModules(Select, styles)
+export default Element({
+    name: 'Select',
+    styles,
+    component: DOM.select,
+    propTypes: {
+        children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    },
+})

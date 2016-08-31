@@ -60,10 +60,12 @@ module.exports = {
         alias: {
             constants: 'constants',
             styles: 'styles',
+            assets: 'assets',
             components: 'components',
             compose: 'compose',
             containers: 'containers',
-            mapboxgl: 'mapboxgl',
+            layouts: 'layouts',
+            mapbox: 'mapbox',
             prismic: 'prismic',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',

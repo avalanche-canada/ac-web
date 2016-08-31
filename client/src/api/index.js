@@ -1,7 +1,8 @@
 import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
+import query from 'query-string'
 import {baseURL} from 'api/config.json'
-import {transformHotZoneAreas, transformForecastRegions} from './transformers'
+import * as transformers from './transformers'
 import Url from 'url'
 
 const {
@@ -11,15 +12,45 @@ const {
     HotZoneReport,
     MountainInformationNetworkObservation,
     Incident,
+    Provider,
+    Course,
 } = SCHEMAS
 
 const CONFIGS = new Map([
-    [ForecastRegion, {
-        transformResponse: defaults.transformResponse.concat(transformForecastRegions)
+    [ForecastRegion, params => ({
+        transformResponse: defaults.transformResponse.concat(transformers.transformForecastRegions),
+    })],
+    [HotZoneArea, params => ({
+        transformResponse: defaults.transformResponse.concat(transformers.transformHotZoneAreas),
+    })],
+    [Incident, ({slug, ...params}) => {
+        if (slug) {
+            return
+        }
+
+        return {
+            params
+        }
     }],
-    [HotZoneArea, {
-        transformResponse: defaults.transformResponse.concat(transformHotZoneAreas)
-    }]
+    [HotZoneReport, params => ({
+        params: {
+            client: 'web'
+        }
+    })],
+    [MountainInformationNetworkObservation, params => ({
+        params: {
+            client: 'web',
+            last: `${params.days}:days`,
+        }
+    })],
+    [Provider, params => ({
+        baseURL: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/',
+        transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
+    })],
+    [Course, params => ({
+        baseURL: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/',
+        transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
+    })],
 ])
 
 // TODO: Update endpoint for HotZoneArea when available
@@ -27,9 +58,11 @@ const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
     [Forecast, params => `forecasts/${params.name}.json`],
     [HotZoneArea, params => `forecasts`],
-    [HotZoneReport, params => `hzr/submissions?client=web`],
-    [MountainInformationNetworkObservation, params => `min/observations?client=web&last=${params.days}:days`],
-    [Incident, params => `incidents`],
+    [HotZoneReport, params => `hzr/submissions`],
+    [MountainInformationNetworkObservation, params => `min/observations`],
+    [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
+    [Provider, params => 'providers'],
+    [Course, params => 'courses'],
 ])
 
 const api = Axios.create({
@@ -37,8 +70,8 @@ const api = Axios.create({
 })
 
 export function fetch(schema, params) {
-    const config = CONFIGS.get(schema)
     const endpoint = ENDPOINTS.get(schema)(params)
+    const config = CONFIGS.has(schema) ? CONFIGS.get(schema)(params) : null
 
     return api.get(endpoint, config)
 }

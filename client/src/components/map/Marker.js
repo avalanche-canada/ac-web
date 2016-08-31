@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import mapboxgl from 'mapboxgl'
+import mapbox from 'mapbox/map'
 
-const {LngLat} = mapboxgl
+const {LngLat} = mapbox
 const {assign} = Object
 function createMarker({element, lnglat, options, onClick}) {
     if (onClick) {
         element = assign(element, {onclick: onClick})
     }
-    
-    return new mapboxgl.Marker(element, options).setLngLat(lnglat)
+
+    return new mapbox.Marker(element, options).setLngLat(lnglat)
 }
 
 export default class Marker extends Component {

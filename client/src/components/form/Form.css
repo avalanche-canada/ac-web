@@ -5,13 +5,16 @@
 }
 
 .Fieldset {
+    min-width: 0;
     border: none;
     padding: 0;
     margin: 0;
 }
 
 .Legend {
-
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
 }
 
 .ControlSet {

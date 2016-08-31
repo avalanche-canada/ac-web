@@ -7,6 +7,7 @@ import Holder from './Holder'
 import styles from './Dropdown.css'
 
 function K() {}
+const {isArray} = Array
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
@@ -29,8 +30,8 @@ export default class Dropdown extends Component {
         active: 0,
         value: new Set(),
     }
-    constructor(props) {
-        super(props)
+    constructor(props, ...args) {
+        super(props, ...args)
 
         if (props.value instanceof Set) {
             this.state.value = props.value
@@ -152,11 +153,15 @@ export default class Dropdown extends Component {
             return
         }
 
-        if (props.value instanceof Set) {
+        if (value instanceof Set) {
             this.setState({value})
+        } else if (typeof value === 'string' || typeof value === 'number') {
+            this.setState({
+                value: new Set([value])
+            })
         } else {
             this.setState({
-                value: new Set([...props.value])
+                value: new Set([...value])
             })
         }
     }

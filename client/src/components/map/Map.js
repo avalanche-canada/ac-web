@@ -1,11 +1,11 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
-import mapboxgl, {styles} from 'mapboxgl'
+import mapbox, {styles} from 'mapbox/map'
 import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
 import css from './Map.css'
 
-const {LngLatBounds} = mapboxgl
+const {LngLatBounds} = mapbox
 const STYLES = Object.keys(styles)
 const {bool, func, number, string, object, shape, node, arrayOf, instanceOf, oneOf} = PropTypes
 const EVENTS = new Map([
@@ -100,7 +100,7 @@ export default class MapComponent extends Component {
         onDrag: func,
         onDragend: func,
         onPitch: func,
-        // Custom, i.e. not part of the mapboxgl.Map class
+        // Custom, i.e. not part of the mapbox.Map class
         bounds: shape({
             bbox: instanceOf(LngLatBounds),
             options: object,
@@ -132,7 +132,7 @@ export default class MapComponent extends Component {
         const {container} = this.refs
         const {style, children, bounds, ...rest} = this.props
 
-        const map = new mapboxgl.Map({
+        const map = new mapbox.Map({
             ...rest,
             container,
             style: style !== null ? styles[style] : null,

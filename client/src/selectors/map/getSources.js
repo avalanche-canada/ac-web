@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
 import getMenu from 'selectors/menu'
-import {getResultsSetForSchema} from 'reducers/api/getters'
+import {getResultsSet} from 'reducers/api/getters'
 import turf from 'turf-helpers'
 import {
     ForecastRegion,
@@ -40,8 +40,8 @@ const getDaysFilterValue = createSelector(
 )
 const getMountainInformationNetworkObservationsResults = createSelector(
     getDaysFilterValue,
-    state => getResultsSetForSchema(state, MountainInformationNetworkObservation),
-    (days, results) => results[String(days)]
+    state => state,
+    (days, state) => getResultsSet(state, MountainInformationNetworkObservation, {days})
 )
 
 export const getMountainInformationNetworkObservations = createSelector(

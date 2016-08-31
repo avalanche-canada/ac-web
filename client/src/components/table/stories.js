@@ -59,8 +59,8 @@ export const table = (
     <Table>
         {header}
         <ControlledTBody featured title='Our sponsors'>
-            {row()}
-            {row()}
+            {row(true)}
+            {controlled()}
             {row(true)}
             {controlled()}
         </ControlledTBody>
@@ -71,11 +71,16 @@ export const table = (
             {controlled()}
             {row(true)}
             {controlled()}
+            {row(false)}
+            {controlled()}
             {row(true)}
             {controlled()}
-            {row()}
-            {row()}
-            {row()}
+            {row(false)}
+            {controlled()}
+            {row(true)}
+            {controlled()}
+            {row(true)}
+            {controlled()}
         </ControlledTBody>
     </Table>
 )

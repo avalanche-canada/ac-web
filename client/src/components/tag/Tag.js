@@ -20,8 +20,6 @@ class Tag extends Component {
         this.state = {
             isActive: props.isActive
         }
-
-        this.handleClick = this.handleClick.bind(this)
     }
     set isActive(isActive) {
         this.setState({ isActive}, () => {
@@ -35,7 +33,7 @@ class Tag extends Component {
 
         this.isActive = isActive
     }
-    handleClick(event) {
+    handleClick = event => {
         event.preventDefault()
 
         this.isActive = !this.state.isActive

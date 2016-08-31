@@ -11,8 +11,8 @@
 
     max-width: 1026px;
 
-    margin-left: 1em;
-    margin-right: 1em;
+    /*margin-left: 1em;
+    margin-right: 1em;*/
 
     @media (--full-width) {
         margin-left: auto;
@@ -36,7 +36,7 @@
     }
 
     @media (--side-by-side) {
-        padding-right: 1em;
+        /*padding-right: 1em;*/
         box-sizing: border-box;
     }
 }
@@ -54,7 +54,7 @@
 }
 
 .BannerForm {
-    composes: import Form from "../form/Form.css";
+    composes: import Form from "components/form/Form.css";
 
     margin: auto 3em;
 

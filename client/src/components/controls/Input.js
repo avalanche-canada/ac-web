@@ -6,7 +6,7 @@ Input.propTypes = {
     withIcon: PropTypes.bool,
 }
 
-function Input({ withIcon = false, ...props }) {
+function Input({withIcon = false, ...props}) {
     return (
         <input {...props} styleName={withIcon ? 'Input--WithIcon' : 'Input'} />
     )

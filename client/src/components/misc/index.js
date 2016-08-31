@@ -11,6 +11,8 @@ export Phone from './Phone'
 
 export Br from './Br'
 
+export GoBack from './GoBack'
+
 const now = new Date()
 
 export Time from './Time'

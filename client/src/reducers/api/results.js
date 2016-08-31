@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {List} from 'immutable'
+import {List, Map, is} from 'immutable'
 import * as SCHEMAS from 'api/schemas'
 import {
     FORECAST_REQUEST,
@@ -20,10 +20,15 @@ import {
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
+    PROVIDERS_REQUEST,
+    PROVIDERS_SUCCESS,
+    PROVIDERS_FAILURE,
+    COURSES_REQUEST,
+    COURSES_SUCCESS,
+    COURSES_FAILURE,
 } from 'actions/entities'
-import {actionToKey} from 'api/utils'
+import {paramsToKey} from 'api/utils'
 import {getEntitiesForSchemaIds} from 'reducers/api/entities'
-import {getResultsSetForSchema} from 'reducers/api/getters'
 
 const {
     MountainInformationNetworkObservation,
@@ -32,12 +37,22 @@ const {
     HotZoneArea,
     HotZoneReport,
     Incident,
+    Provider,
+    Course,
 } = SCHEMAS
 
 const {isArray} = Array
 
-function toArray(value) {
-    return isArray(value) ? value : [value]
+function getIds(result) {
+    if (isArray(result)) {
+        return result
+    } else if (isArray(result.results)) {
+        return result.results
+    } else if (isArray(result.features)) {
+        return result.features
+    } else {
+        return [result]
+    }
 }
 
 const EMPTY_LIST = new List()
@@ -47,6 +62,7 @@ const RESULT = {
     isLoaded: false,
     isError: false,
     ids: new Set(),
+    props: {},
 }
 
 function resultsReducerFactory(schema, request, success, failure) {
@@ -60,12 +76,15 @@ function resultsReducerFactory(schema, request, success, failure) {
                     isError: false,
                 }
             case success:
+                const {result} = payload
+
                 return {
                     ...state,
                     isFetching: false,
                     isLoaded: true,
                     isError: false,
-                    ids: new Set([...state.ids, ...toArray(payload.result)]),
+                    ids: new Set([...state.ids, ...getIds(result)]),
+                    ...result,
                 }
             case failure:
                 return {
@@ -80,17 +99,20 @@ function resultsReducerFactory(schema, request, success, failure) {
 
     }
 
-    return function resultsByKey(state = {}, action) {
-        switch (action.type) {
+    return function resultsByKey(state = new Map(), action) {
+
+        const {type} = action
+
+        switch (type) {
             case request:
             case success:
             case failure:
-                const key = actionToKey(schema, action)
+                const {payload, meta} = action
+                const {params} = type === request ? payload : meta
+                const key = paramsToKey(params)
+                const value = results(state.get(key), action)
 
-                return {
-                    ...state,
-                    [key]: results(state[key], action)
-                }
+                return state.set(key, value)
             default:
                 return state
         }
@@ -134,18 +156,16 @@ export default combineReducers({
         INCIDENTS_SUCCESS,
         INCIDENTS_FAILURE,
     ),
+    [Provider.getKey()]: resultsReducerFactory(
+        Provider,
+        PROVIDERS_REQUEST,
+        PROVIDERS_SUCCESS,
+        PROVIDERS_FAILURE,
+    ),
+    [Course.getKey()]: resultsReducerFactory(
+        Course,
+        COURSES_REQUEST,
+        COURSES_SUCCESS,
+        COURSES_FAILURE,
+    ),
 })
-
-// TODO: Move to getters file
-export function getMountainInformationNetworkObservationsForDays(state, days) {
-    const results = getResultsSetForSchema(MountainInformationNetworkObservation)
-
-    if (!results || !results[days]) {
-        return EMPTY_LIST
-    }
-
-    const {ids} = results[days]
-    const entities = getEntitiesForSchemaIds(state, MountainInformationNetworkObservation, [...ids])
-
-    return new List(entities)
-}

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'
-import mapboxgl from 'mapboxgl'
+import mapbox from 'mapbox/map'
 import {ForecastRegion, HotZoneArea, MountainInformationNetworkObservation} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getLayers} from 'reducers/drawers'
@@ -16,10 +16,11 @@ import {
 import './markers.css'
 
 const {assign} = Object
-const {LngLat} = mapboxgl
+const {LngLat} = mapbox
 const EMPTY_LIST = new Immutable.List()
 
 function createElement({width = 50, height = 50, title, alt = title, ...rest}) {
+    // FIXME: This will not work on the server
     const element = document.createElement('img')
 
     element.classList.add('map-marker')

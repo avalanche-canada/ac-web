@@ -32,7 +32,7 @@ export const AvalancheCanada = {
             id: '57d9d596-1871-11e6-b6ba-3e1d05defe78',
             label: 'Historic Incidents',
             header: true,
-            to: '/incidents'
+            to: 'http://old.avalanche.ca/cac/library/incident-report-database/view'
         }, {
             id: '57d9d9c4-1871-11e6-b6ba-3e1d05defe78',
             label: 'Mountain Weather Forecast',

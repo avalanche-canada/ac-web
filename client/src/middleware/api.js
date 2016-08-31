@@ -24,22 +24,26 @@ export default store => next => action => {
     })
 
     function handleFulfill({data}) {
-        let normalized = null
+        let shape = schema
 
-        if (data.type === 'FeatureCollection') {
-            normalized = normalize(data.features, arrayOf(schema))
-        } else if (isArray(data)) {
-            normalized = normalize(data, arrayOf(schema))
-        } else {
-            normalized = normalize(data, schema)
+        if (isArray(data)) {
+            shape = arrayOf(schema)
+        } else if (isArray(data.results)) {
+            shape = {
+                results: arrayOf(schema)
+            }
+        } else if (isArray(data.features)) {
+            shape = {
+                features: arrayOf(schema)
+            }
         }
+
+        const normalized = normalize(data, shape)
 
         next({
             type: types[1],
-            payload: {
-                ...normalized,
-                ...payload,
-            },
+            payload: normalized,
+            meta: payload,
         })
 
         return normalized

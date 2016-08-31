@@ -1,6 +1,6 @@
-import mapboxgl from 'mapboxgl'
+import mapbox from 'mapbox/map'
 
-const {LngLatBounds, LngLat} = mapboxgl
+const {LngLatBounds, LngLat} = mapbox
 
 const sw = new LngLat(-174, 35)
 const ne = new LngLat(-48, 90)

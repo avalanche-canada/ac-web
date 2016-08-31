@@ -6,7 +6,7 @@ Br.propTypes = {
     withRibbon: PropTypes.bool,
 }
 
-function Br({ withRibbon = false }) {
+function Br({withRibbon = false}) {
     return (
         <div styleName={withRibbon ? 'Ribbon' : 'Main'}></div>
     )

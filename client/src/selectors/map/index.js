@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import mapboxgl from 'mapboxgl'
+import mapbox from 'mapbox/map'
 import {getZoom, getCenter} from 'reducers/map'
 import getSources from './getSources'
 import getLayers from './getLayers'
@@ -11,7 +11,7 @@ import {ForecastRegion, HotZoneArea} from 'api/schemas'
 import {getPrimary, getSecondary} from 'selectors/drawers'
 import bbox from 'turf-bbox'
 
-const {LngLatBounds} = mapboxgl
+const {LngLatBounds} = mapbox
 
 function getActiveFeature(state, {params, routes}) {
     const {name} = params

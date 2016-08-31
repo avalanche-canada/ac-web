@@ -2,21 +2,39 @@
 
 @custom-media --side-by-side (width > 700px);
 
-
 .Ambassador {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+}
 
-    @media(--side-by-side) {
+.Banner {
+    flex: 100%;
+
+    margin-bottom: 3em;
+}
+
+.Biography {
+    flex: 100%;
+
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3em;
+    text-align: center;
+    &, & a {
+        color: var(--gray-darkest);
+    }
+
+    @media (--side-by-side) {
         flex-direction: row;
+
+        & > *:nth-child(2) {
+            margin-left: 1em;
+        }
     }
 }
 
-.SocialSet {
-    display: flex;
-    align-items: center;
-}
-
-.SocialItem {
-    margin: 0.5em;
+.Avatar {
+    max-width: 300px;
 }

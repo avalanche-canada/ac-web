@@ -1,5 +1,7 @@
 import {createAction} from 'redux-actions'
-import {MountainInformationNetworkObservation, Forecast} from 'api/schemas'
+import Immutable from 'immutable'
+
+const {fromJS, Iterable: {isIndexed}} = Immutable
 
 const API = Symbol('AvCan Api Request')
 
@@ -15,15 +17,11 @@ export function isApiAction({type}) {
     return type === API
 }
 
-const ActionsToKey = new Map([
-    [MountainInformationNetworkObservation, action => action.payload.params.days],
-    [Forecast, action => action.payload.params.name],
-])
+function reviver(key, value) {
+    // TODO: Find a way to consider real arrays > for orderings for example
+    return isIndexed(value) ? value.toSet() : value.toMap()
+}
 
-export function actionToKey(schema, action) {
-    if (ActionsToKey.has(schema)) {
-        return ActionsToKey.get(schema).call(null, action)
-    }
-
-    return String(null)
+export function paramsToKey(params) {
+    return fromJS(params, reviver)
 }

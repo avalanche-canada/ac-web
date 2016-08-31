@@ -1,3 +1,6 @@
+import {featureCollection} from 'turf-helpers'
+import camelcaseKeys from 'camelcase-keys'
+
 function addIdForMapboxGl(feature) {
     // TODO: Remove the piece of code when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed
     // TODO: Payload should be more consistent and always provide an id
@@ -10,14 +13,28 @@ function addIdForMapboxGl(feature) {
     return feature
 }
 
-export function transformForecastRegions(data) {
-    const features = data.features.filter(({properties}) => properties.type !== 'hotzone').map(addIdForMapboxGl)
-
-    return Object.assign(data, {features})
+function isHotZone(feature) {
+    return feature.properties.type === 'hotzone'
+}
+function isNotHotZone(feature) {
+    return feature.properties.type !== 'hotzone'
 }
 
-export function transformHotZoneAreas(data) {
-    const features = data.features.filter(({properties}) => properties.type === 'hotzone').map(addIdForMapboxGl)
+export function transformForecastRegions({features}) {
+    return featureCollection(
+        features.filter(isNotHotZone).map(addIdForMapboxGl)
+    )
+}
 
-    return Object.assign(data, {features})
+export function transformHotZoneAreas({features}) {
+    return featureCollection(
+        features.filter(isHotZone).map(addIdForMapboxGl)
+    )
+}
+
+export function transformResponseFromDjango({results, ...rest}) {
+    return {
+        ...rest,
+        results: results.map(camelcaseKeys)
+    }
 }

@@ -5,7 +5,7 @@ import styles from './Description.css'
 
 List.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    columns: PropTypes.oneOf([1, 2]),
+    columns: PropTypes.oneOf([1, 2, 3]),
     theme: PropTypes.oneOf(['Simple', 'Inverse']),
     condensed: PropTypes.bool,
     bordered: PropTypes.bool,

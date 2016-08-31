@@ -1,41 +1,41 @@
 import {createSelector} from 'reselect'
 import {Incident} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
-import {getResultsSetForSchema} from 'reducers/api/getters'
+import {getResultsSet} from 'reducers/api/getters'
 
 const {assign} = Object
 
-const getIncidents = createSelector(
-    state => getEntitiesForSchema(state, Incident),
-    incidents => {
-
-        return incidents
-    }
-)
+function getIncidents(state) {
+    return getEntitiesForSchema(state, Incident)
+}
 
 const RESULTS = {
+    ids: [],
     isError: false,
     isFetching: false,
     isLoaded: false,
+    props: {},
 }
 const YEAR = new Date().getFullYear()
 function computeYear(value, index) {
     return YEAR - index
 }
 function toArray(year) {
-    return [year, String(year)]
+    year = String(year)
+
+    return [year, year]
 }
 
 const STATE = {
-    incidents: [],
+    incidents: null,
+    pagination: null,
     messages: {
         error: 'Error happened while loading incidents.',
         loading: 'Loading incidents...',
     },
-    pagination: null,
-    typeOfInvolementOptions: new Map([
-        ['fatal-avalanches', 'fatal avalanches'],
-        ['non-fatal-avalanches', 'non-fatal avalanches'],
+    involementOptions: new Map([
+        ['fatal-avalanches', 'Fatal avalanches'],
+        ['non-fatal-avalanches', 'Non-fatal avalanches'],
     ]),
     seasonOptions: new Map(
         Array(10).fill(null).map(computeYear).map(toArray)
@@ -79,16 +79,21 @@ const STATE = {
     ]),
 }
 
-
+function getIncidentsResultsSet(state, {location: {query}}) {
+    return getResultsSet(state, Incident, query) || RESULTS
+}
 
 export default createSelector(
     getIncidents,
-    state => getResultsSetForSchema(state, Incident)['null'] || RESULTS,
-    (incidents, resultsSet) => {
-
+    getIncidentsResultsSet,
+    (incidents, {ids, props, ...results}) => {
         return {
             ...STATE,
-            ...resultsSet,
+            ...results,
+            incidents: [...ids].map(id => incidents.get(id).toJSON()),
+            pagination: {
+                total: props.pages
+            }
         }
     }
 )

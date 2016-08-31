@@ -1,19 +1,10 @@
-import React, {PropTypes} from 'react'
+import {DOM} from 'react'
+import {Element} from 'compose'
 import CSSModules from 'react-css-modules'
 import styles from './Form.css'
 
-// TODO: Use Element from compose
-
-Form.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
-}
-
-function Form({ children, ...props }) {
-    return (
-        <form styleName='Form' {...props}>
-            {children}
-        </form>
-    )
-}
-
-export default CSSModules(Form, styles)
+export default Element({
+    name: 'Form',
+    component: DOM.form,
+    styles,
+})

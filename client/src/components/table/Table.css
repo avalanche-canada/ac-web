@@ -6,6 +6,12 @@
     position: relative;
 }
 
+.Hoverable {
+    & .TBody > .Row:hover {
+        background-color: var(--gray-lightest);
+    }
+}
+
 .TBody {
 }
 
@@ -51,6 +57,14 @@
     display: none;
 }
 
+.Row--Clickable {
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--gray-lighter);
+    }
+}
+
 .Cell {
     color: var(--gray-darker);
     padding: 15px 10px;
@@ -90,4 +104,10 @@
     composes: HeaderCell;
 
     padding-right: 36px;
+}
+
+.Responsive {
+    /* From Bootstrap */
+    min-height: 0.01%;
+    overflow-x: auto;
 }

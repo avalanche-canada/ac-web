@@ -1,18 +1,18 @@
-import {actionToKey} from 'api/utils'
+import {paramsToKey} from 'api/utils'
 
-export function getResultsSetForSchema(state, schema) {
+function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]
 }
 
-export function getResults(state, schema, key = null) {
-    const resultsSet = getResultsSetForSchema(state, schema)
+export function getResultsSet(state, schema, params = {}) {
+    const resultsSets = getResultsSetForSchema(state, schema)
+    const key = paramsToKey(params)
 
-    return resultsSet ? resultsSet[String(key)] : null
+    return resultsSets.get(key, null)
 }
 
 export function shouldDispatchLoadAction(state, schema, action) {
-    const key = actionToKey(schema, action)
-    const results = getResults(state, schema, key)
+    const results = getResultsSet(state, schema, action.payload.params)
 
     return !results || (!results.isLoaded && !results.isFetching)
 }

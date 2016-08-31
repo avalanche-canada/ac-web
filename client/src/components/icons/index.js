@@ -26,7 +26,7 @@ export Remove from './Remove'
 export Place from './Place'
 export Calendar from './Calendar'
 export Print from './Print'
-export Website from './Home'
+export Website from './Website'
 
 export Forecast from './Forecast'
 export HotZoneReport from './HotZoneReport'

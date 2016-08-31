@@ -12,6 +12,10 @@
 .Caption {
     padding: 5px;
     background-color: var(--gray-lighter);
+    
+    & p {
+        margin: 0;
+    }
 }
 
 .Image {

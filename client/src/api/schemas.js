@@ -8,6 +8,8 @@ export const MountainInformationNetworkObservation = new Schema('mountain-inform
 export const MountainInformationNetworkSubmission = new Schema('mountain-information-network-submissions', {idAttribute: 'subid'})
 export const MountainConditionReport = new Schema('mountain-condition-reports')
 export const Incident = new Schema('incidents')
+export const Provider = new Schema('providers')
+export const Course = new Schema('courses')
 
 const Schemas = new Map([
     [ForecastRegion.getKey(), ForecastRegion],
@@ -18,6 +20,8 @@ const Schemas = new Map([
     [MountainInformationNetworkSubmission.getKey(), MountainInformationNetworkSubmission],
     [MountainConditionReport.getKey(), MountainConditionReport],
     [Incident.getKey(), Incident],
+    [Provider.getKey(), Provider],
+    [Course.getKey(), Course],
 ])
 
 export function getSchemaByKey(key) {

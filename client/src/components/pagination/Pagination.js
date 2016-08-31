@@ -1,54 +1,56 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes, createElement} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 import Segment, {First, Previous, Next, Last} from './Segment'
 
-function K() {}
-
-function computeShow({pages, active, first, previous, next, last}) {
-    return {
-        first: first && active > 1,
-        previous: previous && active > 0,
-        next: next && active < pages,
-        last: last && active < pages,
-    }
-}
-
 Pagination.propTypes = {
-    pages: PropTypes.number.isRequired,
-    active: PropTypes.number,
+    location: PropTypes.object.isRequired,
+    total: PropTypes.number.isRequired,
     first: PropTypes.bool,
     previous: PropTypes.bool,
     next: PropTypes.bool,
     last: PropTypes.bool,
-    onSelect: PropTypes.func,
     max: PropTypes.number,
 }
 
+function toLocation(page, location) {
+    return {
+        ...location,
+        query: {
+            ...location.query,
+            page,
+        }
+    }
+}
+
+function createSegment(page, location) {
+    return createElement(Segment, {
+        location: toLocation(page, location)
+    }, page)
+}
+
 function Pagination({
-    pages,
-    active = 0,
+    location = {},
+    total = 0,
     first = false,
     previous = false,
     next = false,
     last = false,
-    onSelect = K,
     max = 10,
 }) {
-    const show = computeShow({pages, active, first, previous, next, last})
-    const list = Array(Math.min(pages, max)).fill()
+    if (total < 2) {
+        return null
+    }
+
+    const list = Array(Math.min(total, max)).fill(null)
 
     return (
         <div styleName='Container'>
-            {show.first && <First onClick={e => onSelect(0)} />}
-            {show.previous && <Previous onClick={e => onSelect(active - 1)} />}
-            {list.map((value, index) => (
-                <Segment active={active === index} onClick={e => onSelect(index)}>
-                    {index + 1}
-                </Segment>
-            ))}
-            {show.next && <Next onClick={e => onSelect(active + 1)} />}
-            {show.last && <Last onClick={e => onSelect(pages - 1)} />}
+            {first && <First />}
+            {previous && <Previous />}
+            {list.map((value, index) => createSegment(index + 1, location))}
+            {next && <Next />}
+            {last && <Last />}
         </div>
     )
 }

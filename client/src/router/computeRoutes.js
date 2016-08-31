@@ -18,7 +18,10 @@ import {
     BlogPost,
     EventFeed,
     EventPost,
-    Ast,
+    ProvidersTable,
+    ProvidersForm,
+    CoursesTable,
+    CoursesForm,
     Weather,
     PrivacyPolicy,
     TermsOfUse,
@@ -35,12 +38,19 @@ import {
     Youth,
     PrismicPage,
     TripPlanner,
-    Incidents,
+    IncidentsTable,
+    IncidentDetails,
 } from 'containers'
+import * as Layouts from 'layouts'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
+
+const PAGINATION = {
+    page: '1',
+    pageSize: '25',
+}
 
 export default function computeRoutes(store) {
     const {dispatch} = store
@@ -69,6 +79,26 @@ export default function computeRoutes(store) {
         query.year = String(new Date().getFullYear())
 
         replace({...location, query})
+    }
+
+    function handleIncidentsRouteEnter(props, replace) {
+        ensurePagination(props, replace)
+    }
+
+    function ensurePagination({location}, replace) {
+        const {query} = location
+
+        if (query.page !== undefined && query.pageSize !== undefined) {
+            return
+        }
+
+        replace({
+            ...location,
+            query: {
+                ...query,
+                ...PAGINATION,
+            }
+        })
     }
 
     function handleHotZoneReportRouteEnter() {
@@ -119,8 +149,13 @@ export default function computeRoutes(store) {
             <Route path='sponsors' component={Sponsors} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
-            <Route path='training' component={Training} />
-            <Route path='training/:type' component={Ast} />
+            <Route path='training'>
+                <IndexRoute component={Training} />
+                <Route component={Layouts.Ast}>
+                    <Route path='providers' components={{table: ProvidersTable, form: ProvidersForm}} />
+                    <Route path='courses' components={{table: CoursesTable, form: CoursesForm}} />
+                </Route>
+            </Route>
             <Route path='tutorial' component={Tutorial} />
             <Route path='youth' component={Youth} />
             <Route path='gear' component={Gear} />
@@ -129,7 +164,8 @@ export default function computeRoutes(store) {
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
             <Route path='trip-planner' component={TripPlanner} />
-            <Route path='incidents' component={Incidents} />
+            <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
+            <Route path='incidents/:slug' component={IncidentDetails} />
             <Route path='pages/:uid' component={PrismicPage} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />

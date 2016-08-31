@@ -1,32 +1,38 @@
 import React, { PropTypes, createElement} from 'react'
 import {compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps} from 'recompose'
-import * as Icons from 'components/icons'
-import Button from 'components/button'
+import {First as FirstIcon, Previous as PreviousIcon, Next as NextIcon, Last as LastIcon} from 'components/icons'
+import {Link} from 'react-router'
 
-export default compose(
-    setDisplayName('Segment'),
-    setPropTypes({
-        children: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired,
-        active: PropTypes.bool,
-    }),
-    defaultProps({
-        active: false,
-    }),
-)(Button)
+Paginate.propTypes = {
+    children: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
+}
 
-function quickNavigation(name) {
+export default function Paginate({location, children}) {
+    return (
+        <Link to={location}>
+            {children}
+        </Link>
+    )
+}
+
+const Icons = new Map([
+    ['First', <FirstIcon inverse />],
+    ['Previous', <PreviousIcon inverse />],
+    ['Next', <NextIcon inverse />],
+    ['Last', <LastIcon inverse />],
+])
+
+function paginate(name) {
     return compose(
         setDisplayName(name),
         withProps({
-            icon: createElement(Icons[name], {
-                inverse: true
-            })
+            children: Icons[name]
         })
-    )(Button)
+    )(Paginate)
 }
 
-export const First = quickNavigation('First')
-export const Previous = quickNavigation('Previous')
-export const Next = quickNavigation('Next')
-export const Last = quickNavigation('Last')
+export const First = paginate('First')
+export const Previous = paginate('Previous')
+export const Next = paginate('Next')
+export const Last = paginate('Last')

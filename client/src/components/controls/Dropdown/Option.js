@@ -5,7 +5,7 @@ import styles from './Dropdown.css'
 function K() {}
 
 Option.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     active: PropTypes.bool.isRequired,
     onClick: PropTypes.func,

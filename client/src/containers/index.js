@@ -18,14 +18,19 @@ export NewsPost from './NewsPost'
 export BlogFeed from './BlogFeed'
 export BlogPost from './BlogPost'
 
-export Incidents from './Incidents'
+export IncidentsTable from './IncidentsTable'
+export IncidentDetails from './IncidentDetails'
 export TripPlanner from './TripPlanner'
 
 // Training
-export Ast from './Ast'
+export {Providers as ProvidersTable, Courses as CoursesTable} from './ast/tables'
+export {Providers as ProvidersForm, Courses as CoursesForm} from './ast/forms'
 
 // Weather
 export Weather from './Weather'
+
+// Mountain Information Network
+export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
 
 // Static Pages
 export const Sponsors = withPrismic({
@@ -65,7 +70,7 @@ export const Youth = withPrismic({
     title: 'Youth',
 })
 export const Gear = withPrismic({
-    bookmark: 'gear-page',
+    bookmark: 'essential-gear-page',
     title: 'Essential Gear',
 })
 export const Sled = withPrismic({
@@ -80,10 +85,6 @@ export const Auction = withPrismic({
 export const MountainInformationNetwork = withPrismic({
     bookmark: 'mountain-information-network-overview',
     title: 'Mountain Information Network — Overview',
-})
-export const MountainInformationNetworkSubmit = withPrismic({
-    bookmark: 'mountain-information-network-submit',
-    title: 'Mountain Information Network — Submit',
 })
 export const MountainInformationNetworkFAQ = withPrismic({
     bookmark: 'mountain-information-network-faq',
@@ -101,7 +102,7 @@ export const AvalancheRiskReductionProcedures = withPrismic({
 // Dynamic static page
 export const PrismicPage = compose(
     flattenProp('params'),
-    // TODO: SHAME: Change that...
+    // TODO: SHAME: Change that...should use bookmark for real
     renameProp('uid', 'bookmark'),
 )(Prismic)
 

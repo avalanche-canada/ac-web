@@ -1,6 +1,6 @@
 import React, { PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
-import {Form, Fieldset, Legend, ControlSet, Control, Submit} from '../form'
+import {Form, Fieldset, Legend, ControlSet, Control, Submit} from 'components/form'
 import styles from './Page.css'
 
 BannerForm.propTypes = {

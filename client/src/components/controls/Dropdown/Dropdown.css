@@ -50,8 +50,10 @@
 }
 
 .Holder {
+    composes: import Placeholder from "../Controls.css";
+
     line-height: 40px;
-    composes: import Placeholder from "../Controls.css"
+    margin-right: 28px;
 }
 
 .Placeholder {
@@ -62,4 +64,10 @@
     composes: Holder;
 
     color: inherit;
+}
+
+.Holder--Content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

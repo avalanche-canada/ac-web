@@ -2,7 +2,7 @@ import {Map, Set} from 'immutable'
 
 const EMPTY_MAP = new Map()
 
-export default function entities(state = EMPTY_MAP, {payload}) {
+export default function entities(state = EMPTY_MAP, {payload, meta}) {
     if (payload && payload.entities) {
         return state.mergeDeep(payload.entities)
     }

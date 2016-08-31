@@ -1,5 +1,5 @@
-import mapboxgl from 'mapboxgl'
+import mapbox from 'mapbox/map'
 
-const {LngLat} = mapboxgl
+const {LngLat} = mapbox
 
 export const Revelstoke = new LngLat(-118.1957, 50.9981)

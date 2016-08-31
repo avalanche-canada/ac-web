@@ -25,10 +25,12 @@
     line-height: 40px;
     text-align: center;
     text-transform: uppercase;
-    color: var(--gray-light);
     font-weight: 700;
     cursor: pointer;
 
+    & a {
+        color: white;
+    }
 
     &:not(:last-child):after {
         content: "";
