@@ -86,11 +86,6 @@ module.exports = {
         hot: true,
         contentBase: 'dist/public',
         historyApiFallback: true,
-        // proxy: {
-        //     '/api*': {
-        //         target: 'http://localhost/api',
-        //     },
-        // }
     },
 	plugins: [
         new CommonsChunkPlugin({

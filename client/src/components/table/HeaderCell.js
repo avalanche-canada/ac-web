@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 import SortingButton, {SORTINGS, TYPES} from 'components/misc/SortingButton'
 
-export {ASC, DESC, NONE, NUMBER, STRING, DATE} from 'components/misc/SortingButton'
+import {ASC, DESC, NONE, NUMBER, STRING, DATE} from 'components/misc/SortingButton'
 
 function K() {}
 
@@ -18,7 +18,7 @@ function HeaderCell({children, sorting = NONE, onSortingChange = K}) {
     const sortable = sorting !== undefined
 
     return (
-        <td styleName={sortable ? 'HeaderCell--Sortable' : 'HeaderCell'}>
+        <td fake="test" styleName={sortable ? 'HeaderCell--Sortable' : 'HeaderCell'}>
             {children}
             {sortable && <SortingButton sorting={sorting} onChange={onSortingChange} />}
         </td>

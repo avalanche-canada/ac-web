@@ -2,7 +2,6 @@ HEAD   := $(shell git log | head -n1 | cut -d' ' -f2)
 BRANCH := $(shell git branch | grep -e '^\*' | cut -d' ' -f2 | sed s@/@_@g)
 DATE   := $(shell date +'%Y-%m-%d-%H-%M-%S')
 
-
 LABEL   :=ac-web.custom.$(BRANCH).$(HEAD).$(DATE)
 ZIPNAME :=$(LABEL).zip
 
@@ -12,6 +11,10 @@ DIST=dist
 
 
 build: webpack server-copy
+
+
+dev:
+	withenv node server/app-dev.js
 
 prod:
 	cd dist && PORT=9000 npm --production start

@@ -18,5 +18,4 @@ const application = (
         {computeRouter(store)}
     </Provider>
 )
-
 ReactDOM.render(application, element)
