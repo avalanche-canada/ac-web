@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 import {createSelector} from 'reselect'
 import getMenu from 'selectors/menu'
 import {getResultsSet} from 'reducers/api/getters'
-import turf from 'turf-helpers'
+import {point, featureCollection} from 'turf-helpers'
 import {
     ForecastRegion,
     HotZoneArea,
@@ -14,14 +14,14 @@ import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
 function toCentroid(feature) {
     const {centroid, ...properties} = feature.properties
 
-    return turf.point(centroid, properties)
+    return point(centroid, properties)
 }
 
 function createSource(id, features = [], props = {}) {
     return {
         id,
         type: 'geojson',
-        data: turf.featureCollection(features),
+        data: featureCollection(features),
         ...props,
     }
 }
@@ -58,7 +58,7 @@ export const getMountainInformationNetworkObservations = createSelector(
             const {latlng, ...properties} = entity.toJSON()
             const [lat, lng] = latlng
 
-            return turf.point([lng, lat], properties)
+            return point([lng, lat], properties)
         })
     }
 )

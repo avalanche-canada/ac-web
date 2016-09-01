@@ -4,7 +4,7 @@ function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]
 }
 
-export function getResultsSet(state, schema, params = {}) {
+export function getResultsSet(state, schema, params) {
     const resultsSets = getResultsSetForSchema(state, schema)
     const key = paramsToKey(params)
 

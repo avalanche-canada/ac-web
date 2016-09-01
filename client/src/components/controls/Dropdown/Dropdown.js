@@ -8,6 +8,7 @@ import styles from './Dropdown.css'
 
 function K() {}
 const {isArray} = Array
+const {assign} = Object
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
@@ -33,11 +34,11 @@ export default class Dropdown extends Component {
     constructor(props, ...args) {
         super(props, ...args)
 
-        if (props.value instanceof Set) {
-            this.state.value = props.value
-        } else {
-            this.state.value = new Set([props.value])
-        }
+        const {value} = props
+
+        assign(this.state, {
+            value: value instanceof Set ? value : new Set([value])
+        })
     }
     get open() {
         return this.state.open
@@ -159,9 +160,13 @@ export default class Dropdown extends Component {
             this.setState({
                 value: new Set([value])
             })
+        } else if (isArray(value)) {
+            this.setState({
+                value: new Set(value)
+            })
         } else {
             this.setState({
-                value: new Set([...value])
+                value: new Set()
             })
         }
     }

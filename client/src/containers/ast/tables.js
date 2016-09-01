@@ -75,12 +75,7 @@ function Connect(name, mapStateToProps, load) {
         }),
         lifecycle({
             componentDidMount() {
-                const {load, location} = this.props
-
-                load(location.query)
-            },
-            componentDidReceiveProps({load, location}) {
-                console.info('Finish implementation')
+                this.props.load()
             },
         }),
     )(AstTable)

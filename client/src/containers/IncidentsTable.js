@@ -6,7 +6,7 @@ import {Page, Header, Main, Section} from 'components/page'
 import {Loading, Error} from 'components/misc'
 import {Responsive, Table, Row, TBody, Header as TableHeader, HeaderCell, Cell} from 'components/table'
 import {Pagination} from 'components/pagination'
-import {loadIncidents, loadStaticIncidents} from 'actions/entities'
+import {loadIncidents} from 'actions/entities'
 import mapStateToProps from 'selectors/incidents/table'
 import Button from 'components/button'
 import {DropdownFromOptions} from 'components/controls'
@@ -123,7 +123,7 @@ function IncidentsTable({
 export default compose(
     withRouter,
     connect(mapStateToProps, {
-        load: loadStaticIncidents,
+        load: loadIncidents,
     }),
     lifecycle({
         componentDidMount() {

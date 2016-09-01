@@ -35,6 +35,10 @@
     background-color: var(--component-primary-bg);
     color: white;
     line-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
 
     &:hover {
         background-color: var(--component-primary-bg-hover);
