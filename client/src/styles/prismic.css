@@ -1,3 +1,6 @@
+@import "./colors.css";
+@import "./components.css";
+
 :global(.block-img) {
     & > img {
         max-width: 100%;
@@ -10,4 +13,80 @@
 
 :global(.float-left) {
     float: left;
+}
+
+:global(.android-branding-store) {
+    position: relative;
+    line-height: 40px;
+    background: url(https://developer.android.com/images/brand/en_generic_rgb_wo_45.png) no-repeat;
+    background-size: 140px 40px;
+    width: 140px;
+    height: 40px;
+    float: left;
+    margin: 1em;
+    & > a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+    }
+}
+
+:global(.apple-branding-store) {
+    position: relative;
+    line-height: 40px;
+    background: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;
+    background-size: 140px 40px;
+    width: 140px;
+    height: 40px;
+    float: left;
+    margin: 1em;
+    & > a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+    }
+}
+
+:global(.create-report-button) {
+    padding: 2em;
+    text-align: center;
+
+    & > a {
+        margin: auto;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+        padding: 3em 0.5em 0.5em 0.5em;
+        font-weight: 700;
+        color: white;
+        border: none;
+        height: 3em;
+        width: 10em;
+        line-height: 3em;
+        font-size: 1.25em;
+        background-color: var(--brand-secondary);
+
+        &:hover {
+            background-color: color(var(--brand-secondary) blackness(15%));
+        }
+
+        &:before {
+            content: "icon";
+            text-transform: uppercase;
+            position: absolute;
+            top: 17px;
+            left: calc(50% - 22px);
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+        }
+    }
+
+    @media print {
+        display: none;
+    }
 }

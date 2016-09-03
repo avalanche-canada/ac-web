@@ -1,14 +1,14 @@
 import months from './months'
 
 const predicates = new Map([
-    ['year', query => post => post.year == query.year],
-    ['month', query => post => post.month === months.indexOf(query.month)],
-    ['category', query => post => post.category == query.category],
-    ['tags', query => post => post.tags.includes(query.tags)],
+    ['year', ({year}) => post => post.year == year],
+    ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
+    ['category', ({category}) => post => post.category == category],
+    ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.includes(tag)))],
 ])
 
-export default function getPredicates(query) {
-    const keys = Object.keys(query)
+const {keys} = Object
 
-    return keys.map(key => predicates.get(key).call(null, query))
+export default function getPredicates(query) {
+    return keys(query).map(key => predicates.get(key).call(null, query))
 }

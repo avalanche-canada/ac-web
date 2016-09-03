@@ -12,12 +12,6 @@ import {
     Sponsors,
     Collaborators,
     Ambassadors,
-    NewsFeed,
-    NewsPost,
-    BlogFeed,
-    BlogPost,
-    EventFeed,
-    EventPost,
     ProvidersTable,
     ProvidersForm,
     CoursesTable,
@@ -41,12 +35,21 @@ import {
     IncidentsTable,
     IncidentDetails,
 } from 'containers'
+import {
+    NewsFeed,
+    NewsPost,
+    BlogFeed,
+    BlogPost,
+    EventFeed,
+    EventPost,
+} from 'containers/feed'
 import * as Layouts from 'layouts'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
 
+const YEAR = String(new Date().getFullYear())
 const PAGINATION = {
     page: '1',
     pageSize: '25',
@@ -76,7 +79,7 @@ export default function computeRoutes(store) {
             return
         }
 
-        query.year = String(new Date().getFullYear())
+        query.year = YEAR
 
         replace({...location, query})
     }

@@ -1,10 +1,9 @@
 import {DOM} from 'react'
 import {Element} from 'compose'
-import styles from './Tag.css'
+import styles from './Instruction.css'
 
 export default Element({
-    name: 'TagSet',
-    styleName: 'Set',
+    name: 'Set',
     styles,
     component: DOM.ul,
 })

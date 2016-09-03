@@ -24,7 +24,7 @@ export default function Post({
     media,
     source,
     location,
-    message
+    message,
 }) {
     return (
         <Page>
@@ -35,7 +35,7 @@ export default function Post({
                         <DateElement value={date} />
                     </Entry>
                 }
-                {location &&
+                {typeof location === 'string' &&
                     <Entry term='Location'>
                         {location}
                     </Entry>
@@ -46,7 +46,13 @@ export default function Post({
                     </Entry>
                 }
             </Metadata>
-            {headline && <Headline>{headline}</Headline>}
+            {headline &&
+                <Headline>
+                    <InnerHTML>
+                        {headline}
+                    </InnerHTML>
+                </Headline>
+            }
             {message ?
                 <Muted>{message}</Muted> :
                 <InnerHTML>

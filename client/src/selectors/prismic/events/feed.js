@@ -1,34 +1,21 @@
 import {createSelector} from 'reselect'
-import {getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
 import {EventPost} from 'prismic/types'
 import computeYearOptions from '../computeYearOptions'
 import computeCategoryOptions from '../computeCategoryOptions'
 import {options as monthOptions} from '../months'
 import getPredicates from '../getPredicates'
+import {transform, parse} from './post'
+
+const type = 'event'
 
 function getDocuments(state) {
-    return getDocumentsOfType(state, 'event')
+    return getDocumentsOfType(state, type)
 }
-
-// TODO: Fix function getIsFetching
-const getIsFetching = createSelector(
-    getDocuments,
-    feed => feed.isEmpty()
-)
 
 const getTransformedFeed = createSelector(
     getDocuments,
-    feed => feed.map(post => {
-        const data = EventPost.fromDocument(post)
-        const {shortlede, body, featuredImage} = data
-
-        return {
-            headline: shortlede,
-            content: body,
-            preview: featuredImage,
-            ...data
-        }
-    })
+    feed => feed.map(parse).map(transform)
 )
 
 export default createSelector(
@@ -38,9 +25,18 @@ export default createSelector(
     createSelector(getTransformedFeed, computeYearOptions),
     createSelector(getTransformedFeed, computeCategoryOptions),
     function computeFeedProps(feed, isFetching, predicates, yearOptions, categoryOptions) {
+        const content = predicates.reduce((feed, predicate) => feed.filter(predicate), feed)
+        let message = null
+
+        if (isFetching) {
+            message = 'Loading events feed...'
+        } else if (content.size === 0) {
+            message = 'No events found.'
+        }
+
         return {
-            content: predicates.reduce((feed, predicate) => feed.filter(predicate), feed),
-            message: isFetching ? 'Loading news feed...' : null,
+            content,
+            message,
             yearOptions,
             monthOptions,
             categoryOptions,

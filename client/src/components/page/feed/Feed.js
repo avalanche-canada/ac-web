@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
-import {compose} from 'recompose'
+import {compose, defaultProps, mapProps, lifecycle, withProps, withHandlers} from 'recompose'
 import {FilterSet, FilterEntry} from 'components/filter'
 import {Page, Header, Main} from 'components/page'
-import {DropdownFromOptions as Dropdown, DropdownOption} from 'components/controls'
+import {DropdownFromOptions as Dropdown} from 'components/controls'
 import {Muted} from 'components/misc'
 import Entry from './Entry'
 
@@ -30,46 +30,46 @@ export default function Feed({
     sponsor = null,
     message,
     year,
-    yearOptions = new Map(),
+    yearOptions,
     onYearChange,
     month,
-    monthOptions = new Map(),
+    monthOptions,
     onMonthChange,
     category,
-    categoryOptions = new Map(),
+    categoryOptions,
     onCategoryChange,
     tags,
-    tagOptions = new Map(),
+    tagOptions,
     onTagChange
 }) {
     return (
         <Page>
             <Header title={title} sponsor={sponsor} />
             <FilterSet>
-                {onCategoryChange &&
+                {categoryOptions &&
                     <FilterEntry>
-                        <Dropdown value={category} onChange={onCategoryChange} options={categoryOptions} />
-                        </FilterEntry>
+                        <Dropdown value={category} onChange={onCategoryChange} options={categoryOptions}  placeholder={categoryOptions.get(undefined)}/>
+                    </FilterEntry>
                 }
-                {onYearChange &&
+                {yearOptions &&
                     <FilterEntry>
-                        <Dropdown value={year} onChange={onYearChange} options={yearOptions} />
-                        </FilterEntry>
+                        <Dropdown value={year} onChange={onYearChange} options={yearOptions} placeholder={yearOptions.get(undefined)} />
+                    </FilterEntry>
                 }
-                {onMonthChange &&
+                {monthOptions &&
                     <FilterEntry>
-                        <Dropdown value={month} onChange={onMonthChange} options={monthOptions} />
-                        </FilterEntry>
+                        <Dropdown value={month} onChange={onMonthChange} options={monthOptions} placeholder={monthOptions.get(undefined)} />
+                    </FilterEntry>
                 }
-                {onTagChange &&
+                {tagOptions &&
                     <FilterEntry>
-                        <Dropdown value={tags} onChange={onTagChange} options={tagOptions} />
-                        </FilterEntry>
+                        <Dropdown value={tags} onChange={onTagChange} options={tagOptions} placeholder={'No tags'} />
+                    </FilterEntry>
                 }
             </FilterSet>
             <Main>
                 {message && <Muted>{message}</Muted>}
-                {content.map(entry => <Entry {...entry} />)}
+                {content.map(entry => <Entry key={entry.uid} {...entry} />)}
             </Main>
         </Page>
     )

@@ -3,7 +3,10 @@ import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import {Metadata, Entry as MetadataEntry} from 'components/metadata'
 import {Image, InnerHTML, DateElement} from 'components/misc'
+import {TagSet, Tag} from 'components/tag'
 import styles from './Feed.css'
+
+const {isArray} = Array
 
 Entry.propTypes = {
     featured: PropTypes.bool.isRequired,
@@ -12,6 +15,8 @@ Entry.propTypes = {
     category: PropTypes.string,
     date: PropTypes.instanceOf(Date).isRequired,
     headline: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    link: PropTypes.string.isRequired,
     preview: PropTypes.shape({
         url: PropTypes.string.isRequired,
         width: PropTypes.number,
@@ -21,7 +26,7 @@ Entry.propTypes = {
     uid: PropTypes.string.isRequired,
 }
 
-function Entry({featured = false, title, category, source, date, headline, preview, uid}) {
+function Entry({featured = false, title, category, source, date, headline, tags, preview, link}) {
     return (
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
             {preview &&
@@ -31,16 +36,23 @@ function Entry({featured = false, title, category, source, date, headline, previ
             }
             <div styleName='Content'>
                 <h2>
-                    <Link to={`/news/${uid}`}>
+                    <Link to={link}>
                         {title}
                     </Link>
                 </h2>
-                <InnerHTML>{headline}</InnerHTML>
+                <InnerHTML>
+                    {headline}
+                </InnerHTML>
                 <ul styleName='Metadata'>
                     {date && <li><DateElement value={date} /></li>}
                     {category && <li>{category}</li>}
                     {source && <li>{source}</li>}
                 </ul>
+                {isArray(tags) &&
+                    <TagSet>
+                        {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
+                    </TagSet>
+                }
             </div>
         </div>
     )

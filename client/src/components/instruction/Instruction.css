@@ -1,0 +1,21 @@
+@import "../../styles/colors.css";
+
+.Set {
+    list-style: none;
+    padding: 0;
+
+    & p {
+        margin-top: 0.5em;
+    }
+}
+
+.Item {
+    margin: 1em 0;
+    /*font-size: 1.25em;*/
+    font-weight: 700;
+}
+
+.Title {
+    text-transform: uppercase;
+    font-size: 1.25em;
+}

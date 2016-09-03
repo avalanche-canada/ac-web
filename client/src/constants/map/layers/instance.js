@@ -31,10 +31,10 @@ export default new Immutable.Map({
         title: 'Mountain information network',
         type: 'Observations',
     }),
-    [MOUNTAIN_CONDITION_REPORTS]: new Layer({
-        title: 'Mountain condition reports',
-        type: 'Observations',
-    }),
+    // [MOUNTAIN_CONDITION_REPORTS]: new Layer({
+    //     title: 'Mountain condition reports',
+    //     type: 'Observations',
+    // }),
     // [METEOGRAMS]: new Layer({
     //     title: 'Meteograms',
     //     type: 'Observations',
@@ -43,8 +43,8 @@ export default new Immutable.Map({
     //     title: 'Surface hoar',
     //     type: 'Observations',
     // }),
-    [WEATHER_STATION]: new Layer({
-        title: 'Weather stations',
-        type: 'Observations',
-    }),
+    // [WEATHER_STATION]: new Layer({
+    //     title: 'Weather stations',
+    //     type: 'Observations',
+    // }),
 })

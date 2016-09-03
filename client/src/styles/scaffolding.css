@@ -38,6 +38,7 @@ img {
 
 ul:not([class]) {
     list-style: none;
+    padding-left: 1em;
 
     & > li:before {
         content: "•";

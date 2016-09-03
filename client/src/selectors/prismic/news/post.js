@@ -1,35 +1,49 @@
 import {createSelector} from 'reselect'
-import {getDocumentForUid} from 'reducers/prismic'
+import {getDocumentForUid, getIsFetching} from 'reducers/prismic'
 import {NewsPost} from 'prismic/types'
+
+const type = 'news'
+
+export function transform(post) {
+    if (!post) {
+        return
+    }
+
+    const {shortlede, body, featuredImage, uid} = post
+
+    return {
+        headline: shortlede,
+        content: body,
+        preview: featuredImage,
+        link: `${type}/${uid}`,
+        ...post
+    }
+}
+
+export function parse(post) {
+    return NewsPost.fromDocument(post)
+}
 
 function getDocument(state, props) {
     const {uid} = props.params
 
-    return getDocumentForUid(state, 'news', uid)
+    return getDocumentForUid(state, type, uid)
 }
-
-const getIsFetching = createSelector(
-    getDocument,
-    document => !document
-)
-
-const getTransformedPost = createSelector(
-    getDocument,
-    document => document && NewsPost.fromDocument(document)
-)
 
 export default createSelector(
     getIsFetching,
-    getTransformedPost,
+    getDocument,
     function computePostProps(isFetching, post) {
         if (isFetching && !post) {
             return {
-                message: 'Loading the news post...'
+                isFetching,
+                message: 'Loading the news post...',
             }
         }
 
         return {
-            post
+            isFetching,
+            post: transform(parse(post)),
         }
     }
 )

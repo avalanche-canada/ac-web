@@ -1,16 +1,13 @@
 import React, {createElement} from 'react'
 import CSSModules from 'react-css-modules'
 import {Media, Caption, Player} from 'components/media'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML, Ribbon} from 'components/misc'
 import styles from './Video.css'
 
 const {assign} = Object
 
-function Video({caption, credit, ...player}) {
-    const media = {
-        width: 588,
-        height: 336,
-    }
+function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
+    const media = {}
 
     if (caption || credit) {
         assign(media, {
@@ -25,9 +22,16 @@ function Video({caption, credit, ...player}) {
     }
 
     return (
-        <Media {...media} >
-            <Player {...player} />
-        </Media>
+        <div>
+            {ribbonTitle &&
+                <Ribbon caption={ribbonCaption}>
+                    {ribbonTitle}
+                </Ribbon>
+            }
+            <Media {...media} >
+                <Player {...player} />
+            </Media>
+        </div>
     )
 }
 

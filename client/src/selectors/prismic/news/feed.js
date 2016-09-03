@@ -1,34 +1,19 @@
 import {createSelector} from 'reselect'
-import {getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
 import {NewsPost} from 'prismic/types'
 import computeYearOptions from '../computeYearOptions'
 import computeTagsOptions from '../computeTagsOptions'
 import {options as monthOptions} from '../months'
 import getPredicates from '../getPredicates'
+import {transform, parse} from './post'
 
 function getDocuments(state) {
     return getDocumentsOfType(state, 'news')
 }
 
-// TODO: Fix function getIsFetching
-const getIsFetching = createSelector(
-    getDocuments,
-    feed => feed.isEmpty()
-)
-
 const getTransformedFeed = createSelector(
     getDocuments,
-    feed => feed.map(post => {
-        const data = NewsPost.fromDocument(post)
-        const {shortlede, body, featuredImage} = data
-
-        return {
-            headline: shortlede,
-            content: body,
-            preview: featuredImage,
-            ...data
-        }
-    })
+    feed => feed.map(parse).map(transform)
 )
 
 export default createSelector(
@@ -38,9 +23,18 @@ export default createSelector(
     createSelector(getTransformedFeed, computeYearOptions),
     createSelector(getTransformedFeed, computeTagsOptions),
     function computeFeedProps(feed, isFetching, predicates, yearOptions, tagOptions) {
+        const content = predicates.reduce((feed, predicate) => feed.filter(predicate), feed)
+        let message = null
+
+        if (isFetching) {
+            message = 'Loading news feed...'
+        } else if (content.size === 0) {
+            message = 'No news found.'
+        }
+
         return {
-            content: predicates.reduce((feed, predicate) => feed.filter(predicate), feed),
-            message: isFetching ? 'Loading news feed...' : null,
+            content,
+            message,
             yearOptions,
             monthOptions,
             tagOptions,
