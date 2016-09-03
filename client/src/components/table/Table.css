@@ -111,3 +111,9 @@
     min-height: 0.01%;
     overflow-x: auto;
 }
+
+.Caption {
+    caption-side: bottom;
+    text-align: left;
+    color: var(--gray-darker);
+}

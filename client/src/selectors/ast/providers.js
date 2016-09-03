@@ -5,7 +5,9 @@ import {Provider} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import {Phone, Mailto} from 'components/misc'
+import {HeaderCellOrders} from 'components/table'
 
+const {ASC, DESC, NONE} = HeaderCellOrders
 const COLUMNS = [{
     title: 'Name',
     property: 'name',
@@ -45,6 +47,11 @@ const RESULTS = {
     isError: false,
 }
 
+const Sorters = new Map([
+    ['name', course => course.name],
+    ['contact', course => course.contact],
+])
+
 function getProviderEntities(state) {
     return getEntitiesForSchema(state, Provider)
 }
@@ -55,19 +62,13 @@ function getProvidersResultSet(state, {location}) {
     return getResultsSet(state, Provider, query) || RESULTS
 }
 
-function isSponsor(data) {
-    return data.isSponsor
+function isSponsor(provider) {
+    return provider.isSponsor
 }
-
-const getProviderIds = createSelector(
-    getProvidersResultSet,
-    ({ids = new Set()}) => List.of(...ids).map(String)
-)
 
 const getProviders = createSelector(
     getProviderEntities,
-    getProviderIds,
-    (providers, ids) => ids.map(id => providers.get(id))
+    providers => providers.toList()
 )
 
 export default createSelector(

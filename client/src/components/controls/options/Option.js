@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import styles from './Dropdown.css'
+import styles from './OptionSet.css'
 
 function K() {}
 
@@ -18,7 +18,7 @@ function Option({value, onClick = K, active = false, children}) {
     }
 
     return (
-        <div title={children} styleName={styleName} onClick={handleClick}>
+        <div title={children} styleName={styleName} onMouseDown={handleClick}>
             {children}
         </div>
     )

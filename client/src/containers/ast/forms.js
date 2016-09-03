@@ -2,25 +2,13 @@ import React, {Component} from 'react'
 import {compose, lifecycle, withProps, withHandlers, withState, setDisplayName} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import DayPicker, {DateUtils} from 'react-day-picker'
-import moment from 'moment'
 import {Form, Legend, Control, ControlSet} from 'components/form'
-import {DropdownFromOptions, Input} from 'components/controls'
-import {Calendar, Place} from 'components/icons'
-import Callout, {BOTTOM} from 'components/callout'
-import {Overlay} from 'react-overlays'
+import {DropdownFromOptions, Input, Geocoder, DateRange} from 'components/controls'
 import {locate} from 'actions/geolocation'
-import {findPlaces} from 'mapbox/api'
 import {formatAsDay, parseFromDay} from 'utils/date'
-import 'react-day-picker/lib/style.css'
+import get from 'lodash/get'
 
 const {isArray} = Array
-function asSetParams(value) {
-    return new Set(isArray(value) ? value : [value])
-}
-const STYLE = {
-    margin: 'auto Course'
-}
 const courseOptions = new Map([
     ['AST1', 'AST 1'],
     ['AST1+', 'AST 1 + MAT'],
@@ -34,37 +22,13 @@ const tagOptions = new Map([
     ['youth', 'Youth'],
 ])
 
-function replace(name, value, {router, location}) {
-    router.replace({
-        ...location,
-        query: {
-            ...location.query,
-            [name]: value,
-        }
-    })
-}
-
-function getDateRange({from, to}) {
-    return {
-        from: from ? parseFromDay(from) : null,
-        to: to ? parseFromDay(to) : null,
-    }
-}
-
-
-
-@withRouter
 @connect(null, {locate})
-export default class CoursesForm extends Component {
-    static STYLE = {
-        margin: 'auto Course'
-    }
-    state = {
-
-    }
-    constructor(props) {
-        super(props)
-
+@withRouter
+export class Courses extends Component {
+    static style = {
+        margin: 'auto 3em',
+        position: 'relative',
+        width: '90%',
     }
     handleCourseChange = course => {
         this.replaceQuery({
@@ -76,41 +40,20 @@ export default class CoursesForm extends Component {
             tags: tags.size > 0 ? [...tags] : undefined
         })
     }
-    handleLocationChange = event => {
-        const {value} = event.target
+    handlePlaceChange = place => {
+        const {router, location} = this.props
 
-        if (value === '') {
-            return
-        }
-
-        findPlaces(value)
-        .then(response => response.data.features)
-        .then(::console.warn)
-        // replace('point', [...tags], props)
+        router.replace({
+            ...location,
+            state: {
+                place
+            }
+        })
     }
-    handleLocationSelect = event => {
-        // replace('point', '0 0', props)
-    }
-    selectedDays = day => {
-        const {query} = this.props.location
-        const range = getDateRange(query)
-
-        return DateUtils.isDayInRange(day, range)
-    }
-    handleDayClick = (event, day) => {
-        const {query} = this.props.location
-        const range = getDateRange(query)
-        const {from, to} = DateUtils.addDayToRange(day, range)
-
+    handleDateRangeChange = ({from, to}) => {
         this.replaceQuery({
             from: from ? formatAsDay(from) : undefined,
             to: to ? formatAsDay(to) : undefined,
-        })
-    }
-    handleDateRangeReset = event => {
-        this.replaceQuery({
-            from: undefined,
-            to: undefined,
         })
     }
     replaceQuery(query) {
@@ -127,163 +70,35 @@ export default class CoursesForm extends Component {
     componentDidMount() {
         this.props.locate()
     }
-    componentWillReceiveProps({location, point}) {
-        if (location.key === this.props.location.key) {
-            return
-        }
-    }
     render() {
-        const {query} = this.props.location
-        const {course} = query
-        const tags = asSetParams(query.tags)
+        const {style} = this.constructor
+        const {query, state} = this.props.location
+        const {course, tags} = query
+        let {from, to} = query
+        const tagSet = new Set(isArray(tags) ? tags : [tags])
+        const geoname = get(state, 'place.text')
+
+        from = from && parseFromDay(from)
+        to = to && parseFromDay(to)
 
         return (
-            <Form style={STYLE}>
+            <Form style={style}>
                 <Legend>Find a course</Legend>
                 <ControlSet horizontal>
                     <Control>
                         <DropdownFromOptions onChange={this.handleCourseChange} value={course} placeholder='Course' options={courseOptions} />
                     </Control>
-                    <Control icon={<Calendar />}>
-                        <Overlay show={true} placement='Bottom' shouldUpdatePosition >
-                            <Callout placement={BOTTOM}>
-                                <DayPicker selectedDays={this.selectedDays} numberOfMonths={2} onDayClick={this.handleDayClick} />
-                            </Callout>
-                        </Overlay>
+                    <Control>
+                        <DateRange from={from} to={to} onChange={this.handleDateRangeChange} container={this} />
                     </Control>
                     <Control>
-                        <DropdownFromOptions multiple onChange={this.handleTagsChange} value={tags} placeholder='Filter by' options={tagOptions} />
+                        <DropdownFromOptions multiple onChange={this.handleTagsChange} value={tagSet} placeholder='Filter by' options={tagOptions} />
                     </Control>
-                    <Control icon={<Place />}>
-                        <Input placeholder='Location' onChange={this.handleLocationChange} />
+                    <Control>
+                        <Geocoder placeholder='Location' onChange={this.handlePlaceChange} value={geoname} />
                     </Control>
                 </ControlSet>
             </Form>
         )
     }
 }
-
-
-// function CoursesForm({
-//     onCourseChange,
-//     onTypeChange,
-//     onLocationChange,
-//     onLocationSelect,
-//     selectedDays,
-//     onDayClick,
-//     course,
-//     tags,
-// }) {
-//     return (
-//         <Form style={STYLE}>
-//             <Legend>Find a course</Legend>
-//             <ControlSet horizontal>
-//                 <Control>
-//                     <DropdownFromOptions onChange={onCourseChange} value={course} placeholder='Course' options={courseOptions} />
-//                 </Control>
-//                 <Control icon={<Calendar />}>
-//                     <Overlay show={true} placement='Bottom' shouldUpdatePosition >
-//                         <Callout placement={BOTTOM}>
-//                             <DayPicker selectedDays={selectedDays} numberOfMonths={2} onDayClick={onDayClick} />
-//                         </Callout>
-//                     </Overlay>
-//                 </Control>
-//                 <Control>
-//                     <DropdownFromOptions multiple onChange={onTypeChange} value={tags} placeholder='Filter by' options={tagOptions} />
-//                 </Control>
-//                 <Control icon={<Place />}>
-//                     <Input placeholder='Location' onChange={onLocationChange} />
-//                 </Control>
-//             </ControlSet>
-//         </Form>
-//     )
-// }
-//
-// export const Courses = compose(
-//     withRouter,
-//     connect(null, {
-//         locate,
-//     }),
-//     withState('showCalendar', 'setShowCalendar', false),
-//     withHandlers({
-//         onCourseChange: props => course => {
-//             replace('course', course || undefined, props)
-//         },
-//         onTypeChange: props => tags => {
-//             let value
-//
-//             if (tags.size > 0) {
-//                 value = [...tags]
-//             }
-//
-//             replace('tags', value, props)
-//         },
-//         onLocationChange: props => event => {
-//             const {value} = event.target
-//
-//             if (value === '') {
-//                 return
-//             }
-//
-//             findPlaces(value)
-//             .then(response => response.data.features)
-//             .then(::console.warn)
-//             // replace('point', [...tags], props)
-//         },
-//         onLocationSelect: props => event => {
-//             replace('point', '0 0', props)
-//         },
-//         selectedDays: props => day => {
-//             const range = getDateRange(props.location.query)
-//
-//             return DateUtils.isDayInRange(day, range)
-//         },
-//         onDayClick: props => (event, day) => {
-//             const {router, location} = props
-//             const {query} = location
-//             const range = getDateRange(query)
-//             const {from, to} = DateUtils.addDayToRange(day, range)
-//
-//             router.replace({
-//                 ...location,
-//                 query: {
-//                     ...query,
-//                     from: from ? formatAsDay(from) : undefined,
-//                     to: to ? formatAsDay(to) : undefined,
-//                 }
-//             })
-//         },
-//         onDateRangeReset: props => event => {
-//             const {router, location} = props
-//
-//             router.replace({
-//                 ...location,
-//                 query: {
-//                     ...location.query,
-//                     from: undefined,
-//                     to: undefined,
-//                 }
-//             })
-//         },
-//     }),
-//     withProps(({location}) => {
-//         const {tags, course} = location.query
-//
-//         return {
-//             tags: asSetParams(tags),
-//             course,
-//         }
-//     }),
-//     lifecycle({
-//         componentDidMount() {
-//             this.props.locate()
-//         },
-//         componentWillReceiveProps({location, point}) {
-//             if (location.key === this.props.location.key) {
-//                 return
-//             }
-//
-//
-//         },
-//     }),
-// )(CoursesForm)

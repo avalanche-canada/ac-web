@@ -17,3 +17,8 @@
 
     color: var(--brand-secondary);
 }
+
+.Helper {
+    cursor: help;
+    border-bottom: 1px dotted var(--gray);
+}

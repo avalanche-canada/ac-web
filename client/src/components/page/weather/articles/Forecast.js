@@ -105,15 +105,13 @@ export default class Container extends Component {
                     }
                 </Metadata>
                 <Overlay show={showCalendar} placement='bottom' shouldUpdatePosition target={() => findDOMNode(this.refs.target)}>
-                    <div style={{position: 'absolute'}}>
-                        <Callout placement={BOTTOM}>
-                            <DayPicker
-                                initialMonth={date}
-                                selectedDays={day => moment(day).isSame(date, 'day')}
-                                disabledDays={day => moment(day).isAfter(today, 'day')}
-                                onDayClick={this.handleDayClick} />
-                        </Callout>
-                    </div>
+                    <Callout placement={BOTTOM}>
+                        <DayPicker
+                            initialMonth={date}
+                            selectedDays={day => moment(day).isSame(date, 'day')}
+                            disabledDays={day => moment(day).isAfter(today, 'day')}
+                            onDayClick={this.handleDayClick} />
+                    </Callout>
                 </Overlay>
                 {isLoading &&
                     <Loading>

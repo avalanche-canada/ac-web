@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import Dropdown from './Dropdown'
-import Option from './Option'
+import DropdownOption from './DropdownOption'
 
 DropdownFromOptions.propTypes = {
     ...Dropdown.propTypes,
@@ -11,7 +11,7 @@ export default function DropdownFromOptions({options = new Map(), ...props}) {
     return (
         <Dropdown {...props}>
             {[...options].map(([value, text]) => (
-                <Option value={value}>{text}</Option>
+                <DropdownOption value={value}>{text}</DropdownOption>
             ))}
         </Dropdown>
     )

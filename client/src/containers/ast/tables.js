@@ -1,9 +1,11 @@
 import React from 'react'
-import {compose, lifecycle, setDisplayName} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName} from 'recompose'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import {List, Term, Definition} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders} from 'components/table'
+import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption} from 'components/table'
+import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
 import * as selectors from 'selectors/ast'
 
@@ -45,13 +47,21 @@ function renderRows(data, columns, asControlled) {
     }, [])
 }
 
-function AstTable({featured, rows, columns, asControlled}) {
+function AstTable({featured, rows, columns, caption, asControlled, isFetching, onSortingChange}) {
+    if (isFetching) {
+        return (
+            <Loading />
+        )
+    }
+
     return (
         <Table>
             <Header>
                 <Row>
-                {columns.map(({title, ...header}, index) => (
-                    <HeaderCell key={index} {...header}>{title}</HeaderCell>
+                {columns.map(({title, name, ...header}, index) => (
+                    <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
+                        {typeof title === 'function' ? title() : title}
+                    </HeaderCell>
                 ))}
                 </Row>
             </Header>
@@ -63,6 +73,7 @@ function AstTable({featured, rows, columns, asControlled}) {
             <ControlledTBody>
                 {renderRows(rows, columns, asControlled)}
             </ControlledTBody>
+            <Caption>{caption}</Caption>
         </Table>
     )
 }
@@ -73,9 +84,23 @@ function Connect(name, mapStateToProps, load) {
         connect(mapStateToProps, {
             load
         }),
+        withRouter,
         lifecycle({
             componentDidMount() {
                 this.props.load()
+            },
+        }),
+        withHandlers({
+            onSortingChange: props => (name, order) => {
+                const {router, location} = props
+
+                router.replace({
+                    ...location,
+                    query: {
+                        ...location.query,
+                        sorting: [name, order],
+                    }
+                })
             },
         }),
     )(AstTable)

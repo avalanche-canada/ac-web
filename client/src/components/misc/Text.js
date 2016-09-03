@@ -3,16 +3,12 @@ import {compose, defaultProps} from 'recompose'
 import {Element} from 'compose'
 import styles from './Text.css'
 
-const component = DOM.p
-
-function text({children = null, name}) {
-    const element = Element({
+function text({children = null, name, component = DOM.p}) {
+    return defaultProps({children})(Element({
         name,
         component,
         styles,
-    })
-
-    return defaultProps({children})(element)
+    }))
 }
 
 export const Text = text({
@@ -31,4 +27,9 @@ export const Loading = text({
 export const Error = text({
     name: 'Error',
     children: 'An error happened.',
+})
+
+export const Helper = text({
+    name: 'Helper',
+    component: DOM.span,
 })

@@ -2,8 +2,9 @@ import React, {PropTypes, Component, Children, cloneElement} from 'react'
 import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
-import Option from './Option'
 import Holder from './Holder'
+import DropdownOption from './DropdownOption'
+import {OptionSet} from 'components/controls/options'
 import styles from './Dropdown.css'
 
 function K() {}
@@ -15,7 +16,7 @@ const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 @CSSModules(styles)
 export default class Dropdown extends Component {
     static propTypes = {
-        children: PropTypes.arrayOf(Option).isRequired,
+        children: PropTypes.arrayOf(DropdownOption).isRequired,
         onChange: PropTypes.func.isRequired,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Set)]),
         placeholder: PropTypes.string,
@@ -171,28 +172,20 @@ export default class Dropdown extends Component {
         }
     }
     render() {
-        const {open, active} = this
+        const {open, active, holder} = this
         const {children} = this.props
         const {value} = this.state
         const {placeholder} = this.props
         const styleName = open ? 'Input--Open' : 'Input'
-        function cloneOption(option) {
-            return cloneElement(option, {
-                active: value.has(option.props.value),
-                onClick: this.handleOptionClick,
-            })
-        }
 
         return (
             <div styleName='Container' onClick={this.handleClick}>
                 <div styleName={styleName} tabIndex={0} onFocus={this.handleFocus} onBlur={this.handleBlur} >
-                    <Holder value={this.holder} placeholder={placeholder} />
+                    <Holder value={holder} placeholder={placeholder} />
                 </div>
-                {open &&
-                    <div styleName='OptionSet'>
-                        {Children.map(children, cloneOption, this)}
-                    </div>
-                }
+                <OptionSet show={open} onOptionClick={this.handleOptionClick} selected={value}>
+                    {children}
+                </OptionSet>
             </div>
         )
     }

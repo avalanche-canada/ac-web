@@ -19,6 +19,7 @@
     background-image: url("../../icons/expand-less.svg");
 }
 
+/* TODO: Remove that when fully using OptionSet */
 .OptionSet {
     position: absolute;
     top: 100%;
@@ -27,30 +28,6 @@
     right: -1px;
     z-index: 10;
     overflow-y: auto;
-}
-
-.Option {
-    composes: import Common from "../Controls.css";
-
-    background-color: var(--component-primary-bg);
-    color: white;
-    line-height: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-
-    &:hover {
-        background-color: var(--component-primary-bg-hover);
-    }
-}
-
-.Option--Active {
-    composes: Option;
-
-    &, &:hover {
-        background-color: var(--component-primary-bg-active);
-    }
 }
 
 .Holder {

@@ -1,18 +1,20 @@
 import React from 'react'
 import {createSelector} from 'reselect'
-import {List} from 'immutable'
+import {List, fromJS} from 'immutable'
 import turf from 'turf-helpers'
 import distance from 'turf-distance'
-import {DateUtils} from 'react-day-picker'
-import {Provider, Course} from 'api/schemas'
+import {Course} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import {Phone, Mailto, DateElement} from 'components/misc'
+import {Phone, Mailto, DateElement, Helper} from 'components/misc'
+import {HeaderCellOrders} from 'components/table'
 import {getGeolocation} from 'reducers/geolocation'
-import {formatAsDay, parseFromDay} from 'utils/date'
+import get from 'lodash/get'
 
+const {ASC, DESC, NONE} = HeaderCellOrders
 const {keys} = Object
-const COLUMNS = [{
+const COLUMNS = new List([{
+        name: 'dates',
         title: 'Dates',
         property({dateStart, dateEnd}) {
             const start = new Date(dateStart)
@@ -23,7 +25,8 @@ const COLUMNS = [{
                     <DateElement value={start} /> <em>to</em> <DateElement value={end} />
                 </div>
             )
-        }
+        },
+        sorting: NONE,
     }, {
         title: 'Course',
         property: 'level',
@@ -31,6 +34,7 @@ const COLUMNS = [{
         title: 'Description',
         property: 'description',
     }, {
+        name: 'distance',
         title: 'Distance',
         property({distance}) {
             if (typeof distance === 'number') {
@@ -39,6 +43,7 @@ const COLUMNS = [{
 
             return 'N/A'
         },
+        sorting: NONE,
     }, {
         title: 'Location',
         property: 'locDescription',
@@ -46,7 +51,7 @@ const COLUMNS = [{
         title: 'Tags',
         property: 'tags',
     }
-]
+])
 
 const RESULTS = {
     ids: new Set(),
@@ -109,37 +114,52 @@ const getPosition = createSelector(
 const getRawCourses = createSelector(
     getCourseEntities,
     getCourseIds,
-    (courses, ids) => ids.map(id => courses.get(id)).toJSON()
+    (courses, ids) => ids.map(id => courses.get(id).toJSON())
 )
 
-function getPlace() {
-
+function getPlaceFromLocationState(state, {location}) {
+    return get(location, 'state.place', null)
 }
+
+const getFeatureFromLocationState = createSelector(
+    getPlaceFromLocationState,
+    place => place && turf.point(place.center) || null
+)
 
 const getPointForDistance = createSelector(
     getPosition,
-    getPlace,
+    getFeatureFromLocationState,
+    (position, place) => place || position
+)
+
+const getDistanceHelper = createSelector(
+    getPosition,
+    getPlaceFromLocationState,
     (position, place) => {
         if (place) {
-            return place
+            return `Straight line between ${place.text} and the course.`
+        } else if (position) {
+            return 'Straight line between your current location and the course.'
         }
-
-        return position
     }
 )
 
 const Filters = new Map([
     ['course', ({course}) => ({level}) => level === course],
     ['tags', ({tags}) => course => Boolean(course.tags.find(tag => tags.includes(tag)))],
-    ['to', ({from, to}) => ({dateStart, dateEnd}) => {
-        return true
+    ['to', ({from, to}) => {
+        from = new Date(from)
+        to = new Date(to)
+        to = to.setDate(to.getDate() + 1)
 
-        const range = {
-            from: new Date(dateStart),
-            to: new Date(dateEnd),
+        return ({dateStart, dateEnd}) => {
+            // TODO: Remove if we convert dates earlier
+            const start = new Date(dateStart)
+            let end = new Date(dateEnd)
+            end = end.setDate(end.getDate() - 1)
+
+            return (start <= to) && (end >= from)
         }
-
-        return DateUtils.isDayInRange(parseFromDay(from), range)
     }],
 ])
 
@@ -154,6 +174,11 @@ function getFilters(state, {location}) {
         return filters
     }, [])
 }
+
+const Sorters = new Map([
+    ['dates', course => course.dateStart],
+    ['distance', course => course.distance],
+])
 
 const getCourses = createSelector(
     getRawCourses,
@@ -181,24 +206,93 @@ const getFilteredCourses = createSelector(
     (courses, filters) => filters.reduce(filterReducer, courses)
 )
 
+function getSorting(state, {location}) {
+    return location.query.sorting || []
+}
+
+const getSortedCourses = createSelector(
+    getFilteredCourses,
+    getSorting,
+    (courses, [name, order]) => {
+        if (!Sorters.has(name)) {
+            return courses
+        }
+
+        const sorter = Sorters.get(name)
+
+        switch (order) {
+            case ASC:
+                return courses.sortBy(sorter)
+            case DESC:
+                return courses.sortBy(sorter).reverse()
+            case NONE:
+                return courses
+            default:
+                return courses
+
+        }
+
+    }
+)
+
+const getColumns = createSelector(
+    getDistanceHelper,
+    getSorting,
+    (helper, sorting) => {
+        let columns = COLUMNS
+
+        if (helper) {
+            const key = columns.findKey(column => column.name === 'distance')
+
+            columns = columns.update(3, column => ({
+                ...column,
+                title() {
+                    return (
+                        <Helper title={helper}>
+                            Distance
+                        </Helper>
+                    )
+                }
+            }))
+        }
+
+        if (sorting) {
+            const [name, order] = sorting
+            const key = columns.findKey(column => column.name === name)
+
+            columns = columns.update(key, column => ({
+                ...column,
+                sorting: order,
+            }))
+        }
+
+        return columns
+    }
+)
+
 function isSponsor({provider}) {
     return provider.is_sponsor
 }
-function isNotSponsor({provider}) {
-    return !provider.is_sponsor
-}
 
 export default createSelector(
+    getSortedCourses,
     getCoursesResultSet,
-    getFilteredCourses,
-    function mapStateToProps(result, courses) {
+    getColumns,
+    function mapStateToProps(courses, result, columns) {
+        let caption = undefined
+
+        if (result.isLoaded && courses.length === 0) {
+            caption = 'No courses found.'
+        }
+
         return {
             ...result,
             title: 'All courses',
             legend: 'Find a course',
-            columns: COLUMNS,
+            columns,
             featured: courses.filter(isSponsor),
-            rows: courses.filter(isNotSponsor),
+            rows: courses.filterNot(isSponsor),
+            caption,
             asControlled,
         }
     }
