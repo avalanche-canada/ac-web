@@ -6,7 +6,7 @@ import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, DateTime, Loading, Muted, Error} from 'components/misc'
+import {DateElement, DateTime, Loading, Muted, Error, DateUtils, DayPicker} from 'components/misc'
 import {ExpandMore} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import {Metadata, Entry} from 'components/metadata'
@@ -15,8 +15,6 @@ import Forecast from 'components/weather'
 import {Api, Predicates} from 'prismic'
 import {Overlay} from 'react-overlays'
 import {getForecast} from 'selectors/prismic/weather'
-import DayPicker, {DateUtils} from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
 
 const ButtonClass = toClass(Button)
 const {isSameDay} = DateUtils
@@ -52,6 +50,9 @@ export default class Container extends Component {
     toggleCalendar = event => {
         this.showCalendar = !this.showCalendar
     }
+    hideCalendar = () => {
+        this.showCalendar = false
+    }
     handleDayClick = (event, date, modifiers) => {
         if (modifiers.disabled) {
             return
@@ -80,6 +81,9 @@ export default class Container extends Component {
             this.isError = true
         })
     }
+    get target() {
+        return findDOMNode(this.refs.target)
+    }
     render() {
         const {params, isAuthenticated, forecast, children, isLoading} = this.props
         const {showCalendar, isError} = this
@@ -104,7 +108,16 @@ export default class Container extends Component {
                         </Entry>
                     }
                 </Metadata>
-                <Overlay show={showCalendar} placement='bottom' shouldUpdatePosition target={() => findDOMNode(this.refs.target)}>
+                <Overlay
+                    show={showCalendar}
+                    placement='bottom'
+                    shouldUpdatePosition
+                    rootClose
+                    backdrop
+                    onBackdropClick={this.hideCalendar}
+                    onEscapeKeyUp={this.hideCalendar}
+                    target={this.target}
+                    container={this}>
                     <Callout placement={BOTTOM}>
                         <DayPicker
                             initialMonth={date}

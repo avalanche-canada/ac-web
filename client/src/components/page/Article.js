@@ -9,7 +9,7 @@ Article.propTypes = {
 
 function Article({title, children}) {
     return (
-        <article>
+        <article styleName='Article'>
             {title && <h2>{title}</h2>}
             {children}
         </article>

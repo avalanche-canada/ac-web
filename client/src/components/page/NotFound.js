@@ -8,7 +8,7 @@ NotFound.propTypes = {
 }
 
 export default function NotFound({
-    title = 'Oups :( This is an avalanche 404 size error',
+    title = 'This is an avalanche size 404 error...',
     subtitle = 'The page you are looking for has not been found.',
     children
 }) {
