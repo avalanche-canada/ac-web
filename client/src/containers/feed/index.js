@@ -1,18 +1,15 @@
 import feed from './feed'
 import post from './post'
-import mapStateToPropsNewsFeed from 'selectors/prismic/news/feed'
-import mapStateToPropsBlogFeed from 'selectors/prismic/blogs/feed'
-import mapStateToPropsEventFeed from 'selectors/prismic/events/feed'
-import mapStateToPropsNewsPost from 'selectors/prismic/news/post'
-import mapStateToPropsBlogPost from 'selectors/prismic/blogs/post'
-import mapStateToPropsEventPost from 'selectors/prismic/events/post'
+import * as news from 'selectors/prismic/news'
+import * as blogs from 'selectors/prismic/blogs'
+import * as events from 'selectors/prismic/events'
 
 // Feed and Post Pages
 
-export const NewsFeed = feed(mapStateToPropsNewsFeed, 'Recent news', 'news')
-export const BlogFeed = feed(mapStateToPropsBlogFeed, 'Blogs', 'blog')
-export const EventFeed = feed(mapStateToPropsEventFeed, 'Events', 'event')
+export const NewsFeed = feed(news.feed, 'Recent news', 'news')
+export const BlogFeed = feed(blogs.feed, 'Blogs', 'blog')
+export const EventFeed = feed(events.feed, 'Events', 'event')
 
-export const NewsPost = post(mapStateToPropsNewsPost, 'news')
-export const BlogPost = post(mapStateToPropsBlogPost, 'blog')
-export const EventPost = post(mapStateToPropsEventPost, 'event')
+export const NewsPost = post(news.post, 'news')
+export const BlogPost = post(blogs.post, 'blog')
+export const EventPost = post(events.post, 'event')

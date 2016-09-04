@@ -30,6 +30,7 @@ import {
     Sled,
     Auction,
     Youth,
+    GuidelinesYouthEducation,
     PrismicPage,
     TripPlanner,
     IncidentsTable,
@@ -161,6 +162,7 @@ export default function computeRoutes(store) {
             </Route>
             <Route path='tutorial' component={Tutorial} />
             <Route path='youth' component={Youth} />
+            <Route path='youth/education-guidelines' component={GuidelinesYouthEducation} />
             <Route path='gear' component={Gear} />
             <Route path='sled' component={Sled} />
             <Route path='auction' component={Auction} />

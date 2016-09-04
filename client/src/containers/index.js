@@ -61,6 +61,10 @@ export const Youth = withPrismic({
     bookmark: 'youth-page',
     title: 'Youth',
 })
+export const GuidelinesYouthEducation = withPrismic({
+    bookmark: 'guidelines-youth-education',
+    title: 'Guidelines for Youth Education',
+})
 export const Gear = withPrismic({
     bookmark: 'essential-gear-page',
     title: 'Essential Gear',

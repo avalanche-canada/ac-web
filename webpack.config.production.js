@@ -67,6 +67,7 @@ module.exports = {
             layouts: 'layouts',
             mapbox: 'mapbox',
             prismic: 'prismic',
+            cloudinary: 'cloudinary',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',
             router: 'router',

@@ -27,6 +27,7 @@ export Place from './Place'
 export Calendar from './Calendar'
 export Print from './Print'
 export Website from './Website'
+export Fullscreen from './Fullscreen'
 
 export Forecast from './Forecast'
 export HotZoneReport from './HotZoneReport'

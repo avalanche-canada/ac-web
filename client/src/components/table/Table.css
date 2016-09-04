@@ -90,6 +90,7 @@
 .HeaderCell {
     composes: Cell;
 
+    white-space: nowrap;
     border-left: 2px solid var(--gray-lighter);
     color: var(--gray);
     font-weight: 700;
@@ -115,5 +116,6 @@
 .Caption {
     caption-side: bottom;
     text-align: left;
-    color: var(--gray-darker);
+    color: var(--gray);
+    padding: 1em;
 }

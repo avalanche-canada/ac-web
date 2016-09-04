@@ -9,10 +9,12 @@
 
 :global(.float-right) {
     float: right;
+    padding-left: 1em;
 }
 
 :global(.float-left) {
     float: left;
+    padding-right: 1em;
 }
 
 :global(.android-branding-store) {
