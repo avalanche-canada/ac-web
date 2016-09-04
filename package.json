@@ -4,6 +4,7 @@
   "main": "server/app.js",
   "homepage": "http://www.avalanche.ca/",
   "dependencies": {
+    "ajv": "^4.6.1",
     "aws-sdk": "^2.2.12",
     "babel-polyfill": "^6.7.4",
     "body-parser": "^1.0.2",
@@ -104,6 +105,7 @@
     "grunt-webpack": "^1.0.11",
     "jit-grunt": "^0.5.0",
     "jshint-stylish": "~0.1.5",
+    "mocha": "^3.0.2",
     "open": "~0.0.4",
     "postcss-cssnext": "^2.5.1",
     "postcss-loader": "^0.8.2",
@@ -122,6 +124,7 @@
   "scripts": {
     "start": "node server/app.js",
     "test": "grunt test",
+    "mocha": "mocha",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
   "private": true
