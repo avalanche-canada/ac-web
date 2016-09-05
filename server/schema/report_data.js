@@ -119,8 +119,6 @@ var jsonSchema = {
 }
 
 
-
-
 module.exports =  {
     raw: raw,
     jsonSchema: jsonSchema,
