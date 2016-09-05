@@ -1,6 +1,7 @@
 import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
 import query from 'query-string'
+import moment from 'moment'
 import {baseURL} from 'api/config.json'
 import * as transformers from './transformers'
 import Url from 'url'
@@ -56,7 +57,23 @@ const CONFIGS = new Map([
 // TODO: Update endpoint for HotZoneArea when available
 const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
-    [Forecast, params => `forecasts/${params.name}.json`],
+    [Forecast, params => {
+        const {name, date} = params
+
+        if (date !== undefined) {
+            const archive = moment(date)
+            
+            if (!archive.isValid()) {
+                throw new Error(`Date ${date} is not valid.`)
+            }
+
+            if (archive.isBefore(new Date(), 'day')) {
+                return `bulletin-archive/${archive.toISOString()}/${name}.json`
+            }
+        }
+
+        return `forecasts/${name}.json`
+    }],
     [HotZoneArea, params => `forecasts`],
     [HotZoneReport, params => `hzr/submissions`],
     [MountainInformationNetworkObservation, params => `min/observations`],
