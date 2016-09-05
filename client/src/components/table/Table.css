@@ -119,3 +119,9 @@
     color: var(--gray);
     padding: 1em;
 }
+
+.PageSizeSelector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -12,9 +12,10 @@ const Providers = new Map([
     ['www.facebook.com', 'Facebook'],
     ['www.twitter.com', 'Twitter'],
     ['www.instagram.com', 'Instagram'],
+    ['vimeo.com', 'Vimeo'],
 ])
 
-function getProvider(href) {
+export function getProvider(href) {
     const {hostname} = assign(anchor, {href})
 
     return Providers.get(hostname) || 'Website'
@@ -22,16 +23,21 @@ function getProvider(href) {
 
 Item.propTypes = {
     link: PropTypes.string.isRequired,
-    fullName: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    children: PropTypes.string,
 }
 
-function Item({link, fullName}) {
+function Item({link, title, children}) {
     const provider = getProvider(link)
-    const title = `Visit ${fullName}'s on ${provider}.`
+
+    if (!title) {
+        title = `Visit on ${provider}.`
+    }
 
     return (
         <a styleName='Item' target='_blank' href={link} title={title}>
             {createElement(Icons[provider])}
+            {children}
         </a>
     )
 }

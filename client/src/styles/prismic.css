@@ -1,6 +1,8 @@
 @import "./colors.css";
 @import "./components.css";
 
+@custom-media --more-then-700 (width > 700px);
+
 :global(.block-img) {
     & > img {
         max-width: 100%;
@@ -90,5 +92,21 @@
 
     @media print {
         display: none;
+    }
+}
+
+:global(.static-page-youth) {
+    & main {
+        & div:not(:last-child) ul:not([class]) {
+            @media(--more-then-700) {
+                column-count: 2;
+                column-gap: 5em;
+            }
+
+            & a {
+                font-weight: 700;
+                display: block;
+            }
+        }
     }
 }

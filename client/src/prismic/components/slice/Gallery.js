@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {TabSet, Tab} from 'components/tab'
+import {TabSet, Tab, LOOSE} from 'components/tab'
 import Base from 'components/gallery'
 
 const YES = 'Yes'
@@ -23,7 +23,7 @@ export default function Gallery({content, label}) {
     }
 
     return (
-        <TabSet>
+        <TabSet theme={LOOSE}>
         {content.map(({name, ...gallery}) => {
             return (
                 <Tab title={name}>

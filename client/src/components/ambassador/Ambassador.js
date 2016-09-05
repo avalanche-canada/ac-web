@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import kebabCase from 'lodash/kebabCase'
-import {SocialSet} from 'components/social'
+import {SocialSet, SocialItem, getProvider} from 'components/social'
 import {Br} from 'components/misc'
 import styles from './Ambassador.css'
 
@@ -29,7 +29,15 @@ function Ambassador({fullName, socials = [], banner, avatar, children}) {
             <div styleName='Biography'>
                 <div>
                     <img styleName='Avatar' {...avatar} />
-                    <SocialSet links={socials} fullName={fullName} />
+                    <SocialSet>
+                        {socials.map(social => {
+                            const title = `Visit ${fullName} on ${getProvider(social)}`
+
+                            return (
+                                <SocialItem link={social} title={title} />
+                            )
+                        })}
+                    </SocialSet>
                 </div>
                 <div>
                     <a href={`#${kebabCase(fullName)}`}>

@@ -1,0 +1,57 @@
+import React, {PropTypes} from 'react'
+import {compose, withProps} from 'recompose'
+import CSSModules from 'react-css-modules'
+import {DropdownFromOptions as Dropdown} from 'components/controls'
+import styles from './Table.css'
+
+const {isArray} = Array
+const NUMBERS = [10, 25, 50, 75, 100, 125, 150, 200]
+function K() {}
+function toEntry(number) {
+    return [number, number]
+}
+
+PageSizeSelector.propTypes = {
+    value: PropTypes.number,
+    max: PropTypes.number,
+    numbers: PropTypes.arrayOf(PropTypes.number),
+    onChange: PropTypes.func.isRequired,
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
+}
+
+function PageSizeSelector({
+    value,
+    options,
+    onChange = K,
+    prefix = 'Show',
+    suffix = 'entries per page.'
+}) {
+    return (
+        <div styleName='PageSizeSelector'>
+            <div>{prefix}</div>
+            <div>
+                <Dropdown options={options} value={value} onChange={onChange} />
+            </div>
+            <div>{suffix}</div>
+        </div>
+    )
+}
+
+export default compose(
+    withProps(({max, numbers, value}) => {
+        if (!isArray(numbers)) {
+            if (typeof max === 'number') {
+                numbers = NUMBERS.filter(number => number < max)
+            } else {
+                numbers = [10, 25, 50]
+            }
+        }
+
+        return {
+            options: new Map(numbers.map(toEntry)),
+            value: value || numbers[0],
+        }
+    }),
+    CSSModules(styles),
+)(PageSizeSelector)

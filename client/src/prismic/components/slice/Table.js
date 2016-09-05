@@ -4,10 +4,10 @@ import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {createSelector} from 'reselect'
 import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
-import {Staff} from 'prismic/types'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption} from 'components/table'
+import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption, Responsive, PageSizeSelector} from 'components/table'
 import {FilterSet, FilterEntry} from 'components/filter'
-import {Loading, InnerHTML} from 'components/misc'
+import Pagination from 'components/pagination'
+import {Loading, InnerHTML, Br} from 'components/misc'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 import factory from 'prismic/types/factory'
 import get from 'lodash/get'
@@ -57,22 +57,22 @@ function createProperty(type, property, option1, option2, option3) {
     }
 }
 
-function createFilter({name, property}, {onFilterChange, filterings}, rows) {
+function createFilter({name, property}, {createFilterChangeHandler, filterings}, rows) {
     const options = rows.map(row => row[property]).filter(Boolean).toSet().sort().toArray()
 
     return {
         options: new Map(options.map(option => [option, option])),
         value: filterings.has(property) ? filterings.get(property) : new Set(),
         placeholder: name,
-        onChange: onFilterChange(property),
+        onChange: createFilterChangeHandler(property),
     }
 }
 
-function createColumn({name, sortable, property, type, option1, option2, option3}, {onSortingChange, sorting}) {
+function createColumn({name, sortable, property, type, option1, option2, option3}, {createSortingChangeHandler, sorting}) {
     return {
         name,
         sorting: sortable !== YES ? undefined : (sorting[0] === property ? sorting[1] : NONE),
-        onSortingChange: onSortingChange(property),
+        onSortingChange: createSortingChangeHandler(property),
         property: createProperty(type, property, option1, option2, option3),
     }
 }
@@ -106,6 +106,9 @@ const mapStateToProps = createSelector(
         return filters
     },
     function computeRows(documents, columns, isFetching, props, sorting, filters) {
+        const {page, pageSize} = props
+        const begin = (page - 1) * pageSize
+        const end = page * pageSize
         let rows = filters.reduce((rows, filter) => rows.filter(filter), documents)
 
         if (isArray(sorting)) {
@@ -120,16 +123,18 @@ const mapStateToProps = createSelector(
 
         return {
             isFetching,
-            rows,
+            rows: rows.slice(begin, end),
+            total: rows.size,
             columns: columns.map(column => createColumn(column, props)),
             filters: columns.filter(isFilterable).map(filter => createFilter(filter, props, documents)),
         }
     }
 )
 
-function Container({columns = [], rows = [], filters = []}) {
+function Container({columns = [], rows = [], filters = [], total, pageSize, onPageSizeChange, page, setPage}) {
     return (
         <div>
+            <Br />
             <FilterSet>
             {filters.map(filter => (
                 <FilterEntry>
@@ -158,7 +163,10 @@ function Container({columns = [], rows = [], filters = []}) {
                     </Row>
                 ))}
                 </TBody>
-                <Caption>Showing {rows.size} entries</Caption>
+                <Caption>
+                    <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
+                    <Pagination active={page} onChange={setPage} total={Math.ceil(total/pageSize)} />
+                </Caption>
             </Table>
         </div>
     )
@@ -167,16 +175,24 @@ function Container({columns = [], rows = [], filters = []}) {
 export default compose(
     withState('sorting', 'setSorting', []),
     withState('filterings', 'setFilterings', new Map()),
+    withState('pageSize', 'setPageSize', 10),
+    withState('page', 'setPage', 1),
     withHandlers({
-        onSortingChange: props => property => order => {
+        createSortingChangeHandler: props => property => order => {
             props.setSorting([property, order])
         },
-        onFilterChange: props => property => value => {
+        createFilterChangeHandler: props => property => value => {
             const {filterings, setFilterings} = props
 
             filterings.set(property, value)
 
             setFilterings(new Map([...filterings]))
+        },
+        onPageSizeChange: props => page => {
+            const {setPage, setPageSize} = props
+
+            setPage(1)
+            setPageSize(page)
         },
     }),
     connect(mapStateToProps, {

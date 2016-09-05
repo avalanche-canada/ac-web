@@ -22,9 +22,9 @@ StaticPage.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object),
 }
 
-function StaticPage({title, headline, sponsor = null, content = []}) {
+function StaticPage({title, headline, sponsor = null, content = [], type, uid}) {
     return (
-        <Page>
+        <Page className={`${type}-${uid}`}>
             <Header title={title} sponsor={sponsor} />
             <Main>
                 {headline &&

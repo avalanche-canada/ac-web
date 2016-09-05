@@ -9,6 +9,7 @@
 	border: none;
     cursor: pointer;
     min-height: 30px;
+    line-height: 2;
 
     @media print {
         display: none;
@@ -27,6 +28,12 @@
 	&:active, &.Active {
 		background-color: var(--component-primary-bg-active);
 	}
+}
+
+.Primary--Active {
+    composes: Primary;
+    
+    background-color: var(--component-primary-bg-active);
 }
 
 .Secondary {

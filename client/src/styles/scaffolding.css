@@ -44,14 +44,17 @@ img {
 }
 
 ul:not([class]) {
-    list-style: none;
-    padding-left: 1em;
+    /*list-style: none;*/
+    padding-left: 2em;
 
-    & > li:before {
-        content: "•";
-        padding-right: 7px;
-        color: var(--primary);
-    }
+    /* Colored bullet, but it does not wrap properly when t is on tow lines */
+    /*& > li {
+        &:before {
+            content: "•";
+            padding-right: 7px;
+            color: var(--primary);
+        }
+    }*/
 }
 
 @media print {
