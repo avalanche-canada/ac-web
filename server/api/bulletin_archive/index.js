@@ -5,6 +5,8 @@ var moment  = require('moment');
 var mssql   = require('mssql');
 var _       = require('lodash');
 
+var BULLETIN_NOT_FOUND = "BULLETIN_NOT_FOUND"
+
 // TODO(wnh): merge your other work and make a single collection of this static
 // data
 var STATIC_RATINGS = [
@@ -109,7 +111,12 @@ router.get('/:date/:region.json', (req, res) => {
         res.status(200).send(j).end();
     })
     .catch((err)=>{
-        console.log('CONNECTION ERR:', err);
+        if(err.message === BULLETIN_NOT_FOUND) {
+            res.status(404).json({error: "Bulletin not found"})
+        } else {
+            res.status(500).json({error: err.message})
+            console.log('CONNECTION ERR:', err);
+        }
     });
 });
 
@@ -135,7 +142,7 @@ function getDangerRatings(args) {
 
 function getFirstBulletin(bulletins) {
     if(bulletins.length < 1) {
-        throw Error("Query didnt return a bulletin")
+        throw new Error(BULLETIN_NOT_FOUND)
     }
     return bulletins[0];
 }
