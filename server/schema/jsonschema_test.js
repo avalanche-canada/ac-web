@@ -1,3 +1,5 @@
+/* globals describe: true, it: true */
+
 var assert = require('assert')
 var Ajv = require('ajv');
 

@@ -1,3 +1,4 @@
+/* globals describe: true, it: true */
 
 var assert = require('assert')
 var min = require('./report_data')

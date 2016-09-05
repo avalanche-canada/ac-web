@@ -74,7 +74,7 @@ function toJsonSchema(fields){
     var field = fields[key];
     var xx = {};
     //console.log(field.type);
-    fn = converters[field.type];
+    var fn = converters[field.type];
     xx = fn(field);
     out.properties[key] = xx;
     out.required.push(key);
