@@ -25,7 +25,7 @@ function ShowingEntriesHelper({
         <div styleName='ShowingEntriesHelper'>
             <div>{prefix}</div>
             <div>
-                <Dropdown options={options} value={value} onChange={onChange} />
+                Finish ;)
             </div>
             <div>{suffix}</div>
         </div>
