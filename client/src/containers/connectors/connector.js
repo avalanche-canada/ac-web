@@ -32,5 +32,4 @@ export default function connector(mapStateToProps, load, loadAll) {
             },
         }),
     )
-
 }

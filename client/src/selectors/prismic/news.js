@@ -4,6 +4,7 @@ import {options as monthOptions} from 'selectors/prismic/months'
 import {NewsPost} from 'prismic/types'
 import makeFeedSelector from 'selectors/prismic/makeFeedSelector'
 import makePostSelector from 'selectors/prismic/makePostSelector'
+import makeSplashSelector from 'selectors/prismic/makeSplashSelector'
 
 const TYPE = 'news'
 
@@ -38,3 +39,4 @@ function makeOptionsSelectors(getFeed) {
 
 export const post = makePostSelector(TYPE, transform)
 export const feed = makeFeedSelector(TYPE, transform, makeOptionsSelectors)
+export const splash = makeSplashSelector(TYPE, transform)

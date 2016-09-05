@@ -9,11 +9,8 @@ import {HeaderCellOrders} from 'components/table'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 const COLUMNS = [{
-    title: 'Name',
+    title: 'Provider Name',
     property: 'name',
-}, {
-    title: 'Contact',
-    property: 'primContact',
 }, {
     title: 'Email',
     property({email}) {
@@ -36,7 +33,7 @@ const COLUMNS = [{
         )
     }
 }, {
-    title: 'Address',
+    title: 'Location',
     property: 'mailingAddr',
 }]
 

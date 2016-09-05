@@ -8,7 +8,7 @@ Banner.propTypes = {
     description: PropTypes.string,
 }
 
-function Banner({ url, description = null, children }) {
+function Banner({url, description = null, children}) {
     const style = {
         backgroundImage: `url("${url}")`
     }

@@ -19,6 +19,14 @@
     padding-right: 1em;
 }
 
+:global(.primary-text) {
+    color: var(--primary)
+}
+
+:global(.secondary-text) {
+    color: var(--secondary)
+}
+
 :global(.android-branding-store) {
     position: relative;
     line-height: 40px;

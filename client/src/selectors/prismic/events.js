@@ -4,6 +4,7 @@ import computeCategoryOptions from 'selectors/prismic/computeCategoryOptions'
 import {options as monthOptions} from 'selectors/prismic/months'
 import makePostSelector from 'selectors/prismic/makePostSelector'
 import makeFeedSelector from 'selectors/prismic/makeFeedSelector'
+import makeSplashSelector from 'selectors/prismic/makeSplashSelector'
 
 const TYPE = 'event'
 
@@ -38,3 +39,4 @@ function makeOptionsSelectors(getFeed) {
 
 export const post = makePostSelector(TYPE, transform)
 export const feed = makeFeedSelector(TYPE, transform, makeOptionsSelectors)
+export const splash = makeSplashSelector(TYPE, transform)

@@ -138,6 +138,7 @@ export default function computeRoutes(store) {
             <Route path='blogs' component={BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' component={BlogPost} />
             <Route path='forecasts/:name' component={Forecast} />
+            <Route path='forecasts/:name/archives/:date' component={Forecast} />
             <Route path='weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />

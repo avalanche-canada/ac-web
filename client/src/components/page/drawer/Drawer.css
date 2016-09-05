@@ -51,6 +51,7 @@
     position: relative;
     color: var(--brand-primary);
     font-size: 0.75em;
+    line-height: 1.5;
     font-weight: 700;
     text-transform: uppercase;
 

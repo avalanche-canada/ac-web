@@ -22,14 +22,16 @@ const tagOptions = new Map([
     ['youth', 'Youth'],
 ])
 
+const STYLE = {
+    margin: 'auto 3em',
+    position: 'relative',
+    width: '90%',
+}
+
+
 @connect(null, {locate})
 @withRouter
 export class Courses extends Component {
-    static style = {
-        margin: 'auto 3em',
-        position: 'relative',
-        width: '90%',
-    }
     handleCourseChange = course => {
         this.replaceQuery({
             course: course || undefined
@@ -71,7 +73,6 @@ export class Courses extends Component {
         this.props.locate()
     }
     render() {
-        const {style} = this.constructor
         const {query, state} = this.props.location
         const {course, tags} = query
         let {from, to} = query
@@ -82,7 +83,7 @@ export class Courses extends Component {
         to = to && parseFromDay(to)
 
         return (
-            <Form style={style}>
+            <Form style={STYLE}>
                 <Legend>Find a course</Legend>
                 <ControlSet horizontal>
                     <Control>
@@ -101,4 +102,12 @@ export class Courses extends Component {
             </Form>
         )
     }
+}
+
+export function Providers() {
+    return (
+        <Form style={STYLE}>
+            <Legend>Find a provider</Legend>
+        </Form>
+    )
 }

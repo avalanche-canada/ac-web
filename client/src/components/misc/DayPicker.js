@@ -27,14 +27,20 @@ function Navbar({nextMonth, previousMonth, onPreviousClick, onNextClick, classNa
          title: months[previousMonth.getMonth()],
          style: {float: 'left'},
          icon: <Previous />,
-         onClick: () => onPreviousClick(),
+         onClick: event => {
+             event.preventDefault()
+             onPreviousClick()
+         },
     }
     const next = {
          kind: SUBTILE,
          title: months[nextMonth.getMonth()],
          style: {float: 'right'},
          icon: <Next />,
-         onClick: () => onNextClick(),
+         onClick: event => {
+             event.preventDefault()
+             onNextClick()
+         },
     }
 
     return (

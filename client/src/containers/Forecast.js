@@ -13,7 +13,7 @@ Container.propTypes = {
     region: PropTypes.object,
 }
 
-function Container({isLoading, forecast, type, title = 'Loading...', isError, link}) {
+function Container({isLoading, forecast, type, title = 'Loading...', isError, link, isArchive = false}) {
     return (
         <Page>
             <Header title={link ? <Link {...link}>{title}</Link> : title} />

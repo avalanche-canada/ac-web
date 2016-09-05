@@ -14,7 +14,7 @@ Drawer.propTypes = {
     children: PropTypes.instanceOf(ItemSet).isRequired,
 }
 
-function Drawer({ header, onClick = K, onHome = K, onClose = K, style = null, children }) {
+function Drawer({header, onClick = K, onHome = K, onClose = K, style = null, children}) {
     function handleClick(event) {
         const { target, currentTarget } = event
 
