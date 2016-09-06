@@ -35,6 +35,6 @@ export function transformHotZoneAreas({features}) {
 export function transformResponseFromDjango({results, ...rest}) {
     return {
         ...rest,
-        results: results.map(camelcaseKeys)
+        results: results.map(camelcaseKeys),
     }
 }

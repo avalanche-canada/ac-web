@@ -13,14 +13,15 @@ export Br from './Br'
 
 export GoBack from './GoBack'
 
-const now = new Date()
 
-export Time from './Time'
+export const Time = createTime('Time', 'HH:mm')
+export const DateTime = createTime('DateTime', 'dddd MMMM Do, HH:mm')
+export const Day = createTime('Day', 'dddd')
 export const DateElement = createTime('Date', function format(value) {
+    const now = new Date()
+
     return value.getFullYear() === now.getFullYear() ? 'dddd MMMM Do' : 'dddd MMMM Do, YYYY'
 })
-export const DateTime = createTime('DateTime', 'dddd MMMM Do, hh:mm')
-export const Day = createTime('Day', 'dddd')
 
 export InnerHTML from './InnerHTML'
 

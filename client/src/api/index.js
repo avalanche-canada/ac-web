@@ -54,26 +54,34 @@ const CONFIGS = new Map([
     })],
 ])
 
+function isArchiveBulletinRequest({name, date}) {
+    if (!date) {
+        return false
+    }
+
+    const archive = moment(date, 'YYYY-MM-DD')
+
+    if (!archive.isValid()) {
+        throw new Error(`Date ${date} is not valid.`)
+    }
+
+    return archive.isBefore(new Date(), 'day')
+}
+
+function forecastEndpoint({name, date}) {
+    if (isArchiveBulletinRequest({name, date})) {
+        const archive = moment(date)
+
+        return `bulletin-archive/${archive.toISOString()}/${name}.json`
+    } else {
+        return `forecasts/${name}.json`
+    }
+}
+
 // TODO: Update endpoint for HotZoneArea when available
 const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
-    [Forecast, params => {
-        const {name, date} = params
-
-        if (date !== undefined) {
-            const archive = moment(date)
-            
-            if (!archive.isValid()) {
-                throw new Error(`Date ${date} is not valid.`)
-            }
-
-            if (archive.isBefore(new Date(), 'day')) {
-                return `bulletin-archive/${archive.toISOString()}/${name}.json`
-            }
-        }
-
-        return `forecasts/${name}.json`
-    }],
+    [Forecast, forecastEndpoint],
     [HotZoneArea, params => `forecasts`],
     [HotZoneReport, params => `hzr/submissions`],
     [MountainInformationNetworkObservation, params => `min/observations`],

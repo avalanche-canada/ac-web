@@ -16,7 +16,7 @@ function Splash({title, children}) {
         <section styleName='Splash'>
             <header styleName='Splash--Header'>
                 {title && <h1>{title}</h1>}
-                <Br withRibbon />
+                <Br ribbon />
             </header>
             <div styleName='Splash--Content'>
                 {children}

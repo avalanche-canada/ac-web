@@ -8,6 +8,7 @@ export Map from './Map'
 
 // Full page
 export Forecast from './Forecast'
+export ArchiveForecast from './ArchiveForecast'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
 export IncidentsTable from './IncidentsTable'

@@ -3,12 +3,12 @@ import CSSModules from 'react-css-modules'
 import styles from './Br.css'
 
 Br.propTypes = {
-    withRibbon: PropTypes.bool,
+    ribbon: PropTypes.bool,
 }
 
-function Br({withRibbon = false}) {
+function Br({ribbon = false}) {
     return (
-        <div styleName={withRibbon ? 'Ribbon' : 'Main'}></div>
+        <div styleName={ribbon ? 'Ribbon' : 'Main'}></div>
     )
 }
 

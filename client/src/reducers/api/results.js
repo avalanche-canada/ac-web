@@ -57,7 +57,7 @@ function getIds(result) {
 
 const EMPTY_LIST = new List()
 
-const RESULT = {
+export const RESULT = {
     isFetching: false,
     isLoaded: false,
     isError: false,

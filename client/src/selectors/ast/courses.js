@@ -61,7 +61,7 @@ const RESULTS = {
 }
 
 function asControlled({provider}) {
-    const {name, email, phone, website, prim_contact, mailing_addr} = provider
+    const {name, email, phone, website, prim_contact, location} = provider
 
     return {
         Name: name,
@@ -81,7 +81,7 @@ function asControlled({provider}) {
                 <Phone phone={phone} />
             )
         },
-        Address: mailing_addr,
+        Location: location,
     }
 }
 

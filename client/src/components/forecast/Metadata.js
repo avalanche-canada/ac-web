@@ -11,10 +11,10 @@ export default function ForecastMetadata({dateIssued, validUntil}) {
     return (
         <Metadata>
             <Entry term='Date Issued'>
-                <DateTime value={dateIssued} format='EEE MMMM d, h:mm a' />
+                <DateTime value={dateIssued} />
             </Entry>
             <Entry term='Valid Until'>
-                <DateTime value={validUntil} format='EEE MMMM d, h:mm a' />
+                <DateTime value={validUntil} />
             </Entry>
         </Metadata>
     )

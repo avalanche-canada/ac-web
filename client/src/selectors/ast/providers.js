@@ -34,7 +34,7 @@ const COLUMNS = [{
     }
 }, {
     title: 'Location',
-    property: 'mailingAddr',
+    property: 'location',
 }]
 
 const RESULTS = {

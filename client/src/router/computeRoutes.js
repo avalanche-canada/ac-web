@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
+import moment from 'moment'
 import {loadForType, loadForBookmark} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as DRAWERS from 'containers/drawers';
@@ -20,6 +21,7 @@ import {
     PrivacyPolicy,
     TermsOfUse,
     Forecast,
+    ArchiveForecast,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
@@ -113,6 +115,16 @@ export default function computeRoutes(store) {
         dispatch(turnOnLayer(LAYERS.FORECASTS))
     }
 
+    function handleArchiveForecastRouteEnter({params: {name, date}}, replace) {
+        date = moment(date, 'YYYY-MM-DD')
+
+        if (date.isValid() && date.isBefore(new Date(), 'day')) {
+            return
+        }
+
+        replace(`/forecasts/${name}`)
+    }
+
     return (
         <Route path='/' component={Root} onEnter={handleRootRouteEntered} >
             {/*AVALANCHE CANADA*/}
@@ -138,7 +150,7 @@ export default function computeRoutes(store) {
             <Route path='blogs' component={BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' component={BlogPost} />
             <Route path='forecasts/:name' component={Forecast} />
-            <Route path='forecasts/:name/archives/:date' component={Forecast} />
+            <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
             <Route path='weather' component={Weather}>
                 <IndexRedirect to='forecast' />

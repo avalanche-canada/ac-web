@@ -6,14 +6,20 @@ import {Muted, Error} from 'components/misc'
 import {forecast} from './connectors'
 
 Container.propTypes = {
-    type: PropTypes.string,
-    isLoading: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     forecast: PropTypes.object,
-    region: PropTypes.object,
+    isLoading: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    link: PropTypes.object,
 }
 
-function Container({isLoading, forecast, type, title = 'Loading...', isError, link, isArchive = false}) {
+function Container({
+    title = 'Loading...',
+    forecast,
+    isLoading,
+    isError,
+    link,
+}) {
     return (
         <Page>
             <Header title={link ? <Link {...link}>{title}</Link> : title} />
@@ -21,7 +27,7 @@ function Container({isLoading, forecast, type, title = 'Loading...', isError, li
                 {forecast && <Metadata {...forecast} />}
                 {isLoading && <Muted>Loading forecast...</Muted>}
                 {isError && <Error>Error happened while loading forecast.</Error>}
-                {(forecast && forecast.region) && createElement(Forecast, forecast)}
+                {(forecast && forecast.region) && <Forecast {...forecast} />}
             </Main>
         </Page>
     )

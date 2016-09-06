@@ -1,0 +1,15 @@
+.Day {
+    position: relative;
+    display: inline-block;
+}
+
+.Content {
+    cursor: pointer;
+    & button {
+        /* SHAME This way it looks aligned */
+        position: relative;
+        top: 5px;
+
+        outline: none;
+    }
+}
