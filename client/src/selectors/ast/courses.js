@@ -12,7 +12,7 @@ import {getGeolocation} from 'reducers/geolocation'
 import get from 'lodash/get'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
-const {keys} = Object
+const {keys, assign} = Object
 const COLUMNS = new List([{
         name: 'dates',
         title: 'Dates',
@@ -111,10 +111,18 @@ const getPosition = createSelector(
     }
 )
 
+
+
+function normalize(course) {
+    return assign(course, {
+        tags: course.tags.map(tag => tag.toUpperCase().trim())
+    })
+}
+
 const getRawCourses = createSelector(
     getCourseEntities,
     getCourseIds,
-    (courses, ids) => ids.map(id => courses.get(id).toJSON())
+    (courses, ids) => ids.map(id => normalize(courses.get(id).toJSON()))
 )
 
 function getPlaceFromLocationState(state, {location}) {
@@ -145,8 +153,16 @@ const getDistanceHelper = createSelector(
 )
 
 const Filters = new Map([
-    ['course', ({course}) => ({level}) => level === course],
-    ['tags', ({tags}) => course => Boolean(course.tags.find(tag => tags.includes(tag)))],
+    ['course', ({course}) => {
+        course = course.toUpperCase().trim()
+
+        return ({level}) => level === course
+    }],
+    ['tags', ({tags}) => {
+        tags = tags.toUpperCase().trim()
+
+        return course => Boolean(course.tags.find(tag => tags.includes(tag)))
+    }],
     ['to', ({from, to}) => {
         from = new Date(from)
         to = new Date(to)
@@ -181,15 +197,15 @@ const Sorters = new Map([
 ])
 
 function resetDistance(course) {
-    course.distance = null
-
-    return course
+    return assign(course, {
+        distance: null
+    })
 }
 function updateDistanceFactory(point) {
     return function updateDistance(course) {
-        course.distance = distance(turf.point(course.loc), point)
-
-        return course
+        return assign(course, {
+            distance: distance(turf.point(course.loc), point)
+        })
     }
 }
 

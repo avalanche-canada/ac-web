@@ -71,13 +71,23 @@ export class Courses extends Component {
     render() {
         const {location, tagOptions} = this.props
         const {query, state} = location
-        const {course, tags} = query
-        let {from, to} = query
-        const tagSet = new Set(isArray(tags) ? tags : [tags])
+        let {
+            course = '',
+            tags = [],
+            from,
+            to
+        } = query
+
+        tags = isArray(tags) ? tags : [tags]
+        tags = tags.map(tag => tag.toUpperCase())
+        const tagSet = new Set(tags)
+
         const geoname = get(state, 'place.text')
 
         from = from && parseFromDay(from)
         to = to && parseFromDay(to)
+
+        course = course.toUpperCase().trim()
 
         return (
             <Form style={STYLE}>
