@@ -68,7 +68,7 @@ const getProviders = createSelector(
     providers => providers.toList()
 )
 
-export default createSelector(
+export const table = createSelector(
     getProvidersResultSet,
     getProviders,
     function mapStateToProps(result, providers) {

@@ -119,6 +119,16 @@ export function getDocumentForUid(state, type, uid) {
     return documents.get(id)
 }
 
+export function getDocumentForParams(state, {id, type, uid, bookmark}) {
+    if (bookmark) {
+        return getDocumentForBookmark(state, bookmark)
+    } else if (id) {
+        return getDocument(state, id)
+    } else if (type && uid) {
+        return getDocumentForUid(state, type, uid)
+    }
+}
+
 export function getIsFetching(state) {
     return state.prismic.fetchingCounter > 0
 }

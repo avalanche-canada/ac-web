@@ -180,19 +180,26 @@ const Sorters = new Map([
     ['distance', course => course.distance],
 ])
 
+function resetDistance(course) {
+    course.distance = null
+
+    return course
+}
+function updateDistanceFactory(point) {
+    return function updateDistance(course) {
+        course.distance = distance(turf.point(course.loc), point)
+
+        return course
+    }
+}
+
 const getCourses = createSelector(
     getRawCourses,
     getPointForDistance,
     (courses, point) => {
-        if (!point) {
-            return courses
-        }
+        const updater = point ? updateDistanceFactory(point) : resetDistance
 
-        return courses.map(course => {
-            course.distance = distance(turf.point(course.loc), point)
-
-            return course
-        })
+        return courses.map(updater)
     }
 )
 
@@ -274,11 +281,11 @@ function isSponsor({provider}) {
     return provider.is_sponsor
 }
 
-export default createSelector(
+export const table = createSelector(
     getSortedCourses,
     getCoursesResultSet,
     getColumns,
-    function mapStateToProps(courses, result, columns) {
+    function mapTableStateToProps(courses, result, columns) {
         let caption = undefined
 
         if (result.isLoaded && courses.length === 0) {
@@ -294,6 +301,17 @@ export default createSelector(
             rows: courses.filterNot(isSponsor),
             caption,
             asControlled,
+        }
+    }
+)
+
+export const form = createSelector(
+    getRawCourses,
+    function mapFormStateToProps(courses) {
+        const tags = new Set(courses.reduce((tags, course) => tags.concat(course.tags), []))
+
+        return {
+            tagOptions: new Map([...tags].map(tag => [tag, tag]))
         }
     }
 )

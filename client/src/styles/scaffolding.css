@@ -15,7 +15,7 @@ h1 {
 
 h1, h2, h3, h4, h5, h6 {
     line-height: 1;
-    
+
     & > a {
         color: inherit;
 
@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
         }
 
         &:after {
-            content: ' \203A';
+            content: " \203A";
             color: var(--primary);
         }
     }

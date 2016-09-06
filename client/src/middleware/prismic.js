@@ -1,7 +1,9 @@
 import {Api as Prismic, Predicates} from 'prismic'
 import {
+    getDocument,
     getDocumentForBookmark,
     getDocumentForUid,
+    getDocumentForId,
     getDocumentsOfType
 } from 'reducers/prismic'
 
@@ -15,25 +17,31 @@ export const PRISMIC_API_FAILURE = 'PRISMIC_API_FAILURE'
 
 export const PRISMIC = 'prismic-query'
 
-function createBasePredicate(api, {type, bookmark, uid}) {
+function createBasePredicate({api}, {type, bookmark, uid, id}) {
     if (bookmark) {
-        const id = api.api.bookmarks[bookmark]
+        const id = api.bookmarks[bookmark]
 
+        return Predicates.at('document.id', id)
+    } else if (id) {
         return Predicates.at('document.id', id)
     } else if (uid && type) {
         return Predicates.at(`my.${type}.uid`, uid)
     } else if (type) {
         return Predicates.at('document.type', type)
     } else {
-        throw new Error('Not parameters to create predicates.')
+        throw new Error('Not enough parameters to create predicates.')
     }
 }
 
 function isPrismicCallRequired(store, action) {
     const state = store.getState()
-    const {bookmark, type, uid} = action.payload
+    const {bookmark, type, uid, id} = action.payload
 
     if (bookmark && !getDocumentForBookmark(state, bookmark)) {
+        return true
+    }
+
+    if (id && !getDocument(state, id)) {
         return true
     }
 

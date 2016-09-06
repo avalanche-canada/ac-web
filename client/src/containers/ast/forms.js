@@ -7,6 +7,7 @@ import {DropdownFromOptions, Input, Geocoder, DateRange} from 'components/contro
 import {locate} from 'actions/geolocation'
 import {formatAsDay, parseFromDay} from 'utils/date'
 import get from 'lodash/get'
+import * as courses from 'selectors/ast/courses'
 
 const {isArray} = Array
 const courseOptions = new Map([
@@ -16,11 +17,6 @@ const courseOptions = new Map([
     ['CRS', 'Companion Rescue (CRS)'],
     ['MAT', 'Managing Avalanche Terrain (MAT)'],
 ])
-const tagOptions = new Map([
-    ['ski', 'Ski'],
-    ['sled', 'Sled'],
-    ['youth', 'Youth'],
-])
 
 const STYLE = {
     margin: 'auto 3em',
@@ -29,7 +25,7 @@ const STYLE = {
 }
 
 
-@connect(null, {locate})
+@connect(courses.form, {locate})
 @withRouter
 export class Courses extends Component {
     handleCourseChange = course => {
@@ -73,7 +69,8 @@ export class Courses extends Component {
         this.props.locate()
     }
     render() {
-        const {query, state} = this.props.location
+        const {location, tagOptions} = this.props
+        const {query, state} = location
         const {course, tags} = query
         let {from, to} = query
         const tagSet = new Set(isArray(tags) ? tags : [tags])

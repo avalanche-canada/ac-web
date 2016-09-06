@@ -27,6 +27,40 @@
     color: var(--secondary)
 }
 
+:global(.read-more-link a) {
+    color: var(--gray-light);
+    text-transform: uppercase;
+    font-size: 0.75em;
+
+    &:hover {
+        color: var(--gray);
+    }
+}
+
+:global(.primary-big-button) {
+    & > a {
+        display: inline-block;
+        min-width: 150px;
+        padding: 1em;
+        margin-top: 1em;
+        font-size: 1em;
+        font-weight: 700;
+        color: white;
+        background-color: var(--primary);
+        text-transform: uppercase;
+
+        &:hover {
+            background-color: color(var(--primary) blackness(15%));
+        }
+
+        &:after {
+            content: " \203A";
+            color: white;
+            font-size: 1.25em;
+        }
+    }
+}
+
 :global(.android-branding-store) {
     position: relative;
     line-height: 40px;

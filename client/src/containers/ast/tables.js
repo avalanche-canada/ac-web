@@ -7,7 +7,8 @@ import {asTermAndDefinition} from 'components/description/utils'
 import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption} from 'components/table'
 import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
-import * as selectors from 'selectors/ast'
+import * as providers from 'selectors/ast/providers'
+import * as courses from 'selectors/ast/courses'
 
 function renderControlled(data, asControlled) {
     return (
@@ -106,5 +107,5 @@ function Connect(name, mapStateToProps, load) {
     )(AstTable)
 }
 
-export const Providers = Connect('Providers', selectors.providers, loadProviders)
-export const Courses = Connect('Courses', selectors.courses, loadCourses)
+export const Providers = Connect('Providers', providers.table, loadProviders)
+export const Courses = Connect('Courses', courses.table, loadCourses)
