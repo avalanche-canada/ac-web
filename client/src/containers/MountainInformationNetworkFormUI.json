@@ -1,3 +1,52 @@
 {
-
+    "quickReport": {
+        "ridingConditions": {
+            "rideType": {
+                "type": {
+                    "ui:widget": "hidden"
+                },
+                "prompt": {
+                    "ui:widget": "hidden"
+                }
+            },
+            "ridingQuality": {
+                "type": {
+                    "ui:widget": "hidden"
+                },
+                "prompt": {
+                    "ui:widget": "hidden"
+                }
+            },
+            "stayedAway": {
+                "type": {
+                    "ui:widget": "hidden"
+                },
+                "prompt": {
+                    "ui:widget": "hidden"
+                }
+            },
+            "snowConditions": {
+                "type": {
+                    "ui:widget": "hidden"
+                },
+                "prompt": {
+                    "ui:widget": "hidden"
+                }
+            },
+            "weather": {
+                "type": {
+                    "ui:widget": "hidden"
+                },
+                "prompt": {
+                    "ui:widget": "hidden"
+                }
+            },
+            "avalancheConditions": {
+                
+            }
+        },
+        "comment": {
+            "ui:widget": "textarea"
+        }
+    }
 }

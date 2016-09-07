@@ -4,6 +4,8 @@
 	"properties": {
 		"quickReport": {
 			"type": "object",
+            "title": "Quick Report",
+            "description": "Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.",
 			"required": [
 				"avalancheConditions",
 				"comment",
@@ -18,15 +20,19 @@
 						"stayedAway",
 						"rideType"
 					],
+                    "title": "Riding Conditions",
 					"properties": {
 						"rideType": {
 							"type": "object",
+                            "title": "Ride Type",
 							"properties": {
 								"prompt": {
-									"type": "string"
+									"type": "string",
+                                    "default": "We rode:"
 								},
 								"type": {
-									"type": "string"
+									"type": "string",
+                                    "default": "multiple"
 								},
 								"options": {
 									"properties": {
@@ -75,9 +81,12 @@
 							]
 						},
 						"ridingQuality": {
+                            "title": "Riding Quality",
 							"properties": {
 								"type": {
-									"type": "string"
+									"type": "string",
+                                    "default": "single"
+
 								},
 								"options": {
 									"type": "array",
@@ -95,7 +104,8 @@
 									]
 								},
 								"prompt": {
-									"type": "string"
+									"type": "string",
+                                    "default": "Riding quality was:"
 								}
 							},
 							"required": [
@@ -107,6 +117,7 @@
 							"type": "object"
 						},
 						"stayedAway": {
+                            "title": "Stayed Away",
 							"properties": {
 								"options": {
 									"properties": {
@@ -140,10 +151,12 @@
 									"type": "object"
 								},
 								"type": {
-									"type": "string"
+									"type": "string",
+                                    "default": "multiple"
 								},
 								"prompt": {
-									"type": "string"
+									"type": "string",
+                                    "default": "We stayed away from:"
 								}
 							},
 							"required": [
@@ -154,6 +167,7 @@
 							"type": "object"
 						},
 						"snowConditions": {
+                            "title": "Snow Condition",
 							"type": "object",
 							"required": [
 								"options",
@@ -162,7 +176,8 @@
 							],
 							"properties": {
 								"prompt": {
-									"type": "string"
+									"type": "string",
+                                    "default": "Snow conditions were:"
 								},
 								"options": {
 									"type": "object",
@@ -200,7 +215,8 @@
 									}
 								},
 								"type": {
-									"type": "string"
+									"type": "string",
+                                    "default": "multiple"
 								}
 							}
 						},
@@ -210,9 +226,11 @@
 								"prompt",
 								"options"
 							],
+                            "title": "Weather",
 							"properties": {
 								"type": {
-									"type": "string"
+									"type": "string",
+                                    "default": "multiple"
 								},
 								"options": {
 									"required": [
@@ -254,7 +272,8 @@
 									"type": "object"
 								},
 								"prompt": {
-									"type": "string"
+									"type": "string",
+                                    "default": "The day was:"
 								}
 							},
 							"type": "object"
@@ -270,6 +289,7 @@
 						"sound",
 						"temp"
 					],
+                    "title": "Avalanche Conditions",
 					"properties": {
 						"slab": {
 							"type": "boolean"
@@ -286,12 +306,14 @@
 					}
 				},
 				"comment": {
-					"type": "string"
+					"type": "string",
+                    "title": "Comment"
 				}
 			}
 		},
 		"avalancheReport": {
 			"type": "object",
+            "title": "Avalanche Report",
 			"properties": {
 				"avalancheOccurrenceEpoch": {
 					"type": "string",
