@@ -2,11 +2,11 @@ import React, {PropTypes, Component} from 'react'
 import {findDOMNode} from 'react-dom'
 import moment from 'moment'
 import CSSModules from 'react-css-modules'
-import {DateUtils, DayPicker} from 'components/misc'
-import {Expand} from 'components/button'
+import {DateUtils, DayPicker as Base} from 'components/misc'
 import Callout, {BOTTOM} from 'components/callout'
 import {Overlay} from 'react-overlays'
-import styles from './Picker.css'
+import styles from './DayPicker.css'
+import Holder from '../Holder'
 
 const {isSameDay} = DateUtils
 function K() {}
@@ -15,7 +15,7 @@ function formatDate(date) {
 }
 
 @CSSModules(styles)
-export default class Picker extends Component {
+export default class DayPicker extends Component {
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,
         onChange: PropTypes.func.isRequired,
@@ -57,12 +57,13 @@ export default class Picker extends Component {
     render() {
         const {date, disabledDays, children, container} = this.props
         const {showCalendar, toggleCalendar, hideCalendar} = this
+        const styleName = showCalendar ? 'Input--Open' : 'Input'
         const momentDate = moment(date)
 
         return (
-            <div ref='target' styleName='Day'>
-                <div styleName='Content' onClick={toggleCalendar}>
-                    {children} <Expand chevron expanded={showCalendar} />
+            <div ref='target' styleName='Container' onClick={toggleCalendar}>
+                <div styleName={styleName} tabIndex={0} >
+                    <Holder value={children} />
                 </div>
                 <Overlay
                     show={showCalendar}
@@ -74,7 +75,7 @@ export default class Picker extends Component {
                     onEscapeKeyUp={hideCalendar}
                     target={this.target}>
                     <Callout placement={BOTTOM}>
-                        <DayPicker
+                        <Base
                             initialMonth={date}
                             selectedDays={day => momentDate.isSame(day, 'day')}
                             disabledDays={disabledDays}

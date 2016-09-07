@@ -4,7 +4,8 @@
     background-color: var(--gray-lighter);
     border: 4px solid var(--gray-lighter);
     color: var(--gray-darker);
-    display: inline-block;
+    /* If you change the display: look at the gear page: http://www.avalanche.ca/gear. It was set to display: inline-block before.  */
+    display: block;
     margin: 0;
     padding: 0;
 }

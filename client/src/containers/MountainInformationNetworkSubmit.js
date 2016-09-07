@@ -1,40 +1,25 @@
 import React, {Component} from 'react'
 import {compose, withHandlers, toClass} from 'recompose'
-import {Field, reduxForm} from 'redux-form'
-import {Form, Fieldset, Legend, Submit, Control, ControlSet} from 'components/form'
+import {Fieldset, Legend, Submit, Control, ControlSet} from 'components/form'
 import {Tab, TabSet} from 'components/tab'
 import {Input} from 'components/controls'
 import {Page, Header, Main, Section} from 'components/page'
 import * as Colors from 'components/icons/min/colors'
+import Form from 'react-jsonschema-form'
 
-function renderText({input, meta, label}) {
+export default function MountainInformationNetworkForm() {
     return (
-        <Control>
-            <label>
-                {label}
-                <Input {...input} />
-            </label>
-        </Control>
+        <Page>
+            <Header title='A nice Mountain Information Network Form goes here!!!!' />
+        </Page>
     )
-}
-
-
-function MountainInformationNetworkForm({
-    handleSubmit,
-    pristine,
-    reset,
-    submitting
-}) {
     return (
         <Page>
             <Header title='Mountain Information Network' />
             <Main>
-                <Form onSubmit={handleSubmit(::console.warn)}>
+                <Form onSubmit={::console.warn}>
                     <Fieldset>
                         <Legend>Step 1. Required Info</Legend>
-                        <Field name="name" component={renderText} props={{label: 'Name your report'}} />
-                        <Field name="datetime" component={renderText} props={{label: 'Submission date and time'}} />
-                        <Field name="location" component={renderText} props={{label: 'Enter location by map'}} />
                     </Fieldset>
                     <Fieldset>
                         <Legend>Step 2. Uploads</Legend>
@@ -65,7 +50,3 @@ function MountainInformationNetworkForm({
         </Page>
     )
 }
-
-export default reduxForm({
-    form: 'mountain-information-network'
-})(MountainInformationNetworkForm)

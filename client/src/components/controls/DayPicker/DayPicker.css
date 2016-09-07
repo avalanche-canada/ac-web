@@ -1,6 +1,3 @@
-@import "../../../styles/colors.css";
-@import "../../../styles/components.css";
-
 .Container {
     position: relative;
     cursor: pointer;

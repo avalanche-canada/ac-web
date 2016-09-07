@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import styles from './Dropdown.css'
+import styles from './Controls.css'
 
 Holder.propTypes = {
     placeholder: PropTypes.string,

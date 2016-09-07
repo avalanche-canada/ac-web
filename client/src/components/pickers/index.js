@@ -1,1 +1,0 @@
-export DayPicker from './Day'

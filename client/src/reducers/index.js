@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux'
-import {reducer as form} from 'redux-form'
 import prismic from './prismic'
 import map from './map'
 import api from './api/index'
@@ -11,6 +10,5 @@ export default combineReducers({
     prismic,
     map,
     drawers,
-    form,
     geolocation,
 })

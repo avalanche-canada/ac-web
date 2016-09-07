@@ -9,6 +9,7 @@ export Map from './Map'
 // Full page
 export Forecast from './Forecast'
 export ArchiveForecast from './ArchiveForecast'
+export Archives from './Archives'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
 export IncidentsTable from './IncidentsTable'
@@ -62,10 +63,6 @@ export const Youth = withPrismic({
     bookmark: 'youth-page',
     title: 'Youth',
 })
-export const GuidelinesYouthEducation = withPrismic({
-    bookmark: 'guidelines-youth-education',
-    title: 'Guidelines for Youth Education',
-})
 export const Gear = withPrismic({
     bookmark: 'essential-gear-page',
     title: 'Essential Gear',
@@ -99,8 +96,6 @@ export const AvalancheRiskReductionProcedures = withPrismic({
 // Dynamic static page
 export const PrismicPage = compose(
     flattenProp('params'),
-    // TODO: SHAME: Change that...should use bookmark for real
-    renameProp('uid', 'bookmark'),
 )(Prismic)
 
 export Sponsor from './Sponsor'

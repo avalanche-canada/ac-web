@@ -22,6 +22,7 @@ import {
     TermsOfUse,
     Forecast,
     ArchiveForecast,
+    Archives,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
@@ -32,7 +33,6 @@ import {
     Sled,
     Auction,
     Youth,
-    GuidelinesYouthEducation,
     PrismicPage,
     TripPlanner,
     IncidentsTable,
@@ -149,6 +149,7 @@ export default function computeRoutes(store) {
             <Route path='news/:uid' component={NewsPost} />
             <Route path='blogs' component={BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' component={BlogPost} />
+            <Route path='forecasts/archives' component={Archives} />
             <Route path='forecasts/:name' component={Forecast} />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
@@ -176,7 +177,6 @@ export default function computeRoutes(store) {
             </Route>
             <Route path='tutorial' component={Tutorial} />
             <Route path='youth' component={Youth} />
-            <Route path='youth/education-guidelines' component={GuidelinesYouthEducation} />
             <Route path='gear' component={Gear} />
             <Route path='sled' component={Sled} />
             <Route path='auction' component={Auction} />
@@ -185,7 +185,7 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={TripPlanner} />
             <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
             <Route path='incidents/:slug' component={IncidentDetails} />
-            <Route path='pages/:uid' component={PrismicPage} />
+            <Route path='pages/:type/:uid' component={PrismicPage} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
             <Redirect from='min/submit' to='mountain-information-network/submit' />
