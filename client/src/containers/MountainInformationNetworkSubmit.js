@@ -8,9 +8,40 @@ import {Page, Header, Main, Section} from 'components/page'
 import * as Colors from 'components/icons/min/colors'
 import {fetchMountainInformationNetwork} from 'api/schema'
 import Form from 'react-jsonschema-form'
+import styles from 'components/form/Form.css'
 
-import schema from './MountainInformationNetworkForm.json'
-import uiSchema from './MountainInformationNetworkFormUI.json'
+function FieldTemplate({
+    id,
+    classNames,
+    label,
+    help,
+    required,
+    description,
+    errors,
+    children,
+    hidden,
+    readonly,
+    displayLabel,
+    formContext,
+}) {
+    return (
+        <div className={`${styles.Control} ${classNames}`}>
+            {description}
+            {displayLabel &&
+                <label>
+                    {label}{required ? "*" : null}
+                    {children}
+                </label>
+            }
+            {displayLabel || children}
+            {errors}
+            {help}
+        </div>
+    )
+}
+
+import schema from './MountainInformationNetworkFormSimplified.json'
+import uiSchema from './MountainInformationNetworkFormUISimpified.json'
 
 function MountainInformationNetworkForm({isReady, ...form}) {
     return (
@@ -37,11 +68,11 @@ export default compose(
         componentDidMount() {
             const {onSchemaFetchSucceed, onUISchemaFetchSucceed} = this.props
 
-            onUISchemaFetchSucceed({
-                data: uiSchema
-            })
             onSchemaFetchSucceed({
                 data: schema
+            })
+            onUISchemaFetchSucceed({
+                data: uiSchema
             })
 
             // fetchMountainInformationNetwork().then(onSchemaFetchSucceed)

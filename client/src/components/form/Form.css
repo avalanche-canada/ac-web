@@ -2,6 +2,16 @@
 
 .Form {
     width: 100%;
+
+    & :global(.form-control) {
+        color: red;
+    }
+
+    & :global(legend) {
+        color: white;
+        font-size: 2em;
+        font-weight: 700;
+    }
 }
 
 .Fieldset {
