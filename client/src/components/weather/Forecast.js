@@ -28,12 +28,12 @@ const TABS = new Map([
         title: 'Day 2',
         component: Day2,
     }],
-	['day3To5', {
-        title: 'Day 3-5',
+	['day3To4', {
+        title: 'Day 3-4',
         component: Section,
     }],
-	['day6To10', {
-        title: 'Day 6-10',
+	['day5To7', {
+        title: 'Day 5-7',
         component: Section,
     }],
 ])
