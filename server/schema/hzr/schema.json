@@ -1,6 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://www.avalanche.ca/schema/hzr-16.09",
+  "id": "http://www.avalanche.ca/schema/hzr-16.09#",
+  "definitions": {
+    "NullString": {
+      "anyOf" : [
+        {"type": "string", "minLength": 1},
+        {"type": "null"}
+      ]
+    },
+    "BoolUnknown": {
+      "enum": ["Yes", "No", "Unknown", null]
+    }
+  },
   "type": "object",
   "properties": {
     "treelineTerrainAvoidance": {
@@ -49,9 +60,7 @@
             "SW"
           ]
         },
-        "terrainAvoidanceComments": {
-          "type": "string"
-        },
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" },
         "terrainFeatures": {
           "type": "object",
           "properties": {
@@ -166,9 +175,7 @@
             "SE"
           ]
         },
-        "terrainAvoidanceComments": {
-          "type": "string"
-        }
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" }
       },
       "required": [
         "terrainFeatures",
@@ -179,30 +186,15 @@
     "criticalFactors": {
       "type": "object",
       "properties": {
-        "slabAvalanches": {
-          "type": "null"
-        },
-        "recentWindloading": {
-          "type": "string"
-        },
-        "recentRainfall": {
-          "type": "string"
-        },
-        "criticalFactorsComments": {
-          "type": "string"
-        },
-        "significantWarming": {
-          "type": "string"
-        },
-        "instability": {
-          "type": "string"
-        },
-        "recentSnowfall": {
-          "type": "string"
-        },
-        "persistentAvalancheProblem": {
-          "type": "string"
-        }
+        "slabAvalanches":              { "$ref": "#/definitions/BoolUnknown"},
+        "recentWindloading":           { "$ref": "#/definitions/BoolUnknown"},
+        "recentRainfall":              { "$ref": "#/definitions/BoolUnknown"},
+        "significantWarming":          { "$ref": "#/definitions/BoolUnknown"},
+        "instability":                 { "$ref": "#/definitions/BoolUnknown"},
+        "recentSnowfall":              { "$ref": "#/definitions/BoolUnknown"},
+        "persistentAvalancheProblem":  { "$ref": "#/definitions/BoolUnknown"},
+
+        "criticalFactorsComments": { "$ref": "#/definitions/NullString" }
       },
       "required": [
         "slabAvalanches",
@@ -292,9 +284,7 @@
             "SW"
           ]
         },
-        "terrainAvoidanceComments": {
-          "type": "string"
-        }
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" }
       },
       "required": [
         "terrainFeatures",

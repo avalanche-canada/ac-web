@@ -2,56 +2,30 @@
 
 var assert = require('assert')
 var min = require('./report_data')
+var Ajv = require('ajv');
 
-var assertMatch = (pattern, input) => {
-    var r = new RegExp(pattern)
-    if(!r.test(input)) {
-        throw new Error('MatchError: "' + input + '" does not match /' + pattern +'/')
-    }
+var hzrSchema = require('./hzr/schema.json')
+
+var assertValid = (json, name) => {
+    var ajv = new Ajv(); 
+    var validate = ajv.compile(hzrSchema)
+    var ajvValid = validate(json);
+    assert(ajvValid,  JSON.stringify(validate.errors, null, '  '));
 }
-var assertNotMatch = (pattern, input) => {
-    var r = new RegExp(pattern)
-    if(r.test(input)) {
-        throw new Error('NotMatchError: "' + input + '" does match /' + pattern +'/')
-    }
+var assertNotValid = (json, name) => {
+    var ajv = new Ajv(); 
+    var validate = ajv.compile(hzrSchema)
+    var ajvValid = validate(json);
+    assert(!ajvValid, '"'+name+'" validated. expected failure')
 }
 
-describe('schema converter', function() {
-    describe('date time', function() {
-        it('time pattern should match 12h', function() {
-            var json = min.converters.datetime({
-                type: 'datetime',
-                showOnlyTime: true,
-            });
+describe('hzr schema', function() {
+    it('rejects empty strings for text elements', function() {
+        assertNotValid(require('./test_data/hzr-empty-strings.json'), 'empty-strings')
+    });
 
-            assertMatch(json.pattern,     '12:00 AM');
-            assertMatch(json.pattern,     '2:00 AM');
-            assertMatch(json.pattern,     '2:11 PM');
-        });
-        it('time pattern should only match valid 12h times', function() {
-            var json = min.converters.datetime({
-                type: 'datetime',
-                showOnlyTime: true,
-            });
-
-            assertNotMatch(json.pattern,     '19:00 AM');
-            assertNotMatch(json.pattern,     '2:00 AM XXXX');
-            assertNotMatch(json.pattern,     '2:00 rM');
-        });
-        it('date pattern should only match valid dates', function() {
-            var json = min.converters.datetime({
-                type: 'datetime',
-                showOnlyDate: true,
-            });
-            assertMatch(json.pattern, '2016-01-01');
-            assertMatch(json.pattern, '0000-00-00');
-        });
-        it('date pattern should match only dates (no time)', function() {
-            var json = min.converters.datetime({
-                type: 'datetime',
-                showOnlyDate: true,
-            });
-            assertNotMatch(json.pattern, '2016-01-01T00:00:00Z');
-        });
+    it('rejects non yes/no values for critical Factors', function() {
+        assertNotValid(require('./test_data/hzr-malformed-criticalfactors.json'), 'yes/no critial factors')
     });
 });
+
