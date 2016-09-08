@@ -3,7 +3,7 @@ import {PRIMARY, SECONDARY} from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
 import {clientId, domain} from './auth0.json'
 import decode from 'jwt-decode'
-import CancelError from 'utils/CancelError'
+import CancelError from 'utils/promise/CancelError'
 
 const {parse, stringify} = JSON
 

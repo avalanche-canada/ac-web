@@ -9,7 +9,7 @@ import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
 import {history} from 'router'
 import AuthService from 'services/auth'
-import CancelError from 'utils/CancelError'
+import CancelError from 'utils/promise/CancelError'
 import {
     Root,
     Map,

@@ -115,6 +115,8 @@ const prismic = store => next => action => {
                     payload: response,
                     meta: action.payload,
                 })
+
+                return response
             },
             error => {
                 const err = new Error('Can not fetch prismic documents.', error)

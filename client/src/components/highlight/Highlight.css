@@ -1,0 +1,44 @@
+@import "../../styles/colors.css";
+
+@custom-media --take-a-bit (width < 600px);
+@custom-media --medium-a-bit-more (width < 800px);
+
+.Highlight {
+    position: fixed;
+    display: flex;
+    max-width: 90%;
+    top: 90px;
+    margin: 0 auto;
+    padding: 1em 1em;
+
+    @media(--take-a-bit) {
+        max-width: 60%
+    }
+    @media(--medium-a-bit-more) {
+        max-width: 75%
+    }
+}
+
+.Highlight--Danger {
+    composes: Highlight;
+
+    background-color: red;
+}
+
+.Highlight--Warning {
+    composes: Highlight;
+
+    background-color: orange;
+}
+
+.Highlight--Info {
+    composes: Highlight;
+
+    background-color: blue;
+}
+
+.Highlight--Good {
+    composes: Highlight;
+
+    background-color: green;
+}
