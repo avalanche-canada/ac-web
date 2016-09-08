@@ -254,12 +254,12 @@ export const AvalancheCanada = {
             id: '57db0dee-1871-11e6-b6ba-3e1d05defe78',
             to: '/news',
             label: 'News',
-            headline: 'Some content for the News.',
+            headline: 'Visit our latest News.',
         }, {
             id: '57db0ef2-1871-11e6-b6ba-3e1d05defe78',
             to: '/events',
             label: 'Events',
-            headline: 'Some content for the Events.',
+            headline: 'Visit our latest Events.',
         // }, {
         //     id: '57db0fe2-1871-11e6-b6ba-3e1d05defe78',
         //     to: '/outreach',
@@ -273,7 +273,7 @@ export const AvalancheCanada = {
             id: '57db1500-1871-11e6-b6ba-3e1d05defe78',
             to: 'http://old.avalanche.ca/cac/auctions',
             label: 'Web Auction',
-            headline: 'Access the Web auction.',
+            headline: 'Visit our Web auction.',
         }]
     }]
 }

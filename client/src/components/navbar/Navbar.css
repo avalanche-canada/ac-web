@@ -174,16 +174,14 @@
         text-align: left;
 
         &:hover {
-            color: var(--brand-primary)
+            color: var(--brand-primary);
         }
 
         &:after {
-            content: '';
-            display: inline-block;
-            width: 24px;
-            height: 26px;
-            background-image: url('./ChevronRight.svg');
-            vertical-align: middle;
+            color: var(--brand-primary);
+            content: "\203A";
+            margin-left: 0.25em;
+            font-size: 1.25rem;
         }
     }
 }
