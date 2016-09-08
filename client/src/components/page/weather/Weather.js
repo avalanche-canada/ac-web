@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
+import {getIsAuthenticated} from 'reducers/auth'
 import {compose, lifecycle} from 'recompose'
 import {Link} from 'react-router'
 import {Page, Header, Main, Article, ArticleHeader, Aside} from 'components/page'
@@ -34,11 +35,19 @@ function Weather({children, isAuthenticated = false}) {
     )
 }
 
+
+function mapStateToProps(state) {
+    return {
+        isAuthenticated: getIsAuthenticated(state)
+    }
+}
+
 export default compose(
-    connect(null, {loadForType}),
+    connect(mapStateToProps, {loadForType}),
     lifecycle({
         componentDidMount() {
             this.props.loadForType('weather-forecast-tutorial')
         }
-    })
-)(CSSModules(Weather, styles))
+    }),
+    CSSModules(styles)
+)(Weather)
