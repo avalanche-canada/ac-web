@@ -8,8 +8,9 @@ import ElementQueries from 'css-element-queries/src/ElementQueries'
 // TODO: Need to put these imports in a better spot
 // There should be a vendor.css
 import 'normalize.css'
-import './styles/scaffolding.css'
-import './styles/prismic.css'
+import 'styles/scaffolding.css'
+import 'styles/prismic.css'
+import 'styles/auth0.css'
 
 const store = configure()
 const element = document.getElementById('app')

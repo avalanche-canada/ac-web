@@ -7,7 +7,7 @@ Menu.propTypes = {
     inline: PropTypes.bool,
 }
 
-function Menu({ isOpened = false, inline = false, children }) {
+function Menu({isOpened = false, inline = false, children}) {
     let styleName = 'Menu'
 
     if (isOpened) {

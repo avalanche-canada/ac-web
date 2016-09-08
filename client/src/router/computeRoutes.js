@@ -4,6 +4,12 @@ import moment from 'moment'
 import {loadForType, loadForBookmark} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as DRAWERS from 'containers/drawers';
+import {getIsAuthenticated, getProfile} from 'reducers/auth'
+import QueryString from 'query-string'
+import {login, receiveToken} from 'actions/auth'
+import {history} from 'router'
+import AuthService from 'services/auth'
+import CancelError from 'utils/CancelError'
 import {
     Root,
     Map,
@@ -59,20 +65,47 @@ const PAGINATION = {
 }
 
 export default function computeRoutes(store) {
-    const {dispatch} = store
+    const {dispatch, getState} = store
 
-    function handleRootRouteEntered() {
+    function handleLoginCompleteRouteEnter({location}, replace) {
+        const {id_token, state} = QueryString.parse(location.hash)
+
+        if (id_token) {
+            dispatch(receiveToken(id_token))
+        }
+
+        replace(state || '/')
+
+        // if (state && state.nextLocation) {
+        //     replace(state.nextLocation)
+        // } else {
+        // }
+    }
+
+    function handleRootRouteEntered({location, state}, replace) {
         const options = {
             pageSize: 100
         }
 
+        // TODO: Remove: we are not using prismic for sponsors + prismic document
         dispatch(loadForBookmark('sponsors'))
         dispatch(loadForType('sponsor', options))
         dispatch(loadForType('staff', options))
     }
 
-    function requireAuth(...args) {
-        console.warn('requireAuth: finish implementation!')
+    function requireAuth({location}, replace, callback) {
+        const state = getState()
+
+        if (getIsAuthenticated(state)) {
+            callback()
+        } else {
+            const auth = AuthService.create()
+
+            auth.login().catch(error => {
+                replace('/')
+                callback()
+            })
+        }
     }
 
     function handleFeedEnter({location}, replace) {
@@ -127,7 +160,9 @@ export default function computeRoutes(store) {
 
     return (
         <Route path='/' component={Root} onEnter={handleRootRouteEntered} >
-            {/*AVALANCHE CANADA*/}
+            {/* AUTHORIZATION */}
+            <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
+            {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
             <Route path='map' components={{content: Map, footer: null}}>
                 <Route path='forecasts' onEnter={handleForecastRouteEnter} >
@@ -192,9 +227,6 @@ export default function computeRoutes(store) {
             <Redirect from='min/faq' to='mountain-information-network/faq' />
             <Redirect from='min/submission-guidelines' to='mountain-information-network/submission-guidelines' />
             <Redirect from='min/submissions/:id' to='mountain-information-network/submissions/:id' />
-            {/* AUTHENTIFICATION */}
-            <Route path='login' onEnter={::console.log} onLeave={::console.log} />
-            <Route path='logout' onEnter={::console.log} onLeave={::console.log} />
             {/* AVALANCHE CANADA FOUNDATION */}
             <Route path='foundation' components={{navbar: AvalancheCanadaFoundation, content: About}}>
                 {/* MORE FOUNDATION PAGES */}

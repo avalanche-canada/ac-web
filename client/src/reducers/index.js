@@ -4,6 +4,7 @@ import map from './map'
 import api from './api/index'
 import drawers from './drawers'
 import geolocation from './geolocation'
+import auth from './auth'
 
 export default combineReducers({
     api,
@@ -11,4 +12,5 @@ export default combineReducers({
     map,
     drawers,
     geolocation,
+    auth,
 })

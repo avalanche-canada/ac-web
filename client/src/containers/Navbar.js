@@ -1,33 +1,34 @@
 import {connect} from 'react-redux'
-import {compose, lifecycle, mapProps} from 'recompose'
+import {compose, lifecycle, mapProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
 import {loadForecastRegions} from 'actions/entities'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
 import {getEntitiesForSchema} from 'reducers/api/entities'
+import {getIsAuthenticated, getProfile} from 'reducers/auth'
 import {ForecastRegion} from 'api/schemas'
-import {history} from 'router'
+import {login, logout} from 'actions/auth'
 
-function getForeccastRegions(state) {
+function mapStateToProps(state) {
+    const {name, email} = getProfile(state) || {}
+
     return {
-        regions: getEntitiesForSchema(state, ForecastRegion)
+        isAuthenticated: getIsAuthenticated(state),
+        name,
+        avatar: email,
+        regions: getEntitiesForSchema(state, ForecastRegion),
     }
 }
 
 function asTree(menu) {
     return (new TreeModel()).parse(menu)
 }
-function handleLogin() {
-    history.push('/login')
-}
-function handleLogout() {
-    history.push('/logout')
-}
-
 
 export const AvalancheCanada = compose(
-    connect(getForeccastRegions, {
+    connect(mapStateToProps, {
         loadForecastRegions,
+        login,
+        logout,
     }),
     lifecycle({
         componentDidMount() {
@@ -51,11 +52,17 @@ export const AvalancheCanada = compose(
 
         return {
             ...props,
-            onLogin: handleLogin,
-            onLogout: handleLogout,
             menu: asTree(menu)
         }
     }),
+    withHandlers({
+        onLogin: props => event => {
+            props.login()
+        },
+        onLogout: props => event => {
+            props.logout()
+        },
+    })
 )(Navbar)
 
 export const AvalancheCanadaFoundation = compose(

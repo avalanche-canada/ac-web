@@ -14,7 +14,7 @@ Navbar.propTypes = {
     onBurgerClick: PropTypes.func.isRequired,
 }
 
-function Navbar({ isFoundation = false, onBurgerClick = K, children = [] }) {
+function Navbar({isFoundation = false, onBurgerClick = K, children = []}) {
     return (
         <div styleName='Navbar'>
             <nav styleName='Navigation'>
