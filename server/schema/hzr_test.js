@@ -1,31 +1,46 @@
 /* globals describe: true, it: true */
 
-var assert = require('assert')
 var min = require('./report_data')
-var Ajv = require('ajv');
+var assert = require('assert')
 
-var hzrSchema = require('./hzr/schema.json')
+var testutils = require('./testutils')
 
-var assertValid = (json, name) => {
-    var ajv = new Ajv(); 
-    var validate = ajv.compile(hzrSchema)
-    var ajvValid = validate(json);
-    assert(ajvValid,  JSON.stringify(validate.errors, null, '  '));
-}
-var assertNotValid = (json, name) => {
-    var ajv = new Ajv(); 
-    var validate = ajv.compile(hzrSchema)
-    var ajvValid = validate(json);
-    assert(!ajvValid, '"'+name+'" validated. expected failure')
-}
 
 describe('hzr schema', function() {
-    it('rejects empty strings for text elements', function() {
-        assertNotValid(require('./test_data/hzr-empty-strings.json'), 'empty-strings')
+
+    it('validates the known good test object', function() {
+        var valid = testutils.loadValid();
+        testutils.assertValid(valid, 'Known good commit')
     });
 
-    it('rejects non yes/no values for critical Factors', function() {
-        assertNotValid(require('./test_data/hzr-malformed-criticalfactors.json'), 'yes/no critial factors')
+    it('rejects empty strings for text elements', function() {
+        var emptyStrings = testutils.loadValid();
+        emptyStrings.treelineTerrainAvoidance.terrainAvoidanceComments = "";
+        testutils.assertNotValid(emptyStrings, 'empty strings')
+    });
+
+    it('rejects boolean values for critical Factors', function() {
+        var input = testutils.loadValid();
+        input.criticalFactors.slabAvalanches = false;
+        testutils.assertNotValid(input, 'yes/no critial factors')
+    });
+
+    it('rejects extra string values for critical Factors', function() {
+        var input = testutils.loadValid();
+        input.criticalFactors.slabAvalanches = "not sure";
+        testutils.assertNotValid(input, 'yes/no critial factors')
+    });
+
+    it('rejects strings with only whitespace in them', function() {
+        var onlyWhitespace = testutils.loadValid()
+        onlyWhitespace.treelineTerrainAvoidance.terrainAvoidanceComments = "    \t \t";
+        testutils.assertNotValid(onlyWhitespace, 'whitespace only strings');
+    });
+
+    it('accepts strings that have *no* whitespace', function() {
+        var onlyWhitespace = testutils.loadValid()
+        onlyWhitespace.treelineTerrainAvoidance.terrainAvoidanceComments = "nobodyactuallywriteslikethisthoughdothey?";
+        testutils.assertValid(onlyWhitespace, 'whitespace only strings');
     });
 });
 

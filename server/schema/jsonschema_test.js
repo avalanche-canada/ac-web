@@ -50,17 +50,5 @@ describe('json schema', function() {
             //console.log(JSON.stringify(min.jsonSchema, null, ' '));
             assert(ajvValid,  JSON.stringify(validate.errors, null, '  '));
         });
-        it('validates as a test object', function() {
-           // var validateSchema = jsen({"$ref": "http://json-schema.org/draft-04/schema#"});
-            var hzrSchema = require('./hzr/schema.json')
-            var testHzr = require('./test_data/hzr-report.json')
-
-            var ajv = new Ajv(); 
-            var validate = ajv.compile(hzrSchema)
-            var ajvValid = validate(testHzr);
-
-            //console.log(JSON.stringify(min.jsonSchema, null, ' '));
-            assert(ajvValid,  JSON.stringify(validate.errors, null, '  '));
-        });
     });
 });
