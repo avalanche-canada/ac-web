@@ -20,5 +20,5 @@ build:
 
 test:
 	@echo "Testing..."
-	@echo "Not really"
+	$(MAKE) -f Makefile test
 
