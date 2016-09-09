@@ -10,8 +10,7 @@ var report_data = require('./report_data');
 var hzrSchema   = require('./hzr/schema.json');
 
 router.get('/min-16.09', (req, res) => {
-    var schema = Object.assign({id:'http://www.avalanche.ca/schema/min-16.09'}, report_data.jsonSchema);
-    res.json(schema);
+    res.json(report_data.jsonSchema);
 })
 
 router.get('/hzr-16.09', (req, res) => {

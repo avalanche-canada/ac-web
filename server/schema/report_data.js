@@ -17,13 +17,9 @@ var converters = {
         return out;
     },
     single: f => {
-        return {
-			"anyOf": [
-				{"type": "string",
-            	 "enum": f.options},
-				{"type": "null"}
-             ]
-        }
+        var opts = f.options.slice(0);
+        opts.push(null);
+        return {"enum": opts};
     },
     datetime: f => {
         var key = 'format';
@@ -101,6 +97,7 @@ var raw = {
  * A full json schema to validate the input to the MIN service
  */
 var jsonSchema = {
+    id: 'http://www.avalanche.ca/schema/min-16.09#',
     type: "object",
     properties: {
       quickReport:      require('./reports/quick').jsonSchema,
