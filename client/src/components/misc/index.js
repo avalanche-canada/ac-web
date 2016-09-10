@@ -11,6 +11,8 @@ export Phone from './Phone'
 
 export Br from './Br'
 
+export P from './P'
+
 export GoBack from './GoBack'
 
 

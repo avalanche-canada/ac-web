@@ -1,15 +1,15 @@
-import React, {PropTypes} from 'react'
 import {compose, setDisplayName, withProps, defaultProps} from 'recompose'
-import {Remove} from '../icons'
+import CSSModules from 'react-css-modules'
 import Button from './Button'
 import {SUBTILE} from './kinds'
+import styles from './Button.css'
 
 export default compose(
     setDisplayName('Close'),
-    defaultProps({
-        kind: SUBTILE,
-    }),
+    CSSModules(styles),
     withProps({
-        icon: <Remove />,
+        children: '×',
+        kind: SUBTILE,
+        styleName: 'Close',
     }),
 )(Button)

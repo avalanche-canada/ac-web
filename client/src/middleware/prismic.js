@@ -1,3 +1,4 @@
+import {createAction} from 'redux-actions'
 import {Api as Prismic, Predicates} from 'prismic'
 import {
     getDocument,
@@ -15,7 +16,11 @@ export const PRISMIC_API_REQUEST = 'PRISMIC_API_REQUEST'
 export const PRISMIC_API_SUCCESS = 'PRISMIC_API_SUCCESS'
 export const PRISMIC_API_FAILURE = 'PRISMIC_API_FAILURE'
 
-export const PRISMIC = 'prismic-query'
+const PRISMIC = Symbol('prismic-query')
+
+export function createPrismicAction(payloadCreator) {
+    return createAction(PRISMIC, payloadCreator)
+}
 
 function createBasePredicate({api}, {type, bookmark, uid, id}) {
     if (bookmark) {
@@ -29,11 +34,12 @@ function createBasePredicate({api}, {type, bookmark, uid, id}) {
     } else if (type) {
         return Predicates.at('document.type', type)
     } else {
-        throw new Error('Not enough parameters to create predicates.')
+        throw new Error('Not enough parameters to create base predicate.')
     }
 }
 
 function isPrismicCallRequired(store, action) {
+    // TODO: Should be purely based on generated predicates...using results set like in normlizr
     const state = store.getState()
     const {bookmark, type, uid, id} = action.payload
 
@@ -103,9 +109,9 @@ const prismic = store => next => action => {
         })
 
         const {payload} = action
-        let {predicates, ...options} = payload.options || {}
+        let {predicates = [], ...options} = payload.options || {}
 
-        api = api.query(createBasePredicate(api, payload), ...(predicates || []))
+        api = api.query(createBasePredicate(api, payload), ...predicates)
         api = Prismic.setOptions(api, options)
 
         return api.submit().then(

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {compose, withHandlers, lifecycle, renameProp, withProps, withState} from 'recompose'
 import {connect} from 'react-redux'
 import moment from 'moment'
 import Highlight from 'components/highlight'
 import {InnerHTML} from 'components/misc'
 import {loadForType} from 'actions/prismic'
-import {yesterday, tomorrow} from 'utils/date'
+import {yesterday, tomorrow, formatAsDay} from 'utils/date'
 import {Predicates} from 'prismic'
 import parser from 'prismic/parser'
 import {SessionStorage} from 'services/storage'
@@ -15,14 +15,12 @@ export default class Container extends Component {
     state = {
         highlight: null
     }
-    constructor() {
+    constructor(props) {
+        super(props)
+
         this.storage = SessionStorage.create()
     }
-    set highlight(highlight) {
-        if (highlight) {
-            highlight = parser.parse(highlight)
-        }
-
+    set highlight(highlight = null) {
         this.setState({highlight})
     }
     get highlight() {
@@ -31,8 +29,8 @@ export default class Container extends Component {
     get hidden() {
         return this.storage.get('highlight-hidden-status')
     }
-    set hidden(value) {
-        return this.storage.set('highlight-hidden-status', value)
+    set hidden(hidden) {
+        return this.storage.set('highlight-hidden-status', hidden)
     }
     componentDidMount() {
         this.load()
@@ -40,12 +38,16 @@ export default class Container extends Component {
     load() {
         return this.props.loadForType('highlight', {
             predicates: [
-                Predicates.dateAfter('my.highlight.end_date', yesterday()),
-                Predicates.dateBefore('my.highlight.start_date', tomorrow()),
+                Predicates.dateBefore('my.highlight.start_date', formatAsDay(tomorrow())),
+                Predicates.dateAfter('my.highlight.end_date', formatAsDay(yesterday())),
             ]
-        }).then(([document]) => this.highlight = document)
+        }).then(response => {
+            const {results: [highlight]} = response
+
+            this.highlight = highlight ? parser.parse(highlight) : null
+        })
     }
-    handleDismiss: () => {
+    handleDismiss = () => {
         this.hidden = true
         this.highlight = null
     }
@@ -57,7 +59,7 @@ export default class Container extends Component {
         const {description, style} = this.highlight
 
         return (
-            <Highlight style={style} onDismiss={this.handleDismiss}>
+            <Highlight style={style} onDismiss={this.handleDismiss} dismissable>
                 <InnerHTML>
                     {description}
                 </InnerHTML>

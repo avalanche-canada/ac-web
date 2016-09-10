@@ -85,6 +85,7 @@ export default combineReducers({
     uids,
 })
 
+// Getters
 export function getDocuments(state) {
     return state.prismic.documents
 }
@@ -97,6 +98,9 @@ export function getDocumentsOfType(state, type) {
     const {documents, types} = state.prismic
     const set = types.get(type, new Immutable.Set())
 
+    // TODO: Investigate if we can use normilzr
+    // TODO: Store per type...will not have to create a new map everytime...
+    // new object means selector start fresh every time :(
     return new Immutable.Map(set.map(id => [id, documents.get(id)]))
 }
 

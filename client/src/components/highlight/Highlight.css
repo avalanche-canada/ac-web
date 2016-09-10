@@ -1,44 +1,61 @@
 @import "../../styles/colors.css";
 
-@custom-media --take-a-bit (width < 600px);
-@custom-media --medium-a-bit-more (width < 800px);
+@custom-media --medium-screen-width (width > 600px);
+@custom-media --large-screen-width (width > 800px);
+@custom-media --massive-screen-width (width > 1000px);
 
 .Highlight {
-    position: fixed;
+    position: fixed 85px 50px auto 50px;
     display: flex;
-    max-width: 90%;
-    top: 90px;
+    text-align: center;
     margin: 0 auto;
-    padding: 1em 1em;
+    z-index: 1;
+    border-style: solid;
+    border-width: 1px;
 
-    @media(--take-a-bit) {
-        max-width: 60%
+    & > *:first-child {
+        flex: 1 0;
+        margin-left: 1em;
     }
-    @media(--medium-a-bit-more) {
-        max-width: 75%
+
+    @media(--medium-screen-width) {
+        right: 125px;
+        left: 125px;
+    }
+    @media(--large-screen-width) {
+        right: 200px;
+        left: 200px;
+    }
+    @media(--massive-screen-width) {
+        right: 250px;
+        left: 250px;
     }
 }
 
 .Highlight--Danger {
     composes: Highlight;
 
-    background-color: red;
+    background-color: var(--danger);
+    border-color: var(--danger-dark);
 }
 
 .Highlight--Warning {
     composes: Highlight;
 
-    background-color: orange;
+    background-color: var(--warning);
+    border-color: var(--warning-dark);
 }
 
 .Highlight--Info {
     composes: Highlight;
 
-    background-color: blue;
+    background-color: var(--info);
+    border-color: var(--info-dark);
 }
 
-.Highlight--Good {
+.Highlight--Success {
     composes: Highlight;
 
-    background-color: green;
+    background-color: var(--success);
+    border-color: var(--success-dark);
 }

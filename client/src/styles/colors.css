@@ -13,4 +13,13 @@
     --gray-light: gray(80%);
     --gray-lighter: gray(90%);
     --gray-lightest: gray(97%);
+
+    --success: #dff0d8;
+    --success-dark: color(var(--success) lightness(65%));
+    --info: #d9edf7;
+    --info-dark: color(var(--info) lightness(65%));
+    --warning: #fcf8e3;
+    --warning-dark: color(var(--warning) lightness(65%));
+    --danger: #f2dede;
+    --danger-dark: color(var(--danger) lightness(65%));
 }

@@ -29,7 +29,7 @@ export default class DateRange extends Component {
     }
     static defaultProps = {
         onChange: K,
-        placeholder: 'Dates',
+        placeholder: 'Date Range',
     }
     state = {
         showCalendar: false,

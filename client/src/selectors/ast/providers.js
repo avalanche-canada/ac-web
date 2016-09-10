@@ -2,83 +2,40 @@ import React from 'react'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {Provider} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/entities'
-import {getResultsSet} from 'reducers/api/getters'
-import {Phone, Mailto} from 'components/misc'
-import {HeaderCellOrders} from 'components/table'
-
-const {ASC, DESC, NONE} = HeaderCellOrders
-const COLUMNS = [{
-    title: 'Provider Name',
-    property: 'name',
-}, {
-    title: 'Email',
-    property({email}) {
-        return (
-            <Mailto email={email} />
-        )
-    },
-}, {
-    title: 'Phone',
-    property({phone}) {
-        return (
-            <Phone phone={phone} />
-        )
-    }
-}, {
-    title: 'Website',
-    property({website}) {
-        return (
-            <a href={website} target='_blank'>{website}</a>
-        )
-    }
-}, {
-    title: 'Location',
-    property: 'location',
-}]
-
-const RESULTS = {
-    ids: new Set(),
-    isLoading: false,
-    isLoaded: false,
-    isError: false,
-}
-
-const Sorters = new Map([
-    ['name', course => course.name],
-    ['contact', course => course.contact],
-])
-
-function getProviderEntities(state) {
-    return getEntitiesForSchema(state, Provider)
-}
-
-function getProvidersResultSet(state, {location}) {
-    const {query} = location
-
-    return getResultsSet(state, Provider, query) || RESULTS
-}
+import * as Columns from './columns'
+import * as entities from './entities'
 
 function isSponsor(provider) {
-    return provider.isSponsor
+    return provider.is_sponsor
 }
 
-const getProviders = createSelector(
-    getProviderEntities,
-    providers => providers.toList()
+export const table = createSelector(
+    entities.table(
+        Provider,
+        List.of(
+            Columns.provider,
+            Columns.email,
+            Columns.phone,
+            Columns.website,
+            Columns.distance,
+            Columns.location,
+            Columns.tags,
+        ),
+    ),
+    ({entities, ...props}) => ({
+        ...props,
+        featured: entities.filter(isSponsor),
+        rows: entities.filterNot(isSponsor),
+    })
 )
 
-export const table = createSelector(
-    getProvidersResultSet,
-    getProviders,
-    function mapStateToProps(result, providers) {
+
+export const form = createSelector(
+    table,
+    function mapFormStateToProps({tags}) {
         return {
-            ...result,
-            title: 'All providers',
             legend: 'Find a provider',
-            columns: COLUMNS,
-            featured: providers.filter(isSponsor).toJSON(),
-            rows: providers.filterNot(isSponsor).toJSON(),
+            tagOptions: new Map([...tags].map(tag => [tag, tag])),
         }
     }
 )

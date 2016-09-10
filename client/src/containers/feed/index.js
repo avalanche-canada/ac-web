@@ -15,5 +15,8 @@ export const NewsPost = post(news.post, 'news')
 export const BlogPost = post(blogs.post, 'blog')
 export const EventPost = post(events.post, 'event')
 
+// Splash Sections
+
 export const NewsSplash = splash(news.splash, 'news')
+export const BlogsSplash = splash(blogs.splash, 'blog')
 export const EventsSplash = splash(events.splash, 'event')

@@ -1,8 +1,6 @@
 import {compose, flattenProp, withProps, renameProp} from 'recompose'
 import Prismic, {withPrismic} from 'prismic/components/page'
 
-export Root from './Root'
-
 // Map - kind of the home page
 export Map from './Map'
 

@@ -4,7 +4,7 @@ import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
 export default function makeSplashSelector(type, transform) {
     const getFeatured = createSelector(
         state => getDocumentsOfType(state, type),
-        feed => feed.map(transform)
+        featured => transform(featured)
     )
     const getTransformedFeed = createSelector(
         state => getDocumentsOfType(state, type),

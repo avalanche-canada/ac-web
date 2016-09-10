@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
-import {Metadata, Entry as MetadataEntry} from 'components/metadata'
+import CSSModules from 'react-css-modules'
 import {Image, InnerHTML, DateElement} from 'components/misc'
 import {TagSet, Tag} from 'components/tag'
 import styles from './Feed.css'

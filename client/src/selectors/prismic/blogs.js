@@ -5,6 +5,7 @@ import computeTagsOptions from 'selectors/prismic/computeTagsOptions'
 import {options as monthOptions} from 'selectors/prismic/months'
 import makePostSelector from 'selectors/prismic/makePostSelector'
 import makeFeedSelector from 'selectors/prismic/makeFeedSelector'
+import makeSplashSelector from 'selectors/prismic/makeSplashSelector'
 
 const TYPE = 'blog'
 
@@ -40,3 +41,4 @@ function transform(blog) {
 
 export const post = makePostSelector(TYPE, transform)
 export const feed = makeFeedSelector(TYPE, transform, makeOptionsSelectors)
+export const splash = makeSplashSelector(TYPE, transform, makeOptionsSelectors)

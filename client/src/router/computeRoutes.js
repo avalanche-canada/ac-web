@@ -11,7 +11,6 @@ import {history} from 'router'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
 import {
-    Root,
     Map,
     About,
     Events,
@@ -159,7 +158,7 @@ export default function computeRoutes(store) {
     }
 
     return (
-        <Route path='/' component={Root} onEnter={handleRootRouteEntered} >
+        <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEntered} >
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}

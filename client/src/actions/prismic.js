@@ -1,10 +1,9 @@
-import {createAction} from 'redux-actions'
-import {PRISMIC} from 'middleware/prismic'
+import {createPrismicAction} from 'middleware/prismic'
 
-export const loadForType = createAction(PRISMIC, (type, options) => ({type, options}))
-export const loadForBookmark = createAction(PRISMIC, (bookmark) => ({bookmark}))
-export const loadForId = createAction(PRISMIC, (id) => ({id}))
-export const loadForUid = createAction(PRISMIC, (type, uid) => ({type, uid}))
+export const loadForType = createPrismicAction((type, options) => ({type, options}))
+export const loadForBookmark = createPrismicAction(bookmark => ({bookmark}))
+export const loadForId = createPrismicAction(id => ({id}))
+export const loadForUid = createPrismicAction((type, uid) => ({type, uid}))
 
 export function loadForParams({id, type, uid, bookmark}) {
     return dispatch => {

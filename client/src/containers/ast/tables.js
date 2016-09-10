@@ -1,7 +1,7 @@
 import React from 'react'
 import {compose, lifecycle, withHandlers, setDisplayName} from 'recompose'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router'
+import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
 import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption} from 'components/table'
@@ -48,13 +48,7 @@ function renderRows(data, columns, asControlled) {
     }, [])
 }
 
-function AstTable({featured, rows, columns, caption, asControlled, isFetching, onSortingChange}) {
-    if (isFetching) {
-        return (
-            <Loading />
-        )
-    }
-
+function AstTable({featured, rows, columns, caption, asControlled, onSortingChange}) {
     return (
         <Table>
             <Header>

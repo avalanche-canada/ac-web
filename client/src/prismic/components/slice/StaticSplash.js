@@ -1,6 +1,4 @@
 import React, {PropTypes} from 'react'
-import {Link} from 'react-router'
-import {Section} from 'components/page'
 import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
 import Generic from 'prismic/components/Generic'

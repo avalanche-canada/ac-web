@@ -1,4 +1,4 @@
-import {compose, defaultProps, mapProps, lifecycle, withProps, withHandlers, setPropTypes} from 'recompose'
+import {compose, defaultProps, mapProps, lifecycle, withProps, withHandlers, setPropTypes, withState} from 'recompose'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {Splash} from 'components/page/sections'
@@ -14,24 +14,19 @@ function replaceQuery(query, {router, location}) {
     })
 }
 
-export default function splash(mapStateToProps, title, type) {
+export default function splash(mapStateToProps, type) {
     return compose(
         connect(mapStateToProps, {loadForType}),
-        defaultProps({
-            title
-        }),
+        withState('documents', 'setDocuments', []),
         lifecycle({
             componentDidMount() {
-                this.props.loadForType(type, {
-                    pageSize: 3,
-                })
+                const {loadForType, setDocuments} = this.props
+                const options = {
+                    pageSize: 5,
+                }
+
+                loadForType(type, options).then(({results}) => setDocuments(results))
             }
         }),
-        withProps(({}) => {
-            return {
-                main: <div>Main</div>,
-                second: <div>Second</div>,
-            }
-        })
     )(Splash)
 }
