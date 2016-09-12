@@ -209,10 +209,10 @@ export default function computeRoutes(store) {
                     <Route path='courses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
-            <Route path='tutorial' component={Tutorial} />
             <Route path='youth' component={Youth} />
             <Route path='gear' component={Gear} />
             <Route path='sled' component={Sled} />
+            <Route path='tutorial' component={Tutorial} />
             <Route path='auction' component={Auction} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />

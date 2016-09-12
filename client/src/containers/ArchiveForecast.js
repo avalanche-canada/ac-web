@@ -9,47 +9,51 @@ import {DayPicker} from 'components/controls'
 import {forecast} from 'containers/connectors'
 import {AsRow} from 'components/grid'
 
-Container.propTypes = {
-    title: PropTypes.string.isRequired,
-    forecast: PropTypes.object,
-    isLoading: PropTypes.bool.isRequired,
-    isError: PropTypes.bool.isRequired,
-    link: PropTypes.object,
-}
+class Container extends Component {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        forecast: PropTypes.object,
+        isLoading: PropTypes.bool.isRequired,
+        isError: PropTypes.bool.isRequired,
+        link: PropTypes.object,
+    }
+    render() {
+        const {
+            title = 'Loading...',
+            forecast,
+            isLoading,
+            isError,
+            link,
+            params,
+            onChangeDate,
+        } = this.props
+        let {name, date} = params
 
-function Container({
-    title = 'Loading...',
-    forecast,
-    isLoading,
-    isError,
-    link,
-    params: {name, date},
-    onChangeDate,
-}) {
-    date = moment(date, 'YYYY-MM-DD').toDate()
+        date = moment(date, 'YYYY-MM-DD').toDate()
 
-    return (
-        <Page>
-            <Header title={isLoading ? title : `ARCHIVED: ${title}`} />
-            <Content>
-                <Main>
-                    <Headline>
-                        <AsRow>
-                            <div>This is an archived bulletin for</div>
-                            <DayPicker date={date} onChange={onChangeDate} container={this} >
-                                <DateElement value={date} format='dddd, LL' />
-                            </DayPicker>
-                        </AsRow>
-                    </Headline>
-                    <Br />
-                    {forecast && <Metadata {...forecast} />}
-                    {isLoading && <Muted>Loading forecast...</Muted>}
-                    {isError && <Error>Error happened while loading forecast.</Error>}
-                    {(forecast && forecast.region) && <Forecast {...forecast} />}
-                </Main>
-            </Content>
-        </Page>
-    )
+        return (
+            <Page>
+                <Header title={isLoading ? title : `ARCHIVED: ${title}`} />
+                <Content>
+                    <Main>
+                        <Headline>
+                            <AsRow>
+                                <div>This is an archived bulletin for</div>
+                                <DayPicker date={date} onChange={onChangeDate} container={this} >
+                                    <DateElement value={date} format='dddd, LL' />
+                                </DayPicker>
+                            </AsRow>
+                        </Headline>
+                        <Br />
+                        {forecast && <Metadata {...forecast} />}
+                        {isLoading && <Muted>Loading forecast...</Muted>}
+                        {isError && <Error>Error happened while loading forecast.</Error>}
+                        {(forecast && forecast.region) && <Forecast {...forecast} />}
+                    </Main>
+                </Content>
+            </Page>
+        )
+    }
 }
 
 export default compose(

@@ -1,8 +1,12 @@
 @custom-media --layout-as-column (width > 800px);
 
-.MultiColumnLayout {
+.ColumnSet {
     display: flex;
     flex-direction: column;
+
+    & > * {
+        flex: 1 0;
+    }
 
     @media(--layout-as-column) {
         flex-direction: row;

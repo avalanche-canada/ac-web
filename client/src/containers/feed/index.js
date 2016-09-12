@@ -1,22 +1,24 @@
-import feed from './feed'
-import post from './post'
-import splash from './splash'
-import * as news from 'selectors/prismic/news'
-import * as blogs from 'selectors/prismic/blogs'
-import * as events from 'selectors/prismic/events'
+import {withProps} from 'recompose'
+import Feed from './Feed'
+import Post from './Post'
 
 // Feed and Post Pages
+function feed(type, title) {
+    return withProps({
+        type,
+        title,
+    })(Feed)
+}
+function post(type) {
+    return withProps({
+        type,
+    })(Post)
+}
 
-export const NewsFeed = feed(news.feed, 'Recent news', 'news')
-export const BlogFeed = feed(blogs.feed, 'Blogs', 'blog')
-export const EventFeed = feed(events.feed, 'Events', 'event')
+export const NewsFeed = feed('news', 'Recent news')
+export const BlogFeed = feed('blog', 'Blogs')
+export const EventFeed = feed('event', 'Events')
 
-export const NewsPost = post(news.post, 'news')
-export const BlogPost = post(blogs.post, 'blog')
-export const EventPost = post(events.post, 'event')
-
-// Splash Sections
-
-export const NewsSplash = splash(news.splash, 'news')
-export const BlogsSplash = splash(blogs.splash, 'blog')
-export const EventsSplash = splash(events.splash, 'event')
+export const NewsPost = post('news')
+export const BlogPost = post('blog')
+export const EventPost = post('event')

@@ -13,72 +13,74 @@ import {replaceQuery, replaceState} from 'utils/router'
 
 const {isArray} = Array
 const STYLE = {
-    margin: 'auto'
+    margin: 'auto',
+    position: 'relative',
 }
-function Form({
-    legend,
-    location,
-    tagOptions,
-    courseOptions,
-    onCourseChange,
-    onDateRangeChange,
-    onTagsChange,
-    onPlaceChange,
-    withDateRange,
-}) {
-    const {query, state} = location
-    let {
-        course = '',
-        tags = [],
-        from,
-        to
-    } = query
+class Form extends Component {
+    render() {
+        const {
+            legend,
+            location: {query, state},
+            tagOptions,
+            courseOptions,
+            onCourseChange,
+            onDateRangeChange,
+            onTagsChange,
+            onPlaceChange,
+            withDateRange,
+        } = this.props
+        let {
+            course = '',
+            tags = [],
+            from,
+            to
+        } = query
 
-    tags = isArray(tags) ? tags : [tags]
+        tags = isArray(tags) ? tags : [tags]
 
-    return (
-        <Base style={STYLE}>
-            <Legend>{legend}</Legend>
-            <ControlSet horizontal>
-                {courseOptions && (
+        return (
+            <Base style={STYLE}>
+                <Legend>{legend}</Legend>
+                <ControlSet horizontal>
+                    {courseOptions && (
+                        <Control>
+                            <DropdownFromOptions
+                                onChange={onCourseChange}
+                                value={course.toUpperCase().trim()}
+                                placeholder='Course'
+                                options={courseOptions} />
+                        </Control>
+                    )}
+                    {withDateRange && (
+                        <Control>
+                            <DateRange
+                                from={from && parseFromDay(from)}
+                                to={to && parseFromDay(to)}
+                                onChange={onDateRangeChange}
+                                container={this} />
+                        </Control>
+                    )}
                     <Control>
                         <DropdownFromOptions
-                            onChange={onCourseChange}
-                            value={course.toUpperCase().trim()}
-                            placeholder='Course'
-                            options={courseOptions} />
+                            multiple
+                            onChange={onTagsChange}
+                            value={new Set(tags.map(tag => tag.toUpperCase()))}
+                            placeholder='Filter by'
+                            options={tagOptions} />
                     </Control>
-                )}
-                {withDateRange && (
                     <Control>
-                        <DateRange
-                            from={from && parseFromDay(from)}
-                            to={to && parseFromDay(to)}
-                            onChange={onDateRangeChange}
-                            container={this} />
+                        <Geocoder
+                            placeholder='Location'
+                            onChange={onPlaceChange}
+                            value={get(state, 'place.text')} />
                     </Control>
-                )}
-                <Control>
-                    <DropdownFromOptions
-                        multiple
-                        onChange={onTagsChange}
-                        value={new Set(tags.map(tag => tag.toUpperCase()))}
-                        placeholder='Filter by'
-                        options={tagOptions} />
-                </Control>
-                <Control>
-                    <Geocoder
-                        placeholder='Location'
-                        onChange={onPlaceChange}
-                        value={get(state, 'place.text')} />
-                </Control>
-            </ControlSet>
-        </Base>
-    )
+                </ControlSet>
+            </Base>
+        )
+    }
 }
 
 const Container = compose(
-    toClass,
     withRouter,
     lifecycle({
         componentDidMount() {
@@ -108,7 +110,7 @@ const Container = compose(
             }, props)
         },
     }),
-)(Form)
+)(toClass(Form))
 
 export const Courses = compose(
     connect(courses.form, {locate}),

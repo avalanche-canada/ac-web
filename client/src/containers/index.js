@@ -37,19 +37,28 @@ function staticPage(uid, title, message) {
         message,
     })(Prismic)
 }
-export const Sponsors = staticPage('sponsors-page', 'Sponsors')
-export const PrivacyPolicy = staticPage('about-privacy', 'Privacy Policy')
-export const TermsOfUse = staticPage('about-tou', 'Terms of use')
-export const About = staticPage('about-page', 'About — Avalanche Canada')
-export const Collaborators = staticPage('collaborators', 'Collaborators')
-export const Ambassadors = staticPage('ambassadors-page', 'Ambassadors')
-export const Training = staticPage('training-page', 'Go farther — Get avalanche trained')
-export const Tutorial = staticPage('tutorial-page', 'Tutorial')
-export const Youth = staticPage('youth-page', 'Youth')
-export const Gear = staticPage('essential-gear-page', 'Essential Gear')
-export const Sled = staticPage('sled-page', 'Sled')
-export const Auction = staticPage('auction-page', 'Auction')
+export const Sled = staticPage('sled', 'Sled')
+export const Youth = staticPage('youth', 'Youth')
+export const Gear = staticPage('essential-gear', 'Essential Gear')
+export const Training = staticPage('training', 'Go farther — Get avalanche trained')
 export const MountainInformationNetwork = staticPage('mountain-information-network-overview', 'Mountain Information Network — Overview')
-export const MountainInformationNetworkFAQ = staticPage('mountain-information-network-faq', 'Mountain Information Network — FAQ')
 export const MountainInformationNetworkSubmissionGuidelines = staticPage('mountain-information-network-submission-guidelines', 'Mountain Information Network — Submission Guidelines')
+export const About = staticPage('about', 'About — Avalanche Canada')
 export const AvalancheRiskReductionProcedures = staticPage('avalanche-risk-reduction-procedures', 'Avalanche Risk Reduction Procedures')
+export const MountainInformationNetworkFAQ = staticPage('mountain-information-network-faq', 'Mountain Information Network — FAQ')
+export const Ambassadors = staticPage('ambassadors', 'Ambassadors')
+export const Sponsors = staticPage('sponsors', 'Sponsors')
+export const Collaborators = staticPage('collaborators', 'Collaborators')
+
+function generic(bookmark, title) {
+    return withProps({
+        params: {
+            bookmark
+        },
+        title,
+    })(Prismic)
+}
+export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
+export const TermsOfUse = generic('about-tou', 'Terms of use')
+export const Tutorial = generic('tutorial', 'Tutorial')
+export const Auction = generic('auction', 'Auction')
