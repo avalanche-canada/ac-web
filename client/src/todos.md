@@ -7,9 +7,9 @@
 [] - Prismic store > investigate if we can use normilzr
 [] - Prismic store > Should store per type...will not have to create a new map everytime...new object means selector start fresh every time :(
 [] - Remove !important in CSS
-[] -
-[] -
-[] -
+[] - Providers and courses page > tab set anchor should take all the room. onClick outside the anchor does not trigger a change to the location
+[] - Add latest featured news and events posts to the menu
+[] - Replace replaceQuery functions with the one from utils/router
 [] -
 [] -
 [] -

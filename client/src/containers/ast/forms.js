@@ -12,13 +12,9 @@ import * as providers from 'selectors/ast/providers'
 import {replaceQuery, replaceState} from 'utils/router'
 
 const {isArray} = Array
-
 const STYLE = {
-    margin: 'auto 3em',
-    position: 'relative',
-    width: '90%',
+    margin: 'auto'
 }
-
 function Form({
     legend,
     location,

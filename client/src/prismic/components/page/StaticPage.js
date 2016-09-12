@@ -20,21 +20,29 @@ StaticPage.propTypes = {
     headline: PropTypes.string,
     sponsorId: PropTypes.string,
     content: PropTypes.arrayOf(PropTypes.object),
+    banner: PropTypes.object,
 }
 
-function StaticPage({title, headline, sponsor = null, content = [], type, uid, banner}) {
+function StaticPage({
+    type,
+    uid,
+    title,
+    headline,
+    sponsor,
+    content = [],
+    banner,
+}) {
     return (
-        <Page className={`${type}-${uid}`}>
-            <Header title={title} sponsor={sponsor} banner={banner} />
-            <Main>
-                {headline &&
-                    <Headline>
-                        {headline}
-                    </Headline>
-                }
-                {content.map(slice => <Slice {...slice} />)}
-            </Main>
-        </Page>
+        <div>
+            {banner && <Banner {...banner} />}
+            <Page className={`${type}-${uid}`}>
+                <Header title={title} sponsor={sponsor} />
+                <Main>
+                    {headline && <Headline>{headline}</Headline>}
+                    {content.map(slice => <Slice {...slice} />)}
+                </Main>
+            </Page>
+        </div>
     )
 }
 

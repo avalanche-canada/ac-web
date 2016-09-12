@@ -1,12 +1,16 @@
 @import "../../styles/colors.css";
 
 .Form {
+    composes: import RestrictFullPageWidth from "components/page/Page.css";
+
     width: 100%;
 
+    /* TODO: Remove */
     & :global(.form-control) {
         color: red;
     }
 
+    /* TODO: Remove */
     & :global(legend) {
         color: white;
         font-size: 2em;

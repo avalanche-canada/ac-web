@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, mapProps, lifecycle} from 'recompose'
+import {compose, mapProps, lifecycle, withState} from 'recompose'
 import {connect} from 'react-redux'
 import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
@@ -8,53 +8,52 @@ import {Predicates} from 'prismic'
 import {Entry} from 'components/page/feed'
 
 function FeedSplash({
-    content,
+    header,
     featured,
     list = [],
 }) {
     return (
-        <Splash {...props} >
+        <Splash>
             <InnerHTML>
-                {content}
+                {header}
             </InnerHTML>
-            <div styleName='Featured'>
-                {featured}
-            </div>
-            <div styleName='List'>
-                {list.map(entry => <Entry {...entry} />)}
-            </div>
+            {featured && <Entry {...featured} />}
+            {list.map(entry => <Entry {...entry} />)}
         </Splash>
     )
 }
 
-function mapStateToProps(state, props) {
-    return {
-        
-    }
-}
+const types = new Map([
+    ['Events', 'event'],
+    ['Blogs', 'blog'],
+    ['News', 'news'],
+])
 
 export default compose(
-    connect(mapStateToProps, {
+    connect(null, {
         loadForType
     }),
+    withState('featured', 'setFeatured', null),
+    withState('feed', 'setFeed', []),
     lifecycle({
         componentDidMount() {
-            const {loadForType, type} = this.props
-
+            const {
+                content: [splash],
+                loadForType,
+                setFeatured,
+                setFeed,
+            } = this.props
+            const type = types.get(splash.type)
             loadForType(type, {
-                pageSize: 4,
-                orders: [
-
+                pageSize: 5,
+                orderings: [
+                    `my.${type}.date desc`,
                 ],
-                predicates: [
-                    Predicates.at(),
-                    Predicates.at(),
-                ]
+            }).then(({results}) => {
+                setFeed(results)
+                setFeatured(results[0])
+                // setFeed(results)
             })
         }
     }),
-    // mapProps(),
-    // content: [{content, type, ...props}],
-    // label,
-
 )(FeedSplash)
