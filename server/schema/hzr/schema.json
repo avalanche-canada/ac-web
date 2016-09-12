@@ -1,0 +1,302 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://www.avalanche.ca/schema/hzr-16.09#",
+  "definitions": {
+    "NullString": {
+      "anyOf" : [
+        {"type": "string", "minLength": 1, "pattern":"\\S+"},
+        {"type": "null"}
+      ]
+    },
+    "BoolUnknown": {
+      "enum": ["Yes", "No", "Unknown", null]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "treelineTerrainAvoidance": {
+      "type": "object",
+      "properties": {
+        "aspect": {
+          "type": "object",
+          "properties": {
+            "N": {
+              "type": "boolean"
+            },
+            "S": {
+              "type": "boolean"
+            },
+            "NW": {
+              "type": "boolean"
+            },
+            "E": {
+              "type": "boolean"
+            },
+            "W": {
+              "type": "boolean"
+            },
+            "NE": {
+              "type": "boolean"
+            },
+            "All": {
+              "type": "boolean"
+            },
+            "SE": {
+              "type": "boolean"
+            },
+            "SW": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "N",
+            "S",
+            "NW",
+            "E",
+            "W",
+            "NE",
+            "All",
+            "SE",
+            "SW"
+          ]
+        },
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" },
+        "terrainFeatures": {
+          "type": "object",
+          "properties": {
+            "Variable depth snowpack": {
+              "type": "boolean"
+            },
+            "Convex": {
+              "type": "boolean"
+            },
+            "Crossloaded slopes": {
+              "type": "boolean"
+            },
+            "Unsupported": {
+              "type": "boolean"
+            },
+            "Shallow snowpack": {
+              "type": "boolean"
+            },
+            "Lee slopes": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Variable depth snowpack",
+            "Convex",
+            "Crossloaded slopes",
+            "Unsupported",
+            "Shallow snowpack",
+            "Lee slopes"
+          ]
+        }
+      },
+      "required": [
+        "aspect",
+        "terrainAvoidanceComments",
+        "terrainFeatures"
+      ]
+    },
+    "belowTreelineTerrainAvoidance": {
+      "type": "object",
+      "properties": {
+        "terrainFeatures": {
+          "type": "object",
+          "properties": {
+            "Convex": {
+              "type": "boolean"
+            },
+            "Cutblocks": {
+              "type": "boolean"
+            },
+            "Creeks": {
+              "type": "boolean"
+            },
+            "Unsupported": {
+              "type": "boolean"
+            },
+            "Lee slopes": {
+              "type": "boolean"
+            },
+            "Runout zones": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Convex",
+            "Cutblocks",
+            "Creeks",
+            "Unsupported",
+            "Lee slopes",
+            "Runout zones"
+          ]
+        },
+        "aspect": {
+          "type": "object",
+          "properties": {
+            "NE": { "type": "boolean"
+            },
+            "W": {
+              "type": "boolean"
+            },
+            "NW": {
+              "type": "boolean"
+            },
+            "E": {
+              "type": "boolean"
+            },
+            "S": {
+              "type": "boolean"
+            },
+            "N": {
+              "type": "boolean"
+            },
+            "SW": {
+              "type": "boolean"
+            },
+            "All": {
+              "type": "boolean"
+            },
+            "SE": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "NE",
+            "W",
+            "NW",
+            "E",
+            "S",
+            "N",
+            "SW",
+            "All",
+            "SE"
+          ]
+        },
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" }
+      },
+      "required": [
+        "terrainFeatures",
+        "aspect",
+        "terrainAvoidanceComments"
+      ]
+    },
+    "criticalFactors": {
+      "type": "object",
+      "properties": {
+        "slabAvalanches":              { "$ref": "#/definitions/BoolUnknown"},
+        "recentWindloading":           { "$ref": "#/definitions/BoolUnknown"},
+        "recentRainfall":              { "$ref": "#/definitions/BoolUnknown"},
+        "significantWarming":          { "$ref": "#/definitions/BoolUnknown"},
+        "instability":                 { "$ref": "#/definitions/BoolUnknown"},
+        "recentSnowfall":              { "$ref": "#/definitions/BoolUnknown"},
+        "persistentAvalancheProblem":  { "$ref": "#/definitions/BoolUnknown"},
+
+        "criticalFactorsComments": { "$ref": "#/definitions/NullString" }
+      },
+      "required": [
+        "slabAvalanches",
+        "recentWindloading",
+        "recentRainfall",
+        "criticalFactorsComments",
+        "significantWarming",
+        "instability",
+        "recentSnowfall",
+        "persistentAvalancheProblem"
+      ]
+    },
+    "alpineTerrainAvoidance": {
+      "type": "object",
+      "properties": {
+        "terrainFeatures": {
+          "type": "object",
+          "properties": {
+            "Shallow snowpack": {
+              "type": "boolean"
+            },
+            "Lee slopes": {
+              "type": "boolean"
+            },
+            "Unsupported": {
+              "type": "boolean"
+            },
+            "Variable depth snowpack": {
+              "type": "boolean"
+            },
+            "Convex": {
+              "type": "boolean"
+            },
+            "Crossloaded slopes": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Shallow snowpack",
+            "Lee slopes",
+            "Unsupported",
+            "Variable depth snowpack",
+            "Convex",
+            "Crossloaded slopes"
+          ]
+        },
+        "aspect": {
+          "type": "object",
+          "properties": {
+            "S": {
+              "type": "boolean"
+            },
+            "N": {
+              "type": "boolean"
+            },
+            "NW": {
+              "type": "boolean"
+            },
+            "E": {
+              "type": "boolean"
+            },
+            "W": {
+              "type": "boolean"
+            },
+            "NE": {
+              "type": "boolean"
+            },
+            "SE": {
+              "type": "boolean"
+            },
+            "All": {
+              "type": "boolean"
+            },
+            "SW": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "S",
+            "N",
+            "NW",
+            "E",
+            "W",
+            "NE",
+            "SE",
+            "All",
+            "SW"
+          ]
+        },
+        "terrainAvoidanceComments": { "$ref": "#/definitions/NullString" }
+      },
+      "required": [
+        "terrainFeatures",
+        "aspect",
+        "terrainAvoidanceComments"
+      ]
+    }
+  },
+  "required": [
+    "treelineTerrainAvoidance",
+    "belowTreelineTerrainAvoidance",
+    "criticalFactors",
+    "alpineTerrainAvoidance"
+  ]
+}

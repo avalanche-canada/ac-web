@@ -2,6 +2,7 @@
 
 var assert = require('assert')
 var min = require('./report_data')
+var testutils= require('./testutils')
 
 var assertMatch = (pattern, input) => {
     var r = new RegExp(pattern)
@@ -53,5 +54,13 @@ describe('schema converter', function() {
             });
             assertNotMatch(json.pattern, '2016-01-01T00:00:00Z');
         });
+    });
+
+    it('disallows whitespace in strings', function() {
+        var form = testutils.loadValidMin()
+        form.snowpackReport.snowpackObsComment = "  \t\t  ";
+
+        testutils.assertNotValidMin(form, "comments filled with only spaces")
+
     });
 });

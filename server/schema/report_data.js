@@ -17,13 +17,9 @@ var converters = {
         return out;
     },
     single: f => {
-        return {
-			"anyOf": [
-				{"type": "string",
-            	 "enum": f.options},
-				{"type": "null"}
-             ]
-        }
+        var opts = f.options.slice(0);
+        opts.push(null);
+        return {"enum": opts};
     },
     datetime: f => {
         var key = 'format';
@@ -51,12 +47,12 @@ var converters = {
         };
         return out;
     },
-    textarea:   _ => new Object({type:["string", "null"]}),
-    text:       _ => new Object({type:["string", "null"]}),
+    textarea:   _ => new Object({ "$ref": "#/definitions/NullString" }),
     calculated: _ => new Object({type:["number", "null"]}),
 
 };
 
+converters.text = converters.textarea;
 converters.checkbox = converters.multiple;
 converters.radio = converters.single;
 
@@ -101,7 +97,16 @@ var raw = {
  * A full json schema to validate the input to the MIN service
  */
 var jsonSchema = {
+    id: 'http://www.avalanche.ca/schema/min-16.09#',
     type: "object",
+    definitions: {
+        "NullString": {
+            "anyOf" : [
+                {"type": "string", "minLength": 1, "pattern":"\\S+"},
+                {"type": "null"}
+            ]
+        }
+    },
     properties: {
       quickReport:      require('./reports/quick').jsonSchema,
       avalancheReport:  toJsonSchema(raw.avalancheReport),
