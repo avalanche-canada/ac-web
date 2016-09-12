@@ -47,12 +47,12 @@ var converters = {
         };
         return out;
     },
-    textarea:   _ => new Object({type:["string", "null"]}),
-    text:       _ => new Object({type:["string", "null"]}),
+    textarea:   _ => new Object({ "$ref": "#/definitions/NullString" }),
     calculated: _ => new Object({type:["number", "null"]}),
 
 };
 
+converters.text = converters.textarea;
 converters.checkbox = converters.multiple;
 converters.radio = converters.single;
 
@@ -99,6 +99,14 @@ var raw = {
 var jsonSchema = {
     id: 'http://www.avalanche.ca/schema/min-16.09#',
     type: "object",
+    definitions: {
+        "NullString": {
+            "anyOf" : [
+                {"type": "string", "minLength": 1, "pattern":"\\S+"},
+                {"type": "null"}
+            ]
+        }
+    },
     properties: {
       quickReport:      require('./reports/quick').jsonSchema,
       avalancheReport:  toJsonSchema(raw.avalancheReport),
