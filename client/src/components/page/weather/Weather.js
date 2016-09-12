@@ -5,7 +5,7 @@ import {loadForType} from 'actions/prismic'
 import {getIsAuthenticated} from 'reducers/auth'
 import {compose, lifecycle} from 'recompose'
 import {Link} from 'react-router'
-import {Page, Header, Main, Article, ArticleHeader, Aside} from 'components/page'
+import {Page, Content, Header, Main, Article, ArticleHeader, Aside} from 'components/page'
 import Sidebar from './Sidebar'
 import Footer from './Footer'
 import styles from './Weather.css'
@@ -24,13 +24,15 @@ function Weather({children, isAuthenticated = false}) {
     return (
         <Page styleName='Page'>
             <Header title={title} />
-            <Main>
-                {children}
-                <Footer showFeedbackAnchor={isAuthenticated} />
-            </Main>
-            <Aside>
-                <Sidebar />
-            </Aside>
+            <Content>
+                <Main>
+                    {children}
+                    <Footer showFeedbackAnchor={isAuthenticated} />
+                </Main>
+                <Aside>
+                    <Sidebar />
+                </Aside>
+            </Content>
         </Page>
     )
 }

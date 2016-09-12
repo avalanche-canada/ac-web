@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Page, Main, Header} from 'components/page'
+import {Page, Content, Main, Header} from 'components/page'
 
 NotFound.propTypes = {
     title: PropTypes.string,
@@ -15,10 +15,12 @@ export default function NotFound({
     return (
         <Page>
             <Header title={title} />
-            <Main>
-                <h2>{subtitle}</h2>
-                {children}
-            </Main>
+            <Content>
+                <Main>
+                    <h2>{subtitle}</h2>
+                    {children}
+                </Main>
+            </Content>
         </Page>
     )
 }

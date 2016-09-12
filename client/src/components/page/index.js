@@ -1,4 +1,5 @@
 export Page from './Page'
+export Content from './Content'
 export Section from './Section'
 export Main from './Main'
 export Banner from './Banner'

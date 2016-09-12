@@ -17,6 +17,12 @@
 }
 
 .Page {
+    min-height: 500px;
+}
+
+.Content {
+    composes: RestrictFullPageWidth;
+
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -27,8 +33,6 @@
 }
 
 .Main {
-    composes: RestrictFullPageWidth;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -130,9 +134,10 @@
 
 .Aside {
     flex: 25%;
+    box-sizing: border-box;
 
     @media (--side-by-side) {
-        /*padding-left: 1em;*/
+        padding-left: 1em;
     }
 }
 

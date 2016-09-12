@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {createSelector} from 'reselect'
 import {connect} from 'react-redux'
-import {Page, Header, Headline, Main, Banner} from 'components/page'
+import {Page, Content, Header, Headline, Main, Banner} from 'components/page'
 import Slice from '../slice'
 import {getDocument} from 'reducers/prismic'
 import {Sponsor} from 'prismic/types'
@@ -37,10 +37,12 @@ function StaticPage({
             {banner && <Banner {...banner} />}
             <Page className={`${type}-${uid}`}>
                 <Header title={title} sponsor={sponsor} />
-                <Main>
-                    {headline && <Headline>{headline}</Headline>}
-                    {content.map(slice => <Slice {...slice} />)}
-                </Main>
+                <Content>
+                    <Main>
+                        {headline && <Headline>{headline}</Headline>}
+                        {content.map(slice => <Slice {...slice} />)}
+                    </Main>
+                </Content>
             </Page>
         </div>
     )

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Page, Main, Header} from 'components/page'
+import {Page, Content, Main, Header} from 'components/page'
 import {InnerHTML} from 'components/misc'
 
 Generic.propTypes = {
@@ -11,11 +11,13 @@ export default function Generic({title, body}) {
     return (
         <Page>
             <Header title={title} />
-            <Main>
-                <InnerHTML>
-                    {body}
-                </InnerHTML>
-            </Main>
+            <Content>
+                <Main>
+                    <InnerHTML>
+                        {body}
+                    </InnerHTML>
+                </Main>
+            </Content>
         </Page>
     )
 }

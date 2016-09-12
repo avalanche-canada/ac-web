@@ -4,7 +4,7 @@ import {Fieldset, Legend, Submit, Control, ControlSet} from 'components/form'
 import {Tab, TabSet} from 'components/tab'
 import {Input} from 'components/controls'
 import {Loading} from 'components/misc'
-import {Page, Header, Main, Section} from 'components/page'
+import {Page, Header, Main, Section, Content} from 'components/page'
 import * as Colors from 'components/icons/min/colors'
 import {fetchMountainInformationNetwork} from 'api/schema'
 import Form from 'react-jsonschema-form'
@@ -47,9 +47,11 @@ function MountainInformationNetworkForm({isReady, ...form}) {
     return (
         <Page>
             <Header title='Mountain Information Network' />
-            <Main>
-                {isReady ? <Form {...form} /> : <Loading />}
-            </Main>
+            <Content>
+                <Main>
+                    {isReady ? <Form {...form} /> : <Loading />}
+                </Main>
+            </Content>
         </Page>
     )
 }

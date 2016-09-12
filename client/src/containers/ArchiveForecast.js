@@ -2,7 +2,7 @@ import React, {PropTypes, Component, createElement} from 'react'
 import moment from 'moment'
 import {compose, withHandlers} from 'recompose'
 import {Link, withRouter} from 'react-router'
-import {Page, Header, Main, Section, Headline} from 'components/page'
+import {Page, Content, Header, Main, Section, Headline} from 'components/page'
 import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error, Br, DateElement} from 'components/misc'
 import {DayPicker} from 'components/controls'
@@ -31,21 +31,23 @@ function Container({
     return (
         <Page>
             <Header title={isLoading ? title : `ARCHIVED: ${title}`} />
-            <Main>
-                <Headline>
-                    <AsRow>
-                        <div>This is an archived bulletin for</div>
-                        <DayPicker date={date} onChange={onChangeDate} container={this} >
-                            <DateElement value={date} format='dddd, LL' />
-                        </DayPicker>
-                    </AsRow>
-                </Headline>
-                <Br />
-                {forecast && <Metadata {...forecast} />}
-                {isLoading && <Muted>Loading forecast...</Muted>}
-                {isError && <Error>Error happened while loading forecast.</Error>}
-                {(forecast && forecast.region) && <Forecast {...forecast} />}
-            </Main>
+            <Content>
+                <Main>
+                    <Headline>
+                        <AsRow>
+                            <div>This is an archived bulletin for</div>
+                            <DayPicker date={date} onChange={onChangeDate} container={this} >
+                                <DateElement value={date} format='dddd, LL' />
+                            </DayPicker>
+                        </AsRow>
+                    </Headline>
+                    <Br />
+                    {forecast && <Metadata {...forecast} />}
+                    {isLoading && <Muted>Loading forecast...</Muted>}
+                    {isError && <Error>Error happened while loading forecast.</Error>}
+                    {(forecast && forecast.region) && <Forecast {...forecast} />}
+                </Main>
+            </Content>
         </Page>
     )
 }

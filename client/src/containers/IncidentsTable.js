@@ -2,7 +2,7 @@ import React from 'react'
 import {compose, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {Page, Header, Main, Section} from 'components/page'
+import {Page, Content, Header, Main, Section} from 'components/page'
 import {Loading, Error} from 'components/misc'
 import {Responsive, Table, Row, TBody, Header as TableHeader, HeaderCell, Cell} from 'components/table'
 import {Pagination} from 'components/pagination'
@@ -64,58 +64,60 @@ function IncidentsTable({
     return (
         <Page>
             <Header title='Avalanche Incident Reports' />
-            <Main>
-                {isLoaded && (
-                    <Form>
-                        <Fieldset>
-                            <DropdownFromOptions multiple value={new Set(involvement)} options={involementOptions} onChange={setParams('involvement', location, router)} placeholder='Type of involvement' />
-                            <DropdownFromOptions multiple value={new Set(season)} options={seasonOptions} onChange={setParams('season', location, router)} placeholder='Season' />
-                            <DropdownFromOptions multiple value={new Set(province)} options={provinceOptions} onChange={setParams('province', location, router)} placeholder='Province' />
-                            <DropdownFromOptions multiple value={new Set(activity)} options={activityOptions} onChange={setParams('activity', location, router)} placeholder='Activity' />
-                        </Fieldset>
-                    </Form>
-                )}
-                {isLoaded &&
-                <Responsive>
-                    <Table hoverable>
-                        <TableHeader>
-                            <Row clickable>
-                                <HeaderCell>Date</HeaderCell>
-                                <HeaderCell>Location</HeaderCell>
-                                <HeaderCell>Province</HeaderCell>
-                                <HeaderCell>Activity</HeaderCell>
-                                <HeaderCell>Involvement</HeaderCell>
-                                <HeaderCell>Injury</HeaderCell>
-                                <HeaderCell>Fatality</HeaderCell>
-                            </Row>
-                        </TableHeader>
-                        <TBody>
-                            {incidents.map(incident => (
-                                <Row key={incident.id} onClick={event => router.push(`/incidents/${incident.slug}`)}>
-                                    <Cell>{incident.date === null ? 'N/A' : incident.date}</Cell>
-                                    <Cell>{incident.location === null ? 'N/A' : incident.location}</Cell>
-                                    <Cell>{incident.province === null ? 'N/A' : incident.province}</Cell>
-                                    <Cell>{incident.activity === null ? 'N/A' : incident.activity}</Cell>
-                                    <Cell>{incident.involvement === null ? 'N/A' : incident.involvement}</Cell>
-                                    <Cell>{incident.injury === null ? 'N/A' : incident.injury}</Cell>
-                                    <Cell>{incident.fatality === null ? 'N/A' : incident.fatality}</Cell>
+            <Content>
+                <Main>
+                    {isLoaded && (
+                        <Form>
+                            <Fieldset>
+                                <DropdownFromOptions multiple value={new Set(involvement)} options={involementOptions} onChange={setParams('involvement', location, router)} placeholder='Type of involvement' />
+                                <DropdownFromOptions multiple value={new Set(season)} options={seasonOptions} onChange={setParams('season', location, router)} placeholder='Season' />
+                                <DropdownFromOptions multiple value={new Set(province)} options={provinceOptions} onChange={setParams('province', location, router)} placeholder='Province' />
+                                <DropdownFromOptions multiple value={new Set(activity)} options={activityOptions} onChange={setParams('activity', location, router)} placeholder='Activity' />
+                            </Fieldset>
+                        </Form>
+                    )}
+                    {isLoaded &&
+                    <Responsive>
+                        <Table hoverable>
+                            <TableHeader>
+                                <Row clickable>
+                                    <HeaderCell>Date</HeaderCell>
+                                    <HeaderCell>Location</HeaderCell>
+                                    <HeaderCell>Province</HeaderCell>
+                                    <HeaderCell>Activity</HeaderCell>
+                                    <HeaderCell>Involvement</HeaderCell>
+                                    <HeaderCell>Injury</HeaderCell>
+                                    <HeaderCell>Fatality</HeaderCell>
                                 </Row>
-                            ))}
-                        </TBody>
-                    </Table>
-                </Responsive>
-                }
-                {isFetching && <Loading>{messages.loading}</Loading>}
-                {isError && <Error>{messages.error}</Error>}
-                {pagination && <Pagination {...pagination} location={location} />}
-                {isError &&
-                    <div>
-                        <Button onClick={load}>
-                            Try to reload
-                        </Button>
-                    </div>
-                }
-            </Main>
+                            </TableHeader>
+                            <TBody>
+                                {incidents.map(incident => (
+                                    <Row key={incident.id} onClick={event => router.push(`/incidents/${incident.slug}`)}>
+                                        <Cell>{incident.date === null ? 'N/A' : incident.date}</Cell>
+                                        <Cell>{incident.location === null ? 'N/A' : incident.location}</Cell>
+                                        <Cell>{incident.province === null ? 'N/A' : incident.province}</Cell>
+                                        <Cell>{incident.activity === null ? 'N/A' : incident.activity}</Cell>
+                                        <Cell>{incident.involvement === null ? 'N/A' : incident.involvement}</Cell>
+                                        <Cell>{incident.injury === null ? 'N/A' : incident.injury}</Cell>
+                                        <Cell>{incident.fatality === null ? 'N/A' : incident.fatality}</Cell>
+                                    </Row>
+                                ))}
+                            </TBody>
+                        </Table>
+                    </Responsive>
+                    }
+                    {isFetching && <Loading>{messages.loading}</Loading>}
+                    {isError && <Error>{messages.error}</Error>}
+                    {pagination && <Pagination {...pagination} location={location} />}
+                    {isError &&
+                        <div>
+                            <Button onClick={load}>
+                                Try to reload
+                            </Button>
+                        </div>
+                    }
+                </Main>
+            </Content>
         </Page>
     )
 }

@@ -1,6 +1,6 @@
 import React, {PropTypes, createElement} from 'react'
 import {Link} from 'react-router'
-import {Page, Header, Main} from 'components/page'
+import {Page, Header, Main, Content} from 'components/page'
 import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from './connectors'
@@ -23,12 +23,14 @@ function Container({
     return (
         <Page>
             <Header title={link ? <Link {...link}>{title}</Link> : title} />
-            <Main>
-                {forecast && <Metadata {...forecast} />}
-                {isLoading && <Muted>Loading forecast...</Muted>}
-                {isError && <Error>Error happened while loading forecast.</Error>}
-                {(forecast && forecast.region) && <Forecast {...forecast} />}
-            </Main>
+            <Content>
+                <Main>
+                    {forecast && <Metadata {...forecast} />}
+                    {isLoading && <Muted>Loading forecast...</Muted>}
+                    {isError && <Error>Error happened while loading forecast.</Error>}
+                    {(forecast && forecast.region) && <Forecast {...forecast} />}
+                </Main>
+            </Content>
         </Page>
     )
 }

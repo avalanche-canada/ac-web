@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Page, Header, Main, Headline} from 'components/page'
+import {Page, Content, Header, Main, Headline} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {DateElement, InnerHTML, Muted} from 'components/misc'
 
@@ -46,19 +46,23 @@ export default function Post({
                     </Entry>
                 }
             </Metadata>
-            {headline &&
-                <Headline>
-                    <InnerHTML>
-                        {headline}
-                    </InnerHTML>
-                </Headline>
-            }
-            {message ?
-                <Muted>{message}</Muted> :
-                <InnerHTML>
-                    {content}
-                </InnerHTML>
-            }
+            <Content>
+                <Main>
+                    {headline &&
+                        <Headline>
+                            <InnerHTML>
+                                {headline}
+                            </InnerHTML>
+                        </Headline>
+                    }
+                    {message ?
+                        <Muted>{message}</Muted> :
+                        <InnerHTML>
+                            {content}
+                        </InnerHTML>
+                    }
+                </Main>
+            </Content>
         </Page>
     )
 }
