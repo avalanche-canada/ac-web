@@ -2,21 +2,21 @@ import React, {Component, PropTypes, createElement} from 'react'
 import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {loadForBookmark} from 'actions/prismic'
+import {loadForParams} from 'actions/prismic'
 import {Loading} from 'components/page'
 import factory from 'prismic/types/factory'
-import {getDocumentForBookmark} from 'reducers/prismic'
+import {getDocumentForParams} from 'reducers/prismic'
 import {classify} from 'utils/string'
 
 const mapStateToProps = createSelector(
-    (state, {bookmark}) => getDocumentForBookmark(state, bookmark),
+    (state, {params}) => getDocumentForParams(state, params),
     (state, {message, title}) => ({message, title}),
     (document, props) => {
         if (document) {
             return {
                 ...props,
                 isLoading: false,
-                props: {...factory.getType(document)},
+                props: factory.getType(document),
                 component: require(`./${classify(document.type)}`).default
             }
         }
@@ -32,22 +32,33 @@ function Page({component, props}) {
     return createElement(component, props)
 }
 
-const Prismic = compose(
+export default compose(
     setDisplayName('Page'),
     setPropTypes({
-        bookmark: PropTypes.string.isRequired,
+        params: PropTypes.oneOf([
+            PropTypes.shape({
+                id: PropTypes.string,
+            }),
+            PropTypes.shape({
+                bookmark: PropTypes.string,
+            }),
+            PropTypes.shape({
+                type: PropTypes.string,
+                uid: PropTypes.string,
+            }),
+        ]).isRequired,
         title: PropTypes.string,
         message: PropTypes.string,
     }),
     connect(mapStateToProps, {
-        loadForBookmark
+        loadForParams
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForBookmark, bookmark} = this.props
+            const {loadForParams, params} = this.props
 
-            loadForBookmark(bookmark)
-        }
+            loadForParams(params)
+        },
     }),
     branch(
         props => props.isLoading,
@@ -56,9 +67,3 @@ const Prismic = compose(
         Component => Component,
     ),
 )(Page)
-
-export default Prismic
-
-export function withPrismic(props) {
-    return withProps(props)(Prismic)
-}

@@ -1,0 +1,10 @@
+@custom-media --layout-as-column (width > 800px);
+
+.MultiColumnLayout {
+    display: flex;
+    flex-direction: column;
+
+    @media(--layout-as-column) {
+        flex-direction: row;
+    }
+}

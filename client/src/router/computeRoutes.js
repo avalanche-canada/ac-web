@@ -38,7 +38,6 @@ import {
     Sled,
     Auction,
     Youth,
-    PrismicPage,
     TripPlanner,
     IncidentsTable,
     IncidentDetails,
@@ -51,6 +50,7 @@ import {
     EventFeed,
     EventPost,
 } from 'containers/feed'
+import Prismic from 'prismic/components/page'
 import * as Layouts from 'layouts'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
@@ -219,7 +219,7 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={TripPlanner} />
             <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
             <Route path='incidents/:slug' component={IncidentDetails} />
-            <Route path='pages/:type/:uid' component={PrismicPage} />
+            <Route path='pages/:type/:uid' component={Prismic} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
             <Redirect from='min/submit' to='mountain-information-network/submit' />
