@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Metadata, Entry} from 'components/metadata'
-import {DateTime} from 'components/misc'
+import {DateElement} from 'components/misc'
 
 ForecastMetadata.propTypes = {
     dateIssued: PropTypes.instanceOf(Date).isRequired,
@@ -11,10 +11,10 @@ export default function ForecastMetadata({dateIssued, validUntil}) {
     return (
         <Metadata>
             <Entry term='Date Issued'>
-                <DateTime value={dateIssued} />
+                <DateElement format="dddd MMMM Do, HH:mm, YYYY" value={dateIssued} />
             </Entry>
             <Entry term='Valid Until'>
-                <DateTime value={validUntil} />
+                <DateElement format="dddd MMMM Do, HH:mm, YYYY" value={validUntil} />
             </Entry>
         </Metadata>
     )
