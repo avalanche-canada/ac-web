@@ -71,7 +71,6 @@ export default compose(
             }
 
             cloudinary.getByTag(tag, options).then(onSuccessResponse)
-            .catch(() => require('./Avalanche.json')).then(onSuccessResponse)
         },
     }),
     CSSModules(styles),

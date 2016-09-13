@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock'
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
-import {clientId, domain} from './auth0.json'
+import {clientId, domain} from './config.json'
 import decode from 'jwt-decode'
 import CancelError from 'utils/promise/CancelError'
 

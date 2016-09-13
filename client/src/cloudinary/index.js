@@ -2,7 +2,7 @@ import Axios, {defaults} from 'axios'
 
 const resourcePrefix = 'http://res.cloudinary.com/avalanche-ca/image/upload'
 const api = Axios.create({
-    baseURL: 'http://avalanche.ca/vendor/cloudinary/resources/image/tags/'
+    baseURL: '/vendor/cloudinary/resources/image/tags/'
 })
 const THUMBNAIL_SIZE = 50
 
@@ -19,7 +19,7 @@ export function mapToSizeFactory(width = THUMBNAIL_SIZE, height = THUMBNAIL_SIZE
 }
 
 const OPTIONS = {
-    max_results: 50,
+    max_results: 25,
 }
 
 export function getByTag(tag, options = {}) {

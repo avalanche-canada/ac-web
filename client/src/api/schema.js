@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 const api = Axios.create({
-    baseURL: 'http://www.avalanche.ca/schema/'
+    baseURL: '/schema/'
 })
 
 export function fetchMountainInformationNetwork(version = '16.09') {

@@ -85,6 +85,7 @@ module.exports = {
         require('rucksack-css'),
 	],
     devtool: 'eval-source-map',
+    watch: true,
     devServer: {
         progress: true,
         colors: true,

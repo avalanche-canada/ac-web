@@ -14,7 +14,7 @@ build: webpack server-copy
 
 
 dev:
-	withenv node server/app-dev.js
+	withenv npm run start-dev
 
 prod:
 	cd dist && PORT=9000 npm --production start

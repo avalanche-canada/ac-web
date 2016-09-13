@@ -238,10 +238,6 @@ export const AvalancheCanada = {
                 label: 'Government Partners',
                 to:'collaborators#government'
             }, {
-                id: '57db0aba-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Contribution Programs',
-                to:'collaborators#contribution'
-            }, {
                 id: '57db0be6-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Other Agencies and Organisation',
                 to:'collaborators#other'
