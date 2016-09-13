@@ -136,6 +136,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
+    "start-dev": "node server/app-dev.js",
     "storybook": "start-storybook -p 9001",
     "dev": "webpack-dev-server"
   },
