@@ -5,8 +5,8 @@
   "homepage": "http://www.avalanche.ca/",
   "dependencies": {
     "auth0-lock": "^10.2.2",
-    "aws-sdk": "^2.2.12",
     "axios": "^0.14.0",
+    "ajv": "^4.6.1",
     "babel-polyfill": "^6.7.4",
     "body-parser": "^1.0.2",
     "brfs": "^1.4.3",
@@ -46,6 +46,7 @@
     "moment": "^2.14.1",
     "moment-timezone": "^0.5.4",
     "morgan": "~1.0.0",
+    "mssql": "^3.3.0",
     "multiparty": "~4.0.0",
     "ngeohash": "^0.6.0",
     "node-uuid": "^1.4.1",
@@ -88,6 +89,7 @@
     "turf-helpers": "^3.0.12",
     "turf-nearest": "^3.0.12",
     "url": "^0.11.0",
+    "tedious": "^1.14.0",
     "webcache": "git://github.com/tesera/node-webcache.git#v0.0.3",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",
     "winston": "^1.0.0",
@@ -112,6 +114,8 @@
     "html-webpack-plugin": "^2.21.0",
     "jshint-stylish": "~0.1.5",
     "json-loader": "^0.5.4",
+    "jshint-stylish": "~0.1.5",
+    "mocha": "^3.0.2",
     "open": "~0.0.4",
     "postcss-cssnext": "^2.5.1",
     "postcss-import": "^8.1.0",
@@ -138,7 +142,8 @@
     "start": "node server/app.js",
     "start-dev": "node server/app-dev.js",
     "storybook": "start-storybook -p 9001",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "mocha": "mocha"
   },
   "private": true
 }

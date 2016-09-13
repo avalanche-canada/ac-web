@@ -4,12 +4,11 @@ module.exports = function(app) {
 
     var env = app.get('env');
     var logger = require('./logger.js');
-    var geocoder = require('geocoder');
     var expressJwt = require('express-jwt');
     var jwt = require('jsonwebtoken');
 
 
-    var prerenderMiddleware = 
+    var prerenderMiddleware =
         require('prerender-node')
             .set('prerenderToken', '02L7Pq1BhiL3t6gzWX78')
             .blacklisted(['^/api']);
@@ -28,11 +27,13 @@ module.exports = function(app) {
     app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
 
     app.use('/api/forecasts', require('./api/forecasts'));
+    app.use('/api/bulletin-archive', require('./api/bulletin_archive'));
+    app.use('/api/hzr', require('./api/hzr'));
     app.use('/api/min', require('./api/observations'));
     app.use('/api/ast', require('./api/ast'));
     app.use('/vendor/cloudinary/', require('./api/proxy'));
 
-
+    app.use('/schema', require('./schema/handlers'));
 
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function (err, req, res, next) {

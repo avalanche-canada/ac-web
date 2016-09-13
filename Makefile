@@ -57,4 +57,9 @@ server-copy:
 	cp -R .ebextensions $(DIST)
 
 
-.PHONY: build prod webpack clean zip clean push-dev server-copy
+.PHONY: build prod webpack clean zip clean push-dev server-copy test
+
+test:
+	find server -name '*_test.js' | xargs npm run mocha
+
+

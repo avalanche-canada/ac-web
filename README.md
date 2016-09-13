@@ -90,6 +90,7 @@ AUTH0_CLIENT_ID='client-id'
 AUTH0_CLIENT_SECRET='client-secret'
 NO_CACHE_REFRESH=true
 MINSUB_DYNAMODB_TABLE='mountain-info-network-qa'
+HOTZONE_DYNAMODB_TABLE='hot-zone-qa'
 AST_PROVIDER_TABLE='ast-provider-dev'
 AST_COURSE_TABLE='ast-course-dev'
 CLOUDINARY_AUTH='mykey'
@@ -165,6 +166,7 @@ AUTH0_CLIENT_SECRET=myauth0clientsecret
 REDIS_HOST='yourredishost'
 NO_CACHE_REFRESH=true
 MINSUB_DYNAMODB_TABLE='dynamotablename'
+HOTZONE_DYNAMODB_TABLE='dynamotablename'
 USE_PRERENDER=false
 ````
 

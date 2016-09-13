@@ -282,4 +282,10 @@ html, body {
         }
     }
 }
+
+@media print {
+    .print-margin {
+        margin-top: 70px !important;
+    }
+}
 /*events ends*/

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('avalancheCanadaApp')
-    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, obs, auth, $location, acConfig, AcAuth, AcAppState) {
+    .controller('MapCtrl', function ($rootScope, $scope, $timeout, $state, Prismic, acForecast, acObservation, acHZRSubmission, obs, auth, $location, acConfig, AcAuth, AcAppState) {
 
         Prismic.ctx().then(function(ctx){
 
@@ -47,11 +47,48 @@ angular.module('avalancheCanadaApp')
                 obsPeriod: AcAppState.getObsPeriod().replace(':', '-'),
                 minFilters: acConfig.minFilters
             },
+            isForecaster: AcAuth.isForecaster(),
             regionsVisible: true,
+            hotZonesVisible: true,
             expandedDate: false,
             dateFilters :  acConfig.dateFilters,
             minFilters : _.sortBy(displayedMinFilters.concat(acConfig.minFilters), function(val) { return ['all min', 'quick', 'avalanche', 'snowpack', 'weather', 'incident'].indexOf(val); })
         });
+
+        function toggleMinFilters(filterValue){
+
+            function cleanMinFilters(){
+                displayedMinFilters = [];
+                $scope.filters.minFilters = [];
+            }
+
+            function setAllMinFilters(){
+                displayedMinFilters = ['all min'];
+                $scope.filters.minFilters = acConfig.minFilters;
+            }
+
+            var previousMinFilter = displayedMinFilters[0];
+
+            if( previousMinFilter === 'all min'){
+                cleanMinFilters();
+            }
+
+            if (filterValue === 'all min'){
+                if (previousMinFilter === 'all min'){
+                    cleanMinFilters();
+                } else{
+                    setAllMinFilters();
+                }
+
+            } else {
+                if(_.indexOf($scope.filters.minFilters, filterValue) !== -1){
+                    $scope.filters.minFilters = _.without($scope.filters.minFilters, filterValue);
+                } else {
+                    $scope.filters.minFilters.push(filterValue);
+                }
+                displayedMinFilters = $scope.filters.minFilters;
+            }
+        }
 
         if($state.current.data && $state.current.data.isLogin) {
             if(!auth.isAuthenticated) {
@@ -79,6 +116,10 @@ angular.module('avalancheCanadaApp')
             $scope.regions = forecasts;
         });
 
+        acHZRSubmission.getAll().then(function (reports) {
+            $scope.activeHotZones = reports;
+        });
+
         $scope.$watch('current.report', function(newValue, oldValue){
             if(newValue && newValue.latlng) {
                 $scope.drawer.left.visible = true;
@@ -92,10 +133,14 @@ angular.module('avalancheCanadaApp')
                 $scope.drawer.right.visible = false;
                 $scope.imageLoaded = false;
 
-                if(!newRegion.feature.properties.forecast) {
+                if(!newRegion.feature.properties.forecast && newRegion.feature.properties.type !=='hotzone') {
                     acForecast.getOne(newRegion.feature.id).then(function (forecast) {
                         newRegion.feature.properties.forecast = forecast;
                     });
+                } else if (newRegion.feature.properties.type === 'hotzone') {
+                    $scope.current.hotzone = _.find($scope.activeHotZones, function(zone) {
+                        return newRegion.feature.properties.id === zone.hotzoneid;
+                    }) || 'default';
                 }
 
                 $timeout(function () {
@@ -153,45 +198,18 @@ angular.module('avalancheCanadaApp')
             $location.path('/submit');
         };
 
-        $scope.toggleForecast = function (){
-            $scope.drawer.right.enabled = !$scope.drawer.right.enabled;
-            $scope.regionsVisible = !$scope.regionsVisible;
+        $scope.goToHotZoneReport = function(){
+            $location.path('/hotzone');
         };
 
-        function toggleMinFilters(filterValue){
-
-            function cleanMinFilters(){
-                displayedMinFilters = [];
-                $scope.filters.minFilters = [];
-            }
-
-            function setAllMinFilters(){
-                displayedMinFilters = ['all min'];
-                $scope.filters.minFilters = acConfig.minFilters;
-            }
-
-            var previousMinFilter = displayedMinFilters[0];
-
-            if( previousMinFilter === 'all min'){
-                cleanMinFilters();
-            }
-
-            if (filterValue === 'all min'){
-                if (previousMinFilter === 'all min'){
-                    cleanMinFilters();
-                } else{
-                    setAllMinFilters();
-                }
-
+        $scope.toggleForecast = function (type){
+            if (type === 'hotzone') {
+                $scope.hotZonesVisible = !$scope.hotZonesVisible;
             } else {
-                if(_.indexOf($scope.filters.minFilters, filterValue) !== -1){
-                    $scope.filters.minFilters = _.without($scope.filters.minFilters, filterValue);
-                } else {
-                    $scope.filters.minFilters.push(filterValue);
-                }
-                displayedMinFilters = $scope.filters.minFilters;
+                $scope.regionsVisible = !$scope.regionsVisible;
             }
-        }
+
+        };
 
         $scope.toggleDateFilters = function (){
             $scope.expandedDate = !$scope.expandedDate;

@@ -2,9 +2,12 @@
 
 .PHONEY: init build test
 
-
 init:
 	@echo "Init CI Build..."
+	. ~/.nvm/nvm.sh && nvm install 4.4.3 && nvm use 4.4.3
+	npm install npm -g
+	npm config set registry http://registry.npmjs.org/
+	npm cache clean
 	npm install
 
 build:
@@ -13,5 +16,5 @@ build:
 
 test:
 	@echo "Testing..."
-	@echo "Not really"
+	$(MAKE) -f Makefile test
 

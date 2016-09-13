@@ -257,6 +257,28 @@
         }
     }
 
+    .ac-report-tab{
+        background-color: $main-blue!important;
+        color: rgba($white, 0.6);
+        i{
+            padding-left: 17px;
+            padding-top: 7px;
+        }
+        span{
+            display: block;
+            font-size: 0.6em;
+            text-transform: uppercase;
+            text-align:center;
+            margin-top:0px;
+        }
+        &.on {
+            color: $white;
+            i {
+                color: $white;
+            }
+        }
+    }
+
     .no-top{
         margin-top:0px!important;
     }
