@@ -164,7 +164,6 @@ function filterRatingsForRegion(region, ratings) {
 }
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
-    
     var issued = moment(bulletin.DateIssued);
     var until  = moment(bulletin.ValidUntil);
     var out_bulletin = {
@@ -174,7 +173,7 @@ function generateJsonBulletin(region, bulletin, problems, ratings) {
         validUntil:     until.utc().format(),
         forecaster:     bulletin.IssuedBy,
         bulletinTitle:  bulletin.Header,
-        highlights:     bulletin.Highlights,
+        highlights:     bulletin.Headline,
         confidence:     bulletin.Confidence,
         avalancheSummary:  bulletin.AvalancheActivity,
         snowpackSummary:   bulletin.SnowPack,
