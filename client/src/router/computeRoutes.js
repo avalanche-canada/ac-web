@@ -74,22 +74,18 @@ export default function computeRoutes(store) {
         }
 
         replace(state || '/')
-
-        // if (state && state.nextLocation) {
-        //     replace(state.nextLocation)
-        // } else {
-        // }
     }
 
-    function handleRootRouteEntered({location, state}, replace) {
-        const options = {
+    function handleSponsorsRouteEnter() {
+        dispatch(loadForType('sponsor', {
             pageSize: 100
-        }
+        }))
+    }
 
-        // TODO: Remove: we are not using prismic for sponsors + prismic document
-        dispatch(loadForBookmark('sponsors'))
-        dispatch(loadForType('sponsor', options))
-        dispatch(loadForType('staff', options))
+    function handleAboutRouteEnter() {
+        dispatch(loadForType('staff', {
+            pageSize: 100
+        }))
     }
 
     function requireAuth({location}, replace, callback) {
@@ -158,7 +154,7 @@ export default function computeRoutes(store) {
     }
 
     return (
-        <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEntered} >
+        <Route path='/' component={Layouts.Root}>
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
@@ -176,7 +172,7 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetwork} />
-            <Route path='about' component={About} />
+            <Route path='about' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' component={EventFeed} onEnter={handleFeedEnter} />
             <Route path='events/:uid' component={EventPost} />
             <Route path='news' component={NewsFeed} onEnter={handleFeedEnter} />
@@ -199,7 +195,7 @@ export default function computeRoutes(store) {
                 <Route path='satellite' component={articles.Satellite} />
                 <Route path='warnings' component={articles.Warnings} />
             </Route>
-            <Route path='sponsors' component={Sponsors} />
+            <Route path='sponsors' component={Sponsors} onEnter={handleSponsorsRouteEnter} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
             <Route path='training'>
