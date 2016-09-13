@@ -19,7 +19,7 @@ export default createSelector(
     getIsFetching,
     (type, documents, isFetching) => {
         const featured = documents.find(isFeatured) || documents.first()
-        const feed = documents.filter(document => document !== featured)
+        const list = documents.filter(document => document !== featured)
         let message = null
 
         if (isFetching) {
@@ -28,7 +28,7 @@ export default createSelector(
 
         return {
             featured,
-            feed,
+            list,
             message,
         }
     }

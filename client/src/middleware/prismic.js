@@ -72,7 +72,7 @@ const prismic = store => next => action => {
     }
 
     if (!isPrismicCallRequired(store, action)) {
-        return null
+        return Promise.resolve()
     }
 
     next({
