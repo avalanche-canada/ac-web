@@ -1,6 +1,6 @@
 import React from 'react'
-import { pure } from 'recompose'
-import { Link } from 'react-router'
+import {pure} from 'recompose'
+import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './Footer.css'
 
@@ -12,7 +12,6 @@ function Footer() {
             <div styleName='Content'>
                 <nav styleName='Nav'>
                     <Link styleName='Link' to='/about'>Contact</Link>
-                    <Link styleName='Link' to='/disclaimer'>Disclaimer</Link>
                     <Link styleName='Link' to='/privacy-policy'>Privacy Policy</Link>
                     <Link styleName='Link' to='/terms-of-use'>Terms of use</Link>
                 </nav>

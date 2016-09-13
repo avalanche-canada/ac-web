@@ -8,7 +8,7 @@
 }
 
 .Container {
-    z-index: 1;
+    z-index: 10;
     height: var(--navbar-height);
 
     box-sizing: border-box;
@@ -127,18 +127,6 @@
     }
 }
 
-.Donate {
-    line-height: var(--navbar-height);
-    border-left: transparent solid 2px;
-    color: white;
-    padding: 0 20px;
-    background-color: var(--brand-secondary);
-
-    &:hover {
-        background-color: color(var(--brand-secondary) blackness(15%));
-    }
-}
-
 /* Menu */
 .Menu {
     display: none;
@@ -186,16 +174,14 @@
         text-align: left;
 
         &:hover {
-            color: var(--brand-primary)
+            color: var(--brand-primary);
         }
 
         &:after {
-            content: '';
-            display: inline-block;
-            width: 24px;
-            height: 26px;
-            background-image: url('./ChevronRight.svg');
-            vertical-align: middle;
+            color: var(--brand-primary);
+            content: "\203A";
+            margin-left: 0.25em;
+            font-size: 1.25rem;
         }
     }
 }
@@ -218,4 +204,17 @@
 
 .UserProfile {
     display: inline-block;
+}
+
+.Donate {
+    line-height: var(--navbar-height);
+    border-left: transparent solid 2px;
+    color: white;
+    padding: 0 20px;
+    background-color: var(--brand-secondary);
+
+    &:hover {
+        background-color: color(var(--brand-secondary) blackness(15%));
+        color: white;
+    }
 }

@@ -1,37 +1,35 @@
-import React, {PropTypes, DOM, createElement} from 'react'
-import {compose, branch, renderComponent, renderNothing, setPropTypes, withProps} from 'recompose'
+import React, {PropTypes, DOM} from 'react'
+import {compose, defaultProps} from 'recompose'
 import {Element} from 'compose'
 import styles from './Text.css'
 
-// TODO Better recompose usage
-
-function I(component) {
-    return component
+function text({children = null, name, component = DOM.p}) {
+    return defaultProps({children})(Element({
+        name,
+        component,
+        styles,
+    }))
 }
-const component = DOM.p
-const element = Element({
+
+export const Text = text({
     name: 'Text',
-    component,
-    styles,
 })
 
-Text.propTypes = {
-    children: PropTypes.node,
-    hide: PropTypes.bool,
-}
+export const Muted = text({
+    name: 'Muted',
+})
 
-export default function Text({children, hide = false}) {
-    if (hide) {
-        return null
-    }
-
-    return createElement(element, null, children)
-}
-
-export const Loading = withProps({
-    children: 'Loading...'
-})(Element({
+export const Loading = text({
     name: 'Loading',
-    component,
-    styles,
-}))
+    children: 'Loading...',
+})
+
+export const Error = text({
+    name: 'Error',
+    children: 'An error happened.',
+})
+
+export const Helper = text({
+    name: 'Helper',
+    component: DOM.span,
+})

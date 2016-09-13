@@ -1,0 +1,25 @@
+@import "../../styles/colors.css";
+
+.Submission {
+
+}
+
+.Observation {
+
+}
+
+.Section {
+}
+
+.Section--Content {
+    padding: 0 0 1em 0;
+}
+
+.Section--Title {
+    color: var(--primary);
+    /*font-size: 0.75em;*/
+    text-transform: uppercase;
+    padding-bottom: 0.75em;
+    margin: 1em 0;
+    border-bottom: 1px solid var(--gray-lighter);
+}

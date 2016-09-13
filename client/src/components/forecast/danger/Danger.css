@@ -22,10 +22,12 @@
 
 .RowHeader {
     composes: import SubSectionHeader from "../Forecast.css";
+    composes: import Border from "../Forecast.css";
 }
 
 .Cell {
     composes: import SubSectionHeader from "../Forecast.css";
+    composes: import Border from "../Forecast.css";
 }
 
 .Caption {

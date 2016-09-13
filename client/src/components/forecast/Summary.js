@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import styles from './Forecast.css'
 import {InnerHTML} from 'components/misc'
+import styles from './Forecast.css'
 
 Summary.propTypes = {
     title: PropTypes.string.isRequired,

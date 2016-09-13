@@ -1,36 +1,101 @@
 @import "../../styles/colors.css";
 
 .List {
+    display: flex;
+    flex-wrap: wrap;
+
     margin: 0;
 }
 
-.List--Horizontal {
+.List--1Columns {
     composes: List;
 
-    & > .Term {
-        clear: both;
-        float: left;
-    }
-    & > .Element {
-        float: left;
+    & .Child {
+        flex: 0 1 50%;
     }
 }
 
-.List--1Columns {
-    columns: 1;
-}
 .List--2Columns {
-    columns: 2;
+    composes: List;
+
+    & .Child {
+        flex: 0 1 25%;
+    }
+}
+
+.Condensed {
+    .Child {
+        padding: 0.25em 0;
+    }
+}
+
+.Bordered {
+    & .Child:not(.Block), & .Definition.Block {
+        border-bottom: 1px solid var(--gray-lighter);
+    }
+}
+
+.Child {
+    margin: 0;
+    padding: 0.75em 0;
+    color: var(--gray);
+
+    &.Block {
+        flex: 100%;
+    }
+
+    &.OneLiner {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
 
 .Term {
-    width: 25%;
-    color: var(--gray-darker);
-    font-weight: 700;
-    line-height: 1.5em;
+    composes: Child;
 }
 
-.Element {
-    color: var(--gray);
-    line-height: 1.5em;
+.Definition {
+    composes: Child;
+}
+
+/* THEMES */
+.List--Simple {
+    & .Term {
+        color: var(--gray-darker);
+        font-weight: 700;
+    }
+}
+
+.List--Simple--1Columns {
+    composes: List--Simple;
+    composes: List--1Columns;
+}
+
+.List--Simple--2Columns {
+    composes: List--Simple;
+    composes: List--2Columns;
+}
+
+.List--Inverse {
+    & .Child {
+        line-height: 2.5em;
+        border-top: 1px solid var(--gray-lighter);
+    }
+
+    & .Definition {
+        color: var(--gray-darker);
+        font-weight: 700;
+        text-align: right;
+    }
+}
+
+.List--Inverse--1Columns {
+    composes: List--Inverse;
+    composes: List--1Columns;
+}
+
+.List--Inverse--2Columns {
+    composes: List--Inverse;
+    composes: List--2Columns;
 }

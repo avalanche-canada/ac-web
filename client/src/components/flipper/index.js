@@ -1,2 +1,2 @@
 export Flipper from './Flipper'
-export { Left, Right, Center } from './Segment'
+export { Left, Right, Center} from './Segment'

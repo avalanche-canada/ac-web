@@ -1,25 +1,25 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import {List, Term, Element} from 'components/description'
+import {storiesOf, action} from '@kadira/storybook'
+import {List, Term, Definition} from 'components/description'
 import Table from './Table'
-import TBody, { Controlled as ControlledTBody } from './TBody'
+import TBody, { Controlled as ControlledTBody} from './TBody'
 import Row from './Row'
 import Cell from './Cell'
 import Header from './Header'
-import HeaderCell, { ASC, DESC, NONE } from './HeaderCell'
+import HeaderCell, {ASC, DESC, NONE} from './HeaderCell'
 
 const description = (
     <List columns={2} horizontal>
         <Term>Telephone</Term>
-        <Element>(250) 123-4567</Element>
+        <Definition>(250) 123-4567</Definition>
         <Term>Email</Term>
-        <Element>info@avalanche.ca</Element>
+        <Definition>info@avalanche.ca</Definition>
         <Term>Website</Term>
-        <Element>avalanche.ca</Element>
+        <Definition>avalanche.ca</Definition>
         <Term>Location</Term>
-        <Element>Revelstoke</Element>
+        <Definition>Revelstoke</Definition>
         <Term>Contact</Term>
-        <Element>Gilles Valade</Element>
+        <Definition>Gilles Valade</Definition>
     </List>
 )
 const onSortingChange = action('onSortingChange')
@@ -59,8 +59,8 @@ export const table = (
     <Table>
         {header}
         <ControlledTBody featured title='Our sponsors'>
-            {row()}
-            {row()}
+            {row(true)}
+            {controlled()}
             {row(true)}
             {controlled()}
         </ControlledTBody>
@@ -71,11 +71,16 @@ export const table = (
             {controlled()}
             {row(true)}
             {controlled()}
+            {row(false)}
+            {controlled()}
             {row(true)}
             {controlled()}
-            {row()}
-            {row()}
-            {row()}
+            {row(false)}
+            {controlled()}
+            {row(true)}
+            {controlled()}
+            {row(true)}
+            {controlled()}
         </ControlledTBody>
     </Table>
 )

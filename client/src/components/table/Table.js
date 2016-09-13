@@ -1,17 +1,24 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
 Table.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    hoverable: PropTypes.bool,
 }
 
-function Table({children}) {
+function Table({children, hoverable = false}) {
+    let styleName = 'Table'
+
+    if (hoverable === true) {
+        styleName += ' Hoverable'
+    }
+
     return (
-        <table styleName='Table'>
+        <table styleName={styleName}>
             {children}
         </table>
     )
 }
 
-export default CSSModules(Table, styles)
+export default CSSModules(Table, styles, {allowMultiple: true})

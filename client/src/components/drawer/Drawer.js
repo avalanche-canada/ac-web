@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import ItemSet from './ItemSet'
@@ -14,7 +14,7 @@ Drawer.propTypes = {
     children: PropTypes.instanceOf(ItemSet).isRequired,
 }
 
-function Drawer({ header, onClick = K, onHome = K, onClose = K, style = null, children }) {
+function Drawer({header, onClick = K, onHome = K, onClose = K, style = null, children}) {
     function handleClick(event) {
         const { target, currentTarget } = event
 

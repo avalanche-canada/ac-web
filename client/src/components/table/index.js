@@ -9,3 +9,7 @@ export HeaderCell, * as HeaderCellOrders from './HeaderCell'
 export Footer from './Footer'
 
 export Caption from './Caption'
+export Responsive from './Responsive'
+
+export PageSizeSelector from './PageSizeSelector'
+export PageSizeHelper from './PageSizeHelper'

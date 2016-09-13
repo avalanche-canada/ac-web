@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes} from 'react'
 
 export default class Source extends Component {
     static propTypes = {
@@ -55,7 +55,6 @@ export default class Source extends Component {
 
                 if (source) {
                     source.setData(data)
-                    return
                 }
             }
         }

@@ -1,0 +1,10 @@
+@import "../../styles/colors.css";
+
+:global(.DayPicker-Caption) {
+    height: 2rem;
+    line-height: 2rem;
+}
+
+:global(.DayPicker-Day) {
+    border-color: transparent;
+}

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import { Menu } from '../icons'
-import Button, { INCOGNITO } from '../button'
+import {Menu} from '../icons'
+import Button, { INCOGNITO} from '../button'
 import styles from './Navbar.css'
 
 function K() {}

@@ -7,6 +7,10 @@ export default class Event {
         assign(this, data)
     }
     static fromDocument(document, parser = PARSER) {
+        if (!document) {
+            return null
+        }
+        
         const data = parser.parse(document)
         const {startDate, tags} = data
 

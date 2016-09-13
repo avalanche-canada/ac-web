@@ -8,8 +8,10 @@ export const PATHS = new Map([
 export default function linkResolver({document, type, uid}, isBroken) {
     if (isBroken) {
         console.error('Broken link to document', document)
-        return
+        return null
     }
 
-    return PATHS.get(type).get(uid)
+    if (PATHS.has(type) && PATHS.get(type).has(uid)) {
+        return PATHS.get(type).get(uid)
+    }
 }

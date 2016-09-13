@@ -1,12 +1,14 @@
-import React, { PropTypes, Children, cloneElement } from 'react'
+import React, {PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import MediaQuery from 'react-responsive'
 import styles from './Danger.css'
 import * as ELEVATIONS from 'constants/forecast/elevation'
 import * as RATINGS from 'constants/forecast/danger/rating'
-import { asMap, asValues } from 'constants/utils'
+import {asMap, asValues} from 'constants/utils'
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
+
+// TODO: Better code organization.
 
 const ELEVATION_TEXTS = asMap(ELEVATIONS.VALUES, ELEVATIONS.TEXTS)
 const ELEVATION_PALETTE = asMap(ELEVATIONS.VALUES, ELEVATIONS.PALETTE)
@@ -50,10 +52,10 @@ function Row(props) {
     )
 }
 
-function ColumnHeader({date, span = 2}) {
+function ColumnHeader({date, colSpan = 2}) {
     return (
         <tr>
-            <th scope='column' colSpan={span} styleName='ColumnHeader'>
+            <th scope='column' colSpan={colSpan} styleName='ColumnHeader'>
                 <DayElement value={date} />
             </th>
         </tr>

@@ -10,14 +10,24 @@ function computeSocials({twitter, facebook, instagram, website}) {
 
 export default compose(
     mapProps(props => {
-        const data = props.content[0]
+        const {avatar, avatarCredit, avatarCaption, biography, banner, bannerCredit, bannerCaption,  fullName, ...socials} = props.content[0]
 
         return {
-            ...data,
-            socials: computeSocials(data),
+            fullName,
+            avatar: {
+                src: avatar.url,
+                credit: avatarCredit,
+                caption: avatarCaption,
+            },
+            banner: {
+                src: banner.url,
+                credit: bannerCredit,
+                caption: bannerCaption,
+            },
+            socials: computeSocials(socials),
             children: (
                 <InnerHTML>
-                    {data.biography}
+                    {biography}
                 </InnerHTML>
             )
         }

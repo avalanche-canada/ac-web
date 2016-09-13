@@ -1,17 +1,10 @@
-import React, { PropTypes } from 'react'
-import CSSModules from 'react-css-modules'
+import {DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Tag.css'
 
-TagSet.propTypes = {
-    children: PropTypes.array
-}
-
-function TagSet({ children }) {
-    return (
-        <ul styleName='Set'>
-            {children}
-        </ul>
-    )
-}
-
-export default CSSModules(TagSet, styles)
+export default Element({
+    name: 'TagSet',
+    styleName: 'Set',
+    styles,
+    component: DOM.ul,
+})

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Tab.css'
 import Button, {INCOGNITO} from 'components/button'
@@ -12,30 +12,67 @@ Header.propTypes = {
     expanded: PropTypes.bool,
     onClick: PropTypes.func,
     onExpandClick: PropTypes.func,
+    color: PropTypes.string,
+    arrow: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
-Header.contextTypes = {
-    theme: PropTypes.string.isRequired,
+function computeArrowStyle({color}) {
+    if (!color) {
+        return null
+    }
+
+    return {
+        borderTopColor: color,
+    }
+}
+
+function computeStyle({color, active}) {
+    if (!color) {
+        return null
+    }
+
+    const style = {
+        borderBottomColor: color,
+    }
+
+    if (active) {
+        style.backgroundColor = color
+    }
+
+    return style
 }
 
 function Header({
-    children,
     active = false,
     expanded = false,
+    arrow = false,
     onClick = K,
-    onExpandClick = K
-}, {
-    theme
+    onExpandClick = K,
+    color,
+    disabled,
+    children,
 }) {
     const icon = expanded ? <ExpandLess inverse /> : <ExpandMore inverse />
-    const styleName = active ? `ListItem--${theme}--active` : `ListItem--${theme}`
+    const style = computeStyle({color, active, arrow})
+    let styleName = 'ListItem'
+    const showArrow = arrow && active
+
+    if (disabled) {
+        styleName = 'ListItem--Disabled'
+    } else if (active) {
+        styleName = 'ListItem--Active'
+    }
 
 	return (
-        <li role='tab' {...{onClick, styleName}} >
+        <li role='tab' {...{onClick, styleName, style}} >
             {children}
-            <Button styleName='ListItem__ExpandButton' kind={INCOGNITO} onClick={onExpandClick} icon={icon} />
+            {showArrow &&
+                <span styleName='ListItem--Arrow' style={computeArrowStyle({color})} />
+            }
+            <Button styleName='ExpandButton' kind={INCOGNITO} onClick={onExpandClick} icon={icon} />
         </li>
     )
 }
 
-export default CSSModules(Header, styles)
+export default CSSModules(Header, styles, { allowMultiple: true })

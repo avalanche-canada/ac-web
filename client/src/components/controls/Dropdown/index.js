@@ -1,3 +1,3 @@
 export Dropdown from './Dropdown'
-export DropdownOption from './Option'
+export DropdownOption from './DropdownOption'
 export DropdownFromOptions from './DropdownFromOptions'

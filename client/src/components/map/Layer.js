@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, {Component, PropTypes} from 'react'
 
 const {keys} = Object
 
@@ -17,10 +17,6 @@ export default class Layer extends Component {
         filter: PropTypes.array,
         layout: PropTypes.object,
         paint: PropTypes.object,
-        events: PropTypes.object,
-    }
-    static defaultProps = {
-        events: {},
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
@@ -32,8 +28,8 @@ export default class Layer extends Component {
         return this.props.id
     }
     add = () => {
-        const {map, id, props} = this
-        const {events, before, ...layer} = props
+        const {map, id} = this
+        const {before, ...layer} = this.props
 
         if (layer['layer-ref']) {
             layer.ref = layer['layer-ref']
@@ -41,16 +37,6 @@ export default class Layer extends Component {
         }
 
         map.addLayer(layer, before)
-
-        keys(events).forEach(function setListener(key) {
-            map.on(key, function listener(event) {
-                const features = map.queryRenderedFeatures(event.point, {
-                    layers: [id]
-                })
-
-                events[key].call(null, event, features)
-            })
-        })
     }
     remove() {
         this.map.removeLayer(this.id)
@@ -66,38 +52,37 @@ export default class Layer extends Component {
         this.remove()
     }
     componentWillReceiveProps(nextProps) {
-        return
-
         const {map, props, id} = this
-        const zoomRange = [props.minzoom, props.maxzoom]
 
         keys(nextProps).forEach(function setLayerProperty(key) {
             const prop = nextProps[key]
 
+            if (prop === props[key]) {
+                return
+            }
+
             switch (key) {
                 case 'paint':
-                    // map.setPaintProperty(id, key, prop)
+                    keys(prop).forEach(name => {
+                        map.setPaintProperty(id, name, prop[name])
+                    })
                     break
                 case 'layout':
-                    // map.setLayoutProperty(id, key, prop)
+                    keys(prop).forEach(name => {
+                        map.setLayoutProperty(id, name, prop[name])
+                    })
                     break
                 case 'filter':
                     map.setFilter(id, prop)
                     break
-                case 'minzoom':
-                    zoomRange[0] = prop
-                    break
-                case 'maxzoom':
-                    zoomRange[1] = prop
-                    break
             }
 
         })
-
-        // map.setLayerZoomRange(id, ...zoomRange)
     }
-    shouldComponentUpdate() {
-        return false
+    shouldComponentUpdate({filter, layout, paint}) {
+        return  filter !== this.props.filter ||
+                layout !== this.props.layout ||
+                paint !== this.props.paint
     }
     render() {
         return null

@@ -3,21 +3,29 @@
 @custom-media --header-horizontal (width > 600px);
 @custom-media --side-by-side (width > 800px);
 @custom-media --full-width (width > 1054px);
+@custom-media --medium-width (width > 800px);
 
-.Page {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-
+.RestrictFullPageWidth {
     max-width: 1026px;
-
-    margin-left: 1em;
-    margin-right: 1em;
+    padding: 0 1em;
 
     @media (--full-width) {
+        padding: 0;
         margin-left: auto;
         margin-right: auto;
     }
+}
+
+.Page {
+    min-height: 500px;
+}
+
+.Content {
+    composes: RestrictFullPageWidth;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 
     @media (--side-by-side) {
         flex-direction: row;
@@ -31,12 +39,17 @@
 
     flex: 75%;
 
+    @media (--full-width) {
+        padding: 0;
+    }
+
     & > .Headline {
+        padding: 1.5em 0;
         font-weight: 700;
     }
 
     @media (--side-by-side) {
-        padding-right: 1em;
+        /*padding-right: 1em;*/
         box-sizing: border-box;
     }
 }
@@ -44,34 +57,31 @@
 .Banner {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     width: 100%;
-    height: 380px;
+    min-width: 100%;
+    height: 300px;
+    margin: 0;
 
     background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
-}
 
-.BannerForm {
-    composes: import Form from "../form/Form.css";
+    @media (--medium-width) {
+        height: 375px;
+    }
 
-    margin: auto 3em;
-
-    & legend {
-        width: 100%;
-        color: white;
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 25px;
+    @media (--full-width) {
+        height: 450px;
     }
 }
 
 .Article {
-
+    position: relative;
 }
 
 .Header {
+    composes: RestrictFullPageWidth;
     composes: import MainDecorator from "../misc/Br.css";
     composes: import RibbonDecorator from "../misc/Br.css";
 
@@ -79,10 +89,8 @@
     flex-direction: column;
 
     flex: 100%;
-
     position: relative;
-
-    margin: 0;
+    margin: 0 auto;
     padding-bottom: 1.5em;
     padding-top: 1.5em;
 
@@ -114,19 +122,22 @@
 
 }
 
-.Section {
-
-}
-
 .Headline {
     font-size: 1rem;
 }
 
+.Section {
+    & .Headline {
+        padding-bottom: 1.5em;
+    }
+}
+
 .Aside {
     flex: 25%;
+    box-sizing: border-box;
 
     @media (--side-by-side) {
-        /*padding-left: 1em;*/
+        padding-left: 1em;
     }
 }
 

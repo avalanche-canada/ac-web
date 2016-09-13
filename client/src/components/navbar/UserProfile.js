@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import { Avatar } from '../misc'
+import {Avatar} from '../misc'
 import styles from './Navbar.css'
 
 UserProfile.propTypes = {

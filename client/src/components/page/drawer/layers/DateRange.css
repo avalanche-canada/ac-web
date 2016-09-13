@@ -1,0 +1,17 @@
+@import "../../../../styles/colors.css";
+
+.Container {
+    display: flex;
+    flex-direction: column;
+}
+
+.InputSet {
+    display: flex;
+
+    & > input {
+        /*font-size: smaller;*/
+        overflow: hidden;
+        background-color: var(--gray-lighter);
+        margin: 0 1px;
+    }
+}

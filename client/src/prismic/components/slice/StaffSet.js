@@ -19,9 +19,9 @@ function parse(document) {
     return staff
 }
 
-const getStaffMembers = createSelector(
+const mapStateToProps = createSelector(
     state => getDocumentsOfType(state, 'staff'),
-    (state, props) => props.content.map(slice => slice.staff.id),
+    (state, {content}) => content.map(({staff}) => staff.id),
     function computeStaffMembers(documents, ids) {
         if (documents.isEmpty()) {
             return
@@ -47,4 +47,4 @@ function StaffSet({members = []}) {
     )
 }
 
-export default connect(getStaffMembers)(StaffSet)
+export default connect(mapStateToProps)(StaffSet)

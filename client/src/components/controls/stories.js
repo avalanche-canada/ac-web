@@ -1,12 +1,20 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import Input from './Input'
 import Select from './Select'
-import {Dropdown, Option} from './Dropdown'
+import {Dropdown, DropdownFromOptions, DropdownOption} from './Dropdown'
 
 const outer = {
     padding: 25
 }
+
+const options = new Map([
+    ['ski', 'Ski'],
+    ['sled', 'Sled'],
+    ['youth', 'Youth'],
+    ['companion-rescue', 'Companion rescue'],
+])
+const values = new Set(['companion-rescue', 'ski'])
 
 storiesOf('Controls', module)
 .add('Input', () => <Input value='Ski' />)
@@ -23,10 +31,25 @@ storiesOf('Controls', module)
 .add('Dropdown', () => (
     <div style={outer}>
         <Dropdown value='companion-rescue' onChange={action('onChange')}>
-            <Option value='ski'>Ski</Option>
-            <Option value='sled'>Sled</Option>
-            <Option value='youth'>Youth</Option>
-            <Option value='companion-rescue'>Companion rescue</Option>
+            <DropdownOption value='ski'>Ski</DropdownOption>
+            <DropdownOption value='sled'>Sled</DropdownOption>
+            <DropdownOption value='youth'>Youth</DropdownOption>
+            <DropdownOption value='companion-rescue'>Companion rescue</DropdownOption>
         </Dropdown>
+    </div>
+))
+.add('Dropdown multiple', () => (
+    <div style={outer}>
+        <Dropdown multiple value={values} onChange={action('onChange')}>
+            <DropdownOption value='ski'>Ski</DropdownOption>
+            <DropdownOption value='sled'>Sled</DropdownOption>
+            <DropdownOption value='youth'>Youth</DropdownOption>
+            <DropdownOption value='companion-rescue'>Companion rescue</DropdownOption>
+        </Dropdown>
+    </div>
+))
+.add('Dropdown from Options', () => (
+    <div style={outer}>
+        <DropdownFromOptions options={options} />
     </div>
 ))

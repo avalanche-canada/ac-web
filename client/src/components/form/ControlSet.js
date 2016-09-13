@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Form.css'
 
@@ -7,7 +7,7 @@ ControlSet.propTypes = {
     horizontal: PropTypes.bool,
 }
 
-function ControlSet({ horizontal = false, children }) {
+function ControlSet({horizontal = false, children}) {
     return (
         <div styleName={horizontal ? 'ControlSet--Horizontal' : 'ControlSet'}>
             {children}

@@ -11,23 +11,29 @@ export Phone from './Phone'
 
 export Br from './Br'
 
-const now = new Date()
+export P from './P'
 
-export Time from './Time'
+export GoBack from './GoBack'
+
+
+export const Time = createTime('Time', 'HH:mm')
+export const DateTime = createTime('DateTime', 'dddd MMMM Do, HH:mm')
+export const Day = createTime('Day', 'dddd')
 export const DateElement = createTime('Date', function format(value) {
+    const now = new Date()
+
     return value.getFullYear() === now.getFullYear() ? 'dddd MMMM Do' : 'dddd MMMM Do, YYYY'
 })
-export const DateTime = createTime('DateTime', 'dddd MMMM Do, hh:mm')
-export const Day = createTime('Day', 'dddd')
 
 export InnerHTML from './InnerHTML'
 
-export ExpandButton from './ExpandButton'
-export SortingButton from './SortingButton'
-
 export Collapse from './Collapse'
 
-export Muted from './Text'
-export Loading from './Text'
+export {Muted, Loading, Error, Helper} from './Text'
 
 export Image from './Image'
+
+export Backdrop from './Backdrop'
+
+export DayPicker from './DayPicker'
+export {DateUtils} from 'react-day-picker'

@@ -1,55 +1,71 @@
 import {createSelector} from 'reselect'
+import mapbox from 'mapbox/map'
 import {getZoom, getCenter} from 'reducers/map'
 import getSources from './getSources'
 import getLayers from './getLayers'
 import getMarkers from './getMarkers'
-import {getEntityForSchema} from 'reducers/entities'
-import {loadForecastRegions} from 'actions/entities'
-import {ForecastRegion} from 'api/schemas'
+import getEvents from './getEvents'
+import {getPreviousLocation} from 'reducers'
+import {getEntityForSchema} from 'reducers/api/entities'
+import {ForecastRegion, HotZoneArea} from 'api/schemas'
+import {getPrimary, getSecondary} from 'selectors/drawers'
 import bbox from 'turf-bbox'
 
-function createFeatureBounds(feature) {
-    return {
-        bbox: bbox(feature.toJSON()),
-        options: {
-            offset: [-250, 0],
-            padding: 25,
-        }
-    }
-}
+const {LngLatBounds} = mapbox
 
-
-function getActiveFeature(state, {params}) {
+function getActiveFeature(state, {params, routes}) {
     const {name} = params
 
-    return getEntityForSchema(state, ForecastRegion, name)
+    if (routes.find(route => route.path === 'forecasts')) {
+        return getEntityForSchema(state, ForecastRegion, name)
+    } else if (routes.find(route => route.path === 'hot-zone-reports')) {
+        return getEntityForSchema(state, HotZoneArea, name)
+    }
+
+    return null
 }
 
 const getBounds = createSelector(
     getActiveFeature,
-    (region, hotZoneArea) => {
-        if (region) {
-            return createFeatureBounds(region)
-        } else {
+    getPrimary,
+    getSecondary,
+    (feature, primary, secondary) => {
+        if (!feature) {
             return null
+        }
+        let x = 0
+
+        if (primary.open) {
+            x -= primary.width / 2
+        }
+        if (secondary.open) {
+            x += secondary.width / 2
+        }
+
+        return {
+            bbox: LngLatBounds.convert(bbox(feature.toJSON())),
+            options: {
+                offset: [x, 0],
+                padding: 25,
+            }
         }
     }
 )
 
-export const getMapProps = createSelector(
+export default createSelector(
     getBounds,
     getZoom,
     getCenter,
     getSources,
     getLayers,
     getMarkers,
-    function computeMapProps(bounds, zoom, center, sources, layers, markers) {
+    getEvents,
+    function computeMapProps(bounds, zoom, center, sources, layers, markers, events) {
         return {
-            state: {
-                zoom,
-                center,
-                bounds,
-            },
+            zoom,
+            center,
+            bounds,
+            ...events,
             sources,
             layers,
             markers,

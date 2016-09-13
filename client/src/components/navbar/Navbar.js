@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import Burger from './Burger'
 import ItemSet from './ItemSet'
@@ -14,7 +14,7 @@ Navbar.propTypes = {
     onBurgerClick: PropTypes.func.isRequired,
 }
 
-function Navbar({ isFoundation = false, onBurgerClick = K, children = [] }) {
+function Navbar({isFoundation = false, onBurgerClick = K, children = []}) {
     return (
         <div styleName='Navbar'>
             <nav styleName='Navigation'>

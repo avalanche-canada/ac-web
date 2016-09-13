@@ -14,7 +14,7 @@ Section.propTypes = {
 // TODO: No header tag if there is no headline
 // TODO: Finish implementing hash. Look at GitHub
 
-function Section({ title, headline, children, hash, level = 1 }) {
+function Section({title, headline, children, hash, level = 1}) {
     const header = `h${level + 1}`
 
     return (

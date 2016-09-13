@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {InnerHTML} from 'components/misc'
 import styles from './Problem.css'
@@ -8,7 +8,7 @@ Advice.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Advice({ children }) {
+function Advice({children}) {
     return (
         <div styleName='Advice'>
             <h3 styleName='SubHeader'>

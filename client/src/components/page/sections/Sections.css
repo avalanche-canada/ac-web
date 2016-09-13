@@ -1,0 +1,26 @@
+@import "../../../styles/colors.css";
+
+@custom-media --splash-two-columns (width > 700px);
+
+.Splash {
+    margin: 2em 0;
+}
+
+.Splash--Header {
+
+}
+
+.Splash--Content {
+    display: flex;
+
+    & > div {
+        &:first-child {
+            flex: 25%;
+        }
+        &:not(:first-child) {
+            flex: 1 0;
+            border-left: 0.25em solid var(--gray-lighter);
+            padding: 0 0.25em 0 1em;
+        }
+    }
+}

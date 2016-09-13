@@ -1,0 +1,44 @@
+@import "../../../styles/colors.css";
+
+.Container {
+    position: relative;
+    background-color: white;
+
+    & svg {
+        height: 40px;
+        padding: 0 6px;
+    }
+
+    & > svg {
+        position: absolute;
+        pointer-events: none;
+
+        &:first-child {
+            left: 0;
+        }
+        &:last-child {
+            right: 0;
+        }
+    }
+
+    & > button {
+        padding: 0;
+    }
+
+    & path:not([fill="none"]) {
+        fill: var(--primary);
+    }
+}
+
+.Clear {
+    position: absolute;
+    right: 0;
+}
+
+.Input {
+    padding-left: 32px;
+    padding-right: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

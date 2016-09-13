@@ -1,94 +1,64 @@
-import prismic from 'prismic/components/page'
-
-export Root from './Root'
+import {withProps} from 'recompose'
+import Prismic from 'prismic/components/page'
 
 // Map - kind of the home page
 export Map from './Map'
 
-//
+// Full page
 export Forecast from './Forecast'
-export HotZoneReport from './HotZoneReport'
+export ArchiveForecast from './ArchiveForecast'
+export Archives from './Archives'
+export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
-// Feed and Post Pages
-export EventFeed from './EventFeed'
-export EventPost from './EventPost'
-export NewsFeed from './NewsFeed'
-export NewsPost from './NewsPost'
-export BlogFeed from './BlogFeed'
-export BlogPost from './BlogPost'
+export IncidentsTable from './IncidentsTable'
+export IncidentDetails from './IncidentDetails'
+export TripPlanner from './TripPlanner'
 
 // Training
-export Ast from './Ast'
+export {Providers as ProvidersTable, Courses as CoursesTable} from './ast/tables'
+export {Providers as ProvidersForm, Courses as CoursesForm} from './ast/forms'
 
 // Weather
 export Weather from './Weather'
 
-// Static Pages
-export const Sponsors = prismic({
-    bookmark: 'sponsors-page',
-    title: 'Sponsors'
-})
-export const PrivacyPolicy = prismic({
-    bookmark: 'about-privacy',
-    title: 'Privacy Policy',
-})
-export const TermsOfUse = prismic({
-    bookmark: 'about-tou',
-    title: 'Terms of use',
-})
-export const About = prismic({
-    bookmark: 'about-page',
-    title: 'About — Avalanche Canada',
-})
-export const Collaborators = prismic({
-    bookmark: 'collaborators',
-    title: 'Collaborators',
-})
-export const Ambassadors = prismic({
-    bookmark: 'ambassadors-page',
-    title: 'Ambassadors',
-})
-export const Training = prismic({
-    bookmark: 'training-page',
-    title: 'Go farther — Get avalanche trained',
-})
-export const Tutorial = prismic({
-    bookmark: 'tutorial-page',
-    title: 'Tutorial',
-})
-export const Youth = prismic({
-    bookmark: 'youth-page',
-    title: 'Youth',
-})
-export const Gear = prismic({
-    bookmark: 'gear-page',
-    title: 'Essential Gear',
-})
-export const Sled = prismic({
-    bookmark: 'sled-page',
-    title: 'Sled',
-})
-export const Auction = prismic({
-    bookmark: 'auction-page',
-    title: 'Auction',
-})
+// Mountain Information Network
+export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
 
-export const MountainInformationNetwork = prismic({
-    bookmark: 'mountain-information-network-overview',
-    title: 'Mountain Information Network — Overview',
-})
-export const MountainInformationNetworkSubmit = prismic({
-    bookmark: 'mountain-information-network-submit',
-    title: 'Mountain Information Network — Submit',
-})
-export const MountainInformationNetworkFAQ = prismic({
-    bookmark: 'mountain-information-network-faq',
-    title: 'Mountain Information Network — FAQ',
-})
-export const MountainInformationNetworkSubmissionGuidelines = prismic({
-    bookmark: 'mountain-information-network-submission-guidelines',
-    title: 'Mountain Information Network — Submission Guidelines',
-})
-
-export PrimaryDrawer from './PrimaryDrawer'
 export Sponsor from './Sponsor'
+
+// Static Pages
+function staticPage(uid, title, message) {
+    return withProps({
+        params: {
+            type: 'static-page',
+            uid,
+        },
+        title,
+        message,
+    })(Prismic)
+}
+export const Sled = staticPage('sled', 'Sled')
+export const Youth = staticPage('youth', 'Youth')
+export const Gear = staticPage('essential-gear', 'Essential Gear')
+export const Training = staticPage('training', 'Go farther — Get avalanche trained')
+export const MountainInformationNetwork = staticPage('mountain-information-network-overview', 'Mountain Information Network — Overview')
+export const MountainInformationNetworkSubmissionGuidelines = staticPage('mountain-information-network-submission-guidelines', 'Mountain Information Network — Submission Guidelines')
+export const About = staticPage('about', 'About — Avalanche Canada')
+export const AvalancheRiskReductionProcedures = staticPage('avalanche-risk-reduction-procedures', 'Avalanche Risk Reduction Procedures')
+export const MountainInformationNetworkFAQ = staticPage('mountain-information-network-faq', 'Mountain Information Network — FAQ')
+export const Ambassadors = staticPage('ambassadors', 'Ambassadors')
+export const Sponsors = staticPage('sponsors', 'Sponsors')
+export const Collaborators = staticPage('collaborators', 'Collaborators')
+
+function generic(bookmark, title) {
+    return withProps({
+        params: {
+            bookmark
+        },
+        title,
+    })(Prismic)
+}
+export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
+export const TermsOfUse = generic('about-tou', 'Terms of use')
+export const Tutorial = generic('tutorial', 'Tutorial')
+export const Auction = generic('auction', 'Auction')

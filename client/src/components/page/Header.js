@@ -4,7 +4,7 @@ import styles from './Page.css'
 import {Sponsor} from 'components/misc'
 
 Header.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     sponsor: PropTypes.shape(Sponsor.propTypes),
     children: PropTypes.node,
 }

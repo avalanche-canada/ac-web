@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Bulletin.css'
 
-function Bulletin({ children }) {
+function Bulletin({children}) {
     return (
         <section styleName='Bulletin'>
             <br />LONG RANGE PRECIPITATION FORECAST

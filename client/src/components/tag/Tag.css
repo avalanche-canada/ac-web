@@ -1,42 +1,19 @@
-@import "../../styles/components.css";
+@import "../../styles/colors.css";
 
 .Set {
+    display: flex;
     list-style: none;
+    padding: 0;
 }
 
 .Item {
-    display: inline-block;
-    margin: 3px;
+    margin: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 0.75em;
     text-transform: uppercase;
+    background-color: var(--gray-lighter);
 
-    & a {
-        padding : 3px 6px;
-        line-height: 1.5;
-        color: black;
-        text-decoration: none;
-        background-color: var(--component-bg);
-
-        &:hover {
-            background-color: var(--component-bg-hover);
-        }
-        &:active {
-            background-color: var(--component-bg-active);
-        }
-    }
-}
-
-.Item--active {
-    composes: Item;
-
-    & a {
-        background-color: var(--component-active-bg);
-        color: white;
-
-        &:hover {
-            background-color: var(--component-active-bg-hover);
-        }
-        &:active {
-            background-color: var(--component-active-bg-active);
-        }
+    &:first-child {
+        margin-left: 0;
     }
 }

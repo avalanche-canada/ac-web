@@ -1,0 +1,17 @@
+@import "../../styles/colors.css";
+
+.Capped {
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 1.25em;
+
+    &:before {
+        content: "More";
+        position: absolute auto 0 -1.25em 0;
+        text-align: right;
+        color: var(--primary);
+    }
+    &:after {
+        content: "…";
+    }
+}

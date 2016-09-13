@@ -1,5 +1,5 @@
 import React from 'react'
-import { Facebook, Twitter, Instagram } from '../icons'
+import {Facebook, Twitter, Instagram} from '../icons'
 import SocialItem from './SocialItem'
 
 export default function Follow() {

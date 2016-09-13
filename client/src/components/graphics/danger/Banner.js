@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import * as RATINGS from 'constants/forecast/danger/rating'
 import * as ELEVATIONS from 'constants/forecast/elevation'
 import * as BANNER_FILL from './colors/BannerFill'
 import * as BANNER_STROKE from './colors/BannerStroke'
 import * as TEXT_FILL from './colors/TextFill'
 import * as GROUPS from './constants/IconGroups'
-import { asMap, asValues } from 'constants/utils'
+import {asMap, asValues} from 'constants/utils'
 
 function K() {}
 

@@ -1,15 +1,22 @@
 @import "../../styles/colors.css";
 
 .Container {
+    background-color: var(--gray-lighter);
     border: 4px solid var(--gray-lighter);
-    display: inline-block;
+    color: var(--gray-darker);
+    /* If you change the display: look at the gear page: http://www.avalanche.ca/gear. It was set to display: inline-block before.  */
+    display: block;
     margin: 0;
     padding: 0;
 }
 
 .Caption {
-    padding: 15px 10px;
+    padding: 1em;
     background-color: var(--gray-lighter);
+
+    & p {
+        margin: 0;
+    }
 }
 
 .Image {

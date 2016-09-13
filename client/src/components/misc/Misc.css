@@ -17,5 +17,12 @@
 }
 
 .NotFound {
-    
+
+}
+
+.GoBack {
+    &:before {
+        content: '\2039 ';
+        color: var(--primary);
+    }
 }

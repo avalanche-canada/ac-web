@@ -16,4 +16,8 @@
     --component-secondary-bg: var(--secondary);
     --component-secondary-bg-hover: color(var(--secondary) lightness(75%));
     --component-secondary-bg-active: color(var(--secondary) lightness(60%));
+
+    --component-tertiary-bg: var(--brand-secondary);
+    --component-tertiary-bg-hover: color(var(--brand-secondary) lightness(75%));
+    --component-tertiary-bg-active: color(var(--brand-secondary) lightness(60%));
 }

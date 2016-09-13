@@ -1,0 +1,12 @@
+@import "../../styles/colors.css";
+
+
+.Set {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+.Item {
+    margin: 0.5em;
+}

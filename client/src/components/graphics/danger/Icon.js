@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import * as ICONS from './constants/Icons'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 

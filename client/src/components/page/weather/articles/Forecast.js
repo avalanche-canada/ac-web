@@ -6,7 +6,7 @@ import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, DateTime, Loading, Muted} from 'components/misc'
+import {DateElement, DateTime, Loading, Muted, Error, DateUtils, DayPicker} from 'components/misc'
 import {ExpandMore} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import {Metadata, Entry} from 'components/metadata'
@@ -15,8 +15,6 @@ import Forecast from 'components/weather'
 import {Api, Predicates} from 'prismic'
 import {Overlay} from 'react-overlays'
 import {getForecast} from 'selectors/prismic/weather'
-import DayPicker, {DateUtils} from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
 
 const ButtonClass = toClass(Button)
 const {isSameDay} = DateUtils
@@ -35,6 +33,7 @@ export default class Container extends Component {
     }
     state = {
         showCalendar: false,
+        isError: false,
     }
     set showCalendar(showCalendar) {
         this.setState({showCalendar})
@@ -42,8 +41,17 @@ export default class Container extends Component {
     get showCalendar() {
         return this.state.showCalendar
     }
+    set isError(isError) {
+        this.setState({isError})
+    }
+    get isError() {
+        return this.state.isError
+    }
     toggleCalendar = event => {
         this.showCalendar = !this.showCalendar
+    }
+    hideCalendar = () => {
+        this.showCalendar = false
     }
     handleDayClick = (event, date, modifiers) => {
         if (modifiers.disabled) {
@@ -61,17 +69,24 @@ export default class Container extends Component {
             this.load(params.date)
         }
     }
-    load(date = this.props.params.date) {
+    load(date = this.props.params.date || new Date()) {
         const type = 'new-weather-forecast'
         const options = {
             predicates: [Predicates.at(`my.${type}.date`, date)]
         }
 
-        this.props.loadForType(type, options)
+        this.isError = false
+
+        this.props.loadForType(type, options).catch(err => {
+            this.isError = true
+        })
+    }
+    get target() {
+        return findDOMNode(this.refs.target)
     }
     render() {
         const {params, isAuthenticated, forecast, children, isLoading} = this.props
-        const {showCalendar} = this.state
+        const {showCalendar, isError} = this
         const date = moment(params.date).toDate()
         const today = new Date()
 
@@ -93,26 +108,38 @@ export default class Container extends Component {
                         </Entry>
                     }
                 </Metadata>
-                <Overlay show={showCalendar} placement='bottom' shouldUpdatePosition target={() => findDOMNode(this.refs.target)}>
-                    <div style={{position: 'absolute'}}>
-                        <Callout placement={BOTTOM}>
-                            <DayPicker
-                                initialMonth={date}
-                                selectedDays={day => moment(day).isSame(date, 'day')}
-                                disabledDays={day => moment(day).isAfter(today, 'day')}
-                                onDayClick={this.handleDayClick} />
-                        </Callout>
-                    </div>
+                <Overlay
+                    show={showCalendar}
+                    placement='bottom'
+                    shouldUpdatePosition
+                    rootClose
+                    backdrop
+                    onBackdropClick={this.hideCalendar}
+                    onEscapeKeyUp={this.hideCalendar}
+                    target={this.target}
+                    container={this}>
+                    <Callout placement={BOTTOM}>
+                        <DayPicker
+                            initialMonth={date}
+                            selectedDays={day => moment(day).isSame(date, 'day')}
+                            disabledDays={day => moment(day).isAfter(today, 'day')}
+                            onDayClick={this.handleDayClick} />
+                    </Callout>
                 </Overlay>
                 {isLoading &&
                     <Loading>
                         Loading weather forecast for <DateElement value={date} />...
                     </Loading>
                 }
-                {(!isLoading && !forecast) &&
-                    <Muted hide={isLoading || !forecast}>
+                {(!isLoading && !isError && !forecast) &&
+                    <Muted>
                         No weather forecast available for <DateElement value={date} />.
                     </Muted>
+                }
+                {isError &&
+                    <Error>
+                        Error happened to load weather forecast for <DateElement value={date} />.
+                    </Error>
                 }
                 {forecast && <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />}
             </Article>

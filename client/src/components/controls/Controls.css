@@ -69,6 +69,24 @@
     composes: Common;
 }
 
-.Placeholder {
+.Holder {
     color: var(--gray-dark);
+    line-height: 40px;
+    margin-right: 28px;
+}
+
+.Placeholder {
+    composes: Holder;
+}
+
+.Valueholder {
+    composes: Holder;
+
+    color: inherit;
+}
+
+.Holder--Content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

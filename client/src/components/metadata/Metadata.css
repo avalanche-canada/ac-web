@@ -1,8 +1,5 @@
 @import "../../styles/colors.css";
 
-@custom-media --two-columns (width > 620px);
-@custom-media --one-line (width > 400px);
-
 :root {
     --border-color: var(--gray-lightest);
 }
@@ -12,11 +9,59 @@
     flex-direction: column;
     width: 100%;
 
-    @media (--two-columns) {
+    &[max-width~="500px"] {
         flex-direction: row;
         flex-wrap: wrap;
+
+        font-size: 0.75em;
+
+        & .Entry {
+            flex: 50%;
+
+            box-sizing: border-box;
+
+            &:nth-child(even) {
+                padding-left: 1em;
+                border-left: 2px solid var(--border-color);
+            }
+            &:nth-child(odd) {
+                padding-right: 0.5em;
+            }
+        }
+    }
+
+    &[min-width~="500px"] {
+        & .Entry {
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        & .Description {
+            margin-left: 0.5em;
+        }
+    }
+
+    &[min-width~="600px"] {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        & .Entry {
+            flex: 50%;
+            flex-wrap: wrap;
+            flex-direction: row;
+            box-sizing: border-box;
+
+            &:nth-child(even) {
+                padding-left: 1em;
+                border-left: 2px solid var(--border-color);
+            }
+            &:nth-child(odd) {
+                padding-right: 0.5em;
+            }
+        }
     }
 }
+
 
 .Entry {
     display: flex;
@@ -28,26 +73,6 @@
     padding: 0.25em 0;
     border-bottom: 2px solid var(--border-color);
     text-transform: uppercase;
-
-    @media (--one-line) {
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-    }
-
-    @media (--two-columns) {
-        flex: 50%;
-
-        box-sizing: border-box;
-
-        &:nth-child(even) {
-            padding-left: 1em;
-            border-left: 2px solid var(--border-color);
-        }
-        &:nth-child(odd) {
-            padding-right: 0.5em;
-        }
-    }
 }
 
 .Term {
@@ -60,8 +85,4 @@
     margin-left: 0;
     color: var(--gray);
     font-weight: 700;
-
-    @media (--one-line) {
-        margin-left: 0.5em;
-    }
 }

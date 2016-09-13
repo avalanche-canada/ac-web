@@ -1,10 +1,12 @@
 import {PropTypes} from 'react'
-import {Element} from 'compose'
+import {Element, elementQueries} from 'compose'
 import styles from './Metadata.css'
 
-const name = 'Metadata'
-const propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-}
-
-export default Element({name, styles, propTypes})
+export default Element({
+    name: 'Metadata',
+    styles,
+    propTypes: {
+        children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    },
+    composers: [elementQueries()]
+})

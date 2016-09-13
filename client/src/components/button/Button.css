@@ -1,7 +1,9 @@
 @import "../../styles/components.css";
 
 .Common {
-    height: 2.5em;
+    /*height: 2.5em;*/
+    /*min-height: 30px;*/
+    /*line-height: 2;*/
     padding: 0 12px;
     font-weight: 700;
     text-transform: uppercase;
@@ -28,6 +30,12 @@
 	}
 }
 
+.Primary--Active {
+    composes: Primary;
+
+    background-color: var(--component-primary-bg-active);
+}
+
 .Secondary {
 	composes: Common;
 
@@ -39,6 +47,20 @@
 
     &:active, &.Active {
         background-color: var(--component-secondary-bg-active);
+	}
+}
+
+.Tertiary {
+	composes: Common;
+
+    background-color: var(--component-tertiary-bg);
+
+    &:hover {
+        background-color: var(--component-tertiary-bg-hover);
+	}
+
+    &:active, &.Active {
+        background-color: var(--component-tertiary-bg-active);
 	}
 }
 
@@ -57,7 +79,7 @@
 
     & .IconContainer {
         & path:not([fill="none"]) {
-            fill: var(--gray) !important;
+            fill: var(--brand-primary);
         }
     }
 }
@@ -70,11 +92,32 @@
         margin-left: 0.25em;
     }
 
-    & > :only-child {
-
+    & .IconContainer {
+        & path:not([fill="none"]) {
+            fill: var(--gray);
+        }
     }
 }
 
 .IconOnly {
     padding: 0 6px;
+}
+
+/* Modifiers */
+.Large {
+    padding: 1em;
+    min-width: 5em;
+    text-align: center;
+}
+
+.Chevron {
+    &:after {
+        content: " \203A";
+        color: white;
+        font-size: 1.25em;
+    }
+}
+
+.Close {
+    font-size: 1.5rem;
 }

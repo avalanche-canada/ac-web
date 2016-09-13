@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import { Br } from 'components/misc'
+import {Br} from 'components/misc'
 import styles from './Page.css'
 
 ArticleHeader.propTypes = {
@@ -9,7 +9,7 @@ ArticleHeader.propTypes = {
 
 // TODO: header should not be used in that case
 
-function ArticleHeader({ children }) {
+function ArticleHeader({children}) {
     return (
         <header styleName='ArticleHeader'>
             <h2>{children}</h2>

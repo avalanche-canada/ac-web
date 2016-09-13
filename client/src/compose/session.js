@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { getContext, withContext } from 'recompose'
+import React, {PropTypes} from 'react'
+import {getContext, withContext} from 'recompose'
 
 const contextTypes = {
     session: PropTypes.object.isRequired

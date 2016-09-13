@@ -1,5 +1,5 @@
-import React, { PropTypes, Children } from 'react'
-import { compose } from 'recompose'
+import React, { PropTypes, Children} from 'react'
+import {compose} from 'recompose'
 import Table from './Table'
 import TBody from './TBody'
 
@@ -7,7 +7,7 @@ Container.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Container({ children }) {
+function Container({children}) {
     return (
         <div>
             <Table>

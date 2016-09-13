@@ -1,9 +1,10 @@
 @import "../../styles/components.css";
 @import "../../styles/colors.css";
-@import "../../styles/shapes.css";
+@import "../../styles/Shapes.css";
 
-@custom-media --as-list (width > 500px);
-@custom-media --do-not-use-empty-room (width > 800px);
+:root {
+    --border-width: 5px;
+}
 
 .List {
     display: flex;
@@ -13,37 +14,31 @@
 	margin: 0;
     list-style: none;
 
-    @media (--as-list) {
+    &[min-width~="500px"] {
         flex-direction: row;
+
+        & .ListItem {
+            display: block;
+        }
+
+        & .ListItem--Active {
+            order: 0;
+
+            & .ExpandButton {
+                display: none;
+            }
+        }
+    }
+
+    &[min-width~="800px"] {
+        & .ListItem {
+            flex: 0;
+        }
     }
 
     @media print {
         display: none;
     }
-}
-
-.List--Compact {
-    composes: List;
-
-    position: relative;
-
-    &:after {
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 5px;
-        width: 100%;
-        z-index: -1;
-        background-color: var(--component-bg);
-    }
-}
-
-.List--Loose {
-    composes: List;
-
-    background-color: color(var(--primary) lightness(75%));
 }
 
 .List--Opened {
@@ -56,7 +51,7 @@
     flex: 1;
 
     display: none;
-	/*min-width: 100px;*/
+    position: relative;
 	padding: 1em;
 	text-align: center;
 	color: var(--black);
@@ -70,24 +65,16 @@
         top: 2px;
     }
 
-    & .ListItem__ExpandButton {
+    & .ExpandButton {
         display: none;
     }
 
 	&:hover {
 		background-color: var(--component-bg-hover);
 	}
-
-    @media (--as-list) {
-        display: block;
-    }
-
-    @media (--do-not-use-empty-room) {
-        flex: 0;
-    }
 }
 
-.ListItem--active {
+.ListItem--Active {
 	composes: ListItem;
 
     order: -1;
@@ -100,71 +87,34 @@
 		background-color: var(--component-active-bg);
 	}
 
-    & .ListItem__ExpandButton {
+    & .ExpandButton {
         display: block;
     }
-
-    @media (--as-list) {
-        order: 0;
-
-        & .ListItem__ExpandButton {
-            display: none;
-        }
-    }
 }
 
-.ListItem--Compact {
+.ListItem--Disabled {
     composes: ListItem;
 
-    border-bottom: 5px solid var(--component-bg);
-}
-.ListItem--Compact--active {
-    composes: ListItem--active;
+    cursor: default;
+    opacity: 0.5;
 
-    position: relative;
-    background-color: var(--primary);
-    border-bottom-color: var(--component-bg);
+    &:hover {
+		background-color: inherit;
+	}
 }
 
+.ListItem--Arrow {
+    composes: import ArrowElementDown from "../../styles/Shapes.css";
 
-.ListItem--Loose {
-    composes: ListItem;
-    composes: import ArrowDown from "../../styles/shapes.css";
+    position: absolute;
+    top: calc(100% + var(--border-width));
+    left: 50%;
+    z-index: 1;
+    border-top-color: transparent;
+    margin-left: calc(-1 * var(--arrow-width));
 
-    position: relative;
-    padding: 1.5em 3.5em;
-    font-weight: 700;
-    color: white;
-    border-right: 1px solid white;
-
-    &:before {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        z-index: 1;
-        border-top-color: transparent;
-        margin-left: calc(-1 * var(--arrow-width));
-        pointer-events: none;
-    }
-
-    @media (--as-list) {
-        &:hover:before {
-            border-top-color: var(--component-bg-hover);
-        }
-        &:last-child {
-            border-right: none;
-        }
-    }
-}
-
-.ListItem--Loose--active {
-    composes: ListItem--active;
-    composes: ListItem--Loose;
-
-    @media (--as-list) {
-        &:before, &:hover:before {
-            border-top-color: var(--primary);
-        }
+    &.ListItem--Active {
+        border-top-color: var(--primary);
     }
 }
 
@@ -177,16 +127,71 @@
     }
 }
 
-.Panel--active {
+.Panel--Active {
 	composes: Panel;
 
     display: block;
 }
 
-.ListItem__ExpandButton {
+.ExpandButton {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     height: 100%;
+}
+
+/* THEMES */
+.List--Compact {
+    composes: List;
+
+    background-color: var(--gray-lighter);
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute auto 0 0 0;
+        height: var(--border-width);
+        background-color: var(--component-bg);
+    }
+
+    & .ListItem {
+        border-bottom: var(--border-width) solid var(--component-bg);
+        position: relative;
+        z-index: 1;
+    }
+
+    & .ListItem--Active {
+        background-color: var(--primary);
+        border-bottom-color: var(--primary);
+    }
+}
+
+.List--Loose {
+    composes: List;
+
+    background-color: color(var(--primary) lightness(75%));
+
+    & .ListItem {
+        padding: 1.5em 3.5em;
+        font-weight: 700;
+        color: white;
+        border-right: 1px solid white;
+    }
+
+    &[min-width~="500px"] {
+        & .ListItem {
+            &:hover:before {
+                border-top-color: var(--component-bg-hover);
+            }
+            &:last-child {
+                border-right: none;
+            }
+        }
+        & .ListItem--Active {
+            &:before, &:hover:before {
+                border-top-color: var(--primary);
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 
 Icon.propTypes = {
 	width: PropTypes.number,
@@ -15,7 +15,7 @@ export default function Icon({
     fill = 'none',
 }) {
 	return (
-		<svg {...{height, width, viewBox, fill}} xmlns="http://www.w3.org/2000/svg">
+		<svg {...{height, width, viewBox, fill}}>
 			{children}
 		</svg>
 	)

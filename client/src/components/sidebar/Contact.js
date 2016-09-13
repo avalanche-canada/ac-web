@@ -1,6 +1,6 @@
 import React from 'react'
-import { Email } from '../icons'
-import { Mailto } from '../misc'
+import {Email} from '../icons'
+import {Mailto} from '../misc'
 import SocialItem from './SocialItem'
 
 export default function Contact() {

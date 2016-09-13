@@ -9,6 +9,10 @@
     &:last-child {
         border-bottom: none;
     }
+
+    & > * {
+        margin: 0.5em;
+    }
 }
 
 .Entry--Featured {
@@ -25,14 +29,13 @@
 .Image {
     flex: 250px;
     max-width: 250px;
-
 }
 
 .Content {
     flex: 1 0;
 
     & a {
-        color: var(--black);
+        color: var(--gray-darker);
     }
 
     & h2 {
@@ -41,7 +44,7 @@
 }
 
 .Feed {
-    
+
 }
 
 .Metadata {

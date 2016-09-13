@@ -1,3 +1,8 @@
+@import "./colors.css";
+@import "./components.css";
+
+@custom-media --more-then-700 (width > 700px);
+
 :global(.block-img) {
     & > img {
         max-width: 100%;
@@ -6,8 +11,168 @@
 
 :global(.float-right) {
     float: right;
+    padding-left: 1em;
 }
 
 :global(.float-left) {
     float: left;
+    padding-right: 1em;
+}
+
+:global(.primary-text) {
+    color: var(--primary)
+}
+
+:global(.secondary-text) {
+    color: var(--secondary)
+}
+
+:global(.read-more-link a) {
+    color: var(--gray-light);
+    text-transform: uppercase;
+    font-size: 0.75em;
+
+    &:hover {
+        color: var(--gray);
+    }
+}
+
+:global(.primary-big-button) {
+    & > a {
+        display: inline-block;
+        min-width: 150px;
+        padding: 1em;
+        margin-top: 1em;
+        font-size: 1em;
+        font-weight: 700;
+        color: white;
+        background-color: var(--primary);
+        text-transform: uppercase;
+
+        &:hover {
+            background-color: color(var(--primary) blackness(15%));
+        }
+
+        &:after {
+            content: " \203A";
+            color: white;
+            font-size: 1.25em;
+        }
+    }
+}
+
+:global(.android-branding-store) {
+    position: relative;
+    line-height: 40px;
+    background: url(https://developer.android.com/images/brand/en_generic_rgb_wo_45.png) no-repeat;
+    background-size: 140px 40px;
+    width: 140px;
+    height: 40px;
+    float: left;
+    margin: 1em;
+    & > a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+    }
+}
+
+:global(.apple-branding-store) {
+    position: relative;
+    line-height: 40px;
+    background: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;
+    background-size: 140px 40px;
+    width: 140px;
+    height: 40px;
+    float: left;
+    margin: 1em;
+    & > a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: transparent;
+    }
+}
+
+:global(.create-report-button) {
+    padding: 2em;
+    text-align: center;
+
+    & > a {
+        margin: auto;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+        padding: 3em 0.5em 0.5em 0.5em;
+        font-weight: 700;
+        color: white;
+        border: none;
+        height: 3em;
+        width: 10em;
+        line-height: 3em;
+        font-size: 1.25em;
+        background-color: var(--brand-secondary);
+
+        &:hover {
+            background-color: color(var(--brand-secondary) blackness(15%));
+        }
+
+        &:before {
+            content: "icon";
+            text-transform: uppercase;
+            position: absolute;
+            top: 17px;
+            left: calc(50% - 22px);
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+        }
+    }
+
+    @media print {
+        display: none;
+    }
+}
+
+:global(.static-page-youth) {
+    & main {
+        & div:not(:last-child) ul:not([class]) {
+            @media(--more-then-700) {
+                column-count: 2;
+                column-gap: 5em;
+            }
+
+            & a {
+                font-weight: 700;
+                display: block;
+            }
+        }
+    }
+}
+
+:global(.static-page-sled) {
+    & main {
+        & section:first-child {
+            font-size: 1.5rem;
+            line-height: 1.5;
+            margin: 0 3em;
+
+            & ul:not([class]) {
+                list-style: none;
+                padding-left: 0;
+
+                & > li > strong {
+                    font-size: 1.15em;
+                }
+            }
+
+            & header {
+                color: var(--primary);
+                text-transform: uppercase;
+            }
+        }
+    }
 }

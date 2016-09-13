@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import CSSModules from 'react-css-modules'
 import moment from 'moment'
 import styles from './Forecast.css'

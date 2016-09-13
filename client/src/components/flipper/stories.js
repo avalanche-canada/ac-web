@@ -1,6 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { Flipper, Left, Right, Center } from './index'
+import {storiesOf, action} from '@kadira/storybook'
+import {Flipper, Left, Right, Center} from './index'
 
 storiesOf('Flipper', module)
 .add('Flipper', () => (

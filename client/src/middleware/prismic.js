@@ -1,7 +1,10 @@
+import {createAction} from 'redux-actions'
 import {Api as Prismic, Predicates} from 'prismic'
 import {
+    getDocument,
     getDocumentForBookmark,
     getDocumentForUid,
+    getDocumentForId,
     getDocumentsOfType
 } from 'reducers/prismic'
 
@@ -13,27 +16,38 @@ export const PRISMIC_API_REQUEST = 'PRISMIC_API_REQUEST'
 export const PRISMIC_API_SUCCESS = 'PRISMIC_API_SUCCESS'
 export const PRISMIC_API_FAILURE = 'PRISMIC_API_FAILURE'
 
-export const PRISMIC = 'prismic-query'
+const PRISMIC = Symbol('prismic-query')
 
-function createBasePredicate(api, {type, bookmark, uid}) {
+export function createPrismicAction(payloadCreator) {
+    return createAction(PRISMIC, payloadCreator)
+}
+
+function createBasePredicate({api}, {type, bookmark, uid, id}) {
     if (bookmark) {
-        const id = api.api.bookmarks[bookmark]
+        const id = api.bookmarks[bookmark]
 
+        return Predicates.at('document.id', id)
+    } else if (id) {
         return Predicates.at('document.id', id)
     } else if (uid && type) {
         return Predicates.at(`my.${type}.uid`, uid)
     } else if (type) {
         return Predicates.at('document.type', type)
     } else {
-        throw new Error('Not parameters to create predicates.')
+        throw new Error('Not enough parameters to create base predicate.')
     }
 }
 
 function isPrismicCallRequired(store, action) {
+    // TODO: Should be purely based on generated predicates...using results set like in normlizr
     const state = store.getState()
-    const {bookmark, type, uid} = action.payload
+    const {bookmark, type, uid, id} = action.payload
 
     if (bookmark && !getDocumentForBookmark(state, bookmark)) {
+        return true
+    }
+
+    if (id && !getDocument(state, id)) {
         return true
     }
 
@@ -58,7 +72,7 @@ const prismic = store => next => action => {
     }
 
     if (!isPrismicCallRequired(store, action)) {
-        return null
+        return Promise.resolve()
     }
 
     next({
@@ -66,7 +80,7 @@ const prismic = store => next => action => {
         meta: action.payload,
     })
 
-    Prismic.Api().then(
+    return Prismic.Api().then(
         api => {
             next({
                 type: PRISMIC_API_SUCCESS,
@@ -77,12 +91,16 @@ const prismic = store => next => action => {
             return api
         },
         error => {
+            const err = new Error('Can not access Avalanche Canada Prismic repository.', error)
+
             next({
                 type: PRISMIC_API_FAILURE,
-                payload: new Error('Can not access Avalanche Canada Prismic repository.'),
+                payload: err,
                 error: true,
                 meta: action.payload,
             })
+
+            throw err
         }
     ).then(api => {
         next({
@@ -91,9 +109,9 @@ const prismic = store => next => action => {
         })
 
         const {payload} = action
-        let {predicates, ...options} = payload.options || {}
+        let {predicates = [], ...options} = payload.options || {}
 
-        api = api.query(createBasePredicate(api, payload), ...(predicates || []))
+        api = api.query(createBasePredicate(api, payload), ...predicates)
         api = Prismic.setOptions(api, options)
 
         return api.submit().then(
@@ -103,14 +121,20 @@ const prismic = store => next => action => {
                     payload: response,
                     meta: action.payload,
                 })
+
+                return response
             },
             error => {
+                const err = new Error('Can not fetch prismic documents.', error)
+
                 next({
                     type: PRISMIC_FAILURE,
-                    payload: new Error('Can not fetch prismic documents.'),
+                    payload: err,
                     error: true,
                     meta: action.payload,
                 })
+
+                throw err
             },
         )
     })

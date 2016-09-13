@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Page, Main, Header} from 'components/page'
+import {Page, Content, Main, Header} from 'components/page'
 
 NotFound.propTypes = {
     title: PropTypes.string,
@@ -8,17 +8,19 @@ NotFound.propTypes = {
 }
 
 export default function NotFound({
-    title = 'Oups :(',
+    title = 'This is an avalanche size 404 error...',
     subtitle = 'The page you are looking for has not been found.',
     children
 }) {
     return (
         <Page>
-            <Header title='Oups :('/>
-            <Main>
-                <h2>{subtitle}</h2>
-                {children}
-            </Main>
+            <Header title={title} />
+            <Content>
+                <Main>
+                    <h2>{subtitle}</h2>
+                    {children}
+                </Main>
+            </Content>
         </Page>
     )
 }

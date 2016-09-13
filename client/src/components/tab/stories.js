@@ -1,6 +1,13 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { TabSet, Tab, COMPACT, LOOSE } from './index'
+import {storiesOf, action} from '@kadira/storybook'
+import {TabSet, Tab, COMPACT, LOOSE} from './index'
+import {
+    QUICK,
+    AVALANCHE,
+    SNOWPACK,
+    WEATHER,
+    INCIDENT,
+} from 'components/icons/min/colors'
 
 function tabSet(props = {}) {
     return (
@@ -28,3 +35,22 @@ storiesOf('Tab', module)
 }))
 .add('Compact TabSet', () => tabSet({theme: COMPACT}))
 .add('Loose TabSet', () => tabSet({theme: LOOSE}))
+.add('TabSet with colors', () => (
+    <TabSet arrow>
+        <Tab arrow title='Quick' color={QUICK}>
+            Content for QUICK
+        </Tab>
+        <Tab arrow title='Avalanche' color={AVALANCHE}>
+            Content for AVALANCHE
+        </Tab>
+        <Tab arrow title='Snowpack' color={SNOWPACK}>
+            Content for SNOWPACK
+        </Tab>
+        <Tab arrow title='Weather' color={WEATHER}>
+            Content for WEATHER
+        </Tab>
+        <Tab arrow title='Incident' color={INCIDENT}>
+            Content for INCIDENT
+        </Tab>
+    </TabSet>
+))

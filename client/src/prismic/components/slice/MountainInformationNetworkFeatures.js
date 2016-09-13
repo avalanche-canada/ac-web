@@ -1,16 +1,29 @@
 import React from 'react'
+import CSSModules from 'react-css-modules'
+import {Table, Header, Row, HeaderCell, Cell} from 'components/table'
+import styles from './MountainInformationNetworkFeatures.css'
+import {classify} from 'utils/string'
 
-export default function MountainInformationNetworkFeatures({content}) {
+const {keys} = Object
+const styleNames = new Map([
+    ['Yes', 'Supported'],
+    ['No', 'Unsupported'],
+    ['Not available', 'NotAvailable'],
+])
+const Texts = new Map([
+    ['Not available', 'N/A'],
+])
+
+function MountainInformationNetworkFeatures({content}) {
     return (
-        <table>
+        <table styleName='Table'>
             <thead>
                 <tr>
-                    <td></td>
+                    <td rowSpan='2'></td>
                     <td colSpan='2'>Mobile</td>
                     <td colSpan='2'>Web</td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td>View</td>
                     <td>Submit</td>
                     <td>View</td>
@@ -18,16 +31,23 @@ export default function MountainInformationNetworkFeatures({content}) {
                 </tr>
             </thead>
             <tbody>
-                {content.map(row => (
+                {content.map(({feature, ...values}) => (
                     <tr>
-                        <td>{row.feature}</td>
-                        <td>{row.mobileView}</td>
-                        <td>{row.mobileSubmit}</td>
-                        <td>{row.webView}</td>
-                        <td>{row.webSubmit}</td>
+                        <td>{feature}</td>
+                        {keys(values).map(key => {
+                            const value = values[key]
+
+                            return (
+                                <td styleName={classify(value)}>
+                                    {Texts.get(value) || value}
+                                </td>
+                            )
+                        })}
                     </tr>
                 ))}
             </tbody>
         </table>
     )
 }
+
+export default CSSModules(MountainInformationNetworkFeatures, styles)

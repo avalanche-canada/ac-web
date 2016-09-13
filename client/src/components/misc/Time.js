@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, setDisplayName, withProps, mapProps} from 'recompose'
+import {compose, setDisplayName, withProps, mapProps, defaultProps} from 'recompose'
 import moment from 'moment'
 
 Time.propTypes = {
@@ -7,24 +7,25 @@ Time.propTypes = {
     format: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
-export function createTime(displayName, format) {
-    return compose(
-        setDisplayName(displayName),
-        withProps({format}),
-    )(Time)
-}
-
-export default function Time({ value = new Date(), format = 'hh:mm', children }) {
+export default function Time({value = new Date(), format, children}) {
     const date = moment(value)
 
     if (typeof format === 'function') {
         format = format(value)
     }
 
-
     return (
         <time dateTime={date.format()}>
             {children || date.format(format)}
         </time>
     )
+}
+
+export function createTime(displayName, defaultFormat) {
+    return compose(
+        setDisplayName(displayName),
+        withProps(({format}) => ({
+            format: format || defaultFormat
+        })),
+    )(Time)
 }

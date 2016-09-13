@@ -1,16 +1,22 @@
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
+import {isApiAction} from 'api/utils'
+import {shouldDispatchLoadAction} from 'reducers/api/getters'
 
-export const API = 'AvCan Api Request'
+const {isArray} = Array
 
-const api = store => next => action => {
-    const {type, payload, meta} = action
-
-    if (type !== API) {
+export default store => next => action => {
+    if (!isApiAction(action)) {
         return next(action)
     }
 
+    const {type, payload} = action
     const {schema, params, types} = payload
+    const state = store.getState()
+
+    if (!shouldDispatchLoadAction(state, schema, action)) {
+        return Promise.resolve()
+    }
 
     next({
         type: types[0],
@@ -18,13 +24,21 @@ const api = store => next => action => {
     })
 
     function handleFulfill({data}) {
-        let normalized = null
+        let shape = schema
 
-        if (data.type === 'FeatureCollection') {
-            normalized = normalize(data.features, arrayOf(schema))
-        } else {
-            normalized = normalize(data, schema)
+        if (isArray(data)) {
+            shape = arrayOf(schema)
+        } else if (isArray(data.results)) {
+            shape = {
+                results: arrayOf(schema)
+            }
+        } else if (isArray(data.features)) {
+            shape = {
+                features: arrayOf(schema)
+            }
         }
+
+        const normalized = normalize(data, shape)
 
         next({
             type: types[1],
@@ -34,8 +48,8 @@ const api = store => next => action => {
 
         return normalized
     }
-    function handleReject(response) {
-        const error = new Error('Can not fetch prismic documents.')
+    function handleReject(err) {
+        const error = new Error('Can not fetch Avalanche Canada API.', err)
 
         next({
             type: types[2],
@@ -44,10 +58,8 @@ const api = store => next => action => {
             meta: payload,
         })
 
-        return error
+        throw error
     }
 
     return Api.fetch(schema, params).then(handleFulfill, handleReject)
 }
-
-export default api

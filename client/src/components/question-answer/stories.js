@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import QuestionAnswer, {Question, Answer} from './'
 
 const QUESTION = 'What is the Mountain Information Network?'

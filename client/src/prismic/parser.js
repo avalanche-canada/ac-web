@@ -64,10 +64,10 @@ export class Parser {
             case Fragments.Embed:
             case Fragments.ImageLink:
                 return fragment.value
-            case Fragments.DocumentLink:
-                return fragment.document
             case Fragments.Image:
                 return fragment.main
+            case Fragments.DocumentLink:
+                return fragment.document
             case Fragments.WebLink:
             case Fragments.FileLink:
                 return fragment.url(this.linkResolver)

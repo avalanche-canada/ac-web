@@ -1,9 +1,8 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import {compose, lifecycle, withState} from 'recompose'
 import {Map, Source, Layer, Popup, Utils} from './index'
 import {address, company} from 'faker'
-import mapboxgl from 'mapboxgl'
 
 storiesOf('Map', module)
 .add('Map w/ layers', () => {

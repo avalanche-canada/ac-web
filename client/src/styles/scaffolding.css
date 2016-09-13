@@ -1,6 +1,11 @@
+@import "./colors.css";
+
 body {
     font-family: Montserrat, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 15px;
+    /*font-size: 1.1em;*/
+    /*line-height: 21px;*/
+    color: var(--gray-darker);
 }
 
 h1 {
@@ -8,13 +13,50 @@ h1 {
     font-weight: 700;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1;
+
+    & > a {
+        color: inherit;
+
+        &:hover {
+            color: var(--primary);
+        }
+
+        &:after {
+            content: " \203A";
+            color: var(--primary);
+        }
+    }
+}
+
+/*p {
+    font-size: 1.1em;
+    line-height: 1.25em;
+    color: var(--gray-darker);
+}*/
 
 a {
     text-decoration: none;
+    color: var(--primary);
 }
 
 img {
     max-width: 100%;
+}
+
+ul:not([class]) {
+    /*list-style: none;*/
+    padding-left: 2em;
+
+    /* Colored bullet, but it does not wrap properly when t is on tow lines */
+    /*& > li {
+        &:before {
+            content: "•";
+            padding-right: 7px;
+            color: var(--primary);
+        }
+    }*/
 }
 
 @media print {

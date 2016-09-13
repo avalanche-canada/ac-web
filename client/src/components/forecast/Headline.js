@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Forecast.css'
 import {InnerHTML} from 'components/misc'
@@ -7,7 +7,7 @@ Headline.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Headline({ children }) {
+function Headline({children}) {
     return (
         <header styleName='Headline'>
             <InnerHTML>

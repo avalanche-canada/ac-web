@@ -9,7 +9,8 @@ export default function Element({
     styles,
     propTypes = {
         children: PropTypes.node,
-    }
+    },
+    composers = [],
 }) {
     if (styles) {
         component = CSSModules(component, styles)
@@ -19,5 +20,6 @@ export default function Element({
         setDisplayName(name),
         setPropTypes(propTypes),
         withProps({styleName}),
+        ...composers,
     )(component)
 }

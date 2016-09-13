@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Metadata.css'
 
 Entry.propTypes = {
     term: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Entry({term, children}) {

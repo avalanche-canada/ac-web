@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import {storiesOf, action} from '@kadira/storybook'
 import {Metadata, Entry} from './index'
 import {DateTime} from 'components/misc'
 

@@ -4,12 +4,14 @@
     color: white;
     background-color: black;
     text-transform: uppercase;
-    line-height: 2;
+    line-height: 2.5em;
+    margin-left: -1em;
 }
 
 :local(.Content) {
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 1em;
+    font-weight: 700;
 }
 
 .Caption {

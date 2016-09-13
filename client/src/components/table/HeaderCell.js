@@ -1,26 +1,28 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import SortingButton, {SORTINGS, TYPES} from 'components/misc/SortingButton'
+import Sorting, {SORTINGS} from 'components/button/Sorting'
 
-import {ASC, DESC, NONE, NUMBER, STRING, DATE} from 'components/misc/SortingButton'
+const {ASC, DESC, NONE} = SORTINGS
+
+export {ASC, DESC, NONE} from 'components/button/Sorting'
 
 function K() {}
 
 HeaderCell.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    children: PropTypes.number.isRequired,
     sorting: PropTypes.oneOf(SORTINGS),
-    type: PropTypes.oneOf(TYPES),
     onSortingChange: PropTypes.func,
 }
 
-function HeaderCell({children, sorting = NONE, onSortingChange = K}) {
+function HeaderCell({children, sorting = NONE, onSortingChange = K, ...props}) {
     const sortable = sorting !== undefined
+    const styleName = sortable ? 'HeaderCell--Sortable' : 'HeaderCell'
 
     return (
-        <td fake="test" styleName={sortable ? 'HeaderCell--Sortable' : 'HeaderCell'}>
+        <td styleName={styleName} {...props} >
             {children}
-            {sortable && <SortingButton sorting={sorting} onChange={onSortingChange} />}
+            {sortable && <Sorting sorting={sorting} onChange={onSortingChange} />}
         </td>
     )
 }

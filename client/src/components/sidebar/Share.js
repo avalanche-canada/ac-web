@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { Facebook, Twitter, GooglePlus } from '../icons'
+import React, {PropTypes} from 'react'
+import {Facebook, Twitter, GooglePlus} from '../icons'
 import SocialItem from './SocialItem'
 
 Share.propTypes = {

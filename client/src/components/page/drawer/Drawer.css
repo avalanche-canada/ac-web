@@ -2,39 +2,47 @@
 @import "../../../styles/Textures.css";
 
 .Drawer {
-    position: absolute 0 auto;
+    position: absolute 0;
+    z-index: 0;
     background-color: white;
-    box-shadow: 0 0 12px color(black alpha(25%));
+    box-sizing: border-box;
 }
 
 .Drawer--Left {
     composes: Drawer;
 
     left: 0;
+    right: auto;
 
-    & .Toggle {
-        left: 100%;
+    &.Open {
+        box-shadow: 4px 0 8px color(black alpha(25%));
     }
 }
 
 .Drawer--Right {
     composes: Drawer;
 
+    left: auto;
     right: 0;
 
-    & .Toggle {
-        right: 100%;
+    &.Open {
+        box-shadow: -4px 0 8px color(black alpha(25%));
     }
 }
 
 .Content {
     display: flex;
     flex-direction: column;
-    height: 100%;
+
+    position: absolute 0;
+    padding-top: 5em;
+
+    & > * {
+        padding: 0 1.5em;
+    }
 }
 
 .Header {
-    margin: 5em 1.5em 0 1.5em;
 }
 
 .Subject {
@@ -43,6 +51,7 @@
     position: relative;
     color: var(--brand-primary);
     font-size: 0.75em;
+    line-height: 1.5;
     font-weight: 700;
     text-transform: uppercase;
 
@@ -60,22 +69,22 @@
 .Body {
     flex: 100%;
 
-    margin: 0;
-    padding: 0 1.5em;
+    margin: 10px 0 0 0;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.Toggle {
-    position: absolute;
-    top: 15px;
-    width: 15px;
-    padding: 0;
-    background-color: white;
-    box-shadow: -4px 0 8px 0 color(black alpha(25%));
+.Close {
+    position: absolute 25px 15px auto auto;
+    z-index: 1;
+}
 
-    & > svg {
-        height: 100%;
-        width: 15px;
+.Backdrop {
+    position: absolute 0;
+    z-index: 1;
+    background-color: color(black alpha(25%));
+
+    & + .Drawer {
+        z-index: 2;
     }
 }

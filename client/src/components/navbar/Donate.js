@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import Link from './Link'
 import styles from './Navbar.css'
@@ -11,7 +11,7 @@ Donate.propTypes = {
 
 function Donate({isFoundation = false}) {
     return (
-        <Link to={isFoundation ? paypal : 'foundation'} styleName='Donate' >
+        <Link to={isFoundation ? paypal : '/foundation'} styleName='Donate' >
             Donate
         </Link>
     )

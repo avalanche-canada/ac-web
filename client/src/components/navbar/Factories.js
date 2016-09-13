@@ -8,20 +8,24 @@ import Link from './Link'
 import ColumnSet from './ColumnSet'
 import Headline from './Headline'
 import UserProfile from './UserProfile'
-import { Next as Login } from '../icons'
+import {Next as Login} from '../icons'
 
 const {isArray} = Array
 const SectionHeaderLink = nest(Section, Header, Link)
 const HeaderLink = nest(Header, Link)
 
-function createLink({label, header, headline, ...props}) {
+function createLink({label, header, headline, ...rest}, index) {
     const hasHeader = header === true || typeof headline === 'string'
     const component = hasHeader ? HeaderLink : Link
+    const props = {
+        ...rest,
+        key: index
+    }
 
     return createElement(component, props, label)
 }
 
-function createSection({label, headline, children = [], ...props}) {
+function createSection({label, headline, children = [], ...props}, index) {
     const column = Math.floor(children.length / 7)
 
     return (

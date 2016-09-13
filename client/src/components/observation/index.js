@@ -1,1 +1,0 @@
-export Observation from './Observation'

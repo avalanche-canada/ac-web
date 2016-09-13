@@ -12,11 +12,44 @@
     }
 }
 
+.Expandable {
+    & .Header {
+        cursor: pointer;
+
+        & svg {
+            /*transform: translateY(6px);*/
+            & path:not([fill="none"]) {
+                fill: var(--primary);
+            }
+        }
+
+        @media print {
+            & svg {
+                display: none;
+            }
+        }
+    }
+}
+
+.Inverse {
+    & .Header {
+        background-color: var(--black);
+        color: white;
+
+        & .Expand {
+            float: right;
+            & path:not([fill="none"]) {
+                fill: white;
+            }
+        }
+    }
+}
+
 .Header {
     position: relative;
     color: var(--primary);
     font-weight: 700;
-    line-height: 2.5em;
+    line-height: 3em;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -26,24 +59,20 @@
     }
 }
 
-.Header--Expandable {
-    composes: Header;
+.Title {
+    padding: 0 0.5em;
+}
 
-    cursor: pointer;
+.Expand {
+    height: 3em;
+    padding: 0 0.5em;
+    float: left;
 
-    & svg {
-        transform: translateY(6px);
-        & path:not([fill="none"]) {
-            fill: var(--primary);
-        }
-    }
-
-    @media print {
-        & svg {
-            display: none;
-        }
+    &:focus {
+        outline: none;
     }
 }
+
 
 .Content {
     overflow: hidden;
@@ -65,4 +94,24 @@
             height: auto !important;
         }
     }
+}
+
+.Container--Simple {
+    composes: Container;
+}
+
+.Container--Inverse {
+    composes: Container;
+    composes: Inverse;
+}
+
+.Container--Simple--Expandable {
+    composes: Container;
+    composes: Expandable;
+}
+
+.Container--Inverse--Expandable {
+    composes: Container;
+    composes: Expandable;
+    composes: Inverse;
 }

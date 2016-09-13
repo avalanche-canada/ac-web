@@ -1,17 +1,7 @@
-import React, { PropTypes } from 'react'
-import CSSModules from 'react-css-modules'
-import styles from './Description.css'
+import {withProps} from 'recompose'
+import Child from './Child'
 
-Term.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-function Term({ children }) {
-    return (
-        <dt styleName='Term'>
-            {children}
-        </dt>
-    )
-}
-
-export default CSSModules(Term, styles)
+export default withProps({
+    styleName: 'Term',
+    component: 'dt',
+})(Child)

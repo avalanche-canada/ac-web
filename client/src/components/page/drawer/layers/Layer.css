@@ -1,0 +1,52 @@
+@import "../../../../styles/colors.css";
+
+.LayerSet {
+    margin: 0.5em 0;
+}
+
+.Layer {
+    margin: 1em 0;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.Layer--Active {
+    composes: Layer;
+
+    color: black;
+
+    & .Header {
+        & > svg:first-child {
+            & path {
+                fill: black;
+            }
+        }
+    }
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+
+    font-weight: 700;
+
+    & > svg:first-child {
+        flex: 0 0 20px;
+        & path {
+            fill: var(--gray);
+        }
+    }
+}
+
+.Title {
+    flex: 100%;
+    margin: auto 0 auto 0.5em;
+}
+
+.FilterSet {
+    margin: 0.25em 0;
+
+    & > * {
+        margin: 0.25em 0;
+    }
+}

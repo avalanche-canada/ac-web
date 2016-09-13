@@ -1,5 +1,5 @@
-import React, { PropTypes, Children, cloneElement } from 'react'
-import { compose, withState, mapProps } from 'recompose'
+import React, { PropTypes, Children, cloneElement} from 'react'
+import {compose, withProps, withState, setDisplayName} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
@@ -21,51 +21,50 @@ function TBody({ featured = false, title, children }) {
 
 export default TBody = CSSModules(TBody, styles)
 
-function getExpandedValues({children}) {
-    // Can not use Children.map: it does not iterate over "undefined"
-    const rows = Children.toArray(children)
-
-    return rows.map(row => row.props.expanded)
+function isExpandable(row) {
+    return typeof row.props.expanded === 'boolean'
 }
 
-function isExpandableFactory(values) {
-    return index => values[index] !== undefined
-}
+function rowMapper(values, setValues, row, index, rows) {
+    const previous = rows[index - 1]
 
-function propsMapper({children, expandedValues, setExpandedValues, ...rest}) {
-    const isExpandable = isExpandableFactory(expandedValues)
-    const rows = Children.toArray(children)
-    function rowMapper(row, index) {
-        if (isExpandable(index)) {
-            const expanded = expandedValues[index]
-            function onExpandedToggle() {
-                expandedValues[index] = !expanded
-                setExpandedValues(expandedValues)
-            }
+    if (isExpandable(row)) {
+        const expanded = values.has(index) ? values.get(index) : row.props.expanded
 
-            return cloneElement(row, {onExpandedToggle, expanded})
+        function onExpandedToggle() {
+            values.set(index, !expanded)
+            setValues(new Map([...values]))
         }
 
-        if (isExpandable(index - 1)) {
-            const controlled = true
-            const previous = rows[index - 1]
-            const hide = !expandedValues[index - 1]
-            const span = Children.count(previous.props.children)
-            const cell = Children.only(row.props.children)
+        return cloneElement(row, {onExpandedToggle, expanded})
+    }
 
-            return cloneElement(row, {hide, controlled}, cloneElement(cell, {span}))
+    if (previous && isExpandable(previous)) {
+        const prevIndex = index - 1
+        const expanded = values.has(prevIndex) ? values.get(prevIndex) : previous.props.expanded
+        const colSpan = Children.count(previous.props.children)
+        const cell = Children.only(row.props.children)
+        const children = cloneElement(cell, {colSpan})
+        const props = {
+            hide: !expanded,
+            controlled: true,
         }
 
-        return row
+        return cloneElement(row, props, children)
     }
 
-    return {
-        children: rows.map(rowMapper),
-        ...rest
-    }
+    return row
 }
 
 export const Controlled = compose(
-    withState('expandedValues', 'setExpandedValues', getExpandedValues),
-    mapProps(propsMapper),
+    setDisplayName('ControlledTBody'),
+    withState('expandedValues', 'setExpandedValues', new Map()),
+    withProps(({children, expandedValues, setExpandedValues}) => {
+        const rows = Children.toArray(children)
+        const mapper = rowMapper.bind(null, expandedValues, setExpandedValues)
+
+        return {
+            children: rows.map(mapper),
+        }
+    }),
 )(TBody)

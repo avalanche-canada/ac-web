@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import {Page, Header, Main, Headline} from 'components/page'
+import React, {PropTypes} from 'react'
+import {Page, Content, Header, Main, Headline} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {DateElement, InnerHTML, Muted} from 'components/misc'
 
@@ -24,7 +24,7 @@ export default function Post({
     media,
     source,
     location,
-    message
+    message,
 }) {
     return (
         <Page>
@@ -35,7 +35,7 @@ export default function Post({
                         <DateElement value={date} />
                     </Entry>
                 }
-                {location &&
+                {typeof location === 'string' &&
                     <Entry term='Location'>
                         {location}
                     </Entry>
@@ -46,13 +46,23 @@ export default function Post({
                     </Entry>
                 }
             </Metadata>
-            {headline && <Headline>{headline}</Headline>}
-            {message ?
-                <Muted>{message}</Muted> :
-                <InnerHTML>
-                    {content}
-                </InnerHTML>
-            }
+            <Content>
+                <Main>
+                    {headline &&
+                        <Headline>
+                            <InnerHTML>
+                                {headline}
+                            </InnerHTML>
+                        </Headline>
+                    }
+                    {message ?
+                        <Muted>{message}</Muted> :
+                        <InnerHTML>
+                            {content}
+                        </InnerHTML>
+                    }
+                </Main>
+            </Content>
         </Page>
     )
 }

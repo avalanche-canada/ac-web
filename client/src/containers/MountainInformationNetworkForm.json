@@ -1,0 +1,1367 @@
+{
+	"id": "http://www.avalanche.ca/schema/min-16.09",
+	"type": "object",
+	"properties": {
+		"quickReport": {
+			"type": "object",
+            "title": "Quick Report",
+            "description": "Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.",
+			"required": [
+				"avalancheConditions",
+				"comment",
+				"ridingConditions"
+			],
+			"properties": {
+				"ridingConditions": {
+					"required": [
+						"ridingQuality",
+						"weather",
+						"snowConditions",
+						"stayedAway",
+						"rideType"
+					],
+                    "title": "Riding Conditions",
+					"properties": {
+						"rideType": {
+							"type": "object",
+                            "title": "Ride Type",
+							"properties": {
+								"prompt": {
+									"type": "string",
+                                    "default": "We rode:"
+								},
+								"type": {
+									"type": "string",
+                                    "default": "multiple"
+								},
+								"options": {
+									"properties": {
+										"Alpine slopes": {
+											"type": "boolean"
+										},
+										"Convex slopes": {
+											"type": "boolean"
+										},
+										"Cut-blocks": {
+											"type": "boolean"
+										},
+										"Steep slopes": {
+											"type": "boolean"
+										},
+										"Open trees": {
+											"type": "boolean"
+										},
+										"Mellow slopes": {
+											"type": "boolean"
+										},
+										"Dense trees": {
+											"type": "boolean"
+										},
+										"Sunny slopes": {
+											"type": "boolean"
+										}
+									},
+									"required": [
+										"Mellow slopes",
+										"Convex slopes",
+										"Alpine slopes",
+										"Dense trees",
+										"Steep slopes",
+										"Open trees",
+										"Cut-blocks",
+										"Sunny slopes"
+									],
+									"type": "object"
+								}
+							},
+							"required": [
+								"type",
+								"prompt",
+								"options"
+							]
+						},
+						"ridingQuality": {
+                            "title": "Riding Quality",
+							"properties": {
+								"type": {
+									"type": "string",
+                                    "default": "single"
+
+								},
+								"options": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"selected": {
+									"type": "string",
+									"enum": [
+										"Amazing",
+										"Good",
+										"OK",
+										"Terrible"
+									]
+								},
+								"prompt": {
+									"type": "string",
+                                    "default": "Riding quality was:"
+								}
+							},
+							"required": [
+								"selected",
+								"type",
+								"prompt",
+								"options"
+							],
+							"type": "object"
+						},
+						"stayedAway": {
+                            "title": "Stayed Away",
+							"properties": {
+								"options": {
+									"properties": {
+										"Sunny slopes": {
+											"type": "boolean"
+										},
+										"Open trees": {
+											"type": "boolean"
+										},
+										"Steep slopes": {
+											"type": "boolean"
+										},
+										"Cut-blocks": {
+											"type": "boolean"
+										},
+										"Convex slopes": {
+											"type": "boolean"
+										},
+										"Alpine slopes": {
+											"type": "boolean"
+										}
+									},
+									"required": [
+										"Convex slopes",
+										"Alpine slopes",
+										"Cut-blocks",
+										"Sunny slopes",
+										"Steep slopes",
+										"Open trees"
+									],
+									"type": "object"
+								},
+								"type": {
+									"type": "string",
+                                    "default": "multiple"
+								},
+								"prompt": {
+									"type": "string",
+                                    "default": "We stayed away from:"
+								}
+							},
+							"required": [
+								"prompt",
+								"type",
+								"options"
+							],
+							"type": "object"
+						},
+						"snowConditions": {
+                            "title": "Snow Condition",
+							"type": "object",
+							"required": [
+								"options",
+								"prompt",
+								"type"
+							],
+							"properties": {
+								"prompt": {
+									"type": "string",
+                                    "default": "Snow conditions were:"
+								},
+								"options": {
+									"type": "object",
+									"required": [
+										"Deep powder",
+										"Wet",
+										"Crusty",
+										"Powder",
+										"Heavy",
+										"Wind affected",
+										"Hard"
+									],
+									"properties": {
+										"Wet": {
+											"type": "boolean"
+										},
+										"Powder": {
+											"type": "boolean"
+										},
+										"Wind affected": {
+											"type": "boolean"
+										},
+										"Deep powder": {
+											"type": "boolean"
+										},
+										"Hard": {
+											"type": "boolean"
+										},
+										"Heavy": {
+											"type": "boolean"
+										},
+										"Crusty": {
+											"type": "boolean"
+										}
+									}
+								},
+								"type": {
+									"type": "string",
+                                    "default": "multiple"
+								}
+							}
+						},
+						"weather": {
+							"required": [
+								"type",
+								"prompt",
+								"options"
+							],
+                            "title": "Weather",
+							"properties": {
+								"type": {
+									"type": "string",
+                                    "default": "multiple"
+								},
+								"options": {
+									"required": [
+										"Warm",
+										"Foggy",
+										"Cloudy",
+										"Stormy",
+										"Windy",
+										"Cold",
+										"Wet",
+										"Sunny"
+									],
+									"properties": {
+										"Windy": {
+											"type": "boolean"
+										},
+										"Warm": {
+											"type": "boolean"
+										},
+										"Sunny": {
+											"type": "boolean"
+										},
+										"Cloudy": {
+											"type": "boolean"
+										},
+										"Cold": {
+											"type": "boolean"
+										},
+										"Wet": {
+											"type": "boolean"
+										},
+										"Stormy": {
+											"type": "boolean"
+										},
+										"Foggy": {
+											"type": "boolean"
+										}
+									},
+									"type": "object"
+								},
+								"prompt": {
+									"type": "string",
+                                    "default": "The day was:"
+								}
+							},
+							"type": "object"
+						}
+					},
+					"type": "object"
+				},
+				"avalancheConditions": {
+					"type": "object",
+					"required": [
+						"snow",
+						"slab",
+						"sound",
+						"temp"
+					],
+                    "title": "Avalanche Conditions",
+					"properties": {
+						"slab": {
+							"type": "boolean"
+						},
+						"sound": {
+							"type": "boolean"
+						},
+						"temp": {
+							"type": "boolean"
+						},
+						"snow": {
+							"type": "boolean"
+						}
+					}
+				},
+				"comment": {
+					"type": "string",
+                    "title": "Comment"
+				}
+			}
+		},
+		"avalancheReport": {
+			"type": "object",
+            "title": "Avalanche Report",
+			"properties": {
+				"avalancheOccurrenceEpoch": {
+					"type": "string",
+					"pattern": "^\\d\\d\\d\\d-\\d\\d-\\d\\d$"
+				},
+				"avalancheOccurrenceTime": {
+					"type": "string",
+					"pattern": "^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$"
+				},
+				"avalancheObservation": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"12 hrs ago",
+								"12-24 hrs ago",
+								">24-48 hrs ago",
+								">48 hrs ago"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"avalancheNumber": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"1",
+								"2-5",
+								"6-10",
+								"11-50",
+								"51-100"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"avalancheSize": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"1",
+								"1.5",
+								"2",
+								"2.5",
+								"3",
+								"3.5",
+								"4",
+								"4.5",
+								"5"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"slabThickness": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 10,
+					"maximum": 500
+				},
+				"slabWidth": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 1,
+					"maximum": 3000
+				},
+				"runLength": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 1,
+					"maximum": 10000
+				},
+				"avalancheCharacter": {
+					"type": "object",
+					"properties": {
+						"Storm slab": {
+							"type": "boolean"
+						},
+						"Wind slab": {
+							"type": "boolean"
+						},
+						"Persistent slab": {
+							"type": "boolean"
+						},
+						"Deep persistent slab": {
+							"type": "boolean"
+						},
+						"Wet slab": {
+							"type": "boolean"
+						},
+						"Cornice only": {
+							"type": "boolean"
+						},
+						"Cornice with slab": {
+							"type": "boolean"
+						},
+						"Loose wet": {
+							"type": "boolean"
+						},
+						"Loose dry": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Storm slab",
+						"Wind slab",
+						"Persistent slab",
+						"Deep persistent slab",
+						"Wet slab",
+						"Cornice only",
+						"Cornice with slab",
+						"Loose wet",
+						"Loose dry"
+					]
+				},
+				"triggerType": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Natural",
+								"Skier",
+								"Snowmobile",
+								"Other vehicle",
+								"Helicopter",
+								"Explosives"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"triggerSubtype": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Accidental",
+								"Intentional",
+								"Remote"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"triggerDistance": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 2000
+				},
+				"startZoneAspect": {
+					"type": "object",
+					"properties": {
+						"N": {
+							"type": "boolean"
+						},
+						"NE": {
+							"type": "boolean"
+						},
+						"E": {
+							"type": "boolean"
+						},
+						"SE": {
+							"type": "boolean"
+						},
+						"S": {
+							"type": "boolean"
+						},
+						"SW": {
+							"type": "boolean"
+						},
+						"W": {
+							"type": "boolean"
+						},
+						"NW": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"N",
+						"NE",
+						"E",
+						"SE",
+						"S",
+						"SW",
+						"W",
+						"NW"
+					]
+				},
+				"startZoneElevationBand": {
+					"type": "object",
+					"properties": {
+						"Alpine": {
+							"type": "boolean"
+						},
+						"Treeline": {
+							"type": "boolean"
+						},
+						"Below treeline": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Alpine",
+						"Treeline",
+						"Below treeline"
+					]
+				},
+				"startZoneElevation": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 5000
+				},
+				"startZoneIncline": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 90
+				},
+				"runoutZoneElevation": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 5000
+				},
+				"weakLayerBurialDate": {
+					"type": "string",
+					"pattern": "^\\d\\d\\d\\d-\\d\\d-\\d\\d$"
+				},
+				"weakLayerCrystalType": {
+					"type": "object",
+					"properties": {
+						"Surface hoar": {
+							"type": "boolean"
+						},
+						"Facets": {
+							"type": "boolean"
+						},
+						"Surface hoar and facets": {
+							"type": "boolean"
+						},
+						"Depth hoar": {
+							"type": "boolean"
+						},
+						"Storm snow": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Surface hoar",
+						"Facets",
+						"Surface hoar and facets",
+						"Depth hoar",
+						"Storm snow"
+					]
+				},
+				"crustNearWeakLayer": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Yes",
+								"No"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"windExposure": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Lee slope",
+								"Cross-loaded slope",
+								"Windward slope",
+								"Down flow",
+								"Reverse-loaded slope",
+								"No wind exposure"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"vegetationCover": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Open slope",
+								"Sparse trees or gladed slope",
+								"Dense trees"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"avalancheObsComment": {
+					"type": [
+						"string",
+						"null"
+					]
+				}
+			},
+			"required": [
+				"avalancheOccurrenceEpoch",
+				"avalancheOccurrenceTime",
+				"avalancheObservation",
+				"avalancheNumber",
+				"avalancheSize",
+				"slabThickness",
+				"slabWidth",
+				"runLength",
+				"avalancheCharacter",
+				"triggerType",
+				"triggerSubtype",
+				"triggerDistance",
+				"startZoneAspect",
+				"startZoneElevationBand",
+				"startZoneElevation",
+				"startZoneIncline",
+				"runoutZoneElevation",
+				"weakLayerBurialDate",
+				"weakLayerCrystalType",
+				"crustNearWeakLayer",
+				"windExposure",
+				"vegetationCover",
+				"avalancheObsComment"
+			]
+		},
+		"snowpackReport": {
+			"type": "object",
+			"properties": {
+				"snowpackObsType": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Point observation",
+								"Summary"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowpackSiteElevation": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 4000
+				},
+				"snowpackSiteElevationBand": {
+					"type": "object",
+					"properties": {
+						"Alpine": {
+							"type": "boolean"
+						},
+						"Treeline": {
+							"type": "boolean"
+						},
+						"Below treeline": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Alpine",
+						"Treeline",
+						"Below treeline"
+					]
+				},
+				"snowpackSiteAspect": {
+					"type": "object",
+					"properties": {
+						"N": {
+							"type": "boolean"
+						},
+						"NE": {
+							"type": "boolean"
+						},
+						"E": {
+							"type": "boolean"
+						},
+						"SE": {
+							"type": "boolean"
+						},
+						"S": {
+							"type": "boolean"
+						},
+						"SW": {
+							"type": "boolean"
+						},
+						"W": {
+							"type": "boolean"
+						},
+						"NW": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"N",
+						"NE",
+						"E",
+						"SE",
+						"S",
+						"SW",
+						"W",
+						"NW"
+					]
+				},
+				"snowpackDepth": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 10000
+				},
+				"snowpackWhumpfingObserved": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Yes",
+								"No"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowpackCrackingObserved": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Yes",
+								"No"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowpackSurfaceCondition": {
+					"type": "object",
+					"properties": {
+						"New snow": {
+							"type": "boolean"
+						},
+						"Crust": {
+							"type": "boolean"
+						},
+						"Surface hoar": {
+							"type": "boolean"
+						},
+						"Facets": {
+							"type": "boolean"
+						},
+						"Corn": {
+							"type": "boolean"
+						},
+						"Variable": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"New snow",
+						"Crust",
+						"Surface hoar",
+						"Facets",
+						"Corn",
+						"Variable"
+					]
+				},
+				"snowpackFootPenetration": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 200
+				},
+				"snowpackSkiPenetration": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 200
+				},
+				"snowpackSledPenetration": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 200
+				},
+				"snowpackTestInitiation": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"None",
+								"Very easy",
+								"Easy",
+								"Moderate",
+								"Hard"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowpackTestFracture": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Sudden (\"pop\" or \"drop\")",
+								"Resistant",
+								"Uneven break"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowpackTestFailure": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 200
+				},
+				"snowpackTestFailureLayerCrystalType": {
+					"type": "object",
+					"properties": {
+						"Surface hoar": {
+							"type": "boolean"
+						},
+						"Facets": {
+							"type": "boolean"
+						},
+						"Depth hoar": {
+							"type": "boolean"
+						},
+						"Storm snow": {
+							"type": "boolean"
+						},
+						"Crust": {
+							"type": "boolean"
+						},
+						"Other": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Surface hoar",
+						"Facets",
+						"Depth hoar",
+						"Storm snow",
+						"Crust",
+						"Other"
+					]
+				},
+				"snowpackObsComment": {
+					"type": [
+						"string",
+						"null"
+					]
+				}
+			},
+			"required": [
+				"snowpackObsType",
+				"snowpackSiteElevation",
+				"snowpackSiteElevationBand",
+				"snowpackSiteAspect",
+				"snowpackDepth",
+				"snowpackWhumpfingObserved",
+				"snowpackCrackingObserved",
+				"snowpackSurfaceCondition",
+				"snowpackFootPenetration",
+				"snowpackSkiPenetration",
+				"snowpackSledPenetration",
+				"snowpackTestInitiation",
+				"snowpackTestFracture",
+				"snowpackTestFailure",
+				"snowpackTestFailureLayerCrystalType",
+				"snowpackObsComment"
+			]
+		},
+		"weatherReport": {
+			"type": "object",
+			"properties": {
+				"skyCondition": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Clear",
+								"Few clouds (<2/8)",
+								"Scattered clouds (2/8-4/8)",
+								"Broken clouds (5/8-7/8)",
+								"Overcast (8/8)",
+								"Fog"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"precipitationType": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Snow",
+								"Rain",
+								"Mixed snow & rain",
+								"None"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowfallRate": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 1,
+					"maximum": 20
+				},
+				"rainfallRate": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Drizzle",
+								"Showers",
+								"Raining",
+								"Pouring"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"temperature": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": -50,
+					"maximum": 40
+				},
+				"minTemp": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": -50,
+					"maximum": 30
+				},
+				"maxTemp": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": -40,
+					"maximum": 40
+				},
+				"temperatureTrend": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Falling",
+								"Steady",
+								"Rising"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"newSnow24Hours": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"precipitation24Hours": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"stormSnowAmount": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 300
+				},
+				"stormStartDate": {
+					"type": "string",
+					"pattern": "^\\d\\d\\d\\d-\\d\\d-\\d\\d$"
+				},
+				"windSpeed": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Calm",
+								"Light (1-25 km/h)",
+								"Moderate (26-40 km/h)",
+								"Strong (41-60 km/h)",
+								"Extreme (>60 km/h)"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"windDirection": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"N",
+								"NE",
+								"E",
+								"SE",
+								"S",
+								"SW",
+								"W",
+								"NW"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"blowingSnow": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"None",
+								"Light",
+								"Moderate",
+								"Intense"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"weatherObsComment": {
+					"type": [
+						"string",
+						"null"
+					]
+				}
+			},
+			"required": [
+				"skyCondition",
+				"precipitationType",
+				"snowfallRate",
+				"rainfallRate",
+				"temperature",
+				"minTemp",
+				"maxTemp",
+				"temperatureTrend",
+				"newSnow24Hours",
+				"precipitation24Hours",
+				"stormSnowAmount",
+				"stormStartDate",
+				"windSpeed",
+				"windDirection",
+				"blowingSnow",
+				"weatherObsComment"
+			]
+		},
+		"incidentReport": {
+			"type": "object",
+			"properties": {
+				"groupActivity": {
+					"type": "object",
+					"properties": {
+						"Snowmobiling": {
+							"type": "boolean"
+						},
+						"Skiing": {
+							"type": "boolean"
+						},
+						"Climbing/Mountaineering": {
+							"type": "boolean"
+						},
+						"Hiking/Scrambling": {
+							"type": "boolean"
+						},
+						"Snowshoeing": {
+							"type": "boolean"
+						},
+						"Tobogganing": {
+							"type": "boolean"
+						},
+						"Other": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"Snowmobiling",
+						"Skiing",
+						"Climbing/Mountaineering",
+						"Hiking/Scrambling",
+						"Snowshoeing",
+						"Tobogganing",
+						"Other"
+					]
+				},
+				"otherActivityDescription": {
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				"groupSize": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"numberFullyBuried": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"numberPartlyBuriedImpairedBreathing": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"numberPartlyBuriedAbleBreathing": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"numberCaughtOnly": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 100
+				},
+				"numberPeopleInjured": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"minimum": 0,
+					"maximum": 400
+				},
+				"terrainShapeTriggerPoint": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Convex",
+								"Planar",
+								"Concave",
+								"Unsupported"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"snowDepthTriggerPoint": {
+					"anyOf": [
+						{
+							"type": "string",
+							"enum": [
+								"Shallow",
+								"Deep",
+								"Average",
+								"Variable"
+							]
+						},
+						{
+							"type": "null"
+						}
+					]
+				},
+				"terrainTrap": {
+					"type": "object",
+					"properties": {
+						"No obvious terrain trap": {
+							"type": "boolean"
+						},
+						"Gully or depression": {
+							"type": "boolean"
+						},
+						"Slope transition or bench": {
+							"type": "boolean"
+						},
+						"Trees": {
+							"type": "boolean"
+						},
+						"Cliff": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"No obvious terrain trap",
+						"Gully or depression",
+						"Slope transition or bench",
+						"Trees",
+						"Cliff"
+					]
+				},
+				"incidentDescription": {
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				"numberInvolved": {
+					"type": [
+						"number",
+						"null"
+					]
+				}
+			},
+			"required": [
+				"groupActivity",
+				"otherActivityDescription",
+				"groupSize",
+				"numberFullyBuried",
+				"numberPartlyBuriedImpairedBreathing",
+				"numberPartlyBuriedAbleBreathing",
+				"numberCaughtOnly",
+				"numberPeopleInjured",
+				"terrainShapeTriggerPoint",
+				"snowDepthTriggerPoint",
+				"terrainTrap",
+				"incidentDescription",
+				"numberInvolved"
+			]
+		}
+	},
+	"anyOf": [
+		{
+			"required": [
+				"quickReport"
+			]
+		},
+		{
+			"required": [
+				"avalancheReport"
+			]
+		},
+		{
+			"required": [
+				"snowpackReport"
+			]
+		},
+		{
+			"required": [
+				"weatherReport"
+			]
+		},
+		{
+			"required": [
+				"incidentReport"
+			]
+		}
+	]
+}

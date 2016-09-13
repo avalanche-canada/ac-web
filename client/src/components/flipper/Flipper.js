@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Flipper.css'
 
@@ -6,7 +6,7 @@ Flipper.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element)
 }
 
-function Flipper({ children }) {
+function Flipper({children}) {
     return (
         <div styleName='Container'>
             {children}

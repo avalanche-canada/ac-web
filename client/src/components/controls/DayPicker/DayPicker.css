@@ -1,0 +1,17 @@
+.Container {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}
+
+.Input {
+    composes: import Common from "../Controls.css";
+    composes: import CloseState from "../Controls.css";
+}
+
+.Input--Open {
+    composes: Input;
+
+    background-image: url("../../icons/expand-less.svg");
+}

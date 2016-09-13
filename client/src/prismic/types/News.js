@@ -7,6 +7,10 @@ export default class News {
         assign(this, data)
     }
     static fromDocument(document, parser = PARSER) {
+        if (!document) {
+            return null
+        }
+
         const data = parser.parse(document)
         const {date, tags} = data
 

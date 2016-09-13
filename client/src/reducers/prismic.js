@@ -10,9 +10,19 @@ import {
     PRISMIC_API_FAILURE,
 } from 'middleware/prismic'
 
-
-function isFetching(state = false, {type}) {
-    return state
+function fetchingCounter(state = 0, {type}) {
+    switch (type) {
+        case PRISMIC_API_REQUEST:
+        case PRISMIC_REQUEST:
+            return state + 1
+        case PRISMIC_API_SUCCESS:
+        case PRISMIC_API_FAILURE:
+        case PRISMIC_SUCCESS:
+        case PRISMIC_FAILURE:
+            return state - 1
+        default:
+            return state
+    }
 }
 
 function documents(state = new Immutable.Map(), {type, payload}) {
@@ -68,13 +78,14 @@ function uids(state = new Immutable.Map(), {type, payload}) {
 }
 
 export default combineReducers({
-    isFetching,
+    fetchingCounter,
     documents,
     bookmarks,
     types,
     uids,
 })
 
+// Getters
 export function getDocuments(state) {
     return state.prismic.documents
 }
@@ -87,6 +98,9 @@ export function getDocumentsOfType(state, type) {
     const {documents, types} = state.prismic
     const set = types.get(type, new Immutable.Set())
 
+    // TODO: Investigate if we can use normilzr
+    // TODO: Store per type...will not have to create a new map everytime...
+    // new object means selector start fresh every time :(
     return new Immutable.Map(set.map(id => [id, documents.get(id)]))
 }
 
@@ -109,6 +123,16 @@ export function getDocumentForUid(state, type, uid) {
     return documents.get(id)
 }
 
+export function getDocumentForParams(state, {id, type, uid, bookmark}) {
+    if (bookmark) {
+        return getDocumentForBookmark(state, bookmark)
+    } else if (id) {
+        return getDocument(state, id)
+    } else if (type && uid) {
+        return getDocumentForUid(state, type, uid)
+    }
+}
+
 export function getIsFetching(state) {
-    return state.prismic.isFetching
+    return state.prismic.fetchingCounter > 0
 }

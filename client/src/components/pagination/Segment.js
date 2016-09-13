@@ -1,32 +1,52 @@
-import React, { PropTypes, createElement } from 'react'
-import { compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps } from 'recompose'
-import * as Icons from 'components/icons'
-import Button from 'components/button'
+import React, {PropTypes, createElement} from 'react'
+import {compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps} from 'recompose'
+import CSSModules from 'react-css-modules'
+import {Link} from 'react-router'
+import styles from './Pagination.css'
+import {
+    First as FirstIcon,
+    Previous as PreviousIcon,
+    Next as NextIcon,
+    Last as LastIcon
+} from 'components/icons'
 
-export default compose(
-    setDisplayName('Segment'),
-    setPropTypes({
-        children: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired,
-        active: PropTypes.bool,
-    }),
-    defaultProps({
-        active: false,
-    }),
-)(Button)
+Segment.propTypes = {
+    children: PropTypes.node.isRequired,
+    location: PropTypes.object,
+    onClick: PropTypes.func,
+    isActive: PropTypes.bool,
+}
 
-function quickNavigation(name) {
+function Segment({location = '#', onClick, isActive, children}) {
+    const styleName = isActive ? 'Segment' : 'Segment--Active'
+
+    return (
+        <Link to={location} onClick={onClick} styleName={styleName} >
+            {children}
+        </Link>
+    )
+}
+
+Segment = CSSModules(Segment, styles)
+
+const Icons = new Map([
+    ['First', <FirstIcon inverse />],
+    ['Previous', <PreviousIcon inverse />],
+    ['Next', <NextIcon inverse />],
+    ['Last', <LastIcon inverse />],
+])
+
+function paginate(name) {
     return compose(
         setDisplayName(name),
         withProps({
-            icon: createElement(Icons[name], {
-                inverse: true
-            })
-        })
-    )(Button)
+            children: Icons[name]
+        }),
+    )(Segment)
 }
 
-export const First = quickNavigation('First')
-export const Previous = quickNavigation('Previous')
-export const Next = quickNavigation('Next')
-export const Last = quickNavigation('Last')
+export default Segment
+export const First = paginate('First')
+export const Previous = paginate('Previous')
+export const Next = paginate('Next')
+export const Last = paginate('Last')

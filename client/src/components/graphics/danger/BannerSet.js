@@ -1,5 +1,5 @@
-import React, { PropTypes, Children, cloneElement } from 'react'
-import { compose, withState } from 'recompose'
+import React, { PropTypes, Children, cloneElement} from 'react'
+import {compose, withState} from 'recompose'
 import {VALUES as ELEVATIONS} from 'constants/forecast/elevation'
 
 const {ALP, TLN, BTL} = ELEVATIONS
