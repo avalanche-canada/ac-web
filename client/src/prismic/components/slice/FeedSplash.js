@@ -8,7 +8,8 @@ const types = new Map([
 ])
 
 export default compose(
-    withProps(({type}) => ({
-        type: types.get(type)
+    withProps(({content: [{type, header}]}) => ({
+        type: types.get(type),
+        header,
     }))
 )(FeedSplash)

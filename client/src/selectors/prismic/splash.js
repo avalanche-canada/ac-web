@@ -10,7 +10,7 @@ function getTransformedDocuments(state, {documents = []}) {
     return new List(documents.map(transform))
 }
 function isFeatured(post) {
-    return post.isFeatured
+    return post.featured
 }
 
 export default createSelector(
@@ -18,12 +18,13 @@ export default createSelector(
     getTransformedDocuments,
     getIsFetching,
     (type, documents, isFetching) => {
+        console.warn(documents.first())
         const featured = documents.find(isFeatured) || documents.first()
         const list = documents.filter(document => document !== featured)
         let message = null
 
         if (isFetching) {
-            message = `Loading some ${type}...`
+            message = `Loading latest ${type}...`
         }
 
         return {

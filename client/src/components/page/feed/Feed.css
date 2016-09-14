@@ -2,13 +2,8 @@
 
 .Entry {
     display: flex;
-    border-bottom: 2px solid var(--gray-light);
     padding: 1em;
     color: var(--gray-dark);
-
-    &:last-child {
-        border-bottom: none;
-    }
 
     & > * {
         margin: 0.5em;
@@ -43,12 +38,23 @@
     }
 }
 
+.EntrySet {
+    & > .Entry {
+        border-bottom: 2px solid var(--gray-light);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
 .Feed {
 
 }
 
 .Metadata {
     display: flex;
+    flex-wrap: wrap;
     color: var(--gray-light);
     text-transform: uppercase;
     padding: 0;

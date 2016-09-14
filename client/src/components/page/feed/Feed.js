@@ -5,6 +5,7 @@ import {Page, Content, Header, Main} from 'components/page'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 import {Muted} from 'components/misc'
 import Entry from './Entry'
+import EntrySet from './EntrySet'
 
 Feed.propTypes = {
     content: PropTypes.array.isRequired,
@@ -70,7 +71,9 @@ export default function Feed({
                 </FilterSet>
                 <Main>
                     {message && <Muted>{message}</Muted>}
-                    {content.map(entry => <Entry key={entry.uid} {...entry} />)}
+                    <EntrySet>
+                        {content.map(entry => <Entry key={entry.uid} {...entry} />)}
+                    </EntrySet>
                 </Main>
             </Content>
         </Page>

@@ -1,8 +1,10 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes, DOM} from 'react'
+import {compose, branch, setPropTypes, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import {Image, InnerHTML, DateElement} from 'components/misc'
 import {TagSet, Tag} from 'components/tag'
+import {elementQueries} from 'compose'
 import styles from './Feed.css'
 
 const {isArray} = Array
@@ -23,9 +25,20 @@ Entry.propTypes = {
         alt: PropTypes.string,
     }),
     uid: PropTypes.string.isRequired,
+    condensed: PropTypes.bool,
 }
 
-function Entry({featured = false, title, category, source, date, headline, tags, preview, link}) {
+function Entry({
+    featured = false,
+    title,
+    category,
+    source,
+    date,
+    headline,
+    tags,
+    preview,
+    link,
+}) {
     return (
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
             {preview &&
@@ -57,4 +70,38 @@ function Entry({featured = false, title, category, source, date, headline, tags,
     )
 }
 
-export default CSSModules(Entry, styles)
+Entry = elementQueries()(CSSModules(Entry, styles))
+
+function CondensedEntry({
+    featured = false,
+    title,
+    category,
+    source,
+    date,
+    link,
+}) {
+    return (
+        <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
+            <div styleName='Content'>
+                <h2>
+                    <Link to={link}>
+                        {title}
+                    </Link>
+                </h2>
+                <ul styleName='Metadata'>
+                    {date && <li><DateElement value={date} /></li>}
+                    {category && <li>{category}</li>}
+                    {source && <li>{source}</li>}
+                </ul>
+            </div>
+        </div>
+    )
+}
+
+CondensedEntry = elementQueries()(CSSModules(CondensedEntry, styles))
+
+export default branch(
+    props => props.condensed,
+    renderComponent(CondensedEntry),
+    Component => Component,
+)(Entry)
