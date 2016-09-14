@@ -93,12 +93,22 @@ router.get('/:date/:region.json', (req, res) => {
         return;
     }
 
-    var json = mssql.connect(ARCHIVE_DBURL)
+    var conn;
+    try {
+        conn = mssql.connect(ARCHIVE_DBURL)
+    } catch(err) {
+        console.log('Error connecting to Forecast Archive DB:', err, err.stack) 
+        res.status(503).json({error: 'Error connecting to Forecast Archive Database'})
+        return
+    }
+    var json = conn
     .then(() => {
-        return (new mssql.Request()
-            .input('region', regionId)
-            .input('date',   date.utc().format())
-            .query(BULLETIN_QUERY));
+        return (
+            new mssql.Request()
+                .input('region', regionId)
+                .input('date',   date.utc().format())
+                .query(BULLETIN_QUERY)
+        );
     })
     .then(getFirstBulletin)
     .then(getAvProblems)
