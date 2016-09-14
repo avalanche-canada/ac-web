@@ -15,3 +15,5 @@ dump.rdb
 npm-debug.log
 *.db
 *.zip
+.DS_Store
+client/src/.DS_Store
