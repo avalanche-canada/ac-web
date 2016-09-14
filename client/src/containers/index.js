@@ -1,5 +1,4 @@
-import {withProps} from 'recompose'
-import Prismic from 'prismic/components/page'
+import {staticPage, generic} from 'prismic/components/page'
 
 // Map - kind of the home page
 export Map from './Map'
@@ -27,16 +26,6 @@ export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit
 export Sponsor from './Sponsor'
 
 // Static Pages
-function staticPage(uid, title, message) {
-    return withProps({
-        params: {
-            type: 'static-page',
-            uid,
-        },
-        title,
-        message,
-    })(Prismic)
-}
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')
 export const Gear = staticPage('essential-gear', 'Essential Gear')
@@ -50,14 +39,6 @@ export const Ambassadors = staticPage('ambassadors', 'Ambassadors')
 export const Sponsors = staticPage('sponsors', 'Sponsors')
 export const Collaborators = staticPage('collaborators', 'Collaborators')
 
-function generic(bookmark, title) {
-    return withProps({
-        params: {
-            bookmark
-        },
-        title,
-    })(Prismic)
-}
 export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
 export const TermsOfUse = generic('about-tou', 'Terms of use')
 export const Tutorial = generic('tutorial', 'Tutorial')

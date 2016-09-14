@@ -4,20 +4,15 @@ import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import Link from './Link'
 
-const propTypes = {
-    isFoundation: PropTypes.bool
-}
-
-function propsMapper({ isFoundation = false }) {
-    return {
-        to: isFoundation ? 'foundation' : '',
-        title: isFoundation ? 'Avalanche Canada Foundation' : 'Avalanche Canada',
-        styleName: isFoundation ? 'Brand--Foundation' : 'Brand'
-    }
-}
-
 export default compose(
     setDisplayName('Brand'),
-    setPropTypes(propTypes),
-    mapProps(propsMapper),
-)(CSSModules(Link, styles))
+    setPropTypes({
+        isFoundation: PropTypes.bool
+    }),
+    mapProps(({isFoundation = false}) => ({
+        to: isFoundation ? '/foundation' : '',
+        title: isFoundation ? 'Avalanche Canada Foundation' : 'Avalanche Canada',
+        styleName: isFoundation ? 'Brand--Foundation' : 'Brand'
+    })),
+    CSSModules(styles),
+)(Link)

@@ -179,7 +179,7 @@
 
         &:after {
             color: var(--brand-primary);
-            content: "\203A";
+            content: "›";
             margin-left: 0.25em;
             font-size: 1.25rem;
         }

@@ -110,7 +110,7 @@ export const AvalancheCanada = {
             }, {
                 id: '57dadc0c-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Al Hodgson Memorial Fund',
-                to: '/foundation/programs/memorial-funds',
+                to: '/foundation/funds/al-hodgson-memorial',
             }, {
                 id: '57dadd1a-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Essential gear',
@@ -255,7 +255,7 @@ export const AvalancheCanada = {
             id: '57db0ef2-1871-11e6-b6ba-3e1d05defe78',
             to: '/events',
             label: 'Events',
-            headline: 'Visit our latest Events.',
+            headline: 'Visit our upcoming Events.',
         // }, {
         //     id: '57db0fe2-1871-11e6-b6ba-3e1d05defe78',
         //     to: '/outreach',
@@ -281,32 +281,32 @@ export const AvalancheCanadaFoundation = {
         children: [{
             id: 'f0024d12-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Mission',
-            to: '/foundation/mission',
+            to: '/foundation/about#mission',
             header: true,
         }, {
             id: 'f00251a4-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Annual Reports and Financial Statements',
-            to: '/foundation/about/reports',
+            to: '/foundation/about#reports',
             header: true,
         }, {
             id: 'f002535c-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Board Of Directors',
-            to: '/foundation/about/board',
+            to: '/foundation/about#board',
             header: true,
         }, {
             id: 'f00254d8-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Honourary Directors',
-            to: '/foundation/about/honourary',
+            to: '/foundation/about#honourary',
             header: true,
         }, {
             id: 'f0025640-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Contact',
-            to: '/foundation/about/contact',
+            to: '/foundation/about#contact',
             header: true,
         }, {
             id: 'f00257b2-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Subscribe to newsletter',
-            to: '/foundation/about/subscribe',
+            to: '/foundation/about#subscribe',
             header: true,
         }]
     }, {
@@ -315,19 +315,48 @@ export const AvalancheCanadaFoundation = {
         children: [{
             id: 'f0025a8c-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Avalanche Canada',
-            to: '/foundation/programs/ac',
+            to: '/foundation/programs#avalanche-canada',
             headline: 'Headline for Avalanche Canada',
         }, {
             id: 'f0025f82-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Memorial Funds and Scholarships',
-            to: '/foundation/programs/memorial-funds',
+            to: '/foundation/programs#memorial-funds',
             headline: 'Headline for Memorial Funds and Scholarships',
         }, {
             id: 'f00260fe-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Memorial Donations',
-            to: '/foundation/programs/memorial-donations',
+            to: '/foundation/programs#memorial-donations',
             headline: 'Headline for Memorial Donations',
         }]
+    }, {
+        id: '9c6ed834-7aad-11e6-8b77-86f30ca893d3',
+        label: 'Funds',
+        children: [{
+            id: '9c6edc12-7aad-11e6-8b77-86f30ca893d3',
+            label: 'Hugh & Helen Hincks Memorial Fund',
+            to: '/foundation/funds/hugh-and-helen-hincks-memorial',
+            header: true,
+        }, {
+            id: '9c6eddc0-7aad-11e6-8b77-86f30ca893d3',
+            label: 'Craig Kelly Memorial Scholarship Fund',
+            to: '/foundation/funds/craig-kelly-memorial-scholarship',
+            header: true,
+        }, {
+            id: '9c6edf32-7aad-11e6-8b77-86f30ca893d3',
+            label: 'Cora Shea Memorial Fund',
+            to: '/foundation/funds/cora-shea-memorial',
+            header: true,
+        }, {
+            id: '9c6ee090-7aad-11e6-8b77-86f30ca893d3',
+            label: 'Al Hodgson Memorial Fund',
+            to: '/foundation/funds/al-hodgson-memorial',
+            header: true,
+        }, {
+            id: '9c6ee702-7aad-11e6-8b77-86f30ca893d3',
+            label: 'ISSW Fund',
+            to: '/foundation/funds/issw',
+            header: true,
+        }],
     }, {
         id: 'f002625c-1b91-11e6-b6ba-3e1d05defe78',
         label: 'Contributors',
@@ -339,7 +368,7 @@ export const AvalancheCanadaFoundation = {
         }, {
             id: 'f0026540-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Event Sponsors',
-            to: '/foundation/eventsponsor',
+            to: '/foundation/event-sponsors',
             headline: 'Headline for Event Sponsors',
         }]
     }, {
@@ -349,12 +378,12 @@ export const AvalancheCanadaFoundation = {
             id: 'f0026a90-1b91-11e6-b6ba-3e1d05defe78',
             label: 'News',
             to: '/foundation/news',
-            headline: 'Headline for News',
+            headline: 'Visit our latest News.',
         }, {
             id: 'f0026c20-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Events',
             to: '/foundation/events',
-            headline: 'Headline for Events',
+            headline: 'Visit our upcoming Events.',
         }]
     }]
 }

@@ -3,7 +3,7 @@ import {Media, Caption} from 'components/media'
 import {List, Term, Definition} from 'components/description'
 import {InnerHTML} from 'components/misc'
 
-function Figure({content}) {
+export default function Figure({content}) {
     const {figure, credit, caption} = content[0]
     const cap = (
         <Caption>
@@ -21,5 +21,3 @@ function Figure({content}) {
         </Media>
     )
 }
-
-export default Figure

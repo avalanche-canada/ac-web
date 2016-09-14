@@ -54,7 +54,31 @@
         }
 
         &:after {
-            content: " \203A";
+            content: " ›";
+            color: white;
+            font-size: 1.25em;
+        }
+    }
+}
+
+:global(.secondary-big-button) {
+    & > a {
+        display: inline-block;
+        min-width: 150px;
+        padding: 1em;
+        margin-top: 1em;
+        font-size: 1em;
+        font-weight: 700;
+        color: white;
+        background-color: var(--brand-secondary);
+        text-transform: uppercase;
+
+        &:hover {
+            background-color: color(var(--brand-secondary) blackness(15%));
+        }
+
+        &:after {
+            content: " ›";
             color: white;
             font-size: 1.25em;
         }
@@ -175,4 +199,10 @@
             }
         }
     }
+}
+
+:global(.static-page-foundation-home) {
+    /*background-color: var(--gray);*/
+    /*position: absolute 0 0 0 0;*/
+    /*overflow: hidden;*/
 }

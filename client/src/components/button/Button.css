@@ -110,12 +110,24 @@
     text-align: center;
 }
 
-.Chevron {
+.ChevronRight {
     &:after {
-        content: " \203A";
+        content: " ›";
         color: white;
         font-size: 1.25em;
     }
+}
+
+.ChevronLeft {
+    &:before {
+        content: "‹ ";
+        color: white;
+        font-size: 1.25em;
+    }
+}
+
+.Chevron {
+    composes: ChevronRight;
 }
 
 .Close {

@@ -50,7 +50,8 @@ import {
     EventFeed,
     EventPost,
 } from 'containers/feed'
-import Prismic from 'prismic/components/page'
+import * as Foundation from 'containers/foundation'
+import * as Funds from 'containers/funds'
 import * as Layouts from 'layouts'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
@@ -215,7 +216,6 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={TripPlanner} />
             <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
             <Route path='incidents/:slug' component={IncidentDetails} />
-            <Route path='pages/:type/:uid' component={Prismic} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
             <Redirect from='min/submit' to='mountain-information-network/submit' />
@@ -223,8 +223,21 @@ export default function computeRoutes(store) {
             <Redirect from='min/submission-guidelines' to='mountain-information-network/submission-guidelines' />
             <Redirect from='min/submissions/:id' to='mountain-information-network/submissions/:id' />
             {/* AVALANCHE CANADA FOUNDATION */}
-            <Route path='foundation' components={{navbar: AvalancheCanadaFoundation, content: About}}>
-                {/* MORE FOUNDATION PAGES */}
+            <Route path='foundation'>
+                <IndexRoute components={{navbar: AvalancheCanadaFoundation, content: Foundation.Home, footer: null}} />
+                <Route path='about' components={{navbar: AvalancheCanadaFoundation, content: Foundation.About}} onEnter={handleAboutRouteEnter} />
+                <Route path='programs' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Programs}} />
+                <Route path='donors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donors}} />
+                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} onEnter={handleSponsorsRouteEnter} />
+                <Route path='news' components={{navbar: AvalancheCanadaFoundation, content: Foundation.News}} />
+                <Route path='events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Events}} />
+                <Route path='funds'>
+                    <Route path='hugh-and-helen-hincks-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.HughAndHelenHincksMemorial}} />
+                    <Route path='craig-kelly-memorial-scholarship' components={{navbar: AvalancheCanadaFoundation, content: Funds.CraigKellyScholarshipMemorial}} />
+                    <Route path='cora-shea-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.CoraSheaMemorial}} />
+                    <Route path='al-hodgson-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.AlHodgsonMemorial}} />
+                    <Route path='issw' components={{navbar: AvalancheCanadaFoundation, content: Funds.ISSW}} />
+                </Route>
             </Route>
             {/* FALLBACK */}
             <Route path='*' component={NotFound} />
