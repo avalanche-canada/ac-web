@@ -16,13 +16,13 @@ export default compose(
 
             loadForUid(type, uid)
         },
-        componentDidUpdate({isFetching, router, post, route}) {
-            if (!isFetching && !post) {
-                const [path] = route.path.split('/')
-
-                router.replace(path)
-            }
-        },
+        // componentDidUpdate({isFetching, router, post, route}) {
+        //     if (!isFetching && !post) {
+        //         const [path] = route.path.split('/')
+        //
+        //         router.replace(path)
+        //     }
+        // },
     }),
     flattenProp('post'),
 )(Post)
