@@ -32,13 +32,13 @@ function MountainInformationNetworkFeatures({content}) {
             </thead>
             <tbody>
                 {content.map(({feature, ...values}) => (
-                    <tr>
+                    <tr key={feature}>
                         <td>{feature}</td>
                         {keys(values).map(key => {
                             const value = values[key]
 
                             return (
-                                <td styleName={classify(value)}>
+                                <td key={key} styleName={classify(value)}>
                                     {Texts.get(value) || value}
                                 </td>
                             )
