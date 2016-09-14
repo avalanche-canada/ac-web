@@ -10,9 +10,11 @@ export default function connector(mapStateToProps, load, loadAll) {
         withState('isError', 'setIsError', false),
         withProps(({load, loadAll, setIsError}) => ({
             load(params) {
+                setIsError(false)
                 load(params).catch(err => setIsError(true))
             },
             loadAll() {
+                setIsError(false)
                 loadAll().catch(err => setIsError(true))
             },
         })),
@@ -24,11 +26,13 @@ export default function connector(mapStateToProps, load, loadAll) {
                 loadAll()
             },
             componentWillReceiveProps({load, params, isError}) {
-                if (isError) {
-                    return
-                }
+                console.debug('HI:', this.props.params, '->', params, this.props.isError, '->', isError)
 
-                load(params)
+                if(this.props.params.name !== params.name ||
+                   this.props.params.date !== params.date) {
+                    console.debug('Loading....')
+                    load(params)
+                }
             },
         }),
     )
