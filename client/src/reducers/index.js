@@ -5,6 +5,7 @@ import api from './api/index'
 import drawers from './drawers'
 import geolocation from './geolocation'
 import auth from './auth'
+import sponsors from './sponsors'
 
 export default combineReducers({
     api,
@@ -13,4 +14,5 @@ export default combineReducers({
     drawers,
     geolocation,
     auth,
+    sponsors,
 })
