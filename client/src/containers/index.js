@@ -23,8 +23,6 @@ export Weather from './Weather'
 // Mountain Information Network
 export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
 
-export Sponsor from './Sponsor'
-
 // Static Pages
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')

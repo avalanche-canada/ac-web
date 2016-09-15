@@ -16,10 +16,11 @@ export default class Storage {
 
         return name
     }
-    get(name) {
+    get(name, defaultValue) {
         const key = this.generateKey(name)
+        const value = this.storage.getItem(key)
 
-        return parse(this.storage.getItem(key))
+        return value ? parse(value) : defaultValue
     }
     set(name, value) {
         const key = this.generateKey(name)

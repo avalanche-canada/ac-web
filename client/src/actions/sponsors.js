@@ -2,11 +2,16 @@ import {createAction} from 'redux-actions'
 import Axios from 'axios'
 import moment from 'moment'
 
+export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
+export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'
+export const setActiveSponsor = createAction(SET_ACTIVE_SPONSOR)
+export const resetActiveSponsor = createAction(RESET_ACTIVE_SPONSOR)
+
 export const SPONSORS_REQUEST = 'SPONSORS_REQUEST'
 export const SPONSORS_SUCCESS = 'SPONSORS_SUCCESS'
 export const SPONSORS_FAILURE = 'SPONSORS_FAILURE'
 
-export default function load() {
+export function loadSponsors() {
     return dispatch => {
         dispatch({
             type: SPONSORS_REQUEST

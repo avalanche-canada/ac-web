@@ -3,10 +3,11 @@ import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
 import moment from 'moment'
 import {loadForType, loadForBookmark} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
-import * as DRAWERS from 'containers/drawers';
+import * as Drawers from 'containers/drawers';
 import {getIsAuthenticated, getProfile} from 'reducers/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
+import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import {history} from 'router'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
@@ -66,6 +67,25 @@ const PAGINATION = {
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
+
+    function handleActiveSponsor(routes) {
+        const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
+
+        if (route) {
+            dispatch(setActiveSponsor(route.sponsorRef))
+        } else {
+            dispatch(resetActiveSponsor())
+        }
+    }
+
+    function handleRootRouteChange(prev, {routes}) {
+        handleActiveSponsor(routes)
+    }
+
+    function handleRootRouteEnter({routes}) {
+        dispatch(loadSponsors())
+        handleActiveSponsor(routes)
+    }
 
     function handleLoginCompleteRouteEnter({location}, replace) {
         const {id_token, state} = QueryString.parse(location.hash)
@@ -155,36 +175,36 @@ export default function computeRoutes(store) {
     }
 
     return (
-        <Route path='/' component={Layouts.Root}>
+        <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
             <Route path='map' components={{content: Map, footer: null}}>
-                <Route path='forecasts' onEnter={handleForecastRouteEnter} >
-                    <Route path=':name' components={{primary: DRAWERS.Forecast}} />
+                <Route path='forecasts' sponsorRef='Forecast' onEnter={handleForecastRouteEnter} >
+                    <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
                 <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
-                    <Route path=':name' components={{primary: DRAWERS.HotZoneReport}} />
+                    <Route path=':name' components={{primary: Drawers.HotZoneReport}} />
                 </Route>
             </Route>
-            <Route path='mountain-information-network' component={MountainInformationNetwork} />
+            <Route path='mountain-information-network' sponsorRef='MIN' component={MountainInformationNetwork} />
             <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetwork} />
-            <Route path='about' component={About} onEnter={handleAboutRouteEnter} />
-            <Route path='events' component={EventFeed} onEnter={handleFeedEnter} />
-            <Route path='events/:uid' component={EventPost} />
-            <Route path='news' component={NewsFeed} onEnter={handleFeedEnter} />
-            <Route path='news/:uid' component={NewsPost} />
-            <Route path='blogs' component={BlogFeed} onEnter={handleFeedEnter} />
-            <Route path='blogs/:uid' component={BlogPost} />
+            <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
+            <Route path='events' sponsorRef='EventIndex' component={EventFeed} onEnter={handleFeedEnter} />
+            <Route path='events/:uid' sponsorRef='EventPage' component={EventPost} />
+            <Route path='news' sponsorRef='NewsIndex' component={NewsFeed} onEnter={handleFeedEnter} />
+            <Route path='news/:uid' sponsorRef='NewsPage' component={NewsPost} />
+            <Route path='blogs' sponsorRef='BlogIndex' component={BlogFeed} onEnter={handleFeedEnter} />
+            <Route path='blogs/:uid' sponsorRef='BlogPage' component={BlogPost} />
             <Route path='forecasts/archives' component={Archives} />
-            <Route path='forecasts/:name' component={Forecast} />
+            <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
-            <Route path='weather' component={Weather}>
+            <Route path='weather' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />
                 <Route path='precipitation' component={articles.Precipitation} />
@@ -199,15 +219,15 @@ export default function computeRoutes(store) {
             <Route path='sponsors' component={Sponsors} onEnter={handleSponsorsRouteEnter} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
-            <Route path='training'>
+            <Route path='training' sponsorRef='Training' >
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
                     <Route path='providers' components={{table: ProvidersTable, form: ProvidersForm}} />
                     <Route path='courses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
-            <Route path='youth' component={Youth} />
-            <Route path='gear' component={Gear} />
+            <Route path='youth' sponsorRef='Youth' component={Youth} />
+            <Route path='gear' sponsorRef='Gear' component={Gear} />
             <Route path='sled' component={Sled} />
             <Route path='tutorial' component={Tutorial} />
             <Route path='auction' component={Auction} />

@@ -14,14 +14,13 @@ export default function StaticPage({
     uid,
     title,
     headline,
-    sponsor,
     content = [],
     banner,
 }) {
     return (
         <Page className={`${type}-${uid}`}>
             {banner && <Banner {...banner} />}
-            <Header title={title} sponsor={sponsor} />
+            <Header title={title} />
             <Content>
                 <Main>
                     {headline && <Headline>{headline}</Headline>}

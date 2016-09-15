@@ -5,7 +5,7 @@ import computeRoutes from './computeRoutes'
 
 export default function computeRouter(store) {
     return (
-        <Router history={history} >
+        <Router history={history}>
             {computeRoutes(store)}
         </Router>
     )

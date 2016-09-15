@@ -10,7 +10,6 @@ import EntrySet from './EntrySet'
 Feed.propTypes = {
     content: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    sponsor: PropTypes.object,
     message: PropTypes.string,
     year: PropTypes.number,
     yearOptions: PropTypes.instanceOf(Map),
@@ -28,7 +27,6 @@ Feed.propTypes = {
 export default function Feed({
     content = [],
     title,
-    sponsor = null,
     message,
     year,
     yearOptions,
@@ -45,7 +43,7 @@ export default function Feed({
 }) {
     return (
         <Page>
-            <Header title={title} sponsor={sponsor} />
+            <Header title={title} />
             <Content>
                 <FilterSet>
                     {categoryOptions &&
