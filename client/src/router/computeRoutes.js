@@ -79,6 +79,9 @@ export default function computeRoutes(store) {
     }
 
     function handleRootRouteChange(prev, {routes}) {
+        dispatch(loadForType('sponsor', {
+            pageSize: 100
+        }))
         handleActiveSponsor(routes)
     }
 
@@ -95,12 +98,6 @@ export default function computeRoutes(store) {
         }
 
         replace(state || '/')
-    }
-
-    function handleSponsorsRouteEnter() {
-        dispatch(loadForType('sponsor', {
-            pageSize: 100
-        }))
     }
 
     function handleAboutRouteEnter() {
@@ -216,7 +213,7 @@ export default function computeRoutes(store) {
                 <Route path='satellite' component={articles.Satellite} />
                 <Route path='warnings' component={articles.Warnings} />
             </Route>
-            <Route path='sponsors' component={Sponsors} onEnter={handleSponsorsRouteEnter} />
+            <Route path='sponsors' component={Sponsors} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
             <Route path='training' sponsorRef='Training' >
@@ -248,7 +245,7 @@ export default function computeRoutes(store) {
                 <Route path='about' components={{navbar: AvalancheCanadaFoundation, content: Foundation.About}} onEnter={handleAboutRouteEnter} />
                 <Route path='programs' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Programs}} />
                 <Route path='donors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donors}} />
-                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} onEnter={handleSponsorsRouteEnter} />
+                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} />
                 <Route path='news' components={{navbar: AvalancheCanadaFoundation, content: Foundation.News}} />
                 <Route path='events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Events}} />
                 <Route path='funds'>

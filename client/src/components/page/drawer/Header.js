@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
+import Sponsor from 'containers/Sponsor'
 import styles from './Drawer.css'
 import Subject from './Subject'
 
 Header.propTypes = {
     subject: PropTypes.string,
     children: PropTypes.element,
-    sponsor: PropTypes.object,
 }
 
-function Header({subject, sponsor, children}) {
+function Header({subject, children}) {
     return (
         <div styleName='Header'>
             {subject &&
@@ -17,6 +17,7 @@ function Header({subject, sponsor, children}) {
                     {subject}
                 </Subject>
             }
+            <Sponsor />
             {children}
         </div>
     )

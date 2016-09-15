@@ -4,6 +4,7 @@ import moment from 'moment'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
 export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'
+
 export const setActiveSponsor = createAction(SET_ACTIVE_SPONSOR)
 export const resetActiveSponsor = createAction(RESET_ACTIVE_SPONSOR)
 

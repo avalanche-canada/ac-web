@@ -17,7 +17,7 @@
 }
 
 .Page {
-    min-height: 500px;
+    flex: 1;
 }
 
 .Content {
