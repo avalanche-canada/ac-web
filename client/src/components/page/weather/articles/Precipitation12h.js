@@ -4,7 +4,6 @@ import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
 import Tutorial from './Tutorial'
 import {Loop} from 'components/weather'
-import Bulletin from './Bulletin'
 
 export default function Precipitation12h() {
     return (
@@ -18,11 +17,6 @@ export default function Precipitation12h() {
                 </Tab>
                 <Tab title='Sourth Interior (HR)'>
                     <Loop type='AC_HRDPS_S-INT_12hr-precip' />
-                </Tab>
-                <Tab title='Bulletins'>
-                    <Bulletin>
-                        Here goes the bulletin!
-                    </Bulletin>
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='precipitation-12h' />

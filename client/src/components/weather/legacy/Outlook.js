@@ -1,11 +1,11 @@
 import React from 'react'
-import range from 'lodash/range'
-import {Html, Image} from 'prismic'
+import {InnerHTML} from 'components/misc'
+import Image from './Image'
 
 const sequence = [1, 2, 3, 4]
 
-export default function Outlook({ forecast }) {
-	const outlook = forecast.get('${forecast.type}.outlook')
+export default function Outlook({forecast}) {
+	const {outlook, type} = forecast
 
 	if (outlook === null) {
 		return null
@@ -14,11 +14,15 @@ export default function Outlook({ forecast }) {
 	return (
 		<section>
 			<h2>Outlook</h2>
-			<Html document={forecast} fragment='${forecast.type}.outlook' />
+			<InnerHTML>
+                {outlook}
+            </InnerHTML>
 			{sequence.map(increment => (
 				<div key={increment}>
-					<Image document={forecast} fragment={`${forecast.type}.outlook-image${increment}`} openNewTab />
-					<Html document={forecast} fragment={`${forecast.type}.outlook-text${increment}`} />
+					<Image image={forecast[`outlookImage${increment}`]} />
+					<InnerHTML>
+                        {forecast[`outlookText${increment}`]}
+                    </InnerHTML>
 				</div>
 			))}
 		</section>

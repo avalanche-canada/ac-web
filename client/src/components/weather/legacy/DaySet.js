@@ -2,14 +2,14 @@ import React, {PropTypes} from 'react'
 import moment from 'moment'
 import Day from './Day'
 
-const sequence = [1, 2, 3, 4]
+const sequence = [0, 1, 2, 3]
 
 DaySet.propTypes = {
 	start: PropTypes.instanceOf(Date).isRequired,
     forecast: PropTypes.object,
 }
 
-export default function DaySet({ forecast, start }) {
+export default function DaySet({forecast, start}) {
 	const dates = sequence.map(increment => (
 		moment(start).add(increment, 'day').toDate()
 	))

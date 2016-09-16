@@ -39,7 +39,8 @@ function createBasePredicate({api}, {type, bookmark, uid, id}) {
 }
 
 function isPrismicCallRequired(store, action) {
-    // TODO: Should be purely based on generated predicates...using results set like in normlizr
+    // TODO: Should be purely based on generated predicates...
+    // using results set like in normlizr
     const state = store.getState()
     const {bookmark, type, uid, id} = action.payload
 
@@ -55,7 +56,7 @@ function isPrismicCallRequired(store, action) {
         return true
     }
 
-    if (type && getDocumentsOfType(state, type).length === 0) {
+    if (type && getDocumentsOfType(state, type).size === 0) {
         return true
     }
 
@@ -66,7 +67,7 @@ function isPrismicCallRequired(store, action) {
     return false
 }
 
-const prismic = store => next => action => {
+export default store => next => action => {
     if (action.type !== PRISMIC) {
         return next(action)
     }
@@ -139,5 +140,3 @@ const prismic = store => next => action => {
         )
     })
 }
-
-export default prismic

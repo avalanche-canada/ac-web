@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
-import {Html, Image} from 'prismic'
-import {DateElement} from 'components/misc'
+import Image from './Image'
+import {DateElement, InnerHTML} from 'components/misc'
 
 Day.propTypes = {
 	date: PropTypes.instanceOf(Date).isRequired,
@@ -12,10 +12,10 @@ const sequence = [1, 2, 3, 4]
 
 export default function Day({ forecast, date, index }) {
 	function get(type, increment) {
-		return forecast.get(`${forecast.type}.day${index+1}-${type}${increment}`)
+		return forecast[`day${index+1}${type}${increment}`]
 	}
 
-	if (!get('image', 1) && !get('text', 1)) {
+	if (!get('Image', 1) && !get('Text', 1)) {
 		return null
 	}
 
@@ -26,8 +26,10 @@ export default function Day({ forecast, date, index }) {
             </h2>
 			{sequence.map(increment => (
 				<div key={increment}>
-					<Image document={forecast} fragment={`${forecast.type}.day${index+1}-image${increment}`} />
-					<Html document={forecast} fragment={`${forecast.type}.day${index+1}-text${increment}`} />
+					<Image image={forecast[`day${index+1}Image${increment}`]} />
+					<InnerHTML>
+                        {forecast[`day${index+1}Text${increment}`]}
+                    </InnerHTML>
 				</div>
 			))}
 		</section>

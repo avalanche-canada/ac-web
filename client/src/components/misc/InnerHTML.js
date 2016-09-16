@@ -1,7 +1,7 @@
 import React, {PropTypes, createElement} from 'react'
 
 InnerHTML.propTypes = {
-    children: PropTypes.string.isRequired,
+    children: PropTypes.string,
     component: PropTypes.string,
 }
 

@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import React, {PropTypes, cloneElement} from 'react'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {getIsAuthenticated} from 'reducers/auth'
@@ -8,30 +7,33 @@ import {Link} from 'react-router'
 import {Page, Content, Header, Main, Article, ArticleHeader, Aside} from 'components/page'
 import Sidebar from './Sidebar'
 import Footer from './Footer'
-import styles from './Weather.css'
 
 Weather.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
 }
 
-function Weather({children, isAuthenticated = false}) {
-    const title = (
-        <Link to='/weather'>
-            Mountain Weather Forecast
-        </Link>
-    )
+const TITLE = (
+    <Link to='/weather'>
+        Mountain Weather Forecast
+    </Link>
+)
+
+function Weather({children, isAuthenticated = false, route}) {
+    const {type = 'new-weather-forecast'} = route
 
     return (
-        <Page styleName='Page'>
-            <Header title={title} />
+        <Page>
+            <Header title={TITLE} />
             <Content>
                 <Main>
-                    {children}
+                    {children && cloneElement(children, {type})}
                     <Footer showFeedbackAnchor={isAuthenticated} />
                 </Main>
-                <Aside>
-                    <Sidebar />
-                </Aside>
+                {type === 'new-weather-forecast' && (
+                    <Aside>
+                        <Sidebar />
+                    </Aside>
+                )}
             </Content>
         </Page>
     )
@@ -51,5 +53,4 @@ export default compose(
             this.props.loadForType('weather-forecast-tutorial')
         }
     }),
-    CSSModules(styles)
 )(Weather)

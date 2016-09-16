@@ -1,25 +1,18 @@
 import React, {PropTypes, Component} from 'react'
-import {findDOMNode} from 'react-dom'
-import {compose, withState, toClass} from 'recompose'
-import moment from 'moment'
 import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, DateTime, Loading, Muted, Error, DateUtils, DayPicker} from 'components/misc'
-import {ExpandMore} from 'components/icons'
-import Button, {SUBTILE} from 'components/button'
+import {DateElement, DateTime, Loading, Muted, Error} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
-import Callout, {BOTTOM} from 'components/callout'
 import Forecast from 'components/weather'
-import {Api, Predicates} from 'prismic'
-import {Overlay} from 'react-overlays'
+import {Predicates} from 'prismic'
 import {getForecast} from 'selectors/prismic/weather'
+import {DayPicker} from 'components/controls'
+import {formatAsDay, parseFromDay} from 'utils/date'
 
-const ButtonClass = toClass(Button)
-const {isSameDay} = DateUtils
-function formatDate(date) {
-    return moment(date).format('YYYY-MM-DD')
+const STYLE = {
+    position: 'relative',
 }
 
 @withRouter
@@ -32,34 +25,15 @@ export default class Container extends Component {
         isAuthenticated: false,
     }
     state = {
-        showCalendar: false,
         isError: false,
-    }
-    set showCalendar(showCalendar) {
-        this.setState({showCalendar})
-    }
-    get showCalendar() {
-        return this.state.showCalendar
     }
     set isError(isError) {
         this.setState({isError})
     }
-    get isError() {
-        return this.state.isError
-    }
-    toggleCalendar = event => {
-        this.showCalendar = !this.showCalendar
-    }
-    hideCalendar = () => {
-        this.showCalendar = false
-    }
-    handleDayClick = (event, date, modifiers) => {
-        if (modifiers.disabled) {
-            return
-        }
+    handleDayChange = date => {
+        const {router, type} = this.props
 
-        this.showCalendar = false
-        this.props.router.push(`/weather/forecast/${formatDate(date)}`)
+        router.push(`/${type.split('-').join('/')}/${formatAsDay(date)}`)
     }
     componentDidMount() {
         this.load()
@@ -69,8 +43,17 @@ export default class Container extends Component {
             this.load(params.date)
         }
     }
-    load(date = this.props.params.date || new Date()) {
-        const type = 'new-weather-forecast'
+    load(date) {
+        const {type, params} = this.props
+
+        if (!date) {
+            date = params.date || new Date()
+        }
+
+        if (date instanceof Date) {
+            date = formatAsDay(date)
+        }
+
         const options = {
             predicates: [Predicates.at(`my.${type}.date`, date)]
         }
@@ -81,21 +64,20 @@ export default class Container extends Component {
             this.isError = true
         })
     }
-    get target() {
-        return findDOMNode(this.refs.target)
-    }
     render() {
-        const {params, isAuthenticated, forecast, children, isLoading} = this.props
-        const {showCalendar, isError} = this
-        const date = moment(params.date).toDate()
-        const today = new Date()
+        const {params, isAuthenticated, forecast, isLoading} = this.props
+        const {isError} = this.state
+        let {date} = params
+
+        date = date ? parseFromDay(date) : new Date()
 
         return (
-            <Article>
+            <Article style={STYLE}>
                 <Metadata>
                     <Entry term='Date'>
-                        <DateElement value={date} />
-                        <ButtonClass ref='target' icon={<ExpandMore />} kind={SUBTILE} onClick={this.toggleCalendar} />
+                        <DayPicker date={date} onChange={this.handleDayChange} container={this} >
+                            <DateElement value={date} />
+                        </DayPicker>
                     </Entry>
                     {(forecast && forecast.issued) &&
                         <Entry term='Issued'>
@@ -108,24 +90,6 @@ export default class Container extends Component {
                         </Entry>
                     }
                 </Metadata>
-                <Overlay
-                    show={showCalendar}
-                    placement='bottom'
-                    shouldUpdatePosition
-                    rootClose
-                    backdrop
-                    onBackdropClick={this.hideCalendar}
-                    onEscapeKeyUp={this.hideCalendar}
-                    target={this.target}
-                    container={this}>
-                    <Callout placement={BOTTOM}>
-                        <DayPicker
-                            initialMonth={date}
-                            selectedDays={day => moment(day).isSame(date, 'day')}
-                            disabledDays={day => moment(day).isAfter(today, 'day')}
-                            onDayClick={this.handleDayClick} />
-                    </Callout>
-                </Overlay>
                 {isLoading &&
                     <Loading>
                         Loading weather forecast for <DateElement value={date} />...

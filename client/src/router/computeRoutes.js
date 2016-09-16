@@ -201,7 +201,11 @@ export default function computeRoutes(store) {
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
-            <Route path='weather' sponsorRef='Weather' component={Weather}>
+            <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>
+                <IndexRedirect to='forecast' />
+                <Route path='forecast(/:date)' component={articles.Forecast} />
+            </Route>
+            <Route path='new/weather' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />
                 <Route path='precipitation' component={articles.Precipitation} />

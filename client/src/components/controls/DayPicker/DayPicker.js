@@ -10,9 +10,6 @@ import Holder from '../Holder'
 
 const {isSameDay} = DateUtils
 function K() {}
-function formatDate(date) {
-    return moment(date).format('YYYY-MM-DD')
-}
 
 @CSSModules(styles)
 export default class DayPicker extends Component {
@@ -58,7 +55,6 @@ export default class DayPicker extends Component {
         const {date, disabledDays, children, container} = this.props
         const {showCalendar, toggleCalendar, hideCalendar} = this
         const styleName = showCalendar ? 'Input--Open' : 'Input'
-        const momentDate = moment(date)
 
         return (
             <div ref='target' styleName='Container' onClick={toggleCalendar}>
@@ -77,7 +73,7 @@ export default class DayPicker extends Component {
                     <Callout placement={BOTTOM}>
                         <Base
                             initialMonth={date}
-                            selectedDays={day => momentDate.isSame(day, 'day')}
+                            selectedDays={day => isSameDay(day, date)}
                             disabledDays={disabledDays}
                             onDayClick={this.handleDayClick} />
                     </Callout>

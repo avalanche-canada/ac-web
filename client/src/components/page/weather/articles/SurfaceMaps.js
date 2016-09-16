@@ -9,10 +9,10 @@ export default function SurfaceMaps() {
         <Article title='Surface Maps'>
             <TabSet>
                 <Tab title='0-48 hours (R)'>
-                    <Loop type='AC_RDPS_W-CST_3hr-precip-clds-th-slp' />
+                    <Loop type='Surface_Maps_0-48_R_wcst' />
                 </Tab>
                 <Tab title='0-144 hours (G)'>
-                    <Loop type='AC_GDPS_EPA_pacific-systems' />
+                    <Loop type='Surface_Maps_0-48_G_epac' />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='surface-maps' />
