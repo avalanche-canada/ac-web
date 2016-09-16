@@ -49,27 +49,29 @@ export default class DayPicker extends Component {
         this.props.onChange(date)
     }
     get target() {
-        return () => findDOMNode(this.refs.target)
+        return findDOMNode(this.refs.target)
     }
     render() {
-        const {date, disabledDays, children, container} = this.props
-        const {showCalendar, toggleCalendar, hideCalendar} = this
+        const {date, disabledDays, children, container = this} = this.props
+        const {showCalendar, hideCalendar} = this
         const styleName = showCalendar ? 'Input--Open' : 'Input'
 
         return (
-            <div ref='target' styleName='Container' onClick={toggleCalendar}>
+            <div ref='target' styleName='Container' onClick={this.toggleCalendar}>
                 <div styleName={styleName} tabIndex={0} >
                     <Holder value={children} />
                 </div>
                 <Overlay
                     show={showCalendar}
-                    placement='bottom'
-                    shouldUpdatePosition
-                    rootClose
-                    backdrop
+                    onHide={hideCalendar}
                     onBackdropClick={hideCalendar}
                     onEscapeKeyUp={hideCalendar}
-                    target={this.target}>
+                    placement='bottom'
+                    rootClose
+                    backdrop
+                    shouldUpdatePosition
+                    target={this.target}
+                    container={container}>
                     <Callout placement={BOTTOM}>
                         <Base
                             initialMonth={date}

@@ -86,6 +86,7 @@ export default class DateRange extends Component {
         })
     }
     render() {
+        const {hideCalendar} = this
         const {placeholder, container = this} = this.props
         const {from, to} = this.state
         const showClear = from && to
@@ -98,9 +99,9 @@ export default class DateRange extends Component {
                 {showClear && <Button styleName='Clear' icon={<Close />} onClick={this.handleClearClick} kind={INCOGNITO} />}
                 <Overlay
                     show={this.showCalendar}
-                    onHide={this.hideCalendar}
-                    onBackdropClick={this.hideCalendar}
-                    onEscapeKeyUp={this.hideCalendar}
+                    onHide={hideCalendar}
+                    onBackdropClick={hideCalendar}
+                    onEscapeKeyUp={hideCalendar}
                     placement='bottom'
                     rootClose
                     backdrop
