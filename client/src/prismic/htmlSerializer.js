@@ -24,7 +24,7 @@ window.onPrismicHyperlinkClick = function onPrismicHyperlinkClick(element) {
     history.push(element.getAttribute('data-path'))
 }
 
-function appAnchor({href, content, title = `Visit: "${content}"`}) {
+function appAnchor({href, content, title = content}) {
     return `<a href="${href}" data-path="${href}" title="${title}" onclick="onPrismicHyperlinkClick(this);">${content}</a>`
 }
 

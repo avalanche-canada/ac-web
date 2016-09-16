@@ -145,14 +145,13 @@
         }
 
         &:before {
-            content: "icon";
-            text-transform: uppercase;
+            content: "";
+            background: url("./report.svg") center center no-repeat;
+            width: 60px;
+            height: 60px;
             position: absolute;
-            top: 17px;
-            left: calc(50% - 22px);
-            font-size: 1em;
-            font-weight: 700;
-            color: white;
+            top: 10px;
+            left: calc(50% - 30px);
         }
     }
 

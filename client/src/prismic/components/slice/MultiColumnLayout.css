@@ -6,6 +6,14 @@
 
     & > * {
         flex: 1 0;
+        margin: 0 1em;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
     @media(--layout-as-column) {
