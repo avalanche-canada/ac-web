@@ -8,8 +8,11 @@ import {Problem, Topic, Advice, Comment} from './problem'
 import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
+import Panel from 'components/panel'
 import {DateTime} from 'components/misc'
 import styles from './Forecast.css'
+import EXPLANATION from 'constants/forecast/danger/rating/explanation'
+import {Generic} from 'prismic/components'
 
 Forecast.propTypes = {
     forecaster: PropTypes.string,
@@ -72,6 +75,17 @@ export default function Forecast({
                     }
                 </Tab>
             </TabSet>
+            <div>
+                <Panel header='Danger Ratings Explained' expandable>
+                    {EXPLANATION}
+                </Panel>
+                <Panel header='Avalanche Forecasts in your Inbox' expandable>
+                    <Generic type='generic' uid='forecast-rss-message' />
+                </Panel>
+                <Panel header='Forecast Disclaimer' expandable>
+                    <Generic type='generic' uid='forecast-disclaimer' />
+                </Panel>
+            </div>
         </section>
     )
 }

@@ -17,7 +17,6 @@ function Header({subject, children}) {
                     {subject}
                 </Subject>
             }
-            <Sponsor />
             {children}
         </div>
     )

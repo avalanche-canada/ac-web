@@ -14,7 +14,6 @@ import DISCLAIMER from 'constants/forecast/disclaimer'
 import RSS from 'constants/forecast/rss'
 import EXPLANATION from 'constants/forecast/danger/rating/explanation'
 import {VALUES as MODES} from 'constants/forecast/mode'
-import MarkdownRenderer from 'react-markdown-renderer'
 
 function Forecast({children}) {
     return (
@@ -113,13 +112,13 @@ storiesOf('Forecast', module)
 .add('Panels', () => (
     <div>
         <Panel header='Danger Ratings Explained' expandable >
-            <MarkdownRenderer markdown={EXPLANATION} options={{linkTarget:'_blank'}} />
+            {EXPLANATION}
         </Panel>
         <Panel header='Avalanche Forecasts in your Inbox' expandable >
-            <MarkdownRenderer markdown={RSS} options={{linkTarget:'_blank'}} />
+            {EXPLANATION}
         </Panel>
         <Panel header='Forecast Disclaimer' expandable >
-            <MarkdownRenderer markdown={DISCLAIMER} options={{linkTarget:'_blank'}} />
+            {EXPLANATION}
         </Panel>
     </div>
 ))

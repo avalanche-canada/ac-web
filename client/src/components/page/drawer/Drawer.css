@@ -76,6 +76,7 @@
 
 .Close {
     position: absolute 25px 15px auto auto;
+    color: var(--primary) !important;
     z-index: 1;
 }
 

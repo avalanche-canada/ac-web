@@ -1,10 +1,7 @@
 @import "../../styles/components.css";
 
 .Common {
-    /*height: 2.5em;*/
-    /*min-height: 30px;*/
-    /*line-height: 2;*/
-    padding: 0 12px;
+    padding: 0.5em 1em;
     font-weight: 700;
     text-transform: uppercase;
 	color: white;
@@ -100,7 +97,7 @@
 }
 
 .IconOnly {
-    padding: 0 6px;
+    padding: 0.5em;
 }
 
 /* Modifiers */
@@ -132,4 +129,6 @@
 
 .Close {
     font-size: 1.5rem;
+    font-weight: normal;
+    padding: 0.25em;
 }

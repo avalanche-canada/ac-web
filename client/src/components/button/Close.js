@@ -1,4 +1,4 @@
-import {compose, setDisplayName, withProps, defaultProps} from 'recompose'
+import {compose, setDisplayName, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import Button from './Button'
 import {SUBTILE} from './kinds'

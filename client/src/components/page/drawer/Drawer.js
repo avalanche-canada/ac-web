@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import SIDE, {LEFT, RIGHT} from './constants/sides'
-import Close from './Close'
+import {Close} from 'components/button'
 
 function getDrawerStyle(position, width) {
     return {

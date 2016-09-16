@@ -177,8 +177,8 @@ export default function computeRoutes(store) {
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' components={{content: Map, footer: null}}>
-                <Route path='forecasts' sponsorRef='Forecast' onEnter={handleForecastRouteEnter} >
+            <Route path='map' sponsorRef='Forecast' components={{content: Map, footer: null}}>
+                <Route path='forecasts' onEnter={handleForecastRouteEnter} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
                 <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >

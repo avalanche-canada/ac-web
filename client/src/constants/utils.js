@@ -9,7 +9,3 @@ export function asMap(constants, values) {
 export function asValues(constants) {
     return keys(constants).map(key => constants[key])
 }
-
-export function heading(level = 1) {
-    return Array(level + 1).join('#')
-}
