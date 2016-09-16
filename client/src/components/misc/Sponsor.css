@@ -2,7 +2,6 @@
 
 @custom-media --as-vertical (width > 500px);
 
-
 .Container {
     display: flex;
     flex-direction: row;

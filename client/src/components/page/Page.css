@@ -90,12 +90,12 @@
 
     flex: 100%;
     position: relative;
+    min-height: 5em;
     margin: 0 auto;
     padding-bottom: 1.5em;
     padding-top: 1.5em;
 
     & a {
-        color: var(--black);
         & svg {
             position: absolute;
             width: 32px;
