@@ -133,7 +133,7 @@ export default compose(
     renameProp('menu', 'root'),
     withState('node', 'setNode'),
     setPropTypes({
-        menu: PropTypes.object.isRequired,
+        menu: PropTypes.object,
         show: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
     }),

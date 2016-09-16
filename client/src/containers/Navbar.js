@@ -44,6 +44,7 @@ export const AvalancheCanada = compose(
 
                 return {
                     id,
+                    key: id,
                     label: feature.getIn(['properties', 'name']),
                     to: `/map/forecasts/${id}`
                 }
