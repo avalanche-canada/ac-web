@@ -12,18 +12,18 @@ Weather.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
 }
 
-const TITLE = (
-    <Link to='/weather'>
-        Mountain Weather Forecast
-    </Link>
-)
-
 function Weather({children, isAuthenticated = false, route}) {
     const {type = 'new-weather-forecast'} = route
+    const to = type === 'new-weather-forecast' ? 'new/weather' : '/weather'
+    const title = (
+        <Link to={to}>
+            Mountain Weather Forecast
+        </Link>
+    )
 
     return (
         <Page>
-            <Header title={TITLE} />
+            <Header title={title} />
             <Content>
                 <Main>
                     {children && cloneElement(children, {type})}
