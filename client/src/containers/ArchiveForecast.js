@@ -3,7 +3,7 @@ import moment from 'moment'
 import {compose, withHandlers} from 'recompose'
 import {Link, withRouter} from 'react-router'
 import {Page, Content, Header, Main, Section, Headline} from 'components/page'
-import Forecast, {Metadata} from 'components/forecast'
+import Forecast, {Metadata, Footer} from 'components/forecast'
 import {Muted, Error, Br, DateElement} from 'components/misc'
 import {DayPicker} from 'components/controls'
 import {forecast} from 'containers/connectors'
@@ -49,6 +49,7 @@ class Container extends Component {
                         {isLoading && <Muted>Loading forecast...</Muted>}
                         {isError && <Error>Error happened while loading forecast.</Error>}
                         {(forecast && forecast.region) && <Forecast {...forecast} />}
+                        {forecast && <Footer author={forecast.forecaster} />}
                     </Main>
                 </Content>
             </Page>

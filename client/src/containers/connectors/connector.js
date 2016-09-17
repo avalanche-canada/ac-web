@@ -1,5 +1,5 @@
-import {connect} from 'react-redux'
 import {compose, lifecycle, setPropTypes, withState, withProps} from 'recompose'
+import {connect} from 'react-redux'
 
 export default function connector(mapStateToProps, load, loadAll) {
     return compose(
@@ -26,11 +26,9 @@ export default function connector(mapStateToProps, load, loadAll) {
                 loadAll()
             },
             componentWillReceiveProps({load, params, isError}) {
-                console.debug('HI:', this.props.params, '->', params, this.props.isError, '->', isError)
+                const {name, date} = this.props.params
 
-                if(this.props.params.name !== params.name ||
-                   this.props.params.date !== params.date) {
-                    console.debug('Loading....')
+                if (name !== params.name || date !== params.date) {
                     load(params)
                 }
             },

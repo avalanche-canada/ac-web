@@ -1,4 +1,4 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Header, Content, Body} from 'components/page/drawer'
 import Forecast, {Metadata} from 'components/forecast'
@@ -13,7 +13,15 @@ Container.propTypes = {
     region: PropTypes.object,
 }
 
-function Container({isLoading, forecast, type, title = 'Loading...', isError, link}) {
+function Container({
+    isLoading,
+    isLoaded,
+    isError,
+    forecast,
+    type,
+    title = 'Loading...',
+    link,
+}) {
     return (
         <Content>
             <Header subject='Avalanche Forecast'>
@@ -25,7 +33,12 @@ function Container({isLoading, forecast, type, title = 'Loading...', isError, li
             <Body>
                 {isLoading && <Muted>Loading forecast...</Muted>}
                 {isError && <Error>Error happened while loading forecast.</Error>}
-                {(forecast && forecast.region) && createElement(Forecast, forecast)}
+                {(isLoaded && !forecast) && (
+                    <Muted>
+                        Forecast is available at <Link {...link}>{title}</Link>.
+                    </Muted>
+                )}
+                {forecast && <Forecast {...forecast} />}
             </Body>
         </Content>
     )

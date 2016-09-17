@@ -58,7 +58,7 @@ function transform(forecast) {
     // }
 
     const {
-        dangerRatings,
+        dangerRatings = [],
         dateIssued,
         validUntil,
         dangerMode,
@@ -108,12 +108,15 @@ export default createSelector(
     getForecastRegion,
     getForecastResultSet,
     (forecast, region, result) => {
+        const {isFetching, isError, isLoaded} = result
+
         // Getting the region allows to send a name as the bulletin is loading
         region = region && region.get('properties').toJSON()
 
         if (forecast) {
             forecast = transform(forecast.toJSON())
             const {externalUrl, parksUrl, region} = forecast
+            let showForecast = false
             let link = null
 
             if (externalUrl) {
@@ -127,24 +130,27 @@ export default createSelector(
                     to: parksUrl,
                 }
             } else {
+                showForecast = true
                 link = {
                     to: `/forecasts/${region}`,
                 }
             }
 
             return {
-                isLoading: false,
-                title: forecast.bulletinTitle || forecast.name,
+                isLoading: isFetching,
+                isError,
+                isLoaded,
+                title: forecast.bulletinTitle || forecast.name || region.name,
+                forecast: showForecast ? forecast : null,
                 region,
-                forecast,
                 link,
             }
         } else {
             return {
-                isLoading: true,
+                isLoading: isFetching,
+                isError,
+                isLoaded,
                 title: region && region.name,
-                region,
-                forecast,
             }
         }
     }

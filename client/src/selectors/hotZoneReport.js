@@ -2,6 +2,7 @@ import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
+import {RESULT} from 'reducers/api/results'
 
 function getName(state, params) {
     return params.name
@@ -16,7 +17,7 @@ function getHotZoneReport(state, {params}) {
 }
 
 function getHotZoneReportResultsSet(state, {params}) {
-    return getResultsSet(state, HotZoneReport, params)
+    return getResultsSet(state, HotZoneReport, params) || RESULT
 
 }
 
