@@ -2,7 +2,7 @@ import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
 import query from 'query-string'
 import moment from 'moment'
-import {baseURL} from 'api/config.json'
+import {baseURL, astBaseUrl} from 'api/config.json'
 import * as transformers from './transformers'
 import Url from 'url'
 
@@ -45,11 +45,11 @@ const CONFIGS = new Map([
         }
     })],
     [Provider, params => ({
-        baseURL: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/',
+        baseURL: astBaseUrl,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
     [Course, params => ({
-        baseURL: 'http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/',
+        baseURL: astBaseUrl,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
 ])
