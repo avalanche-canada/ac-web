@@ -377,12 +377,12 @@ export const AvalancheCanadaFoundation = {
         children: [{
             id: 'f0026a90-1b91-11e6-b6ba-3e1d05defe78',
             label: 'News',
-            to: '/foundation/news',
+            to: '/foundation/news-and-events#news',
             headline: 'Visit our latest News.',
         }, {
             id: 'f0026c20-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Events',
-            to: '/foundation/events',
+            to: '/foundation/news-and-events#events',
             headline: 'Visit our upcoming Events.',
         }]
     }]

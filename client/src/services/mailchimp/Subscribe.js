@@ -16,7 +16,7 @@ function Subscribe({url}) {
 
     return (
         <form action={url} method='post' target='_blank' styleName='Subscribe'>
-            <Input type='email' name='EMAIL' placeholder='Email address' required />
+            <Input type='email' name='EMAIL' placeholder='Email address' required styleName='Input' />
             <Button type='submit' styleName='Submit'>
                 Subscribe
             </Button>

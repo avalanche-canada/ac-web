@@ -53,14 +53,13 @@ const getFeedOptions = createSelector(
                 return {
                     monthOptions,
                     yearOptions: computeYearOptions(feed),
-                    tagOptions: computeTagsOptions(feed),
                     categoryOptions: computeCategoryOptions(feed),
                 }
             case 'event':
                 return {
                     monthOptions,
                     yearOptions: computeYearOptions(feed),
-                    categoryOptions: computeCategoryOptions(feed),
+                    tagOptions: computeTagsOptions(feed),
                 }
             default:
                 throw new Error(`Type "${type}" not recognized for creating feed filtering options.`)

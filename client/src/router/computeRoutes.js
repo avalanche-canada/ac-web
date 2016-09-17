@@ -250,8 +250,7 @@ export default function computeRoutes(store) {
                 <Route path='programs' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Programs}} />
                 <Route path='donors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donors}} />
                 <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} />
-                <Route path='news' components={{navbar: AvalancheCanadaFoundation, content: Foundation.News}} />
-                <Route path='events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Events}} />
+                <Route path='news-and-events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.NewsAndEvents}} />
                 <Route path='funds'>
                     <Route path='hugh-and-helen-hincks-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.HughAndHelenHincksMemorial}} />
                     <Route path='craig-kelly-memorial-scholarship' components={{navbar: AvalancheCanadaFoundation, content: Funds.CraigKellyScholarshipMemorial}} />

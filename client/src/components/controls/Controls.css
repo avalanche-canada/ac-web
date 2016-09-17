@@ -10,10 +10,12 @@
     box-sizing: border-box;
 }
 
+.WithBorder {
+    border: 1px solid var(--gray);
+}
+
 .Native {
     appearance: none;
-
-    border: 1px solid var(--gray);
 }
 
 .Input {
