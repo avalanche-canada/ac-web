@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import {computeRouter} from 'router'
 import {configure} from 'store'
 import ElementQueries from 'css-element-queries/src/ElementQueries'
-import 'services/raven'
+import configureRaven from 'services/raven'
 
 
 // TODO: Need to put these imports in a better spot
@@ -14,6 +14,7 @@ import 'styles/scaffolding.css'
 import 'styles/prismic.css'
 import 'styles/auth0.css'
 
+configureRaven()
 
 const store = configure()
 const element = document.getElementById('app')
