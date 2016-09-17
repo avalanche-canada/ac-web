@@ -1,5 +1,5 @@
 import React, {Component, PropTypes, createElement} from 'react'
-import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps} from 'recompose'
+import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForParams} from 'actions/prismic'
@@ -82,6 +82,8 @@ export function staticPage(uid, title, message) {
     )(StaticPage)
 }
 
+// TODO: Rename to somthing more obvious
+// Used for the Avalanche Canada Foundation Home Page
 export function simple(uid) {
     return compose(
         withProps({
@@ -105,3 +107,19 @@ export function generic(bookmark, title) {
         withPrismic,
     )(Generic)
 }
+
+function Page({component, ...props}) {
+    return createElement(component, props)
+}
+
+const Components = new Map([
+    ['static-page', StaticPage],
+    ['generic', Generic],
+])
+
+export const FallbackPage = compose(
+    withProps(({params: {type}}) => ({
+        component: Components.get(type)
+    })),
+    withPrismic,
+)(Page)

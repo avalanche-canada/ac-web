@@ -11,6 +11,7 @@ import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponso
 import {history} from 'router'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
+import {FallbackPage} from 'prismic/components/page'
 import {
     Map,
     About,
@@ -259,6 +260,8 @@ export default function computeRoutes(store) {
                     <Route path='issw' components={{navbar: AvalancheCanadaFoundation, content: Funds.ISSW}} />
                 </Route>
             </Route>
+            {/* PAGE FALLBACK. MORE DETAILS at client/src/prismic/htmlSerializer.js */}
+            <Route path='pages/:type/:uid' component={FallbackPage} />
             {/* FALLBACK */}
             <Route path='*' component={NotFound} />
         </Route>

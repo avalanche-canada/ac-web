@@ -34,11 +34,14 @@ export default function htmlSerializer({type, ...props}, content) {
             const {url: href, data: {value, type: linkType}} = props
 
             switch (linkType) {
-                case 'Link.document':
+                case 'Link.document': {
+                    const {type, uid} = value.document
+
                     return appAnchor({
-                        href: href || `/pages/${value.document.uid}`,
+                        href: href || `/pages/${type}/${uid}`,
                         content,
                     })
+                }
                 case 'Link.web':
                     const {host, path, protocol} = Url.parse(href)
 
