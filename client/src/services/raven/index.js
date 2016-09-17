@@ -11,6 +11,12 @@ export function captureException(exception, context) {
     console.error(exception)
 }
 
+export function captureMessage(message, context) {
+    Raven.captureMessage(message, {
+        extra: context
+    })
+}
+
 export function setUserContext({id, email, username, ip_address}) {
     Raven.setUserContext({
         id,

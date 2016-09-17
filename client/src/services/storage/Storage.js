@@ -20,7 +20,11 @@ export default class Storage {
         const key = this.generateKey(name)
         const value = this.storage.getItem(key)
 
-        return value ? parse(value) : defaultValue
+        try {
+            return value ? parse(value) : defaultValue
+        } catch (e) {
+            return value || defaultValue
+        }
     }
     set(name, value) {
         const key = this.generateKey(name)
