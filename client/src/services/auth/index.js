@@ -4,8 +4,7 @@ import logo from 'styles/AvalancheCanada.svg'
 import {clientId, domain} from './config.json'
 import decode from 'jwt-decode'
 import CancelError from 'utils/promise/CancelError'
-
-const {parse, stringify} = JSON
+import {LocalStorage} from 'services/storage'
 
 export default class AuthService {
     static create(options) {
@@ -14,7 +13,7 @@ export default class AuthService {
     constructor(options) {
         const {origin, pathname} = document.location
 
-        this.storage = localStorage
+        this.storage = LocalStorage.create()
         this.lock = new Auth0Lock(clientId, domain, {
             closable: true,
             avatar: true,
@@ -36,16 +35,16 @@ export default class AuthService {
         })
     }
     get profile() {
-        return parse(this.storage.getItem('profile'))
+        return this.storage.get('profile', null)
     }
     set profile(profile) {
-        this.storage.setItem('profile', stringify(profile))
+        this.storage.set('profile', profile)
     }
     get token() {
-        return this.storage.getItem('token')
+        return this.storage.get('token', null)
     }
     set token(token) {
-        this.storage.setItem('token', token)
+        this.storage.set('token', token)
     }
     login() {
         return new Promise((resolve, reject) => {
@@ -56,8 +55,8 @@ export default class AuthService {
         })
     }
     logout() {
-        this.storage.removeItem('token')
-        this.storage.removeItem('profile')
+        this.storage.remove('token')
+        this.storage.remove('profile')
     }
     fetchProfile() {
         if (!this.token) {
