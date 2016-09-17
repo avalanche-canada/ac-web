@@ -10,12 +10,12 @@ import {ForecastRegion} from 'api/schemas'
 import {login, logout} from 'actions/auth'
 
 function mapStateToProps(state) {
-    const {name, email} = getProfile(state) || {}
+    const {name, email, picture} = getProfile(state) || {}
 
     return {
         isAuthenticated: getIsAuthenticated(state),
         name,
-        avatar: email,
+        avatar: picture,
         regions: getEntitiesForSchema(state, ForecastRegion),
     }
 }

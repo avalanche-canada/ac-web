@@ -5,10 +5,12 @@
     width: 60px;
     height: 60px;
     overflow: hidden;
-    margin: 0 auto;
-    background-color: var(--brand-primary);
+    margin: auto;
+    background-color: var(--primary);
     border-radius: 30px;
     color: white;
+    text-align: left;
+    font-size: 1em;
 
     & > img {
         height: 100%;
@@ -17,16 +19,14 @@
 
     &:after {
         content: attr(data-initials);
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         color: white;
-        font-size: 1rem;
-        line-height: 3.7rem;
         display: inline-block;
-        text-align: center;
-        width: 100%;
-        vertical-align: middle;
     }
 }
-
 
 .Initials {
     composes: Avatar;

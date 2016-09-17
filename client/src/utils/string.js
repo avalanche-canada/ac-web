@@ -5,7 +5,7 @@ export function classify(string) {
     return startCase(string).replace(/\s/g, '')
 }
 
-export function getInitials(name) {
+export function initials(name) {
     if (!name) {
         return
     }

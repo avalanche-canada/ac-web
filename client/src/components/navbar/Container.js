@@ -42,7 +42,7 @@ function Container({
                 {menu.children.map(createItem)}
                 {showLogin && <Item title='Login' onClick={onLogin} />}
                 {showLogout &&
-                    <Item title={<Avatar name={name} url={avatar} />}>
+                    <Item title={<Avatar name={name} url={avatar} size={30} />}>
                         <Menu>
                             <Section>
                                 <UserProfile name={name} avatar={avatar} />
@@ -69,4 +69,5 @@ export default compose(
         showLogin: !isFoundation && !isAuthenticated,
         showLogout: !isFoundation && isAuthenticated,
     })),
-)(CSSModules(Container, styles))
+    CSSModules(styles),
+)(Container)
