@@ -12,7 +12,7 @@ function requiredProcessEnv(name) {
 
 // All configurations will extend these options
 // ============================================
-var all = {
+module.exports = {
   env: process.env.NODE_ENV,
 
   // Root path of server
