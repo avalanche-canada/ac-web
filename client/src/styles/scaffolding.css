@@ -29,6 +29,13 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+/* More info and ideas here: https://davidwalsh.name/external-links-css */
+/*a[target="_blank"]:not(:empty):after {
+    content: " ↗";
+    color: var(--gray);
+    font-size: 0.75em;
+}*/
+
 /*p {
     font-size: 1.1em;
     line-height: 1.25em;

@@ -12,6 +12,8 @@
 
 .Native {
     appearance: none;
+
+    border: 1px solid var(--gray);
 }
 
 .Input {
@@ -41,32 +43,6 @@
     composes: Native;
     composes: Common;
     composes: CloseState;
-}
-
-.Dropdown {
-    composes: Common;
-    composes: CloseState;
-
-    position: relative;
-    line-height: 40px;
-    cursor: pointer;
-}
-
-.Dropdown--Open {
-    composes: Dropdown;
-
-    background-image: url("../icons/expand-less.svg");
-}
-
-.Dropdown__OptionList {
-    position: absolute;
-    top: 100%;
-    left: -1px;
-    right: -1px;
-}
-
-.Dropdown__Option {
-    composes: Common;
 }
 
 .Holder {

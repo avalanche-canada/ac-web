@@ -1,27 +1,30 @@
-import React, {PropTypes} from 'react'
-import {foo, domain} from 'config.json'
+import React, {PropTypes, createElement} from 'react'
+import CSSModules from 'react-css-modules'
+import Url from 'url'
+import {Input} from 'components/controls'
+import Button from 'components/button'
+import styles from './Subscribe.css'
+
+const {keys} = Object
 
 Subscribe.propTypes = {
-    list: PropTypes.string.isRequired,
-    label: PropTypes.string,
-    value: PropTypes.string,
+    url: PropTypes.string.isRequired,
 }
 
-export default function Subscribe({
-    list = '8083bbbc7a',
-    label = 'Subscribe to our mailing list',
-    value = 'Subscribe'
-}) {
-    const action = `//${domain}/subscribe?u=${foo}&amp;id=${list}`
+function Subscribe({url}) {
+    const {query} = Url.parse(url, true)
 
     return (
-        <form action={action} method='post' name='mc-embedded-subscribe-form' target='_blank'>
-            <label>
-                {label}
-                <input type='email' value='' name='EMAIL' placeholder='Email address' required />
-            </label>
-            <input type='text' name={`b_${foo}_${list}`} tabindex='-1' value='' />
-            <input type='submit' value={value} name='subscribe' id='mc-embedded-subscribe' />
+        <form action={url} method='post' target='_blank' styleName='Subscribe'>
+            <Input type='email' name='EMAIL' placeholder='Email address' required />
+            <Button type='submit' styleName='Submit'>
+                Subscribe
+            </Button>
+            {keys(query).map(name => (
+                <input name={name} key={name} type='hidden' value={query[name]} />
+            ))}
         </form>
     )
 }
+
+export default CSSModules(Subscribe, styles)

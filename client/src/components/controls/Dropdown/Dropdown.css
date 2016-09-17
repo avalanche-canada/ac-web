@@ -9,7 +9,7 @@
 }
 
 .Input {
-    composes: import Common from "../Controls.css";
+    composes: import Input from "../Controls.css";
     composes: import CloseState from "../Controls.css";
 }
 

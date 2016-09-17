@@ -1,0 +1,12 @@
+.Subscribe {
+    display: flex;
+    max-width: 500px;
+
+    & input[type="email"] {
+        flex: 1;
+    }
+}
+
+.Submit {
+    composes: import ChevronRight from "../../components/button/Button.css";
+}
