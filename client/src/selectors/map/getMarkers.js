@@ -1,13 +1,14 @@
 import {createSelector} from 'reselect'
-import Immutable from 'immutable'
+import Immutable, {List} from 'immutable'
 import mapbox from 'mapbox/map'
 import {ForecastRegion, HotZoneArea, MountainInformationNetworkObservation} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getLayers} from 'reducers/drawers'
 import {getCluster} from 'reducers/map'
-import {getMountainInformationNetworkObservations} from './getSources'
+import {getMountainInformationNetworkSubmissions} from './getSources'
 import {near} from 'utils/geojson'
 import turf from 'turf-helpers'
+import place from 'components/icons/place.svg'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
@@ -17,7 +18,13 @@ import './markers.css'
 
 const {assign} = Object
 const {LngLat} = mapbox
-const EMPTY_LIST = new Immutable.List()
+const EMPTY_LIST = new List()
+
+function createLngLat(feature) {
+    const centroid = feature.getIn(['properties', 'centroid']).toArray()
+
+    return LngLat.convert(centroid)
+}
 
 function createElement({width = 50, height = 50, title, alt = title, ...rest}) {
     // FIXME: This will not work on the server
@@ -34,12 +41,6 @@ function createElement({width = 50, height = 50, title, alt = title, ...rest}) {
     })
 }
 
-function createLngLat(feature) {
-    const centroid = feature.getIn(['properties', 'centroid']).toArray()
-
-    return LngLat.convert(centroid)
-}
-
 const FORECAST_REGION_KEY = ForecastRegion.getKey()
 const HOT_ZONE_AREA_KEY = HotZoneArea.getKey()
 const MOUNTAIN_INFORMATION_NETWORK_OBSERVATION_KEY = MountainInformationNetworkObservation.getKey()
@@ -54,31 +55,10 @@ function createForecastRegionMarker(region) {
             pathname: `/map/forecasts/${id}`,
         },
         element: createElement({
-            // TODO: Change to internal url
-            src: `http://www.avalanche.ca/${dangerIconUrl}`,
+            src: dangerIconUrl,
             title: region.getIn(['properties', 'name']),
         }),
         lnglat: createLngLat(region),
-        options: {
-            offset: [-25, -25]
-        },
-    }
-}
-
-function createHotZoneAreaMarker(area) {
-    const id = area.get('id')
-
-    return {
-        id: `${HOT_ZONE_AREA_KEY}:${id}`,
-        location: {
-            pathname: `/map/hot-zone-reports/${id}`,
-        },
-        element: createElement({
-            // TODO: Change to internal url
-            src: 'http://www.avalanche.ca/api/hzr/inactive/icon.svg',
-            title: area.getIn(['properties', 'name']),
-        }),
-        lnglat: createLngLat(area),
         options: {
             offset: [-25, -25]
         },
@@ -130,10 +110,11 @@ function createMountainInformationNetworkObservationMarker({properties, geometry
             },
         },
         element: createElement({
-            // TODO: Change to internal url
-            src: 'http://www.avalanche.ca/api/hzr/inactive/icon.svg',
+            src: place,
             title: obtype,
             style: POSITIONS.get(markers.size).get(index),
+            width: 40,
+            height: 40,
         }),
         lnglat: LngLat.convert(geometry.coordinates),
         options: {
@@ -147,13 +128,8 @@ const createForecastRegionMarkers = createSelector(
     entities => entities.map(createForecastRegionMarker),
 )
 
-const createHotZoneAreaMarkers = createSelector(
-    state => getEntitiesForSchema(state, HotZoneArea),
-    entities => entities.map(createHotZoneAreaMarker),
-)
-
-const createMountainInformationNetworkObservationMarkers = createSelector(
-    getMountainInformationNetworkObservations,
+const createMountainInformationNetworkSubmissionMarkers = createSelector(
+    getMountainInformationNetworkSubmissions,
     getCluster,
     (observations, cluster) => {
         if (!cluster) {
@@ -169,18 +145,16 @@ const createMountainInformationNetworkObservationMarkers = createSelector(
         const points = turf.featureCollection(observations)
         const features = near(geometry, points, point_count)
 
-        return Immutable.List.of(...features).map(createMountainInformationNetworkObservationMarker)
+        return new List(features).map(createMountainInformationNetworkObservationMarker)
     }
 )
 
 const getMakers = createSelector(
     createForecastRegionMarkers,
-    createHotZoneAreaMarkers,
-    createMountainInformationNetworkObservationMarkers,
-    (regions, areas, minObs) => new Immutable.Map({
+    createMountainInformationNetworkSubmissionMarkers,
+    (regions, submissions) => new Immutable.Map({
         [FORECASTS]: regions,
-        [HOT_ZONE_REPORTS]: areas,
-        [MOUNTAIN_INFORMATION_NETWORK]: minObs,
+        [MOUNTAIN_INFORMATION_NETWORK]: submissions,
     })
 )
 

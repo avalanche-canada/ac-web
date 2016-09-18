@@ -5,7 +5,7 @@ import {getIds} from './getLayers'
 import {
     ForecastRegion,
     HotZoneArea,
-    MountainInformationNetworkObservation,
+    MountainInformationNetworkSubmission,
 } from 'api/schemas'
 
 const PATHNAMES_BY_SOURCE = new Map([
@@ -13,9 +13,11 @@ const PATHNAMES_BY_SOURCE = new Map([
     [HotZoneArea.getKey(), 'hot-zone-reports'],
 ])
 
+// TODO: Rework that!!!!
+
 const CLUSTERS_ACTIVATION = new Map([
-    [`${MountainInformationNetworkObservation.getKey()}-cluster-circle`, id => ({
-        panel: `${MountainInformationNetworkObservation.getKey()}:${id}`
+    [`${MountainInformationNetworkSubmission.getKey()}-cluster-circle`, id => ({
+        panel: `${MountainInformationNetworkSubmission.getKey()}:${id}`
     })],
 ])
 
@@ -38,12 +40,12 @@ const onClick = createSelector(
 
         for (var i = 0; i < features.length; i++) {
             const feature = features[i]
-            const {layer} = feature
-            const {source} = layer
+            const {layer, properties} = feature
+            const {source, id} = layer
 
             if (PATHNAMES_BY_SOURCE.has(source)) {
-                // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: feature.properties.id > feature.id
-                const pathname = `/map/${PATHNAMES_BY_SOURCE.get(source)}/${feature.properties.id}`
+                // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
+                const pathname = `/map/${PATHNAMES_BY_SOURCE.get(source)}/${properties.id}`
                 const {query} = location
 
                 router.push({
@@ -52,8 +54,7 @@ const onClick = createSelector(
                 })
 
                 return
-            } else if (CLUSTERS_ACTIVATION.has(layer.id)) {
-                const {properties} = feature
+            } else if (CLUSTERS_ACTIVATION.has(id)) {
                 const {point_count, cluster} = properties
                 const {pathname} = location
 
@@ -80,7 +81,7 @@ const onMousemove = createSelector(
 
         canvas.style.cursor = features.length ? 'pointer' : null
 
-        if (feature) {
+        if (feature && feature.properties.name) {
             canvas.setAttribute('title', feature.properties.name)
         } else {
             canvas.removeAttribute('title')

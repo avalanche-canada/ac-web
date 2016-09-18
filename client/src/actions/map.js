@@ -10,9 +10,11 @@ import {
     WEATHER_STATION,
 } from 'constants/map/layers'
 import {
+    loadHotZoneReports,
     loadForecastRegions,
     loadHotZoneAreas,
     loadMountainInformationNetworkObservationsForDays,
+    loadMountainInformationNetworkSubmissionsForDays,
 } from 'actions/entities'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
@@ -31,26 +33,29 @@ export function loadData() {
         const {layers, filters} = getMenu(state)
 
         layers.forEach(layer => {
-            dispatch(loadForLayer(layer, filters.get(layer)))
+            const actions = createActionsForLayer(layer, filters.get(layer))
+
+            actions.forEach(action => dispatch(action))
         })
     }
 }
 
-function loadForLayer(layer, filters) {
+function createActionsForLayer(layer, filters) {
     switch (layer) {
         case FORECASTS:
-            return loadForecastRegions()
+            return [loadForecastRegions()]
         case HOT_ZONE_REPORTS:
-            return loadHotZoneAreas()
+            return [loadHotZoneAreas(), loadHotZoneReports()]
         case MOUNTAIN_INFORMATION_NETWORK:
             const {value} = filters.get('days')
 
-            return loadMountainInformationNetworkObservationsForDays(value)
+            return [loadMountainInformationNetworkSubmissionsForDays(value)]
+            // return [loadMountainInformationNetworkObservationsForDays(value), loadMountainInformationNetworkSubmissionsForDays(value)]
         // case MOUNTAIN_CONDITION_REPORTS:
         // case METEOGRAMS:
         // case SURFACE_HOAR:
         // case WEATHER_STATION:
         default:
-            throw new Error(`Layer of type ${layer} is not handled by "loadForLayer".`)
+            throw new Error(`Layer of type ${layer} is not handled by "createActionsForLayer".`)
     }
 }

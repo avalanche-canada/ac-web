@@ -1,43 +1,52 @@
-import {PropTypes} from 'react'
-import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProps, mapProps} from 'recompose'
-import Content from 'components/mountainInformationNetwork/Content'
+import React, {PropTypes} from 'react'
+import CSSModules from 'react-css-modules'
+import {compose} from 'recompose'
+import Section from 'components/mountainInformationNetwork/Section'
 import {asTermAndDefinition} from 'components/description/utils'
+import {List, Term, Definition} from 'components/description'
+import styles from './HotZoneReport.css'
 
-const {object, number, string} = PropTypes
+const {keys} = Object
 
-export default compose(
-    setDisplayName('CriticalFactors'),
-    setPropTypes({
-        persistentAvalancheProblem: string,
-        slabAvalanches: string,
-        instability: string,
-        recentSnowfall: string,
-        recentRainfall: string,
-        recentWindloading: string,
-        significantWarming: string,
-        criticalFactorsComments: string,
-    }),
-    withProps({
-        persistentAvalancheProblem: 'N/A',
-        slabAvalanches: 'N/A',
-        instability: 'N/A',
-        recentSnowfall: 'N/A',
-        recentRainfall: 'N/A',
-        recentWindloading: 'N/A',
-        significantWarming: 'N/A',
-        criticalFactorsComments: 'N/A',
-    }),
-    renameProps({
-        persistentAvalancheProblem: 'Persistent avalanche problem',
-        slabAvalanches: 'Slab avalanches in the last 48 hours',
-        instability: 'Signs of instability',
-        recentSnowfall: 'Recent snowfall > 30cm',
-        recentRainfall: 'Recent rainfall',
-        recentWindloading: 'Recent windloading',
-        significantWarming: 'Significant warming',
-    }),
-    mapProps(({criticalFactorsComments, ...values}) => ({
-        comment: criticalFactorsComments,
-        descriptions: asTermAndDefinition(values),
-    }))
-)(Content)
+TerrainSummary.propTypes = {
+    title: PropTypes.string.isRequired,
+    aspect: PropTypes.object.isRequired,
+    terrainFeatures: PropTypes.object.isRequired,
+    terrainAvoidanceComments: PropTypes.string,
+}
+
+function AvoidList({items}) {
+    return (
+        <ul styleName='List'>
+            {keys(items).map(name => (
+                <li styleName={items[name] ? 'Avoid' : 'Okay'}>{name}</li>
+            ))}
+        </ul>
+    )
+}
+
+AvoidList = CSSModules(AvoidList, styles)
+
+export default function TerrainSummary({
+    title,
+    aspect: {All, ...aspect},
+    terrainFeatures,
+    terrainAvoidanceComments
+}) {
+    return (
+        <Section title={title}>
+            <List>
+                <Term>Aspect</Term>
+                <Definition>
+                    <AvoidList items={aspect} />
+                </Definition>
+                <Term>Terrain features</Term>
+                <Definition>
+                    <AvoidList items={terrainFeatures} />
+                </Definition>
+                <Term block >Travel advice</Term>
+                <Definition block >{terrainAvoidanceComments}</Definition>
+            </List>
+        </Section>
+    )
+}

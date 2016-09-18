@@ -2,13 +2,13 @@ import {Map, OrderedMap, List, fromJS} from 'immutable'
 import {
     ForecastRegion,
     HotZoneArea,
-    MountainInformationNetworkObservation,
+    MountainInformationNetworkSubmission,
 } from 'api/schemas'
 import * as LAYERS from 'constants/map/layers'
 
 const forecastRegionKey = ForecastRegion.getKey()
 const hotZoneAreaKey = HotZoneArea.getKey()
-const mountainInformationNetworkObservationKey = MountainInformationNetworkObservation.getKey()
+const mountainInformationNetworkSubmissionKey = MountainInformationNetworkSubmission.getKey()
 
 export function updateVisibility(layers, visibleLayers = new Set()) {
     return layers.map((layers, type) => {
@@ -124,47 +124,44 @@ const ForecastLayers = new OrderedMap({
     },
     [`${forecastRegionKey}-labels`]: {
         id: `${forecastRegionKey}-labels`,
-        source: `${forecastRegionKey}-centroid`,
+        source: forecastRegionKey,
         type: 'symbol',
         minzoom: 4,
         layout: {
             visibility: 'visible',
             'text-field': '{name}',
-            'text-ignore-placement': true,
             'text-size': 12,
-            'text-offset': [0, 2.25],
-            'text-anchor': 'top',
         },
         paint: {
             'text-color': '#B43A7E',
-            'text-halo-color': 'rgba(255, 255, 255, 0.5)',
-            'text-halo-width': 1,
-        },
-    },
-    [`${forecastRegionKey}-contour-labels`]: {
-        id: `${forecastRegionKey}-contour-labels`,
-        source: forecastRegionKey,
-        type: 'symbol',
-        minzoom: 8,
-        layout: {
-            visibility: 'visible',
-            'text-field': '{name}',
-            'text-size': 12,
-            'text-offset': [0, -0.2],
-            'text-anchor': 'bottom',
-            'symbol-placement': 'line',
-            'text-keep-upright': false,
-            'text-ignore-placement': true,
-        },
-        paint: {
-            'text-color': '#B43A7E',
-            'text-halo-color': 'rgba(255, 255, 255, 0.5)',
+            'text-halo-color': 'rgb(255, 255, 255)',
             'text-halo-width': 1,
         },
     },
 })
 
 const HotZoneReportLayers = new OrderedMap({
+    [`${hotZoneAreaKey}-line`]: {
+        id: `${hotZoneAreaKey}-line`,
+        source: hotZoneAreaKey,
+        type: 'line',
+        layout: {
+            visibility: 'visible',
+            'line-join': 'round',
+            'line-cap': 'round',
+        },
+        paint: {
+            'line-color': {
+                property: 'active',
+                type: 'categorical',
+                stops: [
+                    [0, 'rgb(179, 179, 179)'],
+                    [1, '#245eac'],
+                ]
+            },
+            'line-width': 25,
+        },
+    },
     [hotZoneAreaKey]: {
         id: hotZoneAreaKey,
         source: hotZoneAreaKey,
@@ -173,58 +170,46 @@ const HotZoneReportLayers = new OrderedMap({
             visibility: 'visible',
         },
         paint: {
-            'fill-color': '#ffffff',
-            'fill-outline-color': '#FF00FF',
-            'fill-opacity': 0.5
-        },
-    },
-    [`${hotZoneAreaKey}-hover`]: {
-        id: `${hotZoneAreaKey}-hover`,
-        source: hotZoneAreaKey,
-        type: 'fill',
-        filter: ['==', 'id', ''],
-        layout: {
-            visibility: 'visible',
-        },
-        paint: {
-            'fill-color': '#C8D3D9',
-            'fill-opacity': {
+            'fill-color': {
+                property: 'active',
+                type: 'categorical',
                 stops: [
-                    [3, 1],
-                    [8, 0],
+                    [0, 'rgb(179, 179, 179)'],
+                    [1, '#245EAC'],
                 ]
             },
         },
     },
-    [`${hotZoneAreaKey}-contour-hover`]: {
-        id: `${hotZoneAreaKey}-contour-hover`,
+    [`${hotZoneAreaKey}-labels`]: {
+        id: `${hotZoneAreaKey}-labels`,
         source: hotZoneAreaKey,
-        type: 'line',
-        filter: ['==', 'id', ''],
+        type: 'symbol',
         layout: {
             visibility: 'visible',
-            'line-join': 'round',
+            'text-field': '{name}',
+            'text-size': 12,
         },
         paint: {
-            'line-color': '#B43A7E',
-            'line-width': 3,
+            'text-color': 'rgb(125, 125, 125)',
+            'text-halo-color': 'rgb(255, 255, 255)',
+            'text-halo-width': 1,
         },
     },
 })
 
 const MountainInformationNetworkLayers = new OrderedMap({
-    [mountainInformationNetworkObservationKey]: {
-        id: mountainInformationNetworkObservationKey,
-        source: mountainInformationNetworkObservationKey,
-        type: 'symbol',
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'rocket-15',
-        }
-    },
-    [`${mountainInformationNetworkObservationKey}-cluster-circle`]: {
-        id: `${mountainInformationNetworkObservationKey}-cluster-circle`,
-        source: mountainInformationNetworkObservationKey,
+    // [mountainInformationNetworkSubmissionKey]: {
+    //     id: mountainInformationNetworkSubmissionKey,
+    //     source: mountainInformationNetworkSubmissionKey,
+    //     type: 'symbol',
+    //     layout: {
+    //         visibility: 'visible',
+    //         'icon-image': 'rocket-15',
+    //     }
+    // },
+    [`${mountainInformationNetworkSubmissionKey}-cluster-circle`]: {
+        id: `${mountainInformationNetworkSubmissionKey}-cluster-circle`,
+        source: mountainInformationNetworkSubmissionKey,
         type: 'circle',
         layout: {
             visibility: 'visible',
@@ -234,9 +219,9 @@ const MountainInformationNetworkLayers = new OrderedMap({
             'circle-radius': 16,
         },
     },
-    [`${mountainInformationNetworkObservationKey}-count-label`]: {
-        id: `${mountainInformationNetworkObservationKey}-count-label`,
-        source: mountainInformationNetworkObservationKey,
+    [`${mountainInformationNetworkSubmissionKey}-count-label`]: {
+        id: `${mountainInformationNetworkSubmissionKey}-count-label`,
+        source: mountainInformationNetworkSubmissionKey,
         type: 'symbol',
         layout: {
             visibility: 'visible',
@@ -249,7 +234,7 @@ const MountainInformationNetworkLayers = new OrderedMap({
     },
 })
 
-export default new Map({
+export default new OrderedMap({
     [LAYERS.FORECASTS]: ForecastLayers,
     [LAYERS.HOT_ZONE_REPORTS]: HotZoneReportLayers,
     [LAYERS.MOUNTAIN_INFORMATION_NETWORK]: MountainInformationNetworkLayers,

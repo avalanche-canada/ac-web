@@ -1,5 +1,33 @@
 @import "../../styles/colors.css";
 
 .HotZoneReport {
+    margin-top: 1em;
+}
 
+.List {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Item {
+    &:before {
+        content: "× ";
+        text-transform: uppercase;
+    }
+}
+
+.Avoid {
+    composes: Item;
+
+    font-weight: 700;
+    color: var(--brand-secondary);
+}
+
+.Okay {
+    composes: Item;
+
+    &:before {
+        color: transparent;
+    }
 }

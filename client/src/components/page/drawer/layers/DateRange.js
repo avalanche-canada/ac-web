@@ -8,6 +8,8 @@ import {DayPicker, DateUtils} from 'components/misc'
 
 function K() {}
 
+// TODO: Use the control!!!
+
 DateRange.propTypes = {
     from: PropTypes.instanceOf(Date).isRequired,
     to: PropTypes.instanceOf(Date).isRequired,

@@ -30,6 +30,7 @@ import {
     Forecast,
     ArchiveForecast,
     Archives,
+    HotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
@@ -44,14 +45,7 @@ import {
     IncidentsTable,
     IncidentDetails,
 } from 'containers'
-import {
-    NewsFeed,
-    NewsPost,
-    BlogFeed,
-    BlogPost,
-    EventFeed,
-    EventPost,
-} from 'containers/feed'
+import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
 import * as Funds from 'containers/funds'
 import * as Layouts from 'layouts'
@@ -192,16 +186,20 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetwork} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
-            <Route path='events' sponsorRef='EventIndex' component={EventFeed} onEnter={handleFeedEnter} />
-            <Route path='events/:uid' sponsorRef='EventPage' component={EventPost} />
-            <Route path='news' sponsorRef='NewsIndex' component={NewsFeed} onEnter={handleFeedEnter} />
-            <Route path='news/:uid' sponsorRef='NewsPage' component={NewsPost} />
-            <Route path='blogs' sponsorRef='BlogIndex' component={BlogFeed} onEnter={handleFeedEnter} />
-            <Route path='blogs/:uid' sponsorRef='BlogPage' component={BlogPost} />
+            <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleFeedEnter} />
+            <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
+            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} onEnter={handleFeedEnter} />
+            <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
+            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} onEnter={handleFeedEnter} />
+            <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
+            {/* FORECAST */}
             <Route path='forecasts/archives' component={Archives} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
+            {/* HOT ZONE REPORT */}
+            <Route path='hot-zone-reports/:name' sponsorRef='Forecast' component={HotZoneReport} />
+            {/* WEATHER */}
             <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />

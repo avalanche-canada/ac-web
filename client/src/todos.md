@@ -29,3 +29,7 @@
 [] - Remove http://avalanche.ca/assets/images/weather/freezing_level.png
 [] - Remove http://avalanche.ca/assets/images/weather/winds-surface.png
 [] - Remove http://avalanche.ca/assets/images/weather/winds-1500m-asl.png
+
+# Map
+[] - Remove forecast region centroids
+[] -

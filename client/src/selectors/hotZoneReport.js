@@ -4,7 +4,7 @@ import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import {RESULT} from 'reducers/api/results'
 
-function getName(state, params) {
+function getName(state, {params}) {
     return params.name
 }
 
@@ -33,7 +33,7 @@ export default createSelector(
             return {
                 isLoading: isFetching,
                 isError,
-                title: report.title,
+                title: report.report.headline,
                 report,
                 link: `/hot-zone-reports/${name}`,
             }

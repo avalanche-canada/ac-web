@@ -18,7 +18,7 @@ const FullScreenButton = compose(
     })
 )(Button)
 
-function Gallery({
+export function Gallery({
     images,
     setGalleryInstance,
     fullScreen = false,

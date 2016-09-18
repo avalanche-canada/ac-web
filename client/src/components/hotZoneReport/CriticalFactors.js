@@ -1,9 +1,9 @@
 import {PropTypes} from 'react'
-import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProps, mapProps} from 'recompose'
+import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProps, mapProps, defaultProps} from 'recompose'
 import Content from 'components/mountainInformationNetwork/Content'
 import {asTermAndDefinition} from 'components/description/utils'
 
-const {object, number, string} = PropTypes
+const {string} = PropTypes
 
 export default compose(
     setDisplayName('CriticalFactors'),
@@ -17,7 +17,7 @@ export default compose(
         significantWarming: string,
         criticalFactorsComments: string,
     }),
-    withProps({
+    defaultProps({
         persistentAvalancheProblem: 'N/A',
         slabAvalanches: 'N/A',
         instability: 'N/A',

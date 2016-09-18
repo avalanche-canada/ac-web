@@ -1,4 +1,5 @@
 import {paramsToKey} from 'api/utils'
+import {RESULT} from './results'
 
 function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]
@@ -8,7 +9,7 @@ export function getResultsSet(state, schema, params) {
     const resultsSets = getResultsSetForSchema(state, schema)
     const key = paramsToKey(params)
 
-    return resultsSets.get(key, null)
+    return resultsSets.get(key, RESULT)
 }
 
 export function shouldDispatchLoadAction(state, schema, action) {

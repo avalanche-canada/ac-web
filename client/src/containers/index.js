@@ -7,6 +7,9 @@ export Map from './Map'
 export Forecast from './Forecast'
 export ArchiveForecast from './ArchiveForecast'
 export Archives from './Archives'
+
+export HotZoneReport from './HotZoneReport'
+
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
 export IncidentsTable from './IncidentsTable'

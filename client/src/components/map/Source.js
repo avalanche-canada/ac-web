@@ -50,7 +50,7 @@ export default class Source extends Component {
         const {type, data, id} = nextProps
 
         if (type === 'geojson') {
-            if (data !== this.props.data) {
+            if (data.features !== this.props.data.features) {
                 const source = this.map.getSource(id)
 
                 if (source) {

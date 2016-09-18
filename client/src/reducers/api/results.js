@@ -11,15 +11,18 @@ import {
     HOT_ZONE_AREAS_REQUEST,
     HOT_ZONE_AREAS_SUCCESS,
     HOT_ZONE_AREAS_FAILURE,
-    HOT_ZONE_REPORT_REQUEST,
-    HOT_ZONE_REPORT_SUCCESS,
-    HOT_ZONE_REPORT_FAILURE,
+    HOT_ZONE_REPORTS_REQUEST,
+    HOT_ZONE_REPORTS_SUCCESS,
+    HOT_ZONE_REPORTS_FAILURE,
     INCIDENTS_REQUEST,
     INCIDENTS_SUCCESS,
     INCIDENTS_FAILURE,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
+    MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
+    MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
+    MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
     PROVIDERS_REQUEST,
     PROVIDERS_SUCCESS,
     PROVIDERS_FAILURE,
@@ -32,6 +35,7 @@ import {getEntitiesForSchemaIds} from 'reducers/api/entities'
 
 const {
     MountainInformationNetworkObservation,
+    MountainInformationNetworkSubmission,
     ForecastRegion,
     Forecast,
     HotZoneArea,
@@ -100,7 +104,6 @@ function resultsReducerFactory(schema, request, success, failure) {
     }
 
     return function resultsByKey(state = new Map(), action) {
-
         const {type} = action
 
         switch (type) {
@@ -126,6 +129,12 @@ export default combineReducers({
         MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
         MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
     ),
+    [MountainInformationNetworkSubmission.getKey()]: resultsReducerFactory(
+        MountainInformationNetworkSubmission,
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
+    ),
     [ForecastRegion.getKey()]: resultsReducerFactory(
         ForecastRegion,
         FORECAST_REGIONS_REQUEST,
@@ -146,9 +155,9 @@ export default combineReducers({
     ),
     [HotZoneReport.getKey()]: resultsReducerFactory(
         HotZoneReport,
-        HOT_ZONE_REPORT_REQUEST,
-        HOT_ZONE_REPORT_SUCCESS,
-        HOT_ZONE_REPORT_FAILURE,
+        HOT_ZONE_REPORTS_REQUEST,
+        HOT_ZONE_REPORTS_SUCCESS,
+        HOT_ZONE_REPORTS_FAILURE,
     ),
     [Incident.getKey()]: resultsReducerFactory(
         Incident,

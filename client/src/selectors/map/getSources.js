@@ -6,16 +6,11 @@ import {point, featureCollection} from 'turf-helpers'
 import {
     ForecastRegion,
     HotZoneArea,
-    MountainInformationNetworkObservation,
+    HotZoneReport,
+    MountainInformationNetworkSubmission,
 } from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
-
-function toCentroid(feature) {
-    const {centroid, ...properties} = feature.properties
-
-    return point(centroid, properties)
-}
 
 function createSource(id, features = [], props = {}) {
     return {
@@ -32,29 +27,36 @@ const getForecastRegions = createSelector(
 )
 const getHotZoneAreaSource = createSelector(
     state => getEntitiesForSchema(state, HotZoneArea),
-    features => features.toList().toJSON()
+    state => getEntitiesForSchema(state, HotZoneReport),
+    (areas, reports) => {
+        function updateArea(area) {
+            const active = Number(reports.has(area.get('id')))
+
+            return area.setIn(['properties', 'active'], active)
+        }
+
+        return areas.map(updateArea).toList().toJSON()
+    }
 )
 const getDaysFilterValue = createSelector(
     getMenu,
     ({layers}) => layers.getIn([MOUNTAIN_INFORMATION_NETWORK, 'filters', 'days']).value
 )
-const getMountainInformationNetworkObservationsResults = createSelector(
+const getMountainInformationNetworkSubmissionsResults = createSelector(
     getDaysFilterValue,
     state => state,
-    (days, state) => getResultsSet(state, MountainInformationNetworkObservation, {days})
+    (days, state) => getResultsSet(state, MountainInformationNetworkSubmission, {days})
 )
 
-export const getMountainInformationNetworkObservations = createSelector(
-    state => getEntitiesForSchema(state, MountainInformationNetworkObservation),
-    getMountainInformationNetworkObservationsResults,
-    (entities, results) => {
-        if (!results) {
+export const getMountainInformationNetworkSubmissions = createSelector(
+    state => getEntitiesForSchema(state, MountainInformationNetworkSubmission),
+    getMountainInformationNetworkSubmissionsResults,
+    (entities, {isLoading, ids}) => {
+        if (isLoading) {
             return []
         }
 
-        const ids = [...results.ids]
-
-        return ids.map(id => entities.get(id)).map(entity => {
+        return Array.from(ids).map(id => entities.get(id)).map(entity => {
             const {latlng, ...properties} = entity.toJSON()
             const [lat, lng] = latlng
 
@@ -63,27 +65,19 @@ export const getMountainInformationNetworkObservations = createSelector(
     }
 )
 
-const getMountainInformationNetworkSubmissions = createSelector(
-    getMountainInformationNetworkObservations,
-    observations => observations.reduce((submissions, observation) => {
-
-    }, [])
-)
-
 const forecastRegionKey = ForecastRegion.getKey()
 const hotZoneAreaKey = HotZoneArea.getKey()
-const mountainInformationNetworkObservationKey = MountainInformationNetworkObservation.getKey()
+const mountainInformationNetworkSubmissionKey = MountainInformationNetworkSubmission.getKey()
 
 export default createSelector(
     getForecastRegions,
     getHotZoneAreaSource,
-    getMountainInformationNetworkObservations,
-    function createSources(forecastRegions, hotZoneAreas, observations) {
+    getMountainInformationNetworkSubmissions,
+    function createSources(forecastRegions, hotZoneAreas, submissions) {
         return [
             createSource(forecastRegionKey, forecastRegions),
-            createSource(`${forecastRegionKey}-centroid`, forecastRegions.map(toCentroid)),
             createSource(hotZoneAreaKey, hotZoneAreas),
-            createSource(mountainInformationNetworkObservationKey, observations, {
+            createSource(mountainInformationNetworkSubmissionKey, submissions, {
                 cluster: true
             }),
         ]
