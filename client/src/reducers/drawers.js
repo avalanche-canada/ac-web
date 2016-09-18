@@ -80,15 +80,15 @@ function changeFilter({filters, ...rest}, {layer, name, value}) {
 const MENU = {
     open: false,
     // Defines to default active layers, could comes from localStorage as well or sessionStorage
-    layers: new Set([MOUNTAIN_INFORMATION_NETWORK]),
-    // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
+    // layers: new Set([MOUNTAIN_INFORMATION_NETWORK]),
+    layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
     // Defines to default filters, could comes from localStorage as well
     filters: new Map([
         [MOUNTAIN_INFORMATION_NETWORK, new Map([
             ['days', {
                 type: 'listOfValues',
                 // value: '7',
-                value: '240',
+                value: '30',
                 options: new Map([
                     ['1', '1 day'],
                     ['3', '3 days'],
