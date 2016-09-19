@@ -22,11 +22,13 @@ export const dateRanges = {
     }
 
 export const course = {
+    name: 'name',
     title: 'Course',
     property: 'name',
 }
 
 export const description = {
+    name: 'description',
     title: 'Description',
     property({description}) {
         return (
@@ -51,23 +53,27 @@ export const distance = {
 }
 
 export const location = {
+    name: 'location',
     title: 'Location',
     property: 'locDescription',
 }
 
-export  const tags = {
+export const tags = {
+    name: 'tags',
     title: 'Tags',
     property({tags}) {
         return tags.join(', ')
     },
 }
 
-export  const provider = {
+export const provider = {
+    name: 'provider',
     title: 'Provider Name',
     property: 'name',
 }
 
 export const email = {
+    name: 'email',
     title: 'Email',
     property({email}) {
         return (
@@ -77,6 +83,7 @@ export const email = {
 }
 
 export const phone = {
+    name: 'phone',
     title: 'Phone',
     property({phone}) {
         return (
@@ -86,6 +93,7 @@ export const phone = {
 }
 
 export const website = {
+    name: 'website',
     title: 'Website',
     property({website}) {
         return (
@@ -94,4 +102,13 @@ export const website = {
             </a>
         )
     }
+}
+
+export const cost = {
+    name: 'cost',
+    title: 'Cost',
+    property({cost: {cost, currency}}) {
+        return `${cost} ${currency}`
+    },
+    sorting: NONE,
 }

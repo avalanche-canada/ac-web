@@ -72,7 +72,8 @@ export const table = createSelector(
             Columns.description,
             Columns.distance,
             Columns.location,
-            Columns.tags
+            Columns.tags,
+            Columns.cost,
         ),
         ({provider}) => provider.is_sponsor,
     ),
