@@ -8,18 +8,17 @@
   display: flex;
   padding: 0 2em;
 }
-.TutorialPage:after {
-  content: '';
-  display:block;
-  clear: both;
-}
+
 .Sidebar {
   flex:1;
   padding: 1em;
 }
 
-
 .TutorialContent {
   flex:4;
   padding: 1em;
+}
+
+.Image {
+  margin-bottom: 1em;
 }

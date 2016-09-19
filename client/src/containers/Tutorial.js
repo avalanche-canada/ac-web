@@ -43,6 +43,4 @@ const tutorialContainer = lifecycle({
 })
 
 
-export default compose(
-    tutorialContainer,
-)(Tutorial)
+export default tutorialContainer(Tutorial)
