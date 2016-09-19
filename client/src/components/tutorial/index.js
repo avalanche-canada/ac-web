@@ -6,14 +6,43 @@ import {Link} from 'react-router'
 import {Fragments} from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
-import menuTree from './tutorial-menu-tree.json'
 import {Page,Main,Content} from 'components/page'
 import {Media, Player} from 'components/media'
+
+import menuTree from './tutorial-menu-tree.json'
+
+
+function findSlug(pages, prismicSlug) {
+    for(var i = 0; i < pages.length; i++)  {
+        var page = pages[i]
+        var clean = page.slug.replace(/\//g, '')
+        if (clean === prismicSlug) {
+            return page.slug;
+        } else {
+            var next = findSlug(page.children, prismicSlug);
+            if(next) return next;
+        }
+    }
+}
+
+function linkResolver(doc) {
+    if (doc.type === 'tutorial-page') {
+        var realSlug = findSlug(menuTree, doc.slug)
+        return `/tutorial/${realSlug}`
+    }
+}
 
 const MenuItem = ({title, slug, children, currentPage}) => {
     let cc = null
     let showChildren = currentPage.startsWith(slug)
     let isActive = currentPage === slug
+
+    /* FIXME(wnh): Encode the URL so that '?' -> '%3F'
+     * encodeURIComponent  does lots of stuff including '/' so we convert that
+     * one back
+     */
+    let encodedSlug = encodeURIComponent(slug).replace(/%2F/g, '/')
+
     if (showChildren) {
             cc = <ol>
                 {children.map( c => <MenuItem currentPage={currentPage} {...c} /> )}
@@ -25,7 +54,7 @@ const MenuItem = ({title, slug, children, currentPage}) => {
 
     return (
         <li>
-            <Link activeClassName={styles.active} to={`/tutorial/${slug}`}>{displayTitle}</Link>
+            <Link activeClassName={styles.active} to={`/tutorial/${encodedSlug}`}>{displayTitle}</Link>
             {cc}
         </li>
     )
@@ -45,15 +74,14 @@ const flattenImage = (img) => {
 }
 
 function GalleryImage({url, caption, credit }){
-    console.info(url, caption, credit)
     if(!url) { return null }
-    const cap = cap ? cap : ''
-    const cred = credit ? `Photo ${credit}` : ''
+    const cap = caption ? caption : ''
+    const cred = credit ? `Photo: ${credit}` : ''
     const split = cap && cred ? ' - ':''
     return (
-        <div className={styles.Image}>
+        <div className={styles.ImageContainer}>
             <Media caption={`${cap}${split}${cred}`} >
-                <img src={url} />
+                <img className={styles.Image}src={url} />
             </Media>
         </div>
     )
@@ -63,24 +91,22 @@ const SideBar = ({currentPage}) =>
         { menuTree.map( c => <MenuItem currentPage={currentPage} {...c} /> ) }
     </ol>
 
-function getHtml(doc, field)  {
-    if(typeof doc.fragments[field] === 'undefined') {
-        return ''
-    }
-    const t = new Fragments.StructuredText(doc.fragments['tutorial-page.text1'].blocks)
-    return t.asHtml()
-}
 
 const Video = ({src}) =>
     <Media>
         <Player src={src} />
     </Media>
 
+
+const TextBlock =  ({field}) => {
+    if (typeof field === 'undefined') {
+        return null
+    }
+    const t = new Fragments.StructuredText(field.blocks)
+    return <div className={styles.TextBlock} dangerouslySetInnerHTML={{__html: t.asHtml(linkResolver)}} />
+}
+
 const TutorialPage = ({doc}) => {
-    const t1 = getHtml(doc, 'tutorial-page.text1')
-    const t2 = getHtml(doc, 'tutorial-page.text2')
-    const t3 = getHtml(doc, 'tutorial-page.text3')
-    const t4 = getHtml(doc, 'tutorial-page.text4')
     let gallery = []
     if(typeof doc.data['tutorial-page.gallery'] !== 'undefined') {
         gallery = doc.data['tutorial-page.gallery'].value
@@ -88,27 +114,32 @@ const TutorialPage = ({doc}) => {
 
     const vid =doc.data['tutorial-page.video-source'] 
 
-    console.info(doc)
 
     return (
     <div>
         <h1>{doc.data['tutorial-page.title'].value}</h1>
-        <div dangerouslySetInnerHTML={{__html: t1}} />
+
+        <TextBlock field={doc.fragments['tutorial-page.text1']} />
+
         {/* video here */}
-        {vid && <Video src={vid.value} />}
-        <div dangerouslySetInnerHTML={{__html: t2}} />
+
+        {vid && vid.value && <Video src={vid.value} />}
+
+        <TextBlock field={doc.fragments['tutorial-page.text2']} />
+
         <Gallery  imgs={gallery} />
-        <div dangerouslySetInnerHTML={{__html: t3}} />
+
+        <TextBlock field={doc.fragments['tutorial-page.text3']} />
+
         {/* embedded content: raw HTML that comes from prismic :/ */}
-        <div dangerouslySetInnerHTML={{__html: t4}} />
+
+        <TextBlock field={doc.fragments['tutorial-page.text4']} />
     </div>
     )
 }
 
 const Tutorial = (props) => {
     const {loading, error, doc, params} = props
-    console.info(doc)
-    console.info(props)
     return (
     <Page>
         <Content>
