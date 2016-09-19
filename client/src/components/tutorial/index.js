@@ -8,9 +8,7 @@ import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
 import menuTree from './tutorial-menu-tree.json'
 import {Page,Main,Content} from 'components/page'
-import {Media} from 'components/media'
-
-//TODO(wnh):
+import {Media, Player} from 'components/media'
 
 const MenuItem = ({title, slug, children, currentPage}) => {
     let cc = null
@@ -73,6 +71,11 @@ function getHtml(doc, field)  {
     return t.asHtml()
 }
 
+const Video = ({src}) =>
+    <Media>
+        <Player src={src} />
+    </Media>
+
 const TutorialPage = ({doc}) => {
     const t1 = getHtml(doc, 'tutorial-page.text1')
     const t2 = getHtml(doc, 'tutorial-page.text2')
@@ -83,6 +86,8 @@ const TutorialPage = ({doc}) => {
         gallery = doc.data['tutorial-page.gallery'].value
     }
 
+    const vid =doc.data['tutorial-page.video-source'] 
+
     console.info(doc)
 
     return (
@@ -90,6 +95,7 @@ const TutorialPage = ({doc}) => {
         <h1>{doc.data['tutorial-page.title'].value}</h1>
         <div dangerouslySetInnerHTML={{__html: t1}} />
         {/* video here */}
+        {vid && <Video src={vid.value} />}
         <div dangerouslySetInnerHTML={{__html: t2}} />
         <Gallery  imgs={gallery} />
         <div dangerouslySetInnerHTML={{__html: t3}} />
