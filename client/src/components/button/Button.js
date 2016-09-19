@@ -11,7 +11,7 @@ export default compose(
         children: PropTypes.node,
         active: PropTypes.bool,
         kind: PropTypes.oneOf(asValues(KINDS)),
-        icon: PropTypes.element,
+        icon: PropTypes.node,
     }),
     defaultProps({
         kind: KINDS.default,
@@ -40,4 +40,5 @@ export default compose(
             )
         }
     }),
-)(CSSModules(DOM.button, styles, { allowMultiple: true }))
+    CSSModules(styles, { allowMultiple: true })
+)(DOM.button)

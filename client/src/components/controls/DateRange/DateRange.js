@@ -25,7 +25,7 @@ export default class DateRange extends Component {
         to: PropTypes.instanceOf(Date),
         onChange: PropTypes.func.isRequired,
         placeholder: PropTypes.string,
-        container: PropTypes.element,
+        container: PropTypes.node,
     }
     static defaultProps = {
         onChange: K,

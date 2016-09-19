@@ -4,7 +4,7 @@ import styles from './Page.css'
 
 Article.propTypes = {
     title: PropTypes.string,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Article({title, children}) {

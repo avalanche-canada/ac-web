@@ -7,8 +7,8 @@ const KEYS = keys(VALUES).filter(key => key !== 'NO_RATING')
 
 export default (
     <div>
-        {KEYS.map(key => (
-            <div>
+        {KEYS.map((key, index) => (
+            <div key={key}>
                 <h2>{TEXTS[key]}</h2>
                 <p>{ADVICES[key]}</p>
                 <p>{LIKEHOOD[key]}</p>

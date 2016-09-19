@@ -19,9 +19,9 @@ function FilterSet({filters = new Map(), onChange = K}) {
 
                 switch (type) {
                     case 'dateRange':
-                        return <DateRange onChange={handleChange} {...filter} />
+                        return <DateRange key={name} onChange={handleChange} {...filter} />
                     case 'listOfValues':
-                        return <ListOfValues onChange={handleChange} {...filter} />
+                        return <ListOfValues key={name} onChange={handleChange} {...filter} />
                     default:
                         throw new Error(`Filter of type ${type} not supported.`)
                 }

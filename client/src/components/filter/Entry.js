@@ -1,17 +1,7 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {Element} from 'compose'
 import styles from './Filter.css'
 
-Entry.propTypes = {
-    children: PropTypes.element.isRequired,
-}
-
-function Entry({children}) {
-    return (
-        <div styleName='Entry'>
-            {children}
-        </div>
-    )
-}
-
-export default CSSModules(Entry, styles)
+export default Element({
+    name: 'Entry',
+    styles,
+})

@@ -12,8 +12,8 @@ Layer.propTypes = {
     title: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
-    icon: PropTypes.element,
-    children: PropTypes.element,
+    icon: PropTypes.node,
+    children: PropTypes.node,
 }
 
 const {keys} = Object

@@ -71,11 +71,13 @@ function sectionsReducer(children) {
     }, [])
 }
 
-export function createItem({model: {id, label, noWrap, children}}) {
+export function createItem({model: {id, label, noWrap, children}}, index) {
+    const key = `${id}-${index}`
+
     return (
-        <Item key={id} title={label} noWrap={noWrap} >
+        <Item key={key} title={label} noWrap={noWrap}>
             {children &&
-                <Menu>
+                <Menu key={`${key}-menu`}>
                     {sectionsReducer(children).map(createSection)}
                 </Menu>
             }

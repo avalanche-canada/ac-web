@@ -16,7 +16,7 @@ const ImagePropType = PropTypes.shape({
 Ambassador.propTypes = {
     fullName: PropTypes.string.isRequired,
     socials: PropTypes.arrayOf(PropTypes.string),
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    children: PropTypes.node.isRequired,
     avatar: ImagePropType,
     banner: ImagePropType,
 }

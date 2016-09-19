@@ -6,7 +6,7 @@ import styles from './Description.css'
 
 const Child = compose(
     setPropTypes({
-        children: PropTypes.element.isRequired,
+        children: PropTypes.node.isRequired,
         component: PropTypes.string.isRequired,
         styleName: PropTypes.string.isRequired,
         block: PropTypes.bool,

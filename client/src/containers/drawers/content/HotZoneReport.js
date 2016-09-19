@@ -17,7 +17,7 @@ function Container({
         <Content>
             <Header subject='Hot Zone Report'>
                 <h1>{link ? <Link to={link}>{title}</Link> : title}</h1>
-                {report && <Metadata {...report} />}
+                {isLoading || <Metadata {...report} />}
             </Header>
             <Body>
                 {isLoading && <Loading>Loading hot zone report...</Loading>}

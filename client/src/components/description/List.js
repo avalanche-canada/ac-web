@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import styles from './Description.css'
 
 List.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    children: PropTypes.node.isRequired,
     columns: PropTypes.oneOf([1, 2, 3]),
     theme: PropTypes.oneOf(['Simple', 'Inverse']),
     condensed: PropTypes.bool,

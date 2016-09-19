@@ -16,7 +16,7 @@ Day2.propTypes = {
     above: PropTypes.string.isRequired,
     between: PropTypes.string.isRequired,
     below: PropTypes.string.isRequired,
-    children: PropTypes.element,
+    children: PropTypes.node,
 }
 
 export default function Day2({date, above, between, below, children}) {

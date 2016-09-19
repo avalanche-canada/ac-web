@@ -21,7 +21,7 @@ Drawer.propTypes = {
     open: PropTypes.bool.isRequired,
     position: PropTypes.number.isRequired,
     width: PropTypes.number,
-    header: PropTypes.element,
+    header: PropTypes.node,
     onCloseClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 }

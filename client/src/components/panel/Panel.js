@@ -10,7 +10,7 @@ export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
 
 Panel.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     expandable: PropTypes.bool,
     expanded: PropTypes.bool,
     header: PropTypes.string.isRequired,

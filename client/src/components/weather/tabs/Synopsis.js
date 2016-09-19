@@ -7,7 +7,7 @@ Synopsis.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     above: PropTypes.string.isRequired,
     below: PropTypes.string.isRequired,
-    children: PropTypes.element,
+    children: PropTypes.node,
 }
 
 export default function Synopsis({date, above, below, children}) {

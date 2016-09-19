@@ -7,6 +7,6 @@ export default Element({
     component: DOM.p,
     styles,
     propTypes: {
-        children: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+        children: PropTypes.node
     },
 })

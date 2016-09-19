@@ -11,7 +11,7 @@ Drawer.propTypes = {
     onClose: PropTypes.func,
     onClick: PropTypes.func,
     style: PropTypes.object,
-    children: PropTypes.instanceOf(ItemSet).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Drawer({header, onClick = K, onHome = K, onClose = K, style = null, children}) {

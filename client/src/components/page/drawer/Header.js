@@ -6,7 +6,7 @@ import Subject from './Subject'
 
 Header.propTypes = {
     subject: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.node,
 }
 
 function Header({subject, children}) {

@@ -24,7 +24,9 @@ export default function StaticPage({
             <Content>
                 <Main>
                     {headline && <Headline>{headline}</Headline>}
-                    {content.map(slice => <Slice {...slice} />)}
+                    {content.map((slice, index) => (
+                        <Slice key={index} {...slice} />
+                    ))}
                 </Main>
             </Content>
         </Page>

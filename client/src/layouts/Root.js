@@ -5,10 +5,10 @@ import Highlight from 'containers/Highlight'
 import Footer from 'components/footer'
 
 Root.propTypes = {
-    navbar: PropTypes.element,
-    content: PropTypes.element,
-    footer: PropTypes.element,
-    children: PropTypes.element,
+    navbar: PropTypes.node,
+    content: PropTypes.node,
+    footer: PropTypes.node,
+    children: PropTypes.node,
 }
 
 export default function Root({navbar, content, footer, children, route}) {

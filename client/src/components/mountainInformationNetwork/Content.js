@@ -5,7 +5,7 @@ import {List} from 'components/description'
 
 Content.propTypes = {
     comment: PropTypes.string.isRequired,
-    descriptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+    descriptions: PropTypes.node.isRequired,
 }
 
 export default function Content({comment, descriptions}) {

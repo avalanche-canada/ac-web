@@ -49,7 +49,7 @@ Cabinet.propTypes = {
         key: PropTypes.string.isRequired,
         data: PropTypes.shape({
             onClose: PropTypes.func.isRequired,
-            children: PropTypes.node.isRequired,
+            children: PropTypes.node,
         })
     })),
 }
@@ -64,7 +64,7 @@ function Cabinet({ drawers = [] }) {
                 <section>
                 {configs.map(({key, style, data: {children, label, ...drawer}}) =>
                     <Drawer key={key} style={getDrawerStyle(style)} {...drawer}>
-                        <ItemSet key={key}>
+                        <ItemSet>
                             <Item>{label}</Item>
                             {children.map(({to, label, headline, children, onClick}, index) =>
                                 <Item key={index}>

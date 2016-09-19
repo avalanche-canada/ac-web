@@ -5,7 +5,7 @@ import styles from './Sponsor.css'
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
     src: PropTypes.string.isRequired,
-    url: PropTypes.string,
+    url: PropTypes.string.isRequired,
     term: PropTypes.string,
 }
 

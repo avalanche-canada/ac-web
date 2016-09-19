@@ -7,7 +7,7 @@ function K() {}
 Option.propTypes = {
     children: PropTypes.node.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    active: PropTypes.bool.isRequired,
+    active: PropTypes.bool,
     onClick: PropTypes.func,
 }
 

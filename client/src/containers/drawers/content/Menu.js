@@ -48,7 +48,7 @@ function Menu({sets = [], toggleLayer, changeFilter}) {
                 return (
                     <LayerSet title={title}>
                         {layers
-                            .map(layer => layer.toObject())
+                            .toList().toJSON()
                             .map(({filters, ...layer}, type) => {
                                 const handleFilterChange = changeFilter.bind(null, type)
                                 const props = {

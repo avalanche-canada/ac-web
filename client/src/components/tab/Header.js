@@ -7,7 +7,7 @@ import {ExpandLess, ExpandMore} from 'components/icons'
 function K() {}
 
 Header.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
 	active: PropTypes.bool,
     expanded: PropTypes.bool,
     onClick: PropTypes.func,

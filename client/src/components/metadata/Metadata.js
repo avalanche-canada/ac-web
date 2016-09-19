@@ -6,7 +6,7 @@ export default Element({
     name: 'Metadata',
     styles,
     propTypes: {
-        children: PropTypes.arrayOf(PropTypes.element).isRequired,
+        children: PropTypes.node.isRequired,
     },
     composers: [elementQueries()]
 })

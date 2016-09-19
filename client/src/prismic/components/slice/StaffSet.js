@@ -36,8 +36,8 @@ const mapStateToProps = createSelector(
 function StaffSet({members = []}) {
     return (
         <div>
-            {members.map(({biography, ...props}) => (
-                <Biography {...props}>
+            {members.map(({biography, ...props}, index) => (
+                <Biography key={index} {...props}>
                     <InnerHTML>
                         {biography}
                     </InnerHTML>

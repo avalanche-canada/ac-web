@@ -6,7 +6,7 @@ import {Expand} from 'components/button'
 function K() {}
 
 Row.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
+    children: PropTypes.node.isRequired,
     hide: PropTypes.bool,
     controlled: PropTypes.bool,
     expanded: PropTypes.bool,

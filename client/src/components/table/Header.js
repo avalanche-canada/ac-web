@@ -1,17 +1,9 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {PropTypes, DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Table.css'
 
-Header.propTypes = {
-    children: PropTypes.element.isRequired,
-}
-
-function Header({children}) {
-    return (
-        <thead styleName='Header'>
-            {children}
-        </thead>
-    )
-}
-
-export default CSSModules(Header, styles)
+export default Element({
+    name: 'Header',
+    component: DOM.thead,
+    styles,
+})

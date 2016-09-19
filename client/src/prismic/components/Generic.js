@@ -44,10 +44,11 @@ export default compose(
     }),
     branch(
         props => props.isLoading,
-        renderComponent(renameProp('message', 'children')(Loading)),
+        renderComponent(mapProps(({message}) => ({children: message}))(Loading)),
         // TODO: Remove with recompose newest release. Thrid argument default to identity
         Component => Component,
     ),
-    flattenProp('props'),
-    renameProp('body', 'children'),
+    mapProps(({props}) => ({
+        children: props.body
+    }))
 )(InnerHTML)

@@ -7,12 +7,11 @@ import {Mailto, Phone, Avatar} from 'components/misc'
 
 Biography.propTypes = {
     fullName: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    email: PropTypes.string.isRequired,
-    workPhoneNumber: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    email: PropTypes.string,
+    title: PropTypes.string,
+    avatar: PropTypes.string,
+    children: PropTypes.node,
+    workPhoneNumber: PropTypes.string,
 }
 
 function Biography({email, workPhoneNumber, children, fullName, title, avatar}) {
@@ -24,7 +23,7 @@ function Biography({email, workPhoneNumber, children, fullName, title, avatar}) 
             <div styleName='Content'>
                 <header styleName='Header'>
                     <span styleName='Name'>{fullName}</span>
-                    <span styleName='Title'>{title}</span>
+                    {title && <span styleName='Title'>{title}</span>}
                 </header>
                 <address styleName='Address'>
                     {email && <Mailto email={email} title={`Send ${fullName} an email`} />}
