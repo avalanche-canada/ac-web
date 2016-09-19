@@ -34,7 +34,7 @@ export function withPrismic(BaseComponent) {
     return compose(
         setDisplayName('Prismic'),
         setPropTypes({
-            params: PropTypes.oneOf([
+            params: PropTypes.oneOfType([
                 PropTypes.shape({
                     id: PropTypes.string,
                 }),

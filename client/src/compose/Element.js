@@ -12,13 +12,10 @@ export default function Element({
     },
     composers = [],
 }) {
-    if (styles) {
-        component = CSSModules(component, styles)
-    }
-
     return compose(
         setDisplayName(name),
         setPropTypes(propTypes),
+        CSSModules(styles),
         withProps({styleName}),
         ...composers,
     )(component)

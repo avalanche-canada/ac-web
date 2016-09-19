@@ -29,7 +29,7 @@ function createSection({label, headline, children = [], ...props}, index) {
     const column = Math.floor(children.length / 7)
 
     return (
-        <Section key={props.id}>
+        <Section key={index}>
             {label && createLink({headline, label, ...props})}
             {headline && <Headline>{headline}</Headline>}
             <ColumnSet count={column}>
@@ -77,7 +77,7 @@ export function createItem({model: {id, label, noWrap, children}}, index) {
     return (
         <Item key={key} title={label} noWrap={noWrap}>
             {children &&
-                <Menu key={`${key}-menu`}>
+                <Menu>
                     {sectionsReducer(children).map(createSection)}
                 </Menu>
             }

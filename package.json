@@ -59,7 +59,7 @@
     "raven-js": "^3.7.0",
     "react": "^15.3.1",
     "react-addons-shallow-compare": "^15.3.1",
-    "react-css-modules": "^3.7.10",
+    "react-css-modules": "^4.0.0",
     "react-day-picker": "^2.2.0",
     "react-dom": "^15.3.1",
     "react-image-gallery": "^0.6.10",

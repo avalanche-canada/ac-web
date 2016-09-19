@@ -117,7 +117,7 @@ function Animated({show = false, onClose = K, node, setNode, root}) {
 
 function Container({style = null, node, setNode, root, onClose}) {
     const path = getPath(root, node)
-    const context = { node, setNode, root, onClose }
+    const context = {node, setNode, root, onClose}
 
     return (
         <div style={style} styleName='Container' onClick={handleContainerClick.bind(context)}>

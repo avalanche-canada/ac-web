@@ -49,7 +49,7 @@ Cabinet.propTypes = {
         key: PropTypes.string.isRequired,
         data: PropTypes.shape({
             onClose: PropTypes.func.isRequired,
-            children: PropTypes.node,
+            children: PropTypes.array,
         })
     })),
 }
