@@ -20,6 +20,8 @@ export TripPlanner from './TripPlanner'
 export {Providers as ProvidersTable, Courses as CoursesTable} from './ast/tables'
 export {Providers as ProvidersForm, Courses as CoursesForm} from './ast/forms'
 
+export Tutorial from './Tutorial'
+
 // Weather
 export Weather from './Weather'
 
@@ -42,5 +44,5 @@ export const Collaborators = staticPage('collaborators', 'Collaborators')
 
 export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
 export const TermsOfUse = generic('about-tou', 'Terms of use')
-export const Tutorial = generic('tutorial', 'Tutorial')
+//export const Tutorial = generic('tutorial', 'Tutorial')
 export const Auction = generic('auction', 'Auction')

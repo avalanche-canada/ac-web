@@ -236,7 +236,8 @@ export default function computeRoutes(store) {
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />
             <Route path='sled' component={Sled} />
-            <Route path='tutorial' component={Tutorial} />
+            <Route path='tutorial/*' component={Tutorial} />
+            <Redirect from="tutorial" to="tutorial/" />
             <Route path='auction' component={Auction} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
