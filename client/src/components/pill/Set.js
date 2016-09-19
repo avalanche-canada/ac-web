@@ -6,7 +6,7 @@ import styles from './Pill.css'
 function K() {}
 
 Set.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     activeIndex: PropTypes.number,
     onActivate: PropTypes.func,
 

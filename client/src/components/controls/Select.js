@@ -7,6 +7,6 @@ export default Element({
     styles,
     component: DOM.select,
     propTypes: {
-        children: PropTypes.arrayOf(PropTypes.node).isRequired,
+        children: PropTypes.node.isRequired,
     },
 })

@@ -32,7 +32,7 @@ export default compose(
     }),
     flattenProp('sponsor'),
     branch(
-        props => props.uid === null,
+        props => !props.url,
         renderNothing,
         Component => Component,
     ),

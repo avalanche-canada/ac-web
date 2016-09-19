@@ -7,7 +7,7 @@ import Contact from './Contact'
 
 Sidebar.propTypes = {
     noSocial: PropTypes.bool,
-    children: PropTypes.arrayOf(PropTypes.node),
+    children: PropTypes.node,
 }
 
 function Sidebar({ noSocial = false, children }) {

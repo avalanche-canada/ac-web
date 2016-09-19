@@ -40,7 +40,12 @@ function VideoSet({content}) {
 
     return (
         <div styleName='VideoSet'>
-            {content.map(props => createElement(Video, props))}
+            {content.map((props, index) => (
+                createElement(Video, {
+                    key: index,
+                    ...props,
+                })
+            ))}
         </div>
     )
 }

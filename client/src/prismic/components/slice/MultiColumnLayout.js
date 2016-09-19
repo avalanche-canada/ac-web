@@ -6,8 +6,8 @@ import {InnerHTML} from 'components/misc'
 function MultiColumnLayout({content = []}) {
     return (
         <div styleName='ColumnSet'>
-            {content.map(({content}) => (
-                <InnerHTML>
+            {content.map(({content}, index) => (
+                <InnerHTML key={index}>
                     {content}
                 </InnerHTML>
             ))}

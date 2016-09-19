@@ -6,7 +6,7 @@ import styles from './Table.css'
 // TODO: Needs to have functions to expandAll and collapseAll
 
 TBody.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     featured: PropTypes.bool,
     title: PropTypes.string,
 }

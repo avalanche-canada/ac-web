@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Form.css'
 
 Fieldset.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     legend: PropTypes.string,
 }
 

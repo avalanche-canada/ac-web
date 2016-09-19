@@ -6,9 +6,7 @@ import {Br} from 'components/misc'
 import styles from './Ambassador.css'
 
 const ImagePropType = PropTypes.shape({
-    width: PropTypes.number,
-    height: PropTypes.number,
-    url: PropTypes.string,
+    src: PropTypes.string.isRequired,
     credit: PropTypes.string,
     caption: PropTypes.string,
 })
@@ -24,17 +22,17 @@ Ambassador.propTypes = {
 function Ambassador({fullName, socials = [], banner, avatar, children}) {
     return (
         <section styleName='Ambassador'>
-            <img styleName='Banner' {...banner} />
+            <img styleName='Banner' src={banner.src} />
             <Br />
             <div styleName='Biography'>
                 <div>
-                    <img styleName='Avatar' {...avatar} />
+                    <img styleName='Avatar' src={avatar.src} />
                     <SocialSet>
-                        {socials.map(social => {
+                        {socials.map((social, index) => {
                             const title = `Visit ${fullName} on ${getProvider(social)}`
 
                             return (
-                                <SocialItem link={social} title={title} />
+                                <SocialItem key={index} link={social} title={title} />
                             )
                         })}
                     </SocialSet>

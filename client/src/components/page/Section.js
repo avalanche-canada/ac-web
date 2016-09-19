@@ -4,7 +4,7 @@ import Headline from './Headline'
 import styles from './Page.css'
 
 Section.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
     hash: PropTypes.string,
     headline: PropTypes.string,

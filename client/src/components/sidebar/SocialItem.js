@@ -5,7 +5,7 @@ import styles from './Sidebar.css'
 
 SocialItem.propTypes = {
     text: PropTypes.string.isRequired,
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function SocialItem({ text, children }) {

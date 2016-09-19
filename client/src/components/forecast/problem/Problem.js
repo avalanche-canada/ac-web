@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Problem.css'
 
 Problem.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
 }
 

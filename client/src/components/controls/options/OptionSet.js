@@ -4,7 +4,7 @@ import {} from 'recompose'
 import styles from './OptionSet.css'
 
 OptionSet.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     show: PropTypes.bool,
     onOptionClick: PropTypes.func,
     selected: PropTypes.instanceOf(Set),

@@ -18,7 +18,7 @@ const getSponsors = createSelector(
     (state, props) => props.content.map(slice => slice.sponsor.id),
     function computeSponsors(documents, ids) {
         if (documents.isEmpty()) {
-            return
+            return {}
         }
 
         return {
@@ -30,7 +30,9 @@ const getSponsors = createSelector(
 function SponsorSet({sponsors = []}) {
     return (
         <ItemSet>
-            {sponsors.map(sponsor => <Item {...sponsor} />)}
+            {sponsors.map(sponsor => (
+                <Item key={sponsor.uid} {...sponsor} />
+            ))}
         </ItemSet>
     )
 }

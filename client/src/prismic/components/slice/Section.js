@@ -2,9 +2,7 @@ import React, {PropTypes} from 'react'
 import {Section as PageSection} from 'components/page'
 import {InnerHTML} from 'components/misc'
 
-export default function Section({content, label}) {
-    const props = content[0]
-
+export default function Section({content: [props], label}) {
     return (
         <PageSection {...props} >
             <InnerHTML>

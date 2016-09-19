@@ -10,12 +10,12 @@
 [] - Providers and courses page > tab set anchor should take all the room. onClick outside the anchor does not trigger a change to the location
 [] - Add latest featured news and events posts to the menu
 [] - Replace replaceQuery functions with the one from utils/router
-[] - Check dates in HotZoneReportMetadata, it should not render if no report in available. 
+[] - Check dates in HotZoneReportMetadata, it should not render if no report in available.
 
 # Prismic
 
 [] - Remove bookmarks from Static Pages
-[] -
+[] - Make sure sponsor has a title. See proptypes for sponsor
 [] -
 [] -
 [] -

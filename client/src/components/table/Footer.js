@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
 Footer.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Footer({children}) {

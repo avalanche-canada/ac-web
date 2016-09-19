@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
 Table.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    children: PropTypes.node.isRequired,
     hoverable: PropTypes.bool,
 }
 
