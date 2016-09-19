@@ -1,0 +1,25 @@
+
+
+.active {
+  font-weight: bold;
+}
+
+.TutorialPage {
+  display: flex;
+  padding: 0 2em;
+}
+.TutorialPage:after {
+  content: '';
+  display:block;
+  clear: both;
+}
+.Sidebar {
+  flex:1;
+  padding: 1em;
+}
+
+
+.TutorialContent {
+  flex:4;
+  padding: 1em;
+}
