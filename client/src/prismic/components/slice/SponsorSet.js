@@ -6,11 +6,12 @@ import {getDocumentsOfType} from 'reducers/prismic'
 import {Sponsor} from 'prismic/types'
 
 function parse(document) {
-    const sponsor = Sponsor.fromDocument(document)
+    const {image229, name, url} = Sponsor.fromDocument(document)
 
     return {
-        ...sponsor,
-        src : sponsor.image229,
+        title: name,
+        src : image229,
+        url,
     }
 }
 const getSponsors = createSelector(

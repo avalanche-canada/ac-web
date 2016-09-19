@@ -10,7 +10,7 @@ export {ASC, DESC, NONE} from 'components/button/Sorting'
 function K() {}
 
 HeaderCell.propTypes = {
-    children: PropTypes.number.isRequired,
+    children: PropTypes.node.isRequired,
     sorting: PropTypes.oneOf(SORTINGS),
     onSortingChange: PropTypes.func,
 }

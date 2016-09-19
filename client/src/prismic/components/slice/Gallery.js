@@ -24,9 +24,9 @@ export default function Gallery({content, label}) {
 
     return (
         <TabSet theme={LOOSE}>
-        {content.map(({name, ...gallery}) => {
+        {content.map(({name, ...gallery}, index) => {
             return (
-                <Tab title={name}>
+                <Tab key={index} title={name}>
                     <Base {...mapProperties(gallery)} />
                 </Tab>
             )

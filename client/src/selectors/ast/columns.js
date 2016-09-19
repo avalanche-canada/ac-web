@@ -110,5 +110,4 @@ export const cost = {
     property({cost: {cost, currency}}) {
         return `${cost} ${currency}`
     },
-    sorting: NONE,
 }

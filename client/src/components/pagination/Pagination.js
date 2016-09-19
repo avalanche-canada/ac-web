@@ -55,8 +55,9 @@ function Pagination({
         <div styleName='Container'>
             {first && <First />}
             {previous && <Previous />}
-            {pages(Math.min(total, max)).map(page => (
+            {pages(Math.min(total, max)).map((page, index) => (
                 createElement(Segment, {
+                    key: index,
                     location: extendLocation(location, page, property),
                     onClick: createOnClickHandler(page),
                     isActive: active === page,
