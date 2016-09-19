@@ -9,6 +9,13 @@ export function replaceQuery(query, {router, location}) {
     })
 }
 
+export function pushNewLocation(newLocation, {router, location}) {
+    router.push({
+        ...location,
+        ...newLocation,
+    })
+}
+
 export function replaceState(state, {router, location}) {
     router.replace({
         ...location,

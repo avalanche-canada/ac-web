@@ -1,15 +1,33 @@
 import React, {PropTypes} from 'react'
-import {compose, lifecycle, onlyUpdateForKeys, withContext} from 'recompose'
+import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import {withRouter} from 'react-router'
-import {Map, Source, Layer, Popup, Marker, Utils} from 'components/map'
-import {zoomChanged, centerChanged} from 'actions/map'
-import getMapProps from 'selectors/map'
+import {Map as Base, Source, Layer, Marker} from 'components/map'
+import {zoomChanged, centerChanged, loadStateChanged, loadData, featuresClicked, noFeaturesClicked} from 'actions/map'
+import mapStateToProps from 'selectors/map'
 import {Primary, Secondary, Menu, OpenMenu} from './drawers'
-import {loadData} from 'actions/map'
+import * as Schemas from 'api/schemas'
+import {pushNewLocation} from 'utils/router'
 
-// TODO: Improve performance. Way too much rerendering...
+function getLayerIds(layers) {
+    return layers.map(layer => layer.id).toArray()
+}
+function renderSource(source) {
+    return <Source key={source.id} {...source} />
+}
+function renderLayer(layer) {
+    return <Layer key={layer.id} {...layer} />
+}
+
+// TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
+const LocationGenerator = new Map([
+    [Schemas.ForecastRegion.getKey(), feature => ({
+        pathname: `/map/forecasts/${feature.properties.id}`
+    })],
+    [Schemas.HotZoneArea.getKey(), feature => ({
+        pathname: `/map/hot-zone-reports/${feature.properties.id}`
+    })],
+])
 
 function Container({
     sources = [],
@@ -17,39 +35,34 @@ function Container({
     markers = [],
     primary,
     secondary,
-    dispatch,
+    renderMarker,
     zoom,
     center,
     bounds,
-    onZoomend,
-    onMoveend,
-    onClick,
     onMousemove,
-    onMarkerClick,
+    onMoveend,
+    onZoomend,
+    onClick,
+    onLoad,
 }) {
     const props = {
         zoom,
         center,
         bounds,
-        onZoomend,
-        onMoveend,
-        onClick,
         onMousemove,
+        onMoveend,
+        onZoomend,
+        onClick,
+        onLoad,
     }
 
     return (
         <div>
-            <Map {...props}>
-                {sources.map(source => (
-                    <Source key={source.id} {...source} />
-                ))}
-                {layers.map(layer => (
-                    <Layer key={layer.id} {...layer} />
-                ))}
-                {markers.map(marker => (
-                    <Marker key={marker.id} {...marker} onClick={onMarkerClick.bind(null, marker)} />
-                ))}
-            </Map>
+            <Base {...props} >
+                {sources.map(renderSource)}
+                {layers.map(renderLayer)}
+                {markers.map(renderMarker)}
+            </Base>
             <Primary>
                 {primary}
             </Primary>
@@ -62,66 +75,100 @@ function Container({
     )
 }
 
-function handleMoveend({target}) {
-    return centerChanged(target.getCenter().toArray())
-}
-
-function handleZoomend({target}) {
-    return zoomChanged(target.getZoom())
-}
-
-function mapDispatchToProps(dispatch) {
-    const actions = {
-        onMoveend: handleMoveend,
-        onZoomend: handleZoomend,
-        loadData,
-    }
-
-    return {
-        ...bindActionCreators(actions, dispatch),
-        dispatch,
-    }
-}
-
-function mergeProps(state, {dispatch, ...actions}, props) {
-    return {
-        ...state,
-        ...actions,
-        ...props,
-        onClick: state.onClick(dispatch),
-        onMarkerClick(marker, event) {
-            event.stopPropagation()
-
-            const {location, router} = props
-            const {pathname, query} = location
-
-            router.push({
-                pathname,
-                query,
-                ...marker.location,
-            })
-        },
-    }
-}
-
-function getLocation({location}) {
-    return {
-        location
-    }
-}
-
-const context = {
-    location: PropTypes.object,
-}
-
 export default compose(
     withRouter,
-    withContext(context, getLocation),
-    connect(getMapProps, mapDispatchToProps, mergeProps),
-    onlyUpdateForKeys(['layers', 'sources', 'markers', 'bounds', 'location']),
+    connect(mapStateToProps, {
+        zoomChanged,
+        centerChanged,
+        loadStateChanged,
+        loadData,
+        featuresClicked,
+        noFeaturesClicked,
+    }),
+    onlyUpdateForKeys(['layers', 'sources', 'markers', 'bounds']),
     lifecycle({
         componentDidMount() {
             this.props.loadData()
         },
+        componentWillUnmount() {
+            this.props.loadStateChanged(false)
+        },
     }),
+    withHandlers({
+        // TODO: To move
+        onMarkerClick: props => ({location}, event) => {
+            event.stopPropagation()
+
+            pushNewLocation(location, props)
+        },
+        onMousemove: props => event => {
+            const map = event.target
+
+            if (!map.loaded()) {
+                return
+            }
+
+            const canvas = map.getCanvas()
+            const features = map.queryRenderedFeatures(event.point, {
+                layers: getLayerIds(props.layers)
+            })
+            const [feature] = features
+
+            canvas.style.cursor = features.length ? 'pointer' : null
+
+            if (feature && feature.properties.title) {
+                // TODO: Add a title propoerty to all features
+                canvas.setAttribute('title', feature.properties.title)
+            } else {
+                canvas.removeAttribute('title')
+            }
+        },
+        onMoveend: props => event => {
+            const center = event.target.getCenter().toArray()
+            const [lng, lat] = props.center
+
+            if (center[0] !== lng || center[1] !== lat) {
+                props.centerChanged(center)
+            }
+        },
+        onZoomend: props => event => {
+            if (props.zoom !== event.target.getZoom()) {
+                props.zoomChanged(event.target.getZoom())
+            }
+        },
+        onClick: props => event => {
+            const map = event.target
+
+            if (!map.loaded()) {
+                return
+            }
+
+            const features = map.queryRenderedFeatures(event.point, {
+                layers: getLayerIds(props.layers)
+            })
+
+            if (features.length === 0) {
+                props.noFeaturesClicked()
+            } else {
+                for (var i = 0; i < features.length; i++) {
+                    const feature = features[i]
+                    const {source} = feature.layer
+
+                    if (LocationGenerator.has(source)) {
+                        return pushNewLocation(LocationGenerator.get(source)(feature), props)
+                    }
+                }
+
+                props.featuresClicked(features)
+            }
+        },
+        onLoad: props => event => {
+            props.loadStateChanged(true)
+        },
+    }),
+    withProps(({onMarkerClick}) => ({
+        renderMarker(marker) {
+            return <Marker key={marker.id} {...marker} onClick={onMarkerClick} />
+        },
+    }))
 )(Container)

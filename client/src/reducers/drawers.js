@@ -88,7 +88,7 @@ const MENU = {
             ['days', {
                 type: 'listOfValues',
                 // value: '7',
-                value: '30',
+                value: '120',
                 options: new Map([
                     ['1', '1 day'],
                     ['3', '3 days'],

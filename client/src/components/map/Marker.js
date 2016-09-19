@@ -4,9 +4,13 @@ import mapbox from 'mapbox/map'
 
 const {LngLat} = mapbox
 const {assign} = Object
-function createMarker({element, lnglat, options, onClick}) {
+function createMarker(marker) {
+    const {element, lnglat, options, onClick} = marker
+
     if (onClick) {
-        element = assign(element, {onclick: onClick})
+        assign(element, {
+            onclick: event => onClick(marker, event)
+        })
     }
 
     return new mapbox.Marker(element, options).setLngLat(lnglat)

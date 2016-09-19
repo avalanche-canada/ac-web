@@ -10,10 +10,10 @@ const PRIMARY = {
 }
 
 export const getPrimary = createSelector(
-    getLocation,
-    location => ({
+    (state, props) => props.location.pathname,
+    pathname => ({
         ...PRIMARY,
-        open: isPrimaryOpened.test(location.pathname),
+        open: isPrimaryOpened.test(pathname),
     })
 )
 
@@ -25,10 +25,8 @@ const SECONDARY = {
 }
 
 export const getSecondary = createSelector(
-    getLocation,
-    location => {
-        const {panel} = location.query
-
+    (state, props) => props.location.query.panel,
+    panel => {
         if (panel) {
             const [key, id] = panel.split('/')
 

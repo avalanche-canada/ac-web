@@ -13,12 +13,13 @@ export default function configureStore(preloadedState) {
     preloadedState,
     compose(
       applyMiddleware(thunk, api, prismic, createLogger({
+          collapsed: true,
           stateTransformer(state) {
             let newState = {}
 
             for (var key of Object.keys(state)) {
                 if (Iterable.isIterable(state[key])) {
-                    newState[key] = state[key].toJS()
+                    newState[key] = state[key].toJSON()
                 } else {
                     newState[key] = state[key]
                 }

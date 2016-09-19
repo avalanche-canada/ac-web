@@ -23,7 +23,10 @@ export default class Source extends Component {
     get id() {
         return this.props.id
     }
-    add = () => {
+    remove() {
+        this.map.removeSource(this.id)
+    }
+    componentDidMount() {
         const {map, props} = this
         const {id, ...source} = props
 
@@ -32,16 +35,6 @@ export default class Source extends Component {
         }
 
         map.addSource(id, source)
-    }
-    remove() {
-        this.map.removeSource(this.id)
-    }
-    componentDidMount() {
-        if (this.map.loaded()) {
-            this.add()
-        } else {
-            this.map.on('load', this.add)
-        }
     }
     componentWillUnmount() {
         this.remove()

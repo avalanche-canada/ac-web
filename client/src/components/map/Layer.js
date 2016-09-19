@@ -27,7 +27,10 @@ export default class Layer extends Component {
     get id() {
         return this.props.id
     }
-    add = () => {
+    remove() {
+        this.map.removeLayer(this.id)
+    }
+    componentDidMount() {
         const {map, id} = this
         const {before, ...layer} = this.props
 
@@ -37,16 +40,6 @@ export default class Layer extends Component {
         }
 
         map.addLayer(layer, before)
-    }
-    remove() {
-        this.map.removeLayer(this.id)
-    }
-    componentDidMount() {
-        if (this.map.loaded()) {
-            this.add()
-        } else {
-            this.map.on('load', this.add)
-        }
     }
     componentWillUnmount() {
         this.remove()
