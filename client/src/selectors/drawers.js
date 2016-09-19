@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect'
-import {getLocation} from 'selectors/utils'
 import {getSchemaByKey} from 'api/schemas'
 
 const isPrimaryOpened = /^\/map\//i

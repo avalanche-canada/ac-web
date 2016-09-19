@@ -6,11 +6,6 @@ import {getPrimary, getSecondary} from 'selectors/drawers'
 import bbox from 'turf-bbox'
 
 const {LngLatBounds} = mapbox
-let prev = null
-
-// TODO: Some cleanup here!!!!
-// TODO: Rework that!!!
-
 
 const getActiveFeature = createSelector(
     (state, props) => props.params.name,
@@ -26,21 +21,6 @@ const getActiveFeature = createSelector(
         return null
     }
 )
-
-
-
-// function getActiveFeature(state, {params, routes}) {
-//     const {name} = params
-//
-//     if (routes.find(route => route.path === 'forecasts')) {
-//         return getEntityForSchema(state, ForecastRegion, name)
-//     } else if (routes.find(route => route.path === 'hot-zone-reports')) {
-//         return getEntityForSchema(state, HotZoneArea, name)
-//     }
-//
-//     return null
-// }
-//
 
 const getBounds = createSelector(
     getActiveFeature,
