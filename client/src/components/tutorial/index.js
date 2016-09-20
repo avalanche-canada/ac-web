@@ -8,8 +8,12 @@ import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
 import {Page,Main,Content} from 'components/page'
 import {Media, Player} from 'components/media'
+import AtesExercise from './AtesExercise'
 
 import menuTree from './tutorial-menu-tree.json'
+
+
+const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
 
 
 function findSlug(pages, prismicSlug) {
@@ -44,9 +48,9 @@ const MenuItem = ({title, slug, children, currentPage}) => {
     let encodedSlug = encodeURIComponent(slug).replace(/%2F/g, '/')
 
     if (showChildren) {
-            cc = <ol>
+            cc = <ul>
                 {children.map( c => <MenuItem currentPage={currentPage} {...c} /> )}
-            </ol>
+            </ul>
     }
     
     let showElipsis = !showChildren && children.length > 0
@@ -87,9 +91,9 @@ function GalleryImage({url, caption, credit }){
     )
 }
 const SideBar = ({currentPage}) =>
-    <ol className={styles.Sidebar}>
+    <ul className={styles.Sidebar}>
         { menuTree.map( c => <MenuItem currentPage={currentPage} {...c} /> ) }
-    </ol>
+    </ul>
 
 
 const Video = ({src}) =>
@@ -138,22 +142,28 @@ const TutorialPage = ({doc}) => {
     )
 }
 
-const Tutorial = (props) => {
-    const {loading, error, doc, params} = props
+const Tutorial = ({loading, error, doc, params}) => {
+    let page = null
+    let isAtes = params.splat === ATES_EXERCISE_SLUG
+    if (isAtes) {
+        page = <AtesExercise />
+    } else {
+        page = doc && <TutorialPage doc={doc} /> 
+    }
     return (
-    <Page>
-        <Content>
-            <Main>
-                <div styleName='TutorialPage'>
-                    <SideBar  currentPage={params.splat} />
-                    <div className={styles.TutorialContent}>
-                        { loading && <p>Loading...</p> }
-                        { doc && <TutorialPage doc={doc} /> }
+        <Page>
+            <Content>
+                <Main>
+                    <div styleName='TutorialPage'>
+                        <SideBar  currentPage={params.splat} />
+                        <div className={styles.TutorialContent}>
+                            { loading && !isAtes && <p>Loading...</p> }
+                            { page }
+                        </div>
                     </div>
-                </div>
-            </Main>
-        </Content>
-    </Page>
+                </Main>
+            </Content>
+        </Page>
     )
 }
 
