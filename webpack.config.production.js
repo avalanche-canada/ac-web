@@ -3,8 +3,11 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
-var DefinePlugin = webpack.DefinePlugin
+var CommonsChunkPlugin       = webpack.optimize.CommonsChunkPlugin
+var UglifyJsPlugin           = webpack.optimize.UglifyJsPlugin
+var OccurrenceOrderPlugin    = webpack.optimize.OccurrenceOrderPlugin
+var DedupePlugin             = webpack.optimize.DedupePlugin
+var DefinePlugin             = webpack.DefinePlugin
 var ContextReplacementPlugin = webpack.ContextReplacementPlugin
 
 module.exports = {
@@ -16,6 +19,7 @@ module.exports = {
         path: path.join(__dirname, 'dist', 'public'),
         filename: '[name].js',
 	},
+    devtool: 'source-map',
     module: {
 		loaders: [{
 			test: /\.js$/,
@@ -98,5 +102,8 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
         new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+        new UglifyJsPlugin(),
+        new OccurrenceOrderPlugin(),
+        new DedupePlugin(),
 	]
 }
