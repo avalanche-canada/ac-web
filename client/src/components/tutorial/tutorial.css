@@ -38,9 +38,9 @@
 }
 
 :global(.callout-info) {
-  border:1px solid #bce8f1;
-  background:#d9edf7;
-  color:#31708f;
+  border:1px solid var(--info-dark);
+  background:var(--info);
+  color: var(--info-dark);
 
   display: block;
   padding: 1rem 2rem;
@@ -50,9 +50,9 @@
 }
 
 :global(.callout-warning) {
-  background: #f2dede;
-  border: 1px solid #ebccd1;
-  color: #a94442;
+  background: var(--danger);
+  border: 1px solid var(--danger-dark);
+  color: rgb(181, 78, 78) /*var(--danger-dark)*/;
 
   display: block;
   padding: 1rem 2rem;
