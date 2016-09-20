@@ -20,14 +20,10 @@ import {
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const LOAD_STATE_CHANGED = 'LOAD_STATE_CHANGED'
-export const FEATURES_CLICKED = 'FEATURES_CLICKED'
-export const NO_FEATURES_CLICKED = 'NO_FEATURES_CLICKED'
 
 export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
 export const loadStateChanged = createAction(LOAD_STATE_CHANGED)
-export const featuresClicked = createAction(FEATURES_CLICKED)
-export const noFeaturesClicked = createAction(NO_FEATURES_CLICKED)
 
 export function loadData() {
     return (dispatch, getState) => {

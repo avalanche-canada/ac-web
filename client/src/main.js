@@ -15,6 +15,7 @@ import 'normalize.css'
 import 'styles/scaffolding.css'
 import 'styles/prismic.css'
 import 'styles/auth0.css'
+import 'styles/map.css'
 
 configureRaven()
 

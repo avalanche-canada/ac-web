@@ -136,10 +136,10 @@ export default function computeRoutes(store) {
     }
 
     function handleIncidentsRouteEnter(props, replace) {
-        ensurePagination(props, replace)
+        enforcePagination(props, replace)
     }
 
-    function ensurePagination({location}, replace) {
+    function enforcePagination({location}, replace) {
         const {query} = location
 
         if (query.page !== undefined && query.pageSize !== undefined) {

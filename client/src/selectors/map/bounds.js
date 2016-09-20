@@ -22,7 +22,7 @@ const getActiveFeature = createSelector(
     }
 )
 
-const getBounds = createSelector(
+export default createSelector(
     getActiveFeature,
     getPrimary,
     getSecondary,
@@ -47,13 +47,4 @@ const getBounds = createSelector(
             }
         }
     }
-)
-
-export default createSelector(
-    getBounds,
-    state => state.map,
-    (bounds, map) => ({
-        ...map,
-        bounds,
-    })
 )

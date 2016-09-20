@@ -1,12 +1,17 @@
-import {ForecastRegion} from 'api/schemas'
-import {createElement} from './utils'
+import {createSelector} from 'reselect'
 import {point} from 'turf-helpers'
 import mapbox from 'mapbox/map'
 import {FORECASTS} from 'constants/map/layers'
+import {ForecastRegion as Schema} from 'api/schemas'
+import {getEntitiesForSchema} from 'reducers/api/getters'
+import {createElement} from './utils'
 
-const {keys} = Object
 const {LngLat} = mapbox
-const key = ForecastRegion.getKey()
+const key = Schema.getKey()
+
+function getFeatures(state) {
+    return getEntitiesForSchema(state, Schema)
+}
 
 function createMarker({id, properties}) {
     const {dangerIconUrl, centroid, name} = properties
@@ -28,11 +33,7 @@ function createMarker({id, properties}) {
     }
 }
 
-export default []
-
-export function addToList(state, {payload}) {
-    const regions = payload.entities[key]
-    const features = keys(regions).map(key => createMarker(regions[key]))
-
-    return state.concat(features)
-}
+export default createSelector(
+    getFeatures,
+    features => features.toList().toJSON().map(createMarker)
+)

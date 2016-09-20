@@ -42,7 +42,7 @@ export const AvalancheCanada = {
             id: '57d9dbc2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Trip Planner',
             header: true,
-            to: '/trip-planner'
+            to: 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning'
         }, {
             id: 'a9638b8b-e8e0-4618-93ef-bc404a21f396',
             label: 'Forecast Archive',

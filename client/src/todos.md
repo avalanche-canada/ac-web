@@ -33,4 +33,4 @@
 
 # Map
 [] - Remove forecast region centroids
-[] -
+[] - Remove toJSON in selectors. Have to look at mergeDeep > have to keep plain objects.

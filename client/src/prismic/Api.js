@@ -22,7 +22,6 @@ export function QueryDocumentByUid(type, uid) {
 export function QueryDocumentByBookmark(name) {
     return Api().then(api => {
         const id = api.api.bookmarks[name]
-            console.info("the id:", id)
 
         return query(api, {}, Predicates.at('document.id', id))
     }).then(first)

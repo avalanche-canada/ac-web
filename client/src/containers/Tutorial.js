@@ -1,7 +1,7 @@
 
 import {lifecycle, compose, branch} from  'recompose'
 import connector from 'containers/connectors/connector'
-import {Query, QueryDocumentByBookmark} from 'prismic/api'
+import {Query, QueryDocumentByBookmark} from 'prismic'
 import {Predicates} from 'prismic.io'
 
 import Tutorial from 'components/tutorial'
@@ -40,7 +40,7 @@ const tutorialContainer = lifecycle({
         this.setState({loading:false, isError: false, doc: doc})
     },
 
-    error(err) { 
+    error(err) {
        this.setState({loading:false, isError: true, err: err})
        console.error("ERROR", err)
     }

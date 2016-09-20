@@ -18,7 +18,6 @@ export default createSelector(
     getTransformedDocuments,
     getIsFetching,
     (type, documents, isFetching) => {
-        console.warn(documents.first())
         const featured = documents.find(isFeatured) || documents.first()
         const list = documents.filter(document => document !== featured)
         let message = null

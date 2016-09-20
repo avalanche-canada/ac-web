@@ -41,32 +41,32 @@ Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
+function toObject(layer) {
+    return layer.toObject()
+}
+
 function Menu({sets = [], toggleLayer, changeFilter}) {
     return (
         <Content>
-            {sets.map(({title, layers}) => {
-                return (
-                    <LayerSet title={title}>
-                        {layers
-                            .toList().toJSON()
-                            .map(({filters, ...layer}, type) => {
-                                const handleFilterChange = changeFilter.bind(null, type)
-                                const props = {
-                                    key: type,
-                                    icon: ICONS.get(type),
-                                    onClick: event => toggleLayer(type),
-                                }
-
-                                return (
-                                    <Layer {...props} {...layer}>
-                                        {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
-                                    </Layer>
-                                )
-                            })
+            {sets.map(({title, layers}) => (
+                <LayerSet title={title}>
+                    {layers.map(toObject).map(({filters, ...layer}, type) => {
+                        const handleFilterChange = changeFilter.bind(null, type)
+                        const props = {
+                            ...layer,
+                            key: type,
+                            icon: ICONS.get(type),
+                            onClick: event => toggleLayer(type),
                         }
-                    </LayerSet>
-                )
-            })}
+
+                        return (
+                            <Layer {...props}>
+                                {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
+                            </Layer>
+                        )
+                    })}
+                </LayerSet>
+            ))}
         </Content>
     )
 }

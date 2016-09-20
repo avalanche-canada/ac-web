@@ -1,6 +1,8 @@
 import {paramsToKey} from 'api/utils'
 import {RESULT} from './results'
 
+export {getEntitiesForSchema} from './entities'
+
 function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]
 }

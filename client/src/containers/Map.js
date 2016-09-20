@@ -1,13 +1,16 @@
 import React, {PropTypes} from 'react'
-import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers} from 'recompose'
+import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withState} from 'recompose'
+import {List} from 'immutable'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Map as Base, Source, Layer, Marker} from 'components/map'
-import {zoomChanged, centerChanged, loadStateChanged, loadData, featuresClicked, noFeaturesClicked} from 'actions/map'
+import {zoomChanged, centerChanged, loadData} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import {Primary, Secondary, Menu, OpenMenu} from './drawers'
 import * as Schemas from 'api/schemas'
-import {pushNewLocation} from 'utils/router'
+import {pushNewLocation, pushQuery} from 'utils/router'
+
+const EMPTY = new List()
 
 function getLayerIds(layers) {
     return layers.map(layer => layer.id).toArray()
@@ -30,11 +33,10 @@ const LocationGenerator = new Map([
 ])
 
 function Container({
-    sources = [],
-    layers = [],
-    markers = [],
+    sources = EMPTY,
+    layers = EMPTY,
+    markers = EMPTY,
     primary,
-    secondary,
     renderMarker,
     zoom,
     center,
@@ -44,6 +46,8 @@ function Container({
     onZoomend,
     onClick,
     onLoad,
+    isMapLoaded,
+    location,
 }) {
     const props = {
         zoom,
@@ -55,20 +59,19 @@ function Container({
         onClick,
         onLoad,
     }
-
+    // TODO: This container should be a layout that renders a map and all drawers.
+    // TODO: Passing location to Secondary => there most be a better way to do that. Perhaps passing the component as named component.
     return (
         <div>
-            <Base {...props} >
-                {sources.map(renderSource)}
-                {layers.map(renderLayer)}
-                {markers.map(renderMarker)}
+            <Base {...props}>
+                {isMapLoaded && sources.map(renderSource)}
+                {isMapLoaded && layers.map(renderLayer)}
+                {isMapLoaded && markers.map(renderMarker)}
             </Base>
             <Primary>
                 {primary}
             </Primary>
-            <Secondary>
-                {secondary}
-            </Secondary>
+            <Secondary location={location} />
             <OpenMenu />
             <Menu />
         </div>
@@ -80,22 +83,17 @@ export default compose(
     connect(mapStateToProps, {
         zoomChanged,
         centerChanged,
-        loadStateChanged,
         loadData,
-        featuresClicked,
-        noFeaturesClicked,
     }),
+    // TODO: Split map into a container and create a layout
     onlyUpdateForKeys(['layers', 'sources', 'markers', 'bounds']),
     lifecycle({
         componentDidMount() {
             this.props.loadData()
         },
-        componentWillUnmount() {
-            this.props.loadStateChanged(false)
-        },
     }),
+    withState('isMapLoaded', 'setMapLoadedState', false),
     withHandlers({
-        // TODO: To move
         onMarkerClick: props => ({location}, event) => {
             event.stopPropagation()
 
@@ -117,7 +115,6 @@ export default compose(
             canvas.style.cursor = features.length ? 'pointer' : null
 
             if (feature && feature.properties.title) {
-                // TODO: Add a title propoerty to all features
                 canvas.setAttribute('title', feature.properties.title)
             } else {
                 canvas.removeAttribute('title')
@@ -125,16 +122,11 @@ export default compose(
         },
         onMoveend: props => event => {
             const center = event.target.getCenter().toArray()
-            const [lng, lat] = props.center
 
-            if (center[0] !== lng || center[1] !== lat) {
-                props.centerChanged(center)
-            }
+            props.centerChanged(center)
         },
         onZoomend: props => event => {
-            if (props.zoom !== event.target.getZoom()) {
-                props.zoomChanged(event.target.getZoom())
-            }
+            props.zoomChanged(event.target.getZoom())
         },
         onClick: props => event => {
             const map = event.target
@@ -148,22 +140,22 @@ export default compose(
             })
 
             if (features.length === 0) {
-                props.noFeaturesClicked()
+
             } else {
                 for (var i = 0; i < features.length; i++) {
                     const feature = features[i]
-                    const {source} = feature.layer
+                    const {layer} = feature
+                    const {source} = layer
 
                     if (LocationGenerator.has(source)) {
                         return pushNewLocation(LocationGenerator.get(source)(feature), props)
                     }
                 }
 
-                props.featuresClicked(features)
             }
         },
         onLoad: props => event => {
-            props.loadStateChanged(true)
+            props.setMapLoadedState(true)
         },
     }),
     withProps(({onMarkerClick}) => ({

@@ -17,6 +17,7 @@ function Branch({open, children}) {
 
 export default compose(
     withRouter,
+    // TODO: There most be a better way to do that...
     getContext({
         location: PropTypes.object,
     }),

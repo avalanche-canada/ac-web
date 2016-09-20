@@ -84,6 +84,7 @@ export default compose(
     withProps(({schema, setIsError, loadObservation}) => ({
         messages: Messages.get(schema),
         load() {
+            // TODO: Need a better way to load only the one I need. 
             loadObservation(60).catch(err => setIsError(true))
         }
     })),

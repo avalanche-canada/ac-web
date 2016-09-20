@@ -1,17 +1,19 @@
-import {MountainInformationNetworkSubmission, MountainInformationNetworkObservation} from 'api/schemas'
+import {createSelector} from 'reselect'
+import {
+    MountainInformationNetworkSubmission,
+    MountainInformationNetworkObservation
+} from 'api/schemas'
 import {createElement, POSITIONS} from './utils'
 import {point} from 'turf-helpers'
 import mapbox from 'mapbox/map'
 import place from 'components/icons/place.svg'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
+import {getEntitiesForSchema} from 'reducers/api/getters'
 
-const {keys} = Object
 const {LngLat} = mapbox
 
 const key = MountainInformationNetworkSubmission.getKey()
 const obsKey = MountainInformationNetworkObservation.getKey()
-
-export default []
 
 function createMarkers({latlng, obs = []}) {
     const {length} = obs
@@ -32,23 +34,24 @@ function createMarkers({latlng, obs = []}) {
             style: POSITIONS.get(length).get(index),
             width: 40,
             height: 40,
-            className: 'hidden-map-marker',
+            // className: 'hidden-map-marker',
         }),
         lnglat,
         options: {
-            offset: [-25, -25]
+            offset: [-20, -20]
         },
     }))
 }
 
-export function addToList(state, {payload}) {
-    const submissions = payload.entities[key]
-
-    if (!submissions) {
-        return state
-    }
-
-    return keys(submissions).reduce((state, key) => (
-        state.concat(createMarkers(submissions[key]))
-    ), state)
+function getSubmissions(state) {
+    return getEntitiesForSchema(state, MountainInformationNetworkSubmission)
 }
+
+function submissionReducer(submissions, submission) {
+    return submissions.concat(createMarkers(submission.toJSON()))
+}
+
+export default createSelector(
+    getSubmissions,
+    submissions => submissions.reduce(submissionReducer, [])
+)
