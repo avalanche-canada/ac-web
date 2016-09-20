@@ -1,7 +1,7 @@
 
-import {lifecycle, compose, mapProps} from  'recompose'
+import {lifecycle, compose, branch} from  'recompose'
 import connector from 'containers/connectors/connector'
-import {Query} from 'prismic/api'
+import {Query, QueryDocumentByBookmark} from 'prismic/api'
 import {Predicates} from 'prismic.io'
 
 import Tutorial from 'components/tutorial'
@@ -22,23 +22,27 @@ const tutorialContainer = lifecycle({
     load(slug) {
         this.setState({loading: true, isError: false, doc: null})
 
-        Query([Predicates.at('document.type', 'tutorial-page'),
-               Predicates.at('my.tutorial-page.slug', slug)])
-            .then(this.success)
-            .catch(this.error)
+        let q = undefined;
+        if (slug === '') {
+            q = QueryDocumentByBookmark('tutorial-home')
+        } else {
+            q = Query([Predicates.at('document.type', 'tutorial-page'),
+                       Predicates.at('my.tutorial-page.slug', slug)])
+                .then(r => r.results[0])
+        }
+
+        q.then(this.success)
+         .catch(this.error)
     },
 
 
     success(doc) {
-        if(doc.results_size !== 1 ) {
-            console.warn('Expected 1 document, got ', doc.results_size)
-        }
-        this.setState({loading:false, isError: false, doc: doc.results[0]})
+        this.setState({loading:false, isError: false, doc: doc})
     },
 
     error(err) { 
        this.setState({loading:false, isError: true, err: err})
-       console.error("ERROR", e)
+       console.error("ERROR", err)
     }
 })
 

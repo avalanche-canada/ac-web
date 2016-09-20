@@ -37,10 +37,11 @@
   composes: spacing;
 }
 
+
 :global(.callout-info) {
   border:1px solid var(--info-dark);
   background:var(--info);
-  color: var(--info-dark);
+  color: rgb(42, 130, 175) /*var(--info-dark)*/;
 
   display: block;
   padding: 1rem 2rem;

@@ -147,9 +147,12 @@ const Tutorial = ({loading, error, doc, params}) => {
     let isAtes = params.splat === ATES_EXERCISE_SLUG
     if (isAtes) {
         page = <AtesExercise />
+    } else if (params.splat === ''){
+        page = doc && <TutorialHome doc={doc} />
     } else {
         page = doc && <TutorialPage doc={doc} /> 
     }
+
     return (
         <Page>
             <Content>
@@ -167,5 +170,15 @@ const Tutorial = ({loading, error, doc, params}) => {
     )
 }
 
+
+function TutorialHome({doc}) {
+    let title = doc.data['generic.title'].value
+    return (
+        <div>
+            <h1> {title}</h1>
+            <TextBlock field={doc.fragments['generic.body']} />
+        </div>
+    )
+}
 
 export default CSSModules(Tutorial, styles)
