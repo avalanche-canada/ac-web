@@ -67,6 +67,22 @@
     }
 }
 
+.List--Inline {
+    & .Term {
+        color: var(--gray-darker);
+        font-weight: 700;
+    }
+
+    & .Child {
+      flex: 0 1 100%
+    }
+}
+
+.List--Inline--1Columns {
+    composes: List;
+    composes: List--Inline;
+}
+
 .List--Simple--1Columns {
     composes: List--Simple;
     composes: List--1Columns;

@@ -11,12 +11,27 @@ import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
 
 function renderControlled(data, asControlled) {
+    //TODO(wnh): make the special "Description" less special
+    //TODO(wnh): Remove the inline style!!!!!!!!
+    let controlled = asControlled(data)
+    let {Description} = controlled
+    delete controlled.Description
+
     return (
         <Row key={`controlled-${data.id}`}>
             <Cell>
-                <List columns={2} horizontal>
-                    {asTermAndDefinition(asControlled(data))}
-                </List>
+                <div style={{display:"flex"}}>
+                    <div style={{flex:1}}>
+                        <List columns={1} theme="Inline" horizontal>
+                            {asTermAndDefinition({Description})}
+                        </List>
+                    </div>
+                    <div style={{flex:1}}>
+                        <List columns={1} horizontal>
+                            {asTermAndDefinition(controlled)}
+                        </List>
+                    </div>
+                </div>
             </Cell>
         </Row>
     )

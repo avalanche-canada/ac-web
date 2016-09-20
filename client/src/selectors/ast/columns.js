@@ -38,6 +38,17 @@ export const description = {
         )
     },
 }
+export const courseProvider = {
+    name: 'provider',
+    title: 'Provider',
+    property({provider}) {
+        return (
+            <span>
+                {provider.name}
+            </span>
+        )
+    },
+}
 
 export const distance = {
     name: 'distance',

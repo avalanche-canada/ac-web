@@ -20,12 +20,12 @@ const {ASC, DESC, NONE} = HeaderCellOrders
 const {keys, assign} = Object
 const {isArray} = Array
 
-function asControlled({provider}) {
+function asControlled({description, provider}) {
     const {name, email, phone, website, prim_contact, location} = provider
 
     return {
         Name: name,
-        Contact: prim_contact,
+        Description: description,
         Website() {
             return (
                 <a href={website} target='_blank'>{website}</a>
@@ -69,7 +69,7 @@ export const table = createSelector(
         List.of(
             Columns.dateRanges,
             Columns.course,
-            Columns.description,
+            Columns.courseProvider,
             Columns.distance,
             Columns.location,
             Columns.tags,
