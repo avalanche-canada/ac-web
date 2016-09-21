@@ -3,16 +3,14 @@ import {HotZoneArea} from 'api/schemas'
 const key = HotZoneArea.getKey()
 
 export default [{
-    id: `${key}-line`,
+    id: key,
     source: key,
-    type: 'line',
+    type: 'circle',
     layout: {
         visibility: 'visible',
-        // 'line-join': 'round',
-        // 'line-cap': 'round',
     },
     paint: {
-        'line-color': {
+        'circle-color': {
             property: 'active',
             type: 'categorical',
             stops: [
@@ -20,23 +18,16 @@ export default [{
                 [1, '#245eac'],
             ]
         },
-        'line-width': 25,
-        // 'line-blur': 100,
-    },
-}, {
-    id: key,
-    source: key,
-    type: 'fill',
-    layout: {
-        visibility: 'visible',
-    },
-    paint: {
-        'fill-color': {
-            property: 'active',
-            type: 'categorical',
+        'circle-opacity': 0.9,
+        'circle-blur': 0.75,
+        'circle-radius': {
             stops: [
-                [0, 'rgb(100, 100, 100)'],
-                [1, '#245EAC'],
+                [4, 25],
+                [8, 100],
+                [10, 400],
+                [12, 700],
+                [15, 1000],
+                [20, 2500],
             ]
         },
     },

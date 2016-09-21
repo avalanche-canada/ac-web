@@ -19,9 +19,8 @@ function getReportFeatures(state) {
 const getTransformedFeatures = createSelector(
     [getAreaFeatures, getReportFeatures],
     (areas, reports) => areas.toList().toJSON().map(area => {
-        // TODO: Remove that stuff once https://github.com/Turfjs/turf-buffer/pull/33 is closed
         const {properties} = area
-        const {geometry} = buffer(point(properties.centroid), 25, 'kilometers')
+        const {geometry} = point(properties.centroid)
 
         return assign(area, {
             geometry,
