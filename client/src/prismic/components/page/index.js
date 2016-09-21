@@ -96,11 +96,12 @@ export function simple(uid) {
     )(Simple)
 }
 
-export function generic(bookmark, title) {
+export function generic(uid, title) {
     return compose(
         withProps({
             params: {
-                bookmark
+                type: 'generic',
+                uid
             },
             title,
         }),

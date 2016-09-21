@@ -26,7 +26,9 @@ export Tutorial from './Tutorial'
 export Weather from './Weather'
 
 // Mountain Information Network
-export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
+// export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
+export const MountainInformationNetworkSubmit = generic('mountain-information-network-submit-wip', 'Mountain Information Network — Submit')
+
 
 // Static Pages
 export const Sled = staticPage('sled', 'Sled')
@@ -43,7 +45,6 @@ export const Sponsors = staticPage('sponsors', 'Sponsors')
 export const Collaborators = staticPage('collaborators', 'Collaborators')
 export const MembershipOverview = staticPage('membership-overview', 'Membership Overview')
 
-export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
-export const TermsOfUse = generic('about-tou', 'Terms of use')
-//export const Tutorial = generic('tutorial', 'Tutorial')
+export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
+export const TermsOfUse = generic('terms-of-use', 'Terms of use')
 export const Auction = generic('auction', 'Auction')
