@@ -8,7 +8,7 @@ SocialItem.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function SocialItem({ text, children }) {
+function SocialItem({text, children}) {
     return (
         <div styleName='SocialItem'>
             {text}

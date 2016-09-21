@@ -6,16 +6,16 @@ Share.propTypes = {
     url: PropTypes.string.isRequired
 }
 
-export default function Share({ url = document.location.href }) {
+export default function Share({url = document.location.href}) {
     return (
         <SocialItem text='Share This'>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}`} title='Share this page on Facebook'>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}`} target='_blank' title='Share this page on Facebook'>
                 <Facebook />
             </a>
-            <a href={`https://twitter.com/intent/tweet?url=${url}`} title='Share this page on Twitter'>
+            <a href={`https://twitter.com/intent/tweet?url=${url}`} target='_blank' title='Share this page on Twitter'>
                 <Twitter />
             </a>
-            <a href={`https://plus.google.com/share?url=${url}`} title='Share this page on GooglePlus'>
+            <a href={`https://plus.google.com/share?url=${url}`} target='_blank' title='Share this page on GooglePlus'>
                 <GooglePlus />
             </a>
         </SocialItem>
