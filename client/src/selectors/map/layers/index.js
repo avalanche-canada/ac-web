@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import ForecastLayers, {labels as ForecastLabels} from './forecast'
 import HotZoneReportLayers from './hotZoneReport'
-// import MountainInformationNetworkLayers from './mountainInformationNetwork'
+import MountainInformationNetworkLayers from './mountainInformationNetwork'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 import {setVisibility} from './utils'
 import * as Layers from 'constants/map/layers'
@@ -24,7 +24,7 @@ const LayerMapping = new Map([
         ...ForecastLabels,
     ]],
     [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers],
-    // [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers],
 ])
 
 function layerIdReducer(all, name) {
