@@ -35,6 +35,7 @@ export default [{
     id: `${key}-labels`,
     source: key,
     type: 'symbol',
+    minzoom: 5.25,
     layout: {
         visibility: 'visible',
         'text-field': '{name}',

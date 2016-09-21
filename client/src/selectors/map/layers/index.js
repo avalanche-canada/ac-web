@@ -1,8 +1,8 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
-import ForecastLayers from './forecast'
+import ForecastLayers, {labels as ForecastLabels} from './forecast'
 import HotZoneReportLayers from './hotZoneReport'
-import MountainInformationNetworkLayers from './mountainInformationNetwork'
+// import MountainInformationNetworkLayers from './mountainInformationNetwork'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 import {setVisibility} from './utils'
 import * as Layers from 'constants/map/layers'
@@ -10,6 +10,7 @@ import * as Layers from 'constants/map/layers'
 const LAYERS = new List([
     ...ForecastLayers,
     ...HotZoneReportLayers,
+    ...ForecastLabels,
     // ...MountainInformationNetworkLayers,
 ])
 
@@ -18,9 +19,12 @@ function getLegendId(layer) {
 }
 
 const LayerMapping = new Map([
-    [Layers.FORECASTS, ForecastLayers],
+    [Layers.FORECASTS, [
+        ...ForecastLayers,
+        ...ForecastLabels,
+    ]],
     [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers],
+    // [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers],
 ])
 
 function layerIdReducer(all, name) {

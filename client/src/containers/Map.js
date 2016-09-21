@@ -23,8 +23,12 @@ function renderLayer(layer) {
 }
 
 // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
+// TODO: Implements a better way usong RegExp
 const LocationGenerator = new Map([
     [Schemas.ForecastRegion.getKey(), feature => ({
+        pathname: `/map/forecasts/${feature.properties.id}`
+    })],
+    [`${Schemas.ForecastRegion.getKey()}-centroids`, feature => ({
         pathname: `/map/forecasts/${feature.properties.id}`
     })],
     [Schemas.HotZoneArea.getKey(), feature => ({
@@ -46,7 +50,7 @@ function Container({
     onZoomend,
     onClick,
     onLoad,
-    isMapLoaded,
+    map,
     location,
 }) {
     const props = {
@@ -64,9 +68,9 @@ function Container({
     return (
         <div>
             <Base {...props}>
-                {isMapLoaded && sources.map(renderSource)}
-                {isMapLoaded && layers.map(renderLayer)}
-                {isMapLoaded && markers.map(renderMarker)}
+                {map && sources.map(renderSource)}
+                {map && layers.map(renderLayer)}
+                {map && markers.map(renderMarker)}
             </Base>
             <Primary>
                 {primary}
@@ -78,6 +82,14 @@ function Container({
     )
 }
 
+function setForecastRegionsFilter(id = '') {
+    this.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+}
+function setActiveForecastRegion(name = '') {
+    this.setFilter('forecast-regions-active', ['==', 'id', name])
+    this.setFilter('forecast-regions-contour-active', ['==', 'id', name])
+}
+
 export default compose(
     withRouter,
     connect(mapStateToProps, {
@@ -87,12 +99,21 @@ export default compose(
     }),
     // TODO: Split map into a container and create a layout
     onlyUpdateForKeys(['layers', 'sources', 'markers', 'bounds']),
+    withState('map', 'setMap', null),
     lifecycle({
         componentDidMount() {
             this.props.loadData()
         },
+        componentDidUpdate() {
+            const {params, routes, map} = this.props
+
+            if (map && routes.find(route => route.path === 'forecasts')) {
+                setActiveForecastRegion.call(map, params.name)
+            } else {
+                setActiveForecastRegion.call(map)
+            }
+        },
     }),
-    withState('isMapLoaded', 'setMapLoadedState', false),
     withHandlers({
         onMarkerClick: props => ({location}, event) => {
             event.stopPropagation()
@@ -101,32 +122,48 @@ export default compose(
         },
         onMousemove: props => event => {
             const map = event.target
+            const {point} = event
 
             if (!map.loaded()) {
                 return
             }
 
             const canvas = map.getCanvas()
-            const features = map.queryRenderedFeatures(event.point, {
+            const features = map.queryRenderedFeatures(point, {
                 layers: getLayerIds(props.layers)
             })
-            const [feature] = features
 
             canvas.style.cursor = features.length ? 'pointer' : null
 
-            if (feature && feature.properties.title) {
-                canvas.setAttribute('title', feature.properties.title)
+            const [feature] = features
+
+            if (feature && feature.properties) {
+                const {title, id} = feature.properties
+
+                if (title) {
+                    canvas.setAttribute('title', title)
+                } else {
+                    canvas.removeAttribute('title')
+                }
+
+                if (/^forecast-regions/.test(feature.layer.id)) {
+                    setForecastRegionsFilter.call(map, id)
+                } else {
+                    setForecastRegionsFilter.call(map)
+                }
             } else {
-                canvas.removeAttribute('title')
+                setForecastRegionsFilter.call(map)
             }
         },
         onMoveend: props => event => {
             const center = event.target.getCenter().toArray()
-
+// console.warn(center)
             props.centerChanged(center)
         },
         onZoomend: props => event => {
-            props.zoomChanged(event.target.getZoom())
+            const zoom = event.target.getZoom()
+// console.warn(zoom)
+            props.zoomChanged(zoom)
         },
         onClick: props => event => {
             const map = event.target
@@ -140,7 +177,7 @@ export default compose(
             })
 
             if (features.length === 0) {
-
+                // TODO: Deal with clusters later ;)
             } else {
                 for (var i = 0; i < features.length; i++) {
                     const feature = features[i]
@@ -155,7 +192,7 @@ export default compose(
             }
         },
         onLoad: props => event => {
-            props.setMapLoadedState(true)
+            props.setMap(event.target)
         },
     }),
     withProps(({onMarkerClick}) => ({

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {ForecastRegion as Schema} from 'api/schemas'
-import {createSource} from './utils'
+import {createSource, createCentroid} from './utils'
 import {getEntitiesForSchema} from 'reducers/api/getters'
 
 const {assign} = Object
@@ -26,5 +26,13 @@ export default createSelector(
     features => createSource({
         id: key,
         features,
+    })
+)
+
+export const getCentroids = createSelector(
+    getTransformedFeatures,
+    features => createSource({
+        id: `${key}-centroids`,
+        features: features.map(createCentroid)
     })
 )

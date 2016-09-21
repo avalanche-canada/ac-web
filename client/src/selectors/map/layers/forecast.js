@@ -1,28 +1,12 @@
 import {ForecastRegion} from 'api/schemas'
 
 const key = ForecastRegion.getKey()
+const COLOR = '#B43A7E'
 
 export default [{
     id: key,
     source: key,
     type: 'fill',
-    layout: {
-        visibility: 'visible',
-    },
-    paint: {
-        'fill-color': '#C8D3D9',
-        'fill-opacity': {
-            stops: [
-                [3, 1],
-                [8, 0],
-            ]
-        },
-    },
-}, {
-    id: `${key}-hover`,
-    source: key,
-    type: 'fill',
-    filter: ['==', 'id', ''],
     layout: {
         visibility: 'visible',
     },
@@ -61,7 +45,7 @@ export default [{
         'line-join': 'round',
     },
     paint: {
-        'line-color': '#B43A7E',
+        'line-color': COLOR,
         'line-width': 1.5,
     },
 }, {
@@ -74,8 +58,8 @@ export default [{
         'line-join': 'round',
     },
     paint: {
-        'line-color': '#B43A7E',
-        'line-width': 3,
+        'line-color': COLOR,
+        'line-width': 4,
     },
 }, {
     id: `${key}-contour-active`,
@@ -87,21 +71,41 @@ export default [{
         'line-join': 'round',
     },
     paint: {
-        'line-color': '#B43A7E',
-        'line-width': 3,
+        'line-color': COLOR,
+        'line-width': 4,
     },
-}, {
-    id: `${key}-labels`,
-    source: key,
+}]
+
+export const labels = [{
+    id: `${key}-main-labels`,
+    source: `${key}-centroids`,
     type: 'symbol',
     minzoom: 4,
     layout: {
         visibility: 'visible',
         'text-field': '{name}',
         'text-size': 12,
+        'text-offset': [0, 3],
+        'text-padding': 10,
     },
     paint: {
-        'text-color': '#B43A7E',
+        'text-color': COLOR,
+        'text-halo-color': 'rgb(255, 255, 255)',
+        'text-halo-width': 1,
+    },
+}, {
+    id: `${key}-labels`,
+    source: key,
+    type: 'symbol',
+    minzoom: 8,
+    layout: {
+        visibility: 'visible',
+        'text-field': '{name}',
+        'text-size': 12,
+        'text-ignore-placement': true,
+    },
+    paint: {
+        'text-color': COLOR,
         'text-halo-color': 'rgb(255, 255, 255)',
         'text-halo-width': 1,
     },

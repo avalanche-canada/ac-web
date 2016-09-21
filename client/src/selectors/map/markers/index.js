@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {setVisibility} from './utils'
 import getForecastMarkers from './forecast'
-import getMountainInformationNetworkMarkers from './mountainInformationNetwork'
+// import getMountainInformationNetworkMarkers from './mountainInformationNetwork'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 
 const getMarkers = createSelector(
