@@ -41,6 +41,7 @@ export const MountainInformationNetworkFAQ = staticPage('mountain-information-ne
 export const Ambassadors = staticPage('ambassadors', 'Ambassadors')
 export const Sponsors = staticPage('sponsors', 'Sponsors')
 export const Collaborators = staticPage('collaborators', 'Collaborators')
+export const MembershipOverview = staticPage('membership-overview', 'Membership Overview')
 
 export const PrivacyPolicy = generic('about-privacy', 'Privacy Policy')
 export const TermsOfUse = generic('about-tou', 'Terms of use')

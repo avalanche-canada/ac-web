@@ -44,6 +44,7 @@ import {
     TripPlanner,
     IncidentsTable,
     IncidentDetails,
+    MembershipOverview,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -244,6 +245,7 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={TripPlanner} />
             <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
             <Route path='incidents/:slug' component={IncidentDetails} />
+            <Route path='membership' component={MembershipOverview} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
             <Redirect from='min/submit' to='mountain-information-network/submit' />

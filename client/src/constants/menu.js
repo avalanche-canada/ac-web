@@ -24,6 +24,11 @@ export const AvalancheCanada = {
             to: '/map/forecasts',
             children: []
         }, {
+            id: '6371e135-1953-4593-a4bf-98c077f1071e',
+            label: 'Mountain Weather Forecast',
+            header: true,
+            to: '/weather'
+        }, {
             id: '57d9d3a2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Blogs',
             header: true,
@@ -33,11 +38,6 @@ export const AvalancheCanada = {
             label: 'Historic Incidents',
             header: true,
             to: 'http://old.avalanche.ca/cac/library/incident-report-database/view'
-        }, {
-            id: '57d9d9c4-1871-11e6-b6ba-3e1d05defe78',
-            label: 'Mountain Weather Forecast',
-            header: true,
-            to: '/weather'
         }, {
             id: '57d9dbc2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Trip Planner',
@@ -62,6 +62,14 @@ export const AvalancheCanada = {
                 label: 'Overview',
                 to: '/training#overview',
             }, {
+                id: '3b832d45-34e0-4c32-8eda-a0e16db6facb',
+                label: 'Find a course',
+                to: '/training/courses',
+            }, {
+                id: '3f9bae7c-3455-44cf-87f3-4120c713bd75',
+                label: 'Find a provider',
+                to: '/training/providers',
+            }, {
                 id: '57d9e572-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Online Avalanche Tutorial',
                 to: '/training#online-primer',
@@ -78,17 +86,13 @@ export const AvalancheCanada = {
                 label: 'Avalanche Skills Training 2',
                 to: '/training#ast2',
             }, {
+                id: '98e1f7d9-f172-4d1e-a53b-727859d24f3c',
+                label: 'Managing Avalanche Terrain',
+                to: '/training#mat',
+            }, {
                 id: '57dacfaa-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Companion Rescue Skills',
                 to: '/training#crs',
-            }, {
-                id: '57dad0d6-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Find a course',
-                to: '/training/courses',
-            }, {
-                id: '57dad48c-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Find a provider',
-                to: '/training/providers',
             }, {
                 id: '57dad5c2-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Essential Gear',
@@ -127,16 +131,20 @@ export const AvalancheCanada = {
                 to: '/youth',
             }, {
                 id: '57dae2d8-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Programs',
-                to: '/youth#programs',
+                label: 'Teaching Guidelines',
+                to: '/youth#teaching-guidelines',
             }, {
                 id: '57dae3fa-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Resources',
-                to: '/youth#resources',
+                label: 'Our Programs',
+                to: '/youth#our-programs',
             }, {
                 id: '57dae4ea-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Curriculum',
+                label: 'Curriculum & Resources',
                 to: '/youth#curriculum',
+            }, {
+                id: '814cb99a-5c62-4b46-b81f-d06d0d6497ac',
+                label: 'External Programs',
+                to: '/youth#external-programs',
             }],
         }, {
             id: '57dae5e4-1871-11e6-b6ba-3e1d05defe78',
@@ -151,6 +159,18 @@ export const AvalancheCanada = {
                 id: '57daea58-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Nadine Overwater',
                 to: '/ambassadors#nadine-overwater',
+            /* }, {
+                id: '03d264bd-e8ae-496e-b208-81c514aba749',
+                label: 'Chris Rubens',
+                to: '/ambassadors#chris-rubens',
+            }, {
+                id: 'dfa78074-36e8-4f4b-97a4-1c7f922a08ac',
+                label: 'Brodie Evans',
+                to: '/ambassadors#brodie-evans',
+            }, {
+                id: 'ab32b0fc-d596-4c1d-b876-a69fc93962d5',
+                label: 'Wayne Flann',
+                to: '/ambassadors#wayne-flann', */
             }],
         }]
     }, {
@@ -173,18 +193,23 @@ export const AvalancheCanada = {
                 to: '/about#annual-reports',
                 children: []
             }, {
+                id: 'be77f07b-2879-431f-9431-3617222c5ce7',
+                label: 'Subscribe to Our Newsletter',
+                to: '/about#newsletter',
+                children: []
+            }, {
                 id: '57daef80-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Board',
+                label: 'Board of Directors',
                 to: '/about#board',
                 children: []
             }, {
                 id: '57daf368-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Staff',
+                label: 'Our Staff',
                 to: '/about#staff',
                 children: []
             }, {
                 id: '57daf4da-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Awards',
+                label: 'Service Awards',
                 to: '/about#awards',
                 children: []
             }]
@@ -192,8 +217,12 @@ export const AvalancheCanada = {
             id: '57daf6e2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Membership',
             header: true,
-            to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
+            to: '/membership',
             children: [{
+                id: '1aa763b1-8d1a-4799-8eb3-6cd11e81ed7c',
+                to: '/membership',
+                label: 'Overview',
+            }, {
                 id: '57daf7d2-1871-11e6-b6ba-3e1d05defe78',
                 to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
                 label: 'Individual',
@@ -239,7 +268,7 @@ export const AvalancheCanada = {
                 to:'collaborators#government'
             }, {
                 id: '57db0be6-1871-11e6-b6ba-3e1d05defe78',
-                label: 'Other Agencies and Organisation',
+                label: 'Other Agencies and Organisations',
                 to:'collaborators#other'
             }]
         }]
@@ -289,6 +318,11 @@ export const AvalancheCanadaFoundation = {
             to: '/foundation/about#reports',
             header: true,
         }, {
+            id: '485bff8b-e10c-4f0f-b793-196eede82c00',
+            label: 'Subscribe to newsletter',
+            to: '/foundation/about#subscribe',
+            header: true,
+        }, {
             id: 'f002535c-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Board Of Directors',
             to: '/foundation/about#board',
@@ -302,11 +336,6 @@ export const AvalancheCanadaFoundation = {
             id: 'f0025640-1b91-11e6-b6ba-3e1d05defe78',
             label: 'Contact',
             to: '/foundation/about#contact',
-            header: true,
-        }, {
-            id: 'f00257b2-1b91-11e6-b6ba-3e1d05defe78',
-            label: 'Subscribe to newsletter',
-            to: '/foundation/about#subscribe',
             header: true,
         }]
     }, {
