@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
 import moment from 'moment'
-import {loadForType, loadForBookmark} from 'actions/prismic'
+import {loadForType} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as Drawers from 'containers/drawers';
 import {getIsAuthenticated, getProfile} from 'reducers/auth'

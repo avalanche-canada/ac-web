@@ -39,9 +39,6 @@ export function withPrismic(BaseComponent) {
                     id: PropTypes.string,
                 }),
                 PropTypes.shape({
-                    bookmark: PropTypes.string,
-                }),
-                PropTypes.shape({
                     type: PropTypes.string,
                     uid: PropTypes.string,
                 }),

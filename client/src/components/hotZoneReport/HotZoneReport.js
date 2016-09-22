@@ -55,11 +55,11 @@ function HotZoneReport({report}) {
             }
             {!report &&
                 <Panel header='More information'>
-                    <Generic bookmark='hot-zone-report-more-information' />
+                    <Generic uid='hot-zone-report-more-information' />
                 </Panel>
             }
             <Panel header='About'>
-                <Generic bookmark='hot-zone-report-about' />
+                <Generic uid='hot-zone-report-about' />
             </Panel>
         </div>
     )
