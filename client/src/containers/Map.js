@@ -83,11 +83,15 @@ function Container({
 }
 
 function setForecastRegionsFilter(id = '') {
-    this.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+    if (this) {
+        this.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+    }
 }
 function setActiveForecastRegion(name = '') {
-    this.setFilter('forecast-regions-active', ['==', 'id', name])
-    this.setFilter('forecast-regions-contour-active', ['==', 'id', name])
+    if (this) {
+        this.setFilter('forecast-regions-active', ['==', 'id', name])
+        this.setFilter('forecast-regions-contour-active', ['==', 'id', name])
+    }
 }
 
 export default compose(
@@ -107,7 +111,7 @@ export default compose(
         componentDidUpdate() {
             const {params, routes, map} = this.props
 
-            if (map && routes.find(route => route.path === 'forecasts')) {
+            if (routes.find(route => route.path === 'forecasts')) {
                 setActiveForecastRegion.call(map, params.name)
             } else {
                 setActiveForecastRegion.call(map)
@@ -146,7 +150,7 @@ export default compose(
                     canvas.removeAttribute('title')
                 }
 
-                if (map && /^forecast-regions/.test(feature.layer.id)) {
+                if (/^forecast-regions/.test(feature.layer.id)) {
                     setForecastRegionsFilter.call(map, id)
                 } else {
                     setForecastRegionsFilter.call(map)
@@ -157,12 +161,12 @@ export default compose(
         },
         onMoveend: props => event => {
             const center = event.target.getCenter().toArray()
-// console.warn(center)
+
             props.centerChanged(center)
         },
         onZoomend: props => event => {
             const zoom = event.target.getZoom()
-// console.warn(zoom)
+
             props.zoomChanged(zoom)
         },
         onClick: props => event => {
