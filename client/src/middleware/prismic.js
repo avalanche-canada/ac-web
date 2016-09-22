@@ -3,7 +3,6 @@ import {Api as Prismic, Predicates} from 'prismic'
 import {
     getDocument,
     getDocumentForUid,
-    getDocumentForId,
     getDocumentsOfType
 } from 'reducers/prismic'
 

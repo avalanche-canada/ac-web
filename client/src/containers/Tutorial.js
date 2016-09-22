@@ -1,7 +1,7 @@
 
 import {lifecycle, compose, branch} from  'recompose'
 import connector from 'containers/connectors/connector'
-import {Query, QueryDocumentByBookmark} from 'prismic'
+import {Api} from 'prismic'
 import {Predicates} from 'prismic.io'
 
 import Tutorial from 'components/tutorial'
@@ -24,9 +24,9 @@ const tutorialContainer = lifecycle({
 
         let q = undefined;
         if (slug === '') {
-            q = QueryDocumentByBookmark('tutorial-home')
+            q = Api.QueryDocumentByBookmark('tutorial-home')
         } else {
-            q = Query([Predicates.at('document.type', 'tutorial-page'),
+            q = Api.Query([Predicates.at('document.type', 'tutorial-page'),
                        Predicates.at('my.tutorial-page.slug', slug)])
                 .then(r => r.results[0])
         }
