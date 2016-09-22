@@ -8,6 +8,10 @@ HotZoneReportMetadata.propTypes = {
 }
 
 export default function HotZoneReportMetadata({dateIssued, validUntil}) {
+    if (!dateIssued && !validUntil) {
+        return null
+    }
+    
     return (
         <Metadata>
             <Entry term='Date Issued'>
