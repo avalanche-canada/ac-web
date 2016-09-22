@@ -34,16 +34,17 @@ function isPrismicCallRequired(store, action) {
     const state = store.getState()
     const {type, uid, id} = action.payload
 
-    if (id && !getDocument(state, id)) {
-        return true
+    if (id) {
+        return !getDocument(state, id)
     }
 
-    if (type && uid && !getDocumentForUid(state, type, uid)) {
-        return true
+    if (type && uid) {
+        return !getDocumentForUid(state, type, uid)
     }
 
-    if (type && getDocumentsOfType(state, type).size === 0) {
-        return true
+    // TODO: Fix that. We might have loaded just portion of documents for provided type
+    if (type) {
+        return getDocumentsOfType(state, type).size === 0
     }
 
     if (type || uid) {

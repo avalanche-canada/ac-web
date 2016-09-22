@@ -90,10 +90,9 @@ export function getDocumentsOfType(state, type) {
 }
 
 export function getDocumentForUid(state, type, uid) {
-    const {uids, documents} = state.prismic
-    const id = uids.getIn([type, uid])
+    const id = state.prismic.uids.getIn([type, uid])
 
-    return documents.get(id)
+    return getDocument(state, id)
 }
 
 export function getDocumentForParams(state, {id, type, uid}) {

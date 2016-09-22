@@ -64,13 +64,6 @@ const PAGINATION = {
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
 
-    // TODO: Quick work around to load sponsors. SponsorSet should handle that...
-    function handleSponsorsPageRouteEnter() {
-        dispatch(loadForType('sponsor', {
-            pageSize: 100
-        }))
-    }
-
     function handleActiveSponsor(routes) {
         const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
 
@@ -82,13 +75,13 @@ export default function computeRoutes(store) {
     }
 
     function handleRootRouteChange(prev, {routes}) {
-        dispatch(loadForType('sponsor', {
-            pageSize: 100
-        }))
         handleActiveSponsor(routes)
     }
 
     function handleRootRouteEnter({routes}) {
+        dispatch(loadForType('sponsor', {
+            pageSize: 100
+        }))
         dispatch(loadSponsors())
         handleActiveSponsor(routes)
     }
@@ -224,7 +217,7 @@ export default function computeRoutes(store) {
                 <Route path='satellite' component={articles.Satellite} />
                 <Route path='warnings' component={articles.Warnings} />
             </Route>
-            <Route path='sponsors' component={Sponsors} onEnter={handleSponsorsPageRouteEnter} />
+            <Route path='sponsors' component={Sponsors} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
             <Route path='training' sponsorRef='Training' >
@@ -258,7 +251,7 @@ export default function computeRoutes(store) {
                 <Route path='about' components={{navbar: AvalancheCanadaFoundation, content: Foundation.About}} onEnter={handleAboutRouteEnter} />
                 <Route path='programs' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Programs}} />
                 <Route path='donors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donors}} />
-                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} onEnter={handleSponsorsPageRouteEnter} />
+                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} />
                 <Route path='news-and-events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.NewsAndEvents}} />
                 <Route path='funds'>
                     <Route path='hugh-and-helen-hincks-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.HughAndHelenHincksMemorial}} />
