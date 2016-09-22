@@ -3,8 +3,12 @@ import {endpoint} from './config.json'
 
 const {Predicates} = Prismic
 
+export function createForm(api) {
+    return api.form('everything').ref(api.master())
+}
+
 export function Api() {
-    return Prismic.Api(endpoint).then(api => api.form('everything').ref(api.master()))
+    return Prismic.Api(endpoint)
 }
 
 export function Query(predicates, options) {
@@ -28,11 +32,12 @@ export function QueryDocumentByBookmark(name) {
 }
 
 function query(api, options = {}, ...predicates) {
-    api = api.query(...predicates)
+    form = createForm(api)
+    form = form.query(...predicates)
 
-    api = setOptions(api, options)
+    form = setOptions(form, options)
 
-    return api.submit()
+    return form.submit()
 }
 
 export function setOptions(api, options = {}) {

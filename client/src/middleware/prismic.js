@@ -16,7 +16,7 @@ export function createPrismicAction(payloadCreator) {
     return createAction(PRISMIC, payloadCreator)
 }
 
-function createBasePredicate({api}, {type, uid, id}) {
+function createBasePredicate({type, uid, id}) {
     if (id) {
         return Predicates.at('document.id', id)
     } else if (uid && type) {
@@ -53,6 +53,47 @@ function isPrismicCallRequired(store, action) {
     return false
 }
 
+function process({payload}, dispatch) {
+    dispatch({
+        type: PRISMIC_REQUEST,
+        meta: payload,
+    })
+
+    let {predicates = [], ...options} = payload.options || {}
+    predicates = [createBasePredicate(payload), ...predicates]
+
+    let form = Prismic.createForm(API).query(predicates)
+
+    form = Prismic.setOptions(form, options)
+
+    return form.submit().then(
+        response => {
+            dispatch({
+                type: PRISMIC_SUCCESS,
+                payload: response,
+                meta: payload,
+            })
+
+            return response
+        },
+        error => {
+            const err = new Error('Can not fetch prismic documents.', error)
+
+            dispatch({
+                type: PRISMIC_FAILURE,
+                payload: err,
+                error: true,
+                meta: payload,
+            })
+
+            throw err
+        },
+    )
+}
+
+let API = null
+let PROMISE = null
+
 export default store => next => action => {
     if (action.type !== PRISMIC) {
         return next(action)
@@ -62,40 +103,15 @@ export default store => next => action => {
         return Promise.resolve()
     }
 
-    return Prismic.Api().then(api => {
-        next({
-            type: PRISMIC_REQUEST,
-            meta: action.payload,
+    if (!PROMISE) {
+        PROMISE = Prismic.Api().then(api => {
+            API = api
         })
+    }
 
-        const {payload} = action
-        let {predicates = [], ...options} = payload.options || {}
-
-        api = api.query(createBasePredicate(api, payload), ...predicates)
-        api = Prismic.setOptions(api, options)
-
-        return api.submit().then(
-            response => {
-                next({
-                    type: PRISMIC_SUCCESS,
-                    payload: response,
-                    meta: action.payload,
-                })
-
-                return response
-            },
-            error => {
-                const err = new Error('Can not fetch prismic documents.', error)
-
-                next({
-                    type: PRISMIC_FAILURE,
-                    payload: err,
-                    error: true,
-                    meta: action.payload,
-                })
-
-                throw err
-            },
-        )
-    })
+    if (API) {
+        return process(action, next)
+    } else {
+        return PROMISE.then(() => process(action, next))
+    }
 }
