@@ -37,7 +37,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    flex: 75%;
+    flex: 70%;
 
     @media (--full-width) {
         padding: 0;
@@ -133,7 +133,7 @@
 }
 
 .Aside {
-    flex: 25%;
+    flex: 30%;
     box-sizing: border-box;
 
     @media (--side-by-side) {
