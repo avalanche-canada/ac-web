@@ -1,12 +1,20 @@
 import PARSER from '../parser'
+import {boolean} from './utils'
 
 const {assign} = Object
 
-export default class StaticPage {
-    constructor(data) {
-        assign(this, data)
-    }
-    static fromDocument(document, parser = PARSER) {
-        return new StaticPage(parser.parse(document))
+export default {
+    fromDocument(document, parser = PARSER) {
+        const {sharing, following, contacting, sidebar = [], ...props} = parser.parse(document)
+
+        return {
+            ...props,
+            sidebar: (sharing || following || contacting || sidebar.length) ? {
+                withSharing: boolean(sharing),
+                withFollowing: boolean(following),
+                withContacting: boolean(contacting),
+                content: sidebar,
+            } : null
+        }
     }
 }

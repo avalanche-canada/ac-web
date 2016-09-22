@@ -261,7 +261,24 @@ export default function computeRoutes(store) {
                     <Route path='issw' components={{navbar: AvalancheCanadaFoundation, content: Funds.ISSW}} />
                 </Route>
             </Route>
-            {/* PAGE FALLBACK. MORE DETAILS at client/src/prismic/htmlSerializer.js */}
+            {/* PAGE FALLBACK. MORE DETAILS at client/src/prismic/htmlSerializer.js and some redirects */}
+            <Redirect from='/pages/static-page/sled' to='/sled' />
+            <Redirect from='/pages/static-page/youth' to='/youth' />
+            <Redirect from='/pages/static-page/essential-gear' to='/gear' />
+            <Redirect from='/pages/static-page/training' to='/training' />
+            <Redirect from='/pages/static-page/mountain-information-network-overview' to='/mountain-information-network' />
+            <Redirect from='/pages/static-page/mountain-information-network-submission-guidelines' to='/mountain-information-network/submission-guidelines' />
+            <Redirect from='/pages/static-page/about' to='/about' />
+            <Redirect from='/pages/static-page/mountain-information-network-faq' to='/mountain-information-network/faq' />
+            <Redirect from='/pages/static-page/ambassadors' to='/ambassadors' />
+            <Redirect from='/pages/static-page/sponsors' to='/sponsors' />
+            <Redirect from='/pages/static-page/collaborators' to='/collaborators' />
+            <Redirect from='/pages/static-page/membership-overview' to='/membership' />
+
+            <Redirect from='generic/privacy-policy' to='privacy-policy' />
+            <Redirect from='generic/terms-of-use' to='terms-of-use' />
+            <Redirect from='generic/auction' to='auction' />
+
             <Route path='pages/:type/:uid' component={FallbackPage} />
             {/* FALLBACK */}
             <Route path='*' component={NotFound} />

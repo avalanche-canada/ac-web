@@ -9,19 +9,19 @@ export Item from './Item'
 export Header from './Header'
 
 CompleteSidebar.propTypes = {
-    noContacting: PropTypes.bool,
-    noSharing: PropTypes.bool,
-    noFollowing: PropTypes.bool,
+    withContacting: PropTypes.bool,
+    withSharing: PropTypes.bool,
+    withFollowing: PropTypes.bool,
     children: PropTypes.node,
 }
 
-export default function CompleteSidebar({children, noContacting, noSharing, noFollowing}) {
+export default function CompleteSidebar({children, withContacting, withSharing, withFollowing}) {
     return (
         <Sidebar>
             {children}
-            {noSharing || <Share />}
-            {noFollowing || <Follow />}
-            {noContacting || <Contact />}
+            {withSharing && <Share />}
+            {withFollowing && <Follow />}
+            {withContacting && <Contact />}
         </Sidebar>
     )
 }
