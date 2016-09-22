@@ -177,25 +177,23 @@
 }
 
 :global(.static-page-sled) {
-    & main {
-        & section:first-child {
-            font-size: 1.5rem;
-            line-height: 1.5;
-            margin: 0 3em;
+    & main > section:first-of-type {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        margin: 0 3em;
 
-            & ul:not([class]) {
-                list-style: none;
-                padding-left: 0;
+        & ul:not([class]) {
+            list-style: none;
+            padding-left: 0;
 
-                & > li > strong {
-                    font-size: 1.15em;
-                }
+            & > li > strong {
+                font-size: 1.15em;
             }
+        }
 
-            & header {
-                color: var(--primary);
-                text-transform: uppercase;
-            }
+        & header {
+            color: var(--primary);
+            text-transform: uppercase;
         }
     }
 }
