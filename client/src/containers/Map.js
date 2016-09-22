@@ -146,7 +146,7 @@ export default compose(
                     canvas.removeAttribute('title')
                 }
 
-                if (/^forecast-regions/.test(feature.layer.id)) {
+                if (map && /^forecast-regions/.test(feature.layer.id)) {
                     setForecastRegionsFilter.call(map, id)
                 } else {
                     setForecastRegionsFilter.call(map)
