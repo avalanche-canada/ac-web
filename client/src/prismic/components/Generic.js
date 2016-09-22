@@ -26,7 +26,8 @@ const mapStateToProps = createSelector(
 export default compose(
     setDisplayName('Generic'),
     setPropTypes({
-        uid: PropTypes.string.isRequied,
+        uid: PropTypes.string,
+        id: PropTypes.string,
         message: PropTypes.string,
     }),
     connect(mapStateToProps, {
@@ -34,11 +35,12 @@ export default compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForParams, message, uid} = this.props
+            const {loadForParams, message, uid, id} = this.props
 
             loadForParams({
                 type: 'generic',
                 uid,
+                id,
             })
         }
     }),
