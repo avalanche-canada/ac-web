@@ -35,7 +35,7 @@ function Condition({mode}) {
                 {HEADERS.get(mode)}
             </h2>
             <img styleName='ConditionIcon' src={ICONS.get(mode)} />
-            <Generic uid={UIDS.get(mode)} type='generic' styleName='ConditionContent' />
+            <Generic uid={UIDS.get(mode)} styleName='ConditionContent' />
         </div>
     )
 }

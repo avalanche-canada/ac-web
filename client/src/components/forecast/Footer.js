@@ -28,10 +28,10 @@ function Footer({author}) {
                 {EXPLANATION}
             </Panel>
             <Panel header='Avalanche Forecasts in your Inbox'>
-                <Generic type='generic' uid='forecast-rss-message' />
+                <Generic uid='forecast-rss-message' />
             </Panel>
             <Panel header='Forecast Disclaimer'>
-                <Generic type='generic' uid='forecast-disclaimer' />
+                <Generic uid='forecast-disclaimer' />
             </Panel>
         </footer>
     )

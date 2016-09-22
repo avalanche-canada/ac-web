@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {compose, lifecycle, mapProps, flattenProp, branch, renderComponent, setDisplayName, setPropTypes, renameProp} from 'recompose'
+import {compose, lifecycle, mapProps, flattenProp, branch, renderComponent, setDisplayName, setPropTypes, renameProp, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForParams} from 'actions/prismic'
@@ -8,7 +8,7 @@ import factory from 'prismic/types/factory'
 import {getDocumentForParams} from 'reducers/prismic'
 
 const mapStateToProps = createSelector(
-    (state, {loadForParams, message, ...params}) => getDocumentForParams(state, params),
+    (state, {id, type, uid}) => getDocumentForParams(state, {id, type, uid}),
     document => {
         if (!document) {
             return {
@@ -18,7 +18,9 @@ const mapStateToProps = createSelector(
 
         return {
             isLoading: false,
-            props: {...factory.getType(document)},
+            props: {
+                ...factory.getType(document)
+            },
         }
     }
 )
@@ -30,15 +32,18 @@ export default compose(
         id: PropTypes.string,
         message: PropTypes.string,
     }),
+    defaultProps({
+        type: 'generic',
+    }),
     connect(mapStateToProps, {
         loadForParams,
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForParams, message, uid, id} = this.props
+            const {loadForParams, uid, id, type} = this.props
 
             loadForParams({
-                type: 'generic',
+                type,
                 uid,
                 id,
             })
