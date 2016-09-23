@@ -4,7 +4,7 @@ import {compose, withHandlers} from 'recompose'
 import {findPlaces} from 'mapbox/api'
 import {accessToken} from 'mapbox/config.json'
 import {DropdownFromOptions, Input} from 'components/controls'
-import {Place, Close, Home} from 'components/icons'
+import {Place, Close, Home, Spinner} from 'components/icons'
 import styles from './Geocoder.css'
 import queryString from 'query-string'
 import {OptionSet, Option} from 'components/controls/options'
@@ -13,9 +13,9 @@ import Button, {INCOGNITO} from 'components/button'
 function K() {}
 const BASEURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 const PARAMS = {
-    country: 'ca',
-    types: ['locality', 'place', 'poi'].join(','),
-    autocomplete: false,
+    country: ['ca', 'us', 'au', 'jp'].join(','),
+    types: ['locality', 'place'].join(','),
+    autocomplete: true,
     access_token: accessToken,
 }
 
@@ -23,7 +23,7 @@ const PARAMS = {
 export default class Geocoder extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
-        placeholder: PropTypes.string,
+        //placeholder: PropTypes.string,
     }
     static defaultProps = {
         onChange: K,
@@ -137,10 +137,11 @@ export default class Geocoder extends Component {
                 <Input type='text' placeholder={placeholder} styleName='Input' value={value} onChange={this.handleChange} onFocus={this.handleFocus} onBlur={this.handleBlur} />
                 {/* {isFetching && <Home />} */}
                 {showClear && <Button styleName='Clear' icon={<Close />} onClick={this.handleClearClick} kind={INCOGNITO} />}
+                {isFetching && <Spinner styleName='Spinner' />}
                 <OptionSet show={isActive} onOptionClick={this.handleOptionClick}>
                     {places.map(place => (
                         <Option value={place}>
-                            {place.text}
+                            {place.place_name}
                         </Option>
                     ))}
                 </OptionSet>
