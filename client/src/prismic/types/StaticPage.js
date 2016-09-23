@@ -5,14 +5,20 @@ const {assign} = Object
 
 export default {
     fromDocument(document, parser = PARSER) {
-        const {sharing, following, contacting, sidebar = [], ...props} = parser.parse(document)
+        let {sharing, following, contacting, sidebar = [], ...props} = parser.parse(document)
 
+        const withSharing = boolean(sharing)
+        const withFollowing = boolean(following)
+        const withContacting = boolean(contacting)
+console.warn(withContacting,
+withSharing,
+withFollowing)
         return {
             ...props,
-            sidebar: (sharing || following || contacting || sidebar.length) ? {
-                withSharing: boolean(sharing),
-                withFollowing: boolean(following),
-                withContacting: boolean(contacting),
+            sidebar: (withSharing || withFollowing || withContacting || sidebar.length) ? {
+                withSharing,
+                withFollowing,
+                withContacting,
                 content: sidebar,
             } : null
         }

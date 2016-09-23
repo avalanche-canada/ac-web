@@ -30,12 +30,12 @@ export default compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {type, uid} = this.props
+            const {type, uid, loadForUid} = this.props
 
-            this.props.loadForUid(type, uid)
+            loadForUid(type, uid)
         },
     }),
-    withProps(({type, uid, documentTitle}) => ({
+    withProps(({type, uid}) => ({
         to: `/pages/${type}/${uid}`,
     }))
 )(Link)
