@@ -2,13 +2,13 @@ import React, {Component, PropTypes} from 'react'
 import {compose, lifecycle, mapProps, flattenProp, branch, renderComponent, setDisplayName, setPropTypes, renameProp, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {loadForParams} from 'actions/prismic'
+import {loadForUid} from 'actions/prismic'
 import {Loading, InnerHTML} from 'components/misc'
-import factory from 'prismic/types/factory'
-import {getDocumentForParams} from 'reducers/prismic'
+import factory from 'prismic/factory'
+import {getDocumentForUid} from 'reducers/prismic'
 
 const mapStateToProps = createSelector(
-    (state, {id, type, uid}) => getDocumentForParams(state, {id, type, uid}),
+    (state, {type, uid}) => getDocumentForUid(state, type, uid),
     document => {
         if (!document) {
             return {
@@ -29,24 +29,19 @@ export default compose(
     setDisplayName('Generic'),
     setPropTypes({
         uid: PropTypes.string,
-        id: PropTypes.string,
         message: PropTypes.string,
     }),
     defaultProps({
         type: 'generic',
     }),
     connect(mapStateToProps, {
-        loadForParams,
+        loadForUid,
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForParams, uid, id, type} = this.props
+            const {loadForUid, uid, type} = this.props
 
-            loadForParams({
-                type,
-                uid,
-                id,
-            })
+            loadForUid(type, uid)
         }
     }),
     branch(

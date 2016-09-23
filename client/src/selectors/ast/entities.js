@@ -162,13 +162,13 @@ export function table(schema, columns) {
 
             switch (order) {
                 case ASC:
-                return courses.sortBy(sorter)
+                    return courses.sortBy(sorter)
                 case DESC:
-                return courses.sortBy(sorter).reverse()
+                    return courses.sortBy(sorter).reverse()
                 case NONE:
-                return courses
+                    return courses
                 default:
-                return courses
+                    return courses
 
             }
 

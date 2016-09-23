@@ -3,10 +3,10 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ItemSet, Item} from 'components/sponsor'
 import {getDocumentsOfType} from 'reducers/prismic'
-import {Sponsor} from 'prismic/types'
+import factory from 'prismic/factory'
 
 function parse(document) {
-    const {image229, name, url} = Sponsor.fromDocument(document)
+    const {image229, name, url} = factory.getType(document)
 
     return {
         title: name,

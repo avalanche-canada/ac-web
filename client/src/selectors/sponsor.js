@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentForUid} from 'reducers/prismic'
-import {Sponsor} from 'prismic/types'
+import factory from 'prismic/factory'
 import {getSponsors, getActiveSponsor} from 'reducers/sponsors'
 
 function transform({image, name, url}) {
@@ -29,6 +29,6 @@ export default createSelector(
     getSponsor,
     (uid, sponsor) => ({
         uid,
-        sponsor: sponsor ? transform(Sponsor.fromDocument(sponsor)) : null
+        sponsor: sponsor ? transform(factory.getType(sponsor)) : null
     })
 )

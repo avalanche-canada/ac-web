@@ -1,6 +1,7 @@
-import factory from 'prismic/types/factory'
+import factory from 'prismic/factory'
 
 // TODO: Reuse more code here. It is almost the same code...
+// TODO: Transfer more code to factories
 
 const transformers = new Map([
     ['blog', function transformToBlog(document) {
@@ -24,7 +25,6 @@ const transformers = new Map([
         if (!document) {
             return
         }
-
         const {type} = document
         const post = factory.getType(document)
         const {shortlede, body, featuredImage, uid} = post
@@ -63,5 +63,5 @@ export default function transform(document) {
         throw new Error(`Transformer for Prismc document of type "${type} not available."`)
     }
 
-    return transformers.get(document.type)(document)
+    return transformers.get(type)(document)
 }

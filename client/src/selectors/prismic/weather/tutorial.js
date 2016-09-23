@@ -1,8 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentForUid, getIsFetching} from 'reducers/prismic'
-import {WeatherForecastTutorial} from 'prismic/types'
-
-const {fromDocument} = WeatherForecastTutorial
+import factory from 'prismic/factory'
 
 function getDocument(state, {uid}) {
     return getDocumentForUid(state, 'weather-forecast-tutorial', uid)
@@ -20,7 +18,7 @@ export default createSelector(
 
         return {
             isLoading: false,
-            body: document ? fromDocument(document).tutorial : null,
+            body: document ? factory.getType(document).tutorial : null,
         }
     }
 )

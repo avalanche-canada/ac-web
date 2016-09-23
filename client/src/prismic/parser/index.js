@@ -1,8 +1,8 @@
 import {Fragments, Document, Prismic} from 'prismic.io'
 import camelCase from 'lodash/camelCase'
 import moment from 'moment'
-import linkResolver from './linkResolver'
-import htmlSerializer from './htmlSerializer'
+import linkResolver from 'prismic/linkResolver'
+import htmlSerializer from 'prismic/htmlSerializer'
 
 const {keys, assign} = Object
 const {isArray} = Array

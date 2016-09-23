@@ -2,17 +2,17 @@ import React, {Component, PropTypes, createElement} from 'react'
 import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {loadForParams} from 'actions/prismic'
+import {loadForUid} from 'actions/prismic'
 import {Loading} from 'components/page'
-import factory from 'prismic/types/factory'
-import {getDocumentForParams} from 'reducers/prismic'
+import factory from 'prismic/factory'
+import {getDocumentForUid} from 'reducers/prismic'
 import {classify} from 'utils/string'
 import StaticPage from './StaticPage'
 import Generic from './Generic'
 import Simple from './Simple'
 
 const mapStateToProps = createSelector(
-    (state, {params}) => getDocumentForParams(state, params),
+    (state, {type, uid}) => getDocumentForUid(state, type, uid),
     (state, {message, title}) => ({message, title}),
     (document, props) => {
         if (document) {
@@ -30,30 +30,23 @@ const mapStateToProps = createSelector(
     }
 )
 
-export function withPrismic(BaseComponent) {
+function withPrismic(BaseComponent) {
     return compose(
         setDisplayName('Prismic'),
         setPropTypes({
-            params: PropTypes.oneOfType([
-                PropTypes.shape({
-                    id: PropTypes.string,
-                }),
-                PropTypes.shape({
-                    type: PropTypes.string,
-                    uid: PropTypes.string,
-                }),
-            ]).isRequired,
+            type: PropTypes.string.isRequired,
+            uid: PropTypes.string.isRequired,
             title: PropTypes.string,
             message: PropTypes.string,
         }),
         connect(mapStateToProps, {
-            loadForParams
+            loadForUid
         }),
         lifecycle({
             componentDidMount() {
-                const {loadForParams, params} = this.props
+                const {loadForUid, type, uid} = this.props
 
-                loadForParams(params)
+                loadForUid(type, uid)
             },
         }),
         branch(
@@ -68,10 +61,8 @@ export function withPrismic(BaseComponent) {
 export function staticPage(uid, title, message) {
     return compose(
         withProps({
-            params: {
-                type: 'static-page',
-                uid,
-            },
+            type: 'static-page',
+            uid,
             title,
             message,
         }),
@@ -84,10 +75,8 @@ export function staticPage(uid, title, message) {
 export function simple(uid) {
     return compose(
         withProps({
-            params: {
-                type: 'static-page',
-                uid,
-            },
+            type: 'static-page',
+            uid,
         }),
         withPrismic,
     )(Simple)
@@ -96,10 +85,8 @@ export function simple(uid) {
 export function generic(uid, title) {
     return compose(
         withProps({
-            params: {
-                type: 'generic',
-                uid
-            },
+            type: 'generic',
+            uid,
             title,
         }),
         withPrismic,
@@ -116,7 +103,7 @@ const Components = new Map([
 ])
 
 export const FallbackPage = compose(
-    withProps(({params: {type}}) => ({
+    withProps(({type}) => ({
         component: Components.get(type)
     })),
     withPrismic,

@@ -1,7 +1,6 @@
 import {createAction} from 'redux-actions'
 import {Api as Prismic, Predicates} from 'prismic'
 import {
-    getDocument,
     getDocumentForUid,
     getDocumentsOfType
 } from 'reducers/prismic'
@@ -34,17 +33,13 @@ function isPrismicCallRequired(store, action) {
     const state = store.getState()
     const {type, uid, id} = action.payload
 
-    if (id) {
-        return !getDocument(state, id)
-    }
-
     if (type && uid) {
         return !getDocumentForUid(state, type, uid)
     }
 
     // TODO: Fix that. We might have loaded just portion of documents for provided type
     if (type) {
-        return getDocumentsOfType(state, type).size === 0
+        return true
     }
 
     if (type || uid) {

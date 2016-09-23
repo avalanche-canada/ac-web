@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
-import {options as monthOptions} from './months'
+import months, {options as monthOptions} from './months'
 import transform from './transform'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
@@ -71,6 +71,10 @@ const getFilteredFeed = createSelector(
     getTransformedFeed,
     getPredicates,
     (feed, predicates) => {
+        if (predicates.length === 0) {
+            return feed
+        }
+
         return predicates.reduce((feed, predicate) => feed.filter(predicate), feed)
     }
 )

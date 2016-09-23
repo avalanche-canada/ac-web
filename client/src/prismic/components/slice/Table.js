@@ -9,7 +9,7 @@ import {FilterSet, FilterEntry} from 'components/filter'
 import Pagination from 'components/pagination'
 import {Loading, InnerHTML, Br} from 'components/misc'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
-import factory from 'prismic/types/factory'
+import factory from 'prismic/factory'
 import get from 'lodash/get'
 
 const {isArray} = Array
