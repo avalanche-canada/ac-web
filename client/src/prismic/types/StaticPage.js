@@ -10,9 +10,7 @@ export default {
         const withSharing = boolean(sharing)
         const withFollowing = boolean(following)
         const withContacting = boolean(contacting)
-console.warn(withContacting,
-withSharing,
-withFollowing)
+
         return {
             ...props,
             sidebar: (withSharing || withFollowing || withContacting || sidebar.length) ? {
