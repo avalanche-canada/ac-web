@@ -29,24 +29,24 @@ export default function Post({
     return (
         <Page>
             <Header title={title || message} />
-            <Metadata>
-                {date &&
-                    <Entry term='Date'>
-                        <DateElement value={date} />
-                    </Entry>
-                }
-                {typeof location === 'string' &&
-                    <Entry term='Location'>
-                        {location}
-                    </Entry>
-                }
-                {source &&
-                    <Entry term='Source'>
-                        {source}
-                    </Entry>
-                }
-            </Metadata>
             <Content>
+                <Metadata>
+                    {date &&
+                        <Entry term='Date'>
+                            <DateElement value={date} />
+                        </Entry>
+                    }
+                    {typeof location === 'string' &&
+                        <Entry term='Location'>
+                            {location}
+                        </Entry>
+                    }
+                    {source &&
+                        <Entry term='Source'>
+                            {source}
+                        </Entry>
+                    }
+                </Metadata>
                 <Main>
                     {headline &&
                         <Headline>
