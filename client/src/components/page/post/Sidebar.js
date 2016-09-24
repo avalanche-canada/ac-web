@@ -44,7 +44,7 @@ export default compose(
             }
 
             loadForType(type, {
-                pageSize: 5,
+                pageSize: 7,
                 orderings: [ordering],
                 predicates: [predicate],
             }).then(({results}) => setDocuments(results))
