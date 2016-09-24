@@ -13,7 +13,7 @@ export function title({type, data}) {
         case STATIC_PAGE:
             return data[`${type}.title`].value
         default:
-            throw new Error(`Can not get title from Prismic document of type ${type}.`)
+            throw new Error(`Can not compute a title from Prismic document of type ${type}.`, data)
     }
 }
 
@@ -29,6 +29,6 @@ export function pathname({type, uid}) {
         case STATIC_PAGE:
             return `/pages/${type}/${uid}`
         default:
-            throw new Error(`Can not get title from Prismic document of type ${type}.`)
+            throw new Error(`Can not compute a pathname from Prismic document or props ${type} & ${uid}.`)
     }
 }

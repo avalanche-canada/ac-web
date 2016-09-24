@@ -4,13 +4,14 @@ import {compose, withProps, setPropTypes, setDisplayName, withState, lifecycle} 
 import {connect} from 'react-redux'
 import {loadForUid} from 'actions/prismic'
 import {getDocumentForUid} from 'reducers/prismic'
+import {title, pathname} from 'utils/prismic'
 
 function mapStateToProps(state, {type, uid}) {
     const document = getDocumentForUid(state, type, uid)
 
     if (document) {
         return {
-            children: document.data[`${type}.title`].value
+            children: title(document)
         }
     }
 
@@ -35,7 +36,7 @@ export default compose(
             loadForUid(type, uid)
         },
     }),
-    withProps(({type, uid}) => ({
-        to: `/pages/${type}/${uid}`,
+    withProps(props => ({
+        to: pathname(props),
     }))
 )(Link)

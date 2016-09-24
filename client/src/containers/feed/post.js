@@ -1,4 +1,4 @@
-import {compose, lifecycle, flattenProp} from 'recompose'
+import {compose, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {loadForUid} from 'actions/prismic'
@@ -24,5 +24,4 @@ export default compose(
             }
         },
     }),
-    flattenProp('post'),
 )(Post)
