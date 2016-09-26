@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
 
-    app.use('/api/forecasts', require('./api/forecasts'));
+    app.use('/api/forecasts', require('./api/forecasts').router);
     app.use('/api/bulletin-archive', require('./api/bulletin_archive'));
     app.use('/api/hzr', require('./api/hzr'));
     app.use('/api/min', require('./api/observations'));

@@ -65,56 +65,8 @@ router.param('region', function (req, res, next) {
         return
     }
 
-
-
-    if(req.region.properties.type === 'link') {
-        req.forecast = {
-            json: {
-                id: req.region.id,
-                name: req.region.properties.name,
-                externalUrl: req.region.properties.url
-            }
-        };
-        return next();
-    }
-
-    avalxWebcache.get(req.region.properties.url)
-        .then(function (cached_caaml) {
-            if(!cached_caaml) {
-                DEBUG("BUILDING forecast caaml for region:", req.region.id);
-                return Q.nfcall(avalx.fetchCaamlForecast, req.region);   
-            } else {
-                return cached_caaml;
-            }
-        })
-        .then(function (caaml) {
-            return [caaml, getDangerModes()];
-        }).spread(function (caaml, dangerModes) {
-            var cacheKey = 'forecast-data::json::' + req.region.id;
-            var dangerMode = dangerModes[req.region.id];
-            var json = fragmentCache.wrap(cacheKey, function(){
-                DEBUG("BUILDING forecast data...", cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, req.region, dangerMode);
-            });
-            return [caaml, json];
-        }).spread(function(caaml, json) {
-
-
-            if (req.region.properties.type === 'avalx'){
-                json.bulletinTitle = req.region.properties.name;
-
-            }else if (req.region.properties.type === 'parks'){
-                json.parksUrl = req.region.properties.externalUrl;
-                json.name        = req.region.properties.name;
-            }
-
-            return {
-                region: req.region.id,
-                caaml: caaml,
-                json: json
-            };
-
-        }).then(function (forecast) {
+    getForecastData(req.params.region, req.region)
+        .then(function (forecast) {
             req.forecast = forecast;
             next();
         }).catch(function (e) {
@@ -123,6 +75,57 @@ router.param('region', function (req, res, next) {
         }).done();
 
 });
+
+function getForecastData(regionName, region) {
+
+    if(region.properties.type === 'link') {
+        return Q.resolve({
+            json: {
+                id: region.id,
+                name: region.properties.name,
+                externalUrl: region.properties.url
+            }
+        });
+    }
+
+    return avalxWebcache.get(region.properties.url)
+        .then(function (cached_caaml) {
+            if(!cached_caaml) {
+                DEBUG("BUILDING forecast caaml for region:", region.id);
+                return Q.nfcall(avalx.fetchCaamlForecast, region);   
+            } else {
+                return cached_caaml;
+            }
+        })
+        .then(function (caaml) {
+            return [caaml, getDangerModes()];
+        }).spread(function (caaml, dangerModes) {
+            var cacheKey = 'forecast-data::json::' + region.id;
+            var dangerMode = dangerModes[region.id];
+            var json = fragmentCache.wrap(cacheKey, function(){
+                DEBUG("BUILDING forecast data...", cacheKey);
+                return Q.nfcall(avalx.parseCaamlForecast, caaml, region, dangerMode);
+            });
+            return [caaml, json];
+        }).spread(function(caaml, json) {
+
+
+            if (region.properties.type === 'avalx'){
+                json.bulletinTitle = region.properties.name;
+
+            }else if (region.properties.type === 'parks'){
+                json.parksUrl = region.properties.externalUrl;
+                json.name        = region.properties.name;
+            }
+
+            return {
+                region: region.id,
+                caaml: caaml,
+                json: json
+            };
+
+        });
+}
 
 //! remove this route once we have updated the mobile app
 router.get('/', function(req, res) {
@@ -319,4 +322,7 @@ function getDangerModes() {
 
 
 
-module.exports = router;
+module.exports = {
+    router:router,
+    getForecastData: getForecastData
+};
