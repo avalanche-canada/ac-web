@@ -1,9 +1,9 @@
 
-var express = require('express');
-var prerender = require('prerender-node');
-var _ = require('lodash');
 var Prismic = require('prismic.io');
-var predicates = Prismic.Predicates
+var _ = require('lodash');
+var express = require('express');
+var moment = require('moment');
+var prerender = require('prerender-node');
 
 var getForecastData = require('../api/forecasts').getForecastData;
 var forecastRegions = require('../api/forecasts/forecast-regions');
@@ -36,6 +36,8 @@ get('/events', tags([['og:title',     'Avalanche Canada Events'],
                      ['og:description', 'Stay up to date'],
                      ['og:image', SHARE_LOGO]]));
 
+get('/weather/forecast', latestForecast)
+get('/weather/forecast/:date', weatherForecast)
 
 get('/blogs/:uid', blogPost);
 get('/news/:uid',  newsPost);
@@ -124,7 +126,7 @@ function prismicQuery(query, options, cb) {
 
 function staticPage(uid) {
     return function(req, res) {
-        singleItem(predicates.at('my.static-page.uid', uid), {}, function(doc){
+        singleItem(Prismic.Predicates.at('my.static-page.uid', uid), {}, function(doc){
             console.log(doc);
             var title = doc.getText('static-page.title');
             var headline = doc.getText('static-page.headline');
@@ -152,7 +154,7 @@ function singleItem(query, opts, cb) {
     });
 }
 function newsPost(req, res) {
-    singleItem(predicates.at('my.news.uid', req.params.uid), {}, function(doc){
+    singleItem(Prismic.Predicates.at('my.news.uid', req.params.uid), {}, function(doc){
 
         var title    = doc.getText('news.title');
         var headline = doc.getText('news.shortlede');
@@ -166,7 +168,7 @@ function newsPost(req, res) {
     })
 }
 function blogPost(req, res) {
-    singleItem(predicates.at('my.blog.uid', req.params.uid), {}, function(doc){
+    singleItem(Prismic.Predicates.at('my.blog.uid', req.params.uid), {}, function(doc){
         var title    = doc.getText('blog.title');
         var headline = doc.getText('blog.shortlede');
         var img      = doc.getImage('blog.preview_image');
@@ -179,7 +181,7 @@ function blogPost(req, res) {
     })
 }
 function eventPost(req, res) {
-    singleItem(predicates.at('my.event.uid', req.params.uid), {}, function(doc){
+    singleItem(Prismic.Predicates.at('my.event.uid', req.params.uid), {}, function(doc){
         var title    = doc.getText('event.title');
         var headline = doc.getText('event.description');
         var img      = doc.getImage('event.featured_image');
@@ -190,6 +192,30 @@ function eventPost(req, res) {
             ['og:image',       img && img.url],
         ]));
     })
+}
+
+function weatherForecast(req,res){
+    return forecasreutrntByDate(req.params.date, req, res);
+}
+
+function latestForecast(req, res) {
+    var d = moment().format('YYYY-MM-DD');
+    return forecastByDate(d, req, res);
+}
+function forecastByDate(date, req, res){
+
+    singleItem([['at', 'document.type', 'weather-forecast'], ['at', 'my.weather-forecast.date', date]], {}, function(doc){
+        var title    = doc.getText('weather-forecast.headline');
+        var headline = doc.getText('weather-forecast.synopsis');
+        var img      = doc.getImage('weather-forecast.day1-image1');
+
+        res.status(200).send(renderTags([
+            ['og:title',       title],
+            ['og:url',       'https://' +  req.host + '/weather/forecast/'+ date],
+            ['og:description', headline],
+            ['og:image',       img && img.url],
+        ]));
+    });
 }
 
 module.exports = prerenderRouter
