@@ -25,13 +25,18 @@ get('/blogs', tags([['og:title',       'Avalanche Canada Blogs'],
                   ['og:description', 'Stay up to date'],
                   ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
 
-get('/blogs', tags([['og:title',     'Avalanche Canada News'],
+get('/news', tags([['og:title',     'Avalanche Canada News'],
                   ['og:description', 'Stay up to date'],
                   ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+
+get('/events', tags([['og:title',     'Avalanche Canada Events'],
+                     ['og:description', 'Stay up to date'],
+                     ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
 
 
 get('/blogs/:uid', blogPost);
 get('/news/:uid',  newsPost);
+get('/events/:uid',  eventPost);
 
 //TODO(wnh): add all static pages here stuff
 get('/membership',  staticPage('membership-overview'));
@@ -168,8 +173,19 @@ function blogPost(req, res) {
         ]));
     })
 }
+function eventPost(req, res) {
+    singleItem(predicates.at('my.event.uid', req.params.uid), {}, function(doc){
+        var title    = doc.getText('event.title');
+        var headline = doc.getText('event.description');
+        var img      = doc.getImage('event.featured_image');
 
-function prismicGetByUid(uid) {
+        res.status(200).send(renderTags([
+            ['og:title',       title],
+            ['og:description', headline],
+            ['og:image',       img && img.url],
+        ]));
+    })
 }
+
 module.exports = prerenderRouter
 
