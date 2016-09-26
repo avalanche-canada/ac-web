@@ -39,5 +39,5 @@ export default compose(
     mapProps(({criticalFactorsComments, ...values}) => ({
         comment: criticalFactorsComments,
         descriptions: asTermAndDefinition(values),
-    }))
+    })),
 )(Content)

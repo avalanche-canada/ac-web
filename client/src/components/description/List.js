@@ -11,17 +11,25 @@ List.propTypes = {
     bordered: PropTypes.bool,
 }
 
-function List({columns = 1, theme = 'Simple', condensed = false, bordered = false, children}) {
-    const styleName = classNames(`List--${theme}--${columns}Columns`, {
+function computeStyleName(columns, theme, condensed, bordered) {
+    return classNames(`List--${theme}--${columns}Columns`, {
         Condensed: condensed,
         Bordered: bordered,
     })
+}
 
+function List({
+    columns = 1,
+    theme = 'Simple',
+    condensed = false,
+    bordered = false,
+    children
+}) {
     return (
-        <dl styleName={styleName} >
+        <dl styleName={computeStyleName(columns, theme, condensed, bordered)} >
             {children}
         </dl>
     )
 }
 
-export default CSSModules(List, styles, {allowMultiple: true})
+export default CSSModules(List, styles, { allowMultiple: true })

@@ -32,7 +32,7 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
-            {images.length > 1 * 1000 &&
+            {images.length > 10000 &&
                 <Gallery images={images} />
             }
             {report &&
@@ -42,7 +42,9 @@ function HotZoneReport({report}) {
                             Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                         </strong>
                     </p>
-                    <CriticalFactors {...report.data.criticalFactors} />
+                    <div styleName='CriticalFactors'>
+                        <CriticalFactors {...report.data.criticalFactors} />
+                    </div>
                 </Panel>
             }
             {report &&

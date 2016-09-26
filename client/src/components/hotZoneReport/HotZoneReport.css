@@ -31,3 +31,13 @@
         color: transparent;
     }
 }
+
+.CriticalFactors {
+    & dt {
+        flex: 75% !important;
+    }
+    & dd {
+        flex: 25% !important;
+        text-align: right;
+    }
+}
