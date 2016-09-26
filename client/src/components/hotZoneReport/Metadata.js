@@ -3,22 +3,23 @@ import {Metadata, Entry} from 'components/metadata'
 import {DateTime} from 'components/misc'
 
 HotZoneReportMetadata.propTypes = {
-    dateIssued: PropTypes.instanceOf(Date).isRequired,
-    validUntil: PropTypes.instanceOf(Date).isRequired,
+    report: PropTypes.object,
 }
 
-export default function HotZoneReportMetadata({dateIssued, validUntil}) {
-    if (!dateIssued && !validUntil) {
+export default function HotZoneReportMetadata({report = {}}) {
+    const {dateissued, datevalid} = report
+
+    if (!dateissued && !datevalid) {
         return null
     }
-    
+
     return (
         <Metadata>
             <Entry term='Date Issued'>
-                <DateTime value={dateIssued} />
+                <DateTime value={dateissued} />
             </Entry>
             <Entry term='Valid Until'>
-                <DateTime value={validUntil} />
+                <DateTime value={datevalid} />
             </Entry>
         </Metadata>
     )

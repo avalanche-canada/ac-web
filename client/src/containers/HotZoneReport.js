@@ -25,7 +25,7 @@ function Container({
             <Header title={link ? <Link to={link}>{title}</Link> : title} />
             <Content>
                 <Main>
-                    {isLoading || <Metadata {...report} />}
+                    {isLoading || <Metadata report={report.report} />}
                     {isLoading && <Muted>Loading report...</Muted>}
                     {isError && <Error>Error happened while loading report.</Error>}
                     {isLoading || <HotZoneReport report={report.report} />}
