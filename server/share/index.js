@@ -25,7 +25,13 @@ get('/blogs', tags([['og:title',       'Avalanche Canada Blogs'],
                   ['og:description', 'Stay up to date'],
                   ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
 
+get('/blogs', tags([['og:title',     'Avalanche Canada News'],
+                  ['og:description', 'Stay up to date'],
+                  ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+
+
 get('/blogs/:uid', blogPost);
+get('/news/:uid',  newsPost);
 
 //TODO(wnh): add all static pages here stuff
 get('/membership',  staticPage('membership-overview'));
@@ -124,18 +130,33 @@ function staticPage(uid) {
     }
 }
 
-
-function blogPost(req, res) {
-    prismicQuery(predicates.at('my.blog.uid', req.params.uid), {}, function(err, data){
+function singleItem(query, opts, cb) {
+    prismicQuery(query, opts, function(err, data){
         if(err){ 
             console.error(err);
             return res.status(500).send('<html><body>Error</body></html>');
         } else if(data.results_size !== 1) {
             return res.status(404).send('<html><body>Not Found</body></html>');
         }
-        console.log(JSON.stringify(data, null, '  '));
+        cb(data.results[0]);
+    });
+}
+function newsPost(req, res) {
+    singleItem(predicates.at('my.news.uid', req.params.uid), {}, function(doc){
 
-        var doc = data.results[0];
+        var title    = doc.getText('news.title');
+        var headline = doc.getText('news.shortlede');
+        var img      = doc.getImage('news.featured_image');
+
+        res.status(200).send(renderTags([
+            ['og:title',       title],
+            ['og:description', headline],
+            ['og:image',       img && img.url],
+        ]));
+    })
+}
+function blogPost(req, res) {
+    singleItem(predicates.at('my.blog.uid', req.params.uid), {}, function(doc){
         var title    = doc.getText('blog.title');
         var headline = doc.getText('blog.shortlede');
         var img      = doc.getImage('blog.preview_image');
