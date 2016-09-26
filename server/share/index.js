@@ -11,6 +11,9 @@ var forecastRegions = require('../api/forecasts/forecast-regions');
 var prerenderRouter = express.Router();
 var get = function get(route, handler){ prerenderRouter.get(route, prerenderGuard(handler)); }
 
+
+var SHARE_LOGO = 'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg';
+
 get('/map/forecasts/:region', forecastPage);
 get('/forecasts/:region',     forecastPage);
 get('/forecasts/:region/archives/:date', forecastPage)
@@ -18,20 +21,20 @@ get('/forecasts/:region/archives/:date', forecastPage)
 
 get('/map', tags([['og:title',       'Avalanche Canada'],
                   ['og:description', 'Get the latest avalanche forecast'],
-                  ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+                  ['og:image', SHARE_LOGO]]));
 
 
 get('/blogs', tags([['og:title',       'Avalanche Canada Blogs'],
                   ['og:description', 'Stay up to date'],
-                  ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+                  ['og:image', SHARE_LOGO]]));
 
 get('/news', tags([['og:title',     'Avalanche Canada News'],
                   ['og:description', 'Stay up to date'],
-                  ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+                  ['og:image', SHARE_LOGO]]));
 
 get('/events', tags([['og:title',     'Avalanche Canada Events'],
                      ['og:description', 'Stay up to date'],
-                     ['og:image',       'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_solid_rgb:fff,c_pad,h_315,w_600/v1413919754/logos/avalanche_canada_left_quqmls.jpg']]));
+                     ['og:image', SHARE_LOGO]]));
 
 
 get('/blogs/:uid', blogPost);
@@ -71,7 +74,13 @@ function renderTags(tags) {
     var tpl = ['<html><head>'];
     tags.push(['twitter:card',   'summary_large_image'], 
               ['twitter:site',   '@avalancheca']);
-    _.each(tags, function(i) { tpl.push('<meta property="', i[0], '" content="', i[1], '" />')});
+    _.each(tags, function(i) { 
+        // Dont add null/undefined tags 
+        // Saves a ton of work in the calling functions
+        if(i[1]) {
+            tpl.push('<meta property="', i[0], '" content="', i[1], '" />')
+        }
+    });
     tpl.push('</head><body></body></head>');
     return tpl.join('');
 }
@@ -82,7 +91,7 @@ function forecastPage(req,res) {
         res.status(404).send('NOT FOUND');
     }
     getForecastData(req.params.region, region)
-        .then((data) => {
+        .then(function(data){
             console.log(JSON.stringify(data.json, null, '  '));
             var out = renderTags([
                 ['og:title', 'Latest forecast for ' + data.json.bulletinTitle],
@@ -115,21 +124,17 @@ function prismicQuery(query, options, cb) {
 
 function staticPage(uid) {
     return function(req, res) {
-        prismicQuery(predicates.at('my.static-page.uid', uid), {}, function(err, docs){
-            if(err){ 
-                console.error(err);
-                return res.status(500).send('<html><body>Error</body></html>');
-            }
-            var doc = docs.results[0].data;
-            var title = doc['static-page.title'];
-            var headline = doc['static-page.headline'];
-            var banner = doc['static-page.banner'];
+        singleItem(predicates.at('my.static-page.uid', uid), {}, function(doc){
+            console.log(doc);
+            var title = doc.getText('static-page.title');
+            var headline = doc.getText('static-page.headline');
+            var banner = doc.getImage('static-page.banner');
 
             //TODO(wnh): Remove full tag if value doesnt exist
             res.status(200).send(renderTags([
-                ['og:title',       title && title.value],
-                ['og:description', headline && headline.value],
-                ['og:image',       banner && banner.value.main.url],
+                ['og:title',       title],
+                ['og:description', headline],
+                ['og:image',       banner && banner.url],
             ]));
         });
     }
