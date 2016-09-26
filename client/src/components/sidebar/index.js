@@ -7,6 +7,9 @@ import Sidebar from './Sidebar'
 export Sidebar from './Sidebar'
 export Item from './Item'
 export Header from './Header'
+export Share from './Share'
+export Follow from './Follow'
+export Contact from './Contact'
 
 CompleteSidebar.propTypes = {
     withContacting: PropTypes.bool,

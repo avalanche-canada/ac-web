@@ -1,7 +1,7 @@
 import React, {PropTypes, createElement} from 'react'
 import {Link} from 'react-router'
-import {Page, Header, Main, Content} from 'components/page'
-import Forecast, {Metadata, Footer} from 'components/forecast'
+import {Page, Header, Main, Content, Aside} from 'components/page'
+import Forecast, {Metadata, Footer, Sidebar} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from './connectors'
 
@@ -31,6 +31,9 @@ function Container({
                     {(forecast && forecast.region) && <Forecast {...forecast} />}
                     {forecast && <Footer author={forecast.forecaster} />}
                 </Main>
+                <Aside>
+                    <Sidebar />
+                </Aside>
             </Content>
         </Page>
     )
