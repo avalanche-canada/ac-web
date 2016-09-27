@@ -1,5 +1,5 @@
 import React, {Component, PropTypes, createElement} from 'react'
-import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps, flattenProp} from 'recompose'
+import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps, flattenProp, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForUid} from 'actions/prismic'
