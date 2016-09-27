@@ -1,5 +1,5 @@
 import React, {Component, PropTypes, createElement} from 'react'
-import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps} from 'recompose'
+import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps, flattenProp} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForUid} from 'actions/prismic'
@@ -103,6 +103,10 @@ const Components = new Map([
 ])
 
 export const FallbackPage = compose(
+    defaultProps({
+        title: 'Loading...'
+    }),
+    flattenProp('params'),
     withProps(({type}) => ({
         component: Components.get(type)
     })),
