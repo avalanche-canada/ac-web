@@ -1,4 +1,4 @@
-import mapbox from 'mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
 

@@ -1,8 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModules from 'react-css-modules'
 import {compose, withHandlers} from 'recompose'
-import {findPlaces} from 'mapbox/api'
-import {accessToken} from 'mapbox/config.json'
+import {accessToken} from 'services/mapbox/config.json'
 import {DropdownFromOptions, Input} from 'components/controls'
 import {Place, Close, Home, Spinner} from 'components/icons'
 import styles from './Geocoder.css'
@@ -11,6 +10,7 @@ import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
 
 function K() {}
+// TODO: Move that code to services/mapbox
 const BASEURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 const PARAMS = {
     country: ['ca', 'us', 'au', 'jp'].join(','),

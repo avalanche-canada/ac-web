@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
-import mapbox, {styles} from 'mapbox/map'
+import mapbox, {styles} from 'services/mapbox/map'
 import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
 import css from './Map.css'

@@ -5,7 +5,7 @@ import {
 } from 'api/schemas'
 import {createElement, POSITIONS} from './utils'
 import {point} from 'turf-helpers'
-import mapbox from 'mapbox/map'
+import mapbox from 'services/mapbox/map'
 import place from 'components/icons/place.svg'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
 import {getEntitiesForSchema} from 'reducers/api/getters'

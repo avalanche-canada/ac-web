@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import mapbox from 'mapbox/map'
+import mapbox from 'services/mapbox/map'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
 import {getPrimary, getSecondary} from 'selectors/drawers'

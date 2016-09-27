@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import mapbox from 'mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
 const {assign} = Object

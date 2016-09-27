@@ -66,7 +66,6 @@ module.exports = {
             compose: 'compose',
             containers: 'containers',
             layouts: 'layouts',
-            mapbox: 'mapbox',
             prismic: 'prismic',
             webworkify: 'webworkify-webpack',
             reducers: 'reducers',

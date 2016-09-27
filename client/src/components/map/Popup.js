@@ -1,6 +1,6 @@
 import React, { PropTypes, Component} from 'react'
 import {render, unmountComponentAtNode} from 'react-dom'
-import mapbox from 'mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
 const ANCHORS = ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right']
