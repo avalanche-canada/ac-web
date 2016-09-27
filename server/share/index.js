@@ -4,6 +4,7 @@ var _ = require('lodash');
 var express = require('express');
 var moment = require('moment');
 var prerender = require('prerender-node');
+var minutils = require('../api/observations/min-utils');
 
 var getForecastData = require('../api/forecasts').getForecastData;
 var forecastRegions = require('../api/forecasts/forecast-regions');
@@ -18,6 +19,8 @@ get('/map/forecasts/:region', forecastPage);
 get('/forecasts/:region',     forecastPage);
 get('/forecasts/:region/archives/:date', forecastPage)
 
+
+get('/mountain-information-network/submissions/:id', minSubmission);
 
 get('/map', tags([['og:title',       'Avalanche Canada'],
                   ['og:description', 'Get the latest avalanche forecast'],
@@ -216,6 +219,47 @@ function forecastByDate(date, req, res){
             ['og:image',       img && img.url],
         ]));
     });
+}
+
+
+function minSubmission(req, res) {
+    var subId = req.params.id;
+    console.log(subId);
+
+    minutils.getSubmission(subId, 'web', function(err, data){
+        var sub =  data[0];
+        var imgKey = sub.uploads.length > 0 && sub.uploads[0];
+
+        console.log(JSON.stringify(sub, null, '  '));
+        console.log(_.map(sub.obs, o => o.ob.comment));
+        
+
+        res.status(200).send(renderTags([
+            ['og:title',     sub.title],
+            ['og:url',       'https://' +  req.host + '/mountain-information-network/submissions/' + subId],
+            ['og:description', getSubmissionComment(sub)],
+            ['og:image', imgKey && minUploadKeyToUrl(imgKey)],
+        ]));
+    });
+}
+
+function minUploadKeyToUrl(key) {
+    return 'https://s3-us-west-2.amazonaws.com/ac-min-uploads/' + key;
+}
+
+function getSubmissionComment(sub) {
+    var obs = _.keyBy(sub.obs, o => o.obtype);
+    if(obs.quick) {
+        return obs.quick.ob.comment;
+    } else if (obs.avalanche) {
+        return obs.avalanche.ob.avalancheObsComment;
+    } else if (obs.snowpack) {
+        return obs.snowpack.ob.snowpackObsComment;
+    } else if (obs.weather) {
+        return obs.weather.ob.weatherObsComment;
+    } else if (obs.incident) {
+        return obs.incident.ob.incidentObsComment;
+    }
 }
 
 module.exports = prerenderRouter
