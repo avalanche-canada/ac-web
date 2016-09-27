@@ -97,6 +97,14 @@ export default function computeRoutes(store) {
     }
 
     function handleAboutRouteEnter() {
+        loadStaffList()
+    }
+
+    function handleSledPageEnter() {
+        loadStaffList()
+    }
+
+    function loadStaffList() {
         dispatch(loadForType('staff', {
             pageSize: 100
         }))
@@ -229,7 +237,7 @@ export default function computeRoutes(store) {
             </Route>
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />
-            <Route path='sled' component={Sled} />
+            <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
             <Route path='tutorial/*' component={Tutorial} />
             <Redirect from="tutorial" to="tutorial/" />
             <Route path='auction' component={Auction} />
