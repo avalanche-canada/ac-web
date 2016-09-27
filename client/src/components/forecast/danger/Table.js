@@ -2,7 +2,7 @@ import React, { PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import Day from './Day'
-import {VALUES, TITLES, MESSAGES} from 'constants/forecast/mode'
+import {VALUES} from 'constants/forecast/mode'
 
 const {SPRING, SUMMER, OFF} = VALUES
 const UNHANDLED = new Set([SUMMER, SPRING, OFF])
