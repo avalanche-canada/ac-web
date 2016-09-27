@@ -9,6 +9,7 @@ import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
+import {replaceQuery} from 'utils/router'
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special "Description" less special
@@ -102,15 +103,9 @@ function Connect(name, mapStateToProps, load) {
         }),
         withHandlers({
             onSortingChange: props => (name, order) => {
-                const {router, location} = props
-
-                router.replace({
-                    ...location,
-                    query: {
-                        ...location.query,
-                        sorting: [name, order],
-                    }
-                })
+                replaceQuery({
+                    sorting: [name, order],
+                }, props)
             },
         }),
     )(AstTable)

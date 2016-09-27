@@ -11,6 +11,7 @@ import mapStateToProps from 'selectors/incidents/table'
 import Button from 'components/button'
 import {DropdownFromOptions} from 'components/controls'
 import {Form, Fieldset} from 'components/form'
+import {replaceQuery} from 'utils/router'
 
 const {assign, keys} = Object
 const {isArray} = Array
@@ -21,16 +22,10 @@ const PARAMS = {
     involvement: [],
 }
 
-function setParams(name, location, router) {
-    return value => {
-        router.replace({
-            ...location,
-            query: {
-                ...location.query,
-                [name]: [...value],
-            }
-        })
-    }
+function setParams(name, props) {
+    return value => replaceQuery({
+        [name]: [...value]
+    }, props)
 }
 
 function paramsToArrays(params) {
@@ -42,6 +37,8 @@ function paramsToArrays(params) {
         return values
     }, {})
 }
+
+// TODO: Better usage a recompose
 
 function IncidentsTable({
     incidents = [],
@@ -60,6 +57,10 @@ function IncidentsTable({
 }) {
     const {page, ...params} = assign({}, PARAMS, location.query)
     const {season, province, involvement, activity} = paramsToArrays(params)
+    const props = {
+        router,
+        location
+    }
 
     return (
         <Page>
@@ -69,10 +70,10 @@ function IncidentsTable({
                     {isLoaded && (
                         <Form>
                             <Fieldset>
-                                <DropdownFromOptions multiple value={new Set(involvement)} options={involementOptions} onChange={setParams('involvement', location, router)} placeholder='Type of involvement' />
-                                <DropdownFromOptions multiple value={new Set(season)} options={seasonOptions} onChange={setParams('season', location, router)} placeholder='Season' />
-                                <DropdownFromOptions multiple value={new Set(province)} options={provinceOptions} onChange={setParams('province', location, router)} placeholder='Province' />
-                                <DropdownFromOptions multiple value={new Set(activity)} options={activityOptions} onChange={setParams('activity', location, router)} placeholder='Activity' />
+                                <DropdownFromOptions multiple value={new Set(involvement)} options={involementOptions} onChange={setParams('involvement', props)} placeholder='Type of involvement' />
+                                <DropdownFromOptions multiple value={new Set(season)} options={seasonOptions} onChange={setParams('season', props)} placeholder='Season' />
+                                <DropdownFromOptions multiple value={new Set(province)} options={provinceOptions} onChange={setParams('province', props)} placeholder='Province' />
+                                <DropdownFromOptions multiple value={new Set(activity)} options={activityOptions} onChange={setParams('activity', props)} placeholder='Activity' />
                             </Fieldset>
                         </Form>
                     )}
