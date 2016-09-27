@@ -1,5 +1,6 @@
 import {history} from 'router'
 import Url from 'url'
+import {avalancheCanadaPathRegex, href} from 'utils/url'
 
 function isLeftClickEvent(event) {
     return event.button === 0
@@ -24,30 +25,28 @@ window.onPrismicHyperlinkClick = function onPrismicHyperlinkClick(element) {
     history.push(element.getAttribute('data-path'))
 }
 
-function appAnchor({href, content, title = content}) {
+function createApplicationAnchor({href, content, title = content}) {
     return `<a href="${href}" data-path="${href}" title="${title}" onclick="onPrismicHyperlinkClick(this);">${content}</a>`
 }
 
 export default function htmlSerializer({type, ...props}, content) {
     switch (type) {
         case 'hyperlink': {
-            const {url: href, data: {value, type: linkType}} = props
+            const {url, data: {value, type: linkType}} = props
 
             switch (linkType) {
                 case 'Link.document': {
                     const {type, uid} = value.document
 
-                    return appAnchor({
-                        href: href || `/pages/${type}/${uid}`,
+                    return createApplicationAnchor({
+                        href: url || `/pages/${type}/${uid}`,
                         content,
                     })
                 }
                 case 'Link.web':
-                    const {host, path, protocol} = Url.parse(href)
-
-                    if ((protocol === 'http:' || protocol === 'https:') && host.includes('avalanche.ca')) {
-                        return appAnchor({
-                            href: path,
+                    if (avalancheCanadaPathRegex.test(url)) {
+                        return createApplicationAnchor({
+                            href: href(url),
                             content,
                         })
                     }
