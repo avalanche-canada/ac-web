@@ -11,7 +11,7 @@ export default function Warnings() {
                     Warnings on weather.gc.ca <Launch height={14} width={14} />
                 </a>
             </h3>
-            <Image src='http://avalanche.ca/assets/images/weather/warnings.png' />
+            <Image src='/assets/images/weather/warnings.png' />
         </Article>
     )
 }

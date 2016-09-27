@@ -25,11 +25,8 @@
 [] -
 [] -
 [] -
-[] - Remove http://avalanche.ca/assets/images/weather/precipitation-precip_type.png
-[] - Remove http://avalanche.ca/assets/images/weather/temperature-surface.png
-[] - Remove http://avalanche.ca/assets/images/weather/freezing_level.png
-[] - Remove http://avalanche.ca/assets/images/weather/winds-surface.png
-[] - Remove http://avalanche.ca/assets/images/weather/winds-1500m-asl.png
+[] - Remove http://avalanche.ca/assets/images/weather/*
+
 
 # Map
 [] - Remove forecast region centroids

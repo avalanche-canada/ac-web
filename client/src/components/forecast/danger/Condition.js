@@ -10,9 +10,9 @@ const HANDLED = new Set([SUMMER, SPRING, OFF])
 
 const HEADERS = asMap(VALUES, TITLES)
 const ICONS = new Map([
-    [SPRING, 'http://www.avalanche.ca/assets/images/spring_situation_icon.svg'],
-    [SUMMER, 'http://www.avalanche.ca/assets/images/summer_conditions_icon.svg'],
-    [OFF, 'http://www.avalanche.ca/assets/images/summer_conditions_icon.svg'],
+    [SPRING, '/assets/images/spring_situation_icon.svg'],
+    [SUMMER, '/assets/images/summer_conditions_icon.svg'],
+    [OFF, '/assets/images/summer_conditions_icon.svg'],
 ])
 const UIDS = new Map([
     [SPRING, 'forecast-spring-conditions-message'],

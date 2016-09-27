@@ -10,16 +10,16 @@ export default function Satellite({tutorial}) {
         <Article title='Satellite Imagery'>
             <TabSet>
                 <Tab title='Water Vapour/Jet'>
-                    <Image src='http://avalanche.ca/assets/images/weather/satellite_water_vapour.png' />
+                    <Image src='/assets/images/weather/satellite_water_vapour.png' />
                 </Tab>
                 <Tab title='IR Pacific'>
-                    <Image src='http://avalanche.ca/assets/images/weather/new_satellite_ir_redtop.png' />
+                    <Image src='/assets/images/weather/new_satellite_ir_redtop.png' />
                 </Tab>
                 <Tab title='IR West Coast'>
-                    <Image src='http://avalanche.ca/assets/images/weather/ir-west-coast.png' />
+                    <Image src='/assets/images/weather/ir-west-coast.png' />
                 </Tab>
                 <Tab title='IR-VIS BC'>
-                    <Image src='http://avalanche.ca/assets/images/weather/ir-west-coast.png' />
+                    <Image src='/assets/images/weather/ir-west-coast.png' />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='satellite' />

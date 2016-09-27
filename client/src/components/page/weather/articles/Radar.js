@@ -9,13 +9,13 @@ export default function Radar() {
         <Article title='Radar Imagery'>
             <TabSet>
                 <Tab title='BC Mosaic'>
-                    <Image src='http://avalanche.ca/assets/images/weather/new_radar_BC_mosaic.png' />
+                    <Image src='/assets/images/weather/new_radar_BC_mosaic.png' />
                 </Tab>
                 <Tab title='South Coast'>
-                    <Image src='http://avalanche.ca/assets/images/weather/new_radar_s_cst.png' />
+                    <Image src='/assets/images/weather/new_radar_s_cst.png' />
                 </Tab>
                 <Tab title='Sourth Interior'>
-                    <Image src='http://avalanche.ca/assets/images/weather/new-radar_s_interior.png' />
+                    <Image src='/assets/images/weather/new-radar_s_interior.png' />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='radar' />
