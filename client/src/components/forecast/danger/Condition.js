@@ -4,15 +4,16 @@ import styles from './Danger.css'
 import {VALUES, TITLES} from 'constants/forecast/mode'
 import {asMap, asValues} from 'constants/utils'
 import {Generic} from 'prismic/components'
+import {url} from 'assets'
 
 const {SPRING, SUMMER, OFF} = VALUES
 const HANDLED = new Set([SUMMER, SPRING, OFF])
 
 const HEADERS = asMap(VALUES, TITLES)
 const ICONS = new Map([
-    [SPRING, '/assets/images/spring_situation_icon.svg'],
-    [SUMMER, '/assets/images/summer_conditions_icon.svg'],
-    [OFF, '/assets/images/summer_conditions_icon.svg'],
+    [SPRING, url('images/spring_situation_icon.svg')],
+    [SUMMER, url('images/summer_conditions_icon.svg')],
+    [OFF, url('images/summer_conditions_icon.svg')],
 ])
 const UIDS = new Map([
     [SPRING, 'forecast-spring-conditions-message'],
