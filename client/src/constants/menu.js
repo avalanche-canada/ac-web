@@ -159,11 +159,11 @@ export const AvalancheCanada = {
                 id: '57daea58-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Nadine Overwater',
                 to: '/ambassadors#nadine-overwater',
-            /* }, {
+            }, {
                 id: '03d264bd-e8ae-496e-b208-81c514aba749',
                 label: 'Chris Rubens',
                 to: '/ambassadors#chris-rubens',
-            }, {
+            /* }, {
                 id: 'dfa78074-36e8-4f4b-97a4-1c7f922a08ac',
                 label: 'Brodie Evans',
                 to: '/ambassadors#brodie-evans',

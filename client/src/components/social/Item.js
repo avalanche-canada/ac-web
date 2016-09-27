@@ -10,7 +10,7 @@ const anchor = document.createElement('a')
 
 const Providers = new Map([
     ['www.facebook.com', 'Facebook'],
-    ['www.twitter.com', 'Twitter'],
+    ['twitter.com', 'Twitter'],
     ['www.instagram.com', 'Instagram'],
     ['vimeo.com', 'Vimeo'],
 ])
