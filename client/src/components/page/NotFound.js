@@ -5,7 +5,6 @@ import CSSModules from 'react-css-modules'
 import {Page, Content, Main, Header, Banner} from 'components/page'
 import Button from 'components/button'
 import styles from './Page.css'
-import {url} from 'assets'
 
 NotFound.propTypes = {
     title: PropTypes.string,
@@ -27,12 +26,6 @@ function NotFound({
                         <Button styleName='GoBackButton' onClick={handleGoBackClick}>
                             Go back to your previous page
                         </Button>
-                        {/* <Link styleName='Link' to='/'>
-                            Home page
-                        </Link>
-                        <Link styleName='Link' to='/about'>
-                            About us
-                        </Link> */}
                     </div>
                 </Main>
             </Content>
