@@ -17,7 +17,7 @@ dev:
 	withenv npm run start-dev
 
 prod:
-	cd dist && PORT=9000 npm --production start
+	withenv bash -c 'cd dist && PORT=9000 npm --production start'
 
 clean:
 	- rm -rf dist
@@ -51,6 +51,7 @@ push-dev: zip
 
 
 server-copy:
+	cp client/favicon.ico $(DIST)/public
 	cp client/.htaccess $(DIST)/public
 	cp package.json $(DIST)
 	cp -R server $(DIST)
