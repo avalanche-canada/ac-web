@@ -1,5 +1,7 @@
 'use strict';
 
+const raven = require('raven')
+
 module.exports = function(app) {
 
     var env = app.get('env');
@@ -26,6 +28,7 @@ module.exports = function(app) {
     app.use('/schema', require('./schema/handlers'));
     app.use('/static', require('./static'));
 
+    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function (err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
