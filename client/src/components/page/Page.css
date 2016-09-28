@@ -8,7 +8,6 @@
 .RestrictFullPageWidth {
     max-width: 1026px;
     padding: 0 1em;
-    height: 100%;
 
     @media (--full-width) {
         padding: 0;
@@ -150,6 +149,10 @@
     position: relative;
     color: var(--black);
     text-align: center;
+
+    & .Content {
+        height: 100%;
+    }
 
     &:after {
         content: "";
