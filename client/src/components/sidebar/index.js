@@ -10,6 +10,7 @@ export Header from './Header'
 export Share from './Share'
 export Follow from './Follow'
 export Contact from './Contact'
+export RSSFeed from './RSSFeed'
 
 CompleteSidebar.propTypes = {
     withContacting: PropTypes.bool,
