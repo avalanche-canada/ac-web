@@ -179,7 +179,7 @@ export default function computeRoutes(store) {
     function handleNotFoundRouteEnter() {
         captureException(new Error('Hola! Our user got here!'), {
             tags: {
-                pageNotFound: 'Page Not Found'
+                page: 'Page Not Found'
             }
         })
     }
