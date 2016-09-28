@@ -24,27 +24,23 @@ function itemsToSubmissions(items) {
     var subs = _.chain(items)
         .groupBy('subid')
         .map(function (obs, subid) {
-            var meta = {
-                subid: subid,
-                latlng: obs[0].ob.latlng,
-                datetime: obs[0].ob.datetime,
-                uploads: obs[0].ob.uploads
-            };
-
-            var obs = obs.map(function (ob) {
+            var new_obs = obs.map(function (ob) {
                 return {
                     obtype: ob.obtype,
                     obid: ob.obid,
+                    // TODO(wnh): this ain't needed no moe.
                     shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + subid
+                    
                 };
             });
 
             return {
                 subid: subid,
-                latlng: meta.latlng,
-                datetime: meta.datetime,
-                uploads: meta.uploads,
-                obs: obs
+                latlng: obs[0].ob.latlng,
+                datetime: obs[0].ob.datetime,
+                uploads: obs[0].ob.uploads,
+                title: obs[0].ob.title,
+                obs: new_obs
             }
         })
         .value();
