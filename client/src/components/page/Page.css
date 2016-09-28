@@ -8,6 +8,7 @@
 .RestrictFullPageWidth {
     max-width: 1026px;
     padding: 0 1em;
+    height: 100%;
 
     @media (--full-width) {
         padding: 0;
@@ -143,4 +144,42 @@
 
 .Nav {
 
+}
+
+.NotFound {
+    position: relative;
+    color: var(--black);
+    text-align: center;
+
+    &:after {
+        content: "";
+        position: absolute 0;
+        background-image: url("https://s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    & main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+    }
+
+    & h1 {
+        font-size: 2.5em;
+    }
+}
+
+.Link {
+    composes: import Large from '../button/Button.css';
+    composes: import Primary from '../button/Button.css';
+}
+
+.GoBackButton {
+    composes: import Large from '../button/Button.css';
+    composes: import ChevronLeft from '../button/Button.css';
 }

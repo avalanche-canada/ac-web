@@ -10,6 +10,7 @@ import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import {history} from 'router'
 import AuthService from 'services/auth'
+import {captureException} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
 import {
@@ -175,6 +176,14 @@ export default function computeRoutes(store) {
         replace(`/forecasts/${name}`)
     }
 
+    function handleNotFoundRouteEnter() {
+        captureException(new Error('Hola! Our user got here!'), {
+            tags: {
+                pageNotFound: 'Page Not Found'
+            }
+        })
+    }
+
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* AUTHORIZATION */}
@@ -289,7 +298,7 @@ export default function computeRoutes(store) {
 
             <Route path='pages/:type/:uid' component={FallbackPage} />
             {/* FALLBACK */}
-            <Route path='*' component={NotFound} />
+            <Route path='*' components={{content: NotFound, footer: null}} onEnter={handleNotFoundRouteEnter} />
         </Route>
     )
 }
