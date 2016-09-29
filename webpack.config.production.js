@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 var CommonsChunkPlugin       = webpack.optimize.CommonsChunkPlugin
 var UglifyJsPlugin           = webpack.optimize.UglifyJsPlugin
@@ -86,6 +87,7 @@ module.exports = {
         require('rucksack-css'),
 	],
 	plugins: [
+        new CaseSensitivePathsPlugin(),
         new CommonsChunkPlugin({
             name: 'vendor',
             minChunks: module => /node_modules/.test(module.resource),

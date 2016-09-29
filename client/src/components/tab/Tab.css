@@ -1,6 +1,6 @@
 @import "../../styles/components.css";
 @import "../../styles/colors.css";
-@import "../../styles/Shapes.css";
+@import "../../styles/shapes.css";
 
 :root {
     --border-width: 5px;
@@ -104,7 +104,7 @@
 }
 
 .ListItem--Arrow {
-    composes: import ArrowElementDown from "../../styles/Shapes.css";
+    composes: import ArrowElementDown from "../../styles/shapes.css";
 
     position: absolute;
     top: calc(100% + var(--border-width));

@@ -45,7 +45,7 @@
 
 .Item--Active {
     composes: Item;
-    composes: import ArrowDown from "../../styles/Shapes.css";
+    composes: import ArrowDown from "../../styles/shapes.css";
 
     position: relative;
     color: white;

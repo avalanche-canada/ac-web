@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import moment from 'moment'
 import range from 'lodash/range'
-import padstart from 'lodash/padstart'
+import padstart from 'lodash/padStart'
 import Loop from 'components/loop'
 import {domain} from './config.json'
 
