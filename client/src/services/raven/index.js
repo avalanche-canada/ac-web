@@ -1,5 +1,6 @@
 import Raven from 'raven-js'
 import {key, project} from './config.json'
+import mapbox from 'services/mapbox/map'
 
 export default function setup() {
     if (Raven.isSetup()) {
@@ -8,6 +9,9 @@ export default function setup() {
 
     if (process.env.NODE_ENV === 'production') {
         Raven.config(`https://${key}@sentry.io/${project}`).install()
+        Raven.setTagsContext({
+            'mapboxgl.supported': mapbox.supported()
+        })
     }
 }
 
