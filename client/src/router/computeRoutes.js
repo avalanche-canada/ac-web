@@ -176,12 +176,8 @@ export default function computeRoutes(store) {
         replace(`/forecasts/${name}`)
     }
 
-    function handleNotFoundRouteEnter() {
-        captureException(new Error('Hola! Our user got here!'), {
-            tags: {
-                page: 'Page Not Found'
-            }
-        })
+    function handleNotFoundRouteEnter(args) {
+        captureException(new Error(`NOT_FOUND: ${args.location.pathname}`))
     }
 
     return (
