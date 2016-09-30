@@ -60,7 +60,6 @@ function drawerCreator({ model: {id, children, ...drawer} }) {
             ...drawer,
             onClose: handleClose.bind(this, id),
             onClick: handleCloseChildren.bind(this, id),
-            onHome: this.onClose,
             children: children.map(item => ({
                 ...item,
                 onClick: handleClick.bind(this, item.id)
