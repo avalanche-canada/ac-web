@@ -12,25 +12,31 @@ export default function setup() {
 }
 
 export function captureException(exception, context) {
-    if (Raven.isSetup()) {
-        Raven.captureException(exception, context)
+    if (!Raven.isSetup()) {
+        return
     }
+
+    Raven.captureException(exception, context)
 
     console.error(exception)
 }
 
 export function captureMessage(message, context) {
-    if (Raven.isSetup()) {
-        Raven.captureMessage(message, context)
+    if (!Raven.isSetup()) {
+        return
     }
+
+    Raven.captureMessage(message, context)
 }
 
 export function setUserContext({user_id, email, name}) {
-    if (Raven.isSetup()) {
-        Raven.setUserContext({
-            id: user_id,
-            email,
-            username: name,
-        })
+    if (!Raven.isSetup()) {
+        return
     }
+
+    Raven.setUserContext({
+        id: user_id,
+        email,
+        username: name,
+    })
 }
