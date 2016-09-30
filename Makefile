@@ -24,7 +24,7 @@ clean:
 	- rm ac-web.custom.*.zip
 
 webpack:
-	NODE_ENV=production webpack --config ./webpack.config.production.js --progress --profile --colors
+	NODE_ENV=production webpack --config ./webpack.config.production.js --progress --profile --colors --bail
 
 zip: build
 	cd dist && zip -r ../$(ZIPNAME) *
