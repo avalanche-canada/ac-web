@@ -13,6 +13,7 @@ import AuthService from 'services/auth'
 import {captureException} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
+import mapbox from 'services/mapbox/map'
 import {
     Map,
     About,
@@ -184,13 +185,23 @@ export default function computeRoutes(store) {
         })
     }
 
+    function handleMapRouteEnter() {
+        if (!mapbox.supported()) {
+            captureException(new Error('Mapbox GL JS not supported.'), {
+                tags: {
+                    mapbox: 'Not supported'
+                }
+            })
+        }
+    }
+
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' sponsorRef='Forecast' components={{content: Map, footer: null}}>
+            <Route path='map' sponsorRef='Forecast' components={{content: Map, footer: null}} onEnter={handleMapRouteEnter}>
                 <Route path='forecasts' onEnter={handleForecastRouteEnter} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
