@@ -10,7 +10,7 @@ import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import {history} from 'router'
 import AuthService from 'services/auth'
-import {captureException} from 'services/raven'
+import {captureMessage} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
 import {
@@ -177,7 +177,7 @@ export default function computeRoutes(store) {
     }
 
     function handleNotFoundRouteEnter(args) {
-        captureException(new Error(`NOT_FOUND: ${args.location.pathname}`))
+        captureMessage(`NOT_FOUND: ${args.location.pathname}`)
     }
 
     return (
