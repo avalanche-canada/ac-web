@@ -1,5 +1,7 @@
 @import "../../styles/colors.css";
 
+@custom-media --without-media (width < 500px);
+
 .Container {
     display: flex;
     color: var(--gray);
@@ -28,6 +30,10 @@
 .Media {
     height: 100%;
     margin-right: 10px;
+
+    @media(--without-media) {
+        display: none;
+    }
 }
 
 .Address {
