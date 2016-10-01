@@ -134,3 +134,14 @@
     font-weight: normal;
     padding: 0.25em;
 }
+
+.Set {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    & > .Common {
+        margin: 0.5em;
+    }
+}
