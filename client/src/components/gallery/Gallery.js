@@ -25,7 +25,7 @@ export function Gallery({
     onFullScreenClick,
     onPlayClick,
     onPauseClick,
-    ...props,
+    ...props
 }) {
     return (
         <div styleName='Container'>
