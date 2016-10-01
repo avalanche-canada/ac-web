@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, shouldUpdate} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import styles from './Navbar.css'
@@ -13,7 +14,9 @@ function isExternal(to) {
 }
 
 Anchor.propTypes = {
-    to: PropTypes.string
+    to: PropTypes.string,
+    onClick: PropTypes.func,
+    children: PropTypes.string,
 }
 
 function Anchor({to = '#', children, ...props}) {
@@ -32,4 +35,7 @@ function Anchor({to = '#', children, ...props}) {
     )
 }
 
-export default CSSModules(Anchor, styles)
+export default compose(
+    shouldUpdate(() => false),
+    CSSModules(styles),
+)(Anchor)

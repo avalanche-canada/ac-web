@@ -1,13 +1,9 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Drawer.css'
 
-function Item({children}) {
-    return (
-        <li styleName='Item'>
-            {children}
-        </li>
-    )
-}
-
-export default CSSModules(Item, styles)
+export default Element({
+    name: 'Item',
+    component: DOM.li,
+    styles,
+})

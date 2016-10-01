@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys, withHandlers} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
@@ -14,19 +15,9 @@ Drawer.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Drawer({header, onClick = K, onClose = K, style = null, children}) {
-    function handleClick(event) {
-        const {target, currentTarget} = event
-
-        if (target !== currentTarget) {
-            return
-        }
-
-        onClick(event)
-    }
-
+function Drawer({header, onClose = K, onClick, style = null, children}) {
     return (
-        <nav style={style} styleName='Drawer' onClick={handleClick}>
+        <nav style={style} styleName='Drawer' onClick={onClick}>
             <section styleName='Toolbar'>
                 <Link to='/' styleName='Home' title='Go to home page' />
                 <a href='#' onClick={onClose} styleName='Close' title='Close' />
@@ -36,4 +27,18 @@ function Drawer({header, onClick = K, onClose = K, style = null, children}) {
     )
 }
 
-export default CSSModules(Drawer, styles)
+export default compose(
+    onlyUpdateForKeys(['children', 'style']),
+    withHandlers({
+        onClick: props => event => {
+            const {target, currentTarget} = event
+
+            if (target !== currentTarget) {
+                return
+            }
+
+            props.onClick(event)
+        }
+    }),
+    CSSModules(styles),
+)(Drawer)
