@@ -10,6 +10,8 @@ import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
 import {replaceQuery} from 'utils/router'
+import {BasicMarkup} from 'components/markup'
+
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special "Description" less special
@@ -24,7 +26,10 @@ function renderControlled(data, asControlled) {
                 <div style={{display:"flex"}}>
                     <div style={{flex:1}}>
                         <List columns={1} theme="Inline" horizontal>
-                            {asTermAndDefinition({Description})}
+                            <Term>Description</Term> 
+                            <Definition>
+                                <BasicMarkup text={Description} />
+                            </Definition>
                         </List>
                     </div>
                     <div style={{flex:1}}>
