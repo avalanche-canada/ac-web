@@ -31,8 +31,7 @@ const tutorialContainer = lifecycle({
                 .then(r => r.results[0])
         }
 
-        q.then(this.success)
-         .catch(this.error)
+        q.then(this.success, this.error)
     },
 
 
@@ -42,7 +41,7 @@ const tutorialContainer = lifecycle({
 
     error(err) {
        this.setState({loading:false, isError: true, err: err})
-       console.error("ERROR", err)
+       throw err
     }
 })
 

@@ -25,14 +25,14 @@ export function QueryDocumentByUid(type, uid) {
 
 export function QueryDocumentByBookmark(name) {
     return Api().then(api => {
-        const id = api.api.bookmarks[name]
+        const id = api.bookmarks[name]
 
         return query(api, {}, Predicates.at('document.id', id))
     }).then(first)
 }
 
 function query(api, options = {}, ...predicates) {
-    form = createForm(api)
+    let form = createForm(api)
     form = form.query(...predicates)
 
     form = setOptions(form, options)
