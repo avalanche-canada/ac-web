@@ -27,8 +27,7 @@ function handleClick(id, event) {
     this.setNode(node)
 }
 function handleContainerClick(event) {
-    event.preventDefault()
-    const { target, currentTarget } = event
+    const {target, currentTarget} = event
 
     if (target !== currentTarget) {
         return

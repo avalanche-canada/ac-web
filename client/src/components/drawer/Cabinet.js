@@ -66,17 +66,24 @@ function Cabinet({drawers = []}) {
                     <Drawer key={key} style={getDrawerStyle(style)} {...drawer}>
                         <ItemSet>
                             <Item>{label}</Item>
-                            {children.map(({to, label, headline, children, onClick}, index) => {
-                                // console.warn(label, children, children && onClick)
+                            {children.map(({to, label, headline, children = [], onClick}, index) => {
+                                const link = {
+                                    to,
+                                    title: headline || label,
+                                }
+
+                                if (children.length > 0) {
+                                    link.onClick = onClick
+                                }
+
                                 return (
                                     <Item key={index}>
-                                        <Link to={to} title={headline || label} onClick={children && onClick}>
+                                        <Link {...link}>
                                             {label}
                                         </Link>
                                     </Item>
                                 )
-                            }
-                            )}
+                            })}
                         </ItemSet>
                     </Drawer>
                 )}

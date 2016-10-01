@@ -17,6 +17,9 @@ Anchor.propTypes = {
     to: PropTypes.string,
     onClick: PropTypes.func,
     children: PropTypes.string,
+    title: PropTypes.string,
+    style: PropTypes.object,
+    onClick: PropTypes.func,
 }
 
 function Anchor({to = '#', children, ...props}) {
@@ -29,7 +32,7 @@ function Anchor({to = '#', children, ...props}) {
     }
 
     return (
-        <Link styleName='Link' to={to} {...props}>
+        <Link styleName='Link' to={to} {...props} >
             {children}
         </Link>
     )
