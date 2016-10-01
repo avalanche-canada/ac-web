@@ -30,6 +30,6 @@ function Item({isActive = false, title, onClick = K, noWrap = false, children}) 
 }
 
 export default compose(
-    onlyUpdateForKeys(['isActive']),
+    onlyUpdateForKeys(['isActive', 'children']),
     CSSModules(styles)
 )(Item)
