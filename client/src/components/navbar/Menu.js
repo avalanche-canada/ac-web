@@ -1,28 +1,22 @@
-import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {PropTypes} from 'react'
+import {compose, setPropTypes, branch, renderNothing} from 'recompose'
+import {Element} from 'compose'
 import styles from './Navbar.css'
 
-Menu.propTypes = {
-    isOpened: PropTypes.bool,
-    inline: PropTypes.bool,
-}
+const Menu = Element({
+    name: 'Menu',
+    styles,
+})
 
-function Menu({isOpened = false, inline = false, children}) {
-    let styleName = 'Menu'
-
-    if (isOpened) {
-        styleName += ' Menu--opened'
-    }
-
-    if (inline) {
-        styleName += ' Menu--inline'
-    }
-
-    return (
-        <div styleName={styleName}>
-            {children}
-        </div>
-    )
-}
-
-export default CSSModules(Menu, styles, {allowMultiple: true})
+export default compose(
+    setPropTypes({
+        isOpened: PropTypes.bool,
+        children: PropTypes.node.isRequired,
+    }),
+    branch(
+        props => !props.isOpened,
+        renderNothing,
+        // TODO: Remove after recompose new release
+        Component => Component
+    ),
+)(Menu)

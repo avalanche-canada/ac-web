@@ -129,7 +129,7 @@
 
 /* Menu */
 .Menu {
-    display: none;
+    display: flex;
     position: fixed;
     justify-content:space-between;
     left: 0;
@@ -143,11 +143,6 @@
 .Menu--inline {
     left: auto;
     right: auto;
-}
-
-.Menu--opened {
-    composes: Menu;
-    display: flex;
 }
 
 .Section {

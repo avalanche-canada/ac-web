@@ -16,7 +16,7 @@ Anchor.propTypes = {
     to: PropTypes.string
 }
 
-function Anchor({ to = '#', children, ...props }) {
+function Anchor({to = '#', children, ...props}) {
     if (isExternal(to)) {
         return (
             <a href={to} target='_blank' styleName='Link' {...props} >

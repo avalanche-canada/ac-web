@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys, shouldUpdate} from 'recompose'
 import CSSModules from 'react-css-modules'
 import Burger from './Burger'
 import ItemSet from './ItemSet'
@@ -29,4 +30,7 @@ function Navbar({isFoundation = false, onBurgerClick = K, children = []}) {
     )
 }
 
-export default CSSModules(Navbar, styles)
+export default compose(
+    onlyUpdateForKeys(['children']),
+    CSSModules(styles),
+)(Navbar)

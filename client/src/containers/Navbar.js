@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {compose, lifecycle, mapProps, withHandlers} from 'recompose'
+import {compose, lifecycle, mapProps, withProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
 import {loadForecastRegions} from 'actions/entities'
 import * as menus from 'constants/menu'
@@ -35,10 +35,11 @@ export const AvalancheCanada = compose(
             this.props.loadForecastRegions()
         }
     }),
-    mapProps(({regions, ...props}) => {
+    withProps(({regions}) => {
         let menu = menus.AvalancheCanada
 
         if (regions) {
+            // FIXME: This is really bad code!!! There must be a better way to do that.
             menu.children[1].children[0].children = regions.map(feature => {
                 const id = feature.get('id')
 
@@ -52,7 +53,6 @@ export const AvalancheCanada = compose(
         }
 
         return {
-            ...props,
             menu: asTree(menu)
         }
     }),
@@ -67,8 +67,8 @@ export const AvalancheCanada = compose(
 )(Navbar)
 
 export const AvalancheCanadaFoundation = compose(
-    mapProps(() => ({
+    withProps({
         isFoundation: true,
         menu: asTree(menus.AvalancheCanadaFoundation),
-    })),
+    }),
 )(Navbar)
