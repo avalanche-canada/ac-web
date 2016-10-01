@@ -186,7 +186,7 @@
             list-style: none;
             padding-left: 0;
 
-            & > li > strong {
+            & > li > strong, a {
                 font-size: 1.15em;
             }
         }

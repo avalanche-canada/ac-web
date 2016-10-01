@@ -1,7 +1,7 @@
 @import "../../styles/colors.css";
 
 @custom-media --header-horizontal (width > 600px);
-@custom-media --side-by-side (width > 800px);
+@custom-media --side-by-side (width > 860px);
 @custom-media --full-width (width > 1054px);
 @custom-media --medium-width (width > 800px);
 
