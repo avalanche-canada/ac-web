@@ -1,14 +1,13 @@
 import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
-import {Motion, spring, presets} from 'react-motion'
 import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle, onlyUpdateForKeys} from 'recompose'
-import styles from './Drawer.css'
-import TreeModel from 'tree-model'
+import {Motion, spring, presets} from 'react-motion'
+import CSSModules from 'react-css-modules'
+import {history} from 'router'
+import Link from 'components/navbar/Link'
 import Cabinet from './Cabinet'
 import Drawer from './Drawer'
 import Item from './Item'
-import Link from 'components/navbar/Link'
-import {history} from 'router'
+import styles from './Drawer.css'
 
 const preset = presets.noWobble
 
@@ -52,7 +51,7 @@ function handleCloseChildren(id, event) {
     this.setNode(node)
 }
 
-function drawerCreator({ model: {id, children, ...drawer} }) {
+function createDrawer({ model: {id, children, ...drawer} }) {
     return {
         key: id,
         data: {
@@ -103,7 +102,7 @@ function Animated({show = false, onClose = K, node, setNode, root}) {
     const path = getPath(root, node)
     const onRest = show ? K : onClose
     const context = {node, setNode, root, onClose}
-    const drawers = path.map(drawerCreator, context)
+    const drawers = path.map(createDrawer, context)
     const onClick = handleContainerClick.bind(context)
     const style = {
         x: spring(show ? 0 : -1, preset)
