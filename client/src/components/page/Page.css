@@ -1,7 +1,7 @@
 @import "../../styles/colors.css";
 
 @custom-media --header-horizontal (width > 600px);
-@custom-media --side-by-side (width > 800px);
+@custom-media --side-by-side (width > 860px);
 @custom-media --full-width (width > 1054px);
 @custom-media --medium-width (width > 800px);
 
@@ -17,7 +17,8 @@
 }
 
 .Page {
-    flex: 1;
+    /* Fix to make page responsiveness */
+    /*flex: 1;*/
 }
 
 .Content {
@@ -25,7 +26,8 @@
 
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    /* Fix to make page responsiveness */
+    /*flex-wrap: wrap;*/
 
     @media (--side-by-side) {
         flex-direction: row;
@@ -33,10 +35,6 @@
 }
 
 .Main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
     flex: 70%;
 
     @media (--full-width) {
@@ -157,7 +155,7 @@
     &:after {
         content: "";
         position: absolute 0;
-        background-image: url("https://s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
+        background-image: url("//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -169,7 +167,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-
+        align-items: center;
     }
 
     & h1 {

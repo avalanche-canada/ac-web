@@ -1,14 +1,13 @@
 import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
+import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {Motion, spring, presets} from 'react-motion'
-import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle} from 'recompose'
-import styles from './Drawer.css'
-import TreeModel from 'tree-model'
+import CSSModules from 'react-css-modules'
+import {history} from 'router'
+import Link from 'components/navbar/Link'
 import Cabinet from './Cabinet'
 import Drawer from './Drawer'
 import Item from './Item'
-import Link from './Link'
-import {history} from 'router'
+import styles from './Drawer.css'
 
 const preset = presets.noWobble
 
@@ -27,8 +26,7 @@ function handleClick(id, event) {
     this.setNode(node)
 }
 function handleContainerClick(event) {
-    event.preventDefault()
-    const { target, currentTarget } = event
+    const {target, currentTarget} = event
 
     if (target !== currentTarget) {
         return
@@ -53,14 +51,13 @@ function handleCloseChildren(id, event) {
     this.setNode(node)
 }
 
-function drawerCreator({ model: {id, children, ...drawer} }) {
+function createDrawer({ model: {id, children, ...drawer} }) {
     return {
         key: id,
         data: {
             ...drawer,
             onClose: handleClose.bind(this, id),
             onClick: handleCloseChildren.bind(this, id),
-            onHome: this.onClose,
             children: children.map(item => ({
                 ...item,
                 onClick: handleClick.bind(this, item.id)
@@ -102,26 +99,28 @@ const defaultStyle = {
 }
 
 function Animated({show = false, onClose = K, node, setNode, root}) {
-    const props = {onClose, node, setNode, root}
+    const path = getPath(root, node)
     const onRest = show ? K : onClose
+    const context = {node, setNode, root, onClose}
+    const drawers = path.map(createDrawer, context)
+    const onClick = handleContainerClick.bind(context)
     const style = {
         x: spring(show ? 0 : -1, preset)
     }
 
     return (
         <Motion {...{defaultStyle, style, onRest}}>
-            {value => <StylishedContainer style={getStyle(value)} {...props} />}
+            {value => (
+                <StylishedContainer style={getStyle(value)} onClick={onClick} drawers={drawers} />
+            )}
         </Motion>
     )
 }
 
-function Container({style = null, node, setNode, root, onClose}) {
-    const path = getPath(root, node)
-    const context = {node, setNode, root, onClose}
-
+function Container({style = null, drawers, onClick}) {
     return (
-        <div style={style} styleName='Container' onClick={handleContainerClick.bind(context)}>
-            <Cabinet drawers={path.map(drawerCreator, context)} />
+        <div style={style} styleName='Container' onClick={onClick}>
+            <Cabinet drawers={drawers} />
         </div>
     )
 }
@@ -132,6 +131,7 @@ export default compose(
     setDisplayName('Container'),
     renameProp('menu', 'root'),
     withState('node', 'setNode'),
+    onlyUpdateForKeys(['show', 'node']),
     setPropTypes({
         menu: PropTypes.object,
         show: PropTypes.bool.isRequired,

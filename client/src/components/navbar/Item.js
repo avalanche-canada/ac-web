@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, branch, renderNothing, renderComponent, setDisplayName, withProps, defaultProps, setPropTypes} from 'recompose'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 
@@ -29,4 +29,7 @@ function Item({isActive = false, title, onClick = K, noWrap = false, children}) 
     )
 }
 
-export default CSSModules(Item, styles)
+export default compose(
+    onlyUpdateForKeys(['isActive', 'children']),
+    CSSModules(styles)
+)(Item)

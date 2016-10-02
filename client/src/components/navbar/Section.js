@@ -1,13 +1,7 @@
-import React from 'react'
-import CSSModules from 'react-css-modules'
+import {Element} from 'compose'
 import styles from './Navbar.css'
 
-function Section({children}) {
-    return (
-        <div styleName='Section'>
-            {children}
-        </div>
-    )
-}
-
-export default CSSModules(Section, styles);
+export default Element({
+    name: 'Section',
+    styles,
+})

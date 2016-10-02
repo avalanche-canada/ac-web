@@ -2,10 +2,11 @@ import {createSelector} from 'reselect'
 import {getSchemaByKey} from 'api/schemas'
 
 const isPrimaryOpened = /^\/map\//i
+const {innerWidth} = window
 
 const PRIMARY = {
     open: false,
-    width: 500,
+    width: Math.min(innerWidth, 500),
 }
 
 export const getPrimary = createSelector(
@@ -18,7 +19,7 @@ export const getPrimary = createSelector(
 
 const SECONDARY = {
     open: false,
-    width: 400,
+    width: Math.min(innerWidth, 350),
 }
 
 export const getSecondary = createSelector(

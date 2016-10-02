@@ -1,10 +1,9 @@
 import React, {PropTypes, DOM} from 'react'
-import {compose, branch, setPropTypes, renderComponent} from 'recompose'
+import {compose, branch, renderComponent, shouldUpdate} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import {Image, InnerHTML, DateElement} from 'components/misc'
 import {TagSet, Tag} from 'components/tag'
-import {elementQueries} from 'compose'
 import styles from './Feed.css'
 
 const {isArray} = Array
@@ -70,7 +69,7 @@ function Entry({
     )
 }
 
-Entry = elementQueries()(CSSModules(Entry, styles))
+Entry = CSSModules(Entry, styles)
 
 function CondensedEntry({
     featured = false,
@@ -98,10 +97,13 @@ function CondensedEntry({
     )
 }
 
-CondensedEntry = elementQueries()(CSSModules(CondensedEntry, styles))
+CondensedEntry = CSSModules(CondensedEntry, styles)
 
-export default branch(
-    props => props.condensed,
-    renderComponent(CondensedEntry),
-    Component => Component,
+export default compose(
+    shouldUpdate(() => false),
+    branch(
+        props => props.condensed,
+        renderComponent(CondensedEntry),
+        Component => Component,
+    ),
 )(Entry)

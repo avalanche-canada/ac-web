@@ -17,14 +17,14 @@ dev:
 	withenv npm run start-dev
 
 prod:
-	cd dist && PORT=9000 npm --production start
+	withenv bash -c 'cd dist && PORT=9000 npm --production start'
 
 clean:
 	- rm -rf dist
 	- rm ac-web.custom.*.zip
 
 webpack:
-	NODE_ENV=production webpack --config ./webpack.config.production.js --progress --profile --colors
+	NODE_ENV=production webpack --config ./webpack.config.production.js --progress --profile --colors --bail
 
 zip: build
 	cd dist && zip -r ../$(ZIPNAME) *
@@ -51,6 +51,7 @@ push-dev: zip
 
 
 server-copy:
+	cp client/favicon.ico $(DIST)/public
 	cp client/.htaccess $(DIST)/public
 	cp package.json $(DIST)
 	cp -R server $(DIST)

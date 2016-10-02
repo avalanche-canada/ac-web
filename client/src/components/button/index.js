@@ -8,3 +8,5 @@ export PlayPause from './PlayPause'
 export Close from './Close'
 
 export * from './kinds'
+
+export ButtonSet from './ButtonSet'

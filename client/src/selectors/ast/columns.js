@@ -6,20 +6,24 @@ import {HeaderCellOrders} from 'components/table'
 const {ASC, DESC, NONE} = HeaderCellOrders
 
 export const dateRanges = {
-        name: 'dates',
-        title: 'Dates',
-        property({dateStart, dateEnd}) {
-            const start = new Date(dateStart)
-            const end = new Date(dateEnd)
+    name: 'dates',
+    title: 'Dates',
+    property({dateStart, dateEnd}) {
+        const start = new Date(dateStart)
+        const end = new Date(dateEnd)
 
-            return (
-                <div>
-                    <DateElement value={start} /> <em>to</em> <DateElement value={end} />
-                </div>
-            )
-        },
-        sorting: NONE,
-    }
+        if (dateStart === dateEnd) {
+            return <DateElement value={start} />
+        }
+
+        return (
+            <div>
+                <DateElement value={start} /> <em>to</em> <DateElement value={end} />
+            </div>
+        )
+    },
+    sorting: NONE,
+}
 
 export const course = {
     name: 'name',
@@ -103,13 +107,16 @@ export const phone = {
     }
 }
 
+const urlShortenerBegin = /^(http|https):\/\//i
+const urlShortenerEnd = /\/$/
+
 export const website = {
     name: 'website',
     title: 'Website',
     property({website}) {
         return (
             <a href={website} target='_blank'>
-                {website}
+                {website.replace(urlShortenerBegin, '').replace(urlShortenerEnd, '')}
             </a>
         )
     }

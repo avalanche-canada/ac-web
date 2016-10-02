@@ -1,12 +1,9 @@
 import React, { PropTypes, Children, cloneElement, createElement} from 'react'
-import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
-import CSSModules from 'react-css-modules'
-import styles from './Drawer.css'
-import Drawer from './Drawer'
-import ItemSet from './ItemSet'
-import Item from './Item'
-import Link from './Link'
+import {compose, setDisplayName, withState, mapProps, setPropTypes, onlyUpdateForKeys} from 'recompose'
 import {TransitionMotion, spring, presets} from 'react-motion'
+import CSSModules from 'react-css-modules'
+import Drawer from './Drawer'
+import styles from './Drawer.css'
 
 const preset = presets.noWobble
 
@@ -38,7 +35,7 @@ function getDefaultStyles(drawers) {
     }))
 }
 
-function getDrawerStyle({x}) {
+function getContainerStyle({x}) {
     return {
         transform: `translateX(${x * 100}%)`
     }
@@ -54,32 +51,30 @@ Cabinet.propTypes = {
     })),
 }
 
-function Cabinet({ drawers = [] }) {
+function Cabinet({drawers = []}) {
     const styles = getStyles(drawers)
     const defaultStyles = getDefaultStyles(drawers)
+    const motion = {
+        defaultStyles,
+        styles,
+        willLeave, 
+        willEnter,
+    }
 
     return (
-        <TransitionMotion {...{defaultStyles, styles, willLeave, willEnter}}>
+        <TransitionMotion {...motion} >
             {configs => (
-                <section>
-                {configs.map(({key, style, data: {children, label, ...drawer}}) =>
-                    <Drawer key={key} style={getDrawerStyle(style)} {...drawer}>
-                        <ItemSet>
-                            <Item>{label}</Item>
-                            {children.map(({to, label, headline, children, onClick}, index) =>
-                                <Item key={index}>
-                                    <Link to={to} title={headline || label} onClick={children && onClick}>
-                                        {label}
-                                    </Link>
-                                </Item>
-                            )}
-                        </ItemSet>
-                    </Drawer>
-                )}
-                </section>
+            <section>
+                {configs.map(({key, style, data}) => (
+                    <Drawer key={key} style={getContainerStyle(style)} {...data} />
+                ))}
+            </section>
             )}
         </TransitionMotion>
     )
 }
 
-export default CSSModules(Cabinet, styles)
+export default compose(
+    onlyUpdateForKeys(['drawers']),
+    CSSModules(styles),
+)(Cabinet)

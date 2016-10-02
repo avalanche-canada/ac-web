@@ -1,15 +1,16 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption} from 'components/table'
+import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption, Responsive} from 'components/table'
 import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
 import {replaceQuery} from 'utils/router'
+import {BasicMarkup} from 'components/markup'
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special "Description" less special
@@ -24,7 +25,10 @@ function renderControlled(data, asControlled) {
                 <div style={{display:"flex"}}>
                     <div style={{flex:1}}>
                         <List columns={1} theme="Inline" horizontal>
-                            {asTermAndDefinition({Description})}
+                            <Term>Description</Term>
+                            <Definition>
+                                <BasicMarkup text={Description} />
+                            </Definition>
                         </List>
                     </div>
                     <div style={{flex:1}}>
@@ -40,9 +44,9 @@ function renderControlled(data, asControlled) {
 
 function renderRow(data, columns, expanded) {
     return (
-        <Row key={`row-${data.id}`} expanded={expanded}>
-            {columns.map(({property}, index) => (
-            <Cell key={index}>
+        <Row key={data.id} expanded={expanded}>
+            {columns.map(({property, name}, index) => (
+            <Cell key={index} data-name={name}>
                 {typeof property === 'function' ? property(data) : data[property]}
             </Cell>
             ))}
@@ -66,39 +70,50 @@ function renderRows(data, columns, asControlled) {
 
 function AstTable({featured, rows, columns, caption, asControlled, onSortingChange}) {
     return (
-        <Table>
-            <Header>
-                <Row>
-                {columns.map(({title, name, ...header}, index) => (
-                    <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
-                        {typeof title === 'function' ? title() : title}
-                    </HeaderCell>
-                ))}
-                </Row>
-            </Header>
-            {(featured && featured.length > 0) &&
-                <ControlledTBody featured title='Our sponsors'>
-                    {renderRows(featured, columns, asControlled)}
+        <Responsive>
+            <Table>
+                <Header>
+                    <Row>
+                    {columns.map(({title, name, property, ...header}, index) => (
+                        <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
+                            {typeof title === 'function' ? title() : title}
+                        </HeaderCell>
+                    ))}
+                    </Row>
+                </Header>
+                {(featured && featured.length > 0) &&
+                    <ControlledTBody featured title='Our sponsors'>
+                        {renderRows(featured, columns, asControlled)}
+                    </ControlledTBody>
+                }
+                <ControlledTBody>
+                    {renderRows(rows, columns, asControlled)}
                 </ControlledTBody>
-            }
-            <ControlledTBody>
-                {renderRows(rows, columns, asControlled)}
-            </ControlledTBody>
-            <Caption>{caption}</Caption>
-        </Table>
+                <Caption>{caption}</Caption>
+            </Table>
+        </Responsive>
     )
 }
 
 function Connect(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
+        withRouter,
+        onlyUpdateForKeys(['rows', 'params']),
+        withProps({
+            params: {
+                // TODO: Add other pagination params here!!! But, will probably comes from the router!
+                page_size: 250,
+            }
+        }),
         connect(mapStateToProps, {
             load
         }),
-        withRouter,
         lifecycle({
             componentDidMount() {
-                this.props.load()
+                const {params, load} = this.props
+
+                load(params)
             },
         }),
         withHandlers({

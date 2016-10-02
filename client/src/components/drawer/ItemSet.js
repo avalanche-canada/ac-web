@@ -1,20 +1,44 @@
 import React, {PropTypes} from 'react'
+import {compose, shouldUpdate} from 'recompose'
 import CSSModules from 'react-css-modules'
+import Item from './Item'
+import Link from 'components/navbar/Link'
 import styles from './Drawer.css'
 
 ItemSet.propTypes = {
-    style: PropTypes.object,
-    children: PropTypes.node.isRequired,
+    items: PropTypes.node.isRequired,
+    label: PropTypes.string,
 }
 
-function ItemSet({ style = null, children }) {
+function ItemSet({label, items}) {
     return (
-        <div style={style} styleName='ItemSet--Container'>
+        <div styleName='ItemSet--Container'>
             <ul styleName='ItemSet'>
-                {children}
+                <Item>{label}</Item>
+                {items.map(({to, label, headline, children = [], onClick}, index) => {
+                    const link = {
+                        to,
+                        title: headline || label,
+                    }
+
+                    if (children.length > 0) {
+                        link.onClick = onClick
+                    }
+
+                    return (
+                        <Item key={index}>
+                            <Link {...link}>
+                                {label}
+                            </Link>
+                        </Item>
+                    )
+                })}
             </ul>
         </div>
     )
 }
 
-export default CSSModules(ItemSet, styles)
+export default compose(
+    shouldUpdate(() => false),
+    CSSModules(styles),
+)(ItemSet)

@@ -1,7 +1,8 @@
 @import "../../styles/colors.css";
 
 :root {
-    --margin: 50px;
+    --toolbar: 4em;
+    --offset: 4em;
 }
 
 .Container {
@@ -19,40 +20,45 @@
     right: 0;
 
     transform: translateX(0);
-
     background-color: var(--gray-lighter);
     height: 100%;
 
+    &:not(:first-child) .ItemSet--Container {
+        margin-right: var(--offset);
+    }
+
     &:last-child {
-        right: var(--margin);
+        right: var(--offset);
         z-index: 0;
 
         & .Close {
             background-image: url('../icons/close.svg');
             background-size: 24px;
         }
-
     }
     &:nth-last-child(2) {
-        right: calc(2 * var(--margin));
+        right: calc(2 * var(--offset));
         z-index: 1;
         background-color: var(--gray-light);
+
         & .Toolbar {
             border-bottom: 5px solid var(--gray);
         }
     }
     &:nth-last-child(3) {
-        right: calc(3 * var(--margin));
+        right: calc(3 * var(--offset));
         z-index: 2;
         background-color: var(--gray);
+
         & .Toolbar {
             border-bottom: 5px solid var(--gray-dark);
         }
     }
     &:nth-last-child(4) {
-        right: calc(4 * var(--margin));
+        right: calc(4 * var(--offset));
         z-index: 3;
         background-color: var(--gray-dark);
+
         & .Toolbar {
             border-bottom: 5px solid var(--gray-darker);
         }
@@ -60,25 +66,25 @@
 }
 
 .Toolbar {
-    height: var(--margin);
+    height: var(--toolbar);
     border-bottom: 5px solid var(--gray-light);
 }
 
 .ItemSet {
     margin: 0;
-    padding-top: calc(var(--margin) / 2);
+    padding: 0.5em;
     list-style: none;
 }
 
 .ItemSet--Container {
-    margin: 0 var(--margin) 0 0;
+    margin-left: 0.5em;
     height: 100%;
     overflow-y: auto;
 }
 
 .Item {
     font-size: 1.15em;
-    margin: 10px 0;
+    margin: 1em 0;
     font-weight: 700;
 }
 
@@ -89,7 +95,7 @@
 .Navigation {
     display: inline-block;
     height: 100%;
-    width: var(--margin);
+    width: var(--toolbar);
     background-position: center;
     background-size: 28px;
     background-repeat: no-repeat;

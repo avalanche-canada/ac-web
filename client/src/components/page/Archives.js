@@ -8,6 +8,8 @@ import Button from 'components/button'
 import {AsRow} from 'components/grid'
 import {Primary, Large, Chevron} from 'components/button/Button.css'
 
+// TODO: Fix styling on smaller devices.
+
 export default function Archives({region, onRegionChange, date, link, onDateChange, regionOptions}) {
     return (
         <Page>

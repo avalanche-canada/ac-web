@@ -1,9 +1,12 @@
 import {PropTypes, DOM} from 'react'
+import {onlyUpdateForKey} from 'compose'
 import {Element} from 'compose'
 import styles from './Table.css'
 
-export default Element({
-    name: 'Header',
-    component: DOM.thead,
-    styles,
-})
+export default onlyUpdateForKey('children')(
+    Element({
+        name: 'Header',
+        component: DOM.thead,
+        styles,
+    })
+)

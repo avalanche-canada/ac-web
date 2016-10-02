@@ -1,13 +1,9 @@
-import React from 'react'
-import CSSModules from 'react-css-modules'
+import {DOM} from 'react'
+import {Element} from 'compose'
 import styles from './Navbar.css'
 
-function Header({children}) {
-    return (
-        <header styleName='Header'>
-            {children}
-        </header>
-    )
-}
-
-export default CSSModules(Header, styles)
+export default Element({
+    name: 'Header',
+    component: DOM.header,
+    styles
+})

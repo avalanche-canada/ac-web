@@ -8,10 +8,10 @@ export function getResultsSetForSchema(state, schema) {
 }
 
 export function getResultsSet(state, schema, params) {
-    const resultsSets = getResultsSetForSchema(state, schema)
+    const sets = getResultsSetForSchema(state, schema)
     const key = paramsToKey(params)
 
-    return resultsSets.get(key, RESULT)
+    return sets.get(key, RESULT)
 }
 
 export function shouldDispatchLoadAction(state, schema, action) {

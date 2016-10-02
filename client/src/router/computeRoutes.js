@@ -10,7 +10,7 @@ import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import {history} from 'router'
 import AuthService from 'services/auth'
-import {captureException} from 'services/raven'
+import {captureMessage} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
 import {
@@ -55,12 +55,15 @@ import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
+import ReactGA from 'services/analytics'
+import postIdRedirects from './postIdRedirects'
 
 const YEAR = String(new Date().getFullYear())
 const PAGINATION = {
     page: '1',
     pageSize: '25',
 }
+
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
@@ -75,7 +78,8 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleRootRouteChange(prev, {routes}) {
+    function handleRootRouteChange(prev, {location,routes}) {
+        ReactGA.pageview(location.pathname)
         handleActiveSponsor(routes)
     }
 
@@ -176,16 +180,21 @@ export default function computeRoutes(store) {
         replace(`/forecasts/${name}`)
     }
 
-    function handleNotFoundRouteEnter() {
-        captureException(new Error('Hola! Our user got here!'), {
-            tags: {
-                page: 'Page Not Found'
-            }
-        })
+    function handleNotFoundRouteEnter(args) {
+        captureMessage(`NOT_FOUND: ${args.location.pathname}`)
     }
 
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
+            {/* EMERGENCY REDIRECTS */}
+            {postIdRedirects}
+            {/* Common messed up redirects */}
+            <Redirect from='cac/training/ast/courses' to='training/courses' />
+            <Redirect from='cac/training/overview' to='training' />
+            <Redirect from='cac/training/online-course' to='tutorial' />
+            <Redirect from='cac' to='/' />
+            {/* END EMERGENCY REDIRECTS */}
+
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
@@ -207,12 +216,15 @@ export default function computeRoutes(store) {
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
             <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} onEnter={handleFeedEnter} />
+
             <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
+
             <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={Archives} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
+            <Redirect from="forecast/:name" to="forecasts/:name" />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
             {/* HOT ZONE REPORT */}

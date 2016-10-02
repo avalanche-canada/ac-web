@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Avatar} from '../misc'
 import styles from './Navbar.css'
@@ -8,7 +9,7 @@ UserProfile.propTypes = {
     avatar: PropTypes.string.isRequired,
 }
 
-function UserProfile({ name, avatar }) {
+function UserProfile({name, avatar}) {
     return (
         <div styleName='UserProfile'>
             <Avatar name={name} url={avatar} />
@@ -17,4 +18,7 @@ function UserProfile({ name, avatar }) {
     )
 }
 
-export default CSSModules(UserProfile, styles)
+export default compose(
+    onlyUpdateForKeys(['name', 'avatar']),
+    CSSModules(styles)
+)(UserProfile)

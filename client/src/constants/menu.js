@@ -175,11 +175,11 @@ export const AvalancheCanada = {
         }]
     }, {
         id: '57daec92-1871-11e6-b6ba-3e1d05defe78',
-        label: 'About Us',
+        label: 'About',
         noWrap: true,
         children: [{
             id: '57daed96-1871-11e6-b6ba-3e1d05defe78',
-            label: 'About Us',
+            label: 'About',
             header: true,
             to: '/about',
             children: [{

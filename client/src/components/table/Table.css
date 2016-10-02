@@ -53,10 +53,6 @@
     background-color: var(--gray-lightest);
 }
 
-.Row--Hide {
-    display: none;
-}
-
 .Row--Clickable {
     cursor: pointer;
 
@@ -70,6 +66,7 @@
     padding: 15px 10px;
     position: relative;
     vertical-align: middle;
+    text-align: left;
 
     & button {
         position: absolute;

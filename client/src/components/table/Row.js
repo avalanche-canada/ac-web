@@ -1,9 +1,15 @@
 import React, { PropTypes, Children, cloneElement} from 'react'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 import {Expand} from 'components/button'
 
 function K() {}
+const TR_WITH_BUTTON_PROPS = {
+    style: {
+        paddingRight: 36
+    }
+}
 
 Row.propTypes = {
     children: PropTypes.node.isRequired,
@@ -11,18 +17,19 @@ Row.propTypes = {
     controlled: PropTypes.bool,
     expanded: PropTypes.bool,
     onExpandedToggle: PropTypes.func,
-    clickable: PropTypes.bool,
     onClick: PropTypes.func,
 }
 
+const TR = <tr></tr>
+
 function Row({children, expanded = null, onExpandedToggle = K, hide = false, controlled = false, onClick}) {
+    if (hide) {
+        return TR
+    }
+
     const lastIndex = Children.count(children) - 1
     const expandable = expanded !== null
     let styleName = controlled ? 'Row--Controlled' : 'Row'
-
-    if (hide) {
-        styleName += ' Row--Hide'
-    }
 
     if (typeof onClick === 'function') {
         styleName += ' Row--Clickable'
@@ -36,14 +43,14 @@ function Row({children, expanded = null, onExpandedToggle = K, hide = false, con
                 }
 
                 const button = <Expand key={index} expanded={expanded} onClick={onExpandedToggle} />
-                const style = {
-                    paddingRight: 36
-                }
 
-                return cloneElement(child, {style}, [child.props.children, button])
+                return cloneElement(child, TR_WITH_BUTTON_PROPS, [child.props.children, button])
             }) : children}
         </tr>
     )
 }
 
-export default CSSModules(Row, styles, {allowMultiple: true})
+export default compose(
+    onlyUpdateForKeys(['children', 'hide', 'expanded']),
+    CSSModules(styles, {allowMultiple: true}),
+)(Row)

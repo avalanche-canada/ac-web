@@ -53,9 +53,9 @@ function asConfidenceObject(confidence) {
 }
 
 function transform(forecast) {
-    // if (!forecast.region) {
-    //     return forecast
-    // }
+    if (!forecast.region) {
+        return forecast
+    }
 
     const {
         dangerRatings = [],
@@ -120,9 +120,15 @@ export default createSelector(
             let link = null
 
             if (externalUrl) {
-                link = {
-                    target: '_blank',
-                    to: externalUrl,
+                if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
+                    link = {
+                        to: '/blogs?category=north-rockies'
+                    }
+                } else {
+                    link = {
+                        target: '_blank',
+                        to: externalUrl,
+                    }
                 }
             } else if (parksUrl) {
                 link = {

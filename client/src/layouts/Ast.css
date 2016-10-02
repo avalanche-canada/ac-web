@@ -1,0 +1,9 @@
+@import "../styles/colors.css";
+
+.Table {
+    composes: import RestrictFullPageWidth from "../components/page/Page.css";
+}
+
+td[data-name="cost"] {
+    /*white-space: nowrap;*/
+}

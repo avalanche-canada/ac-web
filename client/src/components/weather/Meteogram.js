@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {compose, withProps, mapProps, setPropTypes, setDisplayName} from 'recompose'
-import padstart from 'lodash/padstart'
+import padstart from 'lodash/padStart'
 import {Image} from 'components/misc'
 import {domain} from './config.json'
 

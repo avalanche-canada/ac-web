@@ -8,7 +8,6 @@ import distance from 'turf-distance'
 import {Course, Provider} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import {RESULT} from 'reducers/api/results'
 import {HeaderCellOrders} from 'components/table'
 import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
@@ -93,30 +92,40 @@ function filterReducer(entities, filter) {
 }
 
 // Sorting
+const EMPTY_ARRAY = []
 const Sorters = new Map([
     ['dates', course => course.dateStart],
     ['distance', course => course.distance],
 ])
 function getSorting(state, {location}) {
-    return location.query.sorting || []
+    return location.query.sorting || EMPTY_ARRAY
 }
 
 export function table(schema, columns) {
     const key = schema.getKey()
 
     const getIds = createSelector(
-        state => getResultsSet(state, schema) || RESULT,
-        ({ids = new Set()}) => List.of(...ids).map(String)
+        (state, {params}) => getResultsSet(state, schema, params),
+        result => result.ids
     )
 
-    const getRawEntities = createSelector(
+    const getNormalizedEntities = createSelector(
         state => getEntitiesForSchema(state, schema),
+        entities => entities.map(entity => normalize(entity.toJSON()))
+    )
+
+    const getEntitiesList = createSelector(
+        getNormalizedEntities,
         getIds,
-        (entities, ids) => ids.map(id => normalize(entities.get(id).toJSON()))
+        (entities, ids) => {
+            ids = new List(ids)
+
+            return ids.map(id => entities.get(String(id)))
+        }
     )
 
     const getTags = createSelector(
-        getRawEntities,
+        getNormalizedEntities,
         entities => new Set(entities.reduce((tags, entity) => tags.concat(entity.tags), []))
     )
 
@@ -133,42 +142,42 @@ export function table(schema, columns) {
     )
 
     const getEntities = createSelector(
-        getRawEntities,
+        getEntitiesList,
         getLocationAsFeature,
         getPlaceAsFeature,
-        (courses, location, place) => {
+        (entities, location, place) => {
             const point = place || location
             const updater = point ? updateDistanceFactory(point) : resetDistance
 
-            return courses.map(updater)
+            return entities.map(updater)
         }
     )
 
     const getFilteredEntities = createSelector(
         getEntities,
         getFilters,
-        (courses, filters) => filters.reduce(filterReducer, courses)
+        (entities, filters) => filters.reduce(filterReducer, entities)
     )
 
     const getSortedEntities = createSelector(
         getFilteredEntities,
         getSorting,
-        (courses, [name, order]) => {
+        (entities, [name, order]) => {
             if (!Sorters.has(name)) {
-                return courses
+                return entities
             }
 
             const sorter = Sorters.get(name)
 
             switch (order) {
                 case ASC:
-                    return courses.sortBy(sorter)
+                    return entities.sortBy(sorter)
                 case DESC:
-                    return courses.sortBy(sorter).reverse()
+                    return entities.sortBy(sorter).reverse()
                 case NONE:
-                    return courses
+                    return entities
                 default:
-                    return courses
+                    return entities
 
             }
 
@@ -212,7 +221,7 @@ export function table(schema, columns) {
         getSortedEntities,
         getColumns,
         getTags,
-        state => getResultsSet(state, schema) || RESULT,
+        (state, {params}) => getResultsSet(state, schema, params) || RESULT,
         function mapTableStateToProps(entities, columns, tags, result) {
             let caption = null
 

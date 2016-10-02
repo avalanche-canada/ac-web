@@ -1,4 +1,4 @@
 {
     "baseURL": "/api",
-    "astBaseUrl": "http://ac-ast-qa.us-west-2.elasticbeanstalk.com/api/"
+    "astBaseUrl": "http://ast.avalanche.ca/api/"
 }
