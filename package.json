@@ -125,6 +125,7 @@
     "postcss-import": "^8.1.0",
     "postcss-loader": "^0.8.2",
     "random-words": "0.0.1",
+    "react-ga": "^2.1.2",
     "requirejs": "~2.1.11",
     "rucksack-css": "^0.8.6",
     "should": "~3.3.1",

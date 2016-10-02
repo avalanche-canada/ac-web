@@ -55,12 +55,14 @@ import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
+import ReactGA from 'services/analytics'
 
 const YEAR = String(new Date().getFullYear())
 const PAGINATION = {
     page: '1',
     pageSize: '25',
 }
+
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
@@ -75,7 +77,8 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleRootRouteChange(prev, {routes}) {
+    function handleRootRouteChange(prev, {location,routes}) {
+        ReactGA.pageview(location.pathname)
         handleActiveSponsor(routes)
     }
 
