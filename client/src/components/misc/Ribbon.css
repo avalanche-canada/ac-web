@@ -1,36 +1,41 @@
 @import "../../styles/colors.css";
 
 .Container {
+    display: flex;
     color: white;
     background-color: black;
-    text-transform: uppercase;
     line-height: 2.5em;
     margin-left: -1em;
-}
-
-:local(.Content) {
-    display: inline-block;
-    padding: 0 1em;
-    font-weight: 700;
-}
-
-.Caption {
-    composes: Content;
     position: relative;
     text-indent: 0;
-    background-color: var(--brand-secondary);
 
-    &:after {
+    &:before {
         content: "";
         position: absolute;
         left: 0;
-        top: 100%;
+        top: 37px;
         border-color: color(var(--brand-secondary) blackness(50%)) color(var(--brand-secondary) blackness(50%)) transparent transparent;
         border-style: solid;
         border-width: 8px;
     }
 }
 
+:local(.Content) {
+    padding: 0 1em;
+    font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.Caption {
+    composes: Content;
+    background-color: var(--brand-secondary);
+    flex: 25%;
+}
+
 .Title {
     composes: Content;
+    flex: 75%;
 }

@@ -54,7 +54,7 @@ ul:not([class]) {
     /*list-style: none;*/
     padding-left: 2em;
 
-    /* Colored bullet, but it does not wrap properly when t is on tow lines */
+    /* Colored bullet, but it does not wrap properly when displayed on two lines */
     /*& > li {
         &:before {
             content: "•";

@@ -10,8 +10,12 @@ Ribbon.propTypes = {
 function Ribbon({children, caption = 'From the reel'}) {
     return (
         <header styleName='Container'>
-            <div styleName='Caption'>{caption}</div>
-            <div styleName='Title'>{children}</div>
+            <div styleName='Caption' title={caption}>
+                {caption}
+            </div>
+            <div styleName='Title' title={children}>
+                {children}
+            </div>
         </header>
     )
 }

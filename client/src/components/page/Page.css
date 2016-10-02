@@ -17,7 +17,7 @@
 }
 
 .Page {
-    flex: 1;
+    /*flex: 1;*/
 }
 
 .Content {
@@ -33,10 +33,6 @@
 }
 
 .Main {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-
     flex: 70%;
 
     @media (--full-width) {
