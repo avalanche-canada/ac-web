@@ -53,10 +53,12 @@ const CONFIGS = new Map([
     })],
     [Provider, params => ({
         baseURL: astBaseUrl,
+        params,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
     [Course, params => ({
         baseURL: astBaseUrl,
+        params,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
 ])

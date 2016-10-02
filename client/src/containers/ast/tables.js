@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
@@ -26,7 +26,7 @@ function renderControlled(data, asControlled) {
                 <div style={{display:"flex"}}>
                     <div style={{flex:1}}>
                         <List columns={1} theme="Inline" horizontal>
-                            <Term>Description</Term> 
+                            <Term>Description</Term>
                             <Definition>
                                 <BasicMarkup text={Description} />
                             </Definition>
@@ -101,9 +101,17 @@ function Connect(name, mapStateToProps, load) {
             load
         }),
         withRouter,
+        defaultProps({
+            params: {
+                // TODO: Add other pagination params here!!! But, will probebly used with the router! 
+                page_size: 250,
+            }
+        }),
         lifecycle({
             componentDidMount() {
-                this.props.load()
+                const {params, load} = this.props
+
+                load(params)
             },
         }),
         withHandlers({

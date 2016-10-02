@@ -105,7 +105,7 @@ export function table(schema, columns) {
     const key = schema.getKey()
 
     const getIds = createSelector(
-        state => getResultsSet(state, schema) || RESULT,
+        (state, {params}) => getResultsSet(state, schema, params) || RESULT,
         ({ids = new Set()}) => List.of(...ids).map(String)
     )
 
@@ -136,39 +136,39 @@ export function table(schema, columns) {
         getRawEntities,
         getLocationAsFeature,
         getPlaceAsFeature,
-        (courses, location, place) => {
+        (entities, location, place) => {
             const point = place || location
             const updater = point ? updateDistanceFactory(point) : resetDistance
 
-            return courses.map(updater)
+            return entities.map(updater)
         }
     )
 
     const getFilteredEntities = createSelector(
         getEntities,
         getFilters,
-        (courses, filters) => filters.reduce(filterReducer, courses)
+        (entities, filters) => filters.reduce(filterReducer, entities)
     )
 
     const getSortedEntities = createSelector(
         getFilteredEntities,
         getSorting,
-        (courses, [name, order]) => {
+        (entities, [name, order]) => {
             if (!Sorters.has(name)) {
-                return courses
+                return entities
             }
 
             const sorter = Sorters.get(name)
 
             switch (order) {
                 case ASC:
-                    return courses.sortBy(sorter)
+                    return entities.sortBy(sorter)
                 case DESC:
-                    return courses.sortBy(sorter).reverse()
+                    return entities.sortBy(sorter).reverse()
                 case NONE:
-                    return courses
+                    return entities
                 default:
-                    return courses
+                    return entities
 
             }
 
@@ -212,7 +212,7 @@ export function table(schema, columns) {
         getSortedEntities,
         getColumns,
         getTags,
-        state => getResultsSet(state, schema) || RESULT,
+        (state, {params}) => getResultsSet(state, schema, params) || RESULT,
         function mapTableStateToProps(entities, columns, tags, result) {
             let caption = null
 
