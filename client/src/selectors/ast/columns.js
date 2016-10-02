@@ -103,13 +103,16 @@ export const phone = {
     }
 }
 
+const urlShortenerBegin = /^(http|https):\/\//i
+const urlShortenerEnd = /\/$/
+
 export const website = {
     name: 'website',
     title: 'Website',
     property({website}) {
         return (
             <a href={website} target='_blank'>
-                {website}
+                {website.replace(urlShortenerBegin, '').replace(urlShortenerEnd, '')}
             </a>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName, defaultProps} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
@@ -74,7 +74,7 @@ function AstTable({featured, rows, columns, caption, asControlled, onSortingChan
         <Table>
             <Header>
                 <Row>
-                {columns.map(({title, name, ...header}, index) => (
+                {columns.map(({title, name, property, ...header}, index) => (
                     <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
                         {typeof title === 'function' ? title() : title}
                     </HeaderCell>
@@ -97,15 +97,15 @@ function AstTable({featured, rows, columns, caption, asControlled, onSortingChan
 function Connect(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
-        connect(mapStateToProps, {
-            load
-        }),
         withRouter,
-        defaultProps({
+        withProps({
             params: {
-                // TODO: Add other pagination params here!!! But, will probebly used with the router! 
+                // TODO: Add other pagination params here!!! But, will probably comes from the router!
                 page_size: 250,
             }
+        }),
+        connect(mapStateToProps, {
+            load
         }),
         lifecycle({
             componentDidMount() {
