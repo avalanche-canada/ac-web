@@ -142,32 +142,32 @@ function Container({columns = [], rows = [], filters = [], total, pageSize, onPa
                 </FilterEntry>
             ))}
             </FilterSet>
-            <Table bordered>
-                <Header>
-                    <Row>
-                    {columns.map(({name, property, ...header}) => (
-                        <HeaderCell key={name} {...header}>
-                            {name}
-                        </HeaderCell>
+            <Responsive>
+                <Table bordered>
+                    <Header>
+                        <Row>
+                        {columns.map(({name, property, ...header}) => (
+                            <HeaderCell key={name} {...header}>
+                                {name}
+                            </HeaderCell>
+                        ))}
+                        </Row>
+                    </Header>
+                    <TBody>
+                    {rows.map(row => (
+                        <Row key={row.id}>
+                        {columns.map(({property, name}) => (
+                            <Cell key={name}>
+                                {typeof property === 'function' ? property(row) : row[property]}
+                            </Cell>
+                        ))}
+                        </Row>
                     ))}
-                    </Row>
-                </Header>
-                <TBody>
-                {rows.map(row => (
-                    <Row key={row.id}>
-                    {columns.map(({property, name}) => (
-                        <Cell key={name}>
-                            {typeof property === 'function' ? property(row) : row[property]}
-                        </Cell>
-                    ))}
-                    </Row>
-                ))}
-                </TBody>
-                <Caption>
-                    <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
-                    <Pagination active={page} onChange={setPage} total={Math.ceil(total/pageSize)} />
-                </Caption>
-            </Table>
+                    </TBody>
+                </Table>
+            </Responsive>
+            <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
+            <Pagination active={page} onChange={setPage} total={Math.ceil(total/pageSize)} />
         </div>
     )
 }
@@ -175,7 +175,7 @@ function Container({columns = [], rows = [], filters = [], total, pageSize, onPa
 export default compose(
     withState('sorting', 'setSorting', []),
     withState('filterings', 'setFilterings', new Map()),
-    withState('pageSize', 'setPageSize', 10),
+    withState('pageSize', 'setPageSize', 25),
     withState('page', 'setPage', 1),
     withHandlers({
         createSortingChangeHandler: props => property => order => {
