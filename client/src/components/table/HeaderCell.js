@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 import Sorting, {SORTINGS} from 'components/button/Sorting'
@@ -27,4 +28,7 @@ function HeaderCell({children, sorting = NONE, onSortingChange = K, ...props}) {
     )
 }
 
-export default CSSModules(HeaderCell, styles)
+export default compose(
+    onlyUpdateForKeys(['children', 'sorting']),
+    CSSModules(styles),
+)(HeaderCell)

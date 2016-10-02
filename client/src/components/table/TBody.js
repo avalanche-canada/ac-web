@@ -1,6 +1,7 @@
 import React, { PropTypes, Children, cloneElement} from 'react'
 import {compose, withProps, withState, setDisplayName} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {onlyUpdateForKey} from 'compose'
 import styles from './Table.css'
 
 // TODO: Needs to have functions to expandAll and collapseAll
@@ -19,7 +20,10 @@ function TBody({ featured = false, title, children }) {
     )
 }
 
-export default TBody = CSSModules(TBody, styles)
+export default TBody = compose(
+    onlyUpdateForKey('children'),
+    CSSModules(styles),
+)(TBody)
 
 function isExpandable(row) {
     return typeof row.props.expanded === 'boolean'
@@ -44,13 +48,11 @@ function rowMapper(values, setValues, row, index, rows) {
         const expanded = values.has(prevIndex) ? values.get(prevIndex) : previous.props.expanded
         const colSpan = Children.count(previous.props.children)
         const cell = Children.only(row.props.children)
-        const children = cloneElement(cell, {colSpan})
-        const props = {
+
+        return cloneElement(row, {
             hide: !expanded,
             controlled: true,
-        }
-
-        return cloneElement(row, props, children)
+        }, cloneElement(cell, {colSpan}))
     }
 
     return row
@@ -58,6 +60,7 @@ function rowMapper(values, setValues, row, index, rows) {
 
 export const Controlled = compose(
     setDisplayName('ControlledTBody'),
+    onlyUpdateForKey('children'),
     withState('expandedValues', 'setExpandedValues', new Map()),
     withProps(({children, expandedValues, setExpandedValues}) => {
         const rows = Children.toArray(children)

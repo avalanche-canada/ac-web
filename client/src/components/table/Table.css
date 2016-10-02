@@ -53,10 +53,6 @@
     background-color: var(--gray-lightest);
 }
 
-.Row--Hide {
-    display: none;
-}
-
 .Row--Clickable {
     cursor: pointer;
 

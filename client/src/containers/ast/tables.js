@@ -44,9 +44,9 @@ function renderControlled(data, asControlled) {
 
 function renderRow(data, columns, expanded) {
     return (
-        <Row key={`row-${data.id}`} expanded={expanded}>
-            {columns.map(({property}, index) => (
-            <Cell key={index}>
+        <Row key={data.id} expanded={expanded}>
+            {columns.map(({property, name}, index) => (
+            <Cell key={index} data-name={name}>
                 {typeof property === 'function' ? property(data) : data[property]}
             </Cell>
             ))}

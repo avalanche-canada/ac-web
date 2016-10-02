@@ -1,7 +1,9 @@
-import {Element} from 'compose'
+import {Element, onlyUpdateForKey} from 'compose'
 import styles from './Table.css'
 
-export default Element({
-    name: 'Responsive',
-    styles,
-})
+export default onlyUpdateForKey('children')(
+    Element({
+        name: 'Responsive',
+        styles,
+    })
+)
