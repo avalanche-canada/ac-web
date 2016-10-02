@@ -188,6 +188,11 @@ export default function computeRoutes(store) {
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* EMERGENCY REDIRECTS */}
             {postIdRedirects}
+            {/* Common messed up redirects */}
+            <Redirect from='cac/training/ast/courses' to='training/courses' />
+            <Redirect from='cac/training/overview' to='training' />
+            <Redirect from='cac/training/online-course' to='tutorial' />
+            <Redirect from='cac' to='/' />
             {/* END EMERGENCY REDIRECTS */}
 
             {/* AUTHORIZATION */}
@@ -219,6 +224,7 @@ export default function computeRoutes(store) {
             {/* FORECAST */}
             <Route path='forecasts/archives' component={Archives} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
+            <Redirect from="forecast/:name" to="forecasts/:name" />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
             {/* HOT ZONE REPORT */}
