@@ -20,9 +20,11 @@ Row.propTypes = {
     onClick: PropTypes.func,
 }
 
+const TR = <tr></tr>
+
 function Row({children, expanded = null, onExpandedToggle = K, hide = false, controlled = false, onClick}) {
     if (hide) {
-        return null
+        return TR
     }
 
     const lastIndex = Children.count(children) - 1

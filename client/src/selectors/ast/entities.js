@@ -8,7 +8,6 @@ import distance from 'turf-distance'
 import {Course, Provider} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import {RESULT} from 'reducers/api/results'
 import {HeaderCellOrders} from 'components/table'
 import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
@@ -93,30 +92,40 @@ function filterReducer(entities, filter) {
 }
 
 // Sorting
+const EMPTY_ARRAY = []
 const Sorters = new Map([
     ['dates', course => course.dateStart],
     ['distance', course => course.distance],
 ])
 function getSorting(state, {location}) {
-    return location.query.sorting || []
+    return location.query.sorting || EMPTY_ARRAY
 }
 
 export function table(schema, columns) {
     const key = schema.getKey()
 
     const getIds = createSelector(
-        (state, {params}) => getResultsSet(state, schema, params) || RESULT,
-        ({ids = new Set()}) => List.of(...ids).map(String)
+        (state, {params}) => getResultsSet(state, schema, params),
+        result => result.ids
     )
 
-    const getRawEntities = createSelector(
+    const getNormalizedEntities = createSelector(
         state => getEntitiesForSchema(state, schema),
+        entities => entities.map(entity => normalize(entity.toJSON()))
+    )
+
+    const getEntitiesList = createSelector(
+        getNormalizedEntities,
         getIds,
-        (entities, ids) => ids.map(id => normalize(entities.get(id).toJSON()))
+        (entities, ids) => {
+            ids = new List(ids)
+
+            return ids.map(id => entities.get(String(id)))
+        }
     )
 
     const getTags = createSelector(
-        getRawEntities,
+        getNormalizedEntities,
         entities => new Set(entities.reduce((tags, entity) => tags.concat(entity.tags), []))
     )
 
@@ -133,7 +142,7 @@ export function table(schema, columns) {
     )
 
     const getEntities = createSelector(
-        getRawEntities,
+        getEntitiesList,
         getLocationAsFeature,
         getPlaceAsFeature,
         (entities, location, place) => {

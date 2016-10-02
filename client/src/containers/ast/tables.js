@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName, withProps} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
@@ -99,6 +99,7 @@ function Connect(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
         withRouter,
+        onlyUpdateForKeys(['rows', 'params']),
         withProps({
             params: {
                 // TODO: Add other pagination params here!!! But, will probably comes from the router!
