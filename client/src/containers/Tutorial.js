@@ -1,24 +1,18 @@
 
 import {lifecycle, compose, branch} from  'recompose'
-import connector from 'containers/connectors/connector'
 import {Api} from 'prismic'
 import {Predicates} from 'prismic.io'
-
 import Tutorial from 'components/tutorial'
-
-
 
 const tutorialContainer = lifecycle({
     componentWillMount() {
         this.load(this.props.params.splat)
     },
-
     componentWillReceiveProps(nextProps) {
         if (this.props.params.splat !== nextProps.params.splat) {
             this.load(nextProps.params.splat)
         }
     },
-
     load(slug) {
         this.setState({loading: true, isError: false, doc: null})
 
@@ -34,17 +28,13 @@ const tutorialContainer = lifecycle({
         q.then(this.success)
          .catch(this.error)
     },
-
-
     success(doc) {
         this.setState({loading:false, isError: false, doc: doc})
     },
-
     error(err) {
        this.setState({loading:false, isError: true, err: err})
        console.error("ERROR", err)
     }
 })
-
 
 export default tutorialContainer(Tutorial)

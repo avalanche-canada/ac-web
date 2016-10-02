@@ -118,7 +118,9 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: object,
     }
-    state = {}
+    state = {
+        map: null
+    }
     get map() {
         return this.state.map
     }
@@ -149,7 +151,9 @@ export default class MapComponent extends Component {
         this.map = map
     }
     componentWillUnmount() {
-        this.map.off()
+        if (this.map) {
+            this.map.off()
+        }
     }
     componentWillReceiveProps({bounds = null, ...rest}) {
         if (bounds !== null && bounds !== this.props.bounds) {

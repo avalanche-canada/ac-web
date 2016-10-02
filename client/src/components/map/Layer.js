@@ -34,6 +34,8 @@ export default class Layer extends Component {
         const {map, id} = this
         const {before, ...layer} = this.props
 
+        // Because, ref is already used by React
+        // https://facebook.github.io/react/docs/more-about-refs.html
         if (layer['layer-ref']) {
             layer.ref = layer['layer-ref']
             delete layer['layer-ref']

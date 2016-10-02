@@ -11,26 +11,28 @@ const LAYERS = new List([
     ...ForecastLayers,
     ...HotZoneReportLayers,
     ...ForecastLabels,
-    // ...MountainInformationNetworkLayers,
+    ...MountainInformationNetworkLayers,
 ])
 
-function getLegendId(layer) {
+function getLayerId(layer) {
     return layer.id
 }
 
-const LayerMapping = new Map([
+const LayerIds = new Map([
     [Layers.FORECASTS, [
         ...ForecastLayers,
         ...ForecastLabels,
-    ]],
-    [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers],
+    ].map(getLayerId)],
+    [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers.map(getLayerId)],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers.map(getLayerId)],
 ])
 
-function layerIdReducer(all, name) {
-    const ids = LayerMapping.get(name).map(getLegendId)
+export function getLayerIds(name) {
+    return LayerIds.get(name)
+}
 
-    return all.concat(ids)
+function layerIdReducer(all, name) {
+    return all.concat(getLayerIds(name))
 }
 
 const getVisibleIds = createSelector(

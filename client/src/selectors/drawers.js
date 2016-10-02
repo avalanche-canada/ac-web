@@ -18,27 +18,15 @@ export const getPrimary = createSelector(
 
 const SECONDARY = {
     open: false,
-    width: 350,
-    schema: null,
-    id: null,
+    width: 400,
 }
 
 export const getSecondary = createSelector(
     (state, props) => props.location.query.panel,
-    panel => {
-        if (panel) {
-            const [key, id] = panel.split('/')
-
-            return {
-                ...SECONDARY,
-                open: true,
-                schema: getSchemaByKey(key),
-                id,
-            }
-        }
-
-        return SECONDARY
-    }
+    panel => ({
+        ...SECONDARY,
+        open: Boolean(panel)
+    })
 )
 
 export {getMenu} from 'reducers/drawers'

@@ -36,7 +36,7 @@ function Submission({observations = [], active = QUICK}) {
     const activeIndex = TYPES.indexOf(active)
 
     return (
-        <TabSet activeIndex={activeIndex} arrow>
+        <TabSet activeIndex={activeIndex} arrow >
             {TYPES.map(type => {
                 const disabled = !observationsByType.has(type)
                 const tab = {

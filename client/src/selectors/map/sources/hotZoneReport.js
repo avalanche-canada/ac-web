@@ -2,7 +2,6 @@ import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
 import {getEntitiesForSchema} from 'reducers/api/getters'
 import {createSource} from './utils'
-import buffer from 'turf-buffer'
 import {point, polygon} from 'turf-helpers'
 
 const key = HotZoneArea.getKey()

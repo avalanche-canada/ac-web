@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 var _ = require('lodash');
 var moment = require('moment');
 var uuid = require('node-uuid');
@@ -30,13 +30,13 @@ function itemsToSubmissions(items) {
                     obid: ob.obid,
                     // TODO(wnh): this ain't needed no moe.
                     shareUrl: 'http://avalanche.ca/share/' + changeCase.paramCase(ob.ob.title) + '/' + subid
-                    
+
                 };
             });
 
             return {
                 subid: subid,
-                latlng: obs[0].ob.latlng,
+                latlng: obs[0].ob.latlng.map(Number),
                 datetime: obs[0].ob.datetime,
                 uploads: obs[0].ob.uploads,
                 title: obs[0].ob.title,

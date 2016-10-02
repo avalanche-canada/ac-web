@@ -63,6 +63,7 @@ export default compose(
     withHandlers({
         onChangeDate: props => date => {
             const {router, params: {name}} = props
+            // TODO: Could utils/date functions
             date = moment(date).format('YYYY-MM-DD')
 
             router.push(`/forecasts/${name}/archives/${date}`)

@@ -45,12 +45,22 @@ const CONFIGS = new Map([
             last: `${params.days}:days`,
         }
     })],
-    [MountainInformationNetworkSubmission, params => ({
-        params: {
-            client: 'web',
-            last: `${params.days}:days`,
+    [MountainInformationNetworkSubmission, ({id, days}) => {
+        if (id) {
+            return {
+                params: {
+                    client: 'web',
+                }
+            }
+        } else {
+            return {
+                params: {
+                    client: 'web',
+                    last: `${days}:days`,
+                }
+            }
         }
-    })],
+    }],
     [Provider, params => ({
         baseURL: astBaseUrl,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
@@ -92,7 +102,7 @@ const ENDPOINTS = new Map([
     [HotZoneArea, params => `forecasts`],
     [HotZoneReport, params => `hzr/submissions`],
     [MountainInformationNetworkObservation, params => `min/observations`],
-    [MountainInformationNetworkSubmission, params => `min/submissions`],
+    [MountainInformationNetworkSubmission, ({id}) => id ? `min/submissions/${id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
     [Course, params => 'courses'],
