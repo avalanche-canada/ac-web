@@ -203,3 +203,9 @@
     /*position: absolute 0 0 0 0;*/
     /*overflow: hidden;*/
 }
+
+:global(.static-page-foundation-news-and-events) {
+    & > header {
+        display: none;
+    }
+}

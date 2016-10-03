@@ -7,18 +7,16 @@
 
 .RestrictFullPageWidth {
     max-width: 1026px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 0 1em;
 
     @media (--full-width) {
         padding: 0;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
 
 .Page {
-    /* Fix to make page responsiveness */
-    /*flex: 1;*/
 }
 
 .Content {
@@ -26,8 +24,6 @@
 
     display: flex;
     flex-direction: column;
-    /* Fix to make page responsiveness */
-    /*flex-wrap: wrap;*/
 
     @media (--side-by-side) {
         flex-direction: row;
@@ -35,7 +31,7 @@
 }
 
 .Main {
-    flex: 70%;
+    flex: 1 0 70%;
 
     @media (--full-width) {
         padding: 0;
@@ -86,7 +82,7 @@
     display: flex;
     flex-direction: column;
 
-    flex: 100%;
+    flex: 1 0 100%;
     position: relative;
     min-height: 5em;
     margin: 0 auto;
@@ -106,11 +102,11 @@
         align-items: center;
 
         & > :first-child {
-            flex: 66%;
+            flex: 1 0 66%;
         }
 
         & > :last-child {
-            flex: 33%;
+            flex: 1 0 33%;
             margin: 0 auto;
         }
     }
@@ -131,7 +127,7 @@
 }
 
 .Aside {
-    flex: 30%;
+    flex: 1 0 30%;
     box-sizing: border-box;
 
     @media (--side-by-side) {

@@ -1,19 +1,12 @@
-@import "../../styles/colors.css";
+@import "../navbar/Navbar.css";
 
 .Container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     height: 100vh;
-    overflow: hidden;
 }
 
 .Content {
-    display: flex;
-    flex-direction: column;
-
-    flex: 1;
-
+    height: calc(100% - var(--navbar-height));
+    margin-top: var(--navbar-height);
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;

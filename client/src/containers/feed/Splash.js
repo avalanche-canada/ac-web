@@ -17,7 +17,11 @@ function FeedSplash({
             <InnerHTML>
                 {header}
             </InnerHTML>
-            {featured && <Entry {...featured} />}
+            {featured &&
+                <EntrySet>
+                    <Entry {...featured} />
+                </EntrySet>
+            }
             <EntrySet>
                 {list.map(entry => <Entry condensed {...entry} />)}
             </EntrySet>
