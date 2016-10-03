@@ -7,16 +7,17 @@
     margin-top: 2em;
     padding: 1em;
     border-top: 1px solid var(--gray-lighter);
+    display: flex;
+    flex-shrink: 0;
 }
 
 .Content {
+    composes: import RestrictFullPageWidth from "../page/Page.css";
+
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-
-    margin-right: auto;
-    margin-left: auto;
-    max-width: 1026px;
+    width: 100%;
 
     @media (--footer-one-row) {
         flex-direction: row;
@@ -32,7 +33,7 @@
     }
 
     @media (--footer-one-row) {
-        flex: 60%;
+        flex: 1 0 60%;
     }
 }
 
@@ -40,7 +41,7 @@
     white-space: nowrap;
     line-height: 2rem;
     box-sizing: border-box;
-    flex: 50%;
+    flex: 1 0 50%;
     cursor: pointer;
 
     &:hover {
@@ -48,7 +49,7 @@
     }
 
     @media(--nav-one-row) {
-        flex: 25%;
+        flex: 1 0 25%;
         text-align: center;
 
         &:first-child {
@@ -56,7 +57,7 @@
         }
 
         @media (--footer-one-row) {
-            flex: 0;
+            flex: 1 0 0;
             line-height: 2rem;
             padding: 0 20px;
         }
@@ -70,7 +71,7 @@
     white-space: nowrap;
 
     @media (--footer-one-row) {
-        flex: 40%;
+        flex: 1 0 40%;
         line-height: 2rem;
         text-align: right;
     }

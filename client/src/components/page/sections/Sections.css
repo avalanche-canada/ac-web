@@ -1,6 +1,6 @@
 @import "../../../styles/colors.css";
 
-@custom-media --splash-two-columns (width > 700px);
+@custom-media --splash-column (width < 860px);
 
 .Splash {
     margin: 2em 0;
@@ -20,5 +20,9 @@
             border-left: 0.25em solid var(--gray-lighter);
             padding: 0 0.5em 0 0.5em;
         }
+    }
+
+    @media (--splash-column) {
+        flex-direction: column;
     }
 }

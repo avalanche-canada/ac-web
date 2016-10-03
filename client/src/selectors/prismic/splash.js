@@ -26,6 +26,10 @@ export default createSelector(
             message = `Loading latest ${type}...`
         }
 
+        if (featured) {
+            delete featured.preview
+        }
+
         return {
             featured,
             list,

@@ -92,7 +92,6 @@
     background-size: 140px 40px;
     width: 140px;
     height: 40px;
-    float: left;
     margin: 1em;
     & > a {
         position: absolute;
@@ -109,54 +108,12 @@
     background-size: 140px 40px;
     width: 140px;
     height: 40px;
-    float: left;
     margin: 1em;
     & > a {
         position: absolute;
         width: 100%;
         height: 100%;
         color: transparent;
-    }
-}
-
-:global(.create-report-button) {
-    padding: 2em;
-    text-align: center;
-
-    & > a {
-        margin: auto;
-        display: inline-block;
-        position: relative;
-        text-align: center;
-        border-radius: 5px;
-        box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
-        padding: 3em 0.5em 0.5em 0.5em;
-        font-weight: 700;
-        color: white;
-        border: none;
-        height: 3em;
-        width: 10em;
-        line-height: 3em;
-        font-size: 1.25em;
-        background-color: var(--brand-secondary);
-
-        &:hover {
-            background-color: color(var(--brand-secondary) blackness(15%));
-        }
-
-        &:before {
-            content: "";
-            background: url("./report.svg") center center no-repeat;
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            top: 10px;
-            left: calc(50% - 30px);
-        }
-    }
-
-    @media print {
-        display: none;
     }
 }
 
@@ -198,8 +155,8 @@
     }
 }
 
-:global(.static-page-foundation-home) {
-    /*background-color: var(--gray);*/
-    /*position: absolute 0 0 0 0;*/
-    /*overflow: hidden;*/
+:global(.static-page-foundation-news-and-events) {
+    & > header {
+        display: none;
+    }
 }

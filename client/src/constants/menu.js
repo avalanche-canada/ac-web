@@ -72,7 +72,7 @@ export const AvalancheCanada = {
             }, {
                 id: '57d9e572-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Online Avalanche Tutorial',
-                to: '/training#online-primer',
+                to: '/tutorial',
             }, {
                 id: '57d9e98c-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Cours d’avalanche en ligne (français)',

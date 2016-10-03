@@ -1,5 +1,5 @@
 import React from 'react'
-import {pure} from 'recompose'
+import {neverUpdate} from 'compose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './Footer.css'
@@ -23,4 +23,4 @@ function Footer() {
 	)
 }
 
-export default pure(CSSModules(Footer, styles))
+export default neverUpdate(CSSModules(Footer, styles))

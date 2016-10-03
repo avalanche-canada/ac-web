@@ -1,4 +1,4 @@
 {
     "baseURL": "/api",
-    "astBaseUrl": "http://ast.avalanche.ca/api/"
+    "astBaseUrl": "//ast.avalanche.ca/api/"
 }
