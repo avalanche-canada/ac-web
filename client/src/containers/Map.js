@@ -110,34 +110,6 @@ class Container extends Component {
 
         const {point} = event
 
-        // Handle Forecast layers
-        let features = map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.FORECASTS)
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
-            return pushNewLocation({
-                pathname: `/map/forecasts/${feature.properties.id}`
-            }, this.props)
-        }
-
-        // Handle Hot Zone Report layers
-        features = map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
-            return pushNewLocation({
-                pathname: `/map/hot-zone-reports/${feature.properties.id}`
-            }, this.props)
-        }
-
         // Handle Mountain Information Network layers
         features = map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.MOUNTAIN_INFORMATION_NETWORK)
@@ -154,8 +126,7 @@ class Container extends Component {
                     near(feature, data, point_count)
                 )
 
-                this.setState({bounds})
-                // map.fitBounds(bbox, options)
+                return this.setState({bounds})
             } else {
                 const {id} = feature.properties
 
@@ -163,6 +134,34 @@ class Container extends Component {
                     panel: `${key}/${id}`
                 }, this.props)
             }
+        }
+
+        // Handle Hot Zone Report layers
+        features = map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+
+            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
+            return pushNewLocation({
+                pathname: `/map/hot-zone-reports/${feature.properties.id}`
+            }, this.props)
+        }
+
+        // Handle Forecast layers
+        let features = map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.FORECASTS)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+
+            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
+            return pushNewLocation({
+                pathname: `/map/forecasts/${feature.properties.id}`
+            }, this.props)
         }
 
         // props.setMountainInformationNetworkMarkers(EMPTY)
