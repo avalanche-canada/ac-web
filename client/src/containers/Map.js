@@ -14,6 +14,9 @@ import {near} from 'utils/geojson'
 
 const EMPTY = new List()
 
+function isForecastRoute({path}) {
+    return path === 'forecasts'
+}
 function getAllLayerIds(layers) {
     return layers.map(layer => layer.id).toArray()
 }
@@ -37,11 +40,6 @@ class Container extends Component {
         bounds: null,
         map: null,
         mountainInformationNetworkMarkers: EMPTY,
-    }
-    constructor(props) {
-        super(props)
-
-        this.state.bounds = props.bounds
     }
     lastMouseMoveEvent = null
     processMouseMove = () => {
@@ -102,12 +100,7 @@ class Container extends Component {
         this.props.zoomChanged(zoom)
     }
     handleClick = event => {
-        const map = event.target
-
-        if (!map.loaded()) {
-            return
-        }
-
+        const {map} = this.state
         const {point} = event
 
         // Handle Mountain Information Network layers
@@ -122,11 +115,8 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
-                const bounds = this.props.computeFitBounds(
-                    near(feature, data, point_count)
-                )
 
-                return this.setState({bounds})
+                return this.setBounds(near(feature, data, point_count))
             } else {
                 const {id} = feature.properties
 
@@ -144,10 +134,11 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
 
-            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
-            return pushNewLocation({
-                pathname: `/map/hot-zone-reports/${feature.properties.id}`
-            }, this.props)
+            return this.setBounds(feature, () => {
+                pushNewLocation({
+                    pathname: `/map/hot-zone-reports/${feature.properties.id}`
+                }, this.props)
+            })
         }
 
         // Handle Forecast layers
@@ -158,10 +149,11 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
 
-            // TODO: Acces id directly when https://github.com/mapbox/mapbox-gl-js/issues/2716 gets fixed: properties.id > feature.id
-            return pushNewLocation({
-                pathname: `/map/forecasts/${feature.properties.id}`
-            }, this.props)
+            return this.setBounds(feature, () => {
+                pushNewLocation({
+                    pathname: `/map/forecasts/${feature.properties.id}`
+                }, this.props)
+            })
         }
 
         // props.setMountainInformationNetworkMarkers(EMPTY)
@@ -190,17 +182,28 @@ class Container extends Component {
         map.setFilter('forecast-regions-active', ['==', 'id', name])
         map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
     }
+    setBounds(feature, callback) {
+        let bounds = null
+
+        if (feature) {
+            bounds = this.props.computeFitBounds(feature, true, false)
+        }
+
+        this.setState({bounds}, callback)
+    }
+    componentWillMount() {
+        this.setBounds(this.props.feature)
+    }
     componentDidMount() {
         this.props.loadData()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
     }
     componentDidUpdate() {
-        const {params, routes} = this.props
-        const map = this.state
+        if (this.props.routes.find(isForecastRoute)) {
+            const {name} = this.props.params
 
-        if (routes.find(route => route.path === 'forecasts')) {
-            this.setActiveForecastRegion(params.name)
+            this.setActiveForecastRegion(name)
         } else {
             this.setActiveForecastRegion()
         }
@@ -223,9 +226,9 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({bounds}) {
-        if (this.state.bounds !== bounds) {
-            this.setState({bounds})
+    componentWillReceiveProps({feature}) {
+        if (feature && this.props.feature !== feature) {
+            this.setBounds(feature)
         }
     }
     renderMarker = ({id, ...marker}) => {
