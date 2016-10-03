@@ -13,12 +13,14 @@ export function near(targetPoint, points, n = 1) {
 
     for (let i = 0; i < length; i++) {
         distances.push({
-            distance: distance(targetPoint, features[i], 'miles'),
+            distance: distance(targetPoint, features[i]),
             feature: features[i],
         })
     }
 
-    return distances.sort(sorter).slice(0, n).map(({feature}) => feature)
+    return turf.featureCollection(
+        distances.sort(sorter).slice(0, n).map(({feature}) => feature)
+    )
 }
 
 // Copied from https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet

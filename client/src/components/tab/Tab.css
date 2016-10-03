@@ -179,7 +179,7 @@
         border-right: 1px solid white;
     }
 
-    &[min-width~="500px"] {
+    &[min-width~="350px"] {
         & .ListItem {
             &:hover:before {
                 border-top-color: var(--component-bg-hover);

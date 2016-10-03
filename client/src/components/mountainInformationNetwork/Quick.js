@@ -69,7 +69,15 @@ Quick.propTypes = {
     comment: string,
 }
 
-export default function Quick({avalancheConditions, ridingConditions, comment}) {
+export default function Quick({
+    avalancheConditions,
+    ridingConditions,
+    comment
+}) {
+    if (!avalancheConditions || !ridingConditions) {
+        return null
+    }
+    
     return (
         <div>
             <Section title='Information'>
@@ -78,7 +86,7 @@ export default function Quick({avalancheConditions, ridingConditions, comment}) 
                     <Definition block>
                         {projectKeys(avalancheConditionsTexts, avalancheConditions).join('. ')}
                     </Definition>
-                    {computeRidingConditions(ridingConditions)}
+                    {ridingConditions && computeRidingConditions(ridingConditions)}
                 </List>
             </Section>
             <Comment>

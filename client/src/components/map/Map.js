@@ -118,7 +118,9 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: object,
     }
-    state = {}
+    state = {
+        map: null
+    }
     get map() {
         return this.state.map
     }
@@ -132,24 +134,26 @@ export default class MapComponent extends Component {
     }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, bounds, ...rest} = this.props
+        const {style, children, ...props} = this.props
 
         const map = new mapbox.Map({
-            ...rest,
+            ...props,
             container,
             style: style !== null ? styles[style] : null,
         })
 
         EVENTS.forEach(function addMapEvent(name, method) {
-            if (rest[method]) {
-                map.on(name, rest[method])
+            if (props[method]) {
+                map.on(name, props[method])
             }
         })
 
         this.map = map
     }
     componentWillUnmount() {
-        this.map.off()
+        if (this.map) {
+            this.map.off()
+        }
     }
     componentWillReceiveProps({bounds = null}) {
         if (bounds !== null && bounds !== this.props.bounds) {

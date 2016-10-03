@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import {Page, Header, Main, Content, Aside} from 'components/page'
 import Forecast, {Metadata, Footer, Sidebar} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
-import {forecast} from './connectors'
+import {forecast} from 'containers/connectors'
 
 Container.propTypes = {
     title: PropTypes.string.isRequired,

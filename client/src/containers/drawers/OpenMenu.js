@@ -18,6 +18,7 @@ export default compose(
             top: 100,
             left: 15,
             backgroundColor: 'white',
+            zIndex: 2,
         }
     }),
     withHandlers({

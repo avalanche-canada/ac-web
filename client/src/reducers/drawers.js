@@ -79,17 +79,14 @@ function changeFilter({filters, ...rest}, {layer, name, value}) {
 
 const MENU = {
     open: false,
-    // Defines to default active layers, could comes from localStorage as well or sessionStorage
-    // layers: new Set([MOUNTAIN_INFORMATION_NETWORK]),
-    // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
-    layers: new Set([FORECASTS, HOT_ZONE_REPORTS]),
-    // Defines to default filters, could comes from localStorage as well
+    // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
+    layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
+    // Defines the default filters, could comes from localStorage as well
     filters: new Map([
         [MOUNTAIN_INFORMATION_NETWORK, new Map([
             ['days', {
                 type: 'listOfValues',
-                // value: '7',
-                value: '120',
+                value: '7',
                 options: new Map([
                     ['1', '1 day'],
                     ['3', '3 days'],
@@ -101,7 +98,7 @@ const MENU = {
                 type: 'listOfValues',
                 value: 'all',
                 options: new Map([
-                    ['all', 'All reports'],
+                    ['all', 'Show all report types'],
                     ['quick', 'Quick'],
                     ['avalanche', 'Avalanche'],
                     ['snowpack', 'Snowpack'],

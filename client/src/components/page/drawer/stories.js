@@ -110,7 +110,7 @@ storiesOf('Page Drawer', module)
     }
     const listOfValues = {
         options: new Map([
-            ['all', 'All reports'],
+            ['all', 'Show all report types'],
             ['quick', 'Quick'],
             ['avalanche', 'Avalanche'],
             ['snowpack', 'Snowpack'],

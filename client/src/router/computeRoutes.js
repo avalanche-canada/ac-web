@@ -14,7 +14,6 @@ import {captureMessage} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
 import {
-    Map,
     About,
     Events,
     Event,
@@ -36,6 +35,7 @@ import {
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
     MountainInformationNetworkSubmissionGuidelines,
+    MountainInformationNetworkSubmission,
     Training,
     Tutorial,
     Gear,
@@ -206,7 +206,7 @@ export default function computeRoutes(store) {
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' sponsorRef='Forecast' components={{content: Map, footer: null}}>
+            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}}>
                 <Route path='forecasts' onEnter={handleForecastRouteEnter} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
@@ -218,7 +218,7 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
-            <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetwork} />
+            <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetworkSubmission} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />

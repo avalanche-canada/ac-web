@@ -1,41 +1,41 @@
-import {PropTypes} from 'react'
-import {compose, withProps, mapProps, nest, getContext} from 'recompose'
+import React, {PropTypes} from 'react'
+import {compose, withProps, getContext, withHandlers, defaultProps} from 'recompose'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {getSecondary} from 'selectors/drawers'
-import {LEFT} from 'components/page/drawer'
-import Drawer from 'components/page/drawer'
-import Content from './content/Secondary'
-
-function Branch({open, children}) {
-    if (open) {
-        return children
-    } else {
-        return null
-    }
-}
+import Drawer, {LEFT} from 'components/page/drawer'
+import Content from './content/MountainInformationNetwork'
+import {pushQuery} from 'utils/router'
 
 export default compose(
     withRouter,
-    // TODO: There most be a better way to do that...
     getContext({
-        location: PropTypes.object,
+        location: PropTypes.object.isRequired,
     }),
-    connect(getSecondary),
-    withProps({
+    defaultProps({
         side: LEFT,
     }),
-    mapProps(({router, location, ...props}) => ({
-        ...props,
-        onCloseClick() {
-            const {pathname, query} = location
+    connect(getSecondary),
+    withHandlers({
+        onCloseClick: props => event => {
+            const {query} = props.location
 
             delete query.panel
 
-            router.push({
-                pathname,
-                query,
-            })
+            pushQuery(query, props)
         }
-    }))
-)(nest(Drawer, Branch, Content))
+    }),
+    withProps(({open}) => {
+        const children = []
+
+        if (open === true) {
+            children.push(
+                <Content />
+            )
+        }
+
+        return {
+            children
+        }
+    }),
+)(Drawer)

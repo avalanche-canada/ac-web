@@ -21,18 +21,18 @@ const getTransformedFeatures = createSelector(
     features => features.toList().toJSON().map(addTitle)
 )
 
-export default createSelector(
-    getTransformedFeatures,
-    features => createSource({
-        id: key,
-        features,
-    })
-)
-
 export const getCentroids = createSelector(
     getTransformedFeatures,
     features => createSource({
         id: `${key}-centroids`,
         features: features.map(createCentroid)
+    })
+)
+
+export default createSelector(
+    getTransformedFeatures,
+    features => createSource({
+        id: key,
+        features,
     })
 )

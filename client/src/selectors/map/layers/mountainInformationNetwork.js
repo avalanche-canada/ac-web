@@ -11,10 +11,11 @@ export default [{
     },
     paint: {
         'circle-color': '#4B6D6F',
-        'circle-radius': 16,
+        'circle-radius': 18,
+        'circle-opacity': 0.85,
+        'circle-blur': 0.5,
     },
-},
-{
+}, {
     id: `${key}-count-label`,
     source: key,
     type: 'symbol',
@@ -25,5 +26,5 @@ export default [{
     },
     paint: {
         'text-color': '#FFFFFF',
-    }
+    },
 }]

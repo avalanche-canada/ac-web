@@ -26,13 +26,14 @@ export default createSelector(
     getHotZoneArea,
     getHotZoneReport,
     getHotZoneReportResultsSet,
-    (name, area, report, {isFetching, isError}) => {
+    (name, area, report, {isFetching, isError, isLoaded}) => {
         if (report) {
             report = report.toJSON()
 
             return {
                 isLoading: isFetching,
                 isError,
+                isLoaded,
                 title: report.report.headline,
                 report,
                 link: `/hot-zone-reports/${name}`,
@@ -43,6 +44,7 @@ export default createSelector(
             return {
                 isLoading: isFetching,
                 isError,
+                isLoaded,
                 title: isFetching ? name : name && `${name} report is not available`,
             }
         }
