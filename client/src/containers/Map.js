@@ -34,8 +34,14 @@ const forecastRegionsRegex = /^forecast-regions/
 })
 class Container extends Component {
     state = {
+        bounds: null,
         map: null,
         mountainInformationNetworkMarkers: EMPTY,
+    }
+    constructor(props) {
+        super(props)
+
+        this.state.bounds = props.bounds
     }
     lastMouseMoveEvent = null
     processMouseMove = () => {
@@ -80,7 +86,7 @@ class Container extends Component {
         pushNewLocation(location, this.props)
     }
     handleMountainInformationNetworkMarkerClick = event => {
-
+        console.warn('to implement')
     }
     handleMousemove = event => {
         this.lastMouseMoveEvent = event
@@ -144,9 +150,12 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
-                const {bbox, options} = this.props.computeFitBounds(near(feature, data, point_count))
+                const bounds = this.props.computeFitBounds(
+                    near(feature, data, point_count)
+                )
 
-                map.fitBounds(bbox, options)
+                this.setState({bounds})
+                // map.fitBounds(bbox, options)
             } else {
                 const {id} = feature.properties
 
@@ -200,13 +209,13 @@ class Container extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
-    shouldComponentUpdate({layers, sources, markers, bounds}, {map, mountainInformationNetworkMarkers}) {
+    shouldComponentUpdate({layers, sources, markers}, {map, mountainInformationNetworkMarkers, bounds}) {
         const {props, state} = this
 
         if (layers === props.layers &&
             sources === props.sources &&
             markers === props.markers &&
-            bounds === props.bounds &&
+            bounds === state.bounds &&
             map === state.map &&
             mountainInformationNetworkMarkers === state.mountainInformationNetworkMarkers
         ) {
@@ -214,6 +223,11 @@ class Container extends Component {
         }
 
         return true
+    }
+    componentWillReceiveProps({bounds}) {
+        if (this.state.bounds !== bounds) {
+            this.setState({bounds})
+        }
     }
     renderMarker = ({id, ...marker}) => {
         return <Marker key={id} {...marker} onClick={this.handleMarkerClick} />
@@ -224,13 +238,15 @@ class Container extends Component {
     render() {
         const {
             map,
-            mountainInformationNetworkMarkers = EMPTY
+            mountainInformationNetworkMarkers = EMPTY,
+            bounds,
         } = this.state
         const {
             sources = EMPTY,
             layers = EMPTY,
             markers = EMPTY,
-            ...props,
+            zoom,
+            center,
         } = this.props
         const events = {
             onMousemove: this.handleMousemove,
@@ -241,7 +257,7 @@ class Container extends Component {
         }
 
         return (
-            <Map {...props} {...events}>
+            <Map bounds={bounds} zoom={zoom} center={center} {...events}>
                 {map && sources.map(renderSource)}
                 {map && layers.map(renderLayer)}
                 {map && markers.map(this.renderMarker)}

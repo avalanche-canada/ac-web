@@ -9,5 +9,5 @@ export default createSelector(
     getCentroids,
     getHotZoneReportSource,
     getMountainInformationNetworkSource,
-    (...args) => List.of(...args)
+    (...args) => new List(args)
 )

@@ -17,12 +17,8 @@ function Layout({primary}) {
 
 export default compose(
     withContext({
-        location: PropTypes.object,
-        routes: PropTypes.array,
-        params: PropTypes.object,
-    }, ({location, routes, params}) => ({
-        location,
-        routes,
-        params,
-    }))
+        location: PropTypes.object.isRequired,
+        routes: PropTypes.array.isRequired,
+        params: PropTypes.object.isRequired,
+    }, ({location, routes, params}) => ({location, routes, params}))
 )(Layout)

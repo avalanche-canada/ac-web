@@ -34,7 +34,7 @@ const getDaysFilterValue = createSelector(
 
 const getTypeFilterValue = createSelector(
     getFilters,
-    filters => filters.get(MOUNTAIN_INFORMATION_NETWORK).get('days').value
+    filters => filters.get(MOUNTAIN_INFORMATION_NETWORK).get('type').value
 )
 
 const getSubmissionIds = createSelector(
@@ -50,10 +50,12 @@ const getFilteredSubmissions = createSelector(
     (submissions, ids, type) => {
         submissions = Array.from(ids).map(id => submissions.get(id))
 
+        // TODO: Should be using filter on the layer instead...probably faster!!!
+        // At least for the the type
+
         if (type !== 'all') {
             submissions = submissions.filter(submission => submission.properties.types.has(type))
         }
-
         return submissions
     }
 )

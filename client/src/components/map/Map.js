@@ -134,17 +134,17 @@ export default class MapComponent extends Component {
     }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, bounds, ...rest} = this.props
+        const {style, children, ...props} = this.props
 
         const map = new mapbox.Map({
-            ...rest,
+            ...props,
             container,
             style: style !== null ? styles[style] : null,
         })
 
         EVENTS.forEach(function addMapEvent(name, method) {
-            if (rest[method]) {
-                map.on(name, rest[method])
+            if (props[method]) {
+                map.on(name, props[method])
             }
         })
 

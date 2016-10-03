@@ -17,11 +17,11 @@ function isHotZoneReportRoute({path}) {
 }
 
 // TODO: Hmmm, do we really need that function!
-// It affects all the time...maybe not desired behavior
+// It runs all the time...maybe not desired behavior
 const getActiveFeature = createSelector(
-    (state, props) => props.params.name,
-    (state, props) => props.routes,
-    (state, props) => props.location,
+    (state, {params}) => params.name,
+    (state, {routes}) => routes,
+    (state, {location}) => location,
     state => getEntitiesForSchema(state, ForecastRegion),
     state => getEntitiesForSchema(state, HotZoneArea),
     state => getEntitiesForSchema(state, MountainInformationNetworkSubmission),
