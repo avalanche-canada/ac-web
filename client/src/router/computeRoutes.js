@@ -181,8 +181,14 @@ export default function computeRoutes(store) {
         replace(`/forecasts/${name}`)
     }
 
-    function handleNotFoundRouteEnter(args) {
-        captureMessage(`NOT_FOUND: ${args.location.pathname}`)
+    function handleNotFoundRouteEnter({location}) {
+        ReactGA.event({
+            category: 'Navigation',
+            action: 'Not Found',
+            label: location.pathname,
+            nonInteraction: true,
+        });
+        captureMessage(`NOT_FOUND: ${location.pathname}`)
     }
 
     return (
