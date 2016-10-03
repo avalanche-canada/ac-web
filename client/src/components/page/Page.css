@@ -21,6 +21,7 @@
 
 .Content {
     composes: RestrictFullPageWidth;
+    height: 100%;
 
     @media (--side-by-side) {
         display: flex;
@@ -30,6 +31,7 @@
 
 .Main {
     flex: 1 0 70%;
+    height: 100%;
 
     @media (--full-width) {
         padding: 0;
