@@ -24,7 +24,8 @@
 
     left: auto;
     right: 0;
-
+    z-index: 1;
+    
     &.Open {
         box-shadow: -4px 0 8px color(black alpha(25%));
     }
