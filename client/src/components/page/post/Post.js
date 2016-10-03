@@ -36,6 +36,7 @@ export default function Post({post = {}, message, type}) {
         <Page>
             <Header title={title || message} />
             <Content>
+                <Main>
                 <Metadata>
                     {date &&
                         <Entry term='Date'>
@@ -53,7 +54,6 @@ export default function Post({post = {}, message, type}) {
                         </Entry>
                     }
                 </Metadata>
-                <Main>
                     {headline &&
                         <Headline>
                             <InnerHTML>
