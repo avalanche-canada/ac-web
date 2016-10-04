@@ -143,6 +143,18 @@ export default function computeRoutes(store) {
         replace({...location, query})
     }
 
+    function handleEventFeedEnter({location}, replace) {
+        const {query} = location
+
+        if (typeof query.timeline === 'string') {
+            return
+        }
+
+        query.timeline = 'upcoming'
+
+        replace({...location, query})
+    }
+
     function handleIncidentsRouteEnter(props, replace) {
         enforcePagination(props, replace)
     }
@@ -220,7 +232,7 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetworkSubmission} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
-            <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleFeedEnter} />
+            <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
             <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} onEnter={handleFeedEnter} />
 

@@ -23,12 +23,13 @@ export default compose(
         }
     }),
     withProps(({location}) => {
-        const {year, month, category, tags} = location.query
+        const {year, month, category, tags, timeline} = location.query
 
         return {
             year: year ? Number(year) : year,
             month,
             category,
+            timeline,
             tags: isArray(tags) ? new Set(tags) : new Set([tags]),
         }
     }),
@@ -51,6 +52,11 @@ export default compose(
         onCategoryChange: props => category => {
             replaceQuery({
                 category
+            }, props)
+        },
+        onTimelineChange: props => timeline => {
+            replaceQuery({
+                timeline
             }, props)
         },
     }),
