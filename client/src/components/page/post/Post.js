@@ -16,6 +16,7 @@ Post.propTypes = {
         media: PropTypes.string,
         source: PropTypes.string,
         location: PropTypes.string,
+        hostedBy: PropTypes.string,
     }).isRequired,
     type: PropTypes.string.isRequired,
     message: PropTypes.string,
@@ -34,6 +35,7 @@ export default function Post({post = {}, message, type}) {
         media,
         source,
         location,
+        hostedBy,
     } = post
     const hasDateRange = startDate && endDate
 
@@ -63,20 +65,25 @@ export default function Post({post = {}, message, type}) {
                             {source}
                         </Entry>
                     }
+                    {hostedBy &&
+                        <Entry term='Hosted by'>
+                            {hostedBy}
+                        </Entry>
+                    }
                 </Metadata>
-                    {headline &&
-                        <Headline>
-                            <InnerHTML>
-                                {headline}
-                            </InnerHTML>
-                        </Headline>
-                    }
-                    {message ?
-                        <Muted>{message}</Muted> :
+                {headline &&
+                    <Headline>
                         <InnerHTML>
-                            {content}
+                            {headline}
                         </InnerHTML>
-                    }
+                    </Headline>
+                }
+                {message ?
+                    <Muted>{message}</Muted> :
+                    <InnerHTML>
+                        {content}
+                    </InnerHTML>
+                }
                 </Main>
                 <Aside>
                     <Sidebar type={type} uid={uid} />
