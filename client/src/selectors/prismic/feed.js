@@ -23,11 +23,11 @@ function isFeatured(post) {
 }
 
 const PREDICATES = new Map([
-    ['year', ({year}) => post => post.year == year],
+    ['year', ({year}) => post => post.year == year], // Work with strings and numbers
     ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
     ['category', ({category}) => post => post.category == category],
     ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.includes(tag)))],
-    ['timeline', ({timeline}) => ({date}) => timeline === 'past' ? date < now : date >= now],
+    ['timeline', ({timeline}) => ({endDate}) => timeline === 'past' ? endDate < now : endDate >= now],
 ])
 
 function asc(a, b) {

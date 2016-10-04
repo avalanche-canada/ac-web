@@ -6,11 +6,13 @@ export function fromDocument(document, parser = PARSER) {
     }
 
     const data = parser.parse(document)
-    const {startDate, tags} = data
+    const {startDate, endDate, tags} = data
 
     return {
         ...data,
         featured: tags.includes('featured'),
+        start: startDate,
+        end: endDate,
         date: startDate,
         year: startDate && startDate.getFullYear(),
         month: startDate && startDate.getMonth(),
