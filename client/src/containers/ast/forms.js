@@ -9,7 +9,7 @@ import {formatAsDay, parseFromDay} from 'utils/date'
 import get from 'lodash/get'
 import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
-import {replaceQuery, replaceState} from 'utils/router'
+import {replaceQuery, replaceStateAndQuery} from 'utils/router'
 
 const {isArray} = Array
 const STYLE = {
@@ -99,8 +99,10 @@ const Container = compose(
             }, props)
         },
         onPlaceChange: props => place => {
-            replaceState({
+            replaceStateAndQuery({
                 place
+            }, {
+                sorting: ['distance', 'asc'],
             }, props)
         },
         onDateRangeChange: props => ({from, to}) => {
