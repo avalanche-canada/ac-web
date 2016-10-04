@@ -103,7 +103,7 @@ function Connect(name, mapStateToProps, load) {
         withProps({
             params: {
                 // TODO: Add other pagination params here!!! But, will probably comes from the router!
-                page_size: 250,
+                page_size: 500,
             }
         }),
         connect(mapStateToProps, {
