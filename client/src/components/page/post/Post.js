@@ -11,6 +11,8 @@ Post.propTypes = {
         headline: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date).isRequired,
+        startDate: PropTypes.instanceOf(Date),
+        endDate: PropTypes.instanceOf(Date),
         media: PropTypes.string,
         source: PropTypes.string,
         location: PropTypes.string,
@@ -27,10 +29,13 @@ export default function Post({post = {}, message, type}) {
         headline,
         content,
         date,
+        startDate,
+        endDate,
         media,
         source,
         location,
     } = post
+    const hasDateRange = startDate && endDate
 
     return (
         <Page>
@@ -40,7 +45,12 @@ export default function Post({post = {}, message, type}) {
                 <Metadata>
                     {date &&
                         <Entry term='Date'>
-                            <DateElement value={date} />
+                            {hasDateRange ?
+                                <span>
+                                    <DateElement value={startDate} /> <em>to</em> <DateElement value={endDate} />
+                                </span> :
+                                <DateElement value={date} />
+                            }
                         </Entry>
                     }
                     {typeof location === 'string' &&
