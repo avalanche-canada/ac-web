@@ -10,7 +10,6 @@ import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import {history} from 'router'
 import AuthService from 'services/auth'
-import {captureMessage} from 'services/raven'
 import CancelError from 'utils/promise/CancelError'
 import {FallbackPage} from 'prismic/components/page'
 import {
@@ -200,7 +199,6 @@ export default function computeRoutes(store) {
             label: location.pathname,
             nonInteraction: true,
         });
-        captureMessage(`NOT_FOUND: ${location.pathname}`)
     }
 
     return (
