@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
@@ -95,32 +95,61 @@ function AstTable({featured, rows, columns, caption, asControlled, onSortingChan
     )
 }
 
+const {assign} = Object
+
 function Connect(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
         withRouter,
         onlyUpdateForKeys(['rows', 'params']),
-        withProps({
-            params: {
-                // TODO: Add other pagination params here!!! But, will probably comes from the router!
-                page_size: 500,
+        withState('params','setParams', props => {
+            const {course, tags} = props.location.query
+            // TODO: Add other pagination params here!!! But, will probably comes from the router!
+            const params = {
+                page_size: 15,
+                ordering: 'date_start',
             }
+
+            // TODO: Rename course to level. Level makes more sense than course.
+            if (course) {
+                assign(params, {
+                    level: course
+                })
+            }
+
+            if (tags) {
+                assign(params, {
+                    tags
+                })
+            }
+
+            return params
         }),
         connect(mapStateToProps, {
             load
-        }),
-        lifecycle({
-            componentDidMount() {
-                const {params, load} = this.props
-
-                load(params)
-            },
         }),
         withHandlers({
             onSortingChange: props => (name, order) => {
                 replaceQuery({
                     sorting: [name, order],
                 }, props)
+            },
+        }),
+        lifecycle({
+            componentDidMount() {
+                const {params, setParams, load} = this.props
+
+                load(params).then(() => {
+                    setTimeout(() => {
+                        // Load all entities (courses or providers)
+                        const newParams = {
+                            ordering: 'date_start',
+                            page_size: 500,
+                        }
+                        setParams(newParams)
+                        load(newParams)
+                    }, 100)
+                })
             },
         }),
     )(AstTable)
