@@ -17,7 +17,6 @@
         cursor: pointer;
 
         & svg {
-            /*transform: translateY(6px);*/
             & path:not([fill="none"]) {
                 fill: var(--primary);
             }
