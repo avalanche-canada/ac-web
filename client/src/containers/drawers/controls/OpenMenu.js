@@ -15,10 +15,11 @@ export default compose(
         inverse: true,
         style: {
             position: 'fixed',
-            top: 100,
+            top: 90,
             left: 15,
             backgroundColor: 'white',
             zIndex: 2,
+            outline: 'none',
         }
     }),
     withHandlers({

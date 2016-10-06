@@ -13,6 +13,7 @@ import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
 
 const EMPTY = new List()
+function K() {}
 
 function isForecastRoute({path}) {
     return path === 'forecasts'
@@ -36,6 +37,12 @@ const forecastRegionsRegex = /^forecast-regions/
     loadData,
 })
 class Container extends Component {
+    propTypes = {
+        onLoad: PropTypes.func,
+    }
+    static defaultProps = {
+        onLoad: K,
+    }
     state = {
         bounds: null,
         map: null,
@@ -172,9 +179,10 @@ class Container extends Component {
         // props.setMountainInformationNetworkMarkers(EMPTY)
     }
     handleLoad = event => {
-        this.setState({
-            map: event.target
-        })
+        const map = event.target
+
+        this.setState({map})
+        this.props.onLoad(map)
     }
     setForecastRegionsFilter(id = '') {
         if (!this.map) {
