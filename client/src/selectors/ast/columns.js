@@ -86,6 +86,7 @@ export const provider = {
     name: 'provider',
     title: 'Provider Name',
     property: 'name',
+    sorting: NONE,
 }
 
 export const email = {
