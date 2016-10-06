@@ -216,15 +216,6 @@ class Container extends Component {
 
         this.intervalID = setInterval(this.processMouseMove, 100)
     }
-    componentDidUpdate() {
-        if (this.props.routes.find(isForecastRoute)) {
-            const {name} = this.props.params
-
-            this.setActiveForecastRegion(name)
-        } else {
-            this.setActiveForecastRegion()
-        }
-    }
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
@@ -243,9 +234,20 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({feature}) {
+    componentWillReceiveProps({feature, routes}) {
         if (feature && this.props.feature !== feature) {
             this.setBounds(feature)
+        }
+
+        if (this.props.routes.find(isForecastRoute) && !routes.find(isForecastRoute)) {
+            this.setActiveForecastRegion()
+        }
+    }
+    componentDidUpdate() {
+        if (this.props.routes.find(isForecastRoute)) {
+            const {name} = this.props.params
+
+            this.setActiveForecastRegion(name)
         }
     }
     renderMarker = ({id, ...marker}) => {
