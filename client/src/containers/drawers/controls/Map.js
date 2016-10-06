@@ -28,10 +28,6 @@ const Button = compose(
             outline: 'none',
         }
     }),
-    mapProps(({increment, ...props}) => ({
-        ...props,
-        icon: increment > 0 ? <Add /> : <Remove />,
-    })),
     withHandlers({
         onClick: props => event => {
             const {map, increment, zoomChanged, computeOffset} = props
@@ -42,6 +38,10 @@ const Button = compose(
             zoomChanged(zoom)
         }
     }),
+    mapProps(({increment, ...props}) => ({
+        ...props,
+        icon: increment > 0 ? <Add /> : <Remove />,
+    })),
     onlyUpdateForKey('map'),
 )(Base)
 
