@@ -31,6 +31,11 @@ const Button = compose(
     withHandlers({
         onClick: props => event => {
             const {map, increment, zoomChanged, computeOffset} = props
+
+            if (!map) {
+                return
+            }
+
             const zoom = map.getZoom() + increment
             const offset = computeOffset()
 
