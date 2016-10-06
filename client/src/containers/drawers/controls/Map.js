@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {createStructuredSelector} from 'reselect'
-import {compose, withProps, defaultProps, withHandlers, getContext} from 'recompose'
+import {compose, defaultProps, withHandlers, getContext, mapProps} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
 import {connect} from 'react-redux'
 import {zoomChanged} from 'actions/map'
@@ -28,7 +28,8 @@ const Button = compose(
             outline: 'none',
         }
     }),
-    withProps(({increment}) => ({
+    mapProps(({increment, ...props}) => ({
+        ...props,
         icon: increment > 0 ? <Add /> : <Remove />,
     })),
     withHandlers({
@@ -56,8 +57,8 @@ const STYLE = {
 export default function Control() {
     return (
         <div style={STYLE} >
-            <Button increment={1} />
-            <Button increment={-1} />
+            <Button increment={1} title='Zoom in' />
+            <Button increment={-1} title='Zoom out' />
         </div>
     )
 }
