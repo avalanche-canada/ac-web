@@ -163,14 +163,14 @@ export const AvalancheCanada = {
                 id: '03d264bd-e8ae-496e-b208-81c514aba749',
                 label: 'Chris Rubens',
                 to: '/ambassadors#chris-rubens',
-            /* }, {
+            }, {
                 id: 'dfa78074-36e8-4f4b-97a4-1c7f922a08ac',
-                label: 'Brodie Evans',
-                to: '/ambassadors#brodie-evans',
+                label: 'Piper Noble',
+                to: '/ambassadors#piper-noble',
             }, {
                 id: 'ab32b0fc-d596-4c1d-b876-a69fc93962d5',
-                label: 'Wayne Flann',
-                to: '/ambassadors#wayne-flann', */
+                label: 'Keegan Capel',
+                to: '/ambassadors#keegan-capel',
             }],
         }]
     }, {
