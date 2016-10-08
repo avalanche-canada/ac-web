@@ -1,13 +1,4 @@
-@import "../navbar/Navbar.css";
-
-.Container {
-    height: 100vh;
-}
-
-.Content {
-    height: calc(100% - var(--navbar-height));
-    margin-top: var(--navbar-height);
+.Application {
+    height: 100%;
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
 }

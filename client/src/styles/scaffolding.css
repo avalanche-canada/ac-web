@@ -1,9 +1,22 @@
 @import "./colors.css";
 
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100vh;
+}
+
 body {
     font-family: Montserrat, Arial, sans-serif;
     font-size: 15px;
     color: var(--gray-darker);
+    padding-top: 75px;
+}
+
+:global(#app) {
+    height: calc(100vh - 75px);
 }
 
 h1 {

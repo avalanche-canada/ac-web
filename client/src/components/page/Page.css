@@ -17,6 +17,7 @@
 }
 
 .Page {
+    position: relative;
 }
 
 .Content {
@@ -84,7 +85,6 @@
 
     position: relative;
     min-height: 5em;
-    margin: 0 auto;
     padding-bottom: 1.5em;
     padding-top: 1.5em;
 
@@ -106,7 +106,6 @@
 
         & > :last-child {
             flex: 1 0 33%;
-            margin: 0 auto;
         }
     }
 }
@@ -139,10 +138,9 @@
 }
 
 .NotFound {
-    position: relative;
+    height: 100%;
     color: var(--black);
     text-align: center;
-    height: 100%;
 
     &:after {
         content: "";
