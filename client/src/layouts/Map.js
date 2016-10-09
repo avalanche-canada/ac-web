@@ -1,7 +1,9 @@
 import React, {PropTypes} from 'react'
+import CSSModule from 'react-css-modules'
 import {compose, withContext, withState} from 'recompose'
 import {Primary, Secondary, Menu, OpenMenu} from 'containers/drawers'
 import Map from 'containers/Map'
+import styles from './Map.css'
 
 // TODO: Remove that setMap and map state. It is a workaround to send the map
 // object to the map comtrols. Instead, zoomIn and zoomOut actions should be created.
@@ -10,7 +12,7 @@ import Map from 'containers/Map'
 
 function Layout({primary, map, setMap}) {
     return (
-        <div>
+        <div styleName='Container'>
             <Map onLoad={setMap} />
             <Primary>
                 {primary}
@@ -29,5 +31,6 @@ export default compose(
         routes: PropTypes.array.isRequired,
         params: PropTypes.object.isRequired,
         map: PropTypes.object.isRequired,
-    }, ({location, routes, params, map}) => ({location, routes, params, map}))
+    }, ({location, routes, params, map}) => ({location, routes, params, map})),
+    CSSModule(styles),
 )(Layout)

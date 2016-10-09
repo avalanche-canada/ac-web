@@ -1,0 +1,9 @@
+.Container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+
+    & > :global(.mapboxgl-map) {
+        height: 100%;
+    }
+}
