@@ -8,8 +8,9 @@ const types = new Map([
 ])
 
 export default compose(
-    withProps(({content: [{type, header}]}) => ({
+    withProps(({content: [{type, header, tags}]}) => ({
         type: types.get(type),
+        tags: typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : [],
         header,
     }))
 )(FeedSplash)
