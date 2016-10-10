@@ -2,7 +2,7 @@ import {createStructuredSelector} from 'reselect'
 import sources from './sources'
 import layers from './layers'
 import markers from './markers'
-import {computeFitBoundsFactory} from './bounds'
+import {computeFitBounds} from './bounds'
 import feature from './feature'
 import {
     getZoom as zoom,
@@ -10,7 +10,7 @@ import {
 } from 'reducers/map/getters'
 
 export default createStructuredSelector({
-    computeFitBounds: computeFitBoundsFactory,
+    computeFitBounds,
     feature,
     sources,
     layers,

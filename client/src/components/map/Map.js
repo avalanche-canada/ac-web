@@ -3,8 +3,8 @@ import CSSModule from 'react-css-modules'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
-import css from './Map.css'
 
+function K() {}
 const {LngLatBounds} = mapbox
 const STYLES = Object.keys(styles)
 const {bool, func, number, string, object, shape, node, arrayOf, instanceOf, oneOf} = PropTypes
@@ -43,7 +43,6 @@ const EVENTS = new Map([
     ['onPitch', 'pitch'],
 ])
 
-@CSSModule(css)
 export default class MapComponent extends Component {
     static propTypes = {
         children: node,
@@ -121,6 +120,13 @@ export default class MapComponent extends Component {
     state = {
         map: null
     }
+    constructor(props) {
+        super(props)
+
+        if (!mapbox.supported()) {
+            this.componentDidMount = K
+        }
+    }
     get map() {
         return this.state.map
     }
@@ -156,6 +162,10 @@ export default class MapComponent extends Component {
         }
     }
     componentWillReceiveProps({bounds = null}) {
+        if (!this.map) {
+            return
+        }
+
         if (bounds !== null && bounds !== this.props.bounds) {
             let {bbox, options} = bounds
 

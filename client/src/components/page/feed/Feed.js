@@ -20,7 +20,11 @@ Feed.propTypes = {
     category: PropTypes.string,
     categoryOptions: PropTypes.instanceOf(Map),
     onCategoryChange: PropTypes.func.isRequired,
+    timeline: PropTypes.string,
+    timelineOptions: PropTypes.instanceOf(Map),
+    onTimelineChange: PropTypes.func.isRequired,
     tags: PropTypes.string,
+    tagOptions: PropTypes.instanceOf(Map),
     onTagChange: PropTypes.func.isRequired,
 }
 
@@ -37,6 +41,9 @@ export default function Feed({
     category,
     categoryOptions,
     onCategoryChange,
+    timeline,
+    timelineOptions,
+    onTimelineChange,
     tags,
     tagOptions,
     onTagChange
@@ -50,6 +57,11 @@ export default function Feed({
                         {categoryOptions &&
                             <FilterEntry>
                                 <Dropdown value={category} onChange={onCategoryChange} options={categoryOptions}  placeholder={categoryOptions.get(undefined)}/>
+                            </FilterEntry>
+                        }
+                        {timelineOptions &&
+                            <FilterEntry>
+                                <Dropdown value={timeline} onChange={onTimelineChange} options={timelineOptions}  placeholder={timelineOptions.get(undefined)}/>
                             </FilterEntry>
                         }
                         {yearOptions &&

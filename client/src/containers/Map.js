@@ -13,6 +13,7 @@ import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
 
 const EMPTY = new List()
+function K() {}
 
 function isForecastRoute({path}) {
     return path === 'forecasts'
@@ -36,21 +37,29 @@ const forecastRegionsRegex = /^forecast-regions/
     loadData,
 })
 class Container extends Component {
+    propTypes = {
+        onLoad: PropTypes.func,
+    }
+    static defaultProps = {
+        onLoad: K,
+    }
     state = {
         bounds: null,
         map: null,
         mountainInformationNetworkMarkers: EMPTY,
     }
+    get map() {
+        return this.state.map
+    }
     lastMouseMoveEvent = null
     processMouseMove = () => {
-        if (this.lastMouseMoveEvent === null || !this.state.map) {
+        if (this.lastMouseMoveEvent === null || !this.map) {
             return
         }
 
-        const {map} = this.state
-        const canvas = map.getCanvas()
+        const canvas = this.map.getCanvas()
         const {point} = this.lastMouseMoveEvent
-        const features = map.queryRenderedFeatures(point, {
+        const features = this.map.queryRenderedFeatures(point, {
             layers: getAllLayerIds(this.props.layers)
         })
 
@@ -87,24 +96,35 @@ class Container extends Component {
         console.warn('to implement')
     }
     handleMousemove = event => {
-        this.lastMouseMoveEvent = event
+        if (this.map) {
+            this.lastMouseMoveEvent = event
+        }
     }
     handleMoveend = event => {
-        const center = event.target.getCenter().toArray()
+        // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
+        if (event.originalEvent) {
+            const center = event.target.getCenter().toArray()
 
-        this.props.centerChanged(center)
+            this.props.centerChanged(center)
+        }
     }
-    handleZoomend = event => {
-        const zoom = event.target.getZoom()
+        handleZoomend = event => {
+        // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
+        if (event.originalEvent) {
+            const zoom = event.target.getZoom()
 
-        this.props.zoomChanged(zoom)
+            this.props.zoomChanged(zoom)
+        }
     }
     handleClick = event => {
-        const {map} = this.state
+        if (!this.map) {
+            return
+        }
+
         const {point} = event
 
         // Handle Mountain Information Network layers
-        features = map.queryRenderedFeatures(point, {
+        features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.MOUNTAIN_INFORMATION_NETWORK)
         })
 
@@ -127,7 +147,7 @@ class Container extends Component {
         }
 
         // Handle Hot Zone Report layers
-        features = map.queryRenderedFeatures(point, {
+        features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
         })
 
@@ -142,7 +162,7 @@ class Container extends Component {
         }
 
         // Handle Forecast layers
-        let features = map.queryRenderedFeatures(point, {
+        let features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.FORECASTS)
         })
 
@@ -159,28 +179,25 @@ class Container extends Component {
         // props.setMountainInformationNetworkMarkers(EMPTY)
     }
     handleLoad = event => {
-        this.setState({
-            map: event.target
-        })
+        const map = event.target
+
+        this.setState({map})
+        this.props.onLoad(map)
     }
     setForecastRegionsFilter(id = '') {
-        const {map} = this.state
-
-        if (!map) {
+        if (!this.map) {
             return
         }
 
-        map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+        this.map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
     }
     setActiveForecastRegion(name = '') {
-        const {map} = this.state
-
-        if (!map) {
+        if (!this.map) {
             return
         }
 
-        map.setFilter('forecast-regions-active', ['==', 'id', name])
-        map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
+        this.map.setFilter('forecast-regions-active', ['==', 'id', name])
+        this.map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
     }
     setBounds(feature, callback) {
         let bounds = null
@@ -198,15 +215,6 @@ class Container extends Component {
         this.props.loadData()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
-    }
-    componentDidUpdate() {
-        if (this.props.routes.find(isForecastRoute)) {
-            const {name} = this.props.params
-
-            this.setActiveForecastRegion(name)
-        } else {
-            this.setActiveForecastRegion()
-        }
     }
     componentWillUnmount() {
         clearInterval(this.intervalID)
@@ -226,9 +234,20 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({feature}) {
+    componentWillReceiveProps({feature, routes}) {
         if (feature && this.props.feature !== feature) {
             this.setBounds(feature)
+        }
+
+        if (this.props.routes.find(isForecastRoute) && !routes.find(isForecastRoute)) {
+            this.setActiveForecastRegion()
+        }
+    }
+    componentDidUpdate() {
+        if (this.props.routes.find(isForecastRoute)) {
+            const {name} = this.props.params
+
+            this.setActiveForecastRegion(name)
         }
     }
     renderMarker = ({id, ...marker}) => {
@@ -238,8 +257,8 @@ class Container extends Component {
         return <Marker key={id} {...marker} onClick={this.handleMountainInformationNetworkMarkerClick} />
     }
     render() {
+        const {map} = this
         const {
-            map,
             mountainInformationNetworkMarkers = EMPTY,
             bounds,
         } = this.state

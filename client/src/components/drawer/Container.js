@@ -89,8 +89,11 @@ function getPath(root, node) {
 }
 
 function getStyle({ x }) {
+    const transform = `translateX(${x * 100}%)`
+
     return {
-        transform: `translateX(${x * 100}%)`
+        transform,
+        '-webkit-transform': transform,
     }
 }
 

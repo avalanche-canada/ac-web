@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import Application, {Content} from 'components/application'
+import Application from 'components/application'
 import {AvalancheCanada} from 'containers/Navbar'
 import Highlight from 'containers/Highlight'
 import Footer from 'components/footer'
@@ -16,10 +16,8 @@ export default function Root({navbar, content, footer, children, route}) {
         <Application>
             {navbar || <AvalancheCanada />}
             <Highlight />
-            <Content>
-                {children || content}
-                {footer !== null && <Footer />}
-            </Content>
+            {children || content}
+            {footer !== null && <Footer />}
         </Application>
     )
 }

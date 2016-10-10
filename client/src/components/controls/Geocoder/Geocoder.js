@@ -14,7 +14,7 @@ function K() {}
 const BASEURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 const PARAMS = {
     country: ['ca', 'us', 'au', 'jp'].join(','),
-    types: ['locality', 'place'].join(','),
+    types: ['country', 'region', 'locality', 'place'].join(','),
     autocomplete: true,
     access_token: accessToken,
 }

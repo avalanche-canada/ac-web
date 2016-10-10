@@ -5,13 +5,10 @@ import bbox from 'turf-bbox'
 
 const {LngLatBounds} = mapbox
 
-export const computeFitBoundsFactory = createSelector(
+export const computeOffset = createSelector(
     getPrimary,
     getSecondary,
-    (primary, secondary) => (feature, assumePrimaryOpen, assumeSecondaryOpen) => {
-        if (!feature) {
-            return null
-        }
+    (primary, secondary) => (assumePrimaryOpen, assumeSecondaryOpen) => {
         let x = 0
 
         if (assumePrimaryOpen || primary.open) {
@@ -21,10 +18,22 @@ export const computeFitBoundsFactory = createSelector(
             x += secondary.width / 2
         }
 
+        return [x, 0]
+    }
+
+)
+
+export const computeFitBounds = createSelector(
+    computeOffset,
+    computeOffset => (feature, assumePrimaryOpen, assumeSecondaryOpen) => {
+        if (!feature) {
+            return null
+        }
+
         return {
             bbox: LngLatBounds.convert(bbox(feature)),
             options: {
-                offset: [x, 0],
+                offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 50,
             }
         }

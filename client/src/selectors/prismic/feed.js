@@ -8,16 +8,40 @@ import computeTagsOptions from './computeTagsOptions'
 
 const {keys} = Object
 
+const NEWS = 'news'
+const BLOG = 'blog'
+const EVENT = 'event'
+
+const timelineOptions = new Map([
+    ['past', 'Past events'],
+    ['upcoming', 'Upcoming events'],
+])
+
+const now = new Date()
+function isFeatured(post) {
+    return post.featured
+}
+
 const PREDICATES = new Map([
-    ['year', ({year}) => post => post.year == year],
+    ['year', ({year}) => post => post.year == year], // Work with strings and numbers
     ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
     ['category', ({category}) => post => post.category == category],
     ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.includes(tag)))],
+    ['timeline', ({timeline}) => ({endDate}) => timeline === 'past' ? endDate < now : endDate >= now],
 ])
 
-function sorter(post) {
-    return post.date
+function asc(a, b) {
+    return a.date - b.date
 }
+function desc(a, b) {
+    return b.date - a.date
+}
+
+const SORTERS = new Map([
+    [NEWS, desc],
+    [BLOG, desc],
+    [EVENT, asc],
+])
 
 function getPredicates(state, {location}) {
     const {query} = location
@@ -35,7 +59,19 @@ function getFeed(state, {type}) {
 
 const getTransformedFeed = createSelector(
     getFeed,
-    feed => feed.map(transform).toList().sortBy(sorter).reverse()
+    getType,
+    (feed, type) => {
+        const sorted = feed.map(transform).toList().sort(SORTERS.get(type))
+
+        if (sorted.isEmpty()) {
+            return sorted
+        }
+
+        const featured = sorted.find(isFeatured)
+        const index = sorted.indexOf(featured)
+
+        return sorted.remove(index).unshift(featured)
+    }
 )
 
 const getFeedOptions = createSelector(
@@ -43,22 +79,21 @@ const getFeedOptions = createSelector(
     getType,
     (feed, type) => {
         switch (type) {
-            case 'news':
+            case NEWS:
                 return {
                     monthOptions,
                     yearOptions: computeYearOptions(feed),
                     tagOptions: computeTagsOptions(feed),
                 }
-            case 'blog':
+            case BLOG:
                 return {
                     monthOptions,
                     yearOptions: computeYearOptions(feed),
                     categoryOptions: computeCategoryOptions(feed),
                 }
-            case 'event':
+            case EVENT:
                 return {
-                    monthOptions,
-                    yearOptions: computeYearOptions(feed),
+                    timelineOptions,
                     tagOptions: computeTagsOptions(feed),
                 }
             default:

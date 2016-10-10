@@ -1,6 +1,6 @@
 import Axios, {defaults} from 'axios'
 
-const resourcePrefix = 'http://res.cloudinary.com/avalanche-ca/image/upload'
+const resourcePrefix = '//res.cloudinary.com/avalanche-ca/image/upload'
 const api = Axios.create({
     baseURL: '/vendor/cloudinary/resources/image/tags/'
 })

@@ -5,8 +5,11 @@ import SIDE, {LEFT, RIGHT} from './constants/sides'
 import {Close} from 'components/button'
 
 function getDrawerStyle(position, width) {
+    const transform = `translateX(${position * 100}%)`
+
     return {
-        transform: `translateX(${position * 100}%)`,
+        transform,
+        '-webkit-transform': transform,
         width,
     }
 }

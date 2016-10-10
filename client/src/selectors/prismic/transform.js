@@ -27,11 +27,11 @@ const transformers = new Map([
         }
         const {type} = document
         const post = factory.getType(document)
-        const {shortlede, body, featuredImage, uid} = post
+        const {shortlede, description, featuredImage, uid} = post
 
         return {
             headline: shortlede,
-            content: body,
+            content: description,
             preview: featuredImage,
             link: `${type}s/${uid}`,
             ...post

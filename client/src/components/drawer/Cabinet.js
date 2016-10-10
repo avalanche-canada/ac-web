@@ -36,8 +36,11 @@ function getDefaultStyles(drawers) {
 }
 
 function getContainerStyle({x}) {
+    const transform = `translateX(${x * 100}%)`
+
     return {
-        transform: `translateX(${x * 100}%)`
+        transform,
+        '-webkit-transform': transform,
     }
 }
 
@@ -57,7 +60,7 @@ function Cabinet({drawers = []}) {
     const motion = {
         defaultStyles,
         styles,
-        willLeave, 
+        willLeave,
         willEnter,
     }
 

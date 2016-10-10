@@ -6,6 +6,9 @@ import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
 import mapStateToProps from 'selectors/prismic/splash'
 import {Entry, EntrySet} from 'components/page/feed'
+import {Predicates} from 'prismic'
+
+const {assign} = Object
 
 function FeedSplash({
     header,
@@ -36,12 +39,20 @@ export default compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {type, loadForType, setDocuments, documents} = this.props
+            const {type, tags = [], loadForType, setDocuments, documents} = this.props
             const options = {
                 pageSize: 5,
                 orderings: [
                     `my.${type}.date desc`,
                 ],
+            }
+
+            if (tags.length > 0) {
+                assign(options, {
+                    predicates: [
+                        Predicates.at('document.tags', tags)
+                    ],
+                })
             }
 
             loadForType(type, options).then(({results}) => {

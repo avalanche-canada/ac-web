@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
+import moment from 'moment'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
 
@@ -9,8 +10,8 @@ export const dateRanges = {
     name: 'dates',
     title: 'Dates',
     property({dateStart, dateEnd}) {
-        const start = new Date(dateStart)
-        const end = new Date(dateEnd)
+        const start = moment(dateStart).toDate()
+        const end = moment(dateEnd).toDate()
 
         if (dateStart === dateEnd) {
             return <DateElement value={start} />
@@ -85,6 +86,7 @@ export const provider = {
     name: 'provider',
     title: 'Provider Name',
     property: 'name',
+    sorting: NONE,
 }
 
 export const email = {

@@ -24,10 +24,6 @@ module.exports = {
 			exclude: /node_modules/,
 			loader: 'babel'
 		}, {
-            test: /\.js$/,
-            include: path.resolve(__dirname, 'node_modules/mapbox-gl/js/render/painter/use_program.js'),
-            loader: 'transform/cacheable?brfs'
-        }, {
             test: /\.css/,
             exclude: /node_modules/,
             loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss')
@@ -48,11 +44,6 @@ module.exports = {
             test: /\.json$/,
             loader: 'json'
         }],
-        postLoaders: [{
-            include: /node_modules\/mapbox-gl/,
-            loader: 'transform',
-            query: 'brfs'
-        }]
 	},
     resolve: {
         root: [

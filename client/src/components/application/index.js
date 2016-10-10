@@ -1,2 +1,7 @@
-export default from './Application'
-export Content from './Content'
+import {Element} from 'compose'
+import styles from './Application.css'
+
+export default Element({
+    name: 'Application',
+    styles,
+})

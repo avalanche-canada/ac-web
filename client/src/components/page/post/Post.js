@@ -11,9 +11,12 @@ Post.propTypes = {
         headline: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date).isRequired,
+        startDate: PropTypes.instanceOf(Date),
+        endDate: PropTypes.instanceOf(Date),
         media: PropTypes.string,
         source: PropTypes.string,
         location: PropTypes.string,
+        hostedBy: PropTypes.string,
     }).isRequired,
     type: PropTypes.string.isRequired,
     message: PropTypes.string,
@@ -27,10 +30,14 @@ export default function Post({post = {}, message, type}) {
         headline,
         content,
         date,
+        startDate,
+        endDate,
         media,
         source,
         location,
+        hostedBy,
     } = post
+    const hasDateRange = startDate && endDate
 
     return (
         <Page>
@@ -40,7 +47,12 @@ export default function Post({post = {}, message, type}) {
                 <Metadata>
                     {date &&
                         <Entry term='Date'>
-                            <DateElement value={date} />
+                            {hasDateRange ?
+                                <span>
+                                    <DateElement value={startDate} /> <em>to</em> <DateElement value={endDate} />
+                                </span> :
+                                <DateElement value={date} />
+                            }
                         </Entry>
                     }
                     {typeof location === 'string' &&
@@ -53,20 +65,25 @@ export default function Post({post = {}, message, type}) {
                             {source}
                         </Entry>
                     }
+                    {hostedBy &&
+                        <Entry term='Hosted by'>
+                            {hostedBy}
+                        </Entry>
+                    }
                 </Metadata>
-                    {headline &&
-                        <Headline>
-                            <InnerHTML>
-                                {headline}
-                            </InnerHTML>
-                        </Headline>
-                    }
-                    {message ?
-                        <Muted>{message}</Muted> :
+                {headline &&
+                    <Headline>
                         <InnerHTML>
-                            {content}
+                            {headline}
                         </InnerHTML>
-                    }
+                    </Headline>
+                }
+                {message ?
+                    <Muted>{message}</Muted> :
+                    <InnerHTML>
+                        {content}
+                    </InnerHTML>
+                }
                 </Main>
                 <Aside>
                     <Sidebar type={type} uid={uid} />

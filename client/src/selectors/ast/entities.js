@@ -96,6 +96,7 @@ const EMPTY_ARRAY = []
 const Sorters = new Map([
     ['dates', course => course.dateStart],
     ['distance', course => course.distance],
+    ['provider', provider => provider.name.toLowerCase()],
 ])
 function getSorting(state, {location}) {
     return location.query.sorting || EMPTY_ARRAY
@@ -104,11 +105,6 @@ function getSorting(state, {location}) {
 export function table(schema, columns) {
     const key = schema.getKey()
 
-    const getIds = createSelector(
-        (state, {params}) => getResultsSet(state, schema, params),
-        result => result.ids
-    )
-
     const getNormalizedEntities = createSelector(
         state => getEntitiesForSchema(state, schema),
         entities => entities.map(entity => normalize(entity.toJSON()))
@@ -116,12 +112,7 @@ export function table(schema, columns) {
 
     const getEntitiesList = createSelector(
         getNormalizedEntities,
-        getIds,
-        (entities, ids) => {
-            ids = new List(ids)
-
-            return ids.map(id => entities.get(String(id)))
-        }
+        entities => entities.toList()
     )
 
     const getTags = createSelector(
@@ -228,7 +219,11 @@ export function table(schema, columns) {
             if (result.isLoaded && entities.size === 0) {
                 caption = noEntitiesCaptions.get(schema)
             } else if (result.isFetching) {
-                caption = `Loading ${key}...`
+                if (entities.size > 0) {
+                    caption = `Loading more ${key}...`
+                } else {
+                    caption = `Loading ${key}...`
+                }
             }
 
             return {

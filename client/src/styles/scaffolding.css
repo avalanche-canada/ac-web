@@ -4,6 +4,12 @@ body {
     font-family: Montserrat, Arial, sans-serif;
     font-size: 15px;
     color: var(--gray-darker);
+    padding-top: 75px;
+    box-sizing: border-box;
+}
+
+:global(#app) {
+    height: calc(100vh - 75px);
 }
 
 h1 {

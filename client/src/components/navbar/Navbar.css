@@ -96,7 +96,7 @@
 }
 
 .CoreBrand {
-    width: 200px;
+    flex: 2 0;
     height: var(--navbar-height);
     padding: 0 15px;
     min-width: 100px;
