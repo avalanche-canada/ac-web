@@ -1,0 +1,180 @@
+{
+    "classNames": "root",
+    "requiredInfo": {
+        "classNames": "required-info step",
+        "name": {
+            "ui:placeholder": "e.g. Upper Raft River"
+        },
+        "location": {
+            "ui:field": "GeoPosition",
+            "longitude": {
+                "ui:placeholder": "e.g. -188.883"
+            },
+            "latitude": {
+                "ui:placeholder": "e.g. 51.522"
+            }
+        }
+    },
+    "uploads": {
+        "classNames": "uploads step"
+    },
+    "reports": {
+        "classNames": "reports step",
+        "quickReport": {
+            "classNames": "quick-report observation",
+            "ridingConditions": {
+                "ui:order": [
+                    "ridingQuality",
+                    "snowConditions",
+                    "rideType",
+                    "stayedAway",
+                    "weather"
+                ],
+                "snowConditions": {
+                    "ui:order": [
+                        "Crusty",
+                        "Deep powder",
+                        "Heavy",
+                        "Hard",
+                        "Powder",
+                        "Wet",
+                        "Wind affected"
+                    ]
+                },
+                "rideType": {
+                    "ui:order": [
+                        "Mellow slopes",
+                        "Convex slopes",
+                        "Cut-blocks",
+                        "Dense trees",
+                        "Steep slopes",
+                        "Sunny slopes",
+                        "Open trees",
+                        "Alpine slopes"
+                    ]
+                },
+                "weather": {
+                    "ui:order": [
+                        "Stormy",
+                        "Sunny",
+                        "Warm",
+                        "Foggy",
+                        "Windy",
+                        "Cold",
+                        "Cloudy",
+                        "Wet"
+                    ]
+                },
+                "stayedAway": {
+                    "ui:order": [
+                        "Steep slopes",
+                        "Sunny slopes",
+                        "Open trees",
+                        "Convex slopes",
+                        "Cut-blocks",
+                        "Alpine slopes"
+                    ]
+                },
+                "ridingQuality": {
+                    "ui:widget": "radio"
+                }
+            },
+            "comment": {
+                "ui:widget": "textarea"
+            }
+        },
+        "avalancheReport": {
+            "classNames": "avalanche-report observation",
+            "avalancheObsComment": {
+                "ui:widget": "textarea"
+            },
+            "avalancheObservation": {
+                "ui:widget": "radio"
+            },
+            "avalancheNumber": {
+                "ui:widget": "radio"
+            },
+            "avalancheSize": {
+                "ui:widget": "radio"
+            },
+            "triggerType": {
+                "ui:widget": "radio"
+            },
+            "triggerSubtype": {
+                "ui:widget": "radio"
+            },
+            "windExposure": {
+                "ui:widget": "radio"
+            },
+            "vegetationCover": {
+                "ui:widget": "radio"
+            }
+        },
+        "snowpackReport": {
+            "classNames": "snowpack-report observation",
+            "snowpackCrackingObserved": {
+                "ui:widget": "radio"
+            },
+            "snowpackWhumpfingObserved": {
+                "ui:widget": "radio"
+            },
+            "snowpackObsType": {
+                "ui:widget": "radio"
+            },
+            "snowpackTestInitiation": {
+                "ui:widget": "radio"
+            },
+            "snowpackTestFracture": {
+                "ui:widget": "radio"
+            },
+            "snowpackTestFailureLayerCrystalType": {
+                "ui:widget": "radio"
+            },
+            "snowpackObsComment": {
+                "ui:widget": "textarea"
+            }
+        },
+        "weatherReport": {
+            "classNames": "weather-report observation",
+            "skyCondition": {
+                "ui:widget": "radio"
+            },
+            "precipitationType": {
+                "ui:widget": "radio"
+            },
+            "rainfallRate": {
+                "ui:widget": "radio"
+            },
+            "temperatureTrend": {
+                "ui:widget": "radio"
+            },
+            "windSpeed": {
+                "ui:widget": "radio"
+            },
+            "windDirection": {
+                "ui:widget": "radio"
+            },
+            "blowingSnow": {
+                "ui:widget": "radio"
+            },
+            "weatherObsComment": {
+                "ui:widget": "textarea"
+            }
+        },
+        "incidentReport": {
+            "classNames": "incident-report observation",
+            "incidentDescription": {
+                "ui:widget": "textarea"
+            },
+            "numberInvolved": {
+                "ui:widget": "hidden"
+            },
+            "snowDepthTriggerPoint": {
+                "ui:widget": "radio"
+            },
+            "terrainShapeTriggerPoint": {
+                "ui:widget": "radio"
+            }
+        }
+    }
+}

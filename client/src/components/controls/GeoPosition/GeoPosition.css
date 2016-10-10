@@ -1,0 +1,26 @@
+.Container {
+    position: relative;
+    min-height: 250px;
+}
+
+.Controls {
+    display: flex;
+    position: inherit;
+    width: 100%;
+    padding: 0.5em;
+    z-index: 1;
+    opacity: 0.85;
+    box-sizing: border-box;
+    pointer-events: none;
+
+    & > * {
+        flex: 1 0;
+        margin: 0.25em;
+        pointer-events: visible;
+    }
+}
+
+.Marker {
+    cursor: move;
+
+}

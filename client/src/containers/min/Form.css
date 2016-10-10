@@ -1,0 +1,109 @@
+@import "../../styles/colors.css";
+
+@custom-media --two-columns (width > 900px);
+@custom-media --one-columns-two-rows (width > 700px) and (width <= 900px);
+
+/*
+--quick-obs
+--avalanche-obs
+--snowpack-obs
+--weather-obs
+--incident-obs
+*/
+
+.Layout {
+    & fieldset {
+        border: none;
+        margin: 1em;
+        padding: 0.5em;
+    }
+    & p {
+        margin: 0 0 1em 0;
+    }
+
+    & :global(.root) > fieldset {
+        & legend {
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        & > div > fieldset {
+            & > legend {
+                font-size: 1.25em;
+            }
+        }
+
+        & :global(.step) {
+            & > fieldset {
+                border: 4px solid var(--gray-lightest);
+                & > legend {
+                    line-height: 2em;
+                    padding: 0 0.5em;
+                }
+                & fieldset {
+                    margin: 1em 0;
+                    padding: 0;
+                }
+            }
+        }
+
+        & :global(.required-info) {
+            & > fieldset {
+                border-color: var(--weather-obs);
+            }
+            @media (--two-columns) {
+                width: 40%;
+                float: left;
+            }
+            @media (--one-columns-two-rows) {
+                width: 50%;
+                float: left;
+            }
+        }
+        & :global(.uploads) {
+            @media (--two-columns) {
+                width: 40%;
+                float: left;
+                clear: left;
+            }
+            @media (--one-columns-two-rows) {
+                width: 50%;
+                float: left;
+                clear: none;
+            }
+        }
+
+        & :global(.reports) {
+            @media (--two-columns) {
+                clear: none;
+            }
+            @media (--one-columns-two-rows) {
+                clear: both;
+            }
+        }
+
+        & :global(.observation) {
+            padding: 1em;
+
+            & > fieldset > legend {
+                display: none;
+            }
+        }
+
+        & :global(.quick-report) {
+
+        }
+        & :global(.avalanche-report) {
+
+        }
+        & :global(.snowpack-report) {
+
+        }
+        & :global(.weather-report) {
+
+        }
+        & :global(.incident-report) {
+
+        }
+    }
+}
