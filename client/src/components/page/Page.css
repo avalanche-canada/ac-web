@@ -137,10 +137,17 @@
 
 }
 
-.NotFound {
+.Background {
     height: 100%;
     color: var(--black);
     text-align: center;
+
+    & main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
 
     &:after {
         content: "";
@@ -153,15 +160,29 @@
         z-index: -1;
     }
 
-    & main {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-    }
-
     & h1 {
         font-size: 2.5em;
+    }
+
+    & br {
+        line-height: 1.5;
+    }
+}
+
+.NotFound {
+    composes: Background;
+
+    &:after {
+        background-image: url("//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
+    }
+}
+
+.WorkInProgress {
+    composes: Background;
+
+    &:after {
+        background-image: url("//res.cloudinary.com/avalanche-ca/image/upload/v1476221240/03_14_15_AvCan_0101_tnszks.jpg");
+        opacity: 0.35;
     }
 }
 

@@ -3,7 +3,7 @@ import {compose, lifecycle, branch, renderComponent, setPropTypes, setDisplayNam
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForUid} from 'actions/prismic'
-import {Loading} from 'components/page'
+import {Loading, WorkInProgress} from 'components/page'
 import factory from 'prismic/factory'
 import {getDocumentForUid} from 'reducers/prismic'
 import {classify} from 'utils/string'
@@ -112,3 +112,13 @@ export const FallbackPage = compose(
     })),
     withPrismic,
 )(Page)
+
+export function wip(uid, name, oldUrl, title, subtitle) {
+    return defaultProps({
+        uid,
+        name,
+        oldUrl,
+        title,
+        subtitle,
+    })(WorkInProgress)
+}

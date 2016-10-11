@@ -1,4 +1,4 @@
-import {staticPage, generic} from 'prismic/components/page'
+import {staticPage, generic, wip} from 'prismic/components/page'
 
 // Map - kind of the home page
 export Map from './Map'
@@ -12,9 +12,9 @@ export HotZoneReport from './HotZoneReport'
 
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
-export IncidentsTable from './IncidentsTable'
-export IncidentDetails from './IncidentDetails'
-export TripPlanner from './TripPlanner'
+// export IncidentsTable from './IncidentsTable'
+// export IncidentDetails from './IncidentDetails'
+// export TripPlanner from './TripPlanner'
 
 // Training
 export {Providers as ProvidersTable, Courses as CoursesTable} from './ast/tables'
@@ -47,4 +47,12 @@ export const MembershipOverview = staticPage('membership-overview', 'Membership 
 
 export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
 export const TermsOfUse = generic('terms-of-use', 'Terms of use')
-export const Auction = generic('auction', 'Auction')
+
+// WIP Pages
+const WIPPageTitle = 'We are currently working on that page while waiting for the snow to come...'
+const WIPPageSubtitle = 'For now, you can visit the page on our old web site.'
+
+export const TripPlanner = wip('trip-planner', 'Trip Planner', 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning', WIPPageTitle, WIPPageSubtitle)
+export const Incidents = wip('incidents', 'Historic Incidents', 'http://old.avalanche.ca/cac/library/incident-report-database/view', WIPPageTitle, WIPPageSubtitle)
+export const Auction = wip('auction', 'Web Auction', 'http://old.avalanche.ca/cac/auctions', WIPPageTitle, WIPPageSubtitle)
+export const Tutoriel = wip('tutoriel', 'Tutorial / Tutoriel', 'http://old.avalanche.ca/fr/cac/training/online-course', `${WIPPageTitle}<br />Nous travaillons présentement sur cette page en regardant les flocons tombés...`, `${WIPPageSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`)
