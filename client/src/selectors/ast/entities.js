@@ -97,6 +97,7 @@ const Sorters = new Map([
     ['dates', course => course.dateStart],
     ['distance', course => course.distance],
     ['provider', provider => provider.name.toLowerCase()],
+    ['courseprovider', course => course.provider.name.toLowerCase()],
 ])
 function getSorting(state, {location}) {
     return location.query.sorting || EMPTY_ARRAY

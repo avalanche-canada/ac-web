@@ -44,8 +44,9 @@ export const description = {
     },
 }
 export const courseProvider = {
-    name: 'provider',
+    name: 'courseprovider',
     title: 'Provider',
+    sorting: NONE,
     property({provider}) {
         return (
             <span>
