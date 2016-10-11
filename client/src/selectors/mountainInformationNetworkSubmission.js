@@ -49,7 +49,7 @@ export default createSelector(
         }
 
         if (submission) {
-            const {title, user, datetime, obtype, obs} = submission.toJSON()
+            const {title, user, datetime, obtype, obs, uploads} = submission.toJSON()
 
             return {
                 ...props,
@@ -61,6 +61,7 @@ export default createSelector(
                 props: {
                     observations: obs,
                     active: obtype,
+                    uploads: uploads,
                 },
             }
         } else {
