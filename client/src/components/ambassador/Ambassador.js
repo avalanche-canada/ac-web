@@ -22,11 +22,9 @@ Ambassador.propTypes = {
 function Ambassador({fullName, socials = [], banner, avatar, children}) {
     return (
         <section styleName='Ambassador'>
-            <img styleName='Banner' src={banner.src} />
-            <Br />
             <div styleName='Biography'>
-                <div>
-                    <img styleName='Avatar' src={avatar.src} />
+                <div styleName='Avatar'>
+                    <img src={avatar.src} />
                     <SocialSet>
                         {socials.map((social, index) => {
                             const title = `Visit ${fullName} on ${getProvider(social)}`
@@ -37,13 +35,17 @@ function Ambassador({fullName, socials = [], banner, avatar, children}) {
                         })}
                     </SocialSet>
                 </div>
-                <div>
-                    <a href={`#${kebabCase(fullName)}`}>
-                        <h2>{fullName}</h2>
-                    </a>
+                <div styleName='Content'>
+                    <h2>
+                        <a href={`#${kebabCase(fullName)}`}>
+                            {fullName}
+                        </a>
+                    </h2>
                     {children}
                 </div>
             </div>
+            <img styleName='Banner' src={banner.src} />
+            <Br />
         </section>
     )
 }
