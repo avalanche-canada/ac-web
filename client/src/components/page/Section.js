@@ -21,7 +21,9 @@ function Section({title, headline, children, hash, level = 1}) {
     return (
         <section styleName='Section'>
             <header>
-                {createElement(header, null, title)}
+                {createElement(header, null,
+                    hash ? <a href={`#${hash}`}>{title}</a> : title
+                )}
                 {headline && <Headline>{headline}</Headline>}
             </header>
             {children}
