@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
+import {compose, withProps} from 'recompose'
+import {withHash} from 'compose'
 import kebabCase from 'lodash/kebabCase'
 import {SocialSet, SocialItem, getProvider} from 'components/social'
 import {Br} from 'components/misc'
@@ -19,7 +21,7 @@ Ambassador.propTypes = {
     banner: ImagePropType,
 }
 
-function Ambassador({fullName, socials = [], banner, avatar, children}) {
+function Ambassador({fullName, socials = [], banner, avatar, children, hash}) {
     return (
         <section styleName='Ambassador'>
             <div styleName='Biography'>
@@ -37,7 +39,7 @@ function Ambassador({fullName, socials = [], banner, avatar, children}) {
                 </div>
                 <div styleName='Content'>
                     <h2>
-                        <a href={`#${kebabCase(fullName)}`}>
+                        <a href={`#${hash}`}>
                             {fullName}
                         </a>
                     </h2>
@@ -50,4 +52,10 @@ function Ambassador({fullName, socials = [], banner, avatar, children}) {
     )
 }
 
-export default CSSModules(Ambassador, styles)
+export default compose(
+    withProps(({fullName}) => ({
+        hash: kebabCase(fullName)
+    })),
+    withHash,
+    CSSModules(styles),
+)(Ambassador)

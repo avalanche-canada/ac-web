@@ -1,5 +1,6 @@
 import React, {PropTypes, createElement} from 'react'
 import {compose, onlyUpdateForKeys, lifecycle} from 'recompose'
+import {withHash} from 'compose'
 import CSSModules from 'react-css-modules'
 import Headline from './Headline'
 import styles from './Page.css'
@@ -32,6 +33,7 @@ function Section({title, headline, children, hash, level = 1}) {
 }
 
 export default compose(
+    withHash,
     onlyUpdateForKeys(['title', 'headline', 'children', 'hash']),
     CSSModules(styles),
 )(Section)
