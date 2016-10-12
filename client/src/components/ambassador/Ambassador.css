@@ -34,18 +34,24 @@
 .Avatar {
     /* TODO: Have nicier image and control size in code */
     text-align: center;
+    order: 2;
+
     @media (--side-by-side) {
+        order: 1;
         flex: 1 0;
         max-width: 300px;
     }
 }
 
 .Content {
+    order: 1;
+
     & > h2 {
         text-align: center;
     }
 
     @media (--side-by-side) {
         flex: 2 0;
+        order: 2;
     }
 }
