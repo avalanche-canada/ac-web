@@ -28,10 +28,10 @@ export const dateRanges = {
     sorting: NONE,
 }
 
-export const course = {
-    name: 'name',
-    title: 'Course',
-    property: 'name',
+export const level = {
+    name: 'level',
+    title: 'Level',
+    property: 'level',
 }
 
 export const description = {

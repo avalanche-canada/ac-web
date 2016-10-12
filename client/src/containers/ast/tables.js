@@ -103,17 +103,17 @@ function Connect(name, mapStateToProps, load) {
         withRouter,
         onlyUpdateForKeys(['rows', 'params']),
         withState('params','setParams', props => {
-            const {course, tags} = props.location.query
+            const {level, tags} = props.location.query
             // TODO: Add other pagination params here!!! But, will probably comes from the router!
             const params = {
                 page_size: 15,
-                ordering: 'date_start',
             }
 
-            // TODO: Rename course to level. Level makes more sense than course.
-            if (course) {
+            // We have to consider query params when we do the initial load.
+
+            if (level) {
                 assign(params, {
-                    level: course
+                    level
                 })
             }
 
@@ -143,11 +143,12 @@ function Connect(name, mapStateToProps, load) {
                     setTimeout(() => {
                         // Load all entities (courses or providers)
                         const newParams = {
-                            ordering: 'date_start',
                             page_size: 500,
                         }
-                        setParams(newParams)
-                        load(newParams)
+
+                        load(newParams).then(() => {
+                            setParams(newParams)
+                        })
                     }, 100)
                 })
             },

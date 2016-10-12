@@ -22,15 +22,15 @@ class Form extends Component {
             legend,
             location: {query, state},
             tagOptions,
-            courseOptions,
-            onCourseChange,
+            levelOptions,
+            onLevelChange,
             onDateRangeChange,
             onTagsChange,
             onPlaceChange,
             withDateRange,
         } = this.props
         let {
-            course = '',
+            level = '',
             tags = [],
             from,
             to
@@ -42,13 +42,13 @@ class Form extends Component {
             <Base style={STYLE}>
                 <Legend>{legend}</Legend>
                 <ControlSet horizontal>
-                    {courseOptions && (
+                    {levelOptions && (
                         <Control>
                             <DropdownFromOptions
-                                onChange={onCourseChange}
-                                value={course.toUpperCase().trim()}
-                                placeholder='Course'
-                                options={courseOptions} />
+                                onChange={onLevelChange}
+                                value={level.toUpperCase().trim()}
+                                placeholder='Level'
+                                options={levelOptions} />
                         </Control>
                     )}
                     {withDateRange && (
@@ -88,9 +88,9 @@ const Container = compose(
         }
     }),
     withHandlers({
-        onCourseChange: props => course => {
+        onLevelChange: props => level => {
             replaceQuery({
-                course: course || undefined
+                level: level || undefined
             }, props)
         },
         onTagsChange: props => tags => {

@@ -50,10 +50,10 @@ const noEntitiesCaptions = new Map([
 
 // Filtering
 const Filters = new Map([
-    ['course', ({course}) => {
-        course = course.toUpperCase().trim()
+    ['level', ({level}) => {
+        level = level.toUpperCase().trim()
 
-        return ({level}) => level === course
+        return props => props.level === level
     }],
     ['tags', ({tags}) => {
         tags = isArray(tags) ? tags : [tags]
@@ -106,6 +106,10 @@ function getSorting(state, {location}) {
 export function table(schema, columns) {
     const key = schema.getKey()
 
+    function getEntitiesResultsSet(state, {params}) {
+        return getResultsSet(state, schema, params)
+    }
+
     const getNormalizedEntities = createSelector(
         state => getEntitiesForSchema(state, schema),
         entities => entities.map(entity => normalize(entity.toJSON()))
@@ -113,12 +117,21 @@ export function table(schema, columns) {
 
     const getEntitiesList = createSelector(
         getNormalizedEntities,
-        entities => entities.toList()
+        getEntitiesResultsSet,
+        (entities, {ids}) => {
+            ids = new List(Array.from(ids))
+
+            return ids.map(id => entities.get(String(id)))
+        }
     )
+
+    function tagReducer(tags, entity) {
+        return entity.tags.reduce((tags, tag) => tags.add(tag), tags)
+    }
 
     const getTags = createSelector(
         getNormalizedEntities,
-        entities => new Set(entities.reduce((tags, entity) => tags.concat(entity.tags), []))
+        entities => entities.reduce(tagReducer, new Set())
     )
 
     const getDistanceHelper = createSelector(
@@ -213,18 +226,16 @@ export function table(schema, columns) {
         getSortedEntities,
         getColumns,
         getTags,
-        (state, {params}) => getResultsSet(state, schema, params) || RESULT,
+        getEntitiesResultsSet,
         function mapTableStateToProps(entities, columns, tags, result) {
             let caption = null
 
             if (result.isLoaded && entities.size === 0) {
                 caption = noEntitiesCaptions.get(schema)
             } else if (result.isFetching) {
-                if (entities.size > 0) {
-                    caption = `Loading more ${key}...`
-                } else {
-                    caption = `Loading ${key}...`
-                }
+                caption = `Loading ${key}...`
+            } else if (entities.size < 25) {
+                caption = `Loading more ${key}...`
             }
 
             return {
