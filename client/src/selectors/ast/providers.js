@@ -14,9 +14,7 @@ export const table = createSelector(
         Provider,
         List.of(
             Columns.provider,
-            Columns.email,
-            Columns.phone,
-            Columns.website,
+            Columns.contacts,
             Columns.distance,
             Columns.location,
             Columns.tags,

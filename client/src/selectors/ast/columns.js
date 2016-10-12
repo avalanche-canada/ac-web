@@ -3,6 +3,7 @@ import {Link} from 'react-router'
 import moment from 'moment'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
+import {List, Term, Definition} from 'components/description'
 import Url from 'url'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
@@ -91,40 +92,41 @@ export const provider = {
     sorting: NONE,
 }
 
-export const email = {
-    name: 'email',
-    title: 'Email',
-    property({email}) {
-        return (
-            <Mailto email={email} />
-        )
-    },
-}
-
-export const phone = {
-    name: 'phone',
-    title: 'Phone',
-    property({phone}) {
-        return (
-            <Phone phone={phone} />
-        )
-    }
-}
-
 const PathShortenerRegex = /\//
-
-export const website = {
-    name: 'website',
-    title: 'Website',
-    property({website}) {
+const TERM_STYLE = {
+    flex: '0 1 35%'
+}
+export const contacts = {
+    name: 'contacts',
+    title: 'Contacts',
+    property({email, phone, website}) {
         let {hostname, path} = Url.parse(website)
 
         path = typeof path === 'string' && path.replace(PathShortenerRegex, '') || null
 
         return (
-            <a href={website} title={website} target='_blank'>
-                {path ? `${hostname}/…` : hostname}
-            </a>
+            <List>
+                {email && <Term style={TERM_STYLE}>Email</Term>}
+                {email &&
+                    <Definition>
+                        <Mailto email={email} />
+                    </Definition>
+                }
+                {phone && <Term style={TERM_STYLE}>Phone</Term>}
+                {phone &&
+                    <Definition>
+                        <Phone phone={phone} />
+                    </Definition>
+                }
+                {website && <Term style={TERM_STYLE}>Website</Term>}
+                {website &&
+                    <Definition>
+                        <a href={website} title={website} target='_blank'>
+                            {path ? `${hostname}/…` : hostname}
+                        </a>
+                    </Definition>
+                }
+            </List>
         )
     }
 }
