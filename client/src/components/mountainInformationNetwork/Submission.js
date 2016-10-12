@@ -31,7 +31,7 @@ function reducer(observations, {obtype, ob}) {
     return observations.set(obtype, ob)
 }
 
-function Submission({observations = [], active = QUICK}) {
+function Submission({uploads, observations = [], active = QUICK}) {
     const observationsByType = observations.reduce(reducer, new Map())
     const activeIndex = TYPES.indexOf(active)
 

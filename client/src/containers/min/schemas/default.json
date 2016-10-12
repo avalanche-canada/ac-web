@@ -1,0 +1,36 @@
+{
+    "reports": {
+        "quickReport": {
+            "ridingConditions": {
+                "ridingQuality": ""
+            }
+        },
+        "avalancheReport": {
+            "avalancheObservation": "",
+            "avalancheNumber": "",
+            "avalancheSize": "",
+            "triggerType": "",
+            "triggerSubtype": "",
+            "windExposure": "",
+            "vegetationCover": ""
+        },
+        "snowpackReport": {
+            "snowpackObsType": "",
+            "snowpackTestInitiation": "",
+            "snowpackTestFracture": ""
+        },
+        "weatherReport": {
+            "skyCondition": "",
+            "precipitationType": "",
+            "rainfallRate": "",
+            "temperatureTrend": "",
+            "windSpeed": "",
+            "windDirection": "",
+            "blowingSnow": ""
+        },
+        "incidentReport": {
+            "terrainShapeTriggerPoint": "",
+            "snowDepthTriggerPoint": ""
+        }
+    }
+}

@@ -3,6 +3,8 @@ import {Link} from 'react-router'
 import moment from 'moment'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
+import {List, Term, Definition} from 'components/description'
+import Url from 'url'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 
@@ -26,10 +28,10 @@ export const dateRanges = {
     sorting: NONE,
 }
 
-export const course = {
-    name: 'name',
-    title: 'Course',
-    property: 'name',
+export const level = {
+    name: 'level',
+    title: 'Level',
+    property: 'level',
 }
 
 export const description = {
@@ -44,8 +46,9 @@ export const description = {
     },
 }
 export const courseProvider = {
-    name: 'provider',
+    name: 'courseprovider',
     title: 'Provider',
+    sorting: NONE,
     property({provider}) {
         return (
             <span>
@@ -89,37 +92,41 @@ export const provider = {
     sorting: NONE,
 }
 
-export const email = {
-    name: 'email',
-    title: 'Email',
-    property({email}) {
-        return (
-            <Mailto email={email} />
-        )
-    },
+const PathShortenerRegex = /\//
+const TERM_STYLE = {
+    flex: '0 1 35%'
 }
+export const contacts = {
+    name: 'contacts',
+    title: 'Contacts',
+    property({email, phone, website}) {
+        let {hostname, path} = Url.parse(website)
 
-export const phone = {
-    name: 'phone',
-    title: 'Phone',
-    property({phone}) {
+        path = typeof path === 'string' && path.replace(PathShortenerRegex, '') || null
+
         return (
-            <Phone phone={phone} />
-        )
-    }
-}
-
-const urlShortenerBegin = /^(http|https):\/\//i
-const urlShortenerEnd = /\/$/
-
-export const website = {
-    name: 'website',
-    title: 'Website',
-    property({website}) {
-        return (
-            <a href={website} target='_blank'>
-                {website.replace(urlShortenerBegin, '').replace(urlShortenerEnd, '')}
-            </a>
+            <List>
+                {email && <Term style={TERM_STYLE}>Email</Term>}
+                {email &&
+                    <Definition>
+                        <Mailto email={email} />
+                    </Definition>
+                }
+                {phone && <Term style={TERM_STYLE}>Phone</Term>}
+                {phone &&
+                    <Definition>
+                        <Phone phone={phone} />
+                    </Definition>
+                }
+                {website && <Term style={TERM_STYLE}>Website</Term>}
+                {website &&
+                    <Definition>
+                        <a href={website} title={website} target='_blank'>
+                            {path ? `${hostname}/…` : hostname}
+                        </a>
+                    </Definition>
+                }
+            </List>
         )
     }
 }

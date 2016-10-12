@@ -37,12 +37,12 @@ export const AvalancheCanada = {
             id: '57d9d596-1871-11e6-b6ba-3e1d05defe78',
             label: 'Historic Incidents',
             header: true,
-            to: 'http://old.avalanche.ca/cac/library/incident-report-database/view'
+            to: '/incidents'
         }, {
             id: '57d9dbc2-1871-11e6-b6ba-3e1d05defe78',
             label: 'Trip Planner',
             header: true,
-            to: 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning'
+            to: '/trip-planner'
         }, {
             id: 'a9638b8b-e8e0-4618-93ef-bc404a21f396',
             label: 'Forecast Archive',
@@ -76,7 +76,7 @@ export const AvalancheCanada = {
             }, {
                 id: '57d9e98c-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Cours d’avalanche en ligne (français)',
-                to: 'http://old.avalanche.ca/fr/cac/training/online-course',
+                to: '/tutoriel',
             }, {
                 id: '57daca82-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Avalanche Skills Training 1',
@@ -163,6 +163,10 @@ export const AvalancheCanada = {
                 id: '03d264bd-e8ae-496e-b208-81c514aba749',
                 label: 'Chris Rubens',
                 to: '/ambassadors#chris-rubens',
+            }, {
+                id: '64dd492f-a84f-4456-a127-34480f126d7d',
+                label: 'Wayne Flann',
+                to: '/ambassadors#wayne-flann',
             }, {
                 id: 'dfa78074-36e8-4f4b-97a4-1c7f922a08ac',
                 label: 'Piper Noble',
@@ -285,18 +289,13 @@ export const AvalancheCanada = {
             to: '/events',
             label: 'Events',
             headline: 'Visit our upcoming Events.',
-        // }, {
-        //     id: '57db0fe2-1871-11e6-b6ba-3e1d05defe78',
-        //     to: '/outreach',
-        //     label: 'Outreach',
-        //     headline: 'Some content for the Outreach.',
         }]
     }, {
         id: '57db10e6-1871-11e6-b6ba-3e1d05defe78',
         label: 'Store',
         children: [{
             id: '57db1500-1871-11e6-b6ba-3e1d05defe78',
-            to: 'http://old.avalanche.ca/cac/auctions',
+            to: '/auction',
             label: 'Web Auction',
             headline: 'Visit our Web auction.',
         }]

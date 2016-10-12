@@ -17,8 +17,21 @@
         margin: 1em;
         padding: 0.5em;
     }
+
     & p {
         margin: 0 0 1em 0;
+    }
+
+    & :global(.field-description) {
+        color: var(--gray-dark);
+    }
+
+    & :global(.radio), & :global(.checkbox) {
+        margin: 0.5em 0;
+
+        & input {
+            margin-right: 0.5em;
+        }
     }
 
     & :global(.root) > fieldset {

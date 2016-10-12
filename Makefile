@@ -57,8 +57,20 @@ server-copy:
 	cp -R server $(DIST)
 	cp -R .ebextensions $(DIST)
 
+DEV_PURGE_COUNT=50
 
-.PHONY: build prod webpack clean zip clean push-dev server-copy test
+purge-dev-builds:
+	aws --profile=$(AWS_PROFILE)                       \
+	    elasticbeanstalk describe-application-versions \
+	    --application-name avalanche-canada            \
+	    --output text                                  \
+	 | grep 'custom git build'    \
+	 | cut -f7                    \
+	 | tail -n $(DEV_PURGE_COUNT) \
+	 | xargs -t -n1 -I{} aws elasticbeanstalk delete-application-version --profile $(AWS_PROFILE) --application-name avalanche-canada --version-label {}
+
+
+.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds
 
 test:
 	find server -name '*_test.js' | xargs npm run mocha

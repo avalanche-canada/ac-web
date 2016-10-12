@@ -1,4 +1,6 @@
 import React, {PropTypes, createElement} from 'react'
+import {compose, onlyUpdateForKeys, lifecycle} from 'recompose'
+import {withHash} from 'compose'
 import CSSModules from 'react-css-modules'
 import Headline from './Headline'
 import styles from './Page.css'
@@ -20,7 +22,9 @@ function Section({title, headline, children, hash, level = 1}) {
     return (
         <section styleName='Section'>
             <header>
-                {createElement(header, null, title)}
+                {createElement(header, null,
+                    hash ? <a href={`#${hash}`}>{title}</a> : title
+                )}
                 {headline && <Headline>{headline}</Headline>}
             </header>
             {children}
@@ -28,4 +32,8 @@ function Section({title, headline, children, hash, level = 1}) {
     )
 }
 
-export default CSSModules(Section, styles)
+export default compose(
+    withHash,
+    onlyUpdateForKeys(['title', 'headline', 'children', 'hash']),
+    CSSModules(styles),
+)(Section)

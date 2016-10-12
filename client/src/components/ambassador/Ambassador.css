@@ -3,30 +3,21 @@
 @custom-media --side-by-side (width > 700px);
 
 .Ambassador {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin: 3em 0;
 }
 
 .Banner {
-    flex: 100%;
-
-    padding-top: 3em;
-    margin-bottom: 3em;
+    display: block;
+    margin: 3em 0;
+    min-width: 100%;
 }
 
 .Biography {
-    flex: 100%;
-
     display: flex;
     flex-direction: column;
 
     line-height: 1.5;
-    margin-top: 3em;
-    text-align: center;
+    margin: 3em 0;
     &, & a {
         color: var(--gray-darkest);
     }
@@ -41,5 +32,26 @@
 }
 
 .Avatar {
-    max-width: 300px;
+    /* TODO: Have nicier image and control size in code */
+    text-align: center;
+    order: 2;
+
+    @media (--side-by-side) {
+        order: 1;
+        flex: 1 0;
+        max-width: 300px;
+    }
+}
+
+.Content {
+    order: 1;
+
+    & > h2 {
+        text-align: center;
+    }
+
+    @media (--side-by-side) {
+        flex: 2 0;
+        order: 2;
+    }
 }

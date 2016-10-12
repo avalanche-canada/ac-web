@@ -26,7 +26,9 @@ h1, h2, h3, h4, h5, h6 {
         &:hover {
             color: var(--primary);
         }
+    }
 
+    & > a:not([href^="#"]) {
         &:after {
             content: " ›";
             color: var(--primary);
@@ -35,6 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* More info and ideas here: https://davidwalsh.name/external-links-css */
+/* A winter project ;) */
 /*a[target="_blank"]:not(:empty):after {
     content: " ↗";
     color: var(--gray);

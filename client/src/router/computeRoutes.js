@@ -42,8 +42,8 @@ import {
     Auction,
     Youth,
     TripPlanner,
-    IncidentsTable,
-    IncidentDetails,
+    Incidents,
+    Tutoriel,
     MembershipOverview,
 } from 'containers'
 import * as Feed from 'containers/feed'
@@ -152,10 +152,6 @@ export default function computeRoutes(store) {
         query.timeline = 'upcoming'
 
         replace({...location, query})
-    }
-
-    function handleIncidentsRouteEnter(props, replace) {
-        enforcePagination(props, replace)
     }
 
     function enforcePagination({location}, replace) {
@@ -278,12 +274,12 @@ export default function computeRoutes(store) {
             <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
             <Route path='tutorial/*' component={Tutorial} />
             <Redirect from="tutorial" to="tutorial/" />
-            <Route path='auction' component={Auction} />
+            <Route path='auction' component={{content: Auction, footer: null}} />
+            <Route path='tutoriel' component={{content: Tutoriel, footer: null}} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
-            <Route path='trip-planner' component={TripPlanner} />
-            <Route path='incidents' component={IncidentsTable} onEnter={handleIncidentsRouteEnter} />
-            <Route path='incidents/:slug' component={IncidentDetails} />
+            <Route path='trip-planner' component={{content: TripPlanner, footer: null}} />
+            <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />

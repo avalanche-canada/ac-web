@@ -45,7 +45,7 @@ function asControlled({description, provider}) {
     }
 }
 
-const courseOptions = new Map([
+const levelOptions = new Map([
     ['AST1', 'AST 1'],
     ['AST1+', 'AST 1 + MAT'],
     ['AST2', 'AST 2'],
@@ -57,18 +57,12 @@ function isSponsor({provider}) {
     return provider.is_sponsor
 }
 
-function updateCourse(course) {
-    return assign(course, {
-        name: courseOptions.get(course.level)
-    })
-}
-
 export const table = createSelector(
     entities.table(
         Course,
         List.of(
             Columns.dateRanges,
-            Columns.course,
+            Columns.level,
             Columns.courseProvider,
             Columns.distance,
             Columns.location,
@@ -78,8 +72,6 @@ export const table = createSelector(
         ({provider}) => provider.is_sponsor,
     ),
     ({entities, ...props}) => {
-        entities = entities.map(updateCourse)
-
         return {
             ...props,
             featured: entities.filter(isSponsor),
@@ -95,7 +87,7 @@ export const form = createSelector(
         return {
             legend: 'Find a course',
             tagOptions: new Map([...tags].map(tag => [tag, tag])),
-            courseOptions,
+            levelOptions,
         }
     }
 )

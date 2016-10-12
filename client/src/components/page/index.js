@@ -11,4 +11,5 @@ export Aside from './Aside'
 export Nav from './Nav'
 
 export NotFound from './NotFound'
+export WorkInProgress from './WorkInProgress'
 export Loading from './Loading'

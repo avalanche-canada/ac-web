@@ -4,7 +4,7 @@ import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Content from './Content'
 import Main from './Main'
-import Button, {ButtonSet} from 'components/button'
+import {ButtonSet} from 'components/button'
 import styles from './Page.css'
 
 function NotFound() {

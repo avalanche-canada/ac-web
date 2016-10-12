@@ -1,5 +1,5 @@
 import React, {Component, Children} from 'react'
-import {compose, withState, withHandlers, withProps, lifecycle} from 'recompose'
+import {compose, withState, withHandlers, withProps, lifecycle, defaultProps, onlyUpdateForKeys} from 'recompose'
 import Form from 'react-jsonschema-form'
 import DescriptionField from 'react-jsonschema-form/lib/components/fields/DescriptionField'
 import SchemaField from 'react-jsonschema-form/lib/components/fields/SchemaField'
@@ -14,6 +14,7 @@ import uiSchema from './schemas/FormUI.json'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 import * as COLORS from 'components/icons/min/colors'
 import {GeoPosition} from 'components/controls'
+import DEFAULT from './schemas/default.json'
 // import {fetchMountainInformationNetwork} from 'api/schema'
 
 const TYPES = [QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT]
@@ -102,6 +103,7 @@ function SubmissionForm({isReady, ...form}) {
 }
 
 export default compose(
+    withState('formData', 'setFormData', DEFAULT),
     withState('schema', 'setSchema', null),
     withState('uiSchema', 'setUISchema', null),
     withState('activeTabIndex', 'setActiveTabIndex', 0),
@@ -109,7 +111,7 @@ export default compose(
         onSchemaFetchSucceed: props => response => props.setSchema(response.data),
         onUISchemaFetchSucceed: props => response => props.setUISchema(response.data),
         // onSubmit: props => data => console.warn(data.formData),
-        // onChange: props => data => console.warn(data.formData),
+        onChange: props => event => props.setFormData(event.formData),
         // onError: props => data => console.warn(data.formData),
     }),
     lifecycle({
@@ -138,5 +140,6 @@ export default compose(
             },
         }
     }),
+    onlyUpdateForKeys(['schema', 'uiSchema', 'activeTabIndex', 'formData']),
     CSSModules(layout),
 )(SubmissionForm)

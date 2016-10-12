@@ -66,40 +66,40 @@
         							"properties": {
                                         "Alpine slopes": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Convex slopes": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Cut-blocks": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Steep slopes": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Open trees": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Mellow slopes": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Dense trees": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         },
                                         "Sunny slopes": {
                                             "type": "boolean",
-                                            "deafult": false
+                                            "default": false
                                         }
                                     }
         						},
         						"ridingQuality": {
-                                    "type": "string",
+                                    "type": ["string"],
                                     "title": "Riding Quality",
                                     "enum": [
                                         "Amazing",
@@ -281,9 +281,9 @@
                             "description": "If you observed evidence of recent avalanches, estimate occurrence time.",
                             "enum": [
                                 "12 hrs ago",
-                                "12-24 hrs ago",
-                                ">24-48 hrs ago",
-                                ">48 hrs ago"
+                                "12 - 24 hrs ago",
+                                "> 24 - 48 hrs ago",
+                                "> 48 hrs ago"
                             ]
                         },
         				"avalancheNumber": {
@@ -291,10 +291,10 @@
                             "title": "Number of avalanches in this report",
                             "enum": [
                                 "1",
-                                "2-5",
-                                "6-10",
-                                "11-50",
-                                "51-100"
+                                "2 - 5",
+                                "6 - 10",
+                                "11 - 50",
+                                "51 - 100"
                             ]
                         },
         				"avalancheSize": {
@@ -793,9 +793,9 @@
                             "description": "Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.",
                             "enum": [
                                 "Clear",
-                                "Few clouds (<2/8)",
-                                "Scattered clouds (2/8-4/8)",
-                                "Broken clouds (5/8-7/8)",
+                                "Few clouds (< 2/8)",
+                                "Scattered clouds (2/8 - 4/8)",
+                                "Broken clouds (5/8 - 7/8)",
                                 "Overcast (8/8)",
                                 "Fog"
                             ]
