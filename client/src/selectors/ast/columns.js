@@ -3,6 +3,7 @@ import {Link} from 'react-router'
 import moment from 'moment'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
+import Url from 'url'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 
@@ -110,16 +111,19 @@ export const phone = {
     }
 }
 
-const urlShortenerBegin = /^(http|https):\/\//i
-const urlShortenerEnd = /\/$/
+const PathShortenerRegex = /\//
 
 export const website = {
     name: 'website',
     title: 'Website',
     property({website}) {
+        let {hostname, path} = Url.parse(website)
+
+        path = typeof path === 'string' && path.replace(PathShortenerRegex, '') || null
+
         return (
-            <a href={website} target='_blank'>
-                {website.replace(urlShortenerBegin, '').replace(urlShortenerEnd, '')}
+            <a href={website} title={website} target='_blank'>
+                {path ? `${hostname}/…` : hostname}
             </a>
         )
     }
