@@ -10,13 +10,11 @@ export default function Element({
     propTypes = {
         children: PropTypes.node,
     },
-    composers = [],
 }) {
     return compose(
         setDisplayName(name),
         setPropTypes(propTypes),
         CSSModules(styles),
         withProps({styleName}),
-        ...composers,
     )(component)
 }
