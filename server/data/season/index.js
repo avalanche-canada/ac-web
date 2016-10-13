@@ -1,4 +1,6 @@
 
+var path = require('path');
+
 var season  = process.env.AC_SEASON || '2015';
 
 if(!season.match(/^\d\d\d\d$/)) {
@@ -6,5 +8,5 @@ if(!season.match(/^\d\d\d\d$/)) {
 }
 
 module.exports = {
-    forecast_regions: require('./' + season + '/forecast-regions')
+    forecast_regions: require(path.join(__dirname,  season, 'forecast-regions'))
 }
