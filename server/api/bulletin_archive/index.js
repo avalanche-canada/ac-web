@@ -5,7 +5,7 @@ var moment  = require('moment');
 var mssql   = require('mssql');
 var _       = require('lodash');
 
-var regionData = require('../../season').forecast_regions;
+var regionData = require('../../data/season').forecast_regions;
 
 var BULLETIN_NOT_FOUND = "BULLETIN_NOT_FOUND"
 

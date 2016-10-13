@@ -13,7 +13,7 @@ var config = require('../../config/environment');
 var fs = require('fs');
 var Prismic = require('prismic.io');
 
-var regions = require('../../season').forecast_regions; 
+var regions = require('../../data/season').forecast_regions; 
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required

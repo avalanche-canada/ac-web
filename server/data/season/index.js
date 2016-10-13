@@ -1,5 +1,4 @@
 
-
 var season  = process.env.AC_SEASON || '2015';
 
 if(!season.match(/^\d\d\d\d$/)) {
@@ -7,5 +6,5 @@ if(!season.match(/^\d\d\d\d$/)) {
 }
 
 module.exports = {
-    forecast_regions: require('./' + season + '/forecast-regions.json')
+    forecast_regions: require('./' + season + '/forecast-regions')
 }
