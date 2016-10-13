@@ -8,6 +8,7 @@ import {ButtonSet} from 'components/button'
 import styles from './Page.css'
 import {Generic} from 'prismic/components'
 import {InnerHTML} from 'components/misc'
+import {Credit} from 'components/markup'
 
 WorkInProgress.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -39,6 +40,9 @@ function WorkInProgress({uid, name, oldUrl, title, subtitle}) {
                             </Link>
                         </ButtonSet>
                     </div>
+                    <Credit>
+                        RavenEye Photography
+                    </Credit>
                 </Main>
             </Content>
         </Page>

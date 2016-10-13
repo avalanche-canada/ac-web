@@ -46,8 +46,8 @@ export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
 export const TermsOfUse = generic('terms-of-use', 'Terms of use')
 
 // WIP Pages
-const WIPPageTitle = 'We are currently working on that page while waiting for the snow to come...'
-const WIPPageSubtitle = 'For now, you can visit the page on our old web site.'
+const WIPPageTitle = 'We are currently working on this page while waiting for the snow to come...'
+const WIPPageSubtitle = 'For now, you can visit this page on our old website.'
 
 export const TripPlanner = wip('trip-planner', 'Trip Planner', 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning', WIPPageTitle, WIPPageSubtitle)
 export const Incidents = wip('incidents', 'Historic Incidents', 'http://old.avalanche.ca/cac/library/incident-report-database/view', WIPPageTitle, WIPPageSubtitle)
