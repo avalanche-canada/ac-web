@@ -23,6 +23,7 @@ const TO_MODES = new Map([
     ['Off season', MODES.OFF],
     ['Summer situation', MODES.SUMMER],
     ['Spring situation', MODES.SPRING],
+    ['Early season', MODES.EARLY_SEASON],
 ])
 
 function transformDangerRating({date, dangerRating}) {

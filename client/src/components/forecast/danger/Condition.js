@@ -6,19 +6,22 @@ import {asMap, asValues} from 'constants/utils'
 import {Generic} from 'prismic/components'
 import {domain} from 'assets/config.json'
 
-const {SPRING, SUMMER, OFF} = VALUES
-const HANDLED = new Set([SUMMER, SPRING, OFF])
+//TODO(wnh): Remove either SUMMER or OFF because they are the same
+const {SPRING, SUMMER, OFF, EARLY_SEASON} = VALUES
+const HANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
 
 const HEADERS = asMap(VALUES, TITLES)
 const ICONS = new Map([
     [SPRING, `${domain}images/spring_situation_icon.svg`],
     [SUMMER, `${domain}images/summer_conditions_icon.svg`],
     [OFF, `${domain}images/summer_conditions_icon.svg`],
+    [EARLY_SEASON, `${domain}images/summer_conditions_icon.svg`],
 ])
 const UIDS = new Map([
     [SPRING, 'forecast-spring-conditions-message'],
     [SUMMER, 'forecast-summer-conditions-message'],
     [OFF, 'forecast-off-season-message'],
+    [EARLY_SEASON, 'forecast-early-season-message'],
 ])
 
 Condition.propTypes = {

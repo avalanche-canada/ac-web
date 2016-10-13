@@ -4,8 +4,8 @@ import styles from './Danger.css'
 import Day from './Day'
 import {VALUES} from 'constants/forecast/mode'
 
-const {SPRING, SUMMER, OFF} = VALUES
-const UNHANDLED = new Set([SUMMER, SPRING, OFF])
+const {SPRING, SUMMER, OFF, EARLY_SEASON} = VALUES
+const UNHANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
 
 Table.propTypes = {
     children: PropTypes.arrayOf(PropTypes.instanceOf(Day)).isRequired,
