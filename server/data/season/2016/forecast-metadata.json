@@ -1,0 +1,271 @@
+{
+  "little-yoho": {
+    "name": "Little Yoho",
+    "type": "parks",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=5",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY",
+    "forecastUrl": "/api/forecasts/little-yoho.json",
+    "dangerIconUrl": "/api/forecasts/little-yoho/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "centroid": [
+      -116.50157110775542,
+      51.501457954569304
+    ]
+  },
+  "banff-yoho-kootenay": {
+    "name": "Banff Yoho & Kootenay National Park",
+    "type": "parks",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=1",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
+    "forecastUrl": "/api/forecasts/banff-yoho-kootenay.json",
+    "dangerIconUrl": "/api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "centroid": [
+      -116.1400038397089,
+      51.36555750662057
+    ]
+  },
+  "yukon": {
+    "name": "Yukon",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/yukon",
+    "forecastUrl": "/api/forecasts/yukon.json",
+    "dangerIconUrl": "/api/forecasts/yukon/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -135.14572456918492,
+      60.00435182795745
+    ]
+  },
+  "northwest-coastal": {
+    "name": "Northwest Coastal",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Northwest-Coastal",
+    "forecastUrl": "/api/forecasts/northwest-coastal.json",
+    "dangerIconUrl": "/api/forecasts/northwest-coastal/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -129.77716219345095,
+      55.70031480370605
+    ]
+  },
+  "northwest-inland": {
+    "name": "Northwest Inland",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Northwest-Inland",
+    "forecastUrl": "/api/forecasts/northwest-inland.json",
+    "dangerIconUrl": "/api/forecasts/northwest-inland/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -128.09818375478335,
+      56.02527117554631
+    ]
+  },
+  "sea-to-sky": {
+    "name": "Sea To Sky",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Sea-to-Sky",
+    "forecastUrl": "/api/forecasts/sea-to-sky.json",
+    "dangerIconUrl": "/api/forecasts/sea-to-sky/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -123.65123888299217,
+      50.29177995807873
+    ]
+  },
+  "south-coast-inland": {
+    "name": "South Coast Inland",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Coast",
+    "forecastUrl": "/api/forecasts/south-coast-inland.json",
+    "dangerIconUrl": "/api/forecasts/south-coast-inland/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -121.94249814131982,
+      50.08743390300431
+    ]
+  },
+  "south-coast": {
+    "name": "South Coast",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/North-Shore",
+    "forecastUrl": "/api/forecasts/south-coast.json",
+    "dangerIconUrl": "/api/forecasts/south-coast/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -123.06970757379226,
+      49.38176739363282
+    ]
+  },
+  "north-rockies": {
+    "name": "North Rockies",
+    "type": "link",
+    "url": "http://avalanche.ca/blogs/north-rockies",
+    "forecastUrl": "/api/forecasts/north-rockies.json",
+    "dangerIconUrl": "/api/forecasts/north-rockies/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -121.46146611671585,
+      54.668562861981286
+    ]
+  },
+  "cariboos": {
+    "name": "Cariboos",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Cariboos",
+    "forecastUrl": "/api/forecasts/cariboos.json",
+    "dangerIconUrl": "/api/forecasts/cariboos/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -120.59147394000628,
+      52.72093721460341
+    ]
+  },
+  "north-columbia": {
+    "name": "North Columbia",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Monashees-Selkirks",
+    "forecastUrl": "/api/forecasts/north-columbia.json",
+    "dangerIconUrl": "/api/forecasts/north-columbia/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -118.94184604081414,
+      51.49843693367862
+    ]
+  },
+  "south-columbia": {
+    "name": "South Columbia",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Columbia",
+    "forecastUrl": "/api/forecasts/south-columbia.json",
+    "dangerIconUrl": "/api/forecasts/south-columbia/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -118.05424655063185,
+      50.41985055690335
+    ]
+  },
+  "purcells": {
+    "name": "Purcells",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Purcells",
+    "forecastUrl": "/api/forecasts/purcells.json",
+    "dangerIconUrl": "/api/forecasts/purcells/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -116.33758681603456,
+      50.00947807537003
+    ]
+  },
+  "kootenay-boundary": {
+    "name": "Kootenay Boundary",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Kootenay-Boundary",
+    "forecastUrl": "/api/forecasts/kootenay-boundary.json",
+    "dangerIconUrl": "/api/forecasts/kootenay-boundary/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -118.34159986996538,
+      49.48152292779692
+    ]
+  },
+  "south-rockies": {
+    "name": "South Rockies",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/South-Rockies",
+    "forecastUrl": "/api/forecasts/south-rockies.json",
+    "dangerIconUrl": "/api/forecasts/south-rockies/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -114.92044888786461,
+      49.860633347746415
+    ]
+  },
+  "lizard-range": {
+    "name": "Lizard Range and Flathead",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Lizardrange",
+    "forecastUrl": "/api/forecasts/lizard-range.json",
+    "dangerIconUrl": "/api/forecasts/lizard-range/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -114.8136882697502,
+      49.315573019227465
+    ]
+  },
+  "vancouver-island": {
+    "name": "Vancouver Island, VIAC",
+    "type": "link",
+    "url": "http://www.islandavalanchebulletin.com/",
+    "forecastUrl": "/api/forecasts/vancouver-island.json",
+    "dangerIconUrl": "/api/forecasts/vancouver-island/danger-rating-icon.svg",
+    "owner": "vancouver-island",
+    "centroid": [
+      -126.003280753802,
+      49.84695178083094
+    ]
+  },
+  "jasper": {
+    "name": "Jasper National Park",
+    "type": "parks",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=2",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=2&d=TODAY",
+    "forecastUrl": "/api/forecasts/jasper.json",
+    "dangerIconUrl": "/api/forecasts/jasper/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "centroid": [
+      -117.618371264123,
+      52.4455576019423
+    ]
+  },
+  "kananaskis": {
+    "name": "Kananaskis Country, Alberta Parks",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Kananaskis",
+    "forecastUrl": "/api/forecasts/kananaskis.json",
+    "dangerIconUrl": "/api/forecasts/kananaskis/danger-rating-icon.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -115.18983408000474,
+      50.768253102477274
+    ]
+  },
+  "waterton": {
+    "name": "Waterton Lakes National Park",
+    "type": "parks",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?d=TODAY&r=4",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY",
+    "forecastUrl": "/api/forecasts/waterton.json",
+    "dangerIconUrl": "/api/forecasts/waterton/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "centroid": [
+      -113.9763377422614,
+      49.08133839179955
+    ]
+  },
+  "chic-chocs": {
+    "name": "Chic Chocs, CAHG",
+    "type": "link",
+    "url": "http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-fr",
+    "forecastUrl": "/api/forecasts/chic-chocs.json",
+    "dangerIconUrl": "/api/forecasts/chic-chocs/danger-rating-icon.svg",
+    "owner": "chics-chocs",
+    "centroid": [
+      -66.08685578290087,
+      48.909684297640375
+    ]
+  },
+  "glacier": {
+    "name": "Glacier National Park",
+    "type": "parks",
+    "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=3",
+    "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY",
+    "forecastUrl": "/api/forecasts/glacier.json",
+    "dangerIconUrl": "/api/forecasts/glacier/danger-rating-icon.svg",
+    "owner": "parks-canada",
+    "centroid": [
+      -117.52623359552976,
+      51.26915594273211
+    ]
+  }
+}
