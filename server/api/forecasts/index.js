@@ -11,7 +11,6 @@ var request = require('request');
 var logger = require('../../logger.js');
 var config = require('../../config/environment');
 var fs = require('fs');
-var Prismic = require('prismic.io');
 
 var regions = require('../../data/season').forecast_regions; 
 
@@ -97,15 +96,11 @@ function getForecastData(regionName, region) {
             } else {
                 return cached_caaml;
             }
-        })
-        .then(function (caaml) {
-            return [caaml, getDangerModes()];
-        }).spread(function (caaml, dangerModes) {
+        }).then(function (caaml) {
             var cacheKey = 'forecast-data::json::' + region.id;
-            var dangerMode = dangerModes[region.id];
             var json = fragmentCache.wrap(cacheKey, function(){
                 DEBUG("BUILDING forecast data...", cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, region, dangerMode);
+                return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
             });
             return [caaml, json];
         }).spread(function(caaml, json) {
@@ -287,39 +282,6 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     }
 
 });
-
-
-
-function getDangerModes() {
-    return fragmentCache.wrap('danger-modes', function(){
-        console.log("BUILDING danger-modes");
-        /*
-         * Use Q.Promise because the promise handleing in the Prismic library
-         * wasnt working as expected
-         */
-        return Q.Promise(function(resolve, reject) {
-            Prismic.api("https://avalancheca.prismic.io/api", function(err, api){
-                if(err) { reject(err); return; }
-                var dangerId = api.bookmarks['danger-modes'];
-
-                api.getByID(dangerId, {}, function(err2, doc){
-                    if(err2) { reject(err2); return; }
-                    resolve(doc);
-                });
-            });
-        }).then(function(doc){
-            var ids = _.map(regions.features, function(x){ return x.id; });
-            var modes = {};
-            var dangerModes = _.each(ids, function(id){
-                var value = doc.data['forecast-conditions.' + id];
-                if(value) {
-                    modes[id] = value.value;
-                }
-            });
-            return modes;
-        });
-    });
-}
 
 
 

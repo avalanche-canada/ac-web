@@ -30429,11 +30429,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "North Shore",
+        "name": "South Coast",
         "type": "avalx",
         "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/North-Shore",
-        "forecastUrl": "/api/forecasts/north-shore.json",
-        "dangerIconUrl": "/api/forecasts/north-shore/danger-rating-icon.svg",
+        "forecastUrl": "/api/forecasts/south-coast.json",
+        "dangerIconUrl": "/api/forecasts/south-coast/danger-rating-icon.svg",
         "owner": "avalanche-canada",
         "centroid": [
           -123.06970757379226,
@@ -30927,7 +30927,7 @@
           ]
         ]
       },
-      "id": "north-shore"
+      "id": "south-coast"
     },
     {
       "type": "Feature",
