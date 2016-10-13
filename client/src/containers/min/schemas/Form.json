@@ -8,7 +8,8 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "title": "Name"
+                    "title": "Name",
+                    "description": "Name your report"
                 },
                 "location": {
                     "type": "object",
@@ -37,7 +38,8 @@
             "properties": {
                 "items": {
                     "type": "string",
-                    "format": "data-url"
+                    "format": "data-url",
+                    "title": "Files"
                 }
             }
         },

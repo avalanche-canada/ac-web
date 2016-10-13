@@ -10,17 +10,9 @@ export Archives from './Archives'
 
 export HotZoneReport from './HotZoneReport'
 
-<<<<<<< HEAD
-export IncidentsTable from './IncidentsTable'
-export IncidentDetails from './IncidentDetails'
-export TripPlanner from './TripPlanner'
-=======
-export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
-
 // export IncidentsTable from './IncidentsTable'
 // export IncidentDetails from './IncidentDetails'
 // export TripPlanner from './TripPlanner'
->>>>>>> master
 
 // Training
 export {Providers as ProvidersTable, Courses as CoursesTable} from './ast/tables'

@@ -1,22 +1,37 @@
-import React, {Component, Children} from 'react'
-import {compose, withState, withHandlers, withProps, lifecycle, defaultProps, onlyUpdateForKeys} from 'recompose'
-import Form from 'react-jsonschema-form'
-import DescriptionField from 'react-jsonschema-form/lib/components/fields/DescriptionField'
-import SchemaField from 'react-jsonschema-form/lib/components/fields/SchemaField'
+import React, {Component} from 'react'
+import Immutable from 'immutable'
+import t from 'tcomb-form/lib'
+import en from 'tcomb-form/lib/i18n/en'
+import templates from 'tcomb-form-templates-semantic'
 import CSSModules from 'react-css-modules'
-import {Fieldset, Legend, Submit, Control, ControlSet} from 'components/form'
 import {Tab, TabSet} from 'components/tab'
-import {Loading} from 'components/misc'
 import {Page, Header, Main, Section, Content} from 'components/page'
-import layout from './Form.css'
-import schema from './schemas/Form.json'
-import uiSchema from './schemas/FormUI.json'
+import Button from 'components/button'
+import styles from './Form.css'
+import OPTIONS from './options'
+import renderFieldset from './templates/renderFieldset'
+import './templates/date'
+import {
+    RequiredInformation,
+    Uploads,
+    QuickReport,
+    WeatherReport,
+    SnowpackReport,
+    AvalancheReport,
+    IncidentReport,
+} from './types'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 import * as COLORS from 'components/icons/min/colors'
-import {GeoPosition} from 'components/controls'
-import DEFAULT from './schemas/default.json'
-// import {fetchMountainInformationNetwork} from 'api/schema'
 
+Object.assign(t.form.Form, {
+    templates: {
+        ...templates,
+        struct: templates.struct.clone({
+            renderFieldset
+        })
+    },
+    i18n: en,
+})
 const TYPES = [QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT]
 const Titles = new Map([
     [QUICK, 'Quick'],
@@ -32,114 +47,130 @@ const Colors = new Map([
     [AVALANCHE, COLORS.AVALANCHE],
     [INCIDENT, COLORS.INCIDENT],
 ])
+const ObservationTypes = new Map([
+    [QUICK, QuickReport],
+    [WEATHER, WeatherReport],
+    [SNOWPACK, SnowpackReport],
+    [AVALANCHE, AvalancheReport],
+    [INCIDENT, IncidentReport],
+])
 
-const NAMES = [
-    'quickReport',
-    'weatherReport',
-    'snowpackReport',
-    'avalancheReport',
-    'incidentReport',
-]
+@CSSModules(styles)
+export default class Form extends Component {
+    state = {
+        value: new Immutable.Map({
+            required: null,
+            uploads: null,
+            observations: new Immutable.Map({
+                [QUICK]: null,
+                [WEATHER]: null,
+                [SNOWPACK]: null,
+                [AVALANCHE]: null,
+                [INCIDENT]: null,
+            }),
+        }),
+        options: OPTIONS,
+        activeIndex: 0,
+    }
+    handleSubmit = event => {
+        event.preventDefault()
 
-const fields = {
-    GeoPosition({schema, uiSchema, formData, onChange}) {
-        const placeholders = {
-            latitude: `${schema.properties.latitude.title}: ${uiSchema.latitude['ui:placeholder']}`,
-            longitude: `${schema.properties.longitude.title}: ${uiSchema.longitude['ui:placeholder']}`,
-        }
+        const values = []
+        const {value} = this.state
+        const {refs} = this
 
-        return (
-            <GeoPosition placeholders={placeholders} {...formData} onChange={onChange} />
-        )
-    },
-    SchemaField(props) {
-        if (NAMES.includes(props.name)) {
-            const {activeTabIndex} = props.registry.formContext
+        Object.keys(refs).forEach(key => {
+            const path = key.split('.')
 
-            if (activeTabIndex === NAMES.indexOf(props.name)) {
-                return <SchemaField {...props} />
-            } else {
-                return null
+            if (path.length === 1 || value.getIn(path)) {
+                values.push(refs[key].getValue())
             }
-        }
+        })
 
-        return <SchemaField {...props} />
-    },
-    DescriptionField(props) {
-        if (props.id === 'root_reports__description') {
-            const {activeTabIndex, setActiveTabIndex} = props.formContext
-
-            return (
-                <div>
-                    <DescriptionField {...props} />
-                    <TabSet activeIndex={activeTabIndex} onActivate={setActiveTabIndex} arrow>
-                        {TYPES.map(type => (
-                            <Tab key={type} title={Titles.get(type)} color={Colors.get(type)} />
-                        ))}
-                    </TabSet>
-                </div>
-            )
+        if (values.some(value => value === null)) {
+            console.warn('not valid', values)
+        } else {
+            console.warn('SUBMIT: it is valid', values)
+            const data = new FormData()
+            // TODO: Transforn the object and feed data and then post the data
         }
+    }
+    setValue(path, value, callback) {
+        this.setState({
+            value: this.state.value.setIn(path, value)
+        }, callback)
+    }
+    clearValue(path, callback) {
+        this.setState({
+            value: this.state.value.setIn(path, null)
+        }, callback)
+    }
+    handleRequiredChange = value => {
+        this.setValue(['required'], value)
+    }
+    handleChangeUploads = value => {
+        this.setValue(['uploads'], value)
+    }
+    handleObservationChange = type => value => {
+        this.setState({
+            activeIndex: TYPES.indexOf(type)
+        }, () => {
+            this.setValue(['observations', type], value)
+        })
+    }
+    handleClearObservation = type => event => {
+        this.clearValue(['observations', type])
+    }
+    render() {
+        const {Form} = t.form
+        const {value, options, activeIndex} = this.state
+        const observations = value.get('observations')
 
         return (
-            <DescriptionField {...props} />
+            <Page>
+                <Header title='Mountain Information Network — Create report' />
+                <Content>
+                    <Main>
+                        <form onSubmit={this.handleSubmit} styleName='Form' noValidate>
+                            <div styleName='Layout'>
+                                <div styleName='Sidebar'>
+                                    <div styleName='RequiredInformation'>
+                                        <Form ref='required' type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
+                                    </div>
+                                    <div styleName='Uploads'>
+                                        <Form ref='uploads' type={Uploads} value={value.get('uploads')} onChange={this.handleChangeUploads} options={options.uploads} />
+                                    </div>
+                                </div>
+                                <div styleName='Observations'>
+                                    <fieldset>
+                                        <legend>Step 3. Observations</legend>
+                                        <div className='ui message info'>
+                                            Add information on one, some, or all tabs, then click SUBMIT at the bottom.
+                                        </div>
+                                        <TabSet activeIndex={activeIndex} arrow>
+                                            {TYPES.map(type => {
+                                                const value = observations.get(type)
+
+                                                return (
+                                                    <Tab key={type} title={Titles.get(type)} color={observations.get(type) && Colors.get(type)}>
+                                                        <Form value={value} ref={`observations.${type}`} type={ObservationTypes.get(type)} onChange={this.handleObservationChange(type)} options={options[type]} />
+                                                        <Button disabled={!value} onClick={this.handleClearObservation(type)}>
+                                                            Clear entered values
+                                                        </Button>
+                                                    </Tab>
+                                                )
+                                            })}
+                                        </TabSet>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <Button type='submit'>
+                                Submit
+                            </Button>
+                        </form>
+                    </Main>
+                </Content>
+            </Page>
         )
-    },
+    }
 }
-
-function SubmissionForm({isReady, ...form}) {
-    return (
-        <Page>
-            <Header title='Mountain Information Network — Create report' />
-            <Content>
-                <Main>
-                    {isReady ?
-                        <Form styleName='Layout' {...form} fields={fields} /> :
-                        <Loading />}
-                </Main>
-            </Content>
-        </Page>
-    )
-}
-
-export default compose(
-    withState('formData', 'setFormData', DEFAULT),
-    withState('schema', 'setSchema', null),
-    withState('uiSchema', 'setUISchema', null),
-    withState('activeTabIndex', 'setActiveTabIndex', 0),
-    withHandlers({
-        onSchemaFetchSucceed: props => response => props.setSchema(response.data),
-        onUISchemaFetchSucceed: props => response => props.setUISchema(response.data),
-        // onSubmit: props => data => console.warn(data.formData),
-        onChange: props => event => props.setFormData(event.formData),
-        // onError: props => data => console.warn(data.formData),
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {onSchemaFetchSucceed, onUISchemaFetchSucceed} = this.props
-
-            onSchemaFetchSucceed({
-                data: schema
-            })
-            onUISchemaFetchSucceed({
-                data: uiSchema
-            })
-
-            // fetchMountainInformationNetwork().then(onSchemaFetchSucceed)
-            // fetchMountainInformationNetwork().then(onUISchemaFetchSucceed)
-        },
-    }),
-    withProps(({schema, uiSchema, activeTabIndex, setActiveTabIndex}) => {
-        const isReady = schema && uiSchema
-
-        return {
-            isReady,
-            formContext: {
-                activeTabIndex,
-                setActiveTabIndex,
-            },
-        }
-    }),
-    onlyUpdateForKeys(['schema', 'uiSchema', 'activeTabIndex', 'formData']),
-    CSSModules(layout),
-)(SubmissionForm)
