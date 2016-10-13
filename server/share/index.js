@@ -7,7 +7,7 @@ var prerender = require('prerender-node');
 var minutils = require('../api/observations/min-utils');
 
 var getForecastData = require('../api/forecasts').getForecastData;
-var forecastRegions = require('../api/forecasts/forecast-regions');
+var forecastRegions = require('../season').forecast_regions;
 
 var prerenderRouter = express.Router();
 var get = function get(route, handler){ prerenderRouter.get(route, prerenderGuard(handler)); }

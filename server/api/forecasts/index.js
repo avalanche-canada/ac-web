@@ -3,7 +3,6 @@ var Q = require('q');
 var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
-var regions = require('./forecast-regions');
 var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
@@ -13,6 +12,8 @@ var logger = require('../../logger.js');
 var config = require('../../config/environment');
 var fs = require('fs');
 var Prismic = require('prismic.io');
+
+var regions = require('../../season').forecast_regions; 
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required

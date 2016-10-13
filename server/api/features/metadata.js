@@ -1,4 +1,4 @@
-var regions = require('../forecasts/forecast-regions');
+var regions = require('../../season').forecast_regions;
 var turf_bbox = require('turf-bbox');
 
 function pairToObjectReducer(acc, pair) {

@@ -5,6 +5,8 @@ var moment  = require('moment');
 var mssql   = require('mssql');
 var _       = require('lodash');
 
+var regionData = require('../../season').forecast_regions;
+
 var BULLETIN_NOT_FOUND = "BULLETIN_NOT_FOUND"
 
 // TODO(wnh): merge your other work and make a single collection of this static
@@ -43,7 +45,6 @@ var STATIC_ASPECTS = {
 
 
 // Setup Region names for validation
-var regionData = require('../forecasts/forecast-regions.json');
 
 var regionNames = regionData.features
     .filter( (r) => r.properties.owner === 'avalanche-canada' )
