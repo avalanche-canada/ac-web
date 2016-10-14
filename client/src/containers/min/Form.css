@@ -1,7 +1,7 @@
 @import "../../styles/colors.css";
 
 @custom-media --two-columns (width > 900px);
-@custom-media --one-columns-two-rows (width > 700px) and (width <= 900px);
+@custom-media --one-column-two-rows (width > 700px) and (width <= 900px);
 
 /*
 --quick-obs
@@ -14,27 +14,40 @@
 .Form {
     margin: 1em 0;
 
+    & :global(.field-depth-1 .field-radio-set),
+    & :global(.field-depth-2 .field-radio-set) {
+        padding-top: 1em;
+        column-count: 2;
+    }
+
+    & :global(.fieldset-depth-2 .fieldset-content) {
+        padding-top: 1em;
+        column-count: 2;
+    }
+
     & :global(.field) {
-        margin: 0.5em 0;
+        margin-bottom: 1em;
 
         & input + label {
             padding-left: 0.5em;
         }
 
         & label + input {
-            margin-left: 0.5em;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
 
     & :global(.ui.message.info) {
         color: var(--gray-dark);
-        margin-bottom: 1em;
+        margin: 1em 0;
     }
 
     & :global(.ui.pointing.label.visible) {
         display: block;
         color: var(--gray-dark);
-        margin: 0.5em 0;
+        margin: 1em 0;
     }
 
     & div[role="tabpanel"] {
@@ -53,25 +66,58 @@
 
 .Layout {
     display: flex;
+    flex-direction: column;
+
+    @media (--two-columns) {
+        flex-direction: row;
+    }
+
+    @media (--one-column-two-rows) {
+        flex-direction: column;
+    }
 }
 
 .Sidebar {
     display: flex;
     flex-direction: column;
 
-    flex: 0 1 33%;
+    flex: 0 1 40%;
+
+    @media (--two-columns) {
+        margin-right: 0.5em;
+    }
+
+    @media (--one-column-two-rows) {
+        flex-direction: row;
+    }
 }
 
 .MainFieldsetContainer {
     & > fieldset {
-        border: 5px solid var(--gray-lighter);
+        position: relative;
+        border: 8px solid white;
         margin-bottom: 1em;
 
         & > legend {
-            font-size: 1.15em;
+            font-size: 1.25em;
             font-weight: 700;
-            padding: 0 0.5em;
+            line-height: 2;
+
+            &:before {
+                content: "";
+                position: absolute -8px -8px auto -8px;
+                height: 2em;
+                background-color: white;
+                z-index: -1;
+            }
         }
+    }
+
+    & :global(.field-depth-1 > label),
+    & :global(.fieldset-depth-1 > legend) {
+        font-size: 1.15em;
+        font-weight: 700;
+        line-height: 2;
     }
 }
 
@@ -83,8 +129,18 @@
 
 .RequiredInformation {
     composes: MainFieldsetContainer;
+
     & > fieldset {
-        border-color: var(--weather-obs);
+        border-color: #FFD740;
+        & > legend {
+            &:before {
+                background-color: #FFD740;
+            }
+        }
+    }
+
+    & :global(.fieldset-depth-1) {
+        border: none;
     }
 }
 

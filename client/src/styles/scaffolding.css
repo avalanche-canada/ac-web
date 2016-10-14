@@ -36,6 +36,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+fieldset > legend {
+    padding: 0 0.25em;
+}
+
 /* More info and ideas here: https://davidwalsh.name/external-links-css */
 /* A winter project ;) */
 /*a[target="_blank"]:not(:empty):after {

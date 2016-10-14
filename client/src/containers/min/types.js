@@ -1,4 +1,4 @@
-import t from 'tcomb-form/lib'
+import t, {GeoPosition} from 'services/tcomb-form'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -9,11 +9,6 @@ const Direction = t.enums.of(['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])
 
 YesNo.getTcombFormFactory = options => t.form.Radio
 Direction.getTcombFormFactory = options => t.form.Radio
-
-const GeoPosition = t.struct({
-    longitude: t.Number,
-    latitude: t.Number,
-})
 
 export const RequiredInformation = t.struct({
     title: t.String,

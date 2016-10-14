@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {DayPicker, DateUtils} from 'components/misc'
+import classnames from 'classnames'
 
 function defaultFormat(value) {
     return value ? value.toISOString().substring(0, 10) : ''
@@ -47,7 +48,7 @@ function create(overrides = {}) {
         return (
             <div className='input-group'>
                 <input
-                className='form-control'
+                {...locals.attrs}
                 onClick={() => locals.toggle()}
                 onChange={() => {}}
                 value={format(locals.value)}
@@ -62,7 +63,7 @@ function create(overrides = {}) {
 
         return (
             <input
-                className='form-control'
+                {...locals.attrs}
                 disabled
                 onChange={() => {}}
                 value={format(locals.value)}

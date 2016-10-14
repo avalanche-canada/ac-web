@@ -33,11 +33,29 @@ export default {
         label: 'Step 1. Required Information',
         fields: {
             title: {
-                label: 'Name',
-                help: 'Name your report'
+                label: 'Name your report',
+                attrs: {
+                    placeholder: 'e.g. Upper Raft River',
+                },
+            },
+            datetime: {
+                label: 'Submission date and time',
             },
             latlng: {
-                label: 'Position',
+                label: 'Location',
+                help: 'You can move the pin on the map or enter longitude/latitude in fields below.',
+                fields: {
+                    longitude: {
+                        attrs: {
+                            placeholder: 'e.g. -188.883',
+                        },
+                    },
+                    latitude: {
+                        attrs: {
+                            placeholder: 'e.g. 51.522',
+                        },
+                    },
+                },
             },
         },
     },
@@ -45,18 +63,19 @@ export default {
         label: 'Step 2. Uploads',
         fields: {
             files: {
+                label: 'Add a photo to help tell your story.',
+                help: 'If uploading more than one photo, select all and submit photos together.',
                 factory: t.form.Textbox,
-                transformer: {
-                    format: value => t.Nil.is(value) ? '' : value,
-                    parse: (...args) => {
-                        console.warn(...args)
-                    }
-                },
                 type: 'file',
                 attrs: {
                     multiple: true,
                 },
-                help: 'Add a photo (.jpg or .png) to help tell your story. If uploading more than one photo, select all and submit photos together.',
+                // transformer: {
+                //     format: value => t.Nil.is(value) ? '' : value,
+                //     parse: (...args) => {
+                //         console.warn(...args)
+                //     }
+                // },
             }
         },
     },

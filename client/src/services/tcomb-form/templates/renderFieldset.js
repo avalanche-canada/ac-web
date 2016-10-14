@@ -20,10 +20,10 @@ function getClassName({path, hasError, className}) {
 
 export default function renderFieldset(children, locals) {
     const {label, disabled} = locals
-    const legend = label ? <legend className="ui dividing header">{label}</legend> : null
+    const legend = label ? <legend className='ui dividing header'>{label}</legend> : null
     const props = {
         className: getClassName(locals),
-        disabled: disabled,
+        disabled,
     }
 
     return React.createElement.apply(null, [

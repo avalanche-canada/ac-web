@@ -18,7 +18,7 @@ const obsKey = MountainInformationNetworkObservation.getKey()
 function createMarkers({latlng, obs = []}) {
     const {length} = obs
     const [lat, lng] = latlng
-    const lnglat = LngLat.convert([lng, lat])
+    const lngLat = LngLat.convert([lng, lat])
 
     return obs.map(({obtype, obid}, index) => ({
         id: `${obsKey}:${obid}`,
@@ -36,7 +36,7 @@ function createMarkers({latlng, obs = []}) {
             height: 40,
             // className: 'hidden-map-marker',
         }),
-        lnglat,
+        lngLat,
         options: {
             offset: [-20, -20]
         },

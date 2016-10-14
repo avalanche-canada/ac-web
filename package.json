@@ -40,7 +40,7 @@
     "jwt-decode": "^2.1.0",
     "keycode": "^2.1.1",
     "lodash": "~4.15.0",
-    "mapbox-gl": "^0.25.1",
+    "mapbox-gl": "^0.26.0",
     "method-override": "~1.0.0",
     "moment": "^2.14.1",
     "moment-timezone": "^0.5.4",

@@ -4,7 +4,7 @@ import mapbox from 'services/mapbox/map'
 const {LngLat} = mapbox
 const {assign} = Object
 function createMarker(marker) {
-    const {element, lnglat, options, onClick} = marker
+    const {element, lngLat, options, onClick} = marker
 
     if (onClick) {
         assign(element, {
@@ -12,12 +12,12 @@ function createMarker(marker) {
         })
     }
 
-    return new mapbox.Marker(element, options).setLngLat(lnglat)
+    return new mapbox.Marker(element, options).setLngLat(lngLat)
 }
 
 export default class Marker extends Component {
     static propTypes = {
-        lnglat: PropTypes.instanceOf(LngLat).isRequired,
+        lngLat: PropTypes.instanceOf(LngLat).isRequired,
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
         options: PropTypes.object,
@@ -50,15 +50,15 @@ export default class Marker extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        const {element, lnglat, options} = nextProps
+        const {element, lngLat, options} = nextProps
 
         if (this.props.element !== element) {
             this.marker = createMarker(nextProps)
             return
         }
 
-        if (this.props.lnglat !== lnglat) {
-            this.marker.setLngLat(lnglat)
+        if (this.props.lngLat !== lngLat) {
+            this.marker.setLngLat(lngLat)
         }
     }
     shouldComponentUpdate() {

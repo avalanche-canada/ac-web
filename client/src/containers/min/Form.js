@@ -1,16 +1,12 @@
 import React, {Component} from 'react'
 import Immutable from 'immutable'
-import t from 'tcomb-form/lib'
-import en from 'tcomb-form/lib/i18n/en'
-import templates from 'tcomb-form-templates-semantic'
+import t from 'services/tcomb-form'
 import CSSModules from 'react-css-modules'
 import {Tab, TabSet} from 'components/tab'
 import {Page, Header, Main, Section, Content} from 'components/page'
 import Button from 'components/button'
 import styles from './Form.css'
 import OPTIONS from './options'
-import renderFieldset from './templates/renderFieldset'
-import './templates/date'
 import {
     RequiredInformation,
     Uploads,
@@ -23,15 +19,6 @@ import {
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 import * as COLORS from 'components/icons/min/colors'
 
-Object.assign(t.form.Form, {
-    templates: {
-        ...templates,
-        struct: templates.struct.clone({
-            renderFieldset
-        })
-    },
-    i18n: en,
-})
 const TYPES = [QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT]
 const Titles = new Map([
     [QUICK, 'Quick'],
