@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import {compose, withHandlers, withProps, flattenProp, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
+import mapbox from 'services/mapbox/map'
 import {Map, Marker} from 'components/map'
 import {Revelstoke} from 'constants/map/locations'
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
 
+const {LngLat} = mapbox
 const MARKER_OPTIONS = {
     offset: [-12, -12]
 }
@@ -27,14 +29,27 @@ function createElement(onMouseDown) {
 export default class GeoPosition extends Component {
     static propTypes = {
         onChange: PropTypes.func,
-        // longitude: PropTypes.number,
-        // latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        latitude: PropTypes.number,
     }
     state = {
         map: null,
         lngLat: Revelstoke,
     }
+    constructor(props, ...args) {
+        super(props, ...args)
+
+        const {longitude, latitude} = props
+
+        if (typeof longitude === 'number' &&
+            typeof latitude === 'number' &&
+            !isNaN(longitude) &&
+            !isNaN(latitude)) {
+            this.state.lngLat = new LngLat(longitude, latitude)
+        }
+    }
     isDragging = false
+    isMoving = false
     set cursor(cursor = null) {
         const {map} = this.state
 
@@ -47,19 +62,20 @@ export default class GeoPosition extends Component {
     componentWillMount() {
         this.element = createElement(this.handleMarkerMouseDown)
     }
-    handleMousemove = event => {
+    handleMousemove = ({lngLat}) => {
         if (!this.isDragging) {
             return
         }
 
-        this.setState({
-            lngLat: event.lngLat
-        })
+        this.setState({lngLat})
     }
     handleLoad = event => {
         this.setState({
             map: event.target
         })
+    }
+    handleClick = ({lngLat}) => {
+        this.setState({lngLat}, this.handleChange)
     }
     handleMarkerMouseDown = event => {
         event.stopPropagation()
@@ -67,18 +83,55 @@ export default class GeoPosition extends Component {
         this.isDragging = true
         this.cursor = 'move'
     }
-    handleMouseup = event => {
+    handleMouseup = ({lngLat}) => {
         if (!this.isDragging) {
             return
         }
 
-        const {lng, lat} = event.lngLat
+        this.setState({lngLat}, () => {
+            this.isDragging = false
+            this.cursor = null
+            this.handleChange()
+        })
+    }
+    handleMovestart = () => {
+        this.isMoving = true
+    }
+    handleMoveend = () => {
+        this.isMoving = false
+    }
+    handleChange = () => {
+        const {lngLat, map} = this.state
 
-        this.isDragging = false
-        this.cursor = null
+        if (map) {
+            map.easeTo({
+                center: lngLat
+            })
+        }
+
         this.props.onChange({
-            longitude: lng,
-            latitude: lat,
+            longitude: lngLat.lng,
+            latitude: lngLat.lat,
+        })
+    }
+    componentWillReceiveProps({longitude, latitude}) {
+        if (typeof longitude !== 'number' ||
+            typeof latitude !== 'number' ||
+            isNaN(longitude) ||
+            isNaN(latitude)) {
+            return
+        }
+
+        const lngLat = new LngLat(longitude, latitude)
+        const {map} = this.state
+
+        this.setState({lngLat}, () => {
+            if (!this.isMoving && map) {
+                map.flyTo({
+                    center: lngLat,
+                    speed: 1
+                })
+            }
         })
     }
     render() {
@@ -86,7 +139,7 @@ export default class GeoPosition extends Component {
 
         return (
             <div styleName='Container'>
-                <Map center={Revelstoke} zoom={5} onMousemove={this.handleMousemove} onMouseup={this.handleMouseup} onLoad={this.handleLoad} >
+                <Map center={lngLat} zoom={5} onClick={this.handleClick} onLoad={this.handleLoad} onMovestart={this.handleMovestart} onMoveend={this.handleMoveend} >
                     {map && <Marker lngLat={lngLat} element={this.element} options={MARKER_OPTIONS} />}
                 </Map>
             </div>

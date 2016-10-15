@@ -1,4 +1,4 @@
-import t, {GeoPosition} from 'services/tcomb-form'
+import t, {GeoPosition, Time, DateTime} from 'services/tcomb-form'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -12,7 +12,7 @@ Direction.getTcombFormFactory = options => t.form.Radio
 
 export const RequiredInformation = t.struct({
     title: t.String,
-    datetime: t.Date,
+    datetime: DateTime,
     latlng: GeoPosition,
 })
 
@@ -73,7 +73,7 @@ export const QuickReport = t.struct({
 export const AvalancheReport = t.struct({
     avalancheOccurrence: t.struct({
         epoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
-        time: t.maybe(t.Date), // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
+        time: t.maybe(Time), // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
     }),
     avalancheObservation: t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago']),
     avalancheNumber: t.enums.of(['1', '2-5', '6-10', '11-50', '51-100']),

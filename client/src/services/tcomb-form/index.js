@@ -4,25 +4,45 @@ import en from 'tcomb-form/lib/i18n/en'
 import templates from 'tcomb-form-templates-semantic'
 import struct from './templates/struct'
 import radio from './templates/radio'
-import DatePicker from './templates/DatePicker'
+import date from './templates/date'
+import time from './templates/time'
+import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
 
 // Date
-function renderDate(locals) {
-    return (
-        <DatePicker {...locals} />
-    )
-}
-
-const dateTemplate = templates.date.clone({renderDate})
-
 class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
-        return dateTemplate
+        return templates.textbox.clone({
+            renderTextbox(locals) {
+                return <Picker template={date} {...locals} />
+            }
+        })
     }
 }
 
 t.Date.getTcombFormFactory = () => DatePickerFactory
+
+
+// Time
+export const Time = t.irreducible('Time', x => typeof x === 'string')
+
+class TimePickerFactory extends t.form.Textbox {
+    getTemplate() {
+        return templates.textbox.clone({
+            renderTextbox(locals) {
+                return <Picker template={time} {...locals} />
+            }
+        })
+    }
+}
+
+Time.getTcombFormFactory = () => TimePickerFactory
+
+
+// Date and Time
+export const DateTime = t.irreducible('DateTime', x => x instanceof Date)
+
+DateTime.getTcombFormFactory = () => DatePickerFactory
 
 
 // GeoPosition
@@ -36,9 +56,15 @@ export const GeoPosition = t.struct({
 
 function handleGeoPositionChange(onChange) {
     return ({longitude, latitude}) => {
-        onChange('longitude', longitude)
-        onChange('latitude', latitude)
+        setTimeout(() => onChange('longitude', longitude))
+        setTimeout(() => onChange('latitude', latitude))
     }
+}
+
+function toNumber(number) {
+    number = Number(number)
+
+    return isNaN(number) ? null : number
 }
 
 class GeoPositionFactory extends t.form.Struct {
@@ -46,9 +72,13 @@ class GeoPositionFactory extends t.form.Struct {
         return struct.clone({
             renderFieldset(children, locals) {
                 const onChange = handleGeoPositionChange(locals.onChange)
+                const {longitude, latitude} = locals.value
 
                 return struct.renderFieldset([...children, (
-                    <GeoPositionControl onChange={onChange} />
+                    <GeoPositionControl
+                        onChange={onChange}
+                        longitude={toNumber(longitude)}
+                        latitude={toNumber(latitude)} />
                 )], locals)
             }
         })
@@ -57,14 +87,11 @@ class GeoPositionFactory extends t.form.Struct {
 
 GeoPosition.getTcombFormFactory = () => GeoPositionFactory
 
-
-
 Object.assign(t.form.Form, {
     templates: {
         ...templates,
         struct,
         radio,
-        date: dateTemplate,
     },
     i18n: en,
 })

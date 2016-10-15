@@ -43,7 +43,7 @@ export default {
             },
             latlng: {
                 label: 'Location',
-                help: 'You can move the pin on the map or enter longitude/latitude in fields below.',
+                help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
                 fields: {
                     longitude: {
                         attrs: {
@@ -61,9 +61,10 @@ export default {
     },
     uploads: {
         label: 'Step 2. Uploads',
+        help: 'A photo help to tell your story.',
         fields: {
             files: {
-                label: 'Upload a photo to help tell your story',
+                label: 'Click to upload a photo',
                 help: 'If uploading more than one photo, select all and submit photos together.',
                 factory: t.form.Textbox,
                 type: 'file',

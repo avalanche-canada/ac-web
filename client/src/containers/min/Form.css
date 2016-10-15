@@ -93,6 +93,7 @@
             pointer-events: none;
             padding: 0 1em;
             margin: 0 !important;
+            text-align: center;
             background-color: white;
             overflow: hidden;
             text-overflow: ellipsis;

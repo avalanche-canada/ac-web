@@ -4,7 +4,7 @@ import moment from 'moment'
 import CSSModules from 'react-css-modules'
 import {DateUtils, DayPicker as Base} from 'components/misc'
 import Callout, {BOTTOM} from 'components/callout'
-import {Overlay} from 'react-overlays'
+import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'
 import Holder from '../Holder'
 

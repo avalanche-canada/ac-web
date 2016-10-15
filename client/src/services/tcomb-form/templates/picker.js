@@ -1,8 +1,5 @@
-import React, {PropTypes, Component} from 'react'
-import {findDOMNode} from 'react-dom'
-import {DayPicker, DateUtils} from 'components/misc'
+import React from 'react'
 import Overlay from 'react-overlays/lib/Overlay'
-import classnames from 'classnames'
 import {Close} from 'components/button'
 import controls from 'components/controls/Controls.css'
 import Callout, {BOTTOM} from 'components/callout'
@@ -12,7 +9,7 @@ const CONTAINER_STYLE = {
 }
 
 function defaultFormat(value) {
-    return value ? value.toISOString().substring(0, 10) : ''
+    return value
 }
 
 function create(overrides = {}) {
@@ -73,12 +70,11 @@ function create(overrides = {}) {
         return (
             <div className={controls.Group}>
                 <input
-                {...locals.attrs}
-                autoComplete='off'
-                onClick={() => locals.toggle()}
-                onChange={() => {}}
-                value={format(locals.value)}
-                />
+                    {...locals.attrs}
+                    autoComplete='off'
+                    onClick={() => locals.toggle()}
+                    onChange={() => {}}
+                    value={format(locals.value)} />
                 {template.renderResetButton(locals)}
             </div>
         )
@@ -93,26 +89,12 @@ function create(overrides = {}) {
                 autoComplete='off'
                 disabled
                 onChange={() => {}}
-                value={format(locals.value)}
-            />
+                value={format(locals.value)} />
         )
     }
 
-    template.renderPicker = overrides.renderPicker || function renderPicker(locals) {
-        const {value, renderDay, locale, localeUtils, onSelect} = locals
-        const props = {
-            initialMonth: value || undefined,
-            modifiers: {
-                selected: date => DateUtils.isSameDay(value, date)
-            },
-            onDayClick: onSelect,
-            value,
-            localeUtils,
-            locale,
-            renderDay
-        }
-
-        return <DayPicker {...props} />
+    template.renderPicker = overrides.renderPicker || function renderPicker() {
+        throw new Error('renderPicker function needs to be provided')
     }
 
     template.clone = function clone(newOverrides = {}) {
@@ -122,51 +104,4 @@ function create(overrides = {}) {
     return template
 }
 
-export default class Wrapper extends Component {
-    static propTypes = {
-        onChange: PropTypes.func.isRequired,
-        template: PropTypes.func
-    }
-    static template = create()
-    state = {
-        isOpen: false
-    }
-    get locals() {
-        return {
-            isOpen: this.state.isOpen,
-            open: this.open,
-            close: this.close,
-            toggle: this.toggle,
-            onReset: this.onReset,
-            onSelect: this.onSelect,
-            ...this.props
-        }
-    }
-    get template() {
-        return this.props.template || this.constructor.template
-    }
-    open = () => {
-        this.setState({ isOpen: true })
-    }
-    close = () => {
-        this.setState({ isOpen: false })
-    }
-    toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
-    }
-    onReset = () => {
-        this.setState({isOpen: false}, () => {
-            this.props.onChange(null)
-        })
-    }
-    onSelect = (event, value) => {
-        this.setState({isOpen: false}, () => {
-            this.props.onChange(value)
-        })
-    }
-    render() {
-        return this.template(this.locals)
-    }
-}
+export default create()
