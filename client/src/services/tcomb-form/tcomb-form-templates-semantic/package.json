@@ -1,0 +1,47 @@
+{
+  "name": "tcomb-form-templates-semantic",
+  "version": "0.1.3",
+  "description": "semantic templates for tcomb-form",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint src",
+    "build": "rm -rf lib && mkdir lib && babel --loose --stage 0 --out-dir lib src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gcanti/tcomb-form-templates-semantic.git"
+  },
+  "author": "Giulio Canti <giulio.canti@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcanti/tcomb-form-templates-semantic/issues"
+  },
+  "homepage": "https://github.com/gcanti/tcomb-form-templates-semantic",
+  "dependencies": {
+    "classnames": "^2.1.3"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0"
+  },
+  "devDependencies": {
+    "babel": "5.8.38",
+    "babel-eslint": "4.1.8",
+    "eslint": "1.10.3",
+    "eslint-config-airbnb": "1.0.0",
+    "eslint-plugin-react": "3.10.0"
+  },
+  "tags": [
+    "tcomb-form",
+    "templates",
+    "semantic ui"
+  ],
+  "keywords": [
+    "tcomb-form",
+    "templates",
+    "semantic ui"
+  ]
+}
