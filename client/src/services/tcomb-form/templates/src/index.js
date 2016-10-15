@@ -1,5 +1,6 @@
 import checkbox from './checkbox'
 import date from './date'
+import time from './time'
 import list from './list'
 import radio from './radio'
 import select from './select'
@@ -13,5 +14,6 @@ export default {
   radio,
   select,
   struct,
-  textbox
+  textbox,
+  time,
 }

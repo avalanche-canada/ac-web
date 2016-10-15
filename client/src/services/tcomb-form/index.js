@@ -1,11 +1,7 @@
 import React from 'react'
 import t from 'tcomb-form/lib'
 import en from 'tcomb-form/lib/i18n/en'
-import templates from 'tcomb-form-templates-semantic'
-import struct from './templates/struct'
-import radio from './templates/radio'
-import date from './templates/date'
-import time from './templates/time'
+import templates from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
 
@@ -14,7 +10,7 @@ class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
             renderTextbox(locals) {
-                return <Picker template={date} {...locals} />
+                return <Picker template={templates.date} {...locals} />
             }
         })
     }
@@ -30,7 +26,7 @@ class TimePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
             renderTextbox(locals) {
-                return <Picker template={time} {...locals} />
+                return <Picker template={templates.time} {...locals} />
             }
         })
     }
@@ -69,12 +65,12 @@ function toNumber(number) {
 
 class GeoPositionFactory extends t.form.Struct {
     getTemplate() {
-        return struct.clone({
+        return templates.struct.clone({
             renderFieldset(children, locals) {
                 const onChange = handleGeoPositionChange(locals.onChange)
                 const {longitude, latitude} = locals.value
 
-                return struct.renderFieldset([...children, (
+                return templates.struct.renderFieldset([...children, (
                     <GeoPositionControl
                         onChange={onChange}
                         longitude={toNumber(longitude)}
@@ -88,11 +84,7 @@ class GeoPositionFactory extends t.form.Struct {
 GeoPosition.getTcombFormFactory = () => GeoPositionFactory
 
 Object.assign(t.form.Form, {
-    templates: {
-        ...templates,
-        struct,
-        radio,
-    },
+    templates,
     i18n: en,
 })
 

@@ -83,7 +83,6 @@
     "slideout": "^0.1.5",
     "static-favicon": "~1.0.1",
     "tcomb-form": "^0.9.10",
-    "tcomb-form-templates-semantic": "^0.1.3",
     "tedious": "^1.14.0",
     "tree-model": "^1.0.4",
     "turf-bbox": "^3.0.12",
