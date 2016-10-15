@@ -60,11 +60,11 @@ function create(overrides = {}) {
 
     template.renderDate = overrides.renderDate || function renderStatic(locals) {
         return locals.disabled ?
-            template.renderDisabledDate(locals) :
-            template.renderEnabledDate(locals)
+            template.renderDisabledInput(locals) :
+            template.renderEnabledInput(locals)
     }
 
-    template.renderEnabledDate = overrides.renderEnabledDate || function renderEnabledDate(locals) {
+    template.renderEnabledInput = overrides.renderEnabledInput || function renderEnabledInput(locals) {
         const format = template.getFormat(locals)
 
         return (
@@ -80,7 +80,7 @@ function create(overrides = {}) {
         )
     }
 
-    template.renderDisabledDate = overrides.renderDisabledDate || function renderDisabledDate(locals) {
+    template.renderDisabledInput = overrides.renderDisabledInput || function renderDisabledInput(locals) {
         const format = template.getFormat(locals)
 
         return (
