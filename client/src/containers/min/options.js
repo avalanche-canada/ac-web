@@ -63,19 +63,13 @@ export default {
         label: 'Step 2. Uploads',
         fields: {
             files: {
-                label: 'Add a photo to help tell your story.',
+                label: 'Upload a photo to help tell your story',
                 help: 'If uploading more than one photo, select all and submit photos together.',
                 factory: t.form.Textbox,
                 type: 'file',
                 attrs: {
                     multiple: true,
                 },
-                // transformer: {
-                //     format: value => t.Nil.is(value) ? '' : value,
-                //     parse: (...args) => {
-                //         console.warn(...args)
-                //     }
-                // },
             }
         },
     },
@@ -86,6 +80,19 @@ export default {
                 fields: {
                     ridingQuality: {
                         factory: t.form.Radio,
+                        label: 'Riding quality was:',
+                    },
+                    weather: {
+                        label: 'The day was:',
+                    },
+                    snowConditions: {
+                        label: 'Snow conditions were:',
+                    },
+                    stayedAway: {
+                        label: 'We stayed away from:',
+                    },
+                    rideType: {
+                        label: 'We rode:',
                     },
                 }
             },
@@ -121,6 +128,9 @@ export default {
                 label: 'Snowfall rate (cm/hour)',
                 help: 'If there was no snow, please leave this field blank.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 100'
+                },
             },
             rainfallRate: {
                 factory: t.form.Radio,
@@ -129,30 +139,51 @@ export default {
             newSnow24Hours: {
                 label: 'Amount of new snow in last 24 hours (cm)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 100'
+                },
             },
             precipitation24Hours: {
                 label: 'Total rain and snow combined in last 24 hours (mm)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 100'
+                },
             },
             stormSnowAmount: {
                 label: 'Total snow from the most recent storm (cm)',
                 help: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 300'
+                },
             },
             stormStartDate: {
                 help: 'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
+                attrs: {
+                    placeholder: 'Click to select a date'
+                },
             },
             temperature: {
                 label: 'Temperature at time of observation (deg C)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between -50 and 40',
+                },
             },
             minTemp: {
                 label: 'Minimum temperature in last 24 hours (deg C)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between -50 and 30',
+                },
             },
             maxTemp: {
                 label: 'Maximum temperature in last 24 hours (deg C)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between -40 and 40',
+                },
             },
             windDirection: {
                 fields: ASPECT_FIELDS,
@@ -188,6 +219,9 @@ export default {
             snowpackSiteElevation: {
                 label: 'Elevation (m) above sea level',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Metres above sea level'
+                },
             },
             snowpackSiteElevationBand: {
                 label: 'Elevation band',
@@ -200,6 +234,9 @@ export default {
                 label: 'Snowpack depth (cm)',
                 help: 'Total height of snow in centimetres. Averaged if this is a summary.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 10000'
+                },
             },
             snowpackWhumpfingObserved: {
                 label: 'Did you observe whumpfing?',
@@ -216,16 +253,25 @@ export default {
                 label: 'Foot penetration (cm)',
                 help: 'How far you sink into the snow when standing on one fully-weighted foot',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 100'
+                },
             },
             snowpackSkiPenetration: {
                 label: 'Ski penetration (cm)',
                 help: 'How far you sink into the snow when standing on one fully-weighted ski.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 200'
+                },
             },
             snowpackSledPenetration: {
                 label: 'Sled penetration (cm)',
                 help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 200'
+                },
             },
             snowpackTestInitiation: {
                 factory: t.form.Radio,
@@ -241,6 +287,9 @@ export default {
                 label: 'Snowpack test failure depth',
                 help: 'Depth below the surface that failure occurred.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 200'
+                },
             },
             snowpackObsComment: {
                 type: 'textarea',
@@ -252,6 +301,24 @@ export default {
     [AVALANCHE]: {
         help: 'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
         fields: {
+            avalancheOccurrence: {
+                label: 'Avalanche date/time',
+                help: 'If you triggered or witnessed an avalanche add date/time.',
+                fields: {
+                    epoch: {
+                        label: 'Date',
+                        attrs: {
+                            placeholder: 'Click to select a date'
+                        },
+                    },
+                    time: {
+                        label: 'Time',
+                        attrs: {
+                            placeholder: 'Click to select a time (optional)'
+                        },
+                    },
+                },
+            },
             avalancheObservation: {
                 factory: t.form.Radio,
                 help: 'If you observed evidence of recent avalanches, estimate occurrence time.',
@@ -267,15 +334,24 @@ export default {
             slabThickness: {
                 label: 'Slab thickness (cm)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 10 and 500',
+                },
             },
             slabWidth: {
                 label: 'Slab width (m)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 1 and 3000',
+                },
             },
             runLength: {
                 label: 'Run length (m)',
                 help: 'Length from crown to toe of debris.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 1 and 10000',
+                },
             },
             triggerType: {
                 factory: t.form.Radio,
@@ -288,6 +364,9 @@ export default {
                 label: 'Remote trigger distance (m)',
                 help: 'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 2000',
+                },
             },
             startZoneAspect: {
                 fields: ASPECT_FIELDS
@@ -295,16 +374,28 @@ export default {
             startZoneElevation: {
                 label: 'Start zone elevation (m)',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 5000',
+                },
             },
             startZoneIncline: {
                 type: 'number',
+                attrs: {
+                    placeholder: 'Number between 0 and 90',
+                },
             },
             runoutZoneElevation: {
                 help: 'The lowest point of the debris.',
                 type: 'number',
+                attrs: {
+                    placeholder: 'Metres above sea level',
+                },
             },
             weakLayerBurialDate: {
-                help: 'Date the weak layer was buried.'
+                help: 'Date the weak layer was buried.',
+                attrs: {
+                    placeholder: 'Click to selecrt date'
+                },
             },
             windExposure: {
                 factory: t.form.Radio,
@@ -331,38 +422,54 @@ export default {
                     groupSize: {
                         label: 'Total in the group?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 100'
+                        }
                     },
                     numberFullyBuried: {
                         label: 'People fully buried?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 100'
+                        }
                     },
                     numberPartlyBuriedImpairedBreathing: {
                         label: 'People partly buried with impaired breathing?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 100'
+                        }
                     },
                     numberPartlyBuriedAbleBreathing: {
                         label: 'People partly buried with normal breathing?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 100'
+                        }
                     },
                     numberCaughtOnly: {
                         label: 'People injured (caught but not buried)?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 100'
+                        }
                     },
                     numberPeopleInjured: {
                         label: 'People not injured (caught but not buried)?',
                         type: 'number',
+                        attrs: {
+                            placeholder: 'Number between 0 and 400'
+                        }
                     }
                 }
-            },
-            numberInvolved: {
-                type: 'number',
             },
             terrainTrap: {
                 help: 'Terrain traps are features that increase the consequences of an avalanche.',
             },
             otherActivityDescription: {
-                label: 'Other activity',
-                help: 'Describe other activity',
+                attrs: {
+                    placeholder: 'Describe other activity',
+                },
             },
             terrainShapeTriggerPoint: {
                 factory: t.form.Radio,
@@ -376,7 +483,7 @@ export default {
             },
             incidentDescription: {
                 type: 'textarea',
-                help: 'No names and no judging please. Submission guidelines.',
+                help: 'No names and no judging please. See submission guidelines for more details.',
             },
         },
     },

@@ -17,22 +17,12 @@ export const RequiredInformation = t.struct({
 })
 
 export const Uploads = t.struct({
-    files: t.form.File
+    files: t.maybe(t.form.File)
 })
 
 export const QuickReport = t.struct({
     ridingConditions: t.struct({
         ridingQuality: t.enums.of(['Amazing', 'Good', 'OK', 'Terrible']),
-        weather: t.struct({
-            Warm: t.Boolean,
-            Foggy: t.Boolean,
-            Cloudy: t.Boolean,
-            Stormy: t.Boolean,
-            Windy: t.Boolean,
-            Cold: t.Boolean,
-            Wet: t.Boolean,
-            Sunny: t.Boolean,
-        }),
         snowConditions: t.struct({
             'Deep powder': t.Boolean,
             Wet: t.Boolean,
@@ -41,14 +31,6 @@ export const QuickReport = t.struct({
             Heavy: t.Boolean,
             'Wind affected': t.Boolean,
             Hard: t.Boolean,
-        }),
-        stayedAway: t.struct({
-            'Convex slopes': t.Boolean,
-            'Alpine slopes': t.Boolean,
-            'Cut-blocks': t.Boolean,
-            'Sunny slopes': t.Boolean,
-            'Steep slopes': t.Boolean,
-            'Open trees': t.Boolean,
         }),
         rideType: t.struct({
             'Mellow slopes': t.Boolean,
@@ -59,6 +41,24 @@ export const QuickReport = t.struct({
             'Open trees': t.Boolean,
             'Cut-blocks': t.Boolean,
             'Sunny slopes': t.Boolean,
+        }),
+        stayedAway: t.struct({
+            'Convex slopes': t.Boolean,
+            'Alpine slopes': t.Boolean,
+            'Cut-blocks': t.Boolean,
+            'Sunny slopes': t.Boolean,
+            'Steep slopes': t.Boolean,
+            'Open trees': t.Boolean,
+        }),
+        weather: t.struct({
+            Warm: t.Boolean,
+            Foggy: t.Boolean,
+            Cloudy: t.Boolean,
+            Stormy: t.Boolean,
+            Windy: t.Boolean,
+            Cold: t.Boolean,
+            Wet: t.Boolean,
+            Sunny: t.Boolean,
         }),
     }),
     avalancheConditions: t.struct({
@@ -71,8 +71,10 @@ export const QuickReport = t.struct({
 })
 
 export const AvalancheReport = t.struct({
-    avalancheOccurrenceEpoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
-    avalancheOccurrenceTime: t.Date, // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
+    avalancheOccurrence: t.struct({
+        epoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
+        time: t.maybe(t.Date), // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
+    }),
     avalancheObservation: t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago']),
     avalancheNumber: t.enums.of(['1', '2-5', '6-10', '11-50', '51-100']),
     avalancheSize: t.enums.of(['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5']),
@@ -173,28 +175,27 @@ export const SnowpackReport = t.struct({
 })
 
 export const WeatherReport = t.struct({
-    precipitation24Hours : range(0, 100),
-    temperatureTrend : t.enums.of(['Falling', 'Steady', 'Rising']),
-    rainfallRate : t.enums.of(['Drizzle', 'Showers', 'Raining', 'Pouring']),
-    newSnow24Hours : range(0, 100),
-    stormStartDate : t.Date,  // pattern: '^\d\d\d\d-\d\d-\d\d'
-    minTemp : range(-50, 30),
-    blowingSnow : t.enums.of(['None', 'Light', 'Moderate', 'Intense']),
-    windDirection : Direction,
     skyCondition : t.enums.of(['Clear', 'Few clouds (<2/8)', 'Scattered clouds (2/8-4/8)', 'Broken clouds (5/8-7/8)', 'Overcast (8/8)', 'Fog']),
-    snowfallRate : range(1, 20),
-    stormSnowAmount : range(0, 300),
     precipitationType : t.enums.of(['Snow', 'Rain', 'Mixed snow & rain', 'None']),
+    snowfallRate : range(1, 20),
+    rainfallRate : t.enums.of(['Drizzle', 'Showers', 'Raining', 'Pouring']),
     temperature : range(-50, 40),
-    windSpeed : t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)']),
+    minTemp : range(-50, 30),
     maxTemp : range(-40, 40),
+    temperatureTrend : t.enums.of(['Falling', 'Steady', 'Rising']),
+    newSnow24Hours : range(0, 100),
+    precipitation24Hours : range(0, 100),
+    stormSnowAmount : range(0, 300),
+    stormStartDate : t.Date,  // pattern: '^\d\d\d\d-\d\d-\d\d'
+    windSpeed : t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)']),
+    windDirection : Direction,
+    blowingSnow : t.enums.of(['None', 'Light', 'Moderate', 'Intense']),
     weatherObsComment : t.maybe(t.String),
 })
 
 export const IncidentReport = t.struct({
     groupActivity: t.enums.of(['Snowmobiling', 'Skiing', 'Climbing/Mountaineering', 'Hiking/Scrambling', 'Snowshoeing', 'Tobogganing', 'Other']),
     otherActivityDescription: t.maybe(t.String),
-    numberInvolved: t.Number,
     groupDetails: t.struct({
         groupSize: range(1, 100),
         numberFullyBuried: range(1, 100),
@@ -213,16 +214,4 @@ export const IncidentReport = t.struct({
         Cliff: t.Boolean,
     }),
     incidentDescription: t.maybe(t.String),
-})
-
-export default t.struct({
-    requiredInformation: RequiredInformation,
-    uploads: Uploads,
-    obs: t.struct({
-        quickReport: t.maybe(QuickReport),
-        avalancheReport: t.maybe(AvalancheReport),
-        snowpackReport: t.maybe(SnowpackReport),
-        weatherReport: t.maybe(WeatherReport),
-        incidentReport: t.maybe(IncidentReport),
-    }),
 })

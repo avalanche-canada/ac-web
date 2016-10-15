@@ -1,7 +1,7 @@
 @import "../../styles/colors.css";
 
+@custom-media --two-columns-inputs (width > 600px);
 @custom-media --two-columns (width > 900px);
-@custom-media --one-column-two-rows (width > 700px) and (width <= 900px);
 
 /*
 --quick-obs
@@ -12,18 +12,8 @@
 */
 
 .Form {
+    overflow: hidden;
     margin: 1em 0;
-
-    & :global(.field-depth-1 .field-radio-set),
-    & :global(.field-depth-2 .field-radio-set) {
-        padding-top: 1em;
-        column-count: 2;
-    }
-
-    & :global(.fieldset-depth-2 .fieldset-content) {
-        padding-top: 1em;
-        column-count: 2;
-    }
 
     & :global(.field) {
         margin-bottom: 1em;
@@ -31,36 +21,92 @@
         & input + label {
             padding-left: 0.5em;
         }
+    }
 
-        & label + input {
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
+    & :global(.fieldset-avalancheOccurrence label),
+    & :global(.field-otherActivityDescription > label),
+    & :global(.fieldset-ridingConditions > legend) {
+        /* Hide label but still accesible */
+        position: absolute;
+        left: 10000px;
+    }
+
+    & :global(.fieldset-content),
+    & :global(.field-radio-set) {
+        margin-bottom: 2em;
+    }
+
+    & :global(.field-avalancheSize > .field-radio-set),
+    & :global(.field-triggerType > .field-radio-set),
+    & :global(.field-windExposure > .field-radio-set),
+    & :global(.field-skyCondition > .field-radio-set),
+    & :global(.field-windDirection > .field-radio-set),
+    & :global(.field-groupActivity > .field-radio-set),
+    & :global(.fieldset-avalancheCharacter > .fieldset-content),
+    & :global(.fieldset-snowpackSiteAspect > .fieldset-content),
+    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
+    & :global(.fieldset-snowpackTestFailureLayerCrystalType > .fieldset-content),
+    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
+    & :global(.fieldset-weakLayerCrystalType > .fieldset-content),
+    & :global(.fieldset-startZoneAspect > .fieldset-content),
+    & :global(.fieldset-ridingConditions-snowConditions > .fieldset-content),
+    & :global(.fieldset-ridingConditions-rideType > .fieldset-content),
+    & :global(.fieldset-ridingConditions-weather > .fieldset-content),
+    & :global(.fieldset-ridingConditions-stayedAway > .fieldset-content) {
+        column-count: 2;
+
+        /* SHAME, but column CSS is so weird. Remove margins and apply line-height instead */
+        & > :global(.field) {
+            margin: 0;
+            line-height: 2;
         }
     }
 
-    & :global(.ui.message.info) {
-        color: var(--gray-dark);
-        margin: 1em 0;
+    & :global(.fieldset-depth-1 .fieldset-depth-2:last-child > .fieldset-content) {
+        margin: 0;
     }
 
-    & :global(.ui.pointing.label.visible) {
+    & :global(.ui.pointing.label.visible),
+    & :global(.ui.message.info) {
         display: block;
         color: var(--gray-dark);
-        margin: 1em 0;
+        margin: 0.5em 0;
+    }
+
+    & :global(.field.error > label) {
+        color: var(--brand-secondary);
+    }
+
+    & :global(.fieldset.error > legend) {
+        color: var(--brand-secondary);
+    }
+
+    & :global(.field-files) {
+        position: relative;
+
+        & > label {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            line-height: 38px;
+            pointer-events: none;
+            padding: 0 1em;
+            margin: 0 !important;
+            background-color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     & div[role="tabpanel"] {
-        margin: 1em 0;
-        & > fieldset {
+        margin: 0.5em;
+        & fieldset {
             border: none;
+            margin: 0;
+            padding: 0;
         }
-    }
-
-    & textarea {
-        display: block;
-        min-width: 100%;
-        max-width: 100%;
     }
 }
 
@@ -70,10 +116,6 @@
 
     @media (--two-columns) {
         flex-direction: row;
-    }
-
-    @media (--one-column-two-rows) {
-        flex-direction: column;
     }
 }
 
@@ -86,10 +128,6 @@
     @media (--two-columns) {
         margin-right: 0.5em;
     }
-
-    @media (--one-column-two-rows) {
-        flex-direction: row;
-    }
 }
 
 .MainFieldsetContainer {
@@ -97,27 +135,32 @@
         position: relative;
         border: 8px solid white;
         margin-bottom: 1em;
+        padding: 0.5em;
 
         & > legend {
-            font-size: 1.25em;
-            font-weight: 700;
-            line-height: 2;
+            line-height: 2em;
+            font-size: 1.5em;
 
             &:before {
                 content: "";
-                position: absolute -8px -8px auto -8px;
                 height: 2em;
+                position: absolute -8px -8px auto -8px;
                 background-color: white;
                 z-index: -1;
             }
         }
     }
 
-    & :global(.field-depth-1 > label),
-    & :global(.fieldset-depth-1 > legend) {
-        font-size: 1.15em;
-        font-weight: 700;
-        line-height: 2;
+    & fieldset > legend,
+    & :global(.field) > label {
+        font-size: 1.25em;
+    }
+
+    @media (--two-columns-inputs) {
+        /*& > :global(.fieldset-content),
+        & > :global(.field-radio-set) {
+        }*/
+        /*column-count: 2;*/
     }
 }
 
@@ -138,17 +181,8 @@
             }
         }
     }
-
-    & :global(.fieldset-depth-1) {
-        border: none;
-    }
 }
 
 .Uploads {
     composes: MainFieldsetContainer;
-}
-
-
-:global(.field.error) {
-    color: red;
 }

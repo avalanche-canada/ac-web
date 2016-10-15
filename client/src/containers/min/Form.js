@@ -7,6 +7,9 @@ import {Page, Header, Main, Section, Content} from 'components/page'
 import Button from 'components/button'
 import styles from './Form.css'
 import OPTIONS from './options'
+import moment from 'moment'
+import QUICK_REPORT from './quick.json'
+import AuthService from 'services/auth'
 import {
     RequiredInformation,
     Uploads,
@@ -19,40 +22,66 @@ import {
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 import * as COLORS from 'components/icons/min/colors'
 
-const TYPES = [QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT]
+const TYPES = [QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT]
 const Titles = new Map([
     [QUICK, 'Quick'],
-    [WEATHER, 'Weather'],
-    [SNOWPACK, 'Snowpack'],
     [AVALANCHE, 'Avalanche'],
+    [SNOWPACK, 'Snowpack'],
+    [WEATHER, 'Weather'],
     [INCIDENT, 'Incident'],
 ])
 const Colors = new Map([
     [QUICK, COLORS.QUICK],
-    [WEATHER, COLORS.WEATHER],
-    [SNOWPACK, COLORS.SNOWPACK],
     [AVALANCHE, COLORS.AVALANCHE],
+    [SNOWPACK, COLORS.SNOWPACK],
+    [WEATHER, COLORS.WEATHER],
     [INCIDENT, COLORS.INCIDENT],
 ])
 const ObservationTypes = new Map([
     [QUICK, QuickReport],
-    [WEATHER, WeatherReport],
-    [SNOWPACK, SnowpackReport],
     [AVALANCHE, AvalancheReport],
+    [SNOWPACK, SnowpackReport],
+    [WEATHER, WeatherReport],
     [INCIDENT, IncidentReport],
 ])
+const Keys = new Map([
+    [QUICK, 'quickReport'],
+    [AVALANCHE, 'avalancheReport'],
+    [SNOWPACK, 'snowpackReport'],
+    [WEATHER, 'weatherReport'],
+    [INCIDENT, 'incidentReport'],
+])
+
+function isNull(value) {
+    return value === null
+}
+
+function ridingConditionsMerger(prev, next) {
+    if (prev.type === 'single') {
+        return {
+            ...prev,
+            selected: next
+        }
+    }
+
+    return {
+        ...prev,
+        options: next
+    }
+}
+
 
 @CSSModules(styles)
 export default class Form extends Component {
     state = {
-        value: new Immutable.Map({
+        value: Immutable.Map({
             required: null,
             uploads: null,
-            observations: new Immutable.Map({
+            observations: Immutable.Map({
                 [QUICK]: null,
-                [WEATHER]: null,
-                [SNOWPACK]: null,
                 [AVALANCHE]: null,
+                [SNOWPACK]: null,
+                [WEATHER]: null,
                 [INCIDENT]: null,
             }),
         }),
@@ -62,7 +91,9 @@ export default class Form extends Component {
     handleSubmit = event => {
         event.preventDefault()
 
-        const values = []
+        let values = Immutable.Map({
+            observations: Immutable.Map()
+        })
         const {value} = this.state
         const {refs} = this
 
@@ -70,17 +101,91 @@ export default class Form extends Component {
             const path = key.split('.')
 
             if (path.length === 1 || value.getIn(path)) {
-                values.push(refs[key].getValue())
+                values = values.setIn(path, refs[key].getValue())
             }
         })
 
-        if (values.some(value => value === null)) {
-            console.warn('not valid', values)
+        if (values.some(isNull) || values.get('observations').some(isNull)) {
+            console.warn('not valid', values.toJSON())
         } else {
-            console.warn('SUBMIT: it is valid', values)
-            const data = new FormData()
-            // TODO: Transforn the object and feed data and then post the data
+            this.submit(values)
         }
+    }
+    submit(values) {
+        const required = values.get('required')
+        const uploads = values.get('uploads')
+        const {longitude, latitude} = required.latlng
+
+        let observations = values.get('observations')
+
+        if (observations.has(QUICK)) {
+            const quick = observations.get(QUICK)
+            const ridingConditions = Immutable.Map(QUICK_REPORT.ridingConditions)
+            .mergeWith(ridingConditionsMerger, Immutable.Map(quick.ridingConditions)).toJSON()
+
+            observations = observations.set(QUICK, {
+                ...quick,
+                ridingConditions
+            })
+        }
+
+        if (observations.has(INCIDENT)) {
+            const incident = observations.get(INCIDENT)
+            const {
+                numberFullyBuried = null,
+                numberPartlyBuriedImpairedBreathing = null,
+                numberPartlyBuriedAbleBreathing = null,
+                numberCaughtOnly = null,
+                numberPeopleInjured = null,
+            } = incident
+
+            observations = observations.set(INCIDENT, {
+                ...incident,
+                numberInvolved: numberFullyBuried + numberPartlyBuriedImpairedBreathing + numberPartlyBuriedAbleBreathing + numberCaughtOnly + numberPeopleInjured,
+            })
+        }
+
+        if (observations.has(AVALANCHE)) {
+            const {
+                avalancheOccurrence: {
+                    time,
+                    epoch,
+                },
+                ...avalanche,
+            } = observations.get(AVALANCHE)
+
+            observations = observations.set(AVALANCHE, {
+                ...avalanche,
+                avalancheOccurrenceEpoch: epoch,
+                avalancheOccurrenceTime: time,
+            })
+        }
+
+        const form = new FormData()
+        const data = {
+            ...required,
+            datetime: required.datetime.toISOString(),
+            latlng: JSON.stringify([String(latitude), String(longitude)]),
+            obs: JSON.stringify(observations.mapKeys(key => Keys.get(key)).toJSON())
+        }
+
+        Object.keys(data).map(key =>
+            form.set(key, data[key])
+        )
+
+        // TODO: List all files...have ot look at the issue in tcomb
+        const {files} = document.querySelector('input[name="files"]')
+        let index = 0
+        for (let file of files) {
+            form.append(`files${index++}`, file)
+        }
+
+        const request = new XMLHttpRequest()
+        const auth = AuthService.create()
+
+        request.open('POST', '/api/min/submissions')
+        request.setRequestHeader('Authorization', `Bearer ${auth.token}`)
+        request.send(form)
     }
     setValue(path, value, callback) {
         this.setState({

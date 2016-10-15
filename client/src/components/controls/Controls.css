@@ -68,3 +68,24 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.Group {
+    position: relative;
+}
+
+.Addon {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.Addon--Left {
+    composes: Addon;
+    left: 0;
+}
+
+.Addon--Right {
+    composes: Addon;
+    right: 0;
+}

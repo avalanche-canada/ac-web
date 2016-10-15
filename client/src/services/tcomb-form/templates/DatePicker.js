@@ -1,6 +1,8 @@
 import React, {PropTypes, Component} from 'react'
 import {DayPicker, DateUtils} from 'components/misc'
 import classnames from 'classnames'
+import {Close} from 'components/button'
+import controls from 'components/controls/Controls.css'
 
 function defaultFormat(value) {
     return value ? value.toISOString().substring(0, 10) : ''
@@ -17,21 +19,21 @@ function create(overrides = {}) {
 
     template.renderContainer = overrides.renderContainer || function renderContainer(locals) {
         return (
-            <div style={{maxWidth: '300px'}}>
+            <div>
                 {template.renderDate(locals)}
                 {locals.isOpen && template.renderDayPicker(locals)}
             </div>
         )
     }
 
-    template.renderResetButtonLabel = overrides.renderResetButtonLabel || function renderResetButtonLabel() {
-        return <span>x</span>
-    }
-
     template.renderResetButton = overrides.renderResetButton || function renderResetButton(locals) {
+        if (!locals.value) {
+            return null
+        }
+
         return (
-            <div className='input-group-addon' style={{cursor: 'pointer'}} onClick={locals.onReset}>
-                {template.renderResetButtonLabel(locals)}
+            <div className={controls['Addon--Right']}>
+                <Close onClick={locals.onReset} />
             </div>
         )
     }
@@ -46,7 +48,7 @@ function create(overrides = {}) {
         const format = template.getFormat(locals)
 
         return (
-            <div className='input-group'>
+            <div className={controls.Group}>
                 <input
                 {...locals.attrs}
                 onClick={() => locals.toggle()}

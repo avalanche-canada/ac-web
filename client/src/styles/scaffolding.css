@@ -36,10 +36,6 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-fieldset > legend {
-    padding: 0 0.25em;
-}
-
 /* More info and ideas here: https://davidwalsh.name/external-links-css */
 /* A winter project ;) */
 /*a[target="_blank"]:not(:empty):after {
@@ -80,5 +76,52 @@ ul:not([class]) {
 @media print {
     a:after {
         content: " (" attr(href) ")";
+    }
+}
+
+/* FORM */
+input:not([type="checkbox"]):not([type="radio"]) {
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+    padding-left: 10px;
+    border: 1px solid var(--gray-lighter);
+    background-color: white;
+    box-sizing: border-box;
+    line-height: 1;
+}
+input[type="file"] {
+    cursor: pointer;
+}
+textarea {
+    display: block;
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    min-height: 75px;
+    border-radius: 0;
+    box-sizing: border-box;
+    border: 1px solid var(--gray-lighter);
+}
+label {
+    display: inline-block;
+    margin: 0.5em 0;
+    max-width: 100%;
+    font-weight: 700;
+}
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+    display: inline;
+    font-weight: normal;
+}
+body fieldset {
+    border: 1px solid var(--gray-lighter);
+    margin: 0;
+    padding: 0.75em;
+
+    & > legend {
+        margin: 0.5em 0;
+        font-size: 1.5em;
+        font-weight: 700;
     }
 }
