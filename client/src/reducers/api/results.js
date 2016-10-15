@@ -23,6 +23,7 @@ import {
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
+    POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     PROVIDERS_REQUEST,
     PROVIDERS_SUCCESS,
     PROVIDERS_FAILURE,
@@ -69,7 +70,7 @@ export const RESULT = {
     props: {},
 }
 
-function resultsReducerFactory(schema, request, success, failure) {
+function resultsReducerFactory(schema, request, success, failure, postRequest, postSuccess = null) {
     function results(state = RESULT, {type, payload}) {
         switch (type) {
             case request:
@@ -96,6 +97,11 @@ function resultsReducerFactory(schema, request, success, failure) {
                     isFetching: false,
                     isLoaded: false,
                     isError: true,
+                }
+            case postSuccess:
+                return {
+                    ...state,
+                    isLoaded: false,
                 }
             default:
                 return state
@@ -134,6 +140,7 @@ export default combineReducers({
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
+        POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     ),
     [ForecastRegion.getKey()]: resultsReducerFactory(
         ForecastRegion,

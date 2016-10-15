@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Immutable from 'immutable'
 import t from 'services/tcomb-form'
 import CSSModules from 'react-css-modules'
+import {connect} from 'react-redux'
 import {Tab, TabSet} from 'components/tab'
 import {Page, Header, Main, Section, Content} from 'components/page'
 import Button from 'components/button'
@@ -9,7 +10,7 @@ import styles from './Form.css'
 import OPTIONS from './options'
 import moment from 'moment'
 import QUICK_REPORT from './quick.json'
-import AuthService from 'services/auth'
+import {postMountainInformationNetworkSubmission} from 'actions/entities'
 import {
     RequiredInformation,
     Uploads,
@@ -71,6 +72,9 @@ function ridingConditionsMerger(prev, next) {
 }
 
 
+@connect(null, {
+    post: postMountainInformationNetworkSubmission
+})
 @CSSModules(styles)
 export default class Form extends Component {
     state = {
@@ -161,6 +165,7 @@ export default class Form extends Component {
             })
         }
 
+        // TODO: That transformation to formdata should be done in Axios!!!
         const form = new FormData()
         const data = {
             ...required,
@@ -173,19 +178,14 @@ export default class Form extends Component {
             form.set(key, data[key])
         )
 
-        // TODO: List all files...have ot look at the issue in tcomb
+        // TODO: List all files...have ot look at the issue in tcomb-form
         const {files} = document.querySelector('input[name="files"]')
         let index = 0
         for (let file of files) {
             form.append(`files${index++}`, file)
         }
 
-        const request = new XMLHttpRequest()
-        const auth = AuthService.create()
-
-        request.open('POST', '/api/min/submissions')
-        request.setRequestHeader('Authorization', `Bearer ${auth.token}`)
-        request.send(form)
+        this.props.post(form)
     }
     setValue(path, value, callback) {
         this.setState({

@@ -1,17 +1,22 @@
 import {createAction} from 'redux-actions'
 import AuthService from 'services/auth'
 import {getIsAuthenticated} from 'reducers/auth'
+import Axios from 'axios'
 
 export const TOKEN_RECEIVED = 'TOKEN_RECEIVED'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
+const auth = AuthService.create()
+
+Axios.defaults.headers.post['Authorization'] = `Bearer ${auth.token}`
+
 export function receiveToken(token) {
     return (dispatch, getState) => {
-        const auth = AuthService.create()
-
         auth.token = token
+
+        Axios.defaults.headers.post['Authorization'] = `Bearer ${token}`
 
         dispatch({
             type: TOKEN_RECEIVED,

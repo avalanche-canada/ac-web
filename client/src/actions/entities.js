@@ -1,6 +1,6 @@
 import {normalize, arrayOf} from 'normalizr'
 import * as Schemas from 'api/schemas'
-import {createApiAction} from 'api/utils'
+import {createApiAction, createPostAction} from 'api/utils'
 
 export const FORECAST_REQUEST = 'FORECAST_REQUEST'
 export const FORECAST_SUCCESS = 'FORECAST_SUCCESS'
@@ -123,7 +123,7 @@ export const loadCourses = createApiAction(
 )
 
 // CREATE ENTITY
-export const postMountainInformationNetworkSubmission = createApiAction(
+export const postMountainInformationNetworkSubmission = createPostAction(
     Schemas.MountainInformationNetworkSubmission,
     POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION_REQUEST,
     POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION_SUCCESS,
