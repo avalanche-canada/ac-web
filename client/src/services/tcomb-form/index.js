@@ -5,6 +5,16 @@ import templates from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
 
+// FileList
+export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
+class FileListFactory extends t.form.Textbox {
+    getTemplate() {
+        return templates.file
+    }
+}
+FileList.getTcombFormFactory = () => FileListFactory
+
+
 // Date
 class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
@@ -20,7 +30,7 @@ t.Date.getTcombFormFactory = () => DatePickerFactory
 
 
 // Time
-export const Time = t.irreducible('Time', x => typeof x === 'string')
+export const Time = t.irreducible('Time', value => typeof value === 'string')
 
 class TimePickerFactory extends t.form.Textbox {
     getTemplate() {
@@ -36,7 +46,7 @@ Time.getTcombFormFactory = () => TimePickerFactory
 
 
 // Date and Time
-export const DateTime = t.irreducible('DateTime', x => x instanceof Date)
+export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
 
 DateTime.getTcombFormFactory = () => DatePickerFactory
 

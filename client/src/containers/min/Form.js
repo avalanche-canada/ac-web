@@ -80,7 +80,6 @@ export default class Form extends Component {
     state = {
         value: Immutable.Map({
             required: null,
-            uploads: null,
             observations: Immutable.Map({
                 [QUICK]: null,
                 [AVALANCHE]: null,
@@ -95,11 +94,11 @@ export default class Form extends Component {
     handleSubmit = event => {
         event.preventDefault()
 
+        const {value} = this.state
+        const {refs} = this
         let values = Immutable.Map({
             observations: Immutable.Map()
         })
-        const {value} = this.state
-        const {refs} = this
 
         Object.keys(refs).forEach(key => {
             const path = key.split('.')
@@ -109,7 +108,7 @@ export default class Form extends Component {
             }
         })
 
-        if (values.some(isNull) || values.get('observations').some(isNull)) {
+        if (values.some(isNull) || values.get('observations').every(isNull)) {
             console.warn('not valid', values.toJSON())
         } else {
             this.submit(values)
@@ -117,9 +116,7 @@ export default class Form extends Component {
     }
     submit(values) {
         const required = values.get('required')
-        const uploads = values.get('uploads')
         const {longitude, latitude} = required.latlng
-
         let observations = values.get('observations')
 
         if (observations.has(QUICK)) {
@@ -129,18 +126,18 @@ export default class Form extends Component {
 
             observations = observations.set(QUICK, {
                 ...quick,
-                ridingConditions
+                ridingConditions,
             })
         }
 
         if (observations.has(INCIDENT)) {
             const incident = observations.get(INCIDENT)
             const {
-                numberFullyBuried = null,
-                numberPartlyBuriedImpairedBreathing = null,
-                numberPartlyBuriedAbleBreathing = null,
-                numberCaughtOnly = null,
-                numberPeopleInjured = null,
+                numberFullyBuried = 0,
+                numberPartlyBuriedImpairedBreathing = 0,
+                numberPartlyBuriedAbleBreathing = 0,
+                numberCaughtOnly = 0,
+                numberPeopleInjured = 0,
             } = incident
 
             observations = observations.set(INCIDENT, {
@@ -165,7 +162,10 @@ export default class Form extends Component {
             })
         }
 
-        // TODO: That transformation to formdata should be done in Axios!!!
+        // TODO: List all files...have ot look at the issue in tcomb-form
+        const {files} = document.querySelector('input[name="files"]')
+
+        // TODO: That transformation to FormData should be done in Axios!!!
         const form = new FormData()
         const data = {
             ...required,
@@ -178,8 +178,6 @@ export default class Form extends Component {
             form.set(key, data[key])
         )
 
-        // TODO: List all files...have ot look at the issue in tcomb-form
-        const {files} = document.querySelector('input[name="files"]')
         let index = 0
         for (let file of files) {
             form.append(`files${index++}`, file)
@@ -199,9 +197,6 @@ export default class Form extends Component {
     }
     handleRequiredChange = value => {
         this.setValue(['required'], value)
-    }
-    handleChangeUploads = value => {
-        this.setValue(['uploads'], value)
     }
     handleObservationChange = type => value => {
         this.setState({
@@ -230,7 +225,7 @@ export default class Form extends Component {
                                         <Form ref='required' type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
                                     </div>
                                     <div styleName='Uploads'>
-                                        <Form ref='uploads' type={Uploads} value={value.get('uploads')} onChange={this.handleChangeUploads} options={options.uploads} />
+                                        <Form type={Uploads} options={options.uploads} />
                                     </div>
                                 </div>
                                 <div styleName='Observations'>

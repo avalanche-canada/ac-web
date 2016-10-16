@@ -24,7 +24,9 @@ function create(overrides = {}) {
       attrs.value = locals.value
     }
     attrs.onChange = locals.type === 'file' ?
-      evt => locals.onChange(evt.target.files[0]) :
+      locals.attrs.multiple === true ?
+        evt => locals.onChange(evt.target.files) :
+        evt => locals.onChange(evt.target.files[0]) :
       evt => locals.onChange(evt.target.value)
 
     if (locals.help) {

@@ -1,4 +1,4 @@
-import t, {GeoPosition, Time, DateTime} from 'services/tcomb-form'
+import t, {GeoPosition, Time, DateTime, FileList} from 'services/tcomb-form'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -17,7 +17,7 @@ export const RequiredInformation = t.struct({
 })
 
 export const Uploads = t.struct({
-    files: t.maybe(t.form.File)
+    files: t.maybe(FileList)
 })
 
 export const QuickReport = t.struct({

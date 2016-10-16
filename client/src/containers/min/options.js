@@ -66,11 +66,10 @@ export default {
             files: {
                 label: 'Click to upload a photo',
                 help: 'If uploading more than one photo, select all and submit photos together.',
-                factory: t.form.Textbox,
                 type: 'file',
                 attrs: {
                     multiple: true,
-                    accept: "image/gif,image/jpeg,image/jpg,image/png",
+                    accept: 'image/gif,image/jpeg,image/jpg,image/png',
                 },
             }
         },
