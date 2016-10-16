@@ -62,25 +62,27 @@ export const QuickReport = t.struct({
         }),
     }),
     avalancheConditions: t.struct({
-        snow : t.Boolean,
-        slab : t.Boolean,
-        sound : t.Boolean,
-        temp : t.Boolean,
+        snow: t.Boolean,
+        slab: t.Boolean,
+        sound: t.Boolean,
+        temp: t.Boolean,
     }),
+    // TODO: Ask Will, why this one required, other report comments not?
     comment: t.String,
 })
 
 export const AvalancheReport = t.struct({
     avalancheOccurrence: t.struct({
         epoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
-        time: t.maybe(Time), // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
+        // TODO: Ask Will about that one
+        time: Time, // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
     }),
-    avalancheObservation: t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago']),
-    avalancheNumber: t.enums.of(['1', '2-5', '6-10', '11-50', '51-100']),
-    avalancheSize: t.enums.of(['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5']),
-    slabThickness: range(10, 500),
-    slabWidth: range(1, 3000),
-    runLength: range(1, 10000),
+    avalancheObservation: t.maybe(t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago'])),
+    avalancheNumber: t.maybe(t.enums.of(['1', '2-5', '6-10', '11-50', '51-100'])),
+    avalancheSize: t.maybe(t.enums.of(['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'])),
+    slabThickness: t.maybe(range(10, 500)),
+    slabWidth: t.maybe(range(1, 3000)),
+    runLength: t.maybe(range(1, 10000)),
     avalancheCharacter: t.struct({
         'Storm slab': t.Boolean,
         'Wind slab': t.Boolean,
@@ -92,9 +94,9 @@ export const AvalancheReport = t.struct({
         'Loose wet': t.Boolean,
         'Loose dry': t.Boolean,
     }),
-    triggerType: t.enums.of(['Natural', 'Skier', 'Snowmobile', 'Other vehicle', 'Helicopter', 'Explosives']),
-    triggerSubtype: t.enums.of(['Accidental', 'Intentional', 'Remote']),
-    triggerDistance: range(0, 2000),
+    triggerType: t.maybe(t.enums.of(['Natural', 'Skier', 'Snowmobile', 'Other vehicle', 'Helicopter', 'Explosives'])),
+    triggerSubtype: t.maybe(t.enums.of(['Accidental', 'Intentional', 'Remote'])),
+    triggerDistance: t.maybe(range(0, 2000)),
     startZoneAspect: t.struct({
         N: t.Boolean,
         NE: t.Boolean,
@@ -110,9 +112,10 @@ export const AvalancheReport = t.struct({
         'Treeline': t.Boolean,
         'Below treeline': t.Boolean,
     }),
-    startZoneElevation: range(0, 5000),
-    startZoneIncline: range(0, 90),
-    runoutZoneElevation: range(0, 5000),
+    startZoneElevation: t.maybe(range(0, 5000)),
+    startZoneIncline: t.maybe(range(0, 90)),
+    runoutZoneElevation: t.maybe(range(0, 5000)),
+    // TODO: Ask Will about that one. Weird that is required.
     weakLayerBurialDate: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
     weakLayerCrystalType: t.struct({
         'Surface hoar': t.Boolean,
@@ -121,16 +124,17 @@ export const AvalancheReport = t.struct({
         'Depth hoar': t.Boolean,
         'Storm snow': t.Boolean,
     }),
-    crustNearWeakLayer: YesNo,
-    windExposure: t.enums.of(['Lee slope', 'Cross-loaded slope', 'Windward slope', 'Down flow', 'Reverse-loaded slope', 'No wind exposure']),
-    vegetationCover: t.enums.of(['Open slope', 'Sparse trees or gladed slope', 'Dense trees']),
+    crustNearWeakLayer: t.maybe(YesNo),
+    windExposure: t.maybe(t.enums.of(['Lee slope', 'Cross-loaded slope', 'Windward slope', 'Down flow', 'Reverse-loaded slope', 'No wind exposure'])),
+    vegetationCover: t.maybe(t.enums.of(['Open slope', 'Sparse trees or gladed slope', 'Dense trees'])),
+    // TODO: Ask Will. Hmmm...sure about that?
     avalancheObsComment: t.maybe(t.String),
 })
 
 
 export const SnowpackReport = t.struct({
-    snowpackObsType: t.enums.of(['Point observation', 'Summary']),
-    snowpackSiteElevation: range(0, 4000),
+    snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
+    snowpackSiteElevation: t.maybe(range(0, 4000)),
     snowpackSiteElevationBand: t.struct({
         'Alpine': t.Boolean,
         'Treeline': t.Boolean,
@@ -146,9 +150,9 @@ export const SnowpackReport = t.struct({
         W: t.Boolean,
         NW: t.Boolean
     }),
-    snowpackDepth: range(0, 10000),
-    snowpackWhumpfingObserved: YesNo,
-    snowpackCrackingObserved: YesNo,
+    snowpackDepth: t.maybe(range(0, 10000)),
+    snowpackWhumpfingObserved: t.maybe(YesNo),
+    snowpackCrackingObserved: t.maybe(YesNo),
     snowpackSurfaceCondition: t.struct({
         'New snow': t.Boolean,
         'Crust': t.Boolean,
@@ -157,12 +161,12 @@ export const SnowpackReport = t.struct({
         'Corn': t.Boolean,
         'Variable': t.Boolean,
     }),
-    snowpackFootPenetration: range(0, 200),
-    snowpackSkiPenetration: range(0, 200),
-    snowpackSledPenetration: range(0, 200),
-    snowpackTestInitiation: t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard']),
-    snowpackTestFracture: t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break']),
-    snowpackTestFailure: range(0, 200),
+    snowpackFootPenetration: t.maybe(range(0, 200)),
+    snowpackSkiPenetration: t.maybe(range(0, 200)),
+    snowpackSledPenetration: t.maybe(range(0, 200)),
+    snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
+    snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
+    snowpackTestFailure: t.maybe(range(0, 200)),
     snowpackTestFailureLayerCrystalType: t.struct({
         'Surface hoar': t.Boolean,
         'Facets': t.Boolean,
@@ -175,37 +179,38 @@ export const SnowpackReport = t.struct({
 })
 
 export const WeatherReport = t.struct({
-    skyCondition : t.enums.of(['Clear', 'Few clouds (<2/8)', 'Scattered clouds (2/8-4/8)', 'Broken clouds (5/8-7/8)', 'Overcast (8/8)', 'Fog']),
-    precipitationType : t.enums.of(['Snow', 'Rain', 'Mixed snow & rain', 'None']),
-    snowfallRate : range(1, 20),
-    rainfallRate : t.enums.of(['Drizzle', 'Showers', 'Raining', 'Pouring']),
-    temperature : range(-50, 40),
-    minTemp : range(-50, 30),
-    maxTemp : range(-40, 40),
-    temperatureTrend : t.enums.of(['Falling', 'Steady', 'Rising']),
-    newSnow24Hours : range(0, 100),
-    precipitation24Hours : range(0, 100),
-    stormSnowAmount : range(0, 300),
-    stormStartDate : t.Date,  // pattern: '^\d\d\d\d-\d\d-\d\d'
-    windSpeed : t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)']),
-    windDirection : Direction,
-    blowingSnow : t.enums.of(['None', 'Light', 'Moderate', 'Intense']),
-    weatherObsComment : t.maybe(t.String),
+    skyCondition: t.maybe(t.enums.of(['Clear', 'Few clouds (<2/8)', 'Scattered clouds (2/8-4/8)', 'Broken clouds (5/8-7/8)', 'Overcast (8/8)', 'Fog'])),
+    precipitationType: t.maybe(t.enums.of(['Snow', 'Rain', 'Mixed snow & rain', 'None'])),
+    snowfallRate: t.maybe(range(1, 20)),
+    rainfallRate: t.maybe(t.enums.of(['Drizzle', 'Showers', 'Raining', 'Pouring'])),
+    temperature: t.maybe(range(-50, 40)),
+    minTemp: t.maybe(range(-50, 30)),
+    maxTemp: t.maybe(range(-40, 40)),
+    temperatureTrend: t.maybe(t.enums.of(['Falling', 'Steady', 'Rising'])),
+    newSnow24Hours: t.maybe(range(0, 100)),
+    precipitation24Hours: t.maybe(range(0, 100)),
+    stormSnowAmount: t.maybe(range(0, 300)),
+    // TODO: Ask Will. Why is it required?
+    stormStartDate: t.Date,  // pattern: '^\d\d\d\d-\d\d-\d\d'
+    windSpeed: t.maybe(t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)'])),
+    windDirection: t.maybe(Direction),
+    blowingSnow: t.maybe(t.enums.of(['None', 'Light', 'Moderate', 'Intense'])),
+    weatherObsComment: t.maybe(t.maybe(t.String)),
 })
 
 export const IncidentReport = t.struct({
-    groupActivity: t.enums.of(['Snowmobiling', 'Skiing', 'Climbing/Mountaineering', 'Hiking/Scrambling', 'Snowshoeing', 'Tobogganing', 'Other']),
+    groupActivity: t.maybe(t.enums.of(['Snowmobiling', 'Skiing', 'Climbing/Mountaineering', 'Hiking/Scrambling', 'Snowshoeing', 'Tobogganing', 'Other'])),
     otherActivityDescription: t.maybe(t.String),
     groupDetails: t.struct({
-        groupSize: range(1, 100),
-        numberFullyBuried: range(1, 100),
-        numberPartlyBuriedImpairedBreathing: range(0, 100),
-        numberPartlyBuriedAbleBreathing: range(0, 100),
-        numberCaughtOnly: range(0, 100),
-        numberPeopleInjured: range(0, 400),
+        groupSize: t.maybe(range(1, 100)),
+        numberFullyBuried: t.maybe(range(1, 100)),
+        numberPartlyBuriedImpairedBreathing: t.maybe(range(0, 100)),
+        numberPartlyBuriedAbleBreathing: t.maybe(range(0, 100)),
+        numberCaughtOnly: t.maybe(range(0, 100)),
+        numberPeopleInjured: t.maybe(range(0, 400)),
     }),
-    terrainShapeTriggerPoint: t.enums.of(['Convex', 'Planar', 'Concave', 'Unsupported']),
-    snowDepthTriggerPoint: t.enums.of(['Shallow', 'Deep', 'Average', 'Variable']),
+    terrainShapeTriggerPoint: t.maybe(t.enums.of(['Convex', 'Planar', 'Concave', 'Unsupported'])),
+    snowDepthTriggerPoint: t.maybe(t.enums.of(['Shallow', 'Deep', 'Average', 'Variable'])),
     terrainTrap: t.struct({
         'No obvious terrain trap': t.Boolean,
         'Gully or depression': t.Boolean,
@@ -214,4 +219,25 @@ export const IncidentReport = t.struct({
         Cliff: t.Boolean,
     }),
     incidentDescription: t.maybe(t.String),
+    numberInvolved: t.maybe(t.Number),
+})
+
+// TODO: Use this type to render the form...
+// It will be easier to validate...and render
+export const ObservationSet = t.refinement(t.struct({
+    quickReport: t.maybe(QuickReport),
+    avalancheReport: t.maybe(AvalancheReport),
+    snowpackReport: t.maybe(SnowpackReport),
+    weatherReport: t.maybe(WeatherReport),
+    incidentReport: t.maybe(IncidentReport),
+}), observations => {
+    const keys = Object.keys(observations)
+
+    return keys.length > 0 && keys.every(key => !t.Nil.is(observations[key]))
+})
+
+Object.assign(ObservationSet.prototype, {
+    transformForServer() {
+        console.warn('not implemented')
+    }
 })

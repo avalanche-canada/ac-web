@@ -23,7 +23,8 @@
         }
     }
 
-    & :global(.fieldset-avalancheOccurrence label),
+    & :global(.field-avalancheOccurrence-time > label),
+    & :global(.field-avalancheOccurrence-epoch > label),
     & :global(.field-otherActivityDescription > label),
     & :global(.fieldset-ridingConditions > legend) {
         /* Hide label but still accesible */
@@ -42,6 +43,7 @@
     & :global(.field-skyCondition > .field-radio-set),
     & :global(.field-windDirection > .field-radio-set),
     & :global(.field-groupActivity > .field-radio-set),
+    & :global(.fieldset-latlng > .fieldset-content),
     & :global(.fieldset-avalancheCharacter > .fieldset-content),
     & :global(.fieldset-snowpackSiteAspect > .fieldset-content),
     & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
@@ -129,7 +131,7 @@
     display: flex;
     flex-direction: column;
 
-    flex: 0 1 40%;
+    flex: 0 1 35%;
 
     @media (--two-columns) {
         margin-right: 0.5em;

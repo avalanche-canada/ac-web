@@ -221,7 +221,7 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='mountain-information-network' sponsorRef='MIN' component={MountainInformationNetwork} />
-            <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
+            <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} /*onEnter={requireAuth}*/ />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetworkSubmission} />

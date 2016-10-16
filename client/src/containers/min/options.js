@@ -1,3 +1,5 @@
+import React from 'react'
+import {Error} from 'components/misc'
 import t from 'tcomb-form/lib'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 
@@ -30,6 +32,7 @@ const ASPECT_FIELDS = {
 
 export default {
     required: {
+        // error: <Error>Some values are missing</Error>,
         label: 'Step 1. Required Information',
         fields: {
             title: {
@@ -315,7 +318,7 @@ export default {
                     time: {
                         label: 'Time',
                         attrs: {
-                            placeholder: 'Click to select a time (optional)'
+                            placeholder: 'Click to select a time'
                         },
                     },
                 },
@@ -485,6 +488,9 @@ export default {
             incidentDescription: {
                 type: 'textarea',
                 help: 'No names and no judging please. See submission guidelines for more details.',
+            },
+            numberInvolved: {
+                type: 'hidden'
             },
         },
     },

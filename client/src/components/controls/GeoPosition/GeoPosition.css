@@ -9,4 +9,5 @@
 
 .Marker {
     cursor: move;
+    user-select: none;
 }

@@ -35,5 +35,6 @@ export Image from './Image'
 
 export Backdrop from './Backdrop'
 
+export TimePicker from './TimePicker'
 export DayPicker from './DayPicker'
 export {DateUtils} from 'react-day-picker'

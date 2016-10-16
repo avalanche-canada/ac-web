@@ -3,6 +3,7 @@ import {compose, setPropTypes, withState, withPropsOnChange} from 'recompose'
 import textbox from './textbox'
 import ImageGallery from 'react-image-gallery'
 import {Loading, Muted, Error} from 'components/misc'
+import {pluralize} from 'utils/string'
 
 function read(file, index) {
     return new Promise((resolve, reject) => {
@@ -11,7 +12,7 @@ function read(file, index) {
                 onload: event => resolve(event.target.result),
                 onerror: event => reject(`Error reading ${file.name}: ${event.target.result}`),
             }).readAsDataURL(file)
-        }, index * 50)
+        }, index * 10)
     })
 }
 function toItem(image) {
@@ -24,14 +25,16 @@ const SLIDER_STYLE = {
     marginTop: '1em'
 }
 
+const STATE = {
+    images: null,
+    hasError: false,
+}
+
 class Slider extends Component {
     static propTypes = {
         files: PropTypes.instanceOf(FileList).isRequired,
     }
-    state = {
-        images: null,
-        hasError: false,
-    }
+    state = STATE
     componentDidMount() {
         const {files} = this.props
 
@@ -45,14 +48,12 @@ class Slider extends Component {
         }
     }
     setImages(files) {
-        this.setState({images: null, hasError: false}, () => {
+        this.setState(STATE, () => {
             const promises = Array.from(files).map(read)
 
-            Promise.all(promises).then(images => {
-                this.setState({images})
-            }, () => {
-                this.setState({hasError: true})
-            })
+            Promise.all(promises)
+                .then(images => ({images}), () => ({hasError: true}))
+                .then(state => this.setState(state))
         })
     }
     render() {
@@ -65,15 +66,23 @@ class Slider extends Component {
         }
 
         if (!images) {
+            const {length} = this.props.files
+
             return (
-                <Loading>Loading your {this.props.files.length} images...</Loading>
+                <Loading>Loading {pluralize('photo', length, true)}...</Loading>
             )
         }
 
+        const items = images.map(image => ({
+            original: image
+        }))
+
         return (
             <div style={SLIDER_STYLE}>
-                <Muted>{images.length} photo will be uploaded.</Muted>
-                <ImageGallery items={images.map(toItem)} showBullets showThumbnails={false} />
+                <Muted>
+                    {pluralize('photo', images.length, true)} will be sent along with your report.
+                </Muted>
+                <ImageGallery items={items} showBullets showThumbnails={false} />
             </div>
         )
     }

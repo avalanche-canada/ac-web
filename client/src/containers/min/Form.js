@@ -10,6 +10,7 @@ import styles from './Form.css'
 import OPTIONS from './options'
 import moment from 'moment'
 import QUICK_REPORT from './quick.json'
+import {Error} from 'components/misc'
 import {postMountainInformationNetworkSubmission} from 'actions/entities'
 import {
     RequiredInformation,
@@ -104,17 +105,22 @@ export default class Form extends Component {
             const path = key.split('.')
 
             if (path.length === 1 || value.getIn(path)) {
-                values = values.setIn(path, refs[key].getValue())
+                const ref = refs[key]
+                if (typeof ref.getValue === 'function') {
+                    values = values.setIn(path, ref.getValue())
+                }
             }
         })
 
-        if (values.some(isNull) || values.get('observations').every(isNull)) {
+        if (values.some(isNull) || values.get('observations').some(isNull)) {
             console.warn('not valid', values.toJSON())
         } else {
             this.submit(values)
         }
     }
     submit(values) {
+        console.warn(values.toJSON())
+        return
         const required = values.get('required')
         const {longitude, latitude} = required.latlng
         let observations = values.get('observations')
@@ -228,7 +234,7 @@ export default class Form extends Component {
                                         <Form type={Uploads} options={options.uploads} />
                                     </div>
                                 </div>
-                                <div styleName='Observations'>
+                                <div ref='observations' styleName='Observations'>
                                     <fieldset>
                                         <legend>Step 3. Observations</legend>
                                         <div className='ui message info'>
@@ -242,7 +248,7 @@ export default class Form extends Component {
                                                     <Tab key={type} title={Titles.get(type)} color={observations.get(type) && Colors.get(type)}>
                                                         <Form value={value} ref={`observations.${type}`} type={ObservationTypes.get(type)} onChange={this.handleObservationChange(type)} options={options[type]} />
                                                         <Button disabled={!value} onClick={this.handleClearObservation(type)}>
-                                                            Clear entered values
+                                                            Reset {Titles.get(type)} report
                                                         </Button>
                                                     </Tab>
                                                 )

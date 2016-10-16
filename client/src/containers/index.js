@@ -25,6 +25,7 @@ export Weather from './Weather'
 
 // Mountain Information Network
 export MountainInformationNetworkSubmit from './min/Form'
+// export const MountainInformationNetworkSubmit = generic('mountain-information-network-submit-wip', 'Mountain Information Network — Submit')
 
 
 // Static Pages

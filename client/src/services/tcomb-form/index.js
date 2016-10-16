@@ -48,7 +48,17 @@ Time.getTcombFormFactory = () => TimePickerFactory
 // Date and Time
 export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
 
-DateTime.getTcombFormFactory = () => DatePickerFactory
+class DateTimePickerFactory extends t.form.Textbox {
+    getTemplate() {
+        return templates.textbox.clone({
+            renderTextbox(locals) {
+                return <Picker template={templates.datetime} {...locals} />
+            }
+        })
+    }
+}
+
+DateTime.getTcombFormFactory = () => DateTimePickerFactory
 
 
 // GeoPosition

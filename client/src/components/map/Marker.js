@@ -3,17 +3,7 @@ import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
 const {assign} = Object
-function createMarker(marker) {
-    const {element, lngLat, options, onClick} = marker
-
-    if (onClick) {
-        assign(element, {
-            onclick: event => onClick(marker, event)
-        })
-    }
-
-    return new mapbox.Marker(element, options).setLngLat(lngLat)
-}
+function noop() {}
 
 export default class Marker extends Component {
     static propTypes = {
@@ -21,9 +11,18 @@ export default class Marker extends Component {
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
         options: PropTypes.object,
+        // TODO: Draggable marker is comming soonish
+        // https://github.com/mapbox/mapbox-gl-js/issues/3087
+        draggable: PropTypes.bool,
+        onDragStart: PropTypes.func,
+        onDragEnd: PropTypes.func,
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
+    }
+    static defaultProps = {
+        onDragStart: noop,
+        onDragEnd: noop,
     }
     _marker = null
     set marker(marker) {
@@ -39,21 +38,58 @@ export default class Marker extends Component {
     get map() {
         return this.context.map
     }
-    componentWillUnmount() {
-        this.remove()
-    }
     remove() {
-        const {marker} = this
-
-        if (marker) {
-            marker.remove()
+        if (this.marker) {
+            this.marker.remove()
         }
+    }
+    createMarker({element, lngLat, options, onClick, draggable}) {
+        if (onClick) {
+            assign(element, {
+                onclick: event => onClick(marker, event)
+            })
+        }
+
+        if (draggable) {
+            assign(element, {
+                draggable,
+                onmousedown: this.handleMousedown,
+                ondragstart: this.handleDragStart,
+                ondragend: this.handleDragEnd,
+            })
+        }
+
+        return new mapbox.Marker(element, options).setLngLat(lngLat)
+    }
+    handleMousedown = event => {
+        this.map.dragPan.disable()
+    }
+    handleDragStart = event => {
+        // required for the drag api to work
+    }
+    handleDragEnd = event => {
+        const {map, marker} = this
+        const {offsetX, offsetY} = event
+        const lngLat = map.unproject(
+            map.project(marker.getLngLat()).add({
+                x: offsetX - 12,
+                y: offsetY - 12,
+            })
+        )
+
+        marker.setLngLat(lngLat)
+        map.dragPan.enable()
+
+        this.props.onDragEnd(lngLat)
+    }
+    componentDidMount() {
+        this.marker = this.createMarker(this.props)
     }
     componentWillReceiveProps(nextProps) {
         const {element, lngLat, options} = nextProps
 
         if (this.props.element !== element) {
-            this.marker = createMarker(nextProps)
+            this.marker = this.createMarker(nextProps)
             return
         }
 
@@ -61,12 +97,13 @@ export default class Marker extends Component {
             this.marker.setLngLat(lngLat)
         }
     }
+    componentWillUnmount() {
+        this.remove()
+    }
     shouldComponentUpdate() {
         return false
     }
     render() {
-        this.marker = createMarker(this.props)
-
         return null
     }
 }
