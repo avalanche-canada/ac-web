@@ -66,11 +66,16 @@
         margin: 0;
     }
 
-    & :global(.ui.pointing.label.visible),
-    & :global(.ui.message.info) {
+    & :global(.ui.pointing.label.visible) {
         display: block;
         color: var(--gray-dark);
         margin: 0.5em 0;
+    }
+
+    & :global(.ui.message.info) {
+        display: block;
+        color: var(--gray-dark);
+        margin-bottom: 1em;
     }
 
     & :global(.field.error > label) {

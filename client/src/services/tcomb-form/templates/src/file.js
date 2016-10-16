@@ -4,14 +4,14 @@ import textbox from './textbox'
 import ImageGallery from 'react-image-gallery'
 import {Loading, Muted, Error} from 'components/misc'
 
-function read(file) {
+function read(file, index) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             Object.assign(new FileReader(), {
                 onload: event => resolve(event.target.result),
                 onerror: event => reject(`Error reading ${file.name}: ${event.target.result}`),
             }).readAsDataURL(file)
-        }, 50)
+        }, index * 50)
     })
 }
 function toItem(image) {
