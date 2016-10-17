@@ -98,11 +98,9 @@ export default class DateRange extends Component {
                 <Overlay
                     show={this.showCalendar}
                     onHide={hideCalendar}
-                    onBackdropClick={hideCalendar}
                     onEscapeKeyUp={hideCalendar}
                     placement='bottom'
                     rootClose
-                    backdrop
                     shouldUpdatePosition
                     target={this.target}
                     container={container} >

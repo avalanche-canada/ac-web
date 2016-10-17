@@ -64,11 +64,9 @@ export default class DayPicker extends Component {
                 <Overlay
                     show={showCalendar}
                     onHide={hideCalendar}
-                    onBackdropClick={hideCalendar}
                     onEscapeKeyUp={hideCalendar}
                     placement='bottom'
                     rootClose
-                    backdrop
                     shouldUpdatePosition
                     target={this.target}
                     container={container}>
