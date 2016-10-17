@@ -1,0 +1,15 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+}
+
+.Button {
+    flex: 1 0 100%;
+    border-radius: 0 0 5px 5px;
+}
+
+.DateTime {
+    & :global(.DayPicker) {
+        padding-bottom: 0;
+    }
+}

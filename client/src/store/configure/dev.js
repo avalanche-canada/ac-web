@@ -4,6 +4,7 @@ import createLogger from 'redux-logger'
 import {Iterable} from 'immutable'
 import prismic from 'middleware/prismic'
 import api from 'middleware/api'
+import post from 'middleware/post'
 import reducer from 'reducers'
 // import DevTools from '../containers/DevTools'
 
@@ -12,7 +13,7 @@ export default function configureStore(preloadedState) {
     reducer,
     preloadedState,
     compose(
-      applyMiddleware(thunk, api, prismic, createLogger({
+      applyMiddleware(thunk, api, post, prismic, createLogger({
           collapsed: true,
           stateTransformer(state) {
             let newState = {}

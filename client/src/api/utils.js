@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 const {fromJS, Iterable: {isIndexed}} = Immutable
 
 const API = Symbol('AvCan Api Request')
+const POST = Symbol('AvCan Api POST Request')
 
 export function createApiAction(schema, ...types) {
     return createAction(API, params => ({
@@ -15,6 +16,18 @@ export function createApiAction(schema, ...types) {
 
 export function isApiAction({type}) {
     return type === API
+}
+
+export function createPostAction(schema, ...types) {
+    return createAction(POST, data => ({
+        schema,
+        data,
+        types,
+    }))
+}
+
+export function isPostAction({type}) {
+    return type === POST
 }
 
 function reviver(key, value) {

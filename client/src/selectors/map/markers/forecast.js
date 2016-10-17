@@ -26,7 +26,7 @@ function createMarker({id, properties}) {
             src: dangerIconUrl,
             title: name,
         }),
-        lnglat: LngLat.convert(centroid),
+        lngLat: LngLat.convert(centroid),
         options: {
             offset: [-25, -25]
         },

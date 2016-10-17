@@ -22,4 +22,12 @@
     --warning-dark: color(var(--warning) lightness(65%));
     --danger: #f2dede;
     --danger-dark: color(var(--danger) lightness(65%));
+
+
+    --quick-obs: #4CAF50;
+    --avalanche-obs: #03A9F4;
+    --snowpack-obs: #3F51B5;
+    --weather-obs: #FFC107;
+    --incident-obs: #F44336;
+
 }

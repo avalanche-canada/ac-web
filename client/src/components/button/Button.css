@@ -132,7 +132,8 @@
 .Close {
     font-size: 1.5rem;
     font-weight: normal;
-    padding: 0.25em;
+    padding: 0.25em 0.5em;
+    outline: none;
 }
 
 .Set {

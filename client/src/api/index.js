@@ -104,7 +104,7 @@ const ENDPOINTS = new Map([
     [HotZoneArea, params => `forecasts`],
     [HotZoneReport, params => `hzr/submissions`],
     [MountainInformationNetworkObservation, params => `min/observations`],
-    [MountainInformationNetworkSubmission, ({id}) => id ? `min/submissions/${id}`: 'min/submissions'],
+    [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
     [Course, params => 'courses'],
@@ -119,4 +119,10 @@ export function fetch(schema, params) {
     const config = CONFIGS.has(schema) ? CONFIGS.get(schema)(params) : null
 
     return api.get(endpoint, config)
+}
+
+export function post(schema, data) {
+    const endpoint = ENDPOINTS.get(schema).call()
+
+    return api.post(endpoint, data)
 }

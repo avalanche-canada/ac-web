@@ -1,0 +1,75 @@
+{
+  "ridingConditions":{
+    "ridingQuality": {
+        "selected" : "",
+        "type" : "single",
+        "prompt" : "Riding quality was:",
+        "options" : [
+           "Amazing",
+           "Good",
+           "OK",
+           "Terrible"
+        ]
+    },
+    "snowConditions": {
+        "type" : "multiple",
+        "prompt": "Snow conditions were:",
+        "options": {
+          "Deep powder":false,
+          "Wet":false,
+          "Crusty":false,
+          "Powder":false,
+          "Heavy":false,
+          "Wind affected":false,
+          "Hard":false
+      }
+    },
+    "rideType": {
+        "type" : "multiple",
+        "prompt": "We rode:",
+        "options": {
+          "Mellow slopes":false,
+          "Convex slopes":false,
+          "Alpine slopes":false,
+          "Dense trees":false,
+          "Steep slopes":false,
+          "Open trees":false,
+          "Cut-blocks":false,
+          "Sunny slopes":false
+      }
+    },
+    "stayedAway": {
+        "type" : "multiple",
+        "prompt": "We stayed away from:",
+        "options": {
+          "Convex slopes":false,
+          "Alpine slopes":false,
+          "Cut-blocks":false,
+          "Sunny slopes":false,
+          "Steep slopes":false,
+          "Open trees":false
+      }
+    },
+    "weather": {
+        "type" : "multiple",
+        "prompt": "The day was:",
+        "options": {
+          "Warm":false,
+          "Foggy":false,
+          "Cloudy":false,
+          "Stormy":false,
+          "Windy":false,
+          "Cold":false,
+          "Wet":false,
+          "Sunny":false
+      }
+    }
+  },
+  "avalancheConditions":{
+    "snow":false,
+    "slab":false,
+    "sound":false,
+    "temp":false
+  },
+  "comment":""
+}

@@ -1,0 +1,13 @@
+.Container {
+    position: relative;
+    min-height: 250px;
+
+    & > :global(.mapboxgl-map) {
+        position: absolute 0;
+    }
+}
+
+.Marker {
+    cursor: move;
+    user-select: none;
+}

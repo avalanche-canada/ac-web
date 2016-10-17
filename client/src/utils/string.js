@@ -22,3 +22,10 @@ export function titleOf(children) {
 
     return null
 }
+
+export function pluralize(word, count, inclusive) {
+    // TODO: When required, add a map to handle exceptions
+    const pluralized = count === 1 ? word : `${word}s`
+
+    return inclusive ? `${count} ${pluralized}` : pluralized
+}

@@ -1,0 +1,196 @@
+@import "../../styles/colors.css";
+
+@custom-media --two-columns-inputs (width > 600px);
+@custom-media --two-columns (width > 900px);
+
+/*
+--quick-obs
+--avalanche-obs
+--snowpack-obs
+--weather-obs
+--incident-obs
+*/
+
+.Form {
+    overflow: hidden;
+    margin: 1em 0;
+
+    & :global(.field) {
+        margin-bottom: 1em;
+
+        & input + label {
+            padding-left: 0.5em;
+        }
+    }
+
+    & :global(.field-avalancheOccurrence-time > label),
+    & :global(.field-avalancheOccurrence-epoch > label),
+    & :global(.field-otherActivityDescription > label),
+    & :global(.fieldset-ridingConditions > legend) {
+        /* Hide label but still accesible */
+        position: absolute;
+        left: 10000px;
+    }
+
+    & :global(.fieldset-content),
+    & :global(.field-radio-set) {
+        margin-bottom: 2em;
+    }
+
+    & :global(.field-avalancheSize > .field-radio-set),
+    & :global(.field-triggerType > .field-radio-set),
+    & :global(.field-windExposure > .field-radio-set),
+    & :global(.field-skyCondition > .field-radio-set),
+    & :global(.field-windDirection > .field-radio-set),
+    & :global(.field-groupActivity > .field-radio-set),
+    & :global(.fieldset-latlng > .fieldset-content),
+    & :global(.fieldset-avalancheCharacter > .fieldset-content),
+    & :global(.fieldset-snowpackSiteAspect > .fieldset-content),
+    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
+    & :global(.fieldset-snowpackTestFailureLayerCrystalType > .fieldset-content),
+    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
+    & :global(.fieldset-weakLayerCrystalType > .fieldset-content),
+    & :global(.fieldset-startZoneAspect > .fieldset-content),
+    & :global(.fieldset-ridingConditions-snowConditions > .fieldset-content),
+    & :global(.fieldset-ridingConditions-rideType > .fieldset-content),
+    & :global(.fieldset-ridingConditions-weather > .fieldset-content),
+    & :global(.fieldset-ridingConditions-stayedAway > .fieldset-content) {
+        column-count: 2;
+
+        /* SHAME, but column CSS is so weird. Remove margins and apply line-height instead */
+        & > :global(.field) {
+            margin: 0;
+            line-height: 2;
+        }
+    }
+
+    & :global(.fieldset-depth-1 .fieldset-depth-2:last-child > .fieldset-content) {
+        margin: 0;
+    }
+
+    & :global(.ui.pointing.label.visible) {
+        display: block;
+        color: var(--gray-dark);
+        margin: 0.5em 0;
+    }
+
+    & :global(.ui.message.info) {
+        display: block;
+        color: var(--gray-dark);
+        margin-bottom: 1em;
+    }
+
+    & :global(.field.error > label) {
+        color: var(--brand-secondary);
+    }
+
+    & :global(.fieldset.error > legend) {
+        color: var(--brand-secondary);
+    }
+
+    & :global(.field-files) {
+        position: relative;
+
+        & > label {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            line-height: 38px;
+            pointer-events: none;
+            padding: 0 1em;
+            margin: 0 !important;
+            text-align: center;
+            background-color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    & div[role="tabpanel"] {
+        margin: 0.5em;
+        & fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.Layout {
+    display: flex;
+    flex-direction: column;
+
+    @media (--two-columns) {
+        flex-direction: row;
+    }
+}
+
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+
+    flex: 0 1 35%;
+
+    @media (--two-columns) {
+        margin-right: 0.5em;
+    }
+}
+
+.MainFieldsetContainer {
+    & > fieldset {
+        position: relative;
+        border: 8px solid white;
+        margin-bottom: 1em;
+        padding: 0.5em;
+
+        & > legend {
+            line-height: 2em;
+            font-size: 1.5em;
+
+            &:before {
+                content: "";
+                height: 2em;
+                position: absolute -8px -8px auto -8px;
+                background-color: white;
+                z-index: -1;
+            }
+        }
+    }
+
+    & fieldset > legend,
+    & :global(.field) > label {
+        font-size: 1.25em;
+    }
+
+    @media (--two-columns-inputs) {
+        /*& > :global(.fieldset-content),
+        & > :global(.field-radio-set) {
+        }*/
+        /*column-count: 2;*/
+    }
+}
+
+.Observations {
+    composes: MainFieldsetContainer;
+
+    flex: 1;
+}
+
+.RequiredInformation {
+    composes: MainFieldsetContainer;
+
+    & > fieldset {
+        border-color: #FFD740;
+        & > legend {
+            &:before {
+                background-color: #FFD740;
+            }
+        }
+    }
+}
+
+.Uploads {
+    composes: MainFieldsetContainer;
+}

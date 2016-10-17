@@ -10,8 +10,6 @@ export Archives from './Archives'
 
 export HotZoneReport from './HotZoneReport'
 
-export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
-
 // export IncidentsTable from './IncidentsTable'
 // export IncidentDetails from './IncidentDetails'
 // export TripPlanner from './TripPlanner'
@@ -26,7 +24,7 @@ export Tutorial from './Tutorial'
 export Weather from './Weather'
 
 // Mountain Information Network
-// export MountainInformationNetworkSubmit from './MountainInformationNetworkSubmit'
+// export MountainInformationNetworkSubmit from './min/Form'
 export const MountainInformationNetworkSubmit = generic('mountain-information-network-submit-wip', 'Mountain Information Network — Submit')
 
 

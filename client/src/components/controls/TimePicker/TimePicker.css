@@ -1,0 +1,39 @@
+.Container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    font-size: 1.25em;
+}
+
+.Label {
+    position: absolute;
+    left: 10000px;
+}
+
+.Input {
+    display: flex;
+
+    & > input {
+        font-weight: 700;
+        outline: none !important;
+        border: none !important;
+    }
+}
+
+.Hour {
+    composes: Input;
+
+    & > input {
+        text-align: right;
+    }
+
+    &:after {
+        content: ":";
+        line-height: 2.15;
+    }
+}
+
+.Minute {
+    composes: Input;
+}
