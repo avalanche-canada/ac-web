@@ -11,7 +11,6 @@ console.log('*** USING 2016 SEASON ***')
 //TODO(wnh): Remove old URLS from the forecast json
 
 var features = Object.keys(regionsMeta).map(id => {
-    console.log(id);
     var props = regionsMeta[id];
 
     var url = null;
@@ -22,12 +21,14 @@ var features = Object.keys(regionsMeta).map(id => {
 
     var feature = JSON.parse(fs.readFileSync(path.join(__dirname, 'regionGeo', id + '.geojson')));
 
-    return Object.assign({}, feature, {properties: props});
+    return Object.assign({}, feature, {properties: props, id: id});
 })
+
+var hzFeaturesWithId = hotzones.features.map(h => Object.assign({}, h, {id: h.properties.id}));
 
 var all =  {
   "type": "FeatureCollection",
-  "features": features.concat(hotzones.features)
+  "features": features.concat(hzFeaturesWithId)
 };
 
 module.exports = all;
