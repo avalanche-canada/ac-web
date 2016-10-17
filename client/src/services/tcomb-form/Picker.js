@@ -10,7 +10,7 @@ export default class Picker extends Component {
     }
     get locals() {
         return {
-            isOpen: this.state.isOpen,
+            isOpen: this.isOpen,
             open: this.open,
             close: this.close,
             toggle: this.toggle,
@@ -19,16 +19,20 @@ export default class Picker extends Component {
             ...this.props,
         }
     }
+    get isOpen() {
+        return this.state.isOpen
+    }
+    set isOpen(isOpen) {
+        this.setState({isOpen})
+    }
     open = () => {
-        this.setState({ isOpen: true })
+        this.isOpen = true
     }
     close = () => {
-        this.setState({ isOpen: false })
+        this.isOpen = false
     }
     toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
+        this.isOpen = !this.isOpen
     }
     onReset = () => {
         this.setState({isOpen: false}, () => {
