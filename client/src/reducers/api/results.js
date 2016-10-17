@@ -70,7 +70,7 @@ export const RESULT = {
     props: {},
 }
 
-function resultsReducerFactory(schema, request, success, failure, postRequest, postSuccess = null) {
+function resultsReducerFactory(schema, request, success, failure, postSuccess = null) {
     function results(state = RESULT, {type, payload}) {
         switch (type) {
             case request:
