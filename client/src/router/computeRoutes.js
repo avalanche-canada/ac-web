@@ -45,6 +45,7 @@ import {
     Incidents,
     Tutoriel,
     MembershipOverview,
+    CherryBowlComingSoon,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -281,6 +282,8 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={{content: TripPlanner, footer: null}} />
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
+            <Route path='cherry-bowl' component={CherryBowlComingSoon} />
+            <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
             <Redirect from='min/submit' to='mountain-information-network/submit' />
