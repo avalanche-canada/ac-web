@@ -11,7 +11,7 @@ import styles from './Picker.css'
 const CONTAINER_STYLE = {
     position: 'relative',
 }
-
+function noop() {}
 function defaultFormat(value) {
     return value
 }
@@ -72,29 +72,32 @@ function create(overrides = {}) {
     }
 
     template.renderEnabledInput = overrides.renderEnabledInput || function renderEnabledInput(locals) {
+        const {open, toggle, value, attrs, isOpen} = locals
         const format = template.getFormat(locals)
 
         return (
             <div className={controls.Group}>
-                <input {...locals.attrs}
+                <input {...attrs}
                     autoComplete='off'
-                    onClick={() => locals.toggle()}
-                    onChange={() => {}}
-                    value={format(locals.value)} />
+                    onClick={toggle}
+                    // onFocus={isOpen ? noop : open}
+                    onChange={noop}
+                    value={format(value)} />
                 {template.renderResetButton(locals)}
             </div>
         )
     }
 
     template.renderDisabledInput = overrides.renderDisabledInput || function renderDisabledInput(locals) {
+        const {attrs, value} = locals
         const format = template.getFormat(locals)
 
         return (
-            <input {...locals.attrs}
+            <input {...attrs}
                 autoComplete='off'
                 disabled
-                onChange={() => {}}
-                value={format(locals.value)} />
+                onChange={noop}
+                value={format(value)} />
         )
     }
 

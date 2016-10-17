@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
+import {findDOMNode} from 'react-dom'
 import Immutable from 'immutable'
 import t from 'services/tcomb-form'
 import CSSModules from 'react-css-modules'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
+import {MountainInformationNetworkSubmission} from 'api/schemas'
 import {Tab, TabSet} from 'components/tab'
 import {Page, Header, Main, Section, Content} from 'components/page'
 import Button from 'components/button'
@@ -54,6 +57,10 @@ const Keys = new Map([
     [INCIDENT, 'incidentReport'],
 ])
 
+const ERROR_STYLE = {
+    color: '#E6252F'
+}
+
 function isNull(value) {
     return value === null
 }
@@ -72,7 +79,7 @@ function ridingConditionsMerger(prev, next) {
     }
 }
 
-
+@withRouter
 @connect(null, {
     post: postMountainInformationNetworkSubmission
 })
@@ -91,10 +98,15 @@ export default class Form extends Component {
         }),
         options: OPTIONS,
         activeIndex: 0,
+        noObservations: null,
+        isSubmitting: false,
     }
     handleSubmit = event => {
         event.preventDefault()
 
+        this.setState({isSubmitting: true}, this.validate)
+    }
+    validate = () => {
         const {value} = this.state
         const {refs} = this
         let values = Immutable.Map({
@@ -112,15 +124,22 @@ export default class Form extends Component {
             }
         })
 
-        if (values.some(isNull) || values.get('observations').some(isNull)) {
+        const observations = values.get('observations')
+        const noObservations = observations.some(isNull) || observations.isEmpty()
+
+        if (values.some(isNull) || noObservations) {
             console.warn('not valid', values.toJSON())
+            this.setState({
+                noObservations,
+                isSubmitting: false,
+            }, () => {
+                window.scrollTo(0, 0)
+            })
         } else {
             this.submit(values)
         }
     }
     submit(values) {
-        console.warn(values.toJSON())
-        return
         const required = values.get('required')
         const {longitude, latitude} = required.latlng
         let observations = values.get('observations')
@@ -189,7 +208,16 @@ export default class Form extends Component {
             form.append(`files${index++}`, file)
         }
 
-        this.props.post(form)
+        this.props.post(form).then(data => {
+            const key = MountainInformationNetworkSubmission.getKey()
+
+            this.props.router.push({
+                pathname: '/map',
+                query: {
+                    panel: `${key}/${data.result}`
+                }
+            })
+        })
     }
     setValue(path, value, callback) {
         this.setState({
@@ -216,7 +244,7 @@ export default class Form extends Component {
     }
     render() {
         const {Form} = t.form
-        const {value, options, activeIndex} = this.state
+        const {value, options, activeIndex, noObservations, isSubmitting} = this.state
         const observations = value.get('observations')
 
         return (
@@ -234,10 +262,10 @@ export default class Form extends Component {
                                         <Form type={Uploads} options={options.uploads} />
                                     </div>
                                 </div>
-                                <div ref='observations' styleName='Observations'>
+                                <div styleName='Observations'>
                                     <fieldset>
                                         <legend>Step 3. Observations</legend>
-                                        <div className='ui message info'>
+                                        <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
                                             Add information on one, some, or all tabs, then click SUBMIT at the bottom.
                                         </div>
                                         <TabSet activeIndex={activeIndex} arrow>
@@ -257,8 +285,8 @@ export default class Form extends Component {
                                     </fieldset>
                                 </div>
                             </div>
-                            <Button type='submit'>
-                                Submit
+                            <Button disabled={isSubmitting} type='submit'>
+                                {isSubmitting ? 'Submitting...' : 'Submit'}
                             </Button>
                         </form>
                     </Main>
