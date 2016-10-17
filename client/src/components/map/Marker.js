@@ -46,7 +46,7 @@ export default class Marker extends Component {
     createMarker({element, lngLat, options, onClick, draggable}) {
         if (onClick) {
             assign(element, {
-                onclick: event => onClick(marker, event)
+                onclick: event => onClick(this.props, event)
             })
         }
 
