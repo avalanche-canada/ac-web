@@ -3,6 +3,10 @@ import Overlay from 'react-overlays/lib/Overlay'
 import {Close} from 'components/button'
 import controls from 'components/controls/Controls.css'
 import Callout, {BOTTOM} from 'components/callout'
+import {TimePicker} from 'components/controls'
+import {DayPicker, DateUtils} from 'components/misc'
+import Button from 'components/button'
+import styles from './Picker.css'
 
 const CONTAINER_STYLE = {
     position: 'relative',
@@ -26,7 +30,7 @@ function create(overrides = {}) {
 
         return (
             <div id={`container-${id}`} style={CONTAINER_STYLE}>
-                {template.renderDate(locals)}
+                {template.renderInput(locals)}
                 <Overlay
                     show={locals.isOpen}
                     onHide={locals.close}
@@ -39,7 +43,10 @@ function create(overrides = {}) {
                     backdrop
                     shouldUpdatePosition>
                     <Callout placement='Bottom'>
-                        {locals.isOpen && template.renderPicker(locals)}
+                        <div className={styles.Container}>
+                            {template.renderContent(locals)}
+                            {template.renderButton(locals)}
+                        </div>
                     </Callout>
                 </Overlay>
             </div>
@@ -58,7 +65,7 @@ function create(overrides = {}) {
         )
     }
 
-    template.renderDate = overrides.renderDate || function renderStatic(locals) {
+    template.renderInput = overrides.renderInput || function renderStatic(locals) {
         return locals.disabled ?
             template.renderDisabledInput(locals) :
             template.renderEnabledInput(locals)
@@ -69,8 +76,7 @@ function create(overrides = {}) {
 
         return (
             <div className={controls.Group}>
-                <input
-                    {...locals.attrs}
+                <input {...locals.attrs}
                     autoComplete='off'
                     onClick={() => locals.toggle()}
                     onChange={() => {}}
@@ -84,8 +90,7 @@ function create(overrides = {}) {
         const format = template.getFormat(locals)
 
         return (
-            <input
-                {...locals.attrs}
+            <input {...locals.attrs}
                 autoComplete='off'
                 disabled
                 onChange={() => {}}
@@ -93,8 +98,23 @@ function create(overrides = {}) {
         )
     }
 
-    template.renderPicker = overrides.renderPicker || function renderPicker() {
-        throw new Error('renderPicker function needs to be provided')
+    template.renderButton = overrides.renderButton || function renderButton(locals) {
+        const {value, close, onChange} = locals
+        function handleClick() {
+            // TODO: Send the default value
+            onChange(value)
+            close()
+        }
+
+        return (
+            <Button className={styles.Button} onClick={handleClick}>
+                Done
+            </Button>
+        )
+    }
+
+    template.renderContent = overrides.renderContent || function renderContent(locals) {
+        return null
     }
 
     template.clone = function clone(newOverrides = {}) {

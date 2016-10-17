@@ -2,13 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    
-    font-size: 1.25em;
 
-    & > button {
-        flex: 1 0 100%;
-        border-radius: 0 0 5px 5px;
-    }
+    font-size: 1.25em;
 }
 
 .Label {

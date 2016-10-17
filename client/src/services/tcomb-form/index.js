@@ -1,33 +1,21 @@
 import React from 'react'
 import t from 'tcomb-form/lib'
 import en from 'tcomb-form/lib/i18n/en'
-import templates from './templates/src'
+import templates, {pickers} from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
-
-// FileList
-export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
-class FileListFactory extends t.form.Textbox {
-    getTemplate() {
-        return templates.file
-    }
-}
-FileList.getTcombFormFactory = () => FileListFactory
-
 
 // Date
 class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
             renderTextbox(locals) {
-                return <Picker template={templates.date} {...locals} />
+                return <Picker template={pickers.date} {...locals} />
             }
         })
     }
 }
-
 t.Date.getTcombFormFactory = () => DatePickerFactory
-
 
 // Time
 export const Time = t.irreducible('Time', value => typeof value === 'string')
@@ -36,14 +24,12 @@ class TimePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
             renderTextbox(locals) {
-                return <Picker template={templates.time} {...locals} />
+                return <Picker template={pickers.time} {...locals} />
             }
         })
     }
 }
-
 Time.getTcombFormFactory = () => TimePickerFactory
-
 
 // Date and Time
 export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
@@ -52,14 +38,24 @@ class DateTimePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
             renderTextbox(locals) {
-                return <Picker template={templates.datetime} {...locals} />
+                return <Picker template={pickers.datetime} {...locals} />
             }
         })
     }
 }
-
 DateTime.getTcombFormFactory = () => DateTimePickerFactory
 
+
+// FileList
+export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
+
+class FileListFactory extends t.form.Textbox {
+    getTemplate() {
+        return templates.file
+    }
+}
+
+FileList.getTcombFormFactory = () => FileListFactory
 
 // GeoPosition
 function range(min, max) {
