@@ -1,19 +1,31 @@
 @import "../../../styles/colors.css";
 
-@custom-media --two-columns (width > 420px);
-@custom-media --four-columns (width > 840px);
-
 .Container {
     composes: import Section from "../Forecast.css";
 
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 
-    @media (--two-columns) {
-        flex-direction: row;
-        flex-wrap: wrap;
+    &[min-width~="480px"] > .Topic {
+        flex: 1 0 50%;
+        max-width: 50%;
+
+        &:nth-child(odd) {
+            box-sizing: border-box;
+            border-left: 2px solid white;
+        }
+    }
+    &[min-width~="820px"] > .Topic {
+        flex: 1 0 25%;
+        max-width: 25%;
+
+        &:nth-child(4) {
+            box-sizing: border-box;
+            border-left: 2px solid white;
+        }
     }
 }
+
 
 .Header {
     composes: import SectionHeader from "../Forecast.css";
@@ -35,25 +47,6 @@
     min-height: 200px;
 
     flex: 100%;
-
-    @media (--two-columns) {
-        flex: 50%;
-        max-width: 50%;
-
-        &:nth-child(odd) {
-            box-sizing: border-box;
-            border-left: 2px solid white;
-        }
-    }
-    @media (--four-columns) {
-        flex: 25%;
-        max-width: 25%;
-
-        &:nth-child(4) {
-            box-sizing: border-box;
-            border-left: 2px solid white;
-        }
-    }
 }
 
 .TopicImage {

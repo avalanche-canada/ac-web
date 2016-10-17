@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
+import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {elementQueries} from 'compose'
 import styles from './Problem.css'
 
 Problem.propTypes = {
@@ -7,7 +9,7 @@ Problem.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Problem({ title, children }) {
+function Problem({title, children}) {
     return (
         <div styleName='Container'>
             <h2 styleName='Header'>{title}</h2>
@@ -16,4 +18,7 @@ function Problem({ title, children }) {
     )
 }
 
-export default CSSModules(Problem, styles)
+export default compose(
+    elementQueries(),
+    CSSModules(styles),
+)(Problem)

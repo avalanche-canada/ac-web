@@ -7,6 +7,7 @@
     --border-color: var(--gray-lighter);
 }
 
+/* GENERIC STUFF TO BE REUSE BY OTHER COMPONENTS */
 .Border {
     border-width: 2px;
     border-style: solid;
@@ -26,10 +27,14 @@
     font-weight: 700;
     background-color: var(--gray-light);
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Section {
     composes: Border;
+
+    margin: 0.5em 0;
 }
 
 .SectionHeader {

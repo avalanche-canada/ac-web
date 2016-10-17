@@ -7,10 +7,10 @@ Topic.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Topic({ title, src }) {
+function Topic({title, src}) {
     return (
         <div styleName='Topic'>
-            <h3 styleName='SubHeader'>
+            <h3 styleName='SubHeader' title={title}>
                 {title}
             </h3>
             <img styleName='TopicImage' src={src} />
