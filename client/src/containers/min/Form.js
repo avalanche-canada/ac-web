@@ -254,41 +254,39 @@ export default class Form extends Component {
                 <Content>
                     <Main>
                         <form onSubmit={this.handleSubmit} styleName='Form' noValidate>
-                            <div styleName='Layout'>
-                                <div styleName='Sidebar'>
-                                    <div styleName='RequiredInformation'>
-                                        <Form ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
-                                    </div>
-                                    <div styleName='Uploads'>
-                                        <Form type={Uploads} disabled={disabled} options={options.uploads} />
-                                    </div>
+                            <div styleName='Sidebar'>
+                                <div styleName='RequiredInformation'>
+                                    <Form ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
                                 </div>
-                                <div styleName='Observations'>
-                                    <fieldset disabled={disabled}>
-                                        <legend>Step 3. Observations</legend>
-                                        <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
-                                            Add information on one, some, or all tabs, then click SUBMIT at the bottom.
-                                        </div>
-                                        <TabSet activeIndex={activeIndex} arrow>
-                                            {TYPES.map(type => {
-                                                const value = observations.get(type)
-
-                                                return (
-                                                    <Tab key={type} title={Titles.get(type)} color={observations.get(type) && Colors.get(type)}>
-                                                        <Form disabled={disabled} value={value} ref={`observations.${type}`} type={ObservationTypes.get(type)} onChange={this.handleObservationChange(type)} options={options[type]} />
-                                                        <Button disabled={disabled || !value} onClick={this.handleClearObservation(type)}>
-                                                            Reset {Titles.get(type)} report
-                                                        </Button>
-                                                    </Tab>
-                                                )
-                                            })}
-                                        </TabSet>
-                                    </fieldset>
+                                <div styleName='Uploads'>
+                                    <Form type={Uploads} disabled={disabled} options={options.uploads} />
                                 </div>
                             </div>
-                            <Button disabled={disabled} type='submit'>
-                                {isSubmitting ? 'Submitting...' : 'Submit'}
-                            </Button>
+                            <div styleName='Observations'>
+                                <fieldset disabled={disabled}>
+                                    <legend>Step 3. Observations</legend>
+                                    <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
+                                        Add information on one, some, or all tabs, then click SUBMIT at the bottom.
+                                    </div>
+                                    <TabSet activeIndex={activeIndex} arrow>
+                                        {TYPES.map(type => {
+                                            const value = observations.get(type)
+
+                                            return (
+                                                <Tab key={type} title={Titles.get(type)} color={observations.get(type) && Colors.get(type)}>
+                                                    <Form disabled={disabled} value={value} ref={`observations.${type}`} type={ObservationTypes.get(type)} onChange={this.handleObservationChange(type)} options={options[type]} />
+                                                    <Button disabled={disabled || !value} onClick={this.handleClearObservation(type)}>
+                                                        Reset {Titles.get(type)} report
+                                                    </Button>
+                                                </Tab>
+                                            )
+                                        })}
+                                    </TabSet>
+                                </fieldset>
+                                <Button disabled={disabled} type='submit'>
+                                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                                </Button>
+                            </div>
                         </form>
                     </Main>
                 </Content>

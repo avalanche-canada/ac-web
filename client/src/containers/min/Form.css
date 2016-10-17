@@ -12,8 +12,14 @@
 */
 
 .Form {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     margin: 1em 0;
+
+    @media (--two-columns) {
+        flex-direction: row;
+    }
 
     & :global(.field) {
         margin-bottom: 1em;
@@ -21,6 +27,10 @@
         & input + label {
             padding-left: 0.5em;
         }
+    }
+
+    & button[type="submit"] {
+        width: 100%;
     }
 
     & :global(.field-avalancheOccurrence-time > label),
@@ -115,15 +125,6 @@
             margin: 0;
             padding: 0;
         }
-    }
-}
-
-.Layout {
-    display: flex;
-    flex-direction: column;
-
-    @media (--two-columns) {
-        flex-direction: row;
     }
 }
 
