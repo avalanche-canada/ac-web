@@ -34,13 +34,11 @@ function create(overrides = {}) {
                 <Overlay
                     show={locals.isOpen}
                     onHide={locals.close}
-                    onBackdropClick={locals.close}
                     onEscapeKeyUp={locals.close}
                     placement='bottom'
                     container={document.querySelector(`#container-${id}`)}
                     target={document.querySelector(`#container-${id} input`)}
                     rootClose
-                    backdrop
                     shouldUpdatePosition>
                     <Callout placement='Bottom'>
                         <div className={styles.Container}>
@@ -79,8 +77,8 @@ function create(overrides = {}) {
             <div className={controls.Group}>
                 <input {...attrs}
                     autoComplete='off'
+                    // onFocus={open}
                     onClick={toggle}
-                    // onFocus={isOpen ? noop : open}
                     onChange={noop}
                     value={format(value)} />
                 {template.renderResetButton(locals)}
