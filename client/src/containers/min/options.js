@@ -133,7 +133,9 @@ export default {
                 help: 'If there was no snow, please leave this field blank.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 100'
+                    placeholder: 'Number between 0 and 100',
+                    min: 0,
+                    max: 100,
                 },
             },
             rainfallRate: {
@@ -144,14 +146,18 @@ export default {
                 label: 'Amount of new snow in last 24 hours (cm)',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 100'
+                    placeholder: 'Number between 0 and 100',
+                    min: 0,
+                    max: 100,
                 },
             },
             precipitation24Hours: {
                 label: 'Total rain and snow combined in last 24 hours (mm)',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 100'
+                    placeholder: 'Number between 0 and 100',
+                    min: 0,
+                    max: 100,
                 },
             },
             stormSnowAmount: {
@@ -159,7 +165,9 @@ export default {
                 help: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 300'
+                    placeholder: 'Number between 0 and 300',
+                    min: 0,
+                    max: 300,
                 },
             },
             stormStartDate: {
@@ -173,6 +181,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between -50 and 40',
+                    min: -50,
+                    max: 40,
                 },
             },
             minTemp: {
@@ -180,6 +190,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between -50 and 30',
+                    min: -50,
+                    max: 30,
                 },
             },
             maxTemp: {
@@ -187,6 +199,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between -40 and 40',
+                    min: -40,
+                    max: 40,
                 },
             },
             windDirection: {
@@ -239,7 +253,9 @@ export default {
                 help: 'Total height of snow in centimetres. Averaged if this is a summary.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 10000'
+                    placeholder: 'Number between 0 and 10000',
+                    min: 0,
+                    max: 10000,
                 },
             },
             snowpackWhumpfingObserved: {
@@ -258,7 +274,9 @@ export default {
                 help: 'How far you sink into the snow when standing on one fully-weighted foot',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 100'
+                    placeholder: 'Number between 0 and 100',
+                    min: 0,
+                    max: 100,
                 },
             },
             snowpackSkiPenetration: {
@@ -266,7 +284,9 @@ export default {
                 help: 'How far you sink into the snow when standing on one fully-weighted ski.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 200'
+                    placeholder: 'Number between 0 and 200',
+                    min: 0,
+                    max: 200,
                 },
             },
             snowpackSledPenetration: {
@@ -274,7 +294,9 @@ export default {
                 help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 200'
+                    placeholder: 'Number between 0 and 200',
+                    min: 0,
+                    max: 200,
                 },
             },
             snowpackTestInitiation: {
@@ -292,7 +314,9 @@ export default {
                 help: 'Depth below the surface that failure occurred.',
                 type: 'number',
                 attrs: {
-                    placeholder: 'Number between 0 and 200'
+                    placeholder: 'Number between 0 and 200',
+                    min: 0,
+                    max: 200,
                 },
             },
             snowpackObsComment: {
@@ -340,6 +364,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 10 and 500',
+                    min: 10,
+                    max: 500,
                 },
             },
             slabWidth: {
@@ -347,6 +373,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 1 and 3000',
+                    min: 1,
+                    max: 3000,
                 },
             },
             runLength: {
@@ -355,6 +383,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 1 and 10000',
+                    min: 1,
+                    max: 10000,
                 },
             },
             triggerType: {
@@ -370,6 +400,8 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 0 and 2000',
+                    min: 0,
+                    max: 2000,
                 },
             },
             startZoneAspect: {
@@ -380,12 +412,16 @@ export default {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 0 and 5000',
+                    min: 0,
+                    max: 5000,
                 },
             },
             startZoneIncline: {
                 type: 'number',
                 attrs: {
                     placeholder: 'Number between 0 and 90',
+                    min: 0,
+                    max: 90,
                 },
             },
             runoutZoneElevation: {
@@ -427,42 +463,54 @@ export default {
                         label: 'Total in the group?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 100'
+                            placeholder: 'Number between 0 and 100',
+                            min: 0,
+                            max: 100,
                         }
                     },
                     numberFullyBuried: {
                         label: 'People fully buried?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 100'
+                            placeholder: 'Number between 0 and 100',
+                            min: 0,
+                            max: 100,
                         }
                     },
                     numberPartlyBuriedImpairedBreathing: {
                         label: 'People partly buried with impaired breathing?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 100'
+                            placeholder: 'Number between 0 and 100',
+                            min: 0,
+                            max: 100,
                         }
                     },
                     numberPartlyBuriedAbleBreathing: {
                         label: 'People partly buried with normal breathing?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 100'
+                            placeholder: 'Number between 0 and 100',
+                            min: 0,
+                            max: 100,
                         }
                     },
                     numberCaughtOnly: {
                         label: 'People injured (caught but not buried)?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 100'
+                            placeholder: 'Number between 0 and 100',
+                            min: 0,
+                            max: 100,
                         }
                     },
                     numberPeopleInjured: {
                         label: 'People not injured (caught but not buried)?',
                         type: 'number',
                         attrs: {
-                            placeholder: 'Number between 0 and 400'
+                            placeholder: 'Number between 0 and 400',
+                            min: 0,
+                            max: 400,
                         }
                     }
                 }
