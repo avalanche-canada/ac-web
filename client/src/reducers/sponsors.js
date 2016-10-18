@@ -4,10 +4,11 @@ import {SPONSORS_SUCCESS, SET_ACTIVE_SPONSOR, RESET_ACTIVE_SPONSOR} from 'action
 import {getPayload} from 'reducers/utils'
 import {LocalStorage} from 'services/storage'
 
-const SPONSORS = LocalStorage.create().get('sponsors', {})
+const storage = LocalStorage.create()
+const SPONSORS = storage.get('sponsors', {})
 
 function handleSponsorsSuccess(state, {payload}) {
-    LocalStorage.create().set('sponsors', payload)
+    storage.set('sponsors', payload)
 
     return payload
 }

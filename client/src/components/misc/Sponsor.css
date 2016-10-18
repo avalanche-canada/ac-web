@@ -21,6 +21,7 @@
     font-weight: 700;
     font-size: 0.75em;
     text-transform: uppercase;
+    margin-bottom: 0.5em;
 
     @media (--as-vertical) {
         width: auto;

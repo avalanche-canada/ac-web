@@ -69,28 +69,34 @@ const PAGINATION = {
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
 
-    function handleActiveSponsor(routes) {
+    function handleActiveSponsor({routes, params}) {
         const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
 
         if (route) {
-            dispatch(setActiveSponsor(route.sponsorRef))
+            const {sponsorRef} = route
+
+            if (sponsorRef === 'Forecast' && params.name === 'kananaskis') {
+                dispatch(setActiveSponsor('kananaskis'))
+            } else {
+                dispatch(setActiveSponsor(sponsorRef))
+            }
         } else {
             dispatch(resetActiveSponsor())
         }
     }
 
-    function handleRootRouteChange(prev, {routes, location}) {
-        ReactGA.pageview(location.pathname)
-        handleActiveSponsor(routes)
+    function handleRootRouteChange(prev, props) {
+        ReactGA.pageview(props.location.pathname)
+        handleActiveSponsor(props)
     }
 
-    function handleRootRouteEnter({routes, location}) {
-        ReactGA.pageview(location.pathname)
+    function handleRootRouteEnter(props) {
+        ReactGA.pageview(props.location.pathname)
         dispatch(loadForType('sponsor', {
             pageSize: 100
         }))
         dispatch(loadSponsors())
-        handleActiveSponsor(routes)
+        handleActiveSponsor(props)
     }
 
     function handleLoginCompleteRouteEnter({location}, replace) {

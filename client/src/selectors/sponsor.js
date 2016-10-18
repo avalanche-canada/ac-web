@@ -15,7 +15,10 @@ function getSponsorUid(state) {
     const sponsors = getSponsors(state)
     const page = getActiveSponsor(state)
 
-    return sponsors[page] || null
+    // Let go through (i.e. return page) if not found
+    // Allows to get any sponsor by uid
+    // Used for Kananaskis in Forecast page
+    return sponsors[page] || page
 }
 
 const getSponsor = createSelector(
