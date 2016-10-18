@@ -1,40 +1,29 @@
-import React, {PropTypes} from 'react'
-import {withProps} from 'recompose'
+import React from 'react'
+import {compose, withProps} from 'recompose'
+import {neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
-import BasePanel, {INVERSE} from 'components/panel'
+import Panel, {INVERSE} from 'components/panel'
 import EXPLANATION from 'constants/forecast/danger/rating/explanation'
 import {Generic} from 'prismic/components'
 import styles from './Forecast.css'
 
-const Panel = withProps({
-    // theme: INVERSE,
-    expandable: true,
-})(BasePanel)
-
-Footer.propTypes = {
-    author: PropTypes.string,
-}
-
-function Footer({author}) {
+function Footer() {
     return (
         <footer styleName='Footer'>
-            {author &&
-                <dl>
-                    <dt>Prepared by</dt>
-                    <dd>{author}</dd>
-                </dl>
-            }
-            <Panel header='Danger Ratings Explained'>
+            <Panel expandable header='Danger Ratings Explained'>
                 {EXPLANATION}
             </Panel>
-            <Panel header='Avalanche Forecasts in your Inbox'>
+            <Panel expandable header='Avalanche Forecasts in your Inbox'>
                 <Generic uid='forecast-rss-message' />
             </Panel>
-            <Panel header='Forecast Disclaimer'>
+            <Panel expandable header='Forecast Disclaimer'>
                 <Generic uid='forecast-disclaimer' />
             </Panel>
         </footer>
     )
 }
 
-export default CSSModules(Footer, styles)
+export default compose(
+    neverUpdate,
+    CSSModules(styles),
+)(Footer)

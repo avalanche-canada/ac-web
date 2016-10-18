@@ -1,7 +1,7 @@
 import React, {PropTypes, createElement} from 'react'
 import {Link} from 'react-router'
 import {Page, Header, Main, Content, Aside} from 'components/page'
-import Forecast, {Metadata, Footer, Sidebar, KananaskisSidebar} from 'components/forecast'
+import Forecast, {Metadata, Sidebar, KananaskisSidebar} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from 'containers/connectors'
 
@@ -32,7 +32,6 @@ function Container({
                     {isLoading && <Muted>Loading forecast...</Muted>}
                     {isError && <Error>Error happened while loading forecast.</Error>}
                     {(forecast && forecast.region) && <Forecast {...forecast} />}
-                    {forecast && <Footer author={forecast.forecaster} />}
                 </Main>
                 <Aside>
                     {isKananaskis ? <KananaskisSidebar /> : <Sidebar />}
