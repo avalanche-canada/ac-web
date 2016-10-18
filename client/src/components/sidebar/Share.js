@@ -1,23 +1,27 @@
 import React, {PropTypes} from 'react'
-import {Facebook, Twitter, GooglePlus} from '../icons'
 import SocialItem from './SocialItem'
+import {SocialItem as Item} from 'components/social'
 
-Share.propTypes = {
-    url: PropTypes.string.isRequired
+function createUrls(url) {
+    return [
+        `https://www.facebook.com/sharer.php?u=${url}`,
+        `https://twitter.com/intent/tweet?url=${url}`,
+        `https://plus.google.com/share?url=${url}`,
+    ]
 }
 
-export default function Share({url = document.location.href}) {
+Share.propTypes = {
+    url: PropTypes.string.isRequired,
+    text: PropTypes.string,
+}
+
+export default function Share({text = 'Share this', url = document.location.href}) {
+    const title = name => `Share this page on ${name}`
+    const urls = createUrls(url)
+
     return (
-        <SocialItem text='Share This'>
-            <a href={`https://www.facebook.com/sharer.php?u=${url}`} target='_blank' title='Share this page on Facebook'>
-                <Facebook />
-            </a>
-            <a href={`https://twitter.com/intent/tweet?url=${url}`} target='_blank' title='Share this page on Twitter'>
-                <Twitter />
-            </a>
-            <a href={`https://plus.google.com/share?url=${url}`} target='_blank' title='Share this page on GooglePlus'>
-                <GooglePlus />
-            </a>
+        <SocialItem text={text}>
+            {urls.map(url => <Item key={url} link={url} title={title} />)}
         </SocialItem>
     )
 }

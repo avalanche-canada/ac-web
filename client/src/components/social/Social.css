@@ -1,9 +1,9 @@
 .Set {
     display: flex;
     justify-content: center;
-    margin-top: 1em;
+    align-items: center;
 }
 
 .Item {
-    margin: 0.5em;
+    padding: 0.5em;
 }

@@ -18,8 +18,6 @@ h1 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    line-height: 1;
-
     & > a {
         color: inherit;
 
@@ -36,24 +34,20 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-/* More info and ideas here: https://davidwalsh.name/external-links-css */
-/* A winter project ;) */
-/*a[target="_blank"]:not(:empty):after {
-    content: " ↗";
-    color: var(--gray);
-    font-size: 0.75em;
-}*/
-
-/*p {
-    font-size: 1.1em;
-    line-height: 1.25em;
-    color: var(--gray-darker);
-}*/
-
 a {
     text-decoration: none;
     color: var(--primary);
 }
+
+/* More info and ideas here: https://davidwalsh.name/external-links-css */
+/* A winter project ;) */
+/*
+a[target="_blank"]:not(:empty):after {
+    content: " ↗";
+    color: var(--gray);
+    font-size: 0.75em;
+}
+*/
 
 img {
     max-width: 100%;
@@ -73,6 +67,7 @@ ul:not([class]) {
     }*/
 }
 
+/* PRINT */
 @media print {
     a:after {
         content: " (" attr(href) ")";

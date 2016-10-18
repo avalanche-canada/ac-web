@@ -9,7 +9,7 @@ RSSFeed.propTypes = {
 export default function RSSFeed({url}) {
     return (
         <SocialItem text='RSS Feed'>
-            <a href={url} target='_blank'>
+            <a href={url} target='_blank' title='Subscribe to our RSS Feed'>
                 <RSS fill='#245EAC' />
             </a>
         </SocialItem>

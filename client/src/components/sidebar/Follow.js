@@ -1,19 +1,20 @@
-import React from 'react'
-import {Facebook, Twitter, Instagram} from '../icons'
+import React, {PropTypes} from 'react'
 import SocialItem from './SocialItem'
+import {SocialItem as Item} from 'components/social'
 
-export default function Follow() {
+Follow.propTypes = {
+    urls: PropTypes.arrayOf(PropTypes.string),
+    text: PropTypes.string,
+}
+
+const URLS = ['https://www.facebook.com/avalanchecanada', 'https://twitter.com/avalancheca', 'http://instagram.com/avalanchecanada']
+
+export default function Follow({text = 'Follow us', urls = URLS}) {
+    const title = name => `${text} on ${name}`
+
     return (
-        <SocialItem text='Follow Us'>
-            <a href='https://www.facebook.com/avalanchecanada' target='_blank' title='Follow us on Facebook'>
-                <Facebook />
-            </a>
-            <a href='https://twitter.com/avalancheca' target='_blank' title='Follow us on Twitter'>
-                <Twitter />
-            </a>
-            <a href='http://instagram.com/avalanchecanada' target='_blank' title='Follow us on Instagram'>
-                <Instagram />
-            </a>
+        <SocialItem text={text}>
+            {urls.map(url => <Item key={url} link={url} title={title} />)}
         </SocialItem>
     )
 }

@@ -1,2 +1,2 @@
-export SocialItem, {getProvider} from './Item'
+export SocialItem from './Item'
 export SocialSet from './Set'

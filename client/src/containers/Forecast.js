@@ -1,7 +1,7 @@
 import React, {PropTypes, createElement} from 'react'
 import {Link} from 'react-router'
 import {Page, Header, Main, Content, Aside} from 'components/page'
-import Forecast, {Metadata, Footer, Sidebar} from 'components/forecast'
+import Forecast, {Metadata, Footer, Sidebar, KananaskisSidebar} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from 'containers/connectors'
 
@@ -19,7 +19,10 @@ function Container({
     isLoading,
     isError,
     link,
+    params,
 }) {
+    const isKananaskis = params.name === 'kananaskis'
+
     return (
         <Page>
             <Header title={link ? <Link {...link}>{title}</Link> : title} />
@@ -32,7 +35,7 @@ function Container({
                     {forecast && <Footer author={forecast.forecaster} />}
                 </Main>
                 <Aside>
-                    <Sidebar />
+                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar />}
                 </Aside>
             </Content>
         </Page>

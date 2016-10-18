@@ -7,10 +7,10 @@ Contact.propTypes = {
     email: PropTypes.string,
 }
 
-export default function Contact({email}) {
+export default function Contact(props) {
     return (
-        <SocialItem text='Contact Us'>
-            <Mailto email={email}>
+        <SocialItem text='Contact us'>
+            <Mailto {...props}>
                 <Email fill='#245EAC' />
             </Mailto>
         </SocialItem>
