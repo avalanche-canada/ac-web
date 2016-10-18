@@ -10,7 +10,6 @@ Container.propTypes = {
     report: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
-    link: PropTypes.string,
 }
 
 function Container({
@@ -18,11 +17,10 @@ function Container({
     report = {},
     isLoading,
     isError,
-    link,
 }) {
     return (
         <Page>
-            <Header title={link ? <Link to={link}>{title}</Link> : title} />
+            <Header title={title} />
             <Content>
                 <Main>
                     {isLoading || <Metadata report={report.report} />}

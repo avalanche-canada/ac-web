@@ -10,7 +10,6 @@ Container.propTypes = {
     forecast: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
-    link: PropTypes.object,
 }
 
 function Container({
@@ -18,14 +17,13 @@ function Container({
     forecast,
     isLoading,
     isError,
-    link,
     params,
 }) {
     const isKananaskis = params.name === 'kananaskis'
 
     return (
         <Page>
-            <Header title={link ? <Link {...link}>{title}</Link> : title} />
+            <Header title={title} />
             <Content>
                 <Main>
                     {forecast && <Metadata {...forecast} />}
