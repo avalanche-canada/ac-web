@@ -72,7 +72,7 @@ export default {
                 type: 'file',
                 attrs: {
                     multiple: true,
-                    accept: 'image/gif,image/jpeg,image/jpg,image/png',
+                    accept: 'image/jpeg,image/jpg,image/png',
                 },
             }
         },
