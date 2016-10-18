@@ -172,6 +172,10 @@ export const AvalancheCanada = {
                 label: 'Wayne Flann',
                 to: '/ambassadors#wayne-flann',
             }, {
+                id: 'cfffeaf6-ada9-44e3-8e55-980d73c2b124',
+                label: 'Brodie Evans',
+                to: '/ambassadors#brodie-evans',
+            }, {
                 id: 'dfa78074-36e8-4f4b-97a4-1c7f922a08ac',
                 label: 'Piper Noble',
                 to: '/ambassadors#piper-noble',
