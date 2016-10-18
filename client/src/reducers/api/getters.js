@@ -1,5 +1,7 @@
 import {paramsToKey} from 'api/utils'
 import {RESULT} from './results'
+import {getEntityForSchema} from './entities'
+import {ForecastRegion} from 'api/schemas'
 
 export {getEntitiesForSchema} from './entities'
 
@@ -18,4 +20,10 @@ export function shouldDispatchLoadAction(state, schema, action) {
     const results = getResultsSet(state, schema, action.payload.params)
 
     return !results || (!results.isLoaded && !results.isFetching)
+}
+
+export function getForecastRegionExternalUrl(state, forecastRegionId) {
+    const forecastRegion = getEntityForSchema(state, ForecastRegion, forecastRegionId)
+
+    return forecastRegion ? forecastRegion.getIn(['properties', 'externalUrl']) : undefined
 }

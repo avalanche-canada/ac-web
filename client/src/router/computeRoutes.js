@@ -58,6 +58,7 @@ import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
 import ReactGA from 'services/analytics'
 import postIdRedirects from './postIdRedirects'
+import {getForecastRegionExternalUrl} from 'reducers/api/getters'
 
 const YEAR = String(new Date().getFullYear())
 const PAGINATION = {
@@ -182,8 +183,25 @@ export default function computeRoutes(store) {
         dispatch(turnOnLayer(LAYERS.HOT_ZONE_REPORTS))
     }
 
-    function handleForecastRouteEnter() {
+    function handleMapForecastRouteEnter({params}) {
         dispatch(turnOnLayer(LAYERS.FORECASTS))
+        handleExternalForecast(params.name)
+    }
+
+    function handleMapForecastRouteChange(prev, {params}) {
+        handleExternalForecast(params.name)
+    }
+
+    function handlePageForecastRouteEnter({params}) {
+        handleExternalForecast(params.name)
+    }
+
+    function handleExternalForecast(region) {
+        const externalUrl = getForecastRegionExternalUrl(getState(), region)
+
+        if (externalUrl) {
+            window.open(externalUrl, '_blank')
+        }
     }
 
     function handleArchiveForecastRouteEnter({params: {name, date}}, replace) {
@@ -221,7 +239,7 @@ export default function computeRoutes(store) {
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
             <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}}>
-                <Route path='forecasts' onEnter={handleForecastRouteEnter} >
+                <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
                 <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
@@ -244,7 +262,7 @@ export default function computeRoutes(store) {
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={Archives} />
-            <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} />
+            <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from="forecast/:name" to="forecasts/:name" />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
