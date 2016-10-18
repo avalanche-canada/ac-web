@@ -3,7 +3,6 @@ import {compose, lifecycle, withState, withHandlers, setPropTypes, withProps} fr
 import ImageGallery from 'react-image-gallery'
 import CSSModules from 'react-css-modules'
 import * as cloudinary from 'services/cloudinary'
-import 'react-image-gallery/build/image-gallery.css'
 import {Fullscreen} from 'components/icons'
 import Button, {INCOGNITO} from 'components/button'
 import styles from './Gallery.css'

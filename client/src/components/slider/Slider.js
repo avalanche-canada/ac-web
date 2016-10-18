@@ -1,7 +1,6 @@
 import React from 'react'
 import {compose, withState, withHandlers, setPropTypes, withProps, defaultProps} from 'recompose'
 import ImageGallery from 'react-image-gallery'
-import 'react-image-gallery/build/image-gallery.css'
 import {Play, Pause} from 'components/icons'
 import Button, {INCOGNITO} from 'components/button'
 
