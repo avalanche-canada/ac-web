@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {compose, withProps} from 'recompose'
-import Sidebar, {Header, Item} from 'components/sidebar'
+import Sidebar, {Contact, Item, Header} from 'components/sidebar'
 import DocumentLink from 'prismic/components/DocumentLink'
 import {Link} from 'react-router'
 import {href, avalancheCanadaPathRegex} from 'utils/url'
@@ -30,7 +30,7 @@ function renderLink({title, link}) {
 }
 
 export default compose(
-    withProps(({content}) => ({
+    withProps(({content, contact}) => ({
         children: content.map(({type, content}, index) => {
             switch (type) {
                 case 'header':
@@ -48,6 +48,7 @@ export default compose(
                 default:
                     return null
             }
-        })
+        }),
+        contact: typeof contact === 'string' ? <Contact email={contact} /> : contact,
     }))
 )(Sidebar)

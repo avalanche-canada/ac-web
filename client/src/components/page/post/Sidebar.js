@@ -20,8 +20,8 @@ export default compose(
         uid: PropTypes.string,
     }),
     defaultProps({
-        withSharing: true,
-        withFollowing: true,
+        share: true,
+        follow: true,
     }),
     connect(undefined, {
         loadForType

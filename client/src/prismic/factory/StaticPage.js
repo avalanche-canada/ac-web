@@ -2,18 +2,20 @@ import PARSER from '../parser'
 import {boolean} from './utils'
 
 export function fromDocument(document, parser = PARSER) {
-    let {sharing, following, contacting, sidebar = [], ...props} = parser.parse(document)
+    let {sharing, following, contacting, sidebar = [], contact, ...props} = parser.parse(document)
 
-    const withSharing = boolean(sharing)
-    const withFollowing = boolean(following)
-    const withContacting = boolean(contacting)
+    sharing = boolean(sharing)
+    following = boolean(following)
+    contacting = boolean(contacting)
 
     return {
         ...props,
-        sidebar: (withSharing || withFollowing || withContacting || sidebar.length) ? {
-            withSharing,
-            withFollowing,
-            withContacting,
+        sidebar: (sharing || following || contacting || sidebar.length) ? {
+            share: sharing,
+            follow: following,
+            contact: contacting ? (
+                typeof contact === 'string' ? contact : true
+            ): false,
             content: sidebar,
         } : null
     }

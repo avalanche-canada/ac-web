@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes, isValidElement, createElement} from 'react'
 import Contact from './Contact'
 import Share from './Share'
 import Follow from './Follow'
@@ -13,19 +13,27 @@ export Contact from './Contact'
 export RSSFeed from './RSSFeed'
 
 CompleteSidebar.propTypes = {
-    withContacting: PropTypes.bool,
-    withSharing: PropTypes.bool,
-    withFollowing: PropTypes.bool,
+    contact: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+    share: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+    follow: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
     children: PropTypes.node,
 }
 
-export default function CompleteSidebar({children, withContacting, withSharing, withFollowing}) {
+function createSocialElement(element, component) {
+    if (element === true) {
+        return createElement(component)
+    }
+
+    return isValidElement(element) ? element : null
+}
+
+export default function CompleteSidebar({children, contact, share, follow}) {
     return (
         <Sidebar>
             {children}
-            {withSharing && <Share />}
-            {withFollowing && <Follow />}
-            {withContacting && <Contact />}
+            {createSocialElement(share, Share)}
+            {createSocialElement(follow, Follow)}
+            {createSocialElement(contact, Contact)}
         </Sidebar>
     )
 }
