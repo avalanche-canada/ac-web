@@ -96,6 +96,11 @@ var parseUtcDate = function(dateIn){
     return dateOut;
 }
 
+
+function StripAvalxStyle(txt) {
+    return txt.replace(/^[\s\S]*?<\/style>/m, '');
+}
+
 function getElevationIcon(elevations) {
     var zones = elevations.reduce(function (memo, elevation) {
         switch(elevation) {
@@ -306,15 +311,15 @@ function parksForecast(caaml, region){
         dateIssued: dates.dateIssued,
         validUntil: dates.validUntil,
         bulletinTitle: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
-        highlights:  highlights,
+        highlights:  StripAvalxStyle(highlights),
         confidence: (function (confidence) {
             return confidence['confidenceLevel'][0] + ' - ' + confidence['comment'][0];
         })(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinConfidence'][0]['Components'][0]),
         dangerRatings: getDangerRatings(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['dangerRatings'][0]['DangerRating']),
         problems: getProblems(caamlProblems),
-        avalancheSummary: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['avActivityComment'][0],
-        snowpackSummary: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['snowpackStructureComment'][0],
-        weatherForecast: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['wxSynopsisComment'][0],
+        avalancheSummary: StripAvalxStyle(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['avActivityComment'][0]),
+        snowpackSummary:  StripAvalxStyle(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['snowpackStructureComment'][0]),
+        weatherForecast:  StripAvalxStyle(caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['wxSynopsisComment'][0]),
         dangerMode: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['dangerMode'][0] //! Early season, Regular season, Spring situation, Off season
     };
 };
@@ -379,15 +384,15 @@ function avalancheCaForecast(caaml, region, dangerMode){
         validUntil: parsePstDate(caamlBulletin['gml:validTime'][0]['gml:TimePeriod'][0]['gml:endPosition'][0]),
         forecaster: caamlBulletin['caaml:obsMetaDataProperty'][0]['caaml:ObsMetaData'][0]['caaml:observedBy'][0]['caaml:PersonString'][0],
         bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinTitle'][0],
-        highlights: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0],
+        highlights: StripAvalxStyle(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:highlights'][0]),
         confidence: (function (confidence) {
             return confidence['caaml:confidenceLevel'][0];
         })(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:bulletinConfidence'][0]['caaml:Components'][0]),
         dangerRatings: getDangerRatings(caamlDangerRatings),
         problems: getProblems(caamlProblems),
-        avalancheSummary: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avActivityComment'][0],
-        snowpackSummary: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:snowpackStructureComment'][0],
-        weatherForecast: caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:wxSynopsisComment'][0],
+        avalancheSummary: StripAvalxStyle(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avActivityComment'][0]),
+        snowpackSummary:  StripAvalxStyle(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:snowpackStructureComment'][0]),
+        weatherForecast:  StripAvalxStyle(caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:wxSynopsisComment'][0]),
         dangerMode : publicDangerMode //'Regular season' //! \todo Early season, Regular season, Spring situation, Off season
      };
 }
