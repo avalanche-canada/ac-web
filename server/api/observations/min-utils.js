@@ -18,7 +18,6 @@ var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
 var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
-var UPLOADS_BUCKET_URL = +UPLOADS_BUCKET;
 
 function itemsToSubmissions(items) {
     var subs = _.chain(items)
@@ -348,6 +347,7 @@ exports.getUploadAsStream = function (key, size) {
         Bucket: UPLOADS_BUCKET,
         Key: key
     };
+
     var resize = im().resize(size).quality(90);
 
     var stream = s3.getObject(params).createReadStream();
@@ -355,7 +355,11 @@ exports.getUploadAsStream = function (key, size) {
     if(size === 'fullsize'){
         return stream;
     } else {
-        return stream.pipe(resize);
+        return (
+           stream
+            .on('error', err => {resize.emit('error', err)})
+            .pipe(resize)
+        );
     }
 };
 

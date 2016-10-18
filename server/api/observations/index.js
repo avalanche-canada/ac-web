@@ -183,7 +183,17 @@ router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
     var size = req.query.size || 'fullsize';
 
-    minUtils.getUploadAsStream(uploadKey, size).pipe(res);
+    var stream = minUtils.getUploadAsStream(uploadKey, size)
+    stream.on('error',function(err){
+        if(err.code === 'NoSuchKey') {
+            res.status(404).send('Image not found');
+        } else {
+            console.log('ERROR reading from s3', JSON.stringify(err));
+            res.status(500).json({error: 'ERROR reading from s3'});
+        }
+        return;
+    });
+    stream.pipe(res);
 });
 
 module.exports = router;
