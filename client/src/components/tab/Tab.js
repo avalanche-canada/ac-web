@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
 
 Tab.propTypes = {
-    children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
+    title: PropTypes.node.isRequired,
+    children: PropTypes.node,
     disabled: PropTypes.bool,
     color: PropTypes.string,
 }
