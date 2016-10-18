@@ -5,15 +5,16 @@ import {Tab, TabSet} from 'components/tab'
 import Observation from './Observation'
 import styles from './MountainInformationNetwork.css'
 import * as COLORS from 'components/icons/min/colors'
+import ImageGallery from 'react-image-gallery'
 
-const Titles = new Map([
+const TAB_TITLES = new Map([
     [QUICK, 'Quick'],
     [WEATHER, 'Weather'],
     [SNOWPACK, 'Snowpack'],
     [AVALANCHE, 'Avalanche'],
     [INCIDENT, 'Incident'],
 ])
-const Colors = new Map([
+const TAB_COLORS = new Map([
     [QUICK, COLORS.QUICK],
     [WEATHER, COLORS.WEATHER],
     [SNOWPACK, COLORS.SNOWPACK],
@@ -30,31 +31,40 @@ Submission.propTypes = {
 function reducer(observations, {obtype, ob}) {
     return observations.set(obtype, ob)
 }
+function toGalleryItem(upload) {
+    return {
+        original: `/api/min/uploads/${upload}`
+    }
+}
 
-function Submission({uploads, observations = [], active = QUICK}) {
+function Submission({uploads = [], observations = [], active = QUICK}) {
     const observationsByType = observations.reduce(reducer, new Map())
     const activeIndex = TYPES.indexOf(active)
 
     return (
-        <TabSet activeIndex={activeIndex} arrow >
-            {TYPES.map(type => {
-                const disabled = !observationsByType.has(type)
-                const tab = {
-                    key: type,
-                    title: Titles.get(type),
-                    color: Colors.get(type),
-                    disabled,
-                }
+        <div>
+            <TabSet activeIndex={activeIndex} arrow >
+                {TYPES.map(type => {
+                    const tab = {
+                        key: type,
+                        title: TAB_TITLES.get(type),
+                        color: TAB_COLORS.get(type),
+                        disabled: !observationsByType.has(type),
+                    }
 
-                return (
-                    <Tab {...tab}>
-                        {disabled ||
-                            <Observation type={type} observation={observationsByType.get(type)} />
-                        }
-                    </Tab>
-                )
-            })}
-        </TabSet>
+                    return (
+                        <Tab {...tab}>
+                            {tab.disabled ||
+                                <Observation type={type} observation={observationsByType.get(type)} />
+                            }
+                        </Tab>
+                    )
+                })}
+            </TabSet>
+            {uploads.length > 0 &&
+                <ImageGallery items={uploads.map(toGalleryItem)} showBullets showThumbnails={false} />
+            }
+        </div>
     )
 }
 

@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Header, Content, Body} from 'components/page/drawer'
-import {Metadata} from 'components/mountainInformationNetwork'
-import {Submission} from 'components/mountainInformationNetwork'
+import {Metadata, Submission} from 'components/mountainInformationNetwork'
 import {Loading, Error} from 'components/misc'
 import {Link} from 'react-router'
 import {mountainInformationNetworkSubmission} from 'containers/connectors'
@@ -13,7 +12,7 @@ function MountainInformationNetwork({
     isError,
     props,
     messages,
-    link
+    link,
 }) {
     const {error, loading} = messages
 
