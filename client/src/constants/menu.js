@@ -97,6 +97,10 @@ export const AvalancheCanada = {
                 id: '57dad5c2-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Essential Gear',
                 to: '/gear',
+            }, {
+                id: 'f42bbcc9-6e4d-4f5c-9d4c-0d2b5cf49200',
+                label: 'Teaching Avalanche Skills Training (AST)',
+                to: '/instructing-ast',
             }],
         }, {
             id: '57dad6da-1871-11e6-b6ba-3e1d05defe78',

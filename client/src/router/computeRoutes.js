@@ -36,6 +36,7 @@ import {
     MountainInformationNetworkSubmissionGuidelines,
     MountainInformationNetworkSubmission,
     Training,
+    InstructingAst,
     Tutorial,
     Gear,
     Sled,
@@ -270,6 +271,7 @@ export default function computeRoutes(store) {
                     <Route path='courses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
+            <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />
             <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
