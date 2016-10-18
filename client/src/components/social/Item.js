@@ -1,6 +1,7 @@
 import React, {PropTypes, createElement} from 'react'
 import {compose} from 'recompose'
 import {neverUpdate} from 'compose'
+import memoize from 'lodash/memoize'
 import CSSModules from 'react-css-modules'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
@@ -33,21 +34,13 @@ const PROVIDER_ICONS = new Map([
     [GOOGLE_PLUS, createElement(Icons.GooglePlus)],
 ])
 
-const MEMOIZED_PROVIDERS = new Map()
-
-function getProvider(url) {
-    if (MEMOIZED_PROVIDERS.has(url)) {
-        return MEMOIZED_PROVIDERS.get(url)
-    }
-
+const getProvider = memoize(url => {
     for (const [provider, regex] of PROVIDER_REGEXES) {
         if (regex.test(url)) {
-            MEMOIZED_PROVIDERS.set(url, provider)
-
             return provider
         }
     }
-}
+})
 
 Item.propTypes = {
     link: PropTypes.string.isRequired,
