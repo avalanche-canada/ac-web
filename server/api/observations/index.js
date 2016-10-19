@@ -111,7 +111,7 @@ function getOptions(options){
 
 function formatDate(datetimeString){
     var datetime = moment(datetimeString);
-    var offset = moment.parseZone(datetimeString).zone();
+    var offset = moment.parseZone(datetimeString).utcOffset();
     var prefixes = {
         480: 'P',
         420: 'M',
