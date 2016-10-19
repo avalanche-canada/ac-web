@@ -22,7 +22,7 @@ export const Uploads = t.struct({
 
 export const QuickReport = t.struct({
     ridingConditions: t.struct({
-        ridingQuality: t.enums.of(['Amazing', 'Good', 'OK', 'Terrible']),
+        ridingQuality: t.maybe(t.enums.of(['Amazing', 'Good', 'OK', 'Terrible'])),
         snowConditions: t.struct({
             'Deep powder': t.Boolean,
             Wet: t.Boolean,
@@ -67,14 +67,12 @@ export const QuickReport = t.struct({
         sound: t.Boolean,
         temp: t.Boolean,
     }),
-    // TODO: Ask Will, why this one required, other report comments not?
-    comment: t.String,
+    comment: t.maybe(t.String),
 })
 
 export const AvalancheReport = t.struct({
     avalancheOccurrence: t.struct({
         epoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
-        // TODO: Ask Will about that one
         time: Time, // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
     }),
     avalancheObservation: t.maybe(t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago'])),
@@ -126,7 +124,6 @@ export const AvalancheReport = t.struct({
     crustNearWeakLayer: t.maybe(YesNo),
     windExposure: t.maybe(t.enums.of(['Lee slope', 'Cross-loaded slope', 'Windward slope', 'Down flow', 'Reverse-loaded slope', 'No wind exposure'])),
     vegetationCover: t.maybe(t.enums.of(['Open slope', 'Sparse trees or gladed slope', 'Dense trees'])),
-    // TODO: Ask Will. Hmmm...sure about that?
     avalancheObsComment: t.maybe(t.String),
 })
 
@@ -189,7 +186,6 @@ export const WeatherReport = t.struct({
     newSnow24Hours: t.maybe(range(0, 100)),
     precipitation24Hours: t.maybe(range(0, 100)),
     stormSnowAmount: t.maybe(range(0, 300)),
-    // TODO: Ask Will. Why is it required?
     stormStartDate: t.maybe(t.Date),  // pattern: '^\d\d\d\d-\d\d-\d\d'
     windSpeed: t.maybe(t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)'])),
     windDirection: t.maybe(Direction),

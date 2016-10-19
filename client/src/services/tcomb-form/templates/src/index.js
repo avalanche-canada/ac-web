@@ -23,6 +23,11 @@ export default {
   file,
 }
 
+const TODAY = new Date()
+function defaultDisabledDays(day) {
+    return moment(day).isAfter(TODAY, 'day')
+}
+
 export const pickers = {
     date: picker.clone({
         getFormat(locals) {
@@ -32,13 +37,21 @@ export const pickers = {
             return null
         },
         renderContent(locals) {
-            const {value, renderDay, locale, localeUtils, onSelect} = locals
+            const {
+                value,
+                renderDay,
+                locale,
+                localeUtils,
+                onSelect,
+                disabledDays = defaultDisabledDays,
+            } = locals
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
                     selected: date => DateUtils.isSameDay(value, date)
                 },
                 onDayClick: onSelect,
+                disabledDays,
                 value,
                 localeUtils,
                 locale,
@@ -73,7 +86,8 @@ export const pickers = {
                 locale,
                 localeUtils,
                 onChange,
-                close
+                close,
+                disabledDays = defaultDisabledDays,
             } = locals
             function onDayClick(event, day) {
                 day.setHours(value.getHours())
@@ -87,6 +101,7 @@ export const pickers = {
                     selected: date => DateUtils.isSameDay(value, date)
                 },
                 onDayClick,
+                disabledDays,
                 value,
                 localeUtils,
                 locale,

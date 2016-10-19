@@ -197,10 +197,17 @@ export default class Form extends Component {
                 ...avalanche,
             } = observations.get(AVALANCHE)
 
+            let [hour, minute] = time.split(':').map(Number)
+            const period = hour / 12 < 1 ? 'AM' : 'PM'
+
+            if (period === 'PM') {
+                hour = hour % 12
+            }
+
             observations = observations.set(AVALANCHE, {
                 ...avalanche,
-                avalancheOccurrenceEpoch: epoch,
-                avalancheOccurrenceTime: time,
+                avalancheOccurrenceEpoch: moment(epoch).format(('YYYY-MM-DD')),
+                avalancheOccurrenceTime: `${hour}:${minute} ${period}`,
             })
         }
 

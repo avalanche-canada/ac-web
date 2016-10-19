@@ -14,9 +14,8 @@ Weather.propTypes = {
 
 function Weather({children, isAuthenticated = false, route}) {
     const {type = 'new-weather-forecast'} = route
-    const to = type === 'new-weather-forecast' ? 'new/weather' : '/weather'
     const title = (
-        <Link to={to}>
+        <Link to={type === 'new-weather-forecast' ? 'new/weather' : '/weather'}>
             Mountain Weather Forecast
         </Link>
     )

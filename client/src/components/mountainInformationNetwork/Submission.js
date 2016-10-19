@@ -62,7 +62,10 @@ function Submission({uploads = [], observations = [], active = QUICK}) {
                 })}
             </TabSet>
             {uploads.length > 0 &&
-                <ImageGallery items={uploads.map(toGalleryItem)} showBullets showThumbnails={false} />
+                <ImageGallery
+                    items={uploads.map(toGalleryItem)} 
+                    showBullets
+                    showThumbnails={false} />
             }
         </div>
     )

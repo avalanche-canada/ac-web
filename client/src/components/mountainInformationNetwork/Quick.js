@@ -4,9 +4,6 @@ import Comment from './Comment'
 import {trulyKeys, projectKeys} from 'utils/object'
 import {List, Term, Definition} from 'components/description'
 
-const {shape, bool, object, string} = PropTypes
-const {keys} = Object
-
 const avalancheConditionsTexts = {
     sound: 'Slab avalanches today or yesterday.',
     snow: 'Whumpfing or drum-like sounds or shooting cracks.',
@@ -23,7 +20,7 @@ const RidingConditionsTitles = new Map([
 ])
 
 function computeRidingConditions(conditions) {
-    return keys(conditions).reduce((children, key) => {
+    return Object.keys(conditions).reduce((children, key) => {
         const {type, prompt, selected, options} = conditions[key]
         const term = RidingConditionsTitles.get(key) || prompt
         let text = null
@@ -53,31 +50,23 @@ function computeRidingConditions(conditions) {
 }
 
 Quick.propTypes = {
-    avalancheConditions: shape({
-        sound: bool.isRequired,
-        snow: bool.isRequired,
-        slab: bool.isRequired,
-        temp: bool.isRequired,
+    avalancheConditions: PropTypes.shape({
+        sound: PropTypes.bool.isRequired,
+        snow: PropTypes.bool.isRequired,
+        slab: PropTypes.bool.isRequired,
+        temp: PropTypes.bool.isRequired,
     }).isRequired,
-    ridingConditions: shape({
-        snowConditions: object.isRequired,
-        ridingQuality: object.isRequired,
-        stayedAway: object.isRequired,
-        rideType: object.isRequired,
-        weather: object.isRequired,
+    ridingConditions: PropTypes.shape({
+        snowConditions: PropTypes.object.isRequired,
+        ridingQuality: PropTypes.object.isRequired,
+        stayedAway: PropTypes.object.isRequired,
+        rideType: PropTypes.object.isRequired,
+        weather: PropTypes.object.isRequired,
     }).isRequired,
-    comment: string,
+    comment: PropTypes.string,
 }
 
-export default function Quick({
-    avalancheConditions,
-    ridingConditions,
-    comment
-}) {
-    if (!avalancheConditions || !ridingConditions) {
-        return null
-    }
-    
+export default function Quick({avalancheConditions, ridingConditions, comment}) {
     return (
         <div>
             <Section title='Information'>
