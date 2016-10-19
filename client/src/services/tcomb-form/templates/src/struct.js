@@ -1,5 +1,5 @@
 import React from 'react'
-import getAlert from 'tcomb-form-templates-semantic/lib/getAlert'
+import getAlert from './getAlert'
 import renderFieldset from './renderFieldset'
 
 function create(overrides = {}) {

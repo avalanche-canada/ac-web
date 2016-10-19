@@ -1,15 +1,7 @@
-# Setup
+# Semantic UI templates for tcomb-form
 
-```sh
-npm install tcomb-form
-npm install tcomb-form-templates-semantic
-```
+Copied From https://github.com/gcanti/tcomb-form-templates-semantic
+under the MIT licence (http://spdx.org/licenses/MIT)
 
-```js
-import t from 'tcomb-form/lib'
-import en from 'tcomb-form/lib/i18n/en'
-import templates from 'tcomb-form-templates-semantic'
 
-t.form.Form.i18n = en
-t.form.Form.templates = templates
-```
+

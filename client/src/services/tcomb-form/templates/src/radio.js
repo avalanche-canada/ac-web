@@ -1,8 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import getLabel from 'tcomb-form-templates-semantic/lib/getLabel'
-import getError from 'tcomb-form-templates-semantic/lib/getError'
-import getHelp from 'tcomb-form-templates-semantic/lib/getHelp'
+import getLabel from './getLabel'
+import getError from './getError'
+import getHelp from  './getHelp'
 
 function create(overrides = {}) {
   function radio(locals) {
