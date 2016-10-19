@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {findDOMNode} from 'react-dom'
+import {compose, onlyUpdateForKeys} from 'recompose'
+import {onlyUpdateForKey} from 'compose'
 import Immutable from 'immutable'
 import t from 'services/tcomb-form'
 import CSSModules from 'react-css-modules'
@@ -14,6 +16,7 @@ import OPTIONS from './options'
 import moment from 'moment'
 import QUICK_REPORT from './quick.json'
 import {Error} from 'components/misc'
+import debounce from 'lodash/debounce'
 import {postMountainInformationNetworkSubmission} from 'actions/entities'
 import {
     RequiredInformation,
@@ -79,6 +82,22 @@ function ridingConditionsMerger(prev, next) {
     }
 }
 
+const BasicForm = onlyUpdateForKey('value')(t.form.Form)
+
+function ObservationForm({value, type, disabled, onChange, onReset, options}) {
+    const {Form} = t.form
+
+    return (
+        <div>
+            <Form disabled={disabled} value={value} type={ObservationTypes.get(type)} onChange={onChange} options={options} />
+            <Button disabled={disabled || !value} onClick={onReset}>
+                Reset {Titles.get(type)} report
+            </Button>
+        </div>
+    )
+}
+ObservationForm = onlyUpdateForKeys(['disabled', 'value'])(ObservationForm)
+
 @withRouter
 @connect(null, {
     post: postMountainInformationNetworkSubmission
@@ -97,9 +116,18 @@ export default class Form extends Component {
             }),
         }),
         options: OPTIONS,
-        activeIndex: 0,
         noObservations: null,
         isSubmitting: false,
+    }
+    constructor(props) {
+        super(props)
+
+        this.observationChangeHandlers = TYPES.reduce((handlers, type) =>
+            handlers.set(type, this.handleObservationChange(type))
+        , new Map())
+        this.observationClearHandlers = TYPES.reduce((handlers, type) =>
+            handlers.set(type, this.handleClearObservation(type))
+        , new Map())
     }
     handleSubmit = event => {
         event.preventDefault()
@@ -219,32 +247,36 @@ export default class Form extends Component {
             })
         })
     }
-    setValue(path, value, callback) {
+    setValue = debounce((path, value) => {
         this.setState({
             value: this.state.value.setIn(path, value)
-        }, callback)
-    }
-    clearValue(path, callback) {
-        this.setState({
-            value: this.state.value.setIn(path, null)
-        }, callback)
+        })
+    }, 250)
+    clearValue(path) {
+        this.setValue(path, null)
     }
     handleRequiredChange = value => {
         this.setValue(['required'], value)
     }
     handleObservationChange = type => value => {
-        this.setState({
-            activeIndex: TYPES.indexOf(type)
-        }, () => {
-            this.setValue(['observations', type], value)
-        })
+        this.setValue(['observations', type], value)
     }
     handleClearObservation = type => event => {
         this.clearValue(['observations', type])
     }
+    shouldComponentUpdate(props, {isSubmitting, value, noObservations}) {
+        const {state} = this
+
+        if (isSubmitting !== state.isSubmitting ||
+            noObservations !== state.noObservations ||
+            value !== state.value) {
+            return true
+        }
+
+        return false
+    }
     render() {
-        const {Form} = t.form
-        const {value, options, activeIndex, noObservations, isSubmitting} = this.state
+        const {value, options, noObservations, isSubmitting} = this.state
         const observations = value.get('observations')
         const disabled = isSubmitting
 
@@ -256,10 +288,10 @@ export default class Form extends Component {
                         <form onSubmit={this.handleSubmit} styleName='Form' noValidate>
                             <div styleName='Sidebar'>
                                 <div styleName='RequiredInformation'>
-                                    <Form ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
+                                    <BasicForm ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
                                 </div>
                                 <div styleName='Uploads'>
-                                    <Form type={Uploads} disabled={disabled} options={options.uploads} />
+                                    <BasicForm type={Uploads} disabled={disabled} options={options.uploads} />
                                 </div>
                             </div>
                             <div styleName='Observations'>
@@ -268,16 +300,26 @@ export default class Form extends Component {
                                     <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
                                         Add information on one, some, or all tabs, then click SUBMIT at the bottom.
                                     </div>
-                                    <TabSet activeIndex={activeIndex} arrow>
-                                        {TYPES.map(type => {
-                                            const value = observations.get(type)
+                                    <TabSet arrow>
+                                        {TYPES.map((type, index) => {
+                                            const form = {
+                                                ref: `observations.${type}`,
+                                                disabled: disabled,
+                                                type: type,
+                                                value: observations.get(type),
+                                                onChange: this.observationChangeHandlers.get(type),
+                                                onReset: this.observationClearHandlers.get(type),
+                                                options: options[type],
+                                            }
+                                            const tab = {
+                                                 key: type,
+                                                 title: Titles.get(type),
+                                                 color: observations.get(type) ? Colors.get(type) : null,
+                                            }
 
                                             return (
-                                                <Tab key={type} title={Titles.get(type)} color={observations.get(type) && Colors.get(type)}>
-                                                    <Form disabled={disabled} value={value} ref={`observations.${type}`} type={ObservationTypes.get(type)} onChange={this.handleObservationChange(type)} options={options[type]} />
-                                                    <Button disabled={disabled || !value} onClick={this.handleClearObservation(type)}>
-                                                        Reset {Titles.get(type)} report
-                                                    </Button>
+                                                <Tab {...tab}>
+                                                    <ObservationForm {...form} />
                                                 </Tab>
                                             )
                                         })}
