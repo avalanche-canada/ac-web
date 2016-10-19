@@ -1,12 +1,14 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Tab.css'
 
 Panel.propTypes = {
-	active: PropTypes.bool
+	active: PropTypes.bool,
+    children: PropTypes.node,
 }
 
-function Panel({ children, active = false }) {
+function Panel({children, active = false}) {
     const styleName = active === true ? 'Panel--Active' : 'Panel'
 
 	return (
@@ -16,4 +18,7 @@ function Panel({ children, active = false }) {
 	)
 }
 
-export default CSSModules(Panel, styles)
+export default compose(
+    onlyUpdateForKeys(['active', 'children']),
+    CSSModules(styles),
+)(Panel)
