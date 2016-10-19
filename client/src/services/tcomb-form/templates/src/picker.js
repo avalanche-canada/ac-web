@@ -16,6 +16,10 @@ function defaultFormat(value) {
     return value
 }
 
+function stopImmediatePropagation({nativeEvent}) {
+    nativeEvent.stopImmediatePropagation()
+}
+
 function create(overrides = {}) {
     function template(locals) {
         return template.renderContainer(locals)
@@ -27,14 +31,15 @@ function create(overrides = {}) {
 
     template.renderContainer = overrides.renderContainer || function renderContainer(locals) {
         const {id} = locals.attrs
+        const {isOpen, close} = locals
 
         return (
-            <div id={`container-${id}`} style={CONTAINER_STYLE}>
+            <div id={`container-${id}`} style={CONTAINER_STYLE} onClick={stopImmediatePropagation}>
                 {template.renderInput(locals)}
                 <Overlay
-                    show={locals.isOpen}
-                    onHide={locals.close}
-                    onEscapeKeyUp={locals.close}
+                    show={isOpen}
+                    onHide={close}
+                    onEscapeKeyUp={close}
                     placement='bottom'
                     container={document.querySelector(`#container-${id}`)}
                     target={document.querySelector(`#container-${id} input`)}
@@ -70,16 +75,16 @@ function create(overrides = {}) {
     }
 
     template.renderEnabledInput = overrides.renderEnabledInput || function renderEnabledInput(locals) {
-        const {open, toggle, value, attrs, isOpen} = locals
+        const {open, value, attrs} = locals
         const format = template.getFormat(locals)
 
         return (
             <div className={controls.Group}>
                 <input {...attrs}
                     autoComplete='off'
-                    // onFocus={open}
-                    onClick={toggle}
-                    onChange={noop}
+                    onFocus={open}
+                    onClick={open}
+                    onChange={open}
                     value={format(value)} />
                 {template.renderResetButton(locals)}
             </div>
