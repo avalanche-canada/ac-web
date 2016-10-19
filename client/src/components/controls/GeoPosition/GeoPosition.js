@@ -58,7 +58,7 @@ export default class GeoPosition extends Component {
     handleMoveend = () => {
         this.isMoving = false
     }
-    handleDragEnd = lngLat => {
+    handleDragEnd = ({lngLat}) => {
         this.setState({lngLat}, this.handleChange)
     }
     handleChange = () => {
@@ -78,7 +78,6 @@ export default class GeoPosition extends Component {
     componentWillMount() {
         this.element = Object.assign(document.createElement('img'), {
             src: place,
-            className: styles.Marker,
         })
     }
     componentWillReceiveProps({longitude, latitude}) {

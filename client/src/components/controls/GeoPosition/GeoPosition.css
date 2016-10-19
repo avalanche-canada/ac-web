@@ -6,8 +6,3 @@
         position: absolute 0;
     }
 }
-
-.Marker {
-    cursor: move;
-    user-select: none;
-}

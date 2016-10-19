@@ -38,12 +38,16 @@ export default class Marker extends Component {
     get map() {
         return this.context.map
     }
+    get element() {
+        return this.props.element
+    }
     remove() {
         if (this.marker) {
             this.marker.remove()
         }
     }
     createMarker({element, lngLat, options, onClick, draggable}) {
+        // TODO: Remove that. Should by provided as part of the element
         if (onClick) {
             assign(element, {
                 onclick: event => onClick(this.props, event)
@@ -52,35 +56,42 @@ export default class Marker extends Component {
 
         if (draggable) {
             assign(element, {
-                draggable,
                 onmousedown: this.handleMousedown,
-                ondragstart: this.handleDragStart,
-                ondragend: this.handleDragEnd,
             })
+            element.classList.add('draggable-map-marker')
         }
 
         return new mapbox.Marker(element, options).setLngLat(lngLat)
     }
-    handleMousedown = event => {
-        this.map.dragPan.disable()
-    }
-    handleDragStart = event => {
-        // required for the drag api to work
-    }
-    handleDragEnd = event => {
-        const {map, marker} = this
-        const {offsetX, offsetY} = event
-        const lngLat = map.unproject(
-            map.project(marker.getLngLat()).add({
-                x: offsetX - 12,
-                y: offsetY - 12,
-            })
-        )
+    handleMousedown = ({target}) => {
+        const {map} = this
+        const canvas = map.getCanvas()
 
-        marker.setLngLat(lngLat)
+        canvas.style.cursor = 'move'
+        target.style.pointerEvents = 'none'
+
+        map.dragPan.disable()
+
+        map.on('mousemove', this.handleMapMousemove)
+        map.on('mouseup', this.handleMapMouseup)
+    }
+    handleMapMousemove = event => {
+        this.marker.setLngLat(event.lngLat)
+        this.element.style.transform += ' scale(1.25)'
+    }
+    handleMapMouseup = event => {
+        const {map} = this
+        const canvas = map.getCanvas()
+
+        canvas.style.cursor = ''
+        this.element.style.pointerEvents = ''
+
         map.dragPan.enable()
 
-        this.props.onDragEnd(lngLat)
+        map.off('mousemove', this.handleMapMousemove)
+        map.off('mouseup', this.handleMapMouseup)
+
+        this.props.onDragEnd(event)
     }
     componentDidMount() {
         this.marker = this.createMarker(this.props)
@@ -88,7 +99,7 @@ export default class Marker extends Component {
     componentWillReceiveProps(nextProps) {
         const {element, lngLat, options} = nextProps
 
-        if (this.props.element !== element) {
+        if (this.element !== element) {
             this.marker = this.createMarker(nextProps)
             return
         }
