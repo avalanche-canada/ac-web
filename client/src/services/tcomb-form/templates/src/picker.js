@@ -34,7 +34,7 @@ function create(overrides = {}) {
         const {isOpen, close} = locals
 
         return (
-            <div id={`container-${id}`} style={CONTAINER_STYLE} onClick={isOpen ? stopImmediatePropagation : noop}>
+            <div id={`container-${id}`} style={CONTAINER_STYLE} onClick={stopImmediatePropagation}>
                 {template.renderInput(locals)}
                 <Overlay
                     show={isOpen}

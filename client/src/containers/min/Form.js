@@ -82,21 +82,9 @@ function ridingConditionsMerger(prev, next) {
     }
 }
 
-const BasicForm = onlyUpdateForKey('value')(t.form.Form)
-
-function ObservationForm({value, type, disabled, onChange, onReset, options}) {
-    const {Form} = t.form
-
-    return (
-        <div>
-            <Form disabled={disabled} value={value} type={ObservationTypes.get(type)} onChange={onChange} options={options} />
-            <Button disabled={disabled || !value} onClick={onReset}>
-                Reset {Titles.get(type)} report
-            </Button>
-        </div>
-    )
-}
-ObservationForm = onlyUpdateForKeys(['disabled', 'value'])(ObservationForm)
+// Does not re-render on every change...we were losing the images
+const UploadsForm = onlyUpdateForKey('value')(t.form.Form)
+const Base = t.form.Form
 
 @withRouter
 @connect(null, {
@@ -293,10 +281,10 @@ export default class Form extends Component {
                         <form onSubmit={this.handleSubmit} styleName='Form' noValidate>
                             <div styleName='Sidebar'>
                                 <div styleName='RequiredInformation'>
-                                    <BasicForm ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
+                                    <Base ref='required' disabled={disabled} type={RequiredInformation} value={value.get('required')} onChange={this.handleRequiredChange} options={options.required} />
                                 </div>
                                 <div styleName='Uploads'>
-                                    <BasicForm type={Uploads} disabled={disabled} options={options.uploads} />
+                                    <UploadsForm type={Uploads} disabled={disabled} options={options.uploads} />
                                 </div>
                             </div>
                             <div styleName='Observations'>
@@ -309,11 +297,10 @@ export default class Form extends Component {
                                         {TYPES.map((type, index) => {
                                             const form = {
                                                 ref: `observations.${type}`,
-                                                disabled: disabled,
-                                                type: type,
+                                                disabled,
+                                                type: ObservationTypes.get(type),
                                                 value: observations.get(type),
                                                 onChange: this.observationChangeHandlers.get(type),
-                                                onReset: this.observationClearHandlers.get(type),
                                                 options: options[type],
                                             }
                                             const tab = {
@@ -324,7 +311,10 @@ export default class Form extends Component {
 
                                             return (
                                                 <Tab {...tab}>
-                                                    <ObservationForm {...form} />
+                                                    <Base {...form} />
+                                                    <Button disabled={disabled || !form.value} onClick={this.observationClearHandlers.get(type)}>
+                                                        Reset {Titles.get(type)} report
+                                                    </Button>
                                                 </Tab>
                                             )
                                         })}
