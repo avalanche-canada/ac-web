@@ -126,6 +126,9 @@ exports.saveSubmission = function (user, form, callback) {
         }
     });
 
+
+    var imageUploadPromises = [];
+
     form.on('part', function(part) {
         var validMimeTypes = ['image/png', 'image/jpeg'];
         var uploadId = uuid.v4();
@@ -141,6 +144,9 @@ exports.saveSubmission = function (user, form, callback) {
 
             console.log('Uploading %s to S3.', key);
 
+            var isDone = q.defer();
+            imageUploadPromises.push(isDone.promise);
+
             var upload = s3Stream.upload({
               Bucket: UPLOADS_BUCKET,
               Key: key,
@@ -152,10 +158,12 @@ exports.saveSubmission = function (user, form, callback) {
 
             upload.on('error', function (error) {
               callback("Error uploading object to S3 : %s", error);
+              isDone.resolve();
             });
 
             upload.on('uploaded', function (details) {
               console.log("Uploaded object to S3 : %s", JSON.stringify(details));
+              isDone.resolve();
             });
         } else {
             callback({error: 'Invalid file extention. Valid file extentions are ' + validMimeTypes.join()});
@@ -218,7 +226,7 @@ exports.saveSubmission = function (user, form, callback) {
                 obsPromises.push(p);
             });
 
-            q.all(obsPromises)
+            q.all(obsPromises.concat(imageUploadPromises))
                 .then(function (results){
                     callback(null, results[0]);
                 }, function (err){
