@@ -12,7 +12,7 @@ import configureRaven from 'services/raven'
 // TODO: Need to put these imports in a better spot
 // There should be a vendor.css
 import 'normalize.css'
-import 'react-image-gallery/build/image-gallery.css'
+import 'react-image-gallery/styles/css/image-gallery.css'
 
 import 'styles/scaffolding.css'
 import 'styles/prismic.css'

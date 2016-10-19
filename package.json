@@ -62,7 +62,7 @@
     "react-css-modules": "^4.0.0",
     "react-day-picker": "^3.1.0",
     "react-dom": "^15.3.1",
-    "react-image-gallery": "^0.6.10",
+    "react-image-gallery": "^0.7.2",
     "react-jsonschema-form": "^0.40.0",
     "react-media-player": "^0.5.0",
     "react-motion": "^0.4.3",
