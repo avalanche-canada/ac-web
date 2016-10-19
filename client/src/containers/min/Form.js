@@ -118,6 +118,7 @@ export default class Form extends Component {
         options: OPTIONS,
         noObservations: null,
         isSubmitting: false,
+        activeIndex: 0,
     }
     constructor(props) {
         super(props)
@@ -264,11 +265,15 @@ export default class Form extends Component {
     handleClearObservation = type => event => {
         this.clearValue(['observations', type])
     }
-    shouldComponentUpdate(props, {isSubmitting, value, noObservations}) {
+    handleTabActivate = activeIndex => {
+        this.setState({activeIndex})
+    }
+    shouldComponentUpdate(props, {isSubmitting, value, noObservations, activeIndex}) {
         const {state} = this
 
         if (isSubmitting !== state.isSubmitting ||
             noObservations !== state.noObservations ||
+            activeIndex !== state.activeIndex ||
             value !== state.value) {
             return true
         }
@@ -276,7 +281,7 @@ export default class Form extends Component {
         return false
     }
     render() {
-        const {value, options, noObservations, isSubmitting} = this.state
+        const {value, options, noObservations, isSubmitting, activeIndex} = this.state
         const observations = value.get('observations')
         const disabled = isSubmitting
 
@@ -300,7 +305,7 @@ export default class Form extends Component {
                                     <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
                                         Add information on one, some, or all tabs, then click SUBMIT at the bottom.
                                     </div>
-                                    <TabSet arrow>
+                                    <TabSet activeIndex={activeIndex} onActivate={this.handleTabActivate} arrow>
                                         {TYPES.map((type, index) => {
                                             const form = {
                                                 ref: `observations.${type}`,

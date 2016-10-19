@@ -67,15 +67,20 @@ export const pickers = {
         },
         renderContent(locals) {
             const value = locals.value || new Date()
+            const time = `${value.getHours()}:${value.getMinutes()}`
             const {
                 renderDay,
                 locale,
                 localeUtils,
-                onSelect,
                 onChange,
                 close
             } = locals
-            const time = `${value.getHours()}:${value.getMinutes()}`
+            function onDayClick(event, day) {
+                day.setHours(value.getHours())
+                day.setMinutes(value.getMinutes())
+
+                onChange(day)
+            }
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
@@ -87,19 +92,13 @@ export const pickers = {
                 locale,
                 renderDay
             }
-            function onDayClick(event, day) {
-                day.setHours(value.getHours())
-                day.setMinutes(value.getMinutes())
-
-                onChange(day)
-            }
             function handleTimeChange(time) {
                 const [hours, minutes] = time.split(':').map(Number)
 
                 value.setHours(hours)
                 value.setMinutes(minutes)
 
-                onChange(value)
+                onChange(new Date(value.getTime()))
             }
 
             return (
