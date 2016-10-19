@@ -48,6 +48,7 @@ function asControlled({description, provider}) {
 const levelOptions = new Map([
     ['AST1', 'AST 1'],
     ['AST1+', 'AST 1 + MAT'],
+    ['AST1+2', 'AST 1 + AST 2 Combined'],
     ['AST2', 'AST 2'],
     ['CRS', 'Companion Rescue (CRS)'],
     ['MAT', 'Managing Avalanche Terrain (MAT)'],
