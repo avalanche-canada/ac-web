@@ -115,8 +115,7 @@ export const AvalancheReport = t.struct({
     startZoneElevation: t.maybe(range(0, 5000)),
     startZoneIncline: t.maybe(range(0, 90)),
     runoutZoneElevation: t.maybe(range(0, 5000)),
-    // TODO: Ask Will about that one. Weird that is required.
-    weakLayerBurialDate: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
+    weakLayerBurialDate: t.maybe(t.Date), // pattern '^\d\d\d\d-\d\d-\d\d$'
     weakLayerCrystalType: t.struct({
         'Surface hoar': t.Boolean,
         'Facets': t.Boolean,
@@ -191,7 +190,7 @@ export const WeatherReport = t.struct({
     precipitation24Hours: t.maybe(range(0, 100)),
     stormSnowAmount: t.maybe(range(0, 300)),
     // TODO: Ask Will. Why is it required?
-    stormStartDate: t.Date,  // pattern: '^\d\d\d\d-\d\d-\d\d'
+    stormStartDate: t.maybe(t.Date),  // pattern: '^\d\d\d\d-\d\d-\d\d'
     windSpeed: t.maybe(t.enums.of(['Calm', 'Light (1-25 km/h)', 'Moderate (26-40 km/h)', 'Strong (41-60 km/h)', 'Extreme (>60 km/h)'])),
     windDirection: t.maybe(Direction),
     blowingSnow: t.maybe(t.enums.of(['None', 'Light', 'Moderate', 'Intense'])),
