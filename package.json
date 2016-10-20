@@ -77,7 +77,7 @@
     "tcomb-form": "^0.9.10",
     "immutable": "^3.8.1",
     "reselect": "^2.5.1",
-    "react": "^15.3.1",
+    "react": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.1",
     "react-css-modules": "^4.0.0",
     "react-day-picker": "^3.1.0",
