@@ -251,10 +251,10 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='mountain-information-network' sponsorRef='MIN' component={MountainInformationNetwork} />
-            <Route path='mountain-information-network/submit' component={MountainInformationNetworkSubmit} /*onEnter={requireAuth}*/ />
+            <Route path='mountain-information-network/submit' sponsorRef='MIN' component={MountainInformationNetworkSubmit} /*onEnter={requireAuth}*/ />
             <Redirect from='submit' to='mountain-information-network/submit' />
-            <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
-            <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
+            <Route path='mountain-information-network/faq' sponsorRef='MIN' component={MountainInformationNetworkFAQ} />
+            <Route path='mountain-information-network/submission-guidelines' sponsorRef='MIN' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' sponsorRef='MIN' component={MountainInformationNetworkSubmission} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
@@ -268,7 +268,7 @@ export default function computeRoutes(store) {
             {/* FORECAST */}
             <Route path='forecasts/archives' component={Archives} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
-            <Redirect from="forecast/:name" to="forecasts/:name" />
+            <Redirect from='forecast/:name' to='forecasts/:name' />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
             {/* HOT ZONE REPORT */}
@@ -305,7 +305,7 @@ export default function computeRoutes(store) {
             <Route path='gear' sponsorRef='Gear' component={Gear} />
             <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
             <Route path='tutorial/*' component={Tutorial} />
-            <Redirect from="tutorial" to="tutorial/" />
+            <Redirect from='tutorial' to='tutorial/' />
             <Route path='auction' component={{content: Auction, footer: null}} />
             <Route path='tutoriel' component={{content: Tutoriel, footer: null}} />
             <Route path='terms-of-use' component={TermsOfUse} />

@@ -51,9 +51,11 @@
     & > * {
         padding: 1em;
     }
+    /* TODO: Super fragile selector, should be explicit. For the sponsor image */
     & img {
         transform: scale(0.65);
     }
+    /* TODO: Super fragile selector, should be explicit. For the close button */
     & button {
         color: var(--primary) !important;
     }
