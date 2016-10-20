@@ -8,7 +8,7 @@ const {ASC, DESC, NONE} = SORTINGS
 
 export {ASC, DESC, NONE} from 'components/button/Sorting'
 
-function K() {}
+function noop() {}
 
 HeaderCell.propTypes = {
     children: PropTypes.node.isRequired,
@@ -16,7 +16,7 @@ HeaderCell.propTypes = {
     onSortingChange: PropTypes.func,
 }
 
-function HeaderCell({children, sorting = NONE, onSortingChange = K, ...props}) {
+function HeaderCell({children, sorting = NONE, onSortingChange = noop, ...props}) {
     const sortable = sorting !== undefined
     const styleName = sortable ? 'HeaderCell--Sortable' : 'HeaderCell'
 

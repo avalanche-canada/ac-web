@@ -51,11 +51,14 @@
     margin-right: 15px;
     min-width: 125px;
     font-weight: 700;
-
     position: relative;
 
     &:last-child {
         margin-right: 0;
+    }
+
+    & input  {
+        font-weight: 700;
     }
 
     & > svg {

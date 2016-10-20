@@ -5,16 +5,18 @@ import useScroll from 'react-router-scroll/lib/useScroll'
 import computeRoutes from './computeRoutes'
 import {scrollPosition} from 'utils/dom'
 
-function shouldUpdateScroll(previous, {location: {hash}}) {
+function shouldUpdateScroll(previous, next) {
     if (!previous) {
         return true
     }
+
+    const {location: {hash, pathname}} = next
 
     if (hash) {
         return scrollPosition(hash) || [0, 0]
     }
 
-    return true
+    return pathname !== previous.location.pathname
 }
 
 export default function computeRouter(store) {
