@@ -143,7 +143,7 @@ function Connect(name, mapStateToProps, load) {
                     setTimeout(() => {
                         // Load all entities (courses or providers)
                         const newParams = {
-                            page_size: 500,
+                            page_size: 1000,
                         }
 
                         load(newParams).then(() => {

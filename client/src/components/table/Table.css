@@ -16,9 +16,9 @@
 }
 
 .TBody--Featured {
-    composese: TBody;
-    composes: import Hash from "../../styles/Textures.css";
+    composes: TBody;
 
+    background-color: var(--gray-lightest);
     border-bottom: 5px solid black;
 
     & > .Row {
