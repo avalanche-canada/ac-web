@@ -6,7 +6,7 @@ import * as Columns from './columns'
 import * as entities from './entities'
 
 function isSponsor(provider) {
-    return provider.is_sponsor
+    return provider.isSponsor
 }
 
 export const table = createSelector(

@@ -13,7 +13,7 @@ import {replaceQuery} from 'utils/router'
 import {BasicMarkup} from 'components/markup'
 
 function renderControlled(data, asControlled) {
-    //TODO(wnh): make the special "Description" less special
+    //TODO(wnh): make the special 'Description' less special
     //TODO(wnh): Remove the inline style!!!!!!!!
     let controlled = asControlled(data)
     let {Description} = controlled
@@ -22,9 +22,9 @@ function renderControlled(data, asControlled) {
     return (
         <Row key={`controlled-${data.id}`}>
             <Cell>
-                <div style={{display:"flex"}}>
+                <div style={{display:'flex'}}>
                     <div style={{flex:1}}>
-                        <List columns={1} theme="Inline" horizontal>
+                        <List columns={1} theme='Inline' horizontal>
                             <Term>Description</Term>
                             <Definition>
                                 <BasicMarkup text={Description} />
@@ -81,7 +81,7 @@ function AstTable({featured, rows, columns, caption, asControlled, onSortingChan
                     ))}
                     </Row>
                 </Header>
-                {(featured && featured.length > 0) &&
+                {!featured.isEmpty() &&
                     <ControlledTBody featured title='Our sponsors'>
                         {renderRows(featured, columns, asControlled)}
                     </ControlledTBody>
