@@ -296,7 +296,7 @@ export default function computeRoutes(store) {
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
                     <Route path='providers' components={{table: ProvidersTable, form: ProvidersForm}} />
-                    <Route path='courses' components={{table: CoursesTable, form: CoursesForm}} />
+                    <Route path='courses' sponsorRef='Training' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
