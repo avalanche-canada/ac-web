@@ -49,7 +49,7 @@ export default class AuthService {
     login() {
         return new Promise((resolve, reject) => {
             this.lock.on('authorization_error', error => reject(error))
-            this.lock.on('hide', () => reject(new CancelError()))
+            this.lock.on('hide', () => reject(new CancelError('User hides lock login modal.')))
 
             this.lock.show()
         })
@@ -88,5 +88,8 @@ export default class AuthService {
         expiryDate.setUTCSeconds(exp)
 
         return new Date() < expiryDate
+    }
+    isAuthenticated() {
+        return this.checkTokenExpiry()
     }
 }

@@ -15,7 +15,7 @@ import styles from './Form.css'
 import OPTIONS from './options'
 import moment from 'moment'
 import QUICK_REPORT from './quick.json'
-import {Error} from 'components/misc'
+import {Error, Mailto} from 'components/misc'
 import debounce from 'lodash/debounce'
 import {postMountainInformationNetworkSubmission} from 'actions/entities'
 import {
@@ -29,6 +29,8 @@ import {
 } from './types'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
 import * as COLORS from 'components/icons/min/colors'
+import AuthService from 'services/auth'
+import CancelError from 'utils/promise/CancelError'
 
 const TYPES = [QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT]
 const Titles = new Map([
@@ -107,6 +109,7 @@ export default class Form extends Component {
         noObservations: null,
         isSubmitting: false,
         activeIndex: 0,
+        serverErrorReceived: false,
     }
     constructor(props) {
         super(props)
@@ -117,11 +120,16 @@ export default class Form extends Component {
         this.observationClearHandlers = TYPES.reduce((handlers, type) =>
             handlers.set(type, this.handleClearObservation(type))
         , new Map())
+
+        this.auth = AuthService.create()
     }
     handleSubmit = event => {
         event.preventDefault()
 
-        this.setState({isSubmitting: true}, this.validate)
+        this.setState({
+            isSubmitting: true,
+            serverErrorReceived: false,
+        }, this.validate)
     }
     validate = () => {
         const {value} = this.state
@@ -145,7 +153,6 @@ export default class Form extends Component {
         const noObservations = observations.some(isNull) || observations.isEmpty()
 
         if (values.some(isNull) || noObservations) {
-            console.warn('not valid', values.toJSON())
             this.setState({
                 noObservations,
                 isSubmitting: false,
@@ -241,6 +248,11 @@ export default class Form extends Component {
                     panel: `${key}/${data.result}`
                 }
             })
+        }, err => {
+            this.setState({
+                serverErrorReceived: true,
+                isSubmitting: false,
+            })
         })
     }
     setValue = debounce((path, value) => {
@@ -263,11 +275,21 @@ export default class Form extends Component {
     handleTabActivate = activeIndex => {
         this.setState({activeIndex})
     }
-    shouldComponentUpdate(props, {isSubmitting, value, noObservations, activeIndex}) {
+    componentDidUpdate() {
+        if (!this.auth.isAuthenticated()) {
+            this.auth.login().catch(err => {
+                if (err instanceof CancelError) {
+                    this.props.router.replace('')
+                }
+            })
+        }
+    }
+    shouldComponentUpdate(props, {isSubmitting, value, noObservations, activeIndex, serverErrorReceived}) {
         const {state} = this
 
         if (isSubmitting !== state.isSubmitting ||
             noObservations !== state.noObservations ||
+            serverErrorReceived !== state.serverErrorReceived ||
             activeIndex !== state.activeIndex ||
             value !== state.value) {
             return true
@@ -276,7 +298,7 @@ export default class Form extends Component {
         return false
     }
     render() {
-        const {value, options, noObservations, isSubmitting, activeIndex} = this.state
+        const {value, options, noObservations, isSubmitting, activeIndex, serverErrorReceived} = this.state
         const observations = value.get('observations')
         const disabled = isSubmitting
 
@@ -327,6 +349,13 @@ export default class Form extends Component {
                                         })}
                                     </TabSet>
                                 </fieldset>
+                                {serverErrorReceived &&
+                                    <Error>
+                                        An error happened while saving your report.
+                                        Please try again.
+                                        If the problem persists, send us few lines at <Mailto subject='Error sending my Mountain Information Network report' />.
+                                    </Error>
+                                }
                                 <Button disabled={disabled} type='submit'>
                                     {isSubmitting ? 'Submitting...' : 'Submit'}
                                 </Button>
