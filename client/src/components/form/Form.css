@@ -4,6 +4,7 @@
     composes: import RestrictFullPageWidth from "components/page/Page.css";
 
     width: 100%;
+    box-sizing: border-box;
 
     /* TODO: Remove */
     & :global(.form-control) {
