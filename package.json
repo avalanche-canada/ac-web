@@ -70,7 +70,7 @@
     "xml2js": "^0.4.4"
   },
   "devDependencies": {
-    "auth0-lock": "^10.2.2",
+    "auth0-lock": "^10.4.0",
     "css-element-queries": "^0.3.2",
     "classnames": "^2.2.5",
     "tree-model": "^1.0.4",
