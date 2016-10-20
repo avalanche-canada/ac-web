@@ -1,5 +1,6 @@
 import React from 'react'
 import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState} from 'recompose'
+import Immutable from 'immutable'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
@@ -68,7 +69,7 @@ function renderRows(data, columns, asControlled) {
     }, [])
 }
 
-function AstTable({featured, rows, columns, caption, asControlled, onSortingChange}) {
+function AstTable({featured = new Immutable.List(), rows, columns, caption, asControlled, onSortingChange}) {
     return (
         <Responsive>
             <Table>

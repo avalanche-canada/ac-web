@@ -54,10 +54,6 @@ const levelOptions = new Map([
     ['MAT', 'Managing Avalanche Terrain (MAT)'],
 ])
 
-function isSponsor({provider}) {
-    return provider.is_sponsor
-}
-
 export const table = createSelector(
     entities.table(
         Course,
@@ -75,8 +71,7 @@ export const table = createSelector(
     ({entities, ...props}) => {
         return {
             ...props,
-            featured: entities.filter(isSponsor),
-            rows: entities.filterNot(isSponsor),
+            rows: entities,
             asControlled,
         }
     }
