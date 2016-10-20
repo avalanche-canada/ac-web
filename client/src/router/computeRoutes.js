@@ -66,11 +66,13 @@ const PAGINATION = {
     pageSize: '25',
 }
 
+const SubmissionRegex = /^mountain-information-network-submissions/
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
 
-    function handleActiveSponsor({routes, params}) {
+    function handleActiveSponsor({routes, params, location}) {
+        const {panel} = location.query
         const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
 
         if (route) {
@@ -81,6 +83,8 @@ export default function computeRoutes(store) {
             } else {
                 dispatch(setActiveSponsor(sponsorRef))
             }
+        } else if (panel && SubmissionRegex.test(panel)) {
+            dispatch(setActiveSponsor('MIN'))
         } else {
             dispatch(resetActiveSponsor())
         }
@@ -238,11 +242,11 @@ export default function computeRoutes(store) {
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}}>
-                <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
+            <Route path='map' components={{content: Layouts.Map, footer: null}}>
+                <Route path='forecasts' sponsorRef='Forecast' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
-                <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
+                <Route path='hot-zone-reports' sponsorRef='Forecast' onEnter={handleHotZoneReportRouteEnter} >
                     <Route path=':name' components={{primary: Drawers.HotZoneReport}} />
                 </Route>
             </Route>
@@ -251,7 +255,7 @@ export default function computeRoutes(store) {
             <Redirect from='submit' to='mountain-information-network/submit' />
             <Route path='mountain-information-network/faq' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' component={MountainInformationNetworkSubmissionGuidelines} />
-            <Route path='mountain-information-network/submissions/:id' component={MountainInformationNetworkSubmission} />
+            <Route path='mountain-information-network/submissions/:id' sponsorRef='MIN' component={MountainInformationNetworkSubmission} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />

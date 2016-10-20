@@ -11,14 +11,14 @@ Header.propTypes = {
 
 function Header({subject, children}) {
     return (
-        <div styleName='Header'>
+        <header styleName='Header'>
             {subject &&
                 <Subject>
                     {subject}
                 </Subject>
             }
             {children}
-        </div>
+        </header>
     )
 }
 

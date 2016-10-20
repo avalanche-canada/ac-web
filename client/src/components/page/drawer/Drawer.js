@@ -1,15 +1,14 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import SIDE, {LEFT, RIGHT} from './constants/sides'
-import {Close} from 'components/button'
 
 function getDrawerStyle(position, width) {
     const transform = `translateX(${position * 100}%)`
 
     return {
         transform,
-        '-webkit-transform': transform,
+        WebkitTransform: transform,
         width,
     }
 }
@@ -24,13 +23,11 @@ Drawer.propTypes = {
     open: PropTypes.bool.isRequired,
     position: PropTypes.number.isRequired,
     width: PropTypes.number,
-    header: PropTypes.node,
     onCloseClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 }
 
-function Drawer(props) {
-    const {side = SIDE, open, position, width, onCloseClick, children} = props
+function Drawer({side = SIDE, open, position, width, onCloseClick, children}) {
     let styleName = STYLE_NAMES.get(side)
 
     if (open) {
@@ -39,8 +36,9 @@ function Drawer(props) {
 
     return (
         <div style={getDrawerStyle(position, width)} styleName={styleName}>
-            {onCloseClick && <Close onClick={onCloseClick} styleName='Close' />}
-            {children}
+            {Children.toArray(children).map(element => cloneElement(element, {
+                onCloseClick
+            }))}
         </div>
     )
 }

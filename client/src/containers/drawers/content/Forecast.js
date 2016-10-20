@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Header, Content, Body} from 'components/page/drawer'
+import {Navbar, Header, Container as DrawerContainer, Body, Close} from 'components/page/drawer'
 import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from 'containers/connectors'
+import Sponsor from 'containers/Sponsor'
 
 Container.propTypes = {
     type: PropTypes.string,
@@ -21,9 +22,14 @@ function Container({
     type,
     title = 'Loading...',
     link,
+    onCloseClick,
 }) {
     return (
-        <Content>
+        <DrawerContainer>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
             <Header subject='Avalanche Forecast'>
                 <h1>
                     {link ? <Link {...link}>{title}</Link> : title}
@@ -40,7 +46,7 @@ function Container({
                 )}
                 {forecast && <Forecast {...forecast} />}
             </Body>
-        </Content>
+        </DrawerContainer>
     )
 }
 

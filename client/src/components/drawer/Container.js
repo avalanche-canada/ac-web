@@ -93,7 +93,7 @@ function getStyle({ x }) {
 
     return {
         transform,
-        '-webkit-transform': transform,
+        WebkitTransform: transform,
     }
 }
 

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
 
@@ -6,16 +7,18 @@ Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
     src: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-    term: PropTypes.string,
+    label: PropTypes.string,
 }
 
-function Sponsor({name, src, url, term = 'Brought to you by'}) {
+function Sponsor({name, src, url, label = 'Brought to you by'}) {
     return (
         <a href={url} target='_blank' title={name} >
             <dl styleName='Container'>
-                <dt styleName='Label'>
-                    {term}
-                </dt>
+                {label &&
+                    <dt styleName='Label'>
+                        {label}
+                    </dt>
+                }
                 <dd styleName='Logo'>
                     <img src={src} title={name} />
                 </dd>
@@ -24,4 +27,7 @@ function Sponsor({name, src, url, term = 'Brought to you by'}) {
     )
 }
 
-export default CSSModules(Sponsor, styles)
+export default compose(
+    onlyUpdateForKeys(['name', 'src', 'url']),
+    CSSModules(styles),
+)(Sponsor)

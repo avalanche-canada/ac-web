@@ -3,6 +3,7 @@
 
 .Drawer {
     position: absolute 0;
+    height: 100%;
     z-index: 1;
     background-color: white;
     box-sizing: border-box;
@@ -31,19 +32,41 @@
     }
 }
 
-.Content {
+.Container {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
-    position: absolute 0;
-    padding-top: 5em;
+    margin: 0 1.5em;
+}
+
+.Navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    height: 5em;
+    margin-right: -1.5em;
 
     & > * {
-        padding: 0 1.5em;
+        padding: 1em;
+    }
+    & img {
+        transform: scale(0.65);
+    }
+    & button {
+        color: var(--primary) !important;
     }
 }
 
 .Header {
+}
+
+.Body {
+    flex: 1 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
 }
 
 .Subject {
@@ -65,20 +88,6 @@
         position: absolute 3px 0;
         z-index: -1;
     }
-}
-
-.Body {
-    flex: 100%;
-
-    margin: 10px 0 0 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.Close {
-    position: absolute 15px 15px auto auto;
-    color: var(--primary) !important;
-    z-index: 1;
 }
 
 .Backdrop {

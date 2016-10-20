@@ -4,6 +4,8 @@ import Button from './Button'
 import {SUBTILE} from './kinds'
 import styles from './Button.css'
 
+// TODO Modify prop types to have an aria-label
+
 export default compose(
     setDisplayName('Close'),
     CSSModules(styles),

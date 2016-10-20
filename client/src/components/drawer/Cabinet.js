@@ -40,7 +40,7 @@ function getContainerStyle({x}) {
 
     return {
         transform,
-        '-webkit-transform': transform,
+        WebkitTransform: transform,
     }
 }
 

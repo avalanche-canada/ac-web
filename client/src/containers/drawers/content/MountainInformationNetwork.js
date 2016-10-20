@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react'
-import {Header, Content, Body} from 'components/page/drawer'
+import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Submission} from 'components/mountainInformationNetwork'
 import {Loading, Error} from 'components/misc'
 import {Link} from 'react-router'
 import {mountainInformationNetworkSubmission} from 'containers/connectors'
+import Sponsor from 'containers/Sponsor'
 
 function MountainInformationNetwork({
     title,
@@ -13,11 +14,16 @@ function MountainInformationNetwork({
     props,
     messages,
     link,
+    onCloseClick,
 }) {
     const {error, loading} = messages
 
     return (
-        <Content>
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
             <Header subject='Mountain Information Network'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
@@ -29,7 +35,7 @@ function MountainInformationNetwork({
                 {isLoading && <Loading>{loading}</Loading>}
                 {props && <Submission {...props} />}
             </Body>
-        </Content>
+        </Container>
     )
 }
 
