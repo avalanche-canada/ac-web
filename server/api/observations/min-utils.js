@@ -11,6 +11,8 @@ var logger = require('winston');
 var multiparty = require('multiparty');
 var q = require('q');
 
+var request = require('request')
+
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-west-2'});
 var dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -75,6 +77,20 @@ function itemsToObservations(items) {
     }
 }
 
+var getAuth0Profile = function(token, cb) {
+    request.post({
+        url: 'https://avalancheca.auth0.com/tokeninfo',
+        json: true,
+        body: {'id_token': token}
+    }, function callback(error, response, body){
+        if(error) {
+            cb(error)
+        } else {
+            cb(null, body);
+        }
+    });
+}
+
 function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
 }
@@ -83,13 +99,14 @@ function validateItem(item) {
     return item.ob.latlng.length === 2;
 }
 
-exports.saveSubmission = function (user, form, callback) {
+exports.saveSubmission = function (token, form, callback) {
+    console.log("Saving submission");
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
         subid: uuid.v4(),
-        userid: user.user_id,
-        user: user.nickname || 'unknown',
+        userid: null, //these are now set later with the auth0 profile
+        user: null,
         acl: 'public',
         obtype: 'quick',
         ob: {
@@ -177,16 +194,26 @@ exports.saveSubmission = function (user, form, callback) {
 
     form.on('close', function (err) {
 
-        if(_.isEmpty(tempObs)){
-            saveOb(item)
-                .then(function(ob){
-                    callback(null, ob);
-                }, function (err){
-                    callback(err);
-                });
-        } else {
-            saveAllObs(callback);
-        }
+        getAuth0Profile(token, function(err, profile) {
+            if (err) {
+                logger.log('info','Error getting user profile : %s', JSON.stringify(err));
+                return res.send(500, {error: 'There was an error while saving your submission.'})
+            } 
+            item.userid = profile.user_id;
+            item.user   = profile.nickname || 'unknown';
+           
+            if(_.isEmpty(tempObs)){
+                saveOb(item)
+                    .then(function(ob){
+                        callback(null, ob);
+                    }, function (err){
+                        callback(err);
+                    });
+            } else {
+                saveAllObs(callback);
+            }
+        });
+
 
 
         function saveOb(item){

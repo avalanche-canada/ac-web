@@ -18,7 +18,8 @@ router.post('/submissions', jwtCheck, function (req, res) {
     var form = new multiparty.Form();
     form.parse(req);
 
-    minUtils.saveSubmission(req.user, form, function (err, obs) {
+    var tok = req.get('Authorization').replace(/^Bearer /, '');
+    minUtils.saveSubmission(tok, form, function (err, obs) {
         if (err) {
             logger.log('info','Error saving MIN submission : %s', JSON.stringify(err));
             res.send(500, {error: 'There was an error while saving your submission.'})
