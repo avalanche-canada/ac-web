@@ -65,8 +65,6 @@ const PAGINATION = {
     pageSize: '25',
 }
 
-const SubmissionRegex = /^mountain-information-network-submissions/
-
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
 
@@ -82,8 +80,6 @@ export default function computeRoutes(store) {
             } else {
                 dispatch(setActiveSponsor(sponsorRef))
             }
-        } else if (panel && SubmissionRegex.test(panel)) {
-            dispatch(setActiveSponsor('MIN'))
         } else {
             dispatch(resetActiveSponsor())
         }
@@ -241,11 +237,11 @@ export default function computeRoutes(store) {
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' components={{content: Layouts.Map, footer: null}}>
-                <Route path='forecasts' sponsorRef='Forecast' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
+            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}}>
+                <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
-                <Route path='hot-zone-reports' sponsorRef='Forecast' onEnter={handleHotZoneReportRouteEnter} >
+                <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
                     <Route path=':name' components={{primary: Drawers.HotZoneReport}} />
                 </Route>
             </Route>
