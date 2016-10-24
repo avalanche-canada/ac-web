@@ -11,9 +11,7 @@ export default [{
     },
     paint: {
         'circle-color': '#4B6D6F',
-        'circle-radius': 18,
-        'circle-opacity': 0.85,
-        'circle-blur': 0.5,
+        'circle-radius': 12,
     },
 }, {
     id: `${key}-count-label`,
