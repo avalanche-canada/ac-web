@@ -18,11 +18,22 @@ const {keys, assign} = Object
 const {isArray} = Array
 
 // Util functions and values...
-function normalize(entity) {
-    return assign(entity, {
-        tags: entity.tags.map(tag => tag.toUpperCase().trim())
-    })
+function normalizeTags(tags) {
+    return tags.map(tag => tag.toUpperCase().trim())
 }
+
+const transformers = new Map([
+    [Course, course => assign(course, {
+        tags: normalizeTags(course.tags),
+        dateStart: new Date(course.dateStart),
+        dateEnd: new Date(course.dateEnd),
+        isFeatured: false,
+    })],
+    [Provider, provider => assign(provider, {
+        tags: normalizeTags(provider.tags),
+        isFeatured: provider.isSponsor,
+    })],
+])
 function resetDistance(entity) {
     return assign(entity, {
         distance: null
@@ -47,6 +58,9 @@ const noEntitiesCaptions = new Map([
         </div>
     )],
 ])
+function isFeatured(entity) {
+    return entity.isFeatured
+}
 
 // Filtering
 const Filters = new Map([
@@ -67,9 +81,6 @@ const Filters = new Map([
         to = to.setDate(to.getDate() + 1)
 
         return ({dateStart, dateEnd}) => {
-            // TODO: Remove if we convert dates earlier
-            const start = new Date(dateStart)
-            let end = new Date(dateEnd)
             end = end.setDate(end.getDate() - 1)
 
             return (start <= to) && (end >= from)
@@ -92,37 +103,53 @@ function filterReducer(entities, filter) {
 }
 
 // Sorting
-const EMPTY_ARRAY = []
 const Sorters = new Map([
     ['dates', course => course.dateStart],
     ['distance', course => course.distance],
     ['provider', provider => provider.name.toLowerCase()],
     ['courseprovider', course => course.provider.name.toLowerCase()],
 ])
+const startWithMinusRegex = /^-/
 function getSorting(state, {location}) {
-    return location.query.sorting || EMPTY_ARRAY
+    const {sorting} = location.query
+
+    if (!sorting) {
+        return [null, NONE]
+    }
+
+    if (startWithMinusRegex.test(sorting)) {
+        return [sorting.replace(startWithMinusRegex, ''), DESC]
+    } else {
+        return [sorting, ASC]
+    }
 }
 
 export function table(schema, columns) {
     const key = schema.getKey()
+    const transform = transformers.get(schema)
 
-    function getEntitiesResultsSet(state, {params}) {
-        return getResultsSet(state, schema, params)
+    function getEntitiesResultsSet(state) {
+        return getResultsSet(state, schema, {page_size: 1000})
     }
 
-    const getNormalizedEntities = createSelector(
+    const getTransformedEntities = createSelector(
         state => getEntitiesForSchema(state, schema),
-        entities => entities.map(entity => normalize(entity.toJSON()))
+        entities => entities.map(entity => transform(entity.toJSON()))
     )
 
     const getEntitiesList = createSelector(
-        getNormalizedEntities,
+        getTransformedEntities,
         getEntitiesResultsSet,
-        (entities, {ids}) => {
-            ids = new List(Array.from(ids))
+        (entities, {results}) => {
+            const ids = new List(results)
 
             return ids.map(id => entities.get(String(id)))
         }
+    )
+
+    const getFeaturedEntities = createSelector(
+        getEntitiesList,
+        entities => entities.filter(isFeatured)
     )
 
     function tagReducer(tags, entity) {
@@ -130,7 +157,7 @@ export function table(schema, columns) {
     }
 
     const getTags = createSelector(
-        getNormalizedEntities,
+        getTransformedEntities,
         entities => entities.reduce(tagReducer, new Set())
     )
 
@@ -143,6 +170,8 @@ export function table(schema, columns) {
             } else if (position) {
                 return `Straight line between your current location and the ${key}.`
             }
+
+            return null
         }
     )
 
@@ -173,19 +202,14 @@ export function table(schema, columns) {
             }
 
             const sorter = Sorters.get(name)
-
             switch (order) {
                 case ASC:
                     return entities.sortBy(sorter)
                 case DESC:
                     return entities.sortBy(sorter).reverse()
-                case NONE:
-                    return entities
                 default:
                     return entities
-
             }
-
         }
     )
 
@@ -193,57 +217,79 @@ export function table(schema, columns) {
         getDistanceHelper,
         getSorting,
         (helper, sorting) => {
-            if (helper) {
-                const key = columns.findKey(column => column.name === 'distance')
 
-                columns = columns.update(key, column => ({
-                    ...column,
-                    title() {
-                        return (
-                            <Helper title={helper}>
-                                Distance
-                            </Helper>
-                        )
-                    }
-                }))
-            }
+            // Distance helper
+            const key = columns.findKey(column => column.name === 'distance')
 
-            if (sorting) {
-                const [name, order] = sorting
-                const key = columns.findKey(column => column.name === name)
+            columns = columns.update(key, column => ({
+                ...column,
+                title: helper ? <Helper title={helper}>Distance</Helper> : 'Distance'
+            }))
 
-                columns = columns.update(key, column => ({
-                    ...column,
-                    sorting: order,
-                }))
-            }
+            // Sorting
+            const [name, order] = sorting
+
+            columns = columns.map(column => ({
+                ...column,
+                sorting: column.sorting ? column.name === name ? order : NONE : undefined,
+            }))
 
             return columns
         }
     )
 
-    return createSelector(
+    const getPagination = createSelector(
+        getFilteredEntities,
+        (state, props) => props.page,
+        (state, props) => props.pageSize,
+        ({size}, page = 1, pageSize = 25) => ({
+            page,
+            pageSize,
+            count: size,
+            total: Math.ceil(size / pageSize),
+        })
+    )
+
+    const getPaginatedEntities = createSelector(
         getSortedEntities,
+        getPagination,
+        (entities, {page, pageSize}) => {
+            const begin = (page - 1) * pageSize
+            const end = begin + pageSize
+
+            return entities.slice(begin, end)
+        }
+    )
+
+    return createSelector(
+        getFeaturedEntities,
+        getPaginatedEntities,
         getColumns,
         getTags,
         getEntitiesResultsSet,
-        function mapTableStateToProps(entities, columns, tags, result) {
+        getPagination,
+        function mapTableStateToProps(featured, rows, columns, tags, result, pagination) {
             let caption = null
+            let title = `All ${key}`
 
-            if (result.isLoaded && entities.size === 0) {
+            if (result.isLoaded && rows.size === 0) {
                 caption = noEntitiesCaptions.get(schema)
             } else if (result.isFetching) {
                 caption = `Loading ${key}...`
-            } else if (entities.size < 25) {
-                caption = `Loading more ${key}...`
+            }
+
+            if (result.count > 0) {
+                title = `${title} (${result.count})`
             }
 
             return {
-                title: `All ${key}`,
+                title,
+                featured,
+                rows,
                 columns,
-                entities,
                 caption,
                 tags,
+                pagination,
             }
         }
     )

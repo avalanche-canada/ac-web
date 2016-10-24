@@ -12,16 +12,13 @@ export const dateRanges = {
     name: 'dates',
     title: 'Dates',
     property({dateStart, dateEnd}) {
-        const start = moment(dateStart).toDate()
-        const end = moment(dateEnd).toDate()
-
-        if (dateStart === dateEnd) {
-            return <DateElement value={start} />
+        if (moment(dateStart).isSame(dateEnd, 'd')) {
+            return <DateElement value={dateStart} />
         }
 
         return (
             <div>
-                <DateElement value={start} /> <em>to</em> <DateElement value={end} />
+                <DateElement value={dateStart} /> <em>to</em> <DateElement value={dateEnd} />
             </div>
         )
     },

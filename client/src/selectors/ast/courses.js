@@ -65,25 +65,19 @@ export const table = createSelector(
             Columns.location,
             Columns.tags,
             Columns.cost,
-        ),
-        ({provider}) => provider.is_sponsor,
+        )
     ),
-    ({entities, ...props}) => {
-        return {
-            ...props,
-            rows: entities,
-            asControlled,
-        }
-    }
+    props => ({
+        ...props,
+        asControlled,
+    })
 )
 
 export const form = createSelector(
     table,
-    function mapFormStateToProps({tags}) {
-        return {
-            legend: 'Find a course',
-            tagOptions: new Map([...tags].map(tag => [tag, tag])),
-            levelOptions,
-        }
-    }
+    ({tags}) => ({
+        legend: 'Find a course',
+        tagOptions: new Map([...tags].map(tag => [tag, tag])),
+        levelOptions,
+    })
 )

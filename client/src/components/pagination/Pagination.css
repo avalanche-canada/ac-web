@@ -15,3 +15,8 @@
     composes: Segment;
     composes: import Primary--Active from "components/button/Button.css";
 }
+
+.Disabled {
+    composes: Segment;
+    composes: import Primary--Disabled from "components/button/Button.css";
+}

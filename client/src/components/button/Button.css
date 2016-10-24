@@ -1,7 +1,7 @@
 @import "../../styles/components.css";
 
 .Common {
-    padding: 0.5em 1em;
+    padding: 0.5em 0.75em;
     font-weight: 700;
     text-transform: uppercase;
 	color: white;
@@ -11,6 +11,10 @@
     @media print {
         display: none;
     }
+}
+
+.Disabled {
+    cursor: inherit;
 }
 
 .Primary {
@@ -31,6 +35,16 @@
     composes: Primary;
 
     background-color: var(--component-primary-bg-active);
+}
+
+.Primary--Disabled {
+    composes: Primary;
+    composes: Disabled;
+    background-color: var(--component-primary-bg-hover);
+
+    &:active {
+        background-color: var(--component-primary-bg-hover);
+    }
 }
 
 .Secondary {
@@ -73,6 +87,7 @@
 
     background-color: transparent;
     color: var(--gray);
+    outline: none;
 
     & .IconContainer {
         & path:not([fill="none"]) {
@@ -133,7 +148,6 @@
     font-size: 1.5rem;
     font-weight: normal;
     padding: 0.25em 0.5em;
-    outline: none;
 }
 
 .Set {

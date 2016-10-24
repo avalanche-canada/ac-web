@@ -60,10 +60,6 @@ import postIdRedirects from './postIdRedirects'
 import {getForecastRegionExternalUrl} from 'reducers/api/getters'
 
 const YEAR = String(new Date().getFullYear())
-const PAGINATION = {
-    page: '1',
-    pageSize: '25',
-}
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
@@ -85,9 +81,11 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleRootRouteChange(prev, props) {
-        ReactGA.pageview(props.location.pathname)
-        handleActiveSponsor(props)
+    function handleRootRouteChange(prev, next) {
+        if (prev && prev.location.pathname !== next.location.pathname) {
+            ReactGA.pageview(next.location.pathname)
+            handleActiveSponsor(next)
+        }
     }
 
     function handleRootRouteEnter(props) {
@@ -160,22 +158,6 @@ export default function computeRoutes(store) {
         query.timeline = 'upcoming'
 
         replace({...location, query})
-    }
-
-    function enforcePagination({location}, replace) {
-        const {query} = location
-
-        if (query.page !== undefined && query.pageSize !== undefined) {
-            return
-        }
-
-        replace({
-            ...location,
-            query: {
-                ...query,
-                ...PAGINATION,
-            }
-        })
     }
 
     function handleHotZoneReportRouteEnter() {
