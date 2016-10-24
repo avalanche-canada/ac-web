@@ -1,84 +1,59 @@
-import React, {PropTypes, createElement} from 'react'
-import {compose, withHandlers} from 'recompose'
+import React, {PropTypes, createElement, PureComponent} from 'react'
+import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
-import Segment, {First, Previous, Next, Last} from './Segment'
+import Segment, {Disabled} from './Segment'
+import range from 'lodash/range'
+import pagination from 'utils/pagination'
 
-Pagination.propTypes = {
-    total: PropTypes.number.isRequired,
-    active: PropTypes.number.isRequired,
-    onChange: PropTypes.func,
-    location: PropTypes.object,
-    first: PropTypes.bool,
-    previous: PropTypes.bool,
-    next: PropTypes.bool,
-    last: PropTypes.bool,
-    max: PropTypes.number,
-    property: PropTypes.string,
-}
+function noop() {}
 
-function extendLocation(location, page, property) {
-    if (!location) {
-        return
+@CSSModules(styles)
+export default class Pagination extends PureComponent {
+    static propTypes = {
+        total: PropTypes.number.isRequired,
+        active: PropTypes.number.isRequired,
+        onChange: PropTypes.func.isRequired,
     }
+    static defaultProps = {
+        total: 0,
+        active: 1,
+        onChange: noop,
+    }
+    get segments() {
+        const {active, total} = this.props
 
-    return {
-        ...location,
-        query: {
-            ...location.query,
-            [property]: page,
+        if (total <= 10) {
+            return range(1, total + 1)
+        }
+
+        return pagination(active, total, 3, null)
+    }
+    createSegment(page, index) {
+        const {onChange, active} = this.props
+
+        if (typeof page === 'number') {
+            return createElement(Segment, {
+                key: index,
+                page,
+                onActivate: onChange,
+                isActive: active === page,
+            })
+        } else {
+            return <Disabled>…</Disabled>
         }
     }
-}
+    render() {
+        const {total, active, onChange} = this.props
 
-function pages(number) {
-    return Array(number).fill(null).map((v, i) => i + 1)
-}
-
-function Pagination({
-    total = 0,
-    active = 0,
-    first = false,
-    previous = false,
-    next = false,
-    last = false,
-    max = 10,
-    location,
-    property = 'page',
-    createOnClickHandler,
-}) {
-    if (total < 2) {
-        return null
-    }
-
-    return (
-        <div styleName='Container'>
-            {first && <First />}
-            {previous && <Previous />}
-            {pages(Math.min(total, max)).map((page, index) => (
-                createElement(Segment, {
-                    key: index,
-                    location: extendLocation(location, page, property),
-                    onClick: createOnClickHandler(page),
-                    isActive: active === page,
-                }, page)
-            ))}
-            {next && <Next />}
-            {last && <Last />}
-        </div>
-    )
-}
-
-export default compose(
-    withHandlers({
-        createOnClickHandler: props => page => event => {
-            const {onChange} = props
-
-            if (typeof onChange === 'function') {
-                event.preventDefault()
-                onChange(page)
-            }
+        if (total < 2) {
+            return null
         }
-    }),
-    CSSModules(styles),
-)(Pagination)
+
+        return (
+            <div styleName='Container'>
+                {this.segments.map(this.createSegment, this)}
+            </div>
+        )
+    }
+}

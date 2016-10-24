@@ -27,25 +27,20 @@ export default class Dropdown extends Component {
         placeholder: 'Select',
     }
     state = {
-        open: false,
+        isOpen: false,
         label: null,
         active: 0,
         value: new Set(),
     }
-    constructor(props, ...args) {
-        super(props, ...args)
+    constructor(props) {
+        super(props)
 
         const {value} = props
 
-        assign(this.state, {
-            value: value instanceof Set ? value : new Set([value])
-        })
+        this.state.value = value instanceof Set ? value : new Set([value])
     }
-    get open() {
-        return this.state.open
-    }
-    set open(open) {
-        this.setState({open})
+    get isOpen() {
+        return this.state.isOpen
     }
     get active() {
         return this.state.active
@@ -68,11 +63,14 @@ export default class Dropdown extends Component {
 
         return options.map(option => option.props.children).join(', ')
     }
-    close(callback = K) {
-        // TODO: What? open = true to close the Dropdown.
-        this.setState({
-            open: true
-        }, callback)
+    close = callback => {
+        this.setState({isOpen: false}, callback)
+    }
+    open = callback => {
+        this.setState({isOpen: true}, callback)
+    }
+    toggle = callback => {
+        this.setState({isOpen: !this.isOpen}, callback)
     }
     valueAt(index) {
         const options = Children.toArray(this.props.children)
@@ -80,7 +78,7 @@ export default class Dropdown extends Component {
         return options[index].props.value
     }
     handleClick = event => {
-        this.open = !this.open
+        this.toggle()
     }
     handleKeyDown = event => {
         const {keyCode} = event
@@ -94,28 +92,28 @@ export default class Dropdown extends Component {
 
         switch (keyCode) {
             case keycode.codes.esc:
-                this.open = false
+                this.close()
                 break
             case keycode.codes.down:
-                if (this.open) {
+                if (this.isOpen) {
                     this.active = this.active + 1
                 } else {
-                    this.open = true
+                    this.open()
                 }
                 break
             case keycode.codes.up:
-                if (this.open) {
+                if (this.isOpen) {
                     this.active = this.active - 1
                 } else {
-                    this.open = true
+                    this.isOpen()
                 }
                 break
             case keycode.codes.enter:
-                this.open = false
+                this.close()
                 this.props.onChange(this.valueAt(this.active))
                 break
             case keycode.codes.space:
-                this.open = !this.open
+                this.toggle()
                 break
         }
     }
@@ -129,9 +127,7 @@ export default class Dropdown extends Component {
         target.removeEventListener('keydown', this.handleKeyDown)
 
         // SHAME: Needs to be fixed
-        setTimeout(() => {
-            this.open = false
-        }, 100)
+        setTimeout(this.close, 100)
     }
     handleOptionClick = option => {
         const {onChange, value} = this.props
@@ -172,18 +168,18 @@ export default class Dropdown extends Component {
         }
     }
     render() {
-        const {open, active, holder} = this
+        const {isOpen, active, holder} = this
         const {children} = this.props
         const {value} = this.state
         const {placeholder} = this.props
-        const styleName = open ? 'Input--Open' : 'Input'
+        const styleName = isOpen ? 'Input--Open' : 'Input'
 
         return (
             <div styleName='Container' onClick={this.handleClick}>
                 <div styleName={styleName} tabIndex={0} onFocus={this.handleFocus} onBlur={this.handleBlur} >
                     <Holder value={holder} placeholder={placeholder} />
                 </div>
-                <OptionSet show={open} onOptionClick={this.handleOptionClick} selected={value}>
+                <OptionSet show={isOpen} onOptionClick={this.handleOptionClick} selected={value}>
                     {children}
                 </OptionSet>
             </div>

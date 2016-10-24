@@ -1,14 +1,14 @@
-import React, {PropTypes} from 'react'
-import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps, withState, withHandlers} from 'recompose'
+import React, {PropTypes, PureComponent} from 'react'
+import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps, withState, withHandlers, onlyUpdateForKeys} from 'recompose'
 import {ExpandLess, ExpandMore, Remove} from '../icons'
 import Button from './Button'
 import {SUBTILE} from './kinds'
 
-function K() {}
+function noop() {}
 
 export const ASC = 'asc'
 export const DESC = 'desc'
-export const NONE = null
+export const NONE = 'none'
 
 export const SORTINGS = [NONE, ASC, DESC]
 
@@ -18,31 +18,54 @@ const ICONS = new Map([
     [NONE, <Remove />],
 ])
 
-function nextSorting(sorting) {
-    return SORTINGS[SORTINGS.indexOf(sorting) + 1] || SORTINGS[0]
-}
+const TITLES = new Map([
+    [ASC, 'Ascending'],
+    [DESC, 'Desccending'],
+    [NONE, null],
+])
 
-export default compose(
-    setDisplayName('Sorting'),
-    setPropTypes({
+export default class Sorting extends PureComponent {
+    static propTypes = {
         sorting: PropTypes.oneOf(SORTINGS).isRequired,
         onChange: PropTypes.func.isRequired,
-    }),
-    defaultProps({
-        kind: SUBTILE,
-        onChange: K,
-    }),
-    withProps(({sorting}) => ({
-        icon: ICONS.get(sorting),
-    })),
-    withState('sorting', 'setSorting', props => props.sorting),
-    withHandlers({
-        onClick: props => event => {
-            const {sorting, setSorting, onChange} = props
-            const next = nextSorting(sorting)
+    }
+    static defaultProps = {
+        onChange: noop,
+    }
+    state = {
+        sorting: NONE,
+    }
+    constructor(props) {
+        super(props)
 
-            setSorting(next)
-            onChange(next)
+        this.state.sorting = props.sorting || NONE
+    }
+    get sorting() {
+        return this.state.sorting
+    }
+    set sorting(sorting) {
+        this.setState({sorting}, () => {
+            this.props.onChange(sorting)
+        })
+    }
+    get next() {
+        const sorting = this.sorting.toLowerCase()
+
+        return SORTINGS[SORTINGS.indexOf(sorting) + 1] || SORTINGS[0]
+    }
+    handleClick = event => {
+        this.sorting = this.next
+    }
+    componentWillReceiveProps({sorting}) {
+        if (sorting !== this.sorting) {
+            this.setState({sorting})
         }
-    }),
-)(Button)
+    }
+    render() {
+        const {sorting} = this
+
+        return (
+            <Button onClick={this.handleClick} kind={SUBTILE} icon={ICONS.get(sorting)} title={TITLES.get(sorting)} />
+        )
+    }
+}

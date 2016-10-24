@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState} from 'recompose'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState, defaultProps} from 'recompose'
 import Immutable from 'immutable'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
@@ -12,6 +12,11 @@ import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
 import {replaceQuery} from 'utils/router'
 import {BasicMarkup} from 'components/markup'
+import Pagination from 'components/pagination'
+import {Article, Header as PageHeader} from 'components/page'
+
+const {NONE, ASC, DESC} = HeaderCellOrders
+const {assign} = Object
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special 'Description' less special
@@ -69,93 +74,81 @@ function renderRows(data, columns, asControlled) {
     }, [])
 }
 
-function AstTable({featured = new Immutable.List(), rows, columns, caption, asControlled, onSortingChange}) {
+function AstTable({
+    title,
+    featured = Immutable.List(),
+    rows,
+    columns,
+    caption,
+    asControlled,
+    onSortingChange,
+    pagination: {
+        total,
+        page,
+    },
+    setPage,
+}) {
+    const pagination = <Pagination total={total} active={page} onChange={setPage} />
+
     return (
-        <Responsive>
-            <Table>
-                <Header>
-                    <Row>
-                    {columns.map(({title, name, property, ...header}, index) => (
-                        <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
-                            {typeof title === 'function' ? title() : title}
-                        </HeaderCell>
-                    ))}
-                    </Row>
-                </Header>
-                {!featured.isEmpty() &&
-                    <ControlledTBody featured title='Our sponsors'>
-                        {renderRows(featured, columns, asControlled)}
+        <Article>
+            <PageHeader title={title} />
+            <Responsive>
+                <Table>
+                    <Header>
+                        <Row>
+                        {columns.map(({title, name, property, ...header}, index) => (
+                            <HeaderCell key={index} onSortingChange={onSortingChange.bind(null, name)}  {...header} >
+                                {typeof title === 'function' ? title() : title}
+                            </HeaderCell>
+                        ))}
+                        </Row>
+                    </Header>
+                    {!featured.isEmpty() &&
+                        <ControlledTBody featured title='Our sponsors'>
+                            {renderRows(featured, columns, asControlled)}
+                        </ControlledTBody>
+                    }
+                    <ControlledTBody>
+                        {renderRows(rows, columns, asControlled)}
                     </ControlledTBody>
-                }
-                <ControlledTBody>
-                    {renderRows(rows, columns, asControlled)}
-                </ControlledTBody>
-                <Caption>{caption}</Caption>
-            </Table>
-        </Responsive>
+                    <Caption>{caption}</Caption>
+                </Table>
+            </Responsive>
+            {pagination}
+        </Article>
     )
 }
 
-const {assign} = Object
-
-function Connect(name, mapStateToProps, load) {
+function connectEntities(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
         withRouter,
         onlyUpdateForKeys(['rows', 'params']),
-        withState('params','setParams', props => {
-            const {level, tags} = props.location.query
-            // TODO: Add other pagination params here!!! But, will probably comes from the router!
-            const params = {
-                page_size: 15,
-            }
-
-            // We have to consider query params when we do the initial load.
-
-            if (level) {
-                assign(params, {
-                    level
-                })
-            }
-
-            if (tags) {
-                assign(params, {
-                    tags
-                })
-            }
-
-            return params
-        }),
-        connect(mapStateToProps, {
-            load
-        }),
+        withState('page', 'setPage', 1),
+        withProps({pageSize: 15}),
+        connect(mapStateToProps, {load}),
         withHandlers({
-            onSortingChange: props => (name, order) => {
+            onSortingChange: props => (name, order = NONE) => {
                 replaceQuery({
-                    sorting: [name, order],
+                    sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
                 }, props)
             },
         }),
         lifecycle({
             componentDidMount() {
-                const {params, setParams, load} = this.props
-
-                load(params).then(() => {
-                    setTimeout(() => {
-                        // Load all entities (courses or providers)
-                        const newParams = {
-                            page_size: 1000,
-                        }
-
-                        load(newParams).then(() => {
-                            setParams(newParams)
-                        })
-                    }, 100)
+                this.props.load({
+                    page_size: 1000
                 })
             },
+            componentWillReceiveProps({location: {key}, setPage}) {
+                if (key !== this.props.location.key) {
+                    setPage(1)
+                }
+            }
         }),
     )(AstTable)
 }
 
-export const Providers = Connect('Providers', providers.table, loadProviders)
-export const Courses = Connect('Courses', courses.table, loadCourses)
+export const Providers = connectEntities('Providers', providers.table, loadProviders)
+export const Courses = connectEntities('Courses', courses.table, loadCourses)

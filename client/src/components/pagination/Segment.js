@@ -1,52 +1,40 @@
-import React, {PropTypes, createElement} from 'react'
-import {compose, setDisplayName, setPropTypes, mapProps, withProps, defaultProps} from 'recompose'
+import React, {PropTypes, createElement, DOM} from 'react'
+import {compose, withHandlers, onlyUpdateForKeys} from 'recompose'
+import {Element, neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
-import {Link} from 'react-router'
 import styles from './Pagination.css'
-import {
-    First as FirstIcon,
-    Previous as PreviousIcon,
-    Next as NextIcon,
-    Last as LastIcon
-} from 'components/icons'
 
 Segment.propTypes = {
-    children: PropTypes.node.isRequired,
-    location: PropTypes.object,
-    onClick: PropTypes.func,
+    page: PropTypes.number.isRequired,
+    onActivate: PropTypes.func.isRequired,
     isActive: PropTypes.bool,
+    children: PropTypes.node,
 }
 
-function Segment({location = '#', onClick, isActive, children}) {
-    const styleName = isActive ? 'Segment' : 'Segment--Active'
+function Segment({page, onClick, isActive, children, style}) {
+    const styleName = isActive ? 'Segment--Active' : 'Segment'
 
     return (
-        <Link to={location} onClick={onClick} styleName={styleName} >
-            {children}
-        </Link>
+        <a href='#' onClick={onClick} styleName={styleName} style={style} >
+            {children || page}
+        </a>
     )
 }
 
-Segment = CSSModules(Segment, styles)
+export default compose(
+    onlyUpdateForKeys(['isActive', 'page']),
+    withHandlers({
+        onClick: props => event => {
+            event.preventDefault()
+            props.onActivate(props.page)
+        }
+    }),
+    CSSModules(styles),
+)(Segment)
 
-const Icons = new Map([
-    ['First', <FirstIcon inverse />],
-    ['Previous', <PreviousIcon inverse />],
-    ['Next', <NextIcon inverse />],
-    ['Last', <LastIcon inverse />],
-])
 
-function paginate(name) {
-    return compose(
-        setDisplayName(name),
-        withProps({
-            children: Icons[name]
-        }),
-    )(Segment)
-}
-
-export default Segment
-export const First = paginate('First')
-export const Previous = paginate('Previous')
-export const Next = paginate('Next')
-export const Last = paginate('Last')
+export const Disabled = neverUpdate(Element({
+    component: DOM.span,
+    name: 'Disabled',
+    styles,
+}))
