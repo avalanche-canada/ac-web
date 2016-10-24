@@ -81,9 +81,7 @@ const Filters = new Map([
         to = to.setDate(to.getDate() + 1)
 
         return ({dateStart, dateEnd}) => {
-            end = end.setDate(end.getDate() - 1)
-
-            return (start <= to) && (end >= from)
+            return (dateStart <= to) && (dateEnd >= from)
         }
     }],
 ])
