@@ -271,10 +271,15 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
             console.log("Error rendering danger rating:", err);
             res.status(500).send(err);
         });
-    } else if (req.forecast.json.dangerMode === 'Early season' || req.forecast.json.dangerMode === 'Off season') {
+    } else if (req.forecast.json.dangerMode === 'Off season') {
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
         fs.createReadStream(config.root + '/server/views/forecasts/no_rating_icon.svg')
+            .pipe(res);
+    } else if (req.forecast.json.dangerMode === 'Early season') {
+        res.header('cache-control', 'no-cache');
+        res.header('content-type', 'image/svg+xml');
+        fs.createReadStream(config.root + '/server/views/forecasts/early_season_icon.svg')
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Spring situation') {
         res.header('cache-control', 'no-cache');
