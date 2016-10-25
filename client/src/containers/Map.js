@@ -11,7 +11,6 @@ import {MountainInformationNetworkSubmission} from 'api/schemas'
 import {pushNewLocation, pushQuery} from 'utils/router'
 import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
-import ReactGA from 'services/analytics'
 
 const EMPTY = new List()
 function K() {}
@@ -185,14 +184,6 @@ class Container extends Component {
         this.setState({map})
         this.props.onLoad(map)
     }
-    handleInitializationError = error => {
-        // ReactGA.event({
-        //     category: 'WebGL',
-        //     action: 'Initialization error',
-        //     label: location.pathname,
-        //     nonInteraction: true,
-        // })
-    }
     setForecastRegionsFilter(id = '') {
         if (!this.map) {
             return
@@ -284,7 +275,6 @@ class Container extends Component {
             onZoomend: this.handleZoomend,
             onClick: this.handleClick,
             onLoad: this.handleLoad,
-            onInitializationError: this.handleInitializationError,
         }
 
         return (

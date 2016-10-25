@@ -3,6 +3,7 @@ import CSSModule from 'react-css-modules'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
+import {captureException} from 'services/raven'
 
 function noop() {}
 const {LngLatBounds} = mapbox
@@ -47,7 +48,6 @@ export default class MapComponent extends Component {
     static propTypes = {
         children: node,
         style: oneOf(STYLES),
-        onInitializationError: func,
         center: arrayOf(number),
         zoom: number,
         bearing: number,
@@ -114,7 +114,6 @@ export default class MapComponent extends Component {
         center: Revelstoke,
         maxBounds: Canadian,
         attributionControl: false,
-        onInitializationError: noop,
     }
     static childContextTypes = {
         map: object,
@@ -141,9 +140,10 @@ export default class MapComponent extends Component {
         }
     }
     componentDidMount() {
+        const {container} = this.refs
+        const {style, children, ...props} = this.props
+
         try {
-            const {container} = this.refs
-            const {style, children, ...props} = this.props
             const map = new mapbox.Map({
                 ...props,
                 container,
@@ -151,14 +151,14 @@ export default class MapComponent extends Component {
             })
 
             EVENTS.forEach(function addMapEvent(name, method) {
-                if (props[method]) {
+                if (typeof props[method] === 'function') {
                     map.on(name, props[method])
                 }
             })
 
             this.map = map
         } catch (error) {
-            this.props.onInitializationError(error)
+            captureException(error)
         }
     }
     componentWillUnmount() {
