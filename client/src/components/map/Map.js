@@ -3,8 +3,9 @@ import CSSModule from 'react-css-modules'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
+import {captureException} from 'services/raven'
 
-function K() {}
+function noop() {}
 const {LngLatBounds} = mapbox
 const STYLES = Object.keys(styles)
 const {bool, func, number, string, object, shape, node, arrayOf, instanceOf, oneOf} = PropTypes
@@ -124,7 +125,7 @@ export default class MapComponent extends Component {
         super(props)
 
         if (!mapbox.supported()) {
-            this.componentDidMount = K
+            this.componentDidMount = noop
         }
     }
     get map() {
@@ -142,19 +143,23 @@ export default class MapComponent extends Component {
         const {container} = this.refs
         const {style, children, ...props} = this.props
 
-        const map = new mapbox.Map({
-            ...props,
-            container,
-            style: style !== null ? styles[style] : null,
-        })
+        try {
+            const map = new mapbox.Map({
+                ...props,
+                container,
+                style: style !== null ? styles[style] : null,
+            })
 
-        EVENTS.forEach(function addMapEvent(name, method) {
-            if (props[method]) {
-                map.on(name, props[method])
-            }
-        })
+            EVENTS.forEach(function addMapEvent(name, method) {
+                if (typeof props[method] === 'function') {
+                    map.on(name, props[method])
+                }
+            })
 
-        this.map = map
+            this.map = map
+        } catch (error) {
+            captureException(error)
+        }
     }
     componentWillUnmount() {
         if (this.map) {

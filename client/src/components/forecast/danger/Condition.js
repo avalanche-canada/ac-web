@@ -15,7 +15,7 @@ const ICONS = new Map([
     [SPRING, `${domain}images/spring_situation_icon.svg`],
     [SUMMER, `${domain}images/summer_conditions_icon.svg`],
     [OFF, `${domain}images/summer_conditions_icon.svg`],
-    [EARLY_SEASON, `${domain}images/summer_conditions_icon.svg`],
+    [EARLY_SEASON, `${domain}images/early_season_icon.svg`],
 ])
 const UIDS = new Map([
     [SPRING, 'forecast-spring-conditions-message'],
