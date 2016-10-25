@@ -184,6 +184,9 @@ class Container extends Component {
         this.setState({map})
         this.props.onLoad(map)
     }
+    handleInitializationError = error => {
+        // TODO: Finish implementation
+    }
     setForecastRegionsFilter(id = '') {
         if (!this.map) {
             return
@@ -275,6 +278,7 @@ class Container extends Component {
             onZoomend: this.handleZoomend,
             onClick: this.handleClick,
             onLoad: this.handleLoad,
+            onInitializationError: this.handleInitializationError,
         }
 
         return (
