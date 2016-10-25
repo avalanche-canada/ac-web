@@ -224,6 +224,11 @@ export const AvalancheCanada = {
                 label: 'Service Awards',
                 to: '/about#awards',
                 children: []
+            // }, {
+            //     id: 'eccd3b77-fc47-410d-9e66-759b5fc674c8',
+            //     label: 'Tech',
+            //     to: '/tech',
+            //     children: []
             }]
         }, {
             id: '57daf6e2-1871-11e6-b6ba-3e1d05defe78',

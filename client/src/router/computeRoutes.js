@@ -46,6 +46,7 @@ import {
     Tutoriel,
     MembershipOverview,
     CherryBowlComingSoon,
+    Tech,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -277,6 +278,7 @@ export default function computeRoutes(store) {
                     <Route path='courses' sponsorRef='TrainingCourses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
+            <Route path='tech' component={Tech} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />
