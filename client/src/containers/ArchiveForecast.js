@@ -1,15 +1,25 @@
 import React, {PropTypes, Component, createElement} from 'react'
+import {connect} from 'react-redux'
 import moment from 'moment'
 import {compose, withHandlers} from 'recompose'
 import {Link, withRouter} from 'react-router'
 import {Page, Content, Header, Main, Section, Headline} from 'components/page'
-import Forecast, {Metadata, Footer} from 'components/forecast'
+import Forecast from 'components/forecast'
 import {Muted, Error, Br, DateElement} from 'components/misc'
-import {DayPicker} from 'components/controls'
+import {Metadata, Entry} from 'components/metadata'
+import {DateIssued, ValidUntil, Forecaster} from 'components/forecast/Metadata'
+import {DropdownFromOptions as Dropdown, DayPicker} from 'components/controls'
 import {forecast} from 'containers/connectors'
-import {AsRow} from 'components/grid'
+import {loadForecastRegions, loadForecast} from 'actions/entities'
+import {formatAsDay, parseFromDay} from 'utils/date'
+import mapStateToProps from 'selectors/archives'
 
-class Container extends Component {
+@withRouter
+@connect(mapStateToProps, {
+    loadForecast,
+    loadForecastRegions,
+})
+export default class ArchiveForecast extends Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         forecast: PropTypes.object,
@@ -17,56 +27,100 @@ class Container extends Component {
         isError: PropTypes.bool.isRequired,
         link: PropTypes.object,
     }
+    constructor(props) {
+        super(props)
+
+        const {name, date} = props.params
+
+        this.state = {
+            name: name || null,
+            date: date ? new Date(date) : null,
+        }
+        this.today = new Date()
+    }
+    handleRegionChange = name => {
+        this.setState({name}, this.validate)
+    }
+    handleDateChange = date => {
+        this.setState({date}, this.validate)
+    }
+    validate = () => {
+        const {date, name} = this.state
+
+        if (date && name) {
+            const path = `/forecasts/${name}/archives/${formatAsDay(date)}`
+
+            this.props.router.push(path)
+        }
+    }
+    handleDisabledDays = day => {
+        return moment(day).isSameOrAfter(this.today, 'day')
+    }
+    loadForecast() {
+        const {loadForecast, params} = this.props
+        const {name, date} = params
+
+        if (name && date) {
+            console.warn(params)
+            loadForecast(params)
+        }
+    }
+    componentDidMount() {
+        this.props.loadForecastRegions()
+        this.loadForecast()
+    }
+    componentDidUpdate() {
+        this.today = new Date()
+    }
+    componentWillReceiveProps({params, location}) {
+        if (location.key !== this.props.location.key) {
+            this.loadForecast()
+        }
+    }
     render() {
         const {
-            title = 'Loading...',
+            title,
             forecast,
             isLoading,
             isError,
             link,
             params,
             onChangeDate,
+            regionOptions,
         } = this.props
-        let {name, date} = params
+        const {name, date} = this.state
+        let header = 'FORECAST ARCHIVE'
 
-        date = moment(date, 'YYYY-MM-DD').toDate()
+        if (forecast) {
+            header += `: ${title}`
+        }
 
         return (
             <Page>
-                <Header title={isLoading ? title : `ARCHIVED: ${title}`} />
+                <Header title={header} />
                 <Content>
                     <Main>
-                        <Headline>
-                            <AsRow>
-                                <div>This is an archived bulletin for</div>
-                                <DayPicker date={date} onChange={onChangeDate} container={this} >
-                                    <DateElement value={date} format='dddd, LL' />
+                        <Metadata>
+                            <Entry>
+                                <Dropdown options={regionOptions} value={name} onChange={this.handleRegionChange} disabled placeholder='Select a region' />
+                            </Entry>
+                            <Entry>
+                                <DayPicker date={date} onChange={this.handleDateChange} disabledDays={this.handleDisabledDays} container={this} >
+                                    {date ?
+                                        <DateElement value={date} format='dddd, LL' /> :
+                                        'Select a date'}
                                 </DayPicker>
-                            </AsRow>
-                        </Headline>
-                        <Br />
-                        {forecast && <Metadata {...forecast} />}
+                            </Entry>
+                            {forecast && <DateIssued {...forecast} />}
+                            {forecast && <ValidUntil {...forecast} />}
+                            {forecast && <Forecaster {...forecast} />}
+                        </Metadata>
                         {isLoading && <Muted>Loading forecast...</Muted>}
                         {isError && <Error>Error happened while loading forecast.</Error>}
                         {(forecast && forecast.region) && <Forecast {...forecast} />}
-                        {forecast && <Footer author={forecast.forecaster} />}
                     </Main>
                 </Content>
             </Page>
         )
     }
 }
-
-export default compose(
-    withRouter,
-    forecast,
-    withHandlers({
-        onChangeDate: props => date => {
-            const {router, params: {name}} = props
-            // TODO: Could utils/date functions
-            date = moment(date).format('YYYY-MM-DD')
-
-            router.push(`/forecasts/${name}/archives/${date}`)
-        }
-    })
-)(Container)

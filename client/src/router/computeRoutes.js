@@ -27,7 +27,6 @@ import {
     TermsOfUse,
     Forecast,
     ArchiveForecast,
-    Archives,
     HotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
@@ -243,7 +242,7 @@ export default function computeRoutes(store) {
             <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
-            <Route path='forecasts/archives' component={Archives} />
+            <Route path='forecasts/archives' component={ArchiveForecast} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />

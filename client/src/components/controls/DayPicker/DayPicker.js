@@ -8,13 +8,14 @@ import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'
 import Holder from '../Holder'
 
+const today = new Date()
 const {isSameDay} = DateUtils
 function K() {}
 
 @CSSModules(styles)
 export default class DayPicker extends Component {
     static propTypes = {
-        date: PropTypes.instanceOf(Date).isRequired,
+        date: PropTypes.instanceOf(Date),
         onChange: PropTypes.func.isRequired,
         disabledDays: PropTypes.func,
         children: PropTypes.node,
@@ -23,7 +24,7 @@ export default class DayPicker extends Component {
     static defaultProps = {
         date: new Date(),
         onChange: K,
-        disabledDays: day => moment(day).isAfter(new Date(), 'day'),
+        disabledDays: day => moment(day).isAfter(today, 'day'),
     }
     state = {
         showCalendar: false,
@@ -49,7 +50,7 @@ export default class DayPicker extends Component {
         this.props.onChange(date)
     }
     get target() {
-        return findDOMNode(this.refs.target)
+        return () => findDOMNode(this.refs.target)
     }
     render() {
         const {date, disabledDays, children, container = this} = this.props
@@ -72,7 +73,7 @@ export default class DayPicker extends Component {
                     container={container}>
                     <Callout placement={BOTTOM}>
                         <Base
-                            initialMonth={date}
+                            initialMonth={date || undefined}
                             selectedDays={day => isSameDay(day, date)}
                             disabledDays={disabledDays}
                             onDayClick={this.handleDayClick} />
