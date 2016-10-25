@@ -201,7 +201,7 @@ export default function computeRoutes(store) {
             action: 'Not Found',
             label: location.pathname,
             nonInteraction: true,
-        });
+        })
     }
 
     return (
