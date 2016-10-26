@@ -82,6 +82,7 @@
 }
 
 .Description {
+    flex: 1 0;
     margin-left: 0;
     color: var(--gray);
     font-weight: 700;

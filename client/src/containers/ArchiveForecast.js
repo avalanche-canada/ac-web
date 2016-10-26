@@ -33,18 +33,18 @@ export default class ArchiveForecast extends Component {
         const {name, date} = props.params
 
         this.state = {
-            name: name || null,
-            date: date ? new Date(date) : null,
+            name,
+            date: date && new Date(date),
         }
         this.today = new Date()
     }
     handleRegionChange = name => {
-        this.setState({name}, this.validate)
+        this.setState({name}, this.tryTransition)
     }
     handleDateChange = date => {
-        this.setState({date}, this.validate)
+        this.setState({date}, this.tryTransition)
     }
-    validate = () => {
+    tryTransition = () => {
         const {date, name} = this.state
 
         if (date && name) {
@@ -61,7 +61,6 @@ export default class ArchiveForecast extends Component {
         const {name, date} = params
 
         if (name && date) {
-            console.warn(params)
             loadForecast(params)
         }
     }
@@ -95,6 +94,8 @@ export default class ArchiveForecast extends Component {
             header += `: ${title}`
         }
 
+        // TODO: Region list sould be filterable
+        
         return (
             <Page>
                 <Header title={header} />
