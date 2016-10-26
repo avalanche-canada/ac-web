@@ -230,7 +230,7 @@ function getProblems(caamlProblems) {
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
             expectedSize: {min: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'min'][0],
                            max: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'max'][0]},
-            comment: caamlAvProblem[ns+'comment'][0],
+            comment: StripAvalxStyle(caamlAvProblem[ns+'comment'][0]),
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
     });
