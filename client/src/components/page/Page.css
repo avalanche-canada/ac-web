@@ -142,11 +142,15 @@
     color: var(--black);
     text-align: center;
 
-    & main {
+    & .Main {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+    }
+
+    & .Headline {
+        font-size: 1.25rem;
     }
 
     &:after {
@@ -169,12 +173,28 @@
     }
 }
 
-.NotFound {
+.Error {
+    composes: Background;
+}
+
+.UnsupportedMap {
     composes: Background;
 
-    &:after {
-        background-image: url("//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
+    height: auto;
+
+    & Section {
+        text-align: left;
+        margin: 0 1em;
     }
+
+    & ul {
+        font-size: 1.25em;
+    }
+}
+
+.UnsupportedMap--Links {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .WorkInProgress {
