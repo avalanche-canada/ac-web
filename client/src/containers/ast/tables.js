@@ -11,7 +11,7 @@ import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
 import {replaceQuery} from 'utils/router'
-import {BasicMarkup} from 'components/markup'
+import {Markup} from 'components/markup'
 import Pagination from 'components/pagination'
 import {Article, Header as PageHeader} from 'components/page'
 
@@ -33,7 +33,9 @@ function renderControlled(data, asControlled) {
                         <List columns={1} theme='Inline' horizontal>
                             <Term>Description</Term>
                             <Definition>
-                                <BasicMarkup text={Description} />
+                                <Markup>
+                                    {Description}
+                                </Markup>
                             </Definition>
                         </List>
                     </div>
