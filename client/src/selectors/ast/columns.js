@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
+import Url from 'url'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
 import {List, Term, Definition} from 'components/description'
-import Url from 'url'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 
