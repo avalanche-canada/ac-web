@@ -107,6 +107,7 @@ export default class MapComponent extends Component {
             bbox: instanceOf(LngLatBounds),
             options: object,
         }),
+        onInitializationError: func,
     }
     static defaultProps = {
         style: 'default',
@@ -114,6 +115,7 @@ export default class MapComponent extends Component {
         center: Revelstoke,
         maxBounds: Canadian,
         attributionControl: false,
+        onInitializationError: noop,
     }
     static childContextTypes = {
         map: object,
@@ -141,7 +143,7 @@ export default class MapComponent extends Component {
     }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, ...props} = this.props
+        const {style, children, onInitializationError, ...props} = this.props
 
         try {
             const map = new mapbox.Map({
@@ -159,6 +161,7 @@ export default class MapComponent extends Component {
             this.map = map
         } catch (error) {
             captureException(error)
+            onInitializationError(error)
         }
     }
     componentWillUnmount() {

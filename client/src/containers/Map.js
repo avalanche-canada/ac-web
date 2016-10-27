@@ -13,7 +13,7 @@ import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
 
 const EMPTY = new List()
-function K() {}
+function noop() {}
 
 function isForecastRoute({path}) {
     return path === 'forecasts'
@@ -30,23 +30,18 @@ function renderLayer(layer) {
 
 const forecastRegionsRegex = /^forecast-regions/
 
-@withRouter
-@connect(mapStateToProps, {
-    zoomChanged,
-    centerChanged,
-    loadData,
-})
 class Container extends Component {
     propTypes = {
         onLoad: PropTypes.func,
+        onInitializationError: PropTypes.func,
     }
     static defaultProps = {
-        onLoad: K,
+        onLoad: noop,
+        onInitializationError: noop,
     }
     state = {
         bounds: null,
         map: null,
-        mountainInformationNetworkMarkers: EMPTY,
     }
     get map() {
         return this.state.map
@@ -219,15 +214,14 @@ class Container extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
-    shouldComponentUpdate({layers, sources, markers}, {map, mountainInformationNetworkMarkers, bounds}) {
+    shouldComponentUpdate({layers, sources, markers}, {map, bounds}) {
         const {props, state} = this
 
         if (layers === props.layers &&
             sources === props.sources &&
             markers === props.markers &&
             bounds === state.bounds &&
-            map === state.map &&
-            mountainInformationNetworkMarkers === state.mountainInformationNetworkMarkers
+            map === state.map
         ) {
             return false
         }
@@ -259,7 +253,6 @@ class Container extends Component {
     render() {
         const {map} = this
         const {
-            mountainInformationNetworkMarkers = EMPTY,
             bounds,
         } = this.state
         const {
@@ -268,6 +261,7 @@ class Container extends Component {
             markers = EMPTY,
             zoom,
             center,
+            onInitializationError,
         } = this.props
         const events = {
             onMousemove: this.handleMousemove,
@@ -275,6 +269,7 @@ class Container extends Component {
             onZoomend: this.handleZoomend,
             onClick: this.handleClick,
             onLoad: this.handleLoad,
+            onInitializationError,
         }
 
         return (
@@ -282,14 +277,21 @@ class Container extends Component {
                 {map && sources.map(renderSource)}
                 {map && layers.map(renderLayer)}
                 {map && markers.map(this.renderMarker)}
-                {map && mountainInformationNetworkMarkers.map(this.renderMountainInformationNetworkMarker)}
             </Map>
         )
     }
 }
 
-export default getContext({
-    location: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    routes: PropTypes.array.isRequired,
-})(Container)
+export default compose(
+    getContext({
+        location: PropTypes.object.isRequired,
+        params: PropTypes.object.isRequired,
+        routes: PropTypes.array.isRequired,
+    }),
+    withRouter,
+    connect(mapStateToProps, {
+        zoomChanged,
+        centerChanged,
+        loadData,
+    }),
+)(Container)
