@@ -230,7 +230,7 @@ function getProblems(caamlProblems) {
             likelihood: caamlAvProblem[ns+'likelihoodOfTriggering'][0][ns+'Values'][0][ns+'typical'][0],
             expectedSize: {min: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'min'][0],
                            max: caamlAvProblem[ns+'expectedAvSize'][0][ns+'Values'][0][ns+'max'][0]},
-            comment: caamlAvProblem[ns+'comment'][0],
+            comment: StripAvalxStyle(caamlAvProblem[ns+'comment'][0]),
             travelAndTerrainAdvice: caamlAvProblem[ns+'travelAdvisoryComment'][0]
         };
     });
@@ -304,10 +304,11 @@ function parksForecast(caaml, region){
         highlights = highlights.split('!_!').slice(1).join('!_!');
     }
 
-
+    var forecaster = caaml.CaamlData.metaDataProperty[0].MetaData[0].srcRef[0].Operation[0].contactPerson[0].Person[0].name[0];
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
+        forecaster: forecaster,
         dateIssued: dates.dateIssued,
         validUntil: dates.validUntil,
         bulletinTitle: caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['bulletinTitle'][0],
