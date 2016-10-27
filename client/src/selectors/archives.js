@@ -7,15 +7,21 @@ function getForecastRegions(state) {
     return getEntitiesForSchema(state, ForecastRegion)
 }
 
-function toEntry(region) {
-    return [region.getIn(['properties', 'id']), region.getIn(['properties', 'name'])]
-}
+const getRegionOptions = createSelector(
+    getForecastRegions,
+    regions => new Map(
+        regions.map(region => [
+            region.getIn(['properties', 'id']),
+            region.getIn(['properties', 'name'])
+        ]).toArray()
+    )
+)
 
 export default createSelector(
-    getForecastRegions,
+    getRegionOptions,
     getForecast,
-    (regions, forecast) => ({
+    (regionOptions, forecast) => ({
         ...forecast,
-        regionOptions: new Map(regions.map(toEntry).toArray())
+        regionOptions,
     })
 )

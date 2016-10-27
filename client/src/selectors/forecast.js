@@ -2,7 +2,6 @@ import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import {RESULT} from 'reducers/api/results'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
@@ -91,7 +90,7 @@ function getForecastRegion(state, {params}) {
 }
 
 function getForecastResultSet(state, {params}) {
-    return getResultsSet(state, Forecast, params) || RESULT
+    return getResultsSet(state, Forecast, params)
 }
 
 const getForecast = createSelector(
@@ -110,9 +109,6 @@ export default createSelector(
     getForecastResultSet,
     (forecast, region, result) => {
         const {isFetching, isError, isLoaded} = result
-
-        // Getting the region allows to send a name as the bulletin is loading
-        region = region && region.get('properties').toJSON()
 
         if (forecast) {
             forecast = transform(forecast.toJSON())
@@ -153,11 +149,11 @@ export default createSelector(
                 link,
             }
         } else {
-            return {
+             return {
                 isLoading: isFetching,
                 isError,
                 isLoaded,
-                title: region && region.name,
+                title: region && region.getIn(['properties', name]),
             }
         }
     }

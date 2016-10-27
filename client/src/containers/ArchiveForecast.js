@@ -14,11 +14,11 @@ import {loadForecastRegions, loadForecast} from 'actions/entities'
 import {formatAsDay, parseFromDay} from 'utils/date'
 import mapStateToProps from 'selectors/archives'
 
-@withRouter
 @connect(mapStateToProps, {
     loadForecast,
     loadForecastRegions,
 })
+@withRouter
 export default class ArchiveForecast extends Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -34,7 +34,7 @@ export default class ArchiveForecast extends Component {
 
         this.state = {
             name,
-            date: date && new Date(date),
+            date: date && moment(date).toDate(),
         }
         this.today = new Date()
     }
@@ -56,24 +56,24 @@ export default class ArchiveForecast extends Component {
     handleDisabledDays = day => {
         return moment(day).isSameOrAfter(this.today, 'day')
     }
-    loadForecast() {
-        const {loadForecast, params} = this.props
-        const {name, date} = params
-
+    loadForecast({name, date}) {
         if (name && date) {
-            loadForecast(params)
+            this.props.loadForecast({name, date})
         }
     }
     componentDidMount() {
         this.props.loadForecastRegions()
-        this.loadForecast()
-    }
-    componentDidUpdate() {
-        this.today = new Date()
+        this.loadForecast(this.props.params)
     }
     componentWillReceiveProps({params, location}) {
-        if (location.key !== this.props.location.key) {
-            this.loadForecast()
+        this.today = new Date()
+        this.loadForecast(params)
+
+        if (Object.keys(params).length === 0) {
+            this.setState({
+                name: undefined,
+                date: undefined,
+            })
         }
     }
     render() {
@@ -95,7 +95,8 @@ export default class ArchiveForecast extends Component {
         }
 
         // TODO: Region list sould be filterable
-        
+
+
         return (
             <Page>
                 <Header title={header} />
@@ -118,7 +119,7 @@ export default class ArchiveForecast extends Component {
                         </Metadata>
                         {isLoading && <Muted>Loading forecast...</Muted>}
                         {isError && <Error>Error happened while loading forecast.</Error>}
-                        {(forecast && forecast.region) && <Forecast {...forecast} />}
+                        {forecast && <Forecast {...forecast} />}
                     </Main>
                 </Content>
             </Page>
