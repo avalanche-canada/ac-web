@@ -1,7 +1,8 @@
 import React, {PropTypes, DOM} from 'react'
-import {compose, defaultProps, withProps, setDisplayName, setPropTypes} from 'recompose'
+import {compose, defaultProps, withProps, mapProps, setDisplayName, setPropTypes} from 'recompose'
 import Url from 'url'
 import {AVALANCHECANADA} from 'constants/emails'
+import {clean} from 'utils/object'
 
 export default compose(
     setDisplayName('Mailto'),
@@ -17,17 +18,21 @@ export default compose(
         email: AVALANCHECANADA,
         title: 'Email Avalanche Canada',
     }),
-    withProps(({email, title, children, subject, cc, bcc, body}) => ({
-        children: children || email,
-        href: Url.format({
-            protocol: 'mailto',
-            pathname: email,
-            query: {
-                subject,
-                cc,
-                bcc,
-                body
-            },
-        }),
-    }))
+    mapProps(({email, subject, cc, bcc, body, title, children, ...rest}) => {
+        return {
+            ...rest,
+            title,
+            children: children || email,
+            href: Url.format({
+                protocol: 'mailto',
+                pathname: email,
+                query: clean({
+                    subject,
+                    cc,
+                    bcc,
+                    body
+                }),
+            }),
+        }
+    })
 )(DOM.a)
