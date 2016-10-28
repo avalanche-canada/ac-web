@@ -3,15 +3,28 @@ import {MountainInformationNetworkSubmission} from 'api/schemas'
 const key = MountainInformationNetworkSubmission.getKey()
 
 export default [{
-    id: `${key}-cluster-circle`,
+    id: `${key}-submission`,
     source: key,
-    type: 'circle',
+    type: 'symbol',
+    filter: [
+        'all',
+        ['!has', 'point_count'],
+    ],
     layout: {
         visibility: 'visible',
+        'icon-image': '{icon}',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
     },
-    paint: {
-        'circle-color': '#4B6D6F',
-        'circle-radius': 12,
+}, {
+    id: `${key}-cluster-circle`,
+    source: key,
+    type: 'symbol',
+    filter: ['has', 'point_count'],
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'min-pin',
+        'icon-allow-overlap': true,
     },
 }, {
     id: `${key}-count-label`,
@@ -20,9 +33,12 @@ export default [{
     layout: {
         visibility: 'visible',
         'text-field': '{point_count}',
+        'text-offset': [0, -0.25],
         'text-size': 12,
     },
     paint: {
         'text-color': '#FFFFFF',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 0.25,
     },
 }]

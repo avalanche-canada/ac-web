@@ -10,14 +10,17 @@ import {paramsToKey} from 'api/utils'
 
 const {assign} = Object
 const key = Schema.getKey()
+const TYPES = ['quick', 'avalanche', 'snowpack', 'weather', 'incident']
 
 function createSubmissionFeature(submission) {
     const {latlng, title, subid, obs} = submission.toObject()
     const [lat, lng] = latlng
+    const types = obs.map(ob => ob.get('obtype')).toArray()
 
     return point([lng, lat], {
         id: subid,
-        types: new Set(obs.map(ob => ob.get('obtype')).toArray()),
+        types,
+        icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
         title,
     })
 }
@@ -54,7 +57,7 @@ const getFilteredSubmissions = createSelector(
         // At least for the the type
 
         if (type !== 'all') {
-            submissions = submissions.filter(submission => submission.properties.types.has(type))
+            submissions = submissions.filter(submission => submission.properties.types.includes(type))
         }
         return submissions
     }

@@ -21,7 +21,7 @@ const TAB_COLORS = new Map([
     [AVALANCHE, COLORS.AVALANCHE],
     [INCIDENT, COLORS.INCIDENT],
 ])
-const TYPES = [QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT]
+const TYPES = [QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT]
 
 Submission.propTypes = {
     observations: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -37,7 +37,7 @@ function toGalleryItem(upload) {
     }
 }
 
-function Submission({uploads = [], observations = [], active = QUICK}) {
+function Submission({uploads = [], observations = [], active = INCIDENT}) {
     const observationsByType = observations.reduce(reducer, new Map())
     const activeIndex = TYPES.indexOf(active)
 
@@ -63,7 +63,7 @@ function Submission({uploads = [], observations = [], active = QUICK}) {
             </TabSet>
             {uploads.length > 0 &&
                 <ImageGallery
-                    items={uploads.map(toGalleryItem)} 
+                    items={uploads.map(toGalleryItem)}
                     showBullets
                     showThumbnails={false} />
             }
