@@ -14,7 +14,7 @@ export function fromDocument(document, parser = PARSER) {
             share: sharing,
             follow: following,
             contact: contacting ? (
-                typeof contact === 'string' ? contact : true
+                typeof contact === 'string' ? contact.replace(/^mailto:/, '') : true
             ): false,
             content: sidebar,
         } : null

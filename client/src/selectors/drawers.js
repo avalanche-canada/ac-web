@@ -19,7 +19,7 @@ export const getPrimary = createSelector(
 
 const SECONDARY = {
     open: false,
-    width: Math.min(innerWidth, 350),
+    width: Math.min(innerWidth, 500),
 }
 
 export const getSecondary = createSelector(

@@ -93,8 +93,8 @@
     "dangerIconUrl": "/api/forecasts/south-coast/danger-rating-icon.svg",
     "owner": "avalanche-canada",
     "centroid": [
-      -123.06970757379226,
-      49.38176739363282
+        -122.854766,
+        49.539782
     ]
   },
   "north-rockies": {

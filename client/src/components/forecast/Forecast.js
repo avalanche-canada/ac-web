@@ -9,6 +9,7 @@ import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
 import {DateTime} from 'components/misc'
+import {Link} from 'react-router'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
@@ -39,13 +40,15 @@ export default function Forecast({
         <section>
             <Headline>{highlights}</Headline>
             <TabSet theme={LOOSE}>
-                <Tab title='Public Avalanche Forecast'>
+                <Tab title='Danger ratings'>
                     <Condition mode={dangerMode} />
                     <Table mode={dangerMode} confidence={confidence}>
                         {dangerRatings.map(({date, dangerRating}) => (
                             <Day date={date} {...dangerRating} />
                         ))}
                     </Table>
+                </Tab>
+                <Tab title='Problems' disabled={problems.length === 0}>
                     {problems.map(({type, icons, comment, travelAndTerrainAdvice}) => (
                         <Problem title={type} >
                             <Topic title='What Elevation?' src={icons.elevations} />
@@ -57,7 +60,7 @@ export default function Forecast({
                         </Problem>
                     ))}
                 </Tab>
-                <Tab title='Forecast Details'>
+                <Tab title='Details'>
                     {avalancheSummary &&
                         <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
                     }
@@ -65,7 +68,7 @@ export default function Forecast({
                         <Summary title='Snowpack Summary'>{snowpackSummary}</Summary>
                     }
                     {weatherForecast &&
-                        <Summary title='Weather Forecast'>{weatherForecast}</Summary>
+                        <Summary title={<Link to='/weather'>Mountain Weather Forecast</Link>}>{weatherForecast}</Summary>
                     }
                 </Tab>
             </TabSet>

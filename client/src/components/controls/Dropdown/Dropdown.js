@@ -105,7 +105,7 @@ export default class Dropdown extends Component {
                 if (this.isOpen) {
                     this.active = this.active - 1
                 } else {
-                    this.isOpen()
+                    this.open()
                 }
                 break
             case keycode.codes.enter:

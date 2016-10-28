@@ -27,7 +27,6 @@ import {
     TermsOfUse,
     Forecast,
     ArchiveForecast,
-    Archives,
     HotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
@@ -46,6 +45,7 @@ import {
     Tutoriel,
     MembershipOverview,
     CherryBowlComingSoon,
+    Tech,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -201,7 +201,7 @@ export default function computeRoutes(store) {
             action: 'Not Found',
             label: location.pathname,
             nonInteraction: true,
-        });
+        })
     }
 
     return (
@@ -228,7 +228,7 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='mountain-information-network' sponsorRef='MIN' component={MountainInformationNetwork} />
-            <Route path='mountain-information-network/submit' sponsorRef='MIN' component={MountainInformationNetworkSubmit} /*onEnter={requireAuth}*/ />
+            <Route path='mountain-information-network/submit' sponsorRef='MIN' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
             <Redirect from='submit' to='mountain-information-network/submit' />
             <Route path='mountain-information-network/faq' sponsorRef='MIN' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' sponsorRef='MIN' component={MountainInformationNetworkSubmissionGuidelines} />
@@ -243,7 +243,7 @@ export default function computeRoutes(store) {
             <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} onEnter={handleFeedEnter} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
-            <Route path='forecasts/archives' component={Archives} />
+            <Route path='forecasts/archives' component={ArchiveForecast} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
@@ -274,9 +274,10 @@ export default function computeRoutes(store) {
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
                     <Route path='providers' components={{table: ProvidersTable, form: ProvidersForm}} />
-                    <Route path='courses' sponsorRef='Training' components={{table: CoursesTable, form: CoursesForm}} />
+                    <Route path='courses' sponsorRef='TrainingCourses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
+            <Route path='tech' component={Tech} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />

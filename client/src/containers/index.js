@@ -6,7 +6,6 @@ export Map from './Map'
 // Full page
 export Forecast from './Forecast'
 export ArchiveForecast from './ArchiveForecast'
-export Archives from './Archives'
 export HotZoneReport from './HotZoneReport'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
@@ -24,11 +23,10 @@ export Tutorial from './Tutorial'
 export Weather from './Weather'
 
 // Mountain Information Network
-// export MountainInformationNetworkSubmit from './min/Form'
-export const MountainInformationNetworkSubmit = generic('mountain-information-network-submit-wip', 'Mountain Information Network — Submit')
-
+export MountainInformationNetworkSubmit from './min/Form'
 
 // Static Pages
+export const Tech = staticPage('tech', 'Tech')
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')
 export const Gear = staticPage('essential-gear', 'Essential Gear')

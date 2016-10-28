@@ -30,11 +30,6 @@ export function isPostAction({type}) {
     return type === POST
 }
 
-function reviver(key, value) {
-    // TODO: Find a way to consider real arrays > for orderings for example
-    return isIndexed(value) ? value.toSet() : value.toMap()
-}
-
 export function paramsToKey(params) {
-    return fromJS(params, reviver)
+    return fromJS(params || {}).hashCode()
 }

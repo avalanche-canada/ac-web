@@ -10,6 +10,8 @@ export Headline from './Headline'
 export Aside from './Aside'
 export Nav from './Nav'
 
+export Error from './Error'
 export NotFound from './NotFound'
+export UnsupportedMap from './UnsupportedMap'
 export WorkInProgress from './WorkInProgress'
 export Loading from './Loading'

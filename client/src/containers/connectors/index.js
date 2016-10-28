@@ -19,7 +19,7 @@ function connector(mapStateToProps, load, loadAll) {
                 load(params)
                 loadAll()
             },
-            componentWillReceiveProps({load, params, isError}) {
+            componentWillReceiveProps({load, params}) {
                 const {name, date} = this.props.params
 
                 if (name !== params.name || date !== params.date) {

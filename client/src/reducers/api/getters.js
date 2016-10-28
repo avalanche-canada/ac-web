@@ -17,7 +17,10 @@ export function getResultsSet(state, schema, params) {
 }
 
 export function shouldDispatchLoadAction(state, schema, action) {
-    const results = getResultsSet(state, schema, action.payload.params)
+    const {params} = action.payload
+    const sets = getResultsSetForSchema(state, schema)
+    const key = paramsToKey(params)
+    const results = sets.get(key)
 
     return !results || (!results.isLoaded && !results.isFetching)
 }

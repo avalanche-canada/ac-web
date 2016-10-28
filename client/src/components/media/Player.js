@@ -1,27 +1,21 @@
-import React, {Component} from 'react'
-import {compose} from 'recompose'
-import {withMediaPlayer, withMediaProps} from 'react-media-player'
+import React from 'react'
+import {Player, Media, withMediaProps} from 'react-media-player'
 import CSSModules from 'react-css-modules'
-import {PlayPause} from 'components/button'
 import styles from './Player.css'
 
-function Player({Player, media}) {
-    const {playPause, isPlaying} = media
-
+function MediaPlayer(props) {
     return (
-        <div styleName="Container">
-            <div styleName="Player">
-                {Player}
+        <Media>
+            <div styleName="Container">
+                <div styleName="Player">
+                    <Player {...props} />
+                </div>
+                <div styleName="Controls">
+                    {/* <PlayPause isPlaying={isPlaying} onClick={playPause} /> */}
+                    {/* <Fullscreen /> */}
+                </div>
             </div>
-            <div styleName="Controls">
-                {/* <PlayPause isPlaying={isPlaying} onClick={playPause} /> */}
-                {/* <Fullscreen /> */}
-            </div>
-        </div>
+        </Media>
     )
 }
-
-export default compose(
-    withMediaPlayer,
-    withMediaProps,
-)(CSSModules(Player, styles))
+export default withMediaProps(CSSModules(MediaPlayer, styles))
