@@ -1,7 +1,7 @@
 {
     "accessToken": "pk.eyJ1IjoiYXZhbGFuY2hlY2FuYWRhIiwiYSI6Im52VjFlWW8ifQ.-jbec6Q_pA7uRgvVDkXxsA",
     "styles": {
-        "default": "mapbox://styles/mapbox/outdoors-v10",
+        "default": "mapbox://styles/avalanchecanada/ciuqd59tp00c42iqoxiv91m5v",
         "light": "mapbox://styles/mapbox/light-v9"
     }
 }

@@ -2,12 +2,10 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {setVisibility} from './utils'
 import getForecastMarkers from './forecast'
-// import getMountainInformationNetworkMarkers from './mountainInformationNetwork'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 
 const getMarkers = createSelector(
     getForecastMarkers,
-    // getMountainInformationNetworkMarkers,
     (...args) => new List(args.reduce((all, markers) => all.concat(markers), []))
 )
 
