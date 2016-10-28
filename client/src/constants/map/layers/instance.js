@@ -43,8 +43,8 @@ export default new Immutable.Map({
     //     title: 'Surface hoar',
     //     type: 'Observations',
     // }),
-    // [WEATHER_STATION]: new Layer({
-    //     title: 'Weather stations',
-    //     type: 'Observations',
-    // }),
+    [WEATHER_STATION]: new Layer({
+        title: 'Weather stations',
+        type: 'Observations',
+    }),
 })

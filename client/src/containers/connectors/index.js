@@ -65,3 +65,7 @@ export const mountainInformationNetworkSubmission = compose(
         },
     })
 )
+
+export const weatherStation = compose(
+    
+)

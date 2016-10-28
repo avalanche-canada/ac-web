@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react'
-import {compose, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 
@@ -32,6 +31,4 @@ function ShowingEntriesHelper({
     )
 }
 
-export default compose(
-    CSSModules(styles),
-)(ShowingEntriesHelper)
+export default CSSModules(ShowingEntriesHelper, styles)

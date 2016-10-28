@@ -3,10 +3,7 @@ import {getMenu} from 'reducers/drawers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
-    METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
 } from 'constants/map/layers'
 import {
@@ -48,11 +45,8 @@ function createActionsForLayer(layer, filters) {
             const {value} = filters.get('days')
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
-            // return [loadMountainInformationNetworkObservationsForDays(value), loadMountainInformationNetworkSubmissionsForDays(value)]
-        // case MOUNTAIN_CONDITION_REPORTS:
-        // case METEOGRAMS:
-        // case SURFACE_HOAR:
-        // case WEATHER_STATION:
+        case WEATHER_STATION:
+            return []
         default:
             throw new Error(`Layer of type ${layer} is not handled by "createActionsForLayer".`)
     }
