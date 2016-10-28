@@ -4,7 +4,7 @@ import {InnerHTML} from 'components/misc'
 import styles from './Forecast.css'
 
 Summary.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     children: PropTypes.string,
 }
 

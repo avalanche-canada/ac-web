@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {pure} from 'recompose'
 import Dropdown from './Dropdown'
-import DropdownOption from './DropdownOption'
+import {Option} from '../options'
 
 DropdownFromOptions.propTypes = {
     options: PropTypes.instanceOf(Map).isRequired,
@@ -15,9 +15,9 @@ function DropdownFromOptions({options = new Map(), ...props}) {
     return (
         <Dropdown {...props}>
             {[...options].map(([value, text], index) => (
-                <DropdownOption key={index} value={value}>
+                <Option key={index} value={value}>
                     {text}
-                </DropdownOption>
+                </Option>
             ))}
         </Dropdown>
     )

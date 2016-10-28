@@ -39,13 +39,15 @@ export default function Forecast({
         <section>
             <Headline>{highlights}</Headline>
             <TabSet theme={LOOSE}>
-                <Tab title='Public Avalanche Forecast'>
+                <Tab title='Danger ratings'>
                     <Condition mode={dangerMode} />
                     <Table mode={dangerMode} confidence={confidence}>
                         {dangerRatings.map(({date, dangerRating}) => (
                             <Day date={date} {...dangerRating} />
                         ))}
                     </Table>
+                </Tab>
+                <Tab title='Problems' disabled={problems.length === 0}>
                     {problems.map(({type, icons, comment, travelAndTerrainAdvice}) => (
                         <Problem title={type} >
                             <Topic title='What Elevation?' src={icons.elevations} />
@@ -57,7 +59,7 @@ export default function Forecast({
                         </Problem>
                     ))}
                 </Tab>
-                <Tab title='Forecast Details'>
+                <Tab title='Details'>
                     {avalancheSummary &&
                         <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
                     }
