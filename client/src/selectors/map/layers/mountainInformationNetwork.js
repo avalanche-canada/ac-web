@@ -38,5 +38,7 @@ export default [{
     },
     paint: {
         'text-color': '#FFFFFF',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 0.25,
     },
 }]
