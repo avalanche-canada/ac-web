@@ -3,6 +3,7 @@ import {compose, withProps, withState, lifecycle, mapProps, getContext} from 're
 import {connect} from 'react-redux'
 import * as Actions from 'actions/entities'
 import getForecast from 'selectors/forecast'
+import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
 
@@ -67,5 +68,15 @@ export const mountainInformationNetworkSubmission = compose(
 )
 
 export const weatherStation = compose(
-    
+    connect(getWeatherStation, {
+        load: Actions.loadWeatherStations,
+    }),
+     lifecycle({
+         componentDidMount() {
+             this.props.load()
+         },
+         componentWillReceiveProps(props) {
+             this.props.load()
+         }
+     })
 )

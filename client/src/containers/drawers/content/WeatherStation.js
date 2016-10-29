@@ -8,14 +8,16 @@ import Sponsor from 'containers/Sponsor'
 
 function WeatherStation({
     title,
-    metadata,
     isLoading,
     isError,
-    props,
+    station,
     messages,
+    measurements,
+    columns,
+    rows,
     link,
+    headers,
     onCloseClick,
-    subject ='Weather station',
 }) {
     const {error, loading} = messages
 
@@ -25,16 +27,16 @@ function WeatherStation({
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject={subject}>
-                <h1>
-                    {link ? <Link to={link}>{title}</Link> : title}
-                </h1>
-                {metadata && <Metadata {...metadata} />}
+            <Header subject='Weather station'>
+                <h1>{link ? <Link to={link}>{title}</Link> : title}</h1>
+                {station && <Metadata {...station} />}
             </Header>
             <Body>
                 {isError && <Error>{error}</Error>}
                 {isLoading && <Loading>{loading}</Loading>}
-                {props && <Station {...props} />}
+                {station &&
+                    <Station {...station} columns={columns} measurements={measurements} headers={headers} />
+                }
             </Body>
         </Container>
     )

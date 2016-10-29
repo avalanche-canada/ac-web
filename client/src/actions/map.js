@@ -12,6 +12,7 @@ import {
     loadHotZoneAreas,
     loadMountainInformationNetworkObservationsForDays,
     loadMountainInformationNetworkSubmissionsForDays,
+    loadWeatherStations,
 } from 'actions/entities'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
@@ -46,7 +47,7 @@ function createActionsForLayer(layer, filters) {
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
         case WEATHER_STATION:
-            return []
+            return [loadWeatherStations()]
         default:
             throw new Error(`Layer of type ${layer} is not handled by "createActionsForLayer".`)
     }

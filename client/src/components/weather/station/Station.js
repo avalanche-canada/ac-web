@@ -1,43 +1,18 @@
 import React, {PropTypes} from 'react'
 import {compose} from 'recompose'
-import CSSModules from 'react-css-modules'
-import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
-import styles from './Station.css'
+import Table from './Table'
+import Chart from './Chart'
+import {TabSet, Tab, LOOSE} from 'components/tab'
 
-Station.propTypes = {
-
-}
-
-function Station({columns, rows, caption}) {
+export default function Station({measurements, columns, headers}) {
     return (
-        <div styleName='Container'>
-            <Table>
-                <Header>
-                    <Row>
-                    {columns.map(({title, name, property, ...header}, index) => (
-                        <HeaderCell key={index}  {...header} >
-                            {typeof title === 'function' ? title() : title}
-                        </HeaderCell>
-                    ))}
-                    </Row>
-                </Header>
-                <TBody>
-                    {rows.map(row => (
-                        <Row key={row.id}>
-                            {columns.map(({property, name}, index) => (
-                            <Cell key={index}>
-                                {typeof property === 'function' ? property(row) : row[property]}
-                            </Cell>
-                            ))}
-                        </Row>
-                    ))}
-                </TBody>
-                <Caption>{caption}</Caption>
-            </Table>
-        </div>
+        <TabSet theme={LOOSE}>
+            <Tab title='Table'>
+                <Table measurements={measurements} columns={columns} headers={headers} />
+            </Tab>
+            <Tab title='Chart'>
+                <Chart measurements={measurements} />
+            </Tab>
+        </TabSet>
     )
 }
-
-export default compose(
-    CSSModules(styles),
-)(Station)

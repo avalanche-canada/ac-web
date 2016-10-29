@@ -77,7 +77,8 @@ function changeFilter({filters, ...rest}, {layer, name, value}) {
 const MENU = {
     open: false,
     // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
-    layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK, WEATHER_STATION]),
+    // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK, WEATHER_STATION]),
+    layers: new Set([WEATHER_STATION]),
     // Defines the default filters, could comes from localStorage as well
     filters: new Map([
         [MOUNTAIN_INFORMATION_NETWORK, new Map([

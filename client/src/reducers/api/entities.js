@@ -1,4 +1,4 @@
-import {Map, Set} from 'immutable'
+import {Map, Set, fromJS} from 'immutable'
 
 const EMPTY_MAP = new Map()
 
