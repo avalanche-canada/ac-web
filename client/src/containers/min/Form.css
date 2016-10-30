@@ -132,9 +132,8 @@
     display: flex;
     flex-direction: column;
 
-    flex: 0 1 35%;
-
     @media (--two-columns) {
+        flex: 0 1 35%;
         margin-right: 0.5em;
     }
 }
