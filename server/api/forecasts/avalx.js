@@ -263,7 +263,14 @@ function parksForecast(caaml, region){
         });
 
         function formatDangerRating(dangerRating) {
-            return dangerRating['mainValue'][0]  + ":" +  dangerRating['customData'][0]['DangerRatingDisplay'][0]['mainLabel'][0];
+            var value = dangerRating['mainValue'][0];
+            var txt   = dangerRating['customData'][0]['DangerRatingDisplay'][0]['mainLabel'][0];
+            // TODO(wnh): figure out why this says 'Spring' when its early season and if its still required
+            if (txt === "'Spring'") {
+                console.log("Fixing 'Spring' rating");
+                txt = 'No Rating';
+            }
+            return value  + ":" +  txt;
         }
 
         function getRatingByZone(dangerRatings, zone){
