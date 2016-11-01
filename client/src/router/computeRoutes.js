@@ -46,6 +46,7 @@ import {
     MembershipOverview,
     CherryBowlComingSoon,
     Tech,
+    EarlySeasonConditions,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -278,6 +279,7 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='tech' component={Tech} />
+            <Route path='early-season-conditions' component={EarlySeasonConditions} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />

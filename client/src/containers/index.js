@@ -26,6 +26,7 @@ export Weather from './Weather'
 export MountainInformationNetworkSubmit from './min/Form'
 
 // Static Pages
+export const EarlySeasonConditions = staticPage('early-season-conditions', 'Early Season Conditions')
 export const Tech = staticPage('tech', 'Tech')
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')
