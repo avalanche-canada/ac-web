@@ -277,7 +277,6 @@ function parksForecast(caaml, region){
             var rating = _.find(dangerRatings, function (ddr) {
                 return ddr['validElevation'][0]['$']['xlink:href'] === 'ElevationLabel_' + zone;
             });
-            console.log('RATING:', rating);
             return formatDangerRating(rating);
         }
 
@@ -478,7 +477,6 @@ function getDangerIconStyles(forecast) {
                         tln:'N/A:No Rating',
                         btl:'N/A:No Rating'};
     }
-    console.log('TODAY:', todaysRating)
     //! return the danger rating style for the given danger rating
     return {
         alp: dangerRatingStyles.bannerFill[todaysRating.alp],
