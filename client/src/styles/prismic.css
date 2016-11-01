@@ -160,3 +160,14 @@
         display: none;
     }
 }
+
+:global(.static-page-mountain-information-network-overview) {
+    & main > div:not([class]):not(:last-child) {
+        display: flex;
+        align-items: center;
+
+        & > :first-child {
+            padding-right: 1em;
+        }
+    }
+}
