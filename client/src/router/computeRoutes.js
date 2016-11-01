@@ -205,6 +205,11 @@ export default function computeRoutes(store) {
         })
     }
 
+    function redirect({location: {pathname}}) {
+        // Leave the application and goes to nginx to do appropriate redirect
+        document.location = pathname
+    }
+
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* EMERGENCY REDIRECTS */}
@@ -293,7 +298,8 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={{content: TripPlanner, footer: null}} />
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
-            <Route path='cherry-bowl' component={CherryBowlComingSoon} />
+            {/* Cherry Bowl */}
+            <Route path='cherry-bowl' component={CherryBowlComingSoon} /*onEnter={redirect}*/ />
             <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
@@ -334,6 +340,9 @@ export default function computeRoutes(store) {
             <Redirect from='generic/privacy-policy' to='privacy-policy' />
             <Redirect from='generic/terms-of-use' to='terms-of-use' />
             <Redirect from='generic/auction' to='auction' />
+
+            {/* fxresources has to go to nginx */}
+            <Route path='fxresources/*' onEnter={redirect} />
 
             <Route path='pages/:type/:uid' component={FallbackPage} />
             {/* FALLBACK */}
