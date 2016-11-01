@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router'
 import {Error} from 'components/misc'
 import t from 'tcomb-form/lib'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
@@ -450,7 +451,11 @@ export default {
         }
     },
     [INCIDENT]: {
-        help: 'Sharing incidents can help us all learn. Describe close calls and accidents here. Be sensitive to the privacy of others. Before reporting serious accidents check our submission guidelines.',
+        help: (
+            <span>
+                Sharing incidents can help us all learn. Describe close calls and accidents here. Be sensitive to the privacy of others. Before reporting serious accidents check our <Link to='/mountain-information-network/submission-guidelines' target='_blank'>submission guidelines</Link>.
+            </span>
+        ),
         fields: {
             groupActivity: {
                 factory: t.form.Radio,
@@ -535,7 +540,11 @@ export default {
             },
             incidentDescription: {
                 type: 'textarea',
-                help: 'No names and no judging please. See submission guidelines for more details.',
+                help: (
+                    <span>
+                        No names and no judging please. See <Link to='/mountain-information-network/submission-guidelines' target='_blank'>submission guidelines</Link> for more details.
+                    </span>
+                ),
             },
             numberInvolved: {
                 type: 'hidden'
