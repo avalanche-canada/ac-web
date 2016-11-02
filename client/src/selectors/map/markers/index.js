@@ -2,11 +2,13 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {setVisibility} from './utils'
 import getForecastMarkers from './forecast'
+import getToyotaMarkers from './toyota'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 
 const getMarkers = createSelector(
     getForecastMarkers,
-    (...args) => new List(args.reduce((all, markers) => all.concat(markers), []))
+    getToyotaMarkers,
+    (...args) => args.reduce((all, markers) => all.concat(markers), new List())
 )
 
 export default createSelector(

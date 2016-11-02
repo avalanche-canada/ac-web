@@ -35,5 +35,5 @@ function createMarker({id, properties}) {
 
 export default createSelector(
     getFeatures,
-    features => features.toList().toJSON().map(createMarker)
+    features => features.map(feature => createMarker(feature.toJSON()))
 )

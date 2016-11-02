@@ -8,6 +8,7 @@ import {
     MOUNTAIN_INFORMATION_NETWORK,
     SURFACE_HOAR,
     WEATHER_STATION,
+    TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
 import {
     loadHotZoneReports,
@@ -16,6 +17,7 @@ import {
     loadMountainInformationNetworkObservationsForDays,
     loadMountainInformationNetworkSubmissionsForDays,
 } from 'actions/entities'
+import {loadForType} from 'actions/prismic'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
@@ -49,6 +51,8 @@ function createActionsForLayer(layer, filters) {
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
             // return [loadMountainInformationNetworkObservationsForDays(value), loadMountainInformationNetworkSubmissionsForDays(value)]
+        case TOYOTA_TRUCK_REPORTS:
+            return [loadForType('toyota-truck-report')]
         // case MOUNTAIN_CONDITION_REPORTS:
         // case METEOGRAMS:
         // case SURFACE_HOAR:
