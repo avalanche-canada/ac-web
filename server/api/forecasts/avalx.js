@@ -40,6 +40,7 @@ var dangerRatingStyles = {
         '4:High': colors.red,
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.white,
+        "N/A:'Spring'": colors.white,
         'undefined:': colors.white
     },
     bannerFill: {
@@ -49,6 +50,7 @@ var dangerRatingStyles = {
         '4:High': colors.red,
         '5:Extreme': colors.black,
         'N/A:No Rating': colors.white,
+        "N/A:'Spring'": colors.white,
         'undefined:': colors.white
     },
     bannerStroke: {
@@ -58,6 +60,7 @@ var dangerRatingStyles = {
         '4:High': colors.black,
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.black,
+        "N/A:'Spring'": colors.black,
         'undefined:': colors.white
     },
     textFill: {
@@ -67,6 +70,7 @@ var dangerRatingStyles = {
         '4:High': colors.black,
         '5:Extreme': colors.white,
         'N/A:No Rating': colors.black,
+        "N/A:'Spring'": colors.black,
         'undefined:': colors.black
     }
 };
@@ -259,7 +263,14 @@ function parksForecast(caaml, region){
         });
 
         function formatDangerRating(dangerRating) {
-            return dangerRating['mainValue'][0]  + ":" +  dangerRating['customData'][0]['DangerRatingDisplay'][0]['mainLabel'][0];
+            var value = dangerRating['mainValue'][0];
+            var txt   = dangerRating['customData'][0]['DangerRatingDisplay'][0]['mainLabel'][0];
+            // TODO(wnh): figure out why this says 'Spring' when its early season and if its still required
+            if (txt === "'Spring'") {
+                console.log("Fixing 'Spring' rating");
+                txt = 'No Rating';
+            }
+            return value  + ":" +  txt;
         }
 
         function getRatingByZone(dangerRatings, zone){
@@ -331,7 +342,11 @@ function avalancheCaForecast(caaml, region, dangerMode){
     var caamlProblems      = caamlBulletin['caaml:bulletinResultsOf'][0]['caaml:BulletinMeasurements'][0]['caaml:avProblems'][0];
 
     function formatDangerRating(dangerRating) {
-        return ratings[dangerRating] ? ratings[dangerRating]  + ":" +  dangerRating : 'N/A:No Rating';
+        var out =  ratings[dangerRating] ? ratings[dangerRating]  + ":" +  dangerRating : 'N/A:No Rating';
+        if(out === "N/A:'Spring'") {
+            out = 'N/A:No Rating';
+        }
+        return out;
     }
 
     function getDangerRatings(caamlDangerRatings){
@@ -434,6 +449,7 @@ function parseCaamlForecast(caaml, region, dangerModes, callback) {
             var forecast = parseForecast(caamlJson, region, dangerModes);
             callback(null, forecast);
         } else {
+            console.log(err);
             callback("parsed data invalid");
         }
     });
@@ -461,7 +477,6 @@ function getDangerIconStyles(forecast) {
                         tln:'N/A:No Rating',
                         btl:'N/A:No Rating'};
     }
-
     //! return the danger rating style for the given danger rating
     return {
         alp: dangerRatingStyles.bannerFill[todaysRating.alp],

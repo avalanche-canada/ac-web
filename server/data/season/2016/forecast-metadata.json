@@ -25,18 +25,6 @@
       51.36555750662057
     ]
   },
-  "yukon": {
-    "name": "Yukon",
-    "type": "avalx",
-    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/yukon",
-    "forecastUrl": "/api/forecasts/yukon.json",
-    "dangerIconUrl": "/api/forecasts/yukon/danger-rating-icon.svg",
-    "owner": "avalanche-canada",
-    "centroid": [
-      -135.14572456918492,
-      60.00435182795745
-    ]
-  },
   "northwest-coastal": {
     "name": "Northwest Coastal",
     "type": "avalx",

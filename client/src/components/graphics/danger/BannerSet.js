@@ -11,7 +11,8 @@ BannerSet.propTypes = {
 }
 
 function BannerSet({ children, showTravelAdvice = false, expanded, setExpanded, expandable = false }) {
-    const banners = Children.toArray(children).reverse()
+    //TODO(wnh): Make this list not order specific. Dont know why it was reversed before.
+    const banners = Children.toArray(children)
 
     return (
         <g>

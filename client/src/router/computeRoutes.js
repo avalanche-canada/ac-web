@@ -47,6 +47,7 @@ import {
     CherryBowlComingSoon,
     Tech,
     WeatherStation,
+    EarlySeasonConditions,
 } from 'containers'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
@@ -205,6 +206,11 @@ export default function computeRoutes(store) {
         })
     }
 
+    function redirect({location: {pathname}}) {
+        // Leave the application and goes to nginx to do appropriate redirect
+        document.location = pathname
+    }
+
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* EMERGENCY REDIRECTS */}
@@ -280,6 +286,7 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='tech' component={Tech} />
+            <Route path='early-season-conditions' component={EarlySeasonConditions} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
             <Route path='youth' sponsorRef='Youth' component={Youth} />
             <Route path='gear' sponsorRef='Gear' component={Gear} />
@@ -293,7 +300,8 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' component={{content: TripPlanner, footer: null}} />
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
-            <Route path='cherry-bowl' component={CherryBowlComingSoon} />
+            {/* Cherry Bowl */}
+            <Route path='cherry-bowl' component={CherryBowlComingSoon} /*onEnter={redirect}*/ />
             <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
@@ -334,6 +342,9 @@ export default function computeRoutes(store) {
             <Redirect from='generic/privacy-policy' to='privacy-policy' />
             <Redirect from='generic/terms-of-use' to='terms-of-use' />
             <Redirect from='generic/auction' to='auction' />
+
+            {/* fxresources has to go to nginx */}
+            <Route path='fxresources/*' onEnter={redirect} />
 
             <Route path='pages/:type/:uid' component={FallbackPage} />
             {/* FALLBACK */}

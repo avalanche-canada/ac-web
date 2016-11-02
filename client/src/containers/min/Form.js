@@ -231,12 +231,12 @@ export default class Form extends Component {
         }
 
         Object.keys(data).map(key =>
-            form.set(key, data[key])
+            form.append(key, data[key])
         )
 
-        let index = 0
-        for (let file of files) {
-            form.append(`files${index++}`, file)
+        // Files[Iterator] does not exist in Safari :(
+        for (let i = 0; i < files.length; i++) {
+            form.append(`files${i++}`, files[i])
         }
 
         this.props.post(form).then(data => {
