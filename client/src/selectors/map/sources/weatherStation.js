@@ -8,7 +8,9 @@ const {assign} = Object
 const key = Schema.getKey()
 
 function transform({latitude, longitude, ...properties}) {
-    return turf.point([longitude, latitude], properties)
+    return turf.point([longitude, latitude], assign(properties, {
+        title: properties.name
+    }))
 }
 
 function getFeatures(state) {

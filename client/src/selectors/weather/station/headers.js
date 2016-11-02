@@ -23,7 +23,7 @@ export const Wind = {
 
 export const RelativeHumidity = {
     name: 'relative-humidity',
-    title: 'Relative Humidity (%)',
+    title: 'Relative Humidity'.replace(/ /g, '\u00a0'),
     rowSpan: 2,
     style: {
         whiteSpace: 'normal'
@@ -32,35 +32,35 @@ export const RelativeHumidity = {
 
 export const SnowHeight = {
     name: 'snow-height',
-    title: 'Height (cm)',
+    title: 'Height',
 }
 
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
-    title: 'Average (°C)',
+    title: 'Average',
 }
 
 export const AirTemperatureMax = {
     name: 'airTempMax',
-    title: 'Max (°C)',
+    title: 'Max',
 }
 
 export const AirTemperatureMin = {
     name: 'airTempMin',
-    title: 'Min (°C)',
+    title: 'Min',
 }
 
 export const WindSpeedAvg = {
     name: 'windSpeedAvg',
-    title: 'Speed (km/h)',
+    title: 'Speed',
 }
 
 export const WindDirectionAvg = {
     name: 'windDirAvg',
-    title: 'Direction (°)',
+    title: 'Direction',
 }
 
 export const WindSpeedGust = {
     name: 'windSpeedGust',
-    title: 'Gust (km/h)',
+    title: 'Gust',
 }

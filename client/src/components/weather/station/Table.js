@@ -4,6 +4,10 @@ import moment from 'moment'
 import {compose} from 'recompose'
 import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
 
+const NO_WRAP = {
+    whiteSpace: 'nowrap',
+}
+
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -12,7 +16,7 @@ StationTable.propTypes = {
 }
 
 function measurementGrouper({measurementDateTime}) {
-    return moment(measurementDateTime).format('MMMM Do YYYY')
+    return moment(measurementDateTime).format('dddd MMMM Do, YYYY')
 }
 
 export default function StationTable({columns, measurements, headers, caption}) {
@@ -37,7 +41,7 @@ export default function StationTable({columns, measurements, headers, caption}) 
                     {measurements.map(measurement => (
                         <Row key={measurement.id}>
                         {columns.map(({property, name}, index) => (
-                            <Cell key={index}>
+                            <Cell key={index} style={NO_WRAP}>
                             {typeof property === 'function' ? property(measurement) : measurement[property]}
                             </Cell>
                         ))}
