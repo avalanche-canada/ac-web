@@ -1,11 +1,18 @@
-import React, {PropTypes} from 'react'
+import React, {PropTypes, createElement} from 'react'
 import {compose, withProps, getContext, withHandlers, defaultProps} from 'recompose'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {getSecondary} from 'selectors/drawers'
 import Drawer, {LEFT} from 'components/page/drawer'
-import Content from './content/MountainInformationNetwork'
+import MountainInformationNetwork from './content/MountainInformationNetwork'
+import WeatherStation from './content/WeatherStation'
+import * as Schemas from 'api/schemas'
 import {pushQuery} from 'utils/router'
+
+const ContentComponents = new Map([
+    [Schemas.MountainInformationNetworkSubmission.getKey(), MountainInformationNetwork],
+    ['weather-stations', WeatherStation],
+])
 
 export default compose(
     withRouter,
@@ -25,13 +32,14 @@ export default compose(
             pushQuery(query, props)
         }
     }),
-    withProps(({open}) => {
+    withProps(({open, location}) => {
         const children = []
 
         if (open === true) {
-            children.push(
-                <Content />
-            )
+            const [type, id] = location.query.panel.split('/')
+            const Content = ContentComponents.get(type)
+
+            children.push(createElement(Content, {id}))
         }
 
         return {

@@ -10,6 +10,7 @@ export const MountainConditionReport = new Schema('mountain-condition-reports')
 export const Incident = new Schema('incidents')
 export const Provider = new Schema('providers')
 export const Course = new Schema('courses')
+export const WeatherStation = new Schema('weather-stations', {idAttribute: 'stationId'})
 
 const Schemas = new Map([
     [ForecastRegion.getKey(), ForecastRegion],
@@ -22,6 +23,7 @@ const Schemas = new Map([
     [Incident.getKey(), Incident],
     [Provider.getKey(), Provider],
     [Course.getKey(), Course],
+    [WeatherStation.getKey(), WeatherStation],
 ])
 
 export function getSchemaByKey(key) {

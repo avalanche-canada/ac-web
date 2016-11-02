@@ -16,6 +16,7 @@ const {
     Incident,
     Provider,
     Course,
+    WeatherStation,
 } = SCHEMAS
 
 const CONFIGS = new Map([
@@ -71,6 +72,9 @@ const CONFIGS = new Map([
         params,
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
+    [WeatherStation, params => ({
+        params
+    })]
 ])
 
 function isArchiveBulletinRequest({name, date}) {
@@ -108,6 +112,7 @@ const ENDPOINTS = new Map([
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
     [Course, params => 'courses'],
+    [WeatherStation, params => 'weather/stations'],
 ])
 
 const api = Axios.create({
@@ -115,6 +120,20 @@ const api = Axios.create({
 })
 
 export function fetch(schema, params) {
+    if (schema === WeatherStation) {
+        return Promise.resolve({
+            data: [{
+                owner: "",
+                stationId: "C4000254",
+                name: "Burstall Pass",
+                description: "",
+                latitude: 50.758183,
+                longitude: -115.36667,
+                elevation: 2300
+            }]
+        })
+    }
+
     const endpoint = ENDPOINTS.get(schema)(params)
     const config = CONFIGS.has(schema) ? CONFIGS.get(schema)(params) : null
 

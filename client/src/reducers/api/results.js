@@ -30,6 +30,9 @@ import {
     COURSES_REQUEST,
     COURSES_SUCCESS,
     COURSES_FAILURE,
+    WEATHER_STATIONS_REQUEST,
+    WEATHER_STATIONS_SUCCESS,
+    WEATHER_STATIONS_FAILURE,
 } from 'actions/entities'
 import {paramsToKey} from 'api/utils'
 import {getEntitiesForSchemaIds} from 'reducers/api/entities'
@@ -44,6 +47,7 @@ const {
     Incident,
     Provider,
     Course,
+    WeatherStation,
 } = SCHEMAS
 
 const {isArray} = Array
@@ -183,5 +187,11 @@ export default combineReducers({
         COURSES_REQUEST,
         COURSES_SUCCESS,
         COURSES_FAILURE,
+    ),
+    [WeatherStation.getKey()]: resultsReducerFactory(
+        WeatherStation,
+        WEATHER_STATIONS_REQUEST,
+        WEATHER_STATIONS_SUCCESS,
+        WEATHER_STATIONS_FAILURE,
     ),
 })

@@ -3,10 +3,7 @@ import {getMenu} from 'reducers/drawers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
-    METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
@@ -16,6 +13,7 @@ import {
     loadHotZoneAreas,
     loadMountainInformationNetworkObservationsForDays,
     loadMountainInformationNetworkSubmissionsForDays,
+    loadWeatherStations,
 } from 'actions/entities'
 import {loadForType} from 'actions/prismic'
 
@@ -57,6 +55,8 @@ function createActionsForLayer(layer, filters) {
         // case METEOGRAMS:
         // case SURFACE_HOAR:
         // case WEATHER_STATION:
+        case WEATHER_STATION:
+            return [loadWeatherStations()]
         default:
             throw new Error(`Layer of type ${layer} is not handled by "createActionsForLayer".`)
     }

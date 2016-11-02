@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function WeatherStation({ inverse = false, ...props }) {
+export default function WeatherStation({inverse = false, ...props}) {
 	return (
 		<Icon {...props} viewBox='7 5 90 80'>
             <g>

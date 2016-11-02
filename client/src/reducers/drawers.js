@@ -10,10 +10,7 @@ import {
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
-    METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
@@ -83,6 +80,7 @@ const MENU = {
     // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
     // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK]),
     layers: new Set([TOYOTA_TRUCK_REPORTS]),
+    // layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK, WEATHER_STATION]),
     // Defines the default filters, could comes from localStorage as well
     filters: new Map([
         [MOUNTAIN_INFORMATION_NETWORK, new Map([

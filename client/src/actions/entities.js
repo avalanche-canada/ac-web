@@ -47,6 +47,10 @@ export const COURSES_REQUEST = 'COURSES_REQUEST'
 export const COURSES_SUCCESS = 'COURSES_SUCCESS'
 export const COURSES_FAILURE = 'COURSES_FAILURE'
 
+export const WEATHER_STATIONS_REQUEST = 'WEATHER_STATIONS_REQUEST'
+export const WEATHER_STATIONS_SUCCESS = 'WEATHER_STATIONS_SUCCESS'
+export const WEATHER_STATIONS_FAILURE = 'WEATHER_STATIONS_FAILURE'
+
 export const loadForecastRegions = createApiAction(
     Schemas.ForecastRegion,
     FORECAST_REGIONS_REQUEST,
@@ -120,6 +124,13 @@ export const loadCourses = createApiAction(
     COURSES_REQUEST,
     COURSES_SUCCESS,
     COURSES_FAILURE,
+)
+
+export const loadWeatherStations = createApiAction(
+    Schemas.WeatherStation,
+    WEATHER_STATIONS_REQUEST,
+    WEATHER_STATIONS_SUCCESS,
+    WEATHER_STATIONS_FAILURE,
 )
 
 // CREATE ENTITY
