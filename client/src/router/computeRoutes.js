@@ -299,7 +299,7 @@ export default function computeRoutes(store) {
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
             {/* Cherry Bowl */}
-            <Route path='cherry-bowl' component={CherryBowlComingSoon} /*onEnter={redirect}*/ />
+            <Route path='cherry-bowl' component={CherryBowlComingSoon} onEnter={redirect} />
             <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
