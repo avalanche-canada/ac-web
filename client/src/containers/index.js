@@ -42,7 +42,6 @@ export const Ambassadors = staticPage('ambassadors', 'Ambassadors')
 export const Sponsors = staticPage('sponsors', 'Sponsors')
 export const Collaborators = staticPage('collaborators', 'Collaborators')
 export const MembershipOverview = staticPage('membership-overview', 'Membership Overview')
-export const CherryBowlComingSoon = staticPage('cherry-bowl', 'Rescue at Cherry Bowl Coming Soon!')
 
 export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
 export const TermsOfUse = generic('terms-of-use', 'Terms of use')
