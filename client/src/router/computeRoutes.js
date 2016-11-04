@@ -205,7 +205,7 @@ export default function computeRoutes(store) {
         })
     }
 
-    function redirect({location: {pathname}}) {
+    function redirect({location: {pathname}}, replace, callback) {
         // Leave the application and goes to nginx to do appropriate redirect
         document.location = pathname
     }
