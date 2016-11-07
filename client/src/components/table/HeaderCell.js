@@ -21,10 +21,10 @@ function HeaderCell({children, sorting = NONE, onSortingChange = noop, ...props}
     const styleName = sortable ? 'HeaderCell--Sortable' : 'HeaderCell'
 
     return (
-        <td styleName={styleName} {...props} >
+        <th styleName={styleName} {...props} >
             {children}
             {sortable && <Sorting sorting={sorting} onChange={onSortingChange} />}
-        </td>
+        </th>
     )
 }
 

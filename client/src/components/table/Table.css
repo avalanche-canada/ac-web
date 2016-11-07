@@ -12,14 +12,33 @@
     }
 }
 
+.Table--Condensed {
+    composes: Table;
+
+    & .Cell {
+        padding: 0.5em;
+    }
+
+    & .HeaderCell {
+        text-align: center;
+        text-transform: inherit;
+    }
+}
+
 .TBody {
 }
 
 .TBody--Featured {
     composes: TBody;
 
-    background-color: var(--gray-lightest);
-    border-bottom: 5px solid black;
+
+    & .Cell {
+        background-color: var(--gray-lightest);
+    }
+
+    &:last-child {
+        border-bottom: 5px solid black;
+    }
 
     & > .Row {
         font-weight: 700;
@@ -37,9 +56,16 @@
     &:before {
         content: attr(data-title);
         position: absolute;
-        padding: 7px;
+        left: 0;
+        right: 0;
+        line-height: 2;
+        padding: 0 0.25em;
         text-transform: uppercase;
         color: white;
+        background-color: black;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -63,10 +89,11 @@
 
 .Cell {
     color: var(--gray-darker);
-    padding: 15px 10px;
+    padding: 0.75em;
     position: relative;
     vertical-align: middle;
     text-align: left;
+    box-sizing: border-box;
 
     & button {
         position: absolute;
@@ -77,10 +104,12 @@
 }
 
 .Header {
+    & > tr:last-child {
+        border-bottom: none;
+    }
     &:after {
         content: '';
         display: block;
-        /*height: 25px;*/
     }
 }
 

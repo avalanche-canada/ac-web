@@ -1,12 +1,10 @@
 import React, {PropTypes} from 'react'
+import CSSModules from 'react-css-modules'
 import {List} from 'immutable'
 import moment from 'moment'
 import {compose} from 'recompose'
 import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
-
-const NO_WRAP = {
-    whiteSpace: 'nowrap',
-}
+import styles from './Table.css'
 
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -19,38 +17,57 @@ function measurementGrouper({measurementDateTime}) {
     return moment(measurementDateTime).format('dddd MMMM Do, YYYY')
 }
 
-export default function StationTable({columns, measurements, headers, caption}) {
+function renderRow({property, name, ...props}, index) {
+    if (index === 0) {
+        return (
+            <HeaderCell>
+                {typeof property === 'function' ? property(this) : this[property]}
+            </HeaderCell>
+        )
+    }
+
+    return (
+        <Cell key={index} {...props}>
+            {typeof property === 'function' ? property(this) : this[property]}
+        </Cell>
+    )
+}
+
+function StationTable({columns, measurements, headers, caption}) {
     const bodies = measurements.groupBy(measurementGrouper)
 
     return (
-        <Responsive>
-            <Table>
-                <Header>
-                    {headers.map(headers => (
+        <div styleName='Container'>
+            <div styleName='Content'>
+                <Table condensed>
+                    <Header>
+                        {headers.map(headers => (
                         <Row>
+                            <HeaderCell></HeaderCell>
                             {headers.map(({title, name, property, ...header}, index) => (
                                 <HeaderCell key={index}  {...header}>
                                 {typeof title === 'function' ? title() : title}
                                 </HeaderCell>
                             ))}
                         </Row>
-                    ))}
-                </Header>
-                {bodies.map((measurements, title) => (
-                    <TBody title={title} featured>
-                    {measurements.map(measurement => (
-                        <Row key={measurement.id}>
-                        {columns.map(({property, name}, index) => (
-                            <Cell key={index} style={NO_WRAP}>
-                            {typeof property === 'function' ? property(measurement) : measurement[property]}
-                            </Cell>
                         ))}
-                        </Row>
+                    </Header>
+                    {bodies.map((measurements, title) => (
+                        <TBody title={title} featured>
+                        {measurements.map(measurement => (
+                            <Row key={measurement.id}>
+                                {columns.map(renderRow, measurement)}
+                            </Row>
+                        ))}
+                        </TBody>
                     ))}
-                    </TBody>
-                ))}
-                <Caption>{caption}</Caption>
-            </Table>
-        </Responsive>
+                    <Caption>{caption}</Caption>
+                </Table>
+            </div>
+        </div>
     )
 }
+
+export default compose(
+    CSSModules(styles)
+)(StationTable)

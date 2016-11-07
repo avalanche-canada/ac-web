@@ -8,7 +8,7 @@ export default [{
     type: 'symbol',
     layout: {
         visibility: 'visible',
-        'icon-image': 'beer-15',
+        'icon-image': 'embassy-15',
         'icon-allow-overlap': true,
     },
 }]

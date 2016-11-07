@@ -1,0 +1,31 @@
+.Container {
+    position: relative;
+
+    & table {
+        position: inherit;
+
+        & > tbody > tr > th,
+        & > thead > tr > th:first-child
+         {
+            position: absolute;
+            top: auto;
+            left: 0;
+            width: 5em;
+        }
+
+        /*& > thead {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5em;
+        }*/
+    }
+}
+
+.Content {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    /*margin-top: 5em;*/
+    margin-left: 5em;
+}

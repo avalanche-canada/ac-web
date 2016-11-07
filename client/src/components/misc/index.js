@@ -37,3 +37,6 @@ export Backdrop from './Backdrop'
 
 export DayPicker from './DayPicker'
 export {DateUtils} from 'react-day-picker'
+
+export Ratio from './Ratio'
+export ElementResize from './ElementResize'

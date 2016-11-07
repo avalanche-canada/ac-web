@@ -5,10 +5,11 @@ import styles from './Table.css'
 Table.propTypes = {
     children: PropTypes.node.isRequired,
     hoverable: PropTypes.bool,
+    condensed: PropTypes.bool,
 }
 
-function Table({children, hoverable = false}) {
-    let styleName = 'Table'
+function Table({children, hoverable, condensed}) {
+    let styleName = condensed ? 'Table--Condensed' : 'Table'
 
     if (hoverable === true) {
         styleName += ' Hoverable'
