@@ -44,7 +44,7 @@ import {
     Incidents,
     Tutoriel,
     MembershipOverview,
-    CherryBowlComingSoon,
+    CherryBowl,
     Tech,
     WeatherStation,
     EarlySeasonConditions,
@@ -206,7 +206,7 @@ export default function computeRoutes(store) {
         })
     }
 
-    function redirect({location: {pathname}}) {
+    function redirect({location: {pathname}}, replace, callback) {
         // Leave the application and goes to nginx to do appropriate redirect
         document.location = pathname
     }
@@ -301,7 +301,7 @@ export default function computeRoutes(store) {
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
             {/* Cherry Bowl */}
-            <Route path='cherry-bowl' component={CherryBowlComingSoon} /*onEnter={redirect}*/ />
+            <Route path='cherry-bowl' component={CherryBowl} onEnter={redirect} />
             <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />
