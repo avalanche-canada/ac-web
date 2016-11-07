@@ -5,6 +5,6 @@ export default class SessionStorage extends Storage {
         return new SessionStorage(options)
     }
     constructor(options = {}) {
-        super(sessionStorage)
+        super(window.sessionStorage, options)
     }
 }

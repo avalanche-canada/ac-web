@@ -5,6 +5,6 @@ export default class LocalStorage extends Storage {
         return new LocalStorage(options)
     }
     constructor(options = {}) {
-        super(localStorage)
+        super(window.localStorage, options)
     }
 }
