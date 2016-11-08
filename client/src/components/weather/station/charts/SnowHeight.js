@@ -1,7 +1,7 @@
 import React from 'react'
 import {VictoryTooltip, VictoryBar, VictoryChart, VictoryAxis, VictoryContainer} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
-import {formatHours, formatForUnit} from '../utils'
+import {formatHours, formatForUnit, barEvents} from '../utils'
 import theme from './theme'
 
 const STYLE = {
@@ -22,7 +22,7 @@ export default function SnowHeight({data, min, max, width, height}) {
         <VictoryChart theme={theme} width={width} height={height} domainPadding={25} containerComponent={container}>
             <VictoryAxis scale='time' tickFormat={formatHours} />
             <VictoryAxis dependentAxis label='Height (cm)' style={{axisLabel: {padding: 35}}} />
-            <VictoryBar data={data} x='measurementDateTime' y='snowHeight' style={STYLE} labels={getLabels} labelComponent={<VictoryTooltip />} />
+            <VictoryBar data={data} x='measurementDateTime' y='snowHeight' events={barEvents} style={STYLE} labels={getLabels} labelComponent={<VictoryTooltip />} />
         </VictoryChart>
     )
 }

@@ -2,18 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import {toCompass} from 'utils/degrees'
 
-const ARROW_STYLE = {
-    float: 'right',
-}
-
-function Arrow({orientation}) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" title={`${orientation} ° from the north clockwise.`} width="16" height="16" viewBox="0 0 16 16" style={ARROW_STYLE}>
-            <text x={8} y={12} rotate={orientation}>↑</text>
-        </svg>
-    )
-}
-
 export const Hour = {
     name: 'hour',
     title: 'Hour',
@@ -71,12 +59,7 @@ export const WindDirectionAvg = {
     name: 'windDirAvg',
     title: 'Wind Direction Average',
     property({windDirAvg}) {
-        return (
-            <span>
-                {windDirAvg} ° ({toCompass(windDirAvg)})
-                <Arrow orientation={windDirAvg} />
-            </span>
-        )
+        return `${windDirAvg} ° (${toCompass(windDirAvg)})`
     },
     style: {
         minWidth: 105

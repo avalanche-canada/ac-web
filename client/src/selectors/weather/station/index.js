@@ -232,8 +232,8 @@ export default createSelector(
                     Columns.AirTemperatureMax,
                     Columns.AirTemperatureMin,
                     Columns.WindSpeedAvg,
-                    Columns.WindSpeedGust,
                     Columns.WindDirectionAvg,
+                    Columns.WindSpeedGust,
                     Columns.RelativeHumidity,
                 ],
                 headers: [[
@@ -246,8 +246,8 @@ export default createSelector(
                     Headers.AirTemperatureMax,
                     Headers.AirTemperatureMin,
                     Headers.WindSpeedAvg,
-                    Headers.WindSpeedGust,
                     Headers.WindDirectionAvg,
+                    Headers.WindSpeedGust,
                 ]],
             })
         }

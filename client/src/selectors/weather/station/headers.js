@@ -18,7 +18,7 @@ export const Wind = {
 
 export const RelativeHumidity = {
     name: 'relative-humidity',
-    title: 'Relative Humidity (%)',
+    title: 'RH (%)',
     rowSpan: 2,
     style: {
         whiteSpace: 'normal'
@@ -36,7 +36,7 @@ export const SnowHeight = {
 
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
-    title: 'Average',
+    title: 'Avg',
 }
 
 export const AirTemperatureMax = {

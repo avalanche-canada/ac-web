@@ -1,7 +1,7 @@
 import React from 'react'
-import {VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer} from 'victory'
+import {VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
-import {formatHours, formatForUnit} from '../utils'
+import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import theme from './theme'
 
 const STYLE = {
@@ -19,6 +19,10 @@ const STYLE = {
     },
 }
 
+function getLabels({y}) {
+    return `${y} %`
+}
+
 export default function RelativeHumidity({data, min, max, width, height}) {
     const container = <VictoryContainer title='Relative humidity' desc={`Relative humidity (%) every hour from ${min} to ${max}.`} />
 
@@ -27,7 +31,7 @@ export default function RelativeHumidity({data, min, max, width, height}) {
             <VictoryAxis scale='time' tickFormat={formatHours} />
             <VictoryAxis dependentAxis label='Relative humidity (%)' style={{axisLabel: {padding: 35}}} />
             <VictoryLine data={data} x='measurementDateTime' style={STYLE.line} y='relativeHumidity' />
-            <VictoryScatter data={data} x='measurementDateTime' style={STYLE.scatter} y='relativeHumidity' />
+            <VictoryScatter data={data} x='measurementDateTime' y='relativeHumidity' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.scatter} />
         </VictoryChart>
     )
 }

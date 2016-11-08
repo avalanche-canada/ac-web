@@ -2,7 +2,7 @@ import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
 import query from 'query-string'
 import moment from 'moment'
-import {baseURL, astBaseUrl} from 'api/config.json'
+import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
 import * as transformers from './transformers'
 import Url from 'url'
 
@@ -73,6 +73,7 @@ const CONFIGS = new Map([
         transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
     })],
     [WeatherStation, params => ({
+        baseURL: weatherBaseUrl,
         params
     })]
 ])
@@ -112,7 +113,7 @@ const ENDPOINTS = new Map([
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
     [Course, params => 'courses'],
-    [WeatherStation, params => 'weather/stations'],
+    [WeatherStation, params => 'stations'],
 ])
 
 const api = Axios.create({

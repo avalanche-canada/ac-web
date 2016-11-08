@@ -16,7 +16,7 @@
     composes: Table;
 
     & .Cell {
-        padding: 0.5em;
+        padding: 0.35em;
     }
 
     & .HeaderCell {

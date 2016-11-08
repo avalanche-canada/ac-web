@@ -1,7 +1,7 @@
 import React from 'react'
 import {Point, VictoryLabel, VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
-import {formatHours, formatForUnit} from '../utils'
+import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import {toCompass} from 'utils/degrees'
 import theme from './theme'
 
@@ -50,8 +50,12 @@ function Arrow({x, y, datum, events, style, ...rest}) {
     )
 }
 
-function getLabels({windSpeedAvg, windDirAvg}) {
+function getSpeedAndDirectionLabels({windSpeedAvg, windDirAvg}) {
     return `${windSpeedAvg} km/h\n${windDirAvg} °\n${toCompass(windDirAvg)}`
+}
+
+function getLabels({y}) {
+    return `${y} km/h`
 }
 
 export default function Wind({data, min, max, width, height}) {
@@ -63,10 +67,10 @@ export default function Wind({data, min, max, width, height}) {
             <VictoryAxis scale='time' tickFormat={formatHours} />
             <VictoryAxis dependentAxis label='Speed (km/h)' style={{axisLabel: {padding: 35}}} />
             <VictoryLine data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.line} label='Average' labelComponent={<VictoryLabel dx={withCompass ? 5 : undefined} />} />
-            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getLabels} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />
+            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getSpeedAndDirectionLabels} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />
             {withCompass && <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' dataComponent={<Arrow />} />}
             <VictoryLine data={data} x='measurementDateTime' y='windSpeedGust' style={STYLE.gust.line} label='Gust' />
-            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedGust' style={STYLE.gust.scatter} />
+            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedGust' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.gust.scatter} />
         </VictoryChart>
     )
 }
