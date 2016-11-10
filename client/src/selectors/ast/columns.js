@@ -60,7 +60,11 @@ export const distance = {
     title: 'Distance',
     property({distance}) {
         if (typeof distance === 'number') {
-            return `${Math.ceil(distance)} km.`
+            if (distance <= 10) {
+                return '< 10 km'
+            } else {
+                return `${Math.ceil(distance)} km`
+            }
         }
 
         return 'N/A'

@@ -44,7 +44,7 @@ function resetDistance(entity) {
 function updateDistanceFactory(point) {
     return function updateDistance(entity) {
         return assign(entity, {
-            distance: distance(turf.point(entity.loc), point)
+            distance: Math.max(distance(turf.point(entity.loc), point), 10)
         })
     }
 }
