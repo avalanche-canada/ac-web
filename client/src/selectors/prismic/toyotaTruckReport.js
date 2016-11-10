@@ -23,7 +23,6 @@ export default createSelector(
             report,
             messages,
             isLoading: isFetching && !report,
-            isError: !isFetching && !report,
         }
     }
 )
