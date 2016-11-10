@@ -4,6 +4,7 @@ import ForecastLayers, {labels as ForecastLabels} from './forecast'
 import HotZoneReportLayers from './hotZoneReport'
 import MountainInformationNetworkLayers from './mountainInformationNetwork'
 import WeatherStationLayers from './weatherStation'
+import ToyotaLayers from './toyota'
 import {getLayers as getVisibleLayers} from 'reducers/drawers'
 import {setVisibility} from './utils'
 import * as Layers from 'constants/map/layers'
@@ -14,6 +15,7 @@ const LAYERS = new List([
     ...ForecastLabels,
     ...MountainInformationNetworkLayers,
     ...WeatherStationLayers,
+    ...ToyotaLayers,
 ])
 
 function getLayerId(layer) {
@@ -28,6 +30,7 @@ const LayerIds = new Map([
     [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers.map(getLayerId)],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers.map(getLayerId)],
     [Layers.WEATHER_STATION, WeatherStationLayers.map(getLayerId)],
+    [Layers.TOYOTA_TRUCK_REPORTS, ToyotaLayers.map(getLayerId)],
 ])
 
 export function getLayerIds(name) {

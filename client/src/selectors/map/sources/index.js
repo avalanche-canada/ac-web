@@ -4,6 +4,7 @@ import getForecastSource, {getCentroids} from './forecast'
 import getHotZoneReportSource from './hotZoneReport'
 import getMountainInformationNetworkSource from './mountainInformationNetwork'
 import getWeatherStationSource from './weatherStation'
+import getToyotaTruckSource from './toyota'
 
 export default createSelector(
     getForecastSource,
@@ -11,5 +12,6 @@ export default createSelector(
     getHotZoneReportSource,
     getMountainInformationNetworkSource,
     getWeatherStationSource,
+    getToyotaTruckSource,
     (...args) => new List(args)
 )

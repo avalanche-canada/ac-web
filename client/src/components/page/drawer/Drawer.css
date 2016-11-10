@@ -36,7 +36,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-
+    position: relative;
     margin: 0 1.5em;
 }
 
@@ -48,16 +48,20 @@
     height: 5em;
     margin-right: -1.5em;
 
-    & > * {
+    & > *:not(button) {
         padding: 1em;
     }
+
+    /* TODO: Super fragile selector, should be explicit. For the close button */
+    & > button {
+        color: var(--primary) !important;
+        position: relative;
+        right: 15px;
+    }
+
     /* TODO: Super fragile selector, should be explicit. For the sponsor image */
     & img {
         transform: scale(0.65);
-    }
-    /* TODO: Super fragile selector, should be explicit. For the close button */
-    & button {
-        color: var(--primary) !important;
     }
 }
 
@@ -99,5 +103,15 @@
 
     & + .Drawer {
         z-index: 2;
+    }
+}
+
+.Banner {
+    margin: 0 -1.5em;
+    background-color: var(--gray-lightest);
+    border: none;
+
+    & ~ header {
+        margin-top: 1em;
     }
 }

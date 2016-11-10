@@ -188,7 +188,17 @@ class Container extends Component {
             })
         }
 
-        // props.setMountainInformationNetworkMarkers(EMPTY)
+        // Toyota truck reports
+        features = this.map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.TOYOTA_TRUCK_REPORTS)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const panel = `toyota-truck-reports/${feature.properties.id}`
+            
+            return pushQuery({panel}, this.props)
+        }
     }
     handleLoad = event => {
         const map = event.target
