@@ -2,6 +2,7 @@ import React from 'react'
 import {VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
+import moment from 'moment'
 import theme from './theme'
 
 const STYLE = {
@@ -19,8 +20,8 @@ const STYLE = {
     },
 }
 
-function getLabels({y}) {
-    return `${y} %`
+function getLabels({x, y}) {
+    return `${y} %\n${moment(x).format('ddd MMMM Do, HH[h]')}`
 }
 
 export default function RelativeHumidity({data, min, max, width, height}) {

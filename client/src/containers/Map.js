@@ -151,11 +151,19 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
             const key = WeatherStation.getKey()
-            const {stationId} = feature.properties
 
-            return pushQuery({
-                panel: `${key}/${stationId}`
-            }, this.props)
+            if (feature.properties.cluster) {
+                const {properties: {point_count}} = feature
+                const {data} = this.props.sources.find(({id}) => id === key)
+
+                return this.setBounds(near(feature, data, point_count))
+            } else {
+                const {stationId} = feature.properties
+
+                return pushQuery({
+                    panel: `${key}/${stationId}`
+                }, this.props)
+            }
         }
 
         // Handle Hot Zone Report layers
@@ -215,7 +223,7 @@ class Container extends Component {
         let bounds = null
 
         if (feature) {
-            bounds = this.props.computeFitBounds(feature, true, false)
+            bounds = this.props.computeFitBounds(feature, false, false)
         }
 
         this.setState({bounds}, callback)

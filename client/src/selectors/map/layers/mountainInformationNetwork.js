@@ -1,7 +1,7 @@
 import {MountainInformationNetworkSubmission} from 'api/schemas'
 
 const key = MountainInformationNetworkSubmission.getKey()
-
+// TODO: Do not to have two layers for cluster text and cluster symbol. So combine and test these two layers
 export default [{
     id: `${key}-submission`,
     source: key,

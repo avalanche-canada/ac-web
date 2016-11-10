@@ -3,6 +3,7 @@ import {VictoryLine, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import theme from './theme'
+import moment from 'moment'
 
 const STYLE = {
     min: {
@@ -49,8 +50,8 @@ const STYLE = {
     }
 }
 
-function getLabels({y}) {
-    return `${y} km/h`
+function getLabels({x, y}) {
+    return `${y} °C\n${moment(x).format('ddd MMMM Do, HH[h]')}`
 }
 
 export default function Temperature({data, min, max, width, height}) {

@@ -3,15 +3,22 @@ import {onlyUpdateForKeys} from 'recompose'
 import Table from './Table'
 import ChartSet from './ChartSet'
 import {TabSet, Tab, LOOSE} from 'components/tab'
+import {Loading} from 'components/misc'
 
 function Station({measurements, columns, headers}) {
     return (
         <TabSet theme={LOOSE}>
             <Tab title='Table'>
-                <Table measurements={measurements} columns={columns} headers={headers} />
+                {measurements ?
+                    <Table measurements={measurements} columns={columns} headers={headers} /> :
+                    <Loading />
+                }
             </Tab>
             <Tab title='Charts'>
-                <ChartSet measurements={measurements} />
+                {measurements ?
+                    <ChartSet measurements={measurements} /> :
+                    <Loading />
+                }
             </Tab>
         </TabSet>
     )

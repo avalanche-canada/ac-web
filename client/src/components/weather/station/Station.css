@@ -1,5 +1,12 @@
 @import "../../../styles/colors.css";
 
 .Container {
-    
+
+}
+
+.ChartSet {
+    /* :not(:root) to make it selector stronger */
+    & svg:not(:root) {
+        overflow: visible;
+    }
 }

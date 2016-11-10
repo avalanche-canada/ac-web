@@ -12,7 +12,7 @@ export const Hour = {
 
 export const SnowHeight = {
     name: 'snowHeight',
-    title: 'Snow Height',
+    title: 'Snow Height (cm)',
     property: 'snowHeight',
     style: {
         minWidth: 65
@@ -21,7 +21,7 @@ export const SnowHeight = {
 
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
-    title: 'Air Temperature Average',
+    title: 'Air Temperature Average (°C)',
     property: 'airTempAvg',
     style: {
         minWidth: 65
@@ -48,7 +48,7 @@ export const AirTemperatureMin = {
 
 export const WindSpeedAvg = {
     name: 'windSpeedAvg',
-    title: 'Wind Speed Average',
+    title: 'Wind Speed Average (km/h)',
     property: 'windSpeedAvg',
     style: {
         minWidth: 65
@@ -68,7 +68,7 @@ export const WindDirectionAvg = {
 
 export const WindSpeedGust = {
     name: 'windSpeedGust',
-    title: 'Wind Speed Gust',
+    title: 'Wind Speed Gust (km/h)',
     property: 'windSpeedGust',
     style: {
         minWidth: 65

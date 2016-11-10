@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect'
-import {getSchemaByKey} from 'api/schemas'
 
 const isPrimaryOpened = /^\/map\//i
 const {innerWidth} = window

@@ -18,10 +18,10 @@ export default function WeatherStationMetadata({longitude, latitude, elevation, 
     return (
         <Metadata>
             <Entry term='Longitude'>
-                {longitude} °
+                {longitude.toPrecision(6)} °
             </Entry>
             <Entry term='Latitude'>
-                {latitude} °
+                {latitude.toPrecision(6)} °
             </Entry>
             <Entry term='Elevation'>
                 <span style={NO_TEXT_TRANSFORM}>{elevation} m</span>
@@ -31,7 +31,7 @@ export default function WeatherStationMetadata({longitude, latitude, elevation, 
                     {description}
                 </Entry>
             }
-            {owner &&
+            {(owner && typeof owner === 'object') &&
                 <Entry title='Owner'>
                     {owner}
                 </Entry>

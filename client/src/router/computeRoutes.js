@@ -258,7 +258,7 @@ export default function computeRoutes(store) {
             {/* HOT ZONE REPORT */}
             <Route path='hot-zone-reports/:name' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
-            <Route path='weather/stations/:stationId' component={WeatherStation} />
+            <Route path='weather/stations/:id' component={WeatherStation} />
             <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />

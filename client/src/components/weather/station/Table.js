@@ -9,7 +9,7 @@ import styles from './Table.css'
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
-    measurements: PropTypes.instanceOf(List).isRequired,
+    measurements: PropTypes.instanceOf(List),
     caption: PropTypes.string,
 }
 

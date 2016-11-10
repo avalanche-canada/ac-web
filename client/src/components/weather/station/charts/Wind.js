@@ -3,6 +3,7 @@ import {Point, VictoryLabel, VictoryLine, VictoryBar, VictoryChart, VictoryScatt
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import {toCompass} from 'utils/degrees'
+import moment from 'moment'
 import theme from './theme'
 
 const STYLE = {
@@ -50,17 +51,17 @@ function Arrow({x, y, datum, events, style, ...rest}) {
     )
 }
 
-function getSpeedAndDirectionLabels({windSpeedAvg, windDirAvg}) {
-    return `${windSpeedAvg} km/h\n${windDirAvg} °\n${toCompass(windDirAvg)}`
+function getSpeedAndDirectionLabels({x, windSpeedAvg, windDirAvg}) {
+    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${moment(x).format('ddd MMMM Do, HH[h]')}`
 }
 
-function getLabels({y}) {
-    return `${y} km/h`
+function getLabels({x, y}) {
+    return `${y} km/h\n${moment(x).format('ddd MMMM Do, HH[h]')}`
 }
 
 export default function Wind({data, min, max, width, height}) {
     const container = <VictoryContainer title='Wind speed and direction' desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`} />
-    const withCompass = width > 450
+    const withCompass = width > 475
 
     return (
         <VictoryChart width={width} height={height} theme={theme} domainPadding={25} containerComponent={container} >

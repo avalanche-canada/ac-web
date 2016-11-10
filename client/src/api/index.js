@@ -74,8 +74,7 @@ const CONFIGS = new Map([
     })],
     [WeatherStation, params => ({
         baseURL: weatherBaseUrl,
-        params
-    })]
+    })],
 ])
 
 function isArchiveBulletinRequest({name, date}) {
@@ -106,14 +105,14 @@ function forecastEndpoint({name, date}) {
 const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
     [Forecast, forecastEndpoint],
-    [HotZoneArea, params => `forecasts`],
-    [HotZoneReport, params => `hzr/submissions`],
-    [MountainInformationNetworkObservation, params => `min/observations`],
+    [HotZoneArea, params => 'forecasts'],
+    [HotZoneReport, params => 'hzr/submissions'],
+    [MountainInformationNetworkObservation, params => 'min/observations'],
     [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
     [Course, params => 'courses'],
-    [WeatherStation, params => 'stations'],
+    [WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
 ])
 
 const api = Axios.create({
@@ -121,22 +120,23 @@ const api = Axios.create({
 })
 
 export function fetch(schema, params) {
-    if (schema === WeatherStation) {
-        return Promise.resolve({
-            data: [{
-                owner: "",
-                stationId: "C4000254",
-                name: "Burstall Pass",
-                description: "",
-                latitude: 50.758183,
-                longitude: -115.36667,
-                elevation: 2300
-            }]
-        })
-    }
-
     const endpoint = ENDPOINTS.get(schema)(params)
     const config = CONFIGS.has(schema) ? CONFIGS.get(schema)(params) : null
+
+    if (schema === WeatherStation && params && params.id) {
+        // It is a single WeatherStation request
+        return Promise.all([
+            api.get(endpoint, config),
+            api.get(`${endpoint}measurements/`, config)
+        ]).then(function merge([{data: station}, {data: measurements}]) {
+            return {
+                data: {
+                    ...station,
+                    measurements,
+                }
+            }
+        })
+    }
 
     return api.get(endpoint, config)
 }

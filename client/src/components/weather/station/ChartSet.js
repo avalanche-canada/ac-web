@@ -10,6 +10,7 @@ import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import {getDateExtent} from './utils'
 import {Ratio} from 'components/misc'
+import styles from './Station.css'
 
 const theme = VictoryTheme.material
 
@@ -29,7 +30,7 @@ function ChartSet({measurements, width}) {
                 height = Math.max(MIN_HEIGHT, height)
 
                 return (
-                    <div>
+                    <div className={styles.ChartSet}>
                         <h2>Snow height</h2>
                         <SnowHeight data={data} min={min} max={max} width={width} height={height} />
                         <h2>Air Temperature</h2>
