@@ -276,6 +276,7 @@ export default function computeRoutes(store) {
             <Route path='sponsors' component={Sponsors} />
             <Route path='collaborators' component={Collaborators} />
             <Route path='ambassadors' component={Ambassadors} />
+            <Redirect from='learn' to='training' />
             <Route path='training' sponsorRef='Training' >
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
