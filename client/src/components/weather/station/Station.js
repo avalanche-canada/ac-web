@@ -1,18 +1,27 @@
 import React, {PropTypes} from 'react'
-import {compose} from 'recompose'
+import {onlyUpdateForKeys} from 'recompose'
 import Table from './Table'
-import Chart from './Chart'
+import ChartSet from './ChartSet'
 import {TabSet, Tab, LOOSE} from 'components/tab'
+import {Loading} from 'components/misc'
 
-export default function Station({measurements, columns, headers}) {
+function Station({measurements, columns, headers}) {
     return (
         <TabSet theme={LOOSE}>
             <Tab title='Table'>
-                <Table measurements={measurements} columns={columns} headers={headers} />
+                {measurements ?
+                    <Table measurements={measurements} columns={columns} headers={headers} /> :
+                    <Loading />
+                }
             </Tab>
-            <Tab title='Chart'>
-                <Chart measurements={measurements} />
+            <Tab title='Charts'>
+                {measurements ?
+                    <ChartSet measurements={measurements} /> :
+                    <Loading />
+                }
             </Tab>
         </TabSet>
     )
 }
+
+export default onlyUpdateForKeys(['measurements'])(Station)

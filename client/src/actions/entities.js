@@ -51,6 +51,10 @@ export const WEATHER_STATIONS_REQUEST = 'WEATHER_STATIONS_REQUEST'
 export const WEATHER_STATIONS_SUCCESS = 'WEATHER_STATIONS_SUCCESS'
 export const WEATHER_STATIONS_FAILURE = 'WEATHER_STATIONS_FAILURE'
 
+export const WEATHER_STATION_REQUEST = 'WEATHER_STATION_REQUEST'
+export const WEATHER_STATION_SUCCESS = 'WEATHER_STATION_SUCCESS'
+export const WEATHER_STATION_FAILURE = 'WEATHER_STATION_FAILURE'
+
 export const loadForecastRegions = createApiAction(
     Schemas.ForecastRegion,
     FORECAST_REGIONS_REQUEST,
@@ -132,6 +136,14 @@ export const loadWeatherStations = createApiAction(
     WEATHER_STATIONS_SUCCESS,
     WEATHER_STATIONS_FAILURE,
 )
+
+export const loadWeatherStation = createApiAction(
+    Schemas.WeatherStation,
+    WEATHER_STATION_REQUEST,
+    WEATHER_STATION_SUCCESS,
+    WEATHER_STATION_FAILURE,
+)
+
 
 // CREATE ENTITY
 export const postMountainInformationNetworkSubmission = createPostAction(

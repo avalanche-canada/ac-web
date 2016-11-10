@@ -29,5 +29,6 @@ export default createSelector(
     features => createSource({
         id: key,
         features,
+        cluster: true,
     })
 )

@@ -434,19 +434,19 @@ function parseForecast(caaml, region, dangerModes){
     } else if (region.properties.owner === "avalanche-canada") {
         //TODO(wnh): REMOVE ME WHEN WERE ROLLIGN IN 2016 (maybe 2017)
         if(AC_SEASON === '2016'){
-            return  parksForecast(caaml, region.id, dangerModes);
+            return  parksForecast(caaml, region.id);
         } else {
-            return  avalancheCaForecast(caaml, region.id, dangerModes);
+            return  avalancheCaForecast(caaml, region.id);
         }
     } else {
         throw new Error("Invalid region: " + caamlForecast.region);
     }
 }
 
-function parseCaamlForecast(caaml, region, dangerModes, callback) {
+function parseCaamlForecast(caaml, region, callback) {
     parseString(caaml, function (err, caamlJson) {
         if (!err && caamlJson) {
-            var forecast = parseForecast(caamlJson, region, dangerModes);
+            var forecast = parseForecast(caamlJson, region);
             callback(null, forecast);
         } else {
             console.log(err);

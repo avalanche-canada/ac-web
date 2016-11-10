@@ -99,13 +99,12 @@ function getForecastData(regionName, region) {
             }
          })
          .then(function (caaml) {
-             return [caaml, getDangerModes()];
-         }).spread(function (caaml, dangerModes) {
+             return [caaml]
+         }).spread(function (caaml) {
             var cacheKey = 'forecast-data::json::' + region.id;
-            var dangerMode = dangerModes[region.id];
             var json = fragmentCache.wrap(cacheKey, function(){
                 DEBUG("BUILDING forecast data...", cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, region, dangerMode);
+                return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
             });
             return [caaml, json];
         }).spread(function(caaml, json) {

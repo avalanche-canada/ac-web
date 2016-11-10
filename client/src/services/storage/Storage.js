@@ -1,13 +1,23 @@
-const {parse, stringify} = JSON
 import {NotImplementedError} from 'utils/error'
+import Memory from './Memory'
+
+const {parse, stringify} = JSON
 
 export default class Storage {
     static create(options) {
         throw new NotImplementedError()
     }
-    constructor(storage, options = {}) {
-        this.storage = storage
+    constructor(storage = new Memory(), options = {}) {
         this.options = options
+
+        try {
+            storage.setItem('local-storage-test', 1)
+            storage.removeItem('local-storage-test')
+
+            this.storage = storage
+        } catch (error) {
+            this.storage = new Memory()
+        }
     }
     generateKey(name) {
         if (this.options.keyPrefix) {

@@ -44,7 +44,7 @@ import {
     Incidents,
     Tutoriel,
     MembershipOverview,
-    CherryBowlComingSoon,
+    CherryBowl,
     Tech,
     WeatherStation,
     EarlySeasonConditions,
@@ -206,7 +206,7 @@ export default function computeRoutes(store) {
         })
     }
 
-    function redirect({location: {pathname}}) {
+    function redirect({location: {pathname}}, replace, callback) {
         // Leave the application and goes to nginx to do appropriate redirect
         document.location = pathname
     }
@@ -258,7 +258,7 @@ export default function computeRoutes(store) {
             {/* HOT ZONE REPORT */}
             <Route path='hot-zone-reports/:name' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
-            <Route path='weather/stations/:stationId' component={WeatherStation} />
+            <Route path='weather/stations/:id' component={WeatherStation} />
             <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />
@@ -301,7 +301,7 @@ export default function computeRoutes(store) {
             <Route path='incidents' component={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
             {/* Cherry Bowl */}
-            <Route path='cherry-bowl' component={CherryBowlComingSoon} /*onEnter={redirect}*/ />
+            <Route path='cherry-bowl' component={CherryBowl} onEnter={redirect} />
             <Redirect from='cherrybowl' to='cherry-bowl' />
             {/* REDIRECTS */}
             <Redirect from='min' to='mountain-information-network' />

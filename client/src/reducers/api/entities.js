@@ -10,7 +10,7 @@ export default function entities(state = EMPTY_MAP, {payload, meta}) {
     return state
 }
 
-// TODO: Move getters to getters file.
+// TODO: Move getters to getters file!
 function getEntities(state) {
     return state.api.entities
 }
