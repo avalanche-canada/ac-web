@@ -7,15 +7,6 @@ import * as Columns from './columns'
 import * as Headers from './headers'
 import moment from 'moment'
 
-const {assign} = Object
-
-function transform({measurementDateTime, ...rest}) {
-    return {
-        ...rest,
-        measurementDateTime: moment(measurementDateTime).toDate(),
-    }
-}
-
 function getWeatherStation(state, {params, id}) {
     // For panel or page
     id = id || params.id
@@ -25,6 +16,30 @@ function getWeatherStation(state, {params, id}) {
 
 function getWeatherStationResultsSet(state, {params}) {
     return getResultsSet(state, WeatherStation, params)
+}
+
+
+function computeMeasurements(station) {
+    if (!station.has('measurements')) {
+        return
+    }
+
+    const utcOffset = station.get('utcOffset')
+
+    return station.get('measurements')
+        .map(m => m.merge({
+            measurementDateTime: new Date(m.get('measurementDateTime')),
+            utcOffset,
+        }))
+        .sortBy(m => m.get('measurementDateTime'))
+        .map((m, i, all) => {
+            const newSnow = m.get('snowHeight') - all.getIn([i - 1, 'snowHeight'], NaN)
+
+            return m.set('newSnow', newSnow < 0.5 ? 0 : Math.round(newSnow))
+        })
+        .map(m => m.toObject())
+        .reverse()
+        .take(24)
 }
 
 export default createSelector(
@@ -44,43 +59,37 @@ export default createSelector(
         }
 
         if (station) {
-            assign(data, {
-                station: station.toJSON()
+            Object.assign(data, {
+                station: station.toJSON(),
+                measurements: computeMeasurements(station),
+                columns: [
+                    Columns.Hour,
+                    Columns.SnowHeight,
+                    Columns.NewSnow,
+                    Columns.AirTemperatureAvg,
+                    Columns.AirTemperatureMax,
+                    Columns.AirTemperatureMin,
+                    Columns.WindSpeedAvg,
+                    Columns.WindDirectionAvg,
+                    Columns.WindSpeedGust,
+                    Columns.RelativeHumidity,
+                ],
+                headers: [[
+                    Headers.Snow,
+                    Headers.AirTemperature,
+                    Headers.Wind,
+                    Headers.RelativeHumidity,
+                ], [
+                    Headers.SnowHeight,
+                    Headers.NewSnow,
+                    Headers.AirTemperatureAvg,
+                    Headers.AirTemperatureMax,
+                    Headers.AirTemperatureMin,
+                    Headers.WindSpeedAvg,
+                    Headers.WindDirectionAvg,
+                    Headers.WindSpeedGust,
+                ]],
             })
-
-            if (station.has('measurements')) {
-                const measurements = station.get('measurements')
-                                            .map(measurement => transform(measurement.toJSON()))
-                                            .sortBy(measurement => measurement.measurementDateTime)
-                                            .reverse()
-                assign(data, {
-                    measurements,
-                    columns: [
-                        Columns.Hour,
-                        Columns.SnowHeight,
-                        Columns.AirTemperatureAvg,
-                        Columns.AirTemperatureMax,
-                        Columns.AirTemperatureMin,
-                        Columns.WindSpeedAvg,
-                        Columns.WindDirectionAvg,
-                        Columns.WindSpeedGust,
-                        Columns.RelativeHumidity,
-                    ],
-                    headers: [[
-                        Headers.SnowHeight,
-                        Headers.AirTemperature,
-                        Headers.Wind,
-                        Headers.RelativeHumidity,
-                    ], [
-                        Headers.AirTemperatureAvg,
-                        Headers.AirTemperatureMax,
-                        Headers.AirTemperatureMin,
-                        Headers.WindSpeedAvg,
-                        Headers.WindDirectionAvg,
-                        Headers.WindSpeedGust,
-                    ]],
-                })
-            }
         }
 
         return data

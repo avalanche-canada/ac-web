@@ -5,7 +5,7 @@ import moment from 'moment'
 import {VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryGroup, VictoryAxis, VictoryStack, VictoryTheme, VictoryContainer} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import RelativeHumidity from './charts/RelativeHumidity'
-import SnowHeight from './charts/SnowHeight'
+import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import {getDateExtent} from './utils'
@@ -31,8 +31,8 @@ function ChartSet({measurements, width}) {
 
                 return (
                     <div className={styles.ChartSet}>
-                        <h2>Snow height</h2>
-                        <SnowHeight data={data} min={min} max={max} width={width} height={height} />
+                        <h2>Snow</h2>
+                        <Snow data={data} min={min} max={max} width={width} height={height} />
                         <h2>Air Temperature</h2>
                         <Temperature data={data} min={min} max={max} width={width} height={height} />
                         <h2>Wind speed and direction</h2>

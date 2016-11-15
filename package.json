@@ -134,7 +134,7 @@
     "tcomb-form": "^0.9.10",
     "tree-model": "^1.0.4",
     "url-loader": "^0.5.7",
-    "victory": "^0.13.3",
+    "victory": "^0.13.7",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^1.14.1",
