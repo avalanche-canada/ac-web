@@ -1,4 +1,4 @@
-import {lifecycle, onlyUpdateForKeys, shouldUpdate} from 'recompose'
+import {compose, branch, withState, lifecycle, onlyUpdateForKeys, shouldUpdate, renderNothing} from 'recompose'
 import {scrollPosition} from 'utils/dom'
 
 export Element from './Element'
@@ -24,3 +24,21 @@ export const withHash = lifecycle({
         }
     }
 })
+
+export function wait(delay = 0) {
+    return compose(
+        withState('visible', 'setVisible', false),
+        lifecycle({
+            componentWillMount() {
+                setTimeout(() => {
+                    this.props.setVisible(true)
+                }, delay)
+            }
+        }),
+        branch(
+            props => props.visible,
+            Component => Component,
+            renderNothing,
+        )
+    )
+}

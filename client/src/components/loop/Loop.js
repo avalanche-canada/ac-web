@@ -1,9 +1,12 @@
-import React, {PropTypes, Component} from 'react'
+import React, {PropTypes, Component, DOM} from 'react'
 import keycode from 'keycode'
 import {Image} from 'components/misc'
 import Container from './Container'
 import Toolbar from './Toolbar'
 import Title from './Title'
+import {wait} from 'compose'
+
+const Loading = wait(500)(DOM.div)
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'
@@ -32,28 +35,40 @@ export default class Loop extends Component {
 	state = {
 		cursor: 0,
 		isPlaying: false,
-		isBroken: true,
+		isLoading: false,
 	}
 	get cursor() {
 		return this.state.cursor
 	}
 	set cursor(cursor) {
-        this.setState({ cursor }, this.shake)
+        this.setState({cursor}, () => {
+            this.isLoading = true
+        })
 	}
     get isPlaying() {
         return this.state.isPlaying
     }
     set isPlaying(isPlaying) {
-        this.setState({ isPlaying }, this.shake)
+        this.setState({isPlaying}, () => {
+            this.clearTimeout()
+
+            if (isPlaying) {
+                this.setTimeout()
+            }
+        })
+    }
+    get isLoading() {
+        return this.state.isLoading
+    }
+    set isLoading(isLoading) {
+        this.setState({isLoading}, () => {
+            if (!isLoading && this.isPlaying) {
+                this.setTimeout()
+            }
+        })
     }
 	get maxCursor() {
 		return this.props.urls.length - 1
-	}
-	get isBroken() {
-		return this.state.isBroken
-	}
-	set isBroken(isBroken) {
-		this.setState({ isBroken })
 	}
     get url() {
         return this.props.urls[this.cursor]
@@ -62,16 +77,7 @@ export default class Loop extends Component {
         window.clearTimeout(this.timeoutId)
     }
     setTimeout() {
-        const { interval } = this.props
-
-        this.timeoutId = window.setTimeout(this.next, interval)
-    }
-    shake = () => {
-        this.clearTimeout()
-
-        if (this.isPlaying) {
-            this.setTimeout()
-        }
+        this.timeoutId = window.setTimeout(this.next, this.props.interval)
     }
 	next = () => {
 		if (this.maxCursor === this.cursor) {
@@ -103,14 +109,14 @@ export default class Loop extends Component {
     }
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
-        this.shake()
+        this.clearTimeout()
 	}
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
 	}
-	handleKeyDown = ({ keyCode }) => {
-		const { left, right } = keycode.codes
+	handleKeyDown = ({keyCode}) => {
+		const {left, right} = keycode.codes
 
 		switch (keyCode) {
 			case left:
@@ -122,19 +128,14 @@ export default class Loop extends Component {
 		}
 	}
 	handleImageLoad = () => {
-        console.warn('loaded')
-		this.isBroken = false
+        this.isLoading = false
 	}
 	handleImageError = () => {
-		this.isBroken = true
-	}
-	get of() {
-		return `${this.cursor + 1} of ${this.props.urls.length}`
+        this.isLoading = false
 	}
 	render() {
-        const {isBroken} = this
         const toolbar = {
-			isPlaying: this.state.isPlaying,
+			isPlaying: this.isPlaying,
 			onNext: this.next,
 			onPrevious: this.previous,
 			onFirst: this.first,
@@ -151,10 +152,11 @@ export default class Loop extends Component {
 
 		return (
 			<Container>
-				{isBroken || <Toolbar {...toolbar} />}
-				{isBroken ||
-                    <Title style={TITLE_STYLES.get(this.props.layout)}>{this.of}</Title>
-                }
+				<Toolbar {...toolbar} />
+                <Title style={TITLE_STYLES.get(this.props.layout)}>
+                    {this.cursor + 1} of {this.maxCursor + 1}
+                    {this.isLoading && <Loading>Loading...</Loading>}
+                </Title>
 				<Image {...image} />
 			</Container>
 		)
