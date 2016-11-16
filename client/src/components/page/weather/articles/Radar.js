@@ -1,6 +1,7 @@
 import React from 'react'
 import {Article} from 'components/page'
 import {Tab, TabSet} from 'components/tab'
+import {Loop} from 'components/weather'
 import Tutorial from './Tutorial'
 
 export default function Radar() {
@@ -8,10 +9,13 @@ export default function Radar() {
         <Article title='Radar Imagery'>
             <TabSet>
                 <Tab title='BC Mosaic'>
+                    <Loop type='AC_RADAR_BC_precip-rate' />
                 </Tab>
                 <Tab title='South Coast'>
+                    <Loop type='AC_RADAR_BC-S-CST_precip-rate' />
                 </Tab>
                 <Tab title='Sourth Interior'>
+                    <Loop type='AC_RADAR_BC-S-INT_precip-rate' />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='radar' />

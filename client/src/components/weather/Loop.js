@@ -6,132 +6,376 @@ import padstart from 'lodash/padStart'
 import Loop from 'components/loop'
 import {domain} from './config.json'
 
-const HOURS = new Map([
-    // Old images
-    ['AC_RDPS_BC_12hr-precip', range(0, 48, 12)],
-	['AC_RDPS_BC_2500m-wind', range(0, 48, 6)],
-	['AC_RDPS_BC_3hr-precip', range(0, 48, 3)],
-	['AC_RDPS_BC_freezing-level', range(0, 48, 6)],
-	['AC_RDPS_BC_hal-24hr-snowfall', range(0, 48, 3)],
-	['AC_RDPS_BC_weather-systems', range(0, 48, 6)],
-	['AC_GDPS_BC_12hr-precip', range(0, 144, 12)],
-	['AC_GDPS_BC_1500m-temp', range(0, 144, 6)],
-    ['AC_GDPS_BC_2500m-wind', range(0, 144, 6)],
-	['AC_GDPS_EPA_clouds-500hgts', range(0, 144, 6)],
-	['AC_GDPS_EPA_pacific-systems', range(0, 144, 6)],
-	['AC_GDPS_EPA_precipitable-water', range(0, 144, 6)],
-	['AC_HRDPS_BC_wms-1hr-precip', range(0, 48)],
-	['AC_HRDPS_BC_wms-cumulative-precip', range(0, 48, 6)],
-	['AC_RDPS_BC_12hr-precip1', range(12, 48 + 1, 12)],
-	['AC_RDPS_BC_precip-types', range(0, 48, 3)],
-	['AC_RDPS_W-CST_3hr-precip-clds-th-slp', range(0, 48, 6)],
-	['AC_GDPS_BC_750-wind', range(0, 144, 6)],
-	['AC_GDPS_BC_850-temp', range(0, 144, 6)],
-	['AC_GDPS_EPA_clouds-precip-th-slp', range(0, 144, 6)],
-	['AC_GDPS_EPA_clouds-th-500hts', range(0, 144, 6)],
-	['AC_GDPS_EPA_tpw', range(0, 144, 6)],
-	['AC_GDPS_W-CAN_precip-th-slp', range(0, 144, 6)],
-	['AC_HRDPS_BC_wms-1hr-precip1', range(0, 42)],
-	['AC_HRDPS_BC-LAM_1hr-precip', range(0, 42)],
-	['AC_HRDPS_S-CST_12hr-precip', range(12, 48, 12)],
-	['AC_HRDPS_S-INT_12hr-precip', range(12, 48, 12)],
-        // New images
-	// ['Freezing_Level_3h_R_wcst', range(0, 48, 6)],
-	// ['Precipitation_12h_R_BC', range(12, 48 + 1, 12)],
-	// ['Precipitation_Type_3h_R_bc', range(0, 48, 3)],
-	// ['Surface_Maps_0-48_R_wcst', range(0, 48, 6)],
-	// ['Winds_2500m_3h_G_wcst', range(0, 144, 6)],
-	// ['Temperatures_1500m_6h_G_wcst', range(0, 144, 6)],
-	// ['Surface_Maps_0-48_G_epac', range(0, 144, 6)],
-	// ['500mb_G_epac', range(0, 144, 6)],
-	// ['Precipitable_Water_6h_G_epac', range(0, 144, 6)],
-	// ['Precipitation_1h_HR_BC', range(0, 42)],
-	// ['Precipitation_1h_HR_scst', range(0, 42)],
-	// ['Precipitation_1h_HR_sint', range(0, 42)],
-	// ['Precipitation_12h_HR_scst', range(12, 48, 12)],
-	// ['Precipitation_12h_HR_sint', range(12, 48, 12)],
+const METADATA = new Map([
+    // Precipitation Hourly
+    ['AC_HRDPS_BC_wms-1hr-precip', {
+        title: 'Precipitation 1h HR BC',
+        domain: 'bc',
+        frequency: 1,
+        startsAt: 0,
+        unit: 'h',
+        count: 43,
+        // count: 49,
+        runs: [6, 18],
+        extension: 'png',
+    }],
+    ['AC_HRDPS_BC-S-Cst_1hr-precip', {
+        title: 'Precipitation 1h HR SC',
+        domain: 'scst',
+        frequency: 1,
+        startsAt: 0,
+        unit: 'h',
+        count: 43,
+        // count: 49,
+        runs: [6, 18],
+        extension: 'png',
+    }],
+    ['AC_HRDPS_BC-S-Int_1hr-precip', {
+        title: 'Precipitation 1h HR SI',
+        domain: 'sint',
+        frequency: 1,
+        startsAt: 0,
+        unit: 'h',
+        count: 43,
+        // count: 49,
+        runs: [6, 18],
+        extension: 'png',
+    }],
+    ['AC_RDPS_BC_precip-types', {
+        title: 'Precipitation Type 3h R',
+        domain: 'bc',
+        frequency: 3,
+        startsAt: 3,
+        unit: 'h',
+        count: 16,
+        runs: [0, 6, 12, 18],
+        extension: 'png',
+    }],
+    // Precipitation 12 hour Totals
+    ['AC_RDPS_BC_12hr-precip', {
+        title: 'Precipitation 12hr R BC',
+        domain: 'bc',
+        frequency: 6,
+        startsAt: 12,
+        unit: 'h',
+        count: 7,
+        runs: [0, 6, 12, 18],
+        extension: 'png',
+    }],
+    ['AC_HRDPS_BC-S-Cst_12hr-precip', {
+        title: 'Precipitation 12hr HR SC',
+        domain: 'scst',
+        frequency: 6,
+        startsAt: 12,
+        unit: 'h',
+        count: 6,
+        runs: [6, 18],
+        extension: 'png',
+    }],
+    ['AC_HRDPS_BC-S-Int_12hr-precip', {
+        title: 'Precipitation 12hr HR SI',
+        domain: 'sint',
+        frequency: 6,
+        startsAt: 12,
+        unit: 'h',
+        count: 6,
+        runs: [6, 18],
+        extension: 'png',
+    }],
+    // Temperatures
+    ['AC_HRDPS_BC_sfc-temp', {
+        title: 'Temperatures Surface HR',
+        domain: 'lam',
+        frequency: 1,
+        startsAt: 0,
+        unit: 'h',
+        // count: 17,
+        count: 46,
+        runs: [6, 12],
+        extension: 'png',
+    }],
+    ['AC_RDPS_BC_freezing-level', {
+        title: null,
+        domain: 'wcst',
+        frequency: 3,
+        startsAt: 0,
+        unit: 'h',
+        count: 17,
+        runs: [0, 6, 12, 18],
+        extension: 'png',
+    }],
+    ['AC_GDPS_BC_850-temp', {
+        title: null,
+        domain: 'wcst',
+        frequency: 6,
+        startsAt: 0,
+        unit: 'h',
+        count: 25,
+        runs: [0, 12],
+        extension: 'jpg',
+    }],
+    // Winds
+    ['AC_RDPS_BC_marine-winds', {
+        title: 'Marine Winds - R',
+        domain: 'rdps_marine',
+        frequency: 3,
+        startsAt: 0,
+        unit: 'h',
+        count: 17,
+        runs: [0, 6, 12, 18],
+        extension: 'png',
+    }],
+    ['AC_GDPS_BC_850-winds', {
+        title: 'Winds 1500m - G',
+        domain: 'bc',
+        frequency: 6,
+        startsAt: 0,
+        unit: 'h',
+        count: 25,
+        runs: [0, 12],
+        extension: 'jpg',
+    }],
+    ['AC_GDPS_BC_750-winds', {
+        title: 'Winds 2500m - G',
+        domain: 'bc',
+        frequency: 6,
+        startsAt: 0,
+        unit: 'h',
+        count: 25,
+        runs: [0, 12],
+        extension: 'jpg',
+    }],
+    // Prognosis Maps
+    ['AC_RDPS_CAN-W_3hr-precip-clds-th-slp', {
+        title: 'Surface_Maps_0-48h_R',
+        domain: 'wcst',
+        frequency: 3,
+        startsAt: 3,
+        unit: 'h',
+        count: 16,
+        runs: [0, 6, 12, 18],
+        extension: 'png',
+    }],
+    ['AC_GDPS_EPA_6hr-precip-clds-th-slp', {
+        title: 'Surface_Maps_0-144h_G',
+        domain: 'epac',
+        frequency: 6,
+        startsAt: 12,
+        unit: 'h',
+        count: 23,
+        runs: [0, 12],
+        extension: 'jpg',
+        layout: 'RIGHT',
+    }],
+    ['AC_GDPS_EPA_clds-th-500hts', {
+        title: '500mb_0-144h_G',
+        domain: 'epac',
+        frequency: 6,
+        startsAt: 12,
+        unit: 'h',
+        count: 23,
+        runs: [0, 12],
+        extension: 'jpg',
+        layout: 'RIGHT',
+    }],
+    ['AC_GDPS_EPA_tpw', {
+        title: 'Precipitable Water (G)',
+        domain: 'epac',
+        frequency: 6,
+        startsAt: 0,
+        unit: 'h',
+        count: 25,
+        runs: [0, 12],
+        extension: 'jpg',
+    }],
+    // Radar Imagery
+    ['AC_RADAR_BC_precip-rate', {
+        title: 'Radar-BC-Mosaic',
+        domain: 'bc',
+        frequency: 10,
+        startsAt: 0,
+        unit: 'min',
+        count: 24 * 6,
+        runs: null,
+        extension: 'jpg',
+    }],
+    ['AC_RADAR_BC-S-CST_precip-rate', {
+        title: 'AC_RADAR_BC-S-CST_precip-rate',
+        domain: 'scst',
+        frequency: 10,
+        startsAt: 0,
+        unit: 'min',
+        count: 24 * 6,
+        runs: null,
+        extension: 'jpg',
+    }],
+    ['AC_RADAR_BC-S-INT_precip-rate', {
+        title: 'Radar-South Interior',
+        domain: 'sint',
+        frequency: 10,
+        startsAt: 0,
+        unit: 'min',
+        count: 24 * 6,
+        runs: null,
+        extension: 'jpg',
+    }],
+    // Satellite Imagery
+    ['AC_SAT_EPA_water-vapour-jet', {
+        title: 'Water Vapour-Jet',
+        domain: 'epac',
+        frequency: 60,
+        startsAt: 30,
+        unit: 'min',
+        count: 24,
+        runs: null,
+        extension: 'jpg',
+        layout: 'RIGHT',
+    }],
+    ['AC_SAT_EPA_ir-redtop', {
+        title: 'IR Pacific',
+        domain: 'epac',
+        frequency: 60,
+        startsAt: 0,
+        unit: 'min',
+        count: 24,
+        runs: null,
+        extension: 'jpg',
+        layout: 'RIGHT',
+    }],
+    ['AC_SAT_CAN-W-CST_ir-redtop', {
+        title: 'IR West Cost',
+        domain: 'wcst',
+        frequency: 60,
+        startsAt: 0,
+        unit: 'min',
+        count: 24,
+        runs: null,
+        extension: 'jpg',
+    }],
+    ['AC_SAT_BC_ir-vis', {
+        title: 'IR-Vis',
+        domain: 'lam',
+        frequency: 60,
+        startsAt: 0,
+        unit: 'min',
+        count: 24,
+        runs: null,
+        extension: 'jpg',
+    }],
+    // Current/Warnings
+    ['AC_PLOT_BC_weather-warnings', {
+        title: 'Weather-Warnings',
+        domain: 'bc',
+        frequency: 30,
+        startsAt: 0,
+        unit: 'min',
+        count: 1,
+        runs: null,
+        extension: 'png',
+    }],
+    ['AC_PLOT_BC_precip-24hr', {
+        title: 'Precip_Past_24h_Estimate_bc',
+        domain: 'bc',
+        frequency: 24,
+        startsAt: 0,
+        unit: 'h',
+        count: 7,
+        runs: [0],
+        extension: 'png',
+    }],
+    ['AC_PLOT_BC_actual-temps', {
+        title: 'Temperatures-MSLP',
+        domain: 'wcst',
+        frequency: 1,
+        startsAt: 0,
+        unit: 'h',
+        count: 12,
+        runs: null,
+        extension: 'png',
+    }],
 ])
 
-const RUNS = new Map([
-    // Old images
-    ['AC_RDPS_BC_12hr-precip', range(0, 24, 6)],
-	['AC_RDPS_BC_2500m-wind', range(0, 24, 6)],
-	['AC_RDPS_BC_3hr-precip', range(0, 24, 6)],
-	['AC_RDPS_BC_freezing-level', range(0, 24, 6)],
-	['AC_RDPS_BC_hal-24hr-snowfall', range(0, 24, 6)],
-	['AC_RDPS_BC_weather-systems', range(0, 24, 6)],
-	['AC_GDPS_BC_12hr-precip', range(0, 24, 6)],
-	['AC_GDPS_BC_1500m-temp', range(0, 24, 6)],
-    ['AC_GDPS_BC_2500m-wind', range(0, 24, 6)],
-	['AC_GDPS_EPA_clouds-500hgts', range(0, 24, 6)],
-	['AC_GDPS_EPA_pacific-systems', range(0, 24, 6)],
-	['AC_GDPS_EPA_precipitable-water', range(0, 24, 6)],
-	['AC_HRDPS_BC_wms-1hr-precip', range(0, 24, 6)],
-	['AC_HRDPS_BC_wms-cumulative-precip', range(0, 24, 6)],
-	['AC_RDPS_BC_12hr-precip1', range(0, 24, 6)],
-	['AC_RDPS_BC_precip-types', range(0, 24, 6)],
-	['AC_RDPS_W-CST_3hr-precip-clds-th-slp', range(0, 24, 6)],
-	['AC_GDPS_BC_750-wind', range(0, 24, 6)],
-	['AC_GDPS_BC_850-temp', range(0, 24, 6)],
-	['AC_GDPS_EPA_clouds-precip-th-slp', range(0, 24, 6)],
-	['AC_GDPS_EPA_clouds-th-500hts', range(0, 24, 12)],
-	['AC_GDPS_EPA_tpw', range(0, 24, 6)],
-	['AC_GDPS_W-CAN_precip-th-slp', range(0, 24, 6)],
-	['AC_HRDPS_BC_wms-1hr-precip1', [6, 18]],
-	['AC_HRDPS_BC-LAM_1hr-precip', [6, 18]],
-	['AC_HRDPS_S-CST_12hr-precip', [6, 18]],
-	['AC_HRDPS_S-INT_12hr-precip', [6, 18]],
-    // New images
-	// ['Freezing_Level_3h_R_wcst', range(0, 24, 6)],
-	// ['Precipitation_12h_R_BC', range(0, 24, 6)],
-	// ['Precipitation_Type_3h_R_bc', range(0, 24, 6)],
-	// ['Surface_Maps_0-48_R_wcst', range(0, 24, 6)],
-	// ['Winds_2500m_3h_G_wcst', range(0, 24, 6)],
-	// ['Temperatures_1500m_6h_G_wcst', range(0, 24, 6)],
-	// ['Surface_Maps_0-48_G_epac', range(0, 24, 6)],
-	// ['500mb_G_epac', range(0, 24, 12)],
-	// ['Precipitable_Water_6h_G_epac', range(0, 24, 6)],
-	// ['Precipitation_1h_HR_BC', [6, 18]],
-	// ['Precipitation_1h_HR_scst', [6, 18]],
-	// ['Precipitation_1h_HR_sint', [6, 18]],
-	// ['Precipitation_12h_HR_scst', [6, 18]],
-	// ['Precipitation_12h_HR_sint', [6, 18]],
-])
+export const TYPES = Array.from(METADATA.keys())
 
-export const TYPES = [...HOURS.keys()]
+function formatUrls({type, date = new Date(), run}) {
+    const {
+        frequency,
+        unit,
+        count,
+        runs,
+        extension,
+        startsAt,
+    } = METADATA.get(type)
+    run = runs === null ? '' : padstart(String(run || runs[0]), 2, '0')
 
-export function formatUrl({type, date = new Date(), run, hour, hours}) {
-    if (Array.isArray(hours)) {
-        return hours.map(hour => formatUrl({type, date, run, hour}))
-    }
+    return Array(count).fill(0)
+            .map((value, index) => {
+                const step = startsAt + index * frequency
 
-	hour = padstart(String(hour), 3, '0')
-	run = padstart(String(run), 2, '0')
-	date = moment(date).format('YYYYMMDD')
+                if (unit === 'min') {
+                    return `${Math.floor(step / 60)}${padstart(String(step % 60), 2, '0')}`
+                }
 
-	return `${domain}/loops/images/${type}_${date}${run}_${hour}HR.jpg`
-	// return `${domain}/loops/images/${type}-${date}${run}-${hour}00.jpg`
+                return step
+            })
+            .map(step => {
+                return format({
+                    type,
+                    date,
+                    run,
+                    step,
+                    extension,
+                    unit,
+                })
+            })
 }
 
-function propsMapper({
-    type,
-    run = RUNS.get(type)[0],
-    date = new Date(),
-    hours = HOURS.get(type)
-}) {
-    return {
-        urls: formatUrl({date, type, run, hours}),
-        openImageInNewTab: true,
+export function formatUrl({type, date = new Date(), run}) {
+    if (!METADATA.has(type)) {
+        return null
     }
+
+    const {
+        frequency,
+        unit,
+        count,
+        runs,
+        extension,
+        startsAt,
+    } = METADATA.get(type)
+    run = runs === null ? '' : padstart(String(run || runs[0]), 2, '0')
+
+    return format({
+        type,
+        date,
+        run,
+        step,
+        extension,
+        unit,
+    })
+}
+
+function format({type, date, run, step, extension, unit}) {
+	return [
+        domain,
+        date.getFullYear(),
+        padstart(date.getMonth() + 1, 2, '0'),
+        padstart(String(date.getDate()), 2, '0'),
+        `${type}_${moment(date).format('YYYYMMDD')}${run}_${padstart(String(step), unit === 'min' ? 4 : 3, '0')}${unit === 'min' ? 'Z' : 'HR'}.${extension}`
+    ].join('/')
 }
 
 export default compose(
     setDisplayName('WeatherLoop'),
     setPropTypes({
         type: PropTypes.oneOf(TYPES).isRequired,
-        run: PropTypes.number.isRequired,
+        run: PropTypes.number,
         date: PropTypes.instanceOf(Date),
         hours: PropTypes.arrayOf(PropTypes.number),
     }),
-    mapProps(propsMapper),
+    mapProps(props => ({
+        urls: formatUrls(props),
+        openImageInNewTab: true,
+        layout: METADATA.get(props.type).layout,
+    })),
 )(Loop)
