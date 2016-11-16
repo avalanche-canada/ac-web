@@ -236,7 +236,7 @@ export default class Form extends Component {
 
         // Files[Iterator] does not exist in Safari :(
         for (let i = 0; i < files.length; i++) {
-            form.append(`files${i++}`, files[i])
+            form.append(`files${i+1}`, files[i])
         }
 
         this.props.post(form).then(data => {
