@@ -1,4 +1,4 @@
-HEAD   := $(shell git log | head -n1 | cut -d' ' -f2)
+HEAD   := $(shell git log | head -n1 | cut -d' ' -f2 | cut -b-20)
 BRANCH := $(shell git branch | grep -e '^\*' | cut -d' ' -f2 | sed s@/@_@g)
 DATE   := $(shell date +'%Y-%m-%d-%H-%M-%S')
 

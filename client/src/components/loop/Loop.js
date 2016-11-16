@@ -5,16 +5,29 @@ import Container from './Container'
 import Toolbar from './Toolbar'
 import Title from './Title'
 
+const LEFT = 'LEFT'
+const RIGHT = 'RIGHT'
+
+const TITLE_STYLES = new Map([
+    [LEFT, null],
+    [RIGHT, {
+        right: 0,
+        left: 'auto',
+    }],
+])
+
 export default class Loop extends Component {
 	static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
+        layout: PropTypes.oneOf([LEFT, RIGHT]),
 	}
     static defaultProps = {
         urls: [],
         interval: 1000,
         openImageInNewTab: false,
+        layout: LEFT,
     }
 	state = {
 		cursor: 0,
@@ -46,12 +59,12 @@ export default class Loop extends Component {
         return this.props.urls[this.cursor]
     }
     clearTimeout() {
-        window.clearTimeout(this.timeoutID)
+        window.clearTimeout(this.timeoutId)
     }
     setTimeout() {
         const { interval } = this.props
 
-        this.timeoutID = window.setTimeout(this.next, interval)
+        this.timeoutId = window.setTimeout(this.next, interval)
     }
     shake = () => {
         this.clearTimeout()
@@ -109,6 +122,7 @@ export default class Loop extends Component {
 		}
 	}
 	handleImageLoad = () => {
+        console.warn('loaded')
 		this.isBroken = false
 	}
 	handleImageError = () => {
@@ -138,7 +152,9 @@ export default class Loop extends Component {
 		return (
 			<Container>
 				{isBroken || <Toolbar {...toolbar} />}
-				{isBroken || <Title>{this.of}</Title>}
+				{isBroken ||
+                    <Title style={TITLE_STYLES.get(this.props.layout)}>{this.of}</Title>
+                }
 				<Image {...image} />
 			</Container>
 		)

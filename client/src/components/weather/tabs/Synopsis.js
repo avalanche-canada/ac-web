@@ -14,7 +14,7 @@ export default function Synopsis({date, above, below, children}) {
     return (
         <Section>
             <InnerHTML>{above}</InnerHTML>
-            <Loop type='AC_GDPS_EPA_clouds-th-500hts' date={date} run={12} />
+            <Loop type='AC_GDPS_EPA_clds-th-500hts' date={date} />
             <InnerHTML>{below}</InnerHTML>
             {children}
         </Section>
