@@ -1,16 +1,11 @@
 import React, {PropTypes, createElement} from 'react'
 import {compose} from 'recompose'
-import {neverUpdate} from 'compose'
+import {onlyUpdateForKey} from 'compose'
 import memoize from 'lodash/memoize'
 import CSSModules from 'react-css-modules'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
-
-const FACEBOOK = 'FACEBOOK'
-const TWITTER = 'TWITTER'
-const INSTAGRAM = 'INSTAGRAM'
-const VIMEO = 'VIMEO'
-const GOOGLE_PLUS = 'GOOGLE_PLUS'
+import {FACEBOOK, TWITTER, INSTAGRAM, VIMEO, GOOGLE_PLUS} from './Providers'
 
 const PROVIDER_REGEXES = new Map([
     [FACEBOOK, /facebook.com/],
@@ -48,7 +43,7 @@ Item.propTypes = {
     children: PropTypes.node,
 }
 
-function Item({link, title, children}) {
+function Item({link, title, children, style}) {
     const provider = getProvider(link)
     const name = PROVIDER_NAMES.get(provider)
 
@@ -59,7 +54,7 @@ function Item({link, title, children}) {
     }
 
     return (
-        <a styleName='Item' target='_blank' href={link} title={title}>
+        <a styleName='Item' target='_blank' href={link} title={title} style={style}>
             {PROVIDER_ICONS.get(provider)}
             {children}
         </a>
@@ -67,6 +62,6 @@ function Item({link, title, children}) {
 }
 
 export default compose(
-    neverUpdate,
+    onlyUpdateForKey('link'),
     CSSModules(styles),
 )(Item)
