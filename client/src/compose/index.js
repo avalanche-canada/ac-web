@@ -26,18 +26,16 @@ export const withHash = lifecycle({
 })
 
 export function wait(delay = 0) {
-    let timeoutId
-
     return compose(
         withState('visible', 'setVisible', false),
         lifecycle({
             componentWillMount() {
-                timeoutId = setTimeout(() => {
+                this.timeoutId = setTimeout(() => {
                     this.props.setVisible(true)
                 }, delay)
             },
             componentWillUnmount() {
-                clearTimeout(timeoutId)
+                clearTimeout(this.timeoutId)
             },
         }),
         branch(
