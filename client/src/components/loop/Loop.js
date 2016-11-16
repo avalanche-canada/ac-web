@@ -6,7 +6,7 @@ import Toolbar from './Toolbar'
 import Title from './Title'
 import {wait} from 'compose'
 
-const Loading = wait(500)(DOM.div)
+const Loading = wait(250)(DOM.div)
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'
