@@ -82,7 +82,7 @@ const STYLE = {
             axisLabel: {
                 ...theme.axis.style.axisLabel,
                 fill: SECONDARY_BLUE,
-                padding: 25
+                padding: 20
             },
             ticks: {
                 ...theme.axis.style.ticks,
