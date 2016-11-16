@@ -1,6 +1,6 @@
 import React, {PropTypes, Component, DOM} from 'react'
 import keycode from 'keycode'
-import {Image} from 'components/misc'
+import {Image, Ratio} from 'components/misc'
 import Container from './Container'
 import Toolbar from './Toolbar'
 import Title from './Title'
@@ -151,14 +151,18 @@ export default class Loop extends Component {
 		}
 
 		return (
-			<Container>
-				<Toolbar {...toolbar} />
-                <Title style={TITLE_STYLES.get(this.props.layout)}>
-                    {this.cursor + 1} of {this.maxCursor + 1}
-                    {this.isLoading && <Loading>Loading...</Loading>}
-                </Title>
-				<Image {...image} />
-			</Container>
+            <Ratio x={821} y={699}>
+                {(width, height) =>
+        			<Container style={{width, height}}>
+        				<Toolbar {...toolbar} />
+                        <Title style={TITLE_STYLES.get(this.props.layout)}>
+                            {this.cursor + 1} of {this.maxCursor + 1}
+                            {this.isLoading && <Loading>Loading...</Loading>}
+                        </Title>
+                        <Image {...image} />
+        			</Container>
+                }
+            </Ratio>
 		)
 	}
 }

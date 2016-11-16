@@ -15,6 +15,7 @@ export P from './P'
 
 export GoBack from './GoBack'
 
+export Ratio from './Ratio'
 
 export const Time = createTime('Time', 'HH:mm')
 export const DateTime = createTime('DateTime', 'dddd MMMM Do, HH:mm')
