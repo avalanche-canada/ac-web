@@ -84,7 +84,7 @@ export default function Wind({data, min, max, width, height}) {
             <VictoryAxis scale='time' tickFormat={formatHours} />
             <VictoryAxis dependentAxis scale='linear' domain={domain} tickValues={range(domain[0], ++domain[1], 25)} label='Speed (km/h)' style={STYLE.axis} />
             <VictoryLine data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.line} label='Average' labelComponent={<VictoryLabel dx={withCompass ? 5 : undefined} />} />
-            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getSpeedAndDirectionLabels} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />
+            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getSpeedAndDirectionLabels} events={scatterEvents} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />
             {withCompass &&
                 <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' dataComponent={ARROW} />
             }
