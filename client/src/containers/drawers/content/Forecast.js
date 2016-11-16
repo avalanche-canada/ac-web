@@ -24,6 +24,8 @@ function Container({
     link,
     onCloseClick,
 }) {
+    const shareUrl = link && `${window.location.origin}${link.to}`
+
     return (
         <DrawerContainer>
             <Navbar>
@@ -34,7 +36,7 @@ function Container({
                 <h1>
                     {link ? <Link {...link}>{title}</Link> : title}
                 </h1>
-                {forecast && <Metadata {...forecast} />}
+                {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isLoading && <Muted>Loading forecast...</Muted>}

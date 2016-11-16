@@ -1,13 +1,18 @@
 import React, {PropTypes} from 'react'
-import {Metadata, Entry} from 'components/metadata'
+import {Metadata, Entry, ShareEntry} from 'components/metadata'
 import {DateTime} from 'components/misc'
 
 MountainInformationNetworkMetadata.propTypes = {
     submittedOn: PropTypes.instanceOf(Date).isRequired,
     submittedBy: PropTypes.instanceOf(Date).isRequired,
+    shareUrl: PropTypes.string,
 }
 
-export default function MountainInformationNetworkMetadata({submittedOn, submittedBy}) {
+export default function MountainInformationNetworkMetadata({
+    submittedOn,
+    submittedBy,
+    shareUrl,
+}) {
     return (
         <Metadata>
             <Entry term='Submitted by'>
@@ -16,6 +21,8 @@ export default function MountainInformationNetworkMetadata({submittedOn, submitt
             <Entry term='Submitted on'>
                 <DateTime value={submittedOn} />
             </Entry>
+            {shareUrl && <ShareEntry url={shareUrl} />}
+            {shareUrl && <Entry />}
         </Metadata>
     )
 }

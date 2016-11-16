@@ -1,0 +1,5 @@
+export const FACEBOOK = 'FACEBOOK'
+export const TWITTER = 'TWITTER'
+export const INSTAGRAM = 'INSTAGRAM'
+export const VIMEO = 'VIMEO'
+export const GOOGLE_PLUS = 'GOOGLE_PLUS'
