@@ -19,41 +19,41 @@ const STYLE = {
             }
         }
     },
-    axis: {
-        axis: {
-            stroke: 'transparent',
-        },
-    },
-    dependentAxis: {
-        axisLabel: {
-            padding: 37
-        },
-        tickLabels: {
-            fill(t) {
-                if (t % 10 === 0) {
-                    return theme.axis.style.tickLabels.fill
-                } else {
-                    return 'transparent'
-                }
+    dependentAxis(domain) {
+        return {
+            axisLabel: {
+                padding: 37
             },
-        },
-        grid: {
-            strokeDasharray(t) {
-                if (t === 0) {
-                    return null
-                } else if (t % 10 === 0) {
-                    return theme.axis.style.grid.strokeDasharray
-                } else {
-                    return '1, 5'
-                }
+            tickLabels: {
+                fill(t) {
+                    if (t % 10 === 0) {
+                        return theme.axis.style.tickLabels.fill
+                    } else {
+                        return 'transparent'
+                    }
+                },
             },
-            strokeWidth(t) {
-                return t === 0 ? 2 : 1
+            grid: {
+                strokeDasharray(t) {
+                    if (t === 0) {
+                        return null
+                    } else if (t % 10 === 0) {
+                        return theme.axis.style.grid.strokeDasharray
+                    } else {
+                        return '1, 5'
+                    }
+                },
+                stroke(t) {
+                    if (t === 0) {
+                        return theme.axis.style.axis.stroke
+                    } else if (t === domain[0]) {
+                        return 'transparent'
+                    } else {
+                        return theme.axis.style.grid.stroke(t)
+                    }
+                },
             },
-            stroke(t) {
-                return t === 0 ? theme.axis.style.axis.stroke : theme.axis.style.grid.stroke(t)
-            },
-        },
+        }
     },
 }
 
@@ -79,8 +79,8 @@ export default function Temperature({data, min, max, width, height}) {
 
     return (
         <VictoryChart width={width} height={height} theme={theme} domainPadding={{x: 25}} >
-            <VictoryAxis scale='time' tickFormat={formatHours} orientation='bottom' offsetY={50} style={STYLE.axis} />
-            <VictoryAxis dependentAxis scale='linear' crossAxis={false} scale='linear' domain={domain} label='Temperature (°C)' style={STYLE.dependentAxis} />
+            <VictoryAxis scale='time' tickFormat={formatHours} orientation='bottom' offsetY={50} />
+            <VictoryAxis dependentAxis scale='linear' crossAxis={false} scale='linear' domain={domain} label='Temperature (°C)' style={STYLE.dependentAxis(domain)} />
             <VictoryLine data={data} x='measurementDateTime' y='airTempAvg' style={STYLE.avg.line} />
             <VictoryScatter data={data} x='measurementDateTime' y='airTempAvg' labels={getLabels} labelComponent={<VictoryTooltip dy={dy} />} events={scatterEvents} style={STYLE.avg.scatter} />
         </VictoryChart>
