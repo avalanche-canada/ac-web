@@ -17,6 +17,7 @@ function MountainInformationNetwork({
     onCloseClick,
 }) {
     const {error, loading} = messages
+    const shareUrl = link && `${window.location.origin}${link}`
 
     return (
         <Container>
@@ -28,7 +29,7 @@ function MountainInformationNetwork({
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
                 </h1>
-                {metadata && <Metadata {...metadata} />}
+                {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isError && <Error>{error}</Error>}

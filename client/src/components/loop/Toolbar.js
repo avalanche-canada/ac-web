@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import Button, {SECONDARY} from 'components/button'
+import Button, {PRIMARY} from 'components/button'
 import styles from './Loop.css'
 import {
     FirstPage,
@@ -13,7 +13,7 @@ import {
 } from 'components/icons'
 
 const ToolbarButton = defaultProps({
-    kind: SECONDARY
+    kind: PRIMARY
 })(Button)
 
 function AnimateButton({ isPlaying, onPause, onPlay }) {
@@ -33,7 +33,7 @@ function Next(props) {
 		</ToolbarButton>
 	)
 }
-function Prev(props) {
+function Previous(props) {
 	return (
 		<ToolbarButton {...props} title='Move to the previous image'>
 			<ChevronLeft inverse />
@@ -55,7 +55,7 @@ function Last(props) {
 	)
 }
 
-AnimationToolbar.propTypes = {
+Toolbar.propTypes = {
 	isPlaying: PropTypes.bool,
 	onNext: PropTypes.func,
 	onPrevious: PropTypes.func,
@@ -65,7 +65,7 @@ AnimationToolbar.propTypes = {
 	onPlay: PropTypes.func,
 }
 
-function AnimationToolbar({
+function Toolbar({
     isPlaying = true,
 	onNext,
 	onPrevious,
@@ -77,7 +77,7 @@ function AnimationToolbar({
 	return (
 		<div styleName='Toolbar'>
 			{onFirst && <First onClick={onFirst} />}
-			{onPrevious && <Prev onClick={onPrevious} />}
+			{onPrevious && <Previous onClick={onPrevious} />}
 			<AnimateButton {...{onPause, onPlay, isPlaying}} />
 			{onNext && <Next onClick={onNext} />}
 			{onLast && <Last onClick={onLast} />}
@@ -85,4 +85,4 @@ function AnimationToolbar({
 	)
 }
 
-export default CSSModules(AnimationToolbar, styles)
+export default CSSModules(Toolbar, styles)

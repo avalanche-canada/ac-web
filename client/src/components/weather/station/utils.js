@@ -14,11 +14,7 @@ export function formatHours(date, index) {
     let format = 'HH[h]'
 
     if (index === 0 || date.getHours() === 0) {
-        if (date.getHours() === 0) {
-            format = 'YYYY-MM-DD'
-        } else {
-            format = 'YYYY-MM-DD[\n]HH[h]'
-        }
+        format = 'HH[h][\n]YYYY-MM-DD'
     }
 
     return moment(date).format(format)

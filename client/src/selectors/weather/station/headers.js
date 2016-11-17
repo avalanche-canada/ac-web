@@ -25,13 +25,23 @@ export const RelativeHumidity = {
     }
 }
 
-export const SnowHeight = {
-    name: 'snow-height',
-    title: 'Snow Height (cm)',
-    rowSpan: 2,
+export const Snow = {
+    name: 'snow',
+    title: 'Snow (cm)',
+    colSpan: 2,
     style: {
         whiteSpace: 'normal'
     }
+}
+
+export const SnowHeight = {
+    name: 'snow-height',
+    title: 'Height',
+}
+
+export const NewSnow = {
+    name: 'new-snow',
+    title: 'New',
 }
 
 export const AirTemperatureAvg = {

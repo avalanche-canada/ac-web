@@ -13,8 +13,8 @@ StationTable.propTypes = {
     caption: PropTypes.string,
 }
 
-function measurementGrouper({measurementDateTime}) {
-    return moment(measurementDateTime).format('dddd MMMM Do, YYYY')
+function measurementGrouper({measurementDateTime, utcOffset}) {
+    return moment(measurementDateTime).utcOffset(utcOffset).format('ddddd, MMMM Do, YYYY')
 }
 
 function renderRow({property, name, ...props}, index) {

@@ -7,9 +7,9 @@ Entry.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Entry({term, children}) {
+function Entry({term, children, style}) {
     return (
-        <dl styleName='Entry'>
+        <dl styleName='Entry' style={style}>
             <dt styleName='Term'>{term}</dt>
             <dd styleName='Description'>{children}</dd>
         </dl>

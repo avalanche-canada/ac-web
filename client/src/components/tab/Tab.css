@@ -14,7 +14,7 @@
 	margin: 0;
     list-style: none;
 
-    &[min-width~="450px"] {
+    &[min-width~="400px"] {
         flex-direction: row;
 
         & .ListItem {

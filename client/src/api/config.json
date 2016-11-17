@@ -1,5 +1,5 @@
 {
     "baseURL": "/api",
     "astBaseUrl": "//ast.avalanche.ca/api/",
-    "weatherBaseUrl": "//ac-weather.us-west-2.elasticbeanstalk.com/"
+    "weatherBaseUrl": "//wx.avalanche.ca/"
 }

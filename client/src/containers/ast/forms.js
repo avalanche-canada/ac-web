@@ -102,7 +102,7 @@ const Container = compose(
             replaceStateAndQuery({
                 place
             }, {
-                sorting: ['distance', 'asc'],
+                sorting: 'distance',
             }, props)
         },
         onDateRangeChange: props => ({from, to}) => {

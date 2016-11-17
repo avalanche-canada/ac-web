@@ -28,7 +28,8 @@ h1, h2, h3, h4, h5, h6 {
 
     & > a:not([href^="#"]) {
         &:after {
-            content: " ›";
+            /* \00a0 == &nbsp; */
+            content: "\00a0›";
             color: var(--primary);
         }
     }
@@ -94,6 +95,7 @@ input {
     background-color: white;
     box-sizing: border-box;
     line-height: 1;
+    outline-offset: inherit;
 }
 input[type="file"] {
     cursor: pointer;

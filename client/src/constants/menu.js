@@ -78,6 +78,10 @@ export const AvalancheCanada = {
                 label: 'Cours d’avalanche en ligne (français)',
                 to: '/tutoriel',
             }, {
+                id: '554ad9e9-edbd-4e1f-bb1d-c0f1df11be00',
+                label: 'Rescue at Cherry Bowl',
+                to: '/cherry-bowl',
+            }, {
                 id: '57daca82-1871-11e6-b6ba-3e1d05defe78',
                 label: 'Avalanche Skills Training 1',
                 to: '/training#ast1',

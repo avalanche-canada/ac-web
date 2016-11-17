@@ -81,16 +81,12 @@ export default class Dropdown extends Component {
         this.toggle()
     }
     handleKeyDown = event => {
-        const {keyCode} = event
-
-        if (scrollStopperKeyCodes.has(keyCode)) {
+        if (scrollStopperKeyCodes.has(event.keyCode)) {
             event.preventDefault()
         }
     }
     handleKeyUp = event => {
-        const {keyCode} = event
-
-        switch (keyCode) {
+        switch (event.keyCode) {
             case keycode.codes.esc:
                 this.close()
                 break

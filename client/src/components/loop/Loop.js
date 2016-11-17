@@ -1,64 +1,83 @@
-import React, {PropTypes, Component} from 'react'
+import React, {PropTypes, Component, DOM} from 'react'
 import keycode from 'keycode'
-import {Image} from 'components/misc'
+import {Image, Ratio} from 'components/misc'
 import Container from './Container'
 import Toolbar from './Toolbar'
 import Title from './Title'
+import {wait} from 'compose'
+
+const Loading = wait(250)(DOM.div)
+
+const LEFT = 'LEFT'
+const RIGHT = 'RIGHT'
+
+const TITLE_STYLES = new Map([
+    [LEFT, null],
+    [RIGHT, {
+        right: 0,
+        left: 'auto',
+    }],
+])
 
 export default class Loop extends Component {
 	static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
+        layout: PropTypes.oneOf([LEFT, RIGHT]),
 	}
     static defaultProps = {
         urls: [],
         interval: 1000,
         openImageInNewTab: false,
+        layout: LEFT,
     }
 	state = {
 		cursor: 0,
 		isPlaying: false,
-		isBroken: true,
+		isLoading: false,
 	}
 	get cursor() {
 		return this.state.cursor
 	}
 	set cursor(cursor) {
-        this.setState({ cursor }, this.shake)
+        this.setState({cursor}, () => {
+            this.isLoading = true
+        })
 	}
     get isPlaying() {
         return this.state.isPlaying
     }
     set isPlaying(isPlaying) {
-        this.setState({ isPlaying }, this.shake)
+        this.setState({isPlaying}, () => {
+            this.clearTimeout()
+
+            if (isPlaying) {
+                this.setTimeout()
+            }
+        })
+    }
+    get isLoading() {
+        return this.state.isLoading
+    }
+    set isLoading(isLoading) {
+        this.setState({isLoading}, () => {
+            if (!isLoading && this.isPlaying) {
+                this.setTimeout()
+            }
+        })
     }
 	get maxCursor() {
 		return this.props.urls.length - 1
-	}
-	get isBroken() {
-		return this.state.isBroken
-	}
-	set isBroken(isBroken) {
-		this.setState({ isBroken })
 	}
     get url() {
         return this.props.urls[this.cursor]
     }
     clearTimeout() {
-        window.clearTimeout(this.timeoutID)
+        window.clearTimeout(this.timeoutId)
     }
     setTimeout() {
-        const { interval } = this.props
-
-        this.timeoutID = window.setTimeout(this.next, interval)
-    }
-    shake = () => {
-        this.clearTimeout()
-
-        if (this.isPlaying) {
-            this.setTimeout()
-        }
+        this.timeoutId = window.setTimeout(this.next, this.props.interval)
     }
 	next = () => {
 		if (this.maxCursor === this.cursor) {
@@ -90,14 +109,14 @@ export default class Loop extends Component {
     }
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
-        this.shake()
+        this.clearTimeout()
 	}
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
 	}
-	handleKeyDown = ({ keyCode }) => {
-		const { left, right } = keycode.codes
+	handleKeyDown = ({keyCode}) => {
+		const {left, right} = keycode.codes
 
 		switch (keyCode) {
 			case left:
@@ -109,18 +128,14 @@ export default class Loop extends Component {
 		}
 	}
 	handleImageLoad = () => {
-		this.isBroken = false
+        this.isLoading = false
 	}
 	handleImageError = () => {
-		this.isBroken = true
-	}
-	get of() {
-		return `${this.cursor + 1} of ${this.props.urls.length}`
+        this.isLoading = false
 	}
 	render() {
-        const {isBroken} = this
         const toolbar = {
-			isPlaying: this.state.isPlaying,
+			isPlaying: this.isPlaying,
 			onNext: this.next,
 			onPrevious: this.previous,
 			onFirst: this.first,
@@ -136,11 +151,18 @@ export default class Loop extends Component {
 		}
 
 		return (
-			<Container>
-				{isBroken || <Toolbar {...toolbar} />}
-				{isBroken || <Title>{this.of}</Title>}
-				<Image {...image} />
-			</Container>
+            <Ratio x={821} y={699}>
+                {(width, height) =>
+        			<Container style={{width, height}}>
+        				<Toolbar {...toolbar} />
+                        <Title style={TITLE_STYLES.get(this.props.layout)}>
+                            {this.cursor + 1} of {this.maxCursor + 1}
+                            {this.isLoading && <Loading>Loading...</Loading>}
+                        </Title>
+                        <Image {...image} />
+        			</Container>
+                }
+            </Ratio>
 		)
 	}
 }

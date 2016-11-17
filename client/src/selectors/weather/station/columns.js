@@ -5,15 +5,26 @@ import {toCompass} from 'utils/degrees'
 export const Hour = {
     name: 'hour',
     title: 'Hour',
-    property({measurementDateTime}) {
-        return moment(measurementDateTime).format('HH[h]')
+    property({measurementDateTime, utcOffset}) {
+        return moment(measurementDateTime).utcOffset(utcOffset).format('HH[h]')
     },
 }
 
 export const SnowHeight = {
     name: 'snowHeight',
-    title: 'Snow Height (cm)',
-    property: 'snowHeight',
+    title: 'Height',
+    property({snowHeight}) {
+        return Math.round(snowHeight)
+    },
+    style: {
+        minWidth: 65
+    }
+}
+
+export const NewSnow = {
+    name: 'newSnow',
+    title: 'New',
+    property: 'newSnow',
     style: {
         minWidth: 65
     }

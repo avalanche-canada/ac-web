@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Metadata, Entry} from 'components/metadata'
+import {Metadata, Entry, ShareEntry} from 'components/metadata'
 import {DateElement} from 'components/misc'
 
 export function DateIssued({dateIssued}) {
@@ -30,14 +30,16 @@ ForecastMetadata.propTypes = {
     dateIssued: PropTypes.instanceOf(Date).isRequired,
     validUntil: PropTypes.instanceOf(Date).isRequired,
     forecaster: PropTypes.string,
+    shareUrl: PropTypes.string,
 }
 
-export default function ForecastMetadata(props) {
+export default function ForecastMetadata({shareUrl, ...props}) {
     return (
         <Metadata>
             <DateIssued {...props} />
             <ValidUntil {...props} />
             <Forecaster {...props} />
+            {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>
     )
 }

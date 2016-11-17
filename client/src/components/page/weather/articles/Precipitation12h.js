@@ -1,5 +1,4 @@
 import React from 'react'
-import {Image} from 'components/misc'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
 import Tutorial from './Tutorial'
@@ -10,13 +9,13 @@ export default function Precipitation12h() {
         <Article title='Precipitation 12 hours Totals'>
             <TabSet>
                 <Tab title='BC (R)'>
-                    <Loop type='AC_RDPS_BC_12hr-precip1' date={new Date(2016, 4, 1)} />
+                    <Loop type='AC_RDPS_BC_12hr-precip' />
                 </Tab>
                 <Tab title='South Coast (HR)'>
-                    <Loop type='AC_HRDPS_S-CST_12hr-precip' date={new Date(2016, 4, 1)} />
+                    <Loop type='AC_HRDPS_BC-S-Cst_12hr-precip' />
                 </Tab>
                 <Tab title='Sourth Interior (HR)'>
-                    <Loop type='AC_HRDPS_S-INT_12hr-precip' date={new Date(2016, 4, 1)} />
+                    <Loop type='AC_HRDPS_BC-S-Int_12hr-precip' />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='precipitation-12h' />

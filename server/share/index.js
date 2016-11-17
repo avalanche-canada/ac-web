@@ -238,13 +238,13 @@ function minSubmission(req, res) {
             ['og:title',     sub.title],
             ['og:url',       'https://' +  req.host + '/mountain-information-network/submissions/' + subId],
             ['og:description', getSubmissionComment(sub)],
-            ['og:image', imgKey && minUploadKeyToUrl(imgKey)],
+            ['og:image', imgKey && minUploadKeyToUrl(req.host, imgKey)],
         ]));
     });
 }
 
-function minUploadKeyToUrl(key) {
-    return 'https://s3-us-west-2.amazonaws.com/ac-min-uploads/' + key;
+function minUploadKeyToUrl(host, key) {
+    return 'https://' + host + '/api/min/uploads/' + key;
 }
 
 function getSubmissionComment(sub) {

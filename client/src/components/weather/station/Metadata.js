@@ -10,11 +10,12 @@ WeatherStationMetadata.propTypes = {
     longitude: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,
     elevation: PropTypes.number.isRequired,
+    utcOffset: PropTypes.number.isRequired,
     description: PropTypes.string,
     owner: PropTypes.string,
 }
 
-export default function WeatherStationMetadata({longitude, latitude, elevation, description, owner}) {
+export default function WeatherStationMetadata({longitude, latitude, elevation, utcOffset, description, owner}) {
     return (
         <Metadata>
             <Entry term='Longitude'>
@@ -25,6 +26,9 @@ export default function WeatherStationMetadata({longitude, latitude, elevation, 
             </Entry>
             <Entry term='Elevation'>
                 <span style={NO_TEXT_TRANSFORM}>{elevation} m</span>
+            </Entry>
+            <Entry term='Time zone'>
+                UTC-0{Math.abs(utcOffset)}:00
             </Entry>
             {description &&
                 <Entry title='Description'>
