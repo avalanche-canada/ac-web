@@ -4,8 +4,9 @@ import {TabSet, Tab} from 'components/tab'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
+import Day3to4 from './tabs/Day3to4'
+import Day5to7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
-import Section from './tabs/Section'
 import styles from './Forecast.css'
 import Legacy from './legacy'
 
@@ -28,11 +29,11 @@ const TABS = new Map([
     }],
 	['day3To4', {
         title: 'Day 3-4',
-        component: Section,
+        component: Day3to4,
     }],
 	['day5To7', {
         title: 'Day 5-7',
-        component: Section,
+        component: Day5to7,
     }],
 ])
 
@@ -45,7 +46,7 @@ function Forecast({forecast}) {
     } else {
         children = (
             <TabSet>
-                {[...TABS].map(([name, {title, component}]) => {
+                {Array.from(TABS).map(([name, {title, component}]) => {
                     const group = forecast[name]
                     const slices = forecast[`${name}More`] || group
 
