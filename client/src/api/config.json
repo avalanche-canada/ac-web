@@ -1,4 +1,5 @@
 {
     "baseURL": "/api",
-    "astBaseUrl": "//ast.avalanche.ca/api/"
+    "astBaseUrl": "//ast.avalanche.ca/api/",
+    "weatherBaseUrl": "//wx.avalanche.ca/"
 }

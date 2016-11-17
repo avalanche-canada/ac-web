@@ -81,15 +81,13 @@ export default compose(
         loadData,
     }),
     withProps(({layers}) => {
-        const sets = layers.groupBy(layer => layer.type).map((layers, title) => {
-            return {
-                title,
-                layers,
-            }
-        })
-
         return {
-            sets,
+            sets: layers.groupBy(layer => layer.type).map((layers, title) => {
+                return {
+                    title,
+                    layers,
+                }
+            })
         }
     }),
     lifecycle({

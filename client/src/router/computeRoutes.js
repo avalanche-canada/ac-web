@@ -46,6 +46,7 @@ import {
     MembershipOverview,
     CherryBowl,
     Tech,
+    WeatherStation,
     EarlySeasonConditions,
 } from 'containers'
 import * as Feed from 'containers/feed'
@@ -257,6 +258,7 @@ export default function computeRoutes(store) {
             {/* HOT ZONE REPORT */}
             <Route path='hot-zone-reports/:name' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
+            <Route path='weather/stations/:id' component={WeatherStation} />
             <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />

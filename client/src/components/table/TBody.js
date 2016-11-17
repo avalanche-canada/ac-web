@@ -12,7 +12,7 @@ TBody.propTypes = {
     title: PropTypes.string,
 }
 
-function TBody({ featured = false, title, children }) {
+function TBody({featured = false, title, children}) {
     return (
         <tbody data-title={title} styleName={featured ? 'TBody--Featured' : 'TBody'}>
             {children}

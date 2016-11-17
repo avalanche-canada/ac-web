@@ -7,7 +7,10 @@ import {Map, Source, Layer, Marker} from 'components/map'
 import {zoomChanged, centerChanged, loadData} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import {getLayerIds} from 'selectors/map/layers'
-import {MountainInformationNetworkSubmission} from 'api/schemas'
+import {
+    MountainInformationNetworkSubmission,
+    WeatherStation,
+} from 'api/schemas'
 import {pushNewLocation, pushQuery} from 'utils/router'
 import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
@@ -141,6 +144,28 @@ class Container extends Component {
             }
         }
 
+        features = this.map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.WEATHER_STATION)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const key = WeatherStation.getKey()
+
+            if (feature.properties.cluster) {
+                const {properties: {point_count}} = feature
+                const {data} = this.props.sources.find(({id}) => id === key)
+
+                return this.setBounds(near(feature, data, point_count))
+            } else {
+                const {stationId} = feature.properties
+
+                return pushQuery({
+                    panel: `${key}/${stationId}`
+                }, this.props)
+            }
+        }
+
         // Handle Hot Zone Report layers
         features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
@@ -198,7 +223,7 @@ class Container extends Component {
         let bounds = null
 
         if (feature) {
-            bounds = this.props.computeFitBounds(feature, true, false)
+            bounds = this.props.computeFitBounds(feature, false, false)
         }
 
         this.setState({bounds}, callback)

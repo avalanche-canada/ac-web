@@ -18,12 +18,12 @@ export GoBack from './GoBack'
 export Ratio from './Ratio'
 
 export const Time = createTime('Time', 'HH:mm')
-export const DateTime = createTime('DateTime', 'dddd MMMM Do, HH:mm')
+export const DateTime = createTime('DateTime', 'ddddd, MMMM Do, HH:mm')
 export const Day = createTime('Day', 'dddd')
 export const DateElement = createTime('Date', function format(value) {
     const now = new Date()
 
-    return value.getFullYear() === now.getFullYear() ? 'dddd MMMM Do' : 'dddd MMMM Do, YYYY'
+    return value.getFullYear() === now.getFullYear() ? 'ddddd, MMMM Do' : 'ddddd, MMMM Do, YYYY'
 })
 
 export InnerHTML from './InnerHTML'
@@ -38,3 +38,6 @@ export Backdrop from './Backdrop'
 
 export DayPicker from './DayPicker'
 export {DateUtils} from 'react-day-picker'
+
+export Ratio from './Ratio'
+export ElementResize from './ElementResize'

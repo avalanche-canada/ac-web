@@ -3,6 +3,7 @@ import {compose, withProps, withState, lifecycle, mapProps, getContext} from 're
 import {connect} from 'react-redux'
 import * as Actions from 'actions/entities'
 import getForecast from 'selectors/forecast'
+import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
 
@@ -42,26 +43,40 @@ export const hotZoneReport = connector(
     Actions.loadHotZoneAreas
 )
 
-export const mountainInformationNetworkSubmission = compose(
-    getContext({
-        location: PropTypes.object.isRequired,
-    }),
-    connect(getMountainInformationNetworkSubmission, {
-        load: Actions.loadMountainInformationNetworkSubmission,
-    }),
-    withProps(props => ({
-        load() {
-            props.load(getId(props))
-        }
-    })),
-    lifecycle({
-        componentDidMount() {
-            this.props.load()
-        },
-        componentWillReceiveProps(props) {
-            if (getId(props) !== getId(this.props)) {
-                props.load()
+function panelConnector(mapStateToProps, load) {
+    return compose(
+        getContext({
+            location: PropTypes.object.isRequired,
+        }),
+        connect(mapStateToProps, {load}),
+        withProps(props => ({
+            load() {
+                props.load({
+                    id: getId(props)
+                })
             }
-        },
-    })
+        })),
+        lifecycle({
+            componentDidMount() {
+                const {props} = this
+
+                props.load()
+            },
+            componentWillReceiveProps(props) {
+                if (getId(props) !== getId(this.props)) {
+                    props.load()
+                }
+            },
+        })
+    )
+}
+
+export const mountainInformationNetworkSubmission = panelConnector(
+    getMountainInformationNetworkSubmission,
+    Actions.loadMountainInformationNetworkSubmission,
+)
+
+export const weatherStation = panelConnector(
+    getWeatherStation,
+    Actions.loadWeatherStation,
 )

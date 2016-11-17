@@ -1,6 +1,5 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
-import {Table, Header, Row, HeaderCell, Cell} from 'components/table'
 import styles from './MountainInformationNetworkFeatures.css'
 import {classify} from 'utils/string'
 

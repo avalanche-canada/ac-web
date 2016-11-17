@@ -10,20 +10,4 @@ export const MountainConditionReport = new Schema('mountain-condition-reports')
 export const Incident = new Schema('incidents')
 export const Provider = new Schema('providers')
 export const Course = new Schema('courses')
-
-const Schemas = new Map([
-    [ForecastRegion.getKey(), ForecastRegion],
-    [Forecast.getKey(), Forecast],
-    [HotZoneArea.getKey(), HotZoneArea],
-    [HotZoneReport.getKey(), HotZoneReport],
-    [MountainInformationNetworkObservation.getKey(), MountainInformationNetworkObservation],
-    [MountainInformationNetworkSubmission.getKey(), MountainInformationNetworkSubmission],
-    [MountainConditionReport.getKey(), MountainConditionReport],
-    [Incident.getKey(), Incident],
-    [Provider.getKey(), Provider],
-    [Course.getKey(), Course],
-])
-
-export function getSchemaByKey(key) {
-    return Schemas.get(key)
-}
+export const WeatherStation = new Schema('weather-stations', {idAttribute: 'stationId'})

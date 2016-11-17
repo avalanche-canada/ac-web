@@ -80,6 +80,7 @@
 
     background-color: transparent;
     color: var(--black);
+    outline: none;
 }
 
 .Subtile {

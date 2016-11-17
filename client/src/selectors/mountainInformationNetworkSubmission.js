@@ -2,7 +2,6 @@ import {createSelector} from 'reselect'
 import {MountainInformationNetworkSubmission} from 'api/schemas'
 import {getEntityForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import {RESULT} from 'reducers/api/results'
 
 export function getId({location, params}) {
     if (location && location.query.panel) {
@@ -27,7 +26,7 @@ function getSubmission(state, props) {
 function getSubmissionResultsSet(state, props) {
     const params = getParams(props)
 
-    return getResultsSet(state, MountainInformationNetworkSubmission, params) || RESULT
+    return getResultsSet(state, MountainInformationNetworkSubmission, params)
 
 }
 
