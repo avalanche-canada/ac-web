@@ -188,7 +188,7 @@ export default function computeRoutes(store) {
         const url = getForecastRegionExternalUrl(getState(), region)
 
         if (url) {
-            if (external === null || external.closed) {
+            if (!external || external.closed) {
                 external = window.open(url, '_blank')
             } else {
                 external.location.replace(url)
