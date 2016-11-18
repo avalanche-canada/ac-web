@@ -25,8 +25,23 @@ export function shouldDispatchLoadAction(state, schema, action) {
     return !results || (!results.isLoaded && !results.isFetching)
 }
 
-export function getForecastRegionExternalUrl(state, forecastRegionId) {
-    const forecastRegion = getEntityForSchema(state, ForecastRegion, forecastRegionId)
+const EXTERNAL_URLS = new Map([
+    ['little-yoho', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY'],
+    ['banff-yoho-kootenay', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY'],
+    ['vancouver-island', 'http://www.islandavalanchebulletin.com/'],
+    ['jasper', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=2&d=TODAY'],
+    ['waterton', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY'],
+    ['chic-chocs', 'http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-fr'],
+    ['glacier', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
+])
 
-    return forecastRegion ? forecastRegion.getIn(['properties', 'externalUrl']) : undefined
+export function getForecastRegionExternalUrl(state, id) {
+    const region = getEntityForSchema(state, ForecastRegion, id)
+    const properties = region && region.get('properties')
+
+    return properties ?
+        properties.get('owner') !== 'avalanche-canada' ?
+            properties.get('externalUrl', properties.get('url')) :
+            null :
+        EXTERNAL_URLS.get(id) || null
 }

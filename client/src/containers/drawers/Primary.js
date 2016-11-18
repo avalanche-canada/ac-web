@@ -8,10 +8,6 @@ import Drawer from 'components/page/drawer'
 import {pushNewLocation} from 'utils/router'
 import Controls from './controls/Map'
 
-const location = {
-    pathname: '/map'
-}
-
 export default compose(
     withRouter,
     getContext({
@@ -27,7 +23,9 @@ export default compose(
     })),
     withHandlers({
         onCloseClick: props => event => {
-            pushNewLocation(location, props)
+            pushNewLocation({
+                pathname: '/map'
+            }, props)
         }
-    })
+    }),
 )(Drawer)

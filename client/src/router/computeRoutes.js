@@ -65,6 +65,7 @@ const YEAR = String(new Date().getFullYear())
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
+    let external = null
 
     function handleActiveSponsor({routes, params, location}) {
         const {panel} = location.query
@@ -171,19 +172,32 @@ export default function computeRoutes(store) {
         handleExternalForecast(params.name)
     }
 
-    function handleMapForecastRouteChange(prev, {params}) {
-        handleExternalForecast(params.name)
+    function handleMapForecastRouteChange(prev, {params: {name}}) {
+        if (name !== prev.params.name) {
+            handleExternalForecast(name)
+        }
     }
 
-    function handlePageForecastRouteEnter({params}) {
-        handleExternalForecast(params.name)
+    function handlePageForecastRouteEnter({params: {name}}, replace) {
+        if (handleExternalForecast(name)) {
+            replace(`/map/forecasts/${name}`)
+        }
     }
 
     function handleExternalForecast(region) {
-        const externalUrl = getForecastRegionExternalUrl(getState(), region)
+        const url = getForecastRegionExternalUrl(getState(), region)
 
-        if (externalUrl) {
-            window.open(externalUrl, '_blank')
+        if (url) {
+            if (external === null || external.closed) {
+                external = window.open(url, '_blank')
+            } else {
+                external.location.replace(url)
+                external.focus()
+            }
+
+            return true
+        } else {
+            return false
         }
     }
 

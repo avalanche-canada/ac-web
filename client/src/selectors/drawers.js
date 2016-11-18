@@ -1,7 +1,11 @@
 import {createSelector} from 'reselect'
 
-const isPrimaryOpened = /^\/map\//i
+const isMapRoute = /^\/map\//i
+const isExternalForecastRoute = /(\/forecasts\/little-yoho|\/forecasts\/banff-yoho-kootenay|\/forecasts\/vancouver-island|\/forecasts\/jasper|\/forecasts\/waterton|\/forecasts\/chic-chocs|\/forecasts\/glacier)/i
 const {innerWidth} = window
+function isPrimaryOpened(pathname) {
+    return isMapRoute.test(pathname) && !isExternalForecastRoute.test(pathname)
+}
 
 const PRIMARY = {
     open: false,
@@ -12,7 +16,7 @@ export const getPrimary = createSelector(
     (state, props) => props.location.pathname,
     pathname => ({
         ...PRIMARY,
-        open: isPrimaryOpened.test(pathname),
+        open: isPrimaryOpened(pathname),
     })
 )
 
