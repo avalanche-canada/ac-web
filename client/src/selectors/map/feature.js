@@ -25,10 +25,6 @@ export default createSelector(
             feature = hotZoneAreas.get(name)
         }
 
-        if (feature && typeof feature.toJSON === 'function') {
-            feature = feature.toJSON()
-        }
-
         return feature
     }
 )
