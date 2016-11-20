@@ -20,11 +20,3 @@ export default combineReducers({
         [RESET_ACTIVE_SPONSOR]: () => null,
     }, null),
 })
-
-export function getSponsors(state) {
-    return state.sponsors.data
-}
-
-export function getActiveSponsor(state) {
-    return state.sponsors.active
-}

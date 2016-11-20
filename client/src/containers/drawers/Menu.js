@@ -1,6 +1,6 @@
 import {compose, withProps, nest} from 'recompose'
 import {connect} from 'react-redux'
-import {getMenu} from 'selectors/drawers'
+import {getMenu} from 'getters/drawers'
 import {LEFT} from 'components/page/drawer'
 import {closeMenu} from 'actions/drawers'
 import Drawer from 'components/page/drawer'

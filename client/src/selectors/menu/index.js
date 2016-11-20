@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getMenu} from 'reducers/drawers'
+import {getMenu} from 'getters/drawers'
 import LAYERS from 'constants/map/layers/instance'
 
 export default createSelector(

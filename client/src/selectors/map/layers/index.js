@@ -4,7 +4,7 @@ import ForecastLayers, {labels as ForecastLabels} from './forecast'
 import HotZoneReportLayers from './hotZoneReport'
 import MountainInformationNetworkLayers from './mountainInformationNetwork'
 import WeatherStationLayers from './weatherStation'
-import {getLayers as getVisibleLayers} from 'reducers/drawers'
+import {getLayers as getVisibleLayers} from 'getters/drawers'
 import {setVisibility} from './utils'
 import * as Layers from 'constants/map/layers'
 

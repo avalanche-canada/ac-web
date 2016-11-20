@@ -32,5 +32,3 @@ export const getSecondary = createSelector(
         open: Boolean(panel)
     })
 )
-
-export {getMenu} from 'reducers/drawers'
