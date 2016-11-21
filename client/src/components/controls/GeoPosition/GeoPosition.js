@@ -11,12 +11,15 @@ const MARKER_OPTIONS = {
     offset: [-12, -12]
 }
 
-function isValid(number) {
+function isValidNumber(number) {
     return typeof number === 'number' && !isNaN(number)
 }
 
-function areValid(...numbers) {
-    return numbers.every(isValid)
+function areValidCoordinates(longitude, latitude) {
+    return isValidNumber(latitude) &&
+        latitude <= 90 &&
+        latitude >= -90 &&
+        isValidNumber(longitude)
 }
 
 function round(number) {
@@ -39,27 +42,23 @@ export default class GeoPosition extends Component {
 
         const {longitude, latitude} = props
 
-        if (areValid(longitude, latitude)) {
+        if (areValidCoordinates(longitude, latitude)) {
             this.state.lngLat = new LngLat(longitude, latitude)
         }
     }
-    isMoving = false
     handleLoad = event => {
         this.setState({
             map: event.target
         })
     }
+    setLngLat(lngLat, callback) {
+        this.setState({lngLat}, callback)
+    }
     handleClick = ({lngLat}) => {
-        this.setState({lngLat}, this.handleChange)
-    }
-    handleMovestart = () => {
-        this.isMoving = true
-    }
-    handleMoveend = () => {
-        this.isMoving = false
+        this.setLngLat(lngLat, this.handleChange)
     }
     handleDragEnd = ({lngLat}) => {
-        this.setState({lngLat}, this.handleChange)
+        this.setLngLat(lngLat, this.handleChange)
     }
     handleChange = () => {
         const {lngLat, map} = this.state
@@ -81,17 +80,17 @@ export default class GeoPosition extends Component {
         })
     }
     componentWillReceiveProps({longitude, latitude}) {
-        if (!areValid(longitude, latitude)) {
+        if (!areValidCoordinates(longitude, latitude)) {
             return
         }
 
-        const lngLat = new LngLat(longitude, latitude)
+        const center = new LngLat(longitude, latitude)
 
-        this.setState({lngLat}, () => {
+        this.setLngLat(center, () => {
             const {map} = this.state
-            if (!this.isMoving && map) {
+            if (map) {
                 map.flyTo({
-                    center: lngLat,
+                    center,
                     speed: 1
                 })
             }
@@ -102,11 +101,9 @@ export default class GeoPosition extends Component {
 
         return (
             <div styleName='Container'>
-                <Map center={lngLat} zoom={5}
+                <Map center={lngLat} zoom={5} maxBounds={null}
                     onClick={this.handleClick}
-                    onLoad={this.handleLoad}
-                    onMovestart={this.handleMovestart}
-                    onMoveend={this.handleMoveend} >
+                    onLoad={this.handleLoad}>
                     {map && <Marker
                         draggable
                         onDragEnd={this.handleDragEnd}
