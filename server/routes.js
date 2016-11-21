@@ -43,7 +43,7 @@ module.exports = function(app) {
             res.status(401).send('UnauthorizedError');
         }
         else{
-            logger.log('error','Error occured', err);
+            logger.log('error','Unhandled Error occured in request:', err);
             res.status(500);
             res.send('error', { error: err });
         }
