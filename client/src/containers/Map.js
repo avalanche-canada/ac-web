@@ -194,8 +194,6 @@ class Container extends Component {
                 }, this.props)
             })
         }
-
-        // props.setMountainInformationNetworkMarkers(EMPTY)
     }
     handleLoad = event => {
         const map = event.target
