@@ -1,11 +1,21 @@
 import {createAction} from 'redux-actions'
 import Axios from 'axios'
 import moment from 'moment'
+import {getActiveSponsor} from 'getters/sponsors'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
 export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'
 
-export const setActiveSponsor = createAction(SET_ACTIVE_SPONSOR)
+const setActiveSponsorActionCreator = createAction(SET_ACTIVE_SPONSOR)
+export function setActiveSponsor(sponsor) {
+    return (dispatch, getState) => {
+        if (getActiveSponsor(getState()) === sponsor) {
+            return
+        }
+
+        dispatch(setActiveSponsorActionCreator(sponsor))
+    }
+}
 export const resetActiveSponsor = createAction(RESET_ACTIVE_SPONSOR)
 
 export const SPONSORS_REQUEST = 'SPONSORS_REQUEST'

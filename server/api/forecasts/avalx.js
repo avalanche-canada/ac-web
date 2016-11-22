@@ -423,7 +423,7 @@ function fetchCaamlForecast(region, callback) {
             }
         });
     } else {
-        callback("invalid avalx region");
+        callback("fetchCaamlForecast: invalid avalx region:", region);
     }
 }
 

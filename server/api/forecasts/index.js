@@ -60,7 +60,7 @@ router.param('region', function (req, res, next) {
 
     // Bail out if there is no region with that ID
     if (!req.region) {
-        logger.log('info','forecast region not found');
+        logger.log('info','forecast region not found url="' + req.originalUrl + '"');
         res.status(404)
            .end("Not Found");
         return

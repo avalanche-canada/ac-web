@@ -30,6 +30,10 @@ export const computeFitBounds = createSelector(
             return null
         }
 
+        if (typeof feature.toJSON === 'function') {
+            feature = feature.toJSON()
+        }
+
         return {
             bbox: LngLatBounds.convert(bbox(feature)),
             options: {

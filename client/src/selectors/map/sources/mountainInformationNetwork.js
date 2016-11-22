@@ -4,7 +4,7 @@ import {getEntitiesForSchema, getResultsSetForSchema} from 'reducers/api/getters
 import {RESULT} from 'reducers/api/results'
 import {createSource} from './utils'
 import {point} from 'turf-helpers'
-import {getFilters} from 'reducers/drawers'
+import {getFilters} from 'getters/drawers'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
 import {paramsToKey} from 'api/utils'
 
