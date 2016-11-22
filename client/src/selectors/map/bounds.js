@@ -39,8 +39,8 @@ export const computeFitBounds = createSelector(
 
         if (north === south || east === west) {
             bbox = new LngLatBounds(
-                new LngLat(west - 0.005, south - 0.005),
-                new LngLat(east + 0.005, north + 0.005)
+                new LngLat(west - 0.0025, south - 0.0025),
+                new LngLat(east + 0.0025, north + 0.0025)
             )
         }
 
