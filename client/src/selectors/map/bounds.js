@@ -1,9 +1,9 @@
 import {createSelector} from 'reselect'
 import mapbox from 'services/mapbox/map'
 import {getPrimary, getSecondary} from 'selectors/drawers'
-import bbox from 'turf-bbox'
+import createBbox from 'turf-bbox'
 
-const {LngLatBounds} = mapbox
+const {LngLatBounds, LngLat} = mapbox
 
 export const computeOffset = createSelector(
     getPrimary,
@@ -34,8 +34,18 @@ export const computeFitBounds = createSelector(
             feature = feature.toJSON()
         }
 
+        let bbox = LngLatBounds.convert(createBbox(feature))
+        const [[west, south], [east, north]] = bbox.toArray()
+
+        if (north === south || east === west) {
+            bbox = new LngLatBounds(
+                new LngLat(west - 0.005, south - 0.005),
+                new LngLat(east + 0.005, north + 0.005)
+            )
+        }
+
         return {
-            bbox: LngLatBounds.convert(bbox(feature)),
+            bbox,
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 50,
