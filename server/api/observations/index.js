@@ -75,12 +75,20 @@ router.get('/observations', function (req, res) {
     });
 });
 
+
+
+function makeShareUrl(host, ob) {
+    return 'http://'+host+'/mountain-information-network/submissions/' + ob.subid;
+    //return 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid;
+    //return 'http://.com/'
+}
+
 function mapWebObsResponse(obs, req){
     return _.reduce(obs, function(results, ob, key){
 
         results[key] = ob;
         results[key].focusUrl= 'http://'+req.get('host')+'/focus/'+ ob.obid;
-        results[key].shareUrl= 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid;
+        results[key].shareUrl= makeShareUrl(req.get('host'), ob);
         results[key].thumbs = ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
         results[key].dateFormatted = formatDate(ob.datetime);
 
@@ -93,7 +101,7 @@ function mapWebSubResponse(subs, req){
 
         results = sub;
         results.focusUrl= 'http://'+req.get('host')+'/focus/'+ sub.subid;
-        results.shareUrl= 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(sub.title) + '/' + sub.subid;
+        results.shareUrl= makeShareUrl(req.get('host'), sub);
         results.thumbs = sub.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key});
         results.dateFormatted = formatDate(sub.datetime);
 
@@ -159,7 +167,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                     ridingConditions: ridingCond,
                     avalancheConditions: ob.avalancheConditions,
                     comment: ob.comment,
-                    shareurl: 'http://'+req.get('host')+'/share/'+ changeCase.paramCase(ob.title) + '/' + ob.obid,
+                    shareurl: makeShareUrl(req.get('host'), ob),
                     uploads: ob.uploads.map(function (key) { return 'http://'+req.get('host')+'/api/min/uploads/'+key; })
                 };
 
