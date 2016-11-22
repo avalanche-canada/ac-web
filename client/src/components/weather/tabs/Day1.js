@@ -4,7 +4,6 @@ import {DateElement, Image} from 'components/misc'
 import Section from './Section'
 import {formatUrl} from '../Loop'
 
-const {keys} = Object
 function description() {
     // TODO: Finish this with parameters
     return 'Weather Systems'

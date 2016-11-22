@@ -90,9 +90,6 @@ class Container extends Component {
 
         pushNewLocation(location, this.props)
     }
-    handleMountainInformationNetworkMarkerClick = event => {
-        console.warn('to implement')
-    }
     handleMousemove = event => {
         if (this.map) {
             this.lastMouseMoveEvent = event
@@ -120,6 +117,7 @@ class Container extends Component {
         }
 
         const {point} = event
+        let features = null
 
         // Handle Mountain Information Network layers
         features = this.map.queryRenderedFeatures(point, {
@@ -173,8 +171,9 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
+            const {type} = feature.geometry
 
-            return this.setBounds(feature, () => {
+            return this.setBounds(type === 'Point' ? null : feature, () => {
                 pushNewLocation({
                     pathname: `/map/hot-zone-reports/${feature.properties.id}`
                 }, this.props)
@@ -182,7 +181,7 @@ class Container extends Component {
         }
 
         // Handle Forecast layers
-        let features = this.map.queryRenderedFeatures(point, {
+        features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.FORECASTS)
         })
 
@@ -204,7 +203,7 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
             const panel = `toyota-truck-reports/${feature.properties.id}`
-            
+
             return pushQuery({panel}, this.props)
         }
     }

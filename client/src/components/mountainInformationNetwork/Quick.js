@@ -5,9 +5,9 @@ import {trulyKeys, projectKeys} from 'utils/object'
 import {List, Term, Definition} from 'components/description'
 
 const avalancheConditionsTexts = {
-    sound: 'Slab avalanches today or yesterday.',
-    snow: 'Whumpfing or drum-like sounds or shooting cracks.',
-    slab: '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
+    slab: 'Slab avalanches today or yesterday.',
+    sound: 'Whumpfing or drum-like sounds or shooting cracks.',
+    snow: '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
     temp: 'Rapid temperature rise to near zero degrees or wet surface snow.',
 }
 

@@ -51,7 +51,7 @@ export default {
                 fields: {
                     longitude: {
                         attrs: {
-                            placeholder: 'e.g. -188.883',
+                            placeholder: 'e.g. -118.883',
                         },
                     },
                     latitude: {

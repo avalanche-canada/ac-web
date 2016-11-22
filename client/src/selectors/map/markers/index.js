@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {setVisibility} from './utils'
 import getForecastMarkers from './forecast'
-import {getLayers as getVisibleLayers} from 'reducers/drawers'
+import {getLayers as getVisibleLayers} from 'getters/drawers'
 
 const getMarkers = createSelector(
     getForecastMarkers,

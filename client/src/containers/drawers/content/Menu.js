@@ -3,7 +3,7 @@ import {compose, lifecycle, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import getLayers from 'selectors/menu'
 import {toggleLayer, changeFilter} from 'actions/drawers'
-import {Header, Container, Navbar, Close} from 'components/page/drawer'
+import {Header, Container, Navbar, Close, Body} from 'components/page/drawer'
 import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
 import * as LAYERS from 'constants/map/layers'
 import {loadData} from 'actions/map'
@@ -51,6 +51,7 @@ function Menu({sets = [], toggleLayer, changeFilter, onCloseClick}) {
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
+            <Body>
             {sets.map(({title, layers}) => (
                 <LayerSet title={title}>
                     {layers.map(toObject).map(({filters, ...layer}, type) => {
@@ -70,6 +71,7 @@ function Menu({sets = [], toggleLayer, changeFilter, onCloseClick}) {
                     })}
                 </LayerSet>
             ))}
+            </Body>
         </Container>
     )
 }

@@ -341,7 +341,7 @@ export default class Form extends Component {
                                             return (
                                                 <Tab {...tab}>
                                                     <Base {...form} />
-                                                    <Button disabled={disabled || !form.value} onClick={this.observationClearHandlers.get(type)}>
+                                                    <Button type='reset' disabled={disabled || !form.value} onClick={this.observationClearHandlers.get(type)}>
                                                         Reset {Titles.get(type)} report
                                                     </Button>
                                                 </Tab>

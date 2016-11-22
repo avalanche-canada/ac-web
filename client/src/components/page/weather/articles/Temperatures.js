@@ -8,17 +8,17 @@ export default function Temperatures() {
     return (
         <Article title='Temperatures'>
             <TabSet>
-                <Tab title='Surface (HR)'>
+                <Tab title='Surface HR'>
                     <Loop type='AC_HRDPS_BC_sfc-temp' />
                 </Tab>
-                <Tab title='Freezing level (R)'>
+                <Tab title='Freezing level R'>
                     <Loop type='AC_RDPS_BC_freezing-level' />
                 </Tab>
-                <Tab title='1500m am (G)'>
+                <Tab title='1500m am G'>
                     {/* TODO Starting time does not work */}
                     <Loop type='AC_GDPS_BC_850-temp' run={0} />
                 </Tab>
-                    <Tab title='1500m pm (G)'>
+                    <Tab title='1500m pm G'>
                     {/* TODO Starting time does not work */}
                     <Loop type='AC_GDPS_BC_850-temp' run={12} />
                 </Tab>

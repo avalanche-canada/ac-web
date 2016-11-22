@@ -48,8 +48,8 @@ export default function Forecast({
                     </Table>
                 </Tab>
                 <Tab title='Problems' disabled={problems.length === 0}>
-                    {problems.map(({type, icons, comment, travelAndTerrainAdvice}) => (
-                        <Problem title={type} >
+                    {problems.map(({type, icons, comment, travelAndTerrainAdvice}, index) => (
+                        <Problem title={`Avalanche Problem ${index + 1}: ${type}`} >
                             <Topic title='What Elevation?' src={icons.elevations} />
                             <Topic title='Which Slopes?' src={icons.aspects} />
                             <Topic title='Chances of Avalanches?' src={icons.likelihood} />

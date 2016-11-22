@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions'
-import {getMenu} from 'reducers/drawers'
+import {getMenu} from 'getters/drawers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,

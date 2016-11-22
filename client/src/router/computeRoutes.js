@@ -65,6 +65,7 @@ const YEAR = String(new Date().getFullYear())
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
+    let external = null
 
     function handleActiveSponsor({routes, params, location}) {
         const {panel} = location.query
@@ -171,19 +172,32 @@ export default function computeRoutes(store) {
         handleExternalForecast(params.name)
     }
 
-    function handleMapForecastRouteChange(prev, {params}) {
-        handleExternalForecast(params.name)
+    function handleMapForecastRouteChange(prev, {params: {name}}) {
+        if (name !== prev.params.name) {
+            handleExternalForecast(name)
+        }
     }
 
-    function handlePageForecastRouteEnter({params}) {
-        handleExternalForecast(params.name)
+    function handlePageForecastRouteEnter({params: {name}}, replace) {
+        if (handleExternalForecast(name)) {
+            replace(`/map/forecasts/${name}`)
+        }
     }
 
     function handleExternalForecast(region) {
-        const externalUrl = getForecastRegionExternalUrl(getState(), region)
+        const url = getForecastRegionExternalUrl(getState(), region)
 
-        if (externalUrl) {
-            window.open(externalUrl, '_blank')
+        if (url) {
+            if (!external || external.closed) {
+                external = window.open(url, '_blank')
+            } else {
+                external.location.replace(url)
+                external.focus()
+            }
+
+            return true
+        } else {
+            return false
         }
     }
 
@@ -266,13 +280,15 @@ export default function computeRoutes(store) {
             <Route path='new/weather' sponsorRef='Weather' component={Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={articles.Forecast} />
-                <Route path='precipitation' component={articles.Precipitation} />
-                <Route path='precipitation-12h' component={articles.Precipitation12h} />
+                <Route path='hourly-precipitation' component={articles.HourlyPrecipitation} />
+                <Route path='12h-precipitation' component={articles.Precipitation12h} />
                 <Route path='temperatures' component={articles.Temperatures} />
                 <Route path='winds' component={articles.Winds} />
                 <Route path='surface-maps' component={articles.SurfaceMaps} />
+                <Route path='other-maps' component={articles.OtherMaps} />
                 <Route path='radar' component={articles.Radar} />
                 <Route path='satellite' component={articles.Satellite} />
+                <Route path='current-temperatures' component={articles.CurrentTemperatures} />
                 <Route path='warnings' component={articles.Warnings} />
             </Route>
             <Route path='sponsors' component={Sponsors} />

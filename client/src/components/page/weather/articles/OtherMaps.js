@@ -6,16 +6,16 @@ import Loop from 'components/weather/Loop'
 
 export default function SurfaceMaps() {
     return (
-        <Article title='Surface maps'>
+        <Article title='500mb & Precipitable water'>
             <TabSet>
-                <Tab title='0-48 hours R'>
-                    <Loop type='AC_RDPS_CAN-W_3hr-precip-clds-th-slp' />
+                <Tab title='500mb'>
+                    <Loop type='AC_GDPS_EPA_clds-th-500hts' />
                 </Tab>
-                <Tab title='0-144 hours G'>
-                    <Loop type='AC_GDPS_EPA_6hr-precip-clds-th-slp' />
+                <Tab title='Precipitable water'>
+                    <Loop type='AC_GDPS_EPA_tpw' />
                 </Tab>
                 <Tab title='Tutorial'>
-                    <Tutorial uid='surface-maps' />
+                    <Tutorial uid='other-maps' />
                 </Tab>
             </TabSet>
         </Article>

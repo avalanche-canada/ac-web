@@ -5,7 +5,7 @@ import HotZoneReportLayers from './hotZoneReport'
 import MountainInformationNetworkLayers from './mountainInformationNetwork'
 import WeatherStationLayers from './weatherStation'
 import ToyotaLayers from './toyota'
-import {getLayers as getVisibleLayers} from 'reducers/drawers'
+import {getLayers as getVisibleLayers} from 'getters/drawers'
 import {setVisibility} from './utils'
 import * as Layers from 'constants/map/layers'
 

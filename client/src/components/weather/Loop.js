@@ -186,6 +186,7 @@ const METADATA = new Map([
         unit: 'h',
         count: 25,
         runs: [0, 12],
+        layout: 'RIGHT',
         extension: 'jpg',
     }],
     // Radar Imagery
@@ -286,12 +287,12 @@ const METADATA = new Map([
     ['AC_PLOT_BC_actual-temps', {
         title: 'Temperatures-MSLP',
         domain: 'wcst',
-        frequency: 1,
+        frequency: 60,
         startsAt: 0,
-        unit: 'h',
-        count: 12,
+        unit: 'min',
+        count: 24,
         runs: null,
-        extension: 'png',
+        extension: 'jpg',
     }],
 ])
 

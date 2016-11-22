@@ -51,9 +51,7 @@ function panelConnector(mapStateToProps, load) {
         connect(mapStateToProps, {load}),
         withProps(props => ({
             load() {
-                props.load({
-                    id: getId(props)
-                })
+                props.load(getId(props))
             }
         })),
         lifecycle({
