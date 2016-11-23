@@ -14,6 +14,7 @@ import {
 import {pushNewLocation, pushQuery} from 'utils/router'
 import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
+import mapbox from 'services/mapbox/map'
 
 const EMPTY = new List()
 function noop() {}
@@ -131,14 +132,28 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
+                const submissions = near(feature, data, point_count)
+                const coordinates = submissions.features.map(({geometry}) => geometry.coordinates)
+                const longitudes = new Set(coordinates.map(c => c[0]))
+                const latitudes = new Set(coordinates.map(c => c[1]))
 
-                return this.setBounds(near(feature, data, point_count))
+                if (longitudes.size === 1 && latitudes.size === 1) {
+                    this.showMINPopup(submissions.features)
+                } else {
+                    this.setBounds(submissions)
+                }
+
+                return
             } else {
                 const {id} = feature.properties
 
-                return pushQuery({
-                    panel: `${key}/${id}`
-                }, this.props)
+                if (features.length > 1) {
+                    this.showMINPopup(features)
+                } else {
+                    this.transitionToMIN(id)
+                }
+
+                return
             }
         }
 
@@ -194,6 +209,42 @@ class Container extends Component {
                 }, this.props)
             })
         }
+    }
+    showMINPopup(features) {
+        const [{geometry: {coordinates}}] = features
+        const html = document.createElement('div')
+        const p = document.createElement('p')
+        const ul = document.createElement('ul')
+
+        p.textContent = `${features.length} reports are available at this location:`
+
+        features.forEach(({properties: {id, title}}) => {
+            const li = document.createElement('li')
+            const a = document.createElement('a')
+
+            a.href = '#'
+            a.textContent = title
+            a.onclick = event => {
+                this.transitionToMIN(id)
+            }
+
+            li.appendChild(a)
+
+            ul.appendChild(li)
+        })
+
+        html.appendChild(p)
+        html.appendChild(ul)
+
+        new mapbox.Popup()
+            .setLngLat(coordinates)
+            .setDOMContent(html)
+            .addTo(this.map)
+    }
+    transitionToMIN(id) {
+        return pushQuery({
+            panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
+        }, this.props)
     }
     handleLoad = event => {
         const map = event.target
