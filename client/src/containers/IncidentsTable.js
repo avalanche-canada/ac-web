@@ -11,7 +11,7 @@ import mapStateToProps from 'selectors/incidents/table'
 import Button from 'components/button'
 import {DropdownFromOptions} from 'components/controls'
 import {Form, Fieldset} from 'components/form'
-import {replaceQuery} from 'utils/router'
+import {replace} from 'utils/router'
 
 const {assign, keys} = Object
 const {isArray} = Array
@@ -23,8 +23,10 @@ const PARAMS = {
 }
 
 function setParams(name, props) {
-    return value => replaceQuery({
-        [name]: [...value]
+    return value => replace({
+        query: {
+            [name]: [...value]
+        }
     }, props)
 }
 

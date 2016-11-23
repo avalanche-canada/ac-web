@@ -11,7 +11,7 @@ import {
     MountainInformationNetworkSubmission,
     WeatherStation,
 } from 'api/schemas'
-import {pushNewLocation, pushQuery} from 'utils/router'
+import {push} from 'utils/router'
 import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
 import mapbox from 'services/mapbox/map'
@@ -47,10 +47,16 @@ class Container extends Component {
         bounds: null,
         map: null,
     }
+    lastMouseMoveEvent = null
+    zoomToBounds = false
+    constructor(props) {
+        super(props)
+
+        this.popup = new mapbox.Popup()
+    }
     get map() {
         return this.state.map
     }
-    lastMouseMoveEvent = null
     processMouseMove = () => {
         if (this.lastMouseMoveEvent === null || !this.map) {
             return
@@ -88,8 +94,7 @@ class Container extends Component {
     }
     handleMarkerClick = ({location}, event) => {
         event.stopPropagation()
-
-        pushNewLocation(location, this.props)
+        this.push(location)
     }
     handleMousemove = event => {
         if (this.map) {
@@ -157,6 +162,7 @@ class Container extends Component {
             }
         }
 
+        // Weather Stations
         features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.WEATHER_STATION)
         })
@@ -171,10 +177,10 @@ class Container extends Component {
 
                 return this.setBounds(near(feature, data, point_count))
             } else {
-                const {stationId} = feature.properties
-
-                return pushQuery({
-                    panel: `${key}/${stationId}`
+                return this.push({
+                    query: {
+                        panel: `${key}/${feature.properties.stationId}`
+                    }
                 }, this.props)
             }
         }
@@ -186,13 +192,10 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const {type} = feature.geometry
 
-            return this.setBounds(type === 'Point' ? null : feature, () => {
-                pushNewLocation({
-                    pathname: `/map/hot-zone-reports/${feature.properties.id}`
-                }, this.props)
-            })
+            return this.push({
+                pathname: `/map/hot-zone-reports/${feature.properties.id}`,
+            }, this.props)
         }
 
         // Handle Forecast layers
@@ -203,10 +206,8 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
 
-            return this.setBounds(feature, () => {
-                pushNewLocation({
-                    pathname: `/map/forecasts/${feature.properties.id}`
-                }, this.props)
+            return this.push({
+                pathname: `/map/forecasts/${feature.properties.id}`,
             })
         }
     }
@@ -236,21 +237,32 @@ class Container extends Component {
         html.appendChild(p)
         html.appendChild(ul)
 
-        new mapbox.Popup()
-            .setLngLat(coordinates)
-            .setDOMContent(html)
-            .addTo(this.map)
+        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
     }
     transitionToMIN(id) {
-        return pushQuery({
-            panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
+        return this.push({
+            query: {
+                panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
+            }
         }, this.props)
+    }
+    push(location) {
+        this.zoomToBounds = true
+
+        push(location, this.props)
     }
     handleLoad = event => {
         const map = event.target
 
-        this.setState({map})
-        this.props.onLoad(map)
+        this.setState({map}, () => {
+            const {onLoad, routes, params} = this.props
+
+            if (routes.find(isForecastRoute)) {
+                this.setActiveForecastRegion(params.name)
+            }
+
+            onLoad(map)
+        })
     }
     setForecastRegionsFilter(id = '') {
         if (!this.map) {
@@ -276,9 +288,6 @@ class Container extends Component {
 
         this.setState({bounds}, callback)
     }
-    componentWillMount() {
-        this.setBounds(this.props.feature)
-    }
     componentDidMount() {
         this.props.loadData()
 
@@ -288,33 +297,32 @@ class Container extends Component {
         clearInterval(this.intervalID)
     }
     shouldComponentUpdate({layers, sources, markers}, {map, bounds}) {
-        const {props, state} = this
-
-        if (layers === props.layers &&
-            sources === props.sources &&
-            markers === props.markers &&
-            bounds === state.bounds &&
-            map === state.map
+        if (layers === this.props.layers &&
+            sources === this.props.sources &&
+            markers === this.props.markers &&
+            bounds === this.state.bounds &&
+            map === this.state.map
         ) {
             return false
         }
 
         return true
     }
-    componentWillReceiveProps({feature, routes}) {
-        if (feature && this.props.feature !== feature) {
+    componentWillReceiveProps({feature, routes, params, location}) {
+        if (feature && this.props.feature !== feature && !this.zoomToBounds) {
             this.setBounds(feature)
         }
 
-        if (this.props.routes.find(isForecastRoute) && !routes.find(isForecastRoute)) {
-            this.setActiveForecastRegion()
+        if (location.key !== this.props.location.key) {
+            this.zoomToBounds = false
         }
-    }
-    componentDidUpdate() {
-        if (this.props.routes.find(isForecastRoute)) {
-            const {name} = this.props.params
 
-            this.setActiveForecastRegion(name)
+        if (routes.find(isForecastRoute)) {
+            if (params.name !== this.props.params.name) {
+                this.setActiveForecastRegion(params.name)
+            }
+        } else {
+            this.setActiveForecastRegion()
         }
     }
     renderMarker = ({id, ...marker}) => {
@@ -325,9 +333,7 @@ class Container extends Component {
     }
     render() {
         const {map} = this
-        const {
-            bounds,
-        } = this.state
+        const {bounds} = this.state
         const {
             sources = EMPTY,
             layers = EMPTY,
