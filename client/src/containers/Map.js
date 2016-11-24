@@ -109,7 +109,7 @@ class Container extends Component {
             this.props.centerChanged(center)
         }
     }
-        handleZoomend = event => {
+    handleZoomend = event => {
         // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
         if (event.originalEvent) {
             const zoom = event.target.getZoom()
@@ -308,7 +308,7 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({feature, routes, params, location}) {
+    componentWillReceiveProps({feature, routes, params, location, command}) {
         if (feature && this.props.feature !== feature && !this.zoomToBounds) {
             this.setBounds(feature)
         }
@@ -323,6 +323,10 @@ class Container extends Component {
             }
         } else {
             this.setActiveForecastRegion()
+        }
+
+        if (this.map && command !== this.props.command) {
+            this.map[command.name].apply(this.map, command.args)
         }
     }
     renderMarker = ({id, ...marker}) => {

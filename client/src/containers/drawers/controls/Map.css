@@ -1,0 +1,14 @@
+.ZoomControl {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    bottom: 15px;
+    left: -55px;
+    z-index: 2;
+
+    & > button {
+        background-color: white;
+        outline: none;
+    }
+}

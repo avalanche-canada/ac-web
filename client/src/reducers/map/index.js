@@ -9,4 +9,5 @@ import * as Actions from 'actions/map'
 export default combineReducers({
     center: handleAction(Actions.CENTER_CHANGED, getPayload, [-125.15, 54.80]),
     zoom: handleAction(Actions.ZOOM_CHANGED, getPayload, 4.3),
+    command: handleAction(Actions.MAP_COMMAND_CREATED, getPayload, null),
 })

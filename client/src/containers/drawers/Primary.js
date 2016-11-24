@@ -12,7 +12,6 @@ export default compose(
     withRouter,
     getContext({
         location: PropTypes.object.isRequired,
-        map: PropTypes.object.isRequired,
     }),
     connect(getPrimary),
     defaultProps({
