@@ -24,20 +24,16 @@ export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
 export const loadStateChanged = createAction(LOAD_STATE_CHANGED)
 
-const createMapCommand = createAction(
-    MAP_COMMAND_CREATED,
-    (name, ...args) => ({name, args})
-)
+function createMapCommand(name) {
+    return createAction(
+        MAP_COMMAND_CREATED,
+        (...args) => ({name, args})
+    )
+}
 
-export function zoomIn(...args) {
-    return createMapCommand('zoomIn', ...args)
-}
-export function zoomOut(...args) {
-    return createMapCommand('zoomOut', ...args)
-}
-export function fitBounds(...args) {
-    return createMapCommand('fitBounds', ...args)
-}
+export const zoomIn = createMapCommand('zoomIn')
+export const zoomOut = createMapCommand('zoomOut')
+export const fitBounds = createMapCommand('fitBounds')
 
 export function loadData() {
     return (dispatch, getState) => {
