@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react'
+import {Link} from 'react-router'
 import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Submission} from 'components/mountainInformationNetwork'
+import {Locate} from 'components/button'
 import {Loading, Error} from 'components/misc'
-import {Link} from 'react-router'
-import {mountainInformationNetworkSubmission} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
+import {mountainInformationNetworkSubmission} from 'containers/connectors'
 
 function MountainInformationNetwork({
     title,
@@ -15,6 +16,7 @@ function MountainInformationNetwork({
     messages,
     link,
     onCloseClick,
+    onLocateClick,
 }) {
     const {error, loading} = messages
     const shareUrl = link && `${window.location.origin}${link}`
@@ -27,7 +29,8 @@ function MountainInformationNetwork({
             </Navbar>
             <Header subject='Mountain Information Network'>
                 <h1>
-                    {link ? <Link to={link}>{title}</Link> : title}
+                    <Link to={link}>{title}</Link>
+                    <Locate onClick={onLocateClick} />
                 </h1>
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>

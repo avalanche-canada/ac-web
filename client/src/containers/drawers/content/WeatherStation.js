@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Station} from 'components/weather/station'
 import {Loading, Error} from 'components/misc'
+import {Locate} from 'components/button'
 import {Link} from 'react-router'
 import {weatherStation} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
@@ -18,6 +19,7 @@ function WeatherStation({
     link,
     headers,
     onCloseClick,
+    onLocateClick,
 }) {
     const {error, loading} = messages
 
@@ -28,7 +30,10 @@ function WeatherStation({
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Header subject='Weather station'>
-                <h1>{link ? <Link to={link}>{title}</Link> : title}</h1>
+                <h1>
+                    <Link to={link}>{title}</Link>
+                    <Locate onClick={onLocateClick} />
+                </h1>
                 {station && <Metadata {...station} />}
             </Header>
             <Body>

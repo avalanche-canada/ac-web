@@ -5,6 +5,7 @@ import Forecast, {Metadata} from 'components/forecast'
 import {Muted, Error} from 'components/misc'
 import {forecast} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
+import {Locate} from 'components/button'
 
 Container.propTypes = {
     type: PropTypes.string,
@@ -23,6 +24,7 @@ function Container({
     title = 'Loading...',
     link,
     onCloseClick,
+    onLocateClick,
 }) {
     const shareUrl = link && `${window.location.origin}${link.to}`
 
@@ -34,7 +36,8 @@ function Container({
             </Navbar>
             <Header subject='Avalanche Forecast'>
                 <h1>
-                    {link ? <Link {...link}>{title}</Link> : title}
+                    <Link {...link}>{title}</Link>
+                    <Locate onClick={onLocateClick} />
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>

@@ -5,6 +5,7 @@ import {Loading, Error} from 'components/misc'
 import {hotZoneReport} from 'containers/connectors'
 import HotZoneReport, {Metadata} from 'components/hotZoneReport'
 import Sponsor from 'containers/Sponsor'
+import {Locate} from 'components/button'
 
 function Container({
     isLoading,
@@ -14,6 +15,7 @@ function Container({
     isError,
     link,
     onCloseClick,
+    onLocateClick,
 }) {
     const shareUrl = link && `${window.location.origin}${link.to}`
 
@@ -24,7 +26,10 @@ function Container({
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Header subject='Hot Zone Report'>
-                <h1>{link ? <Link to={link}>{title}</Link> : title}</h1>
+                <h1>
+                    <Link to={link}>{title}</Link>
+                    <Locate onClick={onLocateClick} />
+                </h1>
                 {isLoading || <Metadata report={report.report} shareUrl={shareUrl} />}
             </Header>
             <Body>
