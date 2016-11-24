@@ -2,10 +2,11 @@ import React, {PropTypes} from 'react'
 import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Station} from 'components/weather/station'
 import {Loading, Error} from 'components/misc'
-import {Locate} from 'components/button'
+import {LocateAsClass} from 'components/button/Locate'
 import {Link} from 'react-router'
 import {weatherStation} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
+import {Wrapper} from 'components/tooltip'
 
 function WeatherStation({
     title,
@@ -32,7 +33,9 @@ function WeatherStation({
             <Header subject='Weather station'>
                 <h1>
                     <Link to={link}>{title}</Link>
-                    <Locate onClick={onLocateClick} />
+                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
+                        <LocateAsClass onClick={onLocateClick} />
+                    </Wrapper>
                 </h1>
                 {station && <Metadata {...station} />}
             </Header>

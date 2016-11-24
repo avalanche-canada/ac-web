@@ -2,10 +2,11 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Submission} from 'components/mountainInformationNetwork'
-import {Locate} from 'components/button'
+import {LocateAsClass} from 'components/button/Locate'
 import {Loading, Error} from 'components/misc'
 import Sponsor from 'containers/Sponsor'
 import {mountainInformationNetworkSubmission} from 'containers/connectors'
+import {Wrapper} from 'components/tooltip'
 
 function MountainInformationNetwork({
     title,
@@ -31,7 +32,9 @@ function MountainInformationNetwork({
             <Header subject='Mountain Information Network'>
                 <h1>
                     <Link to={link}>{title}</Link>
-                    <Locate onClick={onLocateClick} />
+                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
+                        <LocateAsClass onClick={onLocateClick} />
+                    </Wrapper>
                 </h1>
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>

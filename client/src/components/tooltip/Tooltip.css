@@ -1,0 +1,94 @@
+.Wrapper {
+    position: relative;
+}
+
+.Container {
+    position: absolute;
+    z-index: 1000;
+    padding: 0 1em;
+    font-size: 0.75rem;
+    font-weight: normal;
+}
+
+.Container--left {
+    composes: Container;
+
+    margin-left: -0.25em;
+    padding: 0 0.5em;
+}
+.Container--right {
+    composes: Container;
+
+    margin-right: 0.25em;
+    padding: 0 0.5em;
+}
+.Container--top {
+    composes: Container;
+
+    margin-top: -0.25em;
+    padding: 0.5em 0;
+}
+.Container--bottom {
+    composes: Container;
+
+    margin-bottom: 0.25em;
+    padding: 0.5em 0;
+}
+
+.Arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-style: solid;
+    opacity: 0.75;
+}
+
+.Arrow--left {
+    composes: Arrow;
+
+    right: 0;
+    top: 50%;
+    margin-top: -0.5em;
+    border-width: 0.5em 0 0.5em 0.5em;
+    border-left-color: black;
+}
+.Arrow--right {
+    composes: Arrow;
+
+    left: 0;
+    top: 50%;
+    margin-top: -0.5em;
+    border-width: 0.5em 0.5em 0.5em 0;
+    border-right-color: black;
+}
+.Arrow--top {
+    composes: Arrow;
+
+    bottom: 0;
+    left: 50%;
+    margin-left: -0.5em;
+    border-width: 0.5em 0.5em 0;
+    border-top-color: black;
+}
+.Arrow--bottom {
+    composes: Arrow;
+
+    top: 0;
+    left: 50%;
+    margin-left: -0.5em;
+    border-width: 0 0.5em 0.5em;
+    border-bottom-color: black;
+}
+
+.Content {
+    padding: 0.25em 0.5em;
+    color: white;
+    text-align: center;
+    border-radius: 0.25em;
+    background-color: black;
+    opacity: 0.75;
+}

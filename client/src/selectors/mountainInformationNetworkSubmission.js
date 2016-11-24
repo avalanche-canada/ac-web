@@ -39,7 +39,7 @@ const getComputeFlyTo = createSelector(
 
         return {
             center: [Number(longitude), Number(latitude)],
-            zoom: 12.5,
+            zoom: 14,
             offset: computeOffset(),
         }
     }

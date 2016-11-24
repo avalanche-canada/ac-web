@@ -5,7 +5,8 @@ import {Loading, Error} from 'components/misc'
 import {hotZoneReport} from 'containers/connectors'
 import HotZoneReport, {Metadata} from 'components/hotZoneReport'
 import Sponsor from 'containers/Sponsor'
-import {Locate} from 'components/button'
+import {LocateAsClass} from 'components/button/Locate'
+import {Wrapper} from 'components/tooltip'
 
 function Container({
     isLoading,
@@ -28,7 +29,9 @@ function Container({
             <Header subject='Hot Zone Report'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
-                    <Locate onClick={onLocateClick} />
+                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
+                        <LocateAsClass onClick={onLocateClick} />
+                    </Wrapper>
                 </h1>
                 {isLoading ||
                     <Metadata report={report.report} shareUrl={shareUrl} />
