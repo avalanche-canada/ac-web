@@ -27,15 +27,23 @@ function Container({
             </Navbar>
             <Header subject='Hot Zone Report'>
                 <h1>
-                    <Link to={link}>{title}</Link>
+                    {link ? <Link to={link}>{title}</Link> : title}
                     <Locate onClick={onLocateClick} />
                 </h1>
-                {isLoading || <Metadata report={report.report} shareUrl={shareUrl} />}
+                {isLoading ||
+                    <Metadata report={report.report} shareUrl={shareUrl} />
+                }
             </Header>
             <Body>
-                {isLoading && <Loading>Loading hot zone report...</Loading>}
-                {isError && <Error>An error happened!!!</Error>}
-                {isLoading || <HotZoneReport report={report.report} />}
+                {isLoading &&
+                    <Loading>Loading hot {title} zone report...</Loading>
+                }
+                {isError &&
+                    <Error>An error happened while loading hot zone report.</Error>
+                }
+                {isLoading ||
+                    <HotZoneReport report={report.report} />
+                }
             </Body>
         </DrawerContainer>
     )

@@ -12,6 +12,7 @@ function MountainInformationNetwork({
     metadata,
     isLoading,
     isError,
+    // TODO: Should be renamed to submission
     props,
     messages,
     link,

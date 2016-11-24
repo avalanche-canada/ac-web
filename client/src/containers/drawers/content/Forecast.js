@@ -36,7 +36,7 @@ function Container({
             </Navbar>
             <Header subject='Avalanche Forecast'>
                 <h1>
-                    <Link {...link}>{title}</Link>
+                    {link && <Link {...link}>{title}</Link>}
                     <Locate onClick={onLocateClick} />
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}

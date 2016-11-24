@@ -34,6 +34,7 @@ function createMapCommand(name) {
 export const zoomIn = createMapCommand('zoomIn')
 export const zoomOut = createMapCommand('zoomOut')
 export const fitBounds = createMapCommand('fitBounds')
+export const flyTo = createMapCommand('flyTo')
 
 export function loadData() {
     return (dispatch, getState) => {
