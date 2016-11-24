@@ -43,7 +43,7 @@ export function loadData() {
         layers.forEach(layer => {
             const actions = createActionsForLayer(layer, filters.get(layer))
 
-            actions.forEach(action => dispatch(action))
+            actions.forEach(dispatch)
         })
     }
 }

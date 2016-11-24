@@ -19,7 +19,7 @@ function MountainInformationNetwork({
     onLocateClick,
 }) {
     const {error, loading} = messages
-    const shareUrl = link && `${window.location.origin}${link}`
+    const shareUrl = `${window.location.origin}${link}`
 
     return (
         <Container>
