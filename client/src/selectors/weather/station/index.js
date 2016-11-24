@@ -24,7 +24,7 @@ const getComputeFlyTo = createSelector(
     computeOffset,
     (station, computeOffset) => () => ({
         center: [station.get('longitude'), station.get('latitude')],
-        zoom: 10,
+        zoom: 12.5,
         offset: computeOffset(),
     })
 )
