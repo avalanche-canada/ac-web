@@ -4,15 +4,11 @@
 
 init:
 	@echo "Init CI Build..."
-	. ~/.nvm/nvm.sh && nvm install 4.4.3 && nvm use 4.4.3
-	npm install npm@3.10.7 -g
-	npm config set registry http://registry.npmjs.org/
-	npm cache clean
-	npm install
+	sh scripts/init.sh
 
 build:
 	@echo "Building..."
-	make build
+	. ~/.nvm/nvm.sh && nvm use 4.4.3 && make build
 
 test:
 	@echo "Testing..."
