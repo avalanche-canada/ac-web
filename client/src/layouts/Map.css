@@ -1,3 +1,5 @@
+@import "../styles/colors.css";
+
 .Container {
     position: relative;
     height: 100%;
@@ -5,5 +7,30 @@
 
     & > :global(.mapboxgl-map) {
         height: 100%;
+    }
+}
+
+.AddControl {
+    display: inline-block;
+    position: fixed;
+    left: 15px;
+    bottom: 15px;
+}
+
+.AddControl--MIN {
+    background-image: url('components/icons/min/add-min-pin.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+    background-color: var(--primary);
+    opacity: 0.75;
+    border-radius: 100%;
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    box-shadow: 0 0 2px color(black alpha(25%)), 0 2px 4px color(black alpha(25%));
+
+    &:hover {
+        opacity: 1;
     }
 }
