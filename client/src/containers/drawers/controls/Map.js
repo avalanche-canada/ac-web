@@ -10,6 +10,8 @@ import {Remove, Add} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import styles from './Map.css'
 
+// TODO: Probably use the mapboaxgl zoom control
+
 function ZoomControl({zoomIn, zoomOut}) {
     return (
         <div styleName='ZoomControl' >
