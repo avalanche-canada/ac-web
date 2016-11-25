@@ -14,6 +14,17 @@ const ICON_CLASS_NAMES = new Map([
 ])
 
 export default class FullscreenControl {
+    constructor() {
+        if ('onfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'fullscreenchange'
+        } else if ('onmozfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'mozfullscreenchange'
+        } else if ('onwebkitfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'webkitfullscreenchange'
+        } else if ('onmsfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'MSFullscreenChange'
+        }
+    }
     get container() {
         return this._container
     }
@@ -23,7 +34,17 @@ export default class FullscreenControl {
     get button() {
         return this._button
     }
-    isFullscreen = false
+    _isFullscreen = false
+    get isFullscreen() {
+        return this._isFullscreen
+    }
+    set isFullscreen(isFullscreen) {
+        this._isFullscreen = isFullscreen
+        this.button.title = TITLES.get(isFullscreen)
+        this.button.classList.remove(ICON_CLASS_NAMES.get(!isFullscreen))
+        this.button.classList.add(ICON_CLASS_NAMES.get(isFullscreen))
+        this.button.setAttribute('aria-label', this.button.title)
+    }
     onAdd(map) {
         this._map = map
         this._container = document.createElement('div')
@@ -41,11 +62,26 @@ export default class FullscreenControl {
 
         this.container.appendChild(this.button)
 
-        return Object.assign(this.container, {
+        Object.assign(this.container, {
             className: `${CLASS_NAME} ${CLASS_NAME}-group`,
         })
+
+        if (this.fullscreenchangeEventName) {
+            document.addEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
+
+        return this.container
     }
     onRemove() {
+        if (this.fullscreenchangeEventName) {
+            document.removeEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
         this.container.parentNode.removeChild(this.container)
         this._map = undefined
     }
@@ -75,9 +111,19 @@ export default class FullscreenControl {
         }
 
         this.isFullscreen = !this.isFullscreen
-        this.button.title = TITLES.get(this.isFullscreen)
-        this.button.classList.remove(ICON_CLASS_NAMES.get(!this.isFullscreen))
-        this.button.classList.add(ICON_CLASS_NAMES.get(this.isFullscreen))
-        this.button.setAttribute('aria-label', this.button.title)
+    }
+    handleFullscreenChange = event => {
+        const container = this.map.getContainer()
+        const fullscreenElement =
+            document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement
+
+        if (fullscreenElement === container && !this.isFullscreen) {
+            this.isFullscreen = true
+        } else if (fullscreenElement !== container && this.isFullscreen) {
+            this.isFullscreen = false
+        }
     }
 }
