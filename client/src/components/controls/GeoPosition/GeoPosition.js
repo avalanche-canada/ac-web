@@ -5,8 +5,9 @@ import {Map, Marker} from 'components/map'
 import {Revelstoke} from 'constants/map/locations'
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
+import FullscreenControl from 'services/mapbox/controls/fullscreen'
 
-const {LngLat} = mapbox
+const {LngLat, NavigationControl} = mapbox
 const MARKER_OPTIONS = {
     offset: [-12, -12]
 }
@@ -32,6 +33,10 @@ export default class GeoPosition extends Component {
         onChange: PropTypes.func,
         longitude: PropTypes.number,
         latitude: PropTypes.number,
+        allowFullscreen: PropTypes.bool,
+    }
+    static defaultProps = {
+        allowFullscreen: true,
     }
     state = {
         map: null,
@@ -47,9 +52,15 @@ export default class GeoPosition extends Component {
         }
     }
     handleLoad = event => {
-        this.setState({
-            map: event.target
-        })
+        const map = event.target
+
+        if (this.props.allowFullscreen) {
+            map.addControl(new FullscreenControl(), 'bottom-right')
+        }
+
+        map.addControl(new NavigationControl(), 'bottom-right')
+
+        this.setState({map})
     }
     setLngLat(lngLat, callback) {
         this.setState({lngLat}, callback)
@@ -101,7 +112,13 @@ export default class GeoPosition extends Component {
 
         return (
             <div styleName='Container'>
-                <Map center={lngLat} zoom={5} maxBounds={null}
+                <Map
+                    ref='map'
+                    touchZoomRotate={false}
+                    dragRotate={false}
+                    center={lngLat}
+                    zoom={5}
+                    maxBounds={null}
                     onClick={this.handleClick}
                     onLoad={this.handleLoad}>
                     {map && <Marker
