@@ -19,6 +19,11 @@ import mapbox from 'services/mapbox/map'
 const EMPTY = new List()
 function noop() {}
 
+const CLUSTER_BOUNDS_OPTIONS = {
+    padding: 75,
+    speed: 1.75,
+}
+
 function isForecastRoute({path}) {
     return path === 'forecasts'
 }
@@ -145,7 +150,7 @@ class Container extends Component {
                 if (longitudes.size === 1 && latitudes.size === 1) {
                     this.showMINPopup(submissions.features)
                 } else {
-                    this.setBounds(submissions)
+                    this.setBounds(submissions, CLUSTER_BOUNDS_OPTIONS)
                 }
 
                 return
@@ -174,8 +179,9 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
+                const stations = near(feature, data, point_count)
 
-                return this.setBounds(near(feature, data, point_count))
+                return this.setBounds(stations, CLUSTER_BOUNDS_OPTIONS)
             } else {
                 return this.push({
                     query: {
@@ -279,14 +285,14 @@ class Container extends Component {
         this.map.setFilter('forecast-regions-active', ['==', 'id', name])
         this.map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
     }
-    setBounds(feature, callback) {
+    setBounds(feature, options) {
         let bounds = null
 
         if (feature) {
-            bounds = this.props.computeFitBounds(feature, false, false)
+            bounds = this.props.computeFitBounds(feature, false, false, options)
         }
 
-        this.setState({bounds}, callback)
+        this.setState({bounds})
     }
     componentDidMount() {
         this.props.loadData()
