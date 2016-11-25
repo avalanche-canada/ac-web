@@ -16,8 +16,8 @@ export default createSelector(
     (state, props) => props.id,
     getReports,
     getIsFetching,
-    (name, reports, isFetching) => {
-        const report = reports.find(report => report.name === name)
+    (id, reports, isFetching) => {
+        const report = reports.find(report => report.uid === id)
 
         return {
             report,

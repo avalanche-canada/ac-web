@@ -218,7 +218,7 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const panel = `toyota-truck-reports/${feature.properties.id}`
+            const panel = `toyota-truck-reports/${feature.properties.uid}`
 
             return push({
                 query: {

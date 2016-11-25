@@ -6,10 +6,10 @@ import {getDocumentsOfType} from 'reducers/prismic'
 import {createElement} from './utils'
 import Parser from 'prismic/parser'
 
-function transform({name, position: {longitude, latitude}, headline}) {
+function transform({uid, position: {longitude, latitude}, headline}) {
     return point([longitude, latitude], {
         title: headline,
-        id: name,
+        uid,
     })
 }
 
