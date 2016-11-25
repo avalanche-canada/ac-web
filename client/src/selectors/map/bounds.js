@@ -25,7 +25,7 @@ export const computeOffset = createSelector(
 
 export const computeFitBounds = createSelector(
     computeOffset,
-    computeOffset => (feature, assumePrimaryOpen, assumeSecondaryOpen) => {
+    computeOffset => (feature, assumePrimaryOpen, assumeSecondaryOpen, options = {}) => {
         if (!feature) {
             return null
         }
@@ -49,6 +49,7 @@ export const computeFitBounds = createSelector(
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 50,
+                ...options,
             }
         }
     }
