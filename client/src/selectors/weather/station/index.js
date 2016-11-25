@@ -1,11 +1,12 @@
 import {List} from 'immutable'
+import moment from 'moment'
 import {createSelector} from 'reselect'
 import {WeatherStation} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import * as Columns from './columns'
 import * as Headers from './headers'
-import moment from 'moment'
+import {computeOffset} from 'selectors/map/bounds'
 
 function getWeatherStation(state, {params, id}) {
     // For panel or page
@@ -18,6 +19,15 @@ function getWeatherStationResultsSet(state, {params}) {
     return getResultsSet(state, WeatherStation, params)
 }
 
+const getComputeFlyTo = createSelector(
+    getWeatherStation,
+    computeOffset,
+    (station, computeOffset) => () => ({
+        center: [station.get('longitude'), station.get('latitude')],
+        zoom: 14,
+        offset: computeOffset(),
+    })
+)
 
 function computeMeasurements(station) {
     if (!station.has('measurements')) {
@@ -45,7 +55,8 @@ function computeMeasurements(station) {
 export default createSelector(
     getWeatherStation,
     getWeatherStationResultsSet,
-    (station, {isFetching, isError, isLoaded}) => {
+    getComputeFlyTo,
+    (station, {isFetching, isError, isLoaded}, computeFlyTo) => {
         const data = {
             title: station && station.get('name'),
             link: station && `weather/stations/${station.get('stationId')}`,
@@ -56,6 +67,7 @@ export default createSelector(
                 error: 'Oups!!',
                 loading: 'Loading your data...'
             },
+            computeFlyTo,
         }
 
         if (station) {

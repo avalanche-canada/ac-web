@@ -20,10 +20,23 @@ import {loadForType} from 'actions/prismic'
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const LOAD_STATE_CHANGED = 'LOAD_STATE_CHANGED'
+export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 
 export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
 export const loadStateChanged = createAction(LOAD_STATE_CHANGED)
+
+function createMapCommand(name) {
+    return createAction(
+        MAP_COMMAND_CREATED,
+        (...args) => ({name, args})
+    )
+}
+
+export const zoomIn = createMapCommand('zoomIn')
+export const zoomOut = createMapCommand('zoomOut')
+export const fitBounds = createMapCommand('fitBounds')
+export const flyTo = createMapCommand('flyTo')
 
 export function loadData() {
     return (dispatch, getState) => {
@@ -33,7 +46,7 @@ export function loadData() {
         layers.forEach(layer => {
             const actions = createActionsForLayer(layer, filters.get(layer))
 
-            actions.forEach(action => dispatch(action))
+            actions.forEach(dispatch)
         })
     }
 }

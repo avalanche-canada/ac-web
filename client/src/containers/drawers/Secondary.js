@@ -8,7 +8,7 @@ import MountainInformationNetwork from './content/MountainInformationNetwork'
 import WeatherStation from './content/WeatherStation'
 import ToyotaTruckReport from './content/ToyotaTruckReport'
 import * as Schemas from 'api/schemas'
-import {pushQuery} from 'utils/router'
+import {push} from 'utils/router'
 
 const ContentComponents = new Map([
     [Schemas.MountainInformationNetworkSubmission.getKey(), MountainInformationNetwork],
@@ -31,7 +31,7 @@ export default compose(
 
             delete query.panel
 
-            pushQuery(query, props)
+            push({query}, props)
         }
     }),
     withProps(({open, location}) => {

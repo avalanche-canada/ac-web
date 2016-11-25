@@ -9,7 +9,7 @@ import {formatAsDay, parseFromDay} from 'utils/date'
 import get from 'lodash/get'
 import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
-import {replaceQuery, replaceStateAndQuery} from 'utils/router'
+import {replace} from 'utils/router'
 
 const {isArray} = Array
 const STYLE = {
@@ -89,26 +89,35 @@ const Container = compose(
     }),
     withHandlers({
         onLevelChange: props => level => {
-            replaceQuery({
-                level: level || undefined
+            replace({
+                query: {
+                    level: level || undefined
+                }
             }, props)
         },
         onTagsChange: props => tags => {
-            replaceQuery({
-                tags: tags.size > 0 ? [...tags] : undefined
+            replace({
+                query: {
+                    tags: tags.size > 0 ? [...tags] : undefined
+                }
             }, props)
         },
         onPlaceChange: props => place => {
-            replaceStateAndQuery({
-                place
-            }, {
-                sorting: 'distance',
+            replace({
+                state: {
+                    place
+                },
+                query: {
+                    sorting: 'distance'
+                }
             }, props)
         },
         onDateRangeChange: props => ({from, to}) => {
-            replaceQuery({
-                from: from ? formatAsDay(from) : undefined,
-                to: to ? formatAsDay(to) : undefined,
+            replace({
+                query: {
+                    from: from ? formatAsDay(from) : undefined,
+                    to: to ? formatAsDay(to) : undefined,
+                }
             }, props)
         },
     }),

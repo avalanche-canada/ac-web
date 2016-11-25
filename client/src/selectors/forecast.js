@@ -5,6 +5,7 @@ import {getResultsSet} from 'reducers/api/getters'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
+import {computeFitBounds} from 'selectors/map/bounds'
 
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
@@ -103,11 +104,18 @@ const getForecast = createSelector(
     }
 )
 
+const getComputeBounds = createSelector(
+    getForecastRegion,
+    computeFitBounds,
+    (region, computeBounds) => () => computeBounds(region)
+)
+
 export default createSelector(
     getForecast,
     getForecastRegion,
     getForecastResultSet,
-    (forecast, region, result) => {
+    getComputeBounds,
+    (forecast, forecastRegion, result, computeBounds) => {
         const {isFetching, isError, isLoaded} = result
 
         if (forecast) {
@@ -145,15 +153,16 @@ export default createSelector(
                 isLoaded,
                 title: forecast.bulletinTitle || forecast.name || region.name,
                 forecast: showForecast ? forecast : null,
-                region,
                 link,
+                computeBounds,
             }
         } else {
              return {
                 isLoading: isFetching,
                 isError,
                 isLoaded,
-                title: region && region.getIn(['properties', name]),
+                title: forecastRegion && forecastRegion.getIn(['properties', name]),
+                computeBounds,
             }
         }
     }

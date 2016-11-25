@@ -67,7 +67,8 @@ export default createSelector(
     getFilteredSubmissions,
     features => createSource({
         id: key,
-        cluster: true,
         features,
+        cluster: true,
+        clusterMaxZoom: 14,
     })
 )
