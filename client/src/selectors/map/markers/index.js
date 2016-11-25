@@ -6,7 +6,7 @@ import {getLayers as getVisibleLayers} from 'getters/drawers'
 
 const getMarkers = createSelector(
     getForecastMarkers,
-    (...args) => new List(args.reduce((all, markers) => all.concat(markers), []))
+    (...args) => args.reduce((all, markers) => all.concat(markers), new List())
 )
 
 export default createSelector(

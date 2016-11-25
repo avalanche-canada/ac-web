@@ -6,12 +6,14 @@ import {getSecondary} from 'selectors/drawers'
 import Drawer, {LEFT} from 'components/page/drawer'
 import MountainInformationNetwork from './content/MountainInformationNetwork'
 import WeatherStation from './content/WeatherStation'
+import ToyotaTruckReport from './content/ToyotaTruckReport'
 import * as Schemas from 'api/schemas'
 import {push} from 'utils/router'
 
 const ContentComponents = new Map([
     [Schemas.MountainInformationNetworkSubmission.getKey(), MountainInformationNetwork],
     ['weather-stations', WeatherStation],
+    ['toyota-truck-reports', ToyotaTruckReport],
 ])
 
 export default compose(

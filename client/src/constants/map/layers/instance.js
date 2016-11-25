@@ -9,6 +9,7 @@ const {
     MOUNTAIN_INFORMATION_NETWORK,
     SURFACE_HOAR,
     WEATHER_STATION,
+    TOYOTA_TRUCK_REPORTS,
 } = LAYERS
 
 const Layer = Immutable.Record({
@@ -30,6 +31,10 @@ export default new Immutable.Map({
     [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
         title: 'Mountain information network',
         type: 'Observations',
+    }),
+    [TOYOTA_TRUCK_REPORTS]: new Layer({
+        title: 'Follow AvCan Toyota trucks',
+        type: 'Sponsor',
     }),
     // [MOUNTAIN_CONDITION_REPORTS]: new Layer({
     //     title: 'Mountain condition reports',
