@@ -67,17 +67,25 @@ Quick.propTypes = {
 }
 
 export default function Quick({avalancheConditions, ridingConditions, comment}) {
-    const hasInformation = avalancheConditions || ridingConditions
+    avalancheConditions = projectKeys(
+        avalancheConditionsTexts,
+        avalancheConditions
+    )
+
+    const hasAvalancheConditions = avalancheConditions.length > 0
+    const hasInformation = hasAvalancheConditions || ridingConditions
 
     return (
         <div>
         {hasInformation &&
             <Section title='Information'>
                 <List bordered>
-                    {avalancheConditions && <Term block>Avalanche conditions</Term>}
-                    {avalancheConditions &&
+                    {hasAvalancheConditions &&
+                        <Term block>Avalanche conditions</Term>
+                    }
+                    {hasAvalancheConditions &&
                         <Definition block>
-                            {projectKeys(avalancheConditionsTexts, avalancheConditions).join('. ')}
+                            {avalancheConditions.join('. ')}
                         </Definition>
                     }
                     {ridingConditions && computeRidingConditions(ridingConditions)}
