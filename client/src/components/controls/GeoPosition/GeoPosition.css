@@ -5,4 +5,8 @@
     & > :global(.mapboxgl-map) {
         position: absolute 0;
     }
+
+    & :global(.mapboxgl-ctrl-compass) {
+        display: none;
+    }
 }
