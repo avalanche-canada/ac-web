@@ -220,7 +220,11 @@ class Container extends Component {
             const [feature] = features
             const panel = `toyota-truck-reports/${feature.properties.id}`
 
-            return pushQuery({panel}, this.props)
+            return push({
+                query: {
+                    panel
+                }
+            }, this.props)
         }
     }
     showMINPopup(features) {
