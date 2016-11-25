@@ -10,7 +10,10 @@ import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
 
 const LOCATE_STYLE = {
-    padding: '0.25em'
+    padding: '0.15em'
+}
+const ARROW_STYLE = {
+    left: 'calc(50% + 7px)'
 }
 
 Container.propTypes = {
@@ -43,7 +46,7 @@ function Container({
             <Header subject='Avalanche Forecast'>
                 <h1>
                     {link && <Link {...link}>{title}</Link>}
-                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
+                    <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
                 </h1>

@@ -8,6 +8,10 @@ import {weatherStation} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
 import {Wrapper} from 'components/tooltip'
 
+const LOCATE_STYLE = {
+    padding: '0.15em'
+}
+
 function WeatherStation({
     title,
     isLoading,
@@ -33,8 +37,8 @@ function WeatherStation({
             <Header subject='Weather station'>
                 <h1>
                     <Link to={link}>{title}</Link>
-                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
-                        <LocateAsClass onClick={onLocateClick} />
+                    <Wrapper tooltip='Display on map'>
+                        <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
                 </h1>
                 {station && <Metadata {...station} />}

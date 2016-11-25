@@ -8,6 +8,10 @@ import Sponsor from 'containers/Sponsor'
 import {mountainInformationNetworkSubmission} from 'containers/connectors'
 import {Wrapper} from 'components/tooltip'
 
+const LOCATE_STYLE = {
+    padding: '0.15em'
+}
+
 function MountainInformationNetwork({
     title,
     metadata,
@@ -32,8 +36,8 @@ function MountainInformationNetwork({
             <Header subject='Mountain Information Network'>
                 <h1>
                     <Link to={link}>{title}</Link>
-                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
-                        <LocateAsClass onClick={onLocateClick} />
+                    <Wrapper tooltip='Display on map'>
+                        <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
                 </h1>
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}

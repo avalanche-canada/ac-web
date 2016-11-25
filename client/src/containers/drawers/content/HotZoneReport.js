@@ -8,6 +8,13 @@ import Sponsor from 'containers/Sponsor'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
 
+const LOCATE_STYLE = {
+    padding: '0.15em'
+}
+const ARROW_STYLE = {
+    left: 'calc(50% + 7px)'
+}
+
 function Container({
     isLoading,
     report = {},
@@ -29,8 +36,8 @@ function Container({
             <Header subject='Hot Zone Report'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
-                    <Wrapper tooltip={`Zoom to ${title}`} placement='left'>
-                        <LocateAsClass onClick={onLocateClick} />
+                    <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
+                        <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
                 </h1>
                 {isLoading ||

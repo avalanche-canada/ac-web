@@ -31,7 +31,7 @@ export default class Wrapper extends Component {
     toggle = () => this.visible = !this.visible
     target = props => findDOMNode(this.refs.target)
     render() {
-        const {children, placement, tooltip, trigger} = this.props
+        const {children, placement, tooltip, trigger, ...props} = this.props
         const events = trigger === 'hover' ? {
             onMouseOver: this.show,
             onMouseOut: this.hide,
@@ -51,7 +51,7 @@ export default class Wrapper extends Component {
                     target={this.target}
                     placement={placement}
                 >
-                    <Tooltip placement={placement}>
+                    <Tooltip placement={placement} {...props}>
                         {tooltip}
                     </Tooltip>
                 </Overlay>
