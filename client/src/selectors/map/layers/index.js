@@ -12,8 +12,8 @@ const LAYERS = new List([
     ...ForecastLayers,
     ...HotZoneReportLayers,
     ...ForecastLabels,
-    ...MountainInformationNetworkLayers,
     ...WeatherStationLayers,
+    ...MountainInformationNetworkLayers,
 ])
 
 function getLayerId(layer) {
