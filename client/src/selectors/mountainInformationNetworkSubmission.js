@@ -65,7 +65,7 @@ export default createSelector(
         }
 
         if (submission) {
-            const {title, user, datetime, obtype, obs, uploads} = submission.toJSON()
+            const {title, user, datetime, obtype, obs, uploads, latlng} = submission.toJSON()
 
             return {
                 ...props,
@@ -73,6 +73,9 @@ export default createSelector(
                 metadata: {
                     submittedOn: datetime,
                     submittedBy: user,
+                    latitude: Number(latlng[0]),
+                    longitude: Number(latlng[1]),
+                    submissionId: id,
                 },
                 props: {
                     observations: obs,
