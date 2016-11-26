@@ -69,17 +69,27 @@ function transform(forecast) {
         weatherForecast
     } = forecast
 
-    return {
+    const d = moment(dateIssued)
+        
+    // TODO(wnh): Clean this up and merge it into either the server side or the
+    // transformDangerRating function 
+    const fixDangerRatingDates = function(x, n){
+        let newDate = d.add(n + 1, 'days')
+        return Object.assign({}, x, {date: newDate.toDate()})
+    } 
+
+    var out =  {
         ...forecast,
         confidence: asConfidenceObject(confidence),
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued: moment(dateIssued).toDate(),
         validUntil: moment(validUntil).toDate(),
-        dangerRatings: dangerRatings.map(transformDangerRating),
+        dangerRatings: dangerRatings.map(transformDangerRating).map(fixDangerRatingDates),
         avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
     }
+    return out
 }
 
 function getForecasts(state) {
