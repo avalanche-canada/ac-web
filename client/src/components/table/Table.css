@@ -104,6 +104,8 @@
 }
 
 .Header {
+    border-bottom: 2px solid var(--gray-lighter);
+
     & > tr:last-child {
         border-bottom: none;
     }

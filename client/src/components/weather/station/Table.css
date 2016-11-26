@@ -3,23 +3,18 @@
 
     & table {
         position: inherit;
+        
+        & > thead {
+            border-bottom: none;
+        }
 
         & > tbody > tr > th,
-        & > thead > tr > th:first-child
-         {
+        & > thead > tr > th:first-child {
             position: absolute;
             top: auto;
             left: 0;
             width: 5em;
         }
-
-        /*& > thead {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5em;
-        }*/
     }
 }
 
