@@ -68,13 +68,11 @@ function transform(forecast) {
         snowpackSummary,
         weatherForecast
     } = forecast
-
-    const d = moment(dateIssued)
         
     // TODO(wnh): Clean this up and merge it into either the server side or the
     // transformDangerRating function 
     const fixDangerRatingDates = function(x, n){
-        let newDate = d.add(n + 1, 'days')
+        let newDate = moment(dateIssued).add(n + 1, 'days')
         return Object.assign({}, x, {date: newDate.toDate()})
     } 
 
