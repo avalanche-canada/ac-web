@@ -191,6 +191,22 @@ class Container extends Component {
             }
         }
 
+        // Toyota truck reports
+        features = this.map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.TOYOTA_TRUCK_REPORTS)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const panel = `toyota-truck-reports/${feature.properties.uid}`
+
+            return push({
+                query: {
+                    panel
+                }
+            }, this.props)
+        }
+
         // Handle Hot Zone Report layers
         features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
@@ -215,22 +231,6 @@ class Container extends Component {
             return this.push({
                 pathname: `/map/forecasts/${feature.properties.id}`,
             })
-        }
-
-        // Toyota truck reports
-        features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.TOYOTA_TRUCK_REPORTS)
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-            const panel = `toyota-truck-reports/${feature.properties.uid}`
-
-            return push({
-                query: {
-                    panel
-                }
-            }, this.props)
         }
     }
     showMINPopup(features) {
