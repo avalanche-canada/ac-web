@@ -13,7 +13,7 @@ MountainInformationNetworkMetadata.propTypes = {
 }
 
 function roundCoordinate(coordinate) {
-    return Math.round(coordinate * 1000) / 1000
+    return Math.round(coordinate * 100000) / 100000
 }
 
 export default function MountainInformationNetworkMetadata({
@@ -36,8 +36,7 @@ export default function MountainInformationNetworkMetadata({
         <Entry term='Location'>
             <span className={styles.MapLocationWrap}>
                 <span className={styles.MapLocationItem}>
-                    {roundCoordinate(longitude)}&nbsp;&deg;,
-                    {roundCoordinate(latitude)}&nbsp;&deg;
+                    {roundCoordinate(longitude)}&nbsp;&deg;, {roundCoordinate(latitude)}&nbsp;&deg;
                 </span>
                 {!shareUrl && mapLink}
             </span>
