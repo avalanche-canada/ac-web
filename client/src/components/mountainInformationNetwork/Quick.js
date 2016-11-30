@@ -19,7 +19,7 @@ const RidingConditionsTitles = new Map([
     ['weather', 'The day was'],
 ])
 
-function computeRidingConditions(conditions) {
+function computeRidingConditions(conditions = {}) {
     return Object.keys(conditions).reduce((children, key) => {
         const {type, prompt, selected, options} = conditions[key]
         const term = RidingConditionsTitles.get(key) || prompt
