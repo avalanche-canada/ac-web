@@ -12,6 +12,10 @@ MountainInformationNetworkMetadata.propTypes = {
     shareUrl: PropTypes.string,
 }
 
+function roundCoordinate(coordinate) {
+    return Math.round(coordinate * 1000) / 1000
+}
+
 export default function MountainInformationNetworkMetadata({
     submittedOn,
     submittedBy,
@@ -29,9 +33,12 @@ export default function MountainInformationNetworkMetadata({
     )
 
     const loc = (
-        <Entry term='Location'> 
+        <Entry term='Location'>
             <span className={styles.MapLocationWrap}>
-                <span className={styles.MapLocationItem}>{latitude}&nbsp;&deg;, {longitude}&nbsp;&deg;</span>
+                <span className={styles.MapLocationItem}>
+                    {roundCoordinate(longitude)}&nbsp;&deg;,
+                    {roundCoordinate(latitude)}&nbsp;&deg;
+                </span>
                 {!shareUrl && mapLink}
             </span>
         </Entry>
