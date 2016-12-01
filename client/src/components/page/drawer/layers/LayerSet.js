@@ -6,7 +6,7 @@ import styles from './Layer.css'
 
 LayerSet.propTypes = {
     title: PropTypes.string.isRequired,
-    children: PropTypes.arrayOf(PropTypes.instanceOf(Layer)).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function LayerSet({title, children}) {

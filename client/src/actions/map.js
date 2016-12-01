@@ -1,5 +1,6 @@
 import {createAction} from 'redux-actions'
-import {getMenu} from 'getters/drawers'
+import {getVisibleLayers} from 'getters/drawers'
+import {loadForType} from 'actions/prismic'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
@@ -14,7 +15,6 @@ import {
     loadMountainInformationNetworkSubmissionsForDays,
     loadWeatherStations,
 } from 'actions/entities'
-import {loadForType} from 'actions/prismic'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
@@ -39,33 +39,28 @@ export const flyTo = createMapCommand('flyTo')
 
 export function loadData() {
     return (dispatch, getState) => {
-        const state = getState()
-        const {layers, filters} = getMenu(state)
+        const layers = getVisibleLayers(getState())
 
         layers.forEach(layer => {
-            const actions = createActionsForLayer(layer, filters.get(layer))
+            const actions = createActionsForLayer(layer)
 
             actions.forEach(dispatch)
         })
     }
 }
 
-function createActionsForLayer(layer, filters) {
-    switch (layer) {
+function createActionsForLayer(layer) {
+    switch (layer.get('id')) {
         case FORECASTS:
             return [loadForecastRegions()]
         case HOT_ZONE_REPORTS:
             return [loadHotZoneAreas(), loadHotZoneReports()]
         case MOUNTAIN_INFORMATION_NETWORK:
-            const {value} = filters.get('days')
+            const value = layer.getIn(['filters', 'days', 'value'])
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
         case TOYOTA_TRUCK_REPORTS:
             return [loadForType('toyota-truck-report')]
-        // case MOUNTAIN_CONDITION_REPORTS:
-        // case METEOGRAMS:
-        // case SURFACE_HOAR:
-        // case WEATHER_STATION:
         case WEATHER_STATION:
             return [loadWeatherStations()]
         default:

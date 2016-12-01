@@ -1,118 +1,118 @@
+import {Record, Map} from 'immutable'
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
 import {
     MENU_OPENED,
     MENU_CLOSED,
-    LAYER_TOGGLED,
     FILTER_CHANGED,
     LAYER_TURNED_ON,
+    LAYER_TURNED_OFF,
 } from 'actions/drawers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
+    MOUNTAIN_CONDITION_REPORTS,
+    METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
+    SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
 
-function setOpen(state, open) {
-    return {
-        ...state,
-        open
-    }
-}
+const Layer = Record({
+    id: null,
+    type: null,
+    title: null,
+    visible: false,
+    filters: null,
+}, 'Layer')
 
-function toggleLayer(state, name) {
-    const {layers} = state
+const Filter = Record({
+    type: null,
+    value: null,
+    options: null,
+}, 'Filter')
 
-    if (layers.has(name)) {
-        layers.delete(name)
-    } else {
-        layers.add(name)
-    }
-
-    return {
-        ...state,
-        layers: new Set([...layers]),
-    }
-}
-
-function turnOnLayer(state, name) {
-    const {layers} = state
-
-    if (layers.has(name)) {
-        return state
-    }
-
-    layers.add(name)
-
-    return {
-        ...state,
-        layers: new Set([...layers]),
-    }
-}
-
-function changeFilter({filters, ...rest}, {layer, name, value}) {
-    let filter = filters.get(layer).get(name)
-
-    if (typeof value === 'object') {
-        filter = {
-            ...filter,
-            ...value,
-        }
-    } else {
-        filter = {
-            ...filter,
-            value,
-        }
-    }
-
-    filters.get(layer).set(name, filter)
-
-    return {
-        ...rest,
-        filters: new Map([...filters])
-    }
-}
-
-const MENU = {
+const MENU = new Map({
     open: false,
     // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
-    layers: new Set([FORECASTS, HOT_ZONE_REPORTS, MOUNTAIN_INFORMATION_NETWORK, WEATHER_STATION, TOYOTA_TRUCK_REPORTS]),
-    // Defines the default filters, could comes from localStorage as well
-    filters: new Map([
-        [MOUNTAIN_INFORMATION_NETWORK, new Map([
-            ['days', {
-                type: 'listOfValues',
-                value: '7',
-                options: new Map([
-                    ['1', '1 day'],
-                    ['3', '3 days'],
-                    ['7', '7 days'],
-                    ['14', '14 days'],
-                    ['30', '30 days'],
-            ])}],
-            ['type', {
-                type: 'listOfValues',
-                value: 'all',
-                options: new Map([
-                    ['all', 'Show all report types'],
-                    ['quick', 'Quick'],
-                    ['avalanche', 'Avalanche'],
-                    ['snowpack', 'Snowpack'],
-                    ['weather', 'Weather'],
-                    ['incident', 'Incident'],
-            ])}],
-        ])]
-    ]),
+    layers: new Map({
+        [FORECASTS]: new Layer({
+            id: FORECASTS,
+            title: 'Forecasts',
+            type: 'Analysis',
+            visible: true,
+        }),
+        [HOT_ZONE_REPORTS]: new Layer({
+            id: HOT_ZONE_REPORTS,
+            title: 'Hot zone reports',
+            type: 'Analysis',
+            visible: true,
+        }),
+        [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
+            id: MOUNTAIN_INFORMATION_NETWORK,
+            title: 'Mountain information network',
+            type: 'Observations',
+            visible: true,
+            filters: new Map({
+                days: new Filter({
+                    type: 'listOfValues',
+                    value: '7',
+                    options: new Map([
+                        ['1', '1 day'],
+                        ['3', '3 days'],
+                        ['7', '7 days'],
+                        ['14', '14 days'],
+                        ['30', '30 days'],
+                    ])
+                }),
+                type: new Filter({
+                    type: 'listOfValues',
+                    value: 'all',
+                    options: new Map([
+                        ['all', 'Show all report types'],
+                        ['quick', 'Quick'],
+                        ['avalanche', 'Avalanche'],
+                        ['snowpack', 'Snowpack'],
+                        ['weather', 'Weather'],
+                        ['incident', 'Incident'],
+                    ])
+                })
+            })
+        }),
+        [WEATHER_STATION]: new Layer({
+            id: WEATHER_STATION,
+            title: 'Weather stations',
+            type: 'Observations',
+            visible: true,
+        }),
+        [TOYOTA_TRUCK_REPORTS]: new Layer({
+            id: TOYOTA_TRUCK_REPORTS,
+            title: 'Follow AvCan Toyota trucks',
+            type: 'Sponsor',
+            visible: true,
+        }),
+    }),
+})
+
+function setLayerVisibilityFactory(visible) {
+    return (state, {payload}) => {
+        const path = ['layers', payload, 'visible']
+
+        return state.setIn(path, visible)
+    }
 }
 
 export default combineReducers({
     menu: handleActions({
-        [MENU_OPENED]: state => setOpen(state, true),
-        [MENU_CLOSED]: state => setOpen(state, false),
-        [LAYER_TOGGLED]: (state, {payload}) => toggleLayer(state, payload),
-        [LAYER_TURNED_ON]: (state, {payload}) => turnOnLayer(state, payload),
-        [FILTER_CHANGED]: (state, {payload}) => changeFilter(state, payload),
+        [MENU_OPENED]: menu => menu.set('open', true),
+        [MENU_CLOSED]: menu => menu.set('open', false),
+        [LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
+        [LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
+        [FILTER_CHANGED]: (menu, {payload}) => {
+            const {layer, name, value} = payload
+
+            return menu.setIn(['layers', layer, 'filters', name, 'value'], value)
+        },
     }, MENU),
 })
