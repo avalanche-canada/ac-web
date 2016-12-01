@@ -4,9 +4,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {computeRouter} from 'router'
-import {configure} from 'store'
+import {configure, serializeFactory, deserialize} from 'store'
 import ElementQueries from 'css-element-queries/src/ElementQueries'
 import configureRaven from 'services/raven'
+import throttle from 'lodash/throttle'
 
 
 // TODO: Need to put these imports in a better spot
@@ -21,7 +22,10 @@ import 'styles/map.css'
 
 configureRaven()
 
-const store = configure()
+const store = configure(deserialize())
+
+store.subscribe(throttle(serializeFactory(store), 1000))
+
 const element = document.getElementById('app')
 
 const application = (
