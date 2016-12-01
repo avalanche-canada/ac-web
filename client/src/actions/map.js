@@ -60,6 +60,8 @@ function createActionsForLayer(layer) {
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
         case TOYOTA_TRUCK_REPORTS:
+            // TODO: Create an action for Toyota trucks only!
+            // Called too much, should look if any exist first! 
             return [loadForType('toyota-truck-report')]
         case WEATHER_STATION:
             return [loadWeatherStations()]
