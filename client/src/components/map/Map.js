@@ -133,9 +133,6 @@ export default class MapComponent extends Component {
     get map() {
         return this.state.map
     }
-    set map(map) {
-        this.setState({map})
-    }
     getChildContext() {
         return {
             map: this.map
@@ -158,7 +155,7 @@ export default class MapComponent extends Component {
                 }
             })
 
-            this.map = map
+            this.setState({map})
         } catch (error) {
             captureException(error)
             onInitializationError(error)
@@ -180,7 +177,7 @@ export default class MapComponent extends Component {
     }
     render() {
         return (
-            <div ref='container' styleName='Container' >
+            <div ref='container' style={this.props.containerStyle}>
                 {this.map && this.props.children}
             </div>
         )
