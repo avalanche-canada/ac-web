@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 
-.Layer--Active {
+.Layer--Visible {
     composes: Layer;
 
     color: black;

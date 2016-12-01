@@ -1,12 +1,11 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
-import ForecastLayers, {labels as ForecastLabels} from './forecast'
-import HotZoneReportLayers from './hotZoneReport'
 import MountainInformationNetworkLayers from './mountainInformationNetwork'
+import HotZoneReportLayers from './hotZoneReport'
 import WeatherStationLayers from './weatherStation'
 import ToyotaLayers from './toyota'
-import {getLayers as getVisibleLayers} from 'getters/drawers'
-import {setVisibility} from './utils'
+import ForecastLayers, {labels as ForecastLabels} from './forecast'
+import {getVisibleLayers} from 'getters/drawers'
 import * as Layers from 'constants/map/layers'
 
 const LAYERS = new List([
@@ -18,15 +17,30 @@ const LAYERS = new List([
     ...MountainInformationNetworkLayers,
 ])
 
+const VISIBILITY = new Map([
+    [true, 'visible'],
+    [false, 'none'],
+])
+function setVisibility(layer, visibility) {
+    if (layer.layout.visibility === visibility) {
+        return layer
+    } else {
+        return {
+            ...layer,
+            layout: {
+                ...layer.layout,
+                visibility
+            }
+        }
+    }
+}
+
 function getLayerId(layer) {
     return layer.id
 }
 
 const LayerIds = new Map([
-    [Layers.FORECASTS, [
-        ...ForecastLayers,
-        ...ForecastLabels,
-    ].map(getLayerId)],
+    [Layers.FORECASTS, ForecastLayers.map(getLayerId).concat(ForecastLabels.map(getLayerId))],
     [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers.map(getLayerId)],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers.map(getLayerId)],
     [Layers.WEATHER_STATION, WeatherStationLayers.map(getLayerId)],
@@ -37,20 +51,21 @@ export function getLayerIds(name) {
     return LayerIds.get(name)
 }
 
-function layerIdReducer(all, name) {
-    return all.concat(getLayerIds(name))
-}
-
-const getVisibleIds = createSelector(
+// Oh! Needs a more obvious to do that!
+const getLayerVisibilityMap = createSelector(
     getVisibleLayers,
-    layers => new Set(Array.from(layers).reduce(layerIdReducer, []))
+    visibleLayers => Array.from(LayerIds).reduce((visibilities, [id, layers]) => (
+        layers.reduce((visibilities, layer) => (
+            visibilities.set(layer, VISIBILITY.get(visibleLayers.has(id)))
+        ), visibilities)
+    ), new Map())
 )
 
 export default createSelector(
-    getVisibleIds,
-    ids => LAYERS.withMutations(layers => {
+    getLayerVisibilityMap,
+    visibilities => LAYERS.withMutations(layers => {
         layers.forEach((layer, index) => {
-            layers.set(index, setVisibility(layer, ids.has(layer.id)))
+            layers.set(index, setVisibility(layer, visibilities.get(layer.id)))
         })
     })
 )

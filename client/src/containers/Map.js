@@ -58,6 +58,7 @@ class Container extends Component {
         super(props)
 
         this.popup = new mapbox.Popup()
+        this.allLayerIds = getAllLayerIds(props.layers)
     }
     get map() {
         return this.state.map
@@ -70,7 +71,7 @@ class Container extends Component {
         const canvas = this.map.getCanvas()
         const {point} = this.lastMouseMoveEvent
         const features = this.map.queryRenderedFeatures(point, {
-            layers: getAllLayerIds(this.props.layers)
+            layers: this.allLayerIds
         })
 
         canvas.style.cursor = features.length ? 'pointer' : null
@@ -370,7 +371,7 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({feature, routes, params, location, command}) {
+    componentWillReceiveProps({feature, routes, params, location, command, layers}) {
         if (feature && this.props.feature !== feature && !this.zoomToBounds) {
             this.setBounds(feature)
         }
@@ -389,6 +390,10 @@ class Container extends Component {
 
         if (this.map && command !== this.props.command) {
             this.map[command.name].apply(this.map, command.args)
+        }
+
+        if (layers !== this.props.layers) {
+            this.allLayerIds = getAllLayerIds(layers)
         }
     }
     renderMarker = ({id, ...marker}) => {
