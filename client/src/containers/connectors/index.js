@@ -49,7 +49,7 @@ export const forecast = connector(
 export const hotZoneReport = connector(
     getHotZoneReport,
     Actions.loadHotZoneReports,
-    Actions.loadHotZoneAreas
+    Actions.loadHotZones
 )
 
 function panelConnector(mapStateToProps, load) {

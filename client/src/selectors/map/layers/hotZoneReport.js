@@ -1,6 +1,6 @@
-import {HotZoneArea} from 'api/schemas'
+import {HotZone} from 'api/schemas'
 
-const key = HotZoneArea.getKey()
+const key = HotZone.getKey()
 
 export default [{
     id: key,

@@ -11,7 +11,7 @@ import {
 import {
     loadHotZoneReports,
     loadForecastRegions,
-    loadHotZoneAreas,
+    loadHotZones,
     loadMountainInformationNetworkSubmissionsForDays,
     loadWeatherStations,
 } from 'actions/entities'
@@ -54,7 +54,7 @@ function createActionsForLayer(layer) {
         case FORECASTS:
             return [loadForecastRegions()]
         case HOT_ZONE_REPORTS:
-            return [loadHotZoneAreas(), loadHotZoneReports()]
+            return [loadHotZones(), loadHotZoneReports()]
         case MOUNTAIN_INFORMATION_NETWORK:
             const value = layer.getIn(['filters', 'days', 'value'])
 

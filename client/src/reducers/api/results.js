@@ -37,7 +37,7 @@ const {
     MountainInformationNetworkSubmission,
     ForecastRegion,
     Forecast,
-    HotZoneArea,
+    HotZone,
     HotZoneReport,
     Incident,
     Provider,
@@ -147,8 +147,8 @@ export default combineReducers({
         FORECAST_SUCCESS,
         FORECAST_FAILURE,
     ),
-    [HotZoneArea.getKey()]: resultsReducerFactory(
-        HotZoneArea,
+    [HotZone.getKey()]: resultsReducerFactory(
+        HotZone,
         HOT_ZONE_AREAS_REQUEST,
         HOT_ZONE_AREAS_SUCCESS,
         HOT_ZONE_AREAS_FAILURE,

@@ -1,14 +1,14 @@
 import {createSelector} from 'reselect'
-import {HotZoneArea, HotZoneReport} from 'api/schemas'
+import {HotZone, HotZoneReport} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {createSource} from './utils'
 import {point, polygon} from 'turf-helpers'
 
-const key = HotZoneArea.getKey()
+const key = HotZone.getKey()
 const {assign} = Object
 
 function getAreaFeatures(state) {
-    return getEntitiesForSchema(state, HotZoneArea)
+    return getEntitiesForSchema(state, HotZone)
 }
 
 function getReportFeatures(state) {

@@ -8,7 +8,7 @@ import Url from 'url'
 
 const {
     ForecastRegion,
-    HotZoneArea,
+    HotZone,
     Forecast,
     HotZoneReport,
     MountainInformationNetworkSubmission,
@@ -22,8 +22,8 @@ const CONFIGS = new Map([
     [ForecastRegion, params => ({
         transformResponse: defaults.transformResponse.concat(transformers.transformForecastRegions),
     })],
-    [HotZoneArea, params => ({
-        transformResponse: defaults.transformResponse.concat(transformers.transformHotZoneAreas),
+    [HotZone, params => ({
+        transformResponse: defaults.transformResponse.concat(transformers.transformHotZones),
     })],
     [Incident, ({slug, ...params}) => {
         if (slug) {
@@ -94,11 +94,11 @@ function forecastEndpoint({name, date}) {
     }
 }
 
-// TODO: Update endpoint for HotZoneArea when available
+// TODO: Update endpoint for HotZone when available
 const ENDPOINTS = new Map([
     [ForecastRegion, params => 'forecasts'],
     [Forecast, forecastEndpoint],
-    [HotZoneArea, params => 'forecasts'],
+    [HotZone, params => 'forecasts'],
     [HotZoneReport, params => 'hzr/submissions'],
     [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],

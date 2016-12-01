@@ -26,7 +26,7 @@ export function transformForecastRegions({features}) {
     )
 }
 
-export function transformHotZoneAreas({features}) {
+export function transformHotZones({features}) {
     return featureCollection(
         features.filter(isHotZone).map(addIdForMapboxGl)
     )

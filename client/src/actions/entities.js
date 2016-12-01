@@ -60,8 +60,8 @@ export const loadForecast = createApiAction(
     FORECAST_FAILURE,
 )
 
-export const loadHotZoneAreas = createApiAction(
-    Schemas.HotZoneArea,
+export const loadHotZones = createApiAction(
+    Schemas.HotZone,
     HOT_ZONE_AREAS_REQUEST,
     HOT_ZONE_AREAS_SUCCESS,
     HOT_ZONE_AREAS_FAILURE,

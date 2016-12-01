@@ -2,9 +2,9 @@ import React from 'react'
 import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withState, getContext} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {ForecastRegion, HotZoneArea} from 'api/schemas'
+import {ForecastRegion, HotZone} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
-import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
+import {loadForecastRegions, loadHotZones} from 'actions/entities'
 import {UnsupportedMap} from 'components/page'
 import {Link} from 'react-router'
 
@@ -14,7 +14,7 @@ function sorter(entity) {
 
 const mapStateToProps = createSelector(
     state => getEntitiesForSchema(state, ForecastRegion),
-    state => getEntitiesForSchema(state, HotZoneArea),
+    state => getEntitiesForSchema(state, HotZone),
     (forecastRegions, hotZones) => ({
         forecastRegions: forecastRegions.sortBy(sorter).toList(),
         hotZones: hotZones.sortBy(sorter).toList(),
@@ -24,14 +24,14 @@ const mapStateToProps = createSelector(
 export default compose(
     connect(mapStateToProps, {
         loadForecastRegions,
-        loadHotZoneAreas,
+        loadHotZones,
     }),
     lifecycle({
         componentDidMount() {
-            const {loadForecastRegions, loadHotZoneAreas} = this.props
+            const {loadForecastRegions, loadHotZones} = this.props
 
             loadForecastRegions()
-            loadHotZoneAreas()
+            loadHotZones()
         },
     }),
     onlyUpdateForKeys(['forecastRegions', 'hotZones']),

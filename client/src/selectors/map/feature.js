@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getEntitiesForSchema} from 'getters/entities'
-import {ForecastRegion, HotZoneArea, MountainInformationNetworkSubmission} from 'api/schemas'
+import {ForecastRegion, HotZone, MountainInformationNetworkSubmission} from 'api/schemas'
 
 function isForecastRoute({path}) {
     return path === 'forecasts'
@@ -14,15 +14,15 @@ export default createSelector(
     (state, {routes}) => routes,
     (state, {location}) => location,
     state => getEntitiesForSchema(state, ForecastRegion),
-    state => getEntitiesForSchema(state, HotZoneArea),
+    state => getEntitiesForSchema(state, HotZone),
     state => getEntitiesForSchema(state, MountainInformationNetworkSubmission),
-    (name, routes, location, forecastRegions, hotZoneAreas, submissions) => {
+    (name, routes, location, forecastRegions, hotZones, submissions) => {
         let feature = null
 
         if (routes.find(isForecastRoute)) {
             feature = forecastRegions.get(name)
         } else if (routes.find(isHotZoneReportRoute)) {
-            feature = hotZoneAreas.get(name)
+            feature = hotZones.get(name)
         }
 
         return feature
