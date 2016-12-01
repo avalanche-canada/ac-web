@@ -11,7 +11,6 @@ import {
     loadHotZoneReports,
     loadForecastRegions,
     loadHotZoneAreas,
-    loadMountainInformationNetworkObservationsForDays,
     loadMountainInformationNetworkSubmissionsForDays,
     loadWeatherStations,
 } from 'actions/entities'
@@ -61,7 +60,6 @@ function createActionsForLayer(layer, filters) {
             const {value} = filters.get('days')
 
             return [loadMountainInformationNetworkSubmissionsForDays(value)]
-            // return [loadMountainInformationNetworkObservationsForDays(value), loadMountainInformationNetworkSubmissionsForDays(value)]
         case TOYOTA_TRUCK_REPORTS:
             return [loadForType('toyota-truck-report')]
         // case MOUNTAIN_CONDITION_REPORTS:
