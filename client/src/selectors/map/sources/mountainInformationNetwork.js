@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect'
 import {MountainInformationNetworkSubmission as Schema} from 'api/schemas'
-import {getEntitiesForSchema, getResultsSetForSchema} from 'reducers/api/getters'
+import {getResultsSetForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 import {RESULT} from 'reducers/api/results'
 import {createSource} from './utils'
 import {point} from 'turf-helpers'

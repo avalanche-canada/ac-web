@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
+import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
@@ -68,13 +68,13 @@ function transform(forecast) {
         snowpackSummary,
         weatherForecast
     } = forecast
-        
+
     // TODO(wnh): Clean this up and merge it into either the server side or the
-    // transformDangerRating function 
+    // transformDangerRating function
     const fixDangerRatingDates = function(x, n){
         let newDate = moment(dateIssued).add(n + 1, 'days')
         return Object.assign({}, x, {date: newDate.toDate()})
-    } 
+    }
 
     var out =  {
         ...forecast,

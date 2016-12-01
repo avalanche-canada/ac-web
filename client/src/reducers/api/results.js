@@ -32,7 +32,6 @@ import {
     WEATHER_STATIONS_FAILURE,
 } from 'actions/entities'
 import {paramsToKey} from 'api/utils'
-import {getEntitiesForSchemaIds} from 'reducers/api/entities'
 
 const {
     MountainInformationNetworkSubmission,

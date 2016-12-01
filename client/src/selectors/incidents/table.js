@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {Incident} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/entities'
+import {getEntitiesForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 
 const {assign} = Object

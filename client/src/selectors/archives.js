@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {ForecastRegion} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/entities'
+import {getEntitiesForSchema} from 'getters/entities'
 import getForecast from './forecast'
 
 function getForecastRegions(state) {

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
+import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import {RESULT} from 'reducers/api/results'
 import {computeFitBounds} from 'selectors/map/bounds'

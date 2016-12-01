@@ -3,7 +3,7 @@ import {point} from 'turf-helpers'
 import mapbox from 'services/mapbox/map'
 import {FORECASTS} from 'constants/map/layers'
 import {ForecastRegion as Schema} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 import {createElement} from './utils'
 
 const {LngLat} = mapbox

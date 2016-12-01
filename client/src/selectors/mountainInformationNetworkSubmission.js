@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {MountainInformationNetworkSubmission} from 'api/schemas'
-import {getEntityForSchema} from 'reducers/api/entities'
+import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import {computeOffset} from 'selectors/map/bounds'
 
