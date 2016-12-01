@@ -43,7 +43,6 @@ Menu.propTypes = {
 }
 
 function Menu({sets = [], turnOnLayer, turnOffLayer, changeFilter, onCloseClick}) {
-    console.warn('render menu')
     return (
         <Container>
             <Navbar>

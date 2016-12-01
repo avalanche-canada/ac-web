@@ -1,6 +1,5 @@
 import {createAction} from 'redux-actions'
 import Axios from 'axios'
-import moment from 'moment'
 import {getActiveSponsor} from 'getters/sponsors'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
@@ -23,13 +22,11 @@ export const SPONSORS_SUCCESS = 'SPONSORS_SUCCESS'
 export const SPONSORS_FAILURE = 'SPONSORS_FAILURE'
 
 export function loadSponsors() {
-    return dispatch => {
-        dispatch({
-            type: SPONSORS_REQUEST
-        })
+    return (dispatch, getState) => {
+        const {sponsors} = getState()
+        const delay = sponsors.data ? 10000 : 1
 
         function onSuccess({data}) {
-            const date = moment().format('YYYY-MM-DD')
             const sponsors = data[data] || {}
 
             dispatch({
@@ -48,6 +45,13 @@ export function loadSponsors() {
             })
         }
 
-        return Axios.get('/static/sponsors.json').then(onSuccess, onFailure)
+        return new Promise(resolve => setTimeout(resolve, delay))
+            .then(() => {
+                dispatch({
+                    type: SPONSORS_REQUEST
+                })
+            })
+            .then(() => Axios.get('/static/sponsors.json'))
+            .then(onSuccess, onFailure)
     }
 }
