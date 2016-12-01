@@ -44,8 +44,10 @@ function MountainInformationNetwork({
             </Header>
             <Body>
                 {isError && <Error>{error}</Error>}
-                {isLoading && <Loading>{loading}</Loading>}
-                {props && <Submission {...props} />}
+                {isLoading ?
+                    <Loading>{loading}</Loading> :
+                    <Submission {...props} />
+                }
             </Body>
         </Container>
     )

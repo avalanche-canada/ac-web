@@ -44,15 +44,17 @@ function Container({
             <Content>
                 <Main>
                     {metadata && <Metadata {...metadata} />}
-                    {isLoading && <Muted>Loading submission...</Muted>}
-                    {isError && <Error>Error happened while loading submission.</Error>}
                     {false &&
                         <Map style='2016' center={center} zoom={8} containerStyle={MAP_STYLE}>
                             <Marker element={createElement({title})} lngLat={center} />
                             <NavigationControl />
                         </Map>
                     }
-                    {props && <Submission {...props} />}
+                    {isError && <Error>Error happened while loading submission.</Error>}
+                    {isLoading ?
+                        <Muted>Loading submission...</Muted> :
+                        <Submission {...props} />
+                    }
                 </Main>
             </Content>
         </Page>
