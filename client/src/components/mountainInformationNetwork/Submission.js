@@ -64,7 +64,8 @@ function Submission({uploads = [], observations = [], active = INCIDENT}) {
             {uploads.length > 0 &&
                 <ImageGallery
                     items={uploads.map(toGalleryItem)}
-                    showBullets
+                    showBullets={uploads.length > 1}
+                    showPlayButton={uploads.length > 1}
                     showThumbnails={false} />
             }
         </div>
