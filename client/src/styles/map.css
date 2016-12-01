@@ -11,3 +11,7 @@
     cursor: move;
     user-select: none;
 }
+
+:global(.mapboxgl-ctrl-group > .mapboxgl-ctrl-compass) {
+    display: none;
+}

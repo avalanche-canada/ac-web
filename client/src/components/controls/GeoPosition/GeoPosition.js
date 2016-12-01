@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import CSSModules from 'react-css-modules'
 import mapbox from 'services/mapbox/map'
-import {Map, Marker} from 'components/map'
+import {Map, Marker, NavigationControl, FullscreenControl} from 'components/map'
 import {Revelstoke} from 'constants/map/locations'
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
-import FullscreenControl from 'services/mapbox/controls/fullscreen'
 
-const {LngLat, NavigationControl} = mapbox
+const {LngLat} = mapbox
 const MARKER_OPTIONS = {
     offset: [-12, -12]
 }
@@ -52,15 +51,9 @@ export default class GeoPosition extends Component {
         }
     }
     handleLoad = event => {
-        const map = event.target
-
-        if (this.props.allowFullscreen) {
-            map.addControl(new FullscreenControl(), 'bottom-right')
-        }
-
-        map.addControl(new NavigationControl(), 'bottom-right')
-
-        this.setState({map})
+        this.setState({
+            map: event.target
+        })
     }
     setLngLat(lngLat, callback) {
         this.setState({lngLat}, callback)
@@ -109,6 +102,7 @@ export default class GeoPosition extends Component {
     }
     render() {
         const {lngLat, map} = this.state
+        const {allowFullscreen} = this.props
 
         return (
             <div styleName='Container'>
@@ -121,12 +115,14 @@ export default class GeoPosition extends Component {
                     maxBounds={null}
                     onClick={this.handleClick}
                     onLoad={this.handleLoad}>
-                    {map && <Marker
+                    <Marker
                         draggable
                         onDragEnd={this.handleDragEnd}
                         lngLat={lngLat}
                         element={this.element}
-                        options={MARKER_OPTIONS} />}
+                        options={MARKER_OPTIONS} />
+                    {allowFullscreen && <FullscreenControl />}
+                    <NavigationControl />
                 </Map>
             </div>
         )
