@@ -175,6 +175,9 @@ export default class MapComponent extends Component {
             this.map.fitBounds(bounds.bbox, bounds.options)
         }
     }
+    shouldComponentUpdate({children}) {
+        return children !== this.props.children
+    }
     render() {
         return (
             <div ref='container' style={this.props.containerStyle}>
