@@ -33,7 +33,7 @@ export function deserialize() {
 
     return {
         sponsors: {
-            data: get(state, 'sponsors.data', null)
+            data: get(state, 'sponsors.data', {})
         },
         api: {
             entities: Immutable.fromJS(get(state, 'api.entities', {}))
