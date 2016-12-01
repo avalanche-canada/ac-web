@@ -1,5 +1,5 @@
-import React, { PropTypes, Component} from 'react'
-import {render, unmountComponentAtNode} from 'react-dom'
+import React, {PropTypes, Component} from 'react'
+import ReactDOM from 'react-dom'
 import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
@@ -7,13 +7,15 @@ const ANCHORS = ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bot
 
 export default class Popup extends Component {
     static propTypes = {
-        longitude: PropTypes.number.isRequired,
-        latitude: PropTypes.number.isRequired,
+        lngLat: PropTypes.instanceOf(LngLat).isRequired,
         show: PropTypes.bool,
-        children: PropTypes.node.isRequired,
-        closeButton: PropTypes.bool,
-        closeOnClick: PropTypes.bool,
-        anchor: PropTypes.oneOf(ANCHORS),
+        children: PropTypes.element.isRequired,
+        options: PropTypes.shapeOf({
+            closeButton: PropTypes.bool,
+            closeOnClick: PropTypes.bool,
+            anchor: PropTypes.oneOf(ANCHORS),
+            offset: PropTypes.object,
+        }),
     }
     static defaultProps = {
         show: false,
@@ -22,33 +24,32 @@ export default class Popup extends Component {
         map: PropTypes.object.isRequired,
     }
     popup = null
-    div = document.createElement('div')
+    constructor(props) {
+        super(props)
+
+        this.container = document.createElement('div')
+    }
     get map() {
         return this.context.map
     }
     createPopup() {
-        const {map, div} = this
-        const {longitude, latitude, children, show, ...options} = this.props
+        const {lngLat, children, show, options} = this.props
         const popup = new mapbox.Popup(options)
 
-        render(children, div, function mountPopup() {
-            const latlng = new LngLat(longitude, latitude)
+        ReactDOM.render(children, this.container)
 
-            popup.setLngLat(latlng)
-            popup.setDOMContent(div)
+        popup.setLngLat(lngLat)
+        popup.setDOMContent(this.container)
 
-            if (show) {
-                popup.addTo(map)
-            }
-        })
+        if (show) {
+            popup.addTo(this.map)
+        }
 
         this.popup = popup
     }
     destroyPopup() {
-        const {popup, div} = this
-
-        popup.remove()
-        unmountComponentAtNode(div)
+        this.popup.remove()
+        ReactDOM.unmountComponentAtNode(this.container)
     }
     componentWillMount() {
         this.createPopup()
