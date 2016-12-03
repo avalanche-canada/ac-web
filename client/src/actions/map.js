@@ -9,9 +9,8 @@ import {
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
 import {
+    loadFeaturesMetadata,
     loadHotZoneReports,
-    loadForecastRegions,
-    loadHotZones,
     loadMountainInformationNetworkSubmissionsForDays,
     loadWeatherStations,
 } from 'actions/entities'
@@ -41,31 +40,25 @@ export function loadData() {
     return (dispatch, getState) => {
         const layers = getVisibleLayers(getState())
 
-        layers.forEach(layer => {
-            const actions = createActionsForLayer(layer)
+        dispatch(loadFeaturesMetadata())
 
-            actions.forEach(dispatch)
-        })
+        layers.map(createActionForLayer).filter(Boolean).forEach(dispatch)
     }
 }
 
-function createActionsForLayer(layer) {
+function createActionForLayer(layer) {
     switch (layer.get('id')) {
-        case FORECASTS:
-            return [loadForecastRegions()]
         case HOT_ZONE_REPORTS:
-            return [loadHotZones(), loadHotZoneReports()]
+            return loadHotZoneReports()
         case MOUNTAIN_INFORMATION_NETWORK:
             const value = layer.getIn(['filters', 'days', 'value'])
 
-            return [loadMountainInformationNetworkSubmissionsForDays(value)]
+            return loadMountainInformationNetworkSubmissionsForDays(value)
         case TOYOTA_TRUCK_REPORTS:
             // TODO: Create an action for Toyota trucks only!
-            // Called too much, should look if any exist first! 
-            return [loadForType('toyota-truck-report')]
+            // Called too much, should look if any exist first!
+            return loadForType('toyota-truck-report')
         case WEATHER_STATION:
-            return [loadWeatherStations()]
-        default:
-            throw new Error(`Layer of type ${layer} is not handled by "createActionsForLayer".`)
+            return loadWeatherStations()
     }
 }

@@ -1,12 +1,20 @@
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
 import {isApiAction} from 'api/utils'
-import {shouldDispatchLoadAction} from 'reducers/api/getters'
+import {getResultsSetForSchema} from 'reducers/api/getters'
+import {paramsToKey} from 'api/utils'
 
-const {isArray} = Array
+function shouldDispatchLoadAction(state, schema, action) {
+    const {params} = action.payload
+    const sets = getResultsSetForSchema(state, schema)
+    const key = paramsToKey(params)
+    const results = sets.get(key)
+
+    return !results || (!results.isLoaded && !results.isFetching)
+}
 
 export default store => next => action => {
-    if (!isApiAction(action)) {
+    if (!isApiAction(action) || !action.payload.schema) {
         return next(action)
     }
 
@@ -26,13 +34,13 @@ export default store => next => action => {
     function handleFulfill({data}) {
         let shape = schema
 
-        if (isArray(data)) {
+        if (Array.isArray(data)) {
             shape = arrayOf(schema)
-        } else if (isArray(data.results)) {
+        } else if (Array.isArray(data.results)) {
             shape = {
                 results: arrayOf(schema)
             }
-        } else if (isArray(data.features)) {
+        } else if (Array.isArray(data.features)) {
             shape = {
                 features: arrayOf(schema)
             }

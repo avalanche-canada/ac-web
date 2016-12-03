@@ -12,3 +12,7 @@ export const getVisibleLayers = createSelector(
     getLayers,
     layers => layers.filter(layer => layer.get('visible'))
 )
+
+export function isLayerVisible(state, layer) {
+    return getLayers(state).getIn([layer, 'visible'])
+}

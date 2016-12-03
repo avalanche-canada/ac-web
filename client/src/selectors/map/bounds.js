@@ -1,7 +1,9 @@
+import Immutable from 'immutable'
 import {createSelector} from 'reselect'
 import mapbox from 'services/mapbox/map'
 import {getPrimary, getSecondary} from 'selectors/drawers'
 import createBbox from 'turf-bbox'
+import turf from 'turf-helpers'
 
 const {LngLatBounds, LngLat} = mapbox
 
@@ -30,12 +32,21 @@ export const computeFitBounds = createSelector(
             return null
         }
 
-        if (typeof feature.toJSON === 'function') {
-            feature = feature.toJSON()
+        let bbox = null
+
+        if (Immutable.Iterable.isIterable(feature)) {
+            if (feature.has('bbox')) {
+                bbox = feature.get('bbox').toJSON()
+            } else if (feature.has('geometry')) {
+                const geometry = feature.get('geometry').toJSON()
+
+                bbox = createBbox(turf.feature(geometry))
+            }
+        } else {
+            bbox = createBbox(feature)
         }
 
-        let bbox = LngLatBounds.convert(createBbox(feature))
-        const [[west, south], [east, north]] = bbox.toArray()
+        const [west, south, east, north] = bbox
 
         if (north === south || east === west) {
             bbox = new LngLatBounds(
@@ -45,7 +56,7 @@ export const computeFitBounds = createSelector(
         }
 
         return {
-            bbox,
+            bbox: new LngLatBounds([west, south], [east, north]),
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 50,

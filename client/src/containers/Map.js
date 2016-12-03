@@ -29,6 +29,8 @@ function isForecastRoute({path}) {
 }
 function getAllLayerIds(layers) {
     return layers.map(layer => layer.id).toArray()
+        .concat(getLayerIds(Layers.FORECASTS))
+        .concat(getLayerIds(Layers.HOT_ZONE_REPORTS))
 }
 function renderSource(source) {
     return <Source key={source.id} {...source} />
@@ -79,21 +81,21 @@ class Container extends Component {
         const [feature] = features
 
         if (feature && feature.properties) {
-            const {title, id} = feature.properties
+            const {id, title, name} = feature.properties
 
-            if (title) {
-                canvas.setAttribute('title', title)
+            if (name || title) {
+                canvas.setAttribute('title', name || title)
             } else {
                 canvas.removeAttribute('title')
             }
 
             if (forecastRegionsRegex.test(feature.layer.id)) {
-                this.setForecastRegionsFilter(id)
+                this.setForecastRegionHover(id)
             } else {
-                this.setForecastRegionsFilter()
+                this.setForecastRegionHover()
             }
         } else {
-            this.setForecastRegionsFilter()
+            this.setForecastRegionHover()
         }
 
         this.lastMouseMoveEvent = null
@@ -327,20 +329,22 @@ class Container extends Component {
             onLoad(map)
         })
     }
-    setForecastRegionsFilter(id = '') {
-        if (!this.map) {
+    setForecastRegionHover(id = '') {
+        if (this.forecastRegionHoverId === id || !this.map) {
             return
         }
 
         this.map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+        this.forecastRegionHoverId = id
     }
-    setActiveForecastRegion(name = '') {
-        if (!this.map) {
+    setActiveForecastRegion(id = '') {
+        if (this.activeForecastRegionId === id || !this.map) {
             return
         }
 
-        this.map.setFilter('forecast-regions-active', ['==', 'id', name])
-        this.map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
+        this.map.setFilter('forecast-regions-active', ['==', 'id', id])
+        this.map.setFilter('forecast-regions-active-contour', ['==', 'id', id])
+        this.activeForecastRegionId = id
     }
     setBounds(feature, options) {
         let bounds = null
@@ -423,7 +427,7 @@ class Container extends Component {
         }
 
         return (
-            <Map bounds={bounds} zoom={zoom} center={center} {...events}>
+            <Map style='2016' bounds={bounds} zoom={zoom} center={center} {...events}>
                 {map && sources.map(renderSource)}
                 {map && layers.map(renderLayer)}
                 {map && markers.map(this.renderMarker)}

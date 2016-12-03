@@ -1,17 +1,12 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import MountainInformationNetworkLayers from './mountainInformationNetwork'
-import HotZoneReportLayers from './hotZoneReport'
 import WeatherStationLayers from './weatherStation'
 import ToyotaLayers from './toyota'
-import ForecastLayers, {labels as ForecastLabels} from './forecast'
 import {getVisibleLayers} from 'getters/drawers'
 import * as Layers from 'constants/map/layers'
 
 const LAYERS = new List([
-    ...ForecastLayers,
-    ...HotZoneReportLayers,
-    ...ForecastLabels,
     ...ToyotaLayers,
     ...WeatherStationLayers,
     ...MountainInformationNetworkLayers,
@@ -40,8 +35,17 @@ function getLayerId(layer) {
 }
 
 const LayerIds = new Map([
-    [Layers.FORECASTS, ForecastLayers.map(getLayerId).concat(ForecastLabels.map(getLayerId))],
-    [Layers.HOT_ZONE_REPORTS, HotZoneReportLayers.map(getLayerId)],
+    [Layers.FORECASTS, [
+        'forecast-regions',
+        'forecast-regions-active',
+        'forecast-regions-contour',
+        'forecast-regions-contour-hover',
+        'forecast-regions-active-contour',
+        'forecast-regions-labels']],
+    [Layers.HOT_ZONE_REPORTS, [
+        'hot-zones',
+        'hot-zones-active',
+        'hot-zones-labels']],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetworkLayers.map(getLayerId)],
     [Layers.WEATHER_STATION, WeatherStationLayers.map(getLayerId)],
     [Layers.TOYOTA_TRUCK_REPORTS, ToyotaLayers.map(getLayerId)],
@@ -51,7 +55,7 @@ export function getLayerIds(name) {
     return LayerIds.get(name)
 }
 
-// Oh! Needs a more obvious to do that!
+// Needs a more obvious way to do that!
 const getLayerVisibilityMap = createSelector(
     getVisibleLayers,
     visibleLayers => Array.from(LayerIds).reduce((visibilities, [id, layers]) => (

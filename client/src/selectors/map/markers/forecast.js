@@ -1,32 +1,22 @@
 import {createSelector} from 'reselect'
-import {point} from 'turf-helpers'
 import mapbox from 'services/mapbox/map'
 import {FORECASTS} from 'constants/map/layers'
 import {ForecastRegion as Schema} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {createElement} from './utils'
 
-const {LngLat} = mapbox
-const key = Schema.getKey()
-
-function getFeatures(state) {
-    return getEntitiesForSchema(state, Schema)
-}
-
-function createMarker({id, properties}) {
-    const {dangerIconUrl, centroid, name} = properties
-
+function createMarker(region) {
     return {
-        id: `${key}:${id}`,
+        id: `${Schema.getKey()}:${region.get('id')}`,
         layer: FORECASTS,
         location: {
-            pathname: `/map/forecasts/${id}`,
+            pathname: `/map/forecasts/${region.get('id')}`,
         },
         element: createElement({
-            src: dangerIconUrl,
-            title: name,
+            src: region.get('dangerIconUrl'),
+            title: region.get('name'),
         }),
-        lngLat: LngLat.convert(centroid),
+        lngLat: mapbox.LngLat.convert(region.get('centroid').toArray()),
         options: {
             offset: [-25, -25]
         },
@@ -34,6 +24,6 @@ function createMarker({id, properties}) {
 }
 
 export default createSelector(
-    getFeatures,
-    features => features.map(feature => createMarker(feature.toJSON()))
+    state => getEntitiesForSchema(state, Schema),
+    features => features.map(createMarker)
 )

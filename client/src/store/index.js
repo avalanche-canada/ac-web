@@ -1,4 +1,4 @@
-// import {ForecastRegion, HotZone} from 'api/schemas'
+import {ForecastRegion, HotZone, WeatherStation} from 'api/schemas'
 import {LocalStorage} from 'services/storage'
 import Immutable from 'immutable'
 import get from 'lodash/get'
@@ -9,12 +9,13 @@ const storage = LocalStorage.create()
 
 // Defines the entities that will be cached
 const ENTITY_KEYS = new Set([
-    // ForecastRegion.getKey(),
-    // HotZone.getKey(),
+    ForecastRegion.getKey(),
+    HotZone.getKey(),
 ])
 function canBeCached(value, key) {
     return ENTITY_KEYS.has(key)
 }
+
 export const serializeFactory = store => () => {
     const {api, sponsors} = store.getState()
 

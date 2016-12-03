@@ -76,7 +76,7 @@ function transform(forecast) {
         return Object.assign({}, x, {date: newDate.toDate()})
     }
 
-    var out =  {
+    return {
         ...forecast,
         confidence: asConfidenceObject(confidence),
         dangerMode: TO_MODES.get(dangerMode),
@@ -87,7 +87,6 @@ function transform(forecast) {
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
     }
-    return out
 }
 
 function getForecasts(state) {
@@ -107,6 +106,8 @@ const getForecast = createSelector(
     getForecastResultSet,
     function findForecast(forecasts, resultSet) {
         const [id] = resultSet.ids
+
+        console.warn(id)
 
         return forecasts.get(id)
     }

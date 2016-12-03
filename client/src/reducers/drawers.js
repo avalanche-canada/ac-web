@@ -1,6 +1,7 @@
 import {Record, Map} from 'immutable'
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
+import {LocalStorage} from 'services/storage'
 import {
     MENU_OPENED,
     MENU_CLOSED,
@@ -19,11 +20,15 @@ import {
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/map/layers'
 
+const LAYERS_VISIBILITY = LocalStorage.create({
+    keyPrefix: 'layers-visibility'
+})
+
 const Layer = Record({
     id: null,
     type: null,
     title: null,
-    visible: false,
+    visible: true,
     filters: null,
 }, 'Layer')
 
@@ -35,25 +40,22 @@ const Filter = Record({
 
 const MENU = new Map({
     open: false,
-    // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
+    // Defines the default active layers
     layers: new Map({
         [FORECASTS]: new Layer({
             id: FORECASTS,
             title: 'Forecasts',
             type: 'Analysis',
-            visible: true,
         }),
         [HOT_ZONE_REPORTS]: new Layer({
             id: HOT_ZONE_REPORTS,
             title: 'Hot zone reports',
             type: 'Analysis',
-            visible: true,
         }),
         [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
             id: MOUNTAIN_INFORMATION_NETWORK,
             title: 'Mountain information network',
             type: 'Observations',
-            visible: true,
             filters: new Map({
                 days: new Filter({
                     type: 'listOfValues',
@@ -84,22 +86,22 @@ const MENU = new Map({
             id: WEATHER_STATION,
             title: 'Weather stations',
             type: 'Observations',
-            visible: true,
+            visible: Boolean(LAYERS_VISIBILITY.get(WEATHER_STATION, true)),
         }),
         [TOYOTA_TRUCK_REPORTS]: new Layer({
             id: TOYOTA_TRUCK_REPORTS,
             title: 'Follow AvCan Toyota trucks',
             type: 'Sponsor',
-            visible: true,
+            visible: Boolean(LAYERS_VISIBILITY.get(TOYOTA_TRUCK_REPORTS, true)),
         }),
     }),
 })
 
 function setLayerVisibilityFactory(visible) {
     return (state, {payload}) => {
-        const path = ['layers', payload, 'visible']
+        LAYERS_VISIBILITY.set(payload, visible)
 
-        return state.setIn(path, visible)
+        return state.setIn(['layers', payload, 'visible'], visible)
     }
 }
 

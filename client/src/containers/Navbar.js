@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import {compose, lifecycle, mapProps, withProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
-import {loadForecastRegions} from 'actions/entities'
+import {loadFeaturesMetadata} from 'actions/entities'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
 import {getEntitiesForSchema} from 'getters/entities'
@@ -26,13 +26,13 @@ function asTree(menu) {
 
 export const AvalancheCanada = compose(
     connect(mapStateToProps, {
-        loadForecastRegions,
+        loadFeaturesMetadata,
         login,
         logout,
     }),
     lifecycle({
         componentDidMount() {
-            this.props.loadForecastRegions()
+            this.props.loadFeaturesMetadata()
         }
     }),
     withProps(({regions}) => {
@@ -46,7 +46,7 @@ export const AvalancheCanada = compose(
                 return {
                     id,
                     key: id,
-                    label: feature.getIn(['properties', 'name']),
+                    label: feature.get('name'),
                     to: `/map/forecasts/${id}`
                 }
             }).toList().sortBy(feature => feature.label).toArray()

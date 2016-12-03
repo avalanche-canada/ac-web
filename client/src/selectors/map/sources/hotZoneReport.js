@@ -16,7 +16,8 @@ function getReportFeatures(state) {
 }
 
 const getTransformedFeatures = createSelector(
-    [getAreaFeatures, getReportFeatures],
+    getAreaFeatures,
+    getReportFeatures,
     (areas, reports) => areas.toList().toJSON().map(area => {
         const {properties} = area
         const {geometry} = point(properties.centroid)

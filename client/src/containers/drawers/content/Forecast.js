@@ -54,7 +54,11 @@ function Container({
             </Header>
             <Body>
                 {isLoading && <Muted>Loading forecast...</Muted>}
-                {isError && <Error>Error happened while loading forecast.</Error>}
+                {isError &&
+                    <Error>
+                        Error happened while loading forecast.
+                    </Error>
+                }
                 {(isLoaded && !forecast) && (
                     <Muted>
                         Forecast is available at <Link {...link}>{title}</Link>.

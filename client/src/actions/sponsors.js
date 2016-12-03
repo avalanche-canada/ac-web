@@ -45,12 +45,11 @@ export function loadSponsors() {
             })
         }
 
+        dispatch({
+            type: SPONSORS_REQUEST
+        })
+
         return new Promise(resolve => setTimeout(resolve, delay))
-            .then(() => {
-                dispatch({
-                    type: SPONSORS_REQUEST
-                })
-            })
             .then(() => Axios.get('/static/sponsors.json'))
             .then(onSuccess, onFailure)
     }

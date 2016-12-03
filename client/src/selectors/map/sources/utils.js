@@ -1,4 +1,4 @@
-import {featureCollection, point} from 'turf-helpers'
+import {featureCollection} from 'turf-helpers'
 
 export function createSource({features = [], ...props}) {
     return {
@@ -6,8 +6,4 @@ export function createSource({features = [], ...props}) {
         type: 'geojson',
         data: featureCollection(features),
     }
-}
-
-export function createCentroid({properties: {centroid, ...props}}) {
-    return point(centroid, props)
 }

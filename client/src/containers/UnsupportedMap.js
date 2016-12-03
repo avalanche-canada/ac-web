@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ForecastRegion, HotZone} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
-import {loadForecastRegions, loadHotZones} from 'actions/entities'
+import {loadFeaturesMetadata} from 'actions/entities'
 import {UnsupportedMap} from 'components/page'
 import {Link} from 'react-router'
 
@@ -22,16 +22,10 @@ const mapStateToProps = createSelector(
 )
 
 export default compose(
-    connect(mapStateToProps, {
-        loadForecastRegions,
-        loadHotZones,
-    }),
+    connect(mapStateToProps, {loadFeaturesMetadata}),
     lifecycle({
         componentDidMount() {
-            const {loadForecastRegions, loadHotZones} = this.props
-
-            loadForecastRegions()
-            loadHotZones()
+            this.props.loadFeaturesMetadata()
         },
     }),
     onlyUpdateForKeys(['forecastRegions', 'hotZones']),

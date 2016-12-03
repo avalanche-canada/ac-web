@@ -43,13 +43,13 @@ function connector(mapStateToProps, load, loadAll) {
 export const forecast = connector(
     getForecast,
     Actions.loadForecast,
-    Actions.loadForecastRegions
+    Actions.loadFeaturesMetadata
 )
 
 export const hotZoneReport = connector(
     getHotZoneReport,
     Actions.loadHotZoneReports,
-    Actions.loadHotZones
+    Actions.loadFeaturesMetadata
 )
 
 function panelConnector(mapStateToProps, load) {

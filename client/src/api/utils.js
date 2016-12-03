@@ -6,7 +6,20 @@ const {fromJS, Iterable: {isIndexed}} = Immutable
 const API = Symbol('AvCan Api Request')
 const POST = Symbol('AvCan Api POST Request')
 
-export function createApiAction(schema, ...types) {
+export function createApiAction(...args) {
+    let types = null
+    let schema = null
+
+    // TODO: Schema not required...just the type is enough information to send a request...
+
+    if (args.length === 3) {
+        types = args
+    }
+
+    if (args.length === 4) {
+        [schema, ...types] = args
+    }
+
     return createAction(API, params => ({
         schema,
         params,
