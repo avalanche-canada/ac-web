@@ -99,6 +99,7 @@
     "jshint-stylish": "~0.1.5",
     "json-loader": "^0.5.4",
     "mapbox-gl": "^0.28.0",
+    "mapbox-gl-style-spec": "^8.9.0",
     "mocha": "^3.0.2",
     "open": "~0.0.4",
     "postcss-cssnext": "^2.5.1",

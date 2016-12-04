@@ -2,10 +2,7 @@ import {createSelector} from 'reselect'
 import {HotZone, HotZoneReport} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {createSource} from './utils'
-import {point, polygon} from 'turf-helpers'
-
-const key = HotZone.getKey()
-const {assign} = Object
+import {point} from 'turf-helpers'
 
 function getAreaFeatures(state) {
     return getEntitiesForSchema(state, HotZone)
@@ -18,25 +15,24 @@ function getReportFeatures(state) {
 const getTransformedFeatures = createSelector(
     getAreaFeatures,
     getReportFeatures,
-    (areas, reports) => areas.toList().toJSON().map(area => {
-        const {properties} = area
-        const {geometry} = point(properties.centroid)
+    (areas, reports) => areas.map(area => {
+        const properties = area.get('properties')
+        const {geometry} = point(properties.get('centroid').toArray())
 
-        return assign(area, {
+        return Object.assign(area, {
             geometry,
             properties: {
-                ...properties,
-                active: Number(reports.has(area.id)),
-                title: properties.name,
+                active: Number(reports.has(area.get('id'))),
+                title: properties.get('name'),
             }
         })
-    })
+    }).toList()
 )
 
 export default createSelector(
     getTransformedFeatures,
     features => createSource({
-        id: key,
+        id: HotZone.getKey(),
         features,
     })
 )

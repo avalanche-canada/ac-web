@@ -9,20 +9,17 @@ import {getLayers} from 'getters/drawers'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
 import {paramsToKey} from 'api/utils'
 
-const {assign} = Object
-const key = Schema.getKey()
 const TYPES = ['quick', 'avalanche', 'snowpack', 'weather', 'incident']
 
 function createSubmissionFeature(submission) {
-    const {latlng, title, subid, obs} = submission.toObject()
-    const [lat, lng] = latlng
-    const types = obs.map(ob => ob.get('obtype')).toArray()
+    const [lat, lng] = submission.get('latlng').toArray()
+    const types = submission.get('obs').map(ob => ob.get('obtype')).toArray()
 
     return point([lng, lat], {
-        id: subid,
+        id: submission.get('subid'),
         types,
         icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
-        title,
+        title: submission.get('title'),
     })
 }
 
@@ -67,7 +64,7 @@ const getFilteredSubmissions = createSelector(
 export default createSelector(
     getFilteredSubmissions,
     features => createSource({
-        id: key,
+        id: Schema.getKey(),
         features,
         cluster: true,
         clusterMaxZoom: 14,

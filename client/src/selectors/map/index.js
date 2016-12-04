@@ -5,10 +5,9 @@ import markers from './markers'
 import {computeFitBounds} from './bounds'
 import feature from './feature'
 import {
-    getZoom as zoom,
-    getCenter as center,
     getCommand as command,
-} from 'reducers/map/getters'
+    getStyle as style,
+} from 'getters/map'
 
 export default createStructuredSelector({
     computeFitBounds,
@@ -16,7 +15,6 @@ export default createStructuredSelector({
     sources,
     layers,
     markers,
-    zoom,
-    center,
     command,
+    style,
 })

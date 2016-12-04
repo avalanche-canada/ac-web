@@ -1,14 +1,13 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
 import mapbox, {styles} from 'services/mapbox/map'
-import {Revelstoke} from 'constants/map/locations'
 import {Canadian} from 'constants/map/bounds'
 import {captureException} from 'services/raven'
+import diffStyles from 'mapbox-gl-style-spec/lib/diff'
 
 function noop() {}
 const {LngLatBounds} = mapbox
 const STYLES = Object.keys(styles)
-const {bool, func, number, string, object, shape, node, arrayOf, instanceOf, oneOf} = PropTypes
 const EVENTS = new Map([
     ['onWebglcontextlost', 'webglcontextlost'],
     ['onWebglcontextrestored', 'webglcontextrestored'],
@@ -46,79 +45,76 @@ const EVENTS = new Map([
 
 export default class MapComponent extends Component {
     static propTypes = {
-        children: node,
-        style: oneOf(STYLES),
-        center: arrayOf(number),
-        zoom: number,
-        bearing: number,
-        pitch: number,
-        minZoom: number,
-        maxZoom: number,
-        interactive: bool,
-        bearingSnap: number,
-        classes: arrayOf(string),
-        attributionControl: bool,
-        failIfMajorPerformanceCaveat: bool,
-        preserveDrawingBuffer: bool,
-        maxBounds: instanceOf(LngLatBounds),
-        scrollZoom: bool,
-        boxZoom: bool,
-        dragRotate: bool,
-        dragPan: bool,
-        keyboard: bool,
-        doubleClickZoom: bool,
-        touchZoomRotate: bool,
-        trackResize: bool,
-        workerCount: number,
-        onWebglcontextlost: func,
-        onWebglcontextrestored: func,
-        onMoveend: func,
-        onMove: func,
-        onMovestart: func,
-        onDblclick: func,
-        onRender: func,
-        onMouseout: func,
-        onMousedown: func,
-        onMouseup: func,
-        onMousemove: func,
-        onTouchstart: func,
-        onTouchend: func,
-        onTouchmove: func,
-        onTouchcancel: func,
-        onClick: func,
-        onLoad: func,
-        onError: func,
-        onContextmenu: func,
-        onZoom: func,
-        onZoomend: func,
-        onZoomstart: func,
-        onBoxzoomstart: func,
-        onBoxzoomend: func,
-        onBoxzoomcancel: func,
-        onRotateend: func,
-        onRotate: func,
-        onRotatestart: func,
-        onDragstart: func,
-        onDrag: func,
-        onDragend: func,
-        onPitch: func,
+        children: PropTypes.node,
+        style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object]).isRequired,
+        center: PropTypes.arrayOf(number),
+        zoom: PropTypes.number,
+        bearing: PropTypes.number,
+        pitch: PropTypes.number,
+        minZoom: PropTypes.number,
+        maxZoom: PropTypes.number,
+        interactive: PropTypes.bool,
+        bearingSnap: PropTypes.number,
+        classes: PropTypes.arrayOf(string),
+        attributionControl: PropTypes.bool,
+        failIfMajorPerformanceCaveat: PropTypes.bool,
+        preserveDrawingBuffer: PropTypes.bool,
+        maxBounds: PropTypes.instanceOf(LngLatBounds),
+        scrollZoom: PropTypes.bool,
+        boxZoom: PropTypes.bool,
+        dragRotate: PropTypes.bool,
+        dragPan: PropTypes.bool,
+        keyboard: PropTypes.bool,
+        doubleClickZoom: PropTypes.bool,
+        touchZoomRotate: PropTypes.bool,
+        trackResize: PropTypes.bool,
+        workerCount: PropTypes.number,
+        onWebglcontextlost: PropTypes.func,
+        onWebglcontextrestored: PropTypes.func,
+        onMoveend: PropTypes.func,
+        onMove: PropTypes.func,
+        onMovestart: PropTypes.func,
+        onDblclick: PropTypes.func,
+        onRender: PropTypes.func,
+        onMouseout: PropTypes.func,
+        onMousedown: PropTypes.func,
+        onMouseup: PropTypes.func,
+        onMousemove: PropTypes.func,
+        onTouchstart: PropTypes.func,
+        onTouchend: PropTypes.func,
+        onTouchmove: PropTypes.func,
+        onTouchcancel: PropTypes.func,
+        onClick: PropTypes.func,
+        onLoad: PropTypes.func,
+        onError: PropTypes.func,
+        onContextmenu: PropTypes.func,
+        onZoom: PropTypes.func,
+        onZoomend: PropTypes.func,
+        onZoomstart: PropTypes.func,
+        onBoxzoomstart: PropTypes.func,
+        onBoxzoomend: PropTypes.func,
+        onBoxzoomcancel: PropTypes.func,
+        onRotateend: PropTypes.func,
+        onRotate: PropTypes.func,
+        onRotatestart: PropTypes.func,
+        onDragstart: PropTypes.func,
+        onDrag: PropTypes.func,
+        onDragend: PropTypes.func,
+        onPitch: PropTypes.func,
         // Custom, i.e. not part of the mapbox.Map class
-        bounds: shape({
-            bbox: instanceOf(LngLatBounds),
-            options: object,
+        bounds: PropTypes.shape({
+            bbox: PropTypes.instanceOf(LngLatBounds),
+            options: PropTypes.object,
         }),
-        onInitializationError: func,
+        onInitializationError: PropTypes.func,
     }
     static defaultProps = {
-        style: 'default',
-        zoom: 10,
-        center: Revelstoke,
         maxBounds: Canadian,
         attributionControl: false,
         onInitializationError: noop,
     }
     static childContextTypes = {
-        map: object,
+        map: PropTypes.object,
     }
     state = {
         map: null
@@ -146,7 +142,7 @@ export default class MapComponent extends Component {
             const map = new mapbox.Map({
                 ...props,
                 container,
-                style: style !== null ? styles[style] : null,
+                style: typeof style === 'string' ? styles[style] : style,
             })
 
             EVENTS.forEach(function addMapEvent(name, method) {
@@ -166,13 +162,21 @@ export default class MapComponent extends Component {
             this.map.off()
         }
     }
-    componentWillReceiveProps({bounds = null}) {
-        if (!this.map) {
+    componentWillReceiveProps({bounds = null, style}) {
+        const {map} = this
+
+        if (!map) {
             return
         }
 
+        if (style !== this.props.style) {
+            const changes = diffStyles(this.props.style, style)
+
+            changes.forEach(({command, args}) => map[command].apply(map, args))
+        }
+
         if (bounds !== null && bounds !== this.props.bounds) {
-            this.map.fitBounds(bounds.bbox, bounds.options)
+            map.fitBounds(bounds.bbox, bounds.options)
         }
     }
     shouldComponentUpdate({children}) {

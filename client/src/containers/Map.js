@@ -4,7 +4,7 @@ import {List} from 'immutable'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Map, Source, Layer, Marker} from 'components/map'
-import {zoomChanged, centerChanged, loadData} from 'actions/map'
+import {zoomChanged, centerChanged, loadData, loadMapStyle} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import {getLayerIds} from 'selectors/map/layers'
 import {
@@ -45,10 +45,12 @@ class Container extends Component {
     propTypes = {
         onLoad: PropTypes.func,
         onInitializationError: PropTypes.func,
+        style: PropTypes.object,
     }
     static defaultProps = {
         onLoad: noop,
         onInitializationError: noop,
+        style: null,
     }
     state = {
         bounds: null,
@@ -356,6 +358,7 @@ class Container extends Component {
         this.setState({bounds})
     }
     componentDidMount() {
+        this.props.loadMapStyle('citxsc95s00a22inxvbydbc89')
         this.props.loadData()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
@@ -363,10 +366,11 @@ class Container extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
-    shouldComponentUpdate({layers, sources, markers}, {map, bounds}) {
+    shouldComponentUpdate({layers, sources, markers, style}, {map, bounds}) {
         if (layers === this.props.layers &&
             sources === this.props.sources &&
             markers === this.props.markers &&
+            style === this.props.style &&
             bounds === this.state.bounds &&
             map === this.state.map
         ) {
@@ -375,7 +379,7 @@ class Container extends Component {
 
         return true
     }
-    componentWillReceiveProps({feature, routes, params, location, command, layers}) {
+    componentWillReceiveProps({feature, routes, params, location, command, layers, style}) {
         if (feature && this.props.feature !== feature && !this.zoomToBounds) {
             this.setBounds(feature)
         }
@@ -403,9 +407,6 @@ class Container extends Component {
     renderMarker = ({id, ...marker}) => {
         return <Marker key={id} {...marker} onClick={this.handleMarkerClick} />
     }
-    renderMountainInformationNetworkMarker = ({id, ...marker}) => {
-        return <Marker key={id} {...marker} onClick={this.handleMountainInformationNetworkMarkerClick} />
-    }
     render() {
         const {map} = this
         const {bounds} = this.state
@@ -413,9 +414,8 @@ class Container extends Component {
             sources = EMPTY,
             layers = EMPTY,
             markers = EMPTY,
-            zoom,
-            center,
             onInitializationError,
+            style,
         } = this.props
         const events = {
             onMousemove: this.handleMousemove,
@@ -427,7 +427,7 @@ class Container extends Component {
         }
 
         return (
-            <Map style='2016' bounds={bounds} zoom={zoom} center={center} {...events}>
+            <Map style={style && style.toJSON()} bounds={bounds} {...events}>
                 {map && sources.map(renderSource)}
                 {map && layers.map(renderLayer)}
                 {map && markers.map(this.renderMarker)}
@@ -447,5 +447,6 @@ export default compose(
         zoomChanged,
         centerChanged,
         loadData,
+        loadMapStyle,
     }),
 )(Container)

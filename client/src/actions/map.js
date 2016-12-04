@@ -1,6 +1,8 @@
 import {createAction} from 'redux-actions'
 import {getVisibleLayers} from 'getters/drawers'
+import {getStyle} from 'getters/map'
 import {loadForType} from 'actions/prismic'
+import {fetchMapStyle} from 'services/mapbox/api'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
@@ -19,6 +21,8 @@ export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const LOAD_STATE_CHANGED = 'LOAD_STATE_CHANGED'
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
+export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
+export const LOAD_MAP_STYLE_FAILURE = 'LOAD_MAP_STYLE_FAILURE'
 
 export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
@@ -60,5 +64,27 @@ function createActionForLayer(layer) {
             return loadForType('toyota-truck-report')
         case WEATHER_STATION:
             return loadWeatherStations()
+    }
+}
+
+const loadMapStyleSuccess = createAction(LOAD_MAP_STYLE_SUCCESS)
+const loadMapStyleFailure = createAction(LOAD_MAP_STYLE_FAILURE)
+
+export function loadMapStyle(style) {
+    return (dispatch, getState) => {
+        if (getStyle(getState())) {
+            return
+        }
+
+        function handleFulfill({data}) {
+            dispatch(loadMapStyleSuccess(data))
+        }
+        function handleReject(error) {
+            const message = `Can not fetch Map Style "${style}" from Mapbox API.`
+
+            dispatch(loadMapStyleFailure(new Error(message, error)))
+        }
+
+        return fetchMapStyle(style).then(handleFulfill, handleReject)
     }
 }
