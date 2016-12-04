@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect'
 import {point} from 'turf-helpers'
 import {createSource} from './utils'
-import {TOYOTA_TRUCK_REPORTS} from 'constants/map/layers'
 import {getDocumentsOfType} from 'reducers/prismic'
 import {createElement} from './utils'
 import Parser from 'prismic/parser'
@@ -21,7 +20,6 @@ const getFeatures = createSelector(
 export default createSelector(
     getFeatures,
     features => createSource({
-        id: TOYOTA_TRUCK_REPORTS,
         features,
     })
 )

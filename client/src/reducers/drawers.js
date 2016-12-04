@@ -18,7 +18,7 @@ import {
     SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
-} from 'constants/map/layers'
+} from 'constants/drawers'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility'

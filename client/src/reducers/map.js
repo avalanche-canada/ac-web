@@ -4,7 +4,7 @@ import {combineReducers} from 'redux'
 import {getPayload} from 'reducers/utils'
 import * as MapActions from 'actions/map'
 import * as DrawersActions from 'actions/drawers'
-import {getLayerIds} from 'selectors/map/layers'
+import {getLayerIds} from 'constants/map/layers'
 
 function setCenter(style, {payload}) {
     return style.set('center', payload)

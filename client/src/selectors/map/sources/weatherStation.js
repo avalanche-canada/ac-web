@@ -19,7 +19,6 @@ const getTransformedFeatures = createSelector(
 export default createSelector(
     getTransformedFeatures,
     features => createSource({
-        id: WeatherStation.getKey(),
         features,
         cluster: true,
     })

@@ -1,9 +1,22 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModule from 'react-css-modules'
+import Immutable from 'immutable'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Canadian} from 'constants/map/bounds'
 import {captureException} from 'services/raven'
-import diffStyles from 'mapbox-gl-style-spec/lib/diff'
+import diffStyles from 'services/mapbox/diff'
+
+function toJSON(style) {
+    if (!style) {
+        return null
+    }
+
+    if (typeof style.toJSON === 'function') {
+        return style.toJSON()
+    }
+
+    return style
+}
 
 function noop() {}
 const {LngLatBounds} = mapbox
@@ -102,10 +115,6 @@ export default class MapComponent extends Component {
         onDragend: PropTypes.func,
         onPitch: PropTypes.func,
         // Custom, i.e. not part of the mapbox.Map class
-        bounds: PropTypes.shape({
-            bbox: PropTypes.instanceOf(LngLatBounds),
-            options: PropTypes.object,
-        }),
         onInitializationError: PropTypes.func,
     }
     static defaultProps = {
@@ -162,21 +171,18 @@ export default class MapComponent extends Component {
             this.map.off()
         }
     }
-    componentWillReceiveProps({bounds = null, style}) {
+    componentWillReceiveProps({style}) {
         const {map} = this
 
         if (!map) {
             return
         }
 
+        // TODO: Next version, diffing style will be part of the library and map.setStyle(style) will be enough
         if (style !== this.props.style) {
-            const changes = diffStyles(this.props.style, style)
+            const changes = diffStyles(toJSON(this.props.style), toJSON(style))
 
             changes.forEach(({command, args}) => map[command].apply(map, args))
-        }
-
-        if (bounds !== null && bounds !== this.props.bounds) {
-            map.fitBounds(bounds.bbox, bounds.options)
         }
     }
     shouldComponentUpdate({children}) {

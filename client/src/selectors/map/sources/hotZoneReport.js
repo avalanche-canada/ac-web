@@ -31,8 +31,5 @@ const getTransformedFeatures = createSelector(
 
 export default createSelector(
     getTransformedFeatures,
-    features => createSource({
-        id: HotZone.getKey(),
-        features,
-    })
+    features => createSource({features})
 )

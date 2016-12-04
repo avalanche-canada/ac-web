@@ -4,7 +4,7 @@ import Drawer, {LEFT, RIGHT, Header, Content} from './'
 import {LayerSet, Layer} from './layers'
 import {compose, withState} from 'recompose'
 import Button from 'components/button'
-import * as TYPES from 'constants/map/layers'
+import * as TYPES from 'constants/drawers'
 
 const background = {
     backgroundColor: '#7EC0EE',

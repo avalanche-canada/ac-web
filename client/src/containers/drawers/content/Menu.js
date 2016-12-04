@@ -14,7 +14,7 @@ import {
     MOUNTAIN_INFORMATION_NETWORK,
     SURFACE_HOAR,
     WEATHER_STATION,
-} from 'constants/map/layers'
+} from 'constants/drawers'
 import {loadData} from 'actions/map'
 import {
     Forecast,

@@ -1,12 +1,11 @@
-import {createSelector} from 'reselect'
-import {List} from 'immutable'
+import {createStructuredSelector} from 'reselect'
 import getMountainInformationNetworkSource from './mountainInformationNetwork'
 import getWeatherStationSource from './weatherStation'
 import getToyotaTruckSource from './toyota'
+import * as Layers from 'constants/drawers'
 
-export default createSelector(
-    getMountainInformationNetworkSource,
-    getWeatherStationSource,
-    getToyotaTruckSource,
-    (...sources) => new List(sources)
-)
+export default createStructuredSelector({
+    [Layers.MOUNTAIN_INFORMATION_NETWORK]: getMountainInformationNetworkSource,
+    [Layers.WEATHER_STATION]: getWeatherStationSource,
+    [Layers.TOYOTA_TRUCK_REPORTS]: getToyotaTruckSource,
+})
