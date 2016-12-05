@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import {compose, withProps, setPropTypes, setDisplayName, withState, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
 import {loadForUid} from 'actions/prismic'
-import {getDocumentForUid} from 'reducers/prismic'
+import {getDocumentForUid} from 'getters/prismic'
 import {title, pathname} from 'utils/prismic'
 
 function mapStateToProps(state, {type, uid}) {

@@ -1,5 +1,5 @@
 import {Api as Prismic, Predicates} from 'prismic'
-import {getDocumentForUid, getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentForUid, getDocumentsOfType} from 'getters/prismic'
 import {
     isPrismicAction,
     PRISMIC_REQUEST,

@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getDocumentsOfType, getIsFetching} from 'reducers/prismic'
+import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
 import months, {options as monthOptions} from './months'
 import transform from './transform'
 import computeYearOptions from './computeYearOptions'

@@ -1,4 +1,5 @@
 import {createAction} from 'redux-actions'
+import {getDocumentsOfType} from 'getters/prismic'
 
 const PRISMIC = Symbol('prismic-query')
 
@@ -18,3 +19,15 @@ export const loadForUid = createAction(
     PRISMIC,
     (type, uid) => ({type, uid})
 )
+export const loadToyotaTruckReports = lazyLoadForTypeFactory('toyota-truck-report')
+export const loadHotZoneReports = lazyLoadForTypeFactory('hot-zone-report')
+
+function lazyLoadForTypeFactory(type) {
+    return () => (dispatch, getState) => {
+        const state = getState()
+
+        if (getDocumentsOfType(state, type).isEmpty()) {
+            return dispatch(loadForType(type))
+        }
+    }
+}

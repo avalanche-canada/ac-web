@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getDocumentForUid} from 'reducers/prismic'
+import {getDocumentForUid} from 'getters/prismic'
 import factory from 'prismic/factory'
 import {getSponsors, getActiveSponsor} from 'getters/sponsors'
 

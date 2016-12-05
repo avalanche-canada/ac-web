@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions'
 import {getVisibleLayers} from 'getters/drawers'
 import {getStyle} from 'getters/map'
-import {loadForType} from 'actions/prismic'
+import {loadToyotaTruckReports} from 'actions/prismic'
 import {fetchMapStyle} from 'services/mapbox/api'
 import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
@@ -58,9 +58,7 @@ function createActionForLayer(layer) {
 
             return loadMountainInformationNetworkSubmissionsForDays(value)
         case TOYOTA_TRUCK_REPORTS:
-            // TODO: Create an action for Toyota trucks only!
-            // Called too much, should look if any exist first!
-            return loadForType('toyota-truck-report')
+            return loadToyotaTruckReports()
         case WEATHER_STATION:
             return loadWeatherStations()
     }

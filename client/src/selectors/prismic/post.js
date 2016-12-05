@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getDocumentForUid, getIsFetching} from 'reducers/prismic'
+import {getDocumentForUid, getIsFetching} from 'getters/prismic'
 import transform from 'selectors/prismic/transform'
 
 function getType(state, {type}) {

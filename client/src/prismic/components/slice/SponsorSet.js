@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ItemSet, Item} from 'components/sponsor'
-import {getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentsOfType} from 'getters/prismic'
 import factory from 'prismic/factory'
 
 function parse(document) {
