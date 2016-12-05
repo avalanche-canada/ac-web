@@ -108,6 +108,7 @@ export default class GeoPosition extends Component {
             <div styleName='Container'>
                 <Map
                     ref='map'
+                    style='default'
                     touchZoomRotate={false}
                     dragRotate={false}
                     center={lngLat}
