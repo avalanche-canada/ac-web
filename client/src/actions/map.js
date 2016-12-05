@@ -4,7 +4,7 @@ import {getStyle} from 'getters/map'
 import {loadForType} from 'actions/prismic'
 import {fetchMapStyle} from 'services/mapbox/api'
 import MapLayers from 'constants/map/layers'
-import createMapSources from 'selectors/map/sources'
+import MapSources from 'constants/map/sources'
 import {
     HOT_ZONE_REPORTS,
     MOUNTAIN_INFORMATION_NETWORK,
@@ -73,19 +73,12 @@ export function loadMapStyle(style) {
     return (dispatch, getState) => {
         const state = getState()
 
-        if (getStyle(state)) {
+        if (getStyle(state).has('id')) {
             return
         }
 
         function handleFulfill({data}) {
-            dispatch(loadMapStyleSuccess({
-                ...data,
-                layers: [...MapLayers, ...data.layers],
-                sources: {
-                    ...data.sources,
-                    ...createMapSources(state),
-                }
-            }))
+            dispatch(loadMapStyleSuccess(data))
         }
         function handleReject(error) {
             const message = `Can not fetch Map Style "${style}" from Mapbox API.`

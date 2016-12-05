@@ -93,6 +93,7 @@
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "faker": "^3.1.0",
+    "feature-filter": "^2.2.0",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.21.0",
     "immutable": "^3.8.1",

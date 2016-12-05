@@ -5,7 +5,7 @@ import {
     PRISMIC_REQUEST,
     PRISMIC_SUCCESS,
     PRISMIC_FAILURE,
-} from 'middleware/prismic'
+} from 'actions/prismic'
 
 const MAP = new Map()
 

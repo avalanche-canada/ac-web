@@ -118,11 +118,10 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const key = Schemas.MountainInformationNetworkSubmission.getKey()
 
             if (feature.properties.cluster) {
-                const {properties: {point_count}} = feature
-                const {data} = this.map.getSource(key)
+                const {point_count} = feature.properties
+                const {data} = this.map.getSource(Layers.MOUNTAIN_INFORMATION_NETWORK).serialize()
                 const submissions = near(feature, data, point_count)
                 const coordinates = submissions.features.map(({geometry}) => geometry.coordinates)
                 const longitudes = new Set(coordinates.map(c => c[0]))
@@ -155,18 +154,18 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const key = Schemas.WeatherStation.getKey()
 
             if (feature.properties.cluster) {
-                const {properties: {point_count}} = feature
-                const {data} = this.map.getSource(key)
+                const {point_count} = feature.properties
+                const {data} = this.map.getSource(Layers.WEATHER_STATION).serialize()
                 const stations = near(feature, data, point_count)
 
                 return this.fitBounds(stations, CLUSTER_BOUNDS_OPTIONS)
             } else {
+                const key = Schemas.WeatherStation.getKey()
                 return this.push({
                     query: {
-                        panel: `${key}/${feature.properties.stationId}`
+                        panel: `${key}/${feature.properties.id}`
                     }
                 }, this.props)
             }
@@ -179,7 +178,7 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const panel = `toyota-truck-reports/${feature.properties.uid}`
+            const panel = `toyota-truck-reports/${feature.properties.id}`
 
             return push({
                 query: {

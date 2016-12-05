@@ -178,7 +178,8 @@ export default class MapComponent extends Component {
             return
         }
 
-        // TODO: Next version, diffing style will be part of the library and map.setStyle(style) will be enough
+        // TODO: Style diffing will be be part of the next Mapbox release
+        // map.setStyle(style) will be enough
         if (style !== this.props.style) {
             const changes = diffStyles(toJSON(this.props.style), toJSON(style))
 

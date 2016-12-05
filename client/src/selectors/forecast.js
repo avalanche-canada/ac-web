@@ -107,8 +107,6 @@ const getForecast = createSelector(
     function findForecast(forecasts, resultSet) {
         const [id] = resultSet.ids
 
-        console.warn(id)
-
         return forecasts.get(id)
     }
 )

@@ -70,9 +70,8 @@ const MENU = new Map({
                 }),
                 type: new Filter({
                     type: 'listOfValues',
-                    value: 'all',
+                    value: new Set(),
                     options: new Map([
-                        ['all', 'Show all report types'],
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
                         ['snowpack', 'Snowpack'],
