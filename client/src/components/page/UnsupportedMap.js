@@ -27,7 +27,7 @@ function UnsupportedMap({forecastRegions, hotZones}) {
                             {forecastRegions.map(region => (
                             <li>
                                 <Link to={`forecasts/${region.get('id')}`}>
-                                    {region.getIn(['properties', 'name'])}
+                                    {region.get('name')}
                                 </Link>
                             </li>
                             ))}
@@ -41,7 +41,7 @@ function UnsupportedMap({forecastRegions, hotZones}) {
                                 {hotZones.map(zone =>
                                 <li>
                                     <Link to={`hot-zone-reports/${zone.get('id')}`}>
-                                        {zone.getIn(['properties', 'name'])}
+                                        {zone.get('name')}
                                     </Link>
                                 </li>
                                 )}

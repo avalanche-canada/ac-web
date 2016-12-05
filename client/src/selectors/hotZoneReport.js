@@ -48,7 +48,7 @@ export default createSelector(
                 computeBounds,
             }
         } else {
-            const name = zone && zone.getIn(['properties', 'name'])
+            const name = zone && zone.get('name')
 
             return {
                 isLoading: isFetching,

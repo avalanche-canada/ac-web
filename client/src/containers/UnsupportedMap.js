@@ -9,7 +9,7 @@ import {UnsupportedMap} from 'components/page'
 import {Link} from 'react-router'
 
 function sorter(entity) {
-    return entity.getIn(['properties', 'name'])
+    return entity.get('name')
 }
 
 const mapStateToProps = createSelector(
