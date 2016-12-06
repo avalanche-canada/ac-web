@@ -1,36 +1,24 @@
 import React, {PropTypes, Component, DOM} from 'react'
+import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image, Ratio} from 'components/misc'
-import Container from './Container'
-import Toolbar from './Toolbar'
-import Title from './Title'
+import {Image} from 'components/misc'
+import ButtonSet from './ButtonSet'
 import {wait} from 'compose'
+import styles from './Loop.css'
 
-const Loading = wait(250)(DOM.div)
+const Loading = wait()(DOM.span)
 
-const LEFT = 'LEFT'
-const RIGHT = 'RIGHT'
-
-const TITLE_STYLES = new Map([
-    [LEFT, null],
-    [RIGHT, {
-        right: 0,
-        left: 'auto',
-    }],
-])
-
+@CSSModule(styles)
 export default class Loop extends Component {
 	static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
-        layout: PropTypes.oneOf([LEFT, RIGHT]),
 	}
     static defaultProps = {
         urls: [],
         interval: 1000,
         openImageInNewTab: false,
-        layout: LEFT,
     }
 	state = {
 		cursor: 0,
@@ -134,6 +122,7 @@ export default class Loop extends Component {
         this.isLoading = false
 	}
 	render() {
+        const {interval} = this.props
         const toolbar = {
 			isPlaying: this.isPlaying,
 			onNext: this.next,
@@ -151,18 +140,20 @@ export default class Loop extends Component {
 		}
 
 		return (
-            <Ratio x={821} y={699}>
-                {(width, height) =>
-        			<Container style={{width, height}}>
-        				<Toolbar {...toolbar} />
-                        <Title style={TITLE_STYLES.get(this.props.layout)}>
-                            {this.cursor + 1} of {this.maxCursor + 1}
-                            {this.isLoading && <Loading>Loading...</Loading>}
-                        </Title>
-                        <Image {...image} />
-        			</Container>
-                }
-            </Ratio>
+			<div styleName='Container'>
+                <Image {...image} />
+                <div styleName='Toolbar'>
+                    <ButtonSet {...toolbar} />
+                    <div styleName='Title'>
+                        {this.isLoading &&
+                            <Loading delay={interval + 50}>
+                                Loading
+                            </Loading>
+                        }
+                        {this.cursor + 1} of {this.maxCursor + 1}
+                    </div>
+                </div>
+			</div>
 		)
 	}
 }

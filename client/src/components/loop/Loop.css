@@ -1,27 +1,44 @@
 @import "../../styles/colors.css";
 
-.Container {
-	position: relative;
-	margin-bottom: 10px;
+@custom-media --one-row (width > 500px);
 
+.Container {
     & img {
         display: block;
     }
 }
 
 .Title {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-	color: white !important;
-	padding: 10px;
-	background-color: var(--primary);
+    color: white;
+    text-align: center;
+    padding-right: 1em;
+    line-height: 2.5;
+
+    & > span {
+        font-size: 0.85em;
+        color: var(--gray);
+        padding: 0 1em;
+    }
+
+    @media (--one-row) {
+        flex: 1 0;
+        text-align: right;
+        line-height: auto;
+    }
 }
 
 .Toolbar {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: var(--primary);
+
+    @media (--one-row) {
+        flex-direction: row;
+    }
+}
+
+.ButtonSet {
+    display: flex;
 }
