@@ -45,10 +45,12 @@ function Container({
             </Navbar>
             <Header subject='Avalanche Forecast'>
                 <h1>
-                    {link && <Link {...link}>{title}</Link>}
+                    {link ? <Link {...link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>

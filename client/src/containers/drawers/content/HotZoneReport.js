@@ -36,9 +36,11 @@ function Container({
             <Header subject='Hot Zone Report'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {isLoading ||
                     <Metadata report={report.report} shareUrl={shareUrl} />
