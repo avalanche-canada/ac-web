@@ -375,6 +375,7 @@ export default compose(
         hours: PropTypes.arrayOf(PropTypes.number),
     }),
     mapProps(props => ({
+        interval: props.interval,
         urls: formatUrls(props),
         openImageInNewTab: true,
         layout: METADATA.get(props.type).layout,

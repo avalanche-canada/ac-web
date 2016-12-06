@@ -25,7 +25,7 @@ export default function WeatherSidebar() {
                 <Link to='/new/weather/surface-maps'>Surface maps</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/other-maps'>500mb & Precipitable water’</Link>
+                <Link to='/new/weather/other-maps'>500mb & Precipitable water</Link>
             </Item>
             <Header>Current Conditions</Header>
             <Item>
