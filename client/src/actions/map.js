@@ -69,14 +69,12 @@ const loadMapStyleFailure = createAction(LOAD_MAP_STYLE_FAILURE)
 
 export function loadMapStyle(style) {
     return (dispatch, getState) => {
-        const state = getState()
-
-        if (getStyle(state).has('id')) {
-            return
-        }
-
         function handleFulfill({data}) {
-            dispatch(loadMapStyleSuccess(data))
+            const style = getStyle(getState())
+            
+            if (data.modified !== style.get('modified')) {
+                dispatch(loadMapStyleSuccess(data))
+            }
         }
         function handleReject(error) {
             const message = `Can not fetch Map Style "${style}" from Mapbox API.`

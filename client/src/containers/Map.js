@@ -313,7 +313,7 @@ class Container extends Component {
             return
         }
 
-        this.map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
+        // this.map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
         this.forecastRegionHoverId = id
     }
     setActiveForecastRegion(id = '') {
@@ -321,8 +321,8 @@ class Container extends Component {
             return
         }
 
-        this.map.setFilter('forecast-regions-active', ['==', 'id', id])
-        this.map.setFilter('forecast-regions-active-contour', ['==', 'id', id])
+        // this.map.setFilter('forecast-regions-active', ['==', 'id', id])
+        // this.map.setFilter('forecast-regions-active-contour', ['==', 'id', id])
         this.activeForecastRegionId = id
     }
     fitBounds(feature, options) {

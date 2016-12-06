@@ -126,7 +126,8 @@ export default class MapComponent extends Component {
         map: PropTypes.object,
     }
     state = {
-        map: null
+        map: null,
+        isDataLoading: false,
     }
     constructor(props) {
         super(props)
@@ -135,12 +136,9 @@ export default class MapComponent extends Component {
             this.componentDidMount = noop
         }
     }
-    get map() {
-        return this.state.map
-    }
     getChildContext() {
         return {
-            map: this.map
+            map: this.state.map
         }
     }
     componentDidMount() {
@@ -160,6 +158,10 @@ export default class MapComponent extends Component {
                 }
             })
 
+            map.on('data', this.handleData)
+            map.on('dataloading', this.handleDataLoading)
+            this.changes = []
+
             this.setState({map})
         } catch (error) {
             captureException(error)
@@ -167,32 +169,48 @@ export default class MapComponent extends Component {
         }
     }
     componentWillUnmount() {
-        if (this.map) {
-            this.map.off()
+        if (this.state.map) {
+            this.state.map.off()
         }
     }
     componentWillReceiveProps({style}) {
-        const {map} = this
-
-        if (!map) {
-            return
-        }
-
         // TODO: Style diffing will be be part of the next Mapbox release
         // map.setStyle(style) will be enough
         if (style !== this.props.style) {
             const changes = diffStyles(toJSON(this.props.style), toJSON(style))
 
-            changes.forEach(({command, args}) => map[command].apply(map, args))
+            this.applyChanges(changes)
         }
     }
     shouldComponentUpdate({children}) {
         return children !== this.props.children
     }
+    applyChanges = changes => {
+        if (this.state.isDataLoading) {
+            this.changes.push(...changes)
+        } else {
+            const {map} = this.state
+
+            changes.forEach(({command, args}) => map[command].apply(map, args))
+        }
+    }
+    handleData = event => {
+        this.setState({
+            isDataLoading: false
+        }, () => {
+            this.applyChanges(this.changes)
+            this.changes = []
+        })
+    }
+    handleDataLoading = event => {
+        this.setState({
+            isDataLoading: true
+        })
+    }
     render() {
         return (
             <div ref='container' style={this.props.containerStyle}>
-                {this.map && this.props.children}
+                {this.state.map && this.props.children}
             </div>
         )
     }

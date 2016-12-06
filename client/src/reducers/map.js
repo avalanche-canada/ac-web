@@ -27,7 +27,8 @@ export default combineReducers({
         [EntityActions.MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS]: setSubmissions,
         [PrismicActions.PRISMIC_SUCCESS]: setToyotaTruckReports,
     }, fromJS({
-        sources: MapSources
+        sources: MapSources,
+        layers: MapLayers,
     })),
 })
 
@@ -92,8 +93,10 @@ function setFilter(style, {payload: {layer, name, value}}) {
 }
 
 function mergeStyle(style, {payload}) {
-    return style.mergeDeep(payload)
-                .update('layers', layers => layers.concat(fromJS(MapLayers)))
+    // mergeDeep does not deal well with arrays, we are helping it here!
+    payload.layers = payload.layers.concat(style.get('layers').toJSON())
+
+    return style.delete('layers').mergeDeep(payload)
 }
 function setCenter(style, {payload}) {
     return style.set('center', payload)
