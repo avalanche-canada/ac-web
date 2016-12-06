@@ -1,4 +1,4 @@
-import {List, Map, fromJS} from 'immutable'
+import Immutable from 'immutable'
 import {handleAction, handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
 import {getPayload} from 'reducers/utils'
@@ -20,13 +20,14 @@ export default combineReducers({
         [MapActions.LOAD_MAP_STYLE_FAILURE]: getPayload,
         [MapActions.CENTER_CHANGED]: setCenter,
         [MapActions.ZOOM_CHANGED]: setZoom,
+        [MapActions.FEATURE_CLICKED]: setActiveFeature,
         [DrawerActions.LAYER_TURNED_ON]: toggleLayersFactory(true),
         [DrawerActions.LAYER_TURNED_OFF]: toggleLayersFactory(false),
         [DrawerActions.FILTER_CHANGED]: setFilter,
         [EntityActions.WEATHER_STATIONS_SUCCESS]: setWeatherStations,
         [EntityActions.MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS]: setSubmissions,
         [PrismicActions.PRISMIC_SUCCESS]: setToyotaTruckReports,
-    }, fromJS({
+    }, Immutable.fromJS({
         sources: MapSources,
         layers: MapLayers,
     })),
@@ -54,7 +55,7 @@ function setFilteredSubmissions(style) {
 
     return style.setIn(
         ['sources', source, 'data', 'features'],
-        fromJS(features.filter(filter)),
+        Immutable.fromJS(features.filter(filter)),
     )
 }
 function setFilter(style, {payload: {layer, name, value}}) {
@@ -78,12 +79,12 @@ function setFilter(style, {payload: {layer, name, value}}) {
                         ]
 
                     return setFilteredSubmissions(
-                        style.setIn([...path, 1], fromJS(filter))
+                        style.setIn([...path, 1], Immutable.fromJS(filter))
                     )
                 }
                 case 'days': {
                     return setFilteredSubmissions(
-                        style.setIn([...path, 2], List.of('has', String(value)))
+                        style.setIn([...path, 2], Immutable.List.of('has', String(value)))
                     )
                 }
             }
@@ -120,14 +121,14 @@ function toggleLayersFactory(visible) {
 function featuresAsMap(features) {
     return features.reduce(
         (all, feature) => all.set(String(feature.properties.id), feature),
-        new Map()
+        new Immutable.Map()
     )
 }
 function setWeatherStations(style, {payload, meta}) {
     const source = Layers.WEATHER_STATION
     const path = ['sources', source, 'data', 'features']
     const entities = payload.entities[meta.schema.getKey()]
-    const stations = new Map(entities).map(Transformers.get(source))
+    const stations = new Immutable.Map(entities).map(Transformers.get(source))
     const features = featuresAsMap(style.getIn(path))
 
     return style.setIn(path, features.mergeDeep(stations).toList())
@@ -141,7 +142,7 @@ function setSubmissions(style, {payload, meta}) {
     const path = ['sources', `all-${source}`, 'data', 'features']
     const entities = payload.entities[meta.schema.getKey()]
     const transformer = Transformers.get(source)(meta.params.days)
-    const submissions = new Map(entities).map(transformer)
+    const submissions = new Immutable.Map(entities).map(transformer)
     const features = featuresAsMap(style.getIn(path)).mergeDeep(submissions)
 
     return setFilteredSubmissions(style.setIn(path, features.toList()))
@@ -161,5 +162,25 @@ function setToyotaTruckReports(style, {payload, meta}) {
 
     const reports = payload.results.map(Transformers.get(source))
 
-    return style.setIn(path, fromJS(reports))
+    return style.setIn(path, Immutable.fromJS(reports))
+}
+
+// To implement later.
+const ActivableLayers = new Map([
+    [Layers.FORECAST, ['forecast-regions-active', 'forecast-regions-active-contour']],
+])
+function setActiveFeature(style, {payload: {layer, id = ''}}) {
+    if (!ActivableLayers.has(layer)) {
+        return style
+    }
+
+    return style.withMutations(style => {
+        const layers = style.get('layers')
+
+        ActivableLayers.get(layer).forEach(active => {
+            const index = layers.findIndex(layer => layer.get('id') === active)
+
+            style.setIn(['layers', index, 'filter', 2], id)
+        })
+    })
 }
