@@ -11,17 +11,26 @@
 .Title {
     color: white;
     text-align: center;
-    padding-right: 1em;
     line-height: 2.5;
+    position: relative;
 
     & > span {
         font-size: 0.85em;
         color: var(--gray);
         padding: 0 1em;
+        line-height: 3;
+        position: absolute;
+        left: -65px;
+
+        @media (--one-row) {
+            position: inherit;
+            left: 0;
+        }
     }
 
     @media (--one-row) {
         flex: 1 0;
+        padding-right: 1em;
         text-align: right;
         line-height: auto;
     }
