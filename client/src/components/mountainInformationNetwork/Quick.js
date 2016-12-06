@@ -19,7 +19,7 @@ const RidingConditionsTitles = new Map([
     ['weather', 'The day was'],
 ])
 
-function computeRidingConditions(conditions) {
+function computeRidingConditions(conditions = {}) {
     return Object.keys(conditions).reduce((children, key) => {
         const {type, prompt, selected, options} = conditions[key]
         const term = RidingConditionsTitles.get(key) || prompt
@@ -67,24 +67,36 @@ Quick.propTypes = {
 }
 
 export default function Quick({avalancheConditions, ridingConditions, comment}) {
-    const hasInformation = avalancheConditions || ridingConditions
+    ridingConditions = computeRidingConditions(ridingConditions)
+    avalancheConditions = projectKeys(
+        avalancheConditionsTexts,
+        avalancheConditions,
+    )
+
+    const hasAvalancheConditions = avalancheConditions.length > 0
+    const hasRidingConditions = ridingConditions.length > 0
+    const hasInformation = hasAvalancheConditions || hasRidingConditions
 
     return (
         <div>
         {hasInformation &&
             <Section title='Information'>
                 <List bordered>
-                    {avalancheConditions && <Term block>Avalanche conditions</Term>}
-                    {avalancheConditions &&
+                    {hasAvalancheConditions &&
+                        <Term block>Avalanche conditions</Term>
+                    }
+                    {hasAvalancheConditions &&
                         <Definition block>
-                            {projectKeys(avalancheConditionsTexts, avalancheConditions).join('. ')}
+                            {avalancheConditions.join('. ')}
                         </Definition>
                     }
-                    {ridingConditions && computeRidingConditions(ridingConditions)}
+                    {hasRidingConditions && ridingConditions}
                 </List>
             </Section>
         }
-        {comment && <Comment>{comment}</Comment>}
+        {comment &&
+            <Comment>{comment}</Comment>
+        }
         </div>
     )
 }

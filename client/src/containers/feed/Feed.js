@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {withRouter} from 'react-router'
 import Feed from 'components/page/feed'
-import {replaceQuery} from 'utils/router'
+import {replace} from 'utils/router'
 import mapStateToProps from 'selectors/prismic/feed'
 
 const {isArray} = Array
@@ -35,28 +35,38 @@ export default compose(
     }),
     withHandlers({
         onYearChange: props => year => {
-            replaceQuery({
-                year
+            replace({
+                query: {
+                    year
+                }
             }, props)
         },
         onMonthChange: props => month => {
-            replaceQuery({
-                month
+            replace({
+                query: {
+                    month
+                }
             }, props)
         },
         onTagChange: props => tags => {
-            replaceQuery({
-                tags: tags.size ? [...tags] : undefined
+            replace({
+                query: {
+                    tags: tags.size ? [...tags] : undefined
+                }
             }, props)
         },
         onCategoryChange: props => category => {
-            replaceQuery({
-                category
+            replace({
+                query: {
+                    category
+                }
             }, props)
         },
         onTimelineChange: props => timeline => {
-            replaceQuery({
-                timeline
+            replace({
+                query: {
+                    timeline
+                }
             }, props)
         },
     }),

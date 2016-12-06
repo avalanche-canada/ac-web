@@ -11,12 +11,18 @@ import {
     MountainInformationNetworkSubmission,
     WeatherStation,
 } from 'api/schemas'
-import {pushNewLocation, pushQuery} from 'utils/router'
+import {push} from 'utils/router'
 import * as Layers from 'constants/map/layers'
 import {near} from 'utils/geojson'
+import mapbox from 'services/mapbox/map'
 
 const EMPTY = new List()
 function noop() {}
+
+const CLUSTER_BOUNDS_OPTIONS = {
+    padding: 75,
+    speed: 1.75,
+}
 
 function isForecastRoute({path}) {
     return path === 'forecasts'
@@ -46,10 +52,17 @@ class Container extends Component {
         bounds: null,
         map: null,
     }
+    lastMouseMoveEvent = null
+    zoomToBounds = false
+    constructor(props) {
+        super(props)
+
+        this.popup = new mapbox.Popup()
+        this.allLayerIds = getAllLayerIds(props.layers)
+    }
     get map() {
         return this.state.map
     }
-    lastMouseMoveEvent = null
     processMouseMove = () => {
         if (this.lastMouseMoveEvent === null || !this.map) {
             return
@@ -58,7 +71,7 @@ class Container extends Component {
         const canvas = this.map.getCanvas()
         const {point} = this.lastMouseMoveEvent
         const features = this.map.queryRenderedFeatures(point, {
-            layers: getAllLayerIds(this.props.layers)
+            layers: this.allLayerIds
         })
 
         canvas.style.cursor = features.length ? 'pointer' : null
@@ -87,8 +100,7 @@ class Container extends Component {
     }
     handleMarkerClick = ({location}, event) => {
         event.stopPropagation()
-
-        pushNewLocation(location, this.props)
+        this.push(location)
     }
     handleMousemove = event => {
         if (this.map) {
@@ -103,7 +115,7 @@ class Container extends Component {
             this.props.centerChanged(center)
         }
     }
-        handleZoomend = event => {
+    handleZoomend = event => {
         // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
         if (event.originalEvent) {
             const zoom = event.target.getZoom()
@@ -131,17 +143,32 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
+                const submissions = near(feature, data, point_count)
+                const coordinates = submissions.features.map(({geometry}) => geometry.coordinates)
+                const longitudes = new Set(coordinates.map(c => c[0]))
+                const latitudes = new Set(coordinates.map(c => c[1]))
 
-                return this.setBounds(near(feature, data, point_count))
+                if (longitudes.size === 1 && latitudes.size === 1) {
+                    this.showMINPopup(submissions.features)
+                } else {
+                    this.setBounds(submissions, CLUSTER_BOUNDS_OPTIONS)
+                }
+
+                return
             } else {
                 const {id} = feature.properties
 
-                return pushQuery({
-                    panel: `${key}/${id}`
-                }, this.props)
+                if (features.length > 1) {
+                    this.showMINPopup(features)
+                } else {
+                    this.transitionToMIN(id)
+                }
+
+                return
             }
         }
 
+        // Weather Stations
         features = this.map.queryRenderedFeatures(point, {
             layers: getLayerIds(Layers.WEATHER_STATION)
         })
@@ -153,15 +180,32 @@ class Container extends Component {
             if (feature.properties.cluster) {
                 const {properties: {point_count}} = feature
                 const {data} = this.props.sources.find(({id}) => id === key)
+                const stations = near(feature, data, point_count)
 
-                return this.setBounds(near(feature, data, point_count))
+                return this.setBounds(stations, CLUSTER_BOUNDS_OPTIONS)
             } else {
-                const {stationId} = feature.properties
-
-                return pushQuery({
-                    panel: `${key}/${stationId}`
+                return this.push({
+                    query: {
+                        panel: `${key}/${feature.properties.stationId}`
+                    }
                 }, this.props)
             }
+        }
+
+        // Toyota truck reports
+        features = this.map.queryRenderedFeatures(point, {
+            layers: getLayerIds(Layers.TOYOTA_TRUCK_REPORTS)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const panel = `toyota-truck-reports/${feature.properties.uid}`
+
+            return push({
+                query: {
+                    panel
+                }
+            }, this.props)
         }
 
         // Handle Hot Zone Report layers
@@ -171,13 +215,10 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const {type} = feature.geometry
 
-            return this.setBounds(type === 'Point' ? null : feature, () => {
-                pushNewLocation({
-                    pathname: `/map/hot-zone-reports/${feature.properties.id}`
-                }, this.props)
-            })
+            return this.push({
+                pathname: `/map/hot-zone-reports/${feature.properties.id}`,
+            }, this.props)
         }
 
         // Handle Forecast layers
@@ -188,18 +229,103 @@ class Container extends Component {
         if (features.length > 0) {
             const [feature] = features
 
-            return this.setBounds(feature, () => {
-                pushNewLocation({
-                    pathname: `/map/forecasts/${feature.properties.id}`
-                }, this.props)
+            return this.push({
+                pathname: `/map/forecasts/${feature.properties.id}`,
             })
         }
+    }
+    showMINPopup(features) {
+        const [{geometry: {coordinates}}] = features
+        const html = document.createElement('div')
+        const p = document.createElement('p')
+        const ul = document.createElement('ul')
+
+        p.textContent = `${features.length} reports are available at this location:`
+
+        features.forEach(({properties: {id, title}}) => {
+            const li = document.createElement('li')
+            const a = document.createElement('a')
+
+            a.href = '#'
+            a.textContent = title
+            a.onclick = event => {
+                this.transitionToMIN(id)
+            }
+
+            li.appendChild(a)
+
+            ul.appendChild(li)
+        })
+
+        html.appendChild(p)
+        html.appendChild(ul)
+
+        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
+    }
+    transitionToMIN(id) {
+        return this.push({
+            query: {
+                panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
+            }
+        }, this.props)
+    }
+    push(location) {
+        this.zoomToBounds = true
+
+        push(location, this.props)
+    }
+    showMINPopup(features) {
+        const [{geometry: {coordinates}}] = features
+        const html = document.createElement('div')
+        const p = document.createElement('p')
+        const ul = document.createElement('ul')
+
+        p.textContent = `${features.length} reports are available at this location:`
+
+        features.forEach(({properties: {id, title}}) => {
+            const li = document.createElement('li')
+            const a = document.createElement('a')
+
+            a.href = '#'
+            a.textContent = title
+            a.onclick = event => {
+                this.transitionToMIN(id)
+            }
+
+            li.appendChild(a)
+
+            ul.appendChild(li)
+        })
+
+        html.appendChild(p)
+        html.appendChild(ul)
+
+        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
+    }
+    transitionToMIN(id) {
+        return this.push({
+            query: {
+                panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
+            }
+        }, this.props)
+    }
+    push(location) {
+        this.zoomToBounds = true
+
+        push(location, this.props)
     }
     handleLoad = event => {
         const map = event.target
 
-        this.setState({map})
-        this.props.onLoad(map)
+        this.setState({map}, () => {
+            const {onLoad, routes, params} = this.props
+
+            if (routes.find(isForecastRoute)) {
+                this.setActiveForecastRegion(params.name)
+            }
+
+            onLoad(map)
+        })
     }
     setForecastRegionsFilter(id = '') {
         if (!this.map) {
@@ -216,17 +342,14 @@ class Container extends Component {
         this.map.setFilter('forecast-regions-active', ['==', 'id', name])
         this.map.setFilter('forecast-regions-contour-active', ['==', 'id', name])
     }
-    setBounds(feature, callback) {
+    setBounds(feature, options) {
         let bounds = null
 
         if (feature) {
-            bounds = this.props.computeFitBounds(feature, false, false)
+            bounds = this.props.computeFitBounds(feature, false, false, options)
         }
 
-        this.setState({bounds}, callback)
-    }
-    componentWillMount() {
-        this.setBounds(this.props.feature)
+        this.setState({bounds})
     }
     componentDidMount() {
         this.props.loadData()
@@ -237,33 +360,40 @@ class Container extends Component {
         clearInterval(this.intervalID)
     }
     shouldComponentUpdate({layers, sources, markers}, {map, bounds}) {
-        const {props, state} = this
-
-        if (layers === props.layers &&
-            sources === props.sources &&
-            markers === props.markers &&
-            bounds === state.bounds &&
-            map === state.map
+        if (layers === this.props.layers &&
+            sources === this.props.sources &&
+            markers === this.props.markers &&
+            bounds === this.state.bounds &&
+            map === this.state.map
         ) {
             return false
         }
 
         return true
     }
-    componentWillReceiveProps({feature, routes}) {
-        if (feature && this.props.feature !== feature) {
+    componentWillReceiveProps({feature, routes, params, location, command, layers}) {
+        if (feature && this.props.feature !== feature && !this.zoomToBounds) {
             this.setBounds(feature)
         }
 
-        if (this.props.routes.find(isForecastRoute) && !routes.find(isForecastRoute)) {
+        if (location.key !== this.props.location.key) {
+            this.zoomToBounds = false
+        }
+
+        if (routes.find(isForecastRoute)) {
+            if (params.name !== this.props.params.name) {
+                this.setActiveForecastRegion(params.name)
+            }
+        } else {
             this.setActiveForecastRegion()
         }
-    }
-    componentDidUpdate() {
-        if (this.props.routes.find(isForecastRoute)) {
-            const {name} = this.props.params
 
-            this.setActiveForecastRegion(name)
+        if (this.map && command !== this.props.command) {
+            this.map[command.name].apply(this.map, command.args)
+        }
+
+        if (layers !== this.props.layers) {
+            this.allLayerIds = getAllLayerIds(layers)
         }
     }
     renderMarker = ({id, ...marker}) => {
@@ -274,9 +404,7 @@ class Container extends Component {
     }
     render() {
         const {map} = this
-        const {
-            bounds,
-        } = this.state
+        const {bounds} = this.state
         const {
             sources = EMPTY,
             layers = EMPTY,

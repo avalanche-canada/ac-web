@@ -1,7 +1,8 @@
 import {PropTypes} from 'react'
-import {compose, withProps, withState, lifecycle, mapProps, getContext} from 'recompose'
+import {compose, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import * as Actions from 'actions/entities'
+import {fitBounds, flyTo} from 'actions/map'
 import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
@@ -12,6 +13,7 @@ function connector(mapStateToProps, load, loadAll) {
         connect(mapStateToProps, {
             load,
             loadAll,
+            fitBounds,
         }),
         lifecycle({
             componentDidMount() {
@@ -27,6 +29,13 @@ function connector(mapStateToProps, load, loadAll) {
                     load(params)
                 }
             },
+        }),
+        withHandlers({
+            onLocateClick: props => event => {
+                const {bbox, options} = props.computeBounds()
+
+                props.fitBounds(bbox, options)
+            }
         }),
     )
 }
@@ -48,7 +57,10 @@ function panelConnector(mapStateToProps, load) {
         getContext({
             location: PropTypes.object.isRequired,
         }),
-        connect(mapStateToProps, {load}),
+        connect(mapStateToProps, {
+            load,
+            flyTo,
+        }),
         withProps(props => ({
             load() {
                 props.load(getId(props))
@@ -65,7 +77,12 @@ function panelConnector(mapStateToProps, load) {
                     props.load()
                 }
             },
-        })
+        }),
+        withHandlers({
+            onLocateClick: props => event => {
+                props.flyTo(props.computeFlyTo())
+            }
+        }),
     )
 }
 

@@ -1,10 +1,11 @@
 import {createSelector} from 'reselect'
 import {MountainInformationNetworkSubmission as Schema} from 'api/schemas'
-import {getEntitiesForSchema, getResultsSetForSchema} from 'reducers/api/getters'
+import {getResultsSetForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 import {RESULT} from 'reducers/api/results'
 import {createSource} from './utils'
 import {point} from 'turf-helpers'
-import {getFilters} from 'getters/drawers'
+import {getLayers} from 'getters/drawers'
 import {MOUNTAIN_INFORMATION_NETWORK} from 'constants/map/layers'
 import {paramsToKey} from 'api/utils'
 
@@ -31,13 +32,13 @@ const getTransformedSubmissions = createSelector(
 )
 
 const getDaysFilterValue = createSelector(
-    getFilters,
-    filters => filters.get(MOUNTAIN_INFORMATION_NETWORK).get('days').value
+    getLayers,
+    layers => layers.getIn([MOUNTAIN_INFORMATION_NETWORK, 'filters', 'days', 'value'])
 )
 
 const getTypeFilterValue = createSelector(
-    getFilters,
-    filters => filters.get(MOUNTAIN_INFORMATION_NETWORK).get('type').value
+    getLayers,
+    layers => layers.getIn([MOUNTAIN_INFORMATION_NETWORK, 'filters', 'type', 'value'])
 )
 
 const getSubmissionIds = createSelector(
@@ -67,7 +68,8 @@ export default createSelector(
     getFilteredSubmissions,
     features => createSource({
         id: key,
-        cluster: true,
         features,
+        cluster: true,
+        clusterMaxZoom: 14,
     })
 )

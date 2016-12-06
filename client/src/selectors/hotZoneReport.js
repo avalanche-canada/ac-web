@@ -1,8 +1,9 @@
 import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
+import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import {RESULT} from 'reducers/api/results'
+import {computeFitBounds} from 'selectors/map/bounds'
 
 function getName(state, {params}) {
     return params.name
@@ -21,12 +22,19 @@ function getHotZoneReportResultsSet(state, {params}) {
 
 }
 
+const getComputeBounds = createSelector(
+    getHotZoneArea,
+    computeFitBounds,
+    (region, computeBounds) => () => computeBounds(region)
+)
+
 export default createSelector(
     getName,
     getHotZoneArea,
     getHotZoneReport,
     getHotZoneReportResultsSet,
-    (name, area, report, {isFetching, isError, isLoaded}) => {
+    getComputeBounds,
+    (name, area, report, {isFetching, isError, isLoaded}, computeBounds) => {
         if (report) {
             report = report.toJSON()
 
@@ -37,6 +45,7 @@ export default createSelector(
                 title: report.report.headline,
                 report,
                 link: `/hot-zone-reports/${name}`,
+                computeBounds,
             }
         } else {
             const name = area && area.getIn(['properties', 'name'])
@@ -46,6 +55,7 @@ export default createSelector(
                 isError,
                 isLoaded,
                 title: isFetching ? name : name && `${name} report is not available`,
+                computeBounds,
             }
         }
     }

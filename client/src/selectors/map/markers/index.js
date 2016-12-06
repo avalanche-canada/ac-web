@@ -1,16 +1,10 @@
 import {createSelector} from 'reselect'
-import {List} from 'immutable'
 import {setVisibility} from './utils'
 import getForecastMarkers from './forecast'
-import {getLayers as getVisibleLayers} from 'getters/drawers'
-
-const getMarkers = createSelector(
-    getForecastMarkers,
-    (...args) => new List(args.reduce((all, markers) => all.concat(markers), []))
-)
+import {getVisibleLayers} from 'getters/drawers'
 
 export default createSelector(
-    getMarkers,
+    getForecastMarkers,
     getVisibleLayers,
     (markers, layers) => markers.withMutations(markers => {
         markers.forEach((marker, index) => {

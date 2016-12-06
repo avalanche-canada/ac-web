@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import CSSModules from 'react-css-modules'
 import mapbox from 'services/mapbox/map'
-import {Map, Marker} from 'components/map'
+import {Map, Marker, NavigationControl, FullscreenControl} from 'components/map'
 import {Revelstoke} from 'constants/map/locations'
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
@@ -23,7 +23,7 @@ function areValidCoordinates(longitude, latitude) {
 }
 
 function round(number) {
-    return Math.round(number * 1000) / 1000
+    return Math.round(number * 100000) / 100000
 }
 
 @CSSModules(styles)
@@ -32,6 +32,10 @@ export default class GeoPosition extends Component {
         onChange: PropTypes.func,
         longitude: PropTypes.number,
         latitude: PropTypes.number,
+        allowFullscreen: PropTypes.bool,
+    }
+    static defaultProps = {
+        allowFullscreen: true,
     }
     state = {
         map: null,
@@ -98,18 +102,27 @@ export default class GeoPosition extends Component {
     }
     render() {
         const {lngLat, map} = this.state
+        const {allowFullscreen} = this.props
 
         return (
             <div styleName='Container'>
-                <Map center={lngLat} zoom={5} maxBounds={null}
+                <Map
+                    ref='map'
+                    touchZoomRotate={false}
+                    dragRotate={false}
+                    center={lngLat}
+                    zoom={5}
+                    maxBounds={null}
                     onClick={this.handleClick}
                     onLoad={this.handleLoad}>
-                    {map && <Marker
+                    <Marker
                         draggable
                         onDragEnd={this.handleDragEnd}
                         lngLat={lngLat}
                         element={this.element}
-                        options={MARKER_OPTIONS} />}
+                        options={MARKER_OPTIONS} />
+                    {allowFullscreen && <FullscreenControl />}
+                    <NavigationControl />
                 </Map>
             </div>
         )

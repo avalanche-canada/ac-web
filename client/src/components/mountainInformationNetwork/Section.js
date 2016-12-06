@@ -7,7 +7,7 @@ Section.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Section({title, children}) {
+function Section({title = 'Information', children}) {
     return (
         <div styleName='Section'>
             <h4 styleName='Section--Title'>{title}</h4>

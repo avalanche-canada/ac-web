@@ -3,7 +3,7 @@ import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withStat
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ForecastRegion, HotZoneArea} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
 import {UnsupportedMap} from 'components/page'
 import {Link} from 'react-router'

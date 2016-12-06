@@ -133,9 +133,6 @@ export default class MapComponent extends Component {
     get map() {
         return this.state.map
     }
-    set map(map) {
-        this.setState({map})
-    }
     getChildContext() {
         return {
             map: this.map
@@ -158,7 +155,7 @@ export default class MapComponent extends Component {
                 }
             })
 
-            this.map = map
+            this.setState({map})
         } catch (error) {
             captureException(error)
             onInitializationError(error)
@@ -175,28 +172,15 @@ export default class MapComponent extends Component {
         }
 
         if (bounds !== null && bounds !== this.props.bounds) {
-            let {bbox, options} = bounds
-
-            if (bbox) {
-                // TODO: removed when https://github.com/mapbox/mapbox-gl-js/issues/1776 gets fixed
-                if (typeof options === 'object') {
-                    const canvas = this.map.getCanvas()
-                    const width = canvas.clientWidth
-                    const [x] = options.offset || [0]
-                    const {padding = 0} = options
-
-                    if (width < (2 * padding + 2 * Math.abs(x))) {
-                        options = undefined
-                    }
-                }
-
-                this.map.fitBounds(bbox, options)
-            }
+            this.map.fitBounds(bounds.bbox, bounds.options)
         }
+    }
+    shouldComponentUpdate({children}) {
+        return children !== this.props.children
     }
     render() {
         return (
-            <div ref='container' styleName='Container' >
+            <div ref='container' style={this.props.containerStyle}>
                 {this.map && this.props.children}
             </div>
         )

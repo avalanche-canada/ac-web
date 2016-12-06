@@ -6,7 +6,8 @@ import {computeFitBounds} from './bounds'
 import feature from './feature'
 import {
     getZoom as zoom,
-    getCenter as center
+    getCenter as center,
+    getCommand as command,
 } from 'reducers/map/getters'
 
 export default createStructuredSelector({
@@ -17,4 +18,5 @@ export default createStructuredSelector({
     markers,
     zoom,
     center,
+    command,
 })

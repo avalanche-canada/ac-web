@@ -11,7 +11,6 @@ const {
     HotZoneArea,
     Forecast,
     HotZoneReport,
-    MountainInformationNetworkObservation,
     MountainInformationNetworkSubmission,
     Incident,
     Provider,
@@ -38,12 +37,6 @@ const CONFIGS = new Map([
     [HotZoneReport, params => ({
         params: {
             client: 'web'
-        }
-    })],
-    [MountainInformationNetworkObservation, params => ({
-        params: {
-            client: 'web',
-            last: `${params.days}:days`,
         }
     })],
     [MountainInformationNetworkSubmission, ({id, days}) => {
@@ -107,7 +100,6 @@ const ENDPOINTS = new Map([
     [Forecast, forecastEndpoint],
     [HotZoneArea, params => 'forecasts'],
     [HotZoneReport, params => 'hzr/submissions'],
-    [MountainInformationNetworkObservation, params => 'min/observations'],
     [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],

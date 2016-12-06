@@ -2,7 +2,7 @@ import React from 'react'
 import {neverUpdate} from 'compose'
 import {compose, withProps} from 'recompose'
 import {Link} from 'react-router'
-import {Sidebar, Contact, Follow, Share, Item, RSSFeed} from 'components/sidebar'
+import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from 'components/sidebar'
 import {FORECASTERS} from 'constants/emails'
 
 export default compose(
@@ -25,6 +25,7 @@ export default compose(
                 <Share />,
                 <Contact email={FORECASTERS} />,
                 <RSSFeed url={`${origin}/api${pathname}.rss`} />,
+                <Print url={`${origin}/api${pathname}.html`} />,
             ]
         }
     })

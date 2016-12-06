@@ -1,10 +1,11 @@
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'reducers/api/entities'
+import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import moment from 'moment'
 import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
 import {VALUES as MODES} from 'constants/forecast/mode'
+import {computeFitBounds} from 'selectors/map/bounds'
 
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
@@ -68,17 +69,25 @@ function transform(forecast) {
         weatherForecast
     } = forecast
 
-    return {
+    // TODO(wnh): Clean this up and merge it into either the server side or the
+    // transformDangerRating function
+    const fixDangerRatingDates = function(x, n){
+        let newDate = moment(dateIssued).add(n + 1, 'days')
+        return Object.assign({}, x, {date: newDate.toDate()})
+    }
+
+    var out =  {
         ...forecast,
         confidence: asConfidenceObject(confidence),
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued: moment(dateIssued).toDate(),
         validUntil: moment(validUntil).toDate(),
-        dangerRatings: dangerRatings.map(transformDangerRating),
+        dangerRatings: dangerRatings.map(transformDangerRating).map(fixDangerRatingDates),
         avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
     }
+    return out
 }
 
 function getForecasts(state) {
@@ -103,11 +112,18 @@ const getForecast = createSelector(
     }
 )
 
+const getComputeBounds = createSelector(
+    getForecastRegion,
+    computeFitBounds,
+    (region, computeBounds) => () => computeBounds(region)
+)
+
 export default createSelector(
     getForecast,
     getForecastRegion,
     getForecastResultSet,
-    (forecast, region, result) => {
+    getComputeBounds,
+    (forecast, forecastRegion, result, computeBounds) => {
         const {isFetching, isError, isLoaded} = result
 
         if (forecast) {
@@ -145,15 +161,16 @@ export default createSelector(
                 isLoaded,
                 title: forecast.bulletinTitle || forecast.name || region.name,
                 forecast: showForecast ? forecast : null,
-                region,
                 link,
+                computeBounds,
             }
         } else {
              return {
                 isLoading: isFetching,
                 isError,
                 isLoaded,
-                title: region && region.getIn(['properties', name]),
+                title: forecastRegion && forecastRegion.getIn(['properties', name]),
+                computeBounds,
             }
         }
     }

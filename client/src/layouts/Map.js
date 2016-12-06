@@ -1,44 +1,68 @@
 import React, {PropTypes} from 'react'
-import CSSModule from 'react-css-modules'
-import {compose, withContext, withState, branch, renderComponent} from 'recompose'
+import CSSModules from 'react-css-modules'
+import {compose, withContext, withState, withProps, withHandlers, branch, renderComponent} from 'recompose'
+import {Link} from 'react-router'
 import {Primary, Secondary, Menu, OpenMenu} from 'containers/drawers'
 import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
 import styles from './Map.css'
 import mapbox from 'services/mapbox/map'
+import {Add} from 'components/icons'
+import {Wrapper} from 'components/tooltip'
 
-// TODO: Remove that setMap and map state. It is a workaround to send the map
-// object to the map comtrols. Instead, zoomIn and zoomOut actions should be created.
-// And Map component reacts to zoom level and center change only. Not to bounds!!!
-// This requires few changes with the way map zooms to feature.
 
-function Layout({primary, map, setMap, setInitializationError}) {
+function Layout({primary, setInitializationError}) {
     return (
         <div styleName='Container'>
-            <Map onLoad={setMap} onInitializationError={setInitializationError} />
+            <Map onInitializationError={setInitializationError} />
             <Primary>
                 {primary}
             </Primary>
             <Secondary />
-            <OpenMenu />
             <Menu />
+            <OpenMenu />
+            <AddControl />
         </div>
     )
 }
 
 export default mapbox.supported() ? compose(
-    withState('map', 'setMap', null),
     withState('initializationError', 'setInitializationError', false),
     withContext({
         location: PropTypes.object.isRequired,
         routes: PropTypes.array.isRequired,
         params: PropTypes.object.isRequired,
-        map: PropTypes.object.isRequired,
-    }, ({location, routes, params, map}) => ({location, routes, params, map})),
+    }, ({location, routes, params}) => ({location, routes, params})),
     branch(
         props => props.initializationError,
         renderComponent(UnsupportedMap),
         Component => Component,
     ),
-    CSSModule(styles),
+    CSSModules(styles),
 )(Layout) : UnsupportedMap
+
+
+function AddControl({router}) {
+    function handleClick(event) {
+        router.push('/mountain-information-network/submit')
+    }
+    const TOOLTIP_STYLE = {
+        maxWidth: 175,
+        padding: '0.25em',
+    }
+    const tooltip = (
+        <div style={TOOLTIP_STYLE}>
+            Create a Mountain Information Network (MIN) report
+        </div>
+    )
+
+    return (
+        <div className={styles.AddControl}>
+            <Wrapper tooltip={tooltip} placement='right'>
+                <Link
+                    className={styles['AddControl--MIN']}
+                    to='/mountain-information-network/submit' />
+            </Wrapper>
+        </div>
+    )
+}

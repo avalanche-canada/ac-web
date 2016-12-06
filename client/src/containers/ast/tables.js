@@ -10,7 +10,7 @@ import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
-import {replaceQuery} from 'utils/router'
+import {replace} from 'utils/router'
 import {Markup} from 'components/markup'
 import Pagination from 'components/pagination'
 import {Article, Header as PageHeader} from 'components/page'
@@ -132,8 +132,10 @@ function connectEntities(name, mapStateToProps, load) {
         connect(mapStateToProps, {load}),
         withHandlers({
             onSortingChange: props => (name, order = NONE) => {
-                replaceQuery({
-                    sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
+                replace({
+                    query: {
+                        sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
+                    }
                 }, props)
             },
         }),

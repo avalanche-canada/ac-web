@@ -10,7 +10,7 @@ function K() {}
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,
-    active: PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
     icon: PropTypes.node,
     children: PropTypes.node,
@@ -28,7 +28,7 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Layer({title, active = true, onClick = K, icon, children, expanded, setExpanded}) {
+function Layer({title, visible = true, onClick = K, icon, children, expanded, setExpanded}) {
     function handleClick(event) {
         event.stopPropagation()
 
@@ -36,7 +36,7 @@ function Layer({title, active = true, onClick = K, icon, children, expanded, set
     }
 
     return (
-        <div styleName={active ? 'Layer--Active' : 'Layer'}>
+        <div styleName={visible ? 'Layer--Visible' : 'Layer'}>
             <div styleName='Header' onClick={onClick}>
                 {icon}
                 <span styleName='Title'>{title}</span>

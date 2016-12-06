@@ -82,8 +82,7 @@ class Slider extends Component {
                 <Muted>
                     {pluralize('photo', images.length, true)} will be sent along with your report.
                 </Muted>
-                {/* TODO showBullets={true} showNav={true} */}
-                <ImageGallery items={items} showBullets={false} showNav={false} showThumbnails={false} />
+                <ImageGallery items={items} showBullets showThumbnails={false} />
             </div>
         )
     }

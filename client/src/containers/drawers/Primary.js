@@ -5,14 +5,13 @@ import {connect} from 'react-redux'
 import {getPrimary} from 'selectors/drawers'
 import {RIGHT} from 'components/page/drawer'
 import Drawer from 'components/page/drawer'
-import {pushNewLocation} from 'utils/router'
+import {push} from 'utils/router'
 import Controls from './controls/Map'
 
 export default compose(
     withRouter,
     getContext({
         location: PropTypes.object.isRequired,
-        map: PropTypes.object.isRequired,
     }),
     connect(getPrimary),
     defaultProps({
@@ -23,7 +22,7 @@ export default compose(
     })),
     withHandlers({
         onCloseClick: props => event => {
-            pushNewLocation({
+            push({
                 pathname: '/map'
             }, props)
         }

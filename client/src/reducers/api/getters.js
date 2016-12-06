@@ -1,9 +1,7 @@
 import {paramsToKey} from 'api/utils'
 import {RESULT} from './results'
-import {getEntityForSchema} from './entities'
+import {getEntityForSchema} from 'getters/entities'
 import {ForecastRegion} from 'api/schemas'
-
-export {getEntitiesForSchema} from './entities'
 
 export function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {HotZoneArea, HotZoneReport} from 'api/schemas'
-import {getEntitiesForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 import {createSource} from './utils'
 import {point, polygon} from 'turf-helpers'
 

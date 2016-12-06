@@ -1,11 +1,20 @@
 import React, {PropTypes} from 'react'
 import {compose, lifecycle, withProps} from 'recompose'
+import {createSelector} from 'reselect'
 import {connect} from 'react-redux'
-import getLayers from 'selectors/menu'
-import {toggleLayer, changeFilter} from 'actions/drawers'
-import {Header, Container, Navbar, Close} from 'components/page/drawer'
+import {getLayers} from 'getters/drawers'
+import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
+import {Container, Header, Body, Navbar, Close} from 'components/page/drawer'
 import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
-import * as LAYERS from 'constants/map/layers'
+import {
+    FORECASTS,
+    HOT_ZONE_REPORTS,
+    MOUNTAIN_CONDITION_REPORTS,
+    METEOGRAMS,
+    MOUNTAIN_INFORMATION_NETWORK,
+    SURFACE_HOAR,
+    WEATHER_STATION,
+} from 'constants/map/layers'
 import {loadData} from 'actions/map'
 import {
     Forecast,
@@ -17,16 +26,6 @@ import {
     WeatherStation,
 } from 'components/icons'
 
-const {
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
-    METEOGRAMS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
-    WEATHER_STATION,
-} = LAYERS
-
 const ICONS = new Map([
     [FORECASTS, <Forecast />],
     [HOT_ZONE_REPORTS, <HotZoneReport />],
@@ -37,62 +36,74 @@ const ICONS = new Map([
     [WEATHER_STATION, <WeatherStation />],
 ])
 
+// TODO: Improve performance! layers is now an immutable object
+
 Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
-function toObject(layer) {
-    return layer.toObject()
-}
-
-function Menu({sets = [], toggleLayer, changeFilter, onCloseClick}) {
+function Menu({sets = [], turnOnLayer, turnOffLayer, changeFilter, onCloseClick}) {
     return (
         <Container>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
-            {sets.map(({title, layers}) => (
-                <LayerSet title={title}>
-                    {layers.map(toObject).map(({filters, ...layer}, type) => {
-                        const handleFilterChange = changeFilter.bind(null, type)
-                        const props = {
-                            ...layer,
-                            key: type,
-                            icon: ICONS.get(type),
-                            onClick: event => toggleLayer(type),
-                        }
+            <Body>
+                {sets.map(({title, layers}) => (
+                    <LayerSet title={title}>
+                        {layers.map(layer => {
+                            const id = layer.get('id')
+                            const filters = layer.get('filters')
+                            const visible = layer.get('visible')
+                            const title = layer.get('title')
+                            const handleFilterChange = changeFilter.bind(null, id)
+                            function handleClick(event) {
+                                if (visible) {
+                                    turnOffLayer(id)
+                                } else {
+                                    turnOnLayer(id)
+                                }
+                            }
 
-                        return (
-                            <Layer {...props}>
-                                {filters && <FilterSet filters={filters} onChange={handleFilterChange} />}
-                            </Layer>
-                        )
-                    })}
-                </LayerSet>
-            ))}
+                            return (
+                                <Layer key={id} icon={ICONS.get(id)} onClick={handleClick} title={title} visible={visible} >
+                                    {filters &&
+                                        <FilterSet filters={filters} onChange={handleFilterChange} />
+                                    }
+                                </Layer>
+                            )
+                        })}
+                    </LayerSet>
+                ))}
+            </Body>
         </Container>
     )
 }
 
-export default compose(
-    connect(getLayers, {
-        toggleLayer,
-        changeFilter,
-        loadData,
-    }),
-    withProps(({layers}) => {
-        return {
-            sets: layers.groupBy(layer => layer.type).map((layers, title) => {
-                return {
+const mapStateToProps = createSelector(
+    state => getLayers(state),
+    layers => ({
+        sets: layers
+                .groupBy(layer => layer.get('type'))
+                .map((layers, title) => ({
                     title,
                     layers,
-                }
-            })
+                })
+            )
         }
+    )
+)
+
+export default compose(
+    connect(mapStateToProps, {
+        turnOnLayer,
+        turnOffLayer,
+        changeFilter,
+        loadData,
     }),
     lifecycle({
         componentDidUpdate() {
             this.props.loadData()
         }
-    })
+    }),
 )(Menu)

@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from 'reducers/api/entities'
+import {getEntitiesForSchema} from 'getters/entities'
 import {ForecastRegion, HotZoneArea, MountainInformationNetworkSubmission} from 'api/schemas'
 
 function isForecastRoute({path}) {

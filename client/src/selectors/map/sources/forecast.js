@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 import {ForecastRegion as Schema} from 'api/schemas'
 import {createSource, createCentroid} from './utils'
-import {getEntitiesForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 
 const {assign} = Object
 const key = Schema.getKey()

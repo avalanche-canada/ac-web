@@ -36,8 +36,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-
-    margin: 0 1.5em;
+    position: relative;
 }
 
 .Navbar {
@@ -46,22 +45,40 @@
     align-items: center;
 
     height: 5em;
-    margin-right: -1.5em;
 
-    & > * {
-        padding: 1em;
+    & > *:not(button) {
+        padding: 0.5em;
     }
+
+    & + .Header {
+        padding-top: 0;
+    }
+
+    /* TODO: Super fragile selector, should be explicit. For the close button */
+    & > button {
+        color: var(--primary) !important;
+        position: relative;
+        right: 15px;
+    }
+
     /* TODO: Super fragile selector, should be explicit. For the sponsor image */
     & img {
         transform: scale(0.65);
     }
-    /* TODO: Super fragile selector, should be explicit. For the close button */
-    & button {
-        color: var(--primary) !important;
-    }
 }
 
 .Header {
+    padding: 1em 1.25em 0;
+
+    & > h1 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.Content {
+    padding: 0 1.25em;
 }
 
 .Body {
@@ -69,6 +86,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 0;
+    padding: 0 1.25em;
 }
 
 .Subject {
@@ -100,4 +118,9 @@
     & + .Drawer {
         z-index: 2;
     }
+}
+
+.Banner {
+    background-color: var(--gray-lightest);
+    border: none;
 }

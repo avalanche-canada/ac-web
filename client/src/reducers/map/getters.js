@@ -5,3 +5,7 @@ export function getZoom(state) {
 export function getCenter(state) {
     return state.map.center
 }
+
+export function getCommand(state) {
+    return state.map.command
+}

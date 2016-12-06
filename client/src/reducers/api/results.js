@@ -17,9 +17,6 @@ import {
     INCIDENTS_REQUEST,
     INCIDENTS_SUCCESS,
     INCIDENTS_FAILURE,
-    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
-    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
-    MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
@@ -35,10 +32,8 @@ import {
     WEATHER_STATIONS_FAILURE,
 } from 'actions/entities'
 import {paramsToKey} from 'api/utils'
-import {getEntitiesForSchemaIds} from 'reducers/api/entities'
 
 const {
-    MountainInformationNetworkObservation,
     MountainInformationNetworkSubmission,
     ForecastRegion,
     Forecast,
@@ -133,12 +128,6 @@ function resultsReducerFactory(schema, request, success, failure, postSuccess = 
 }
 
 export default combineReducers({
-    [MountainInformationNetworkObservation.getKey()]: resultsReducerFactory(
-        MountainInformationNetworkObservation,
-        MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_REQUEST,
-        MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_SUCCESS,
-        MOUNTAIN_INFORMATION_NETWORK_OBSERVATIONS_FAILURE,
-    ),
     [MountainInformationNetworkSubmission.getKey()]: resultsReducerFactory(
         MountainInformationNetworkSubmission,
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,

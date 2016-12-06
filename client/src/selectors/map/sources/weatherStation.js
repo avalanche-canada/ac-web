@@ -2,7 +2,7 @@ import turf from 'turf-helpers'
 import {createSelector} from 'reselect'
 import {WeatherStation as Schema} from 'api/schemas'
 import {createSource} from './utils'
-import {getEntitiesForSchema} from 'reducers/api/getters'
+import {getEntitiesForSchema} from 'getters/entities'
 
 const {assign} = Object
 const key = Schema.getKey()
