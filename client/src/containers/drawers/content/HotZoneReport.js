@@ -25,7 +25,7 @@ function Container({
     onCloseClick,
     onLocateClick,
 }) {
-    const shareUrl = link && `${window.location.origin}${link.to}`
+    const shareUrl = link && `${window.location.origin}${link}`
 
     return (
         <DrawerContainer>
