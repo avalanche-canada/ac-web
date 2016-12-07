@@ -17,7 +17,7 @@ const ARROW_STYLE = {
 
 function Container({
     isLoading,
-    report = {},
+    report,
     params,
     title = 'Loading...',
     isError,
@@ -43,7 +43,7 @@ function Container({
                     }
                 </h1>
                 {isLoading ||
-                    <Metadata report={report.report} shareUrl={shareUrl} />
+                    <Metadata report={report} shareUrl={shareUrl} />
                 }
             </Header>
             <Body>
@@ -54,7 +54,7 @@ function Container({
                     <Error>An error happened while loading hot zone report.</Error>
                 }
                 {isLoading ||
-                    <HotZoneReport report={report.report} />
+                    <HotZoneReport report={report} />
                 }
             </Body>
         </DrawerContainer>

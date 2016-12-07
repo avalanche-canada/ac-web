@@ -14,7 +14,7 @@ Container.propTypes = {
 
 function Container({
     title = 'Loading...',
-    report = {},
+    report,
     isLoading,
     isError,
 }) {
@@ -23,10 +23,10 @@ function Container({
             <Header title={title} />
             <Content>
                 <Main>
-                    {isLoading || <Metadata report={report.report} />}
+                    {isLoading || <Metadata report={report} />}
                     {isLoading && <Muted>Loading report...</Muted>}
                     {isError && <Error>Error happened while loading report.</Error>}
-                    {isLoading || <HotZoneReport report={report.report} />}
+                    {isLoading || <HotZoneReport report={report} />}
                 </Main>
             </Content>
         </Page>

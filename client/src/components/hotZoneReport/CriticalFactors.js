@@ -3,19 +3,17 @@ import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProp
 import Content from 'components/mountainInformationNetwork/Content'
 import {asTermAndDefinition} from 'components/description/utils'
 
-const {string} = PropTypes
-
 export default compose(
     setDisplayName('CriticalFactors'),
     setPropTypes({
-        persistentAvalancheProblem: string,
-        slabAvalanches: string,
-        instability: string,
-        recentSnowfall: string,
-        recentRainfall: string,
-        recentWindloading: string,
-        significantWarming: string,
-        criticalFactorsComments: string,
+        persistentAvalancheProblem: PropTypes.oneOf([true, false, null]),
+        slabAvalanches: PropTypes.oneOf([true, false, null]),
+        instability: PropTypes.oneOf([true, false, null]),
+        recentSnowfall: PropTypes.oneOf([true, false, null]),
+        recentRainfall: PropTypes.oneOf([true, false, null]),
+        recentWindloading: PropTypes.oneOf([true, false, null]),
+        significantWarming: PropTypes.oneOf([true, false, null]),
+        comments: PropTypes.string,
     }),
     defaultProps({
         persistentAvalancheProblem: 'N/A',
@@ -25,7 +23,7 @@ export default compose(
         recentRainfall: 'N/A',
         recentWindloading: 'N/A',
         significantWarming: 'N/A',
-        criticalFactorsComments: 'N/A',
+        comments: 'N/A',
     }),
     renameProps({
         persistentAvalancheProblem: 'Persistent avalanche problem',
@@ -36,8 +34,8 @@ export default compose(
         recentWindloading: 'Recent windloading',
         significantWarming: 'Significant warming',
     }),
-    mapProps(({criticalFactorsComments, ...values}) => ({
-        comment: criticalFactorsComments,
+    mapProps(({comments, ...values}) => ({
+        comment: comments,
         descriptions: asTermAndDefinition(values),
     })),
 )(Content)

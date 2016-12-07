@@ -20,7 +20,7 @@ export const loadForUid = createAction(
     (type, uid) => ({type, uid})
 )
 export const loadToyotaTruckReports = lazyLoadForTypeFactory('toyota-truck-report')
-export const loadHotZoneReports = lazyLoadForTypeFactory('hot-zone-report')
+export const loadHotZoneReports = lazyLoadForTypeFactory('hotzone-report')
 
 function lazyLoadForTypeFactory(type) {
     return () => (dispatch, getState) => {

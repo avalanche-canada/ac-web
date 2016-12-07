@@ -1,7 +1,8 @@
 import {PropTypes} from 'react'
 import {compose, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
-import * as Actions from 'actions/entities'
+import * as EntitiesActions from 'actions/entities'
+import * as PrismicActions from 'actions/prismic'
 import {fitBounds, flyTo} from 'actions/map'
 import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
@@ -42,14 +43,14 @@ function connector(mapStateToProps, load, loadAll) {
 
 export const forecast = connector(
     getForecast,
-    Actions.loadForecast,
-    Actions.loadFeaturesMetadata
+    EntitiesActions.loadForecast,
+    EntitiesActions.loadFeaturesMetadata
 )
 
 export const hotZoneReport = connector(
     getHotZoneReport,
-    Actions.loadHotZoneReports,
-    Actions.loadFeaturesMetadata
+    PrismicActions.loadHotZoneReports,
+    EntitiesActions.loadFeaturesMetadata
 )
 
 function panelConnector(mapStateToProps, load) {
@@ -88,10 +89,10 @@ function panelConnector(mapStateToProps, load) {
 
 export const mountainInformationNetworkSubmission = panelConnector(
     getMountainInformationNetworkSubmission,
-    Actions.loadMountainInformationNetworkSubmission,
+    EntitiesActions.loadMountainInformationNetworkSubmission,
 )
 
 export const weatherStation = panelConnector(
     getWeatherStation,
-    Actions.loadWeatherStation,
+    EntitiesActions.loadWeatherStation,
 )

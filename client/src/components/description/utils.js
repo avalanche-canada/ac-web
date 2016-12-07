@@ -2,6 +2,11 @@ import React from 'react'
 import {Term, Definition} from 'components/description'
 import {trulyKeys} from 'utils/object'
 
+const BooleanValues = new Map([
+    [true, 'Yes'],
+    [false, 'No'],
+])
+
 export function asTermAndDefinition(values = {}, terms = {}) {
     return Object.keys(values).reduce((children, key) => {
         const value = values[key]
@@ -19,9 +24,13 @@ export function asTermAndDefinition(values = {}, terms = {}) {
         switch (typeof value) {
             case 'string':
             case 'number':
-            case 'boolean':
                 children.push(
                     <Definition>{value}</Definition>
+                )
+                break;
+            case 'boolean':
+                children.push(
+                    <Definition>{BooleanValues.get(value)}</Definition>
                 )
                 break;
             case 'function':

@@ -1,22 +1,17 @@
 import {createAction} from 'redux-actions'
 import {getVisibleLayers} from 'getters/drawers'
 import {getStyle} from 'getters/map'
-import {loadToyotaTruckReports} from 'actions/prismic'
 import {fetchMapStyle} from 'services/mapbox/api'
 import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
+import * as PrismicActions from 'actions/prismic'
+import * as EntitiesActions from 'actions/entities'
 import {
     HOT_ZONE_REPORTS,
     MOUNTAIN_INFORMATION_NETWORK,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/drawers'
-import {
-    loadFeaturesMetadata,
-    loadHotZoneReports,
-    loadMountainInformationNetworkSubmissionsForDays,
-    loadWeatherStations,
-} from 'actions/entities'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
 export const CENTER_CHANGED = 'CENTER_CHANGED'
@@ -48,7 +43,7 @@ export function loadData() {
     return (dispatch, getState) => {
         const layers = getVisibleLayers(getState())
 
-        dispatch(loadFeaturesMetadata())
+        dispatch(EntitiesActions.loadFeaturesMetadata())
 
         layers.map(createActionForLayer).filter(Boolean).forEach(dispatch)
     }
@@ -57,15 +52,15 @@ export function loadData() {
 function createActionForLayer(layer) {
     switch (layer.get('id')) {
         case HOT_ZONE_REPORTS:
-            return loadHotZoneReports()
+            return PrismicActions.loadHotZoneReports()
         case MOUNTAIN_INFORMATION_NETWORK:
             const value = layer.getIn(['filters', 'days', 'value'])
 
-            return loadMountainInformationNetworkSubmissionsForDays(value)
+            return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
         case TOYOTA_TRUCK_REPORTS:
-            return loadToyotaTruckReports()
+            return PrismicActions.loadToyotaTruckReports()
         case WEATHER_STATION:
-            return loadWeatherStations()
+            return EntitiesActions.loadWeatherStations()
     }
 }
 

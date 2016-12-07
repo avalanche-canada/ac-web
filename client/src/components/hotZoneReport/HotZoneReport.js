@@ -6,7 +6,7 @@ import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import Metadata from './Metadata'
-import {Gallery} from 'components/gallery'
+import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
 
 const Panel = withProps({
@@ -22,41 +22,36 @@ function HotZoneReport({report}) {
     let images = []
 
     if (report) {
-        const {thumbs = [], uploads = []} = report
-
-        images = uploads.map((upload, index) => ({
-            original: upload,
-            thumbnail: thumbs[index],
+        images = report.images.map(({url}) => ({
+            original: url,
         }))
     }
 
     return (
         <div styleName='HotZoneReport'>
-            {images.length > 10000 &&
-                <Gallery images={images} />
-            }
+            {Boolean(images.length) && <ImageGallery items={images} showBullets showThumbnails={false} />}
             {report &&
-                <Panel header='Critical Factors Summary'>
+                <Panel header='Critical Factors Summary' expanded>
                     <p>
                         <strong>
                             Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                         </strong>
                     </p>
                     <div styleName='CriticalFactors'>
-                        <CriticalFactors {...report.data.criticalFactors} />
+                        <CriticalFactors {...report.criticalFactors} />
                     </div>
                 </Panel>
             }
             {report &&
-                <Panel header='Terrain and Travel Advice'>
+                <Panel header='Terrain and Travel Advice' expanded>
                     <TerrainAndTravelAdvice
-                        alpine={report.data.alpineTerrainAvoidance}
-                        belowTreeline={report.data.belowTreelineTerrainAvoidance}
-                        treeline={report.data.treelineTerrainAvoidance} />
+                        alpine={report.alpineTerrainAvoidance}
+                        belowTreeline={report.belowTreelineTerrainAvoidance}
+                        treeline={report.treelineTerrainAvoidance} />
                 </Panel>
             }
             {!report &&
-                <Panel header='More information'>
+                <Panel header='More information' expanded>
                     <Generic uid='hot-zone-report-more-information' />
                 </Panel>
             }

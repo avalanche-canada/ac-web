@@ -6,20 +6,32 @@ import {asTermAndDefinition} from 'components/description/utils'
 import {List, Term, Definition} from 'components/description'
 import styles from './HotZoneReport.css'
 
-const {keys} = Object
-
 TerrainSummary.propTypes = {
     title: PropTypes.string.isRequired,
     aspect: PropTypes.object.isRequired,
     terrainFeatures: PropTypes.object.isRequired,
-    terrainAvoidanceComments: PropTypes.string,
+    travelAdvice: PropTypes.string,
 }
+
+const Titles = new Map([
+    ['crossloadedSlopes', 'Crossloaded slopes'],
+    ['shallowSnowpack', 'Shallow snowpack'],
+    ['variableDepthSnowpack', 'Variable depth snowpack'],
+    ['convex', 'Convex'],
+    ['unsupported', 'Unsupported'],
+    ['leeSlopes', 'Lee slopes'],
+    ['creeks', 'Creeks'],
+    ['runoutZones', 'Runout Zone'],
+    ['cutblocks', 'Cutblocks'],
+])
 
 function AvoidList({items}) {
     return (
         <ul styleName='List'>
-            {keys(items).map(name => (
-                <li styleName={items[name] ? 'Avoid' : 'Okay'}>{name}</li>
+            {Object.keys(items).map(name => (
+                <li styleName={items[name] ? 'Avoid' : 'Okay'}>
+                    {Titles.get(name) || name}
+                </li>
             ))}
         </ul>
     )
@@ -27,12 +39,7 @@ function AvoidList({items}) {
 
 AvoidList = CSSModules(AvoidList, styles)
 
-export default function TerrainSummary({
-    title,
-    aspect: {All, ...aspect},
-    terrainFeatures,
-    terrainAvoidanceComments
-}) {
+export default function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
     return (
         <Section title={title}>
             <List>
@@ -45,7 +52,7 @@ export default function TerrainSummary({
                     <AvoidList items={terrainFeatures} />
                 </Definition>
                 <Term block >Travel advice</Term>
-                <Definition block >{terrainAvoidanceComments}</Definition>
+                <Definition block>{travelAdvice}</Definition>
             </List>
         </Section>
     )

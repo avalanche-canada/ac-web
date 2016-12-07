@@ -7,11 +7,14 @@ import * as DrawerActions from 'actions/drawers'
 import * as EntityActions from 'actions/entities'
 import * as PrismicActions from 'actions/prismic'
 import {getLayerIds} from 'constants/map/layers'
-import {Transformers} from 'constants/map/sources'
 import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 import featureFilter from 'feature-filter'
 import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
+import Parser from 'prismic/parser'
+import turf from 'turf-helpers'
+import once from 'lodash/once'
 
 export default combineReducers({
     command: handleAction(MapActions.MAP_COMMAND_CREATED, getPayload, null),
@@ -26,12 +29,44 @@ export default combineReducers({
         [DrawerActions.FILTER_CHANGED]: setFilter,
         [EntityActions.WEATHER_STATIONS_SUCCESS]: setWeatherStations,
         [EntityActions.MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS]: setSubmissions,
-        [PrismicActions.PRISMIC_SUCCESS]: setToyotaTruckReports,
+        [PrismicActions.PRISMIC_SUCCESS]: setPrismicDocuments,
     }, Immutable.fromJS({
         sources: MapSources,
         layers: MapLayers,
     })),
 })
+
+const Transformers = new Map([
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, days => submission => {
+        const [lat, lng] = submission.latlng
+        const types = submission.obs.map(ob => ob.obtype)
+
+        return turf.point([lng, lat], {
+            id: submission.subid,
+            ...types.reduce((types, type) => ({...types, [type]: true}), {}),
+            [String(days)]: true,
+            icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
+            title: submission.title,
+        })
+    }],
+    [Layers.WEATHER_STATION, station => {
+        return turf.point([station.longitude, station.latitude], {
+            title: station.name,
+            id: station[Schemas.WeatherStation.getIdAttribute()],
+        })
+    }],
+    [Layers.TOYOTA_TRUCK_REPORTS, document => {
+        const report = Parser.parse(document)
+        const {uid, position: {longitude, latitude}, headline} = report
+
+        return turf.point([longitude, latitude], {
+            title: headline,
+            id: uid,
+        })
+    }],
+    [Layers.HOT_ZONE_REPORTS, document => Parser.parse(document).region],
+])
+
 
 // It is currently impossible to apply filtering on preclustered features.
 // There are few workarounds I have implemented to solve that limitation.
@@ -147,24 +182,59 @@ function setSubmissions(style, {payload, meta}) {
 
     return setFilteredSubmissions(style.setIn(path, features.toList()))
 }
-function setToyotaTruckReports(style, {payload, meta}) {
-    if (meta.type !== 'toyota-truck-report') {
-        return style
+
+let hotZoneReportsProcessed = false
+function setPrismicDocuments(style, action) {
+    const {payload, meta} = action
+
+    switch (meta.type) {
+        case 'toyota-truck-report':
+            const source = Layers.TOYOTA_TRUCK_REPORTS
+            const path = ['sources', source, 'data', 'features']
+
+            // TODO: Remove that condition when prismic action dispatching reductions is implemented
+            if (!style.getIn(path).isEmpty()) {
+                return style
+            }
+
+            const documents = payload.results.map(Transformers.get(source))
+
+            return style.setIn(path, Immutable.fromJS(documents))
+        case 'hotzone-report':
+            if (hotZoneReportsProcessed) {
+                return style
+            }   else {
+                hotZoneReportsProcessed = true
+
+                return style.withMutations(style => {
+                    const source = Layers.HOT_ZONE_REPORTS
+                    const activeIds = payload.results.map(Transformers.get(source))
+                    const layers = style.get('layers')
+
+                    let index = layers.findIndex(layer => layer.get('id') === 'hot-zones')
+                    style.setIn(
+                        ['layers', index, 'filter'],
+                        Immutable.List.of('!in', 'id', ...activeIds)
+                    )
+
+                    index = layers.findIndex(layer => layer.get('id') === 'hot-zones-active')
+                    style.setIn(
+                        ['layers', index, 'filter'],
+                        Immutable.List.of('in', 'id', ...activeIds)
+                    )
+                    style.setIn(
+                        ['layers', index, 'layout', 'visibility'],
+                        'visible'
+                    )
+                })
+            }
+        default:
+            return style
     }
-
-    const source = Layers.TOYOTA_TRUCK_REPORTS
-    const path = ['sources', source, 'data', 'features']
-
-    // TODO: Remove that condition when prismic action dispatching reductions is implemented
-    if (!style.getIn(path).isEmpty()) {
-        return style
-    }
-
-    const reports = payload.results.map(Transformers.get(source))
-
-    return style.setIn(path, Immutable.fromJS(reports))
 }
+function setHotZoneReports(style, {payload, meta}) {
 
+}
 // To implement later.
 const ActivableLayers = new Map([
     [Layers.FORECAST, ['forecast-regions-active', 'forecast-regions-active-contour']],

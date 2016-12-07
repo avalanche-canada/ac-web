@@ -16,7 +16,6 @@ function transformResponseFromDjango({results, ...rest}) {
 
 const {
     Forecast,
-    HotZoneReport,
     MountainInformationNetworkSubmission,
     Incident,
     Provider,
@@ -34,11 +33,6 @@ const CONFIGS = new Map([
             params
         }
     }],
-    [HotZoneReport, params => ({
-        params: {
-            client: 'web'
-        }
-    })],
     [MountainInformationNetworkSubmission, ({id, days}) => {
         if (id) {
             return {
@@ -96,7 +90,6 @@ function forecastEndpoint({name, date}) {
 
 const ENDPOINTS = new Map([
     [Forecast, forecastEndpoint],
-    [HotZoneReport, params => 'hzr/submissions'],
     [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
