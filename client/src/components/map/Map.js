@@ -149,7 +149,7 @@ export default class MapComponent extends Component {
             const map = new mapbox.Map({
                 ...props,
                 container,
-                style: typeof style === 'string' ? styles[style] : style,
+                style: typeof style === 'string' ? styles[style] : toJSON(style),
             })
 
             EVENTS.forEach(function addMapEvent(name, method) {
