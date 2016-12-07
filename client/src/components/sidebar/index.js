@@ -11,6 +11,7 @@ export Share from './Share'
 export Follow from './Follow'
 export Contact from './Contact'
 export RSSFeed from './RSSFeed'
+export Print from './Print'
 
 CompleteSidebar.propTypes = {
     contact: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
