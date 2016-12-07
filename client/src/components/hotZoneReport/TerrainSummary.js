@@ -4,6 +4,7 @@ import {compose} from 'recompose'
 import Section from 'components/mountainInformationNetwork/Section'
 import {asTermAndDefinition} from 'components/description/utils'
 import {List, Term, Definition} from 'components/description'
+import {InnerHTML} from 'components/misc'
 import styles from './HotZoneReport.css'
 
 TerrainSummary.propTypes = {
@@ -52,7 +53,11 @@ export default function TerrainSummary({title, aspect, terrainFeatures, travelAd
                     <AvoidList items={terrainFeatures} />
                 </Definition>
                 <Term block >Travel advice</Term>
-                <Definition block>{travelAdvice}</Definition>
+                <Definition block>
+                    <InnerHTML>
+                        {travelAdvice}
+                    </InnerHTML>
+                </Definition>
             </List>
         </Section>
     )

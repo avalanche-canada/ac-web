@@ -29,6 +29,9 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
+            {(report && report.headline) &&
+                <div styleName='Headline'>{report.headline}</div>
+            }
             {Boolean(images.length) && <ImageGallery items={images} showBullets showThumbnails={false} />}
             {report &&
                 <Panel header='Critical Factors Summary' expanded>

@@ -163,20 +163,20 @@ export default createSelector(
     getHotZoneReport,
     getIsFetching,
     getComputeBounds,
-    (name, zone, report, isFetching, computeBounds) => {
+    (id, zone, report, isFetching, computeBounds) => {
+        const name = zone && zone.get('name')
+
         if (report) {
             return {
                 isLoading: isFetching,
                 isError: false,
                 isLoaded: true,
-                title: report.headline,
+                title: name,
                 report: transform(report),
-                link: `/hot-zone-reports/${name}`,
+                link: `/hot-zone-reports/${id}`,
                 computeBounds,
             }
         } else {
-            const name = zone && zone.get('name')
-
             return {
                 isLoading: isFetching,
                 isError: false,
