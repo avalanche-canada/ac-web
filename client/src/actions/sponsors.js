@@ -1,5 +1,6 @@
 import {createAction} from 'redux-actions'
 import Axios from 'axios'
+import format from 'date-fns/format'
 import {getActiveSponsor} from 'getters/sponsors'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
@@ -27,7 +28,8 @@ export function loadSponsors() {
         const delay = sponsors.data ? 10000 : 1
 
         function onSuccess({data}) {
-            const sponsors = data[data] || {}
+            const date = format(new Date(),'YYYY-MM-DD')
+            const sponsors = data[date] || {}
 
             dispatch({
                 type: SPONSORS_SUCCESS,
