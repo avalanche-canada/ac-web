@@ -235,25 +235,21 @@ export default class Loop extends Component {
 		}
 
         return (
-            <Ratio x={821} y={699}>
-                {(width, height) =>
-                    <div ref={ref => this.container = ref} className={styles.Container}>
-                        <Image {...image} style={isFullscreen ? null : {width, height}} />
-                        <div className={styles.Toolbar}>
-                            <ButtonSet {...toolbar} />
-                            <div className={styles.Title}>
-                                {this.isLoading &&
-                                    <Loading delay={interval + 50}>
-                                        Loading
-                                    </Loading>
-                                }
-                                {this.cursor + 1} of {this.maxCursor + 1}
-                            </div>
-                            <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
-                        </div>
+            <div ref={ref => this.container = ref} className={styles.Container}>
+                <Image {...image} />
+                <div className={styles.Toolbar}>
+                    <ButtonSet {...toolbar} />
+                    <div className={styles.Title}>
+                        {this.isLoading &&
+                            <Loading delay={interval + 50}>
+                                Loading
+                            </Loading>
+                        }
+                        {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
-                }
-            </Ratio>
+                    <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
+                </div>
+            </div>
         )
 	}
 }
