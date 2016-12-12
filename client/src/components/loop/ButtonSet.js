@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import Button, {PRIMARY} from 'components/button'
+import BaseButton, {PRIMARY} from 'components/button'
 import styles from './Loop.css'
 import {
     FirstPage,
@@ -12,50 +12,50 @@ import {
     ChevronLeft
 } from 'components/icons'
 
-const ToolbarButton = defaultProps({
+const Button = defaultProps({
     kind: PRIMARY
-})(Button)
+})(BaseButton)
 
-function AnimateButton({ isPlaying, onPause, onPlay }) {
+function AnimateButton({isPlaying, onPause, onPlay}) {
 	const title = `${isPlaying ? 'Pause' : 'Play'} the animation`
 	const onClick = isPlaying ? onPause : onPlay
 
 	return (
-		<ToolbarButton {...{onClick, title}} >
+		<Button {...{onClick, title}} >
 			{isPlaying ? <Pause inverse /> : <Play inverse />}
-		</ToolbarButton>
+		</Button>
 	)
 }
 function Next(props) {
 	return (
-		<ToolbarButton {...props} title='Move to the next image'>
+		<Button {...props} title='Move to the next image'>
 			<ChevronRight inverse />
-		</ToolbarButton>
+		</Button>
 	)
 }
 function Previous(props) {
 	return (
-		<ToolbarButton {...props} title='Move to the previous image'>
+		<Button {...props} title='Move to the previous image'>
 			<ChevronLeft inverse />
-		</ToolbarButton>
+		</Button>
 	)
 }
 function First(props) {
 	return (
-		<ToolbarButton {...props} title='Move to the first image'>
+		<Button {...props} title='Move to the first image'>
 			<FirstPage inverse />
-		</ToolbarButton>
+		</Button>
 	)
 }
 function Last(props) {
 	return (
-		<ToolbarButton {...props} title='Mode to the last image'>
+		<Button {...props} title='Mode to the last image'>
 			<LastPage inverse />
-		</ToolbarButton>
+		</Button>
 	)
 }
 
-Toolbar.propTypes = {
+ButtonSet.propTypes = {
 	isPlaying: PropTypes.bool,
 	onNext: PropTypes.func,
 	onPrevious: PropTypes.func,
@@ -65,7 +65,7 @@ Toolbar.propTypes = {
 	onPlay: PropTypes.func,
 }
 
-function Toolbar({
+function ButtonSet({
     isPlaying = true,
 	onNext,
 	onPrevious,
@@ -75,7 +75,7 @@ function Toolbar({
 	onPlay,
 }) {
 	return (
-		<div styleName='Toolbar'>
+		<div styleName='ButtonSet'>
 			{onFirst && <First onClick={onFirst} />}
 			{onPrevious && <Previous onClick={onPrevious} />}
 			<AnimateButton {...{onPause, onPlay, isPlaying}} />
@@ -85,4 +85,4 @@ function Toolbar({
 	)
 }
 
-export default CSSModules(Toolbar, styles)
+export default CSSModules(ButtonSet, styles)

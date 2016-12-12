@@ -9,10 +9,10 @@ export default function SurfaceMaps() {
         <Article title='500mb & Precipitable water'>
             <TabSet>
                 <Tab title='500mb'>
-                    <Loop type='AC_GDPS_EPA_clds-th-500hts' />
+                    <Loop type='AC_GDPS_EPA_clds-th-500hts' interval={500} />
                 </Tab>
                 <Tab title='Precipitable water'>
-                    <Loop type='AC_GDPS_EPA_tpw' />
+                    <Loop type='AC_GDPS_EPA_tpw' interval={500} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='other-maps' />

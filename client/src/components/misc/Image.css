@@ -1,8 +1,10 @@
 @import "../../styles/colors.css";
 
 .Image {
+    position: relative;
+    
 	&:after {
-		content: "We're sorry, the image is broken :(";
+		content: "We're sorry, the image is not available :(";
 
 		display: flex;
         justify-content: center;

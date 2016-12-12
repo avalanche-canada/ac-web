@@ -1,42 +1,49 @@
 import React, {PropTypes, Component, DOM} from 'react'
+import {findDOMNode} from 'react-dom'
+import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
 import {Image, Ratio} from 'components/misc'
-import Container from './Container'
-import Toolbar from './Toolbar'
-import Title from './Title'
+import {Fullscreen} from 'components/icons'
+import ButtonSet from './ButtonSet'
 import {wait} from 'compose'
+import styles from './Loop.css'
+import Button, {PRIMARY} from 'components/button'
 
-const Loading = wait(250)(DOM.div)
+const Loading = wait(250)(DOM.span)
 
-const LEFT = 'LEFT'
-const RIGHT = 'RIGHT'
-
-const TITLE_STYLES = new Map([
-    [LEFT, null],
-    [RIGHT, {
-        right: 0,
-        left: 'auto',
-    }],
-])
-
+@CSSModule(styles)
 export default class Loop extends Component {
 	static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
+        dwell: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
-        layout: PropTypes.oneOf([LEFT, RIGHT]),
 	}
     static defaultProps = {
         urls: [],
         interval: 1000,
+        dwell: 2000,
         openImageInNewTab: false,
-        layout: LEFT,
     }
 	state = {
 		cursor: 0,
 		isPlaying: false,
 		isLoading: false,
+        isFullscreen: false,
 	}
+    constructor(props) {
+        super(props)
+
+        if ('onfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'fullscreenchange'
+        } else if ('onmozfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'mozfullscreenchange'
+        } else if ('onwebkitfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'webkitfullscreenchange'
+        } else if ('onmsfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'MSFullscreenChange'
+        }
+    }
 	get cursor() {
 		return this.state.cursor
 	}
@@ -77,7 +84,13 @@ export default class Loop extends Component {
         window.clearTimeout(this.timeoutId)
     }
     setTimeout() {
-        this.timeoutId = window.setTimeout(this.next, this.props.interval)
+        let {interval} = this.props
+
+        if (this.cursor === this.maxCursor) {
+            interval = this.props.dwell
+        }
+
+        this.timeoutId = window.setTimeout(this.next, interval)
     }
 	next = () => {
 		if (this.maxCursor === this.cursor) {
@@ -110,10 +123,24 @@ export default class Loop extends Component {
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
+
+        if (this.fullscreenchangeEventName) {
+            document.addEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
 	}
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
+
+        if (this.fullscreenchangeEventName) {
+            document.removeEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
 	}
 	handleKeyDown = ({keyCode}) => {
 		const {left, right} = keycode.codes
@@ -133,7 +160,64 @@ export default class Loop extends Component {
 	handleImageError = () => {
         this.isLoading = false
 	}
+    handleFullscreenClick = event => {
+        this.isFullscreen = !this.isFullscreen
+    }
+    _container = null
+    get container() {
+        return this._container
+    }
+    set container(container) {
+        this._container = findDOMNode(container)
+    }
+    get isFullscreen() {
+        return this.state.isFullscreen
+    }
+    set isFullscreen(isFullscreen) {
+        this.setState({isFullscreen}, this.toggleFullscreen)
+    }
+    toggleFullscreen = () => {
+        if (this.isFullscreen) {
+            const {container} = this
+
+            if (container.requestFullscreen) {
+                container.requestFullscreen()
+            } else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen()
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen()
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen()
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen()
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen()
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen()
+            }
+        }
+    }
+    handleFullscreenChange = event => {
+        const {container} = this
+        const fullscreenElement =
+            document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement
+
+        if (fullscreenElement === container && !this.isFullscreen) {
+            this.isFullscreen = true
+        } else if (fullscreenElement !== container && this.isFullscreen) {
+            this.isFullscreen = false
+        }
+    }
 	render() {
+        const {isFullscreen} = this
+        const {interval} = this.props
         const toolbar = {
 			isPlaying: this.isPlaying,
 			onNext: this.next,
@@ -150,19 +234,26 @@ export default class Loop extends Component {
             openNewTab: this.props.openImageInNewTab,
 		}
 
-		return (
+        return (
             <Ratio x={821} y={699}>
                 {(width, height) =>
-        			<Container style={{width, height}}>
-        				<Toolbar {...toolbar} />
-                        <Title style={TITLE_STYLES.get(this.props.layout)}>
-                            {this.cursor + 1} of {this.maxCursor + 1}
-                            {this.isLoading && <Loading>Loading...</Loading>}
-                        </Title>
-                        <Image {...image} />
-        			</Container>
+                    <div ref={ref => this.container = ref} className={styles.Container}>
+                        <Image {...image} style={isFullscreen ? null : {width, height}} />
+                        <div className={styles.Toolbar}>
+                            <ButtonSet {...toolbar} />
+                            <div className={styles.Title}>
+                                {this.isLoading &&
+                                    <Loading delay={interval + 50}>
+                                        Loading
+                                    </Loading>
+                                }
+                                {this.cursor + 1} of {this.maxCursor + 1}
+                            </div>
+                            <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
+                        </div>
+                    </div>
                 }
             </Ratio>
-		)
+        )
 	}
 }

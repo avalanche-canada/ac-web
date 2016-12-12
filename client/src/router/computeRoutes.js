@@ -288,7 +288,7 @@ export default function computeRoutes(store) {
                 <Route path='other-maps' component={articles.OtherMaps} />
                 <Route path='radar' component={articles.Radar} />
                 <Route path='satellite' component={articles.Satellite} />
-                <Route path='current-temperatures' component={articles.CurrentTemperatures} />
+                <Route path='actual-temperatures' component={articles.ActualTemperatures} />
                 <Route path='warnings' component={articles.Warnings} />
             </Route>
             <Route path='sponsors' component={Sponsors} />
