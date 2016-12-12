@@ -16,11 +16,13 @@ export default class Loop extends Component {
 	static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
+        dwell: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
 	}
     static defaultProps = {
         urls: [],
         interval: 1000,
+        dwell: 2000,
         openImageInNewTab: false,
     }
 	state = {
@@ -82,7 +84,13 @@ export default class Loop extends Component {
         window.clearTimeout(this.timeoutId)
     }
     setTimeout() {
-        this.timeoutId = window.setTimeout(this.next, this.props.interval)
+        let {interval} = this.props
+
+        if (this.cursor === this.maxCursor) {
+            interval = this.props.dwell
+        }
+
+        this.timeoutId = window.setTimeout(this.next, interval)
     }
 	next = () => {
 		if (this.maxCursor === this.cursor) {
@@ -227,43 +235,25 @@ export default class Loop extends Component {
 		}
 
         return (
-            <div ref={ref => this.container = ref} className={styles.Container}>
-                <Image {...image} />
-                <div className={styles.Toolbar}>
-                    <ButtonSet {...toolbar} />
-                    <div className={styles.Title}>
-                        {this.isLoading &&
-                            <Loading delay={interval + 50}>
-                                Loading
-                            </Loading>
-                        }
-                        {this.cursor + 1} of {this.maxCursor + 1}
+            <Ratio x={821} y={699}>
+                {(width, height) =>
+                    <div ref={ref => this.container = ref} className={styles.Container}>
+                        <Image {...image} style={isFullscreen ? null : {width, height}} />
+                        <div className={styles.Toolbar}>
+                            <ButtonSet {...toolbar} />
+                            <div className={styles.Title}>
+                                {this.isLoading &&
+                                    <Loading delay={interval + 50}>
+                                        Loading
+                                    </Loading>
+                                }
+                                {this.cursor + 1} of {this.maxCursor + 1}
+                            </div>
+                            <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
+                        </div>
                     </div>
-                    <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
-                </div>
-            </div>
+                }
+            </Ratio>
         )
-
-		// return (
-        //     <Ratio ref={ref => this.container = ref} x={821} y={699}>
-        //         {(minWidth, minHeight) =>
-        //             <div className={styles.Container}>
-        //                 <Image style={isFullscreen ? null : {minWidth, minHeight}} {...image} />
-        //                 <div className={styles.Toolbar}>
-        //                     <ButtonSet {...toolbar} />
-        //                     <div className={styles.Title}>
-        //                         {this.isLoading &&
-        //                             <Loading delay={interval + 50}>
-        //                                 Loading
-        //                             </Loading>
-        //                         }
-        //                         {this.cursor + 1} of {this.maxCursor + 1}
-        //                     </div>
-        //                     <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
-        //                 </div>
-        // 			</div>
-        //         }
-        //     </Ratio>
-		// )
 	}
 }
