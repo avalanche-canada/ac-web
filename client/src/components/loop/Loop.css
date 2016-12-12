@@ -6,6 +6,12 @@
     & img {
         display: block;
     }
+
+    &:fullscreen {
+        & img {
+            max-height: calc(100vh - 42px);
+        }
+    }
 }
 
 .Title {

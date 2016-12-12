@@ -1,12 +1,15 @@
 import React, {PropTypes, Component, DOM} from 'react'
+import {findDOMNode} from 'react-dom'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image} from 'components/misc'
+import {Image, Ratio} from 'components/misc'
+import {Fullscreen} from 'components/icons'
 import ButtonSet from './ButtonSet'
 import {wait} from 'compose'
 import styles from './Loop.css'
+import Button, {PRIMARY} from 'components/button'
 
-const Loading = wait()(DOM.span)
+const Loading = wait(250)(DOM.span)
 
 @CSSModule(styles)
 export default class Loop extends Component {
@@ -24,7 +27,21 @@ export default class Loop extends Component {
 		cursor: 0,
 		isPlaying: false,
 		isLoading: false,
+        isFullscreen: false,
 	}
+    constructor(props) {
+        super(props)
+
+        if ('onfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'fullscreenchange'
+        } else if ('onmozfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'mozfullscreenchange'
+        } else if ('onwebkitfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'webkitfullscreenchange'
+        } else if ('onmsfullscreenchange' in document) {
+            this.fullscreenchangeEventName = 'MSFullscreenChange'
+        }
+    }
 	get cursor() {
 		return this.state.cursor
 	}
@@ -98,10 +115,24 @@ export default class Loop extends Component {
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
+
+        if (this.fullscreenchangeEventName) {
+            document.addEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
 	}
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
+
+        if (this.fullscreenchangeEventName) {
+            document.removeEventListener(
+                this.fullscreenchangeEventName,
+                this.handleFullscreenChange
+            )
+        }
 	}
 	handleKeyDown = ({keyCode}) => {
 		const {left, right} = keycode.codes
@@ -121,7 +152,63 @@ export default class Loop extends Component {
 	handleImageError = () => {
         this.isLoading = false
 	}
+    handleFullscreenClick = event => {
+        this.isFullscreen = !this.isFullscreen
+    }
+    _container = null
+    get container() {
+        return this._container
+    }
+    set container(container) {
+        this._container = findDOMNode(container)
+    }
+    get isFullscreen() {
+        return this.state.isFullscreen
+    }
+    set isFullscreen(isFullscreen) {
+        this.setState({isFullscreen}, this.toggleFullscreen)
+    }
+    toggleFullscreen = () => {
+        if (this.isFullscreen) {
+            const {container} = this
+
+            if (container.requestFullscreen) {
+                container.requestFullscreen()
+            } else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen()
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen()
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen()
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen()
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen()
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen()
+            }
+        }
+    }
+    handleFullscreenChange = event => {
+        const {container} = this
+        const fullscreenElement =
+            document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement
+
+        if (fullscreenElement === container && !this.isFullscreen) {
+            this.isFullscreen = true
+        } else if (fullscreenElement !== container && this.isFullscreen) {
+            this.isFullscreen = false
+        }
+    }
 	render() {
+        const {isFullscreen} = this
         const {interval} = this.props
         const toolbar = {
 			isPlaying: this.isPlaying,
@@ -139,12 +226,12 @@ export default class Loop extends Component {
             openNewTab: this.props.openImageInNewTab,
 		}
 
-		return (
-			<div styleName='Container'>
+        return (
+            <div ref={ref => this.container = ref} className={styles.Container}>
                 <Image {...image} />
-                <div styleName='Toolbar'>
+                <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
-                    <div styleName='Title'>
+                    <div className={styles.Title}>
                         {this.isLoading &&
                             <Loading delay={interval + 50}>
                                 Loading
@@ -152,8 +239,31 @@ export default class Loop extends Component {
                         }
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
+                    <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
                 </div>
-			</div>
-		)
+            </div>
+        )
+
+		// return (
+        //     <Ratio ref={ref => this.container = ref} x={821} y={699}>
+        //         {(minWidth, minHeight) =>
+        //             <div className={styles.Container}>
+        //                 <Image style={isFullscreen ? null : {minWidth, minHeight}} {...image} />
+        //                 <div className={styles.Toolbar}>
+        //                     <ButtonSet {...toolbar} />
+        //                     <div className={styles.Title}>
+        //                         {this.isLoading &&
+        //                             <Loading delay={interval + 50}>
+        //                                 Loading
+        //                             </Loading>
+        //                         }
+        //                         {this.cursor + 1} of {this.maxCursor + 1}
+        //                     </div>
+        //                     <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
+        //                 </div>
+        // 			</div>
+        //         }
+        //     </Ratio>
+		// )
 	}
 }
