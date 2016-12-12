@@ -274,46 +274,6 @@ class Container extends Component {
 
         push(location, this.props)
     }
-    showMINPopup(features) {
-        const [{geometry: {coordinates}}] = features
-        const html = document.createElement('div')
-        const p = document.createElement('p')
-        const ul = document.createElement('ul')
-
-        p.textContent = `${features.length} reports are available at this location:`
-
-        features.forEach(({properties: {id, title}}) => {
-            const li = document.createElement('li')
-            const a = document.createElement('a')
-
-            a.href = '#'
-            a.textContent = title
-            a.onclick = event => {
-                this.transitionToMIN(id)
-            }
-
-            li.appendChild(a)
-
-            ul.appendChild(li)
-        })
-
-        html.appendChild(p)
-        html.appendChild(ul)
-
-        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
-    }
-    transitionToMIN(id) {
-        return this.push({
-            query: {
-                panel: `${MountainInformationNetworkSubmission.getKey()}/${id}`
-            }
-        }, this.props)
-    }
-    push(location) {
-        this.zoomToBounds = true
-
-        push(location, this.props)
-    }
     handleLoad = event => {
         const map = event.target
 

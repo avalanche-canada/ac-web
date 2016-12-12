@@ -21,7 +21,7 @@ export default compose(
                     <Mailto email={email} title='Email the Kananaskis Country Public Safety Section' />
                 </Item>,
                 <Item>
-                    <Phone phone='403-678-5508' /> is the Public Safety office phone number (weekdays)
+                    <Phone phone='403-678-5508' ext='273' /> is the Public Safety office phone number (weekdays)
                 </Item>,
                 <Item>
                     <Phone phone='403-591-7755' /> is the dispatch office non-emergency line
