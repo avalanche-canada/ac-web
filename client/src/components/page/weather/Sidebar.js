@@ -35,7 +35,7 @@ export default function WeatherSidebar() {
                 <Link to='/new/weather/satellite'>Satellite</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/current-temperatures'>Temperatures</Link>
+                <Link to='/new/weather/actual-temperatures'>Temperatures</Link>
             </Item>
             <Item>
                 <Link to='/new/weather/warnings'>Warnings</Link>

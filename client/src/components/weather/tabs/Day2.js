@@ -1,14 +1,9 @@
 import React, {PropTypes} from 'react'
-import moment from 'moment'
 import {InnerHTML} from 'components/misc'
 import {DateElement, Image} from 'components/misc'
 import Section from './Section'
-import {formatUrl} from '../Loop'
-
-function description() {
-    // TODO: Finish this with parameters
-    return 'Weather Systems'
-}
+import {formatForecastUrl} from 'services/msc/loop/url'
+import addDays from 'date-fns/add_days'
 
 Day2.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -20,22 +15,21 @@ Day2.propTypes = {
 
 export default function Day2({date, above, between, below, children}) {
     const hasHardWired = above || between || below
-    const day = moment(date).add(1, 'day').toDate()
-    const title = <DateElement value={day} />
     const type = 'AC_RDPS_BC_weather-systems'
+    // TODO: Create a "title" and a "alt" that make sense considering the parameters!!!
     const image1 = {
-        src: formatUrl({date, type, run: 6, hour: 30}),
-        alt: description(),
-        title: description(),
+        src: formatForecastUrl(type, date, 6, 30),
+        alt: 'Weather Systems',
+        title: 'Weather Systems',
     }
     const image2 = {
-        src: formatUrl({date, type, run: 6, hour: 42}),
-        alt: description(),
-        title: description(),
+        src: formatForecastUrl(type, date, 6, 42),
+        alt: 'Weather Systems',
+        title: 'Weather Systems',
     }
 
     return (
-        <Section title={title}>
+        <Section title={<DateElement value={addDays(date, 1)} />}>
             {hasHardWired && <InnerHTML>{above}</InnerHTML>}
             {hasHardWired && <Image openImageInNewTab {...image1} />}
             {hasHardWired && <InnerHTML>{between}</InnerHTML>}

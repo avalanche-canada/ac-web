@@ -9,16 +9,16 @@ export default function Satellite({tutorial}) {
         <Article title='Satellite Imagery'>
             <TabSet>
                 <Tab title='IR West Coast'>
-                    <Loop type='AC_SAT_CAN-W-CST_ir-redtop' interval={200} />
+                    <Loop type='AC_SAT_CAN-W-CST_ir-redtop' interval={200} amount={24} />
                 </Tab>
                 <Tab title='IR Pacific'>
-                    <Loop type='AC_SAT_EPA_ir-redtop' interval={200} />
+                    <Loop type='AC_SAT_EPA_ir-redtop' interval={200} amount={24} />
                 </Tab>
                 <Tab title='Water Vapour/Jet'>
-                    <Loop type='AC_SAT_EPA_water-vapour-jet' interval={200} />
+                    <Loop type='AC_SAT_EPA_water-vapour-jet' interval={200} amount={24} />
                 </Tab>
                 <Tab title='IR-VIS BC'>
-                    <Loop type='AC_SAT_BC_ir-vis' interval={200} />
+                    <Loop type='AC_SAT_BC_ir-vis' interval={200} amount={24} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='satellite' />
