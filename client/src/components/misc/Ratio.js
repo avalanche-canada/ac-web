@@ -18,7 +18,7 @@ export default class Ratio extends React.Component {
         height: 0,
     }
     getComputedDimensions(props) {
-        return this.computeDimensionsElement(this.refs.container, props)
+        return this.computeDimensionsElement(this.container, props)
     }
     computeDimensionsElement(element, props) {
         const {x, y, traverse} = props
@@ -59,7 +59,7 @@ export default class Ratio extends React.Component {
     }, 100)
     render() {
         return (
-            <div ref='container'>
+            <div ref={ref => this.container = ref}>
                 {this.props.children(this.state.width, this.state.height, this.state.hasComputed)}
             </div>
         )
