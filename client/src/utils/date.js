@@ -11,6 +11,7 @@ export function parseFromDay(string) {
 export function yesterday() {
     return moment.utc(moment().startOf('day').subtract(1, 'days')).toDate()
 }
+
 export function tomorrow() {
     return moment.utc(moment().startOf('day').add(1, 'days')).toDate()
 }

@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import {compose, withState} from 'recompose'
-import moment from 'moment'
 import CSSModules from 'react-css-modules'
 import {Input} from 'components/controls'
 import styles from './DateRange.css'
