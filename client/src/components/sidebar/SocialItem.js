@@ -3,14 +3,18 @@ import CSSModules from 'react-css-modules'
 import styles from './Sidebar.css'
 
 SocialItem.propTypes = {
-    text: PropTypes.string.isRequired,
+    label: PropTypes.string,
     children: PropTypes.node.isRequired,
 }
 
-function SocialItem({text, children}) {
+function SocialItem({label, children}) {
     return (
         <div styleName='SocialItem'>
-            {text}
+            {label &&
+                <span styleName='Label'>
+                    {label}
+                </span>
+            }
             {children}
         </div>
     )

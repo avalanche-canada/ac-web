@@ -8,9 +8,9 @@ Print.propTypes = {
 
 export default function Print({url}) {
     return (
-        <SocialItem text='Printable version'>
+        <SocialItem>
             <a href={url} target='_blank' title='Print this forecast bulletin'>
-                <Icon fill='#245EAC' />
+                Printable version{'\u00A0'}<Icon fill='#245EAC' />
             </a>
         </SocialItem>
     )
