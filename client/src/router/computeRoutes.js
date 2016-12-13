@@ -26,6 +26,7 @@ import {
     PrivacyPolicy,
     TermsOfUse,
     Forecast,
+    Forecasts,
     ArchiveForecast,
     HotZoneReport,
     MountainInformationNetwork,
@@ -265,6 +266,7 @@ export default function computeRoutes(store) {
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={ArchiveForecast} />
+            <Route path='forecasts' sponsorRef='Forecast' component={{content: Forecasts, footer: null}} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />

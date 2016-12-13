@@ -5,6 +5,7 @@ export Map from './Map'
 
 // Full page
 export Forecast from './Forecast'
+export Forecasts from './Forecasts'
 export ArchiveForecast from './ArchiveForecast'
 export HotZoneReport from './HotZoneReport'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
