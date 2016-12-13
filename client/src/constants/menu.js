@@ -21,7 +21,7 @@ export const AvalancheCanada = {
             id: '57d9ce20-1871-11e6-b6ba-3e1d05defe78',
             label: 'Forecasts',
             header: true,
-            to: '/map/forecasts',
+            to: '/forecasts',
             children: []
         }, {
             id: '6371e135-1953-4593-a4bf-98c077f1071e',
