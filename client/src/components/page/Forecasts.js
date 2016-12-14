@@ -26,7 +26,7 @@ function Forecasts({forecastRegions}) {
                             <Loading /> :
                             <ul>
                             {forecastRegions.map(region => (
-                                <li>
+                                <li key={region.get('id')}>
                                     <Link to={`forecasts/${region.get('id')}`}>
                                         {region.getIn(['properties', 'name'])}
                                     </Link>

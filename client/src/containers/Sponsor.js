@@ -1,6 +1,5 @@
 import {PropTypes} from 'react'
-import {compose, flattenProp, branch, mapProps, lifecycle, setPropTypes, defaultProps, renderNothing, renderComponent} from 'recompose'
-import {withRouter} from 'react-router'
+import {compose, flattenProp, branch, mapProps, lifecycle, setPropTypes, defaultProps, renderNothing} from 'recompose'
 import {connect} from 'react-redux'
 import mapStateToProps from 'selectors/sponsor'
 import {Sponsor} from 'components/misc'

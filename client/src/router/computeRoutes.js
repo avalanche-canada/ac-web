@@ -59,7 +59,7 @@ import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import * as LAYERS from 'constants/map/layers'
 import ReactGA from 'services/analytics'
-import postIdRedirects from './postIdRedirects'
+import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from 'reducers/api/getters'
 
 const YEAR = String(new Date().getFullYear())
@@ -229,7 +229,9 @@ export default function computeRoutes(store) {
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* EMERGENCY REDIRECTS */}
-            {postIdRedirects}
+            {postRedirects.map((redirect, index) =>
+                <Redirect key={index} {...redirect} />
+            )}
             {/* Common messed up redirects */}
             <Redirect from='cac/training/ast/courses' to='training/courses' />
             <Redirect from='cac/training/overview' to='training' />
@@ -266,7 +268,7 @@ export default function computeRoutes(store) {
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={ArchiveForecast} />
-            <Route path='forecasts' sponsorRef='Forecast' component={{content: Forecasts, footer: null}} />
+            <Route path='forecasts' sponsorRef='Forecast' components={{content: Forecasts, footer: null}} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
@@ -312,12 +314,12 @@ export default function computeRoutes(store) {
             <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
             <Route path='tutorial/*' component={Tutorial} />
             <Redirect from='tutorial' to='tutorial/' />
-            <Route path='auction' component={{content: Auction, footer: null}} />
-            <Route path='tutoriel' component={{content: Tutoriel, footer: null}} />
+            <Route path='auction' components={{content: Auction, footer: null}} />
+            <Route path='tutoriel' components={{content: Tutoriel, footer: null}} />
             <Route path='terms-of-use' component={TermsOfUse} />
             <Route path='privacy-policy' component={PrivacyPolicy} />
-            <Route path='trip-planner' component={{content: TripPlanner, footer: null}} />
-            <Route path='incidents' component={{content: Incidents, footer: null}} />
+            <Route path='trip-planner' components={{content: TripPlanner, footer: null}} />
+            <Route path='incidents' components={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
             {/* Cherry Bowl */}
             <Route path='cherry-bowl' component={CherryBowl} onEnter={redirect} />
