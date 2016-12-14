@@ -8,6 +8,7 @@ export default compose(
         url: PropTypes.string.isRequired,
     }),
     withProps(({url}) => ({
+        url: undefined,
         styleName: 'Banner',
         style: {
             backgroundImage: `url("${url}")`,
