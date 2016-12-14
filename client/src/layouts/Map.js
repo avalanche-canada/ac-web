@@ -36,7 +36,6 @@ export default mapbox.supported() ? compose(
     branch(
         props => props.initializationError,
         renderComponent(UnsupportedMap),
-        Component => Component,
     ),
     CSSModules(styles),
 )(Layout) : UnsupportedMap

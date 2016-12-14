@@ -34,6 +34,5 @@ export default compose(
     branch(
         props => !props.url,
         renderNothing,
-        Component => Component,
     ),
 )(Sponsor)

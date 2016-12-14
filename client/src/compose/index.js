@@ -42,8 +42,7 @@ export function wait(delay = 0) {
             },
         }),
         branch(
-            props => props.visible,
-            Component => Component,
+            props => !props.visible,
             renderNothing,
         )
     )

@@ -52,8 +52,6 @@ function withPrismic(BaseComponent) {
         branch(
             props => props.isLoading,
             renderComponent(Loading),
-            // TODO: Remove with recompose newest release. Thrid argument default to identity
-            Component => Component,
         ),
     )(BaseComponent)
 }

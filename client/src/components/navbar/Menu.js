@@ -16,7 +16,5 @@ export default compose(
     branch(
         props => !props.isOpened,
         renderNothing,
-        // TODO: Remove after recompose new release
-        Component => Component
     ),
 )(Menu)

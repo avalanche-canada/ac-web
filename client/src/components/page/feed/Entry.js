@@ -104,6 +104,5 @@ export default compose(
     branch(
         props => props.condensed,
         renderComponent(CondensedEntry),
-        Component => Component,
     ),
 )(Entry)

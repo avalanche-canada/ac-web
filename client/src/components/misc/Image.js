@@ -23,5 +23,4 @@ function AnchorFromImage({src, alt, children}) {
 export default branch(
     props => props.openNewTab,
     renderComponent(nest(AnchorFromImage, Image)),
-    renderComponent(Image),
 )(Image)
