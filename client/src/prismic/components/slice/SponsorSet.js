@@ -31,9 +31,9 @@ const getSponsors = createSelector(
 function SponsorSet({sponsors = []}) {
     return (
         <ItemSet>
-            {sponsors.map(sponsor => (
-                <Item key={sponsor.uid} {...sponsor} />
-            ))}
+            {sponsors.map((sponsor, index) => 
+                <Item key={index} {...sponsor} />
+            )}
         </ItemSet>
     )
 }
