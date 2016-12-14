@@ -1,4 +1,4 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Page, Header, Main, Content, Headline} from 'components/page'
 import {Muted, Error} from 'components/misc'

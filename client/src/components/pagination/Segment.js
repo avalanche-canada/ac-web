@@ -1,4 +1,4 @@
-import React, {PropTypes, createElement, DOM} from 'react'
+import React, {PropTypes, DOM} from 'react'
 import {compose, withHandlers, onlyUpdateForKeys} from 'recompose'
 import {Element, neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
