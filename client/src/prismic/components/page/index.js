@@ -70,7 +70,7 @@ export function staticPage(uid, title, message) {
     )(StaticPage)
 }
 
-// TODO: Rename to somthing more obvious
+// TODO: Rename to something more obvious
 // Used for the Avalanche Canada Foundation Home Page
 export function simple(uid) {
     return compose(
