@@ -386,7 +386,7 @@ class Container extends Component {
             <Map bounds={bounds} zoom={zoom} center={center} {...events}>
                 {map && sources.map(renderSource)}
                 {map && layers.map(renderLayer)}
-                {map && markers.map(this.renderMarker)}
+                {map && markers.toList().map(this.renderMarker)}
             </Map>
         )
     }

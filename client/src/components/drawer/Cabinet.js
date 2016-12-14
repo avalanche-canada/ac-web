@@ -1,5 +1,6 @@
 import React, { PropTypes, Children, cloneElement, createElement} from 'react'
-import {compose, setDisplayName, withState, mapProps, setPropTypes, onlyUpdateForKeys} from 'recompose'
+import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
+import {onlyUpdateForKey} from 'compose'
 import {TransitionMotion, spring, presets} from 'react-motion'
 import CSSModules from 'react-css-modules'
 import Drawer from './Drawer'
@@ -78,6 +79,6 @@ function Cabinet({drawers = []}) {
 }
 
 export default compose(
-    onlyUpdateForKeys(['drawers']),
+    onlyUpdateForKey('drawers'),
     CSSModules(styles),
 )(Cabinet)
