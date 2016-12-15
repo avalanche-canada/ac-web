@@ -22,11 +22,27 @@ export default class extends PureComponent {
     }
     componentDidMount() {
         this.computeUrls(this.props)
+
+        const {type} = this.props
+
+        if (CurrentConditions.has(type)) {
+            const {frequency} = CurrentConditions.get(type)
+
+            this.intervalId = window.setInterval(
+                this.computeUrls,
+                frequency * 60 * 1000
+            )
+        }
+    }
+    componentWillUnmount() {
+        if (this.intervalId) {
+            window.clearInterval(this.intervalId)
+        }
     }
     componentWillReceiveProps(props) {
         this.computeUrls(props)
     }
-    computeUrls(props) {
+    computeUrls = (props = this.props) => {
         this.setState({
             isLoading: true
         }, () => {

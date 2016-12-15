@@ -16,12 +16,12 @@ export P from './P'
 export GoBack from './GoBack'
 
 export const Time = createTime('Time', 'HH:mm')
-export const DateTime = createTime('DateTime', 'dddd, MMMM Do, HH:mm')
+export const DateTime = createTime('DateTime', 'dddd, MMMM D, HH:mm')
 export const Day = createTime('Day', 'dddd')
 export const DateElement = createTime('Date', function format(value) {
     const now = new Date()
 
-    return value.getFullYear() === now.getFullYear() ? 'dddd, MMMM Do' : 'dddd, MMMM Do, YYYY'
+    return value.getFullYear() === now.getFullYear() ? 'dddd, MMMM D' : 'dddd, MMMM D, YYYY'
 })
 
 export InnerHTML from './InnerHTML'

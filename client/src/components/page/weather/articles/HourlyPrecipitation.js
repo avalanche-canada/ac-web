@@ -6,7 +6,7 @@ import {Loop} from 'components/weather'
 
 export default function HourlyPrecipitation() {
     return (
-        <Article title='Hourly precipitation'>
+        <Article title='Hourly Precipitation'>
             <TabSet>
                 <Tab title='BC HR'>
                     <Loop type='AC_HRDPS_BC_wms-1hr-precip' interval={500} />

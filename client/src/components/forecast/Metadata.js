@@ -5,7 +5,7 @@ import {DateElement} from 'components/misc'
 export function DateIssued({dateIssued}) {
     return (
         <Entry term='Date Issued'>
-            <DateElement format="dddd MMMM Do, HH:mm, YYYY" value={dateIssued} />
+            <DateElement format="dddd MMMM D, HH:mm, YYYY" value={dateIssued} />
         </Entry>
     )
 }
@@ -13,7 +13,7 @@ export function DateIssued({dateIssued}) {
 export function ValidUntil({validUntil}) {
     return (
         <Entry term='Valid Until'>
-            <DateElement format="dddd MMMM Do, HH:mm, YYYY" value={validUntil} />
+            <DateElement format="dddd MMMM D, HH:mm, YYYY" value={validUntil} />
         </Entry>
     )
 }

@@ -6,7 +6,7 @@ import {Loop} from 'components/weather'
 
 export default function Precipitation12h() {
     return (
-        <Article title='12 hours precipitation'>
+        <Article title='12 Hours Precipitation'>
             <TabSet>
                 <Tab title='BC R'>
                     <Loop type='AC_RDPS_BC_12hr-precip' />

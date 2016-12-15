@@ -105,11 +105,11 @@ const STYLE = {
 }
 
 function getNewSnowLabels({x, y, utcOffset}) {
-    return `New snow: ${y} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `New snow: ${y} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 function getSnowHeightLabels({x, y, utcOffset}) {
-    return `Snow height: ${Math.round(y)} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `Snow height: ${Math.round(y)} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 function computeSnowHeightDomain(data) {

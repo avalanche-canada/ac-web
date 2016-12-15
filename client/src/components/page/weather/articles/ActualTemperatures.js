@@ -6,9 +6,9 @@ import {Loop} from 'components/weather'
 
 export default function ActualTemperatures() {
     return (
-        <Article title='Actual temperatures (12 hours)'>
+        <Article title='Actual Temperatures (12 hours)'>
             <TabSet>
-                <Tab title='Actual temperatures'>
+                <Tab title='Actual Temperatures'>
                     <Loop type='AC_PLOT_BC_actual-temps' amount={12} />
                 </Tab>
                 <Tab title='Tutorial'>

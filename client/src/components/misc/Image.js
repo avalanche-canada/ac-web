@@ -1,26 +1,23 @@
 import React, {PropTypes, DOM} from 'react'
-import {nest, branch, renderComponent} from 'recompose'
-import {Element} from 'compose'
+import CSSModule from 'react-css-modules'
 import styles from './Image.css'
 
-export const Image = Element({
-    name: 'Image',
-    styles,
-    component: DOM.img,
-    propTypes: {
-        openNewTab: PropTypes.bool,
-    }
-})
-
-function AnchorFromImage({src, alt, children}) {
-    return (
-        <a href={src} title={alt} target='_blank'>
-            {children}
-        </a>
-    )
+Image.propTypes = {
+    openNewTab: PropTypes.bool,
 }
 
-export default branch(
-    props => props.openNewTab,
-    renderComponent(nest(AnchorFromImage, Image)),
-)(Image)
+function Image({openNewTab, ...props}) {
+    const image = <img {...props} />
+
+    if (openNewTab) {
+        return (
+            <a href={props.src} title={props.alt} target='_blank'>
+                {image}
+            </a>
+        )
+    } else {
+        return image
+    }
+}
+
+export default CSSModule(Image, styles)
