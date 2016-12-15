@@ -50,6 +50,12 @@ export default class extends PureComponent {
         })
     }
     handleFulfilled = urls => {
+        if (CurrentConditions.has(this.props.type)) {
+            // start and end image are the same...
+            // First image is the latest one ;)
+            // urls = [urls[urls.length - 1], ...urls]
+        }
+
         this.setState({
             isLoading: false,
             isError: false,

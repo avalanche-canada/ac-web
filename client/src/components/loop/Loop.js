@@ -1,15 +1,17 @@
-import React, {PropTypes, Component, DOM} from 'react'
+import React, {PropTypes, Component} from 'react'
 import {findDOMNode} from 'react-dom'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image, Ratio} from 'components/misc'
+import {Image, Ratio, Delay, Loading} from 'components/misc'
 import {Fullscreen} from 'components/icons'
 import ButtonSet from './ButtonSet'
-import {wait} from 'compose'
 import styles from './Loop.css'
 import Button, {PRIMARY} from 'components/button'
 
-const Loading = wait(250)(DOM.span)
+const FullscreenIcons = new Map([
+    [true, <Fullscreen inverse />],
+    [false, <Fullscreen inverse />],
+])
 
 @CSSModule(styles)
 export default class Loop extends Component {
@@ -241,13 +243,15 @@ export default class Loop extends Component {
                     <ButtonSet {...toolbar} />
                     <div className={styles.Title}>
                         {this.isLoading &&
-                            <Loading delay={interval + 50}>
-                                Loading
-                            </Loading>
+                            <Delay elapse={interval + 50}>
+                                <span>Loading</span>
+                            </Delay>
                         }
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
-                    <Button icon={<Fullscreen inverse />} onClick={this.handleFullscreenClick} />
+                    <Button
+                        icon={FullscreenIcons.get(isFullscreen)}
+                        onClick={this.handleFullscreenClick} />
                 </div>
             </div>
         )

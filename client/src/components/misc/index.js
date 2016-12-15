@@ -39,3 +39,5 @@ export {DateUtils} from 'react-day-picker'
 
 export Ratio from './Ratio'
 export ElementResize from './ElementResize'
+
+export Delay from './Delay'
