@@ -40,12 +40,12 @@ function RatingText({ rating, showTravelAdvice }) {
 }
 function toLines(text, first = 0) {
     return text.split('\n ').map((line, index) => (
-        <tspan x={70} dy={index === 0 ? first : 9}>
+        <tspan key={index} x={70} dy={index === 0 ? first : 9}>
             {line}
         </tspan>
     ))
 }
-function ExtraInformation({ rating, expanded }) {
+function ExtraInformation({rating, expanded}) {
     if (rating === NO_RATING) {
         return null
     }

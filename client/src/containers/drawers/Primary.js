@@ -8,6 +8,8 @@ import Drawer from 'components/page/drawer'
 import {push} from 'utils/router'
 import Controls from './controls/Map'
 
+// TODO: Find a better way to add the Controls
+
 export default compose(
     withRouter,
     getContext({
@@ -18,7 +20,7 @@ export default compose(
         side: RIGHT,
     }),
     withProps(({children}) => ({
-        children: [<Controls />, children]
+        children: [<Controls key='controls' />, children]
     })),
     withHandlers({
         onCloseClick: props => event => {

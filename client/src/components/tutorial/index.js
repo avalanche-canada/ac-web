@@ -52,7 +52,7 @@ const MenuItem = ({title, slug, children, currentPage}) => {
                 {children.map( c => <MenuItem currentPage={currentPage} {...c} /> )}
             </ul>
     }
-    
+
     let showElipsis = !showChildren && children.length > 0
     let displayTitle = title + (showElipsis ? '...' : '')
 
@@ -116,7 +116,7 @@ const TutorialPage = ({doc}) => {
         gallery = doc.data['tutorial-page.gallery'].value
     }
 
-    const vid =doc.data['tutorial-page.video-source'] 
+    const vid =doc.data['tutorial-page.video-source']
 
 
     return (
@@ -150,7 +150,7 @@ const Tutorial = ({loading, error, doc, params}) => {
     } else if (params.splat === ''){
         page = doc && <TutorialHome doc={doc} />
     } else {
-        page = doc && <TutorialPage doc={doc} /> 
+        page = doc && <TutorialPage doc={doc} />
     }
 
     return (
@@ -158,7 +158,7 @@ const Tutorial = ({loading, error, doc, params}) => {
             <Content>
                 <Main>
                     <div styleName='TutorialPage'>
-                        <SideBar  currentPage={params.splat} />
+                        <SideBar currentPage={params.splat} />
                         <div className={styles.TutorialContent}>
                             { loading && !isAtes && <p>Loading...</p> }
                             { page }
