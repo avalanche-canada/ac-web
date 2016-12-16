@@ -19,7 +19,9 @@ function AvoidList({items}) {
     return (
         <ul styleName='List'>
             {keys(items).map(name => (
-                <li styleName={items[name] ? 'Avoid' : 'Okay'}>{name}</li>
+                <li key={name} styleName={items[name] ? 'Avoid' : 'Okay'}>
+                    {name}
+                </li>
             ))}
         </ul>
     )

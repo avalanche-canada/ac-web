@@ -44,7 +44,7 @@ const STYLE = {
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} %\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `${y} %\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 export default function RelativeHumidity({data, min, max, width, height}) {

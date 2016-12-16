@@ -59,11 +59,11 @@ function Arrow({x, y, datum, events, style, ...rest}) {
 const ARROW = <Arrow />
 
 function getSpeedAndDirectionLabels({x, windSpeedAvg, windDirAvg, utcOffset}) {
-    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} km/h\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `${y} km/h\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 function computeDomain(data) {

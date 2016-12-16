@@ -53,12 +53,15 @@ function Forecast({forecast}) {
                     if (!group && !slices) {
                         return null
                     }
+                    const props = {
+                        date
+                    }
+
+                    if (group) {
+                        Object.assign(props, group[0])
+                    }
 
                     const child = <SliceSet slices={slices} />
-                    const props = {
-                        ...group[0],
-                        date,
-                    }
 
                     return (
                         <Tab key={name} title={title}>

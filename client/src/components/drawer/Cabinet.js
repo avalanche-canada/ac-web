@@ -35,7 +35,6 @@ function getDefaultStyles(drawers) {
         }
     }))
 }
-
 function getContainerStyle({x}) {
     const transform = `translateX(${x * 100}%)`
 

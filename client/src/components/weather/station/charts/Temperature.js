@@ -66,7 +66,7 @@ function computeDomain(data) {
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} °C\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM Do, HH[h]')}`
+    return `${y} °C\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
 }
 
 function dy({y}) {

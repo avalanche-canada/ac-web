@@ -1,9 +1,10 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import Loop from 'components/loop'
-import {computeUrls} from 'services/msc/loop/url'
+import {computeUrls, getNotes} from 'services/msc/loop/url'
 import {Forecast, CurrentConditions} from 'services/msc/loop/Metadata'
 import {Loading, Error} from 'components/misc'
+import {Warning} from 'components/misc'
 
 export default class extends PureComponent {
     static propTypes = {
@@ -13,31 +14,58 @@ export default class extends PureComponent {
         from: PropTypes.number,
         to: PropTypes.number,
         amount: PropTypes.number,
+        moveDay: PropTypes.bool,
         interval: PropTypes.number,
     }
     state = {
         urls: null,
+        notes: [],
+        startAt: undefined,
         isLoading: true,
         isError: false,
     }
     componentDidMount() {
         this.computeUrls(this.props)
+
+        // Autorefresh the urls for current conditions!
+        if (CurrentConditions.has(this.props.type)) {
+            this.intervalId = window.setInterval(
+                this.computeUrls,
+                5 * 60 * 1000, // every 5 minutes!
+                undefined,
+                true,
+            )
+        }
+    }
+    componentWillUnmount() {
+        if (this.intervalId) {
+            window.clearInterval(this.intervalId)
+        }
     }
     componentWillReceiveProps(props) {
         this.computeUrls(props)
     }
-    computeUrls(props) {
+    computeUrls = (props = this.props, silent = false) => {
         this.setState({
-            isLoading: true
+            isLoading: silent ? false : true,
         }, () => {
             computeUrls(props).then(this.handleFulfilled, this.handleRejected)
         })
     }
     handleFulfilled = urls => {
+        const {type} = this.props
+        let startAt
+
+        if (CurrentConditions.has(type)) {
+            startAt = urls.length - 1
+        }
+
         this.setState({
             isLoading: false,
             isError: false,
             urls,
+            notes: getNotes(type),
+            startAt,
         })
     }
     handleRejected = reason => {
@@ -47,7 +75,7 @@ export default class extends PureComponent {
         })
     }
     render() {
-        const {isLoading, isError} = this.state
+        const {isLoading, isError, notes} = this.state
 
         if (isLoading) {
             return (
@@ -66,10 +94,21 @@ export default class extends PureComponent {
         }
 
         return (
-            <Loop
-                urls={this.state.urls}
-                openImageInNewTab
-                interval={this.props.interval} />
+            <div>
+                <Loop
+                    urls={this.state.urls}
+                    startAt={this.state.startAt}
+                    openImageInNewTab
+                    interval={this.props.interval} />
+                {notes.length > 0 &&
+                    <div>
+                        <p>Please note:</p>
+                        <ul>
+                            {notes.map(note => <li>{note}</li>)}
+                        </ul>
+                    </div>
+                }
+            </div>
         )
     }
 }

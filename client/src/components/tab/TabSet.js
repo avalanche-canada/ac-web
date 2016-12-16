@@ -8,13 +8,18 @@ import Button, {INCOGNITO} from 'components/button'
 import {init} from 'css-element-queries/src/ElementQueries'
 
 function toArray(children) {
-	return Children.toArray(children).filter(tab => !!tab)
+	return Children.toArray(children).filter(Boolean)
 }
 function isEnabled({props}) {
     return !props.disabled
 }
 function validateActiveIndex({activeIndex, children}) {
     const tabs = toArray(children)
+
+    if (!tabs.length) {
+        return 0    
+    }
+
     const {disabled} = tabs[activeIndex].props
 
     if (disabled === true) {

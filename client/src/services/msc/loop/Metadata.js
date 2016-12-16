@@ -9,6 +9,7 @@ const Metadata = Immutable.Record({
     hours: null,
     minutes: null,
     extension: 'png',
+    notes: [],
 })
 
 export const Forecast = new Immutable.Map({
@@ -175,21 +176,21 @@ export const CurrentConditions = new Immutable.Map({
         id: 'AC_RADAR_BC_precip-rate',
         title: 'Radar-BC-Mosaic',
         shortTitle: 'BC Mosaic',
-        minutes: range(0, 24 * 60 + 1, 10),
+        minutes: range(0, 24 * 60, 10),
         extension: 'jpg',
     }),
     'AC_RADAR_BC-S-CST_precip-rate': new Metadata({
         id: 'AC_RADAR_BC-S-CST_precip-rate',
         title: 'AC_RADAR_BC-S-CST_precip-rate',
         shortTitle: 'South Coast',
-        minutes: range(0, 24 * 60 + 1, 10),
+        minutes: range(0, 24 * 60, 10),
         extension: 'jpg',
     }),
     'AC_RADAR_BC-S-INT_precip-rate': new Metadata({
         id: 'AC_RADAR_BC-S-INT_precip-rate',
         title: 'Radar-South Interior',
         shortTitle: 'Sourth Interior',
-        minutes: range(0, 24 * 60 + 1, 10),
+        minutes: range(0, 24 * 60, 10),
         extension: 'jpg',
     }),
     // Satellite Imagery
@@ -197,46 +198,51 @@ export const CurrentConditions = new Immutable.Map({
         id: 'AC_SAT_EPA_water-vapour-jet',
         title: 'Water Vapour-Jet',
         shortTitle: 'Water Vapour/Jet',
-        minutes: range(30, 24 * 60 + 1, 60),
+        minutes: range(30, 24 * 60, 60),
         extension: 'jpg',
     }),
     'AC_SAT_EPA_ir-redtop': new Metadata({
         id: 'AC_SAT_EPA_ir-redtop',
         title: 'IR Pacific',
         shortTitle: 'IR Pacific',
-        minutes: range(0, 24 * 60 + 1, 60),
+        minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
     }),
     'AC_SAT_CAN-W-CST_ir-redtop': new Metadata({
         id: 'AC_SAT_CAN-W-CST_ir-redtop',
         title: 'IR West Cost',
         shortTitle: 'IR West Coast',
-        minutes: range(0, 24 * 60 + 1, 60),
+        minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
     }),
     'AC_SAT_BC_ir-vis': new Metadata({
         id: 'AC_SAT_BC_ir-vis',
         title: 'IR-Vis',
         shortTitle: 'IR-VIS BC',
-        minutes: range(0, 24 * 60 + 1, 60),
+        // There is no point showing visible at night! A message is display to the user.
+        // minutes: range(5 * 60, 22 * 60 + 1, 60),
+        minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
+        notes: [
+            'Visible imagery not available at night.'
+        ]
     }),
     // Current/Warnings
     'AC_PLOT_BC_weather-warnings': new Metadata({
         id: 'AC_PLOT_BC_weather-warnings',
         title: 'Weather-Warnings',
-        minutes: range(30, 24 * 60 + 1, 60),
+        minutes: range(30, 24 * 60, 60),
     }),
     'AC_PLOT_BC_precip-24hr': new Metadata({
         id: 'AC_PLOT_BC_precip-24hr',
         title: 'Precip_Past_24h_Estimate_bc',
-        minutes: range(6 * 60, 24 * 60 + 1, 24 * 60),
+        minutes: range(6 * 60, 24 * 60, 24 * 60),
     }),
     'AC_PLOT_BC_actual-temps': new Metadata({
         id: 'AC_PLOT_BC_actual-temps',
         title: 'Temperatures-MSLP',
         shortTitle: 'Temperatures',
-        minutes: range(0, 24 * 60 + 1, 60),
+        minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
     }),
 })

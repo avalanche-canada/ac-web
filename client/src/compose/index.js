@@ -1,4 +1,4 @@
-import {compose, defaultProps, branch, withState, lifecycle, onlyUpdateForKeys, shouldUpdate, renderNothing} from 'recompose'
+import {compose, defaultProps, branch, withState, withProps, lifecycle, onlyUpdateForKeys, shouldUpdate, renderNothing} from 'recompose'
 import {scrollPosition} from 'utils/dom'
 
 export Element from './Element'
@@ -24,26 +24,3 @@ export const withHash = lifecycle({
         }
     }
 })
-
-export function wait(delay = 0) {
-    return compose(
-        withState('visible', 'setVisible', false),
-        defaultProps({
-            delay
-        }),
-        lifecycle({
-            componentWillMount() {
-                this.timeoutId = setTimeout(() => {
-                    this.props.setVisible(true)
-                }, this.props.delay)
-            },
-            componentWillUnmount() {
-                clearTimeout(this.timeoutId)
-            },
-        }),
-        branch(
-            props => !props.visible,
-            renderNothing,
-        )
-    )
-}

@@ -29,6 +29,10 @@ export const Error = text({
     children: 'An error happened.',
 })
 
+export const Warning = text({
+    name: 'Warning',
+})
+
 export const Helper = text({
     name: 'Helper',
     component: DOM.span,

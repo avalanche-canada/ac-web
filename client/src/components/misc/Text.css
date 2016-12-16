@@ -13,9 +13,11 @@
 }
 
 .Error {
-    composes: Text;
-
     color: var(--brand-secondary);
+}
+
+.Warning {
+    color: #ec971f;
 }
 
 .Helper {

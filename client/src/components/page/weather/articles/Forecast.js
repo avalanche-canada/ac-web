@@ -3,7 +3,7 @@ import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, DateTime, Loading, Muted, Error} from 'components/misc'
+import {DateElement, Time, Loading, Muted, Error} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
 import Forecast from 'components/weather'
 import {Predicates} from 'prismic'
@@ -80,8 +80,8 @@ export default class Container extends Component {
                         </DayPicker>
                     </Entry>
                     {(forecast && forecast.issued) &&
-                        <Entry term='Issued'>
-                            <DateTime value={forecast.issued} />
+                        <Entry term='Issued at'>
+                            <Time value={forecast.issued} />
                         </Entry>
                     }
                     {(forecast && forecast.handle) &&

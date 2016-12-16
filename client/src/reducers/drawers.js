@@ -28,6 +28,7 @@ const Layer = Record({
 }, 'Layer')
 
 const Filter = Record({
+    name: null,
     type: null,
     value: null,
     options: null,
@@ -56,6 +57,7 @@ const MENU = new Map({
             visible: true,
             filters: new Map({
                 days: new Filter({
+                    name: 'days',
                     type: 'listOfValues',
                     value: '7',
                     options: new Map([
@@ -67,6 +69,7 @@ const MENU = new Map({
                     ])
                 }),
                 type: new Filter({
+                    name: 'type',
                     type: 'listOfValues',
                     value: 'all',
                     options: new Map([

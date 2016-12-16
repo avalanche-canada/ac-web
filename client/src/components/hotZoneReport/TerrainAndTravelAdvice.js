@@ -37,7 +37,7 @@ export default function TerrainAndTravelAdvice({alpine, belowTreeline, treeline}
         <div>
             <Introduction />
             {[alpine, belowTreeline, treeline].map((summary, index) => (
-                <TerrainSummary title={titles[index]} {...summary} />
+                <TerrainSummary key={index} title={titles[index]} {...summary} />
             ))}
         </div>
     )

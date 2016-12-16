@@ -10,10 +10,10 @@ export default function WeatherSidebar() {
                 <Link to='/new/weather'>Mountain Weather Forecast</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/hourly-precipitation'>Hourly precipitation</Link>
+                <Link to='/new/weather/hourly-precipitation'>Hourly Precipitation</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/12h-precipitation'>12 hours precipitation</Link>
+                <Link to='/new/weather/12h-precipitation'>12hr Total Precipitation</Link>
             </Item>
             <Item>
                 <Link to='/new/weather/temperatures'>Temperatures</Link>
@@ -22,10 +22,10 @@ export default function WeatherSidebar() {
                 <Link to='/new/weather/winds'>Winds</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/surface-maps'>Surface maps</Link>
+                <Link to='/new/weather/surface-maps'>Surface Maps</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/other-maps'>500mb & Precipitable water</Link>
+                <Link to='/new/weather/other-maps'>500mb & Precipitable Water</Link>
             </Item>
             <Header>Current Conditions</Header>
             <Item>

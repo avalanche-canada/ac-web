@@ -6,7 +6,48 @@ import setMinutes from 'date-fns/set_minutes'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
+import format from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
+
+export function getNotes(type) {
+    if (Forecast.has(type)) {
+        return getForecastNotes(type).concat(Forecast.get(type).notes)
+    } else if (CurrentConditions.has(type)) {
+        return CurrentConditions.get(type).notes
+    } else {
+        throw new Error(`Loop of type=${type} not recognized.`)
+    }
+}
+
+function getForecastNotes(type) {
+    if (!Forecast.has(type)) {
+        throw new Error(`Unrecognizable Forecast loop type=${type}.`)
+    }
+
+    const updates = Forecast.get(type).runs.map(run => {
+        const date = new Date()
+
+        date.setUTCHours(run)
+        date.setUTCMinutes(30)
+
+        return date
+    })
+    .sort((left, right) => {
+        if (left.getHours() > right.getHours()) {
+            return 1
+        }
+        if (left.getHours() > right.getHours()) {
+            return -1
+        }
+
+        return 0
+    })
+    .map(date => format(date, 'HH[:]mm'))
+
+    const last = updates.pop()
+
+    return [`Updated approximately at ${updates.join(', ')} & ${last} every day.`]
+}
 
 export async function computeUrls(props) {
     const {type} = props
@@ -68,7 +109,7 @@ async function computeForecastUrls({
 async function computeCurrentConditionsUrls({
     type,
     amount = null,
-    date = new Date()
+    date = new Date(),
 }) {
     if (!CurrentConditions.get(type)) {
         throw new Error(`Unrecognizable Current Conditions loop type=${type}.`)
@@ -79,8 +120,8 @@ async function computeCurrentConditionsUrls({
     const utcMinutes = differenceInMinutes(date, start)
     const previous = addDays(start, -1)
     let dates = [
-        // after the cut off time that we bring before and add minutes to the
-        // previous day
+        // after the cut off time that we bring the day before and
+        // add minutes to the previous day
         ...minutes.filter(minute => minute >= utcMinutes).map(
             minute => addMinutes(previous, minute)
         ),
@@ -90,7 +131,7 @@ async function computeCurrentConditionsUrls({
         ),
     ]
 
-    // Found the lastest image available and adjust the dates
+    // Find the lastest image available and adjust the dates
     let found = false
     let i = date.length
     while (!found) {
@@ -110,7 +151,7 @@ async function computeCurrentConditionsUrls({
                 return computeCurrentConditionsUrls({
                     type,
                     amount,
-                    date: addDays(date, -1)
+                    date: addDays(date, -1),
                 })
             }
         }

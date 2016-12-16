@@ -6,12 +6,12 @@ import Loop from 'components/weather/Loop'
 
 export default function SurfaceMaps() {
     return (
-        <Article title='Surface maps'>
+        <Article title='Surface Maps'>
             <TabSet>
-                <Tab title='0-48 hours R'>
+                <Tab title='0-48 Hours R'>
                     <Loop type='AC_RDPS_CAN-W_3hr-precip-clds-th-slp' interval={500} />
                 </Tab>
-                <Tab title='0-144 hours G'>
+                <Tab title='0-144 Hours G'>
                     <Loop type='AC_GDPS_EPA_6hr-precip-clds-th-slp' interval={500} />
                 </Tab>
                 <Tab title='Tutorial'>

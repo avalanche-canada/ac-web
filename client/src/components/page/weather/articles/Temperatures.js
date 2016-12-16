@@ -8,7 +8,7 @@ export default function Temperatures() {
     return (
         <Article title='Temperatures'>
             <TabSet>
-                <Tab title='Freezing level R'>
+                <Tab title='Freezing Level R'>
                     <Loop type='AC_RDPS_BC_freezing-level' />
                 </Tab>
                 <Tab title='1500m 4am G'>

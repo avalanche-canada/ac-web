@@ -11,7 +11,7 @@ import styles from './Drawer.css'
 
 const preset = presets.noWobble
 
-function K() {}
+function noop() {}
 
 // Tree manipulation
 function first(node, id) {
@@ -88,7 +88,7 @@ function getPath(root, node) {
     return path
 }
 
-function getStyle({ x }) {
+function getStyle({x}) {
     const transform = `translateX(${x * 100}%)`
 
     return {
@@ -101,9 +101,9 @@ const defaultStyle = {
     x: -1
 }
 
-function Animated({show = false, onClose = K, node, setNode, root}) {
+function Animated({show = false, onClose = noop, node, setNode, root}) {
     const path = getPath(root, node)
-    const onRest = show ? K : onClose
+    const onRest = show ? noop : onClose
     const context = {node, setNode, root, onClose}
     const drawers = path.map(createDrawer, context)
     const onClick = handleContainerClick.bind(context)
@@ -113,9 +113,12 @@ function Animated({show = false, onClose = K, node, setNode, root}) {
 
     return (
         <Motion {...{defaultStyle, style, onRest}}>
-            {value => (
-                <StylishedContainer style={getStyle(value)} onClick={onClick} drawers={drawers} />
-            )}
+            {value =>
+                <StylishedContainer
+                    style={getStyle(value)}
+                    onClick={onClick}
+                    drawers={drawers} />
+            }
         </Motion>
     )
 }

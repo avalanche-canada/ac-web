@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {compose, lifecycle, withProps} from 'recompose'
 import {createSelector} from 'reselect'
+import {List} from 'immutable'
 import {connect} from 'react-redux'
 import {getLayers} from 'getters/drawers'
 import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
@@ -38,24 +39,23 @@ const ICONS = new Map([
 
 // TODO: Improve performance! layers is now an immutable object
 
+const EMPTY_LIST = new List()
+
 Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
-function Menu({sets = [], turnOnLayer, turnOffLayer, changeFilter, onCloseClick}) {
+function Menu({sets = EMPTY_LIST, turnOnLayer, turnOffLayer, changeFilter, onCloseClick}) {
     return (
         <Container>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Body>
-                {sets.map(({title, layers}) => (
-                    <LayerSet title={title}>
-                        {layers.map(layer => {
-                            const id = layer.get('id')
-                            const filters = layer.get('filters')
-                            const visible = layer.get('visible')
-                            const title = layer.get('title')
+                {sets.toList().map(({title, layers}, index) => (
+                    <LayerSet key={index} title={title}>
+                        {layers.toList().map(layer => {
+                            const {id, filters, visible, title} = layer
                             const handleFilterChange = changeFilter.bind(null, id)
                             function handleClick(event) {
                                 if (visible) {

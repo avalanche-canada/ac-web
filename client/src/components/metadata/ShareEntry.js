@@ -29,7 +29,7 @@ export default compose(
         children: (
             <SocialSet>
                 {createShareUrls(url).map(
-                    link => <SocialItem link={link} title={createTitle} style={ITEM_STYLE} />
+                    link => <SocialItem key={link} link={link} title={createTitle} style={ITEM_STYLE} />
                 )}
             </SocialSet>
         )

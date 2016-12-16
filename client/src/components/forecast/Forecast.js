@@ -42,14 +42,14 @@ export default function Forecast({
                 <Tab title='Danger ratings'>
                     <Condition mode={dangerMode} />
                     <Table mode={dangerMode} confidence={confidence}>
-                        {dangerRatings.map(({date, dangerRating}) => (
-                            <Day date={date} {...dangerRating} />
+                        {dangerRatings.map(({date, dangerRating}, index) => (
+                            <Day key={index} date={date} {...dangerRating} />
                         ))}
                     </Table>
                 </Tab>
                 <Tab title='Problems' disabled={problems.length === 0}>
                     {problems.map(({type, icons, comment, travelAndTerrainAdvice}, index) => (
-                        <Problem title={`Avalanche Problem ${index + 1}: ${type}`} >
+                        <Problem key={type} title={`Avalanche Problem ${index + 1}: ${type}`} >
                             <Topic title='What Elevation?' src={icons.elevations} />
                             <Topic title='Which Slopes?' src={icons.aspects} />
                             <Topic title='Chances of Avalanches?' src={icons.likelihood} />
