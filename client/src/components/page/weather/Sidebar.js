@@ -13,7 +13,7 @@ export default function WeatherSidebar() {
                 <Link to='/new/weather/hourly-precipitation'>Hourly Precipitation</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/12h-precipitation'>12 Hours Precipitation</Link>
+                <Link to='/new/weather/12h-precipitation'>12hr Total Precipitation</Link>
             </Item>
             <Item>
                 <Link to='/new/weather/temperatures'>Temperatures</Link>
