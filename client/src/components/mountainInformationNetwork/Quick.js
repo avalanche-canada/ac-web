@@ -67,6 +67,7 @@ Quick.propTypes = {
 }
 
 export default function Quick({avalancheConditions, ridingConditions, comment}) {
+    // TODO: Improve code here! So confusing this key project!!!
     ridingConditions = computeRidingConditions(ridingConditions)
     avalancheConditions = projectKeys(
         avalancheConditionsTexts,
