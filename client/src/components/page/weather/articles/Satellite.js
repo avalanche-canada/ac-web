@@ -18,7 +18,7 @@ export default function Satellite({tutorial}) {
                     <Loop type='AC_SAT_EPA_water-vapour-jet' interval={200} amount={24} />
                 </Tab>
                 <Tab title='IR-VIS BC'>
-                    <Loop type='AC_SAT_BC_ir-vis' interval={200} amount={24} />
+                    <Loop type='AC_SAT_BC_ir-vis' interval={200} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='satellite' />

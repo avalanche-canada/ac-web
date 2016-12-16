@@ -1,5 +1,4 @@
 import React, {PropTypes, Component} from 'react'
-import {findDOMNode} from 'react-dom'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
 import {Image, Ratio, Delay, Loading} from 'components/misc'
@@ -19,6 +18,7 @@ export default class Loop extends Component {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         dwell: PropTypes.number,
+        startAt: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
 	}
     static defaultProps = {
@@ -36,6 +36,10 @@ export default class Loop extends Component {
     constructor(props) {
         super(props)
 
+        if (typeof props.startAt === 'number') {
+            this.state.cursor = Math.min(props.startAt, props.urls.length - 1)
+        }
+
         if ('onfullscreenchange' in document) {
             this.fullscreenchangeEventName = 'fullscreenchange'
         } else if ('onmozfullscreenchange' in document) {
@@ -50,19 +54,24 @@ export default class Loop extends Component {
 		return this.state.cursor
 	}
 	set cursor(cursor) {
-        this.setState({cursor}, () => {
-            this.isLoading = true
+        this.setState({
+            cursor,
+            isLoading: true,
+        }, () => {
+            if (this.isPlaying) {
+                this.setTimeout()
+            }
         })
 	}
     get isPlaying() {
         return this.state.isPlaying
     }
     set isPlaying(isPlaying) {
-        this.setState({isPlaying}, () => {
-            this.clearTimeout()
+        this.clearTimeout()
 
+        this.setState({isPlaying}, () => {
             if (isPlaying) {
-                this.setTimeout()
+                this.setTimeout(false)
             }
         })
     }
@@ -82,16 +91,23 @@ export default class Loop extends Component {
     get url() {
         return this.props.urls[this.cursor]
     }
+    get isFullscreen() {
+        return this.state.isFullscreen
+    }
+    set isFullscreen(isFullscreen) {
+        this.setState({isFullscreen}, this.toggleFullscreen)
+    }
     clearTimeout() {
         window.clearTimeout(this.timeoutId)
     }
-    setTimeout() {
+    setTimeout(waitForDwellTime = true) {
         let {interval} = this.props
 
-        if (this.cursor === this.maxCursor) {
-            interval = this.props.dwell
+        if (waitForDwellTime && this.cursor === this.maxCursor) {
+            interval = interval + this.props.dwell
         }
 
+        this.clearTimeout()
         this.timeoutId = window.setTimeout(this.next, interval)
     }
 	next = () => {
@@ -124,7 +140,6 @@ export default class Loop extends Component {
     }
 	componentDidMount() {
 		window.addEventListener('keydown', this.handleKeyDown)
-        this.clearTimeout()
 
         if (this.fullscreenchangeEventName) {
             document.addEventListener(
@@ -164,19 +179,6 @@ export default class Loop extends Component {
 	}
     handleFullscreenClick = event => {
         this.isFullscreen = !this.isFullscreen
-    }
-    _container = null
-    get container() {
-        return this._container
-    }
-    set container(container) {
-        this._container = findDOMNode(container)
-    }
-    get isFullscreen() {
-        return this.state.isFullscreen
-    }
-    set isFullscreen(isFullscreen) {
-        this.setState({isFullscreen}, this.toggleFullscreen)
     }
     toggleFullscreen = () => {
         if (this.isFullscreen) {
