@@ -10,7 +10,7 @@ import {Remove, Add} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import styles from './Map.css'
 
-// TODO: Probably use the mapboaxgl zoom control
+// TODO: Probably use the mapboxgl zoom control
 
 function ZoomControl({zoomIn, zoomOut}) {
     return (
@@ -18,13 +18,11 @@ function ZoomControl({zoomIn, zoomOut}) {
             <Button
                 onClick={zoomIn}
                 kind={SUBTILE}
-                inverse
                 icon={<Add />}
                 title='Zoom in' />
             <Button
                 onClick={zoomOut}
                 kind={SUBTILE}
-                inverse
                 icon={<Remove />}
                 title='Zoom out' />
         </div>

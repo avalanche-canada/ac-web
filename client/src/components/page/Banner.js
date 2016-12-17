@@ -1,5 +1,5 @@
 import {PropTypes, DOM} from 'react'
-import {compose, withProps, setPropTypes} from 'recompose'
+import {compose, mapProps, setPropTypes} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
 
@@ -7,7 +7,7 @@ export default compose(
     setPropTypes({
         url: PropTypes.string.isRequired,
     }),
-    withProps(({url}) => ({
+    mapProps(({url}) => ({
         styleName: 'Banner',
         style: {
             backgroundImage: `url("${url}")`,

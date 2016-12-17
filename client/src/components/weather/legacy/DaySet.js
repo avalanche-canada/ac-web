@@ -1,8 +1,6 @@
 import React, {PropTypes} from 'react'
-import moment from 'moment'
 import Day from './Day'
-
-const sequence = [0, 1, 2, 3]
+import addDays from 'date-fns/add_days'
 
 DaySet.propTypes = {
 	start: PropTypes.instanceOf(Date).isRequired,
@@ -10,9 +8,7 @@ DaySet.propTypes = {
 }
 
 export default function DaySet({forecast, start}) {
-	const dates = sequence.map(increment => (
-		moment(start).add(increment, 'day').toDate()
-	))
+	const dates = [0, 1, 2, 3].map(increment => addDays(start, increment))
 
 	return (
 		<div>

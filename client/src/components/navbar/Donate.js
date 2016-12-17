@@ -1,5 +1,5 @@
 import {PropTypes} from 'react'
-import {compose, shouldUpdate, withProps, setPropTypes} from 'recompose'
+import {compose, shouldUpdate, mapProps, setPropTypes} from 'recompose'
 import CSSModules from 'react-css-modules'
 import Link from './Link'
 import styles from './Navbar.css'
@@ -11,7 +11,7 @@ export default compose(
         isFoundation: PropTypes.bool,
     }),
     shouldUpdate(() => false),
-    withProps(({isFoundation = false}) => ({
+    mapProps(({isFoundation = false}) => ({
         to: isFoundation ? paypal : '/foundation',
         styleName: 'Donate',
         children: 'Donate'

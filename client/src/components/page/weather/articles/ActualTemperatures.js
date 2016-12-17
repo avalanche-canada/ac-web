@@ -4,15 +4,15 @@ import {Article} from 'components/page'
 import Tutorial from './Tutorial'
 import {Loop} from 'components/weather'
 
-export default function CurrentTemperatures() {
+export default function ActualTemperatures() {
     return (
-        <Article title='Current temperatures'>
+        <Article title='Actual Temperatures (12 hours)'>
             <TabSet>
-                <Tab title='Temperatures'>
-                    <Loop type='AC_PLOT_BC_actual-temps' />
+                <Tab title='Actual Temperatures'>
+                    <Loop type='AC_PLOT_BC_actual-temps' amount={12} />
                 </Tab>
                 <Tab title='Tutorial'>
-                    <Tutorial uid='current-temperatures' />
+                    <Tutorial uid='actual-temperatures' />
                 </Tab>
             </TabSet>
         </Article>

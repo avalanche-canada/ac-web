@@ -6,7 +6,7 @@ import {Link} from 'react-router'
 import Sponsor from 'containers/Sponsor'
 import getToyotaTruckReport from 'selectors/prismic/toyotaTruckReport'
 import cloudinary from 'services/cloudinary/cl'
-import moment from 'moment'
+import format from 'date-fns/format'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -38,7 +38,7 @@ function ToyotaTruckReport({
         date,
         banner,
     } = report
-    const subject = `Toyota Truck Report for ${moment(date).format('dddd MMMM Do')}`
+    const subject = `Toyota Truck Report for ${format(date, 'dddd MMMM Do')}`
 
     return (
         <Container>

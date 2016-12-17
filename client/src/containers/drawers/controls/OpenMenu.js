@@ -1,18 +1,24 @@
 import React from 'react'
-import {compose, withProps, withHandlers} from 'recompose'
+import {compose, mapProps, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import {openMenu} from 'actions/drawers'
 import {Menu} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
+import {neverUpdate} from 'compose'
 
 export default compose(
     connect(null, {
         openMenu,
     }),
-    withProps({
+    withHandlers({
+        onClick: props => event => {
+            props.openMenu()
+        }
+    }),
+    mapProps(props => ({
+        onClick: props.onClick,
         kind: SUBTILE,
         icon: <Menu />,
-        inverse: true,
         style: {
             position: 'fixed',
             top: 90,
@@ -20,10 +26,6 @@ export default compose(
             backgroundColor: 'white',
             zIndex: 2,
         }
-    }),
-    withHandlers({
-        onClick: ({openMenu}) => event => {
-            openMenu()
-        }
-    })
+    })),
+    neverUpdate,
 )(Button)

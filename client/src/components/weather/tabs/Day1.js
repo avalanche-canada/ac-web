@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {InnerHTML} from 'components/misc'
 import {DateElement, Image} from 'components/misc'
 import Section from './Section'
-import {formatUrl} from '../Loop'
+import {formatForecastUrl} from 'services/msc/loop/url'
 
 function description() {
     // TODO: Finish this with parameters
@@ -19,21 +19,20 @@ Day1.propTypes = {
 
 export default function Day1({date, above, between, below, children}) {
     const hasHardWired = above || between || below
-    const title = <DateElement value={date} />
     const type = 'AC_RDPS_BC_weather-systems'
     const image1 = {
-        src: formatUrl({date, type, run: 6, hour: 6}),
+        src: formatForecastUrl(type, date, 6, 6),
         alt: description(),
         title: description(),
     }
     const image2 = {
-        src: formatUrl({date, type, run: 6, hour: 18}),
+        src: formatForecastUrl(type, date, 6, 18),
         alt: description(),
         title: description(),
     }
 
     return (
-        <Section title={title}>
+        <Section title={<DateElement value={date} />}>
             {hasHardWired && <InnerHTML>{above}</InnerHTML>}
             {hasHardWired && <Image {...image1} openNewTab />}
             {hasHardWired && <InnerHTML>{between}</InnerHTML>}

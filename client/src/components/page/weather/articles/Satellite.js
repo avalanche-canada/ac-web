@@ -8,17 +8,17 @@ export default function Satellite({tutorial}) {
     return (
         <Article title='Satellite Imagery'>
             <TabSet>
-                <Tab title='Water Vapour/Jet'>
-                    <Loop type='AC_SAT_EPA_water-vapour-jet' />
+                <Tab title='IR West Coast'>
+                    <Loop type='AC_SAT_CAN-W-CST_ir-redtop' interval={200} amount={24} />
                 </Tab>
                 <Tab title='IR Pacific'>
-                    <Loop type='AC_SAT_EPA_ir-redtop' />
+                    <Loop type='AC_SAT_EPA_ir-redtop' interval={200} amount={24} />
                 </Tab>
-                <Tab title='IR West Coast'>
-                    <Loop type='AC_SAT_CAN-W-CST_ir-redtop' />
+                <Tab title='Water Vapour/Jet'>
+                    <Loop type='AC_SAT_EPA_water-vapour-jet' interval={200} amount={24} />
                 </Tab>
                 <Tab title='IR-VIS BC'>
-                    <Loop type='AC_SAT_BC_ir-vis' />
+                    <Loop type='AC_SAT_BC_ir-vis' interval={200} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='satellite' />

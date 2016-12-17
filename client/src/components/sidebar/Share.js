@@ -9,15 +9,17 @@ Share.propTypes = {
 }
 
 export default function Share({
-    text = 'Share this',
+    label = 'Share this',
     url = document.location.href
 }) {
     const title = name => `Share this page on ${name}`
     const urls = createShareUrls(url)
 
     return (
-        <SocialItem text={text}>
-            {urls.map(url => <Item key={url} link={url} title={title} />)}
+        <SocialItem label={label}>
+            {urls.map(url =>
+                <Item key={url} link={url} title={title} />
+            )}
         </SocialItem>
     )
 }

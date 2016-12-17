@@ -12,10 +12,10 @@ export default function Winds() {
                     <Loop type='AC_RDPS_BC_marine-winds' />
                 </Tab>
                 <Tab title='1500m G'>
-                    <Loop type='AC_GDPS_BC_850-winds' />
+                    <Loop type='AC_GDPS_BC_850-winds' interval={500} />
                 </Tab>
                 <Tab title='2500m G'>
-                    <Loop type='AC_GDPS_BC_750-winds' />
+                    <Loop type='AC_GDPS_BC_750-winds' interval={500} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='winds' />

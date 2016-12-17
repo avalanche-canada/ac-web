@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, setDisplayName, setPropTypes, withProps, defaultProps} from 'recompose'
+import {compose, setDisplayName, setPropTypes, mapProps, defaultProps} from 'recompose'
 import {SUBTILE} from './kinds'
 import Button from './Button'
 import {Remove, Add, ExpandMore, ExpandLess} from 'components/icons'
@@ -25,7 +25,8 @@ export default compose(
         expanded: false,
         chevron: false,
     }),
-    withProps(({chevron, expanded}) => ({
+    mapProps(({chevron, expanded, ...rest}) => ({
+        ...rest,
         kind: SUBTILE,
         icon: ICONS.get(chevron).get(expanded),
     })),

@@ -6,19 +6,19 @@ import {Loop} from 'components/weather'
 
 export default function HourlyPrecipitation() {
     return (
-        <Article title='Hourly precipitation'>
+        <Article title='Hourly Precipitation'>
             <TabSet>
                 <Tab title='BC HR'>
-                    <Loop type='AC_HRDPS_BC_wms-1hr-precip' />
+                    <Loop type='AC_HRDPS_BC_wms-1hr-precip' interval={500} />
                 </Tab>
                 <Tab title='South Coast HR'>
-                    <Loop type='AC_HRDPS_BC-S-Cst_1hr-precip' />
+                    <Loop type='AC_HRDPS_BC-S-Cst_1hr-precip' interval={500} />
                 </Tab>
                 <Tab title='South Interior HR'>
-                    <Loop type='AC_HRDPS_BC-S-Int_1hr-precip' />
+                    <Loop type='AC_HRDPS_BC-S-Int_1hr-precip' interval={500} />
                 </Tab>
                 <Tab title='Type R'>
-                    <Loop type='AC_RDPS_BC_precip-types' />
+                    <Loop type='AC_RDPS_BC_precip-types' interval={500} />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='hourly-precipitation' />

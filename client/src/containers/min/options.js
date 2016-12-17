@@ -110,7 +110,7 @@ export default {
                         label: 'Whumpfing or drum-like sounds or shooting cracks.',
                     },
                     snow: {
-                        label: '30cm + of new snow, or significant drifitng, or rain in the last 48 hours.',
+                        label: '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
                     },
                     temp: {
                         label: 'Rapid temperature rise to near zero degrees or wet surface snow.',

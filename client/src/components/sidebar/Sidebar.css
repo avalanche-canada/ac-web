@@ -22,7 +22,9 @@
     border-bottom: white solid 4px;
 
     & > a {
-        color: var(--black);
+        display: flex;
+        align-items: center;
+
         &:hover {
             color: var(--brand-primary);
         }
@@ -37,7 +39,10 @@
 
     color: var(--brand-primary);
 
-    & > a {
+    & > .Label ~ a {
         padding: 0 0.5em;
     }
+}
+
+.Label {
 }

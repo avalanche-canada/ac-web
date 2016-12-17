@@ -1,11 +1,15 @@
 article
   header
     h1 #{forecast.bulletinTitle}
-    p Date Issued: 
+    p 
+      b Date Issued: 
       date(datetime=forecast.dateIssued) #{dates.issued}
-    p Valid Until: 
+    p 
+      b Valid Until: 
       date(datetime=forecast.validUntil) #{dates.until}
-    p Forecaster: #{forecast.forecaster}
+    p 
+      b Forecaster: 
+      | #{forecast.forecaster}
   section
     p !{forecast.highlights}
     if forecast.dangerMode == "Spring situation"

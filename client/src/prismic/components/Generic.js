@@ -47,8 +47,6 @@ export default compose(
     branch(
         props => props.isLoading,
         renderComponent(mapProps(({message}) => ({children: message}))(Loading)),
-        // TODO: Remove with recompose newest release. Thrid argument default to identity
-        Component => Component,
     ),
     mapProps(({props}) => ({
         children: props.body

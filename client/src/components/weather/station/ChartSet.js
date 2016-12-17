@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import {onlyUpdateForKey} from 'compose'
 import {List} from 'immutable'
-import moment from 'moment'
 import {VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryGroup, VictoryAxis, VictoryStack, VictoryTheme, VictoryContainer} from 'victory'
 import {PRIMARY, SECONDARY} from 'constants/colors'
 import RelativeHumidity from './charts/RelativeHumidity'

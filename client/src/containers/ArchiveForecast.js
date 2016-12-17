@@ -96,7 +96,6 @@ export default class ArchiveForecast extends Component {
 
         // TODO: Region list sould be filterable
 
-
         return (
             <Page>
                 <Header title={header} />

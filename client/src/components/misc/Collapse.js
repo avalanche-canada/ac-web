@@ -1,4 +1,4 @@
-import React, { PropTypes, Component, cloneElement, Children} from 'react'
+import React, {PropTypes, Component, cloneElement, Children} from 'react'
 import {findDOMNode} from 'react-dom'
 import {Motion, spring} from 'react-motion'
 
@@ -44,12 +44,13 @@ export default class Collapse extends Component {
         collapsed: true,
         dimension: HEIGHT,
     }
-    constructor(props, ...rest) {
-        super(props, ...rest)
+    state = {
+        opened: false
+    }
+    constructor(props) {
+        super(props)
 
-        this.state = {
-            opened: !props.collapsed
-        }
+        this.state.opened = !props.collapsed
     }
     collapsable = null
     get computed() {

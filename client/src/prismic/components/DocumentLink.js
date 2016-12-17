@@ -1,6 +1,6 @@
 import {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {compose, withProps, setPropTypes, setDisplayName, withState, lifecycle} from 'recompose'
+import {compose, mapProps, setPropTypes, setDisplayName, withState, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
 import {loadForUid} from 'actions/prismic'
 import {getDocumentForUid} from 'getters/prismic'
@@ -36,7 +36,8 @@ export default compose(
             loadForUid(type, uid)
         },
     }),
-    withProps(props => ({
+    mapProps(props => ({
         to: pathname(props),
+        children: props.children,
     }))
 )(Link)

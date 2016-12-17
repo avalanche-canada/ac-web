@@ -52,8 +52,6 @@ function withPrismic(BaseComponent) {
         branch(
             props => props.isLoading,
             renderComponent(Loading),
-            // TODO: Remove with recompose newest release. Thrid argument default to identity
-            Component => Component,
         ),
     )(BaseComponent)
 }
@@ -70,7 +68,7 @@ export function staticPage(uid, title, message) {
     )(StaticPage)
 }
 
-// TODO: Rename to somthing more obvious
+// TODO: Rename to something more obvious
 // Used for the Avalanche Canada Foundation Home Page
 export function simple(uid) {
     return compose(

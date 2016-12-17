@@ -16,7 +16,7 @@ export function asTermAndDefinition(values = {}, terms = {}) {
         }
 
         children.push(
-            <Term>
+            <Term key={`${key}-term`}>
                 {terms[key] || key}
             </Term>
         )
@@ -25,7 +25,7 @@ export function asTermAndDefinition(values = {}, terms = {}) {
             case 'string':
             case 'number':
                 children.push(
-                    <Definition>{value}</Definition>
+                    <Definition key={key}>{value}</Definition>
                 )
                 break;
             case 'boolean':
@@ -35,12 +35,12 @@ export function asTermAndDefinition(values = {}, terms = {}) {
                 break;
             case 'function':
                 children.push(
-                    <Definition>{value(values)}</Definition>
+                    <Definition key={key}>{value(values)}</Definition>
                 )
                 break;
             case 'object':
                 children.push(
-                    <Definition>{trulyKeys(value).join('. ')}</Definition>
+                    <Definition key={key}>{trulyKeys(value).join('. ')}</Definition>
                 )
                 break;
         }

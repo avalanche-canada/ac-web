@@ -8,7 +8,7 @@ Item.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Item({ src, url, title = url }) {
+function Item({src, url, title = url}) {
     return (
         <a styleName='Item' href={url} target='_blank' title={title} >
             <img styleName='Logo' src={src} alt={title} />

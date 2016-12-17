@@ -15,7 +15,7 @@ function NotFound() {
                     <h2>The page you are looking for has not been found.</h2>
                     <ButtonSet>
                         <Link to='/' styleName='Link'>
-                            Home
+                            Forecasts
                         </Link>
                         <Link to='/training' styleName='Link'>
                             Training

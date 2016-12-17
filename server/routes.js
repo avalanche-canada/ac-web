@@ -25,6 +25,7 @@ module.exports = function(app) {
     app.use('/api/min', require('./api/observations'));
     app.use('/vendor/cloudinary/', require('./api/proxy'));
 
+    app.use('/basic-html', require('./mobile'));
     app.use('/schema', require('./schema/handlers'));
     app.use('/static', require('./static'));
 

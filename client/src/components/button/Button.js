@@ -40,5 +40,5 @@ export default compose(
             )
         }
     }),
-    CSSModules(styles, { allowMultiple: true })
+    CSSModules(styles, {allowMultiple: true})
 )(DOM.button)
