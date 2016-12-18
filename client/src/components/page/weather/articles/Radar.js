@@ -2,7 +2,7 @@ import React from 'react'
 import {Article} from 'components/page'
 import {Tab, TabSet} from 'components/tab'
 import {Loop} from 'components/weather'
-import Tutorial from './Tutorial'
+import Tutorial from '../Tutorial'
 
 export default function Radar() {
     return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
-import Tutorial from './Tutorial'
+import Tutorial from '../Tutorial'
 import {Loop} from 'components/weather'
 
 export default function ActualTemperatures() {
