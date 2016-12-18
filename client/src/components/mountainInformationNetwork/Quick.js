@@ -28,16 +28,16 @@ function computeRidingConditions(conditions = {}) {
         switch (type) {
             case 'single':
                 if (selected) {
-                    children.push(<Term>{term}</Term>)
-                    children.push(<Definition>{selected}</Definition>)
+                    children.push(<Term key={`${key}-term`}>{term}</Term>)
+                    children.push(<Definition key={key}>{selected}</Definition>)
                 }
                 break
             case 'multiple':
                 text = trulyKeys(options).join('. ')
 
                 if (text) {
-                    children.push(<Term>{term}</Term>)
-                    children.push(<Definition>{text}</Definition>)
+                    children.push(<Term key={`${key}-term`}>{term}</Term>)
+                    children.push(<Definition key={key}>{text}</Definition>)
                 }
 
                 break

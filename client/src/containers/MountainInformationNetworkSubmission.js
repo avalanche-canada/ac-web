@@ -1,16 +1,13 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Page, Header, Main, Content, Headline} from 'components/page'
+import {Page, Header, Main, Content, Headline, ContextMap} from 'components/page'
 import {Muted, Error} from 'components/misc'
 import {mountainInformationNetworkSubmission} from 'containers/connectors'
 import {Submission, Metadata} from 'components/mountainInformationNetwork'
-import {Map, Marker, NavigationControl} from 'components/map'
-import mapbox from 'services/mapbox/map'
+import {Marker} from 'components/map'
+import mapbox from 'mapbox'
 import min from 'components/icons/min/min-pin.svg'
 
-const MAP_STYLE = {
-    height: 250
-}
 function createElement(props) {
     return Object.assign(document.createElement('img'), {
         ...props,
@@ -45,10 +42,9 @@ function Container({
                 <Main>
                     {metadata && <Metadata {...metadata} />}
                     {false &&
-                        <Map style='2016' center={center} zoom={8} containerStyle={MAP_STYLE}>
+                        <ContextMap center={center} zoom={8}>
                             <Marker element={createElement({title})} lngLat={center} />
-                            <NavigationControl />
-                        </Map>
+                        </ContextMap>
                     }
                     {isError && <Error>Error happened while loading submission.</Error>}
                     {isLoading ?

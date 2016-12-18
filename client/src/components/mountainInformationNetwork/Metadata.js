@@ -27,7 +27,7 @@ export default function MountainInformationNetworkMetadata({
 
     const mapUrl = '/map?panel=mountain-information-network-submissions/' + submissionId;
     const mapLink = (
-        <Wrapper tooltip="View on Main Map">
+        <Wrapper tooltip='View on Main Map'>
             <Link to={mapUrl} className={styles.MapLocationLink}><MapLocation /></Link>
         </Wrapper>
     )
