@@ -4,7 +4,7 @@ import Comment from './Comment'
 import {List} from 'components/description'
 
 Content.propTypes = {
-    comment: PropTypes.string.isRequired,
+    comment: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     descriptionTitle: PropTypes.string,
     descriptions: PropTypes.node.isRequired,
 }

@@ -1,7 +1,8 @@
-import {PropTypes} from 'react'
+import React, {PropTypes} from 'react'
 import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProps, mapProps, defaultProps} from 'recompose'
 import Content from 'components/mountainInformationNetwork/Content'
 import {asTermAndDefinition} from 'components/description/utils'
+import {InnerHTML} from 'components/misc'
 
 export default compose(
     setDisplayName('CriticalFactors'),
@@ -35,7 +36,7 @@ export default compose(
         significantWarming: 'Significant warming',
     }),
     mapProps(({comments, ...values}) => ({
-        comment: comments,
+        comment: <InnerHTML>{comments}</InnerHTML>,
         descriptions: asTermAndDefinition(values),
     })),
 )(Content)

@@ -11,6 +11,10 @@ export function Markup({children}) {
         return null
     }
 
+    if (typeof children !== 'string') {
+        return children
+    }
+
     const parts = children.replace(/\r/g, '').split(/\n/)
 
     return (
