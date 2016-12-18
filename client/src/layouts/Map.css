@@ -10,19 +10,16 @@
     }
 }
 
-.AddControl {
-    display: inline-block;
+.LinkControlSet {
     position: fixed;
     left: 15px;
     bottom: 15px;
+
+    display: flex;
 }
 
-.AddControl--MIN {
-    background-image: url('components/icons/min/add-min-pin.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 50%;
-    background-color: var(--primary);
+.LinkControl {
+    margin: 0 0.25em;
     opacity: 0.75;
     border-radius: 100%;
     display: inline-block;
@@ -33,4 +30,24 @@
     &:hover {
         opacity: 1;
     }
+}
+
+.LinkControlSet--Weather {
+    composes: LinkControl;
+
+    background-image: url('components/icons/weather-forecast.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 65%;
+    background-color: var(--primary);
+}
+
+.LinkControlSet--MIN {
+    composes: LinkControl;
+
+    background-image: url('components/icons/min/add-min-pin.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+    background-color: var(--primary);
 }

@@ -2,14 +2,14 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {compose, withContext, withState, withProps, withHandlers, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
+import {neverUpdate} from 'compose'
 import {Primary, Secondary, Menu, OpenMenu} from 'containers/drawers'
 import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
-import styles from './Map.css'
 import mapbox from 'services/mapbox/map'
 import {Add} from 'components/icons'
 import {Wrapper} from 'components/tooltip'
-
+import styles from './Map.css'
 
 function Layout({primary, setInitializationError}) {
     return (
@@ -21,7 +21,7 @@ function Layout({primary, setInitializationError}) {
             <Secondary />
             <Menu />
             <OpenMenu />
-            <AddControl />
+            <LinkControlSet />
         </div>
     )
 }
@@ -41,27 +41,36 @@ export default mapbox.supported() ? compose(
 )(Layout) : UnsupportedMap
 
 
-function AddControl({router}) {
-    function handleClick(event) {
-        router.push('/mountain-information-network/submit')
-    }
+function LinkControlSet() {
     const TOOLTIP_STYLE = {
         maxWidth: 175,
         padding: '0.25em',
     }
-    const tooltip = (
+    const min = (
         <div style={TOOLTIP_STYLE}>
             Create a Mountain Information Network (MIN) report
         </div>
     )
+    const weather = (
+        <div style={TOOLTIP_STYLE}>
+            Visit the Mountain Weather Forecast
+        </div>
+    )
 
     return (
-        <div className={styles.AddControl}>
-            <Wrapper tooltip={tooltip} placement='right'>
+        <div className={styles.LinkControlSet}>
+            <Wrapper tooltip={min} placement='right'>
                 <Link
-                    className={styles['AddControl--MIN']}
+                    className={styles['LinkControlSet--MIN']}
                     to='/mountain-information-network/submit' />
+            </Wrapper>
+            <Wrapper tooltip={weather} placement='right'>
+                <Link
+                    className={styles['LinkControlSet--Weather']}
+                    to='/weather' />
             </Wrapper>
         </div>
     )
 }
+
+LinkControlSet = neverUpdate(LinkControlSet)
