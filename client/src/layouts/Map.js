@@ -52,7 +52,7 @@ function LinkControlSet() {
         </div>
     )
     const weather = (
-        <div style={TOOLTIP_STYLE}>
+        <div style={{...TOOLTIP_STYLE, maxWidth: 125}}>
             Visit the Mountain Weather Forecast
         </div>
     )
