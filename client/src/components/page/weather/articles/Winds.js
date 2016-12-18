@@ -9,13 +9,13 @@ export default function Winds() {
         <Article title='Winds'>
             <TabSet>
                 <Tab title='Surface R'>
-                    <Loop type='AC_RDPS_BC_marine-winds' />
+                    <Loop type='AC_RDPS_BC_marine-winds' withNotes />
                 </Tab>
                 <Tab title='1500m G'>
-                    <Loop type='AC_GDPS_BC_850-winds' interval={500} />
+                    <Loop type='AC_GDPS_BC_850-winds' interval={500} withNotes />
                 </Tab>
                 <Tab title='2500m G'>
-                    <Loop type='AC_GDPS_BC_750-winds' interval={500} />
+                    <Loop type='AC_GDPS_BC_750-winds' interval={500} withNotes />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='winds' />

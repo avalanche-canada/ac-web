@@ -9,13 +9,13 @@ export default function Precipitation12h() {
         <Article title='12hr Total Precipitation'>
             <TabSet>
                 <Tab title='BC R'>
-                    <Loop type='AC_RDPS_BC_12hr-precip' />
+                    <Loop type='AC_RDPS_BC_12hr-precip' withNotes />
                 </Tab>
                 <Tab title='South Coast HR'>
-                    <Loop type='AC_HRDPS_BC-S-Cst_12hr-precip' />
+                    <Loop type='AC_HRDPS_BC-S-Cst_12hr-precip' withNotes />
                 </Tab>
                 <Tab title='Sourth Interior HR'>
-                    <Loop type='AC_HRDPS_BC-S-Int_12hr-precip' />
+                    <Loop type='AC_HRDPS_BC-S-Int_12hr-precip' withNotes />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='12h-precipitation' />
