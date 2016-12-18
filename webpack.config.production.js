@@ -54,6 +54,7 @@ module.exports = {
             path.resolve('./node_modules')
         ],
         alias: {
+            mapbox: 'mapbox-gl/dist/mapbox-gl',
             constants: 'constants',
             styles: 'styles',
             assets: 'assets',

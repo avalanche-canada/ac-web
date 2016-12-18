@@ -1,7 +1,7 @@
 import React from 'react'
 import {Tab, TabSet} from 'components/tab'
 import {Article} from 'components/page'
-import Tutorial from './Tutorial'
+import Tutorial from '../Tutorial'
 import {Loop} from 'components/weather'
 
 export default function Temperatures() {
@@ -9,16 +9,16 @@ export default function Temperatures() {
         <Article title='Temperatures'>
             <TabSet>
                 <Tab title='Freezing Level R'>
-                    <Loop type='AC_RDPS_BC_freezing-level' />
+                    <Loop type='AC_RDPS_BC_freezing-level' withNotes />
                 </Tab>
                 <Tab title='1500m 4am G'>
-                    <Loop type='AC_GDPS_BC_850-temp-4am' />
+                    <Loop type='AC_GDPS_BC_850-temp-4am' withNotes />
                 </Tab>
                 <Tab title='1500m 4pm G'>
-                    <Loop type='AC_GDPS_BC_850-temp-4pm' />
+                    <Loop type='AC_GDPS_BC_850-temp-4pm' withNotes />
                 </Tab>
                 <Tab title='Surface HR'>
-                    <Loop type='AC_HRDPS_BC_sfc-temp-3hr-freq' />
+                    <Loop type='AC_HRDPS_BC_sfc-temp-3hr-freq' withNotes />
                 </Tab>
                 <Tab title='Tutorial'>
                     <Tutorial uid='temperatures' />

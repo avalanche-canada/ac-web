@@ -1,7 +1,7 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
 import {compose, lifecycle, withState} from 'recompose'
-import {Map, Source, Layer, Popup, Utils} from './index'
+import {Map, Source, Layer, Popup} from './index'
 import {address, company} from 'faker'
 
 storiesOf('Map', module)
@@ -131,7 +131,6 @@ storiesOf('Map', module)
         }
     }
     const events = {
-        mousemove: Utils.cursorTogglerFactory('providers', 'providers-cluster'),
         load: function onLoad(event) {
             console.log('loaded', event.target)
         }

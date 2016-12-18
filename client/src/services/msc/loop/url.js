@@ -46,7 +46,7 @@ function getForecastNotes(type) {
 
     const last = updates.pop()
 
-    return [`Updated approximately at ${updates.join(', ')} & ${last} every day.`]
+    return [`Updated at approximately ${updates.join(', ')} & ${last} every day.`]
 }
 
 export async function computeUrls(props) {

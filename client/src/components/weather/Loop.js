@@ -4,7 +4,6 @@ import Loop from 'components/loop'
 import {computeUrls, getNotes} from 'services/msc/loop/url'
 import {Forecast, CurrentConditions} from 'services/msc/loop/Metadata'
 import {Loading, Error} from 'components/misc'
-import {Warning} from 'components/misc'
 
 export default class extends PureComponent {
     static propTypes = {
@@ -16,10 +15,14 @@ export default class extends PureComponent {
         amount: PropTypes.number,
         moveDay: PropTypes.bool,
         interval: PropTypes.number,
+        withNotes: PropTypes.bool,
+    }
+    static defaultProps = {
+        withNotes: false
     }
     state = {
         urls: null,
-        notes: [],
+        notes: null,
         startAt: undefined,
         isLoading: true,
         isError: false,
@@ -53,7 +56,7 @@ export default class extends PureComponent {
         })
     }
     handleFulfilled = urls => {
-        const {type} = this.props
+        const {type, withNotes} = this.props
         let startAt
 
         if (CurrentConditions.has(type)) {
@@ -64,7 +67,7 @@ export default class extends PureComponent {
             isLoading: false,
             isError: false,
             urls,
-            notes: getNotes(type),
+            notes: withNotes ? getNotes(type) : null,
             startAt,
         })
     }
@@ -100,7 +103,7 @@ export default class extends PureComponent {
                     startAt={this.state.startAt}
                     openImageInNewTab
                     interval={this.props.interval} />
-                {notes.length > 0 &&
+                {(Array.isArray(notes) && notes.length > 0) &&
                     <div>
                         <p>Please note:</p>
                         <ul>
