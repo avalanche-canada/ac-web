@@ -10,7 +10,6 @@ import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
 import {
     FORECASTS,
     HOT_ZONE_REPORTS,
-    MOUNTAIN_CONDITION_REPORTS,
     METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
     SURFACE_HOAR,
@@ -20,7 +19,6 @@ import {loadData} from 'actions/map'
 import {
     Forecast,
     HotZoneReport,
-    MountainConditionReport,
     Meteogram,
     MountainInformationNetwork,
     SurfaceHoar,
@@ -30,7 +28,6 @@ import {
 const ICONS = new Map([
     [FORECASTS, <Forecast />],
     [HOT_ZONE_REPORTS, <HotZoneReport />],
-    [MOUNTAIN_CONDITION_REPORTS, <MountainConditionReport />],
     [METEOGRAMS, <Meteogram />],
     [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
     [SURFACE_HOAR, <SurfaceHoar />],

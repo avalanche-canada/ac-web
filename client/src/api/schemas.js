@@ -14,7 +14,6 @@ export const MountainInformationNetworkSubmission = new Schema('mountain-informa
         output[key] = key === 'obs' ? value.sort(obsSorter) : value
     }
 })
-export const MountainConditionReport = new Schema('mountain-condition-reports')
 export const Incident = new Schema('incidents')
 export const Provider = new Schema('providers')
 export const Course = new Schema('courses')

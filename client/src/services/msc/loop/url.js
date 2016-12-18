@@ -1,7 +1,7 @@
 import range from 'lodash/range'
 import padstart from 'lodash/padStart'
 import {Forecast, CurrentConditions} from './Metadata'
-import {domain} from './config.json'
+import {domain} from '../config.json'
 import setMinutes from 'date-fns/set_minutes'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
