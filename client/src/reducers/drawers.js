@@ -14,7 +14,6 @@ import {
     HOT_ZONE_REPORTS,
     METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/drawers'

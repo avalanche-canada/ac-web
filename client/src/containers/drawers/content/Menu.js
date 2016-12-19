@@ -12,7 +12,6 @@ import {
     HOT_ZONE_REPORTS,
     METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
 } from 'constants/drawers'
 import {loadData} from 'actions/map'
@@ -21,7 +20,6 @@ import {
     HotZoneReport,
     Meteogram,
     MountainInformationNetwork,
-    SurfaceHoar,
     WeatherStation,
 } from 'components/icons'
 
@@ -30,7 +28,6 @@ const ICONS = new Map([
     [HOT_ZONE_REPORTS, <HotZoneReport />],
     [METEOGRAMS, <Meteogram />],
     [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
-    [SURFACE_HOAR, <SurfaceHoar />],
     [WEATHER_STATION, <WeatherStation />],
 ])
 
