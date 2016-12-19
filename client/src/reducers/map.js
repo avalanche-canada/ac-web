@@ -23,7 +23,6 @@ export default combineReducers({
         [MapActions.LOAD_MAP_STYLE_FAILURE]: getPayload,
         [MapActions.CENTER_CHANGED]: setCenter,
         [MapActions.ZOOM_CHANGED]: setZoom,
-        [MapActions.FEATURE_CLICKED]: setActiveFeature,
         [DrawerActions.LAYER_TURNED_ON]: toggleLayersFactory(true),
         [DrawerActions.LAYER_TURNED_OFF]: toggleLayersFactory(false),
         [DrawerActions.FILTER_CHANGED]: setFilter,
@@ -232,26 +231,4 @@ function setPrismicDocuments(style, action) {
         default:
             return style
     }
-}
-function setHotZoneReports(style, {payload, meta}) {
-
-}
-// To implement later!
-const ActivableLayers = new Map([
-    [Layers.FORECAST, ['forecast-regions-active', 'forecast-regions-active-contour']],
-])
-function setActiveFeature(style, {payload: {layer, id = ''}}) {
-    if (!ActivableLayers.has(layer)) {
-        return style
-    }
-
-    return style.withMutations(style => {
-        const layers = style.get('layers')
-
-        ActivableLayers.get(layer).forEach(active => {
-            const index = layers.findIndex(layer => layer.get('id') === active)
-
-            style.setIn(['layers', index, 'filter', 2], id)
-        })
-    })
 }

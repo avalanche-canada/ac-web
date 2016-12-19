@@ -18,14 +18,9 @@ export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
 export const LOAD_MAP_STYLE_FAILURE = 'LOAD_MAP_STYLE_FAILURE'
-export const FEATURE_CLICKED = 'FEATURE_CLICKED'
 
 export const zoomChanged = createAction(ZOOM_CHANGED)
 export const centerChanged = createAction(CENTER_CHANGED)
-export const featureClicked = createAction(FEATURE_CLICKED, (layer, id) => ({
-    layer,
-    id,
-}))
 
 function createMapCommand(name) {
     return createAction(
