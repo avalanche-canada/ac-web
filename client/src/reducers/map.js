@@ -133,16 +133,7 @@ function mergeStyle(style, {payload}) {
     // it merges using index and will overides existing layers
     payload.layers = payload.layers.concat(style.get('layers').toJSON())
 
-    return style.delete('layers').mergeDeep(payload).withMutations(
-        style => {
-            ['hot-zones-labels', 'hot-zones'].forEach(id => {
-                const layers = style.get('layers')
-                const index = layers.findIndex(layer => layer.get('id') === id)
-
-                style.setIn(['layers', index, 'layout', 'visibility'], 'visible')
-            })
-        }
-    )
+    return style.delete('layers').mergeDeep(payload)
 }
 function setCenter(style, {payload}) {
     return style.set('center', payload)
@@ -245,7 +236,7 @@ function setPrismicDocuments(style, action) {
 function setHotZoneReports(style, {payload, meta}) {
 
 }
-// To implement later.
+// To implement later!
 const ActivableLayers = new Map([
     [Layers.FORECAST, ['forecast-regions-active', 'forecast-regions-active-contour']],
 ])

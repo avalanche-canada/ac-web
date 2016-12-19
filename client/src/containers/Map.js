@@ -312,9 +312,9 @@ class Container extends Component {
 
         return false
     }
-    componentWillReceiveProps({feature, routes, params, location, command, style}) {
-        if (feature && this.props.feature !== feature && !this.zoomToBounds) {
-            this.fitBounds(feature)
+    componentWillReceiveProps({bounds, routes, params, location, command, style}) {
+        if (bounds && this.props.bounds !== bounds && this.map && !this.zoomToBounds) {
+            this.map.fitBounds(bounds.bbox, bounds.options)
         }
 
         if (location.key !== this.props.location.key) {

@@ -8,7 +8,6 @@ export function getDocumentsOfType(state, type) {
 
 export function getDocumentForUid(state, type, uid) {
     const {uids, documents} = state.prismic
-
     const id = uids.getIn([type, uid])
 
     return documents.getIn([type, id])
