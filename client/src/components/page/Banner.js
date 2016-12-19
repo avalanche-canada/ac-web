@@ -7,11 +7,12 @@ export default compose(
     setPropTypes({
         url: PropTypes.string.isRequired,
     }),
-    mapProps(({url}) => ({
+    mapProps(({url, children}) => ({
         styleName: 'Banner',
         style: {
             backgroundImage: `url("${url}")`,
         },
+        children,
     })),
     CSSModules(styles),
 )(DOM.div)

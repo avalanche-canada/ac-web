@@ -10,7 +10,7 @@ export default function Ast({routes, form = null, table = null}) {
 
     return (
         <Page>
-            <Banner url='http://res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_2500/c_scale,e_make_transparent:10,g_south_east,l_watermark:Dunford_RyenReverse,w_200/v1440539610/Youth/DSC_0339.jpg'>
+            <Banner url='//res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_2500/c_scale,e_make_transparent:10,g_south_east,l_watermark:Dunford_RyenReverse,w_200/v1440539610/Youth/DSC_0339.jpg'>
                 <Container>
                     <PillSet activeIndex={Routes.indexOf(path)}>
                         <Pill>
