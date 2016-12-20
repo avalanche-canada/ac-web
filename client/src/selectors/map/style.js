@@ -15,7 +15,7 @@ function identity(style) {
 export default createSelector(
     getStyle,
     getActiveFeatures,
-    state => getDocumentsOfType(state, 'hot-zone-reports'),
+    state => getDocumentsOfType(state, 'hotzone-report'),
     (style, activeFeatures, hotZoneReports) => {
         if (!style.has('id')) {
             return null
@@ -57,7 +57,9 @@ function setActiveFeatures(style, activeFeatures) {
 function setHotZoneReports(style, hotZoneReports) {
     return style.withMutations(style => {
         const source = Layers.HOT_ZONE_REPORTS
-        const ids = hotZoneReports.map(document => document.region.value).toArray()
+        const ids = hotZoneReports.map(
+            document => document.data['hotzone-report.region'].value
+        ).toArray()
         const layers = style.get('layers')
 
         let index = layers.findIndex(layer => layer.get('id') === 'hot-zones')
