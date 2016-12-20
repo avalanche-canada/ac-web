@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Page, Header, Main, Content, Headline} from 'components/page'
+import {Page, Header, Main, Content, Headline, Aside} from 'components/page'
 import {Muted, Error} from 'components/misc'
 import {hotZoneReport} from 'containers/connectors'
-import HotZoneReport, {Metadata} from 'components/hotZoneReport'
+import HotZoneReport, {Metadata, Sidebar} from 'components/hotZoneReport'
 
 Container.propTypes = {
     title: PropTypes.string.isRequired,
@@ -28,6 +28,9 @@ function Container({
                     {isError && <Error>Error happened while loading report.</Error>}
                     {isLoading || <HotZoneReport report={report} />}
                 </Main>
+                <Aside>
+                    <Sidebar />
+                </Aside>
             </Content>
         </Page>
     )
