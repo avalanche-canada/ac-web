@@ -17,14 +17,14 @@ export default compose(
         comments: PropTypes.string,
     }),
     defaultProps({
-        persistentAvalancheProblem: 'N/A',
-        slabAvalanches: 'N/A',
-        instability: 'N/A',
-        recentSnowfall: 'N/A',
-        recentRainfall: 'N/A',
-        recentWindLoading: 'N/A',
-        significantWarming: 'N/A',
-        comments: 'N/A',
+        persistentAvalancheProblem: 'Unknown',
+        slabAvalanches: 'Unknown',
+        instability: 'Unknown',
+        recentSnowfall: 'Unknown',
+        recentRainfall: 'Unknown',
+        recentWindLoading: 'Unknown',
+        significantWarming: 'Unknown',
+        comments: 'Unknown',
     }),
     renameProps({
         persistentAvalancheProblem: 'Persistent avalanche problem',
@@ -36,7 +36,7 @@ export default compose(
         significantWarming: 'Significant warming',
     }),
     mapProps(({comments, ...values}) => ({
-        comment: <InnerHTML>{comments}</InnerHTML>,
-        descriptions: asTermAndDefinition(values),
+        comment: comments && <InnerHTML>{comments}</InnerHTML>,
+        descriptions: asTermAndDefinition(values, undefined, 'Unknown'),
     })),
 )(Content)

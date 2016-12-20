@@ -7,12 +7,20 @@ const BooleanValues = new Map([
     [false, 'No'],
 ])
 
-export function asTermAndDefinition(values = {}, terms = {}) {
+export function asTermAndDefinition(values = {}, terms = {}, nullValue) {
     return Object.keys(values).reduce((children, key) => {
-        const value = values[key]
+        let value = values[key]
 
-        if (value === undefined || value === null) {
+        if (value === undefined) {
             return children
+        }
+
+        if (value === null) {
+            if (nullValue) {
+                value = nullValue
+            } else {
+                return children
+            }
         }
 
         children.push(
