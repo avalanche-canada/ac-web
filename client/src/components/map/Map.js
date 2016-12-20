@@ -126,7 +126,6 @@ export default class MapComponent extends Component {
     }
     state = {
         map: null,
-        isDataLoading: false,
     }
     constructor(props) {
         super(props)
