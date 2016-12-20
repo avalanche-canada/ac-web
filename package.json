@@ -100,7 +100,7 @@
     "immutable": "^3.8.1",
     "jshint-stylish": "~0.1.5",
     "json-loader": "^0.5.4",
-    "mapbox-gl": "^0.28.0",
+    "mapbox-gl": "^0.29.0",
     "mocha": "^3.0.2",
     "open": "~0.0.4",
     "postcss-cssnext": "^2.5.1",

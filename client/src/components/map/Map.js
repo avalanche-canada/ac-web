@@ -4,7 +4,6 @@ import Immutable from 'immutable'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Canadian} from 'constants/map/bounds'
 import {captureException} from 'services/raven'
-import diffStyles from 'services/mapbox/diff'
 
 function toJSON(style) {
     if (!style) {
@@ -158,10 +157,6 @@ export default class MapComponent extends Component {
                 }
             })
 
-            map.on('data', this.handleData)
-            map.on('dataloading', this.handleDataLoading)
-            this.changes = []
-
             this.setState({map})
         } catch (error) {
             captureException(error)
@@ -174,38 +169,14 @@ export default class MapComponent extends Component {
         }
     }
     componentWillReceiveProps({style}) {
-        // TODO: Style diffing will be be part of the next Mapbox release
-        // map.setStyle(style) will be enough
-        if (style !== this.props.style) {
-            const changes = diffStyles(toJSON(this.props.style), toJSON(style))
+        const {map} = this.state
 
-            this.applyChanges(changes)
+        if (map && style !== this.props.style) {
+            map.setStyle(toJSON(style))
         }
     }
     shouldComponentUpdate({children}) {
         return children !== this.props.children
-    }
-    applyChanges = changes => {
-        if (this.state.isDataLoading) {
-            this.changes.push(...changes)
-        } else {
-            const {map} = this.state
-
-            changes.forEach(({command, args}) => map[command].apply(map, args))
-        }
-    }
-    handleData = event => {
-        this.setState({
-            isDataLoading: false
-        }, () => {
-            this.applyChanges(this.changes)
-            this.changes = []
-        })
-    }
-    handleDataLoading = event => {
-        this.setState({
-            isDataLoading: true
-        })
     }
     render() {
         return (
