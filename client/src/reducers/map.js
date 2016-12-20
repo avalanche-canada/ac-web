@@ -6,15 +6,13 @@ import * as MapActions from 'actions/map'
 import * as DrawerActions from 'actions/drawers'
 import * as EntityActions from 'actions/entities'
 import * as PrismicActions from 'actions/prismic'
-import {getLayerIds} from 'constants/map/layers'
+import MapLayers, {LayerIds} from 'constants/map/layers'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import featureFilter from 'feature-filter'
-import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
 import Parser from 'prismic/parser'
 import turf from 'turf-helpers'
-import once from 'lodash/once'
 
 export default combineReducers({
     command: handleAction(MapActions.MAP_COMMAND_CREATED, getPayload, null),
@@ -33,6 +31,11 @@ export default combineReducers({
         sources: MapSources,
         layers: MapLayers,
     })),
+    activeFeatures: handleAction(
+        MapActions.ACTIVE_FEATURES_CHANGED,
+        setActiveFeatures,
+        new Immutable.Map()
+    )
 })
 
 const Transformers = new Map([
@@ -63,7 +66,6 @@ const Transformers = new Map([
             id: uid,
         })
     }],
-    [Layers.HOT_ZONE_REPORTS, document => Parser.parse(document).region],
 ])
 
 
@@ -146,7 +148,7 @@ function toggleLayersFactory(visible) {
     return (style, {payload}) => style.withMutations(style => {
         const layers = style.get('layers')
 
-        getLayerIds(payload).forEach(id => {
+        LayerIds.get(payload).forEach(id => {
             const index = layers.findIndex(layer => layer.get('id') === id)
 
             style.setIn(['layers', index, 'layout', 'visibility'], visible)
@@ -183,10 +185,7 @@ function setSubmissions(style, {payload, meta}) {
     return setFilteredSubmissions(style.setIn(path, features.toList()))
 }
 
-let hotZoneReportsProcessed = false
-function setPrismicDocuments(style, action) {
-    const {payload, meta} = action
-
+function setPrismicDocuments(style, {payload, meta}) {
     switch (meta.type) {
         case 'toyota-truck-report':
             const source = Layers.TOYOTA_TRUCK_REPORTS
@@ -200,35 +199,18 @@ function setPrismicDocuments(style, action) {
             const documents = payload.results.map(Transformers.get(source))
 
             return style.setIn(path, Immutable.fromJS(documents))
-        case 'hotzone-report':
-            if (hotZoneReportsProcessed) {
-                return style
-            }   else {
-                hotZoneReportsProcessed = true
-
-                return style.withMutations(style => {
-                    const source = Layers.HOT_ZONE_REPORTS
-                    const activeIds = payload.results.map(Transformers.get(source))
-                    const layers = style.get('layers')
-
-                    let index = layers.findIndex(layer => layer.get('id') === 'hot-zones')
-                    style.setIn(
-                        ['layers', index, 'filter'],
-                        Immutable.List.of('!in', 'id', ...activeIds)
-                    )
-
-                    index = layers.findIndex(layer => layer.get('id') === 'hot-zones-active')
-                    style.setIn(
-                        ['layers', index, 'filter'],
-                        Immutable.List.of('in', 'id', ...activeIds)
-                    )
-                    style.setIn(
-                        ['layers', index, 'layout', 'visibility'],
-                        'visible'
-                    )
-                })
-            }
         default:
             return style
+    }
+}
+
+// Active features
+function setActiveFeatures(features, {payload}) {
+    payload = new Immutable.Map(Array.from(payload))
+
+    if (features.equals(payload)) {
+        return features
+    } else {
+        return payload
     }
 }

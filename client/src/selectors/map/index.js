@@ -1,16 +1,8 @@
-import {createSelector, createStructuredSelector} from 'reselect'
+import {createStructuredSelector} from 'reselect'
 import markers from './markers'
 import bounds, {computeFitBounds} from './bounds'
-import {
-    getCommand as command,
-    getStyle,
-} from 'getters/map'
-
-// TODO: Need a better to do that
-const style = createSelector(
-    getStyle,
-    style => style.has('id') ? style : null,
-)
+import style from './style'
+import {getCommand as command} from 'getters/map'
 
 export default createStructuredSelector({
     computeFitBounds,

@@ -5,3 +5,7 @@ export function getCommand(state) {
 export function getStyle(state) {
     return state.map.style
 }
+
+export function getActiveFeatures(state) {
+    return state.map.activeFeatures
+}

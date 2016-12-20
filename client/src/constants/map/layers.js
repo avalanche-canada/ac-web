@@ -11,22 +11,17 @@ export default [
     ...mountainInformationNetworkLayers,
 ]
 
-export function getLayerIds(name) {
-    return layerIds.get(name)
-}
-
-const layerIds = new Map([
+export const LayerIds = new Map([
     [Layers.FORECASTS, [
         'forecast-regions',
         'forecast-regions-active',
         'forecast-regions-contour',
-        'forecast-regions-contour-hover',
         'forecast-regions-active-contour',
         'forecast-regions-labels',
     ]],
     [Layers.HOT_ZONE_REPORTS, [
         'hot-zones',
-        'hot-zones-active',
+        'opened-hot-zones',
         'hot-zones-labels',
     ]],
     [Layers.MOUNTAIN_INFORMATION_NETWORK,
@@ -40,7 +35,16 @@ const layerIds = new Map([
     ],
 ])
 
-export const allLayerIds = Array.from(layerIds).reduce(idsReducer, [])
+const isActiveRegExp = /-active/
+function isActive(id) {
+    return isActiveRegExp.test(id)
+}
+export const ActiveLayerIds = new Map(
+    Array.from(LayerIds).map(([key, ids]) => [key, ids.filter(isActive)])
+)
+
+export const allLayerIds = Array.from(LayerIds).reduce(idsReducer, [])
+
 
 function idsReducer(all, [layer, ids]) {
     return all.concat(ids)

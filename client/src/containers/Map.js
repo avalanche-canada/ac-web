@@ -6,7 +6,7 @@ import mapbox from 'services/mapbox/map'
 import {Map, Source, Layer, Marker} from 'components/map'
 import {zoomChanged, centerChanged, loadData, loadMapStyle} from 'actions/map'
 import mapStateToProps from 'selectors/map'
-import {getLayerIds, allLayerIds} from 'constants/map/layers'
+import {LayerIds, allLayerIds} from 'constants/map/layers'
 import {push} from 'utils/router'
 import {near} from 'utils/geojson'
 import * as Schemas from 'api/schemas'
@@ -17,11 +17,6 @@ function noop() {}
 const CLUSTER_BOUNDS_OPTIONS = {
     padding: 75,
     speed: 1.75,
-}
-
-const forecastRegionsRegex = /^forecast-regions/
-function isForecastRoute({path}) {
-    return path === 'forecasts'
 }
 
 class Container extends Component {
@@ -38,8 +33,8 @@ class Container extends Component {
     state = {
         map: null,
     }
+    isInternalNavigation = false
     lastMouseMoveEvent = null
-    zoomToBounds = false
     get map() {
         return this.state.map
     }
@@ -66,14 +61,6 @@ class Container extends Component {
             } else {
                 canvas.removeAttribute('title')
             }
-
-            if (forecastRegionsRegex.test(feature.layer.id)) {
-                this.setForecastRegionHover(id)
-            } else {
-                this.setForecastRegionHover()
-            }
-        } else {
-            this.setForecastRegionHover()
         }
 
         this.lastMouseMoveEvent = null
@@ -113,7 +100,7 @@ class Container extends Component {
 
         // Handle Mountain Information Network layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.MOUNTAIN_INFORMATION_NETWORK)
+            layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK)
         })
 
         if (features.length > 0) {
@@ -149,7 +136,7 @@ class Container extends Component {
 
         // Weather Stations
         features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.WEATHER_STATION)
+            layers: LayerIds.get(Layers.WEATHER_STATION)
         })
 
         if (features.length > 0) {
@@ -173,7 +160,7 @@ class Container extends Component {
 
         // Toyota truck reports
         features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.TOYOTA_TRUCK_REPORTS)
+            layers: LayerIds.get(Layers.TOYOTA_TRUCK_REPORTS)
         })
 
         if (features.length > 0) {
@@ -189,7 +176,7 @@ class Container extends Component {
 
         // Handle Hot Zone Report layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.HOT_ZONE_REPORTS)
+            layers: LayerIds.get(Layers.HOT_ZONE_REPORTS)
         })
 
         if (features.length > 0) {
@@ -202,7 +189,7 @@ class Container extends Component {
 
         // Handle Forecast layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: getLayerIds(Layers.FORECASTS)
+            layers: LayerIds.get(Layers.FORECASTS)
         })
 
         if (features.length > 0) {
@@ -249,7 +236,7 @@ class Container extends Component {
         }, this.props)
     }
     push(location) {
-        this.zoomToBounds = true
+        this.isInternalNavigation = true
 
         push(location, this.props)
     }
@@ -257,31 +244,14 @@ class Container extends Component {
         const map = event.target
 
         this.setState({map}, () => {
-            const {onLoad, routes, params} = this.props
+            const {bounds} = this.props
 
-            if (routes.find(isForecastRoute)) {
-                this.setActiveForecastRegion(params.name)
+            if (bounds) {
+                map.fitBounds(bounds.bbox, bounds.options)
             }
 
-            onLoad(map)
+            this.props.onLoad(map)
         })
-    }
-    setForecastRegionHover(id = '') {
-        if (this.forecastRegionHoverId === id || !this.map) {
-            return
-        }
-
-        // this.map.setFilter('forecast-regions-contour-hover', ['==', 'id', id])
-        this.forecastRegionHoverId = id
-    }
-    setActiveForecastRegion(id = '') {
-        if (this.activeForecastRegionId === id || !this.map) {
-            return
-        }
-
-        // this.map.setFilter('forecast-regions-active', ['==', 'id', id])
-        // this.map.setFilter('forecast-regions-active-contour', ['==', 'id', id])
-        this.activeForecastRegionId = id
     }
     fitBounds(feature, options) {
         if (!feature) {
@@ -312,21 +282,9 @@ class Container extends Component {
 
         return false
     }
-    componentWillReceiveProps({bounds, routes, params, location, command, style}) {
-        if (bounds && this.props.bounds !== bounds && this.map && !this.zoomToBounds) {
+    componentWillReceiveProps({bounds, command, location}) {
+        if (bounds && this.map && this.props.bounds !== bounds && this.isInternalNavigation !== true) {
             this.map.fitBounds(bounds.bbox, bounds.options)
-        }
-
-        if (location.key !== this.props.location.key) {
-            this.zoomToBounds = false
-        }
-
-        if (routes.find(isForecastRoute)) {
-            if (params.name !== this.props.params.name) {
-                this.setActiveForecastRegion(params.name)
-            }
-        } else {
-            this.setActiveForecastRegion()
         }
 
         if (this.map && command !== this.props.command) {
