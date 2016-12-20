@@ -1,5 +1,7 @@
 import {createAction} from 'redux-actions'
 import {getDocumentsOfType} from 'getters/prismic'
+import {Predicates} from 'prismic'
+import {yesterday, tomorrow, formatAsDay} from 'utils/date'
 
 const PRISMIC = Symbol('prismic-query')
 
@@ -20,14 +22,19 @@ export const loadForUid = createAction(
     (type, uid) => ({type, uid})
 )
 export const loadToyotaTruckReports = lazyLoadForTypeFactory('toyota-truck-report')
-export const loadHotZoneReports = lazyLoadForTypeFactory('hotzone-report')
+export const loadHotZoneReports = lazyLoadForTypeFactory('hotzone-report', {
+    predicates: [
+        Predicates.dateBefore('my.hotzone-report.dateOfIssue', formatAsDay(tomorrow())),
+        Predicates.dateAfter('my.hotzone-report.validUntil', formatAsDay(yesterday())),
+    ]
+})
 
-function lazyLoadForTypeFactory(type) {
+function lazyLoadForTypeFactory(type, options) {
     return () => (dispatch, getState) => {
         const state = getState()
 
         if (getDocumentsOfType(state, type).isEmpty()) {
-            return dispatch(loadForType(type))
+            return dispatch(loadForType(type, options))
         }
     }
 }
