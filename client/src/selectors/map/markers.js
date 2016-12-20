@@ -25,7 +25,7 @@ function setVisibility(marker, visible) {
 
     return marker
 }
-function createForecastMarker(region) {
+function createMarker(region) {
     return {
         id: `${Schemas.Forecast.getKey()}:${region.get('id')}`,
         layer: Layers.FORECASTS,
@@ -45,7 +45,7 @@ function createForecastMarker(region) {
 
 const getTransformedMarkers = createSelector(
     state => getEntitiesForSchema(state, ForecastRegion),
-    entities => entities.map(createForecastMarker).toList(),
+    entities => entities.map(createMarker).toList(),
 )
 
 export default createSelector(
