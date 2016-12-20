@@ -21,6 +21,9 @@ import {
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility'
 })
+const LAYERS_FILTERS = LocalStorage.create({
+    keyPrefix: 'layers-filters'
+})
 
 const Layer = Record({
     id: null,
@@ -60,6 +63,7 @@ const MENU = new Map({
                     name: 'days',
                     type: 'listOfValues',
                     value: '7',
+                    // value: String(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
                     options: new Map([
                         ['1', '1 day'],
                         ['3', '3 days'],
@@ -71,7 +75,7 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: new Set(),
+                    value: new Set(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
@@ -113,6 +117,13 @@ export default combineReducers({
         [LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
         [FILTER_CHANGED]: (menu, {payload}) => {
             const {layer, name, value} = payload
+
+            let filter = value
+            if (value instanceof Set) {
+                filter = Array.from(value)
+            }
+
+            LAYERS_FILTERS.set(`${layer}-${name}`, filter)
 
             return menu.setIn(['layers', layer, 'filters', name, 'value'], value)
         },
