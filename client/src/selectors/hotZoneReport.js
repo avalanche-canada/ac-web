@@ -141,7 +141,7 @@ function transform(raw) {
         treelineTerrainAvoidance: extractTerrainAvoidance(report, 'treeline'),
         belowTreelineTerrainAvoidance: extractTerrainAvoidance(report, 'belowTreeline'),
         alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
-        images: report.get('hotzoneImages').map(image => image.get('hotzoneImage')),
+        images: report.get('hotzoneImages', []).map(image => image.get('hotzoneImage')),
     }).toJSON()
 }
 
