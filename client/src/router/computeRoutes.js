@@ -379,6 +379,7 @@ export default function computeRoutes(store) {
                     <Route path='al-hodgson-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.AlHodgsonMemorial}} />
                     <Route path='issw' components={{navbar: AvalancheCanadaFoundation, content: Funds.ISSW}} />
                 </Route>
+                <Route path='donate' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donate}} />
             </Route>
             {/* PAGE FALLBACK. MORE DETAILS at client/src/prismic/htmlSerializer.js and some redirects */}
             <Redirect from='/pages/static-page/sled' to='/sled' />
