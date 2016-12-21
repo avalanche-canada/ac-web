@@ -17,7 +17,7 @@ export default createSelector(
     getActiveFeatures,
     state => getDocumentsOfType(state, 'hotzone-report'),
     (style, activeFeatures, hotZoneReports) => {
-        if (!style || !style.has('id')) {
+        if (!style || !Immutable.Iterable.isIterable(style) || !style.has('id')) {
             return null
         }
 
