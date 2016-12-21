@@ -126,6 +126,7 @@ export default class MapComponent extends Component {
     }
     state = {
         map: null,
+        isReady: false,
     }
     constructor(props) {
         super(props)
@@ -156,6 +157,10 @@ export default class MapComponent extends Component {
                 }
             })
 
+            map.once('styledata', event => this.setState({
+                isReady: true
+            }))
+
             this.setState({map})
         } catch (error) {
             captureException(error)
@@ -168,10 +173,14 @@ export default class MapComponent extends Component {
         }
     }
     componentWillReceiveProps({style}) {
-        const {map} = this.state
+        const {map, isReady} = this.state
 
         if (map && style !== this.props.style) {
-            map.setStyle(toJSON(style))
+            if (this.props.style === null) {
+                map.setStyle(toJSON(style))
+            } else if (isReady) {
+                map.setStyle(toJSON(style))
+            }
         }
     }
     shouldComponentUpdate({children}) {
