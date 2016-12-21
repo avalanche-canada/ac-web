@@ -38,7 +38,7 @@ export function asTermAndDefinition(values = {}, terms = {}, nullValue) {
                 break;
             case 'boolean':
                 children.push(
-                    <Definition>{BooleanValues.get(value)}</Definition>
+                    <Definition key={key}>{BooleanValues.get(value)}</Definition>
                 )
                 break;
             case 'function':
