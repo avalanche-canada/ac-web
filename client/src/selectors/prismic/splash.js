@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getIsFetching} from 'reducers/prismic'
+import {getIsFetching} from 'getters/prismic'
 import transform from 'selectors/prismic/transform'
 import {List} from 'immutable'
 

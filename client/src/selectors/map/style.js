@@ -17,7 +17,7 @@ export default createSelector(
     getActiveFeatures,
     state => getDocumentsOfType(state, 'hotzone-report'),
     (style, activeFeatures, hotZoneReports) => {
-        if (!style.has('id')) {
+        if (!style || !style.has('id')) {
             return null
         }
 
@@ -55,6 +55,9 @@ function setActiveFeatures(style, activeFeatures) {
     })
 }
 
+// TODO: This function run once! Assign to identity once complete!
+// TODO: Need a way too kwow it has loaded!
+// hotZoneReports.isEmpty() is not enough
 function setHotZoneReports(style, hotZoneReports) {
     return style.withMutations(style => {
         const source = Layers.HOT_ZONE_REPORTS
