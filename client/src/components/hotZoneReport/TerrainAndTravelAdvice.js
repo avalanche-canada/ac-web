@@ -32,7 +32,11 @@ TerrainAndTravelAdvice.propTypes = {
 }
 const titles = ['Alpine', 'Treeline', 'Below treeline']
 
-export default function TerrainAndTravelAdvice({alpine, belowTreeline, treeline}) {
+export default function TerrainAndTravelAdvice({
+    alpine,
+    treeline,
+    belowTreeline
+}) {
     return (
         <div>
             <Introduction />

@@ -31,6 +31,7 @@ export default createSelector(
     },
 )
 
+// Setting filters
 const LayerToSchemaMapping = new Map([
     [Layers.FORECASTS, Schemas.ForecastRegion.getKey()],
     [Layers.HOT_ZONE_REPORTS, Schemas.HotZone.getKey()],

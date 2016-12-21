@@ -19,12 +19,18 @@ HotZoneReport.propTypes = {
 }
 
 function HotZoneReport({report}) {
-    let images = []
+    let gallery = null
 
     if (report) {
-        images = report.images.map(({url}) => ({
+        const images = report.images.map(({url}) => ({
             original: url,
         }))
+        gallery = images.length > 0 && {
+            items: images,
+            showBullets: images.length > 1,
+            showPlayButton: images.length > 1,
+            showThumbnails: false,
+        }
     }
 
     return (
@@ -32,7 +38,7 @@ function HotZoneReport({report}) {
             {(report && report.headline) &&
                 <div styleName='Headline'>{report.headline}</div>
             }
-            {Boolean(images.length) && <ImageGallery items={images} showBullets showThumbnails={false} />}
+            {gallery && <ImageGallery {...gallery} />}
             {report &&
                 <Panel header='Critical Factors Summary' expanded>
                     <p>
@@ -49,8 +55,8 @@ function HotZoneReport({report}) {
                 <Panel header='Terrain and Travel Advice' expanded>
                     <TerrainAndTravelAdvice
                         alpine={report.alpineTerrainAvoidance}
-                        belowTreeline={report.belowTreelineTerrainAvoidance}
-                        treeline={report.treelineTerrainAvoidance} />
+                        treeline={report.treelineTerrainAvoidance}
+                        belowTreeline={report.belowTreelineTerrainAvoidance} />
                 </Panel>
             }
             {!report &&
