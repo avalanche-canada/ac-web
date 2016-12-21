@@ -17,7 +17,7 @@ const ARROW_STYLE = {
 
 function Container({
     isLoading,
-    report = {},
+    report,
     params,
     title = 'Loading...',
     isError,
@@ -25,7 +25,7 @@ function Container({
     onCloseClick,
     onLocateClick,
 }) {
-    const shareUrl = link && `${window.location.origin}${link.to}`
+    const shareUrl = link && `${window.location.origin}${link}`
 
     return (
         <DrawerContainer>
@@ -36,12 +36,14 @@ function Container({
             <Header subject='Hot Zone Report'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {isLoading ||
-                    <Metadata report={report.report} shareUrl={shareUrl} />
+                    <Metadata report={report} shareUrl={shareUrl} />
                 }
             </Header>
             <Body>
@@ -52,7 +54,7 @@ function Container({
                     <Error>An error happened while loading hot zone report.</Error>
                 }
                 {isLoading ||
-                    <HotZoneReport report={report.report} />
+                    <HotZoneReport report={report} />
                 }
             </Body>
         </DrawerContainer>

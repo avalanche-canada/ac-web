@@ -3,6 +3,7 @@ import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
 import moment from 'moment'
 import {loadForType} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
+import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers';
 import {getIsAuthenticated, getProfile} from 'reducers/auth'
 import QueryString from 'query-string'
@@ -57,10 +58,11 @@ import * as Layouts from 'layouts'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
-import * as LAYERS from 'constants/map/layers'
+import * as LAYERS from 'constants/drawers'
 import ReactGA from 'services/analytics'
 import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from 'reducers/api/getters'
+import * as Schemas from 'api/schemas'
 
 const YEAR = String(new Date().getFullYear())
 
@@ -226,6 +228,38 @@ export default function computeRoutes(store) {
         document.location = pathname
     }
 
+    const RouteSchemaMapping = new Map([
+        [Schemas.Forecast.getKey(), Schemas.ForecastRegion.getKey()],
+        [Schemas.HotZoneReport.getKey(), Schemas.HotZone.getKey()],
+    ])
+
+    function createActiveFeatures({routes, params, location}) {
+        const features = []
+        const {panel} = location.query
+        const {name} = params
+
+        if (panel) {
+            features.push(panel.split('/'))
+        }
+
+        if (name) {
+            Array.from(RouteSchemaMapping).forEach(([from, to]) => {
+                if (routes.find(route => route.path === from)) {
+                    features.push([to, name])
+                }
+            })
+        }
+
+        return new Map(features)
+    }
+
+    function onMapRouteEnter(next) {
+        dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
+    }
+    function onMapRouteChange(previous, next) {
+        dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
+    }
+
     return (
         <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
             {/* EMERGENCY REDIRECTS */}
@@ -243,7 +277,7 @@ export default function computeRoutes(store) {
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
-            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}}>
+            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}} onEnter={onMapRouteEnter} onChange={onMapRouteChange}>
                 <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>

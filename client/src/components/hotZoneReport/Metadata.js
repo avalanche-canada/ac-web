@@ -7,20 +7,20 @@ HotZoneReportMetadata.propTypes = {
     shareUrl: PropTypes.string,
 }
 
-export default function HotZoneReportMetadata({report = {}, shareUrl}) {
-    const {dateissued, datevalid} = report
-
-    if (!dateissued && !datevalid) {
+export default function HotZoneReportMetadata({report, shareUrl}) {
+    if (!report) {
         return null
     }
+
+    const {dateOfIssue, validUntil} = report
 
     return (
         <Metadata>
             <Entry term='Date Issued'>
-                <DateTime value={dateissued} />
+                <DateTime value={dateOfIssue} />
             </Entry>
             <Entry term='Valid Until'>
-                <DateTime value={datevalid} />
+                <DateTime value={validUntil} />
             </Entry>
             {shareUrl && <ShareEntry url={shareUrl} />}
             {shareUrl && <Entry />}

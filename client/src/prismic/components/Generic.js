@@ -5,7 +5,7 @@ import {createSelector} from 'reselect'
 import {loadForUid} from 'actions/prismic'
 import {Loading, InnerHTML} from 'components/misc'
 import factory from 'prismic/factory'
-import {getDocumentForUid} from 'reducers/prismic'
+import {getDocumentForUid} from 'getters/prismic'
 
 const mapStateToProps = createSelector(
     (state, {type, uid}) => getDocumentForUid(state, type, uid),

@@ -1,13 +1,11 @@
 import {combineReducers} from 'redux'
 import {createSelector} from 'reselect'
-import {Map, Set} from 'immutable'
+import {Map} from 'immutable'
 import {
     PRISMIC_REQUEST,
     PRISMIC_SUCCESS,
     PRISMIC_FAILURE,
-} from 'middleware/prismic'
-
-const MAP = new Map()
+} from 'actions/prismic'
 
 function fetchingCounter(state = 0, {type}) {
     switch (type) {
@@ -68,21 +66,3 @@ export default combineReducers({
     documents,
     uids,
 })
-
-// Getters
-// TODO: Move to a getters file
-export function getDocumentsOfType(state, type) {
-    return state.prismic.documents.get(type, MAP)
-}
-
-export function getDocumentForUid(state, type, uid) {
-    const {uids, documents} = state.prismic
-
-    const id = uids.getIn([type, uid])
-
-    return documents.getIn([type, id])
-}
-
-export function getIsFetching(state) {
-    return state.prismic.fetchingCounter > 0
-}

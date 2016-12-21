@@ -7,7 +7,7 @@ function getEntities(state) {
 }
 
 export function getEntitiesForSchema(state, schema) {
-    const key = schema.getKey()
+    const key = typeof schema === 'string' ? schema : schema.getKey()
 
     return getEntities(state).get(key, EMPTY_MAP)
 }

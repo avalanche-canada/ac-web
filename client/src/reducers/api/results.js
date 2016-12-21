@@ -1,26 +1,19 @@
 import {combineReducers} from 'redux'
-import {List, Map, is} from 'immutable'
+import {List, Map} from 'immutable'
 import * as SCHEMAS from 'api/schemas'
 import {
+    FEATURES_METADATA_REQUEST,
+    FEATURES_METADATA_SUCCESS,
+    FEATURES_METADATA_FAILURE,
     FORECAST_REQUEST,
     FORECAST_SUCCESS,
     FORECAST_FAILURE,
-    FORECAST_REGIONS_REQUEST,
-    FORECAST_REGIONS_SUCCESS,
-    FORECAST_REGIONS_FAILURE,
-    HOT_ZONE_AREAS_REQUEST,
-    HOT_ZONE_AREAS_SUCCESS,
-    HOT_ZONE_AREAS_FAILURE,
-    HOT_ZONE_REPORTS_REQUEST,
-    HOT_ZONE_REPORTS_SUCCESS,
-    HOT_ZONE_REPORTS_FAILURE,
     INCIDENTS_REQUEST,
     INCIDENTS_SUCCESS,
     INCIDENTS_FAILURE,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
-    POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
     PROVIDERS_REQUEST,
     PROVIDERS_SUCCESS,
     PROVIDERS_FAILURE,
@@ -37,8 +30,7 @@ const {
     MountainInformationNetworkSubmission,
     ForecastRegion,
     Forecast,
-    HotZoneArea,
-    HotZoneReport,
+    HotZone,
     Incident,
     Provider,
     Course,
@@ -48,6 +40,10 @@ const {
 const {isArray} = Array
 
 function getIds(result) {
+    if (!result) {
+        return new Set()
+    }
+
     if (isArray(result)) {
         return result
     } else if (isArray(result.results)) {
@@ -59,8 +55,6 @@ function getIds(result) {
     }
 }
 
-const EMPTY_LIST = new List()
-
 export const RESULT = {
     isFetching: false,
     isLoaded: false,
@@ -69,7 +63,9 @@ export const RESULT = {
     props: {},
 }
 
-function resultsReducerFactory(schema, request, success, failure, postSuccess = null) {
+function resultsReducerFactory(request, success, failure) {
+    const types = new Set([request, success, failure])
+
     function results(state = RESULT, {type, payload}) {
         switch (type) {
             case request:
@@ -97,11 +93,6 @@ function resultsReducerFactory(schema, request, success, failure, postSuccess = 
                     isLoaded: false,
                     isError: true,
                 }
-            case postSuccess:
-                return {
-                    ...state,
-                    isLoaded: false,
-                }
             default:
                 return state
         }
@@ -110,75 +101,56 @@ function resultsReducerFactory(schema, request, success, failure, postSuccess = 
 
     return function resultsByKey(state = new Map(), action) {
         const {type} = action
+        if (types.has(type)) {
+            const {payload, meta} = action
+            const {params} = type === request ? payload : meta
+            const key = paramsToKey(params)
+            const value = results(state.get(key), action)
 
-        switch (type) {
-            case request:
-            case success:
-            case failure:
-                const {payload, meta} = action
-                const {params} = type === request ? payload : meta
-                const key = paramsToKey(params)
-                const value = results(state.get(key), action)
-
-                return state.set(key, value)
-            default:
-                return state
+            return state.set(key, value)
         }
+
+        return state
     }
 }
 
 export default combineReducers({
-    [MountainInformationNetworkSubmission.getKey()]: resultsReducerFactory(
-        MountainInformationNetworkSubmission,
-        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
-        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
-        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
-        POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
-    ),
     [ForecastRegion.getKey()]: resultsReducerFactory(
-        ForecastRegion,
-        FORECAST_REGIONS_REQUEST,
-        FORECAST_REGIONS_SUCCESS,
-        FORECAST_REGIONS_FAILURE,
+        FEATURES_METADATA_REQUEST,
+        FEATURES_METADATA_SUCCESS,
+        FEATURES_METADATA_FAILURE,
+    ),
+    [HotZone.getKey()]: resultsReducerFactory(
+        FEATURES_METADATA_REQUEST,
+        FEATURES_METADATA_SUCCESS,
+        FEATURES_METADATA_FAILURE,
     ),
     [Forecast.getKey()]: resultsReducerFactory(
-        Forecast,
         FORECAST_REQUEST,
         FORECAST_SUCCESS,
         FORECAST_FAILURE,
     ),
-    [HotZoneArea.getKey()]: resultsReducerFactory(
-        HotZoneArea,
-        HOT_ZONE_AREAS_REQUEST,
-        HOT_ZONE_AREAS_SUCCESS,
-        HOT_ZONE_AREAS_FAILURE,
-    ),
-    [HotZoneReport.getKey()]: resultsReducerFactory(
-        HotZoneReport,
-        HOT_ZONE_REPORTS_REQUEST,
-        HOT_ZONE_REPORTS_SUCCESS,
-        HOT_ZONE_REPORTS_FAILURE,
+    [MountainInformationNetworkSubmission.getKey()]: resultsReducerFactory(
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
+        MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
     ),
     [Incident.getKey()]: resultsReducerFactory(
-        Incident,
         INCIDENTS_REQUEST,
         INCIDENTS_SUCCESS,
         INCIDENTS_FAILURE,
     ),
     [Provider.getKey()]: resultsReducerFactory(
-        Provider,
         PROVIDERS_REQUEST,
         PROVIDERS_SUCCESS,
         PROVIDERS_FAILURE,
     ),
     [Course.getKey()]: resultsReducerFactory(
-        Course,
         COURSES_REQUEST,
         COURSES_SUCCESS,
         COURSES_FAILURE,
     ),
     [WeatherStation.getKey()]: resultsReducerFactory(
-        WeatherStation,
         WEATHER_STATIONS_REQUEST,
         WEATHER_STATIONS_SUCCESS,
         WEATHER_STATIONS_FAILURE,

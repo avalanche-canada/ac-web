@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import Biography from 'components/biography'
 import {InnerHTML} from 'components/misc'
-import {getDocumentsOfType} from 'reducers/prismic'
+import {getDocumentsOfType} from 'getters/prismic'
 import factory from 'prismic/factory'
 
 function parse(document) {

@@ -14,15 +14,6 @@ export function getResultsSet(state, schema, params) {
     return sets.get(key, RESULT)
 }
 
-export function shouldDispatchLoadAction(state, schema, action) {
-    const {params} = action.payload
-    const sets = getResultsSetForSchema(state, schema)
-    const key = paramsToKey(params)
-    const results = sets.get(key)
-
-    return !results || (!results.isLoaded && !results.isFetching)
-}
-
 const EXTERNAL_URLS = new Map([
     ['little-yoho', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY'],
     ['banff-yoho-kootenay', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY'],

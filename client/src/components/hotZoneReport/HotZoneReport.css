@@ -4,6 +4,17 @@
     margin-top: 1em;
 }
 
+.Headline {
+    padding: 1em 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.5em;
+
+    & p {
+        margin: 0;
+    }
+}
+
 .List {
     list-style: none;
     padding: 0;

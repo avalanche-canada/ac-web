@@ -35,10 +35,12 @@ function MountainInformationNetwork({
             </Navbar>
             <Header subject='Mountain Information Network'>
                 <h1>
-                    <Link to={link}>{title}</Link>
+                    {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map'>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>

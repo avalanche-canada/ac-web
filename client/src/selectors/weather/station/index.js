@@ -59,7 +59,7 @@ export default createSelector(
     (station, {isFetching, isError, isLoaded}, computeFlyTo) => {
         const data = {
             title: station && station.get('name'),
-            link: station && `weather/stations/${station.get('stationId')}`,
+            link: station && `/weather/stations/${station.get('stationId')}`,
             isFetching,
             isError,
             isLoaded,

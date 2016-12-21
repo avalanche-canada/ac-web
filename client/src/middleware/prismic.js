@@ -1,19 +1,11 @@
-import {createAction} from 'redux-actions'
 import {Api as Prismic, Predicates} from 'prismic'
+import {getDocumentForUid, getDocumentsOfType} from 'getters/prismic'
 import {
-    getDocumentForUid,
-    getDocumentsOfType
-} from 'reducers/prismic'
-
-export const PRISMIC_REQUEST = 'PRISMIC_REQUEST'
-export const PRISMIC_SUCCESS = 'PRISMIC_SUCCESS'
-export const PRISMIC_FAILURE = 'PRISMIC_FAILURE'
-
-const PRISMIC = Symbol('prismic-query')
-
-export function createPrismicAction(payloadCreator) {
-    return createAction(PRISMIC, payloadCreator)
-}
+    isPrismicAction,
+    PRISMIC_REQUEST,
+    PRISMIC_SUCCESS,
+    PRISMIC_FAILURE
+} from 'actions/prismic'
 
 function createBasePredicate({type, uid, id}) {
     if (id) {
@@ -91,7 +83,7 @@ let API = null
 let PROMISE = null
 
 export default store => next => action => {
-    if (action.type !== PRISMIC) {
+    if (!isPrismicAction(action)) {
         return next(action)
     }
 

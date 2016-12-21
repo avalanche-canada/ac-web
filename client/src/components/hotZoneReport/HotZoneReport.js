@@ -6,7 +6,7 @@ import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import Metadata from './Metadata'
-import {Gallery} from 'components/gallery'
+import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
 
 const Panel = withProps({
@@ -19,44 +19,48 @@ HotZoneReport.propTypes = {
 }
 
 function HotZoneReport({report}) {
-    let images = []
+    let gallery = null
 
     if (report) {
-        const {thumbs = [], uploads = []} = report
-
-        images = uploads.map((upload, index) => ({
-            original: upload,
-            thumbnail: thumbs[index],
+        const images = report.images.map(({url}) => ({
+            original: url,
         }))
+        gallery = images.length > 0 && {
+            items: images,
+            showBullets: images.length > 1,
+            showPlayButton: images.length > 1,
+            showThumbnails: false,
+        }
     }
 
     return (
         <div styleName='HotZoneReport'>
-            {images.length > 10000 &&
-                <Gallery images={images} />
+            {(report && report.headline) &&
+                <div styleName='Headline'>{report.headline}</div>
             }
+            {gallery && <ImageGallery {...gallery} />}
             {report &&
-                <Panel header='Critical Factors Summary'>
+                <Panel header='Critical Factors Summary' expanded>
                     <p>
                         <strong>
                             Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                         </strong>
                     </p>
                     <div styleName='CriticalFactors'>
-                        <CriticalFactors {...report.data.criticalFactors} />
+                        <CriticalFactors {...report.criticalFactors} />
                     </div>
                 </Panel>
             }
             {report &&
-                <Panel header='Terrain and Travel Advice'>
+                <Panel header='Terrain and Travel Advice' expanded>
                     <TerrainAndTravelAdvice
-                        alpine={report.data.alpineTerrainAvoidance}
-                        belowTreeline={report.data.belowTreelineTerrainAvoidance}
-                        treeline={report.data.treelineTerrainAvoidance} />
+                        alpine={report.alpineTerrainAvoidance}
+                        treeline={report.treelineTerrainAvoidance}
+                        belowTreeline={report.belowTreelineTerrainAvoidance} />
                 </Panel>
             }
             {!report &&
-                <Panel header='More information'>
+                <Panel header='More information' expanded>
                     <Generic uid='hot-zone-report-more-information' />
                 </Panel>
             }

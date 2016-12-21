@@ -32,11 +32,15 @@ TerrainAndTravelAdvice.propTypes = {
 }
 const titles = ['Alpine', 'Treeline', 'Below treeline']
 
-export default function TerrainAndTravelAdvice({alpine, belowTreeline, treeline}) {
+export default function TerrainAndTravelAdvice({
+    alpine,
+    treeline,
+    belowTreeline
+}) {
     return (
         <div>
             <Introduction />
-            {[alpine, belowTreeline, treeline].map((summary, index) => (
+            {[alpine, treeline, belowTreeline].map((summary, index) => (
                 <TerrainSummary key={index} title={titles[index]} {...summary} />
             ))}
         </div>

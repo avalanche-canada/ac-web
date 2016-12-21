@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getIsFetching, getDocumentsOfType} from 'reducers/prismic'
+import {getIsFetching, getDocumentsOfType} from 'getters/prismic'
 import parser from 'prismic/parser'
 
 const messages = {

@@ -2,14 +2,14 @@ import React from 'react'
 import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {ForecastRegion, HotZoneArea} from 'api/schemas'
+import {ForecastRegion, HotZone} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
-import {loadForecastRegions, loadHotZoneAreas} from 'actions/entities'
+import {loadFeaturesMetadata} from 'actions/entities'
 import {UnsupportedMap} from 'components/page'
 
 const mapStateToProps = createSelector(
     state => getEntitiesForSchema(state, ForecastRegion),
-    state => getEntitiesForSchema(state, HotZoneArea),
+    state => getEntitiesForSchema(state, HotZone),
     (forecastRegions, hotZones) => {
         function sorter(entity) {
             return entity.getIn(['properties', 'name'])
@@ -23,16 +23,10 @@ const mapStateToProps = createSelector(
 )
 
 export default compose(
-    connect(mapStateToProps, {
-        loadForecastRegions,
-        loadHotZoneAreas,
-    }),
+    connect(mapStateToProps, {loadFeaturesMetadata}),
     lifecycle({
         componentDidMount() {
-            const {loadForecastRegions, loadHotZoneAreas} = this.props
-
-            loadForecastRegions()
-            loadHotZoneAreas()
+            this.props.loadFeaturesMetadata()
         },
     }),
     onlyUpdateForKeys(['forecastRegions', 'hotZones']),

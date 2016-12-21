@@ -1,31 +1,30 @@
-import {PropTypes} from 'react'
+import React, {PropTypes} from 'react'
 import {compose, renameProp, renameProps, setDisplayName, setPropTypes, withProps, mapProps, defaultProps} from 'recompose'
 import Content from 'components/mountainInformationNetwork/Content'
 import {asTermAndDefinition} from 'components/description/utils'
-
-const {string} = PropTypes
+import {InnerHTML} from 'components/misc'
 
 export default compose(
     setDisplayName('CriticalFactors'),
     setPropTypes({
-        persistentAvalancheProblem: string,
-        slabAvalanches: string,
-        instability: string,
-        recentSnowfall: string,
-        recentRainfall: string,
-        recentWindloading: string,
-        significantWarming: string,
-        criticalFactorsComments: string,
+        persistentAvalancheProblem: PropTypes.oneOf([true, false, null]),
+        slabAvalanches: PropTypes.oneOf([true, false, null]),
+        instability: PropTypes.oneOf([true, false, null]),
+        recentSnowfall: PropTypes.oneOf([true, false, null]),
+        recentRainfall: PropTypes.oneOf([true, false, null]),
+        recentWindLoading: PropTypes.oneOf([true, false, null]),
+        significantWarming: PropTypes.oneOf([true, false, null]),
+        comments: PropTypes.string,
     }),
     defaultProps({
-        persistentAvalancheProblem: 'N/A',
-        slabAvalanches: 'N/A',
-        instability: 'N/A',
-        recentSnowfall: 'N/A',
-        recentRainfall: 'N/A',
-        recentWindloading: 'N/A',
-        significantWarming: 'N/A',
-        criticalFactorsComments: 'N/A',
+        persistentAvalancheProblem: 'Unknown',
+        slabAvalanches: 'Unknown',
+        instability: 'Unknown',
+        recentSnowfall: 'Unknown',
+        recentRainfall: 'Unknown',
+        recentWindLoading: 'Unknown',
+        significantWarming: 'Unknown',
+        comments: 'Unknown',
     }),
     renameProps({
         persistentAvalancheProblem: 'Persistent avalanche problem',
@@ -33,11 +32,11 @@ export default compose(
         instability: 'Signs of instability',
         recentSnowfall: 'Recent snowfall > 30cm',
         recentRainfall: 'Recent rainfall',
-        recentWindloading: 'Recent windloading',
+        recentWindLoading: 'Recent wind loading',
         significantWarming: 'Significant warming',
     }),
-    mapProps(({criticalFactorsComments, ...values}) => ({
-        comment: criticalFactorsComments,
-        descriptions: asTermAndDefinition(values),
+    mapProps(({comments, ...values}) => ({
+        comment: comments && <InnerHTML>{comments}</InnerHTML>,
+        descriptions: asTermAndDefinition(values, undefined, 'Unknown'),
     })),
 )(Content)

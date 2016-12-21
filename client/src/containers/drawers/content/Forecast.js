@@ -45,16 +45,22 @@ function Container({
             </Navbar>
             <Header subject='Avalanche Forecast'>
                 <h1>
-                    {link && <Link {...link}>{title}</Link>}
+                    {link ? <Link {...link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map' arrowStyle={ARROW_STYLE}>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isLoading && <Muted>Loading forecast...</Muted>}
-                {isError && <Error>Error happened while loading forecast.</Error>}
+                {isError &&
+                    <Error>
+                        Error happened while loading forecast.
+                    </Error>
+                }
                 {(isLoaded && !forecast) && (
                     <Muted>
                         Conditions report is available at <Link {...link}>{title}</Link>.

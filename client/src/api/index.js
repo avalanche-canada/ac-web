@@ -3,14 +3,19 @@ import Axios, {defaults} from 'axios'
 import query from 'query-string'
 import moment from 'moment'
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
-import * as transformers from './transformers'
 import Url from 'url'
+import camelcaseKeys from 'camelcase-keys'
+
+// TODO: To remove when server return appropriate result
+function transformResponseFromDjango({results, ...rest}) {
+    return {
+        ...rest,
+        results: results.map(camelcaseKeys),
+    }
+}
 
 const {
-    ForecastRegion,
-    HotZoneArea,
     Forecast,
-    HotZoneReport,
     MountainInformationNetworkSubmission,
     Incident,
     Provider,
@@ -19,12 +24,6 @@ const {
 } = SCHEMAS
 
 const CONFIGS = new Map([
-    [ForecastRegion, params => ({
-        transformResponse: defaults.transformResponse.concat(transformers.transformForecastRegions),
-    })],
-    [HotZoneArea, params => ({
-        transformResponse: defaults.transformResponse.concat(transformers.transformHotZoneAreas),
-    })],
     [Incident, ({slug, ...params}) => {
         if (slug) {
             return
@@ -34,11 +33,6 @@ const CONFIGS = new Map([
             params
         }
     }],
-    [HotZoneReport, params => ({
-        params: {
-            client: 'web'
-        }
-    })],
     [MountainInformationNetworkSubmission, ({id, days}) => {
         if (id) {
             return {
@@ -58,12 +52,12 @@ const CONFIGS = new Map([
     [Provider, params => ({
         baseURL: astBaseUrl,
         params,
-        transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
+        transformResponse: defaults.transformResponse.concat(transformResponseFromDjango),
     })],
     [Course, params => ({
         baseURL: astBaseUrl,
         params,
-        transformResponse: defaults.transformResponse.concat(transformers.transformResponseFromDjango),
+        transformResponse: defaults.transformResponse.concat(transformResponseFromDjango),
     })],
     [WeatherStation, params => ({
         baseURL: weatherBaseUrl,
@@ -94,12 +88,8 @@ function forecastEndpoint({name, date}) {
     }
 }
 
-// TODO: Update endpoint for HotZoneArea when available
 const ENDPOINTS = new Map([
-    [ForecastRegion, params => 'forecasts'],
     [Forecast, forecastEndpoint],
-    [HotZoneArea, params => 'forecasts'],
-    [HotZoneReport, params => 'hzr/submissions'],
     [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
     [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Provider, params => 'providers'],
@@ -137,4 +127,8 @@ export function post(schema, data) {
     const endpoint = ENDPOINTS.get(schema).call()
 
     return api.post(endpoint, data)
+}
+
+export function fetchFeaturesMetadata() {
+    return api.get('features/metadata')
 }

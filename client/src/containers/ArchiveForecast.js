@@ -10,13 +10,13 @@ import {Metadata, Entry} from 'components/metadata'
 import {DateIssued, ValidUntil, Forecaster} from 'components/forecast/Metadata'
 import {DropdownFromOptions as Dropdown, DayPicker} from 'components/controls'
 import {forecast} from 'containers/connectors'
-import {loadForecastRegions, loadForecast} from 'actions/entities'
+import {loadFeaturesMetadata, loadForecast} from 'actions/entities'
 import {formatAsDay, parseFromDay} from 'utils/date'
 import mapStateToProps from 'selectors/archives'
 
 @connect(mapStateToProps, {
     loadForecast,
-    loadForecastRegions,
+    loadFeaturesMetadata,
 })
 @withRouter
 export default class ArchiveForecast extends Component {
@@ -62,7 +62,7 @@ export default class ArchiveForecast extends Component {
         }
     }
     componentDidMount() {
-        this.props.loadForecastRegions()
+        this.props.loadFeaturesMetadata()
         this.loadForecast(this.props.params)
     }
     componentWillReceiveProps({params, location}) {

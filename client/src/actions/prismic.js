@@ -1,4 +1,40 @@
-import {createPrismicAction} from 'middleware/prismic'
+import {createAction} from 'redux-actions'
+import {getDocumentsOfType} from 'getters/prismic'
+import {Predicates} from 'prismic'
+import {yesterday, tomorrow, formatAsDay} from 'utils/date'
 
-export const loadForType = createPrismicAction((type, options) => ({type, options}))
-export const loadForUid = createPrismicAction((type, uid) => ({type, uid}))
+const PRISMIC = Symbol('prismic-query')
+
+export const PRISMIC_REQUEST = 'PRISMIC_REQUEST'
+export const PRISMIC_SUCCESS = 'PRISMIC_SUCCESS'
+export const PRISMIC_FAILURE = 'PRISMIC_FAILURE'
+
+export function isPrismicAction({type}) {
+    return type === PRISMIC
+}
+
+export const loadForType = createAction(
+    PRISMIC,
+    (type, options) => ({type, options})
+)
+export const loadForUid = createAction(
+    PRISMIC,
+    (type, uid) => ({type, uid})
+)
+export const loadToyotaTruckReports = lazyLoadForTypeFactory('toyota-truck-report')
+export const loadHotZoneReports = lazyLoadForTypeFactory('hotzone-report', {
+    predicates: [
+        Predicates.dateBefore('my.hotzone-report.dateOfIssue', formatAsDay(tomorrow())),
+        Predicates.dateAfter('my.hotzone-report.validUntil', formatAsDay(yesterday())),
+    ]
+})
+
+function lazyLoadForTypeFactory(type, options) {
+    return () => (dispatch, getState) => {
+        const state = getState()
+
+        if (getDocumentsOfType(state, type).isEmpty()) {
+            return dispatch(loadForType(type, options))
+        }
+    }
+}

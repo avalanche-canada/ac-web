@@ -36,10 +36,12 @@ function WeatherStation({
             </Navbar>
             <Header subject='Weather station'>
                 <h1>
-                    <Link to={link}>{title}</Link>
+                    {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading ||
                     <Wrapper tooltip='Display on map'>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
+                    }
                 </h1>
                 {station && <Metadata {...station} />}
             </Header>

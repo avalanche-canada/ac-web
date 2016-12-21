@@ -1,9 +1,45 @@
+import Immutable from 'immutable'
 import {createSelector} from 'reselect'
-import mapbox from 'services/mapbox/map'
-import {getPrimary, getSecondary} from 'selectors/drawers'
 import createBbox from 'turf-bbox'
+import turf from 'turf-helpers'
+import mapbox from 'services/mapbox/map'
+import {getActiveFeatures} from 'getters/map'
+import {getPrimary, getSecondary} from 'selectors/drawers'
+import {getEntitiesForSchema} from 'getters/entities'
+import {getDocumentsOfType} from 'getters/prismic'
+import * as Schemas from 'api/schemas'
+import Parser from 'prismic/parser'
 
-const {LngLatBounds, LngLat} = mapbox
+const {LngLat, LngLatBounds} = mapbox
+
+function createLngLatBounds(bbox) {
+    if (bbox instanceof LngLatBounds) {
+        bbox = [
+            bbox.getWest(),
+            bbox.getSouth(),
+            bbox.getEast(),
+            bbox.getNorth(),
+        ]
+    }
+
+    if (bbox.some(isNaN) || !bbox.every(isFinite)) {
+        return null
+    }
+
+    let [west, south, east, north] = bbox
+
+    if (north === south) {
+        south = south - 0.0025
+        north = north + 0.0025
+    }
+
+    if (east === west) {
+        west = west - 0.0025
+        east = east + 0.0025
+    }
+
+    return new LngLatBounds([west, south], [east, north])
+}
 
 export const computeOffset = createSelector(
     getPrimary,
@@ -30,27 +66,106 @@ export const computeFitBounds = createSelector(
             return null
         }
 
-        if (typeof feature.toJSON === 'function') {
-            feature = feature.toJSON()
-        }
+        let bbox = null
 
-        let bbox = LngLatBounds.convert(createBbox(feature))
-        const [[west, south], [east, north]] = bbox.toArray()
+        if (Immutable.Iterable.isIterable(feature)) {
+            if (feature.has('bbox')) {
+                bbox = feature.get('bbox').toJSON()
+            } else if (feature.has('geometry')) {
+                const geometry = feature.get('geometry').toJSON()
 
-        if (north === south || east === west) {
-            bbox = new LngLatBounds(
-                new LngLat(west - 0.0025, south - 0.0025),
-                new LngLat(east + 0.0025, north + 0.0025)
-            )
+                bbox = createBbox(turf.feature(geometry))
+            } else {
+                return null
+            }
+        } else {
+            bbox = createBbox(feature)
         }
 
         return {
-            bbox,
+            bbox: createLngLatBounds(bbox),
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 50,
                 ...options,
             }
+        }
+    }
+)
+
+const EntitySchemas = [
+    Schemas.ForecastRegion,
+    Schemas.HotZone,
+    Schemas.MountainInformationNetworkSubmission,
+    Schemas.WeatherStation
+]
+
+const getEntities = createSelector(
+    EntitySchemas.map(schema => state => [
+        schema.getKey(),
+        getEntitiesForSchema(state, schema)
+    ]),
+    (...entities) => new Immutable.Map(entities)
+)
+const getDocuments = createSelector(
+    state => [
+        'toyota-truck-reports',
+        getDocumentsOfType(state, 'toyota-truck-report')
+    ],
+    (...documents) => new Map(documents)
+)
+export default createSelector(
+    computeOffset,
+    getActiveFeatures,
+    getEntities,
+    getDocuments,
+    (computeOffset, activeFeatures, entities, documents) => {
+        if (activeFeatures.size === 0) {
+            return null
+        }
+
+        const bbox = activeFeatures.reduce((bounds, id, schema) => {
+            if (entities.hasIn([schema, id])) {
+                const entity = entities.get(schema).get(id)
+
+                if (entity.has('bbox')) {
+                    const [west, south, east, north] = entity.get('bbox').toArray()
+
+                    return bounds.extend([[west, south], [east, north]])
+                } else if (entity.has('latlng')) {
+                    return bounds.extend([
+                        Number(entity.getIn(['latlng', 1])),
+                        Number(entity.getIn(['latlng', 0])),
+                    ])
+                } else if (entity.has('longitude') && entity.has('latitude')) {
+                    return bounds.extend([
+                        entity.get('longitude'),
+                        entity.get('latitude'),
+                    ])
+                }
+            } else if (documents.has(schema)) {
+                const document = documents.get(schema).find(document => document.uid === id)
+
+                if (document) {
+                    const {position} = Parser.parse(document)
+
+                    return bounds.extend([position.longitude, position.latitude])
+                }
+            }
+
+            return bounds
+        }, new LngLatBounds())
+
+        if (bbox.getSouthWest() && bbox.getNorthEast()) {
+            return {
+                bbox: createLngLatBounds(bbox),
+                options: {
+                    offset: computeOffset(),
+                    padding: 50,
+                }
+            }
+        } else {
+            return null
         }
     }
 )

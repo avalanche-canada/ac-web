@@ -6,18 +6,12 @@ function pairToObjectReducer(acc, pair) {
     return acc;
 }
 
-/*
- * Add bounding box in mapbox LngLatBounds format
- * ie: [SouthWest, NorthEast]
- * see: https://www.mapbox.com/mapbox-gl-js/api/#LngLatBounds
- */
 function addBoundingBox(feature) {
     //turf bbox returns as [west, south, east, north]
     // http://turfjs.org/docs/#bbox
-    var b = turf_bbox(feature);
-    var mbox  = [[b[0], b[1]], [b[2], b[3]]];
+    var bbox = turf_bbox(feature);
     var f = Object.assign({}, feature);
-    f.properties = Object.assign({}, feature.properties, {'bbox': mbox});
+    f.properties = Object.assign({}, feature.properties, {'bbox': bbox});
     return f;
 }
 function normalizeIds(feature) {
@@ -43,4 +37,3 @@ var metadata = {
 };
 
 module.exports = metadata;
-

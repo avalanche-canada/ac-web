@@ -1,6 +1,7 @@
 import {Record, Map} from 'immutable'
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
+import {LocalStorage} from 'services/storage'
 import {
     MENU_OPENED,
     MENU_CLOSED,
@@ -13,16 +14,22 @@ import {
     HOT_ZONE_REPORTS,
     METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
-    SURFACE_HOAR,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
-} from 'constants/map/layers'
+} from 'constants/drawers'
+
+const LAYERS_VISIBILITY = LocalStorage.create({
+    keyPrefix: 'layers-visibility'
+})
+const LAYERS_FILTERS = LocalStorage.create({
+    keyPrefix: 'layers-filters'
+})
 
 const Layer = Record({
     id: null,
     type: null,
     title: null,
-    visible: false,
+    visible: true,
     filters: null,
 }, 'Layer')
 
@@ -35,30 +42,28 @@ const Filter = Record({
 
 const MENU = new Map({
     open: false,
-    // Defines the default active layers, could comes from localStorage as well or sessionStorage or cookies
+    // Defines the default active layers
     layers: new Map({
         [FORECASTS]: new Layer({
             id: FORECASTS,
             title: 'Forecasts',
             type: 'Analysis',
-            visible: true,
         }),
         [HOT_ZONE_REPORTS]: new Layer({
             id: HOT_ZONE_REPORTS,
             title: 'Hot zone reports',
             type: 'Analysis',
-            visible: true,
         }),
         [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
             id: MOUNTAIN_INFORMATION_NETWORK,
             title: 'Mountain information network',
             type: 'Observations',
-            visible: true,
             filters: new Map({
                 days: new Filter({
                     name: 'days',
                     type: 'listOfValues',
                     value: '7',
+                    // value: String(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
                     options: new Map([
                         ['1', '1 day'],
                         ['3', '3 days'],
@@ -70,9 +75,8 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: 'all',
+                    value: new Set(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
                     options: new Map([
-                        ['all', 'Show all report types'],
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
                         ['snowpack', 'Snowpack'],
@@ -86,22 +90,22 @@ const MENU = new Map({
             id: WEATHER_STATION,
             title: 'Weather stations',
             type: 'Observations',
-            visible: true,
+            visible: Boolean(LAYERS_VISIBILITY.get(WEATHER_STATION, true)),
         }),
         [TOYOTA_TRUCK_REPORTS]: new Layer({
             id: TOYOTA_TRUCK_REPORTS,
             title: 'Follow AvCan Toyota trucks',
             type: 'Sponsor',
-            visible: true,
+            visible: Boolean(LAYERS_VISIBILITY.get(TOYOTA_TRUCK_REPORTS, true)),
         }),
     }),
 })
 
 function setLayerVisibilityFactory(visible) {
     return (state, {payload}) => {
-        const path = ['layers', payload, 'visible']
+        LAYERS_VISIBILITY.set(payload, visible)
 
-        return state.setIn(path, visible)
+        return state.setIn(['layers', payload, 'visible'], visible)
     }
 }
 
@@ -113,6 +117,13 @@ export default combineReducers({
         [LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
         [FILTER_CHANGED]: (menu, {payload}) => {
             const {layer, name, value} = payload
+
+            let filter = value
+            if (value instanceof Set) {
+                filter = Array.from(value)
+            }
+
+            LAYERS_FILTERS.set(`${layer}-${name}`, filter)
 
             return menu.setIn(['layers', layer, 'filters', name, 'value'], value)
         },
