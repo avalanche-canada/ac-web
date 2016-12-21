@@ -17,7 +17,9 @@ var SHARE_LOGO = 'http://res.cloudinary.com/avalanche-ca/image/upload/bo_20px_so
 
 get('/map/forecasts/:region', forecastPage);
 get('/forecasts/:region',     forecastPage);
-get('/forecasts/:region/archives/:date', forecastPage)
+get('/forecasts/:region/archives/:date', forecastPage);
+
+get('/hot-zone-reports/:area', hotZoneReport);
 
 
 get('/mountain-information-network/submissions/:id', minSubmission);
@@ -129,7 +131,7 @@ function prismicQuery(query, options, cb) {
 
 function staticPage(uid) {
     return function(req, res) {
-        singleItem(Prismic.Predicates.at('my.static-page.uid', uid), {}, function(doc){
+        singleItem(res, Prismic.Predicates.at('my.static-page.uid', uid), {}, function(doc){
             console.log(doc);
             var title = doc.getText('static-page.title');
             var headline = doc.getText('static-page.headline');
@@ -145,7 +147,7 @@ function staticPage(uid) {
     }
 }
 
-function singleItem(query, opts, cb) {
+function singleItem(res, query, opts, cb) {
     prismicQuery(query, opts, function(err, data){
         if(err){ 
             console.error(err);
@@ -157,7 +159,7 @@ function singleItem(query, opts, cb) {
     });
 }
 function newsPost(req, res) {
-    singleItem(Prismic.Predicates.at('my.news.uid', req.params.uid), {}, function(doc){
+    singleItem(res, Prismic.Predicates.at('my.news.uid', req.params.uid), {}, function(doc){
 
         var title    = doc.getText('news.title');
         var headline = doc.getText('news.shortlede');
@@ -171,7 +173,7 @@ function newsPost(req, res) {
     })
 }
 function blogPost(req, res) {
-    singleItem(Prismic.Predicates.at('my.blog.uid', req.params.uid), {}, function(doc){
+    singleItem(res, Prismic.Predicates.at('my.blog.uid', req.params.uid), {}, function(doc){
         var title    = doc.getText('blog.title');
         var headline = doc.getText('blog.shortlede');
         var img      = doc.getImage('blog.preview_image');
@@ -184,7 +186,7 @@ function blogPost(req, res) {
     })
 }
 function eventPost(req, res) {
-    singleItem(Prismic.Predicates.at('my.event.uid', req.params.uid), {}, function(doc){
+    singleItem(res, Prismic.Predicates.at('my.event.uid', req.params.uid), {}, function(doc){
         var title    = doc.getText('event.title');
         var headline = doc.getText('event.description');
         var img      = doc.getImage('event.featured_image');
@@ -207,7 +209,7 @@ function latestForecast(req, res) {
 }
 function forecastByDate(date, req, res){
 
-    singleItem([['at', 'document.type', 'weather-forecast'], ['at', 'my.weather-forecast.date', date]], {}, function(doc){
+    singleItem(res, [['at', 'document.type', 'weather-forecast'], ['at', 'my.weather-forecast.date', date]], {}, function(doc){
         var title    = doc.getText('weather-forecast.headline');
         var headline = doc.getText('weather-forecast.synopsis');
         var img      = doc.getImage('weather-forecast.day1-image1');
@@ -261,6 +263,51 @@ function getSubmissionComment(sub) {
         return obs.incident.ob.incidentObsComment;
     }
 }
+
+
+function capitalize(st) {
+    return st.substring(0,1).toUpperCase() + st.substring(1)
+}
+
+function hotZoneReport(req, res) {
+    var area      = req.params.area;
+    var tomorrow  = moment().add(1, 'day').format('YYYY-MM-DD');
+    var yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    
+    singleItem(res, [
+            Prismic.Predicates.at('my.hotzone-report.region', area),
+            Prismic.Predicates.dateBefore('my.hotzone-report.dateOfIssue', tomorrow),
+            Prismic.Predicates.dateAfter('my.hotzone-report.validUntil', yesterday),
+    ], {}, function(doc){
+        var img = getHotZoneReportImage(doc);
+        res.status(200).send(renderTags([
+            ['og:title',     "Latest Hotzone Report for " + capitalize(area)],
+            ['og:url',       'https://' +  req.host + '/hot-zone-reports/' + area],
+            ['og:description', 'Get the latest avalanche informamtion for ' +  capitalize(area)],
+
+            // TODO(wnh): need canonical URL to include the date before we can
+            //           start using things from the specific HZR Facebook
+            //           caches its results, since each HZR shares the same url
+            //           the only description/img that will ever be shown is
+            //           the first one to be shared
+            //['og:description', doc['data']['hotzone-report.headline']['value']],
+            //['og:image', img]
+        ]));
+    })
+}
+
+function getHotZoneReportImage(doc) {
+        var imgs = doc['data']['hotzone-report.hotzoneImages'];
+       
+       if (typeof img === 'undefined' || img['value'].length <= 0)  {
+           return;
+       }
+        
+       var img = ['value'][0];
+           
+       return img['hotzoneImage']['value']['main']['url'];
+}
+
 
 module.exports = prerenderRouter
 
