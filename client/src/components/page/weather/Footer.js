@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Weather.css'
 import {Mailto} from 'components/misc'
 
-const email = 'ec.cpipchefdesoperations-pspcheadofoperations.ec@canada.ca'
+const email = 'ec.cpip-mwf-pspc.ec@canada.ca'
 const subject = 'Mountain Weather Forecast Feedback'
 
 Footer.propTypes = {
