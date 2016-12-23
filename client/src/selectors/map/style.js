@@ -5,18 +5,16 @@ import {getEntitiesForSchema} from 'getters/entities'
 import {getDocumentsOfType} from 'getters/prismic'
 import {ActiveLayerIds} from 'constants/map/layers'
 import Parser from 'prismic/parser'
+import {isHotZoneReportValid} from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 
-function identity(style) {
-    return style
-}
 
 export default createSelector(
     getStyle,
     getActiveFeatures,
     state => getDocumentsOfType(state, 'hotzone-report'),
-    (style, activeFeatures, hotZoneReports) => {
+    (style, activeFeatures, reports) => {
         if (!style || !Immutable.Iterable.isIterable(style) || !style.has('id')) {
             return null
         }
@@ -24,7 +22,9 @@ export default createSelector(
         return setActiveFeatures(
             setHotZoneReports(
                 style,
-                hotZoneReports,
+                reports.map(
+                    document => Parser.parse(document)
+                ).filter(isHotZoneReportValid),
             ),
             activeFeatures
         )
@@ -61,9 +61,7 @@ function setActiveFeatures(style, activeFeatures) {
 function setHotZoneReports(style, hotZoneReports) {
     return style.withMutations(style => {
         const source = Layers.HOT_ZONE_REPORTS
-        const ids = hotZoneReports.map(
-            document => document.data['hotzone-report.region'].value
-        ).toArray()
+        const ids = hotZoneReports.map(report => report.region).toArray()
         const layers = style.get('layers')
 
         let index = layers.findIndex(layer => layer.get('id') === 'hot-zones')

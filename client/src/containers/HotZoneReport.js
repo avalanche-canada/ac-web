@@ -10,6 +10,7 @@ Container.propTypes = {
     report: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
+    shareUrl: PropTypes.string,
 }
 
 function Container({
@@ -17,6 +18,7 @@ function Container({
     report,
     isLoading,
     isError,
+    shareUrl,
 }) {
     return (
         <Page>
@@ -29,7 +31,7 @@ function Container({
                     {isLoading || <HotZoneReport report={report} />}
                 </Main>
                 <Aside>
-                    <Sidebar />
+                    <Sidebar shareUrl={shareUrl} />
                 </Aside>
             </Content>
         </Page>

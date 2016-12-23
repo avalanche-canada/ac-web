@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'
-import {HotZone} from 'api/schemas'
+import * as Schemas from 'api/schemas'
 import {getEntityForSchema} from 'getters/entities'
 import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
 import {getResultsSet} from 'reducers/api/getters'
@@ -8,20 +8,17 @@ import {RESULT} from 'reducers/api/results'
 import {computeFitBounds} from 'selectors/map/bounds'
 import Parser from 'prismic/parser'
 import camelCase from 'lodash/camelCase'
-
-function getName(state, {params}) {
-    return params.name
-}
+import {isHotZoneReportValid} from 'prismic/utils'
 
 function getHotZone(state, {params}) {
-    return getEntityForSchema(state, HotZone, params.name)
+    return getEntityForSchema(state, Schemas.HotZone, params.name)
 }
 
 function getHotZoneReportDocuments(state, {params}) {
     return getDocumentsOfType(state, 'hotzone-report')
 }
 
-const getTransformedHotZoneReports = createSelector(
+const getParsedHotZoneReports = createSelector(
     getHotZoneReportDocuments,
     documents => documents.map(document => Parser.parse(document))
 )
@@ -38,6 +35,7 @@ const ASPECT = new Immutable.Map({
 })
 
 const HotZoneReport = Immutable.fromJS({
+    uid: null,
     region: null,
     headline: null,
     dateOfIssue: null,
@@ -146,9 +144,15 @@ function transform(raw) {
 }
 
 const getHotZoneReport = createSelector(
-    getName,
-    getTransformedHotZoneReports,
-    (name, reports) => reports.find(report => report.region === name)
+    (state, props) => props.params,
+    getParsedHotZoneReports,
+    ({name, uid}, reports) => {
+        const finder = typeof uid === 'string' ?
+            report => report.uid === uid :
+            report => report.region === name && isHotZoneReportValid(report)
+
+        return reports.find(finder)
+    }
 )
 
 const getComputeBounds = createSelector(
@@ -158,22 +162,26 @@ const getComputeBounds = createSelector(
 )
 
 export default createSelector(
-    getName,
     getHotZone,
     getHotZoneReport,
     getIsFetching,
     getComputeBounds,
-    (id, zone, report, isFetching, computeBounds) => {
+    (zone, report, isFetching, computeBounds) => {
         const name = zone && zone.get('name')
+        const Schema = Schemas.HotZoneReport
 
         if (report) {
+            report = transform(report)
+            const {region, uid} = report
+
             return {
                 isLoading: isFetching,
                 isError: false,
                 isLoaded: true,
                 title: name,
-                report: transform(report),
-                link: `/hot-zone-reports/${id}`,
+                report,
+                link: `/${Schema.getKey()}/${region}`,
+                shareUrl: `${window.location.origin}/${Schema.getKey()}/${region}/${uid}`,
                 computeBounds,
             }
         } else {

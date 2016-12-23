@@ -5,7 +5,6 @@ import {Sidebar, Contact, Follow, Share, Item} from 'components/sidebar'
 import {FORECASTERS} from 'constants/emails'
 
 const contact = <Contact email={FORECASTERS} />
-const share = <Share />
 const follow = <Follow />
 const weather = (
     <Item>
@@ -23,13 +22,13 @@ const blog = (
     </Item>
 )
 
-export default withProps({
+export default withProps(({shareUrl}) => ({
     children: [
         weather,
         min,
         blog,
         follow,
-        share,
+        <Share url={shareUrl} />,
         contact,
     ]
-})(Sidebar)
+}))(Sidebar)

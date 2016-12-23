@@ -22,11 +22,10 @@ function Container({
     title = 'Loading...',
     isError,
     link,
+    shareUrl,
     onCloseClick,
     onLocateClick,
 }) {
-    const shareUrl = link && `${window.location.origin}${link}`
-
     return (
         <DrawerContainer>
             <Navbar>
@@ -42,7 +41,7 @@ function Container({
                     </Wrapper>
                     }
                 </h1>
-                {isLoading ||
+                {report &&
                     <Metadata report={report} shareUrl={shareUrl} />
                 }
             </Header>
