@@ -41,7 +41,7 @@ function ToyotaTruckReport({
     let subject = 'Toyota Truck Report'
 
     if (date) {
-        subject = `${subject} for ${format(date, 'dddd MMMM Do')}`
+        subject = `${subject} for ${format(date, 'dddd MMMM D')}`
     }
 
     return (
@@ -52,7 +52,9 @@ function ToyotaTruckReport({
                 </Navbar>
                 <Ratio>
                 {(width, height) =>
-                    <Banner url={cloudinary.url(banner, {...TRANSFORMATION, height, width})} style={{height}} />
+                    <Banner
+                        url={cloudinary.url(banner, {...TRANSFORMATION, height, width})}
+                        style={{height}} />
                 }
                 </Ratio>
                 <Header subject={subject}>

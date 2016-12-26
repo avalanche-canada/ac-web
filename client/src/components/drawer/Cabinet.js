@@ -69,7 +69,9 @@ function Cabinet({drawers = []}) {
             {configs => (
             <section>
                 {configs.map(({key, style, data}) => (
-                    <Drawer key={key} style={getContainerStyle(style)} {...data} />
+                    <Drawer
+                        key={key}
+                        style={getContainerStyle(style)} {...data} />
                 ))}
             </section>
             )}
