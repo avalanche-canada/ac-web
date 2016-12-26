@@ -38,7 +38,11 @@ function ToyotaTruckReport({
         date,
         banner,
     } = report
-    const subject = `Toyota Truck Report for ${format(date, 'dddd MMMM Do')}`
+    let subject = 'Toyota Truck Report'
+
+    if (date) {
+        subject = `${subject} for ${format(date, 'dddd MMMM Do')}`
+    }
 
     return (
         <Container>
