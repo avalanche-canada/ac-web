@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, Children} from 'react'
+import React, {Component, PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
 import Panel from './Panel'
 import Header from './Header'

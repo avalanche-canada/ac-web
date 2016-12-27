@@ -1,4 +1,4 @@
-import React, { PropTypes, Children, cloneElement} from 'react'
+import React, {PropTypes, Children, cloneElement} from 'react'
 import {compose, withProps, withState, setDisplayName} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {onlyUpdateForKey} from 'compose'
