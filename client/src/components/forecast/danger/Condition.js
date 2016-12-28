@@ -1,16 +1,13 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
-import {VALUES, TITLES} from 'constants/forecast/mode'
-import {asMap, asValues} from 'constants/utils'
+import {SPRING, SUMMER, OFF, EARLY_SEASON, Titles} from 'constants/forecast/mode'
 import {Generic} from 'prismic/components'
 import {domain} from 'assets/config.json'
 
 //TODO(wnh): Remove either SUMMER or OFF because they are the same
-const {SPRING, SUMMER, OFF, EARLY_SEASON} = VALUES
 const HANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
 
-const HEADERS = asMap(VALUES, TITLES)
 const ICONS = new Map([
     [SPRING, `${domain}images/spring_situation_icon.svg`],
     [SUMMER, `${domain}images/summer_conditions_icon.svg`],
@@ -36,7 +33,7 @@ function Condition({mode}) {
     return (
         <div styleName='Condition'>
             <h2 styleName='ConditionHeader'>
-                {HEADERS.get(mode)}
+                {Titles.get(mode)}
             </h2>
             <img styleName='ConditionIcon' src={ICONS.get(mode)} />
             <div styleName='ConditionContent'>

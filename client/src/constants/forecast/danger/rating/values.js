@@ -1,6 +1,0 @@
-export const LOW = 'LOW'
-export const MODERATE = 'MODERATE'
-export const CONSIDERABLE = 'CONSIDERABLE'
-export const HIGH = 'HIGH'
-export const EXTREME = 'EXTREME'
-export const NO_RATING = 'NO_RATING'

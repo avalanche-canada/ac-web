@@ -2,29 +2,25 @@ import React, {PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import MediaQuery from 'react-responsive'
 import styles from './Danger.css'
-import * as ELEVATIONS from 'constants/forecast/elevation'
-import * as RATINGS from 'constants/forecast/danger/rating'
-import {asMap, asValues} from 'constants/utils'
+import {
+    ALP,
+    TLN,
+    BTL,
+    Texts as ElevationTexts,
+    Palette as ElevationPalette
+} from 'constants/forecast/elevation'
+import Ratings, {Texts as RatingTexts, Palette as RatingPalette} from 'constants/forecast/rating'
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
 
-// TODO: Better code organization.
-
-const ELEVATION_TEXTS = asMap(ELEVATIONS.VALUES, ELEVATIONS.TEXTS)
-const ELEVATION_PALETTE = asMap(ELEVATIONS.VALUES, ELEVATIONS.PALETTE)
-const RATING_TEXTS = asMap(RATINGS.VALUES, RATINGS.TEXTS)
-const RATING_PALETTE = asMap(RATINGS.VALUES, RATINGS.PALETTE)
-
-const {ALP, TLN, BTL} = ELEVATIONS.VALUES
-
 function Cell({rating}) {
     const style = {
-        backgroundColor: RATING_PALETTE.get(rating)
+        backgroundColor: RatingPalette.get(rating)
     }
 
     return (
         <td style={style} styleName='Cell'>
-            {RATING_TEXTS.get(rating)}
+            {RatingTexts.get(rating)}
         </td>
     )
 }
@@ -32,12 +28,12 @@ Cell = CSSModules(Cell, styles)
 
 function RowHeader({rating, type}) {
     const style = {
-        backgroundColor: ELEVATION_PALETTE.get(type)
+        backgroundColor: ElevationPalette.get(type)
     }
 
     return (
         <th scope='row' style={style} styleName='RowHeader'>
-            {ELEVATION_TEXTS.get(type)}
+            {ElevationTexts.get(type)}
         </th>
     )
 }
@@ -74,7 +70,7 @@ function Body({date, alp, tln, btl}) {
     )
 }
 
-const ratingPropType = PropTypes.oneOf(asValues(RATINGS.VALUES)).isRequired
+const ratingPropType = PropTypes.oneOf(Array.from(Ratings)).isRequired
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

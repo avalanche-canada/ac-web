@@ -1,14 +1,14 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import * as RATINGS from 'constants/forecast/danger/rating/values'
+import * as Ratings from 'constants/forecast/rating'
 import {DangerIcon, DangerCard} from './index'
 
-const {LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING} = RATINGS
+const {LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING} = Ratings
 
 const story = storiesOf('Graphics', module)
 
-Object.keys(RATINGS).filter(key => key !== 'default').forEach(key => {
-    story.add(`Danger Icon ${RATINGS[key]}:${key}`, () => <DangerIcon rating={RATINGS[key]} />)
+Object.keys(Ratings).filter(key => key !== 'default').forEach(key => {
+    story.add(`Danger Icon ${Ratings[key]}:${key}`, () => <DangerIcon rating={Ratings[key]} />)
 })
 story.add(`Danger Icon w/o rating`, () => <DangerIcon />)
 

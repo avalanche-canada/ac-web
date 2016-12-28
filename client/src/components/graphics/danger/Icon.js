@@ -1,16 +1,11 @@
 import React, {PropTypes} from 'react'
-import * as ICONS from './constants/Icons'
-import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
-
-const KEYS = Object.keys(RATINGS).filter(key => key !== 'default')
-const VALUES = KEYS.map(key => RATINGS[key])
-
-const ICONS_MAP = new Map(KEYS.map(key => [RATINGS[key], ICONS[key]]))
+import Ratings, {NO_RATING} from 'constants/forecast/rating'
+import Icons from './Icons'
 
 Icon.propTypes = {
-    rating: PropTypes.oneOf(VALUES).isRequired,
+    rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
 }
 
-export default function Icon({ rating = RATINGS.NO_RATING }) {
-    return ICONS_MAP.get(rating)
+export default function Icon({rating = NO_RATING}) {
+    return Icons.get(rating)
 }

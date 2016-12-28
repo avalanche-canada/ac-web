@@ -2,9 +2,9 @@ import React, {PropTypes, Children, cloneElement} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import Day from './Day'
-import {VALUES} from 'constants/forecast/mode'
+import * as Modes from 'constants/forecast/mode'
 
-const {SPRING, SUMMER, OFF, EARLY_SEASON} = VALUES
+const {SPRING, SUMMER, OFF, EARLY_SEASON} = Modes
 const UNHANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
 
 Table.propTypes = {

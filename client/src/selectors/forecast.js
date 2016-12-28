@@ -1,29 +1,29 @@
+import moment from 'moment'
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
-import moment from 'moment'
-import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
-import {VALUES as MODES} from 'constants/forecast/mode'
+import * as Ratings from 'constants/forecast/rating'
+import * as Modes from 'constants/forecast/mode'
 import {computeFitBounds} from 'selectors/map/bounds'
 
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
 
 const TO_RATINGS = new Map([
-    ["1:Low", RATINGS.LOW],
-    ["2:Moderate", RATINGS.MODERATE],
-    ["3:Considerable", RATINGS.CONSIDERABLE],
-    ["4:High", RATINGS.HIGH],
-    ["5:Extreme", RATINGS.EXTREME],
-    ["N/A:'Spring'", RATINGS.NO_RATING],
-    ["N/A:No Rating", RATINGS.NO_RATING],
+    ["1:Low", Ratings.LOW],
+    ["2:Moderate", Ratings.MODERATE],
+    ["3:Considerable", Ratings.CONSIDERABLE],
+    ["4:High", Ratings.HIGH],
+    ["5:Extreme", Ratings.EXTREME],
+    ["N/A:'Spring'", Ratings.NO_RATING],
+    ["N/A:No Rating", Ratings.NO_RATING],
 ])
 const TO_MODES = new Map([
-    ['Off season', MODES.OFF],
-    ['Summer situation', MODES.SUMMER],
-    ['Spring situation', MODES.SPRING],
-    ['Early season', MODES.EARLY_SEASON],
+    ['Off season', Modes.OFF],
+    ['Summer situation', Modes.SUMMER],
+    ['Spring situation', Modes.SPRING],
+    ['Early season', Modes.EARLY_SEASON],
 ])
 
 function transformDangerRating({date, dangerRating}) {

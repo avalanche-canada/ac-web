@@ -3,7 +3,6 @@ import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
-import {asValues} from 'constants/utils'
 import styles from './Layer.css'
 
 function K() {}

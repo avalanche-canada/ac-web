@@ -1,8 +1,7 @@
 import React, {PropTypes, Children, cloneElement} from 'react'
 import {compose, withState} from 'recompose'
-import {VALUES as ELEVATIONS} from 'constants/forecast/elevation'
+import Elevations, {ALP, TLN, BTL} from 'constants/forecast/elevation'
 
-const {ALP, TLN, BTL} = ELEVATIONS
 const VALUES = [ALP, TLN, BTL]
 
 BannerSet.propTypes = {

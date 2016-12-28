@@ -5,15 +5,20 @@ import moment from 'moment'
 import styles from './Forecast.css'
 import {Table, Day, Condition} from './danger'
 import {Problem, Topic, Advice, Comment} from './problem'
-import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
+import {
+    HIGH,
+    LOW,
+    MODERATE,
+    CONSIDERABLE,
+} from 'constants/forecast/rating'
 import Panel from 'components/panel'
 import Footer from './Footer'
 import Headline from './Headline'
 import Summary from './Summary'
 import DISCLAIMER from 'constants/forecast/disclaimer'
 import RSS from 'constants/forecast/rss'
-import EXPLANATION from 'constants/forecast/danger/rating/explanation'
-import {VALUES as MODES} from 'constants/forecast/mode'
+import RatingExplanation from 'components/forecast/RatingExplanation'
+import * as Modes from 'constants/forecast/mode'
 
 function Forecast({children}) {
     return (
@@ -75,9 +80,9 @@ storiesOf('Forecast', module)
 
     return (
         <Table confidence='Fair - Really confident ;) and it is long confidence comment...'>
-            <Day date={date1} alp={RATINGS.HIGH} tln={RATINGS.MODERATE} btl={RATINGS.MODERATE} />
-            <Day date={date2} alp={RATINGS.LOW} tln={RATINGS.MODERATE} btl={RATINGS.CONSIDERABLE} />
-            <Day date={date3} alp={RATINGS.LOW} tln={RATINGS.MODERATE} btl={RATINGS.HIGH} />
+            <Day date={date1} alp={HIGH} tln={MODERATE} btl={MODERATE} />
+            <Day date={date2} alp={LOW} tln={MODERATE} btl={CONSIDERABLE} />
+            <Day date={date3} alp={LOW} tln={MODERATE} btl={HIGH} />
         </Table>
     )
 })
@@ -107,18 +112,18 @@ storiesOf('Forecast', module)
     </Summary>
 ))
 .add('Condition', () => <Condition />)
-.add('Summer Condition', () => <Condition mode={MODES.SUMMER} />)
-.add('Spring Condition', () => <Condition mode={MODES.SPRING} />)
+.add('Summer Condition', () => <Condition mode={Modes.SUMMER} />)
+.add('Spring Condition', () => <Condition mode={Modes.SPRING} />)
 .add('Panels', () => (
     <div>
         <Panel header='Danger Ratings Explained' expandable >
-            {EXPLANATION}
+            <RatingExplanation />
         </Panel>
         <Panel header='Avalanche Forecasts in your Inbox' expandable >
-            {EXPLANATION}
+            <RatingExplanation />
         </Panel>
         <Panel header='Forecast Disclaimer' expandable >
-            {EXPLANATION}
+            <RatingExplanation />
         </Panel>
     </div>
 ))
