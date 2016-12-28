@@ -68,6 +68,12 @@ function ExpandButton({ rating, x, onClick, expanded }) {
     )
 }
 
+const ELEVATIONS_VALUES = new Map([
+    [ALP, 0],
+    [TLN, 1],
+    [BTL, 2],
+])
+
 Banner.propTypes = {
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
     rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
@@ -75,12 +81,6 @@ Banner.propTypes = {
     onExpandClick: PropTypes.func,
     expandable: PropTypes.bool,
 }
-
-const ELEVATIONS_VALUES = new Map([
-    [ALP, 0],
-    [TLN, 1],
-    [BTL, 2],
-])
 
 export default function Banner({
     elevation = ALP,

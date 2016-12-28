@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {NO_RATING} from 'constants/forecast/rating'
+import {ALP, TLN, BTL} from 'constants/forecast/elevation'
 import Icon from './Icon'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
@@ -91,9 +92,9 @@ export default function Card({
             <PositionText x={291} y={293}>Treeline</PositionText>
             <PositionText x={269} y={320}>Below treeline</PositionText>
             <BannerSet showTravelAdvice={showTravelAdvice} expandable={showExtraInformation} >
-                <Banner rating={alp} />
-                <Banner rating={tln} />
-                <Banner rating={btl} />
+                <Banner rating={alp} elevation={ALP} />
+                <Banner rating={tln} elevation={TLN} />
+                <Banner rating={btl} elevation={BTL} />
             </BannerSet>
         </svg>
     )

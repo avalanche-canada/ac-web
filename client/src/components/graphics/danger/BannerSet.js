@@ -1,23 +1,23 @@
 import React, {PropTypes, Children, cloneElement} from 'react'
 import {compose, withState} from 'recompose'
-import Elevations, {ALP, TLN, BTL} from 'constants/forecast/elevation'
-
-const VALUES = [ALP, TLN, BTL]
 
 BannerSet.propTypes = {
     showTravelAdvice: PropTypes.bool,
     expandable: PropTypes.bool,
 }
 
-function BannerSet({ children, showTravelAdvice = false, expanded, setExpanded, expandable = false }) {
-    //TODO(wnh): Make this list not order specific. Dont know why it was reversed before.
-    const banners = Children.toArray(children)
-
+function BannerSet({
+    children,
+    showTravelAdvice = false,
+    expanded,
+    setExpanded,
+    expandable = false,
+}) {
     return (
         <g>
-            {banners.map((banner, index) => (
+            {Children.toArray(children).map((banner, index) => (
                 cloneElement(banner, {
-                    elevation: VALUES[index],
+                    ...banner.props,
                     showTravelAdvice,
                     expandable,
                     onExpandClick: event => setExpanded(expanded === index ? null : index),
