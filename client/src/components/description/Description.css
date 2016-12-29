@@ -57,6 +57,10 @@
 
 .Definition {
     composes: Child;
+
+    & > ul {
+        margin: 0;
+    }
 }
 
 /* THEMES */

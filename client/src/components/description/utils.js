@@ -7,6 +7,35 @@ const BooleanValues = new Map([
     [false, 'No'],
 ])
 
+function createDefinitionChildren(value) {
+    switch (typeof value) {
+        case 'string':
+        case 'number':
+            return value
+        case 'boolean':
+            return BooleanValues.get(value)
+        case 'function':
+            return value(this)
+        case 'object': {
+            if (Array.isArray(value)) {
+                if (value.length > 0) {
+                    return (
+                        <ul>
+                            {value.map((value, index) => (
+                                <li key={index}>
+                                    {createDefinitionChildren.call(this, value)}
+                                </li>
+                            ))}
+                        </ul>
+                    )
+                }
+            } else {
+                return createDefinitionChildren.call(this, trulyKeys(value))
+            }
+        }
+    }
+}
+
 export function asTermAndDefinition(values = {}, terms = {}, nullValue) {
     return Object.keys(values).reduce((children, key) => {
         let value = values[key]
@@ -23,36 +52,22 @@ export function asTermAndDefinition(values = {}, terms = {}, nullValue) {
             }
         }
 
-        children.push(
-            <Term key={`${key}-term`}>
-                {terms[key] || key}
-            </Term>
-        )
+        const definition = createDefinitionChildren.call(values, value)
 
-        switch (typeof value) {
-            case 'string':
-            case 'number':
-                children.push(
-                    <Definition key={key}>{value}</Definition>
-                )
-                break;
-            case 'boolean':
-                children.push(
-                    <Definition key={key}>{BooleanValues.get(value)}</Definition>
-                )
-                break;
-            case 'function':
-                children.push(
-                    <Definition key={key}>{value(values)}</Definition>
-                )
-                break;
-            case 'object':
-                children.push(
-                    <Definition key={key}>{trulyKeys(value).join('. ')}</Definition>
-                )
-                break;
+        if (definition !== undefined) {
+            children.push(
+                <Term key={`${key}-term`}>
+                    {terms[key] || key}
+                </Term>
+            )
+
+            children.push(
+                <Definition key={key}>
+                    {definition}
+                </Definition>
+            )
         }
 
         return children
-    }, [])
+    }, []).filter(Boolean)
 }

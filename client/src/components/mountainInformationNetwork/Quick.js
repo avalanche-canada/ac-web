@@ -23,24 +23,44 @@ function computeRidingConditions(conditions = {}) {
     return Object.keys(conditions).reduce((children, key) => {
         const {type, prompt, selected, options} = conditions[key]
         const term = RidingConditionsTitles.get(key) || prompt
-        let text = null
 
         switch (type) {
             case 'single':
                 if (selected) {
-                    children.push(<Term key={`${key}-term`}>{term}</Term>)
-                    children.push(<Definition key={key}>{selected}</Definition>)
+                    children.push(
+                        <Term key={`${key}-term`}>
+                            {term}
+                        </Term>
+                    )
+                    children.push(
+                        <Definition key={key}>
+                            {selected}
+                        </Definition>
+                    )
                 }
                 break
-            case 'multiple':
-                text = trulyKeys(options).join('. ')
+            case 'multiple': {
+                const values = trulyKeys(options)
 
-                if (text) {
-                    children.push(<Term key={`${key}-term`}>{term}</Term>)
-                    children.push(<Definition key={key}>{text}</Definition>)
+                if (values.length > 0) {
+                    children.push(
+                        <Term key={`${key}-term`}>
+                            {term}
+                        </Term>
+                    )
+                    children.push(
+                        <Definition key={key}>
+                            <ul>
+                                {values.map((value, index) => (
+                                    <li key={index}>{value}</li>
+                                ))}
+                            </ul>
+                        </Definition>
+                    )
                 }
 
                 break
+            }
             default:
                 throw new Error(`Prompt of type="${type}" not supported in Quick MIN observation.`)
         }
@@ -88,7 +108,11 @@ export default function Quick({avalancheConditions, ridingConditions, comment}) 
                     }
                     {hasAvalancheConditions &&
                         <Definition block>
-                            {avalancheConditions.join('. ')}
+                            <ul>
+                                {avalancheConditions.map((condition, index) => (
+                                    <li key={index}>{condition}</li>
+                                ))}
+                            </ul>
                         </Definition>
                     }
                     {hasRidingConditions && ridingConditions}
