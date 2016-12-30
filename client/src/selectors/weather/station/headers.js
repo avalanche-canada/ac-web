@@ -7,7 +7,7 @@ export const Hour = {
 export const AirTemperature = {
     name: 'air-temperature',
     title: 'Air Temperature (°C)',
-    colSpan: 3,
+    colSpan: 1,
 }
 
 export const Wind = {
