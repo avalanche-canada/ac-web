@@ -11,8 +11,8 @@ const getRegionOptions = createSelector(
     getForecastRegions,
     regions => new Map(
         regions.map(region => [
-            region.getIn(['properties', 'id']),
-            region.getIn(['properties', 'name'])
+            region.get('id'),
+            region.get('name')
         ]).toArray()
     )
 )
