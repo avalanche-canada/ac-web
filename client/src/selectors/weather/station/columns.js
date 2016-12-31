@@ -89,7 +89,9 @@ export const WindSpeedGust = {
 export const RelativeHumidity = {
     name: 'relativeHumidity',
     title: 'Relative Humidity (%)',
-    property: 'relativeHumidity',
+    property({relativeHumidity}) {
+        return Math.min(Math.round(relativeHumidity), 100)
+    },
     style: {
         minWidth: 65
     }
