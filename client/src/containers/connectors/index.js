@@ -49,7 +49,7 @@ export const forecast = connector(
 
 export const hotZoneReport = connector(
     getHotZoneReport,
-    PrismicActions.loadHotZoneReports,
+    PrismicActions.loadHotZoneReport,
     EntitiesActions.loadFeaturesMetadata
 )
 

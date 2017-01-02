@@ -308,7 +308,7 @@ export default function computeRoutes(store) {
             <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
             {/* HOT ZONE REPORT */}
-            <Route path='hot-zone-reports/:name' sponsorRef='Forecast' component={HotZoneReport} />
+            <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
             <Route path='weather/stations/:id' component={WeatherStation} />
             <Route path='weather' type='weather-forecast' sponsorRef='Weather' component={Weather}>

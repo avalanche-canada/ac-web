@@ -1,21 +1,19 @@
 import React, {PropTypes} from 'react'
-import {VALUES as RATINGS} from 'constants/forecast/danger/rating'
+import {NO_RATING} from 'constants/forecast/rating'
+import {ALP, TLN, BTL} from 'constants/forecast/elevation'
 import Icon from './Icon'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
 
-const {NO_RATING} = RATINGS
-const {rating} = Icon.propTypes
-
 Card.propTypes = {
-    alp: rating,
-    tln: rating,
-    btl: rating,
+    alp: Icon.propTypes.rating,
+    tln: Icon.propTypes.rating,
+    btl: Icon.propTypes.rating,
     showTravelAdvice: PropTypes.bool,
     showExtraInformation: PropTypes.bool,
 }
 
-function PositionText({ children, ...props }) {
+function PositionText({children, ...props}) {
     return (
         <text {...props} fontSize={8}>
             {children}
@@ -28,7 +26,13 @@ const STYLE = {
     overflow: 'visible'
 }
 
-export default function Card({ alp = NO_RATING, tln = NO_RATING, btl = NO_RATING, showTravelAdvice = false, showExtraInformation = false }) {
+export default function Card({
+    alp = NO_RATING,
+    tln = NO_RATING,
+    btl = NO_RATING,
+    showTravelAdvice = false,
+    showExtraInformation = false
+}) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="255 205 450 150" style={STYLE} >
             <path fill="#DDEEFA" d="M705 204.9v50.6H418.8c-15.7 1.2-29.5 12.3-29.5 12.3-2.5 7.6-34.7 1.4-34.7 1.4l2.5 4.7c-8.9-5.8-29.4.4-29.4.5 0 .1-26.8 12.9-40.3.1-10.2-9.7-25.1-6.2-32.3-3.9v-65.8H705z"/>
@@ -88,9 +92,9 @@ export default function Card({ alp = NO_RATING, tln = NO_RATING, btl = NO_RATING
             <PositionText x={291} y={293}>Treeline</PositionText>
             <PositionText x={269} y={320}>Below treeline</PositionText>
             <BannerSet showTravelAdvice={showTravelAdvice} expandable={showExtraInformation} >
-                <Banner rating={alp} />
-                <Banner rating={tln} />
-                <Banner rating={btl} />
+                <Banner rating={alp} elevation={ALP} />
+                <Banner rating={tln} elevation={TLN} />
+                <Banner rating={btl} elevation={BTL} />
             </BannerSet>
         </svg>
     )

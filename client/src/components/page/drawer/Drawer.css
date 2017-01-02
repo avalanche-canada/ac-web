@@ -121,6 +121,10 @@
 }
 
 .Banner {
-    background-color: var(--gray-lightest);
     border: none;
+    width: 100%;
+    background-color: var(--gray-lightest);
+    background-image: url('styles/AvalanchePath.svg');
+    background-repeat: no-repeat;
+    background-position: center;
 }

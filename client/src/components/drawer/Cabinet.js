@@ -1,4 +1,4 @@
-import React, { PropTypes, Children, cloneElement, createElement} from 'react'
+import React, {PropTypes, Children, cloneElement, createElement} from 'react'
 import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
 import {TransitionMotion, spring, presets} from 'react-motion'
@@ -69,7 +69,9 @@ function Cabinet({drawers = []}) {
             {configs => (
             <section>
                 {configs.map(({key, style, data}) => (
-                    <Drawer key={key} style={getContainerStyle(style)} {...data} />
+                    <Drawer
+                        key={key}
+                        style={getContainerStyle(style)} {...data} />
                 ))}
             </section>
             )}

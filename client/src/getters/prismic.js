@@ -2,17 +2,30 @@ import {Map} from 'immutable'
 
 const MAP = new Map()
 
+function getDocuments(state) {
+    return state.prismic.documents
+}
+
 export function getDocumentsOfType(state, type) {
-    return state.prismic.documents.get(type, MAP)
+    return getDocuments(state).get(type, MAP)
 }
 
 export function getDocumentForUid(state, type, uid) {
-    const {uids, documents} = state.prismic
-    const id = uids.getIn([type, uid])
+    const path = [type, getDocumentId(state, type, uid)]
 
-    return documents.getIn([type, id])
+    return getDocuments(state).getIn(path)
+}
+
+export function hasDocumentForUid(state, type, uid) {
+    const path = [type, getDocumentId(state, type, uid)]
+
+    return getDocuments(state).hasIn(path)
 }
 
 export function getIsFetching(state) {
     return state.prismic.fetchingCounter > 0
+}
+
+function getDocumentId({prismic}, type, uid) {
+    return prismic.uids.getIn([type, uid])
 }

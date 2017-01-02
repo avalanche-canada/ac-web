@@ -41,7 +41,10 @@ export default compose(
             const [type, id] = location.query.panel.split('/')
             const Content = ContentComponents.get(type)
 
-            children.push(createElement(Content, {id}))
+            children.push(createElement(Content, {
+                key: id,
+                id
+            }))
         }
 
         return {

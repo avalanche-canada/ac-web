@@ -20,6 +20,7 @@ get('/forecasts/:region',     forecastPage);
 get('/forecasts/:region/archives/:date', forecastPage);
 
 get('/hot-zone-reports/:area', hotZoneReport);
+get('/hot-zone-reports/:area/:uid', hotZoneReportDetail);
 
 
 get('/mountain-information-network/submissions/:id', minSubmission);
@@ -88,7 +89,7 @@ function renderTags(tags) {
             tpl.push('<meta property="', i[0], '" content="', i[1], '" />')
         }
     });
-    tpl.push('</head><body></body></head>');
+    tpl.push('</head><body></body></html>');
     return tpl.join('');
 }
 
@@ -99,7 +100,6 @@ function forecastPage(req,res) {
     }
     getForecastData(req.params.region, region)
         .then(function(data){
-            console.log(JSON.stringify(data.json, null, '  '));
             var out = renderTags([
                 ['og:title', 'Latest forecast for ' + data.json.bulletinTitle],
                 ['og:description',  cleanHTML(data.json.highlights)],
@@ -132,7 +132,6 @@ function prismicQuery(query, options, cb) {
 function staticPage(uid) {
     return function(req, res) {
         singleItem(res, Prismic.Predicates.at('my.static-page.uid', uid), {}, function(doc){
-            console.log(doc);
             var title = doc.getText('static-page.title');
             var headline = doc.getText('static-page.headline');
             var banner = doc.getImage('static-page.banner');
@@ -226,15 +225,10 @@ function forecastByDate(date, req, res){
 
 function minSubmission(req, res) {
     var subId = req.params.id;
-    console.log(subId);
 
     minutils.getSubmission(subId, 'web', function(err, data){
         var sub =  data[0];
         var imgKey = sub.uploads.length > 0 && sub.uploads[0];
-
-        console.log(JSON.stringify(sub, null, '  '));
-        console.log(_.map(sub.obs, o => o.ob.comment));
-        
 
         res.status(200).send(renderTags([
             ['og:title',     sub.title],
@@ -273,7 +267,6 @@ function hotZoneReport(req, res) {
     var area      = req.params.area;
     var tomorrow  = moment().add(1, 'day').format('YYYY-MM-DD');
     var yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
-    
     singleItem(res, [
             Prismic.Predicates.at('my.hotzone-report.region', area),
             Prismic.Predicates.dateBefore('my.hotzone-report.dateOfIssue', tomorrow),
@@ -281,31 +274,38 @@ function hotZoneReport(req, res) {
     ], {}, function(doc){
         var img = getHotZoneReportImage(doc);
         res.status(200).send(renderTags([
-            ['og:title',     "Latest Hotzone Report for " + capitalize(area)],
-            ['og:url',       'https://' +  req.host + '/hot-zone-reports/' + area],
-            ['og:description', 'Get the latest avalanche informamtion for ' +  capitalize(area)],
-
-            // TODO(wnh): need canonical URL to include the date before we can
-            //           start using things from the specific HZR Facebook
-            //           caches its results, since each HZR shares the same url
-            //           the only description/img that will ever be shown is
-            //           the first one to be shared
-            //['og:description', doc['data']['hotzone-report.headline']['value']],
-            //['og:image', img]
+            ['og:title',      doc['data']['hotzone-report.headline']['value']],
+            ['og:url',       'https://' +  req.host + '/hot-zone-reports/' + area + '/' + doc.uid],
+            ['og:description', ['Hotzone Report for', capitalize(area), 'published', doc['data']['hotzone-report.dateOfIssue']['value']].join(' ')],
+            ['og:image', img]
+        ]));
+    })
+}
+function hotZoneReportDetail(req, res){
+    var uid      = req.params.uid;
+    var tomorrow  = moment().add(1, 'day').format('YYYY-MM-DD');
+    var yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    singleItem(res, [
+            Prismic.Predicates.at('my.hotzone-report.uid', uid),
+    ], {}, function(doc){
+        var img = getHotZoneReportImage(doc);
+        var area = req.params.area;
+        res.status(200).send(renderTags([
+            ['og:title',      doc['data']['hotzone-report.headline']['value']],
+            ['og:url',       'https://' +  req.host + '/hot-zone-reports/' + area + '/' + doc.uid],
+            ['og:description', ['Hotzone Report for', capitalize(area), 'published', doc['data']['hotzone-report.dateOfIssue']['value']].join(' ')],
+            ['og:image', img]
         ]));
     })
 }
 
 function getHotZoneReportImage(doc) {
-        var imgs = doc['data']['hotzone-report.hotzoneImages'];
-       
-       if (typeof img === 'undefined' || img['value'].length <= 0)  {
-           return;
-       }
-        
-       var img = ['value'][0];
-           
-       return img['hotzoneImage']['value']['main']['url'];
+    var imgs = doc['data']['hotzone-report.hotzoneImages'];
+    if (typeof imgs === 'undefined' || imgs['value'].length <= 0)  {
+        return;
+    }
+    var img = imgs['value'][0];
+    return img['hotzoneImage']['value']['main']['url'];
 }
 
 

@@ -1,20 +1,19 @@
-import React, { PropTypes, DOM} from 'react'
+import React, {PropTypes, DOM} from 'react'
 import {compose, setPropTypes, setDisplayName, mapProps, defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Button.css'
-import * as KINDS from './kinds'
-import {asValues} from 'constants/utils'
+import KIND, {ALL as KINDS} from './kinds'
 
 export default compose(
     setDisplayName('Button'),
     setPropTypes({
         children: PropTypes.node,
         active: PropTypes.bool,
-        kind: PropTypes.oneOf(asValues(KINDS)),
+        kind: PropTypes.oneOf(Array.from(KINDS)),
         icon: PropTypes.node,
     }),
     defaultProps({
-        kind: KINDS.default,
+        kind: KIND,
         active: false,
     }),
     mapProps(({icon, active, kind, ...props}) => {

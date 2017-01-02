@@ -5,7 +5,7 @@ import styles from './Drawer.css'
 
 export default compose(
     setPropTypes({
-        url: PropTypes.string.isRequired,
+        url: PropTypes.string,
     }),
     withProps({
         styleName: 'Banner',

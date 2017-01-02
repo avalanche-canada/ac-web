@@ -3,7 +3,7 @@ import {compose, withProps} from 'recompose'
 import {neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
 import Panel, {INVERSE} from 'components/panel'
-import EXPLANATION from 'constants/forecast/danger/rating/explanation'
+import RatingExplanation from 'components/forecast/RatingExplanation'
 import {Generic} from 'prismic/components'
 import styles from './Forecast.css'
 
@@ -11,7 +11,7 @@ function Footer() {
     return (
         <footer styleName='Footer'>
             <Panel expandable header='Danger Ratings Explained'>
-                {EXPLANATION}
+                <RatingExplanation />
             </Panel>
             <Panel expandable header='Avalanche Forecasts in your Inbox'>
                 <Generic uid='forecast-rss-message' />

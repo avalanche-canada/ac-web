@@ -1,11 +1,13 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from './types'
+import ImageGallery from 'react-image-gallery'
 import {Tab, TabSet} from 'components/tab'
 import Observation from './Observation'
+import * as Colors from 'components/icons/min/colors'
+import * as Types from './types'
 import styles from './MountainInformationNetwork.css'
-import * as COLORS from 'components/icons/min/colors'
-import ImageGallery from 'react-image-gallery'
+
+const {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} = Types
 
 const TAB_TITLES = new Map([
     [QUICK, 'Quick'],
@@ -15,11 +17,11 @@ const TAB_TITLES = new Map([
     [INCIDENT, 'Incident'],
 ])
 const TAB_COLORS = new Map([
-    [QUICK, COLORS.QUICK],
-    [WEATHER, COLORS.WEATHER],
-    [SNOWPACK, COLORS.SNOWPACK],
-    [AVALANCHE, COLORS.AVALANCHE],
-    [INCIDENT, COLORS.INCIDENT],
+    [QUICK, Colors.QUICK],
+    [WEATHER, Colors.WEATHER],
+    [SNOWPACK, Colors.SNOWPACK],
+    [AVALANCHE, Colors.AVALANCHE],
+    [INCIDENT, Colors.INCIDENT],
 ])
 const TYPES = [QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT]
 
@@ -37,25 +39,26 @@ function toGalleryItem(upload) {
     }
 }
 
-function Submission({uploads = [], observations = [], active = INCIDENT}) {
-    const observationsByType = observations.reduce(reducer, new Map())
-    const activeIndex = TYPES.indexOf(active)
+function Submission({observations = [], uploads = [], active = INCIDENT}) {
+    observations = observations.reduce(reducer, new Map())
 
     return (
         <div>
-            <TabSet activeIndex={activeIndex} arrow >
+            <TabSet arrow activeIndex={TYPES.indexOf(active)}>
                 {TYPES.map(type => {
                     const tab = {
                         key: type,
                         title: TAB_TITLES.get(type),
                         color: TAB_COLORS.get(type),
-                        disabled: !observationsByType.has(type),
+                        disabled: !observations.has(type),
                     }
 
                     return (
                         <Tab {...tab}>
                             {tab.disabled ||
-                                <Observation type={type} observation={observationsByType.get(type)} />
+                                <Observation
+                                    type={type}
+                                    observation={observations.get(type)} />
                             }
                         </Tab>
                     )

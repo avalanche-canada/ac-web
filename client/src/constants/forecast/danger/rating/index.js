@@ -1,6 +1,0 @@
-export * as VALUES from './values'
-export * as TEXTS from './texts'
-export * as PALETTE from './palette'
-export * as ADVICES from './advices'
-export * as LIKEHOOD from './likehood'
-export * as SIZE_AND_DISTRIBUTION from './sizeAndDistribution'
