@@ -164,7 +164,6 @@ const getComputeBounds = createSelector(
 export default createSelector(
     getHotZone,
     getHotZoneReport,
-    getIsFetching,
     getComputeBounds,
     (zone, report, isFetching, computeBounds) => {
         const name = zone && zone.get('name')
@@ -175,9 +174,6 @@ export default createSelector(
             const {region, uid} = report
 
             return {
-                isLoading: isFetching,
-                isError: false,
-                isLoaded: true,
                 title: name,
                 report,
                 link: `/${Schema.getKey()}/${region}`,
@@ -186,9 +182,6 @@ export default createSelector(
             }
         } else {
             return {
-                isLoading: isFetching,
-                isError: false,
-                isLoaded: true,
                 title: isFetching ? name : name && `${name} report is not available`,
                 computeBounds,
             }
