@@ -27,8 +27,38 @@ const MountainWeatherForecast = {
     to: '/weather'
 }
 const ForecasterBlog = {
-    label: "Forecaster’ Blogs",
+    label: "Forecasters’ Blogs",
     to: '/blogs?category=forecaster+blog'
+}
+const AvCanTrainingCourses = {
+    label: 'AvCan Training Courses',
+    header: true,
+    to: '/training',
+    children: [{
+        label: 'Overview',
+        to: '/training#overview',
+    }, {
+        label: 'Find a course',
+        to: '/training/courses',
+    }, {
+        label: 'Find a provider',
+        to: '/training/providers',
+    }, {
+        label: 'Avalanche Skills Training 1',
+        to: '/training#ast1',
+    }, {
+        label: 'Avalanche Skills Training 2',
+        to: '/training#ast2',
+    }, {
+        label: 'Managing Avalanche Terrain',
+        to: '/training#mat',
+    }, {
+        label: 'Companion Rescue Skills',
+        to: '/training#crs',
+    }, {
+        label: 'Teaching Avalanche Skills Training',
+        to: '/instructing-ast',
+    }]
 }
 
 export const AvalancheCanada = {
@@ -43,9 +73,9 @@ export const AvalancheCanada = {
             label: 'Information',
             header: true,
             children: [{
-                label: 'FAQ',
-                to: '/faq'
-            }, {
+            //     label: 'FAQ',
+            //     to: '/faq'
+            // }, {
                 label: 'Forecast Archive',
                 to: '/forecasts/archives'
             }, {
@@ -55,36 +85,7 @@ export const AvalancheCanada = {
         }]
     }, {
         label: 'Learn',
-        children: [{
-            label: 'AvCan Training Courses',
-            header: true,
-            to: '/training',
-            children: [{
-                label: 'Overview',
-                to: '/training#overview',
-            }, {
-                label: 'Find a course',
-                to: '/training/courses',
-            }, {
-                label: 'Find a provider',
-                to: '/training/providers',
-            }, {
-                label: 'AST 1',
-                to: '/training#ast1',
-            }, {
-                label: 'AST 2',
-                to: '/training#ast2',
-            }, {
-                label: 'MAT',
-                to: '/training#mat',
-            }, {
-                label: 'CRS',
-                to: '/training#crs',
-            }, {
-                label: 'Teaching AST',
-                to: '/instructing-ast',
-            }]
-        }, {
+        children: [AvCanTrainingCourses, {
             label: 'Online Education',
             header: true,
             to: '/training',
@@ -92,12 +93,12 @@ export const AvalancheCanada = {
                 label: 'Online Avalanche Tutorial',
                 to: '/tutorial',
             }, {
-                label: 'In French',
+                label: 'Cours d’avalanche en ligne (français)',
                 to: '/tutoriel',
             }, {
                 label: 'Rescue at Cherry Bowl',
                 to: '/cherry-bowl',
-            }, Gear]
+            }]
         }, {
             label: 'Youth Education',
             header: true,
@@ -127,17 +128,20 @@ export const AvalancheCanada = {
             header: true,
             to: '/sled',
             children: [{
-                label: 'Overview',
-                to: '/sled',
+                label: 'Avalanche Basics',
+                to: '/sled#avalanche-basics',
+            }, {
+                label: 'Featured Resources',
+                to: '/sled#featured-resources',
+            }, {
+                label: 'Throttle Decisions',
+                to: '/sled#video-featured',
             }, {
                 label: 'News',
                 to: '/news?tags=snowmobiler&tags=snowmobile+',
             }, {
                 label: 'Events',
                 to: '/events?tags=snowmobiler&timeline=upcoming',
-            }, {
-                label: 'Throttle Decisions',
-                to: '/sled#video-featured',
             }, {
                 label: 'SledComm',
                 to: '/sled#sledcomm',
@@ -151,11 +155,8 @@ export const AvalancheCanada = {
                 ForecasterBlog,
                 Gear,
                 TripPlanner,
-                Forecasts, {
-                    label: 'FAQ',
-                    to: '/sled/faq'
-                }]
-        }]
+                Forecasts]
+        }, AvCanTrainingCourses]
     }, {
         label: 'News & Events',
         children: [{
@@ -192,9 +193,9 @@ export const AvalancheCanada = {
             // }, {
             //     label: 'Tech',
             //     to: '/tech',
-            }, {
-                label: 'Contact Us',
-                to: '/about#contact',
+            // }, {
+            //     label: 'Contact Us',
+            //     to: '/about#contact',
             }]
         }, {
             label: 'Membership',
@@ -245,16 +246,16 @@ export const AvalancheCanada = {
             to: '/sponsors',
             children: [{
                 label: 'Program Partners',
-                to:'sponsors#partner'
+                to: 'sponsors#partner'
             }, {
                 label: 'Premier Sponsors',
-                to:'sponsors#funding'
+                to: 'sponsors#funding'
             }, {
                 label: 'Supporters',
-                to:'sponsors#supplier'
+                to: 'sponsors#supplier'
             }, {
                 label: 'Contributors',
-                to:'sponsors#associate'
+                to: 'sponsors#associate'
             }, {
                 label: 'Government Partners',
                 to:'collaborators#government'
