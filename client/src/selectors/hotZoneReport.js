@@ -165,7 +165,8 @@ export default createSelector(
     getHotZone,
     getHotZoneReport,
     getComputeBounds,
-    (zone, report, isFetching, computeBounds) => {
+    (state, props) => props.isLoading,
+    (zone, report, computeBounds, isLoading) => {
         const name = zone && zone.get('name')
         const Schema = Schemas.HotZoneReport
 
@@ -182,7 +183,7 @@ export default createSelector(
             }
         } else {
             return {
-                title: isFetching ? name : name && `${name} report is not available`,
+                title: isLoading ? name : name && `${name} report is not available`,
                 computeBounds,
             }
         }

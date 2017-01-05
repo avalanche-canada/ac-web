@@ -41,7 +41,7 @@ function connector(mapStateToProps, load, loadAll) {
     )
 }
 
-// TODO: Remove that function when the store will keep xtrack on the state
+// TODO: Remove that function when the store will keep track of the state
 function connectorWithState(mapStateToProps, load, loadAll) {
     return compose(
         withState('isLoading', 'setIsLoading', false),
@@ -52,30 +52,13 @@ function connectorWithState(mapStateToProps, load, loadAll) {
             loadAll,
             fitBounds,
         }),
-        lifecycle({
-            componentDidMount() {
-                const {load, loadAll, params, setIsLoading, setIsLoaded, setIsError} = this.props
+        withHandlers({
+            loadSingle: props => params => {
+                const {load, setIsLoading, setIsLoaded, setIsError} = props
 
-                setIsLoading(true)
+                const promise = load(params)
 
-                function onFulfilled() {
-                    setIsLoading(false)
-                    setIsLoaded(true)
-                }
-                function onRejected() {
-                    setIsLoading(false)
-                    setIsError(true)
-                }
-
-                load(params).then(onFulfilled, onRejected)
-                loadAll()
-            },
-            componentWillReceiveProps({load, params}) {
-                const {name, date} = this.props.params
-
-                if (name !== params.name || date !== params.date) {
-                    const {setIsLoading, setIsLoaded, setIsError} = this.props
-
+                if (promise && typeof promise.then === 'function') {
                     setIsLoading(true)
 
                     function onFulfilled() {
@@ -87,16 +70,31 @@ function connectorWithState(mapStateToProps, load, loadAll) {
                         setIsError(true)
                     }
 
-                    load(params)
+                    return promise.then(onFulfilled, onRejected)
                 }
+
+                return promise
             },
-        }),
-        withHandlers({
             onLocateClick: props => event => {
                 const {bbox, options} = props.computeBounds()
 
                 props.fitBounds(bbox, options)
             }
+        }),
+        lifecycle({
+            componentDidMount() {
+                const {loadSingle, loadAll, params} = this.props
+
+                loadSingle(params)
+                loadAll()
+            },
+            componentWillReceiveProps({load, params}) {
+                const {name, date} = this.props.params
+
+                if (name !== params.name || date !== params.date) {
+                    this.props.loadSingle(params)
+                }
+            },
         }),
     )
 }
