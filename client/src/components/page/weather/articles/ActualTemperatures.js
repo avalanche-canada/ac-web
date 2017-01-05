@@ -11,7 +11,7 @@ export default function ActualTemperatures() {
                 <Tab title='Actual Temperatures'>
                     <Loop type='AC_PLOT_BC_actual-temps' amount={12} />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='actual-temperatures' />
                 </Tab>
             </TabSet>

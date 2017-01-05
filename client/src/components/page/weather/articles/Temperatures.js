@@ -20,7 +20,7 @@ export default function Temperatures() {
                 <Tab title='Surface HR'>
                     <Loop type='AC_HRDPS_BC_sfc-temp-3hr-freq' withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='temperatures' />
                 </Tab>
             </TabSet>

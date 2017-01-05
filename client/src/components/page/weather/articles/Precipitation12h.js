@@ -17,7 +17,7 @@ export default function Precipitation12h() {
                 <Tab title='Sourth Interior HR'>
                     <Loop type='AC_HRDPS_BC-S-Int_12hr-precip' withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='12h-precipitation' />
                 </Tab>
             </TabSet>

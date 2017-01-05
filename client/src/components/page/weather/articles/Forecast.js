@@ -3,7 +3,7 @@ import {withRouter} from 'react-router'
 import {loadForType} from 'actions/prismic'
 import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, Time, Loading, Muted, Error} from 'components/misc'
+import {DateElement, Loading, Muted, Error} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
 import Forecast from 'components/weather'
 import {Predicates} from 'prismic'
@@ -81,7 +81,7 @@ export default class Container extends Component {
                     </Entry>
                     {(forecast && forecast.issued) &&
                         <Entry term='Issued at'>
-                            <Time value={forecast.issued} />
+                            {forecast.issued} PST/PDT
                         </Entry>
                     }
                     {(forecast && forecast.handle) &&

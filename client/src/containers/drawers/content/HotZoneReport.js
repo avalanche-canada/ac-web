@@ -47,7 +47,7 @@ function Container({
             </Header>
             <Body>
                 {isLoading &&
-                    <Loading>Loading hot {title} zone report...</Loading>
+                    <Loading>Loading {title} hot zone report...</Loading>
                 }
                 {isError &&
                     <Error>An error happened while loading hot zone report.</Error>

@@ -561,5 +561,6 @@ module.exports = {
     getDangerIconStyles: getDangerIconStyles,
     getNowcastStyles: getNowcastStyles,
     getForecastTableColors: getForecastTableColors,
-    getTableLocals: getTableLocals
+    getTableLocals: getTableLocals,
+    parksForecast: parksForecast
 };

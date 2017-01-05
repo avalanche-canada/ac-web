@@ -41,13 +41,71 @@ function connector(mapStateToProps, load, loadAll) {
     )
 }
 
+// TODO: Remove that function when the store will keep track of the state
+function connectorWithState(mapStateToProps, load, loadAll) {
+    return compose(
+        withState('isLoading', 'setIsLoading', false),
+        withState('isLoaded', 'setIsLoaded', false),
+        withState('isError', 'setIsError', false),
+        connect(mapStateToProps, {
+            load,
+            loadAll,
+            fitBounds,
+        }),
+        withHandlers({
+            loadSingle: props => params => {
+                const {load, setIsLoading, setIsLoaded, setIsError} = props
+
+                const promise = load(params)
+
+                if (promise && typeof promise.then === 'function') {
+                    setIsLoading(true)
+
+                    function onFulfilled() {
+                        setIsLoading(false)
+                        setIsLoaded(true)
+                    }
+                    function onRejected() {
+                        setIsLoading(false)
+                        setIsError(true)
+                    }
+
+                    return promise.then(onFulfilled, onRejected)
+                }
+
+                return promise
+            },
+            onLocateClick: props => event => {
+                const {bbox, options} = props.computeBounds()
+
+                props.fitBounds(bbox, options)
+            }
+        }),
+        lifecycle({
+            componentDidMount() {
+                const {loadSingle, loadAll, params} = this.props
+
+                loadSingle(params)
+                loadAll()
+            },
+            componentWillReceiveProps({load, params}) {
+                const {name, date} = this.props.params
+
+                if (name !== params.name || date !== params.date) {
+                    this.props.loadSingle(params)
+                }
+            },
+        }),
+    )
+}
+
 export const forecast = connector(
     getForecast,
     EntitiesActions.loadForecast,
     EntitiesActions.loadFeaturesMetadata
 )
 
-export const hotZoneReport = connector(
+export const hotZoneReport = connectorWithState(
     getHotZoneReport,
     PrismicActions.loadHotZoneReport,
     EntitiesActions.loadFeaturesMetadata

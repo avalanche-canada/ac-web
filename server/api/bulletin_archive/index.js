@@ -4,10 +4,16 @@ var express = require('express');
 var moment  = require('moment');
 var mssql   = require('mssql');
 var _       = require('lodash');
+var request = require('request');
+var xml2js = require('xml2js');
 
-var regionData = require('../../data/season').forecast_regions;
+var regionData   = require('../../data/season').forecast_regions;
+var avalxMapping = require('../../data/season/2016/avalxMapping.json');
+var avalx        = require('../forecasts/avalx');
 
 var BULLETIN_NOT_FOUND = "BULLETIN_NOT_FOUND"
+var NEW_AVALX_START_DATE = '2016-10-01'
+var AVALX2016_ENDPOINT = 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx';
 
 // TODO(wnh): merge your other work and make a single collection of this static
 // data
@@ -77,7 +83,44 @@ var DANGER_QUERY =
     '  where BulletinID = @bid '+
     '  order by SortOrder asc  ';
 
-router.get('/:date/:region.json', (req, res) => {
+router.get('/:date/:region.json', (req,res) => {
+    var date = moment(req.params.date, moment.ISO_8601);
+    if(! date.isValid()) {
+        res.status(404).end();
+        return;
+    }
+    if(date.isBefore(NEW_AVALX_START_DATE)) {
+        return oldAvalx(req, res);
+    } else {
+        return newAvalx(req, res);
+    }
+});
+        
+function newAvalx(req, res) {
+
+    var region    = req.params.region;
+    var region_id = avalxMapping[region];
+    var date      = moment(req.params.date, moment.ISO_8601);
+    if(typeof region_id === 'undefined') {
+        res.status(404).end();
+        return;
+    }
+
+
+
+    request({url: AVALX2016_ENDPOINT, qs: {r: region_id, d: date.format('YYYY-MM-DD')}}, (error, resp, xmlbody) => {
+        if(error) {
+            console.log('Error retreiving forcast from 2016 AvalX Server:', err, err.stack) 
+            return res.status(500).json({error: error, msg: "Error retreiving forcast from 2016 AvalX Server"});
+        }
+        xml2js.parseString(xmlbody, function (err, caamlJson) {
+            res.status(200).json(avalx.parksForecast(caamlJson, region));
+        });
+    });
+    
+}
+        
+function oldAvalx(req, res) {
     // Validate :region is something we know about
     // TODO(wnh): Maybe not since its all old stuff and regions are in flux?
     var regionId = req.params.region;
@@ -129,7 +172,7 @@ router.get('/:date/:region.json', (req, res) => {
             console.log('CONNECTION ERR:', err);
         }
     });
-});
+}
 
 function getAvProblems(bulletin) {
     var probs = 
