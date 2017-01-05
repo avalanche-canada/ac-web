@@ -142,18 +142,6 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleFeedEnter({location}, replace) {
-        const {query} = location
-
-        if (query.year) {
-            return
-        }
-
-        query.year = YEAR
-
-        replace({...location, query})
-    }
-
     function handleEventFeedEnter({location}, replace) {
         const {query} = location
 
@@ -294,11 +282,11 @@ export default function computeRoutes(store) {
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
-            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} onEnter={handleFeedEnter} />
+            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed}/>
 
             <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
 
-            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} onEnter={handleFeedEnter} />
+            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed}/>
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={ArchiveForecast} />
