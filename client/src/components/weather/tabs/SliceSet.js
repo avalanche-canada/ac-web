@@ -19,9 +19,9 @@ export default function SliceSet({ slices = [], date }) {
                         const [loop] = content
                         const [type, run] = loop.type.split('@')
                         const props = {
+                            ...loop,
                             type,
-                            date: loop.date,
-                            run: Number(run.replace('Z', ''))
+                            run: Number(run.replace('Z', '')),
                         }
 
                         return <Loop {...props} />
