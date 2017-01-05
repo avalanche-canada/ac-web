@@ -14,7 +14,7 @@ export default function SurfaceMaps() {
                 <Tab title='Precipitable Water'>
                     <Loop type='AC_GDPS_EPA_tpw' interval={500} withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='other-maps' />
                 </Tab>
             </TabSet>
