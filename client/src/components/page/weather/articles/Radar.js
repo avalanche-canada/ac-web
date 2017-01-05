@@ -17,7 +17,7 @@ export default function Radar() {
                 <Tab title='Sourth Interior'>
                     <Loop type='AC_RADAR_BC-S-INT_precip-rate' interval={200} amount={18} />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='radar' />
                 </Tab>
             </TabSet>
