@@ -70,7 +70,7 @@ function Forecast({forecast}) {
                         </Tab>
                     )
                 })}
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='weather' />
                 </Tab>
             </TabSet>
