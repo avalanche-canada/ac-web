@@ -2,6 +2,7 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import {Iterable} from 'immutable'
+import promise from 'redux-promise-middleware'
 import prismic from 'middleware/prismic'
 import entities from 'middleware/entities'
 import metadata from 'middleware/metadata'
@@ -14,7 +15,7 @@ export default function configureStore(preloadedState) {
     reducer,
     preloadedState,
     compose(
-      applyMiddleware(thunk, entities, metadata, post, prismic, createLogger({
+      applyMiddleware(thunk, entities, metadata, post, prismic, promise(), createLogger({
           collapsed: true,
           stateTransformer(state) {
             let newState = {}
