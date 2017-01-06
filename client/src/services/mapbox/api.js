@@ -1,18 +1,15 @@
-import {accessToken} from './config.json'
+import {accessToken, username, api} from './config.json'
 import Axios from 'axios'
-import queryString from 'query-string'
-
-const baseURL = 'https://api.mapbox.com'
 
 const Style = Axios.create({
-    baseURL: `${baseURL}/styles/v1/avalanchecanada`,
+    baseURL: `${api}/styles/v1/${username}`,
     params: {
         access_token: accessToken,
     },
 })
 
 const Places = Axios.create({
-    baseURL: `${baseURL}/geocoding/v5/mapbox.places`,
+    baseURL: `${api}/geocoding/v5/mapbox.places`,
     params: {
         country: 'ca',
         types: ['locality', 'place', 'poi'].join(','),
