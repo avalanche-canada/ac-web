@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import {List} from 'immutable'
 import moment from 'moment'
-import {compose} from 'recompose'
 import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
 import styles from './Table.css'
 
@@ -11,10 +10,6 @@ StationTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
     measurements: PropTypes.instanceOf(List),
     caption: PropTypes.string,
-}
-
-function measurementGrouper({measurementDateTime, utcOffset}) {
-    return moment(measurementDateTime).utcOffset(utcOffset).format('dddd, MMMM D, YYYY')
 }
 
 function renderRow({property, name, ...props}, index) {
@@ -34,7 +29,9 @@ function renderRow({property, name, ...props}, index) {
 }
 
 function StationTable({columns, measurements, headers, caption}) {
-    const bodies = measurements.groupBy(measurementGrouper)
+    const bodies = measurements.groupBy(({measurementDateTime, utcOffset}) => (
+        moment(measurementDateTime).utcOffset(utcOffset).format('dddd, MMMM D, YYYY')
+    ))
 
     return (
         <div styleName='Container'>
@@ -68,6 +65,4 @@ function StationTable({columns, measurements, headers, caption}) {
     )
 }
 
-export default compose(
-    CSSModules(styles)
-)(StationTable)
+export default CSSModules(styles, StationTable)
