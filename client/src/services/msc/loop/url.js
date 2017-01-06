@@ -19,29 +19,31 @@ export function getNotes(type) {
     }
 }
 
+function hourSorter(left, right) {
+    if (left.getHours() > right.getHours()) {
+        return 1
+    }
+    if (left.getHours() > right.getHours()) {
+        return -1
+    }
+
+    return 0
+}
+
 function getForecastNotes(type) {
     if (!Forecast.has(type)) {
         throw new Error(`Unrecognizable Forecast loop type=${type}.`)
     }
 
-    const updates = Forecast.get(type).runs.map(run => {
+    const updates = Forecast.get(type).updates.map(updates => {
         const date = new Date()
 
-        date.setUTCHours(run)
-        date.setUTCMinutes(30)
+        date.setHours(updates)
+        date.setMinutes(0)
 
         return date
     })
-    .sort((left, right) => {
-        if (left.getHours() > right.getHours()) {
-            return 1
-        }
-        if (left.getHours() > right.getHours()) {
-            return -1
-        }
-
-        return 0
-    })
+    .sort(hourSorter)
     .map(date => format(date, 'HH[:]mm'))
 
     const last = updates.pop()
