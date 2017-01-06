@@ -30,6 +30,7 @@ export MountainInformationNetworkSubmit from './min/Form'
 // Static Pages
 export const EarlySeasonConditions = staticPage('early-season-conditions', 'Early Season Conditions')
 export const Tech = staticPage('tech', 'Tech')
+export const FAQ = staticPage('faq', 'FAQ')
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')
 export const Gear = staticPage('essential-gear', 'Essential Gear')

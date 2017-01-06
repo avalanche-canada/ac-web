@@ -119,6 +119,8 @@
 }
 
 .Section {
+    clear: both;
+
     & .Headline {
         margin: 1.5em 0;
     }

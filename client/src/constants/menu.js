@@ -135,7 +135,7 @@ export const AvalancheCanada = {
                 to: '/sled#featured-resources',
             }, {
                 label: 'Throttle Decisions',
-                to: '/sled#video-featured',
+                to: '/sled#throttle-decisions',
             }, {
                 label: 'News',
                 to: '/news?tags=snowmobiler&tags=snowmobile+',
@@ -193,9 +193,9 @@ export const AvalancheCanada = {
             // }, {
             //     label: 'Tech',
             //     to: '/tech',
-            // }, {
-            //     label: 'Contact Us',
-            //     to: '/about#contact',
+            }, {
+                label: 'Contact Us',
+                to: '/about#contact-us',
             }]
         }, {
             label: 'Membership',
@@ -221,6 +221,8 @@ export const AvalancheCanada = {
             children: [{
                 label: 'Overview',
                 to: '/ambassadors',
+                // label: 'Connect',
+                // to: '/ambassadors#connect',
             }, {
                 label: 'Nadine Overwater',
                 to: '/ambassadors#nadine-overwater',
