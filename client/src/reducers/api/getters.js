@@ -3,7 +3,9 @@ import {RESULT} from './results'
 import {getEntityForSchema} from 'getters/entities'
 import {ForecastRegion} from 'api/schemas'
 
-export function getResultsSetForSchema(state, schema) {
+// TODO: Move some or all of these functions to getters module
+
+function getResultsSetForSchema(state, schema) {
     return state.api.results[schema.getKey()]
 }
 
@@ -12,6 +14,13 @@ export function getResultsSet(state, schema, params) {
     const key = paramsToKey(params)
 
     return sets.get(key, RESULT)
+}
+
+export function hasResultsSet(state, schema, params) {
+    const sets = getResultsSetForSchema(state, schema)
+    const key = paramsToKey(params)
+
+    return sets.has(key)
 }
 
 const EXTERNAL_URLS = new Map([

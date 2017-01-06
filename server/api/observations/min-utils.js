@@ -41,6 +41,7 @@ function itemsToSubmissions(items) {
                 datetime: obs[0].ob.datetime,
                 uploads: obs[0].ob.uploads,
                 title: obs[0].ob.title,
+                user: obs[0].user,
                 obs: new_obs
             }
         })
@@ -198,10 +199,10 @@ exports.saveSubmission = function (token, form, callback) {
             if (err) {
                 logger.log('info','Error getting user profile : %s', JSON.stringify(err));
                 return res.send(500, {error: 'There was an error while saving your submission.'})
-            } 
+            }
             item.userid = profile.user_id;
             item.user   = profile.nickname || 'unknown';
-           
+
             if(_.isEmpty(tempObs)){
                 saveOb(item)
                     .then(function(ob){
