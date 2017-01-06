@@ -65,4 +65,4 @@ function StationTable({columns, measurements, headers, caption}) {
     )
 }
 
-export default CSSModules(styles, StationTable)
+export default CSSModules(StationTable, styles)
