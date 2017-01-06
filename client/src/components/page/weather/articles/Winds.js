@@ -17,7 +17,7 @@ export default function Winds() {
                 <Tab title='2500m G'>
                     <Loop type='AC_GDPS_BC_750-winds' interval={500} withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='winds' />
                 </Tab>
             </TabSet>

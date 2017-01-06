@@ -6,6 +6,7 @@ const Metadata = Immutable.Record({
     title: null,
     shortTitle: null,
     runs: null,
+    updates: null,
     hours: null,
     minutes: null,
     extension: 'png',
@@ -19,6 +20,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 1h HR BC',
         shortTitle: 'BC HR',
         runs: [6, 18],
+        updates: [2, 14],
         hours: range(0, 42 + 1),
     }),
     'AC_HRDPS_BC-S-Cst_1hr-precip': new Metadata({
@@ -26,6 +28,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 1h HR SC',
         shortTitle: 'South Coast HR',
         runs: [6, 18],
+        updates: [2, 14],
         hours: range(0, 42 + 1),
     }),
     'AC_HRDPS_BC-S-Int_1hr-precip': new Metadata({
@@ -33,6 +36,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 1h HR SI',
         shortTitle: 'South Interior HR',
         runs: [6, 18],
+        updates: [2, 14],
         hours: range(0, 42 + 1),
     }),
     'AC_RDPS_BC_precip-types': new Metadata({
@@ -40,6 +44,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation Type 3h R',
         shortTitle: 'Type R',
         runs: [0, 6, 12, 18],
+        updates: [3, 9, 15, 21],
         hours: range(3, 48 + 1, 3),
     }),
     // Precipitation 12 hour Totals
@@ -48,6 +53,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 12hr R BC',
         shortTitle: 'BR R',
         runs: [0, 6, 12, 18],
+        updates: [3, 9, 15, 21],
         hours: range(12, 48 + 1, 6),
     }),
     'AC_HRDPS_BC-S-Cst_12hr-precip': new Metadata({
@@ -55,6 +61,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 12hr HR SC',
         shortTitle: 'South Coast HR',
         runs: [6, 18],
+        updates: [2, 14],
         hours: range(12, 42 + 1, 6),
     }),
     'AC_HRDPS_BC-S-Int_12hr-precip': new Metadata({
@@ -62,6 +69,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitation 12hr HR SI',
         shortTitle: 'Sourth Interior HR',
         runs: [6, 18],
+        updates: [2, 14],
         hours: range(12, 42 + 1, 6),
     }),
     // Temperatures
@@ -70,6 +78,7 @@ export const Forecast = new Immutable.Map({
         title: 'Temperatures Surface HR',
         shortTitle: 'Surface HR',
         runs: [6, 12],
+        updates: [2, 14],
         hours: range(0, 45 + 1),
     }),
     'AC_HRDPS_BC_sfc-temp-3hr-freq': new Metadata({
@@ -77,6 +86,7 @@ export const Forecast = new Immutable.Map({
         title: 'Temperatures Surface HR',
         shortTitle: 'Surface HR',
         runs: [6, 12],
+        updates: [2, 14],
         hours: range(0, 45 + 1, 3),
     }),
     'AC_RDPS_BC_freezing-level': new Metadata({
@@ -84,6 +94,7 @@ export const Forecast = new Immutable.Map({
         title: 'Freezing Level R',
         shortTitle: 'Freezing Level R',
         runs: [0, 6, 12, 18],
+        updates: [3, 9, 15, 21],
         hours: range(0, 48 + 1, 3),
     }),
     'AC_GDPS_BC_850-temp': new Metadata({
@@ -91,6 +102,7 @@ export const Forecast = new Immutable.Map({
         title: null,
         shortTitle: '1500m G',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),
@@ -100,6 +112,7 @@ export const Forecast = new Immutable.Map({
         title: null,
         shortTitle: '1500m 4am G',
         runs: [0],
+        updates: [9],
         hours: range(12, 144 + 1, 24),
         extension: 'jpg',
     }),
@@ -109,6 +122,7 @@ export const Forecast = new Immutable.Map({
         title: null,
         shortTitle: '1500m 4pm G',
         runs: [0],
+        updates: [9],
         hours: range(0, 144 + 1, 24),
         extension: 'jpg',
     }),
@@ -118,6 +132,7 @@ export const Forecast = new Immutable.Map({
         title: 'Marine Winds - R',
         shortTitle: 'Surface R',
         runs: [0, 6, 12, 18],
+        updates: [3, 9, 15, 21],
         hours: range(0, 48 + 1, 3),
     }),
     'AC_GDPS_BC_850-winds': new Metadata({
@@ -125,6 +140,7 @@ export const Forecast = new Immutable.Map({
         title: 'Winds 1500m - G',
         shortTitle: '1500m G',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),
@@ -133,6 +149,7 @@ export const Forecast = new Immutable.Map({
         title: 'Winds 2500m - G',
         shortTitle: '2500m G',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),
@@ -142,6 +159,7 @@ export const Forecast = new Immutable.Map({
         title: 'Surface_Maps_0-48h_R',
         shortTitle: 'Surface R',
         runs: [0, 6, 12, 18],
+        updates: [3, 9, 15, 21],
         hours: range(0, 48 + 1, 3),
     }),
     'AC_GDPS_EPA_6hr-precip-clds-th-slp': new Metadata({
@@ -149,6 +167,7 @@ export const Forecast = new Immutable.Map({
         title: 'Surface_Maps_0-144h_G',
         shortTitle: '0-144 hours G',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),
@@ -157,6 +176,7 @@ export const Forecast = new Immutable.Map({
         title: '500mb_0-144h_G',
         shortTitle: '500mb',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(12, 144 + 1, 6),
         extension: 'jpg',
     }),
@@ -165,6 +185,7 @@ export const Forecast = new Immutable.Map({
         title: 'Precipitable Water (G)',
         shortTitle: 'Precipitable water',
         runs: [0, 12],
+        updates: [9, 21],
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),

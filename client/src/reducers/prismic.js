@@ -7,6 +7,7 @@ import {
     PRISMIC_FAILURE,
 } from 'actions/prismic'
 
+// TODO: Remove that hack to know something is loading
 function fetchingCounter(state = 0, {type}) {
     switch (type) {
         case PRISMIC_REQUEST:

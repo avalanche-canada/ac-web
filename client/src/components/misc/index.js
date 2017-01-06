@@ -15,6 +15,7 @@ export P from './P'
 
 export GoBack from './GoBack'
 
+export {Relative} from './Time'
 export const Time = createTime('Time', 'HH:mm')
 export const DateTime = createTime('DateTime', 'dddd, MMMM D, HH:mm')
 export const Day = createTime('Day', 'dddd')
@@ -41,3 +42,5 @@ export Ratio from './Ratio'
 export ElementResize from './ElementResize'
 
 export Delay from './Delay'
+
+export Status from './Status'

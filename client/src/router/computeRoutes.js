@@ -58,6 +58,7 @@ import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
 import * as Funds from 'containers/funds'
 import * as Layouts from 'layouts'
+import * as table from 'layouts/min/table'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
@@ -282,13 +283,12 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/faq' sponsorRef='MIN' component={MountainInformationNetworkFAQ} />
             <Route path='mountain-information-network/submission-guidelines' sponsorRef='MIN' component={MountainInformationNetworkSubmissionGuidelines} />
             <Route path='mountain-information-network/submissions/:id' sponsorRef='MIN' component={MountainInformationNetworkSubmission} />
+            <Route path='mountain-information-network/submissions' sponsorRef='MIN' component={table.Page} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
             <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} />
-
             <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
-
             <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
@@ -358,6 +358,7 @@ export default function computeRoutes(store) {
             <Redirect from='min/faq' to='mountain-information-network/faq' />
             <Redirect from='min/submission-guidelines' to='mountain-information-network/submission-guidelines' />
             <Redirect from='min/submissions/:id' to='mountain-information-network/submissions/:id' />
+            <Redirect from='min/submissions' to='mountain-information-network/submissions' />
             {/* AVALANCHE CANADA FOUNDATION */}
             <Route path='foundation'>
                 <IndexRoute components={{navbar: AvalancheCanadaFoundation, content: Foundation.Home, footer: null}} />

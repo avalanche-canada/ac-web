@@ -1,6 +1,5 @@
 import * as SCHEMAS from 'api/schemas'
 import Axios, {defaults} from 'axios'
-import query from 'query-string'
 import moment from 'moment'
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
 import Url from 'url'

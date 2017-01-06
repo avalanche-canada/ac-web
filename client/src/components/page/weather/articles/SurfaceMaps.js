@@ -14,7 +14,7 @@ export default function SurfaceMaps() {
                 <Tab title='0-144 Hours G'>
                     <Loop type='AC_GDPS_EPA_6hr-precip-clds-th-slp' interval={500} withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='surface-maps' />
                 </Tab>
             </TabSet>

@@ -1,3 +1,5 @@
+// TODO: Probably do not need that file anymore
+
 import React from 'react'
 import {Place} from 'components/icons'
 import * as Types from 'components/mountainInformationNetwork/types'
