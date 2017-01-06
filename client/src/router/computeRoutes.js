@@ -41,6 +41,8 @@ import {
     Gear,
     Sled,
     FAQ,
+    Information,
+    Planning,
     Auction,
     Youth,
     TripPlanner,
@@ -330,6 +332,8 @@ export default function computeRoutes(store) {
                 </Route>
             </Route>
             <Route path='faq' component={FAQ} />
+            <Route path='planning' component={Planning} />
+            <Route path='information' component={Information} />
             <Route path='tech' component={Tech} />
             <Route path='early-season-conditions' component={EarlySeasonConditions} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />

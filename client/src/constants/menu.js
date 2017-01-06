@@ -3,8 +3,11 @@ const MountainInformationNetwork = {
     header: true,
     to: '/mountain-information-network',
     children: [{
-        label: 'Overview',
-        to: '/mountain-information-network',
+        label: 'How to GET information?',
+        to: '/mountain-information-network#get-information',
+    }, {
+        label: 'How to GIVE information?',
+        to: '/mountain-information-network#give-information',
     }, {
         label: 'Create a Report',
         to: '/mountain-information-network/submit',
@@ -35,9 +38,9 @@ const AvCanTrainingCourses = {
     header: true,
     to: '/training',
     children: [{
-        label: 'Overview',
-        to: '/training#overview',
-    }, {
+    //     label: 'Overview',
+    //     to: '/training#overview',
+    // }, {
         label: 'Find a course',
         to: '/training/courses',
     }, {
@@ -60,29 +63,40 @@ const AvCanTrainingCourses = {
         to: '/instructing-ast',
     }]
 }
+const Planning = {
+    label: 'Planning',
+    to: '/planning',
+    header: true,
+    children: [
+        MountainWeatherForecast,
+        ForecasterBlog,
+        Gear,
+        TripPlanner,
+        Forecasts
+    ]
+}
 
 export const AvalancheCanada = {
     children: [{
         label: 'Backcountry Resources',
         children: [
-            MountainInformationNetwork, {
-            label: 'Planning',
-            header: true,
-            children: [MountainWeatherForecast, ForecasterBlog, Gear, TripPlanner, Forecasts]
-        }, {
-            label: 'Information',
-            header: true,
-            children: [{
-            //     label: 'FAQ',
-            //     to: '/faq'
-            // }, {
-                label: 'Forecast Archive',
-                to: '/forecasts/archives'
-            }, {
-                label: 'Avalanche Incident Database',
-                to: '/incidents'
-            }]
-        }]
+            MountainInformationNetwork,
+            Planning, {
+                label: 'Information',
+                to: '/information',
+                header: true,
+                children: [{
+                //     label: 'FAQ',
+                //     to: '/faq'
+                // }, {
+                    label: 'Forecast Archive',
+                    to: '/forecasts/archives'
+                }, {
+                    label: 'Avalanche Incident Database',
+                    to: '/incidents'
+                }]
+            }
+        ]
     }, {
         label: 'Learn',
         children: [AvCanTrainingCourses, {
@@ -104,9 +118,9 @@ export const AvalancheCanada = {
             header: true,
             to: '/youth',
             children: [{
-                label: 'Overview',
-                to: '/youth',
-            }, {
+            //     label: 'Overview',
+            //     to: '/youth',
+            // }, {
                 label: 'Teaching Guidelines',
                 to: '/youth#teaching-guidelines',
             }, {
@@ -147,16 +161,10 @@ export const AvalancheCanada = {
                 to: '/sled#sledcomm',
             }]
         },
-        MountainInformationNetwork, {
-            label: 'Planning',
-            header: true,
-            children: [
-                MountainWeatherForecast,
-                ForecasterBlog,
-                Gear,
-                TripPlanner,
-                Forecasts]
-        }, AvCanTrainingCourses]
+        MountainInformationNetwork,
+        Planning,
+        AvCanTrainingCourses
+    ]
     }, {
         label: 'News & Events',
         children: [{
@@ -202,9 +210,9 @@ export const AvalancheCanada = {
             header: true,
             to: '/membership',
             children: [{
-                to: '/membership',
-                label: 'Overview',
-            }, {
+            //     to: '/membership',
+            //     label: 'Overview',
+            // }, {
                 to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
                 label: 'Individual',
             }, {
@@ -219,11 +227,11 @@ export const AvalancheCanada = {
             header: true,
             to: '/ambassadors',
             children: [{
-                label: 'Overview',
-                to: '/ambassadors',
-                // label: 'Connect',
-                // to: '/ambassadors#connect',
-            }, {
+            //     label: 'Overview',
+            //     to: '/ambassadors',
+            //     label: 'Connect',
+            //     to: '/ambassadors#connect',
+            // }, {
                 label: 'Nadine Overwater',
                 to: '/ambassadors#nadine-overwater',
             }, {
