@@ -1,12 +1,9 @@
 import {connect} from 'react-redux'
-import {compose, lifecycle, mapProps, withProps, withHandlers} from 'recompose'
+import {compose, withProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
-import {loadFeaturesMetadata} from 'actions/entities'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
-import {getEntitiesForSchema} from 'getters/entities'
 import {getIsAuthenticated, getProfile} from 'reducers/auth'
-import {ForecastRegion} from 'api/schemas'
 import {login, logout} from 'actions/auth'
 
 function mapStateToProps(state) {
@@ -16,7 +13,6 @@ function mapStateToProps(state) {
         isAuthenticated: getIsAuthenticated(state),
         name,
         avatar: picture,
-        regions: getEntitiesForSchema(state, ForecastRegion),
     }
 }
 
@@ -26,35 +22,11 @@ function asTree(menu) {
 
 export const AvalancheCanada = compose(
     connect(mapStateToProps, {
-        loadFeaturesMetadata,
         login,
         logout,
     }),
-    lifecycle({
-        componentDidMount() {
-            this.props.loadFeaturesMetadata()
-        }
-    }),
-    withProps(({regions}) => {
-        let menu = menus.AvalancheCanada
-
-        if (regions) {
-            // FIXME: This is really bad code!!! There must be a better way to do that.
-            menu.children[1].children[0].children = regions.map(feature => {
-                const id = feature.get('id')
-
-                return {
-                    id,
-                    key: id,
-                    label: feature.get('name'),
-                    to: `/map/forecasts/${id}`
-                }
-            }).toList().sortBy(feature => feature.label).toArray()
-        }
-
-        return {
-            menu: asTree(menu)
-        }
+    withProps({
+        menu: asTree(menus.AvalancheCanada)
     }),
     withHandlers({
         onLogin: props => event => {

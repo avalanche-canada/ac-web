@@ -30,6 +30,9 @@ export MountainInformationNetworkSubmit from './min/Form'
 // Static Pages
 export const EarlySeasonConditions = staticPage('early-season-conditions', 'Early Season Conditions')
 export const Tech = staticPage('tech', 'Tech')
+export const FAQ = staticPage('faq', 'FAQ')
+export const Planning = staticPage('planning', 'Planning')
+export const Information = staticPage('information', 'Information')
 export const Sled = staticPage('sled', 'Sled')
 export const Youth = staticPage('youth', 'Youth')
 export const Gear = staticPage('essential-gear', 'Essential Gear')
@@ -50,7 +53,7 @@ export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
 export const TermsOfUse = generic('terms-of-use', 'Terms of use')
 
 // WIP Pages
-const WIPPageTitle = 'We are currently working on this page while waiting for the snow to come...'
+const WIPPageTitle = 'We are currently working on this page...'
 const WIPPageSubtitle = 'For now, you can visit this page on our old website.'
 
 export const TripPlanner = wip('trip-planner', 'Trip Planner', 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning', WIPPageTitle, WIPPageSubtitle)

@@ -16,7 +16,7 @@ const HeaderLink = nest(Header, Link)
 
 function createLink({label, header, headline, ...rest}, index) {
     const hasHeader = header === true || typeof headline === 'string'
-    const component = hasHeader ? HeaderLink : Link
+    const component = hasHeader ? typeof rest.to === 'string' ? HeaderLink : Header : Link
     const props = {
         ...rest,
         key: index

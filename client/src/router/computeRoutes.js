@@ -40,6 +40,9 @@ import {
     Tutorial,
     Gear,
     Sled,
+    FAQ,
+    Information,
+    Planning,
     Auction,
     Youth,
     TripPlanner,
@@ -284,11 +287,9 @@ export default function computeRoutes(store) {
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
             <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
-            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed}/>
-
+            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} />
             <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
-
-            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed}/>
+            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={ArchiveForecast} />
@@ -330,6 +331,9 @@ export default function computeRoutes(store) {
                     <Route path='courses' sponsorRef='TrainingCourses' components={{table: CoursesTable, form: CoursesForm}} />
                 </Route>
             </Route>
+            <Route path='faq' component={FAQ} />
+            <Route path='planning' component={Planning} />
+            <Route path='information' component={Information} />
             <Route path='tech' component={Tech} />
             <Route path='early-season-conditions' component={EarlySeasonConditions} />
             <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
