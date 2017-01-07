@@ -98,7 +98,7 @@ export const AvalancheCanada = {
         id: id++,
         label: 'Backcountry Resources',
         children: [
-            MountainInformationNetwork,
+            {...MountainInformationNetwork, id: id++},
             Planning, {
                 id: id++,
                 label: 'Information',
@@ -121,7 +121,7 @@ export const AvalancheCanada = {
     }, {
         id: id++,
         label: 'Learn',
-        children: [AvCanTrainingCourses, {
+        children: [{...AvCanTrainingCourses, id: id++}, {
             id: id++,
             label: 'Online Education',
             header: true,
@@ -201,9 +201,9 @@ export const AvalancheCanada = {
                 to: '/sled#sledcomm',
             }]
         },
-        MountainInformationNetwork,
+        {...MountainInformationNetwork, id: id++},
         Planning,
-        AvCanTrainingCourses
+        {...AvCanTrainingCourses, id: id++}
     ]
     }, {
         id: id++,
