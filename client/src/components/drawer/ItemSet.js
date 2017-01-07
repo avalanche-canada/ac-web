@@ -7,14 +7,21 @@ import styles from './Drawer.css'
 
 ItemSet.propTypes = {
     items: PropTypes.node.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    to: PropTypes.string,
 }
 
-function ItemSet({label, items}) {
+function ItemSet({items, label, to}) {
     return (
         <div styleName='ItemSet--Container'>
             <ul styleName='ItemSet'>
-                <Item>{label}</Item>
+                <Item>
+                    {to ?
+                        <Link to={to} title={label}>
+                            {label}
+                        </Link> :
+                        label}
+                </Item>
                 {items.map(({to, label, headline, children = [], onClick}, index) => {
                     const link = {
                         to,
