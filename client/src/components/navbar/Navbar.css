@@ -160,27 +160,25 @@
 
 .Header {
     color: var(--black);
+    padding: 10px 0 0 0;
     font-size: 1rem;
 
     & + .Header {
-        margin: 10px 0 0 0;
         border-top: var(--gray-light) solid 2px;
     }
 
     & > .Link {
-        font-size: 1rem;
         color: var(--black);
         text-align: left;
+        padding: 0;
 
         &:hover {
             color: var(--brand-primary);
         }
 
         &:after {
+            content: "\00a0›";
             color: var(--brand-primary);
-            content: "›";
-            margin-left: 0.25em;
-            font-size: 1.25rem;
         }
     }
 }

@@ -5,7 +5,6 @@ import CSSModules from 'react-css-modules'
 import {history} from 'router'
 import Link from 'components/navbar/Link'
 import Cabinet from './Cabinet'
-import Drawer from './Drawer'
 import Item from './Item'
 import styles from './Drawer.css'
 
@@ -51,7 +50,7 @@ function handleCloseChildren(id, event) {
     this.setNode(node)
 }
 
-function createDrawer({ model: {id, children, ...drawer} }) {
+function createDrawer({model: {id, children, ...drawer} }) {
     return {
         key: id,
         data: {
@@ -66,7 +65,7 @@ function createDrawer({ model: {id, children, ...drawer} }) {
     }
 }
 
-function itemCreator({ id, to, label }) {
+function itemCreator({id, to, label}) {
     return (
         <Item>
             <Link to={to} onClick={handleClick.bind(this, id)}>

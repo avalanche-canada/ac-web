@@ -11,7 +11,7 @@ function Footer() {
 		<footer styleName='Container'>
             <div styleName='Content'>
                 <nav styleName='Nav'>
-                    <Link styleName='Link' to='/about'>Contact</Link>
+                    <Link styleName='Link' to='/about#contact-us'>Contact</Link>
                     <Link styleName='Link' to='/privacy-policy'>Privacy Policy</Link>
                     <Link styleName='Link' to='/terms-of-use'>Terms of use</Link>
                 </nav>
