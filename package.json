@@ -63,6 +63,7 @@
     "turf-distance": "^3.0.12",
     "turf-helpers": "^3.0.12",
     "turf-nearest": "^3.0.12",
+    "turf-inside": "^3.0.12",
     "url": "^0.11.0",
     "webcache": "git://github.com/tesera/node-webcache.git#v0.0.3",
     "webcache-redis": "git://github.com/tesera/node-webcache-redis",

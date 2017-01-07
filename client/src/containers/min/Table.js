@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import Table from 'components/table/managed'
 import mapStateToProps from 'selectors/min/table'
 import {loadMountainInformationNetworkSubmissionsForDays} from 'actions/entities'
+import {loadFeatures} from 'actions/mapbox'
+import {FORECAST_REGIONS} from 'services/mapbox/datasets'
 import {DateElement, Status as StatusComponent, Muted} from 'components/misc'
 import {Metadata as BaseMetadata, Entry} from 'components/metadata'
 import {DayPicker} from 'components/controls'
@@ -107,11 +109,13 @@ export default compose(
         types: PropTypes.instanceOf(Set).isRequired,
     }),
     connect(mapStateToProps, {
-        load: loadMountainInformationNetworkSubmissionsForDays
+        load: loadMountainInformationNetworkSubmissionsForDays,
+        loadFeatures,
     }),
     lifecycle({
         componentDidMount() {
             this.props.load(this.props.days)
+            this.props.loadFeatures(FORECAST_REGIONS)
         },
         componentWillReceiveProps({days}) {
             this.props.load(days)
