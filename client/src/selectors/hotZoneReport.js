@@ -147,11 +147,12 @@ const getHotZoneReport = createSelector(
     (state, props) => props.params,
     getParsedHotZoneReports,
     ({name, uid}, reports) => {
-        const finder = typeof uid === 'string' ?
+        const filter = typeof uid === 'string' ?
             report => report.uid === uid :
             report => report.region === name && isHotZoneReportValid(report)
 
-        return reports.find(finder)
+
+        return reports.filter(filter).sortBy(report => report.dateOfIssue).last()
     }
 )
 
