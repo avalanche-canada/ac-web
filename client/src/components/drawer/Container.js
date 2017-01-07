@@ -51,7 +51,7 @@ function handleCloseChildren(id, event) {
     this.setNode(node)
 }
 
-function createDrawer({ model: {id, children, ...drawer} }) {
+function createDrawer({model: {id, children, ...drawer} }) {
     return {
         key: id,
         data: {
@@ -66,7 +66,7 @@ function createDrawer({ model: {id, children, ...drawer} }) {
     }
 }
 
-function itemCreator({ id, to, label }) {
+function itemCreator({id, to, label }) {
     return (
         <Item>
             <Link to={to} onClick={handleClick.bind(this, id)}>
