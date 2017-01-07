@@ -38,9 +38,6 @@ const AvCanTrainingCourses = {
     header: true,
     to: '/training',
     children: [{
-    //     label: 'Overview',
-    //     to: '/training#overview',
-    // }, {
         label: 'Find a course',
         to: '/training/courses',
     }, {
@@ -112,15 +109,15 @@ export const AvalancheCanada = {
             }, {
                 label: 'Rescue at Cherry Bowl',
                 to: '/cherry-bowl',
+            }, {
+                label: 'Land of Thundering Snow',
+                to: 'http://www.landofthunderingsnow.ca'
             }]
         }, {
             label: 'Youth Education',
             header: true,
             to: '/youth',
             children: [{
-            //     label: 'Overview',
-            //     to: '/youth',
-            // }, {
                 label: 'Teaching Guidelines',
                 to: '/youth#teaching-guidelines',
             }, {
@@ -210,9 +207,6 @@ export const AvalancheCanada = {
             header: true,
             to: '/membership',
             children: [{
-            //     to: '/membership',
-            //     label: 'Overview',
-            // }, {
                 to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
                 label: 'Individual',
             }, {
@@ -227,8 +221,6 @@ export const AvalancheCanada = {
             header: true,
             to: '/ambassadors',
             children: [{
-            //     label: 'Overview',
-            //     to: '/ambassadors',
             //     label: 'Connect',
             //     to: '/ambassadors#connect',
             // }, {
