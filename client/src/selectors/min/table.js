@@ -11,6 +11,10 @@ import {Link} from 'react-router'
 import * as Types from 'components/mountainInformationNetwork/types'
 import {DateTime, Relative} from 'components/misc'
 import styles from 'components/misc/Text.css'
+import {getFeatureCollection} from 'getters/mapbox'
+import {FORECAST_REGIONS} from 'services/mapbox/datasets'
+import inside from 'turf-inside'
+import turf from 'turf-helpers'
 
 // TODO: Move this to constants folder/modules
 const Titles = new Map([
@@ -74,6 +78,23 @@ const columns = Immutable.List.of(
         },
     }),
     Column.create({
+        name: 'forecast-region',
+        title: 'Forecast Region',
+        property(submission) {
+            if (submission.has('region')) {
+                const {name, id} = submission.get('region')
+
+                return (
+                    <Link to={`/map/forecasts/${id}`}>
+                        {name}
+                    </Link>
+                )
+            }
+
+            return '-'
+        }
+    }),
+    Column.create({
         name: 'types',
         title: 'Available reports',
         property(submission) {
@@ -112,8 +133,36 @@ function getFilter(state, {types}) {
         .intersect(types).isEmpty()
 }
 
-const getFilteredSubmissions = createSelector(
+const runSubmissionsSpatialAnalysis = createSelector(
     getSubmissions,
+    state => getFeatureCollection(state, FORECAST_REGIONS),
+    (submissions, regions) => {
+        if (!regions || submissions.isEmpty()) {
+            return submissions
+        }
+
+        const {features} = regions
+
+        function setRegion(submission) {
+            const point = turf.point(submission.get('latlng').reverse().toArray())
+
+            for (var i = 0; i < features.length; i++) {
+                const region = features[i]
+
+                if (inside(point, region)) {
+                    return submission.set('region', region.properties)
+                }
+            }
+
+            return submission
+        }
+
+        return submissions.map(setRegion)
+    }
+)
+
+const getFilteredSubmissions = createSelector(
+    runSubmissionsSpatialAnalysis,
     getSubmissionsResultsSet,
     getFilter,
     (submissions, {ids}, filter) => new Immutable.List(ids)
