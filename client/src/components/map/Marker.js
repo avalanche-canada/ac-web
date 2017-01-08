@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import mapbox from 'services/mapbox/map'
 
 const {LngLat} = mapbox
-const {assign} = Object
 function noop() {}
 
 export default class Marker extends Component {
@@ -49,13 +48,13 @@ export default class Marker extends Component {
     createMarker({element, lngLat, options, onClick, draggable}) {
         // TODO: Remove that. Should by provided as part of the element
         if (onClick) {
-            assign(element, {
+            Object.assign(element, {
                 onclick: event => onClick(this.props, event)
             })
         }
 
         if (draggable) {
-            assign(element, {
+            Object.assign(element, {
                 onmousedown: this.handleMousedown,
             })
             element.classList.add('draggable-map-marker')

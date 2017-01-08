@@ -12,8 +12,7 @@ import {DropdownFromOptions as Dropdown} from 'components/controls'
 import factory from 'prismic/factory'
 import get from 'lodash/get'
 
-const {isArray} = Array
-const {NONE, ASC, DESC} = HeaderCellOrders
+const {NONE, DESC} = HeaderCellOrders
 const YES = 'Yes'
 const NO = 'No'
 
@@ -111,7 +110,7 @@ const mapStateToProps = createSelector(
         const end = page * pageSize
         let rows = filters.reduce((rows, filter) => rows.filter(filter), documents)
 
-        if (isArray(sorting)) {
+        if (Array.isArray(sorting)) {
             const [sorter, order] = sorting
 
             rows = rows.sortBy(sorter)

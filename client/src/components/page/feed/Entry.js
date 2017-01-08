@@ -6,8 +6,6 @@ import {Image, InnerHTML, DateElement} from 'components/misc'
 import {TagSet, Tag} from 'components/tag'
 import styles from './Feed.css'
 
-const {isArray} = Array
-
 Entry.propTypes = {
     featured: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
@@ -59,7 +57,7 @@ function Entry({
                     {category && <li>{category}</li>}
                     {source && <li>{source}</li>}
                 </ul>
-                {isArray(tags) &&
+                {Array.isArray(tags) &&
                     <TagSet>
                         {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
                     </TagSet>

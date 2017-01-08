@@ -13,8 +13,6 @@ import {DropdownFromOptions} from 'components/controls'
 import {Form, Fieldset} from 'components/form'
 import {replace} from 'utils/router'
 
-const {assign, keys} = Object
-const {isArray} = Array
 const PARAMS = {
     season: [],
     province: [],
@@ -31,10 +29,10 @@ function setParams(name, props) {
 }
 
 function paramsToArrays(params) {
-    return keys(params).reduce((values, key) => {
+    return Object.keys(params).reduce((values, key) => {
         const value = params[key]
 
-        values[key] = isArray(value) ? value : [value]
+        values[key] = Array.isArray(value) ? value : [value]
 
         return values
     }, {})
@@ -57,7 +55,7 @@ function IncidentsTable({
     location,
     router,
 }) {
-    const {page, ...params} = assign({}, PARAMS, location.query)
+    const {page, ...params} = Object.assign({}, PARAMS, location.query)
     const {season, province, involvement, activity} = paramsToArrays(params)
     const props = {
         router,

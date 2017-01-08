@@ -6,8 +6,6 @@ import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
 
-const {keys} = Object
-
 const NEWS = 'news'
 const BLOG = 'blog'
 const EVENT = 'event'
@@ -46,7 +44,7 @@ const SORTERS = new Map([
 function getPredicates(state, {location}) {
     const {query} = location
 
-    return keys(query).map(key => PREDICATES.get(key).call(null, query))
+    return Object.keys(query).map(key => PREDICATES.get(key).call(null, query))
 }
 
 function getType(state, {type}) {

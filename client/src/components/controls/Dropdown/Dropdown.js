@@ -7,9 +7,7 @@ import DropdownOption from './DropdownOption'
 import {OptionSet} from 'components/controls/options'
 import styles from './Dropdown.css'
 
-function K() {}
-const {isArray} = Array
-const {assign} = Object
+function noop() {}
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
@@ -23,7 +21,7 @@ export default class Dropdown extends Component {
         multiple: PropTypes.bool,
     }
     static defaultProps = {
-        onChange: K,
+        onChange: noop,
         placeholder: 'Select',
     }
     state = {
@@ -153,7 +151,7 @@ export default class Dropdown extends Component {
             this.setState({
                 value: new Set([value])
             })
-        } else if (isArray(value)) {
+        } else if (Array.isArray(value)) {
             this.setState({
                 value: new Set(value)
             })

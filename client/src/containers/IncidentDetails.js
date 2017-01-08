@@ -13,8 +13,6 @@ import {List} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
 import {DateElement, Mailto, Muted, GoBack} from 'components/misc'
 
-const {keys} = Object
-
 function Incident({
     router,
     title,

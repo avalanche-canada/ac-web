@@ -3,7 +3,6 @@ import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
 import {classify} from 'utils/string'
 
-const {keys} = Object
 const styleNames = new Map([
     ['Yes', 'Supported'],
     ['No', 'Unsupported'],
@@ -33,7 +32,7 @@ function MountainInformationNetworkFeatures({content}) {
                 {content.map(({feature, ...values}) => (
                     <tr key={feature}>
                         <td>{feature}</td>
-                        {keys(values).map(key => {
+                        {Object.keys(values).map(key => {
                             const value = values[key]
 
                             return (

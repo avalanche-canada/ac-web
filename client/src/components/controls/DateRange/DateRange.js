@@ -12,8 +12,7 @@ import Button, {INCOGNITO} from 'components/button'
 import {formatAsDay, parseFromDay} from 'utils/date'
 import styles from './DateRange.css'
 
-function K() {}
-const {assign} = Object
+function noop() {}
 
 @CSSModules(styles)
 export default class DateRange extends Component {
@@ -25,7 +24,7 @@ export default class DateRange extends Component {
         container: PropTypes.node,
     }
     static defaultProps = {
-        onChange: K,
+        onChange: noop,
         placeholder: 'Date Range',
     }
     state = {
@@ -33,12 +32,12 @@ export default class DateRange extends Component {
         from: null,
         to: null,
     }
-    constructor({from, to, props}) {
+    constructor(props) {
         super(props)
 
-        assign(this.state, {
-            from,
-            to,
+        Object.assign(this.state, {
+            from: props.from,
+            to: props.to,
         })
     }
     set showCalendar(showCalendar) {

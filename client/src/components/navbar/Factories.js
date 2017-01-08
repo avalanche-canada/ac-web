@@ -10,7 +10,6 @@ import Headline from './Headline'
 import UserProfile from './UserProfile'
 import {Next as Login} from '../icons'
 
-const {isArray} = Array
 const SectionHeaderLink = nest(Section, Header, Link)
 const HeaderLink = nest(Header, Link)
 
@@ -59,7 +58,7 @@ function sectionsReducer(children) {
                     children: [child]
                 })
             } else {
-                if (isArray(last.children)) {
+                if (Array.isArray(last.children)) {
                     last.children.push(child)
                 } else {
                     last.children = [child]
