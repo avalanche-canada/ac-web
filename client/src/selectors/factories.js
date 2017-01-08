@@ -25,3 +25,38 @@ export function createSorter(entitiesGetter, sortingGetter, sorters = Map()) {
         }
     )
 }
+
+function defaultGetPage(state, {page}) {
+    return page
+}
+function defaultGetPageSize(state, {pageSize}) {
+    return pageSize
+}
+
+export function createPagination(
+    getEntities,
+    getPage = defaultGetPage,
+    getPageSize = defaultGetPageSize,
+) {
+    return createSelector(
+        getEntities, getPage, getPageSize,
+        ({size}, page = 1, pageSize = 25) => ({
+            page,
+            pageSize,
+            count: size,
+            total: Math.ceil(size / pageSize),
+        })
+    )
+}
+
+export function createPaginatedEntities(getEntities, getPagination) {
+    return createSelector(
+        getEntities, getPagination,
+        (entities, {page, pageSize}) => {
+            const begin = (page - 1) * pageSize
+            const end = begin + pageSize
+
+            return entities.slice(begin, end)
+        }
+    )
+}

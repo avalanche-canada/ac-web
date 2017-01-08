@@ -14,7 +14,7 @@ import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from 'selectors/router'
 import {computeSorting} from 'selectors/utils'
-import {createSorter} from 'selectors/factories'
+import {createSorter, createPagination, createPaginatedEntities} from 'selectors/factories'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 const {keys, assign} = Object
@@ -214,27 +214,11 @@ export function table(schema, columns) {
         }
     )
 
-    const getPagination = createSelector(
-        getFilteredEntities,
-        (state, props) => props.page,
-        (state, props) => props.pageSize,
-        ({size}, page = 1, pageSize = 25) => ({
-            page,
-            pageSize,
-            count: size,
-            total: Math.ceil(size / pageSize),
-        })
-    )
+    const getPagination = createPagination(getFilteredEntities)
 
-    const getPaginatedEntities = createSelector(
+    const getPaginatedEntities = createPaginatedEntities(
         getSortedEntities,
         getPagination,
-        (entities, {page, pageSize}) => {
-            const begin = (page - 1) * pageSize
-            const end = begin + pageSize
-
-            return entities.slice(begin, end)
-        }
     )
 
     return createSelector(
