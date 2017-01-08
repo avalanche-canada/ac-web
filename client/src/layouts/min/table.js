@@ -5,13 +5,15 @@ import {Responsive} from 'components/table'
 import {Br} from 'components/misc'
 import Table, {Status, Metadata} from 'containers/min/Table'
 import {withRouter} from 'react-router'
-import {push} from 'utils/router'
+import {push, replace} from 'utils/router'
+import {HeaderCellOrders} from 'components/table'
 
+const {NONE, DESC} = HeaderCellOrders
 const DAYS = '7'
 const TYPES = []
 
-function PageLayout({location, handleDaysChange, handleTypesChange}) {
-    let {days = DAYS, types = TYPES} = location.query
+function PageLayout({location, handleDaysChange, handleTypesChange, handleSortingChange}) {
+    let {days = DAYS, types = TYPES, sorting} = location.query
 
     days = Number(days)
     types = typeof types === 'string' ? new Set([types]) : new Set(types)
@@ -26,7 +28,7 @@ function PageLayout({location, handleDaysChange, handleTypesChange}) {
                         onTypesChange={handleTypesChange} />
                     <Br />
                     <Responsive>
-                        <Table days={days} types={types} />
+                        <Table days={days} types={types} sorting={sorting} onSortingChange={handleSortingChange} />
                     </Responsive>
                     <Status days={days} types={types} />
                 </Main>
@@ -57,6 +59,13 @@ export const Page = compose(
             push({
                 query: {
                     types: Array.from(types)
+                }
+            }, props)
+        },
+        handleSortingChange: props => (name, order = NONE) => {
+            replace({
+                query: {
+                    sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
                 }
             }, props)
         },

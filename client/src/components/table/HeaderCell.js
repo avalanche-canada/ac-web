@@ -17,7 +17,7 @@ HeaderCell.propTypes = {
 }
 
 function HeaderCell({children, sorting = NONE, onSortingChange = noop, ...props}) {
-    const sortable = sorting !== undefined
+    const sortable = sorting !== undefined && sorting !== null
     const styleName = sortable ? 'HeaderCell--Sortable' : 'HeaderCell'
 
     return (

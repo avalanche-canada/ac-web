@@ -13,6 +13,8 @@ import {HeaderCellOrders} from 'components/table'
 import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from 'selectors/router'
+import {computeSorting} from 'selectors/utils'
+import {createSorter} from 'selectors/factories'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 const {keys, assign} = Object
@@ -109,20 +111,6 @@ const Sorters = new Map([
     ['provider', provider => provider.name.toLowerCase()],
     ['courseprovider', course => course.provider.name.toLowerCase()],
 ])
-const startWithMinusRegex = /^-/
-function getSorting(state, {location}) {
-    const {sorting} = location.query
-
-    if (!sorting) {
-        return [null, NONE]
-    }
-
-    if (startWithMinusRegex.test(sorting)) {
-        return [sorting.replace(startWithMinusRegex, ''), DESC]
-    } else {
-        return [sorting, ASC]
-    }
-}
 
 export function table(schema, columns) {
     const key = schema.getKey()
@@ -193,30 +181,20 @@ export function table(schema, columns) {
         (entities, filters) => filters.reduce(filterReducer, entities)
     )
 
-    const getSortedEntities = createSelector(
+    function getSorting(state, props) {
+        return computeSorting(props.location.query.sorting)
+    }
+
+    const getSortedEntities = createSorter(
         getFilteredEntities,
         getSorting,
-        (entities, [name, order]) => {
-            if (!Sorters.has(name)) {
-                return entities
-            }
-
-            const sorter = Sorters.get(name)
-            switch (order) {
-                case ASC:
-                    return entities.sortBy(sorter)
-                case DESC:
-                    return entities.sortBy(sorter).reverse()
-                default:
-                    return entities
-            }
-        }
+        Sorters,
     )
 
     const getColumns = createSelector(
         getDistanceHelper,
         getSorting,
-        (helper, sorting) => {
+        (helper, [name, order]) => {
 
             // Distance helper
             const key = columns.findKey(column => column.name === 'distance')
@@ -227,8 +205,6 @@ export function table(schema, columns) {
             }))
 
             // Sorting
-            const [name, order] = sorting
-
             columns = columns.map(column => ({
                 ...column,
                 sorting: column.sorting ? column.name === name ? order : NONE : undefined,

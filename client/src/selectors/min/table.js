@@ -15,6 +15,11 @@ import {getFeatureCollection} from 'getters/mapbox'
 import {FORECAST_REGIONS} from 'services/mapbox/datasets'
 import inside from 'turf-inside'
 import turf from 'turf-helpers'
+import {HeaderCellOrders} from 'components/table'
+import {computeSorting} from 'selectors/utils'
+import {createSorter} from 'selectors/factories'
+
+const {NONE} = HeaderCellOrders
 
 // TODO: Move this to constants folder/modules
 const Titles = new Map([
@@ -69,6 +74,7 @@ const columns = Immutable.List.of(
                 </span>
             )
         },
+        sorting: NONE,
     }),
     Column.create({
         name: 'reporter',
@@ -76,6 +82,7 @@ const columns = Immutable.List.of(
         property(submission) {
             return submission.get('user')
         },
+        sorting: NONE,
     }),
     Column.create({
         name: 'forecast-region',
@@ -92,7 +99,8 @@ const columns = Immutable.List.of(
             }
 
             return '-'
-        }
+        },
+        sorting: NONE,
     }),
     Column.create({
         name: 'types',
@@ -172,8 +180,26 @@ const getFilteredSubmissions = createSelector(
         .reverse()
 )
 
-const createBodies = createSelector(
+const sorters = new Map([
+    ['date', submission => new Date(submission.get('datetime'))],
+    ['reporter', submission => submission.get('user')],
+    ['forecast-region', submission => (
+        submission.has('region') ? submission.get('region').name : null
+    )],
+])
+
+function getSorting(state, props) {
+    return computeSorting(props.sorting)
+}
+
+const getSortedSubmissions = createSorter(
     getFilteredSubmissions,
+    getSorting,
+    sorters
+)
+
+const createBodies = createSelector(
+    getSortedSubmissions,
     data => Immutable.List.of(
         Body.create({
             data
@@ -189,16 +215,19 @@ const messages = {
 export default createSelector(
     createBodies,
     getSubmissionsResultsSet,
-    (bodies, {isFetching, isLoaded, isError}) => {
+    getSorting,
+    (bodies, {isFetching, isLoaded, isError}, [name, order]) => {
         return {
             isLoading: isFetching,
             total: bodies.first().data.size,
             isLoaded,
             isError,
-            columns,
+            columns: columns.map(column => column.set('sorting',
+                column.sorting ? column.name === name ? order : NONE : undefined
+            )),
             bodies,
             typeOptions: Titles,
-            messages
+            messages,
         }
     }
 )

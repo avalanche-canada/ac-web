@@ -14,6 +14,7 @@ export const Column  = Immutable.Record({
     title: null,
     property: null,
     style: null,
+    sorting: null,
 }, 'Column')
 
 Object.assign(Column, {
@@ -68,16 +69,19 @@ Table.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)).isRequired,
     headers: PropTypes.arrayOf(PropTypes.instanceOf(Header)),
     bodies: PropTypes.arrayOf(PropTypes.instanceOf(Body)),
+    onSortingChange: PropTypes.func,
     children: PropTypes.node,
 }
 
 const LIST = new Immutable.List()
+function noop() {}
 
 export default function Table({
     columns = LIST,
     bodies = LIST,
     headers = columns,
     children,
+    onSortingChange = noop,
     ...props
 }) {
     return (
@@ -85,8 +89,8 @@ export default function Table({
             <THead>
                 {/* TODO Could have more than a header row. Headers cold be an Iterable of headers */}
                 <Row>
-                    {headers.map(({title, name, property, style}, index) => (
-                        <HeaderCell key={index}  style={style}>
+                    {headers.map(({title, name, property, style, sorting}, index) => (
+                        <HeaderCell key={index}  style={style} sorting={sorting} onSortingChange={onSortingChange.bind(null, name)}>
                             {typeof title === 'function' ? title() : title}
                         </HeaderCell>
                     ))}
