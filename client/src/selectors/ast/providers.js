@@ -1,4 +1,3 @@
-import React from 'react'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {Provider} from 'api/schemas'
