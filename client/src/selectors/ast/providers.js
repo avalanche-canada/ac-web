@@ -16,7 +16,6 @@ export const table = entities.table(
     )
 )
 
-
 export const form = createSelector(
     table,
     ({tags}) => ({

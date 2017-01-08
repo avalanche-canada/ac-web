@@ -16,9 +16,7 @@ import {getPlace, getPlaceAsFeature} from 'selectors/router'
 import {computeSorting} from 'selectors/utils'
 import {createSorter, createPagination, createPaginatedEntities} from 'selectors/factories'
 
-const {ASC, DESC, NONE} = HeaderCellOrders
-const {keys, assign} = Object
-const {isArray} = Array
+const {NONE} = HeaderCellOrders
 
 // Util functions and values...
 function normalizeTags(tags) {
@@ -26,26 +24,26 @@ function normalizeTags(tags) {
 }
 
 const transformers = new Map([
-    [Course, course => assign(course, {
+    [Course, course => Object.assign(course, {
         tags: normalizeTags(course.tags),
         // DO NOT CHANGE THAT. DATES ARE CONVERTED FINE WITH MOMENT.
         dateStart: moment(course.dateStart).toDate(),
         dateEnd: moment(course.dateEnd).toDate(),
         isFeatured: false,
     })],
-    [Provider, provider => assign(provider, {
+    [Provider, provider => Object.assign(provider, {
         tags: normalizeTags(provider.tags),
         isFeatured: provider.isSponsor,
     })],
 ])
 function resetDistance(entity) {
-    return assign(entity, {
+    return Object.assign(entity, {
         distance: null
     })
 }
 function updateDistanceFactory(point) {
     return function updateDistance(entity) {
-        return assign(entity, {
+        return Object.assign(entity, {
             distance: Math.max(distance(turf.point(entity.loc), point), 10)
         })
     }
@@ -74,7 +72,7 @@ const Filters = new Map([
         return props => props.level === level
     }],
     ['tags', ({tags}) => {
-        tags = isArray(tags) ? tags : [tags]
+        tags = Array.isArray(tags) ? tags : [tags]
         tags =  tags.map(tag => tag.toUpperCase().trim())
 
         return course => Boolean(course.tags.find(tag => tags.includes(tag)))
@@ -92,7 +90,7 @@ const Filters = new Map([
 function getFilters(state, {location}) {
     const {query} = location
 
-    return keys(query).reduce((filters, key) => {
+    return Object.keys(query).reduce((filters, key) => {
         if (Filters.has(key)) {
             filters.push(Filters.get(key)(query))
         }
