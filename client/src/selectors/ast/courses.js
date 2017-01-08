@@ -15,7 +15,7 @@ import get from 'lodash/get'
 import * as Columns from './columns'
 
 function asControlled({description, provider}) {
-    const {name, email, phone, website, prim_contact, location} = provider
+    const {name, email, phone, website, location} = provider
 
     return {
         Name: name,
@@ -39,6 +39,7 @@ function asControlled({description, provider}) {
     }
 }
 
+// TODO: Should come from the server!
 const levelOptions = new Map([
     ['AST1', 'AST 1'],
     ['AST1+', 'AST 1 + MAT'],

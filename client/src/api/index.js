@@ -3,15 +3,6 @@ import Axios, {defaults} from 'axios'
 import moment from 'moment'
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
 import Url from 'url'
-import camelcaseKeys from 'camelcase-keys'
-
-// TODO: To remove when server return appropriate result
-function transformResponseFromDjango({results, ...rest}) {
-    return {
-        ...rest,
-        results: results.map(camelcaseKeys),
-    }
-}
 
 const {
     Forecast,
@@ -21,6 +12,15 @@ const {
     Course,
     WeatherStation,
 } = SCHEMAS
+
+function transformProvider(provider) {
+    return {
+        ...provider,
+        isSponsor: provider.is_sponsor,
+        locDescription: provider.loc_description,
+        primContact: provider.prim_contact,
+    }
+}
 
 const CONFIGS = new Map([
     [Incident, ({slug, ...params}) => {
@@ -51,12 +51,26 @@ const CONFIGS = new Map([
     [Provider, params => ({
         baseURL: astBaseUrl,
         params,
-        transformResponse: defaults.transformResponse.concat(transformResponseFromDjango),
+        // TODO: To remove when server return appropriate result
+        transformResponse: defaults.transformResponse.concat(data => ({
+            ...data,
+            results: data.results.map(transformProvider)
+        })),
     })],
     [Course, params => ({
         baseURL: astBaseUrl,
         params,
-        transformResponse: defaults.transformResponse.concat(transformResponseFromDjango),
+        // TODO: To remove when server return appropriate result
+        transformResponse: defaults.transformResponse.concat(data => ({
+            ...data,
+            results: data.results.map(course => ({
+                ...course,
+                dateStart: course.date_start,
+                dateEnd: course.date_end,
+                locDescription: course.loc_description,
+                provider: transformProvider(course.provider),
+            }))
+        })),
     })],
     [WeatherStation, params => ({
         baseURL: weatherBaseUrl,

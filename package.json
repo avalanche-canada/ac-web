@@ -9,7 +9,6 @@
     "body-parser": "^1.0.2",
     "cache-manager": "^1.4.0",
     "cache-manager-redis": "^0.2.2",
-    "camelcase-keys": "^3.0.0",
     "change-case": "^2.1.5",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
