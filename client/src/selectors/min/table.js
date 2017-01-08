@@ -184,7 +184,7 @@ const sorters = new Map([
     ['date', submission => new Date(submission.get('datetime'))],
     ['reporter', submission => submission.get('user')],
     ['forecast-region', submission => (
-        submission.has('region') ? submission.get('region').name : null
+        submission.has('region') ? submission.get('region').name : 'z'
     )],
 ])
 
