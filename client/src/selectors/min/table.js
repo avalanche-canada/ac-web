@@ -219,7 +219,7 @@ export default createSelector(
     (bodies, {isFetching, isLoaded, isError}, [name, order]) => {
         return {
             isLoading: isFetching,
-            total: bodies.first().data.size,
+            total: bodies.reduce((total, body) => total + body.data.size, 0),
             isLoaded,
             isError,
             columns: columns.map(column => column.set('sorting',
