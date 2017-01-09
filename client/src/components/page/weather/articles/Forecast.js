@@ -31,9 +31,7 @@ export default class Container extends Component {
         this.setState({isError})
     }
     handleDayChange = date => {
-        const {router, type} = this.props
-
-        router.push(`/${type.split('-').join('/')}/${formatAsDay(date)}`)
+        this.props.router.push(`/weather/forecast/${formatAsDay(date)}`)
     }
     componentDidMount() {
         this.load()
@@ -44,7 +42,7 @@ export default class Container extends Component {
         }
     }
     load(date) {
-        const {type, params} = this.props
+        const {params} = this.props
 
         if (!date) {
             date = params.date || new Date()
@@ -55,12 +53,12 @@ export default class Container extends Component {
         }
 
         const options = {
-            predicates: [Predicates.at(`my.${type}.date`, date)]
+            predicates: [Predicates.at('my.weather-forecast.date', date)]
         }
 
         this.isError = false
 
-        this.props.loadForType(type, options).catch(err => {
+        this.props.loadForType('weather-forecast', options).catch(err => {
             this.isError = true
         })
     }
