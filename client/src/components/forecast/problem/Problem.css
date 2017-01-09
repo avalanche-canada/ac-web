@@ -9,20 +9,20 @@
 .Header {
     flex: 100%;
 
+    margin: 0;
+    padding: 0.75em;
     font-size: 1.1em;
+    font-weight: normal;
     background-color: black;
     color: white;
-    padding: 0.75em;
-    font-weight: 700;
-    margin: 0;
 }
 
 .SubHeader {
+    margin: 0;
     padding: 0.75em;
     font-size: 1em;
-    font-weight: 700;
+    font-weight: normal;
     background-color: var(--background-color);
-    margin: 0;
 }
 
 .TopicSet {
@@ -50,7 +50,7 @@
     display: flex;
     flex-direction: column-reverse;
 
-    min-height: 200px;
+    min-height: 190px;
     margin: 0;
     align-self: stretch;
     color: var(--gray-darker);
@@ -58,15 +58,12 @@
     flex: 100%;
 
     & figcaption {
-        /*border-left: 1px solid white;*/
-        /*border-left: 1px solid var(--gray-light);*/
-        /*border-right: 1px solid white;*/
-        /*border-right: 1px solid var(--gray-light);*/
-        /*white-space: nowrap;*/
-        padding: 0.75em;
-        font-weight: 700;
-        background-color: var(--background-color);
         margin: 0;
+        padding: 0.75em;
+        font-size: 0.95em;
+        text-align: center;
+        white-space: nowrap;
+        background-color: var(--background-color);
     }
 
     & img {
@@ -79,7 +76,6 @@
     flex: 100%;
     display: flex;
     border: 1px solid var(--background-color);
-    /*border-top: none;*/
 }
 
 .FullWidthSubSection {
@@ -90,6 +86,13 @@
     & > div {
         padding: 1em;
         color: var(--gray-dark);
+
+        & > * {
+            margin: 0;
+        }
+        & > ul {
+            padding-left: 1.5em;
+        }
     }
 }
 

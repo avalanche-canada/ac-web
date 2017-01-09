@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
+import {Link} from 'react-router'
 import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'
@@ -66,13 +67,24 @@ export default function Forecast({
                 </Tab>
                 <Tab title='Details'>
                     {avalancheSummary &&
-                        <Summary title='Avalanche Summary'>{avalancheSummary}</Summary>
+                        <Summary title='Avalanche Summary'>
+                            {avalancheSummary}
+                        </Summary>
                     }
                     {snowpackSummary &&
-                        <Summary title='Snowpack Summary'>{snowpackSummary}</Summary>
+                        <Summary title='Snowpack Summary'>
+                            {snowpackSummary}
+                        </Summary>
                     }
                     {weatherForecast &&
-                        <Summary title='Weather Forecast'>{weatherForecast}</Summary>
+                        <Summary title='Weather Forecast'>
+                            {weatherForecast}
+                        </Summary>
+                    }
+                    {weatherForecast &&
+                        <p>
+                            More details can be found on the <Link to='/weather'>Mountain Weather Forecast</Link>.
+                        </p>
                     }
                 </Tab>
             </TabSet>

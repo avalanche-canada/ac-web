@@ -11,10 +11,14 @@
 }
 
 .Day {
-
+    border-bottom: 2px solid white;
 }
 
 .FirstDay {
+    composes: Day;
+
+    border-bottom-width: 4px;
+
     & .Title {
         font-size: 1.25em;
     }
@@ -43,27 +47,6 @@
 
     flex: 60%;
     white-space: nowrap;
-}
-
-.Confidence {
-    margin: 0.5em;
-
-    & dl {
-        display: inline-flex;
-
-        & dt {
-            font-weight: 700;
-            color: var(--gray-dark);
-        }
-        & dd {
-            color: black;
-            margin-left: 0.5em;
-        }
-    }
-}
-
-.Confidence--Comment {
-    margin-left: 0.25em;
 }
 
 .Condition {
