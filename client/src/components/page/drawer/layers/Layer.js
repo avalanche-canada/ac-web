@@ -5,7 +5,7 @@ import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
 import styles from './Layer.css'
 
-function K() {}
+function noop() {}
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,
@@ -14,8 +14,6 @@ Layer.propTypes = {
     icon: PropTypes.node,
     children: PropTypes.node,
 }
-
-const {keys} = Object
 
 // Little hack to allow accurate mesuring even when chlidren have
 // margins (first and last children)
@@ -27,7 +25,7 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Layer({title, visible = true, onClick = K, icon, children, expanded, setExpanded}) {
+function Layer({title, visible = true, onClick = noop, icon, children, expanded, setExpanded}) {
     function handleClick(event) {
         event.stopPropagation()
 
@@ -55,5 +53,6 @@ function Layer({title, visible = true, onClick = K, icon, children, expanded, se
 }
 
 export default compose(
-    withState('expanded', 'setExpanded', false)
-)(CSSModules(Layer, styles))
+    withState('expanded', 'setExpanded', false),
+    CSSModules(styles),
+)(Layer)

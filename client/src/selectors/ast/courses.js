@@ -8,19 +8,14 @@ import {Course} from 'api/schemas'
 import {getResultsSet} from 'reducers/api/getters'
 import {RESULT} from 'reducers/api/results'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
-import {HeaderCellOrders} from 'components/table'
 import {getLocationAsFeature} from 'selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from 'selectors/router'
 import * as entities from './entities'
 import get from 'lodash/get'
 import * as Columns from './columns'
 
-const {ASC, DESC, NONE} = HeaderCellOrders
-const {keys, assign} = Object
-const {isArray} = Array
-
 function asControlled({description, provider}) {
-    const {name, email, phone, website, prim_contact, location} = provider
+    const {name, email, phone, website, location} = provider
 
     return {
         Name: name,
@@ -44,6 +39,7 @@ function asControlled({description, provider}) {
     }
 }
 
+// TODO: Should come from the server!
 const levelOptions = new Map([
     ['AST1', 'AST 1'],
     ['AST1+', 'AST 1 + MAT'],

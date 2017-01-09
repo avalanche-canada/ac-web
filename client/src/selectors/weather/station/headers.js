@@ -46,7 +46,7 @@ export const NewSnow = {
 
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
-    title: 'Avg',
+    title: 'Average',
 }
 
 export const AirTemperatureMax = {

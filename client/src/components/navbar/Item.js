@@ -3,7 +3,7 @@ import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 
-function K() {}
+function noop() {}
 
 function createStyle(noWrap) {
     return {
@@ -18,7 +18,7 @@ Item.propTypes = {
     noWrap: PropTypes.bool,
 }
 
-function Item({isActive = false, title, onClick = K, noWrap = false, children}) {
+function Item({isActive = false, title, onClick = noop, noWrap = false, children}) {
     return (
         <li style={createStyle(noWrap)} styleName={isActive ? 'Item--active' : 'Item'}>
             <a href='#' onClick={onClick}>

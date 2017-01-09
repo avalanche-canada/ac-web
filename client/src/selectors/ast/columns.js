@@ -6,7 +6,7 @@ import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
 import {List, Term, Definition} from 'components/description'
 
-const {ASC, DESC, NONE} = HeaderCellOrders
+const {NONE} = HeaderCellOrders
 
 export const dateRanges = {
     name: 'dates',

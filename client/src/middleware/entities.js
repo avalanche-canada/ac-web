@@ -1,16 +1,18 @@
 import {normalize, arrayOf} from 'normalizr'
 import * as Api from 'api'
 import {isApiAction} from 'api/utils'
-import {getResultsSetForSchema} from 'reducers/api/getters'
-import {paramsToKey} from 'api/utils'
+import {getResultsSet, hasResultsSet} from 'reducers/api/getters'
 
 function shouldDispatchLoadAction(state, schema, action) {
     const {params} = action.payload
-    const sets = getResultsSetForSchema(state, schema)
-    const key = paramsToKey(params)
-    const results = sets.get(key)
 
-    return !results || (!results.isLoaded && !results.isFetching)
+    if (hasResultsSet(state, schema, params)) {
+        const {isLoaded, isFetching} = getResultsSet(state, schema, params)
+
+        return !isLoaded && !isFetching
+    }
+
+    return true
 }
 
 export default store => next => action => {

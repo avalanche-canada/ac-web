@@ -4,13 +4,11 @@ import {Media, Caption, Player} from 'components/media'
 import {InnerHTML, Ribbon} from 'components/misc'
 import styles from './Video.css'
 
-const {assign} = Object
-
 function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
     const media = {}
 
     if (caption || credit) {
-        assign(media, {
+        Object.assign(media, {
             caption: (
                 <Caption>
                     <InnerHTML>

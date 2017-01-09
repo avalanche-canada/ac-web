@@ -37,18 +37,16 @@ const {
     WeatherStation,
 } = SCHEMAS
 
-const {isArray} = Array
-
 function getIds(result) {
     if (!result) {
         return new Set()
     }
 
-    if (isArray(result)) {
+    if (Array.isArray(result)) {
         return result
-    } else if (isArray(result.results)) {
+    } else if (Array.isArray(result.results)) {
         return result.results
-    } else if (isArray(result.features)) {
+    } else if (Array.isArray(result.features)) {
         return result.features
     } else {
         return [result]

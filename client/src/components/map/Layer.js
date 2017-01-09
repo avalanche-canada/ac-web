@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 
-const {keys} = Object
-
 export default class Layer extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -49,7 +47,7 @@ export default class Layer extends Component {
     componentWillReceiveProps(nextProps) {
         const {map, props, id} = this
 
-        keys(nextProps).forEach(function setLayerProperty(key) {
+        Object.keys(nextProps).forEach(function setLayerProperty(key) {
             const prop = nextProps[key]
 
             if (prop === props[key]) {
@@ -58,12 +56,12 @@ export default class Layer extends Component {
 
             switch (key) {
                 case 'paint':
-                    keys(prop).forEach(name => {
+                    Object.keys(prop).forEach(name => {
                         map.setPaintProperty(id, name, prop[name])
                     })
                     break
                 case 'layout':
-                    keys(prop).forEach(name => {
+                    Object.keys(prop).forEach(name => {
                         map.setLayoutProperty(id, name, prop[name])
                     })
                     break

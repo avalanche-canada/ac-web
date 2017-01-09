@@ -8,8 +8,6 @@ import mapStateToProps from 'selectors/prismic/splash'
 import {Entry, EntrySet} from 'components/page/feed'
 import {Predicates} from 'prismic'
 
-const {assign} = Object
-
 function FeedSplash({
     header,
     featured,
@@ -48,7 +46,7 @@ export default compose(
             }
 
             if (tags.length > 0) {
-                assign(options, {
+                Object.assign(options, {
                     predicates: [
                         Predicates.at('document.tags', tags)
                     ],

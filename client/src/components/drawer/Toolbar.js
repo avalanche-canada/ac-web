@@ -1,8 +1,9 @@
 import React from 'react'
-import {compose, shouldUpdate} from 'recompose'
+import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import styles from './Drawer.css'
+import {neverUpdate} from 'compose'
 
 Toolbar.propTypes = {
     onClose: PropTypes.func.isRequired,
@@ -18,6 +19,6 @@ function Toolbar({onClose}) {
 }
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     CSSModules(styles),
 )(Toolbar)

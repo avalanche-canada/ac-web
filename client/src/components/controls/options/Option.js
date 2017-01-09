@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './OptionSet.css'
 
-function K() {}
+function noop() {}
 
 Option.propTypes = {
     children: PropTypes.node.isRequired,
@@ -11,7 +11,7 @@ Option.propTypes = {
     onClick: PropTypes.func,
 }
 
-function Option({value, onClick = K, active = false, children}) {
+function Option({value, onClick = noop, active = false, children}) {
     const styleName = active ? 'Option--Active' : 'Option'
     function handleClick(event) {
         onClick(value)

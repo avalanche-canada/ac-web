@@ -5,21 +5,22 @@ import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
 
-function K() {}
+function noop() {}
 
 Drawer.propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    to: PropTypes.string,
     onClose: PropTypes.func,
     onClick: PropTypes.func,
     style: PropTypes.object,
     children: PropTypes.node.isRequired,
 }
 
-function Drawer({label, onClose = K, onClick, style = null, children}) {
+function Drawer({label, to, onClose = noop, onClick, style = null, children}) {
     return (
         <nav style={style} styleName='Drawer' onClick={onClick}>
             <Toolbar onClose={onClose} />
-            <ItemSet label={label} items={children} />
+            <ItemSet label={label} to={to} items={children} />
         </nav>
     )
 }

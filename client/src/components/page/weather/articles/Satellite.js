@@ -20,7 +20,7 @@ export default function Satellite({tutorial}) {
                 <Tab title='IR-VIS BC'>
                     <Loop type='AC_SAT_BC_ir-vis' interval={200} />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='satellite' />
                 </Tab>
             </TabSet>

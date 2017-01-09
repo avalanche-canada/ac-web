@@ -3,8 +3,6 @@ import {Incident} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 
-const {assign} = Object
-
 function getIncidents(state) {
     return getEntitiesForSchema(state, Incident)
 }

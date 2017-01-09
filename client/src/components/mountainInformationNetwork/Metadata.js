@@ -5,6 +5,7 @@ import {MapLocation} from 'components/icons'
 import {Metadata, Entry, ShareEntry} from 'components/metadata'
 import {Wrapper} from 'components/tooltip'
 import styles from './MountainInformationNetwork.css'
+import {MountainInformationNetworkSubmission as Schema} from 'api/schemas'
 
 MountainInformationNetworkMetadata.propTypes = {
     submittedOn: PropTypes.instanceOf(Date).isRequired,
@@ -25,10 +26,10 @@ export default function MountainInformationNetworkMetadata({
     submissionId
 }) {
 
-    const mapUrl = '/map?panel=mountain-information-network-submissions/' + submissionId;
+    const path = `/map?panel=${Schema.getKey()}/${submissionId}`
     const mapLink = (
         <Wrapper tooltip='View on Main Map'>
-            <Link to={mapUrl} className={styles.MapLocationLink}><MapLocation /></Link>
+            <Link to={path} className={styles.MapLocationLink}><MapLocation /></Link>
         </Wrapper>
     )
 

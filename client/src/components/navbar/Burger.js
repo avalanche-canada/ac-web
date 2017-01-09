@@ -1,17 +1,18 @@
 import React, {PropTypes} from 'react'
 import {compose, shouldUpdate} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {neverUpdate} from 'compose'
 import {Menu} from '../icons'
 import Button, {INCOGNITO} from '../button'
 import styles from './Navbar.css'
 
-function K() {}
+function noop() {}
 
 Burger.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Burger({onClick = K}) {
+function Burger({onClick = noop}) {
     return (
         <div styleName='Burger--Container'>
             <Button kind={INCOGNITO} styleName='Burger' onClick={onClick}>
@@ -22,6 +23,6 @@ function Burger({onClick = K}) {
 }
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     CSSModules(styles),
 )(Burger)

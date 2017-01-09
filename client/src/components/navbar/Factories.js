@@ -10,13 +10,12 @@ import Headline from './Headline'
 import UserProfile from './UserProfile'
 import {Next as Login} from '../icons'
 
-const {isArray} = Array
 const SectionHeaderLink = nest(Section, Header, Link)
 const HeaderLink = nest(Header, Link)
 
 function createLink({label, header, headline, ...rest}, index) {
     const hasHeader = header === true || typeof headline === 'string'
-    const component = hasHeader ? HeaderLink : Link
+    const component = hasHeader ? typeof rest.to === 'string' ? HeaderLink : Header : Link
     const props = {
         ...rest,
         key: index
@@ -59,7 +58,7 @@ function sectionsReducer(children) {
                     children: [child]
                 })
             } else {
-                if (isArray(last.children)) {
+                if (Array.isArray(last.children)) {
                     last.children.push(child)
                 } else {
                     last.children = [child]

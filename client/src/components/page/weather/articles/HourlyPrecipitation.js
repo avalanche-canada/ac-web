@@ -20,7 +20,7 @@ export default function HourlyPrecipitation() {
                 <Tab title='Type R'>
                     <Loop type='AC_RDPS_BC_precip-types' interval={500} withNotes />
                 </Tab>
-                <Tab title='Tutorial'>
+                <Tab title='Tutorials'>
                     <Tutorial uid='hourly-precipitation' />
                 </Tab>
             </TabSet>

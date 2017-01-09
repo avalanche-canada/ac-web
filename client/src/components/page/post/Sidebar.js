@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, withProps, setPropTypes, setDisplayName, withState, lifecycle, defaultProps} from 'recompose'
+import {compose, withProps, setPropTypes, withState, lifecycle, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {Predicates} from 'prismic'

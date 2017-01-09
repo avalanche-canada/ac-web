@@ -4,7 +4,7 @@ import styles from './Tab.css'
 import Button, {INCOGNITO} from 'components/button'
 import {ExpandLess, ExpandMore} from 'components/icons'
 
-function K() {}
+function noop() {}
 
 Header.propTypes = {
     children: PropTypes.node.isRequired,
@@ -47,8 +47,8 @@ function Header({
     active = false,
     expanded = false,
     arrow = false,
-    onClick = K,
-    onExpandClick = K,
+    onClick = noop,
+    onExpandClick = noop,
     color,
     disabled,
     children,

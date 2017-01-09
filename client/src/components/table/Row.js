@@ -4,7 +4,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 import {Expand} from 'components/button'
 
-function K() {}
+function noop() {}
 const TR_WITH_BUTTON_PROPS = {
     style: {
         paddingRight: 36
@@ -22,7 +22,14 @@ Row.propTypes = {
 
 const TR = <tr></tr>
 
-function Row({children, expanded = null, onExpandedToggle = K, hide = false, controlled = false, onClick}) {
+function Row({
+    children,
+    expanded = null,
+    onExpandedToggle = noop,
+    hide = false,
+    controlled = false,
+    onClick
+}) {
     if (hide) {
         return TR
     }

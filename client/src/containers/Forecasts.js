@@ -1,4 +1,3 @@
-import React from 'react'
 import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'

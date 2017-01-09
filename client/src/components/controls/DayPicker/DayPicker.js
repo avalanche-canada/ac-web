@@ -10,7 +10,7 @@ import Holder from '../Holder'
 
 const today = new Date()
 const {isSameDay} = DateUtils
-function K() {}
+function noop() {}
 
 @CSSModules(styles)
 export default class DayPicker extends Component {
@@ -23,7 +23,7 @@ export default class DayPicker extends Component {
     }
     static defaultProps = {
         date: new Date(),
-        onChange: K,
+        onChange: noop,
         disabledDays: day => moment(day).isAfter(today, 'day'),
     }
     state = {

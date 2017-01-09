@@ -17,7 +17,7 @@ function validateActiveIndex({activeIndex, children}) {
     const tabs = toArray(children)
 
     if (!tabs.length) {
-        return 0    
+        return 0
     }
 
     const {disabled} = tabs[activeIndex].props
@@ -31,7 +31,7 @@ function validateActiveIndex({activeIndex, children}) {
     return Math.min(activeIndex, tabs.length - 1)
 }
 
-function K() {}
+function noop() {}
 
 export const COMPACT = 'Compact'
 export const LOOSE = 'Loose'
@@ -46,7 +46,7 @@ export default class TabSet extends Component {
 	}
 	static defaultProps = {
 		activeIndex: 0,
-        onActivate: K,
+        onActivate: noop,
         theme: COMPACT,
         arrow: false,
 	}
@@ -102,7 +102,7 @@ export default class TabSet extends Component {
         const header = {
             active: index === this.activeIndex,
             expanded: this.opened,
-            onClick: disabled ? K : onClick || handleClick,
+            onClick: disabled ? noop : onClick || handleClick,
             onExpandClick: this.handleExpandClick,
             arrow: theme === LOOSE ? true : arrow,
             color,

@@ -4,12 +4,9 @@ import moment from 'moment'
 import linkResolver from 'prismic/linkResolver'
 import htmlSerializer from 'prismic/htmlSerializer'
 
-const {keys, assign} = Object
-const {isArray} = Array
-
 // TODO: Fixes constructor for prismic object, should a PR to prismic.io repo
 Document.prototype.constructor = Document
-keys(Fragments).forEach(key => Fragments[key].prototype.constructor = Fragments[key])
+Object.keys(Fragments).forEach(key => Fragments[key].prototype.constructor = Fragments[key])
 
 function parseKey(key) {
     const [type, name] = key.split('.')
@@ -19,12 +16,12 @@ function parseKey(key) {
 
 export class Parser {
     constructor(linkResolver, htmlSerializer) {
-        assign(this, {linkResolver, htmlSerializer})
+        Object.assign(this, {linkResolver, htmlSerializer})
     }
     parse(document) {
         const {fragments, data, type, uid, tags, id} = document
         const asKey = document.constructor === Document ? parseKey : camelCase
-        const parsed = keys(fragments).reduce((value, key) => {
+        const parsed = Object.keys(fragments).reduce((value, key) => {
             const fragment = fragments[key]
 
             value[asKey(key)] = this.parseFragment(fragment, data[key])
@@ -36,7 +33,7 @@ export class Parser {
             return {
                 id,
                 uid,
-                tags: isArray(tags) ? tags.map(tag => tag.toLowerCase()) : [],
+                tags: Array.isArray(tags) ? tags.map(tag => tag.toLowerCase()) : [],
                 type,
                 ...parsed,
             }

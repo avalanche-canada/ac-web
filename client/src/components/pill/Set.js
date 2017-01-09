@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import {compose, withState, setDisplayName, setPropTypes} from 'recompose'
 import styles from './Pill.css'
 
-function K() {}
+function noop() {}
 
 Set.propTypes = {
     children: PropTypes.node.isRequired,
@@ -12,7 +12,7 @@ Set.propTypes = {
 
 }
 
-function Set({ activeIndex = 0, onActivate = K, setActiveIndex, children }) {
+function Set({activeIndex = 0, onActivate = noop, setActiveIndex, children}) {
     return (
         <ul styleName='Set'>
             {Children.map(children, (item, index) => (
@@ -31,4 +31,5 @@ function Set({ activeIndex = 0, onActivate = K, setActiveIndex, children }) {
 export default compose(
     setDisplayName('PillSet'),
     withState('activeIndex', 'setActiveIndex', props => props.activeIndex),
-)(CSSModules(Set, styles))
+    CSSModules(styles),
+)(Set)

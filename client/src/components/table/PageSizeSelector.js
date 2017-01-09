@@ -4,9 +4,8 @@ import CSSModules from 'react-css-modules'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 import styles from './Table.css'
 
-const {isArray} = Array
 const NUMBERS = [10, 25, 50, 75, 100, 125, 150, 200]
-function K() {}
+function noop() {}
 function toEntry(number) {
     return [number, number]
 }
@@ -23,7 +22,7 @@ PageSizeSelector.propTypes = {
 function PageSizeSelector({
     value,
     options,
-    onChange = K,
+    onChange = noop,
     prefix = 'Show',
     suffix = 'entries per page.'
 }) {
@@ -40,7 +39,7 @@ function PageSizeSelector({
 
 export default compose(
     withProps(({max, numbers, value}) => {
-        if (!isArray(numbers)) {
+        if (!Array.isArray(numbers)) {
             if (typeof max === 'number') {
                 numbers = NUMBERS.filter(number => number < max)
             } else {

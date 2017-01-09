@@ -11,7 +11,6 @@ import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
 import {replace} from 'utils/router'
 
-const {isArray} = Array
 const STYLE = {
     margin: 'auto',
     position: 'relative',
@@ -36,7 +35,7 @@ class Form extends Component {
             to
         } = query
 
-        tags = isArray(tags) ? tags : [tags]
+        tags = Array.isArray(tags) ? tags : [tags]
 
         return (
             <Base style={STYLE}>

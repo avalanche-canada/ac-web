@@ -6,8 +6,6 @@ import Feed from 'components/page/feed'
 import {replace} from 'utils/router'
 import mapStateToProps from 'selectors/prismic/feed'
 
-const {isArray} = Array
-
 export default compose(
     withRouter,
     connect(mapStateToProps, {
@@ -30,7 +28,7 @@ export default compose(
             month,
             category,
             timeline,
-            tags: isArray(tags) ? new Set(tags) : new Set([tags]),
+            tags: Array.isArray(tags) ? new Set(tags) : new Set([tags]),
         }
     }),
     withHandlers({

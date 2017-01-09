@@ -15,8 +15,7 @@ import {Markup} from 'components/markup'
 import Pagination from 'components/pagination'
 import {Article, Header as PageHeader} from 'components/page'
 
-const {NONE, ASC, DESC} = HeaderCellOrders
-const {assign} = Object
+const {NONE, DESC} = HeaderCellOrders
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special 'Description' less special

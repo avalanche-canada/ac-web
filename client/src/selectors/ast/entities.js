@@ -13,10 +13,10 @@ import {HeaderCellOrders} from 'components/table'
 import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from 'selectors/router'
+import {computeSorting} from 'selectors/utils'
+import {createSorter, createPagination, createPaginatedEntities} from 'selectors/factories'
 
-const {ASC, DESC, NONE} = HeaderCellOrders
-const {keys, assign} = Object
-const {isArray} = Array
+const {NONE} = HeaderCellOrders
 
 // Util functions and values...
 function normalizeTags(tags) {
@@ -24,26 +24,26 @@ function normalizeTags(tags) {
 }
 
 const transformers = new Map([
-    [Course, course => assign(course, {
+    [Course, course => Object.assign(course, {
         tags: normalizeTags(course.tags),
         // DO NOT CHANGE THAT. DATES ARE CONVERTED FINE WITH MOMENT.
         dateStart: moment(course.dateStart).toDate(),
         dateEnd: moment(course.dateEnd).toDate(),
         isFeatured: false,
     })],
-    [Provider, provider => assign(provider, {
+    [Provider, provider => Object.assign(provider, {
         tags: normalizeTags(provider.tags),
         isFeatured: provider.isSponsor,
     })],
 ])
 function resetDistance(entity) {
-    return assign(entity, {
+    return Object.assign(entity, {
         distance: null
     })
 }
 function updateDistanceFactory(point) {
     return function updateDistance(entity) {
-        return assign(entity, {
+        return Object.assign(entity, {
             distance: Math.max(distance(turf.point(entity.loc), point), 10)
         })
     }
@@ -72,7 +72,7 @@ const Filters = new Map([
         return props => props.level === level
     }],
     ['tags', ({tags}) => {
-        tags = isArray(tags) ? tags : [tags]
+        tags = Array.isArray(tags) ? tags : [tags]
         tags =  tags.map(tag => tag.toUpperCase().trim())
 
         return course => Boolean(course.tags.find(tag => tags.includes(tag)))
@@ -90,7 +90,7 @@ const Filters = new Map([
 function getFilters(state, {location}) {
     const {query} = location
 
-    return keys(query).reduce((filters, key) => {
+    return Object.keys(query).reduce((filters, key) => {
         if (Filters.has(key)) {
             filters.push(Filters.get(key)(query))
         }
@@ -109,20 +109,6 @@ const Sorters = new Map([
     ['provider', provider => provider.name.toLowerCase()],
     ['courseprovider', course => course.provider.name.toLowerCase()],
 ])
-const startWithMinusRegex = /^-/
-function getSorting(state, {location}) {
-    const {sorting} = location.query
-
-    if (!sorting) {
-        return [null, NONE]
-    }
-
-    if (startWithMinusRegex.test(sorting)) {
-        return [sorting.replace(startWithMinusRegex, ''), DESC]
-    } else {
-        return [sorting, ASC]
-    }
-}
 
 export function table(schema, columns) {
     const key = schema.getKey()
@@ -193,30 +179,20 @@ export function table(schema, columns) {
         (entities, filters) => filters.reduce(filterReducer, entities)
     )
 
-    const getSortedEntities = createSelector(
+    function getSorting(state, props) {
+        return computeSorting(props.location.query.sorting)
+    }
+
+    const getSortedEntities = createSorter(
         getFilteredEntities,
         getSorting,
-        (entities, [name, order]) => {
-            if (!Sorters.has(name)) {
-                return entities
-            }
-
-            const sorter = Sorters.get(name)
-            switch (order) {
-                case ASC:
-                    return entities.sortBy(sorter)
-                case DESC:
-                    return entities.sortBy(sorter).reverse()
-                default:
-                    return entities
-            }
-        }
+        Sorters,
     )
 
     const getColumns = createSelector(
         getDistanceHelper,
         getSorting,
-        (helper, sorting) => {
+        (helper, [name, order]) => {
 
             // Distance helper
             const key = columns.findKey(column => column.name === 'distance')
@@ -227,8 +203,6 @@ export function table(schema, columns) {
             }))
 
             // Sorting
-            const [name, order] = sorting
-
             columns = columns.map(column => ({
                 ...column,
                 sorting: column.sorting ? column.name === name ? order : NONE : undefined,
@@ -238,27 +212,11 @@ export function table(schema, columns) {
         }
     )
 
-    const getPagination = createSelector(
-        getFilteredEntities,
-        (state, props) => props.page,
-        (state, props) => props.pageSize,
-        ({size}, page = 1, pageSize = 25) => ({
-            page,
-            pageSize,
-            count: size,
-            total: Math.ceil(size / pageSize),
-        })
-    )
+    const getPagination = createPagination(getFilteredEntities)
 
-    const getPaginatedEntities = createSelector(
+    const getPaginatedEntities = createPaginatedEntities(
         getSortedEntities,
         getPagination,
-        (entities, {page, pageSize}) => {
-            const begin = (page - 1) * pageSize
-            const end = begin + pageSize
-
-            return entities.slice(begin, end)
-        }
     )
 
     return createSelector(

@@ -6,6 +6,7 @@ import drawers from './drawers'
 import geolocation from './geolocation'
 import auth from './auth'
 import sponsors from './sponsors'
+import mapbox from './mapbox'
 
 export default combineReducers({
     api,
@@ -15,4 +16,5 @@ export default combineReducers({
     geolocation,
     auth,
     sponsors,
+    mapbox,
 })

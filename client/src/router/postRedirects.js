@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default [{
     from: 'events/VvLeBSUAAJgDAgX6/*',
     to: 'events/asa-snowmobile-show-2016',

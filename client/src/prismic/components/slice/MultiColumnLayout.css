@@ -1,22 +1,11 @@
-@custom-media --layout-as-column (width > 800px);
-
 .ColumnSet {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+
+    margin: 0 -0.5em;
+    clear: both;
 
     & > * {
-        flex: 1 0;
-        margin: 0 1em;
-
-        &:first-child {
-            margin-left: 0;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
-    @media(--layout-as-column) {
-        flex-direction: row;
+        padding: 0 0.5em;
     }
 }

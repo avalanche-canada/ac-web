@@ -147,11 +147,12 @@ const getHotZoneReport = createSelector(
     (state, props) => props.params,
     getParsedHotZoneReports,
     ({name, uid}, reports) => {
-        const finder = typeof uid === 'string' ?
+        const filter = typeof uid === 'string' ?
             report => report.uid === uid :
             report => report.region === name && isHotZoneReportValid(report)
 
-        return reports.find(finder)
+
+        return reports.filter(filter).sortBy(report => report.dateOfIssue).last()
     }
 )
 
@@ -164,9 +165,9 @@ const getComputeBounds = createSelector(
 export default createSelector(
     getHotZone,
     getHotZoneReport,
-    getIsFetching,
     getComputeBounds,
-    (zone, report, isFetching, computeBounds) => {
+    (state, props) => props.isLoading,
+    (zone, report, computeBounds, isLoading) => {
         const name = zone && zone.get('name')
         const Schema = Schemas.HotZoneReport
 
@@ -175,9 +176,6 @@ export default createSelector(
             const {region, uid} = report
 
             return {
-                isLoading: isFetching,
-                isError: false,
-                isLoaded: true,
                 title: name,
                 report,
                 link: `/${Schema.getKey()}/${region}`,
@@ -186,10 +184,7 @@ export default createSelector(
             }
         } else {
             return {
-                isLoading: isFetching,
-                isError: false,
-                isLoaded: true,
-                title: isFetching ? name : name && `${name} report is not available`,
+                title: isLoading ? name : name && `${name} report is not available`,
                 computeBounds,
             }
         }
