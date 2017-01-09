@@ -8,7 +8,6 @@ import {Column, Body} from 'components/table/managed'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
 import {Link} from 'react-router'
-import * as Types from 'components/mountainInformationNetwork/types'
 import {DateTime, Relative} from 'components/misc'
 import styles from 'components/misc/Text.css'
 import {getFeatureCollection} from 'getters/mapbox'
@@ -18,7 +17,7 @@ import turf from 'turf-helpers'
 import {HeaderCellOrders} from 'components/table'
 import {computeSorting} from 'selectors/utils'
 import {createSorter} from 'selectors/factories'
-import {Names} from 'constants/min'
+import {INCIDENT, NAMES} from 'constants/min'
 
 const {NONE} = HeaderCellOrders
 
@@ -29,7 +28,7 @@ const columns = Immutable.List.of(
             const id = submission.get('subid')
             const title = submission.get('title')
             const types = submission.get('obs').map(ob => ob.get('obtype')).toSet()
-            const icon = types.has(Types.INCIDENT) ? pinWithIncident : pin
+            const icon = types.has(INCIDENT) ? pinWithIncident : pin
             const path = `/map?panel=${Schema.getKey()}/${id}`
 
             return (
@@ -103,7 +102,7 @@ const columns = Immutable.List.of(
                 <ul>
                     {types.map(type => (
                         <li key={type}>
-                            {Names.get(type)}
+                            {NAMES.get(type)}
                         </li>
                     ))}
                 </ul>
@@ -217,7 +216,7 @@ export default createSelector(
                 column.sorting ? column.name === name ? order : NONE : undefined
             )),
             bodies,
-            typeOptions: Names,
+            typeOptions: NAMES,
             messages,
         }
     }

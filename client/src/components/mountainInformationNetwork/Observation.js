@@ -4,14 +4,14 @@ import Weather from './Weather'
 import Snowpack from './Snowpack'
 import Avalanche from './Avalanche'
 import Incident from './Incident'
-import * as Types from './types'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'constants/min'
 
 const Components = new Map([
-    [Types.QUICK, Quick],
-    [Types.WEATHER, Weather],
-    [Types.SNOWPACK, Snowpack],
-    [Types.AVALANCHE, Avalanche],
-    [Types.INCIDENT, Incident],
+    [QUICK, Quick],
+    [WEATHER, Weather],
+    [SNOWPACK, Snowpack],
+    [AVALANCHE, Avalanche],
+    [INCIDENT, Incident],
 ])
 
 Observation.propTypes = {
