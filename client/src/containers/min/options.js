@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router'
 import {Error} from 'components/misc'
 import t from 'tcomb-form/lib'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'constants/min'
 
 const ASPECT_FIELDS = {
     N: {

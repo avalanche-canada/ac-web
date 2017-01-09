@@ -27,26 +27,19 @@ import {
     AvalancheReport,
     IncidentReport,
 } from './types'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'components/mountainInformationNetwork/types'
-import * as COLORS from 'components/icons/min/colors'
+import {
+    QUICK,
+    WEATHER,
+    SNOWPACK,
+    AVALANCHE,
+    INCIDENT,
+    NAMES,
+    TYPES,
+    COLORS
+} from 'constants/min'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
 
-const TYPES = [QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT]
-const Titles = new Map([
-    [QUICK, 'Quick'],
-    [AVALANCHE, 'Avalanche'],
-    [SNOWPACK, 'Snowpack'],
-    [WEATHER, 'Weather'],
-    [INCIDENT, 'Incident'],
-])
-const Colors = new Map([
-    [QUICK, COLORS.QUICK],
-    [AVALANCHE, COLORS.AVALANCHE],
-    [SNOWPACK, COLORS.SNOWPACK],
-    [WEATHER, COLORS.WEATHER],
-    [INCIDENT, COLORS.INCIDENT],
-])
 const ObservationTypes = new Map([
     [QUICK, QuickReport],
     [AVALANCHE, AvalancheReport],
@@ -334,15 +327,15 @@ export default class Form extends Component {
                                             }
                                             const tab = {
                                                  key: type,
-                                                 title: Titles.get(type),
-                                                 color: observations.get(type) ? Colors.get(type) : null,
+                                                 title: NAMES.get(type),
+                                                 color: observations.get(type) ? COLORS.get(type) : null,
                                             }
 
                                             return (
                                                 <Tab {...tab}>
                                                     <Base {...form} />
                                                     <Button type='reset' disabled={disabled || !form.value} onClick={this.observationClearHandlers.get(type)}>
-                                                        Reset {Titles.get(type)} report
+                                                        Reset {NAMES.get(type)} report
                                                     </Button>
                                                 </Tab>
                                             )
