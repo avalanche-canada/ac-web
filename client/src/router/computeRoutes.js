@@ -68,8 +68,6 @@ import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from 'reducers/api/getters'
 import * as Schemas from 'api/schemas'
 
-const YEAR = String(new Date().getFullYear())
-
 export default function computeRoutes(store) {
     const {dispatch, getState} = store
     let external = null
