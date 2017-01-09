@@ -59,7 +59,9 @@ export const AirTemperatureMin = {
 export const WindSpeedAvg = {
     name: 'windSpeedAvg',
     title: 'Wind Speed Average (km/h)',
-    property: 'windSpeedAvg',
+    property({windSpeedAvg}) {
+        return Math.round(windSpeedAvg * 10) / 10
+    },
     style: {
         minWidth: 65
     }
@@ -79,7 +81,9 @@ export const WindDirectionAvg = {
 export const WindSpeedGust = {
     name: 'windSpeedGust',
     title: 'Wind Speed Gust (km/h)',
-    property: 'windSpeedGust',
+    property({windSpeedGust}) {
+        return Math.round(windSpeedGust * 10) / 10
+    },
     style: {
         minWidth: 65
     }
