@@ -103,7 +103,9 @@ export default class Container extends Component {
                         Error happened to load weather forecast for <DateElement value={date} />.
                     </Error>
                 }
-                {forecast && <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />}
+                {forecast &&
+                    <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />
+                }
             </Article>
         )
     }
