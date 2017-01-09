@@ -3,8 +3,8 @@ import CSSModules from 'react-css-modules'
 import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'
-import {Table, Day, Condition} from './danger'
-import {Problem, Topic, Advice, Comment} from './problem'
+import {Table, Day, DaySet, Condition, Confidence} from './danger'
+import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
 import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
@@ -41,19 +41,24 @@ export default function Forecast({
             <TabSet theme={LOOSE}>
                 <Tab title='Danger ratings'>
                     <Condition mode={dangerMode} />
-                    <Table mode={dangerMode} confidence={confidence}>
-                        {dangerRatings.map(({date, dangerRating}, index) => (
-                            <Day key={index} date={date} {...dangerRating} />
-                        ))}
+                    <Table mode={dangerMode}>
+                        <DaySet>
+                            {dangerRatings.map(({date, dangerRating}, index) => (
+                                <Day key={index} date={date} {...dangerRating} />
+                            ))}
+                        </DaySet>
+                        <Confidence {...confidence} />
                     </Table>
                 </Tab>
                 <Tab title='Problems' disabled={problems.length === 0}>
                     {problems.map(({type, icons, comment, travelAndTerrainAdvice}, index) => (
                         <Problem key={type} title={`Avalanche Problem ${index + 1}: ${type}`} >
-                            <Topic title='What Elevation?' src={icons.elevations} />
-                            <Topic title='Which Slopes?' src={icons.aspects} />
-                            <Topic title='Chances of Avalanches?' src={icons.likelihood} />
-                            <Topic title='Expected Size?' src={icons.expectedSize} />
+                            <TopicSet>
+                                <Topic title='What Elevation?' src={icons.elevations} />
+                                <Topic title='Which Slopes?' src={icons.aspects} />
+                                <Topic title='Chances of Avalanches?' src={icons.likelihood} />
+                                <Topic title='Expected Size?' src={icons.expectedSize} />
+                            </TopicSet>
                             <Comment>{comment}</Comment>
                             <Advice>{travelAndTerrainAdvice}</Advice>
                         </Problem>

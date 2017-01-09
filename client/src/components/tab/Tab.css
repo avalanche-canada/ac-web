@@ -119,18 +119,23 @@
 }
 
 .Panel {
-    display: none;
+    position: absolute;
+    left: -10000px;
+    top: -10000px;
+    /*display: none;*/
 	margin: 1em;
 
     @media print {
-        display: block;
+        position: static;
+        /*display: block;*/
     }
 }
 
 .Panel--Active {
 	composes: Panel;
 
-    display: block;
+    position: static;
+    /*display: block;*/
 }
 
 .ExpandButton {

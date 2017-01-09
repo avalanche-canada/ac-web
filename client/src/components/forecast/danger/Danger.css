@@ -1,78 +1,69 @@
 @import "../../../styles/colors.css";
+@import "../Forecast.css";
 
 @custom-media --full-width (width > 480px);
 
 .Table {
-    width: 100%;
-    border-collapse: collapse;
+}
 
-    & td {
-        white-space: nowrap;
-    }
+.DaySet {
 
-    & th {
-        text-align: left;
+}
+
+.Day {
+
+}
+
+.FirstDay {
+    & .Title {
+        font-size: 1.25em;
     }
 }
 
-.ColumnHeader {
+.Title {
     composes: import SectionHeader from "../Forecast.css";
-    composes: import Border from "../Forecast.css";
 }
 
-.RowHeader {
+.Row {
+    display: flex;
+    color: black;
+    &:not(:last-of-type) {
+        border-bottom: 2px solid white;
+    }
+}
+
+.Elevation {
     composes: import SubSectionHeader from "../Forecast.css";
-    composes: import Border from "../Forecast.css";
+
+    flex: 40%;
 }
 
-.Cell {
+.Rating {
     composes: import SubSectionHeader from "../Forecast.css";
-    composes: import Border from "../Forecast.css";
+
+    flex: 60%;
+    white-space: nowrap;
 }
 
-.Caption {
-    composes: import Border from "../Forecast.css";
-
-    caption-side: bottom;
-    text-align: left;
-    border-top: none;
+.Confidence {
+    margin: 0.5em;
 
     & dl {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0 1em;
-        margin: 1em 0;
-    }
+        display: inline-flex;
 
-    & dt {
-        flex: 50%;
-        font-weight: 700;
-        margin-bottom: 1em;
-    }
-
-    & dd {
-        flex: 50%;
-        color: var(--gray-dark);
-        margin: 0;
-
-        & strong {
-            color: black;
-        }
-    }
-
-    @media (width > 500px) {
-        & dl {
-            flex-direction: row;
-            align-items: center;
-        }
         & dt {
-            margin-bottom: 0;
+            font-weight: 700;
+            color: var(--gray-dark);
         }
         & dd {
-            margin-left: -2em;
+            color: black;
+            margin-left: 0.5em;
         }
     }
+}
+
+.Confidence--Comment {
+    margin-left: 0.25em;
 }
 
 .Condition {

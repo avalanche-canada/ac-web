@@ -1,6 +1,7 @@
 import React, {PropTypes, Children, cloneElement} from 'react'
+import {branch, renderComponent} from 'recompose'
 import CSSModules from 'react-css-modules'
-import MediaQuery from 'react-responsive'
+import {ElementResize} from 'components/misc'
 import styles from './Danger.css'
 import {
     ALP,
@@ -13,117 +14,88 @@ import Ratings, {Texts as RatingTexts, Palette as RatingPalette} from 'constants
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
 
-function Cell({rating}) {
-    const style = {
+function Row({rating, elevation}) {
+    const elevationStyle = {
+        backgroundColor: ElevationPalette.get(elevation)
+    }
+    const ratingStyle = {
         backgroundColor: RatingPalette.get(rating)
     }
 
     return (
-        <td style={style} styleName='Cell'>
-            {RatingTexts.get(rating)}
-        </td>
+        <div styleName='Row'>
+            <div style={elevationStyle} styleName='Elevation'>
+                {ElevationTexts.get(elevation)}
+            </div>
+            <div style={ratingStyle} styleName='Rating'>
+                {RatingTexts.get(rating)}
+            </div>
+        </div>
     )
 }
-Cell = CSSModules(Cell, styles)
 
-function RowHeader({rating, type}) {
-    const style = {
-        backgroundColor: ElevationPalette.get(type)
-    }
+Row = CSSModules(Row, styles)
 
+function Title({date}) {
     return (
-        <th scope='row' style={style} styleName='RowHeader'>
-            {ElevationTexts.get(type)}
-        </th>
-    )
-}
-RowHeader = CSSModules(RowHeader, styles)
-
-function Row(props) {
-    return (
-        <tr>
-            <RowHeader {...props} />
-            <Cell {...props} />
-        </tr>
+        <div styleName='Title'>
+            <DayElement value={date} />
+        </div>
     )
 }
 
-function ColumnHeader({date, colSpan = 2}) {
-    return (
-        <tr>
-            <th scope='column' colSpan={colSpan} styleName='ColumnHeader'>
-                <DayElement value={date} />
-            </th>
-        </tr>
-    )
-}
-ColumnHeader = CSSModules(ColumnHeader, styles)
-
-function Body({date, alp, tln, btl}) {
-    return (
-        <tbody>
-            <ColumnHeader date={date} />
-            <Row rating={alp} type={ALP} />
-            <Row rating={tln} type={TLN} />
-            <Row rating={btl} type={BTL} />
-        </tbody>
-    )
-}
-
-const ratingPropType = PropTypes.oneOf(Array.from(Ratings)).isRequired
+Title = CSSModules(Title, styles)
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
-    index: PropTypes.number,
-    alp: ratingPropType,
-    tln: ratingPropType,
-    btl: ratingPropType,
+    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
 }
 
-function CardRow({showTravelAdvice, ...ratings}) {
+function Day({date, alp, tln, btl}) {
     return (
-        <tr>
-            <td style={{padding:0}} colSpan={2}>
-                <DangerCard {...ratings} showTravelAdvice={showTravelAdvice} />
-            </td>
-        </tr>
+        <div styleName='Day'>
+            <Title date={date} />
+            <Row rating={alp} elevation={ALP} />
+            <Row rating={tln} elevation={TLN} />
+            <Row rating={btl} elevation={BTL} />
+        </div>
     )
 }
 
-export default function Day({index, ...day}) {
-    const {date, alp, tln, btl} = day
+FirstDay.propTypes = Day.propTypes
 
-    switch (index) {
-        case 0:
-            return (
-                <tbody>
-                    <ColumnHeader date={date} />
-                    <MediaQuery maxWidth={500} >
-                        <Row rating={alp} type={ALP} />
-                    </MediaQuery>
-                    <MediaQuery maxWidth={500} >
-                        <Row rating={tln} type={TLN} />
-                    </MediaQuery>
-                    <MediaQuery maxWidth={500} >
-                        <Row rating={btl} type={BTL} />
-                    </MediaQuery>
-                    <MediaQuery minWidth={501} maxWidth={800} >
-                        <CardRow {...{alp, tln, btl}} />
-                    </MediaQuery>
-                    <MediaQuery minWidth={801} >
-                        <CardRow {...{alp, tln, btl, showTravelAdvice: true}} />
-                    </MediaQuery>
-                </tbody>
-            )
-        case 1:
-            return (
-                <Body {...day} />
-        )
-        case 2:
-            return (
-                <Body {...day} />
-        )
-        default:
-            return null
-    }
+function FirstDay({date, ...ratings}) {
+    return (
+        <div styleName='FirstDay'>
+            <ElementResize>
+                {width => {
+                    const children = [<Title key='title' date={date} />]
+
+                    if (width < 400) {
+                        children.push(<Row key='alp' rating={ratings.alp} elevation={ALP} />)
+                        children.push(<Row key='tln' rating={ratings.tln} elevation={TLN} />)
+                        children.push(<Row key='btl' rating={ratings.btl} elevation={BTL} />)
+                    } else {
+                        const props = {
+                            key: 'card',
+                            ...ratings,
+                            showTravelAdvice: width > 600,
+                            showExtraInformation: width > 650,
+                        }
+
+                        children.push(<DangerCard {...props} />)
+                    }
+
+                    return children
+                }}
+            </ElementResize>
+        </div>
+    )
 }
+
+export default branch(
+    props => props.first,
+    renderComponent(CSSModules(FirstDay, styles)),
+)(CSSModules(Day, styles))

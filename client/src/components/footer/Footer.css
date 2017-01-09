@@ -67,12 +67,12 @@
 
 .Rights {
     color: var(--gray);
-    line-height: 4rem;
-    white-space: nowrap;
+    margin-top: 2em;
 
     @media (--footer-one-row) {
         flex: 1 0 40%;
-        line-height: 2rem;
+        margin-top: 0;
+        line-height: 2em;
         text-align: right;
     }
 }

@@ -58,7 +58,7 @@ function ExpandButton({ rating, x, onClick, expanded }) {
         zIndex: 1
     }
     const fill = TextFill.get(rating)
-    const d = expanded ? 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' : 'M19 13H5v-2h14v2z'
+    const d = expanded ? 'M19 13H5v-2h14v2z' : 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'
 
     return (
         <g transform={`translate(${x} 3)`} onClick={onClick} style={style} >

@@ -1,57 +1,85 @@
 @import "../../../styles/colors.css";
+@import "../Forecast.css";
 
 .Container {
-    composes: import Section from "../Forecast.css";
+    display: block;
+    margin: 0.5em 0;
+}
 
+.Header {
+    flex: 100%;
+
+    font-size: 1.1em;
+    background-color: black;
+    color: white;
+    padding: 0.75em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.SubHeader {
+    padding: 0.75em;
+    font-size: 1em;
+    font-weight: 700;
+    background-color: var(--background-color);
+    margin: 0;
+}
+
+.TopicSet {
     display: flex;
     flex-wrap: wrap;
 
-    &[min-width~="480px"] > .Topic {
-        flex: 1 0 50%;
-        max-width: 50%;
+    border: 1px solid var(--background-color);
+}
 
-        &:nth-child(odd) {
-            box-sizing: border-box;
-            border-left: 2px solid white;
-        }
-    }
-    &[min-width~="820px"] > .Topic {
+.TopicSet--4PerRow {
+    & > .Topic {
         flex: 1 0 25%;
         max-width: 25%;
-
-        &:nth-child(4) {
-            box-sizing: border-box;
-            border-left: 2px solid white;
-        }
     }
 }
 
-
-.Header {
-    composes: import SectionHeader from "../Forecast.css";
-
-    flex: 100%;
-    white-space: nowrap;
-}
-.SubHeader {
-    composes: import SubSectionHeader from "../Forecast.css";
-
-    white-space: nowrap;
+.TopicSet--2PerRow {
+    & > .Topic {
+        flex: 1 0 50%;
+        max-width: 50%;
+    }
 }
 
 .Topic {
-    composes: import SubSection from "../Forecast.css";
-
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+
     min-height: 200px;
+    margin: 0;
+    align-self: stretch;
+    color: var(--gray-darker);
 
     flex: 100%;
+
+    & figcaption {
+        /*border-left: 1px solid white;*/
+        /*border-left: 1px solid var(--gray-light);*/
+        /*border-right: 1px solid white;*/
+        /*border-right: 1px solid var(--gray-light);*/
+        /*white-space: nowrap;*/
+        padding: 0.75em;
+        font-weight: 700;
+        background-color: var(--background-color);
+        margin: 0;
+    }
+
+    & img {
+        display: block;
+        margin: auto;
+    }
 }
 
-.TopicImage {
-    display: block;
-    margin: auto;
+.Topic--Content {
+    flex: 100%;
+    display: flex;
+    border: 1px solid var(--background-color);
+    /*border-top: none;*/
 }
 
 .FullWidthSubSection {
@@ -69,12 +97,11 @@
     composes: FullWidthSubSection;
     composes: import Border from "../Forecast.css";
 
-    border-right: none;
-    border-bottom: none;
-    border-left: none;
+    border-top: none;
 }
 
 .Advice {
     composes: FullWidthSubSection;
     composes: import SubSection from "../Forecast.css";
+    composes: import Border from "../Forecast.css";
 }
