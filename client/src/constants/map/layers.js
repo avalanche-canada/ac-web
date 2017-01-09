@@ -51,8 +51,6 @@ function idsReducer(all, [layer, ids]) {
 }
 
 function createMountainInformationNetworkLayers() {
-    // TODO: Do not need two layers for cluster text and cluster symbol.
-    // So combine and test these two layers
     const key = Layers.MOUNTAIN_INFORMATION_NETWORK
 
     return [{
