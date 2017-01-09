@@ -18,18 +18,9 @@ import turf from 'turf-helpers'
 import {HeaderCellOrders} from 'components/table'
 import {computeSorting} from 'selectors/utils'
 import {createSorter} from 'selectors/factories'
+import {Names} from 'constants/min'
 
 const {NONE} = HeaderCellOrders
-
-// TODO: Move this to constants folder/modules
-const Titles = new Map([
-    [Types.QUICK, 'Quick'],
-    [Types.AVALANCHE, 'Avalanche'],
-    [Types.SNOWPACK, 'Snowpack'],
-    [Types.WEATHER, 'Weather'],
-    [Types.INCIDENT, 'Incident'],
-])
-
 
 const columns = Immutable.List.of(
     Column.create({
@@ -112,7 +103,7 @@ const columns = Immutable.List.of(
                 <ul>
                     {types.map(type => (
                         <li key={type}>
-                            {Titles.get(type)}
+                            {Names.get(type)}
                         </li>
                     ))}
                 </ul>
@@ -226,7 +217,7 @@ export default createSelector(
                 column.sorting ? column.name === name ? order : NONE : undefined
             )),
             bodies,
-            typeOptions: Titles,
+            typeOptions: Names,
             messages,
         }
     }
