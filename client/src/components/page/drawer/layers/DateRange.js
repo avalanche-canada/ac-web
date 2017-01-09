@@ -5,9 +5,9 @@ import {Input} from 'components/controls'
 import styles from './DateRange.css'
 import {DayPicker, DateUtils} from 'components/misc'
 
-function K() {}
+function noop() {}
 
-// TODO: Use the control!!!
+// TODO: Use the control instead!
 
 DateRange.propTypes = {
     from: PropTypes.instanceOf(Date).isRequired,
@@ -15,7 +15,7 @@ DateRange.propTypes = {
     onChange: PropTypes.func.isRequired,
 }
 
-function DateRange({onChange = K, focus, setFocus, ...range}) {
+function DateRange({onChange = noop, focus, setFocus, ...range}) {
     function handleInputChange({target}) {
         const {value, name} = target
         const range = {from, to}

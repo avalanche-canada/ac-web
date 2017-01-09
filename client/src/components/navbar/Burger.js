@@ -5,13 +5,13 @@ import {Menu} from '../icons'
 import Button, {INCOGNITO} from '../button'
 import styles from './Navbar.css'
 
-function K() {}
+function noop() {}
 
 Burger.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Burger({onClick = K}) {
+function Burger({onClick = noop}) {
     return (
         <div styleName='Burger--Container'>
             <Button kind={INCOGNITO} styleName='Burger' onClick={onClick}>

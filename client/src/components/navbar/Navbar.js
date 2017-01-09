@@ -7,7 +7,7 @@ import Brand from './Brand'
 import Donate from './Donate'
 import styles from './Navbar.css'
 
-function K() {}
+function noop() {}
 
 Navbar.propTypes = {
     children: PropTypes.node.isRequired,
@@ -15,7 +15,7 @@ Navbar.propTypes = {
     onBurgerClick: PropTypes.func.isRequired,
 }
 
-function Navbar({isFoundation = false, onBurgerClick = K, children = []}) {
+function Navbar({isFoundation = false, onBurgerClick = noop, children = []}) {
     return (
         <div styleName='Navbar'>
             <nav styleName='Navigation'>

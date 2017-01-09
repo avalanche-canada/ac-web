@@ -13,7 +13,7 @@ import UserProfile from './UserProfile'
 import {Avatar} from '../misc'
 import styles from './Navbar.css'
 
-function K() {}
+function noop() {}
 
 Container.propTypes = {
     isFoundation: PropTypes.bool,
@@ -29,8 +29,8 @@ function Container({
     menu,
     name = null,
     avatar = null,
-    onLogin = K,
-    onLogout = K,
+    onLogin = noop,
+    onLogout = noop,
     setShowCabinet,
     showCabinet,
     showLogin,

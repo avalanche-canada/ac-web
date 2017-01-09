@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Pill.css'
 
-function K() {}
+function noop() {}
 
 Item.propTypes = {
     children: PropTypes.node.isRequired,
@@ -10,7 +10,7 @@ Item.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Item({ active = false, onClick = K, children }) {
+function Item({active = false, onClick = noop, children}) {
     return (
         <li styleName={active ? 'Item--Active' :'Item'} onClick={onClick} >
             {children}

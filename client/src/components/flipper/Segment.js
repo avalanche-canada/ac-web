@@ -5,7 +5,7 @@ import {ChevronLeft, ChevronRight} from '../icons'
 import Button from '../button'
 import styles from './Flipper.css'
 
-function K() {}
+function noop() {}
 
 const LEFT = 'Left'
 const RIGHT = 'Right'
@@ -21,7 +21,7 @@ const hints = new Map([
 
 function Segment({
     position,
-    onNavigate = K,
+    onNavigate = noop,
     hint = hints.get(position),
     hidden = false,
     children
