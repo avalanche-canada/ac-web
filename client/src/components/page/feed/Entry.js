@@ -1,7 +1,8 @@
 import React, {PropTypes, DOM} from 'react'
-import {compose, branch, renderComponent, shouldUpdate} from 'recompose'
+import {compose, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
+import {neverUpdate} from 'compose'
 import {Image, InnerHTML, DateElement} from 'components/misc'
 import {TagSet, Tag} from 'components/tag'
 import styles from './Feed.css'
@@ -98,7 +99,7 @@ function CondensedEntry({
 CondensedEntry = CSSModules(CondensedEntry, styles)
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     branch(
         props => props.condensed,
         renderComponent(CondensedEntry),

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
-import {compose, shouldUpdate} from 'recompose'
+import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {neverUpdate} from 'compose'
 import {Link} from 'react-router'
 import styles from './Navbar.css'
 
@@ -39,6 +40,6 @@ function Anchor({to = '#', children, ...props}) {
 }
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     CSSModules(styles),
 )(Anchor)

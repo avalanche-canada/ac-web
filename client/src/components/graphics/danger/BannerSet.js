@@ -1,5 +1,5 @@
 import React, {PropTypes, Children, cloneElement} from 'react'
-import {compose, withState} from 'recompose'
+import {withState} from 'recompose'
 
 BannerSet.propTypes = {
     showTravelAdvice: PropTypes.bool,
@@ -28,6 +28,4 @@ function BannerSet({
     )
 }
 
-export default compose(
-    withState('expanded', 'setExpanded', null)
-)(BannerSet)
+export default withState('expanded', 'setExpanded', null)(BannerSet)

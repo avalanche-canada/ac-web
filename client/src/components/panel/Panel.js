@@ -60,5 +60,6 @@ function Panel({expandable = false, header, theme = SIMPLE, expanded = false, se
 }
 
 export default compose(
-    withState('expanded', 'setExpanded', props => props.expanded)
-)(CSSModules(Panel, styles))
+    withState('expanded', 'setExpanded', props => props.expanded),
+    CSSModules(styles),
+)(Panel)

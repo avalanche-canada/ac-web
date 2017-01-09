@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
-import {compose, shouldUpdate} from 'recompose'
+import {compose} from 'recompose'
+import {neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
 import Item from './Item'
 import Link from 'components/navbar/Link'
@@ -46,6 +47,6 @@ function ItemSet({items, label, to}) {
 }
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     CSSModules(styles),
 )(ItemSet)

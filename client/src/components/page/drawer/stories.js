@@ -45,9 +45,7 @@ function Controlled({open, setOpen, ...rest}) {
 }
 
 
-Controlled = compose(
-    withState('open', 'setOpen', false)
-)(Controlled)
+Controlled = withState('open', 'setOpen', false)(Controlled)
 
 function TwoDrawers({open, setOpen, width, setWidth, ...rest}) {
     const header = (

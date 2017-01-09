@@ -53,5 +53,6 @@ function Layer({title, visible = true, onClick = noop, icon, children, expanded,
 }
 
 export default compose(
-    withState('expanded', 'setExpanded', false)
-)(CSSModules(Layer, styles))
+    withState('expanded', 'setExpanded', false),
+    CSSModules(styles),
+)(Layer)

@@ -1,9 +1,4 @@
-import React from 'react'
-import {compose, mapProps} from 'recompose'
+import {mapProps} from 'recompose'
 import {Subscribe} from 'services/mailchimp'
 
-export default compose(
-    mapProps(({content: [{url}]}) => ({
-        url
-    })),
-)(Subscribe)
+export default mapProps(({content: [{url}]}) => ({url}))(Subscribe)

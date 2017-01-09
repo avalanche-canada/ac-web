@@ -51,5 +51,6 @@ function DateRange({onChange = noop, focus, setFocus, ...range}) {
 }
 
 export default compose(
-    withState('focus', 'setFocus', null)
-)(CSSModules(DateRange, styles))
+    withState('focus', 'setFocus', null),
+    CSSModules(styles),
+)(DateRange)

@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, withProps} from 'recompose'
+import {withProps} from 'recompose'
 import DayPicker, {WeekdayPropTypes, NavbarPropTypes} from 'react-day-picker'
 import {Previous, Next} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
@@ -52,9 +52,7 @@ function Navbar({nextMonth, previousMonth, onPreviousClick, onNextClick, classNa
 }
 
 
-export default compose(
-    withProps({
-        weekdayElement: <Weekday />,
-        navbarElement: <Navbar />,
-    })
-)(DayPicker)
+export default withProps({
+    weekdayElement: <Weekday />,
+    navbarElement: <Navbar />,
+})(DayPicker)

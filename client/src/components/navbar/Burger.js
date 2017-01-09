@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {compose, shouldUpdate} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {neverUpdate} from 'compose'
 import {Menu} from '../icons'
 import Button, {INCOGNITO} from '../button'
 import styles from './Navbar.css'
@@ -22,6 +23,6 @@ function Burger({onClick = noop}) {
 }
 
 export default compose(
-    shouldUpdate(() => false),
+    neverUpdate,
     CSSModules(styles),
 )(Burger)

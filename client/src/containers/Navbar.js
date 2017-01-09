@@ -38,9 +38,7 @@ export const AvalancheCanada = compose(
     })
 )(Navbar)
 
-export const AvalancheCanadaFoundation = compose(
-    withProps({
-        isFoundation: true,
-        menu: asTree(menus.AvalancheCanadaFoundation),
-    }),
-)(Navbar)
+export const AvalancheCanadaFoundation = withProps({
+    isFoundation: true,
+    menu: asTree(menus.AvalancheCanadaFoundation),
+})(Navbar)

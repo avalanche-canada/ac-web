@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {compose, onlyUpdateForKeys} from 'recompose'
+import {onlyUpdateForKey} from 'compose'
 
 function createStyle(count, gap) {
     if (count === 1) {
@@ -30,6 +30,4 @@ function ColumnSet({count = 1, gap = 25, children}) {
     )
 }
 
-export default compose(
-    onlyUpdateForKeys(['children'])
-)(ColumnSet)
+export default onlyUpdateForKey('children')(ColumnSet)

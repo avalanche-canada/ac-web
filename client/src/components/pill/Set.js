@@ -31,4 +31,5 @@ function Set({activeIndex = 0, onActivate = noop, setActiveIndex, children}) {
 export default compose(
     setDisplayName('PillSet'),
     withState('activeIndex', 'setActiveIndex', props => props.activeIndex),
-)(CSSModules(Set, styles))
+    CSSModules(styles),
+)(Set)
