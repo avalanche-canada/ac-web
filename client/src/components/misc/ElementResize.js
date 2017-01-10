@@ -14,7 +14,10 @@ export default class ElementResize extends Component {
         this.updateDimensions()
     }
     updateDimensions = event => {
-        const {offsetWidth, offsetHeight} = this.refs.wrapper
+        const {
+            offsetWidth = null,
+            offsetHeight = null
+        } = this.refs.wrapper || {}
 
         this.setState({
             width: offsetWidth,
