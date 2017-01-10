@@ -58,7 +58,7 @@ export default class Loop extends Component {
             cursor,
             isLoading: true,
         }, () => {
-            if (this.isPlaying) {
+            if (this.isPlaying && !this.isLoading) {
                 this.setTimeout()
             }
         })
