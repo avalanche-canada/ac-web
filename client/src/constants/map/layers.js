@@ -128,9 +128,9 @@ function createSpecialInformationLayers() {
         type: 'symbol',
         layout: {
             visibility: 'visible',
-            'icon-image': 'embassy-15',
-            'icon-size': 1.5,
+            'icon-image': 'special-information',
             'icon-allow-overlap': true,
+            'icon-size': 0.9,
         },
     }]
 }
