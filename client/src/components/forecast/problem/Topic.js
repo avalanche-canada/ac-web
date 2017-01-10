@@ -9,12 +9,12 @@ Topic.propTypes = {
 
 function Topic({title, src}) {
     return (
-        <div styleName='Topic'>
-            <h3 styleName='SubHeader' title={title}>
-                {title}
-            </h3>
-            <img styleName='TopicImage' src={src} />
-        </div>
+        <figure styleName='Topic'>
+            <div styleName='Topic--Content'>
+                <img src={src} />
+            </div>
+            <figcaption>{title}</figcaption>
+        </figure>
     )
 }
 

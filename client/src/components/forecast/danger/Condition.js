@@ -22,7 +22,7 @@ const UIDS = new Map([
 ])
 
 Condition.propTypes = {
-    mode: PropTypes.oneOf([...HANDLED]).isRequired,
+    mode: PropTypes.oneOf(Array.from(HANDLED)).isRequired,
 }
 
 function Condition({mode}) {

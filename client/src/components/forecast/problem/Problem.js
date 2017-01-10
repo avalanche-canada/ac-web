@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
-import {elementQueries} from 'compose'
 import styles from './Problem.css'
 
 Problem.propTypes = {
@@ -18,7 +17,4 @@ function Problem({title, children}) {
     )
 }
 
-export default compose(
-    elementQueries(),
-    CSSModules(styles),
-)(Problem)
+export default CSSModules(Problem, styles)

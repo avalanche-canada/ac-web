@@ -1,4 +1,5 @@
 export Problem from './Problem'
+export TopicSet from './TopicSet'
 export Topic from './Topic'
 export Advice from './Advice'
 export Comment from './Comment'

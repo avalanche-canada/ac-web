@@ -5,16 +5,17 @@ import styles from './Forecast.css'
 
 Summary.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    children: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 }
 
 function Summary({title, children}) {
     return (
         <div styleName='Summary'>
             <h3>{title}</h3>
-            <InnerHTML>
-                {children}
-            </InnerHTML>
+            {typeof children === 'string' ?
+                <InnerHTML>{children}</InnerHTML> :
+                children
+            }
         </div>
     )
 }
