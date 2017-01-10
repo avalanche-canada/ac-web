@@ -77,9 +77,9 @@ export default class Container extends Component {
                             <DateElement value={date} />
                         </DayPicker>
                     </Entry>
-                    {(forecast && forecast.issued) &&
+                    {forecast &&
                         <Entry term='Issued at'>
-                            {forecast.issued} PST/PDT
+                            {forecast.issued || '04:00'} PST/PDT
                         </Entry>
                     }
                     {(forecast && forecast.handle) &&
