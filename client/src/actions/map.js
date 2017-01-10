@@ -11,6 +11,7 @@ import {
     MOUNTAIN_INFORMATION_NETWORK,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
+    SPECIAL_INFORMATION,
 } from 'constants/drawers'
 
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
@@ -56,6 +57,8 @@ function createActionForLayer(layer) {
             return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
         case TOYOTA_TRUCK_REPORTS:
             return PrismicActions.loadToyotaTruckReports()
+        case SPECIAL_INFORMATION:
+            return PrismicActions.loadSpecialInformation()
         case WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
     }

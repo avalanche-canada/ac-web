@@ -45,6 +45,7 @@ export function loadHotZoneReport({name, uid}) {
     }
 }
 export const loadToyotaTruckReports = lazyLoadForTypeFactory('toyota-truck-report')
+export const loadSpecialInformation = lazyLoadForTypeFactory('special-information')
 export function loadHotZoneReports() {
     // TODO: Implement a better way to reduce action dispatching for Prismic!
     function noop() {}
