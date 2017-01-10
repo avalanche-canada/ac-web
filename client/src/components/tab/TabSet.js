@@ -118,9 +118,9 @@ export default class TabSet extends Component {
 	renderTabPanel(tab, index) {
         const {children} = tab.props
 
-        if (children) {
+        if (children && this.activeIndex === index) {
             return (
-                <Panel key={index} active={this.activeIndex === index}>
+                <Panel key={index} active>
                     {children}
                 </Panel>
             )
