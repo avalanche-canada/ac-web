@@ -7,38 +7,38 @@ export default function WeatherSidebar() {
         <Sidebar>
             <Header>Forecast</Header>
             <Item>
-                <Link to='/new/weather'>Mountain Weather Forecast</Link>
+                <Link to='/weather'>Mountain Weather Forecast</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/hourly-precipitation'>Hourly Precipitation</Link>
+                <Link to='/weather/hourly-precipitation'>Hourly Precipitation</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/12h-precipitation'>12hr Total Precipitation</Link>
+                <Link to='/weather/12h-precipitation'>12hr Total Precipitation</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/temperatures'>Temperatures</Link>
+                <Link to='/weather/temperatures'>Temperatures</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/winds'>Winds</Link>
+                <Link to='/weather/winds'>Winds</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/surface-maps'>Surface Maps</Link>
+                <Link to='/weather/surface-maps'>Surface Maps</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/other-maps'>500mb & Precipitable Water</Link>
+                <Link to='/weather/other-maps'>500mb & Precipitable Water</Link>
             </Item>
             <Header>Current Conditions</Header>
             <Item>
-                <Link to='/new/weather/radar'>Radar</Link>
+                <Link to='/weather/radar'>Radar</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/satellite'>Satellite</Link>
+                <Link to='/weather/satellite'>Satellite</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/actual-temperatures'>Temperatures</Link>
+                <Link to='/weather/actual-temperatures'>Temperatures</Link>
             </Item>
             <Item>
-                <Link to='/new/weather/warnings'>Warnings</Link>
+                <Link to='/weather/warnings'>Warnings</Link>
             </Item>
         </Sidebar>
     )
