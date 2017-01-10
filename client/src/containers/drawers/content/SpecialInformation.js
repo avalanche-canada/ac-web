@@ -31,7 +31,7 @@ function SpecialInformation({
 }) {
     const {
         headline,
-        location,
+        locationDescription,
         content,
         date,
     } = report
@@ -49,7 +49,7 @@ function SpecialInformation({
                 </Navbar>
                 <Header subject={subject}>
                     <h1>{headline}</h1>
-                    <div style={LOCATION_STYLE}>{location}</div>
+                    <div style={LOCATION_STYLE}>{locationDescription}</div>
                 </Header>
                 <Content>
                     {isError && <Error>{messages.error}</Error>}
