@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import bind, {unbind} from 'element-resize-event'
+import bind from 'element-resize-event'
 
 export default class ElementResize extends Component {
     static propTypes = {
@@ -12,9 +12,6 @@ export default class ElementResize extends Component {
     componentDidMount() {
         bind(this.refs.wrapper, this.updateDimensions)
         this.updateDimensions()
-    }
-    componentWillUnmount() {
-        unbind(this.refs.wrapper, this.updateDimensions)
     }
     updateDimensions = event => {
         const {offsetWidth, offsetHeight} = this.refs.wrapper

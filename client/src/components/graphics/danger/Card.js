@@ -34,7 +34,7 @@ export default function Card({
     showExtraInformation = false
 }) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="255 205 450 150" style={STYLE} >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="255 205 450 146" style={STYLE}>
             <path fill="#DDEEFA" d="M705 204.9v50.6H418.8c-15.7 1.2-29.5 12.3-29.5 12.3-2.5 7.6-34.7 1.4-34.7 1.4l2.5 4.7c-8.9-5.8-29.4.4-29.4.5 0 .1-26.8 12.9-40.3.1-10.2-9.7-25.1-6.2-32.3-3.9v-65.8H705z"/>
             <path fill="#D1D9A3" d="M704.8 255.6v49.3l-283.8-.2-18.6-11.2c-18.8 1.6-29.2 10.1-37.3 16.2-8.1 6-12.4 5.7-20.8 6.3-8.5.6-15.5-2.9-21.5-6.2-6-3.3-8.3-4.7-20.8-9.7-12.5-4.9-22.6-3.2-23-3.2s-11 1.6-12.8-1.7c-1.2-2.2-6.8-1.5-11-.8v-23.8c7.2-2.4 22.1-5.9 32.3 3.7 13.6 12.8 40.3.1 40.3-.1s20.6-6.4 29.5-.6l-2.5-4.7s32.1 6.3 34.7-1.3c0 0 13.9-11.1 29.5-12.3h137.7l148.1.3z"/>
             <path fill="#AEBFAC" d="M704.8 304.8v49.6H255v-59.9c4.2-.7 9.8-1.4 11 .8 1.8 3.3 12.3 1.7 12.7 1.7s10.6-1.8 23.1 3.2c12.5 5 14.8 6.3 20.8 9.7s13.1 6.8 21.6 6.2c8.5-.6 12.7-.3 20.8-6.3 8.1-6 18.6-14.6 37.4-16.2l18.6 11.2h283.8z"/>
@@ -92,9 +92,9 @@ export default function Card({
             <PositionText x={291} y={293}>Treeline</PositionText>
             <PositionText x={269} y={320}>Below treeline</PositionText>
             <BannerSet showTravelAdvice={showTravelAdvice} expandable={showExtraInformation} >
-                <Banner rating={alp} elevation={ALP} />
-                <Banner rating={tln} elevation={TLN} />
                 <Banner rating={btl} elevation={BTL} />
+                <Banner rating={tln} elevation={TLN} />
+                <Banner rating={alp} elevation={ALP} />
             </BannerSet>
         </svg>
     )

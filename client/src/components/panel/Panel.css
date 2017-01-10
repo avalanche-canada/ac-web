@@ -36,7 +36,6 @@
         color: white;
 
         & .Expand {
-            float: right;
             & path:not([fill="none"]) {
                 fill: white;
             }
@@ -65,7 +64,7 @@
 .Expand {
     height: 3em;
     padding: 0 0.5em;
-    float: left;
+    float: right;
 
     &:focus {
         outline: none;

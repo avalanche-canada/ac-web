@@ -27,24 +27,20 @@
 
 .SubHeader {
     padding: 0.75em 0.75em;
-    font-size: 1.15em;
-    font-weight: 700;
-    background-color: var(--gray-light);
+    font-size: 1em;
+    font-weight: normal;
+    background-color: var(--background-color);
     margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .Section {
-    composes: Border;
-
     margin: 0.5em 0;
 }
 
 .SectionHeader {
     composes: SubHeader;
 
-    font-size: 1.25em;
+    font-size: 1.1em;
     background-color: black;
     color: white;
 }
@@ -63,62 +59,19 @@
 }
 
 .Summary {
+    & dl {
+        display: inline-flex;
+        margin: 0 0 1em 0;
+    }
+    & dt {
+        font-weight: 700;
+    }
+    & dd {
+        margin-left: 0.5em;
+    }
 }
 
 .Forecast {
-    /* TODO: Namespace that table styling to the weather forecast */
-    /* TODO: Decide to use or not markdown */
-    & table {
-        width: 100%;
-        border-collapse: collapse;
-
-        & thead, & tbody tr > td:first-child {
-            border-bottom: 2px solid var(--border-color);
-            font-size: 1.15em;
-            font-weight: 700;
-        }
-
-        & td {
-            display: block;
-            padding: 1em 0.5em;
-        }
-
-        & thead {
-            display: none;
-        }
-
-        & tbody {
-            color: var(--gray-darker);
-
-            & td:nth-child(odd):not(:first-child) {
-                background-color: var(--background-color);
-            }
-        }
-
-        @media (--full-width) {
-            & tr > td {
-                display: table-cell;;
-
-                &:first-child {
-                    display: none;
-                }
-            }
-
-            & thead {
-                display: table-header-group;
-            }
-
-            & tbody {
-                & tr:nth-child(even) {
-                    background-color: var(--background-color);
-                }
-                & td:nth-child(odd):not(:first-child) {
-                    background-color: transparent;
-                }
-            }
-        }
-
-    }
 }
 
 .Footer {

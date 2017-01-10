@@ -4,35 +4,27 @@ import styles from './Danger.css'
 import Day from './Day'
 import * as Modes from 'constants/forecast/mode'
 
-const {SPRING, SUMMER, OFF, EARLY_SEASON} = Modes
-const UNHANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
+const UNHANDLED = new Set([
+    Modes.SUMMER,
+    Modes.SPRING,
+    Modes.OFF,
+    Modes.EARLY_SEASON,
+])
 
 Table.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.instanceOf(Day)).isRequired,
-    mode: PropTypes.string.isRequired,
-    confidence: PropTypes.shape({
-        level: PropTypes.string,
-        comment: PropTypes.string,
-    }),
+    mode: PropTypes.oneOf(Array.from(Modes)).isRequired,
+    children: PropTypes.node.isRequired,
 }
 
-function Table({confidence: {level, comment}, children, mode}) {
+function Table({children, mode}) {
     if (UNHANDLED.has(mode)) {
         return null
     }
 
     return (
-        <table styleName='Table'>
-            <caption styleName='Caption'>
-                <dl>
-                    <dt>Confidence</dt>
-                    <dd>
-                        <strong>{level}</strong> {comment}
-                    </dd>
-                </dl>
-            </caption>
-            {Children.map(children, (day, index) => cloneElement(day, {index}))}
-        </table>
+        <div styleName='Table'>
+            {children}
+        </div>
     )
 }
 
