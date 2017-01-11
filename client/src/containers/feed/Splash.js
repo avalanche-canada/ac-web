@@ -7,6 +7,7 @@ import {InnerHTML} from 'components/misc'
 import mapStateToProps from 'selectors/prismic/splash'
 import {Entry, EntrySet} from 'components/page/feed'
 import {Predicates} from 'prismic'
+import {formatAsDay} from 'utils/date'
 
 function FeedSplash({
     header,
@@ -40,17 +41,21 @@ export default compose(
             const {type, tags = [], loadForType, setDocuments, documents} = this.props
             const options = {
                 pageSize: 5,
+                predicates: [],
                 orderings: [
                     `my.${type}.date desc`,
                 ],
             }
 
             if (tags.length > 0) {
-                Object.assign(options, {
-                    predicates: [
-                        Predicates.at('document.tags', tags)
-                    ],
-                })
+                options.predicates.push(Predicates.at('document.tags', tags))
+            }
+
+            if (type === 'event') {
+                options.predicates.push(
+                    Predicates.dateAfter('my.event.start_date', formatAsDay(new Date()))
+                )
+                options.orderings = ['my.event.start_date']
             }
 
             loadForType(type, options).then(({results}) => {
