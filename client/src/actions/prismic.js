@@ -57,6 +57,7 @@ export function loadHotZoneReports() {
 
     return dispatch => dispatch(action).then(resp => {
         loadHotZoneReports = noop
+        
         return resp
     })
 }
