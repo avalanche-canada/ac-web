@@ -25,10 +25,3 @@ export default handleActions({
     isAuthenticated: auth.checkTokenExpiry(),
     profile: auth.profile,
 }))
-
-export function getIsAuthenticated(state) {
-    return state.auth.isAuthenticated
-}
-export function getProfile(state) {
-    return state.auth.profile
-}

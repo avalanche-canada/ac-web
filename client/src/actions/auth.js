@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions'
 import AuthService from 'services/auth'
-import {getIsAuthenticated} from 'reducers/auth'
+import {getIsAuthenticated} from 'getters/auth'
 import Axios from 'axios'
 
 export const TOKEN_RECEIVED = 'TOKEN_RECEIVED'

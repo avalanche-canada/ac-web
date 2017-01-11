@@ -5,7 +5,7 @@ import {loadForType} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers';
-import {getIsAuthenticated, getProfile} from 'reducers/auth'
+import {getIsAuthenticated} from 'getters/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'

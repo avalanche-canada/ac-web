@@ -3,7 +3,7 @@ import {compose, withProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
-import {getIsAuthenticated, getProfile} from 'reducers/auth'
+import {getIsAuthenticated, getProfile} from 'getters/auth'
 import {login, logout} from 'actions/auth'
 
 function mapStateToProps(state) {

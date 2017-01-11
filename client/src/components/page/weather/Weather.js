@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
-import {getIsAuthenticated} from 'reducers/auth'
+import {getIsAuthenticated} from 'getters/auth'
 import {compose, lifecycle} from 'recompose'
 import {Link} from 'react-router'
 import {Page, Content, Header, Main, Article, ArticleHeader, Aside} from 'components/page'

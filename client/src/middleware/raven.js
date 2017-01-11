@@ -1,6 +1,6 @@
 import {setUserContext} from 'services/raven'
 import {LOGIN_SUCCESS} from 'actions/auth'
-import {getProfile} from 'reducers/auth'
+import {getProfile} from 'getters/auth'
 
 let profile = null
 
