@@ -1,3 +1,4 @@
+import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
 import AuthService from 'services/auth'
 import {
@@ -9,39 +10,21 @@ import {
 
 const auth = AuthService.create()
 
-// TODO: Could use an Immutable.Record for better performance
-const STATE = {
-    isAuthenticated: auth.checkTokenExpiry(),
-    profile: auth.profile,
+const Session = Immutable.Record({
+    isAuthenticated: false,
+    profile: null,
     error: null,
-}
+})
 
 export default handleActions({
-    [TOKEN_RECEIVED]: state => ({
-        ...state,
-        isAuthenticated: true,
-        profile: null,
-        error: null,
-    }),
-    [LOGIN_SUCCESS]: (state, {payload}) => ({
-        ...state,
-        isAuthenticated: true,
-        profile: payload,
-        error: null,
-    }),
-    [LOGIN_ERROR]: (state, {payload}) => ({
-        ...state,
-        isAuthenticated: false,
-        profile: null,
-        error: payload,
-    }),
-    [LOGOUT_SUCCESS]: state => ({
-        ...state,
-        isAuthenticated: false,
-        profile: null,
-        error: null,
-    }),
-}, STATE)
+    [TOKEN_RECEIVED]: session => session.set('isAuthenticated', true),
+    [LOGIN_SUCCESS]: (session, {payload}) => session.set('profile', payload),
+    [LOGIN_ERROR]: (session, {payload}) => session.set('error', payload),
+    [LOGOUT_SUCCESS]: () => new Session(),
+}, new Session({
+    isAuthenticated: auth.checkTokenExpiry(),
+    profile: auth.profile,
+}))
 
 export function getIsAuthenticated(state) {
     return state.auth.isAuthenticated
