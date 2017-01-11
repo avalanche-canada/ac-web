@@ -310,4 +310,16 @@ export default [{
 }, {
     from: 'news/Vw_rICkAALuO27JE/*',
     to: 'news/royal-canadian-pacific-fundraiser',
+}, {
+    from: 'cac/training/ast/courses',
+    to: 'training/courses',
+}, {
+    from: 'cac/training/overview',
+    to: 'training',
+}, {
+    from: 'cac/training/online-course',
+    to: 'tutorial',
+}, {
+    from: 'cac',
+    to: '/',
 }]

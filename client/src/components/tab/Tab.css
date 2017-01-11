@@ -122,20 +122,13 @@
     position: absolute;
     left: -10000px;
     top: -10000px;
-    /*display: none;*/
 	margin: 1em;
-
-    @media print {
-        position: static;
-        /*display: block;*/
-    }
 }
 
 .Panel--Active {
 	composes: Panel;
 
     position: static;
-    /*display: block;*/
 }
 
 .ExpandButton {

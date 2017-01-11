@@ -141,12 +141,12 @@ function mergeStyle(style, {payload}) {
 
     return style.delete('layers').mergeDeep(payload)
 }
-function setCenter(style, {payload}) {
-    return style.set('center', payload)
-}
-function setZoom(style, {payload}) {
-    return style.set('zoom', payload)
-}
+// function setCenter(style, {payload}) {
+//     return style.set('center', payload)
+// }
+// function setZoom(style, {payload}) {
+//     return style.set('zoom', payload)
+// }
 function toggleLayersFactory(visible) {
     visible = visible ? 'visible' : 'none'
 

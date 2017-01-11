@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
-import {compose, mapProps, setDisplayName, setPropTypes, shouldUpdate} from 'recompose'
+import {compose, mapProps, setDisplayName, setPropTypes} from 'recompose'
+import {neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import Link from './Link'
@@ -9,9 +10,9 @@ export default compose(
     setPropTypes({
         isFoundation: PropTypes.bool
     }),
-    shouldUpdate(() => false),
+    neverUpdate,
     mapProps(({isFoundation = false}) => ({
-        to: isFoundation ? '/foundation' : '',
+        to: isFoundation ? '/foundation' : '/',
         title: isFoundation ? 'Avalanche Canada Foundation' : 'Avalanche Canada',
         styleName: isFoundation ? 'Brand--Foundation' : 'Brand'
     })),

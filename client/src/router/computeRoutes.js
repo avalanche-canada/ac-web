@@ -9,7 +9,6 @@ import {getIsAuthenticated, getProfile} from 'reducers/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
-import {history} from 'router'
 import AuthService from 'services/auth'
 import {FallbackPage} from 'prismic/components/page'
 import {
@@ -213,9 +212,11 @@ export default function computeRoutes(store) {
         })
     }
 
-    function redirect({location: {pathname}}, replace, callback) {
+    function redirect({location}, replace, callback) {
+        // Need callback, it is not working if not specified
+        // See react-router documentation for more details
         // Leave the application and goes to nginx to do appropriate redirect
-        document.location = pathname
+        document.location = location.pathname
     }
 
     const RouteSchemaMapping = new Map([
@@ -256,12 +257,6 @@ export default function computeRoutes(store) {
             {postRedirects.map((redirect, index) =>
                 <Redirect key={index} {...redirect} />
             )}
-            {/* Common messed up redirects */}
-            <Redirect from='cac/training/ast/courses' to='training/courses' />
-            <Redirect from='cac/training/overview' to='training' />
-            <Redirect from='cac/training/online-course' to='tutorial' />
-            <Redirect from='cac' to='/' />
-            {/* END EMERGENCY REDIRECTS */}
 
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
