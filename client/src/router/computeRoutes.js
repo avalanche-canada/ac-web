@@ -257,7 +257,6 @@ export default function computeRoutes(store) {
             {postRedirects.map((redirect, index) =>
                 <Redirect key={index} {...redirect} />
             )}
-            {/* END EMERGENCY REDIRECTS */}
 
             {/* AUTHORIZATION */}
             <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
