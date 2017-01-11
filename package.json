@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@kadira/storybook": "^2.5.2",
-    "auth0-lock": "10.4.0",
+    "auth0-lock": "^10.9.2",
     "axios": "^0.14.0",
     "babel-core": "^6.20.0",
     "babel-loader": "^6.2.9",

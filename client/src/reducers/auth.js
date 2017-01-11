@@ -9,6 +9,7 @@ import {
 
 const auth = AuthService.create()
 
+// TODO: Could use an Immutable.Record for better performance
 const STATE = {
     isAuthenticated: auth.checkTokenExpiry(),
     profile: auth.profile,

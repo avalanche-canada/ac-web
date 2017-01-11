@@ -105,10 +105,10 @@ export default function computeRoutes(store) {
     }
 
     function handleLoginCompleteRouteEnter({location}, replace) {
-        const {id_token, state} = QueryString.parse(location.hash)
+        const {id_token, access_token, state} = QueryString.parse(location.hash)
 
-        if (id_token) {
-            dispatch(receiveToken(id_token))
+        if (id_token && access_token) {
+            dispatch(receiveToken(id_token, access_token))
         }
 
         replace(state || '/')

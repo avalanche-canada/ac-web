@@ -10,17 +10,21 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
 const auth = AuthService.create()
 
-Axios.defaults.headers.post['Authorization'] = `Bearer ${auth.token}`
+Axios.defaults.headers.post['Authorization'] = `Bearer ${auth.idToken}`
 
-export function receiveToken(token) {
+export function receiveToken(idToken, accessToken) {
     return (dispatch, getState) => {
-        auth.token = token
+        auth.idToken = idToken
+        auth.accessToken = accessToken
 
-        Axios.defaults.headers.post['Authorization'] = `Bearer ${token}`
+        Axios.defaults.headers.post['Authorization'] = `Bearer ${idToken}`
 
         dispatch({
             type: TOKEN_RECEIVED,
-            payload: token
+            payload: {
+                id: idToken,
+                access: accessToken,
+            }
         })
 
         return auth.fetchProfile().then(
