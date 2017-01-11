@@ -13,7 +13,9 @@ import {
     TOYOTA_TRUCK_REPORTS,
 } from 'constants/drawers'
 
+// TODO: Look at removing or not ZOOM_CHANGED action types
 export const ZOOM_CHANGED = 'ZOOM_CHANGED'
+// TODO: Look at removing or not CENTER_CHANGED action types
 export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
