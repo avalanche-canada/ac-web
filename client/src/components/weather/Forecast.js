@@ -38,11 +38,15 @@ const TABS = new Map([
     }],
 ])
 
+function isLegacy({synopsis}) {
+    return !Array.isArray(synopsis)
+}
+
 function Forecast({forecast}) {
-    const {type, date, headline} = forecast
+    const {date, headline} = forecast
     let children = null
 
-    if (type === 'weather-forecast') {
+    if (isLegacy(forecast)) {
         children = <Legacy forecast={forecast} />
     } else {
         children = (

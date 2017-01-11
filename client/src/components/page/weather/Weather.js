@@ -1,4 +1,4 @@
-import React, {PropTypes, cloneElement} from 'react'
+import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {loadForType} from 'actions/prismic'
 import {getIsAuthenticated} from 'reducers/auth'
@@ -12,10 +12,9 @@ Weather.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
 }
 
-function Weather({children, isAuthenticated = false, route}) {
-    const {type = 'new-weather-forecast'} = route
+function Weather({children, isAuthenticated = false}) {
     const title = (
-        <Link to={type === 'new-weather-forecast' ? 'new/weather' : '/weather'}>
+        <Link to='/weather'>
             Mountain Weather Forecast
         </Link>
     )
@@ -25,14 +24,12 @@ function Weather({children, isAuthenticated = false, route}) {
             <Header title={title} />
             <Content>
                 <Main>
-                    {children && cloneElement(children, {type})}
+                    {children}
                     <Footer showFeedbackAnchor={isAuthenticated} />
                 </Main>
-                {type === 'new-weather-forecast' && (
-                    <Aside>
-                        <Sidebar />
-                    </Aside>
-                )}
+                <Aside>
+                    <Sidebar />
+                </Aside>
             </Content>
         </Page>
     )

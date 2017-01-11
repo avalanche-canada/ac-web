@@ -3,15 +3,15 @@ import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
 import Parser from 'prismic/parser'
 import {formatAsDay} from 'utils/date'
 
-function getDocument(state, {params: {date}, type}) {
-    const documents = getDocumentsOfType(state, type)
+function getDocument(state, {params: {date}}) {
+    const documents = getDocumentsOfType(state, 'weather-forecast')
 
     if (!date) {
         date = formatAsDay(new Date())
     }
 
     function predicate(document) {
-        return date === document.data[`${type}.date`].value
+        return date === document.data['weather-forecast.date'].value
     }
 
     return documents.find(predicate)
