@@ -7,8 +7,7 @@ import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
 import styles from './Navbar.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Navbar.propTypes = {
     children: PropTypes.node.isRequired,

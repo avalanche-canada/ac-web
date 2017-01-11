@@ -7,10 +7,9 @@ import Link from 'components/navbar/Link'
 import Cabinet from './Cabinet'
 import Item from './Item'
 import styles from './Drawer.css'
+import noop from 'lodash/noop'
 
 const preset = presets.noWobble
-
-function noop() {}
 
 // Tree manipulation
 function first(node, id) {

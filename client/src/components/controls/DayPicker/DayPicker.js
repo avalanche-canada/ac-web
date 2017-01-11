@@ -7,10 +7,10 @@ import Callout, {BOTTOM} from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'
 import Holder from '../Holder'
+import noop from 'lodash/noop'
 
 const today = new Date()
 const {isSameDay} = DateUtils
-function noop() {}
 
 @CSSModules(styles)
 export default class DayPicker extends Component {

@@ -8,8 +8,8 @@ import styles from './Geocoder.css'
 import queryString from 'query-string'
 import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
+import noop from 'lodash/noop'
 
-function noop() {}
 // TODO: Move that code to services/mapbox
 const BASEURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 const PARAMS = {

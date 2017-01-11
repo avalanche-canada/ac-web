@@ -4,8 +4,7 @@ import CSSModules from 'react-css-modules'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
 import styles from './Layer.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,

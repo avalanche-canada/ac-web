@@ -10,8 +10,7 @@ import Ratings, {
 } from 'constants/forecast/rating'
 import {BannerFill, BannerStroke, TextFill} from './colors'
 import IconGroups from './IconGroups'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 function RatingText({ rating, showTravelAdvice }) {
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING

@@ -5,8 +5,7 @@ import {neverUpdate} from 'compose'
 import {Menu} from '../icons'
 import Button, {INCOGNITO} from '../button'
 import styles from './Navbar.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Burger.propTypes = {
     onClick: PropTypes.func.isRequired,

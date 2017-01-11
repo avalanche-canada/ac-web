@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './OptionSet.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Option.propTypes = {
     children: PropTypes.node.isRequired,

@@ -2,8 +2,7 @@ import React, {PropTypes} from 'react'
 import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 function createStyle(noWrap) {
     return {

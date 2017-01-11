@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import mapbox from 'services/mapbox/map'
+import noop from 'lodash/noop'
 
 const {LngLat} = mapbox
-function noop() {}
 
 export default class Marker extends Component {
     static propTypes = {

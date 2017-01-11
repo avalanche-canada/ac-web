@@ -11,7 +11,7 @@ import styles from './Picker.css'
 const CONTAINER_STYLE = {
     position: 'relative',
 }
-function noop() {}
+import noop from 'lodash/noop'
 function defaultFormat(value) {
     return value
 }

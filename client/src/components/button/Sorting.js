@@ -3,8 +3,7 @@ import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps
 import {ExpandLess, ExpandMore, Remove} from '../icons'
 import Button from './Button'
 import {SUBTILE} from './kinds'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 export const ASC = 'asc'
 export const DESC = 'desc'

@@ -4,8 +4,7 @@ import CSSModules from 'react-css-modules'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Drawer.propTypes = {
     label: PropTypes.string.isRequired,

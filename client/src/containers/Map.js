@@ -11,8 +11,7 @@ import {push} from 'utils/router'
 import {near} from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 const CLUSTER_BOUNDS_OPTIONS = {
     padding: 75,

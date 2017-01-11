@@ -6,8 +6,7 @@ import Holder from '../Holder'
 import DropdownOption from './DropdownOption'
 import {OptionSet} from 'components/controls/options'
 import styles from './Dropdown.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
