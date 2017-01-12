@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import {compose, withContext, withState, withProps, withHandlers, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import {neverUpdate} from 'compose'
-import {Primary, Secondary, Menu, OpenMenu} from 'containers/drawers'
+import {Primary, Secondary, Menu, ToggleMenu} from 'containers/drawers'
 import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
 import mapbox from 'services/mapbox/map'
@@ -20,7 +20,7 @@ function Layout({primary, setInitializationError}) {
             </Primary>
             <Secondary />
             <Menu />
-            <OpenMenu />
+            <ToggleMenu />
             <LinkControlSet />
         </div>
     )

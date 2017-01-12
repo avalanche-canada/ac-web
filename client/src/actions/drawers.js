@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions'
-import {isLayerVisible} from 'getters/drawers'
+import {isLayerVisible, isMenuOpen} from 'getters/drawers'
 
 export const MENU_OPENED = 'MENU_OPENED'
 export const MENU_CLOSED = 'MENU_CLOSED'
@@ -7,8 +7,16 @@ export const FILTER_CHANGED = 'FILTER_CHANGED'
 export const LAYER_TURNED_ON = 'LAYER_TURNED_ON'
 export const LAYER_TURNED_OFF = 'LAYER_TURNED_OFF'
 
-export const openMenu = createAction(MENU_OPENED)
+const openMenu = createAction(MENU_OPENED)
 export const closeMenu = createAction(MENU_CLOSED)
+export function toggleMenu() {
+    return (dispatch, getState) => {
+        const action = isMenuOpen(getState()) ? closeMenu() : openMenu()
+
+        return dispatch(action)
+    }
+}
+
 export const changeFilter = createAction(FILTER_CHANGED, changeFilterPayloadCreator)
 
 // Reducing action dispatching to improve performance!
