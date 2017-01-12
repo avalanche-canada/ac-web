@@ -2,9 +2,8 @@ import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
 import AuthService from 'services/auth'
 import {
-    LOGIN_SUCCESS,
-    LOGIN_ERROR,
-    LOGOUT_SUCCESS,
+    GET_PROFILE,
+    LOGOUT,
     TOKEN_RECEIVED,
 } from 'actions/auth'
 
@@ -18,9 +17,9 @@ const Session = Immutable.Record({
 
 export default handleActions({
     [TOKEN_RECEIVED]: session => session.set('isAuthenticated', true),
-    [LOGIN_SUCCESS]: (session, {payload}) => session.set('profile', payload),
-    [LOGIN_ERROR]: (session, {payload}) => session.set('error', payload),
-    [LOGOUT_SUCCESS]: () => new Session(),
+    [`${GET_PROFILE}_FULFILLED`]: (session, {payload}) => session.set('profile', payload),
+    [`${GET_PROFILE}_REJECTED`]: (session, {error}) => session.set('error', error),
+    [LOGOUT]: () => new Session(),
 }, new Session({
     isAuthenticated: auth.checkTokenExpiry(),
     profile: auth.profile,

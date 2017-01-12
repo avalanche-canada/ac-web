@@ -1,19 +1,31 @@
 import {createAction} from 'redux-actions'
+import Axios from 'axios'
 import AuthService from 'services/auth'
 import {getIsAuthenticated} from 'getters/auth'
-import Axios from 'axios'
+import {setUserContext} from 'services/raven'
 
 export const TOKEN_RECEIVED = 'TOKEN_RECEIVED'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_ERROR = 'LOGIN_ERROR'
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const LOGOUT = 'LOGOUT'
+export const GET_PROFILE = 'GET_PROFILE'
 
-const auth = AuthService.create()
+const {idToken, profile} = AuthService.create()
 
-Axios.defaults.headers.post['Authorization'] = `Bearer ${auth.idToken}`
+if (profile) {
+    setUserContext(profile)
+}
+
+Axios.defaults.headers.post['Authorization'] = `Bearer ${idToken}`
+
+const getProfile = createAction(GET_PROFILE, () => {
+    const auth = AuthService.create()
+
+    return auth.fetchProfile()
+})
 
 export function receiveToken(idToken, accessToken) {
-    return (dispatch, getState) => {
+    return dispatch => {
+        const auth = AuthService.create()
+
         auth.idToken = idToken
         auth.accessToken = accessToken
 
@@ -27,35 +39,32 @@ export function receiveToken(idToken, accessToken) {
             }
         })
 
-        return auth.fetchProfile().then(
-            profile => dispatch(loginSuccess(profile)),
-            error => dispatch(loginError(error))
-        )
+        return dispatch(getProfile()).then(profile => {
+            setUserContext(profile)
+        })
     }
 }
+
 export function login() {
     return (dispatch, getState) => {
-        const state = getState()
-
-        if (getIsAuthenticated(state)) {
+        if (getIsAuthenticated(getState())) {
             return
         }
 
         const auth = AuthService.create()
 
-        return auth.login().catch(error => dispatch(loginError(error)))
+        return auth.login()
     }
 }
+
 export function logout() {
     return dispatch => {
         const auth = AuthService.create()
 
         auth.logout()
 
-        return dispatch(logoutSuccess())
+        return dispatch({
+            type: LOGOUT
+        })
     }
 }
-
-const loginSuccess = createAction(LOGIN_SUCCESS)
-const loginError = createAction(LOGIN_ERROR)
-const logoutSuccess = createAction(LOGOUT_SUCCESS)
