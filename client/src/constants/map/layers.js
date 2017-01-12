@@ -130,7 +130,16 @@ function createSpecialInformationLayers() {
             visibility: 'visible',
             'icon-image': 'special-information',
             'icon-allow-overlap': true,
-            'icon-size': 0.9,
+            // 'icon-size': 0.9,
+            'icon-size': {
+                stops: [
+                    [0, 0.55],
+                    [5, 1],
+                    [10, 4],
+                    [15, 10],
+                    [20, 25],
+                ]
+            },
         },
     }]
 }
