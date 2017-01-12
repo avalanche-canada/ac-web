@@ -4,7 +4,7 @@ import {SocialItem as Item} from 'components/social'
 import {createShareUrls} from 'components/social/utils'
 
 Share.propTypes = {
-    url: PropTypes.string,
+    url: PropTypes.string.isRequired,
     text: PropTypes.string,
 }
 

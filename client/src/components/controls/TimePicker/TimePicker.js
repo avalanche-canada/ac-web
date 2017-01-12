@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react'
 import {compose, withState, withHandlers, setPropTypes, defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './TimePicker.css'
+import noop from 'lodash/noop'
 
-function noop() {}
 function padMinute(minute) {
     minute = Number(minute)
 

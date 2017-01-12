@@ -8,13 +8,17 @@ SliceSet.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-export default function SliceSet({ slices = [], date }) {
+export default function SliceSet({slices = [], date}) {
     return (
         <div>
-            {slices.map(({type, content}) => {
+            {slices.map(({type, content}, index) => {
                 switch (type) {
                     case 'text':
-                        return <InnerHTML>{content}</InnerHTML>
+                        return (
+                            <InnerHTML key={index}>
+                                {content}
+                            </InnerHTML>
+                        )
                     case 'loop': {
                         const [loop] = content
                         const [type, run] = loop.type.split('@')
@@ -24,7 +28,7 @@ export default function SliceSet({ slices = [], date }) {
                             run: Number(run.replace('Z', '')),
                         }
 
-                        return <Loop {...props} />
+                        return <Loop key={index} {...props} />
                     }
                     case 'point-meteogram':
                     case 'group-meteogram':
@@ -37,7 +41,7 @@ export default function SliceSet({ slices = [], date }) {
                             location: meteogram.location,
                         }
 
-                        return <Meteogram {...props} />
+                        return <Meteogram key={index} {...props} />
                     default:
                         return null
                 }

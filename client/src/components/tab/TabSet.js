@@ -6,6 +6,7 @@ import styles from './Tab.css'
 import {ExpandLess, ExpandMore} from 'components/icons'
 import Button, {INCOGNITO} from 'components/button'
 import {init} from 'css-element-queries/src/ElementQueries'
+import noop from 'lodash/noop'
 
 function toArray(children) {
 	return Children.toArray(children).filter(Boolean)
@@ -30,8 +31,6 @@ function validateActiveIndex({activeIndex, children}) {
 
     return Math.min(activeIndex, tabs.length - 1)
 }
-
-function noop() {}
 
 export const COMPACT = 'Compact'
 export const LOOSE = 'Loose'

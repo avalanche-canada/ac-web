@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import Immutable from 'immutable'
+import noop from 'lodash/noop'
 import {
     Table as Base,
     Row,
@@ -74,7 +75,6 @@ Table.propTypes = {
 }
 
 const LIST = new Immutable.List()
-function noop() {}
 
 export default function Table({
     columns = LIST,

@@ -11,8 +11,7 @@ import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
 import {formatAsDay, parseFromDay} from 'utils/date'
 import styles from './DateRange.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 @CSSModules(styles)
 export default class DateRange extends Component {

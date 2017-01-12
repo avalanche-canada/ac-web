@@ -3,8 +3,7 @@ import CSSModules from 'react-css-modules'
 import capitalize from 'lodash/capitalize'
 import {Close} from 'components/button'
 import styles from './Highlight.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Highlight.propTypes = {
     children: PropTypes.node.isRequired,

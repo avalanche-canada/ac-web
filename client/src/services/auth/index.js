@@ -40,11 +40,17 @@ export default class AuthService {
     set profile(profile) {
         this.storage.set('profile', profile)
     }
-    get token() {
-        return this.storage.get('token', null)
+    get accessToken() {
+        return this.storage.get('accessToken', null)
     }
-    set token(token) {
-        this.storage.set('token', token)
+    set accessToken(accessToken) {
+        this.storage.set('accessToken', accessToken)
+    }
+    get idToken() {
+        return this.storage.get('idToken', null)
+    }
+    set idToken(idToken) {
+        this.storage.set('idToken', idToken)
     }
     login() {
         return new Promise((resolve, reject) => {
@@ -55,16 +61,17 @@ export default class AuthService {
         })
     }
     logout() {
-        this.storage.remove('token')
+        this.storage.remove('accessToken')
+        this.storage.remove('idToken')
         this.storage.remove('profile')
     }
     fetchProfile() {
-        if (!this.token) {
-            return Promise.reject('No token provided yet.')
+        if (!this.accessToken) {
+            return Promise.reject('No accessToken provided yet.')
         }
 
         return new Promise((resolve, reject) => {
-            this.lock.getProfile(this.token, (error, profile) => {
+            this.lock.getUserInfo(this.accessToken, (error, profile) => {
                 if (error) {
                     reject(error)
                 }
@@ -76,13 +83,11 @@ export default class AuthService {
         })
     }
     checkTokenExpiry() {
-        const {token} = this
-
-        if (!token) {
+        if (!this.idToken) {
             return false
         }
 
-        const {exp} = decode(token)
+        const {exp} = decode(this.idToken)
         const expiryDate = new Date(0)
 
         expiryDate.setUTCSeconds(exp)

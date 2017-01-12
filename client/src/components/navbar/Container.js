@@ -12,8 +12,7 @@ import {createItem} from './Factories'
 import UserProfile from './UserProfile'
 import {Avatar} from '../misc'
 import styles from './Navbar.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 Container.propTypes = {
     isFoundation: PropTypes.bool,

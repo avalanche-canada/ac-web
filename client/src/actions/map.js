@@ -6,25 +6,13 @@ import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
 import * as PrismicActions from 'actions/prismic'
 import * as EntitiesActions from 'actions/entities'
-import {
-    HOT_ZONE_REPORTS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    WEATHER_STATION,
-    TOYOTA_TRUCK_REPORTS,
-    SPECIAL_INFORMATION,
-} from 'constants/drawers'
+import * as Layers from 'constants/drawers'
 
-// TODO: Look at removing or not ZOOM_CHANGED action types
-export const ZOOM_CHANGED = 'ZOOM_CHANGED'
-// TODO: Look at removing or not CENTER_CHANGED action types
-export const CENTER_CHANGED = 'CENTER_CHANGED'
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
 export const LOAD_MAP_STYLE_FAILURE = 'LOAD_MAP_STYLE_FAILURE'
 export const ACTIVE_FEATURES_CHANGED = 'ACTIVE_FEATURES_CHANGED'
 
-export const zoomChanged = createAction(ZOOM_CHANGED)
-export const centerChanged = createAction(CENTER_CHANGED)
 export const activeFeaturesChanged = createAction(ACTIVE_FEATURES_CHANGED)
 
 function createMapCommand(name) {
@@ -51,23 +39,20 @@ export function loadData() {
 
 function createActionForLayer(layer) {
     switch (layer.get('id')) {
-        case HOT_ZONE_REPORTS:
+        case Layers.HOT_ZONE_REPORTS:
             return PrismicActions.loadHotZoneReports()
-        case MOUNTAIN_INFORMATION_NETWORK:
+        case Layers.MOUNTAIN_INFORMATION_NETWORK:
             const value = layer.getIn(['filters', 'days', 'value'])
 
             return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
-        case TOYOTA_TRUCK_REPORTS:
+        case Layers.TOYOTA_TRUCK_REPORTS:
             return PrismicActions.loadToyotaTruckReports()
-        case SPECIAL_INFORMATION:
+        case Layers.SPECIAL_INFORMATION:
             return PrismicActions.loadSpecialInformation()
-        case WEATHER_STATION:
+        case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
     }
 }
-
-const loadMapStyleSuccess = createAction(LOAD_MAP_STYLE_SUCCESS)
-const loadMapStyleFailure = createAction(LOAD_MAP_STYLE_FAILURE)
 
 export function loadMapStyle(style) {
     return (dispatch, getState) => {
@@ -75,10 +60,13 @@ export function loadMapStyle(style) {
             const style = getStyle(getState())
 
             if (data.modified !== style.get('modified')) {
+                const loadMapStyleSuccess = createAction(LOAD_MAP_STYLE_SUCCESS)
+
                 dispatch(loadMapStyleSuccess(data))
             }
         }
         function handleReject(error) {
+            const loadMapStyleFailure = createAction(LOAD_MAP_STYLE_FAILURE)
             const message = `Can not fetch Map Style "${style}" from Mapbox API.`
 
             dispatch(loadMapStyleFailure(new Error(message, error)))

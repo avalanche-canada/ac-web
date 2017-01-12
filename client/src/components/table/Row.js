@@ -3,8 +3,8 @@ import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
 import {Expand} from 'components/button'
+import noop from 'lodash/noop'
 
-function noop() {}
 const TR_WITH_BUTTON_PROPS = {
     style: {
         paddingRight: 36

@@ -4,8 +4,7 @@ import CSSModules from 'react-css-modules'
 import {Input} from 'components/controls'
 import styles from './DateRange.css'
 import {DayPicker, DateUtils} from 'components/misc'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 // TODO: Use the control instead!
 

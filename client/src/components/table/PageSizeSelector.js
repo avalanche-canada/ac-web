@@ -3,9 +3,9 @@ import {compose, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 import styles from './Table.css'
+import noop from 'lodash/noop'
 
 const NUMBERS = [10, 25, 50, 75, 100, 125, 150, 200]
-function noop() {}
 function toEntry(number) {
     return [number, number]
 }

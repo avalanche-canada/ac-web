@@ -1,18 +1,19 @@
 import React from 'react'
-import {compose, mapProps, withHandlers} from 'recompose'
+import {compose, setDisplayName, mapProps, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
-import {openMenu} from 'actions/drawers'
+import {toggleMenu} from 'actions/drawers'
 import {Menu} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
 import {neverUpdate} from 'compose'
 
 export default compose(
+    setDisplayName('ToggleMenu'),
     connect(null, {
-        openMenu,
+        toggleMenu,
     }),
     withHandlers({
         onClick: props => event => {
-            props.openMenu()
+            props.toggleMenu()
         }
     }),
     mapProps(props => ({

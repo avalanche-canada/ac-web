@@ -4,8 +4,8 @@ import CSSModules from 'react-css-modules'
 import DateRange from './DateRange'
 import ListOfValues from './ListOfValues'
 import styles from './Layer.css'
+import noop from 'lodash/noop'
 
-function noop() {}
 const EMPTY = new Immutable.Map()
 
 FilterSet.propTypes = {

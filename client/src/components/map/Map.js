@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import mapbox, {styles} from 'services/mapbox/map'
 import {Canadian} from 'constants/map/bounds'
 import {captureException} from 'services/raven'
+import noop from 'lodash/noop'
 
 function toJSON(style) {
     if (!style) {
@@ -17,7 +18,6 @@ function toJSON(style) {
     return style
 }
 
-function noop() {}
 const {LngLatBounds} = mapbox
 const STYLES = Object.keys(styles)
 const EVENTS = new Map([

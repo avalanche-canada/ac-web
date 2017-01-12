@@ -5,7 +5,7 @@ import {loadForType} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers';
-import {getIsAuthenticated, getProfile} from 'reducers/auth'
+import {getIsAuthenticated} from 'getters/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
@@ -105,10 +105,10 @@ export default function computeRoutes(store) {
     }
 
     function handleLoginCompleteRouteEnter({location}, replace) {
-        const {id_token, state} = QueryString.parse(location.hash)
+        const {id_token, access_token, state} = QueryString.parse(location.hash)
 
-        if (id_token) {
-            dispatch(receiveToken(id_token))
+        if (id_token && access_token) {
+            dispatch(receiveToken(id_token, access_token))
         }
 
         replace(state || '/')

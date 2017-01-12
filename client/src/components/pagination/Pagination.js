@@ -5,8 +5,7 @@ import styles from './Pagination.css'
 import Segment, {Disabled} from './Segment'
 import range from 'lodash/range'
 import pagination from 'utils/pagination'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 @CSSModules(styles)
 export default class Pagination extends PureComponent {

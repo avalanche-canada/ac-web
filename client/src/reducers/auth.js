@@ -1,50 +1,26 @@
+import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
 import AuthService from 'services/auth'
 import {
-    LOGIN_SUCCESS,
-    LOGIN_ERROR,
-    LOGOUT_SUCCESS,
+    GET_PROFILE,
+    LOGOUT,
     TOKEN_RECEIVED,
 } from 'actions/auth'
 
 const auth = AuthService.create()
 
-const STATE = {
-    isAuthenticated: auth.checkTokenExpiry(),
-    profile: auth.profile,
+const Session = Immutable.Record({
+    isAuthenticated: false,
+    profile: null,
     error: null,
-}
+})
 
 export default handleActions({
-    [TOKEN_RECEIVED]: state => ({
-        ...state,
-        isAuthenticated: true,
-        profile: null,
-        error: null,
-    }),
-    [LOGIN_SUCCESS]: (state, {payload}) => ({
-        ...state,
-        isAuthenticated: true,
-        profile: payload,
-        error: null,
-    }),
-    [LOGIN_ERROR]: (state, {payload}) => ({
-        ...state,
-        isAuthenticated: false,
-        profile: null,
-        error: payload,
-    }),
-    [LOGOUT_SUCCESS]: state => ({
-        ...state,
-        isAuthenticated: false,
-        profile: null,
-        error: null,
-    }),
-}, STATE)
-
-export function getIsAuthenticated(state) {
-    return state.auth.isAuthenticated
-}
-export function getProfile(state) {
-    return state.auth.profile
-}
+    [TOKEN_RECEIVED]: session => session.set('isAuthenticated', true),
+    [`${GET_PROFILE}_FULFILLED`]: (session, {payload}) => session.set('profile', payload),
+    [`${GET_PROFILE}_REJECTED`]: (session, {error}) => session.set('error', error),
+    [LOGOUT]: () => new Session(),
+}, new Session({
+    isAuthenticated: auth.checkTokenExpiry(),
+    profile: auth.profile,
+}))

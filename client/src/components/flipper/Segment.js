@@ -4,8 +4,7 @@ import CSSModules from 'react-css-modules'
 import {ChevronLeft, ChevronRight} from '../icons'
 import Button from '../button'
 import styles from './Flipper.css'
-
-function noop() {}
+import noop from 'lodash/noop'
 
 const LEFT = 'Left'
 const RIGHT = 'Right'

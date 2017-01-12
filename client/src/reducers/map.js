@@ -21,8 +21,6 @@ export default combineReducers({
     style: handleActions({
         [MapActions.LOAD_MAP_STYLE_SUCCESS]: mergeStyle,
         [MapActions.LOAD_MAP_STYLE_FAILURE]: getPayload,
-        // [MapActions.CENTER_CHANGED]: setCenter,
-        // [MapActions.ZOOM_CHANGED]: setZoom,
         [DrawerActions.LAYER_TURNED_ON]: toggleLayersFactory(true),
         [DrawerActions.LAYER_TURNED_OFF]: toggleLayersFactory(false),
         [DrawerActions.FILTER_CHANGED]: setFilter,
@@ -141,12 +139,6 @@ function mergeStyle(style, {payload}) {
 
     return style.delete('layers').mergeDeep(payload)
 }
-// function setCenter(style, {payload}) {
-//     return style.set('center', payload)
-// }
-// function setZoom(style, {payload}) {
-//     return style.set('zoom', payload)
-// }
 function toggleLayersFactory(visible) {
     visible = visible ? 'visible' : 'none'
 
