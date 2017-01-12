@@ -48,7 +48,7 @@ function ToyotaTruckReport({
         <Container>
             <Body style={BODY_STYLE}>
                 <Navbar style={NAVBAR_STYLE}>
-                    <Close onClick={() => onCloseClick()} />
+                    <Close onClick={onCloseClick} />
                 </Navbar>
                 <Ratio>
                 {(width, height) =>

@@ -1,64 +1,54 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
-import {Loading, Error, InnerHTML, Ratio} from 'components/misc'
-import {Link} from 'react-router'
-import getSpecialInformation from 'selectors/prismic/specialInformation'
-import format from 'date-fns/format'
-
-const NAVBAR_STYLE = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-}
-
-const BODY_STYLE = {
-    padding: 0,
-    marginTop: '5em',
-}
+import {InnerHTML, Status, Muted} from 'components/misc'
+import {specialInformation} from 'containers/connectors'
+import {LocateAsClass} from 'components/button/Locate'
+import {Wrapper} from 'components/tooltip'
 
 const LOCATION_STYLE = {
     fontSize: '1.1em',
 }
+const LOCATE_STYLE = {
+    padding: '0.15em'
+}
 
 function SpecialInformation({
-    report = {},
-    isLoading,
-    isError,
-    messages,
+    report,
+    status,
+    notAvailable,
     onCloseClick,
+    onLocateClick,
 }) {
-    const {
-        headline,
-        locationDescription,
-        content,
-        date,
-    } = report
-    let subject = 'Special Information'
-
-    if (date) {
-        subject = `${subject} for ${format(date, 'dddd MMMM D')}`
-    }
-
     return (
         <Container>
-            <Body style={BODY_STYLE}>
-                <Navbar style={NAVBAR_STYLE}>
-                    <Close onClick={() => onCloseClick()} />
-                </Navbar>
-                <Header subject={subject}>
-                    <h1>{headline}</h1>
-                    <div style={LOCATION_STYLE}>{locationDescription}</div>
-                </Header>
-                <Content>
-                    {isError && <Error>{messages.error}</Error>}
-                    {isLoading && <Loading>{messages.loading}</Loading>}
-                    {content && <InnerHTML>{content}</InnerHTML>}
-                </Content>
-            </Body>
+            <Navbar>
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject='Special Information'>
+                {report &&
+                    <h1>
+                        {report.headline}
+                        <Wrapper tooltip='Display on map'>
+                            <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
+                        </Wrapper>
+                    </h1>
+                }
+                {report &&
+                    <p style={LOCATION_STYLE}>{report.locationDescription}</p>
+                }
+                <Muted>{notAvailable}</Muted>
+                <Status {...status} />
+            </Header>
+            {report &&
+                <Body>
+                    <InnerHTML>
+                        {report.content}
+                    </InnerHTML>
+                </Body>
+            }
         </Container>
     )
 }
 
-export default connect(getSpecialInformation)(SpecialInformation)
+export default specialInformation(SpecialInformation)
