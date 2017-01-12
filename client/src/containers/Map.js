@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import mapbox from 'services/mapbox/map'
 import {Map, Source, Layer, Marker} from 'components/map'
-import {zoomChanged, centerChanged, loadData, loadMapStyle} from 'actions/map'
+import {loadData, loadMapStyle} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import {LayerIds, allLayerIds} from 'constants/map/layers'
 import {push} from 'utils/router'
@@ -71,22 +71,6 @@ class Container extends Component {
     handleMousemove = event => {
         if (this.map) {
             this.lastMouseMoveEvent = event
-        }
-    }
-    handleMoveend = event => {
-        // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
-        if (event.originalEvent) {
-            const center = event.target.getCenter().toArray()
-
-            this.props.centerChanged(center)
-        }
-    }
-    handleZoomend = event => {
-        // Inspired by https://www.mapbox.com/blog/mapbox-gl-js-reactive/
-        if (event.originalEvent) {
-            const zoom = event.target.getZoom()
-
-            this.props.zoomChanged(zoom)
         }
     }
     handleClick = event => {
@@ -297,8 +281,6 @@ class Container extends Component {
         const {markers, onInitializationError, style} = this.props
         const events = {
             onMousemove: this.handleMousemove,
-            onMoveend: this.handleMoveend,
-            onZoomend: this.handleZoomend,
             onClick: this.handleClick,
             onLoad: this.handleLoad,
             onInitializationError,
@@ -320,8 +302,6 @@ export default compose(
     }),
     withRouter,
     connect(mapStateToProps, {
-        zoomChanged,
-        centerChanged,
         loadData,
         loadMapStyle,
     }),
