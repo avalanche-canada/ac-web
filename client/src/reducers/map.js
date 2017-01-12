@@ -11,7 +11,7 @@ import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import featureFilter from 'feature-filter'
 import MapSources from 'constants/map/sources'
-import Parser from 'prismic/parser'
+import Parser, {parseLocation} from 'prismic/parser'
 import turf from 'turf-helpers'
 
 // TODO: Organize this code
@@ -67,8 +67,22 @@ const Transformers = new Map([
             id: station[Schemas.WeatherStation.getIdAttribute()],
         })
     }],
-    [Layers.TOYOTA_TRUCK_REPORTS, transformePrismicReport],
-    [Layers.SPECIAL_INFORMATION, transformePrismicReport],
+    [Layers.TOYOTA_TRUCK_REPORTS, document => {
+        const {uid, position, headline} = Parser.parse(document)
+
+        return turf.point([position.longitude, position.latitude], {
+            title: headline,
+            id: uid,
+        })
+    }],
+    [Layers.SPECIAL_INFORMATION, document => {
+        const {uid, headline, locations} = Parser.parse(document)
+
+        return turf.multiPoint(locations.map(parseLocation), {
+            title: headline,
+            id: uid,
+        })
+    }],
 ])
 
 

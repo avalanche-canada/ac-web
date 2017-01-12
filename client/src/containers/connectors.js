@@ -171,6 +171,7 @@ function prismicConnector(mapStateToProps, load) {
         connect(mapStateToProps, {
             load,
             flyTo,
+            fitBounds,
         }),
         lifecycle({
             componentDidMount() {
@@ -178,7 +179,7 @@ function prismicConnector(mapStateToProps, load) {
 
                 if (promise && typeof promise.then === 'function') {
                     const {setIsLoading, setIsLoaded, setIsError} = this.props
-                    
+
                     setIsLoading(true)
 
                     function onFulfilled() {
@@ -198,7 +199,14 @@ function prismicConnector(mapStateToProps, load) {
         }),
         withHandlers({
             onLocateClick: props => event => {
-                props.flyTo(props.computeFlyTo())
+                if (props.computeFlyTo()) {
+                    props.flyTo(props.computeFlyTo())
+                }
+                if (props.computeBounds()) {
+                    const {bbox, options} = props.computeBounds()
+
+                    props.fitBounds(bbox, options)
+                }
             }
         }),
     )

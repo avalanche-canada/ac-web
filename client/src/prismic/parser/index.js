@@ -89,3 +89,7 @@ export class Parser {
 }
 
 export default new Parser(linkResolver, htmlSerializer)
+
+export function parseLocation({location}) {
+    return [location.longitude, location.latitude]
+}

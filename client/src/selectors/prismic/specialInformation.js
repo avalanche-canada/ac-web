@@ -1,7 +1,9 @@
 import {createSelector} from 'reselect'
+import turf from 'turf-helpers'
 import {getIsFetching, getDocumentsOfType} from 'getters/prismic'
 import parser from 'prismic/parser'
-import {computeOffset} from 'selectors/map/bounds'
+import {computeOffset, computeFitBounds} from 'selectors/map/bounds'
+import {parseLocation} from 'prismic/parser'
 
 // TODO: Create a connector, it is really similar to toyota-truck-report
 
@@ -31,25 +33,42 @@ function getStatus(state, {isLoading, isLoaded, isError}) {
         },
     }
 }
+
 const getComputeFlyTo = createSelector(
     getReport,
     computeOffset,
     (report, computeOffset) => () => {
-        const props = {
-            center: null,
+        if (report.locations.length !== 1) {
+            return null
+        }
+
+        const [location] = report.locations
+
+        return {
+            center: parseLocation(location),
             zoom: 7,
             offset: computeOffset(),
         }
+    }
+)
 
-        if (report) {
-            const {latitude, longitude} = report.position
-
-            Object.assign(props, {
-                center: [longitude, latitude],
-            })
+const getComputeBounds = createSelector(
+    getReport,
+    computeFitBounds,
+    (report, computeBounds) => () => {
+        if (report.locations.length === 1) {
+            return null
         }
 
-        return props
+        const coordinates = report.locations.map(parseLocation)
+
+        return computeBounds(
+            turf.multiPoint(coordinates),
+            undefined,
+            undefined, {
+                padding: 200
+            }
+        )
     }
 )
 
@@ -58,9 +77,11 @@ export default createSelector(
     getReport,
     getStatus,
     getComputeFlyTo,
-    (id, report, status, computeFlyTo) => ({
+    getComputeBounds,
+    (id, report, status, computeFlyTo, computeBounds) => ({
         report,
         computeFlyTo,
+        computeBounds,
         status,
         notAvailable: status.isLoaded && !report ?
             `Special information "${id}" is not available anymore.` :
