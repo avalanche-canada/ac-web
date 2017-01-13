@@ -86,7 +86,8 @@ export const computeFitBounds = createSelector(
             bbox: createLngLatBounds(bbox),
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
-                padding: 50,
+                padding: 75,
+                maxZoom: 12.5,
                 ...options,
             }
         }
