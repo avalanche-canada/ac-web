@@ -20,6 +20,7 @@ export default compose(
         onClick: props.onClick,
         kind: SUBTILE,
         icon: <Menu />,
+        // shadow: true,
         style: {
             position: 'fixed',
             top: 90,

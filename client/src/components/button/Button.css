@@ -162,3 +162,7 @@
         margin: 0.5em;
     }
 }
+
+.Shadow {
+    box-shadow: 3px 3px 3px color(black alpha(25%));
+}
