@@ -5,10 +5,10 @@ import turf from 'turf-helpers'
 import mapbox from 'services/mapbox/map'
 import {getActiveFeatures} from 'getters/map'
 import {getPrimary, getSecondary} from 'selectors/drawers'
-import {getEntitiesForSchema} from 'getters/entities'
-import {getDocumentsOfType} from 'getters/prismic'
+import {getEntities} from 'getters/entities'
+import {getDocuments} from 'getters/prismic'
 import * as Schemas from 'api/schemas'
-import Parser from 'prismic/parser'
+import Parser, {parseLocation} from 'prismic/parser'
 
 const {LngLat, LngLatBounds} = mapbox
 
@@ -93,27 +93,10 @@ export const computeFitBounds = createSelector(
     }
 )
 
-const EntitySchemas = [
-    Schemas.ForecastRegion,
-    Schemas.HotZone,
-    Schemas.MountainInformationNetworkSubmission,
-    Schemas.WeatherStation
-]
+const DocumentPathToSchema = new Map([
+    ['toyota-truck-reports', 'toyota-truck-report'],
+])
 
-const getEntities = createSelector(
-    EntitySchemas.map(schema => state => [
-        schema.getKey(),
-        getEntitiesForSchema(state, schema)
-    ]),
-    (...entities) => new Immutable.Map(entities)
-)
-const getDocuments = createSelector(
-    state => [
-        'toyota-truck-reports',
-        getDocumentsOfType(state, 'toyota-truck-report')
-    ],
-    (...documents) => new Map(documents)
-)
 export default createSelector(
     computeOffset,
     getActiveFeatures,
@@ -125,6 +108,14 @@ export default createSelector(
         }
 
         const bbox = activeFeatures.reduce((bounds, id, schema) => {
+            if (typeof schema.getKey === 'function') {
+                schema = schema.getKey()
+            }
+
+            if (DocumentPathToSchema.has(schema)) {
+                schema = DocumentPathToSchema.get(schema)
+            }
+
             if (entities.hasIn([schema, id])) {
                 const entity = entities.get(schema).get(id)
 
@@ -144,12 +135,24 @@ export default createSelector(
                     ])
                 }
             } else if (documents.has(schema)) {
-                const document = documents.get(schema).find(document => document.uid === id)
+                const document = documents.get(schema).find(
+                    document => document.uid === id
+                )
 
                 if (document) {
-                    const {position} = Parser.parse(document)
+                    const {position, locations} = Parser.parse(document)
 
-                    return bounds.extend([position.longitude, position.latitude])
+                    if (locations && locations.length > 0) {
+                        const [west, south, east, north] = createBbox(
+                            turf.multiPoint(
+                                locations.map(parseLocation)
+                            )
+                        )
+
+                        return bounds.extend([[west, south], [east, north]])
+                    } else if (position) {
+                        return bounds.extend([position.longitude, position.latitude])
+                    }
                 }
             }
 
