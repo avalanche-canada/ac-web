@@ -34,15 +34,11 @@ function getSubmissionResultsSet(state, props) {
 const getComputeFlyTo = createSelector(
     getSubmission,
     computeOffset,
-    (submission, computeOffset) => () => {
-        const [latitude, longitude] = submission.get('latlng').toArray()
-
-        return {
-            center: [Number(longitude), Number(latitude)],
-            zoom: 14,
-            offset: computeOffset(),
-        }
-    }
+    (submission, computeOffset) => () => ({
+        center: submission.get('latlng').map(Number).reverse().toArray(),
+        zoom: 13,
+        offset: computeOffset(),
+    })
 )
 
 export default createSelector(

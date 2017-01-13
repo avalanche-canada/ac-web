@@ -81,6 +81,24 @@ class Container extends Component {
         const {point} = event
         let features = null
 
+        // TODO: Find a way, so everytime I add a layer, I do not have to touch that method
+
+        // Special Information
+        features = this.map.queryRenderedFeatures(point, {
+            layers: LayerIds.get(Layers.SPECIAL_INFORMATION)
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const panel = `special-information/${feature.properties.id}`
+
+            return push({
+                query: {
+                    panel
+                }
+            }, this.props)
+        }
+
         // Handle Mountain Information Network layers
         features = this.map.queryRenderedFeatures(point, {
             layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK)

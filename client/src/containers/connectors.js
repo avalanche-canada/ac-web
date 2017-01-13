@@ -7,6 +7,7 @@ import {fitBounds, flyTo} from 'actions/map'
 import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
+import getSpecialInformation from 'selectors/prismic/specialInformation'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
 
 function connector(mapStateToProps, load, loadAll) {
@@ -153,4 +154,67 @@ export const mountainInformationNetworkSubmission = panelConnector(
 export const weatherStation = panelConnector(
     getWeatherStation,
     EntitiesActions.loadWeatherStation,
+)
+
+
+function prismicConnector(mapStateToProps, load) {
+    return compose(
+        // TODO: Remove that state when the store will keep track of the state
+        withState('isLoading', 'setIsLoading', false),
+        // TODO: Remove that state when the store will keep track of the state
+        withState('isLoaded', 'setIsLoaded', false),
+        // TODO: Remove that state when the store will keep track of the state
+        withState('isError', 'setIsError', false),
+        getContext({
+            location: PropTypes.object.isRequired,
+        }),
+        connect(mapStateToProps, {
+            load,
+            flyTo,
+            fitBounds,
+        }),
+        lifecycle({
+            componentDidMount() {
+                const promise = this.props.load()
+
+                if (promise && typeof promise.then === 'function') {
+                    const {setIsLoading, setIsLoaded, setIsError} = this.props
+
+                    setIsLoading(true)
+
+                    function onFulfilled() {
+                        setIsLoading(false)
+                        setIsLoaded(true)
+                    }
+                    function onRejected() {
+                        setIsLoading(false)
+                        setIsError(true)
+                    }
+
+                    return promise.then(onFulfilled, onRejected)
+                }
+
+                return promise
+            },
+        }),
+        withHandlers({
+            onLocateClick: props => event => {
+                if (props.computeFlyTo()) {
+                    props.flyTo(props.computeFlyTo())
+                }
+                if (props.computeBounds()) {
+                    const {bbox, options} = props.computeBounds()
+
+                    props.fitBounds(bbox, options)
+                }
+            }
+        }),
+    )
+}
+
+// TODO: Add the toyota truck connector!!!
+
+export const specialInformation = prismicConnector(
+    getSpecialInformation,
+    PrismicActions.loadSpecialInformation,
 )

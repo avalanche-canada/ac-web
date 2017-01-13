@@ -13,6 +13,7 @@ import {
     METEOGRAMS,
     MOUNTAIN_INFORMATION_NETWORK,
     WEATHER_STATION,
+    SPECIAL_INFORMATION,
 } from 'constants/drawers'
 import {loadData} from 'actions/map'
 import {
@@ -29,6 +30,7 @@ const ICONS = new Map([
     [METEOGRAMS, <Meteogram />],
     [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
     [WEATHER_STATION, <WeatherStation />],
+    [SPECIAL_INFORMATION, <Forecast />],
 ])
 
 // TODO: Improve performance! layers is now an immutable object
