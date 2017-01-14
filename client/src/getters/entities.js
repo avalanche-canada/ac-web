@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 
 const EMPTY_MAP = new Immutable.Map()
 
-function getEntities(state) {
+export function getEntities(state) {
     return state.api.entities
 }
 

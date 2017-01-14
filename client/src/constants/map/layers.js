@@ -4,11 +4,13 @@ import * as Layers from 'constants/drawers'
 const toyotaLayers = createToyotaLayers()
 const weatherStationLayers = createWeatherStationLayers()
 const mountainInformationNetworkLayers = createMountainInformationNetworkLayers()
+const specialInformationLayers = createSpecialInformationLayers()
 
 export default [
     ...toyotaLayers,
     ...weatherStationLayers,
     ...mountainInformationNetworkLayers,
+    ...specialInformationLayers,
 ]
 
 export const LayerIds = new Map([
@@ -32,6 +34,9 @@ export const LayerIds = new Map([
     ],
     [Layers.TOYOTA_TRUCK_REPORTS,
         toyotaLayers.map(pluckLayerId)
+    ],
+    [Layers.SPECIAL_INFORMATION,
+        specialInformationLayers.map(pluckLayerId)
     ],
 ])
 
@@ -110,6 +115,22 @@ function createToyotaLayers() {
             'icon-image': 'toyota-truck',
             'icon-size': 0.2,
             'icon-allow-overlap': true,
+        },
+    }]
+}
+
+function createSpecialInformationLayers() {
+    const key = Layers.SPECIAL_INFORMATION
+
+    return [{
+        id: key,
+        source: key,
+        type: 'symbol',
+        layout: {
+            visibility: 'visible',
+            'icon-image': 'special-information',
+            'icon-allow-overlap': true,
+            'icon-size': 0.9,
         },
     }]
 }

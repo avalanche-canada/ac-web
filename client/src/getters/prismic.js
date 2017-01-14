@@ -2,7 +2,7 @@ import {Map} from 'immutable'
 
 const MAP = new Map()
 
-function getDocuments(state) {
+export function getDocuments(state) {
     return state.prismic.documents
 }
 

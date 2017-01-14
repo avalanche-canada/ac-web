@@ -22,4 +22,5 @@ export default {
         cluster: true,
     }),
     [Layers.TOYOTA_TRUCK_REPORTS]: createSource(),
+    [Layers.SPECIAL_INFORMATION]: createSource(),
 }

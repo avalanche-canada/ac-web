@@ -11,8 +11,10 @@ import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import featureFilter from 'feature-filter'
 import MapSources from 'constants/map/sources'
-import Parser from 'prismic/parser'
+import Parser, {parseLocation} from 'prismic/parser'
 import turf from 'turf-helpers'
+
+// TODO: Organize this code
 
 export default combineReducers({
     command: handleAction(MapActions.MAP_COMMAND_CREATED, getPayload, null),
@@ -36,6 +38,16 @@ export default combineReducers({
     )
 })
 
+function transformePrismicReport(document) {
+    const report = Parser.parse(document)
+    const {uid, position: {longitude, latitude}, headline} = report
+
+    return turf.point([longitude, latitude], {
+        title: headline,
+        id: uid,
+    })
+}
+
 const Transformers = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, days => submission => {
         const [lat, lng] = submission.latlng
@@ -56,10 +68,17 @@ const Transformers = new Map([
         })
     }],
     [Layers.TOYOTA_TRUCK_REPORTS, document => {
-        const report = Parser.parse(document)
-        const {uid, position: {longitude, latitude}, headline} = report
+        const {uid, position, headline} = Parser.parse(document)
 
-        return turf.point([longitude, latitude], {
+        return turf.point([position.longitude, position.latitude], {
+            title: headline,
+            id: uid,
+        })
+    }],
+    [Layers.SPECIAL_INFORMATION, document => {
+        const {uid, headline, locations} = Parser.parse(document)
+
+        return turf.multiPoint(locations.map(parseLocation), {
             title: headline,
             id: uid,
         })
@@ -177,23 +196,27 @@ function setSubmissions(style, {payload, meta}) {
     return setFilteredSubmissions(style.setIn(path, features.toList()))
 }
 
+const PrismicTypeToSource = new Map([
+    ['toyota-truck-report', Layers.TOYOTA_TRUCK_REPORTS],
+    ['special-information', Layers.SPECIAL_INFORMATION],
+])
+
 function setPrismicDocuments(style, {payload, meta}) {
-    switch (meta.type) {
-        case 'toyota-truck-report':
-            const source = Layers.TOYOTA_TRUCK_REPORTS
-            const path = ['sources', source, 'data', 'features']
-
-            // TODO: Remove that condition when prismic action dispatching reductions is implemented
-            if (!style.getIn(path).isEmpty()) {
-                return style
-            }
-
-            const documents = payload.results.map(Transformers.get(source))
-
-            return style.setIn(path, Immutable.fromJS(documents))
-        default:
-            return style
+    if (!PrismicTypeToSource.has(meta.type)) {
+        return style
     }
+
+    const source = PrismicTypeToSource.get(meta.type)
+    const path = ['sources', source, 'data', 'features']
+
+    // TODO: Remove that condition when prismic action dispatching reductions is implemented
+    if (!style.getIn(path).isEmpty()) {
+        return style
+    }
+
+    const documents = payload.results.map(Transformers.get(source))
+
+    return style.setIn(path, Immutable.fromJS(documents))
 }
 
 // Active features

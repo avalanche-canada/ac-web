@@ -47,6 +47,8 @@ function createActionForLayer(layer) {
             return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
         case Layers.TOYOTA_TRUCK_REPORTS:
             return PrismicActions.loadToyotaTruckReports()
+        case Layers.SPECIAL_INFORMATION:
+            return PrismicActions.loadSpecialInformation()
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
     }

@@ -16,6 +16,7 @@ import {
     MOUNTAIN_INFORMATION_NETWORK,
     WEATHER_STATION,
     TOYOTA_TRUCK_REPORTS,
+    SPECIAL_INFORMATION,
 } from 'constants/drawers'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
@@ -53,6 +54,12 @@ const MENU = new Map({
             id: HOT_ZONE_REPORTS,
             title: 'Hot zone reports',
             type: 'Analysis',
+        }),
+        [SPECIAL_INFORMATION]: new Layer({
+            id: SPECIAL_INFORMATION,
+            title: 'Special information',
+            type: 'Observations',
+            // visible: Boolean(LAYERS_VISIBILITY.get(SPECIAL_INFORMATION, true)),
         }),
         [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
             id: MOUNTAIN_INFORMATION_NETWORK,
