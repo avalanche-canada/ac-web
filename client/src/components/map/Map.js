@@ -117,6 +117,7 @@ export default class MapComponent extends Component {
         onInitializationError: PropTypes.func,
     }
     static defaultProps = {
+        style: null,
         maxBounds: Canadian,
         attributionControl: false,
         onInitializationError: noop,
@@ -126,7 +127,6 @@ export default class MapComponent extends Component {
     }
     state = {
         map: null,
-        isReady: false,
     }
     constructor(props) {
         super(props)
@@ -157,10 +157,6 @@ export default class MapComponent extends Component {
                 }
             })
 
-            map.once('styledata', event => this.setState({
-                isReady: true
-            }))
-
             this.setState({map})
         } catch (error) {
             captureException(error)
@@ -173,14 +169,30 @@ export default class MapComponent extends Component {
         }
     }
     componentWillReceiveProps({style}) {
-        const {map, isReady} = this.state
+        const {map} = this.state
 
-        if (map && style !== this.props.style) {
-            if (this.props.style === null) {
-                map.setStyle(toJSON(style))
-            } else if (isReady) {
-                map.setStyle(toJSON(style))
-            }
+        if (!map) {
+            return
+        }
+
+        if (this.props.style === null) {
+            this.style = style
+            map.once('load', () => {
+                this.style = this.props.style
+            })
+            return
+        }
+
+        if (style !== this.props.style && map.loaded()) {
+            this.style = style
+            return
+        }
+    }
+    set style(style) {
+        const {map} = this.state
+
+        if (map) {
+            map.setStyle(toJSON(style))
         }
     }
     shouldComponentUpdate({children}) {
