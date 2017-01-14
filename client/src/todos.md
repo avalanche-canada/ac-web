@@ -1,9 +1,6 @@
 [] - Add latest News and Events to the menu in navbar
-[-] - Reduce the number of call to get Prismic refs/metadata. One call if enough.
-[] - Improve performance
 [] - Fix: unloading the page and leaving the map route before map is fully loaded cause an error
 [] - Show error when a page (from Prismic) does not load and add a retry button
-[] - Prismic store > investigate if we can use normilzr
 [] - Remove !important in CSS
 [] - Providers and courses page > tab set anchor should take all the room. onClick outside the anchor does not trigger a change to the location
 [] - Add latest featured news and events posts to the menu
