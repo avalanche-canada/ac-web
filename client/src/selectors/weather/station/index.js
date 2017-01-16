@@ -1,26 +1,33 @@
 import {List} from 'immutable'
 import moment from 'moment'
-import {createSelector} from 'reselect'
+import {createSelector, createStructuredSelector} from 'reselect'
 import {WeatherStation} from 'api/schemas'
 import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'reducers/api/getters'
 import * as Columns from './columns'
 import * as Headers from './headers'
 import {computeOffset} from 'selectors/map/bounds'
+import Status from 'utils/status'
 
-function getWeatherStation(state, {params, id}) {
+function getWeatherStationRaw(state, {params, id}) {
     // For panel or page
     id = id || params.id
 
     return getEntityForSchema(state, WeatherStation, id)
 }
 
-function getWeatherStationResultsSet(state, {params}) {
-    return getResultsSet(state, WeatherStation, params)
+const messages = {
+    isError: 'Oups!! An error happened while loading weather station data.',
+    isLoading: 'Loading weather station data...'
 }
 
+const getStatus = createSelector(
+    (state, {params}) => getResultsSet(state, WeatherStation, params),
+    result => Status.fromResultSet(result, messages)
+)
+
 const getComputeFlyTo = createSelector(
-    getWeatherStation,
+    getWeatherStationRaw,
     computeOffset,
     (station, computeOffset) => () => ({
         center: [station.get('longitude'), station.get('latitude')],
@@ -52,54 +59,58 @@ function computeMeasurements(station) {
         .take(24)
 }
 
-export default createSelector(
-    getWeatherStation,
-    getWeatherStationResultsSet,
-    getComputeFlyTo,
-    (station, {isFetching, isError, isLoaded}, computeFlyTo) => {
-        const data = {
-            title: station && station.get('name'),
-            link: station && `/weather/stations/${station.get('stationId')}`,
-            isFetching,
-            isError,
-            isLoaded,
-            messages: {
-                error: 'Oups!!',
-                loading: 'Loading your data...'
-            },
-            computeFlyTo,
-        }
-
-        if (station) {
-            Object.assign(data, {
-                station: station.toJSON(),
-                measurements: computeMeasurements(station),
-                columns: [
-                    Columns.Hour,
-                    Columns.SnowHeight,
-                    Columns.NewSnow,
-                    Columns.AirTemperatureAvg,
-                    Columns.WindSpeedAvg,
-                    Columns.WindDirectionAvg,
-                    Columns.WindSpeedGust,
-                    Columns.RelativeHumidity,
-                ],
-                headers: [[
-                    Headers.Snow,
-                    Headers.AirTemperature,
-                    Headers.Wind,
-                    Headers.RelativeHumidity,
-                ], [
-                    Headers.SnowHeight,
-                    Headers.NewSnow,
-                    Headers.AirTemperatureAvg,
-                    Headers.WindSpeedAvg,
-                    Headers.WindDirectionAvg,
-                    Headers.WindSpeedGust,
-                ]],
-            })
-        }
-
-        return data
-    }
+const getMeasurements = createSelector(
+    getWeatherStationRaw,
+    station => station && computeMeasurements(station)
 )
+
+const getWeatherStation = createSelector(
+    getWeatherStationRaw,
+    station => station && station.toJSON()
+)
+
+const HEADERS = [[
+    Headers.Snow,
+    Headers.AirTemperature,
+    Headers.Wind,
+    Headers.RelativeHumidity,
+], [
+    Headers.SnowHeight,
+    Headers.NewSnow,
+    Headers.AirTemperatureAvg,
+    Headers.WindSpeedAvg,
+    Headers.WindDirectionAvg,
+    Headers.WindSpeedGust,
+]]
+
+const COLUMNS = [
+    Columns.Hour,
+    Columns.SnowHeight,
+    Columns.NewSnow,
+    Columns.AirTemperatureAvg,
+    Columns.WindSpeedAvg,
+    Columns.WindDirectionAvg,
+    Columns.WindSpeedGust,
+    Columns.RelativeHumidity,
+]
+
+const getTitle = createSelector(
+    getWeatherStationRaw,
+    station => station && station.get('name')
+)
+
+const getLink = createSelector(
+    getWeatherStationRaw,
+    station => station && `/weather/stations/${station.get('stationId')}`
+)
+
+export default createStructuredSelector({
+    title: getTitle,
+    link: getLink,
+    status: getStatus,
+    station: getWeatherStation,
+    computeFlyTo: getComputeFlyTo,
+    measurements: getMeasurements,
+    columns: () => COLUMNS,
+    headers: () => HEADERS,
+})

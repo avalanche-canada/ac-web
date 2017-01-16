@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Station} from 'components/weather/station'
-import {Loading, Error} from 'components/misc'
+import {Status} from 'components/misc'
 import {LocateAsClass} from 'components/button/Locate'
 import {Link} from 'react-router'
 import {weatherStation} from 'containers/connectors'
@@ -14,10 +14,8 @@ const LOCATE_STYLE = {
 
 function WeatherStation({
     title,
-    isLoading,
-    isError,
+    status,
     station,
-    messages,
     measurements,
     columns,
     rows,
@@ -26,8 +24,6 @@ function WeatherStation({
     onCloseClick,
     onLocateClick,
 }) {
-    const {error, loading} = messages
-
     return (
         <Container>
             <Navbar>
@@ -37,7 +33,7 @@ function WeatherStation({
             <Header subject='Weather station'>
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
-                    {isLoading ||
+                    {status.isLoading ||
                     <Wrapper tooltip='Display on map'>
                         <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                     </Wrapper>
@@ -46,8 +42,7 @@ function WeatherStation({
                 {station && <Metadata {...station} />}
             </Header>
             <Body>
-                {isError && <Error>{error}</Error>}
-                {isLoading && <Loading>{loading}</Loading>}
+                <Status {...status.toJSON()} />
                 {station &&
                     <Station {...station} columns={columns} measurements={measurements} headers={headers} />
                 }

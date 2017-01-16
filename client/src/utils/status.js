@@ -29,4 +29,15 @@ Object.assign(Status.prototype, {
     }
 })
 
+Object.assign(Status, {
+    fromResultSet({isFetching, ...rest}, messages = {}) {
+        const status = new Status({
+            ...rest,
+            isLoading: isFetching
+        })
+
+        return status.set('messages', messages)
+    }
+})
+
 export default Status
