@@ -1,3 +1,4 @@
+import {dateFormat} from 'utils/date'
 import {createTime} from './Time'
 
 export Ribbon from './Ribbon'
@@ -19,11 +20,7 @@ export {Relative} from './Time'
 export const Time = createTime('Time', 'HH:mm')
 export const DateTime = createTime('DateTime', 'dddd, MMMM D, HH:mm')
 export const Day = createTime('Day', 'dddd')
-export const DateElement = createTime('Date', function format(value) {
-    const now = new Date()
-
-    return value.getFullYear() === now.getFullYear() ? 'dddd, MMMM D' : 'dddd, MMMM D, YYYY'
-})
+export const DateElement = createTime('Date', dateFormat)
 
 export InnerHTML from './InnerHTML'
 

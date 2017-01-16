@@ -1,8 +1,10 @@
 import {createAction} from 'redux-actions'
-import {getDocumentsOfType, getDocumentForUid, hasDocumentForUid} from 'getters/prismic'
+import noop from 'lodash/noop'
+import {getDocumentsOfType, getDocumentForUid, hasDocumentForUid, getWeatherForecast} from 'getters/prismic'
 import {Predicates} from 'prismic'
 import {yesterday, tomorrow, formatAsDay} from 'utils/date'
-import noop from 'lodash/noop'
+import addDays from 'date-fns/add_days'
+import isToday from 'date-fns/is_today'
 
 const PRISMIC = Symbol('prismic-query')
 const HZR = 'hotzone-report'
@@ -70,5 +72,25 @@ function lazyLoadForTypeFactory(type, options) {
         if (getDocumentsOfType(state, type).isEmpty()) {
             return dispatch(loadForType(type, options))
         }
+    }
+}
+
+export function loadWeatherForecast(date = new Date(), loadYesterday = false) {
+    return (dispatch, getState) => {
+        if (getWeatherForecast(getState(), date)) {
+            return Promise.resolve()
+        }
+
+        return dispatch(loadForType('weather-forecast', {
+            predicates: [
+                Predicates.at('my.weather-forecast.date', formatAsDay(date))
+            ]
+        })).then(response => {
+            if (loadYesterday && response.results.length === 0 && isToday(date)) {
+                return dispatch(loadWeatherForecast(addDays(date, -1)))
+            }
+
+            return response
+        })
     }
 }

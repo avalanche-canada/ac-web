@@ -1,34 +1,28 @@
 import {createSelector} from 'reselect'
+import {getWidth} from 'getters/map'
 
 const isMapRoute = /^\/map\//i
 const isExternalForecastRoute = /(\/forecasts\/little-yoho|\/forecasts\/banff-yoho-kootenay|\/forecasts\/vancouver-island|\/forecasts\/jasper|\/forecasts\/waterton|\/forecasts\/chic-chocs|\/forecasts\/glacier)/i
-const {innerWidth} = window
 function isPrimaryOpened(pathname) {
     return isMapRoute.test(pathname) && !isExternalForecastRoute.test(pathname)
 }
 
-const PRIMARY = {
-    open: false,
-    width: Math.min(innerWidth, 500),
-}
+// TODO: Move to reducer when move to redux-little-router and create action
 
 export const getPrimary = createSelector(
     (state, props) => props.location.pathname,
-    pathname => ({
-        ...PRIMARY,
+    getWidth,
+    (pathname, width) => ({
         open: isPrimaryOpened(pathname),
+        width: Math.min(width, 500),
     })
 )
 
-const SECONDARY = {
-    open: false,
-    width: Math.min(innerWidth, 500),
-}
-
 export const getSecondary = createSelector(
     (state, props) => props.location.query.panel,
-    panel => ({
-        ...SECONDARY,
-        open: Boolean(panel)
+    getWidth,
+    (panel, width) => ({
+        open: Boolean(panel),
+        width: Math.min(width, 500),
     })
 )

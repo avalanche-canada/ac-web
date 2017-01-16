@@ -4,6 +4,7 @@ import Feed from './Feed'
 export Ast from './Ast'
 export Map from './Map'
 export Root from './Root'
+export Weather from './Weather'
 
 // TODO: Not required once moved to redux-little-router
 export const NewsFeed = feed('news', 'Recent news')

@@ -9,3 +9,7 @@ export function getStyle(state) {
 export function getActiveFeatures(state) {
     return state.map.activeFeatures
 }
+
+export function getWidth(state) {
+    return state.map.width
+}

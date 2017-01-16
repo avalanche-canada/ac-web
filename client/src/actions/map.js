@@ -12,8 +12,10 @@ export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
 export const LOAD_MAP_STYLE_FAILURE = 'LOAD_MAP_STYLE_FAILURE'
 export const ACTIVE_FEATURES_CHANGED = 'ACTIVE_FEATURES_CHANGED'
+export const MAP_WIDTH_CHANGED = 'MAP_WIDTH_CHANGED'
 
 export const activeFeaturesChanged = createAction(ACTIVE_FEATURES_CHANGED)
+export const mapWidthChanged = createAction(MAP_WIDTH_CHANGED)
 
 function createMapCommand(name) {
     return createAction(

@@ -22,7 +22,6 @@ import {
     ProvidersForm,
     CoursesTable,
     CoursesForm,
-    Weather,
     PrivacyPolicy,
     TermsOfUse,
     Forecast,
@@ -53,6 +52,7 @@ import {
     WeatherStation,
     EarlySeasonConditions,
 } from 'containers'
+import {Forecast as WeatherForecast} from 'containers/Weather'
 import * as Feed from 'containers/feed'
 import * as Foundation from 'containers/foundation'
 import * as Funds from 'containers/funds'
@@ -295,9 +295,9 @@ export default function computeRoutes(store) {
             <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
             <Route path='weather/stations/:id' component={WeatherStation} />
-            <Route path='weather' sponsorRef='Weather' component={Weather}>
+            <Route path='weather' sponsorRef='Weather' component={Layouts.Weather}>
                 <IndexRedirect to='forecast' />
-                <Route path='forecast(/:date)' component={articles.Forecast} />
+                <Route path='forecast(/:date)' component={WeatherForecast} />
                 <Route path='hourly-precipitation' component={articles.HourlyPrecipitation} />
                 <Route path='12h-precipitation' component={articles.Precipitation12h} />
                 <Route path='temperatures' component={articles.Temperatures} />

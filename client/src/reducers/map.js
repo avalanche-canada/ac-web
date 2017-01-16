@@ -35,7 +35,12 @@ export default combineReducers({
         MapActions.ACTIVE_FEATURES_CHANGED,
         setActiveFeatures,
         new Immutable.Map()
-    )
+    ),
+    width: handleAction(
+        MapActions.MAP_WIDTH_CHANGED,
+        getPayload,
+        window.innerWidth
+    ),
 })
 
 function transformePrismicReport(document) {

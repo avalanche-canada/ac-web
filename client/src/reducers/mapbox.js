@@ -3,12 +3,7 @@ import Immutable from 'immutable'
 import {handleAction} from 'redux-actions'
 import {GET_FEATURES} from 'actions/mapbox'
 import typeToReducer from 'type-to-reducer'
-
-const Status = Immutable.Record({
-    isLoading: false,
-    isLoaded: false,
-    isError: false,
-})
+import Status from 'utils/status'
 
 export default combineReducers({
     features: typeToReducer({
@@ -26,18 +21,10 @@ export default combineReducers({
                 }))
             },
             REJECTED(state, {meta}) {
-                return state.merge(meta.id, {
-                    isLoading: false,
-                    isError: true,
-                })
+                return state.update(meta.id, status => status.reject())
             },
             FULFILLED(state, {meta}) {
-                return state.withMutations(state => {
-                    state.get(meta.id).merge({
-                        isLoading: false,
-                        isLoaded: true,
-                    })
-                })
+                return state.update(meta.id, status => status.fulfill())
             },
         }
     }, new Immutable.Map()),
