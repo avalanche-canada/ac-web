@@ -19,6 +19,7 @@ export default class Container extends Component {
         forecast: PropTypes.object,
         isAuthenticated: PropTypes.bool,
         onDayChange: PropTypes.func.isRequired,
+        tabs: PropTypes.arrayOf(PropTypes.string),
     }
     static defaultProps = {
         date: new Date(),
@@ -28,7 +29,7 @@ export default class Container extends Component {
         onDayChange: noop,
     }
     render() {
-        const {isAuthenticated, forecast, status, date, onDayChange} = this.props
+        const {isAuthenticated, forecast, status, date, onDayChange, tabs} = this.props
 
         return (
             <Article style={STYLE}>
@@ -56,7 +57,7 @@ export default class Container extends Component {
                     </Muted>
                 }
                 {forecast &&
-                    <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />
+                    <Forecast isAuthenticated={isAuthenticated} forecast={forecast} tabs={tabs} />
                 }
             </Article>
         )

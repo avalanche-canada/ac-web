@@ -4,7 +4,7 @@ import Section from './Section'
 import Loop from '../Loop'
 import addDays from 'date-fns/add_days'
 
-Day5to7.propTypes = {
+Day5To7.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     children: PropTypes.node,
 }
@@ -20,7 +20,7 @@ function Title({date}) {
     )
 }
 
-export default function Day5to7({date, above, between, below, children}) {
+export default function Day5To7({date, above, between, below, children}) {
     const loop = {
         type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
         date: addDays(date, -1),

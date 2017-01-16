@@ -61,6 +61,9 @@ export default class AuthService {
         })
     }
     logout() {
+        this.clear()
+    }
+    clear() {
         this.storage.remove('accessToken')
         this.storage.remove('idToken')
         this.storage.remove('profile')
@@ -84,6 +87,8 @@ export default class AuthService {
     }
     checkTokenExpiry() {
         if (!this.idToken) {
+            this.clear()
+            
             return false
         }
 

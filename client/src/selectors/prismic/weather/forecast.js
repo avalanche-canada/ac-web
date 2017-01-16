@@ -1,7 +1,32 @@
 import {createSelector, createStructuredSelector} from 'reselect'
 import {getWeatherForecast} from 'getters/prismic'
+import {getProfile, getIsAuthenticated} from 'getters/auth'
 import Parser from 'prismic/parser'
 import {formatDate} from 'utils/date'
+import TABS, {DAY5TO7} from 'components/weather/tabs'
+
+const isAvCanEmployeeEmail = /@avalanche.ca$/
+const isECEmployeeEmail = /@canada.ca$/
+
+function canReadDay5To7Tab(email) {
+    return isAvCanEmployeeEmail.test(email)
+}
+
+const getTabs = createSelector(
+    getProfile,
+    getIsAuthenticated,
+    (profile, isAuthenticated) => {
+        if (isAuthenticated && profile) {
+            const {email, emailVerified} = profile
+
+            if (emailVerified && canReadDay5To7Tab(email)) {
+                return [...TABS, DAY5TO7]
+            }
+        }
+
+        return TABS
+    }
+)
 
 const getForecast = createSelector(
     (state, props) => getWeatherForecast(state, props.date, true),
@@ -25,4 +50,5 @@ const getStatus = createSelector(
 export default createStructuredSelector({
     status: getStatus,
     forecast: getForecast,
+    tabs: getTabs,
 })
