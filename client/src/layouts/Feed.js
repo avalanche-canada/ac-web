@@ -1,34 +1,53 @@
-import {compose, defaultProps, mapProps, lifecycle, withProps, withHandlers, setPropTypes} from 'recompose'
-import {connect} from 'react-redux'
-import {loadForType} from 'actions/prismic'
-import {withRouter} from 'react-router'
-import Feed from 'components/page/feed'
+import React, {PropTypes} from 'react'
+import {compose, withProps, withHandlers} from 'recompose'
+import {FilterSet, Feed} from 'containers/feed'
+import {Page, Content, Header, Main} from 'components/page'
 import {replace} from 'utils/router'
-import mapStateToProps from 'selectors/prismic/feed'
+import {withRouter} from 'react-router'
+
+Layout.propTypes = {
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+}
+
+function Layout({type, title, ...query}) {
+    return (
+        <Page>
+            <Header title={title} />
+            <Content>
+                <Main>
+                    <FilterSet type={type} {...query} />
+                    <Feed type={type} {...query} />
+                </Main>
+            </Content>
+        </Page>
+    )
+}
+
+function toSet(tags) {
+    if (Array.isArray(tags)) {
+        return new Set(tags)
+
+    }
+
+    if (typeof tags === 'string') {
+        return new Set([tags])
+    }
+
+    return new Set()
+}
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {
-        loadForType
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {type, loadForType} = this.props
-
-            loadForType(type, {
-                pageSize: 250
-            })
-        }
-    }),
-    withProps(({location}) => {
-        const {year, month, category, tags, timeline} = location.query
+    withProps(props => {
+        const {year, month, category, tags, timeline} = props.location.query
 
         return {
             year: year ? Number(year) : year,
             month,
             category,
             timeline,
-            tags: Array.isArray(tags) ? new Set(tags) : new Set([tags]),
+            tags: toSet(tags),
         }
     }),
     withHandlers({
@@ -68,4 +87,4 @@ export default compose(
             }, props)
         },
     }),
-)(Feed)
+)(Layout)

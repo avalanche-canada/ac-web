@@ -1,24 +1,19 @@
-import {withProps} from 'recompose'
-import Feed from './Feed'
+import {feed} from 'containers/connectors'
+import {Feed as FeedComponent, FilterSet as FilterSetComponent} from 'components/feed'
 import Post from './Post'
+import {withProps} from 'recompose'
 
-// Feed and Post Pages
-function feed(type, title) {
-    return withProps({
-        type,
-        title,
-    })(Feed)
-}
+export Splash from './Splash'
+export const Feed = feed(FeedComponent)
+export const FilterSet = feed(FilterSetComponent)
+
+// TODO: Not required once moved to redux-little-router
+export const NewsPost = post('news')
+export const BlogPost = post('blog')
+export const EventPost = post('event')
+
 function post(type) {
     return withProps({
         type,
     })(Post)
 }
-
-export const NewsFeed = feed('news', 'Recent news')
-export const BlogFeed = feed('blog', 'Blogs')
-export const EventFeed = feed('event', 'Events')
-
-export const NewsPost = post('news')
-export const BlogPost = post('blog')
-export const EventPost = post('event')

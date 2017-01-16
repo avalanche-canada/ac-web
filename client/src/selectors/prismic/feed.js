@@ -21,10 +21,10 @@ function isFeatured(post) {
 }
 
 const PREDICATES = new Map([
-    ['year', ({year}) => post => post.year == year], // Work with strings and numbers
+    ['year', ({year}) => post => post.year == year], // == works with strings and numbers
     ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
     ['category', ({category}) => post => post.category == category],
-    ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.includes(tag)))],
+    ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.has(tag)))],
     ['timeline', ({timeline}) => ({endDate}) => timeline === 'past' ? endDate < now : endDate >= now],
 ])
 
@@ -41,10 +41,20 @@ const SORTERS = new Map([
     [EVENT, asc],
 ])
 
-function getPredicates(state, {location}) {
-    const {query} = location
+function getPredicates(state, props) {
+    const predicates = []
 
-    return Object.keys(query).map(key => PREDICATES.get(key).call(null, query))
+    PREDICATES.forEach((predicate, name) => {
+        if (name in props && props[name]) {
+            if (props[name] instanceof Set && props[name].size === 0) {
+                return
+            }
+
+            predicates.push(predicate)
+        }
+    })
+
+    return predicates.map(predicate => predicate.call(null, props))
 }
 
 function getType(state, {type}) {
