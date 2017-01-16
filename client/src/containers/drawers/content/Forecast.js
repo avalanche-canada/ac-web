@@ -8,7 +8,7 @@ import {forecast} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
-import {Section as Feed} from 'containers/feed'
+import {Feed} from 'containers/feed'
 
 const LOCATE_STYLE = {
     padding: '0.15em'

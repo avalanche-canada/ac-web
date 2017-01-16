@@ -227,23 +227,21 @@ export const specialInformation = prismicConnector(
     PrismicActions.loadSpecialInformation,
 )
 
-export function feed() {
-    return compose(
-        setPropTypes({
-            type: PropTypes.string.isRequired,
-        }),
-        connect(getFeed, {
-            load: PrismicActions.loadForType
-        }),
-        lifecycle({
-            componentDidMount() {
-                this.props.load(this.props.type, {
-                    pageSize: 250
-                })
-            }
-        }),
-    )
-}
+export const feed = compose(
+    setPropTypes({
+        type: PropTypes.string.isRequired,
+    }),
+    connect(getFeed, {
+        load: PrismicActions.loadForType
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.props.load(this.props.type, {
+                pageSize: 250
+            })
+        }
+    }),
+)
 
 export const weatherForecast = compose(
     // TODO: Remove that state when the store will keep track of the state

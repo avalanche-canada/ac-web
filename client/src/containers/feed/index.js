@@ -1,10 +1,11 @@
-import {withProps} from 'recompose'
+import {feed} from 'containers/connectors'
+import {Feed as FeedComponent, FilterSet as FilterSetComponent} from 'components/feed'
 import Post from './Post'
+import {withProps} from 'recompose'
 
-export Section from './Section'
 export Splash from './Splash'
-export Feed from './Feed'
-export FilterSet from './FilterSet'
+export const Feed = feed(FeedComponent)
+export const FilterSet = feed(FilterSetComponent)
 
 // TODO: Not required once moved to redux-little-router
 export const NewsPost = post('news')

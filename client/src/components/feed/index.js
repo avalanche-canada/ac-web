@@ -1,4 +1,4 @@
 export Entry from './Entry'
 export EntrySet from './EntrySet'
-export Section from './Section'
+export Feed from './Feed'
 export FilterSet from './FilterSet'
