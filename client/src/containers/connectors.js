@@ -13,6 +13,7 @@ import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
+import getFeed from 'selectors/prismic/feed'
 import isSameDay from 'date-fns/is_same_day'
 import Status from 'utils/status'
 import {Predicates} from 'prismic'
@@ -164,7 +165,6 @@ export const weatherStation = panelConnector(
     EntitiesActions.loadWeatherStation,
 )
 
-
 function prismicConnector(mapStateToProps, load) {
     return compose(
         // TODO: Remove that state when the store will keep track of the state
@@ -225,6 +225,22 @@ function prismicConnector(mapStateToProps, load) {
 export const specialInformation = prismicConnector(
     getSpecialInformation,
     PrismicActions.loadSpecialInformation,
+)
+
+export const feed = compose(
+    setPropTypes({
+        type: PropTypes.string.isRequired,
+    }),
+    connect(getFeed, {
+        load: PrismicActions.loadForType
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.props.load(this.props.type, {
+                pageSize: 250
+            })
+        }
+    }),
 )
 
 export const weatherForecast = compose(

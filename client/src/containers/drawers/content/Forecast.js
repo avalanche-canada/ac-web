@@ -8,6 +8,7 @@ import {forecast} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
+import {Feed} from 'containers/feed'
 
 const LOCATE_STYLE = {
     padding: '0.15em'
@@ -62,9 +63,7 @@ function Container({
                     </Error>
                 }
                 {(isLoaded && !forecast) && (
-                    <Muted>
-                        Conditions report is available at <Link {...link}>{title}</Link>.
-                    </Muted>
+                    <Feed type='blog' category='north-rockies' />
                 )}
                 {forecast && <Forecast {...forecast} />}
             </Body>

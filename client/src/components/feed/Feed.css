@@ -1,4 +1,4 @@
-@import "../../../styles/colors.css";
+@import "../../styles/colors.css";
 
 .Entry {
     display: flex;
@@ -46,10 +46,6 @@
             border-bottom: none;
         }
     }
-}
-
-.Feed {
-
 }
 
 .Metadata {
