@@ -1,19 +1,20 @@
 import React, {PropTypes} from 'react'
-import {connect} from 'react-redux'
 import {InnerHTML} from 'components/misc'
-import {getTutorial} from 'selectors/prismic/weather'
-import {compose, withProps} from 'recompose'
+import {Status as StatusComponent} from 'components/misc'
+import Status from 'utils/status'
 
 Tutorial.propTypes = {
-    uid: PropTypes.string.isRequired,
+    status: PropTypes.instanceOf(Status).isRequired,
+    body: PropTypes.string.isRequired,
 }
 
-function Tutorial({body}) {
+export default function Tutorial({status = new Status(), body}) {
     return (
-        <InnerHTML>
-            {body}
-        </InnerHTML>
+        <div>
+            <StatusComponent {...status} />
+            <InnerHTML>
+                {body}
+            </InnerHTML>
+        </div>
     )
 }
-
-export default connect(getTutorial)(Tutorial)

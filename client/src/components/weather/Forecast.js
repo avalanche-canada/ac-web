@@ -8,7 +8,7 @@ import Day3to4 from './tabs/Day3to4'
 import Day5to7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
 import styles from './Forecast.css'
-import Tutorial from 'components/page/weather/Tutorial'
+import Tutorial from 'containers/WeatherTutorial'
 import Legacy from './legacy'
 
 Forecast.propTypes = {

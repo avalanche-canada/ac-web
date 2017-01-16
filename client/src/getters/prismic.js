@@ -1,4 +1,7 @@
 import {Map} from 'immutable'
+import {formatAsDay} from 'utils/date'
+import addDays from 'date-fns/add_days'
+import isToday from 'date-fns/is_today'
 
 const MAP = new Map()
 
@@ -28,4 +31,23 @@ export function getIsFetching(state) {
 
 function getDocumentId({prismic}, type, uid) {
     return prismic.uids.getIn([type, uid])
+}
+
+function createFinder(date) {
+    date = formatAsDay(date)
+
+    return document => document.data['weather-forecast.date'].value === date
+}
+
+export function getWeatherForecast(state, date = new Date(), getYesterday = false) {
+    const forecasts = getDocumentsOfType(state, 'weather-forecast')
+    const forecast  = forecasts.find(createFinder(date))
+
+    if (forecast) {
+        return forecast
+    }
+
+    if (getYesterday && isToday(date)) {
+        return forecasts.find(createFinder(addDays(date, -1)))
+    }
 }

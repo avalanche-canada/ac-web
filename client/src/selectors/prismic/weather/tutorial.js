@@ -1,24 +1,21 @@
-import {createSelector} from 'reselect'
-import {getDocumentForUid, getIsFetching} from 'getters/prismic'
-import factory from 'prismic/factory'
+import {createSelector, createStructuredSelector} from 'reselect'
+import {getDocumentForUid} from 'getters/prismic'
+import Parser from 'prismic/parser'
 
-function getDocument(state, {uid}) {
-    return getDocumentForUid(state, 'weather-forecast-tutorial', uid)
-}
-
-export default createSelector(
-    getIsFetching,
-    getDocument,
-    (isFetching, document) => {
-        if (isFetching || !document) {
-            return {
-                isLoading: true,
-            }
-        }
-
-        return {
-            isLoading: false,
-            body: document ? factory.getType(document).tutorial : null,
-        }
-    }
+const getTutorialContent = createSelector(
+    (state, {uid}) => getDocumentForUid(state, 'weather-forecast-tutorial', uid),
+    document => document ? Parser.parse(document).tutorial : null,
 )
+
+const getStatus = createSelector(
+    (state, props) => props.status,
+    (status, messages) => status.set('messages', {
+        loading: 'Loading tutorial...',
+        error: 'Error happened while loading tutorial...',
+    })
+)
+
+export default createStructuredSelector({
+    body: getTutorialContent,
+    status: getStatus,
+})

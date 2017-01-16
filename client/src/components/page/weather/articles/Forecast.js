@@ -1,79 +1,40 @@
 import React, {PropTypes, Component} from 'react'
-import {withRouter} from 'react-router'
-import {loadForType} from 'actions/prismic'
-import {connect} from 'react-redux'
 import {Article} from 'components/page'
-import {DateElement, Loading, Muted, Error} from 'components/misc'
+import {DateElement, Muted} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
 import Forecast from 'components/weather'
-import {Predicates} from 'prismic'
-import {getForecast} from 'selectors/prismic/weather'
+import {Status as StatusComponent} from 'components/misc'
 import {DayPicker} from 'components/controls'
-import {formatAsDay, parseFromDay} from 'utils/date'
+import Status from 'utils/status'
+import noop from 'lodash/noop'
 
 const STYLE = {
     position: 'relative',
 }
 
-@withRouter
-@connect(getForecast, {loadForType})
 export default class Container extends Component {
     static propTypes = {
+        date: PropTypes.instanceOf(Date).isRequired,
+        status: PropTypes.instanceOf(Status).isRequired,
+        forecast: PropTypes.object,
         isAuthenticated: PropTypes.bool,
+        onDayChange: PropTypes.func.isRequired,
     }
     static defaultProps = {
+        date: new Date(),
+        status: new Status(),
+        forecast: null,
         isAuthenticated: false,
-    }
-    state = {
-        isError: false,
-    }
-    set isError(isError) {
-        this.setState({isError})
-    }
-    handleDayChange = date => {
-        this.props.router.push(`/weather/forecast/${formatAsDay(date)}`)
-    }
-    componentDidMount() {
-        this.load()
-    }
-    componentWillReceiveProps({params}) {
-        if (params.date !== this.props.params.date) {
-            this.load(params.date)
-        }
-    }
-    load(date) {
-        const {params} = this.props
-
-        if (!date) {
-            date = params.date || new Date()
-        }
-
-        if (date instanceof Date) {
-            date = formatAsDay(date)
-        }
-
-        const options = {
-            predicates: [Predicates.at('my.weather-forecast.date', date)]
-        }
-
-        this.isError = false
-
-        this.props.loadForType('weather-forecast', options).catch(err => {
-            this.isError = true
-        })
+        onDayChange: noop,
     }
     render() {
-        const {params, isAuthenticated, forecast, isLoading} = this.props
-        const {isError} = this.state
-        let {date} = params
-
-        date = date ? parseFromDay(date) : new Date()
+        const {isAuthenticated, forecast, status, date, onDayChange} = this.props
 
         return (
             <Article style={STYLE}>
                 <Metadata>
                     <Entry term='Date'>
-                        <DayPicker date={date} onChange={this.handleDayChange} container={this} >
+                        <DayPicker date={date} onChange={onDayChange} container={this} >
                             <DateElement value={date} />
                         </DayPicker>
                     </Entry>
@@ -88,20 +49,11 @@ export default class Container extends Component {
                         </Entry>
                     }
                 </Metadata>
-                {isLoading &&
-                    <Loading>
-                        Loading weather forecast for <DateElement value={date} />...
-                    </Loading>
-                }
-                {(!isLoading && !isError && !forecast) &&
+                <StatusComponent {...status.toJSON()} />
+                {(!forecast && status.isLoaded) &&
                     <Muted>
                         No weather forecast available for <DateElement value={date} />.
                     </Muted>
-                }
-                {isError &&
-                    <Error>
-                        Error happened to load weather forecast for <DateElement value={date} />.
-                    </Error>
                 }
                 {forecast &&
                     <Forecast isAuthenticated={isAuthenticated} forecast={forecast} />

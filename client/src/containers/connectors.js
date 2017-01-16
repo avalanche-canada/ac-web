@@ -1,14 +1,21 @@
 import {PropTypes} from 'react'
-import {compose, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
+import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import * as EntitiesActions from 'actions/entities'
 import * as PrismicActions from 'actions/prismic'
 import {fitBounds, flyTo} from 'actions/map'
+import {
+    getForecast as getWeatherForecast,
+    getTutorial as getWeatherTutorial,
+} from 'selectors/prismic/weather'
 import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
+import isSameDay from 'date-fns/is_same_day'
+import Status from 'utils/status'
+import {Predicates} from 'prismic'
 
 function connector(mapStateToProps, load, loadAll) {
     return compose(
@@ -43,6 +50,7 @@ function connector(mapStateToProps, load, loadAll) {
 }
 
 // TODO: Remove that function when the store will keep track of the state
+// TODO: Use Status object
 function connectorWithState(mapStateToProps, load, loadAll) {
     return compose(
         withState('isLoading', 'setIsLoading', false),
@@ -217,4 +225,63 @@ function prismicConnector(mapStateToProps, load) {
 export const specialInformation = prismicConnector(
     getSpecialInformation,
     PrismicActions.loadSpecialInformation,
+)
+
+export const weatherForecast = compose(
+    // TODO: Remove that state when the store will keep track of the state
+    withState('status', 'setStatus', new Status()),
+    connect(getWeatherForecast, {
+        loadWeatherForecast: PrismicActions.loadWeatherForecast
+    }),
+    setPropTypes({
+        date: PropTypes.instanceOf(Date).isRequired,
+    }),
+    defaultProps({
+        date: new Date()
+    }),
+    withHandlers({
+        load: props => date => {
+            const status = props.status.start()
+
+            props.setStatus(status)
+
+            return props.loadWeatherForecast(date, true).then(
+                () => props.setStatus(status.fulfill()),
+                () => props.setStatus(status.reject())
+            )
+        },
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.props.load(this.props.date)
+        },
+        componentWillReceiveProps({date = new Date()}) {
+            if (!isSameDay(date, this.props.date)) {
+                this.props.load(date)
+            }
+        },
+    })
+)
+
+export const weatherTutorial = compose(
+    withState('status', 'setStatus', new Status()),
+    setPropTypes({
+        uid: PropTypes.string.isRequired,
+    }),
+    connect(getWeatherTutorial, {
+        loadForUid: PrismicActions.loadForUid
+    }),
+    lifecycle({
+        componentDidMount() {
+            const {loadForUid, setStatus} = this.props
+            const status = this.props.status.start()
+
+            setStatus(status)
+
+            this.props.loadForUid('weather-forecast-tutorial', this.props.uid).then(
+                () => setStatus(status.fulfill()),
+                () => setStatus(status.reject()),
+            )
+        }
+    }),
 )
