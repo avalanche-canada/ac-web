@@ -294,7 +294,8 @@ export const weatherTutorial = compose(
 
             setStatus(status)
 
-            this.props.loadForUid('weather-forecast-tutorial', this.props.uid).then(
+            this.props.loadForUid('weather-forecast-tutorial', this.props.uid)
+            .then(
                 () => setStatus(status.fulfill()),
                 () => setStatus(status.reject()),
             )

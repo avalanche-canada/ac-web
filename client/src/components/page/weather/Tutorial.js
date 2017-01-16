@@ -11,7 +11,7 @@ Tutorial.propTypes = {
 export default function Tutorial({status = new Status(), body}) {
     return (
         <div>
-            <StatusComponent {...status} />
+            <StatusComponent {...status.toJSON()} />
             <InnerHTML>
                 {body}
             </InnerHTML>
