@@ -13,11 +13,12 @@ import UserProfile from './UserProfile'
 import {Avatar} from '../misc'
 import styles from './Navbar.css'
 import noop from 'lodash/noop'
+import snowflake from 'components/icons/snowflake.svg'
+import {FeatureSet} from 'components/gallery'
 
 Container.propTypes = {
     isFoundation: PropTypes.bool,
-    name: PropTypes.string,
-    avatar: PropTypes.string,
+    profile: PropTypes.object,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
 }
@@ -26,31 +27,40 @@ function Container({
     isFoundation = false,
     isAuthenticated = false,
     menu,
-    name = null,
-    avatar = null,
+    profile = {},
     onLogin = noop,
     onLogout = noop,
     setShowCabinet,
     showCabinet,
     showLogin,
     showLogout,
+    features = [],
 }) {
+    const {name, picture} = profile
+
     return (
         <div styleName='Container'>
             <Navbar isFoundation={isFoundation} onBurgerClick={event => setShowCabinet(true)} >
                 {menu.children.map(createItem)}
                 {showLogin && <Item title='Login' onClick={onLogin} />}
                 {showLogout &&
-                    <Item title={<Avatar name={name} url={avatar} size={30} />}>
+                    <Item title={<Avatar name={name} url={picture} size={30} />}>
                         <Menu>
                             <Section>
-                                <UserProfile name={name} avatar={avatar} />
+                                <UserProfile name={name} avatar={picture} />
                                 <Header>
                                     <Link onClick={onLogout}>
                                         Logout
                                     </Link>
                                 </Header>
                             </Section>
+                        </Menu>
+                    </Item>
+                }
+                {features.isEmpty() ||
+                    <Item title={<img src={snowflake} />}>
+                        <Menu>
+                            <FeatureSet features={features} />
                         </Menu>
                     </Item>
                 }

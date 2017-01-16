@@ -1,0 +1,6 @@
+.Content {
+    padding: 1em;
+    overflow: scroll;
+    line-height: normal;
+    user-select: initial;
+}

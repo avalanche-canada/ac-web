@@ -1,32 +1,44 @@
 import {connect} from 'react-redux'
-import {compose, withProps, withHandlers} from 'recompose'
+import {createSelector, createStructuredSelector} from 'reselect'
+import {compose, defaultProps, withProps, withHandlers, lifecycle} from 'recompose'
 import Navbar from 'components/navbar'
 import * as menus from 'constants/menu'
 import TreeModel from 'tree-model'
 import {getIsAuthenticated, getProfile} from 'getters/auth'
+import {getDocumentsOfType} from 'getters/prismic'
 import {login, logout} from 'actions/auth'
+import {loadForType} from 'actions/prismic'
+import Parser from 'prismic/parser'
 
-function mapStateToProps(state) {
-    const {name, email, picture} = getProfile(state) || {}
-
-    return {
-        isAuthenticated: getIsAuthenticated(state),
-        name,
-        avatar: picture,
-    }
-}
+const getFeatures = createSelector(
+    state => getDocumentsOfType(state, 'application-feature'),
+    features => features.map(feature => Parser.parse(feature))
+                        .toList()
+                        .sortBy(feature => feature.date)
+                        .reverse()
+)
 
 function asTree(menu) {
     return (new TreeModel()).parse(menu)
 }
 
 export const AvalancheCanada = compose(
-    connect(mapStateToProps, {
+    connect(createStructuredSelector({
+        features: getFeatures,
+        isAuthenticated: getIsAuthenticated,
+        profile: getProfile,
+    }), {
         login,
         logout,
+        loadForType,
     }),
-    withProps({
-        menu: asTree(menus.AvalancheCanada)
+    lifecycle({
+        componentDidMount() {
+            this.props.loadForType('application-feature')
+        }
+    }),
+    defaultProps({
+        menu: asTree(menus.AvalancheCanada),
     }),
     withHandlers({
         onLogin: props => event => {

@@ -11,7 +11,7 @@ function createStyle(noWrap) {
 }
 
 Item.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    title: PropTypes.node.isRequired,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
     noWrap: PropTypes.bool,
