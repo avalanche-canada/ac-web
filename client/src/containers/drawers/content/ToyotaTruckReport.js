@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
-import {Loading, Error, InnerHTML, Ratio} from 'components/misc'
+import {InnerHTML, Ratio, Status} from 'components/misc'
 import {Link} from 'react-router'
 import Sponsor from 'containers/Sponsor'
 import getToyotaTruckReport from 'selectors/prismic/toyotaTruckReport'
@@ -27,9 +27,7 @@ const BODY_STYLE = {
 
 function ToyotaTruckReport({
     report = {},
-    isLoading,
-    isError,
-    messages,
+    status,
     onCloseClick,
 }) {
     const {
@@ -61,9 +59,8 @@ function ToyotaTruckReport({
                     <h1>{headline}</h1>
                 </Header>
                 <Content>
-                    {isError && <Error>{messages.error}</Error>}
-                    {isLoading && <Loading>{messages.loading}</Loading>}
-                    {content && <InnerHTML>{content}</InnerHTML>}
+                    <Status {...status.toJSON()} />
+                    <InnerHTML>{content}</InnerHTML>
                 </Content>
             </Body>
         </Container>

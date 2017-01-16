@@ -1,28 +1,27 @@
-import {createSelector} from 'reselect'
-import {getIsFetching, getDocumentsOfType} from 'getters/prismic'
-import parser from 'prismic/parser'
+import {createSelector, createStructuredSelector} from 'reselect'
+import {getIsFetching, getDocumentForUid} from 'getters/prismic'
+import Parser from 'prismic/parser'
+import Status from 'utils/status'
 
-const messages = {
-    error: 'An error happened while loading our latest Toyota truck report.',
-    loading: 'Loading latest our Toyota truck report...',
-}
-
-const getReports = createSelector(
-    state => getDocumentsOfType(state, 'toyota-truck-report'),
-    documents => documents.map(document => parser.parse(document)),
-)
-
-export default createSelector(
-    (state, props) => props.id,
-    getReports,
-    getIsFetching,
-    (id, reports, isFetching) => {
-        const report = reports.find(report => report.uid === id)
-
-        return {
-            report,
-            messages,
-            isLoading: isFetching && !report,
-        }
+let status = new Status({
+    messages: {
+        isError: 'An error happened while loading our latest Toyota truck report.',
+        isLoading: 'Loading latest our Toyota truck report...',
     }
+})
+
+const getReport = createSelector(
+    (state, {id}) => getDocumentForUid(state, 'toyota-truck-report', id),
+    document => document ? Parser.parse(document) : undefined
 )
+
+const getStatus = createSelector(
+    getIsFetching,
+    getReport,
+    (isFetching, report) => isFetching && !report ? status.start() : status.fulfill()
+)
+
+export default createStructuredSelector({
+    report: getReport,
+    status: getStatus,
+})
