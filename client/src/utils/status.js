@@ -30,7 +30,7 @@ Object.assign(Status.prototype, {
 })
 
 Object.assign(Status, {
-    fromResultSet({isFetching, ...rest}, messages = {}) {
+    createFromResultSet({isFetching, ...rest}, messages = {}) {
         const status = new Status({
             ...rest,
             isLoading: isFetching

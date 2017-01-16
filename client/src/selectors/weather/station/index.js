@@ -23,7 +23,7 @@ const messages = {
 
 const getStatus = createSelector(
     (state, {params}) => getResultsSet(state, WeatherStation, params),
-    result => Status.fromResultSet(result, messages)
+    result => Status.createFromResultSet(result, messages)
 )
 
 const getComputeFlyTo = createSelector(
