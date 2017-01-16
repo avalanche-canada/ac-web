@@ -5,7 +5,7 @@ import {loadForType} from 'actions/prismic'
 import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
 import mapStateToProps from 'selectors/prismic/splash'
-import {Entry, EntrySet} from 'components/page/feed'
+import {Entry, EntrySet} from 'components/feed'
 import {Predicates} from 'prismic'
 import {formatAsDay} from 'utils/date'
 

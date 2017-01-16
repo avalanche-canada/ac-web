@@ -1,6 +1,6 @@
 import {compose, withProps, withHandlers} from 'recompose'
 import {withRouter} from 'react-router'
-import {Feed} from 'components/page'
+import {FilterSet} from 'components/feed'
 import {replace} from 'utils/router'
 import {feed} from 'containers/connectors'
 
@@ -18,8 +18,8 @@ function toSet(tags) {
 }
 
 export default compose(
-    withRouter,
     feed(),
+    withRouter,
     withProps(({location}) => {
         const {year, month, category, tags, timeline} = location.query
 
@@ -68,4 +68,4 @@ export default compose(
             }, props)
         },
     }),
-)(Feed)
+)(FilterSet)

@@ -278,11 +278,11 @@ export default function computeRoutes(store) {
             <Route path='mountain-information-network/submissions/:id' sponsorRef='MIN' component={MountainInformationNetworkSubmission} />
             <Route path='mountain-information-network/submissions' sponsorRef='MIN' component={table.Page} />
             <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
-            <Route path='events' sponsorRef='EventIndex' component={Feed.EventFeed} onEnter={handleEventFeedEnter} />
+            <Route path='events' sponsorRef='EventIndex' component={Layouts.EventFeed} onEnter={handleEventFeedEnter} />
             <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
-            <Route path='news' sponsorRef='NewsIndex' component={Feed.NewsFeed} />
+            <Route path='news' sponsorRef='NewsIndex' component={Layouts.NewsFeed} />
             <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
-            <Route path='blogs' sponsorRef='BlogIndex' component={Feed.BlogFeed} />
+            <Route path='blogs' sponsorRef='BlogIndex' component={Layouts.BlogFeed} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
             <Route path='forecasts/archives' component={ArchiveForecast} />
