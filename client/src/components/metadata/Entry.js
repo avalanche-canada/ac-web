@@ -3,13 +3,13 @@ import CSSModules from 'react-css-modules'
 import styles from './Metadata.css'
 
 Entry.propTypes = {
-    term: PropTypes.string.isRequired,
+    term: PropTypes.string,
     children: PropTypes.node.isRequired,
 }
 
-function Entry({term, children, style}) {
+function Entry({term, children}) {
     return (
-        <dl styleName='Entry' style={style}>
+        <dl styleName='Entry'>
             <dt styleName='Term'>{term}</dt>
             <dd styleName='Description'>{children}</dd>
         </dl>
