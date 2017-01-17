@@ -4,7 +4,7 @@ import moment from 'moment'
 import {loadForType} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
-import * as Drawers from 'containers/drawers';
+import * as Drawers from 'containers/drawers'
 import {getIsAuthenticated} from 'getters/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
@@ -61,7 +61,6 @@ import * as table from 'layouts/min/table'
 import {NotFound} from 'components/page'
 import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
-import * as LAYERS from 'constants/drawers'
 import ReactGA from 'services/analytics'
 import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from 'reducers/api/getters'
@@ -155,12 +154,7 @@ export default function computeRoutes(store) {
         replace({...location, query})
     }
 
-    function handleHotZoneReportRouteEnter() {
-        dispatch(turnOnLayer(LAYERS.HOT_ZONE_REPORTS))
-    }
-
     function handleMapForecastRouteEnter({params}) {
-        dispatch(turnOnLayer(LAYERS.FORECASTS))
         handleExternalForecast(params.name)
     }
 
@@ -247,6 +241,7 @@ export default function computeRoutes(store) {
     function onMapRouteEnter(next) {
         dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
     }
+
     function onMapRouteChange(previous, next) {
         dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
     }
@@ -266,7 +261,7 @@ export default function computeRoutes(store) {
                 <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>
-                <Route path='hot-zone-reports' onEnter={handleHotZoneReportRouteEnter} >
+                <Route path='hot-zone-reports'>
                     <Route path=':name' components={{primary: Drawers.HotZoneReport}} />
                 </Route>
             </Route>

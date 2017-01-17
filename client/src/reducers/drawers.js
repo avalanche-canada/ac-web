@@ -2,8 +2,10 @@ import {Record, Map} from 'immutable'
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
 import {LocalStorage} from 'services/storage'
-import * as Actions from 'actions/drawers'
+import * as DrawersActions from 'actions/drawers'
+import * as MapActions from 'actions/map'
 import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility'
@@ -102,13 +104,33 @@ function setLayerVisibilityFactory(visible) {
     }
 }
 
+const RouteToLayerMapping = new Map([
+    [Schemas.Forecast.getKey(), Layers.FORECASTS],
+    [Schemas.HotZoneReport.getKey(), Layers.HOT_ZONE_REPORTS],
+    [Schemas.WeatherStation.getKey(), Layers.WEATHER_STATION],
+    [Schemas.MountainInformationNetworkSubmission.getKey(), Layers.MOUNTAIN_INFORMATION_NETWORK],
+    ['special-information', Layers.SPECIAL_INFORMATION],
+    ['toyota-truck-reports', Layers.TOYOTA_TRUCK_REPORTS],
+])
+
+
+function handleActiveFeaturesChanged(menu, {payload}) {
+    return menu.withMutations(menu => {
+        payload.forEach((id, type) => {
+            const layer = RouteToLayerMapping.get(type)
+
+            menu.setIn(['layers', layer, 'visible'], true)
+        })
+    })
+}
+
 export default combineReducers({
     menu: handleActions({
-        [Actions.MENU_OPENED]: menu => menu.set('open', true),
-        [Actions.MENU_CLOSED]: menu => menu.set('open', false),
-        [Actions.LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
-        [Actions.LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
-        [Actions.FILTER_CHANGED]: (menu, {payload}) => {
+        [DrawersActions.MENU_OPENED]: menu => menu.set('open', true),
+        [DrawersActions.MENU_CLOSED]: menu => menu.set('open', false),
+        [DrawersActions.LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
+        [DrawersActions.LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
+        [DrawersActions.FILTER_CHANGED]: (menu, {payload}) => {
             const {layer, name, value} = payload
 
             let filter = value
@@ -120,5 +142,6 @@ export default combineReducers({
 
             return menu.setIn(['layers', layer, 'filters', name, 'value'], value)
         },
+        [MapActions.ACTIVE_FEATURES_CHANGED]: handleActiveFeaturesChanged,
     }, MENU),
 })
