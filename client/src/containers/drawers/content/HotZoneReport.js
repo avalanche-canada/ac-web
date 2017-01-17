@@ -17,10 +17,10 @@ const ARROW_STYLE = {
 
 function Container({
     isLoading,
+    isError,
     report,
     params,
     title = 'Loading...',
-    isError,
     link,
     shareUrl,
     onCloseClick,
