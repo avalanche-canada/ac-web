@@ -2,22 +2,8 @@ import {Record, Map} from 'immutable'
 import {handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
 import {LocalStorage} from 'services/storage'
-import {
-    MENU_OPENED,
-    MENU_CLOSED,
-    FILTER_CHANGED,
-    LAYER_TURNED_ON,
-    LAYER_TURNED_OFF,
-} from 'actions/drawers'
-import {
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-    METEOGRAMS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    WEATHER_STATION,
-    TOYOTA_TRUCK_REPORTS,
-    SPECIAL_INFORMATION,
-} from 'constants/drawers'
+import * as Actions from 'actions/drawers'
+import * as Layers from 'constants/drawers'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility'
@@ -45,24 +31,24 @@ const MENU = new Map({
     open: false,
     // Defines the default active layers
     layers: new Map({
-        [FORECASTS]: new Layer({
-            id: FORECASTS,
+        [Layers.FORECASTS]: new Layer({
+            id: Layers.FORECASTS,
             title: 'Forecasts',
             type: 'Analysis',
         }),
-        [HOT_ZONE_REPORTS]: new Layer({
-            id: HOT_ZONE_REPORTS,
+        [Layers.HOT_ZONE_REPORTS]: new Layer({
+            id: Layers.HOT_ZONE_REPORTS,
             title: 'Hot zone reports',
             type: 'Analysis',
         }),
-        [SPECIAL_INFORMATION]: new Layer({
-            id: SPECIAL_INFORMATION,
+        [Layers.SPECIAL_INFORMATION]: new Layer({
+            id: Layers.SPECIAL_INFORMATION,
             title: 'Special information',
             type: 'Observations',
-            // visible: Boolean(LAYERS_VISIBILITY.get(SPECIAL_INFORMATION, true)),
+            // visible: Boolean(LAYERS_VISIBILITY.get(Layers.SPECIAL_INFORMATION, true)),
         }),
-        [MOUNTAIN_INFORMATION_NETWORK]: new Layer({
-            id: MOUNTAIN_INFORMATION_NETWORK,
+        [Layers.MOUNTAIN_INFORMATION_NETWORK]: new Layer({
+            id: Layers.MOUNTAIN_INFORMATION_NETWORK,
             title: 'Mountain information network',
             type: 'Observations',
             filters: new Map({
@@ -70,7 +56,7 @@ const MENU = new Map({
                     name: 'days',
                     type: 'listOfValues',
                     value: '7',
-                    // value: String(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
+                    // value: String(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
                     options: new Map([
                         ['1', '1 day'],
                         ['3', '3 days'],
@@ -82,7 +68,7 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: new Set(LAYERS_FILTERS.get(`${MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
+                    value: new Set(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
@@ -93,17 +79,17 @@ const MENU = new Map({
                 })
             })
         }),
-        [WEATHER_STATION]: new Layer({
-            id: WEATHER_STATION,
+        [Layers.WEATHER_STATION]: new Layer({
+            id: Layers.WEATHER_STATION,
             title: 'Weather stations',
             type: 'Observations',
-            visible: Boolean(LAYERS_VISIBILITY.get(WEATHER_STATION, true)),
+            visible: Boolean(LAYERS_VISIBILITY.get(Layers.WEATHER_STATION, true)),
         }),
-        [TOYOTA_TRUCK_REPORTS]: new Layer({
-            id: TOYOTA_TRUCK_REPORTS,
+        [Layers.TOYOTA_TRUCK_REPORTS]: new Layer({
+            id: Layers.TOYOTA_TRUCK_REPORTS,
             title: 'Follow AvCan Toyota trucks',
             type: 'Sponsor',
-            visible: Boolean(LAYERS_VISIBILITY.get(TOYOTA_TRUCK_REPORTS, true)),
+            visible: Boolean(LAYERS_VISIBILITY.get(Layers.TOYOTA_TRUCK_REPORTS, true)),
         }),
     }),
 })
@@ -118,11 +104,11 @@ function setLayerVisibilityFactory(visible) {
 
 export default combineReducers({
     menu: handleActions({
-        [MENU_OPENED]: menu => menu.set('open', true),
-        [MENU_CLOSED]: menu => menu.set('open', false),
-        [LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
-        [LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
-        [FILTER_CHANGED]: (menu, {payload}) => {
+        [Actions.MENU_OPENED]: menu => menu.set('open', true),
+        [Actions.MENU_CLOSED]: menu => menu.set('open', false),
+        [Actions.LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
+        [Actions.LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
+        [Actions.FILTER_CHANGED]: (menu, {payload}) => {
             const {layer, name, value} = payload
 
             let filter = value
