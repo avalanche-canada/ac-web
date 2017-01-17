@@ -140,7 +140,9 @@ export default combineReducers({
 
             LAYERS_FILTERS.set(`${layer}-${name}`, filter)
 
-            return menu.setIn(['layers', layer, 'filters', name, 'value'], value)
+            const path = ['layers', layer, 'filters', name, 'value']
+
+            return menu.setIn(path, value)
         },
         [MapActions.ACTIVE_FEATURES_CHANGED]: handleActiveFeaturesChanged,
     }, MENU),
