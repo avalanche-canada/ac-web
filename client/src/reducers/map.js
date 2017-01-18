@@ -12,7 +12,7 @@ import * as Schemas from 'api/schemas'
 import featureFilter from 'feature-filter'
 import MapSources from 'constants/map/sources'
 import Parser, {parseLocation} from 'prismic/parser'
-import turf from 'turf-helpers'
+import turf from '@turf/helpers'
 
 // TODO: Organize this code
 

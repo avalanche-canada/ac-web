@@ -1,5 +1,5 @@
 import * as Layers from 'constants/drawers'
-import turf from 'turf-helpers'
+import turf from '@turf/helpers'
 
 function createSource(source = {}) {
     const {features = [], ...props} = source

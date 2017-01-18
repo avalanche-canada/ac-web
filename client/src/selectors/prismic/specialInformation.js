@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import turf from 'turf-helpers'
+import turf from '@turf/helpers'
 import {getIsFetching, getDocumentsOfType} from 'getters/prismic'
 import parser from 'prismic/parser'
 import {computeOffset, computeFitBounds} from 'selectors/map/bounds'
