@@ -3,9 +3,8 @@ import ReactGA from 'react-ga'
 import mapbox from 'services/mapbox/map'
 import {googleAnalyticsId} from './config.json'
 
-
 // Set in the google analytics custom dimentions
-//  Needs to use the dimention<n> settings 
+//  Needs to use the dimention<n> settings
 //  it will be named correctly in the UI
 const MAPBOXGL_SUPPORTED = 'dimension1'
 
