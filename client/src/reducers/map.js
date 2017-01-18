@@ -43,16 +43,6 @@ export default combineReducers({
     ),
 })
 
-function transformePrismicReport(document) {
-    const report = Parser.parse(document)
-    const {uid, position: {longitude, latitude}, headline} = report
-
-    return turf.point([longitude, latitude], {
-        title: headline,
-        id: uid,
-    })
-}
-
 const Transformers = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, days => submission => {
         const [lat, lng] = submission.latlng
