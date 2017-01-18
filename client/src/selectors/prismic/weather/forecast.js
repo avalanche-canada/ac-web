@@ -6,10 +6,10 @@ import {formatDate} from 'utils/date'
 import TABS, {DAY5TO7} from 'components/weather/tabs'
 
 const isAvCanEmployeeEmail = /@avalanche.ca$/
-const isECEmployeeEmail = /@canada.ca$/
+const isCanadaEmployeeEmail = /@canada.ca$/
 
 function canReadDay5To7Tab(email) {
-    return isAvCanEmployeeEmail.test(email)
+    return isAvCanEmployeeEmail.test(email) || isCanadaEmployeeEmail.test(email)
 }
 
 const getTabs = createSelector(
