@@ -1,4 +1,3 @@
-import {normalize, arrayOf} from 'normalizr'
 import * as Schemas from 'api/schemas'
 import {createApiAction, createPostAction} from 'api/utils'
 

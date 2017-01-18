@@ -33,8 +33,8 @@ export default createSelector(
 
 // Setting filters
 const LayerToSchemaMapping = new Map([
-    [Layers.FORECASTS, Schemas.ForecastRegion.getKey()],
-    [Layers.HOT_ZONE_REPORTS, Schemas.HotZone.getKey()],
+    [Layers.FORECASTS, Schemas.ForecastRegion.key],
+    [Layers.HOT_ZONE_REPORTS, Schemas.HotZone.key],
 ])
 function setActiveFeatures(style, activeFeatures) {
     return style.withMutations(style => {

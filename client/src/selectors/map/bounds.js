@@ -109,8 +109,8 @@ export default createSelector(
         }
 
         const bbox = activeFeatures.reduce((bounds, id, schema) => {
-            if (typeof schema.getKey === 'function') {
-                schema = schema.getKey()
+            if (typeof schema === 'object' && 'key' in schema) {
+                schema = schema.key
             }
 
             if (DocumentPathToSchema.has(schema)) {

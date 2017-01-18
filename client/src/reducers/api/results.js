@@ -113,42 +113,42 @@ function resultsReducerFactory(request, success, failure) {
 }
 
 export default combineReducers({
-    [ForecastRegion.getKey()]: resultsReducerFactory(
+    [ForecastRegion.key]: resultsReducerFactory(
         FEATURES_METADATA_REQUEST,
         FEATURES_METADATA_SUCCESS,
         FEATURES_METADATA_FAILURE,
     ),
-    [HotZone.getKey()]: resultsReducerFactory(
+    [HotZone.key]: resultsReducerFactory(
         FEATURES_METADATA_REQUEST,
         FEATURES_METADATA_SUCCESS,
         FEATURES_METADATA_FAILURE,
     ),
-    [Forecast.getKey()]: resultsReducerFactory(
+    [Forecast.key]: resultsReducerFactory(
         FORECAST_REQUEST,
         FORECAST_SUCCESS,
         FORECAST_FAILURE,
     ),
-    [MountainInformationNetworkSubmission.getKey()]: resultsReducerFactory(
+    [MountainInformationNetworkSubmission.key]: resultsReducerFactory(
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_REQUEST,
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_SUCCESS,
         MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS_FAILURE,
     ),
-    [Incident.getKey()]: resultsReducerFactory(
+    [Incident.key]: resultsReducerFactory(
         INCIDENTS_REQUEST,
         INCIDENTS_SUCCESS,
         INCIDENTS_FAILURE,
     ),
-    [Provider.getKey()]: resultsReducerFactory(
+    [Provider.key]: resultsReducerFactory(
         PROVIDERS_REQUEST,
         PROVIDERS_SUCCESS,
         PROVIDERS_FAILURE,
     ),
-    [Course.getKey()]: resultsReducerFactory(
+    [Course.key]: resultsReducerFactory(
         COURSES_REQUEST,
         COURSES_SUCCESS,
         COURSES_FAILURE,
     ),
-    [WeatherStation.getKey()]: resultsReducerFactory(
+    [WeatherStation.key]: resultsReducerFactory(
         WEATHER_STATIONS_REQUEST,
         WEATHER_STATIONS_SUCCESS,
         WEATHER_STATIONS_FAILURE,

@@ -6,7 +6,7 @@ import {ForecastRegion} from 'api/schemas'
 // TODO: Move some or all of these functions to getters module
 
 function getResultsSetForSchema(state, schema) {
-    return state.api.results[schema.getKey()]
+    return state.api.results[schema.key]
 }
 
 export function getResultsSet(state, schema, params) {

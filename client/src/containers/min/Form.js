@@ -233,7 +233,7 @@ export default class Form extends Component {
         }
 
         this.props.post(form).then(data => {
-            const key = MountainInformationNetworkSubmission.getKey()
+            const {key} = MountainInformationNetworkSubmission
 
             this.props.router.push({
                 pathname: '/map',

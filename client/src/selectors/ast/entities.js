@@ -111,7 +111,7 @@ const Sorters = new Map([
 ])
 
 export function table(schema, columns) {
-    const key = schema.getKey()
+    const {key} = schema
     const transform = transformers.get(schema)
 
     function getEntitiesResultsSet(state) {

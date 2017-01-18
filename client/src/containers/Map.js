@@ -150,7 +150,8 @@ class Container extends Component {
 
                 return this.fitBounds(stations, CLUSTER_BOUNDS_OPTIONS)
             } else {
-                const key = Schemas.WeatherStation.getKey()
+                const {key} = Schemas.WeatherStation
+
                 return this.push({
                     query: {
                         panel: `${key}/${feature.properties.id}`
@@ -232,7 +233,7 @@ class Container extends Component {
     transitionToMIN(id) {
         return this.push({
             query: {
-                panel: `${Schemas.MountainInformationNetworkSubmission.getKey()}/${id}`
+                panel: `${Schemas.MountainInformationNetworkSubmission.key}/${id}`
             }
         }, this.props)
     }

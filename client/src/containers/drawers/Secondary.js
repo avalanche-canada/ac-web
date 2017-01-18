@@ -12,7 +12,7 @@ import * as Schemas from 'api/schemas'
 import {push} from 'utils/router'
 
 const ContentComponents = new Map([
-    [Schemas.MountainInformationNetworkSubmission.getKey(), MountainInformationNetwork],
+    [Schemas.MountainInformationNetworkSubmission.key, MountainInformationNetwork],
     ['weather-stations', WeatherStation],
     ['toyota-truck-reports', ToyotaTruckReport],
     ['special-information', SpecialInformation],

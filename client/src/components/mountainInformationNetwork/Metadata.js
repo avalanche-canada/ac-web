@@ -26,7 +26,7 @@ export default function MountainInformationNetworkMetadata({
     submissionId
 }) {
 
-    const path = `/map?panel=${Schema.getKey()}/${submissionId}`
+    const path = `/map?panel=${Schema.key}/${submissionId}`
     const mapLink = (
         <Wrapper tooltip='View on Main Map'>
             <Link to={path} className={styles.MapLocationLink}><MapLocation /></Link>

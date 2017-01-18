@@ -1,4 +1,4 @@
-import {normalize, arrayOf} from 'normalizr'
+import {normalize} from 'normalizr'
 import * as Api from 'api'
 import {isApiAction} from 'api/utils'
 import {getResultsSet, hasResultsSet} from 'reducers/api/getters'
@@ -37,14 +37,14 @@ export default store => next => action => {
         let shape = schema
 
         if (Array.isArray(data)) {
-            shape = arrayOf(schema)
+            shape = [schema]
         } else if (Array.isArray(data.results)) {
             shape = {
-                results: arrayOf(schema)
+                results: [schema]
             }
         } else if (Array.isArray(data.features)) {
             shape = {
-                features: arrayOf(schema)
+                features: [schema]
             }
         }
 

@@ -105,12 +105,12 @@ function setLayerVisibilityFactory(visible) {
 }
 
 const RouteToLayerMapping = new Map([
-    [Schemas.ForecastRegion.getKey(), Layers.FORECASTS],
-    [Schemas.Forecast.getKey(), Layers.FORECASTS],
-    [Schemas.HotZoneReport.getKey(), Layers.HOT_ZONE_REPORTS],
-    [Schemas.HotZone.getKey(), Layers.HOT_ZONE_REPORTS],
-    [Schemas.WeatherStation.getKey(), Layers.WEATHER_STATION],
-    [Schemas.MountainInformationNetworkSubmission.getKey(), Layers.MOUNTAIN_INFORMATION_NETWORK],
+    [Schemas.ForecastRegion.key, Layers.FORECASTS],
+    [Schemas.Forecast.key, Layers.FORECASTS],
+    [Schemas.HotZoneReport.key, Layers.HOT_ZONE_REPORTS],
+    [Schemas.HotZone.key, Layers.HOT_ZONE_REPORTS],
+    [Schemas.WeatherStation.key, Layers.WEATHER_STATION],
+    [Schemas.MountainInformationNetworkSubmission.key, Layers.MOUNTAIN_INFORMATION_NETWORK],
     ['special-information', Layers.SPECIAL_INFORMATION],
     ['toyota-truck-reports', Layers.TOYOTA_TRUCK_REPORTS],
 ])

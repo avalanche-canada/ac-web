@@ -22,7 +22,7 @@ export default store => next => action => {
 
     const {payload} = action
     const {types} = payload
-    const delay = state.api.entities.has(ForecastRegion.getKey()) ? 10000 : 1
+    const delay = state.api.entities.has(ForecastRegion.key) ? 10000 : 1
 
     function handleFulfill({data}) {
         next({

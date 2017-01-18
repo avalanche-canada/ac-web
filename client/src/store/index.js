@@ -9,8 +9,8 @@ const storage = LocalStorage.create()
 
 // Defines the entities that will be cached
 const ENTITY_KEYS = new Set([
-    ForecastRegion.getKey(),
-    HotZone.getKey(),
+    ForecastRegion.key,
+    HotZone.key,
 ])
 function canBeCached(value, key) {
     return ENTITY_KEYS.has(key)

@@ -214,8 +214,8 @@ export default function computeRoutes(store) {
     }
 
     const RouteSchemaMapping = new Map([
-        [Schemas.Forecast.getKey(), Schemas.ForecastRegion.getKey()],
-        [Schemas.HotZoneReport.getKey(), Schemas.HotZone.getKey()],
+        [Schemas.Forecast.key, Schemas.ForecastRegion.key],
+        [Schemas.HotZoneReport.key, Schemas.HotZone.key],
     ])
 
     function createActiveFeatures({routes, params, location}) {

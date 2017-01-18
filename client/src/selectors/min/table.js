@@ -29,7 +29,7 @@ const columns = Immutable.List.of(
             const title = submission.get('title')
             const types = submission.get('obs').map(ob => ob.get('obtype')).toSet()
             const icon = types.has(INCIDENT) ? pinWithIncident : pin
-            const path = `/map?panel=${Schema.getKey()}/${id}`
+            const path = `/map?panel=${Schema.key}/${id}`
 
             return (
                 <Link to={path} title={`Look at ${title} report on the map`}>

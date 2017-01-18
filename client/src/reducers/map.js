@@ -180,7 +180,7 @@ function featuresAsMap(features) {
 function setWeatherStations(style, {payload, meta}) {
     const source = Layers.WEATHER_STATION
     const path = ['sources', source, 'data', 'features']
-    const entities = payload.entities[meta.schema.getKey()]
+    const entities = payload.entities[meta.schema.key]
     const stations = new Immutable.Map(entities).map(Transformers.get(source))
     const features = featuresAsMap(style.getIn(path))
 
@@ -193,7 +193,7 @@ function setSubmissions(style, {payload, meta}) {
 
     const source = Layers.MOUNTAIN_INFORMATION_NETWORK
     const path = ['sources', `all-${source}`, 'data', 'features']
-    const entities = payload.entities[meta.schema.getKey()]
+    const entities = payload.entities[meta.schema.key]
     const transformer = Transformers.get(source)(meta.params.days)
     const submissions = new Immutable.Map(entities).map(transformer)
     const features = featuresAsMap(style.getIn(path)).mergeDeep(submissions)

@@ -174,12 +174,13 @@ export default createSelector(
         if (report) {
             report = transform(report)
             const {region, uid} = report
+            const {key} = Schema
 
             return {
                 title: name,
                 report,
-                link: `/${Schema.getKey()}/${region}`,
-                shareUrl: `${window.location.origin}/${Schema.getKey()}/${region}/${uid}`,
+                link: `/${key}/${region}`,
+                shareUrl: `${window.location.origin}/${key}/${region}/${uid}`,
                 computeBounds,
             }
         } else {
