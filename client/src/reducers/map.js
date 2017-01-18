@@ -69,7 +69,7 @@ const Transformers = new Map([
     [Layers.WEATHER_STATION, station => {
         return turf.point([station.longitude, station.latitude], {
             title: station.name,
-            id: station.stationId,
+            id: Schemas.WeatherStation._getId(station),
         })
     }],
     [Layers.TOYOTA_TRUCK_REPORTS, document => {
