@@ -1,17 +1,18 @@
 import React, {PropTypes} from 'react'
-import {Status} from 'components/misc'
+import {Status as StatusComponent} from 'components/misc'
 import EntrySet from './EntrySet'
 import Entry from './Entry'
+import Status from 'utils/status'
 
 Feed.propTypes = {
     content: PropTypes.array,
-    status: PropTypes.object,
+    status: PropTypes.instanceOf(Status),
 }
 
 export default function Feed({content = [], status}) {
     return (
         <div>
-            <Status {...status.toJSON()} />
+            <StatusComponent {...status.toJSON()} />
             <EntrySet>
                 {content.map(entry => <Entry key={entry.uid} {...entry} />)}
             </EntrySet>
