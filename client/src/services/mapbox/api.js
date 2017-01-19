@@ -26,5 +26,5 @@ export function findPlaces(term = '') {
 }
 
 export function fetchMapStyle(styleId) {
-    return Style.get(styleId)
+    return Style.get(styleId).then(response => response.data)
 }

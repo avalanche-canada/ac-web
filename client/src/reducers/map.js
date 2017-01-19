@@ -13,13 +13,22 @@ import featureFilter from 'feature-filter'
 import MapSources from 'constants/map/sources'
 import Parser, {parseLocation} from 'prismic/parser'
 import turf from '@turf/helpers'
+import Status from 'utils/status'
+import typeToReducer from 'type-to-reducer'
 
 // TODO: Better organize this code
 
 export default combineReducers({
     command: handleAction(MapActions.MAP_COMMAND_CREATED, getPayload, null),
+    status: typeToReducer({
+        [MapActions.LOAD_MAP_STYLE]: {
+            PENDING: status => status.start(),
+            REJECTED: status => status.reject(),
+            FULFILLED: status => status.fulfill(),
+        }
+    }, new Status()),
     style: handleActions({
-        [MapActions.LOAD_MAP_STYLE_SUCCESS]: mergeStyle,
+        [`${MapActions.LOAD_MAP_STYLE}_FULFILLED`]: mergeStyle,
         [DrawerActions.LAYER_TURNED_ON]: toggleLayersFactory(true),
         [DrawerActions.LAYER_TURNED_OFF]: toggleLayersFactory(false),
         [DrawerActions.FILTER_CHANGED]: setFilter,

@@ -9,8 +9,7 @@ import * as EntitiesActions from 'actions/entities'
 import * as Layers from 'constants/drawers'
 
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
-export const LOAD_MAP_STYLE_SUCCESS = 'LOAD_MAP_STYLE_SUCCESS'
-export const LOAD_MAP_STYLE_FAILURE = 'LOAD_MAP_STYLE_FAILURE'
+export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
 export const ACTIVE_FEATURES_CHANGED = 'ACTIVE_FEATURES_CHANGED'
 export const MAP_WIDTH_CHANGED = 'MAP_WIDTH_CHANGED'
 
@@ -56,24 +55,4 @@ function createActionForLayer(layer) {
     }
 }
 
-export function loadMapStyle(style) {
-    return (dispatch, getState) => {
-        function handleFulfill({data}) {
-            const style = getStyle(getState())
-
-            if (data.modified !== style.get('modified')) {
-                const loadMapStyleSuccess = createAction(LOAD_MAP_STYLE_SUCCESS)
-
-                dispatch(loadMapStyleSuccess(data))
-            }
-        }
-        function handleReject(error) {
-            const loadMapStyleFailure = createAction(LOAD_MAP_STYLE_FAILURE)
-            const message = `Can not fetch Map Style "${style}" from Mapbox API.`
-
-            dispatch(loadMapStyleFailure(new Error(message, error)))
-        }
-
-        return fetchMapStyle(style).then(handleFulfill, handleReject)
-    }
-}
+export const loadMapStyle = createAction(LOAD_MAP_STYLE, fetchMapStyle)
