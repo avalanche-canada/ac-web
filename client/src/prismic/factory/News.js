@@ -1,4 +1,5 @@
 import PARSER from '../parser'
+import {normalizeTags} from './utils'
 
 export function fromDocument(document, parser = PARSER) {
     if (!document) {
@@ -11,6 +12,7 @@ export function fromDocument(document, parser = PARSER) {
     return {
         ...data,
         featured: tags.includes('featured'),
+        tags: normalizeTags(tags),
         year: date.getFullYear(),
         month: date.getMonth(),
     }
