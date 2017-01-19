@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
+import {handleOutboundSponsorClick} from 'services/analytics'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
@@ -12,7 +13,7 @@ Sponsor.propTypes = {
 
 function Sponsor({name, src, url, label = 'Brought to you by'}) {
     return (
-        <a href={url} target='_blank' title={name} >
+        <a href={url} target='_blank' title={name} onClick={handleOutboundSponsorClick}>
             <dl styleName='Container'>
                 {label &&
                     <dt styleName='Label'>

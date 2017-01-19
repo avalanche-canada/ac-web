@@ -1,5 +1,5 @@
 
-import ReactGA from 'react-ga'
+import ga from 'react-ga'
 import mapbox from 'services/mapbox/map'
 import {googleAnalyticsId} from './config.json'
 
@@ -8,10 +8,22 @@ import {googleAnalyticsId} from './config.json'
 //  it will be named correctly in the UI
 const MAPBOXGL_SUPPORTED = 'dimension1'
 
-const gaOptions = process.env.NODE_ENV === 'production' ? {} : {debug:true}
+const options = process.env.NODE_ENV === 'production' ? {} : {debug:true}
 
-ReactGA.initialize(googleAnalyticsId, gaOptions)
+ga.initialize(googleAnalyticsId, options)
 
-ReactGA.set({[MAPBOXGL_SUPPORTED]: mapbox.supported()})
+ga.set({
+    [MAPBOXGL_SUPPORTED]: mapbox.supported()
+})
 
-export default ReactGA
+export default ga
+
+// TODO: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+export function handleOutboundSponsorClick(event) {
+    ga.send('event', {
+        eventCategory: 'Outbound Sponsor',
+        eventAction: 'click',
+        eventLabel: event.target.href,
+        transport: 'beacon'
+    })
+}
