@@ -1,5 +1,5 @@
-import {createSelector} from 'reselect'
-import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
+import {createSelector, createStructuredSelector} from 'reselect'
+import {getDocumentsOfType} from 'getters/prismic'
 import months, {options as monthOptions} from './months'
 import transform from './transform'
 import computeYearOptions from './computeYearOptions'
@@ -89,20 +89,20 @@ const getFeedOptions = createSelector(
         switch (type) {
             case NEWS:
                 return {
-                    monthOptions,
-                    yearOptions: computeYearOptions(feed),
-                    tagOptions: computeTagsOptions(feed),
+                    month: monthOptions,
+                    year: computeYearOptions(feed),
+                    tag: computeTagsOptions(feed),
                 }
             case BLOG:
                 return {
-                    monthOptions,
-                    yearOptions: computeYearOptions(feed),
-                    categoryOptions: computeCategoryOptions(feed),
+                    month: monthOptions,
+                    year: computeYearOptions(feed),
+                    category: computeCategoryOptions(feed),
                 }
             case EVENT:
                 return {
-                    timelineOptions,
-                    tagOptions: computeTagsOptions(feed),
+                    timeline: timelineOptions,
+                    tag: computeTagsOptions(feed),
                 }
             default:
                 throw new Error(`Type "${type}" not recognized for creating feed filtering options.`)
@@ -122,24 +122,26 @@ const getFilteredFeed = createSelector(
     }
 )
 
-export default createSelector(
+const getStatus = createSelector(
     getType,
     getFilteredFeed,
-    getIsFetching,
-    getFeedOptions,
-    (type, feed, isLoading, options) => {
-        let message = null
-
-        if (isLoading) {
-            message = `Loading ${type} feed...`
-        } else if (feed.size === 0) {
-            message = `No ${type} match your criteria.`
+    (state, props) => props.status,
+    (type, feed, status) => {
+        const messages = {
+            isLoading: `Loading ${type} feed...`,
+            isError: `An error happened while loading the ${type} feed.`,
         }
 
-        return {
-            content: feed,
-            message,
-            ...options,
+        if (status.isLoaded && feed.isEmpty()) {
+            messages.isLoaded = `No ${type} match your criteria.`
         }
+
+        return status.set('messages', messages)
     }
 )
+
+export default createStructuredSelector({
+    content: getFilteredFeed,
+    status: getStatus,
+    options: getFeedOptions,
+})

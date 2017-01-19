@@ -1,17 +1,17 @@
 import React, {PropTypes} from 'react'
-import {Muted} from 'components/misc'
+import {Status} from 'components/misc'
 import EntrySet from './EntrySet'
 import Entry from './Entry'
 
 Feed.propTypes = {
     content: PropTypes.array,
-    message: PropTypes.string,
+    status: PropTypes.object,
 }
 
-export default function Feed({message, content = []}) {
+export default function Feed({content = [], status}) {
     return (
         <div>
-            <Muted>{message}</Muted>
+            <Status {...status.toJSON()} />
             <EntrySet>
                 {content.map(entry => <Entry key={entry.uid} {...entry} />)}
             </EntrySet>

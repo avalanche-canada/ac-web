@@ -3,65 +3,78 @@ import {FilterSet as Base, FilterEntry} from 'components/filter'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 
 FilterSet.propTypes = {
-    year: PropTypes.number,
-    yearOptions: PropTypes.instanceOf(Map),
-    onYearChange: PropTypes.func.isRequired,
-    month: PropTypes.string,
-    monthOptions: PropTypes.instanceOf(Map),
-    onMonthChange: PropTypes.func.isRequired,
     category: PropTypes.string,
-    categoryOptions: PropTypes.instanceOf(Map),
-    onCategoryChange: PropTypes.func.isRequired,
+    year: PropTypes.number,
+    month: PropTypes.string,
     timeline: PropTypes.string,
-    timelineOptions: PropTypes.instanceOf(Map),
-    onTimelineChange: PropTypes.func.isRequired,
     tags: PropTypes.string,
-    tagOptions: PropTypes.instanceOf(Map),
+    onCategoryChange: PropTypes.func.isRequired,
+    onYearChange: PropTypes.func.isRequired,
+    onMonthChange: PropTypes.func.isRequired,
+    onTimelineChange: PropTypes.func.isRequired,
     onTagChange: PropTypes.func.isRequired,
+    options: {
+        category: PropTypes.instanceOf(Map),
+        year: PropTypes.instanceOf(Map),
+        month: PropTypes.instanceOf(Map),
+        timeline: PropTypes.instanceOf(Map),
+        tag: PropTypes.instanceOf(Map),
+    }
 }
 
 export default function FilterSet({
+    category,
+    onCategoryChange,
     year,
-    yearOptions,
     onYearChange,
     month,
-    monthOptions,
     onMonthChange,
-    category,
-    categoryOptions,
-    onCategoryChange,
     timeline,
-    timelineOptions,
     onTimelineChange,
     tags,
-    tagOptions,
-    onTagChange
+    onTagChange,
+    options,
 }) {
     return (
         <Base>
-            {categoryOptions &&
+            {options.category &&
                 <FilterEntry>
-                    <Dropdown value={category} onChange={onCategoryChange} options={categoryOptions}  placeholder={categoryOptions.get(undefined)}/>
+                    <Dropdown value={category}
+                        onChange={onCategoryChange}
+                        options={options.category}
+                        placeholder={options.category.get()}/>
                 </FilterEntry>
             }
-            {timelineOptions &&
+            {options.timeline &&
                 <FilterEntry>
-                    <Dropdown value={timeline} onChange={onTimelineChange} options={timelineOptions}  placeholder={timelineOptions.get(undefined)}/>
+                    <Dropdown value={timeline}
+                        onChange={onTimelineChange}
+                        options={options.timeline}
+                        placeholder={options.timeline.get()}/>
                 </FilterEntry>
             }
-            {yearOptions &&
+            {options.year &&
                 <FilterEntry>
-                    <Dropdown value={year} onChange={onYearChange} options={yearOptions} placeholder={yearOptions.get(undefined)} />
+                    <Dropdown value={year}
+                        onChange={onYearChange}
+                        options={options.year}
+                        placeholder={options.year.get()} />
                 </FilterEntry>
             }
-            {monthOptions &&
+            {options.month &&
                 <FilterEntry>
-                    <Dropdown value={month} onChange={onMonthChange} options={monthOptions} placeholder={monthOptions.get(undefined)} />
+                    <Dropdown value={month}
+                        onChange={onMonthChange}
+                        options={options.month}
+                        placeholder={options.month.get()} />
                 </FilterEntry>
             }
-            {tagOptions &&
+            {options.tag &&
                 <FilterEntry>
-                    <Dropdown value={tags} onChange={onTagChange} options={tagOptions} placeholder={'No tags'} />
+                    <Dropdown value={tags}
+                        onChange={onTagChange}
+                        options={options.tag}
+                        placeholder='All tags' />
                 </FilterEntry>
             }
         </Base>
