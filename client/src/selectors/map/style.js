@@ -19,6 +19,8 @@ export default createSelector(
             return null
         }
 
+        // TODO: Finish moving these functions to reducers
+
         return setActiveFeatures(
             setHotZoneReports(
                 style,

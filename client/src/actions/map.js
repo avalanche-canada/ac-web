@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions'
 import {getVisibleLayers} from 'getters/drawers'
-import {getStyle} from 'getters/map'
+import {getStyle, getStatus} from 'getters/map'
 import {fetchMapStyle} from 'services/mapbox/api'
 import MapLayers from 'constants/map/layers'
 import MapSources from 'constants/map/sources'
@@ -55,4 +55,17 @@ function createActionForLayer(layer) {
     }
 }
 
-export const loadMapStyle = createAction(LOAD_MAP_STYLE, fetchMapStyle)
+export function loadMapStyle(id) {
+    return (dispatch, getState) => {
+        const state = getState()
+        const style = getStyle(state)
+        const status = getStatus(state)
+
+        if (!style || !status.isLoaded) {
+            dispatch({
+                type: LOAD_MAP_STYLE,
+                payload: fetchMapStyle(id)
+            })
+        }
+    }
+}
