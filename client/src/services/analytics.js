@@ -18,12 +18,12 @@ ga.set({
 
 export default ga
 
-// TODO: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+// From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
     ga.send('event', {
         eventCategory: 'Outbound Sponsor',
         eventAction: 'click',
-        eventLabel: event.target.href,
+        eventLabel: event.currentTarget.href,
         transport: 'beacon'
     })
 }
