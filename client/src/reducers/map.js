@@ -14,13 +14,12 @@ import MapSources from 'constants/map/sources'
 import Parser, {parseLocation} from 'prismic/parser'
 import turf from '@turf/helpers'
 
-// TODO: Organize this code
+// TODO: Better organize this code
 
 export default combineReducers({
     command: handleAction(MapActions.MAP_COMMAND_CREATED, getPayload, null),
     style: handleActions({
         [MapActions.LOAD_MAP_STYLE_SUCCESS]: mergeStyle,
-        [MapActions.LOAD_MAP_STYLE_FAILURE]: getPayload,
         [DrawerActions.LAYER_TURNED_ON]: toggleLayersFactory(true),
         [DrawerActions.LAYER_TURNED_OFF]: toggleLayersFactory(false),
         [DrawerActions.FILTER_CHANGED]: setFilter,
