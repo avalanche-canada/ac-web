@@ -49,7 +49,7 @@ const Transformers = new Map([
         const types = submission.obs.map(ob => ob.obtype)
 
         return turf.point([lng, lat], {
-            id: submission.subid,
+            id: Schemas.MountainInformationNetworkSubmission.getId(submission),
             ...types.reduce((types, type) => ({...types, [type]: true}), {}),
             [String(days)]: true,
             icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
@@ -176,17 +176,30 @@ function setWeatherStations(style, {payload, meta}) {
 
     return style.setIn(path, features.mergeDeep(stations).toList())
 }
+function merger(previous, next) {
+    return {
+        ...previous,
+        properties: {
+            ...previous.properties,
+            ...next.properties,
+        }
+    }
+}
 function setSubmissions(style, {payload, meta}) {
-    if (!meta.params.days) {
+    const {days} = meta.params
+
+    if (!days) {
         return style
     }
 
     const source = Layers.MOUNTAIN_INFORMATION_NETWORK
     const path = ['sources', `all-${source}`, 'data', 'features']
     const entities = payload.entities[meta.schema.key]
-    const transformer = Transformers.get(source)(meta.params.days)
+    const transformer = Transformers.get(source).call(null, days)
     const submissions = new Immutable.Map(entities).map(transformer)
-    const features = featuresAsMap(style.getIn(path)).mergeDeep(submissions)
+    const previous = featuresAsMap(style.getIn(path))
+    // Could use mergeDeep, but does not work on plain objects
+    const features = previous.mergeWith(merger, submissions)
 
     return setFilteredSubmissions(style.setIn(path, features.toList()))
 }
