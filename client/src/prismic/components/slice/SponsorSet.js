@@ -3,10 +3,10 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ItemSet, Item} from 'components/sponsor'
 import {getDocumentsOfType} from 'getters/prismic'
-import factory from 'prismic/factory'
+import transform from 'prismic/transformers'
 
 function parse(document) {
-    const {image229, name, url} = factory.getType(document)
+    const {image229, name, url} = transform(document)
 
     return {
         title: name,
@@ -31,7 +31,7 @@ const getSponsors = createSelector(
 function SponsorSet({sponsors = []}) {
     return (
         <ItemSet>
-            {sponsors.map((sponsor, index) => 
+            {sponsors.map((sponsor, index) =>
                 <Item key={index} {...sponsor} />
             )}
         </ItemSet>

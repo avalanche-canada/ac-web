@@ -4,10 +4,10 @@ import {createSelector} from 'reselect'
 import Biography from 'components/biography'
 import {InnerHTML} from 'components/misc'
 import {getDocumentsOfType} from 'getters/prismic'
-import factory from 'prismic/factory'
+import transform from 'prismic/transformers'
 
 function parse(document) {
-    const staff = factory.getType(document)
+    const staff = transform(document)
 
     if (staff.avatar) {
         return {

@@ -1,13 +1,13 @@
 import {createSelector} from 'reselect'
 import {getIsFetching} from 'getters/prismic'
-import factory from 'prismic/factory'
+import transform from 'prismic/transformers'
 import {List} from 'immutable'
 
 function getType(state, {type}) {
     return type
 }
 function getTransformedDocuments(state, {documents = []}) {
-    return new List(documents.map(factory.getType))
+    return new List(documents.map(transform))
 }
 function isFeatured(post) {
     return post.featured

@@ -9,17 +9,12 @@ import {FilterSet, FilterEntry} from 'components/filter'
 import Pagination from 'components/pagination'
 import {Loading, InnerHTML, Br} from 'components/misc'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
-import factory from 'prismic/factory'
+import transform from 'prismic/transformers'
 import get from 'lodash/get'
 
 const {NONE, DESC} = HeaderCellOrders
 const YES = 'Yes'
 const NO = 'No'
-
-function parse(document) {
-    // TODO: This is probably slow...require called many times
-    return factory.getType(document)
-}
 
 function getDocumentType(props) {
     return get(props, 'content[0].source')
@@ -81,7 +76,7 @@ function isFilterable(column) {
 }
 
 const mapStateToProps = createSelector(
-    (state, props) => getDocumentsOfType(state, getDocumentType(props)).toList().map(parse),
+    (state, props) => getDocumentsOfType(state, getDocumentType(props)).toList().map(transform),
     (state, props) => props.content,
     getIsFetching,
     (state, props) => props,

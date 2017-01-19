@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {loadForUid} from 'actions/prismic'
 import {Loading, InnerHTML} from 'components/misc'
-import factory from 'prismic/factory'
+import transform from 'prismic/transformers'
 import {getDocumentForUid} from 'getters/prismic'
 
 const mapStateToProps = createSelector(
@@ -18,9 +18,7 @@ const mapStateToProps = createSelector(
 
         return {
             isLoading: false,
-            props: {
-                ...factory.getType(document)
-            },
+            props: transform(document),
         }
     }
 )
