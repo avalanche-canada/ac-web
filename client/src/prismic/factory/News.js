@@ -1,16 +1,20 @@
 import PARSER from '../parser'
 import {normalizeTags} from './utils'
 
-export function fromDocument(document, parser = PARSER) {
+export default function(document, parser = PARSER) {
     if (!document) {
         return null
     }
 
     const data = parser.parse(document)
-    const {date, tags} = data
+    const {shortlede, body, featuredImage, uid, date, tags} = data
 
     return {
         ...data,
+        headline: shortlede,
+        content: body,
+        preview: featuredImage,
+        link: `${document.type}/${uid}`,
         featured: tags.includes('featured'),
         tags: normalizeTags(tags),
         year: date.getFullYear(),

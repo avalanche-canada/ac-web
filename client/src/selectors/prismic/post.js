@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentForUid, getIsFetching} from 'getters/prismic'
-import transform from 'selectors/prismic/transform'
+import factory from 'prismic/factory'
 
 function getType(state, {type}) {
     return type
@@ -31,7 +31,7 @@ export default createSelector(
 
         return {
             isFetching,
-            post: transform(post),
+            post: factory.getType(post),
         }
     }
 )

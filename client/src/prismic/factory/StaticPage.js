@@ -1,7 +1,7 @@
 import PARSER from '../parser'
 import {boolean} from './utils'
 
-export function fromDocument(document, parser = PARSER) {
+export default function(document, parser = PARSER) {
     let {sharing, following, contacting, sidebar = [], contact, ...props} = parser.parse(document)
 
     sharing = boolean(sharing)

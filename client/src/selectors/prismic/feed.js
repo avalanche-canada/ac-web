@@ -1,7 +1,7 @@
 import {createSelector, createStructuredSelector} from 'reselect'
 import {getDocumentsOfType} from 'getters/prismic'
 import months, {options as monthOptions} from './months'
-import transform from './transform'
+import factory from 'prismic/factory'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
@@ -69,7 +69,7 @@ const getTransformedFeed = createSelector(
     getFeed,
     getType,
     (feed, type) => {
-        const sorted = feed.map(transform).toList().sort(SORTERS.get(type))
+        const sorted = feed.map(factory.getType).toList().sort(SORTERS.get(type))
 
         if (sorted.isEmpty()) {
             return sorted

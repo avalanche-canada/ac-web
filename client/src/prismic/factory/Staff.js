@@ -1,6 +1,6 @@
 import PARSER from '../parser'
 
-export function fromDocument(document, parser = PARSER) {
+export default function(document, parser = PARSER) {
     const data = parser.parse(document)
 
     return {

@@ -1,21 +1,30 @@
-import {classify} from 'utils/string'
 import parser from 'prismic/parser'
+import blog from './Blog'
+import event from './Event'
+import news from './News'
+import staff from './Staff'
+import staticPage from './StaticPage'
 
-export class Factory {
+const factories = new Map([
+    ['blog', blog],
+    ['event', event],
+    ['news', news],
+    ['staff', staff],
+    ['static-page', staticPage],
+])
+
+export default {
     getType(document) {
         if (!document) {
             return null
         }
 
         const {type} = document
-        try {
-            const {fromDocument} = require(`./${classify(type)}`)
 
-            return fromDocument(document)
-        } catch (error) {
+        if (factories.has(type)) {
+            return factories.get(type).call(null, document)
+        } else {
             return parser.parse(document)
         }
     }
 }
-
-export default new Factory()
