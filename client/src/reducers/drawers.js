@@ -47,7 +47,6 @@ const MENU = new Map({
             id: Layers.SPECIAL_INFORMATION,
             title: 'Special information',
             type: 'Observations',
-            // visible: Boolean(LAYERS_VISIBILITY.get(Layers.SPECIAL_INFORMATION, true)),
         }),
         [Layers.MOUNTAIN_INFORMATION_NETWORK]: new Layer({
             id: Layers.MOUNTAIN_INFORMATION_NETWORK,
@@ -57,8 +56,8 @@ const MENU = new Map({
                 days: new Filter({
                     name: 'days',
                     type: 'listOfValues',
-                    value: '7',
                     // value: String(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
+                    value: '7',
                     options: new Map([
                         ['1', '1 day'],
                         ['3', '3 days'],
@@ -70,7 +69,8 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: new Set(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
+                    // value: new Set(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
+                    value: new Set(),
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],

@@ -9,7 +9,6 @@ import {isHotZoneReportValid} from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 
-
 export default createSelector(
     getStyle,
     getActiveFeatures,
@@ -57,13 +56,13 @@ function setActiveFeatures(style, activeFeatures) {
     })
 }
 
-// TODO: This function run once! Assign to identity once complete!
+// TODO: Have this function to run once! Assign to identity once complete!
 // TODO: Need a way too kwow it has loaded!
-// hotZoneReports.isEmpty() is not enough
-function setHotZoneReports(style, hotZoneReports) {
+// reports.isEmpty() is not enough
+function setHotZoneReports(style, reports) {
     return style.withMutations(style => {
         const source = Layers.HOT_ZONE_REPORTS
-        const ids = hotZoneReports.map(report => report.region).toArray()
+        const ids = reports.map(report => report.region).toArray()
         const layers = style.get('layers')
 
         let index = layers.findIndex(layer => layer.get('id') === 'hot-zones')

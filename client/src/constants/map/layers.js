@@ -50,7 +50,6 @@ export const ActiveLayerIds = new Map(
 
 export const allLayerIds = Array.from(LayerIds).reduce(idsReducer, [])
 
-
 function idsReducer(all, [layer, ids]) {
     return all.concat(ids)
 }
