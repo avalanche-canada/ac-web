@@ -39,6 +39,7 @@ import {
 } from 'constants/min'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
+import isNull from 'lodash/isNull'
 
 const ObservationTypes = new Map([
     [QUICK, QuickReport],
@@ -57,10 +58,6 @@ const Keys = new Map([
 
 const ERROR_STYLE = {
     color: '#E6252F'
-}
-
-function isNull(value) {
-    return value === null
 }
 
 function ridingConditionsMerger(prev, next) {
