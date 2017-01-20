@@ -166,3 +166,7 @@
 .Shadow {
     box-shadow: 3px 3px 3px color(black alpha(25%));
 }
+
+.Transparent {
+    background-color: transparent;
+}
