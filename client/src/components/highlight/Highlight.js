@@ -5,6 +5,10 @@ import {Close} from 'components/button'
 import styles from './Highlight.css'
 import noop from 'lodash/noop'
 
+const STYLE = {
+    backgroundColor: 'transparent'
+}
+
 Highlight.propTypes = {
     children: PropTypes.node.isRequired,
     style: PropTypes.oneOf(['danger', 'warning', 'info', 'success']).isRequired,
@@ -16,7 +20,7 @@ function Highlight({style = 'warning', dismissable, onDismiss = noop, children})
     return (
         <div styleName={`Highlight--${capitalize(style)}`}>
             {children}
-            {dismissable && <Close onClick={onDismiss} />}
+            {dismissable && <Close style={STYLE} onClick={onDismiss} />}
         </div>
     )
 }
