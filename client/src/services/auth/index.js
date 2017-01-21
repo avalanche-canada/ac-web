@@ -88,7 +88,7 @@ export default class AuthService {
     checkTokenExpiry() {
         if (!this.idToken) {
             this.clear()
-            
+
             return false
         }
 
