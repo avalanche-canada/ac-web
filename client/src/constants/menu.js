@@ -442,7 +442,7 @@ export const AvalancheCanadaFoundation = {
             headline: 'Headline for Donors',
         }, {
             id: id++,
-            label: 'Eid: id++,vent Sponsors',
+            label: 'Event Sponsors',
             to: '/foundation/event-sponsors',
             headline: 'Headline for Event Sponsors',
         }]
