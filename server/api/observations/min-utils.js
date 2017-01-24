@@ -1,4 +1,4 @@
-    'use strict';
+'use strict';
 var _ = require('lodash');
 var moment = require('moment');
 var uuid = require('node-uuid');
@@ -7,7 +7,7 @@ var geohash = require('ngeohash');
 var moment = require('moment');
 var im = require('imagemagick-stream');
 var changeCase = require('change-case');
-var logger = require('winston');
+var logger = require('../../logger.js');
 var multiparty = require('multiparty');
 var q = require('q');
 
@@ -101,7 +101,7 @@ function validateItem(item) {
 }
 
 exports.saveSubmission = function (token, form, callback) {
-    console.log("Saving submission");
+    logger.log("Saving submission");
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
@@ -160,7 +160,7 @@ exports.saveSubmission = function (token, form, callback) {
             key += '.' + mimeType.split('/')[1];
             item.ob.uploads.push(key);
 
-            console.log('Uploading %s to S3.', key);
+            logger.log('Uploading %s to S3.', key);
 
             var isDone = q.defer();
             imageUploadPromises.push(isDone.promise);
@@ -180,7 +180,7 @@ exports.saveSubmission = function (token, form, callback) {
             });
 
             upload.on('uploaded', function (details) {
-              console.log("Uploaded object to S3 : %s", JSON.stringify(details));
+              logger.log("Uploaded object to S3 : %s", JSON.stringify(details));
               isDone.resolve();
             });
         } else {
@@ -273,7 +273,7 @@ exports.getSubmissions = function (filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    console.log('dates = %s', filters.dates)
+    logger.log('dates = %s', filters.dates)
     //todo: validate temporal query string values
 
     if (filters.last) {
@@ -284,7 +284,7 @@ exports.getSubmissions = function (filters, callback) {
         endDate = moment(filters.dates.split(',')[1]);
     }
 
-    console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+    logger.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
     params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
     params.ExpressionAttributeValues= {
@@ -334,12 +334,12 @@ exports.getObservations = function (filters, callback) {
         var unit = filters.last.split(':')[1];
         startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-        console.log('dates = %s', filters.dates);
+        logger.log('dates = %s', filters.dates);
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
 
-    console.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+    logger.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
     params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
     params.ExpressionAttributeValues= {

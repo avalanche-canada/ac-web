@@ -14,7 +14,7 @@ var jwtCheck = jwt({
 });
 
 router.post('/submissions', jwtCheck, function (req, res) {
-    console.log(req.get('content-type'));
+    logger.log(req.get('content-type'));
     var form = new multiparty.Form();
     form.parse(req);
 
@@ -64,7 +64,7 @@ router.get('/observations', function (req, res) {
     minUtils.getObservations(filters, function (err, obs) {
         if (err) {
             res.send(500, {message: 'error retreiving observations', error: err});
-            console.log("ERROR", 'error retreiving observations:', err);
+            logger.log("ERROR", 'error retreiving observations:', err);
         } else {
             logger.log('info','returning %s obs', obs.length);
             if(filters && filters.client){
@@ -158,7 +158,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
                         weather: getOptions(ob.ridingConditions.weather.options)
                     }
                 } else {
-                    console.warn('WARN: Riding conditions are undefined for obid=' + ob.obid);
+                    logger.warn('WARN: Riding conditions are undefined for obid=' + ob.obid);
                 }
                 var locals = {
                     title: ob.title || 'title',
@@ -192,12 +192,12 @@ router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
     var size = req.query.size || 'fullsize';
 
-    var stream = minUtils.getUploadAsStream(uploadKey, size)
+    var stream = minUtils.getUploadAsStream(uploadKey, size);
     stream.on('error',function(err){
         if(err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
         } else {
-            console.log('ERROR reading from s3', JSON.stringify(err));
+            logger.log('ERROR reading from s3', JSON.stringify(err));
             res.status(500).json({error: 'ERROR reading from s3'});
         }
         return;

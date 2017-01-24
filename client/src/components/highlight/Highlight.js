@@ -16,7 +16,7 @@ function Highlight({style = 'warning', dismissable, onDismiss = noop, children})
     return (
         <div styleName={`Highlight--${capitalize(style)}`}>
             {children}
-            {dismissable && <Close onClick={onDismiss} />}
+            {dismissable && <Close transparent onClick={onDismiss} />}
         </div>
     )
 }

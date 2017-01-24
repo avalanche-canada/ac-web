@@ -17,9 +17,9 @@ const getTabs = createSelector(
     getIsAuthenticated,
     (profile, isAuthenticated) => {
         if (isAuthenticated && profile) {
-            const {email, emailVerified} = profile
+            const {email, email_verified} = profile
 
-            if (emailVerified && canReadDay5To7Tab(email)) {
+            if (email_verified && canReadDay5To7Tab(email)) {
                 return [...TABS, DAY5TO7]
             }
         }

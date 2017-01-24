@@ -9,8 +9,12 @@ function read(file, index) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             Object.assign(new FileReader(), {
-                onload: event => resolve(event.target.result),
-                onerror: event => reject(`Error reading ${file.name}: ${event.target.result}`),
+                onload(event) {
+                    return resolve(event.target.result)
+                },
+                onerror(event) {
+                    return reject(`Error reading ${file.name}: ${event.target.result}`)
+                },
             }).readAsDataURL(file)
         }, index * 10)
     })
@@ -82,7 +86,10 @@ class Slider extends Component {
                 <Muted>
                     {pluralize('photo', images.length, true)} will be sent along with your report.
                 </Muted>
-                <ImageGallery items={items} showBullets showThumbnails={false} />
+                <ImageGallery items={items}
+                    showBullets={items.length > 1}
+                    showPlayButton={items.length > 1}
+                    showThumbnails={false} />
             </div>
         )
     }

@@ -39,6 +39,7 @@ import {
 } from 'constants/min'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
+import isNull from 'lodash/isNull'
 
 const ObservationTypes = new Map([
     [QUICK, QuickReport],
@@ -57,10 +58,6 @@ const Keys = new Map([
 
 const ERROR_STYLE = {
     color: '#E6252F'
-}
-
-function isNull(value) {
-    return value === null
 }
 
 function ridingConditionsMerger(prev, next) {
@@ -315,7 +312,7 @@ export default class Form extends Component {
                                     <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
                                         Add information on one, some, or all tabs, then click SUBMIT at the bottom.
                                     </div>
-                                    <TabSet activeIndex={activeIndex} onActivate={this.handleTabActivate} arrow>
+                                    <TabSet lazy={false} activeIndex={activeIndex} onActivate={this.handleTabActivate} arrow>
                                         {TYPES.map((type, index) => {
                                             const form = {
                                                 ref: `observations.${type}`,

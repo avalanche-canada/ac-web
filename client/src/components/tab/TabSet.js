@@ -42,12 +42,14 @@ export default class TabSet extends Component {
 		onActivate: PropTypes.func,
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
         arrow: PropTypes.bool,
+        lazy: PropTypes.bool,
 	}
 	static defaultProps = {
 		activeIndex: 0,
         onActivate: noop,
         theme: COMPACT,
         arrow: false,
+        lazy: true,
 	}
     state = {
         opened: false,
@@ -117,15 +119,27 @@ export default class TabSet extends Component {
 	renderTabPanel(tab, index) {
         const {children} = tab.props
 
-        if (children && this.activeIndex === index) {
-            return (
-                <Panel key={index} active>
-                    {children}
-                </Panel>
-            )
+        if (!children) {
+            return null
         }
 
-        return null
+        if (this.props.lazy) {
+            if (this.activeIndex === index) {
+                return (
+                    <Panel key={index} active>
+                        {children}
+                    </Panel>
+                )
+            } else {
+                return null
+            }
+        }
+
+        return (
+            <Panel key={index} active={this.activeIndex === index}>
+                {children}
+            </Panel>
+        )
 	}
 	render() {
 		const {tabs, opened} = this

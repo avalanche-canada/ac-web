@@ -11,6 +11,7 @@ export default compose(
         children: PropTypes.node,
         active: PropTypes.bool,
         shadow: PropTypes.bool,
+        transparent: PropTypes.bool,
         kind: PropTypes.oneOf(Array.from(KINDS)),
         icon: PropTypes.node,
     }),
@@ -18,12 +19,14 @@ export default compose(
         kind: KIND,
         active: false,
         shadow: false,
+        transparent: false,
     }),
-    mapProps(({icon, active, shadow, kind, ...props}) => {
+    mapProps(({icon, active, shadow, kind, transparent, ...props}) => {
         const styleName = classNames({
             [kind]: true,
             Active: active,
             Shadow: shadow,
+            Transparent: transparent,
         })
 
         if (!icon) {
