@@ -312,7 +312,7 @@ export default class Form extends Component {
                                     <div className='ui message info' style={noObservations === true ? ERROR_STYLE : null}>
                                         Add information on one, some, or all tabs, then click SUBMIT at the bottom.
                                     </div>
-                                    <TabSet activeIndex={activeIndex} onActivate={this.handleTabActivate} arrow>
+                                    <TabSet lazy={false} activeIndex={activeIndex} onActivate={this.handleTabActivate} arrow>
                                         {TYPES.map((type, index) => {
                                             const form = {
                                                 ref: `observations.${type}`,
