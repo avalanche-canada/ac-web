@@ -175,7 +175,8 @@ exports.saveSubmission = function (token, form, callback) {
             part.pipe(upload);
 
             upload.on('error', function (error) {
-              callback("Error uploading object to S3 : %s", error);
+              logger.log("Error uploading object to S3 : %s", error);
+              callback("Error uploading object to S3 " + error);
               isDone.resolve();
             });
 
