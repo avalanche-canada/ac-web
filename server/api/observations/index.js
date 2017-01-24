@@ -19,7 +19,7 @@ router.post('/submissions', jwtCheck, function (req, res) {
     form.parse(req);
 
     var tok = req.get('Authorization').replace(/^Bearer /, '');
-    
+    minUtils.saveSubmission(tok, form, function (err, obs) {
         if (err) {
             logger.log('info','Error saving MIN submission : %s', JSON.stringify(err));
             res.send(500, {error: 'There was an error while saving your submission.'})
@@ -192,7 +192,7 @@ router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
     var size = req.query.size || 'fullsize';
 
-    var stream = minUtils.getUploadAsStream(uploadKey, size)
+    var stream = minUtils.getUploadAsStream(uploadKey, size);
     stream.on('error',function(err){
         if(err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
