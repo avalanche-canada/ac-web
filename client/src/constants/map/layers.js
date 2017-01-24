@@ -1,10 +1,89 @@
-import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
 
-const toyotaLayers = createToyotaLayers()
-const weatherStationLayers = createWeatherStationLayers()
-const mountainInformationNetworkLayers = createMountainInformationNetworkLayers()
-const specialInformationLayers = createSpecialInformationLayers()
+const toyotaLayers = [{
+    id: Layers.TOYOTA_TRUCK_REPORTS,
+    source: Layers.TOYOTA_TRUCK_REPORTS,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'toyota-truck',
+        'icon-size': 0.2,
+        'icon-allow-overlap': true,
+    },
+}]
+const weatherStationLayers = [{
+    id: Layers.WEATHER_STATION,
+    source: Layers.WEATHER_STATION,
+    type: 'symbol',
+    filter: ['!has', 'point_count'],
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'weather-station',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
+}, {
+    id: `${Layers.WEATHER_STATION}-cluster`,
+    source: Layers.WEATHER_STATION,
+    type: 'symbol',
+    filter: ['has', 'point_count'],
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'weather-station',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+        'text-font': ['Open Sans Extrabold'],
+        'text-field': '{point_count}',
+        'text-size': 12,
+        'text-offset': [-0.75, 0],
+    },
+    paint: {
+        'text-color': '#000000',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 2,
+    },
+}]
+const mountainInformationNetworkLayers = [{
+    id: Layers.MOUNTAIN_INFORMATION_NETWORK,
+    source: Layers.MOUNTAIN_INFORMATION_NETWORK,
+    type: 'symbol',
+    filter: ['!has', 'point_count'],
+    layout: {
+        visibility: 'visible',
+        'icon-image': '{icon}',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
+}, {
+    id: `${Layers.MOUNTAIN_INFORMATION_NETWORK}-cluster`,
+    source: Layers.MOUNTAIN_INFORMATION_NETWORK,
+    type: 'symbol',
+    filter: ['has', 'point_count'],
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'min-pin',
+        'icon-allow-overlap': true,
+        'text-field': '{point_count}',
+        'text-offset': [0, -0.25],
+        'text-size': 12,
+    },
+    paint: {
+        'text-color': '#FFFFFF',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 0.25,
+    },
+}]
+const specialInformationLayers = [{
+    id: Layers.SPECIAL_INFORMATION,
+    source: Layers.SPECIAL_INFORMATION,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'special-information',
+        'icon-allow-overlap': true,
+        'icon-size': 0.9,
+    },
+}]
 
 export default [
     ...toyotaLayers,
@@ -52,125 +131,6 @@ export const allLayerIds = Array.from(LayerIds).reduce(idsReducer, [])
 
 function idsReducer(all, [layer, ids]) {
     return all.concat(ids)
-}
-
-function createMountainInformationNetworkLayers() {
-    const key = Layers.MOUNTAIN_INFORMATION_NETWORK
-
-    return [{
-        id: key,
-        source: key,
-        type: 'symbol',
-        metadata: {
-            'cluster-prefilter': [
-                'all',
-                ['any',
-                    ['has', 'quick'],
-                    ['has', 'avalanche'],
-                    ['has', 'snowpack'],
-                    ['has', 'weather'],
-                    ['has', 'incident'],
-                ],
-                ['has', '7'],
-            ]
-        },
-        filter: ['!has', 'point_count'],
-        layout: {
-            visibility: 'visible',
-            'icon-image': '{icon}',
-            'icon-allow-overlap': true,
-            'icon-size': 0.75,
-        },
-    }, {
-        id: `${key}-cluster`,
-        source: key,
-        type: 'symbol',
-        filter: ['has', 'point_count'],
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'min-pin',
-            'icon-allow-overlap': true,
-            'text-field': '{point_count}',
-            'text-offset': [0, -0.25],
-            'text-size': 12,
-        },
-        paint: {
-            'text-color': '#FFFFFF',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 0.25,
-        },
-    }]
-}
-
-function createToyotaLayers() {
-    const key = Layers.TOYOTA_TRUCK_REPORTS
-
-    return [{
-        id: key,
-        source: key,
-        type: 'symbol',
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'toyota-truck',
-            'icon-size': 0.2,
-            'icon-allow-overlap': true,
-        },
-    }]
-}
-
-function createSpecialInformationLayers() {
-    const key = Layers.SPECIAL_INFORMATION
-
-    return [{
-        id: key,
-        source: key,
-        type: 'symbol',
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'special-information',
-            'icon-allow-overlap': true,
-            'icon-size': 0.9,
-        },
-    }]
-}
-
-function createWeatherStationLayers() {
-    const key = Layers.WEATHER_STATION
-    const iconSize = 0.75
-
-    return [{
-        id: key,
-        source: key,
-        type: 'symbol',
-        filter: ['!has', 'point_count'],
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'weather-station',
-            'icon-allow-overlap': true,
-            'icon-size': iconSize,
-        },
-    }, {
-        id: `${key}-cluster`,
-        source: key,
-        type: 'symbol',
-        filter: ['has', 'point_count'],
-        layout: {
-            visibility: 'visible',
-            'icon-image': 'weather-station',
-            'icon-allow-overlap': true,
-            'icon-size': iconSize,
-            'text-font': ['Open Sans Extrabold'],
-            'text-field': '{point_count}',
-            'text-size': 12,
-            'text-offset': [-0.75, 0],
-        },
-        paint: {
-            'text-color': '#000000',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 2,
-        },
-    }]
-
 }
 
 function pluckLayerId(layer) {

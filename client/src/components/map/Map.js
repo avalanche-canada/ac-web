@@ -174,17 +174,19 @@ export default class MapComponent extends Component {
         if (!map || style === this.props.style) {
             return
         }
-
         if (this.props.style === null) {
             this.style = style
-            map.once('load', () => this.style = this.props.style)
+            map.once('load', this.setStyleFromProps)
         } else {
             if (map.loaded()) {
                 this.style = style
             } else {
-                map.once('load', () => this.style = style)
+                map.once('load', this.setStyleFromProps)
             }
         }
+    }
+    setStyleFromProps = () => {
+        this.style = this.props.style
     }
     set style(style) {
         const {map} = this.state
