@@ -231,11 +231,12 @@ export default class Form extends Component {
 
         this.props.post(form).then(data => {
             const {key} = MountainInformationNetworkSubmission
+            const id = MountainInformationNetworkSubmission.getId(data.value)
 
             this.props.router.push({
                 pathname: '/map',
                 query: {
-                    panel: `${key}/${data.result}`
+                    panel: `${key}/${id}`
                 }
             })
         }, err => {

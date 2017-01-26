@@ -139,7 +139,7 @@ export function fetch(schema, params) {
 export function post(schema, data) {
     const endpoint = ENDPOINTS.get(schema).call()
 
-    return api.post(endpoint, data)
+    return api.post(endpoint, data).then(response => response.data)
 }
 
 export function fetchFeaturesMetadata() {
