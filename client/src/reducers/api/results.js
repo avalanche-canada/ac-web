@@ -23,6 +23,7 @@ import {
     WEATHER_STATIONS_REQUEST,
     WEATHER_STATIONS_SUCCESS,
     WEATHER_STATIONS_FAILURE,
+    POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION,
 } from 'actions/entities'
 import {paramsToKey} from 'api/utils'
 
@@ -106,6 +107,10 @@ function resultsReducerFactory(request, success, failure) {
             const value = results(state.get(key), action)
 
             return state.set(key, value)
+        }
+
+        if (type === `${POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION}_FULFILLED`) {
+            return state.clear()
         }
 
         return state
