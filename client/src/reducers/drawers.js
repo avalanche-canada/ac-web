@@ -56,8 +56,7 @@ const MENU = new Map({
                 days: new Filter({
                     name: 'days',
                     type: 'listOfValues',
-                    // value: String(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
-                    value: '7',
+                    value: String(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-days`, '7')),
                     options: new Map([
                         ['1', '1 day'],
                         ['3', '3 days'],
@@ -69,8 +68,7 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    // value: new Set(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
-                    value: new Set(),
+                    value: new Set(LAYERS_FILTERS.get(`${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`, [])),
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],

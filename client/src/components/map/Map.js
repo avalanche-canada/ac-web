@@ -177,21 +177,28 @@ export default class MapComponent extends Component {
 
         if (this.props.style === null) {
             this.style = style
-            map.once('load', () => this.style = this.props.style)
         } else {
-            if (map.loaded()) {
-                this.style = style
-            } else {
-                map.once('load', () => this.style = style)
-            }
+            this.updateStyle(style)
+        }
+    }
+    updateStyle = style => {
+        const {map} = this.state
+
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId)
+        }
+
+        if (map.loaded()) {
+            this.style = style
+        } else {
+            map.once('load', this.updateStyle.bind(this, style))
+            // Could be removed
+            // https://github.com/mapbox/mapbox-gl-draw/issues/572
+            this.timeoutId = setTimeout(this.updateStyle, 50, style)
         }
     }
     set style(style) {
-        const {map} = this.state
-
-        if (map) {
-            map.setStyle(toJSON(style))
-        }
+        this.state.map.setStyle(toJSON(style))
     }
     shouldComponentUpdate({children}) {
         return children !== this.props.children
