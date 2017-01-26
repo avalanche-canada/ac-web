@@ -1,6 +1,6 @@
 import {Map} from 'immutable'
 
-export default function entities(state = new Map(), {payload, meta}) {
+export default function entities(state = new Map(), {payload}) {
     if (payload && payload.entities) {
         // Has to be mergeDeep, merge only will get rid of existing features
         // Example: Initial WEATHER_STATIONS_SUCCESS will add all stations
