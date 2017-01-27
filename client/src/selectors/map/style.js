@@ -12,7 +12,7 @@ import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import turf from '@turf/helpers'
 
-// Define transformers to transform entoty to feature
+// Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, submission => {
         submission = submission.toJSON()
@@ -52,34 +52,65 @@ const TRANSFORMERS = new Map([
     }],
 ])
 
+function getPanelIdFactory(schema) {
+    return (state, props) => {
+        const {panel} = props.location.query
+
+        if (!panel) {
+            return null
+        }
+
+        const [key, id] = panel.split('/')
+
+        return schema.key === key ? id : undefined
+    }
+}
+
 // Create submissions source
 const getSubmissions = createSelector(
     state => getEntitiesForSchema(state, Schemas.MountainInformationNetworkSubmission),
     state => getResultsSet(state, Schemas.MountainInformationNetworkSubmission, {
         days: getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'days')
     }),
-    (submissions, {ids}) => {
-        const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_INFORMATION_NETWORK)
+    (submissions, {ids}) => Array.from(ids)
+        .map(id => submissions.get(id))
+        .filter(Boolean)
+        .map(TRANSFORMERS.get(Layers.MOUNTAIN_INFORMATION_NETWORK))
+)
 
-        return Array.from(ids).map(id => transformer(submissions.get(id)))
+const getSubmission = createSelector(
+    state => getEntitiesForSchema(state, Schemas.MountainInformationNetworkSubmission),
+    getPanelIdFactory(Schemas.MountainInformationNetworkSubmission),
+    (submissions, id) => {
+        if (submissions.has(id)) {
+            const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_INFORMATION_NETWORK)
+
+            return transformer(submissions.get(id))
+        }
     }
 )
 
 const getSubmissionFeatures = createSelector(
     getSubmissions,
+    getSubmission,
     state => getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type'),
-    (submissions, typeFilter) => {
-        if (typeFilter.size === 0) {
-            return submissions
+    (submissions, submission, typeFilter) => {
+        if (typeFilter.size > 0) {
+            function has(type) {
+                return typeFilter.has(type)
+            }
+            function filter(submission) {
+                return submission.properties.types.find(has)
+            }
+
+            submissions = submissions.filter(filter)
         }
 
-        function has(type) {
-            return typeFilter.has(type)
+        if (submission) {
+            submissions.push(submission)
         }
 
-        return submissions.filter(
-            submission => submission.properties.types.find(has)
-        )
+        return submissions
     }
 )
 
