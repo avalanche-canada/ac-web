@@ -1,71 +1,14 @@
 import Immutable from 'immutable'
 import {combineReducers} from 'redux'
-import {paramsToKey} from 'api/utils'
-import Status from 'utils/status'
 import {POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION} from 'actions/entities'
 import * as Schemas from 'api/schemas'
+import {paramsToKey, getIds} from 'reducers/utils'
+import {Result} from 'reducers/result'
 
-const Result = Immutable.Record({
-    isFetching: false,
-    isLoaded: false,
-    isError: false,
-    ids: new Set(),
-    count: null,
-    next: null,
-    previous: null,
-    // TODO: Look if this is used!!!
-    props: {},
+export default combineReducers({
+    entities,
+    results,
 })
-
-Object.assign(Result.prototype, {
-    start(props = {}) {
-        return this.merge({
-            ...props,
-            isFetching: true,
-            isLoaded: false,
-            isError: false,
-        })
-    },
-    fulfill(props = {}) {
-        return this.merge({
-            ...props,
-            isFetching: false,
-            isLoaded: true,
-        })
-    },
-    reject() {
-        return this.merge({
-            isFetching: false,
-            isError: true,
-        })
-    },
-    asStatus(messages = {}) {
-        return new Status({
-            isLoading: this.isFetching,
-            isLoaded: this.isLoaded,
-            isError: this.isError,
-            messages,
-        })
-    }
-})
-
-function getIds(result) {
-    if (!result) {
-        return new Set()
-    }
-
-    if (Array.isArray(result)) {
-        return result
-    } else if (Array.isArray(result.results)) {
-        return result.results
-    } else if (Array.isArray(result.features)) {
-        return result.features
-    } else {
-        return [result]
-    }
-}
-
-export const RESULT = new Result()
 
 function entities(state = new Immutable.Map(), {payload}) {
     if (payload && payload.entities) {
@@ -124,8 +67,3 @@ function results(state = new Immutable.Map(), {type, payload = {}, meta = {}}) {
 
     return state
 }
-
-export default combineReducers({
-    entities,
-    results,
-})

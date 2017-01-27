@@ -1,5 +1,5 @@
-import {paramsToKey} from 'api/utils'
-import {RESULT} from 'reducers/api'
+import {paramsToKey} from 'reducers/utils'
+import RESULT from 'reducers/result'
 import {getEntityForSchema} from 'getters/entities'
 import {ForecastRegion} from 'api/schemas'
 

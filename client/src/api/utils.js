@@ -1,17 +1,11 @@
 import * as normalizr from 'normalizr'
 import {createAction} from 'redux-actions'
-import Immutable from 'immutable'
 import * as Api from 'api'
 import * as Schemas from 'api/schemas'
 import * as Actions from 'actions/entities'
 import {getResultsSet, hasResultsSet} from 'getters/api'
 import {getEntitiesForSchema} from 'getters/entities'
 import {DelayPromise} from 'utils/promise'
-
-export function paramsToKey(params) {
-    // please do not replace with paramsToKey(params = {}), it is not the same!!
-    return Immutable.fromJS(params || {}).hashCode()
-}
 
 const normalizeFactory = schema => response => {
     const {data} = response
