@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 import {Incident} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
-import {getResultsSet} from 'reducers/api/getters'
+import {getResultsSet} from 'getters/api'
 
 function getIncidents(state) {
     return getEntitiesForSchema(state, Incident)

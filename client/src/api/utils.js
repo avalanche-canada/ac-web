@@ -1,35 +1,85 @@
+import * as normalizr from 'normalizr'
 import {createAction} from 'redux-actions'
-import Immutable from 'immutable'
+import * as Api from 'api'
+import * as Schemas from 'api/schemas'
+import * as Actions from 'actions/entities'
+import {getResultsSet, hasResultsSet} from 'getters/api'
+import {getEntitiesForSchema} from 'getters/entities'
+import {DelayPromise} from 'utils/promise'
 
-const {fromJS, Iterable: {isIndexed}} = Immutable
+const normalizeFactory = schema => response => {
+    const {data} = response
+    let shape = schema
 
-const API = Symbol('AvCan Api Request')
-
-export function createApiAction(...args) {
-    let types = null
-    let schema = null
-
-    // TODO: Schema not required...just the type is enough information to send a request...
-
-    if (args.length === 3) {
-        types = args
+    if (Array.isArray(data)) {
+        shape = [schema]
+    } else if (Array.isArray(data.results)) {
+        shape = {
+            results: [schema]
+        }
+    } else if (Array.isArray(data.features)) {
+        shape = {
+            features: [schema]
+        }
     }
 
-    if (args.length === 4) {
-        [schema, ...types] = args
+    return normalizr.normalize(data, shape)
+}
+
+export function createFetchActionForSchema(type, schema) {
+    const creator = createAction(
+        type,
+        params => Api.fetch(schema, params).then(normalizeFactory(schema)),
+        params => ({
+            schema,
+            params,
+            type,
+        })
+    )
+
+    return params => (dispatch, getState) => {
+        const state = getState()
+
+        if (hasResultsSet(state, schema, params)) {
+            const {isLoaded, isFetching} = getResultsSet(state, schema, params)
+
+            if (isFetching || isLoaded) {
+                return
+            }
+        }
+
+        return dispatch(creator(params))
     }
-
-    return createAction(API, params => ({
-        schema,
-        params,
-        types,
-    }))
 }
 
-export function isApiAction({type}) {
-    return type === API
-}
+export function createFetchMetadataAction() {
+    const schema = Schemas.ForecastRegion
+    const type = Actions.GET_FEATURES_METADATA
+    function normalize(entities) {
+        return {
+            entities,
+            result: Object.keys(entities[schema.key])
+        }
+    }
+    const creator = createAction(
+        type,
+        () => Api.fetchFeaturesMetadata().then(normalize),
+        () => ({type, schema}) // To have results reducer to work as expected
+    )
 
-export function paramsToKey(params) {
-    return fromJS(params || {}).hashCode()
+    return () => (dispatch, getState) => {
+        const state = getState()
+
+        if (hasResultsSet(state, schema)) {
+            const {isLoaded, isFetching} = getResultsSet(state, schema)
+
+            if (isFetching || isLoaded) {
+                return
+            }
+        }
+
+        const delay = getEntitiesForSchema(state, schema).isEmpty() ? 1 : 10000
+
+        return DelayPromise(delay).then(() => dispatch(creator()))
+    }
 }

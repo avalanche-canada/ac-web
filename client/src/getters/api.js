@@ -1,26 +1,18 @@
-import {paramsToKey} from 'api/utils'
-import {RESULT} from './results'
+import {paramsToKey} from 'reducers/utils'
+import RESULT from 'reducers/result'
 import {getEntityForSchema} from 'getters/entities'
 import {ForecastRegion} from 'api/schemas'
 
-// TODO: Move some or all of these functions to getters module
-
-function getResultsSetForSchema(state, schema) {
-    return state.api.results[schema.key]
+function path(schema, params) {
+    return [schema.key, paramsToKey(params)]
 }
 
 export function getResultsSet(state, schema, params) {
-    const sets = getResultsSetForSchema(state, schema)
-    const key = paramsToKey(params)
-
-    return sets.get(key, RESULT)
+    return state.api.results.getIn(path(schema, params), RESULT)
 }
 
 export function hasResultsSet(state, schema, params) {
-    const sets = getResultsSetForSchema(state, schema)
-    const key = paramsToKey(params)
-
-    return sets.has(key)
+    return state.api.results.hasIn(path(schema, params))
 }
 
 const EXTERNAL_URLS = new Map([

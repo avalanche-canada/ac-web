@@ -63,7 +63,7 @@ import * as articles from 'components/page/weather/articles'
 import {AvalancheCanadaFoundation} from 'containers/Navbar'
 import ReactGA from 'services/analytics'
 import postRedirects from './postRedirects'
-import {getForecastRegionExternalUrl} from 'reducers/api/getters'
+import {getForecastRegionExternalUrl} from 'getters/api'
 import * as Schemas from 'api/schemas'
 
 export default function computeRoutes(store) {

@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 import {Incident} from 'api/schemas'
 import {getEntityForSchema} from 'getters/entities'
-import {getResultsSet} from 'reducers/api/getters'
+import {getResultsSet} from 'getters/api'
 import {projectKeys} from 'utils/object'
 
 const TERMS = {
