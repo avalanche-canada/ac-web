@@ -2,6 +2,8 @@ import Immutable from 'immutable'
 import {combineReducers} from 'redux'
 import {paramsToKey} from 'api/utils'
 import Status from 'utils/status'
+import {POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION} from 'actions/entities'
+import * as Schemas from 'api/schemas'
 
 const Result = Immutable.Record({
     isFetching: false,
@@ -77,11 +79,20 @@ function entities(state = new Immutable.Map(), {payload}) {
 }
 
 function results(state = new Immutable.Map(), {type, payload = {}, meta = {}}) {
+    if (type === `${POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION}_FULFILLED`) {
+        const {key} = Schemas.MountainInformationNetworkSubmission
+
+        return state.set(key, new Immutable.Map())
+    }
+
     if (!meta.schema) {
         return state
     }
 
-    const path = [meta.schema.key, paramsToKey(meta.params)]
+    const {key} = meta.schema
+    const path = [key, paramsToKey(meta.params)]
+
+    state = state.update(key, results => results || new Immutable.Map())
 
     if (type === `${meta.type}_PENDING`) {
         return state.updateIn(
