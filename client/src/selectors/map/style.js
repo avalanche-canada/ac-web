@@ -107,7 +107,14 @@ const getSubmissionFeatures = createSelector(
         }
 
         if (submission) {
-            submissions.push(submission)
+            const {id} = submission.properties
+            function filter(submission) {
+                return submission.properties.id === id
+            }
+
+            if (submissions.filter(filter).length === 0) {
+                submissions.push(submission)
+            }
         }
 
         return submissions
