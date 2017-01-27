@@ -60,13 +60,14 @@ export function createFetchActionForSchema(type, schema) {
 
 export function createFetchMetadataAction() {
     const schema = Schemas.ForecastRegion
+    const type = Actions.GET_FEATURES_METADATA
     const creator = createAction(
-        Actions.GET_FEATURES_METADATA,
-        (delay = 1) => DelayPromise(delay)
-            .then(() => Api.fetchFeaturesMetadata())
-            .then(response => ({
-                entities: response.data
-            }))
+        type,
+        () => Api.fetchFeaturesMetadata().then(entities => ({
+            entities,
+            result: Object.keys(entities[schema.key])
+        })),
+        () => ({type, schema})
     )
 
     return () => (dispatch, getState) => {
@@ -82,6 +83,6 @@ export function createFetchMetadataAction() {
 
         const delay = getEntitiesForSchema(state, schema).isEmpty() ? 1 : 10000
 
-        return dispatch(creator(delay))
+        return DelayPromise(delay).then(() => dispatch(creator()))
     }
 }

@@ -1,17 +1,8 @@
-import * as SCHEMAS from 'api/schemas'
+import * as Schemas from 'api/schemas'
 import Axios, {defaults} from 'axios'
 import moment from 'moment'
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
 import Url from 'url'
-
-const {
-    Forecast,
-    MountainInformationNetworkSubmission,
-    Incident,
-    Provider,
-    Course,
-    WeatherStation,
-} = SCHEMAS
 
 function transformProvider(provider) {
     return {
@@ -23,7 +14,7 @@ function transformProvider(provider) {
 }
 
 const CONFIGS = new Map([
-    [Incident, ({slug, ...params}) => {
+    [Schemas.Incident, ({slug, ...params}) => {
         if (slug) {
             return
         }
@@ -32,7 +23,7 @@ const CONFIGS = new Map([
             params
         }
     }],
-    [MountainInformationNetworkSubmission, ({id, days}) => {
+    [Schemas.MountainInformationNetworkSubmission, ({id, days}) => {
         if (id) {
             return {
                 params: {
@@ -48,7 +39,7 @@ const CONFIGS = new Map([
             }
         }
     }],
-    [Provider, params => ({
+    [Schemas.Provider, params => ({
         baseURL: astBaseUrl,
         params,
         // TODO: To remove when server return appropriate result
@@ -57,7 +48,7 @@ const CONFIGS = new Map([
             results: data.results.map(transformProvider)
         })),
     })],
-    [Course, params => ({
+    [Schemas.Course, params => ({
         baseURL: astBaseUrl,
         params,
         // TODO: To remove when server return appropriate result
@@ -72,7 +63,7 @@ const CONFIGS = new Map([
             }))
         })),
     })],
-    [WeatherStation, params => ({
+    [Schemas.WeatherStation, params => ({
         baseURL: weatherBaseUrl,
     })],
 ])
@@ -102,12 +93,12 @@ function forecastEndpoint({name, date}) {
 }
 
 const ENDPOINTS = new Map([
-    [Forecast, forecastEndpoint],
-    [MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
-    [Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
-    [Provider, params => 'providers'],
-    [Course, params => 'courses'],
-    [WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
+    [Schemas.Forecast, forecastEndpoint],
+    [Schemas.MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
+    [Schemas.Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
+    [Schemas.Provider, params => 'providers'],
+    [Schemas.Course, params => 'courses'],
+    [Schemas.WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
 ])
 
 const api = Axios.create({
@@ -118,8 +109,8 @@ export function fetch(schema, params) {
     const endpoint = ENDPOINTS.get(schema)(params)
     const config = CONFIGS.has(schema) ? CONFIGS.get(schema)(params) : null
 
-    if (schema === WeatherStation && params && params.id) {
-        // It is a single WeatherStation request
+    if (schema === Schemas.WeatherStation && params && params.id) {
+        // It is a single Schemas.WeatherStation request
         return Promise.all([
             api.get(endpoint, config),
             api.get(`${endpoint}measurements/`, config)
@@ -136,12 +127,16 @@ export function fetch(schema, params) {
     return api.get(endpoint, config)
 }
 
+function extractData(response) {
+    return response.data
+}
+
 export function post(schema, data) {
     const endpoint = ENDPOINTS.get(schema).call()
 
-    return api.post(endpoint, data).then(response => response.data)
+    return api.post(endpoint, data).then(extractData)
 }
 
 export function fetchFeaturesMetadata() {
-    return api.get('features/metadata')
+    return api.get('features/metadata').then(extractData)
 }
