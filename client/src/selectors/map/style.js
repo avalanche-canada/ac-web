@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
 import {getStyle, getActiveFeatures} from 'getters/map'
-import {getEntitiesForSchema} from 'getters/entities'
+import {createGetEntitiesForSchema} from 'selectors/factories'
 import {getResultsSet} from 'getters/api'
 import {getDocumentsOfType} from 'getters/prismic'
 import {getLayers, getLayerFilter} from 'getters/drawers'
@@ -68,7 +68,7 @@ function getPanelIdFactory(schema) {
 
 // Create submissions source
 const getSubmissions = createSelector(
-    state => getEntitiesForSchema(state, Schemas.MountainInformationNetworkSubmission),
+    createGetEntitiesForSchema(Schemas.MountainInformationNetworkSubmission),
     state => getResultsSet(state, Schemas.MountainInformationNetworkSubmission, {
         days: getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'days')
     }),
@@ -79,7 +79,7 @@ const getSubmissions = createSelector(
 )
 
 const getSubmission = createSelector(
-    state => getEntitiesForSchema(state, Schemas.MountainInformationNetworkSubmission),
+    createGetEntitiesForSchema(Schemas.MountainInformationNetworkSubmission),
     getPanelIdFactory(Schemas.MountainInformationNetworkSubmission),
     (submissions, id) => {
         if (submissions.has(id)) {
@@ -116,7 +116,7 @@ const getSubmissionFeatures = createSelector(
 
 // Create weather station source
 const getWeatherStationFeatures = createSelector(
-    state => getEntitiesForSchema(state, Schemas.WeatherStation),
+    createGetEntitiesForSchema(Schemas.WeatherStation),
     stations => {
         const transformer = TRANSFORMERS.get(Layers.WEATHER_STATION)
 

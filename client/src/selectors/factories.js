@@ -1,5 +1,7 @@
 import {createSelector} from 'reselect'
 import {HeaderCellOrders} from 'components/table'
+import {getEntitiesForSchema} from 'getters/entities'
+import noop from 'lodash/noop'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 
@@ -58,5 +60,13 @@ export function createPaginatedEntities(getEntities, getPagination) {
 
             return entities.slice(begin, end)
         }
+    )
+}
+
+export function createGetEntitiesForSchema(schema, getParamsFromProps = noop) {
+    return (state, props) => getEntitiesForSchema(
+        state,
+        schema,
+        getParamsFromProps(props)
     )
 }
