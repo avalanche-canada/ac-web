@@ -2,7 +2,7 @@ import moment from 'moment'
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
-import {getResultsSet} from 'reducers/api/getters'
+import {getResultsSet} from 'getters/api'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 import {computeFitBounds} from 'selectors/map/bounds'
@@ -104,8 +104,8 @@ function getForecastResultSet(state, {params}) {
 const getForecast = createSelector(
     getForecasts,
     getForecastResultSet,
-    function findForecast(forecasts, resultSet) {
-        const [id] = resultSet.ids
+    function findForecast(forecasts, {ids}) {
+        const [id] = ids
 
         return forecasts.get(id)
     }

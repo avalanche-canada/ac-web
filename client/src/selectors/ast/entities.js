@@ -3,12 +3,12 @@ import {Link} from 'react-router'
 import moment from 'moment'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
-import {List, fromJS} from 'immutable'
+import Immutable from 'immutable'
 import turf from '@turf/helpers'
 import distance from '@turf/distance'
 import {Course, Provider} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
-import {getResultsSet} from 'reducers/api/getters'
+import {getResultsSet} from 'getters/api'
 import {HeaderCellOrders} from 'components/table'
 import {Helper} from 'components/misc'
 import {getLocationAsFeature} from 'selectors/geolocation'
@@ -126,8 +126,8 @@ export function table(schema, columns) {
     const getEntitiesList = createSelector(
         getTransformedEntities,
         getEntitiesResultsSet,
-        (entities, {results}) => {
-            const ids = new List(results)
+        (entities, result) => {
+            const ids = new Immutable.List(result.ids)
 
             return ids.map(id => entities.get(String(id)))
         }
