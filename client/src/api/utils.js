@@ -70,7 +70,7 @@ export function createFetchMetadataAction() {
     const creator = createAction(
         type,
         () => Api.fetchFeaturesMetadata().then(normalize),
-        () => ({type, schema}) // To have result to work
+        () => ({type, schema}) // To have results reducer to work as expected
     )
 
     return () => (dispatch, getState) => {
