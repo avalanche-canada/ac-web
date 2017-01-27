@@ -61,13 +61,16 @@ export function createFetchActionForSchema(type, schema) {
 export function createFetchMetadataAction() {
     const schema = Schemas.ForecastRegion
     const type = Actions.GET_FEATURES_METADATA
-    const creator = createAction(
-        type,
-        () => Api.fetchFeaturesMetadata().then(entities => ({
+    function normalize(entities) {
+        return {
             entities,
             result: Object.keys(entities[schema.key])
-        })),
-        () => ({type, schema})
+        }
+    }
+    const creator = createAction(
+        type,
+        () => Api.fetchFeaturesMetadata().then(normalize),
+        () => ({type, schema}) // To have result to work
     )
 
     return () => (dispatch, getState) => {
