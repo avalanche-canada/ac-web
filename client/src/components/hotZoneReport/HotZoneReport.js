@@ -5,6 +5,7 @@ import BasePanel, {INVERSE} from 'components/panel'
 import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
+import TerrainAdviceSet from './TerrainAdviceSet'
 import Metadata from './Metadata'
 import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
@@ -49,20 +50,14 @@ function HotZoneReport({report}) {
                         <strong>
                             Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                         </strong>
-                    </p>
+                    </p>                    
                     <div styleName='CriticalFactors'>
                         <CriticalFactors {...report.criticalFactors} />
                     </div>
                 </Panel>
             }
-            {report &&
-                <Panel header='Terrain and Travel Advice' expanded>
-                    <TerrainAndTravelAdvice
-                        alpine={report.alpineTerrainAvoidance}
-                        treeline={report.treelineTerrainAvoidance}
-                        belowTreeline={report.belowTreelineTerrainAvoidance} />
-                </Panel>
-            }
+            <TerrainAndTravelAdvice report={report} />
+            <TerrainAdviceSet report={report} />
             {!report &&
                 <Panel header='More information' expanded>
                     <Generic uid='hot-zone-report-more-information' />

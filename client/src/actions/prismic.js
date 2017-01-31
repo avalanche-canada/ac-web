@@ -53,8 +53,8 @@ export function loadHotZoneReports() {
     // TODO: Implement a better way to reduce action dispatching for Prismic!
     const action = loadForType(HZR, {
         predicates: [
-            Predicates.dateBefore(`my.${HZR}.dateOfIssue`, formatAsDay(tomorrow())),
-            Predicates.dateAfter(`my.${HZR}.validUntil`, formatAsDay(yesterday())),
+            // Predicates.dateBefore(`my.${HZR}.dateOfIssue`, formatAsDay(tomorrow())),
+            // Predicates.dateAfter(`my.${HZR}.validUntil`, formatAsDay(yesterday())),
         ]
     })
 

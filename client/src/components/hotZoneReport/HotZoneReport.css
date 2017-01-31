@@ -64,3 +64,14 @@
         text-align: right;
     }
 }
+
+.AdviceSet {
+    list-style: none;
+    padding: 0;
+}
+
+.Advice {
+    padding: 0.75em 0;
+    font-weight: 700;
+    border-bottom: 1px solid var(--gray-lighter);
+}
