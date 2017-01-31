@@ -22,8 +22,9 @@ function HotZoneReport({report}) {
     let gallery = null
 
     if (report) {
-        const images = report.images.map(({url}) => ({
+        const images = report.images.map(({url, caption}) => ({
             original: url,
+            description: caption,
         }))
         gallery = images.length > 0 && {
             items: images,
@@ -35,6 +36,9 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
+            {(report && report.title) &&
+                <div styleName='Title'>{report.title}</div>
+            }
             {(report && report.headline) &&
                 <div styleName='Headline'>{report.headline}</div>
             }

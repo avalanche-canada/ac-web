@@ -35,6 +35,7 @@ const ASPECT = new Immutable.Map({
 const HotZoneReport = Immutable.fromJS({
     uid: null,
     region: null,
+    title: null,
     headline: null,
     dateOfIssue: null,
     validUntil: null,
@@ -137,7 +138,10 @@ function transform(raw) {
         treelineTerrainAvoidance: extractTerrainAvoidance(report, 'treeline'),
         belowTreelineTerrainAvoidance: extractTerrainAvoidance(report, 'belowTreeline'),
         alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
-        images: report.get('hotzoneImages', []).map(image => image.get('hotzoneImage')),
+        images: report.get('hotzoneImages', []).map(image => ({
+            ...image.get('hotzoneImage'),
+            caption: image.get('caption'),
+        })),
     }).toJSON()
 }
 

@@ -9,7 +9,11 @@ Content.propTypes = {
     descriptions: PropTypes.node.isRequired,
 }
 
-export default function Content({comment, descriptions, descriptionTitle = 'Information'}) {
+export default function Content({
+    comment,
+    descriptions,
+    descriptionTitle = 'Information'
+}) {
     return (
         <div>
             <Section title={descriptionTitle}>

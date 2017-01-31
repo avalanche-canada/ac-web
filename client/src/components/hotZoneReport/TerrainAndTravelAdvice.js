@@ -1,7 +1,5 @@
 import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
 import TerrainSummary from './TerrainSummary'
-import styles from './HotZoneReport.css'
 
 function Introduction() {
     return (
@@ -12,18 +10,10 @@ function Introduction() {
                 <li>Group up only in safe locations well away from avalanche runout zones.</li>
                 <li>Avoid terrain traps whenever possible.</li>
             </ul>
-            <p>And while this report is valid:</p>
-            <ul>
-                <li>
-                    <strong>AVOID</strong> terrain features marked with a <span styleName='Avoid'></span>
-                </li>
-                <li>Follow the travel advice below.</li>
-            </ul>
+            <p>And while this report is valid follow the travel advice below.</p>
         </div>
     )
 }
-
-Introduction = CSSModules(Introduction, styles)
 
 TerrainAndTravelAdvice.propTypes = {
     alpine: PropTypes.object.isRequired,
