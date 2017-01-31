@@ -50,7 +50,7 @@ function HotZoneReport({report}) {
                         <strong>
                             Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                         </strong>
-                    </p>                    
+                    </p>
                     <div styleName='CriticalFactors'>
                         <CriticalFactors {...report.criticalFactors} />
                     </div>

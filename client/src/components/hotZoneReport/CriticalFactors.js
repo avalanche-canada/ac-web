@@ -40,7 +40,7 @@ export default class CriticalFactors extends PureComponent {
         const {comments, ...values} = this.props
 
         return createElement(Content, {
-            comments: comments && <InnerHTML>{comments}</InnerHTML>,
+            comment: comments && <InnerHTML>{comments}</InnerHTML>,
             descriptions: Object.keys(values).reduce((children, key) => {
                 const value = values[key]
                 const style = value ? AVOID : null

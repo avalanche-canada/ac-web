@@ -6,6 +6,7 @@ import {Term} from 'components/description'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import Section from 'components/mountainInformationNetwork/Section'
 import styles from './HotZoneReport.css'
+import AdviceText from './AdviceText'
 
 const Headers = new Map([
     ['goodTerrainChoices', 'Good Terrain Choices'],
@@ -29,13 +30,15 @@ function TerrainAdviceSet({report}) {
     const keys = Array.from(Headers.keys()).filter(key => Boolean(report[key]))
 
     return (
-        <div>
+        <Panel header='Terrain Advice' expanded expandable theme={INVERSE}>
+            <AdviceText />
             {keys.map(key => {
                 const items = report[key].map(createItem)
+                const comment = report[`${key}Comment`]
 
                 return (
-                    <Panel header={Headers.get(key)} expanded expandable theme={INVERSE}>
-                        <Section title='Advices'>
+                    <div styleName='AdviceSection'>
+                        <Section title={Headers.get(key)}>
                             <ul styleName='AdviceSet'>
                                 {items.map(item =>
                                     <li styleName='Advice'>
@@ -44,16 +47,17 @@ function TerrainAdviceSet({report}) {
                                 )}
                             </ul>
                         </Section>
-                        <Comment>
-                            <InnerHTML>
-                                {report[`${key}Comment`]}
-                            </InnerHTML>
-                        </Comment>
-                    </Panel>
+                        {comment &&
+                            <Comment>
+                                <InnerHTML>
+                                    {comment}
+                                </InnerHTML>
+                            </Comment>
+                        }
+                    </div>
                 )
-            }
-            )}
-        </div>
+            })}
+        </Panel>
     )
 }
 

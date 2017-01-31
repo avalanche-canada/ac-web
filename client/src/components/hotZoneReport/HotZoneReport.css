@@ -75,3 +75,7 @@
     font-weight: 700;
     border-bottom: 1px solid var(--gray-lighter);
 }
+
+.AdviceSection {
+    margin-top: 3em;
+}
