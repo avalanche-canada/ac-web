@@ -388,7 +388,7 @@ exports.getUploadAsStream = function (key, size) {
 
     var stream = s3.getObject(params).createReadStream();
     /// FIXME: try and reset the stream to stop spawning convert. something aint right
-    return fullsize;
+    return stream;
 
     var resize = im().resize(size).quality(90);
 
