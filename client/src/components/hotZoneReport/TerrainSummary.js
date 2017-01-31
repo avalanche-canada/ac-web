@@ -39,7 +39,7 @@ function AvoidList({items}) {
 
 AvoidList = CSSModules(AvoidList, styles)
 
-export default function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
+function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
     return (
         <Section title={title}>
             <List>
@@ -52,7 +52,7 @@ export default function TerrainSummary({title, aspect, terrainFeatures, travelAd
                     <AvoidList items={terrainFeatures} />
                 </Definition>
                 <Term block >Travel advice</Term>
-                <Definition block>
+                <Definition block styleName='TravelAdvice'>
                     <InnerHTML>
                         {travelAdvice}
                     </InnerHTML>
@@ -61,3 +61,5 @@ export default function TerrainSummary({title, aspect, terrainFeatures, travelAd
         </Section>
     )
 }
+
+export default CSSModules(TerrainSummary, styles)

@@ -5,6 +5,7 @@ import BasePanel, {INVERSE} from 'components/panel'
 import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
+import TerrainAdviceSet from './TerrainAdviceSet'
 import Metadata from './Metadata'
 import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
@@ -22,8 +23,9 @@ function HotZoneReport({report}) {
     let gallery = null
 
     if (report) {
-        const images = report.images.map(({url}) => ({
+        const images = report.images.map(({url, caption}) => ({
             original: url,
+            description: caption,
         }))
         gallery = images.length > 0 && {
             items: images,
@@ -35,6 +37,9 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
+            {(report && report.title) &&
+                <div styleName='Title'>{report.title}</div>
+            }
             {(report && report.headline) &&
                 <div styleName='Headline'>{report.headline}</div>
             }
@@ -51,14 +56,8 @@ function HotZoneReport({report}) {
                     </div>
                 </Panel>
             }
-            {report &&
-                <Panel header='Terrain and Travel Advice' expanded>
-                    <TerrainAndTravelAdvice
-                        alpine={report.alpineTerrainAvoidance}
-                        treeline={report.treelineTerrainAvoidance}
-                        belowTreeline={report.belowTreelineTerrainAvoidance} />
-                </Panel>
-            }
+            <TerrainAndTravelAdvice report={report} />
+            <TerrainAdviceSet report={report} />
             {!report &&
                 <Panel header='More information' expanded>
                     <Generic uid='hot-zone-report-more-information' />

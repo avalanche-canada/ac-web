@@ -1,48 +1,30 @@
 import React, {PropTypes} from 'react'
-import CSSModules from 'react-css-modules'
 import TerrainSummary from './TerrainSummary'
-import styles from './HotZoneReport.css'
-
-function Introduction() {
-    return (
-        <div>
-            <p>To minimize risk, always:</p>
-            <ul>
-                <li>Expose only one person at a time in avalanche terrain.</li>
-                <li>Group up only in safe locations well away from avalanche runout zones.</li>
-                <li>Avoid terrain traps whenever possible.</li>
-            </ul>
-            <p>And while this report is valid:</p>
-            <ul>
-                <li>
-                    <strong>AVOID</strong> terrain features marked with a <span styleName='Avoid'></span>
-                </li>
-                <li>Follow the travel advice below.</li>
-            </ul>
-        </div>
-    )
-}
-
-Introduction = CSSModules(Introduction, styles)
+import Panel, {INVERSE} from 'components/panel'
+import AdviceText from './AdviceText'
 
 TerrainAndTravelAdvice.propTypes = {
-    alpine: PropTypes.object.isRequired,
-    belowTreeline: PropTypes.object.isRequired,
-    treeline: PropTypes.object.isRequired,
+    report: PropTypes.object.isRequired,
 }
 const titles = ['Alpine', 'Treeline', 'Below treeline']
 
-export default function TerrainAndTravelAdvice({
-    alpine,
-    treeline,
-    belowTreeline
-}) {
+export default function TerrainAndTravelAdvice({report = {}}) {
+    const summaries = [
+        report.alpineTerrainAvoidance,
+        report.treelineTerrainAvoidance,
+        report.belowTreelineTerrainAvoidance
+    ].filter(Boolean)
+
+    if (summaries.length === 0) {
+        return null
+    }
+
     return (
-        <div>
-            <Introduction />
-            {[alpine, treeline, belowTreeline].map((summary, index) => (
+        <Panel header='Terrain and Travel Advice' theme={INVERSE} expanded expandable>
+            <AdviceText />
+            {summaries.map((summary, index) => (
                 <TerrainSummary key={index} title={titles[index]} {...summary} />
             ))}
-        </div>
+        </Panel>
     )
 }
