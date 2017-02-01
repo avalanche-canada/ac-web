@@ -7,14 +7,7 @@ import {getLayers} from 'getters/drawers'
 import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
 import {Container, Header, Body, Navbar, Close} from 'components/page/drawer'
 import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
-import {
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-    METEOGRAMS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    WEATHER_STATION,
-    SPECIAL_INFORMATION,
-} from 'constants/drawers'
+import * as Layers from 'constants/drawers'
 import {loadData} from 'actions/map'
 import {
     Forecast,
@@ -25,12 +18,12 @@ import {
 } from 'components/icons'
 
 const ICONS = new Map([
-    [FORECASTS, <Forecast />],
-    [HOT_ZONE_REPORTS, <HotZoneReport />],
-    [METEOGRAMS, <Meteogram />],
-    [MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
-    [WEATHER_STATION, <WeatherStation />],
-    [SPECIAL_INFORMATION, <Forecast />],
+    [Layers.FORECASTS, <Forecast />],
+    [Layers.HOT_ZONE_REPORTS, <HotZoneReport />],
+    [Layers.METEOGRAMS, <Meteogram />],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
+    [Layers.WEATHER_STATION, <WeatherStation />],
+    [Layers.SPECIAL_INFORMATION, <Forecast />],
 ])
 
 // TODO: Improve performance! layers is now an immutable object

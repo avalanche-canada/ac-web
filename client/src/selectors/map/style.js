@@ -11,6 +11,7 @@ import {isHotZoneReportValid} from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import turf from '@turf/helpers'
+import explode from '@turf/explode'
 
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
@@ -134,10 +135,21 @@ const getWeatherStationFeatures = createSelector(
 // Create source for prismic
 function getPrismicDocumentsFeaturesFactory(type, layer) {
     const transformer = TRANSFORMERS.get(layer)
+    function reducer(points, feature) {
+        // Explode because Mapbox does not cluster on MultiPoint geometries
+        // https://github.com/mapbox/mapbox-gl-js/issues/4076
+        const {properties} = feature
+
+        return points.concat(explode(feature).features.map(feature => {
+            // explode loose properties :(
+            // 
+            return turf.feature(feature.geometry, properties)
+        }))
+    }
 
     return createSelector(
         state => getDocumentsOfType(state, type),
-        documents => documents.map(transformer).toArray()
+        documents => documents.map(transformer).reduce(reducer, [])
     )
 }
 

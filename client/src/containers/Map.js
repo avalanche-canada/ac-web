@@ -89,7 +89,14 @@ class Container extends Component {
         })
 
         if (features.length > 0) {
-            const [feature] = features
+            let [feature] = features
+
+            if (feature.properties.cluster) {
+                const path = ['sources', Layers.SPECIAL_INFORMATION, 'data', 'features']
+
+                feature = this.props.style.getIn(path)[0]
+            }
+
             const panel = `special-information/${feature.properties.id}`
 
             return push({
