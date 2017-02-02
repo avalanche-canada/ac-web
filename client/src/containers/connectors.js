@@ -27,7 +27,7 @@ import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
 import {TYPES, EVENT, NEWS, BLOG} from 'selectors/prismic/feed'
-import {getDocumentAndStatus} from 'selectors/prismic/utils'
+import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
 import getSponsor, {getSponsorUid} from 'selectors/sponsor'
 
 function connector(mapStateToProps, load, loadAll) {
@@ -356,16 +356,27 @@ export const weatherForecast = compose(
         date: new Date()
     }),
     withState('params', 'setParams', props => createWeatherForecastParams(props.date)),
-    prismic(getWeatherForecast),
+    connect(createStructuredSelector({
+        result: getResult
+    })),
     lifecycle({
-        componentWillReceiveProps({date, forecast, status}) {
-            if (isToday(date) && !forecast && status.isLoaded) {
-                const params = createWeatherForecastParams(subDays(date, 1))
+        componentWillReceiveProps({date, result}) {
+            let params
 
+            if (date !== this.props.date) {
+                params = createWeatherForecastParams(date)
+            }
+
+            if (isToday(date) && result.isLoaded && result.ids.size === 0) {
+                params = createWeatherForecastParams(subDays(date, 1))
+            }
+
+            if (params) {
                 this.props.setParams(params)
             }
         },
-    })
+    }),
+    prismic(getWeatherForecast),
 )
 
 export const weatherTutorial = compose(
