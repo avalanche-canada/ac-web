@@ -89,7 +89,12 @@ class Container extends Component {
         })
 
         if (features.length > 0) {
-            const [feature] = features
+            let [feature] = features
+
+            if (feature.properties.cluster) {
+                feature = this.map.querySourceFeatures(feature.layer.source).shift()
+            }
+
             const panel = `special-information/${feature.properties.id}`
 
             return push({
