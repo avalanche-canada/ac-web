@@ -2,10 +2,15 @@
 
 .HotZoneReport {
     margin-top: 1em;
+
 }
 
-.Headline {
-    padding: 1em 0;
+.TravelAdvice {
+    color: var(--gray-darker);
+}
+
+.Title {
+    padding: 0.5em 0;
     text-align: center;
     font-weight: 700;
     font-size: 1.5em;
@@ -13,6 +18,13 @@
     & p {
         margin: 0;
     }
+}
+
+.Headline {
+    composes: Title;
+
+    padding: 0.25em 0 0.5em 0;
+    font-size: 1.25em;
 }
 
 .List {
@@ -51,4 +63,19 @@
         flex: 25% !important;
         text-align: right;
     }
+}
+
+.AdviceSet {
+    list-style: none;
+    padding: 0;
+}
+
+.Advice {
+    padding: 0.75em 0;
+    font-weight: 700;
+    border-bottom: 1px solid var(--gray-lighter);
+}
+
+.AdviceSection {
+    margin-top: 3em;
 }

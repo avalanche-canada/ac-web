@@ -81,7 +81,7 @@ const specialInformationLayers = [{
         visibility: 'visible',
         'icon-image': 'special-information',
         'icon-allow-overlap': true,
-        'icon-size': 0.9,
+        'icon-size': 0.65,
     },
 }]
 

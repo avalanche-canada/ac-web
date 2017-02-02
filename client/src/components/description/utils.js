@@ -2,6 +2,9 @@ import React from 'react'
 import {Term, Definition} from 'components/description'
 import {trulyKeys} from 'utils/object'
 
+// TODO: Should be only a function that sanitize keys and values!
+// Rendering should be done outside of these functions
+
 const BooleanValues = new Map([
     [true, 'Yes'],
     [false, 'No'],

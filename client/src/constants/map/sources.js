@@ -1,7 +1,7 @@
 import * as Layers from 'constants/drawers'
 import turf from '@turf/helpers'
 
-const data = turf.featureCollection()
+const data = turf.featureCollection([])
 const type = 'geojson'
 
 export default {
@@ -23,5 +23,6 @@ export default {
     [Layers.SPECIAL_INFORMATION]: {
         type,
         data,
+        cluster: true,
     },
 }

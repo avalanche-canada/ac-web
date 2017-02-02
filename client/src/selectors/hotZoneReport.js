@@ -35,6 +35,7 @@ const ASPECT = new Immutable.Map({
 const HotZoneReport = Immutable.fromJS({
     uid: null,
     region: null,
+    title: null,
     headline: null,
     dateOfIssue: null,
     validUntil: null,
@@ -85,6 +86,12 @@ const HotZoneReport = Immutable.fromJS({
         travelAdvice: null,
     },
     images: [],
+    goodTerrainChoices: null,
+    terrainToWatch: null,
+    terrainToAvoid: null,
+    goodTerrainChoicesComment: null,
+    terrainToWatchComment: null,
+    terrainToAvoidComment: null,
 })
 
 const yesNoValues = new Map([
@@ -103,6 +110,7 @@ const yesNoUnknownValues = new Map([
 ])
 function extractTerrainAvoidance(report, prefix) {
     prefix = `${prefix}TerrainAvoidance`
+
     const prefixRegExp = new RegExp(`^${prefix}`)
     const data = report.filter((v, k) => prefixRegExp.test(k))
                        .mapKeys(k => camelCase(k.replace(prefixRegExp, '')))
@@ -110,7 +118,12 @@ function extractTerrainAvoidance(report, prefix) {
                        .filter((v, k) => ASPECT.has(k))
                        .map(v => yesNoValues.get(v))
     const terrainFeatures = HotZoneReport.getIn([prefix, 'terrainFeatures'])
-                                 .map((v, k) => yesNoValues.get(data.get(k)))
+                            .map((v, k) => yesNoValues.get(data.get(k)))
+
+    if (!data.has('travelAdvice') && aspect.isEmpty()) {
+        return null
+    }
+
     return {
         aspect: ASPECT.merge(aspect),
         travelAdvice: data.get('travelAdvice'),
@@ -137,7 +150,10 @@ function transform(raw) {
         treelineTerrainAvoidance: extractTerrainAvoidance(report, 'treeline'),
         belowTreelineTerrainAvoidance: extractTerrainAvoidance(report, 'belowTreeline'),
         alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
-        images: report.get('hotzoneImages', []).map(image => image.get('hotzoneImage')),
+        images: report.get('hotzoneImages', []).map(image => ({
+            ...image.get('hotzoneImage'),
+            caption: image.get('caption'),
+        })),
     }).toJSON()
 }
 
