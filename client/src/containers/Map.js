@@ -92,9 +92,7 @@ class Container extends Component {
             let [feature] = features
 
             if (feature.properties.cluster) {
-                const path = ['sources', Layers.SPECIAL_INFORMATION, 'data', 'features']
-
-                feature = this.props.style.getIn(path)[0]
+                feature = this.map.querySourceFeatures(feature.layer.source).shift()
             }
 
             const panel = `special-information/${feature.properties.id}`
