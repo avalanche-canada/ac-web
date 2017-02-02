@@ -380,3 +380,17 @@ export const weatherTutorial = compose(
     })),
     prismic(getWeatherTutorial),
 )
+
+export const documentLink = compose(
+    setPropTypes({
+        type: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired,
+    }),
+    withProps(({type, uid}) => ({
+        params: {
+            type,
+            uid,
+        }
+    })),
+    prismic(getDocumentAndStatus),
+)

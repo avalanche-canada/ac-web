@@ -172,7 +172,6 @@ export const getSplash = createSelector(
     getDocumentsFromResult,
     getStatusFactory(getSplashMessages),
     (documents, status) => {
-        documents = documents.map(transform)
         function isFeatured(post) {
             return post.featured
         }

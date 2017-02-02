@@ -35,12 +35,15 @@ export const getDocument = createSelector(
 export const getDocumentsFromResult = createSelector(
     getDocuments,
     getResult,
-    (documents, {ids}) => Array.from(ids).map(id => documents.get(id)).filter(Boolean)
+    (documents, {ids}) => Array.from(ids)
+        .map(id => documents.get(id))
+        .filter(Boolean)
+        .map(document => transform(document))
 )
 
 export const getDocumentFromResult = createSelector(
     getDocumentsFromResult,
-    documents => transform(documents.shift())
+    documents => documents.shift()
 )
 
 export const getDocumentAndStatus = createStructuredSelector({
