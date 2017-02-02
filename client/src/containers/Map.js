@@ -12,6 +12,7 @@ import {near} from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
 import noop from 'lodash/noop'
+import nearest from '@turf/nearest'
 
 const CLUSTER_BOUNDS_OPTIONS = {
     padding: 75,
@@ -92,7 +93,9 @@ class Container extends Component {
             let [feature] = features
 
             if (feature.properties.cluster) {
-                feature = this.map.querySourceFeatures(feature.layer.source).shift()
+                const {data} = this.map.getSource(feature.layer.source).serialize()
+
+                feature = nearest(feature, data)
             }
 
             const panel = `special-information/${feature.properties.id}`

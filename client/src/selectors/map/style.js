@@ -141,8 +141,8 @@ function getPrismicDocumentsFeaturesFactory(type, layer) {
         const {properties} = feature
 
         return points.concat(explode(feature).features.map(feature => {
-            // explode loose properties :(
-            // 
+            // explode does not transfer properties :(
+            // https://github.com/Turfjs/turf/issues/564
             return turf.feature(feature.geometry, properties)
         }))
     }
