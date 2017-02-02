@@ -1,7 +1,4 @@
 export default function computeTagsOptions(feed) {
-    // const initial = new Map([
-    //     [undefined, 'No tags']
-    // ])
     const initial = new Map()
 
     return feed.reduce((map, {tags}) => (

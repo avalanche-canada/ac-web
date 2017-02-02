@@ -3,7 +3,6 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import {Iterable} from 'immutable'
 import promise from 'redux-promise-middleware'
-import prismic from 'middleware/prismic'
 import reducer from 'reducers'
 // import DevTools from '../containers/DevTools'
 
@@ -12,7 +11,7 @@ export default function configureStore(preloadedState) {
     reducer,
     preloadedState,
     compose(
-      applyMiddleware(thunk, prismic, promise(), createLogger({
+      applyMiddleware(thunk, promise(), createLogger({
           collapsed: true,
           stateTransformer(state) {
             let newState = {}

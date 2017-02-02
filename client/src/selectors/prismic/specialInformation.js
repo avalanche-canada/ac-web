@@ -1,41 +1,13 @@
-import {createSelector} from 'reselect'
+import {createSelector, createStructuredSelector} from 'reselect'
 import turf from '@turf/helpers'
-import {getIsFetching, getDocumentsOfType} from 'getters/prismic'
-import parser from 'prismic/parser'
 import {computeOffset, computeFitBounds} from 'selectors/map/bounds'
 import {parseLocation} from 'prismic/parser'
+import {getStatusFactory, getDocument, getUid} from 'selectors/prismic/utils'
 
 // TODO: Create a connector, it is really similar to toyota-truck-report
 
-function getId(state, props) {
-    return props.id
-}
-
-const getReports = createSelector(
-    state => getDocumentsOfType(state, 'special-information'),
-    documents => documents.map(document => parser.parse(document)),
-)
-
-const getReport = createSelector(
-    getReports,
-    getId,
-    (reports, id) => reports.find(report => report.uid === id)
-)
-
-function getStatus(state, {isLoading, isLoaded, isError}) {
-    return {
-        isLoading,
-        isLoaded,
-        isError,
-        messages: {
-            error: 'An error happened while loading the special information.',
-            loading: 'Loading latest special information...',
-        },
-    }
-}
-
 const getComputeFlyTo = createSelector(
-    getReport,
+    getDocument,
     computeOffset,
     (report, computeOffset) => () => {
         if (report.locations.length !== 1) {
@@ -53,7 +25,7 @@ const getComputeFlyTo = createSelector(
 )
 
 const getComputeBounds = createSelector(
-    getReport,
+    getDocument,
     computeFitBounds,
     (report, computeBounds) => () => {
         if (report.locations.length === 1) {
@@ -72,19 +44,19 @@ const getComputeBounds = createSelector(
     }
 )
 
-export default createSelector(
-    getId,
-    getReport,
-    getStatus,
-    getComputeFlyTo,
-    getComputeBounds,
-    (id, report, status, computeFlyTo, computeBounds) => ({
-        report,
-        computeFlyTo,
-        computeBounds,
-        status,
-        notAvailable: status.isLoaded && !report ?
-            `Special information "${id}" is not available anymore.` :
-            null,
+const getMessages = createSelector(
+    getUid,
+    getDocument,
+    (uid, report) => ({
+        isError: 'An error happened while loading the special information.',
+        isLoading: 'Loading latest special information...',
+        isLoaded: report ? null : `Special information "${uid}" is not available anymore.`
     })
 )
+
+export default createStructuredSelector({
+    report: getDocument,
+    status: getStatusFactory(getMessages),
+    computeFlyTo: getComputeFlyTo,
+    computeBounds: getComputeBounds,
+})

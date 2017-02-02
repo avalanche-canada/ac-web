@@ -1,18 +1,15 @@
 import React from 'react'
-import {compose, defaultProps, mapProps, lifecycle, withProps, withHandlers, setPropTypes, withState} from 'recompose'
-import {connect} from 'react-redux'
-import {loadForType} from 'actions/prismic'
 import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
-import mapStateToProps from 'selectors/prismic/splash'
 import {Entry, EntrySet} from 'components/feed'
-import {Predicates} from 'prismic'
-import {formatAsDay} from 'utils/date'
+import {feedSplash} from 'containers/connectors'
+
+// TODO: Move to components feed. Containers should not render anything! 
 
 function FeedSplash({
     header,
     featured,
-    list = [],
+    documents = [],
 }) {
     return (
         <Splash>
@@ -25,42 +22,10 @@ function FeedSplash({
                 </EntrySet>
             }
             <EntrySet>
-                {list.map(entry => <Entry condensed {...entry} />)}
+                {documents.map(entry => <Entry condensed key={entry.uid} {...entry} />)}
             </EntrySet>
         </Splash>
     )
 }
 
-export default compose(
-    withState('documents', 'setDocuments', []),
-    connect(mapStateToProps, {
-        loadForType
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {type, tags = [], loadForType, setDocuments, documents} = this.props
-            const options = {
-                pageSize: 5,
-                predicates: [],
-                orderings: [
-                    `my.${type}.date desc`,
-                ],
-            }
-
-            if (tags.length > 0) {
-                options.predicates.push(Predicates.at('document.tags', tags))
-            }
-
-            if (type === 'event') {
-                options.predicates.push(
-                    Predicates.dateAfter('my.event.start_date', formatAsDay(new Date()))
-                )
-                options.orderings = ['my.event.start_date']
-            }
-
-            loadForType(type, options).then(({results}) => {
-                setDocuments(results)
-            })
-        }
-    }),
-)(FeedSplash)
+export default feedSplash(FeedSplash)

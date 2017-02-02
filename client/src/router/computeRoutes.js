@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
 import moment from 'moment'
-import {loadForType} from 'actions/prismic'
+import {load} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers'
@@ -96,8 +96,11 @@ export default function computeRoutes(store) {
 
     function handleRootRouteEnter(props) {
         ReactGA.pageview(props.location.pathname)
-        dispatch(loadForType('sponsor', {
-            pageSize: 100
+        dispatch(load({
+            type: 'sponsor',
+            options: {
+                pageSize: 100
+            }
         }))
         dispatch(loadSponsors())
         handleActiveSponsor(props)
@@ -122,8 +125,11 @@ export default function computeRoutes(store) {
     }
 
     function loadStaffList() {
-        dispatch(loadForType('staff', {
-            pageSize: 100
+        dispatch(load({
+            type: 'staff',
+            options: {
+                pageSize: 100
+            }
         }))
     }
 

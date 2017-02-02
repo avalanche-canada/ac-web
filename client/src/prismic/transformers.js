@@ -96,15 +96,25 @@ export function staticPage(document, parser = PARSER) {
     }
 }
 
+function sponsor(document, parser = PARSER) {
+    const sponsor = parser.parse(document)
+
+    return {
+        ...sponsor,
+        logo: sponsor.image,
+    }
+}
+
 const transformers = new Map([
     ['blog', blog],
     ['event', event],
     ['news', news],
     ['staff', staff],
     ['static-page', staticPage],
+    ['sponsor', sponsor],
 ])
 
-export default function(document, parser = PARSER) {
+export default function transformer(document, parser = PARSER) {
     if (!document) {
         return null
     }

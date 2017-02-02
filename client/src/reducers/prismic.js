@@ -1,69 +1,69 @@
+import Immutable from 'immutable'
 import {combineReducers} from 'redux'
-import {createSelector} from 'reselect'
-import {Map} from 'immutable'
-import {
-    PRISMIC_REQUEST,
-    PRISMIC_SUCCESS,
-    PRISMIC_FAILURE,
-} from 'actions/prismic'
+import {GET_PRISMIC} from 'actions/prismic'
+import typeToReducer from 'type-to-reducer'
+import RESULT from 'reducers/result'
 
-// TODO: Remove that hack to know something is loading
-function fetchingCounter(state = 0, {type}) {
-    switch (type) {
-        case PRISMIC_REQUEST:
-            return state + 1
-        case PRISMIC_SUCCESS:
-        case PRISMIC_FAILURE:
-            return state - 1
-        default:
-            return state
-    }
-}
-
-function documents(state = new Map(), {type, payload}) {
-    if (type !== PRISMIC_SUCCESS) {
-        return state
-    }
-
-    return state.withMutations(state => {
-        payload.results.forEach(document => {
-            const {type, id} = document
-
-            if (!state.has(type)) {
-                state.set(type, new Map([[id, document]]))
-            } else {
-                // Take advantage of new id means another document version.
-                // TODO: Look for uid, if already there, old id and document should be removed.
-                if (!state.hasIn([type, id])) {
-                    state.setIn([type, id], document)
-                }
-            }
-        })
-    })
-}
-
-function uids(state = new Map(), {type, payload}) {
-    if (type !== PRISMIC_SUCCESS) {
-        return state
-    }
-
-    return state.withMutations(state => {
-        payload.results.forEach(({type, uid, id}) => {
-            if (!uid) {
-                return
-            }
-
-            if (!state.has(type)) {
-                state.set(type, new Map([[uid, id]]))
-            } else {
-                state.setIn([type, uid], id)
-            }
-        })
-    })
-}
+const SET = new Immutable.Set()
+const MAP = new Immutable.Map()
 
 export default combineReducers({
-    fetchingCounter,
-    documents,
-    uids,
+    documents: typeToReducer({
+        [GET_PRISMIC]: {
+            FULFILLED(state, action) {
+                return state.withMutations(state => {
+                    action.payload.results.forEach(document => {
+                        state.set(document.id, document)
+                    })
+                })
+            }
+        }
+    }, MAP),
+    uids: typeToReducer({
+        [GET_PRISMIC]: {
+            FULFILLED(state, action) {
+                return state.withMutations(state => {
+                    action.payload.results.forEach(({type, uid, id}) => {
+                        if (uid) {
+                            const uids = state.get(type, MAP)
+
+                            state.set(type, uids.set(uid, id))
+                        }
+                    })
+                })
+            }
+        }
+    }, MAP),
+    ids: typeToReducer({
+        [GET_PRISMIC]: {
+            FULFILLED(state, action) {
+                return state.withMutations(state => {
+                    action.payload.results.forEach(({type, id}) => {
+                        const ids = state.get(type, SET)
+
+                        state.set(type, ids.add(id))
+                    })
+                })
+            }
+        }
+    }, MAP),
+    results: typeToReducer({
+        [GET_PRISMIC]: {
+            PENDING(state, {meta}) {
+                return state.set(meta.key, RESULT.start())
+            },
+            REJECT(state, {meta}) {
+                return state.set(meta.key, RESULT.reject())
+                },
+            FULFILLED(state, {meta, payload}) {
+                return state.set(meta.key, RESULT.fulfill({
+                    ids: payload.results.map(pluckId)
+                }))
+            },
+        }
+    }, MAP)
 })
+
+function pluckId(document) {
+    return document.id
+}

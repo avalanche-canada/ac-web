@@ -1,6 +1,6 @@
-import {staticPage, simple} from 'prismic/components/page'
+import {staticPage, content} from 'prismic/components/factories'
 
-export const Home = simple('foundation-home')
+export const Home = content('foundation-home')
 export const About = staticPage('foundation-about', 'About')
 export const Programs = staticPage('foundation-programs', 'Programs')
 export const Donors = staticPage('foundation-donors', 'Donors')

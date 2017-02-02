@@ -1,4 +1,6 @@
-import {staticPage, generic, wip} from 'prismic/components/page'
+import {defaultProps} from 'recompose'
+import {staticPage, generic} from 'prismic/components/factories'
+import {WorkInProgress} from 'components/page'
 
 // Map - kind of the home page
 export Map from './Map'
@@ -52,10 +54,21 @@ export const PrivacyPolicy = generic('privacy-policy', 'Privacy Policy')
 export const TermsOfUse = generic('terms-of-use', 'Terms of use')
 
 // WIP Pages
-const WIPPageTitle = 'We are currently working on this page...'
-const WIPPageSubtitle = 'For now, you can visit this page on our old website.'
-
-export const TripPlanner = wip('trip-planner', 'Trip Planner', 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning', WIPPageTitle, WIPPageSubtitle)
-export const Incidents = wip('incidents', 'Historic Incidents', 'http://old.avalanche.ca/cac/library/incident-report-database/view', WIPPageTitle, WIPPageSubtitle)
-export const Auction = wip('auction', 'Web Auction', 'http://old.avalanche.ca/cac/auctions', WIPPageTitle, WIPPageSubtitle)
-export const Tutoriel = wip('tutoriel', 'Tutorial / Tutoriel', 'http://old.avalanche.ca/fr/cac/training/online-course', `${WIPPageTitle}<br />Nous travaillons présentement sur cette page en regardant les flocons tombés...`, `${WIPPageSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`)
+export const TripPlanner = defaultProps({
+    name: 'Trip Planner',
+    oldUrl: 'http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning',
+})(WorkInProgress)
+export const Incidents = defaultProps({
+    name: 'Historic Incidents',
+    oldUrl: 'http://old.avalanche.ca/cac/library/incident-report-database/view',
+})(WorkInProgress)
+export const Auction = defaultProps({
+    name: 'Web Auction',
+    oldUrl: 'http://old.avalanche.ca/cac/auctions',
+})(WorkInProgress)
+export const Tutoriel = defaultProps({
+    name: 'Tutorial / Tutoriel',
+    oldUrl: 'http://old.avalanche.ca/fr/cac/training/online-course',
+    title: `${WorkInProgress.defaultProps.title}<br />Nous travaillons présentement sur cette page en regardant les flocons tombés...`,
+    subtitle: `${WorkInProgress.defaultProps.subtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`,
+})(WorkInProgress)

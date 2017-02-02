@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import Biography from 'components/biography'
 import {InnerHTML} from 'components/misc'
-import {getDocumentsOfType} from 'getters/prismic'
+import {getDocuments} from 'getters/prismic'
 import transform from 'prismic/transformers'
 
 function parse(document) {
@@ -20,11 +20,11 @@ function parse(document) {
 }
 
 const mapStateToProps = createSelector(
-    state => getDocumentsOfType(state, 'staff'),
+    getDocuments,
     (state, {content}) => content.map(({staff}) => staff.id),
-    function computeStaffMembers(documents, ids) {
+    (documents, ids) => {
         if (documents.isEmpty()) {
-            return
+            return {}
         }
 
         return {

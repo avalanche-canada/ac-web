@@ -1,14 +1,17 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocumentsOfType} from 'getters/prismic'
+import {getDocumentsOfType, getResult, getDocuments} from 'getters/prismic'
 import months, {options as monthOptions} from './months'
 import transform from 'prismic/transformers'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
+import {getType, getStatusFactory, getDocumentsFromResult} from 'selectors/prismic/utils'
 
-const NEWS = 'news'
-const BLOG = 'blog'
-const EVENT = 'event'
+export const NEWS = 'news'
+export const BLOG = 'blog'
+export const EVENT = 'event'
+
+export const TYPES = [NEWS, BLOG, EVENT]
 
 const timelineOptions = new Map([
     ['past', 'Past events'],
@@ -57,8 +60,8 @@ function getPredicates(state, props) {
     return predicates.map(predicate => predicate.call(null, props))
 }
 
-function getType(state, {type}) {
-    return type
+function getPageSize(state, {pageSize}) {
+    return pageSize
 }
 
 function getFeed(state, {type}) {
@@ -122,21 +125,25 @@ const getFilteredFeed = createSelector(
     }
 )
 
+const getMessages = createSelector(
+    getType,
+    type => ({
+        isLoading: `Loading ${type} feed...`,
+        isError: `An error happened while loading the ${type} feed.`,
+    })
+)
+
 const getStatus = createSelector(
     getType,
+    (state, props) => getResult(state, props.params),
     getFilteredFeed,
-    (state, props) => props.status,
-    (type, feed, status) => {
-        const messages = {
-            isLoading: `Loading ${type} feed...`,
-            isError: `An error happened while loading the ${type} feed.`,
-        }
-
-        if (status.isLoaded && feed.isEmpty()) {
+    getMessages,
+    (type, result, feed, messages) => {
+        if (result.isLoaded && feed.isEmpty()) {
             messages.isLoaded = `No ${type} match your criteria.`
         }
 
-        return status.set('messages', messages)
+        return result.asStatus(messages)
     }
 )
 
@@ -145,3 +152,40 @@ export default createStructuredSelector({
     status: getStatus,
     options: getFeedOptions,
 })
+
+export const getSidebar = createStructuredSelector({
+    documents: createSelector(
+        getDocumentsFromResult,
+        (state, props) => document => document.uid !== props.uid,
+        (documents, filter) => documents.filter(filter)
+    )
+})
+
+const getSplashMessages = createSelector(
+    getType,
+    type => ({
+        isLoading: `Loading latest ${type}...`
+    })
+)
+
+export const getSplash = createSelector(
+    getDocumentsFromResult,
+    getStatusFactory(getSplashMessages),
+    (documents, status) => {
+        documents = documents.map(transform)
+        function isFeatured(post) {
+            return post.featured
+        }
+        const featured = documents.find(isFeatured) || documents[0]
+
+        if (featured) {
+            delete featured.preview
+        }
+
+        return {
+            featured,
+            documents: documents.filter(document => document !== featured),
+            status,
+        }
+    }
+)

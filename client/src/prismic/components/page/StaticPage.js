@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {Page, Content, Header, Headline, Main, Banner, Aside} from 'components/page'
 import Slice from 'prismic/components/slice'
 import Sidebar from './Sidebar'
+import {Status} from 'components/misc'
 
 StaticPage.propTypes = {
     title: PropTypes.string,
@@ -14,16 +15,22 @@ export default function StaticPage({
     type,
     uid,
     title,
-    headline,
-    content = [],
-    banner,
-    sidebar,
+    status,
+    document = {},
 }) {
+    const {
+        headline,
+        content = [],
+        banner,
+        sidebar,
+    } = document
+
     return (
         <Page className={`${type}-${uid}`}>
             {banner && <Banner {...banner} />}
-            <Header title={title} />
+            <Header title={document.title || title} />
             <Content>
+                <Status {...status.toJSON()} />
                 <Main>
                     {headline && <Headline>{headline}</Headline>}
                     {content.map((slice, index) => (

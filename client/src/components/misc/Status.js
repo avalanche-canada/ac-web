@@ -33,7 +33,11 @@ function Status({isLoading, isError, isLoaded, messages = {}}) {
         ...messages
     }
 
-    return createElement(Components.get(key) || Muted, null, messages[key])
+    if (messages[key]) {
+        return createElement(Components.get(key), null, messages[key])
+    }
+
+    return null
 }
 
 export default onlyUpdateForPropTypes(Status)

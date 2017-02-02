@@ -1,52 +1,33 @@
-import React, {Component, PropTypes} from 'react'
-import {compose, lifecycle, mapProps, flattenProp, branch, renderComponent, setDisplayName, setPropTypes, renameProp, defaultProps} from 'recompose'
-import {connect} from 'react-redux'
-import {createSelector} from 'reselect'
-import {loadForUid} from 'actions/prismic'
+import React, {PureComponent, PropTypes} from 'react'
 import {Loading, InnerHTML} from 'components/misc'
-import transform from 'prismic/transformers'
-import {getDocumentForUid} from 'getters/prismic'
+import {generic} from 'containers/connectors'
 
-const mapStateToProps = createSelector(
-    (state, {type, uid}) => getDocumentForUid(state, type, uid),
-    document => {
-        if (!document) {
-            return {
-                isLoading: true
-            }
-        }
-
-        return {
-            isLoading: false,
-            props: transform(document),
-        }
-    }
-)
-
-export default compose(
-    setDisplayName('Generic'),
-    setPropTypes({
-        uid: PropTypes.string,
+@generic
+export default class Generic extends PureComponent {
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
+        type: PropTypes.string,
         message: PropTypes.string,
-    }),
-    defaultProps({
-        type: 'generic',
-    }),
-    connect(mapStateToProps, {
-        loadForUid,
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {loadForUid, uid, type} = this.props
+    }
+    render() {
+        const {status, document, message} = this.props
 
-            loadForUid(type, uid)
+        if (status.isLoading) {
+            return (
+                <Loading>
+                    {message}
+                </Loading>
+            )
         }
-    }),
-    branch(
-        props => props.isLoading,
-        renderComponent(mapProps(({message}) => ({children: message}))(Loading)),
-    ),
-    mapProps(({props}) => ({
-        children: props.body
-    }))
-)(InnerHTML)
+
+        if (document) {
+            return (
+                <InnerHTML>
+                    {document.body}
+                </InnerHTML>
+            )
+        }
+
+        return null
+    }
+}

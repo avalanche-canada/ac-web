@@ -2,7 +2,7 @@ import {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {compose, mapProps, setPropTypes, setDisplayName, withState, lifecycle} from 'recompose'
 import {connect} from 'react-redux'
-import {loadForUid} from 'actions/prismic'
+import {load} from 'actions/prismic'
 import {getDocumentForUid} from 'getters/prismic'
 import {title, pathname} from 'utils/prismic'
 
@@ -27,13 +27,13 @@ export default compose(
         uid: PropTypes.string.isRequired,
     }),
     connect(mapStateToProps, {
-        loadForUid
+        load
     }),
     lifecycle({
         componentDidMount() {
-            const {type, uid, loadForUid} = this.props
+            const {type, uid, load} = this.props
 
-            loadForUid(type, uid)
+            load({type, uid})
         },
     }),
     mapProps(props => ({

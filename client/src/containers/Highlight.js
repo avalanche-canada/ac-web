@@ -4,13 +4,13 @@ import {connect} from 'react-redux'
 import moment from 'moment'
 import Highlight from 'components/highlight'
 import {InnerHTML} from 'components/misc'
-import {loadForType} from 'actions/prismic'
+import {load} from 'actions/prismic'
 import {yesterday, tomorrow, formatAsDay} from 'utils/date'
 import {Predicates} from 'prismic'
 import parser from 'prismic/parser'
 import {SessionStorage} from 'services/storage'
 
-@connect(null, {loadForType})
+@connect(null, {load})
 export default class Container extends Component {
     state = {
         highlight: null
@@ -36,7 +36,8 @@ export default class Container extends Component {
         this.load()
     }
     load() {
-        return this.props.loadForType('highlight', {
+        return this.props.load({
+            type: 'highlight',
             predicates: [
                 Predicates.dateBefore('my.highlight.start_date', formatAsDay(tomorrow())),
                 Predicates.dateAfter('my.highlight.end_date', formatAsDay(yesterday())),

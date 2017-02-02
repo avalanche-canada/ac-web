@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react'
 import {compose, lifecycle, withHandlers, withState} from 'recompose'
 import {connect} from 'react-redux'
-import {loadForType} from 'actions/prismic'
+import {load} from 'actions/prismic'
 import {createSelector} from 'reselect'
-import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
+import {getDocumentsOfType, getResult} from 'getters/prismic'
 import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption, Responsive, PageSizeSelector} from 'components/table'
 import {FilterSet, FilterEntry} from 'components/filter'
 import Pagination from 'components/pagination'
@@ -76,9 +76,10 @@ function isFilterable(column) {
 }
 
 const mapStateToProps = createSelector(
-    (state, props) => getDocumentsOfType(state, getDocumentType(props)).toList().map(transform),
+    (state, props) => getDocumentsOfType(state, getDocumentType(props))
+                        .map(document => transform(document)),
     (state, props) => props.content,
-    getIsFetching,
+    (state, props) => getResult(state, getDocumentType(props)),
     (state, props) => props,
     (state, props) => {
         const [property, order] = props.sorting
@@ -99,7 +100,7 @@ const mapStateToProps = createSelector(
 
         return filters
     },
-    function computeRows(documents, columns, isFetching, props, sorting, filters) {
+    function computeRows(documents, columns, {isFetching}, props, sorting, filters) {
         const {page, pageSize} = props
         const begin = (page - 1) * pageSize
         const end = page * pageSize
@@ -190,15 +191,15 @@ export default compose(
         },
     }),
     connect(mapStateToProps, {
-        loadForType
+        load
     }),
     lifecycle({
         componentDidMount() {
-            const {props} = this
-            const type = getDocumentType(props)
-
-            props.loadForType(type, {
-                pageSize: 150
+            this.props.load({
+                type: getDocumentType(this.props),
+                options: {
+                    pageSize: 150
+                }
             })
         }
     }),

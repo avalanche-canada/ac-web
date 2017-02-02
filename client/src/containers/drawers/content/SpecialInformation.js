@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
-import {InnerHTML, Status, Muted} from 'components/misc'
+import {InnerHTML, Status} from 'components/misc'
 import {specialInformation} from 'containers/connectors'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
@@ -16,7 +16,6 @@ const LOCATE_STYLE = {
 function SpecialInformation({
     report,
     status,
-    notAvailable,
     onCloseClick,
     onLocateClick,
 }) {
@@ -37,7 +36,6 @@ function SpecialInformation({
                 {report &&
                     <p style={LOCATION_STYLE}>{report.locationDescription}</p>
                 }
-                <Muted>{notAvailable}</Muted>
                 <Status {...status} />
             </Header>
             {report &&

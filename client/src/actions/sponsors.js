@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions'
-import Axios from 'axios'
-import format from 'date-fns/format'
-import {getActiveSponsor} from 'getters/sponsors'
+import {fetchSponsors} from 'api'
+import {getActiveSponsor, getSponsors} from 'getters/sponsors'
+import {DelayPromise} from 'utils/promise'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
 export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'
@@ -16,43 +16,27 @@ export function setActiveSponsor(sponsor) {
         dispatch(setActiveSponsorActionCreator(sponsor))
     }
 }
-export const resetActiveSponsor = createAction(RESET_ACTIVE_SPONSOR)
 
-export const SPONSORS_REQUEST = 'SPONSORS_REQUEST'
-export const SPONSORS_SUCCESS = 'SPONSORS_SUCCESS'
-export const SPONSORS_FAILURE = 'SPONSORS_FAILURE'
+const resetActiveSponsorActionCreator = createAction(RESET_ACTIVE_SPONSOR)
+export function resetActiveSponsor() {
+    return (dispatch, getState) => {
+        if (!getActiveSponsor(getState())) {
+            return
+        }
+
+        dispatch(resetActiveSponsorActionCreator())
+    }
+}
+
+export const GET_SPONSORS = 'GET_SPONSORS'
 
 export function loadSponsors() {
+    const creator = createAction(GET_SPONSORS, fetchSponsors)
+
     return (dispatch, getState) => {
-        const {sponsors} = getState()
-        const delay = sponsors.data ? 10000 : 1
+        const sponsors = getSponsors(getState())
+        const delay = Object.keys(sponsors || {}).length > 0 ? 10000 : 1
 
-        function onSuccess({data}) {
-            const date = format(new Date(),'YYYY-MM-DD')
-            const sponsors = data[date] || {}
-
-            dispatch({
-                type: SPONSORS_SUCCESS,
-                payload: {
-                    ...data.default,
-                    ...sponsors
-                }
-            })
-        }
-        function onFailure(error) {
-            dispatch({
-                type: SPONSORS_FAILURE,
-                payload: error,
-                error: true,
-            })
-        }
-
-        dispatch({
-            type: SPONSORS_REQUEST
-        })
-
-        return new Promise(resolve => setTimeout(resolve, delay))
-            .then(() => Axios.get('/static/sponsors.json'))
-            .then(onSuccess, onFailure)
+        return DelayPromise(delay).then(() => dispatch(creator()))
     }
 }
