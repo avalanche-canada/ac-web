@@ -1,20 +1,14 @@
-
 import React from 'react'
-
 import {Link} from 'react-router'
-
 import {Fragments} from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
-import {Page,Main,Content} from 'components/page'
+import {Page, Main, Content} from 'components/page'
 import {Media, Player} from 'components/media'
 import AtesExercise from './AtesExercise'
-
 import menuTree from './tutorial-menu-tree.json'
 
-
 const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
-
 
 function findSlug(pages, prismicSlug) {
     for(var i = 0; i < pages.length; i++)  {
