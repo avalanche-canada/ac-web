@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentForUid} from 'getters/prismic'
-import transformer from 'prismic/transformers'
+import transform from 'prismic/transformers'
 import {getSponsors, getActiveSponsor} from 'getters/sponsors'
 
 const EMPTY = {}
@@ -13,5 +13,5 @@ export const getSponsorUid = createSelector(
 
 export default createSelector(
     state => getDocumentForUid(state, 'sponsor', getSponsorUid(state)),
-    document => transformer(document) || EMPTY
+    document => transform(document) || EMPTY
 )
