@@ -8,8 +8,16 @@ import htmlSerializer from 'prismic/htmlSerializer'
 Document.prototype.constructor = Document
 Object.keys(Fragments).forEach(key => Fragments[key].prototype.constructor = Fragments[key])
 
+const RESERVED_PROPERTIES = new Set(['uid', 'id', 'type'])
+
 function parseKey(key) {
     const [type, name] = key.split('.')
+
+    if (RESERVED_PROPERTIES.has(name)) {
+        const [letter, ...letters] = name
+
+        return type + letter.toUpperCase() + letters
+    }
 
     return camelCase(name)
 }
@@ -32,9 +40,10 @@ export class Parser {
         if (document instanceof Document) {
             return {
                 id,
+                type,
                 uid,
                 tags: Array.isArray(tags) ? tags.map(tag => tag.toLowerCase()) : [],
-                type,
+                // TODO: Should be in a "properties" property
                 ...parsed,
             }
         } else {
