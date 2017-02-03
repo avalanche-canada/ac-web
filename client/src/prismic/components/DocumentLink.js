@@ -7,8 +7,9 @@ import {pathname, title} from 'utils/prismic'
 export default compose(
     setDisplayName('DocumentLink'),
     documentLink,
-    mapProps(({document = {}, status, ...props}) => ({
+    mapProps(({children, document, status, ...props}) => ({
         to: pathname(props),
-        children: status.isLoading ? 'Loading title...' : title(document),
+        children: children ||
+            status.isLoading || !document ? 'Loading title...' : title(document),
     }))
 )(Link)
