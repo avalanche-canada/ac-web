@@ -7,7 +7,7 @@ function getType(state, {type}) {
     return type
 }
 function getTransformedDocuments(state, {documents = []}) {
-    return new List(documents.map(transform))
+    return new List(documents.map(document => transform(document)))
 }
 function isFeatured(post) {
     return post.featured
