@@ -17,3 +17,4 @@ npm-debug.log
 *.zip
 .DS_Store
 client/src/.DS_Store
+tests/screenshots
