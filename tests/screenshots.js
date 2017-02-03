@@ -84,8 +84,8 @@ phantomcss.init({
 
 casper.start()
 
-function take(name) {
-    console.log(index + 1, 'of', paths.length, ': ', name)
+function take(name, index) {
+    console.log(index + 1, 'of', paths.length, '>', name)
     phantomcss.screenshot('body', name)
 }
 
