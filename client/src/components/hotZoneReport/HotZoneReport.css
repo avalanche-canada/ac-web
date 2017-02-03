@@ -76,6 +76,13 @@
     font-weight: 700;
 }
 
-.AdviceSection {
+.Advice--Section {
     margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.Advice--Comment {
+    composes: Advice--Section;
+
+    margin-top: 3em;
 }

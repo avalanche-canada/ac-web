@@ -42,7 +42,7 @@ function TerrainAdviceSet({report}) {
                 const comment = report[`${key}Comment`] // Legacy code
 
                 return (
-                    <div styleName='AdviceSection'>
+                    <div styleName='Advice--Section'>
                         <Section title={Headers.get(key)}>
                             <ul styleName='AdviceSet'>
                                 {items.map(item =>
@@ -64,7 +64,7 @@ function TerrainAdviceSet({report}) {
                 )
             })}
             {comment &&
-                <div styleName='AdviceSection'>
+                <div styleName='Advice--Comment'>
                     <Comment>
                         <InnerHTML>
                             {comment}
