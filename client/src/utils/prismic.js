@@ -5,15 +5,17 @@ const GENERIC = 'generic'
 const STATIC_PAGE = 'static-page'
 
 export function title(document = {}) {
-    switch (document.type) {
+    const {title, type} = document
+
+    switch (type) {
         case EVENT:
         case BLOG:
         case NEWS:
         case GENERIC:
         case STATIC_PAGE:
-            return document.title
+            return title
         default:
-            throw new Error(`Can not compute a title from Prismic document of type ${type}.`, document)
+            return ''
     }
 }
 
