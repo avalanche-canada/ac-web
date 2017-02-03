@@ -72,8 +72,10 @@ const paths = [
 
     'does-not-exist',
 ]
-
-const host = process.env.NODE_ENV = 'production' ? 'http://avalanche.ca/' : 'http://avalanche-canada-dev.elasticbeanstalk.com/'
+const hosts = [
+    'http://avalanche.ca/',
+    'http://avalanche-canada-dev.elasticbeanstalk.com/'
+]
 
 phantomcss.init({
     screenshotRoot: './screenshots',
@@ -87,6 +89,7 @@ function take(name, index) {
     phantomcss.screenshot('body', name)
 }
 
+const host = hosts[1]
 
 paths.forEach(function(path, index) {
     casper.thenOpen(host + path)
