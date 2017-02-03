@@ -66,16 +66,14 @@
 }
 
 .AdviceSet {
-    list-style: none;
-    padding: 0;
+    padding-left: 2em;
 }
 
 .Advice {
-    padding: 0.75em 0;
+    padding: 0;
     font-weight: 700;
-    border-bottom: 1px solid var(--gray-lighter);
 }
 
 .AdviceSection {
-    margin-top: 3em;
+    margin-top: 2em;
 }

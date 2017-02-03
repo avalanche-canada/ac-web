@@ -27,14 +27,19 @@ function TerrainAdviceSet({report}) {
         return null
     }
 
+    const comment = report.terrainAdviceComment
     const keys = Array.from(Headers.keys()).filter(key => Boolean(report[key]))
+
+    if (keys.length === 0) {
+        return null
+    }
 
     return (
         <Panel header='Terrain Advice' expanded expandable theme={INVERSE}>
             <AdviceText />
             {keys.map(key => {
                 const items = report[key].map(createItem)
-                const comment = report[`${key}Comment`]
+                const comment = report[`${key}Comment`] // Legacy code
 
                 return (
                     <div styleName='AdviceSection'>
@@ -47,6 +52,7 @@ function TerrainAdviceSet({report}) {
                                 )}
                             </ul>
                         </Section>
+                        {/* Legacy code */}
                         {comment &&
                             <Comment>
                                 <InnerHTML>
@@ -57,6 +63,15 @@ function TerrainAdviceSet({report}) {
                     </div>
                 )
             })}
+            {comment &&
+                <div styleName='AdviceSection'>
+                    <Comment>
+                        <InnerHTML>
+                            {comment}
+                        </InnerHTML>
+                    </Comment>
+                </div>
+            }
         </Panel>
     )
 }
