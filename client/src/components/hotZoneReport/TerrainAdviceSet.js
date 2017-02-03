@@ -39,7 +39,10 @@ function TerrainAdviceSet({report}) {
             <AdviceText />
             {keys.map(key => {
                 const items = report[key].map(createItem)
-                comments.push(report[`${key}Comment`])  // Legacy comment structure
+                // Legacy comments structure
+                // Previously, every advice sets had its own comment, now only
+                // the travel advice has a comment. 
+                comments.push(report[`${key}Comment`])
 
                 return (
                     <div styleName='Advice--Section'>
