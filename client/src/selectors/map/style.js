@@ -91,35 +91,60 @@ const getSubmission = createSelector(
     }
 )
 
-const getSubmissionFeatures = createSelector(
-    getSubmissions,
+function prepareSubmissions(submissions, submission, typeFilter) {
+    if (typeFilter.size > 0) {
+        function has(type) {
+            return typeFilter.has(type)
+        }
+        function filter(submission) {
+            return submission.properties.types.find(has)
+        }
+
+        submissions = submissions.filter(filter)
+    }
+
+    if (submission) {
+        const {id} = submission.properties
+        function filter(submission) {
+            return submission.properties.id !== id
+        }
+
+        // We are just adding once the submission.
+        // It may be already in submissions
+        if (submissions.every(filter)) {
+            submissions.push(submission)
+        }
+    }
+
+    return submissions
+}
+
+const getIncidentSubmissionFeatures = createSelector(
+    (state, props) => {
+        function filter(type) {
+            return type === 'incident'
+        }
+        return getSubmissions(state, props).filter(
+            submission => submission.properties.types.some(filter)
+        )
+    },
     getSubmission,
     state => getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type'),
-    (submissions, submission, typeFilter) => {
-        if (typeFilter.size > 0) {
-            function has(type) {
-                return typeFilter.has(type)
-            }
-            function filter(submission) {
-                return submission.properties.types.find(has)
-            }
+    prepareSubmissions,
+)
 
-            submissions = submissions.filter(filter)
+    const getSubmissionFeatures = createSelector(
+        (state, props) => {
+        function filter(type) {
+            return type !== 'incident'
         }
-
-        if (submission) {
-            const {id} = submission.properties
-            function filter(submission) {
-                return submission.properties.id === id
-            }
-
-            if (submissions.filter(filter).length === 0) {
-                submissions.push(submission)
-            }
-        }
-
-        return submissions
-    }
+        return getSubmissions(state, props).filter(
+            submission => submission.properties.types.every(filter)
+        )
+    },
+    getSubmission,
+    state => getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type'),
+    prepareSubmissions,
 )
 
 // Create weather station source
@@ -156,11 +181,13 @@ function getPrismicDocumentsFeaturesFactory(type, layer) {
 // All map sources
 const getSourceFeatures = createSelector(
     getSubmissionFeatures,
+    getIncidentSubmissionFeatures,
     getWeatherStationFeatures,
     getPrismicDocumentsFeaturesFactory('toyota-truck-report', Layers.TOYOTA_TRUCK_REPORTS),
     getPrismicDocumentsFeaturesFactory('special-information', Layers.SPECIAL_INFORMATION),
-    (submissions, stations, toyota, special) => new Map([
+    (submissions, incidents, stations, toyota, special) => new Map([
         [Layers.MOUNTAIN_INFORMATION_NETWORK, submissions],
+        [Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS, incidents],
         [Layers.WEATHER_STATION, stations],
         [Layers.TOYOTA_TRUCK_REPORTS, toyota],
         [Layers.SPECIAL_INFORMATION, special],
