@@ -145,37 +145,7 @@ export const weatherStation = panelConnector(
     EntitiesActions.loadWeatherStation,
 )
 
-function prismicConnector(mapStateToProps) {
-    return compose(
-        getContext({
-            location: PropTypes.object.isRequired,
-        }),
-        connect(mapStateToProps, {
-            load,
-            flyTo,
-            fitBounds,
-        }),
-        lifecycle({
-            componentDidMount() {
-                this.props.load(this.props.params)
-            },
-        }),
-        withHandlers({
-            onLocateClick: props => event => {
-                if (props.computeFlyTo()) {
-                    props.flyTo(props.computeFlyTo())
-                }
-                if (props.computeBounds()) {
-                    const {bbox, options} = props.computeBounds()
-
-                    props.fitBounds(bbox, options)
-                }
-            }
-        }),
-    )
-}
-
-export function prismic(mapStateToProps) {
+export function prismic(mapStateToProps, mapDispatchToProps = {}) {
     const {load, paramsToKey} = PrismicActions
 
     return compose(
@@ -183,7 +153,8 @@ export function prismic(mapStateToProps) {
             params: PropTypes.object.isRequired,
         }),
         connect(mapStateToProps, {
-            load
+            load,
+            ...mapDispatchToProps
         }),
         lifecycle({
             componentDidMount() {
@@ -233,13 +204,31 @@ export const sponsor = compose(
 
 function panelPrismicConnectorFactory(type, mapStateToProps) {
     return compose(
+        getContext({
+            location: PropTypes.object.isRequired,
+        }),
         withProps(props => ({
             params: {
                 type,
                 uid: props.id,
             }
         })),
-        prismic(mapStateToProps),
+        prismic(mapStateToProps, {
+            flyTo,
+            fitBounds,
+        }),
+        withHandlers({
+            onLocateClick: props => event => {
+                if (props.computeFlyTo()) {
+                    props.flyTo(props.computeFlyTo())
+                }
+                if (props.computeBounds()) {
+                    const {bbox, options} = props.computeBounds()
+
+                    props.fitBounds(bbox, options)
+                }
+            }
+        }),
     )
 }
 
