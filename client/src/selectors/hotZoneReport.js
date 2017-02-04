@@ -92,6 +92,7 @@ const HotZoneReport = Immutable.fromJS({
     goodTerrainChoicesComment: null,
     terrainToWatchComment: null,
     terrainToAvoidComment: null,
+    terrainAdviceComment: null,
 })
 
 const yesNoValues = new Map([

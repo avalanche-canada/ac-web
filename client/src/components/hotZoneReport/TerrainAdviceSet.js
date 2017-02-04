@@ -41,7 +41,7 @@ function TerrainAdviceSet({report}) {
                 const items = report[key].map(createItem)
                 // Legacy comments structure
                 // Previously, every advice sets had its own comment, now only
-                // the travel advice has a comment. 
+                // the travel advice has a comment.
                 comments.push(report[`${key}Comment`])
 
                 return (
