@@ -76,7 +76,7 @@ function isFilterable(column) {
 }
 
 const mapStateToProps = createSelector(
-    (state, props) => getDocumentsOfType(state, getDocumentType(props))
+    (state, props) => getDocumentsOfType(state, getDocumentType(props)).toList()
                         .map(document => transform(document)),
     (state, props) => props.content,
     (state, props) => getResult(state, getDocumentType(props)),

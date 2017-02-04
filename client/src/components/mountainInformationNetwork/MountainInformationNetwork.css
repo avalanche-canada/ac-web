@@ -9,10 +9,11 @@
 }
 
 .Section {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .Section--Content {
-    padding: 0 0 0.5em 0;
 }
 
 .Section--Title {

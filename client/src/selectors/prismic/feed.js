@@ -72,7 +72,7 @@ const getTransformedFeed = createSelector(
     getFeed,
     getType,
     (feed, type) => {
-        const sorted = feed.map(document => document(transform)).toList().sort(SORTERS.get(type))
+        const sorted = feed.map(document => transform(document)).toList().sort(SORTERS.get(type))
 
         if (sorted.isEmpty()) {
             return sorted
