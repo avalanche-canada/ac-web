@@ -7,7 +7,7 @@ import {getDocumentsOfType} from 'getters/prismic'
 import {getLayers, getLayerFilter} from 'getters/drawers'
 import {ActiveLayerIds, LayerIds} from 'constants/map/layers'
 import Parser, {parseLocation} from 'prismic/parser'
-import {isHotZoneReportValid} from 'prismic/utils'
+import {isSpecialInformationValid, isHotZoneReportValid} from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import turf from '@turf/helpers'
@@ -44,7 +44,7 @@ const TRANSFORMERS = new Map([
         })
     }],
     [Layers.SPECIAL_INFORMATION, document => {
-        const {uid, headline, locations} = Parser.parse(document)
+        const {uid, headline, locations} = document
 
         return turf.multiPoint(locations.map(parseLocation), {
             title: headline,
@@ -132,33 +132,40 @@ const getWeatherStationFeatures = createSelector(
     }
 )
 
-// Create source for prismic
-function getPrismicDocumentsFeaturesFactory(type, layer) {
-    const transformer = TRANSFORMERS.get(layer)
-    function reducer(points, feature) {
-        // Explode because Mapbox does not cluster on MultiPoint geometries
-        // https://github.com/mapbox/mapbox-gl-js/issues/4076
-        const {properties} = feature
+// Create Toyota Truck Report Features
+const getToyotaTruckFeatures = createSelector(
+    state => getDocumentsOfType(state, 'toyota-truck-report'),
+    documents => documents.map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS)).toArray()
+)
 
-        return points.concat(explode(feature).features.map(feature => {
-            // explode does not transfer properties :(
-            // https://github.com/Turfjs/turf/issues/564
-            return turf.feature(feature.geometry, properties)
-        }))
-    }
+function pointReducer(points, feature) {
+    // Explode because Mapbox does not cluster on MultiPoint geometries
+    // https://github.com/mapbox/mapbox-gl-js/issues/4076
+    const {properties} = feature
 
-    return createSelector(
-        state => getDocumentsOfType(state, type),
-        documents => documents.map(transformer).reduce(reducer, [])
-    )
+    return points.concat(explode(feature).features.map(feature => {
+        // explode does not transfer properties :(
+        // https://github.com/Turfjs/turf/issues/564
+        return turf.feature(feature.geometry, properties)
+    }))
 }
+
+// Create Special Information Features
+const getSpecialInformationFeatures = createSelector(
+    state => getDocumentsOfType(state, 'special-information'),
+    documents => documents.toArray()
+        .map(document => Parser.parse(document))
+        .filter(isSpecialInformationValid)
+        .map(TRANSFORMERS.get(Layers.SPECIAL_INFORMATION))
+        .reduce(pointReducer, [])
+)
 
 // All map sources
 const getSourceFeatures = createSelector(
     getSubmissionFeatures,
     getWeatherStationFeatures,
-    getPrismicDocumentsFeaturesFactory('toyota-truck-report', Layers.TOYOTA_TRUCK_REPORTS),
-    getPrismicDocumentsFeaturesFactory('special-information', Layers.SPECIAL_INFORMATION),
+    getToyotaTruckFeatures,
+    getSpecialInformationFeatures,
     (submissions, stations, toyota, special) => new Map([
         [Layers.MOUNTAIN_INFORMATION_NETWORK, submissions],
         [Layers.WEATHER_STATION, stations],
