@@ -21,7 +21,7 @@ if (!Element.prototype.matches) {
         Element.prototype.webkitMatchesSelector ||
         function(selector) {
             const matches = (this.document || this.ownerDocument).querySelectorAll(selector)
-            const i = matches.length
+            let i = matches.length
             while (--i >= 0 && matches.item(i) !== this) {
 
             }
