@@ -20,10 +20,12 @@ if (!Element.prototype.matches) {
         Element.prototype.oMatchesSelector ||
         Element.prototype.webkitMatchesSelector ||
         function(selector) {
-            var matches = (this.document || this.ownerDocument).querySelectorAll(selector),
-                i = matches.length;
-            while (--i >= 0 && matches.item(i) !== this) {}
-            return i > -1;
+            const matches = (this.document || this.ownerDocument).querySelectorAll(selector)
+            const i = matches.length
+            while (--i >= 0 && matches.item(i) !== this) {
+
+            }
+            return i > -1
         };
 }
 
