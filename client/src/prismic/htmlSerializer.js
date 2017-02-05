@@ -7,26 +7,27 @@ function isLeftClickEvent(event) {
 }
 
 function isModifiedEvent(event) {
-    return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
+    return Boolean(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
-// SHAME: Well, adding something to global is bad. It is working for now.
-window.onPrismicHyperlinkClick = function onPrismicHyperlinkClick(element) {
-    const {event} = window
-
-    if (event.target === element) {
-        if (event.defaultPrevented || isModifiedEvent(event) || !isLeftClickEvent(event)) {
-            return
-        }
-
-        event.preventDefault()
+function handleBodyClick(event) {
+    if (event.defaultPrevented || isModifiedEvent(event) || !isLeftClickEvent(event)) {
+        return
     }
 
-    history.push(element.getAttribute('data-path'))
+    if (!event.target.matches('a[data-path]')) {
+        return
+    }
+
+    event.preventDefault()
+
+    history.push(event.target.getAttribute('data-path'))
 }
 
+document.querySelector('body').addEventListener('click', handleBodyClick)
+
 function createApplicationAnchor({href, content, title = content}) {
-    return `<a href="${href}" data-path="${href}" title="${title}" onclick="onPrismicHyperlinkClick(this);">${content}</a>`
+    return `<a href="${href}" data-path="${href}" title="${title}">${content}</a>`
 }
 
 export default function htmlSerializer({type, ...props}, content) {
