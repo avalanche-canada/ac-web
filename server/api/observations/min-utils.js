@@ -315,6 +315,8 @@ exports.getSubmission = function (subid, client, callback) {
     dynamodb.query(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
+        } else if(res.Count === 0){
+            callback(null, null);
         } else {
             callback(null, routeResponseForClient(res.Items, client, 'submissions'));
         }
