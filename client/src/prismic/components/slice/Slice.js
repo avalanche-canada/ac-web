@@ -18,11 +18,13 @@ export default function Slice({type, ...props}) {
         const module = require(`./${type}`)
 
         return createElement(module.default, props)
-    } catch (e) {
+    } catch (error) {
         const message = `Component for ${type} not supported. Rendering will be ignored.`
 
-        captureException(new Error(e, message))
+        console.error(error)
+        
+        captureException(new Error(error, message))
 
-        return null
+        return error
     }
 }

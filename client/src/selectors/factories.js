@@ -5,16 +5,25 @@ import noop from 'lodash/noop'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 
-export function createSorter(entitiesGetter, sortingGetter, sorters = Map()) {
+export function createSorter(
+    getEntities,
+    getSorting = defaultGetSorting,
+    sorters = new Map()
+) {
     return createSelector(
-        entitiesGetter,
-        sortingGetter,
+        getEntities, getSorting,
         (entities, [name, order]) => {
-            if (!sorters.has(name)) {
-                return entities
+            let sorter
+
+            if (sorters.has(name)) {
+                sorter = sorters.get(name)
+            } else if (typeof(name) === 'string') {
+                sorter = entity => entity[name]
             }
 
-            const sorter = sorters.get(name)
+            if (!sorter) {
+                return entities
+            }
 
             switch (order) {
                 case ASC:
@@ -28,11 +37,15 @@ export function createSorter(entitiesGetter, sortingGetter, sorters = Map()) {
     )
 }
 
-function defaultGetPage(state, {page}) {
-    return page
+function defaultGetPage(state, props) {
+    return props.page
 }
-function defaultGetPageSize(state, {pageSize}) {
-    return pageSize
+function defaultGetPageSize(state, props) {
+    return props.pageSize
+}
+const ARRAY = []
+function defaultGetSorting(state, props) {
+    return props.sorting
 }
 
 export function createPagination(
@@ -48,6 +61,16 @@ export function createPagination(
             count: size,
             total: Math.ceil(size / pageSize),
         })
+    )
+}
+
+export function createFilteredEntities(getEntities, getFilters) {
+    const reducer = (entities, filter) => entities.filter(filter)
+
+    return createSelector(
+        getEntities,
+        getFilters,
+        (entities, filters) => filters.reduce(reducer, entities)
     )
 }
 
