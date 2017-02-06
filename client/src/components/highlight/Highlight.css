@@ -35,8 +35,19 @@
 .Highlight--Danger {
     composes: Highlight;
 
-    background-color: var(--danger);
-    border-color: var(--danger-dark);
+    color: white;
+    font-weight: 700;
+    background-color: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+
+    & a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    & button {
+        color: white;
+    }
 }
 
 .Highlight--Warning {
