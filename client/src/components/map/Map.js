@@ -125,9 +125,6 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: PropTypes.object,
     }
-    state = {
-        map: null,
-    }
     constructor(props) {
         super(props)
 
@@ -137,7 +134,7 @@ export default class MapComponent extends Component {
     }
     getChildContext() {
         return {
-            map: this.state.map
+            map: this.map
         }
     }
     componentDidMount() {
@@ -145,33 +142,29 @@ export default class MapComponent extends Component {
         const {style, children, onInitializationError, ...props} = this.props
 
         try {
-            const map = new mapbox.Map({
+            this.map = new mapbox.Map({
                 ...props,
                 container,
                 style: typeof style === 'string' ? styles[style] : toJSON(style),
             })
 
-            EVENTS.forEach(function addMapEvent(name, method) {
+            EVENTS.forEach((name, method) => {
                 if (typeof props[method] === 'function') {
-                    map.on(name, props[method])
+                    this.map.on(name, props[method])
                 }
             })
-
-            this.setState({map})
         } catch (error) {
             captureException(error)
             onInitializationError(error)
         }
     }
     componentWillUnmount() {
-        if (this.state.map) {
-            this.state.map.off()
+        if (this.map) {
+            this.map.off()
         }
     }
     componentWillReceiveProps({style}) {
-        const {map} = this.state
-
-        if (!map || style === this.props.style) {
+        if (!this.map || style === this.props.style) {
             return
         }
 
@@ -182,23 +175,21 @@ export default class MapComponent extends Component {
         }
     }
     updateStyle = style => {
-        const {map} = this.state
-
         if (this.timeoutId) {
             clearTimeout(this.timeoutId)
         }
 
-        if (map.loaded()) {
+        if (this.map.loaded()) {
             this.style = style
         } else {
-            map.once('load', this.updateStyle.bind(this, style))
+            this.map.once('load', this.updateStyle.bind(this, style))
             // Should be removed
             // More details at https://github.com/mapbox/mapbox-gl-draw/issues/572
             this.timeoutId = setTimeout(this.updateStyle, 50, style)
         }
     }
     set style(style) {
-        this.state.map.setStyle(toJSON(style))
+        this.map.setStyle(toJSON(style))
     }
     shouldComponentUpdate({children}) {
         return children !== this.props.children
@@ -206,7 +197,7 @@ export default class MapComponent extends Component {
     render() {
         return (
             <div ref='container' style={this.props.containerStyle}>
-                {this.state.map && this.props.children}
+                {this.map && this.props.children}
             </div>
         )
     }
