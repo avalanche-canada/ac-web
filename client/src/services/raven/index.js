@@ -18,6 +18,7 @@ export default function setup() {
 
                 exceptions.add(key)
 
+                // 1 minute
                 setTimeout(exceptions.delete.bind(exceptions, key), 60 * 1000)
 
                 return shouldSend
