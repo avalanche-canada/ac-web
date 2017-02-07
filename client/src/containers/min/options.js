@@ -91,19 +91,19 @@ export default {
                 fields: {
                     ridingQuality: {
                         factory: t.form.Radio,
-                        label: 'Riding quality was:',
+                        label: 'Riding quality was (optional):',
                     },
                     weather: {
-                        label: 'The day was:',
+                        label: 'The day was (optional):',
                     },
                     snowConditions: {
-                        label: 'Snow conditions were:',
+                        label: 'Snow conditions were (optional):',
                     },
                     stayedAway: {
-                        label: 'We stayed away from:',
+                        label: 'We stayed away from (optional):',
                     },
                     rideType: {
-                        label: 'We rode:',
+                        label: 'We rode (optional):',
                     },
                 }
             },
@@ -133,10 +133,10 @@ export default {
         fields: {
             temperatureTrend: {
                 factory: t.form.Radio,
-                label: 'Describe how the temperature changed in the last 3 hours.',
+                label: 'Describe how the temperature changed in the last 3 hours. (optional)',
             },
             snowfallRate: {
-                label: 'Snowfall rate (cm/hour)',
+                label: 'Snowfall rate (cm/hour) (optional)',
                 help: 'If there was no snow, please leave this field blank.',
                 type: 'number',
                 attrs: {
@@ -151,7 +151,7 @@ export default {
                 help: 'If there was no rain, please leave this field blank.',
             },
             newSnow24Hours: {
-                label: 'Amount of new snow in last 24 hours (cm)',
+                label: 'Amount of new snow in last 24 hours (cm) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -161,7 +161,7 @@ export default {
                 },
             },
             precipitation24Hours: {
-                label: 'Total rain and snow combined in last 24 hours (mm)',
+                label: 'Total rain and snow combined in last 24 hours (mm) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -171,7 +171,7 @@ export default {
                 },
             },
             stormSnowAmount: {
-                label: 'Total snow from the most recent storm (cm)',
+                label: 'Total snow from the most recent storm (cm) (optional)',
                 help: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
                 type: 'number',
                 attrs: {
@@ -188,7 +188,7 @@ export default {
                 },
             },
             temperature: {
-                label: 'Temperature at time of observation (deg C)',
+                label: 'Temperature at time of observation (deg C) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -198,7 +198,7 @@ export default {
                 },
             },
             minTemp: {
-                label: 'Minimum temperature in last 24 hours (deg C)',
+                label: 'Minimum temperature in last 24 hours (deg C) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -208,7 +208,7 @@ export default {
                 },
             },
             maxTemp: {
-                label: 'Maximum temperature in last 24 hours (deg C)',
+                label: 'Maximum temperature in last 24 hours (deg C) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -226,7 +226,7 @@ export default {
             },
             skyCondition: {
                 factory: t.form.Radio,
-                label: 'Cloud cover',
+                label: 'Cloud cover (optional)',
                 help: 'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
             },
             precipitationType: {
@@ -237,6 +237,7 @@ export default {
                 help: 'Calm: smoke rises. Light: flags and twigs move. Moderate: snow begins to drift. Strong: whole tress in motion. Extreme: difficulty walking.',
             },
             weatherObsComment: {
+                label: 'Weather observation comment (optional)',
                 type: 'textarea'
             },
         }
@@ -245,11 +246,11 @@ export default {
         help: 'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
         fields: {
             snowpackObsType: {
-                label: 'Is this a point observation or a summary of your day?',
+                label: 'Is this a point observation or a summary of your day? (optional)',
                 factory: t.form.Radio,
             },
             snowpackSiteElevation: {
-                label: 'Elevation (m) above sea level',
+                label: 'Elevation (m) above sea level (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -257,14 +258,14 @@ export default {
                 },
             },
             snowpackSiteElevationBand: {
-                label: 'Elevation band',
+                label: 'Elevation band (optional)',
             },
             snowpackSiteAspect: {
-                label: 'Aspect',
+                label: 'Aspect (optional)',
                 fields: ASPECT_FIELDS,
             },
             snowpackDepth: {
-                label: 'Snowpack depth (cm)',
+                label: 'Snowpack depth (cm) (optional)',
                 help: 'Total height of snow in centimetres. Averaged if this is a summary.',
                 type: 'number',
                 attrs: {
@@ -275,18 +276,18 @@ export default {
                 },
             },
             snowpackWhumpfingObserved: {
-                label: 'Did you observe whumpfing?',
+                label: 'Did you observe whumpfing? (optional)',
                 help: 'A whumpf is a rapid settlement of the snowpack caused by the collapse of a weak layer. It is accompanied by an audible noise.',
             },
             snowpackCrackingObserved: {
-                label: 'Did you observe cracking?',
+                label: 'Did you observe cracking? (optional)',
                 help: 'Cracking is shooting cracks radiating more than a couple of metres from your sled or skis.',
             },
             snowpackSurfaceCondition: {
-                label: 'Surface condition',
+                label: 'Surface condition (optional)',
             },
             snowpackFootPenetration: {
-                label: 'Foot penetration (cm)',
+                label: 'Foot penetration (cm) (optional)',
                 help: 'How far you sink into the snow when standing on one fully-weighted foot',
                 type: 'number',
                 attrs: {
@@ -297,7 +298,7 @@ export default {
                 },
             },
             snowpackSkiPenetration: {
-                label: 'Ski penetration (cm)',
+                label: 'Ski penetration (cm) (optional)',
                 help: 'How far you sink into the snow when standing on one fully-weighted ski.',
                 type: 'number',
                 attrs: {
@@ -308,7 +309,7 @@ export default {
                 },
             },
             snowpackSledPenetration: {
-                label: 'Sled penetration (cm)',
+                label: 'Sled penetration (cm) (optional)',
                 help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
                 type: 'number',
                 attrs: {
@@ -320,16 +321,16 @@ export default {
             },
             snowpackTestInitiation: {
                 factory: t.form.Radio,
-                label: 'Snowpack test result',
+                label: 'Snowpack test result (optional)',
                 help: 'Average if you did a number of tests.',
             },
             snowpackTestFracture: {
                 factory: t.form.Radio,
-                label: 'Snowpack test fracture character',
+                label: 'Snowpack test fracture character (optional)',
                 help: 'Average if you did a number of tests. Describe further in comments if variable results.',
             },
             snowpackTestFailure: {
-                label: 'Snowpack test failure depth',
+                label: 'Snowpack test failure depth (optional)',
                 help: 'Depth below the surface that failure occurred.',
                 type: 'number',
                 attrs: {
@@ -341,7 +342,7 @@ export default {
             },
             snowpackObsComment: {
                 type: 'textarea',
-                label: 'Observation comment',
+                label: 'Observation comment (optional)',
                 help: 'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
             }
         }
@@ -373,14 +374,14 @@ export default {
             },
             avalancheNumber: {
                 factory: t.form.Radio,
-                label: 'Number of avalanches in this report',
+                label: 'Number of avalanches in this report (optional)',
             },
             avalancheSize: {
                 factory: t.form.Radio,
                 help: 'Use Canadian size classification. Size 1 is relatively harmless to people. Size 2 can bury, injure or kill a person. Size 3 can bury and destroy a car. Size 4 can destroy a railway car. Size 5 can destroy 40 hectares of forest.',
             },
             slabThickness: {
-                label: 'Slab thickness (cm)',
+                label: 'Slab thickness (cm) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -390,7 +391,7 @@ export default {
                 },
             },
             slabWidth: {
-                label: 'Slab width (m)',
+                label: 'Slab width (m) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -400,7 +401,7 @@ export default {
                 },
             },
             runLength: {
-                label: 'Run length (m)',
+                label: 'Run length (m) (optional)',
                 help: 'Length from crown to toe of debris.',
                 type: 'number',
                 attrs: {
@@ -418,7 +419,7 @@ export default {
                 help: 'A remote trigger is when the avalanche starts some distance away from where the trigger was applied.',
             },
             triggerDistance: {
-                label: 'Remote trigger distance (m)',
+                label: 'Remote trigger distance (m) (optional)',
                 help: 'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
                 type: 'number',
                 attrs: {
@@ -432,7 +433,7 @@ export default {
                 fields: ASPECT_FIELDS
             },
             startZoneElevation: {
-                label: 'Start zone elevation (m)',
+                label: 'Start zone elevation (m) (optional)',
                 type: 'number',
                 attrs: {
                     onWheel: handleNumberInputWheel,
@@ -485,13 +486,13 @@ export default {
         fields: {
             groupActivity: {
                 factory: t.form.Radio,
-                label: 'Activity',
+                label: 'Activity (optional)',
                 help: 'If other, please describe it below.',
             },
             groupDetails: {
                 fields: {
                     groupSize: {
-                        label: 'Total in the group?',
+                        label: 'Total in the group? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -501,7 +502,7 @@ export default {
                         }
                     },
                     numberFullyBuried: {
-                        label: 'People fully buried?',
+                        label: 'People fully buried? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -511,7 +512,7 @@ export default {
                         }
                     },
                     numberPartlyBuriedImpairedBreathing: {
-                        label: 'People partly buried with impaired breathing?',
+                        label: 'People partly buried with impaired breathing? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -521,7 +522,7 @@ export default {
                         }
                     },
                     numberPartlyBuriedAbleBreathing: {
-                        label: 'People partly buried with normal breathing?',
+                        label: 'People partly buried with normal breathing? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -531,7 +532,7 @@ export default {
                         }
                     },
                     numberCaughtOnly: {
-                        label: 'People injured (caught but not buried)?',
+                        label: 'People injured (caught but not buried)? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -541,7 +542,7 @@ export default {
                         }
                     },
                     numberPeopleInjured: {
-                        label: 'People not injured (caught but not buried)?',
+                        label: 'People not injured (caught but not buried)? (optional)',
                         type: 'number',
                         attrs: {
                             onWheel: handleNumberInputWheel,
@@ -562,12 +563,12 @@ export default {
             },
             terrainShapeTriggerPoint: {
                 factory: t.form.Radio,
-                label: 'Terrain shape at trigger point',
+                label: 'Terrain shape at trigger point (optional)',
                 help: 'Convex: a roll. Concave: bowl-shaped. Planar: smooth with no significant convexities or concavities. Unsupported: a slope that drops off abruptly at the bottom.',
             },
             snowDepthTriggerPoint: {
                 factory: t.form.Radio,
-                label: 'Snow depth at trigger point',
+                label: 'Snow depth at trigger point (optional)',
                 help: 'The depth of the snowpack compared to the average conditions in the area. Shallow: shallower than average. Deep: deeper than average. Average: about the same as everywhere else. Variable: depth varies significantly in the place where the avalanche started.',
             },
             incidentDescription: {
