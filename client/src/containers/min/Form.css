@@ -65,12 +65,16 @@
     & :global(.fieldset-ridingConditions-rideType > .fieldset-content),
     & :global(.fieldset-ridingConditions-weather > .fieldset-content),
     & :global(.fieldset-ridingConditions-stayedAway > .fieldset-content) {
-        column-count: 2;
+        column-count: 1;
 
         /* SHAME, but column CSS is so weird. Remove margins and apply line-height instead */
         & > :global(.field) {
             margin: 0;
             line-height: 2;
+        }
+
+        @media (--two-columns-inputs) {
+            column-count: 2;
         }
     }
 
@@ -162,13 +166,6 @@
     & fieldset > legend,
     & :global(.field) > label {
         font-size: 1.25em;
-    }
-
-    @media (--two-columns-inputs) {
-        /*& > :global(.fieldset-content),
-        & > :global(.field-radio-set) {
-        }*/
-        /*column-count: 2;*/
     }
 }
 
