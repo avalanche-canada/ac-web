@@ -30,7 +30,6 @@ export const Uploads = t.struct({
     files: t.maybe(FileList)
 })
 
-
 export const QuickReport = t.struct({
     ridingConditions: t.maybe(t.struct({
         ridingQuality: t.maybe(t.enums.of(['Amazing', 'Good', 'OK', 'Terrible'])),
