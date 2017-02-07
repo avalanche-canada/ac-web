@@ -45,7 +45,7 @@ function SpecialInformation({
                         <Entry term='Valid Until'>
                             {report.validUntil ?
                                 <DateTime value={report.validUntil} /> :
-                                'Any further notice'
+                                'Further notice'
                             }
                         </Entry>
                         {report.dateUpdated &&
