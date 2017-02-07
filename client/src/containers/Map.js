@@ -247,7 +247,7 @@ class Container extends Component {
     }
     handleLoad = event => {
         const map = event.target
-        const {bounds, onLoad} = this.props
+        const {bounds} = this.props
 
         map.on('mousemove', this.handleMousemove)
         map.on('click', this.handleClick)
@@ -258,8 +258,9 @@ class Container extends Component {
 
         this.map = map
 
-        onLoad(map)
-        this.forceUpdate()
+        this.forceUpdate(() => {
+            this.props.onLoad(map)
+        })
     }
     fitBounds(feature, options) {
         if (!feature) {
