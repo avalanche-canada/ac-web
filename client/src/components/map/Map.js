@@ -192,8 +192,8 @@ export default class MapComponent extends Component {
             this.style = style
         } else {
             map.once('load', this.updateStyle.bind(this, style))
-            // Could be removed
-            // https://github.com/mapbox/mapbox-gl-draw/issues/572
+            // Should be removed
+            // More details at https://github.com/mapbox/mapbox-gl-draw/issues/572
             this.timeoutId = setTimeout(this.updateStyle, 50, style)
         }
     }
