@@ -25,11 +25,9 @@ export default class ElementResize extends Component {
         })
     }
     render() {
-        const {width, height} = this.state
-
         return (
             <div ref='wrapper'>
-                {this.props.children(width, height)}
+                {this.props.children(this.state.width, this.state.height)}
             </div>
         )
     }

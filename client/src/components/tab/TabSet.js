@@ -1,12 +1,14 @@
 import React, {Component, PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
+import classNames from 'classnames'
+import {ElementResize} from 'components/misc'
 import Panel from './Panel'
 import Header from './Header'
 import styles from './Tab.css'
 import {ExpandLess, ExpandMore} from 'components/icons'
 import Button, {INCOGNITO} from 'components/button'
-import {init} from 'css-element-queries/src/ElementQueries'
 import noop from 'lodash/noop'
+import debounce from 'lodash/debounce'
 
 function toArray(children) {
 	return Children.toArray(children).filter(Boolean)
@@ -37,7 +39,72 @@ function validateActiveIndex({activeIndex, children}) {
 export const COMPACT = 'Compact'
 export const LOOSE = 'Loose'
 
+function sumNodeWidth(width, node) {
+    // SHAME: This slows down rendering! Lots of refloat
+    const {position} = node.style
+
+    node.style.position = 'absolute'
+
+    const {offsetWidth} = node
+
+    node.style.position = position
+
+    return width + offsetWidth
+}
+
 @CSSModules(styles, {allowMultiple: true})
+class TabList extends Component {
+    state = {
+        width: null,
+        itemsWidth: null,
+    }
+    updateWidths = () => {
+        const {list} = this.refs
+
+        this.setState({
+            width: list.offsetWidth,
+            itemsWidth: Array.from(list.childNodes).reduce(sumNodeWidth, 0)
+        })
+    }
+    updateWidthsForListeners = debounce(this.updateWidths, 150)
+    get styleName() {
+        const {theme, opened} = this.props
+        const {itemsWidth, width} = this.state
+        const styleNames = {
+            List: true,
+            'List--Stacked': false,
+            'List--Compact': theme === COMPACT,
+            'List--Loose': theme === LOOSE,
+            'List--Opened': opened,
+        }
+
+        if (itemsWidth && width) {
+            Object.assign(styleNames, {
+                List: itemsWidth <= width,
+                'List--Stacked': itemsWidth > width,
+            })
+        }
+
+        return classNames(styleNames)
+    }
+    componentDidMount() {
+        this.updateWidths()
+        window.addEventListener('resize', this.updateWidthsForListeners, false)
+        window.addEventListener('orientationchange', this.updateWidthsForListeners, false)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWidthsForListeners)
+        window.removeEventListener('orientationchange', this.updateWidthsForListeners)
+    }
+    render() {
+        return (
+            <ul role='tablist' styleName={this.styleName} ref='list'>
+                {this.props.children}
+            </ul>
+        )
+    }
+}
+
 export default class TabSet extends Component {
 	static propTypes = {
 		activeIndex: PropTypes.number,
@@ -56,8 +123,8 @@ export default class TabSet extends Component {
     state = {
         opened: false,
     }
-	constructor(props, ...args) {
-	  super(props, ...args)
+	constructor(props) {
+	  super(props)
 
 	  this.state.activeIndex = validateActiveIndex(props)
 	}
@@ -80,12 +147,6 @@ export default class TabSet extends Component {
         this.opened = false
 		this.props.onActivate(this.state.activeIndex)
 	}
-    componentDidMount() {
-        init()
-    }
-    componentDidUpdate() {
-        init()
-    }
 	componentWillReceiveProps(nextProps) {
 		if (typeof nextProps.activeIndex !== 'number') {
 			return
@@ -102,10 +163,11 @@ export default class TabSet extends Component {
         const {theme, arrow} = this.props
         const {title, color, disabled, onClick} = tab.props
         const handleClick = event => this.activeIndex = index
+        const active = index === this.activeIndex
         const header = {
-            active: index === this.activeIndex,
+            active,
             expanded: this.opened,
-            onClick: disabled ? noop : onClick || handleClick,
+            onClick: disabled ? noop : onClick || active ? this.handleExpandClick : handleClick,
             onExpandClick: this.handleExpandClick,
             arrow: theme === LOOSE ? true : arrow,
             color,
@@ -144,21 +206,13 @@ export default class TabSet extends Component {
         )
 	}
 	render() {
-		const {tabs, opened} = this
-        const {theme} = this.props
-        let styleName = `List--${theme}`
-
-        if (opened) {
-            styleName += ' List--Opened'
-        }
-
 		return (
-			<div>
-				<ul role='tablist' styleName={styleName}>
-					{tabs.map(this.renderTabHeader, this)}
-				</ul>
-				{tabs.map(this.renderTabPanel, this)}
-			</div>
+            <div>
+                <TabList opened={this.opened} theme={this.props.theme}>
+                    {this.tabs.map(this.renderTabHeader, this)}
+                </TabList>
+                {this.tabs.map(this.renderTabPanel, this)}
+            </div>
 		)
 	}
 }
