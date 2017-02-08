@@ -49,7 +49,7 @@ export default {
                 },
             },
             datetime: {
-                label: 'Submission date and time',
+                label: 'When were you in the field?',
             },
             latlng: {
                 label: 'Location',
