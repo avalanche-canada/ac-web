@@ -11,9 +11,11 @@ import noop from 'lodash/noop'
 function toArray(children) {
 	return Children.toArray(children).filter(Boolean)
 }
+
 function isEnabled({props}) {
     return !props.disabled
 }
+
 function validateActiveIndex({activeIndex, children}) {
     const tabs = toArray(children)
 

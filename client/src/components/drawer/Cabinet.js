@@ -1,4 +1,4 @@
-import React, {PropTypes, Children, cloneElement, createElement} from 'react'
+import React, {PropTypes} from 'react'
 import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
 import {TransitionMotion, spring, presets} from 'react-motion'
