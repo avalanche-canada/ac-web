@@ -30,14 +30,9 @@ class Container extends Component {
         onInitializationError: noop,
         style: null,
     }
-    state = {
-        map: null,
-    }
+    map = null
     isInternalNavigation = false
     lastMouseMoveEvent = null
-    get map() {
-        return this.state.map
-    }
     processMouseMove = () => {
         if (this.lastMouseMoveEvent === null || !this.map) {
             return
@@ -252,14 +247,18 @@ class Container extends Component {
     }
     handleLoad = event => {
         const map = event.target
+        const {bounds} = this.props
 
-        this.setState({map}, () => {
-            const {bounds} = this.props
+        map.on('mousemove', this.handleMousemove)
+        map.on('click', this.handleClick)
 
-            if (bounds) {
-                map.fitBounds(bounds.bbox, bounds.options)
-            }
+        if (bounds) {
+            map.fitBounds(bounds.bbox, bounds.options)
+        }
 
+        this.map = map
+
+        this.forceUpdate(() => {
             this.props.onLoad(map)
         })
     }
@@ -282,10 +281,9 @@ class Container extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
-    shouldComponentUpdate({markers, style}, {map}) {
+    shouldComponentUpdate({markers, style}) {
         if (markers !== this.props.markers ||
-            style !== this.props.style ||
-            map !== this.state.map
+            style !== this.props.style
         ) {
             return true
         }
@@ -307,8 +305,6 @@ class Container extends Component {
     render() {
         const {markers, onInitializationError, style} = this.props
         const events = {
-            onMousemove: this.handleMousemove,
-            onClick: this.handleClick,
             onLoad: this.handleLoad,
             onInitializationError,
         }

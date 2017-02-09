@@ -6,6 +6,16 @@ function range(min, max) {
 
 const YesNo = t.enums.of(['Yes', 'No'])
 const Direction = t.enums.of(['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'])
+const Aspect = t.struct({
+    N: t.Boolean,
+    NE: t.Boolean,
+    E: t.Boolean,
+    SE: t.Boolean,
+    S: t.Boolean,
+    SW: t.Boolean,
+    W: t.Boolean,
+    NW: t.Boolean,
+})
 
 YesNo.getTcombFormFactory = options => t.form.Radio
 Direction.getTcombFormFactory = options => t.form.Radio
@@ -21,9 +31,9 @@ export const Uploads = t.struct({
 })
 
 export const QuickReport = t.struct({
-    ridingConditions: t.struct({
+    ridingConditions: t.maybe(t.struct({
         ridingQuality: t.maybe(t.enums.of(['Amazing', 'Good', 'OK', 'Terrible'])),
-        snowConditions: t.struct({
+        snowConditions: t.maybe(t.struct({
             'Deep powder': t.Boolean,
             Wet: t.Boolean,
             Crusty: t.Boolean,
@@ -31,8 +41,8 @@ export const QuickReport = t.struct({
             Heavy: t.Boolean,
             'Wind affected': t.Boolean,
             Hard: t.Boolean,
-        }),
-        rideType: t.struct({
+        })),
+        rideType: t.maybe(t.struct({
             'Mellow slopes': t.Boolean,
             'Convex slopes': t.Boolean,
             'Alpine slopes': t.Boolean,
@@ -41,16 +51,16 @@ export const QuickReport = t.struct({
             'Open trees': t.Boolean,
             'Cut-blocks': t.Boolean,
             'Sunny slopes': t.Boolean,
-        }),
-        stayedAway: t.struct({
+        })),
+        stayedAway: t.maybe(t.struct({
             'Convex slopes': t.Boolean,
             'Alpine slopes': t.Boolean,
             'Cut-blocks': t.Boolean,
             'Sunny slopes': t.Boolean,
             'Steep slopes': t.Boolean,
             'Open trees': t.Boolean,
-        }),
-        weather: t.struct({
+        })),
+        weather: t.maybe(t.struct({
             Warm: t.Boolean,
             Foggy: t.Boolean,
             Cloudy: t.Boolean,
@@ -59,14 +69,14 @@ export const QuickReport = t.struct({
             Cold: t.Boolean,
             Wet: t.Boolean,
             Sunny: t.Boolean,
-        }),
-    }),
-    avalancheConditions: t.struct({
+        })),
+    })),
+    avalancheConditions: t.maybe(t.struct({
         snow: t.Boolean,
         slab: t.Boolean,
         sound: t.Boolean,
         temp: t.Boolean,
-    }),
+    })),
     comment: t.maybe(t.String),
 })
 
@@ -81,7 +91,7 @@ export const AvalancheReport = t.struct({
     slabThickness: t.maybe(range(10, 500)),
     slabWidth: t.maybe(range(1, 3000)),
     runLength: t.maybe(range(1, 10000)),
-    avalancheCharacter: t.struct({
+    avalancheCharacter: t.maybe(t.struct({
         'Storm slab': t.Boolean,
         'Wind slab': t.Boolean,
         'Persistent slab': t.Boolean,
@@ -91,86 +101,67 @@ export const AvalancheReport = t.struct({
         'Cornice with slab': t.Boolean,
         'Loose wet': t.Boolean,
         'Loose dry': t.Boolean,
-    }),
+    })),
     triggerType: t.maybe(t.enums.of(['Natural', 'Skier', 'Snowmobile', 'Other vehicle', 'Helicopter', 'Explosives'])),
     triggerSubtype: t.maybe(t.enums.of(['Accidental', 'Intentional', 'Remote'])),
     triggerDistance: t.maybe(range(0, 2000)),
-    startZoneAspect: t.struct({
-        N: t.Boolean,
-        NE: t.Boolean,
-        E: t.Boolean,
-        SE: t.Boolean,
-        S: t.Boolean,
-        SW: t.Boolean,
-        W: t.Boolean,
-        NW: t.Boolean,
-    }),
-    startZoneElevationBand: t.struct({
+    startZoneAspect: t.maybe(Aspect),
+    startZoneElevationBand: t.maybe(t.struct({
         'Alpine': t.Boolean,
         'Treeline': t.Boolean,
         'Below treeline': t.Boolean,
-    }),
+    })),
     startZoneElevation: t.maybe(range(0, 5000)),
     startZoneIncline: t.maybe(range(0, 90)),
     runoutZoneElevation: t.maybe(range(0, 5000)),
     weakLayerBurialDate: t.maybe(t.Date), // pattern '^\d\d\d\d-\d\d-\d\d$'
-    weakLayerCrystalType: t.struct({
+    weakLayerCrystalType: t.maybe(t.struct({
         'Surface hoar': t.Boolean,
         'Facets': t.Boolean,
         'Surface hoar and facets': t.Boolean,
         'Depth hoar': t.Boolean,
         'Storm snow': t.Boolean,
-    }),
+    })),
     crustNearWeakLayer: t.maybe(YesNo),
     windExposure: t.maybe(t.enums.of(['Lee slope', 'Cross-loaded slope', 'Windward slope', 'Down flow', 'Reverse-loaded slope', 'No wind exposure'])),
     vegetationCover: t.maybe(t.enums.of(['Open slope', 'Sparse trees or gladed slope', 'Dense trees'])),
     avalancheObsComment: t.maybe(t.String),
 })
 
-
 export const SnowpackReport = t.struct({
     snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
     snowpackSiteElevation: t.maybe(range(0, 4000)),
-    snowpackSiteElevationBand: t.struct({
+    snowpackSiteElevationBand: t.maybe(t.struct({
         'Alpine': t.Boolean,
         'Treeline': t.Boolean,
         'Below treeline': t.Boolean,
-    }),
-    snowpackSiteAspect: t.struct({
-        N: t.Boolean,
-        NE: t.Boolean,
-        E: t.Boolean,
-        SE: t.Boolean,
-        S: t.Boolean,
-        SW: t.Boolean,
-        W: t.Boolean,
-        NW: t.Boolean
-    }),
+    })),
+    snowpackSiteAspect: t.maybe(Aspect),
     snowpackDepth: t.maybe(range(0, 10000)),
     snowpackWhumpfingObserved: t.maybe(YesNo),
     snowpackCrackingObserved: t.maybe(YesNo),
-    snowpackSurfaceCondition: t.struct({
+    snowpackSurfaceCondition: t.maybe(t.struct({
         'New snow': t.Boolean,
         'Crust': t.Boolean,
         'Surface hoar': t.Boolean,
         'Facets': t.Boolean,
         'Corn': t.Boolean,
         'Variable': t.Boolean,
-    }),
+    })),
     snowpackFootPenetration: t.maybe(range(0, 200)),
     snowpackSkiPenetration: t.maybe(range(0, 200)),
     snowpackSledPenetration: t.maybe(range(0, 200)),
     snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
     snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
     snowpackTestFailure: t.maybe(range(0, 200)),
-    snowpackTestFailureLayerCrystalType: t.struct({
+    snowpackTestFailureLayerCrystalType: t.maybe(t.struct({
         'Surface hoar': t.Boolean,
         'Facets': t.Boolean,
         'Depth hoar': t.Boolean,
         'Storm snow': t.Boolean,
         'Crust': t.Boolean,
         'Other': t.Boolean,
-    }),
+    })),
     snowpackObsComment: t.maybe(t.String),
 })
 
@@ -206,13 +197,13 @@ export const IncidentReport = t.struct({
     }),
     terrainShapeTriggerPoint: t.maybe(t.enums.of(['Convex', 'Planar', 'Concave', 'Unsupported'])),
     snowDepthTriggerPoint: t.maybe(t.enums.of(['Shallow', 'Deep', 'Average', 'Variable'])),
-    terrainTrap: t.struct({
+    terrainTrap: t.maybe(t.struct({
         'No obvious terrain trap': t.Boolean,
         'Gully or depression': t.Boolean,
         'Slope transition or bench': t.Boolean,
         Trees: t.Boolean,
         Cliff: t.Boolean,
-    }),
+    })),
     incidentDescription: t.maybe(t.String),
     numberInvolved: t.maybe(t.Number),
 })

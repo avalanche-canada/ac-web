@@ -69,7 +69,7 @@ function Header({
             {showArrow &&
                 <span styleName='ListItem--Arrow' style={computeArrowStyle({color})} />
             }
-            <Button styleName='ExpandButton' kind={INCOGNITO} onClick={onExpandClick} icon={icon} />
+            <Button type='button' styleName='ExpandButton' kind={INCOGNITO} onClick={onExpandClick} icon={icon} />
         </li>
     )
 }

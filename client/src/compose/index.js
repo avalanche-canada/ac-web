@@ -3,8 +3,6 @@ import {scrollPosition} from 'utils/dom'
 
 export Element from './Element'
 
-export elementQueries from './elementQueries'
-
 export const neverUpdate = shouldUpdate(() => false)
 
 export function onlyUpdateForKey(key) {

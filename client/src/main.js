@@ -5,10 +5,8 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {computeRouter} from 'router'
 import {configure, serializeFactory, deserialize} from 'store'
-import ElementQueries from 'css-element-queries/src/ElementQueries'
 import configureRaven from 'services/raven'
 import throttle from 'lodash/throttle'
-
 
 // TODO: Need to put these imports in a better spot
 // There should be a vendor.css
@@ -34,8 +32,4 @@ const application = (
     </Provider>
 )
 
-function afterRender() {
-    ElementQueries.listen()
-}
-
-ReactDOM.render(application, element, afterRender)
+ReactDOM.render(application, element)

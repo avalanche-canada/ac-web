@@ -7,10 +7,9 @@ import {getActiveFeatures} from 'getters/map'
 import {getPrimary, getSecondary} from 'selectors/drawers'
 import {getEntities} from 'getters/entities'
 import {getDocuments} from 'getters/prismic'
-import * as Schemas from 'api/schemas'
 import Parser, {parseLocation} from 'prismic/parser'
 
-const {LngLat, LngLatBounds} = mapbox
+const {LngLatBounds} = mapbox
 
 function createLngLatBounds(bbox) {
     if (bbox instanceof LngLatBounds) {

@@ -178,11 +178,13 @@ export default class Form extends Component {
                 numberCaughtOnly = 0,
                 numberPeopleInjured = 0,
             } = incident
+            const numberInvolved = numberFullyBuried + numberPartlyBuriedImpairedBreathing + numberPartlyBuriedAbleBreathing + numberCaughtOnly + numberPeopleInjured
 
-            observations = observations.set(INCIDENT, {
-                ...incident,
-                numberInvolved: numberFullyBuried + numberPartlyBuriedImpairedBreathing + numberPartlyBuriedAbleBreathing + numberCaughtOnly + numberPeopleInjured,
-            })
+            if (numberInvolved > 0) {
+                incident.numberInvolved = numberInvolved
+            }
+
+            observations = observations.set(INCIDENT, incident)
         }
 
         if (observations.has(AVALANCHE)) {
