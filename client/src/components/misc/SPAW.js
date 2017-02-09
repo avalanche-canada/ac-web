@@ -8,7 +8,7 @@ SPAW.propTypes = {
     href: PropTypes.object,
 }
 
-function SPAW({children = 'Special Avalanche Warning', link, style}) {
+function SPAW({children = 'Special Public Avalanche Warning', link, style}) {
     if (!link) {
         return (
             <span styleName='SPAW'>
