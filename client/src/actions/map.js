@@ -63,6 +63,10 @@ function createActionForLayer(layer) {
             return PrismicActions.load({
                 type: 'special-information'
             })
+        case Layers.FATAL_ACCIDENT:
+            return PrismicActions.load({
+                type: 'fatal-accident'
+            })
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
     }

@@ -43,6 +43,14 @@ const TRANSFORMERS = new Map([
             id: uid,
         })
     }],
+    [Layers.FATAL_ACCIDENT, document => {
+        const {uid, location, title} = Parser.parse(document)
+
+        return turf.point([location.longitude, location.latitude], {
+            title,
+            id: uid,
+        })
+    }],
     [Layers.SPECIAL_INFORMATION, document => {
         const {uid, headline, locations} = document
 
@@ -160,17 +168,25 @@ const getSpecialInformationFeatures = createSelector(
         .reduce(pointReducer, [])
 )
 
+// Create Fatal Accident Features
+const getFatalAccidentFeatures = createSelector(
+    state => getDocumentsOfType(state, 'fatal-accident'),
+    documents => documents.map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT)).toArray()
+)
+
 // All map sources
 const getSourceFeatures = createSelector(
     getSubmissionFeatures,
     getWeatherStationFeatures,
     getToyotaTruckFeatures,
     getSpecialInformationFeatures,
-    (submissions, stations, toyota, special) => new Map([
+    getFatalAccidentFeatures,
+    (submissions, stations, toyota, special, fatalAccidents) => new Map([
         [Layers.MOUNTAIN_INFORMATION_NETWORK, submissions],
         [Layers.WEATHER_STATION, stations],
         [Layers.TOYOTA_TRUCK_REPORTS, toyota],
         [Layers.SPECIAL_INFORMATION, special],
+        [Layers.FATAL_ACCIDENT, fatalAccidents],
     ])
 )
 

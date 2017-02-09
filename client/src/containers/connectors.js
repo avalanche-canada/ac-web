@@ -13,6 +13,7 @@ import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
+import getFatalAccident from 'selectors/prismic/fatalAccident'
 import {getToyotaTruckReport, getPost} from 'selectors/prismic'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
 import getFeed, {
@@ -220,12 +221,12 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
         withHandlers({
             onLocateClick: props => event => {
                 if (props.computeFlyTo()) {
-                    props.flyTo(props.computeFlyTo())
+                    return props.flyTo(props.computeFlyTo())
                 }
                 if (props.computeBounds()) {
                     const {bbox, options} = props.computeBounds()
 
-                    props.fitBounds(bbox, options)
+                    return props.fitBounds(bbox, options)
                 }
             }
         }),
@@ -235,6 +236,11 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
 export const specialInformation = panelPrismicConnectorFactory(
     'special-information',
     getSpecialInformation,
+)
+
+export const fatalAccident = panelPrismicConnectorFactory(
+    'fatal-accident',
+    getFatalAccident,
 )
 
 export const toyotaTruckReport = panelPrismicConnectorFactory(

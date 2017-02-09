@@ -84,12 +84,25 @@ const specialInformationLayers = [{
         'icon-size': 0.65,
     },
 }]
+const fatalAccidentLayers = [{
+    id: Layers.FATAL_ACCIDENT,
+    source: Layers.FATAL_ACCIDENT,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        // 'icon-image': 'hospital-15',
+        'icon-image': 'fatal-accident',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
+}]
 
 export default [
     ...toyotaLayers,
     ...weatherStationLayers,
     ...mountainInformationNetworkLayers,
     ...specialInformationLayers,
+    ...fatalAccidentLayers,
 ]
 
 export const LayerIds = new Map([
@@ -116,6 +129,9 @@ export const LayerIds = new Map([
     ],
     [Layers.SPECIAL_INFORMATION,
         specialInformationLayers.map(pluckLayerId)
+    ],
+    [Layers.FATAL_ACCIDENT,
+        fatalAccidentLayers.map(pluckLayerId)
     ],
 ])
 

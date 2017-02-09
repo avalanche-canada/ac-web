@@ -2,18 +2,15 @@ import React, {PropTypes} from 'react'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
 import {InnerHTML, Status, DateTime} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
-import {specialInformation} from 'containers/connectors'
+import {fatalAccident} from 'containers/connectors'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
 
-const LOCATION_STYLE = {
-    fontSize: '1.1em',
-}
 const LOCATE_STYLE = {
     padding: '0.15em'
 }
 
-function SpecialInformation({
+function FatalAccident({
     report,
     status,
     onCloseClick,
@@ -24,11 +21,11 @@ function SpecialInformation({
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject='Special Information'>
+            <Header subject='Fatal Accident'>
                 <Status {...status.toJSON()} />
                 {report &&
                     <h1>
-                        {report.headline}
+                        {report.title}
                         <Wrapper tooltip='Display on map'>
                             <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
                         </Wrapper>
@@ -36,24 +33,13 @@ function SpecialInformation({
                 }
                 {report &&
                     <Metadata>
-                        <Entry term='Date Issued'>
+                        <Entry term='Accident date'>
                             <DateTime value={report.dateOfIssue} />
                         </Entry>
-                        <Entry term='Valid Until'>
-                            {report.validUntil ?
-                                <DateTime value={report.validUntil} /> :
-                                'Further notice'
-                            }
+                        <Entry term='Date issued'>
+                            <DateTime value={report.dateOfIssue} />
                         </Entry>
-                        {report.dateUpdated &&
-                            <Entry term='Date Updated'>
-                                <DateTime value={report.dateUpdated} />
-                            </Entry>
-                        }
                     </Metadata>
-                }
-                {report &&
-                    <p style={LOCATION_STYLE}>{report.locationDescription}</p>
                 }
             </Header>
             {report &&
@@ -67,4 +53,4 @@ function SpecialInformation({
     )
 }
 
-export default specialInformation(SpecialInformation)
+export default fatalAccident(FatalAccident)

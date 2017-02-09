@@ -102,6 +102,23 @@ class Container extends Component {
             }, this.props)
         }
 
+        // Fatal accident
+        features = this.map.queryRenderedFeatures(point, {
+            layers: LayerIds.get(Layers.FATAL_ACCIDENT)
+        })
+
+        if (features.length > 0) {
+            let [feature] = features
+
+            const panel = `fatal-accident/${feature.properties.id}`
+
+            return push({
+                query: {
+                    panel
+                }
+            }, this.props)
+        }
+
         // Handle Mountain Information Network layers
         features = this.map.queryRenderedFeatures(point, {
             layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK)

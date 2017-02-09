@@ -25,4 +25,8 @@ export default {
         data,
         cluster: true,
     },
+    [Layers.FATAL_ACCIDENT]: {
+        type,
+        data,
+    },
 }
