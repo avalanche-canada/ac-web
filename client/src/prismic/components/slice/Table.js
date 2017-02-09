@@ -94,7 +94,9 @@ const mapStateToProps = createSelector(
         const filters = []
 
         filterings.forEach((values, property) => {
-            filters.push(row => values.has(row[property]))
+            if (values.size > 0) {
+                filters.push(row => values.has(row[property]))
+            }
         })
 
         return filters
@@ -126,6 +128,7 @@ const mapStateToProps = createSelector(
 )
 
 function Container({columns = [], rows = [], filters = [], total, pageSize, onPageSizeChange, page, setPage}) {
+    // TODO: Use the Table generator!
     return (
         <div>
             <Br />

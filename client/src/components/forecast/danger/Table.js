@@ -1,4 +1,4 @@
-import React, {PropTypes, Children, cloneElement} from 'react'
+import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import Day from './Day'

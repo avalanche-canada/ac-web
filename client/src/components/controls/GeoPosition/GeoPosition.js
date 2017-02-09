@@ -66,6 +66,7 @@ export default class GeoPosition extends Component {
     }
     handleChange = () => {
         const {lngLat, map} = this.state
+        const {lng, lat} = lngLat.wrap()
 
         if (map) {
             map.easeTo({
@@ -74,8 +75,8 @@ export default class GeoPosition extends Component {
         }
 
         this.props.onChange({
-            longitude: round(lngLat.lng),
-            latitude: round(lngLat.lat),
+            longitude: round(lng),
+            latitude: round(lat),
         })
     }
     componentWillMount() {

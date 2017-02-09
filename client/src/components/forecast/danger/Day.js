@@ -1,4 +1,4 @@
-import React, {PropTypes, Children, cloneElement} from 'react'
+import React, {PropTypes} from 'react'
 import {branch, renderComponent} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {ElementResize} from 'components/misc'

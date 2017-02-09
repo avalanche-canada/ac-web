@@ -48,6 +48,8 @@ router.get('/submissions/:subid', function (req, res) {
     minUtils.getSubmission(subid, req.query.client, function (err, sub) {
         if (err) {
             res.send(500, {error: 'error retreiving submission'})
+        } else if(sub === null){
+            res.send(404, {error: 'No submission found'})
         } else {
             if(req.query && req.query.client){
                 sub = mapWebSubResponse(sub, req);

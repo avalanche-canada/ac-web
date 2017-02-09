@@ -8,6 +8,18 @@ body {
     box-sizing: border-box;
 }
 
+@media screen and (max-width: 680px) {
+    body {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+}
+
 :global(#app) {
     height: calc(100vh - 75px);
 }

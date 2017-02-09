@@ -34,18 +34,18 @@ export default class Container extends Component {
         return (
             <Article style={STYLE}>
                 <Metadata>
-                    <Entry term='Date'>
+                    <Entry term='Date' sideBySide>
                         <DayPicker date={date} onChange={onDayChange} container={this} >
                             <DateElement value={date} />
                         </DayPicker>
                     </Entry>
                     {forecast &&
-                        <Entry term='Issued at'>
+                        <Entry term='Issued at' sideBySide>
                             {forecast.issued || '04:00'} PST/PDT
                         </Entry>
                     }
                     {(forecast && forecast.handle) &&
-                        <Entry term='Created by'>
+                        <Entry term='Created by' sideBySide>
                             {forecast.handle}
                         </Entry>
                     }

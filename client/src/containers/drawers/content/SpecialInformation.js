@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
-import {InnerHTML, Status, Muted} from 'components/misc'
+import {InnerHTML, Status, Muted, DateTime} from 'components/misc'
+import {Metadata, Entry} from 'components/metadata'
 import {specialInformation} from 'containers/connectors'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
@@ -34,11 +35,29 @@ function SpecialInformation({
                         </Wrapper>
                     </h1>
                 }
+                <Muted>{notAvailable}</Muted>
+                <Status {...status} />
+                {report &&
+                    <Metadata>
+                        <Entry term='Date Issued'>
+                            <DateTime value={report.dateOfIssue} />
+                        </Entry>
+                        <Entry term='Valid Until'>
+                            {report.validUntil ?
+                                <DateTime value={report.validUntil} /> :
+                                'Further notice'
+                            }
+                        </Entry>
+                        {report.dateUpdated &&
+                            <Entry term='Date Updated'>
+                                <DateTime value={report.dateUpdated} />
+                            </Entry>
+                        }
+                    </Metadata>
+                }
                 {report &&
                     <p style={LOCATION_STYLE}>{report.locationDescription}</p>
                 }
-                <Muted>{notAvailable}</Muted>
-                <Status {...status} />
             </Header>
             {report &&
                 <Body>
