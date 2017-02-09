@@ -33,6 +33,7 @@ function Container({
     // TODO: Hack, to be fixed!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')
+        specialWarningContent = specialWarningContent.replace('&amp;', '&')
         specialWarningContent = specialWarningContent.split(' - ')[0]
     }
 
