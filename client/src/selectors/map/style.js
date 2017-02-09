@@ -91,7 +91,9 @@ const getSubmission = createSelector(
     }
 )
 
-function prepareSubmissions(submissions, submission, typeFilter) {
+function prepareSubmissions(submissions, submission, typeFilter, filter) {
+    submissions = submissions.filter(filter)
+
     if (typeFilter.size > 0) {
         function has(type) {
             return typeFilter.has(type)
@@ -103,15 +105,17 @@ function prepareSubmissions(submissions, submission, typeFilter) {
         submissions = submissions.filter(filter)
     }
 
-    if (submission) {
+    if (submission && filter(submission)) {
         const {id} = submission.properties
         function filter(submission) {
-            return submission.properties.id !== id
+            return submission.properties.id === id
         }
 
         // We are only adding "submission" once.
         // "submission" may be already in submissions!
-        if (submissions.every(filter)) {
+        const has = submissions.some(filter)
+
+        if (!has) {
             submissions.push(submission)
         }
     }
@@ -119,32 +123,35 @@ function prepareSubmissions(submissions, submission, typeFilter) {
     return submissions
 }
 
+function getSubmissionsTypeFilter(state) {
+    return getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type')
+}
+
 const getIncidentSubmissionFeatures = createSelector(
-    (state, props) => {
+    getSubmissions,
+    getSubmission,
+    getSubmissionsTypeFilter,
+    () => {
         function filter(type) {
             return type === 'incident'
         }
-        return getSubmissions(state, props).filter(
-            submission => submission.properties.types.some(filter)
-        )
+
+        return submission => submission.properties.types.some(filter)
     },
-    getSubmission,
-    state => getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type'),
     prepareSubmissions,
 )
 
 const getSubmissionFeatures = createSelector(
-    (state, props) => {
+    getSubmissions,
+    getSubmission,
+    getSubmissionsTypeFilter,
+    () => {
         function filter(type) {
             return type !== 'incident'
         }
 
-        return getSubmissions(state, props).filter(
-            submission => submission.properties.types.every(filter)
-        )
+        return submission => submission.properties.types.every(filter)
     },
-    getSubmission,
-    state => getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type'),
     prepareSubmissions,
 )
 
