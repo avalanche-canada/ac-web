@@ -80,22 +80,22 @@ export class Metadata extends PureComponent {
 
         return (
             <BaseMetadata>
-                <Entry term='From'>
+                <Entry term='From' sideBySide>
                     <DayPicker date={from} onChange={this.handleFromDateChange} container={this} >
                         <DateElement value={from} />
                     </DayPicker>
                 </Entry>
-                <Entry term='To'>
+                <Entry term='To' sideBySide>
                     <DateElement />
                 </Entry>
-                <Entry term='Reports'>
+                <Entry term='Reports' sideBySide>
                     <Dropdown
                         value={types}
                         onChange={onTypesChange}
                         options={typeOptions}
                         placeholder='Show all' />
                 </Entry>
-                <Entry term='Number of submissions'>
+                <Entry term='Number of submissions' sideBySide>
                     {isLoaded ? total : 'Loading...'}
                 </Entry>
             </BaseMetadata>
