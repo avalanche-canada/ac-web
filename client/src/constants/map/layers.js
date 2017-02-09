@@ -72,6 +72,16 @@ const mountainInformationNetworkLayers = [{
         'text-halo-color': '#FFFFFF',
         'text-halo-width': 0.25,
     },
+}, {
+    id: Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS,
+    source: Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'min-pin-with-incident',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
 }]
 const specialInformationLayers = [{
     id: Layers.SPECIAL_INFORMATION,

@@ -5,6 +5,10 @@ const data = turf.featureCollection([])
 const type = 'geojson'
 
 export default {
+    [Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS]: {
+        type,
+        data,
+    },
     [Layers.MOUNTAIN_INFORMATION_NETWORK]: {
         type,
         data,
