@@ -6,6 +6,8 @@ import {getResultsSet} from 'getters/api'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 import {computeFitBounds} from 'selectors/map/bounds'
+import {getHighlight} from 'getters/prismic'
+import camelCase from 'lodash/camelCase'
 
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
@@ -118,11 +120,12 @@ const getComputeBounds = createSelector(
 )
 
 export default createSelector(
+    getHighlight,
     getForecast,
     getForecastRegion,
     getForecastResultSet,
     getComputeBounds,
-    (forecast, forecastRegion, result, computeBounds) => {
+    (highlight, forecast, forecastRegion, result, computeBounds) => {
         const {isFetching, isError, isLoaded} = result
 
         if (forecast) {
@@ -162,6 +165,9 @@ export default createSelector(
                 forecast: showForecast ? forecast : null,
                 link,
                 computeBounds,
+                isUnderSpecialWarning: highlight && highlight[camelCase(region)] === 'Yes',
+                specialWarningLink: highlight && highlight.link,
+                specialWarningContent: highlight && highlight.description
             }
         } else {
              return {

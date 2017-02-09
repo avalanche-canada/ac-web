@@ -2,9 +2,19 @@
 
 .SPAW {
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    padding: 0.35em;
     font-weight: 700;
     color: white;
+    text-align: center;
+    white-space: pre-wrap;
     background-color: var(--spaw);
+
+    &[href] {
+        &:hover {
+            background-color: var(--spaw-hover);
+        }
+        &:after {
+            content: "\A0\203A";
+        }
+    }
 }

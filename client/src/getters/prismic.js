@@ -1,3 +1,5 @@
+import {createSelector} from 'reselect'
+import transform from 'prismic/transformers'
 import {Map} from 'immutable'
 import {formatAsDay} from 'utils/date'
 import addDays from 'date-fns/add_days'
@@ -51,3 +53,8 @@ export function getWeatherForecast(state, date = new Date(), getYesterday = fals
         return forecasts.find(createFinder(addDays(date, -1)))
     }
 }
+
+export const getHighlight = createSelector(
+    state => getDocumentsOfType(state, 'highlight').first(),
+    highlight => highlight ? transform(highlight) : null
+)
