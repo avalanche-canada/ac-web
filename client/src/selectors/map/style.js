@@ -109,8 +109,8 @@ function prepareSubmissions(submissions, submission, typeFilter) {
             return submission.properties.id !== id
         }
 
-        // We are just adding once the submission.
-        // It may be already in submissions
+        // We are only adding "submission" once.
+        // "submission" may be already in submissions!
         if (submissions.every(filter)) {
             submissions.push(submission)
         }
@@ -133,11 +133,12 @@ const getIncidentSubmissionFeatures = createSelector(
     prepareSubmissions,
 )
 
-    const getSubmissionFeatures = createSelector(
-        (state, props) => {
+const getSubmissionFeatures = createSelector(
+    (state, props) => {
         function filter(type) {
             return type !== 'incident'
         }
+
         return getSubmissions(state, props).filter(
             submission => submission.properties.types.every(filter)
         )
