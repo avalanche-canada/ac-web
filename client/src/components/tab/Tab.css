@@ -23,7 +23,7 @@
 
     & .ListItem {
         position: absolute;
-        left: -200%;
+        left: -99999px;
     }
 
     & .ListItem--Active {
@@ -109,8 +109,8 @@
 
 .Panel {
     position: absolute;
-    left: -10000px;
-    top: -10000px;
+    left: -99999px;
+    top: -99999px;
 	margin: 1em;
 }
 
