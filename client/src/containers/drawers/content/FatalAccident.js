@@ -36,9 +36,6 @@ function FatalAccident({
                         <Entry term='Accident date'>
                             <DateTime value={report.dateOfAccident} />
                         </Entry>
-                        <Entry term='Date issued'>
-                            <DateTime value={report.dateOfIssue} />
-                        </Entry>
                     </Metadata>
                 }
             </Header>
