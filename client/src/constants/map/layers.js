@@ -72,6 +72,16 @@ const mountainInformationNetworkLayers = [{
         'text-halo-color': '#FFFFFF',
         'text-halo-width': 0.25,
     },
+}, {
+    id: Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS,
+    source: Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'min-pin-with-incident',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
 }]
 const specialInformationLayers = [{
     id: Layers.SPECIAL_INFORMATION,
@@ -108,15 +118,9 @@ export const LayerIds = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK,
         mountainInformationNetworkLayers.map(pluckLayerId)
     ],
-    [Layers.WEATHER_STATION,
-        weatherStationLayers.map(pluckLayerId)
-    ],
-    [Layers.TOYOTA_TRUCK_REPORTS,
-        toyotaLayers.map(pluckLayerId)
-    ],
-    [Layers.SPECIAL_INFORMATION,
-        specialInformationLayers.map(pluckLayerId)
-    ],
+    [Layers.WEATHER_STATION, weatherStationLayers.map(pluckLayerId)],
+    [Layers.TOYOTA_TRUCK_REPORTS, toyotaLayers.map(pluckLayerId)],
+    [Layers.SPECIAL_INFORMATION, specialInformationLayers.map(pluckLayerId)],
 ])
 
 const isActiveRegExp = /-active/

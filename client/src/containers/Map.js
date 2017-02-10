@@ -114,7 +114,9 @@ class Container extends Component {
                 const {point_count} = feature.properties
                 const {data} = this.map.getSource(Layers.MOUNTAIN_INFORMATION_NETWORK).serialize()
                 const submissions = near(feature, data, point_count)
-                const coordinates = submissions.features.map(({geometry}) => geometry.coordinates)
+                const coordinates = submissions.features.map(
+                    feature => feature.geometry.coordinates
+                )
                 const longitudes = new Set(coordinates.map(c => c[0]))
                 const latitudes = new Set(coordinates.map(c => c[1]))
 
@@ -126,12 +128,10 @@ class Container extends Component {
 
                 return
             } else {
-                const {id} = feature.properties
-
-                if (features.length > 1) {
+                if (features.filter(feature => !feature.properties.cluster).length > 1) {
                     this.showMINPopup(features)
                 } else {
-                    this.transitionToMIN(id)
+                    this.transitionToMIN(feature.properties.id)
                 }
 
                 return
