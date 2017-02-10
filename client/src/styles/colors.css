@@ -30,4 +30,6 @@
     --weather-obs: #FFC107;
     --incident-obs: #F44336;
 
+    --spaw: #E6252F;
+    --spaw-hover: color(var(--spaw) blackness(15%));
 }

@@ -14,6 +14,8 @@ export Br from './Br'
 
 export P from './P'
 
+export SPAW from './SPAW'
+
 export GoBack from './GoBack'
 
 export {Relative} from './Time'

@@ -3,7 +3,7 @@ import {toClass} from 'recompose'
 import {Link} from 'react-router'
 import {Navbar, Header, Container as DrawerContainer, Body, Close} from 'components/page/drawer'
 import Forecast, {Metadata} from 'components/forecast'
-import {Muted, Error} from 'components/misc'
+import {Muted, Error, SPAW} from 'components/misc'
 import {forecast} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
 import {LocateAsClass} from 'components/button/Locate'
@@ -29,6 +29,8 @@ function Container({
     isLoading,
     isLoaded,
     isError,
+    isUnderSpecialWarning,
+    specialWarningLink,
     forecast,
     type,
     title = 'Loading...',
@@ -37,10 +39,14 @@ function Container({
     onLocateClick,
 }) {
     const shareUrl = link && `${window.location.origin}${link.to}`
+    const NAVBAR_STYLE = isUnderSpecialWarning ? {
+        justifyContent: 'space-between'
+    } : null
 
     return (
         <DrawerContainer>
-            <Navbar>
+            <Navbar style={NAVBAR_STYLE}>
+                {isUnderSpecialWarning && <SPAW link={specialWarningLink} />}
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>

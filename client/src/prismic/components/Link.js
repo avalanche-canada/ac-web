@@ -6,9 +6,11 @@ import {pathname, title} from 'utils/prismic'
 export default compose(
     setPropTypes({
         document: PropTypes.object.isRequired,
+        children: PropTypes.node,
     }),
-    mapProps(({document}) => ({
+    mapProps(({children, document, ...props}) => ({
+        ...props,
         to: pathname(document),
-        children: title(document),
+        children: children || title(document),
     }))
 )(Link)

@@ -57,7 +57,7 @@ export default class Container extends Component {
             return null
         }
 
-        const {description, style} = this.highlight
+        const {description, style, link} = this.highlight
 
         return (
             <Highlight style={style} onDismiss={this.handleDismiss} dismissable>
