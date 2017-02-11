@@ -4,8 +4,23 @@ import en from 'tcomb-form/lib/i18n/en'
 import templates, {pickers} from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
+import {isTypeSupported} from 'utils/input'
+import parse from 'date-fns/parse'
 
 // Date
+class DateFactory extends t.form.Textbox {
+    static transformer = {
+        format(value) {
+            return value instanceof Date ? value.toISOString() : value
+        },
+        parse(value) {
+            return value ? parse(value) : null
+        }
+    }
+    getTransformer() {
+        return DateFactory.transformer
+    }
+}
 class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
@@ -15,7 +30,17 @@ class DatePickerFactory extends t.form.Textbox {
         })
     }
 }
-t.Date.getTcombFormFactory = () => DatePickerFactory
+Object.assign(t.Date, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('date')) {
+            options.type = 'date'
+
+            return DateFactory
+        }
+
+        return DatePickerFactory
+    }
+})
 
 // Time
 export const Time = t.irreducible('Time', value => typeof value === 'string')
@@ -29,7 +54,17 @@ class TimePickerFactory extends t.form.Textbox {
         })
     }
 }
-Time.getTcombFormFactory = () => TimePickerFactory
+Object.assign(Time, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('time')) {
+            options.type = 'time'
+
+            return t.form.Textbox
+        }
+
+        return TimePickerFactory
+    }
+})
 
 // Date and Time
 export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
@@ -43,8 +78,17 @@ class DateTimePickerFactory extends t.form.Textbox {
         })
     }
 }
-DateTime.getTcombFormFactory = () => DateTimePickerFactory
+Object.assign(DateTime, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('datetime-local')) {
+            options.type = 'datetime-local'
 
+            return DateFactory
+        }
+
+        return DateTimePickerFactory
+    }
+})
 
 // FileList
 export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)

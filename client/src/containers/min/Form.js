@@ -13,7 +13,6 @@ import {Page, Header, Main, Section, Content} from 'components/page'
 import Button from 'components/button'
 import styles from './Form.css'
 import OPTIONS from './options'
-import moment from 'moment'
 import QUICK_REPORT from './quick.json'
 import {Error, Mailto} from 'components/misc'
 import debounce from 'lodash/debounce'
@@ -40,6 +39,7 @@ import {
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
 import isNull from 'lodash/isNull'
+import format from 'date-fns/format'
 
 const ObservationTypes = new Map([
     [QUICK, QuickReport],
@@ -188,25 +188,18 @@ export default class Form extends Component {
         }
 
         if (observations.has(AVALANCHE)) {
-            const {
-                avalancheOccurrence: {
-                    time,
-                    epoch,
-                },
-                ...avalanche,
-            } = observations.get(AVALANCHE)
+            observations = observations.update(AVALANCHE, avalanche => {
+                const {avalancheOccurrence} = avalanche
 
-            let [hour, minute] = time.split(':').map(Number)
-            const period = hour / 12 < 1 ? 'AM' : 'PM'
+                avalanche = {
+                    ...avalanche,
+                    avalancheOccurrenceEpoch: format(avalancheOccurrence, 'YYYY-MM-DD'),
+                    avalancheOccurrenceTime: format(avalancheOccurrence, 'hh:mm A'),
+                }
 
-            if (period === 'PM') {
-                hour = hour % 12
-            }
+                delete avalanche.avalancheOccurrence
 
-            observations = observations.set(AVALANCHE, {
-                ...avalanche,
-                avalancheOccurrenceEpoch: moment(epoch).format(('YYYY-MM-DD')),
-                avalancheOccurrenceTime: `${hour}:${minute} ${period}`,
+                return avalanche
             })
         }
 

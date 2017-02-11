@@ -1,4 +1,4 @@
-import t, {GeoPosition, Time, DateTime, FileList} from 'services/tcomb-form'
+import t, {GeoPosition, DateTime, FileList} from 'services/tcomb-form'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -81,10 +81,7 @@ export const QuickReport = t.struct({
 })
 
 export const AvalancheReport = t.struct({
-    avalancheOccurrence: t.struct({
-        epoch: t.Date, // pattern '^\d\d\d\d-\d\d-\d\d$'
-        time: Time, // pattern '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$'
-    }),
+    avalancheOccurrence: DateTime,
     avalancheObservation: t.maybe(t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago'])),
     avalancheNumber: t.maybe(t.enums.of(['1', '2-5', '6-10', '11-50', '51-100'])),
     avalancheSize: t.maybe(t.enums.of(['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'])),

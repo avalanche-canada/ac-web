@@ -50,21 +50,15 @@ export default {
             },
             datetime: {
                 label: 'When were you in the field?',
+                attrs: {
+                    placeholder: 'Select a date/time',
+                },
             },
             latlng: {
                 label: 'Location',
                 help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
-                fields: {
-                    longitude: {
-                        attrs: {
-                            placeholder: 'e.g. -118.883',
-                        },
-                    },
-                    latitude: {
-                        attrs: {
-                            placeholder: 'e.g. 51.522',
-                        },
-                    },
+                attrs: {
+                    placeholder: 'Select a date/time',
                 },
             },
         },
@@ -353,19 +347,8 @@ export default {
             avalancheOccurrence: {
                 label: 'Avalanche date/time',
                 help: 'If you triggered or witnessed an avalanche add date/time.',
-                fields: {
-                    epoch: {
-                        label: 'Date',
-                        attrs: {
-                            placeholder: 'Click to select a date'
-                        },
-                    },
-                    time: {
-                        label: 'Time',
-                        attrs: {
-                            placeholder: 'Click to select a time'
-                        },
-                    },
+                attrs: {
+                    placeholder: 'Select a date/time',
                 },
             },
             avalancheObservation: {
@@ -462,7 +445,7 @@ export default {
             weakLayerBurialDate: {
                 help: 'Date the weak layer was buried.',
                 attrs: {
-                    placeholder: 'Click to selecrt date'
+                    placeholder: 'Click to select date'
                 },
             },
             windExposure: {

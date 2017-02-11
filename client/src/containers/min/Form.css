@@ -156,7 +156,7 @@
             &:before {
                 content: "";
                 height: 2em;
-                position: absolute -8px -8px auto -8px;
+                position: absolute auto -8px auto -8px;
                 background-color: white;
                 z-index: -1;
             }
