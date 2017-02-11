@@ -462,7 +462,7 @@ export default {
             weakLayerBurialDate: {
                 help: 'Date the weak layer was buried.',
                 attrs: {
-                    placeholder: 'Click to selecrt date'
+                    placeholder: 'Click to select date'
                 },
             },
             windExposure: {
