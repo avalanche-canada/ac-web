@@ -57,9 +57,20 @@ export default {
             latlng: {
                 label: 'Location',
                 help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
-                attrs: {
-                    placeholder: 'Select a date/time',
-                },
+                fields: {
+                    longitude: {
+                        error: 'Enter a number between -180° and 180°',
+                        attrs: {
+                            placeholder: 'e.g. -118.18',
+                        }
+                    },
+                    latitude: {
+                        error: 'Enter a number between -90° and 90°',
+                        attrs: {
+                            placeholder: 'e.g. 50.98',
+                        }
+                    },
+                }
             },
         },
     },

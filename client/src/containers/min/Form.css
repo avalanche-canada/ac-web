@@ -29,6 +29,12 @@
         }
     }
 
+    & :global(.field.error) {
+        & :global(.label.red) {
+            color:
+        }
+    }
+
     & button[type="submit"] {
         width: 100%;
     }
@@ -44,7 +50,7 @@
 
     & :global(.fieldset-content),
     & :global(.field-radio-set) {
-        margin-bottom: 2em;
+        margin-bottom: 1em;
     }
 
     & :global(.field-avalancheSize > .field-radio-set),
@@ -85,7 +91,11 @@
     & :global(.ui.pointing.label.visible) {
         display: block;
         color: var(--gray-dark);
-        margin: 0.5em 0;
+        margin: 0.25em 0;
+
+        &:global(.red) {
+            color: var(--brand-secondary);
+        }
     }
 
     & :global(.ui.message.info) {
