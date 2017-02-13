@@ -246,9 +246,6 @@ export default class Form extends Component {
             value: this.state.value.setIn(path, value)
         })
     }, 250)
-    clearValue(path) {
-        this.setValue(path, null)
-    }
     handleRequiredChange = value => {
         this.setValue(['required'], value)
     }
@@ -256,7 +253,7 @@ export default class Form extends Component {
         this.setValue(['observations', type], value)
     }
     handleClearObservation = type => event => {
-        this.clearValue(['observations', type])
+        this.setValue(['observations', type], null)
     }
     handleTabActivate = activeIndex => {
         this.setState({activeIndex})
