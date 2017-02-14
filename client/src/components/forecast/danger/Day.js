@@ -66,7 +66,9 @@ function Day({date, alp, tln, btl}) {
 
 FirstDay.propTypes = Day.propTypes
 
-function FirstDay({date, ...ratings}) {
+function FirstDay(props) {
+    const {date, ...ratings} = props
+
     return (
         <div styleName='FirstDay'>
             <ElementResize>
