@@ -1,30 +1,14 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import {compose, withContext, withState, withProps, withHandlers, branch, renderComponent} from 'recompose'
+import {compose, withContext, withState, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import {neverUpdate} from 'compose'
 import {Primary, Secondary, Menu, ToggleMenu} from 'containers/drawers'
 import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
 import mapbox from 'services/mapbox/map'
-import {Add} from 'components/icons'
 import {Wrapper} from 'components/tooltip'
 import styles from './Map.css'
-
-function Layout({primary, setInitializationError}) {
-    return (
-        <div styleName='Container'>
-            <Map onInitializationError={setInitializationError} />
-            <Primary>
-                {primary}
-            </Primary>
-            <Secondary />
-            <Menu />
-            <ToggleMenu />
-            <LinkControlSet />
-        </div>
-    )
-}
 
 export default mapbox.supported() ? compose(
     withState('initializationError', 'setInitializationError', false),
@@ -39,7 +23,6 @@ export default mapbox.supported() ? compose(
     ),
     CSSModules(styles),
 )(Layout) : UnsupportedMap
-
 
 function LinkControlSet() {
     const TOOLTIP_STYLE = {
@@ -74,3 +57,18 @@ function LinkControlSet() {
 }
 
 LinkControlSet = neverUpdate(LinkControlSet)
+
+function Layout({primary, setInitializationError}) {
+    return (
+        <div styleName='Container'>
+            <Map onInitializationError={setInitializationError} />
+            <Primary>
+                {primary}
+            </Primary>
+            <Secondary />
+            <Menu />
+            <ToggleMenu />
+            <LinkControlSet />
+        </div>
+    )
+}
