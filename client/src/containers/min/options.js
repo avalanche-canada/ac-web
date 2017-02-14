@@ -49,6 +49,7 @@ export default {
                 },
             },
             datetime: {
+                type: 'datetime-local',
                 label: 'When were you in the field?',
                 attrs: {
                     placeholder: 'Select a date/time',
@@ -187,6 +188,7 @@ export default {
                 },
             },
             stormStartDate: {
+                type: 'date',
                 help: 'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
                 attrs: {
                     placeholder: 'Click to select a date'
@@ -356,6 +358,7 @@ export default {
         help: 'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
         fields: {
             avalancheOccurrence: {
+                type: 'datetime-local',
                 label: 'Avalanche date/time',
                 help: 'If you triggered or witnessed an avalanche add date/time.',
                 attrs: {
@@ -454,6 +457,7 @@ export default {
                 },
             },
             weakLayerBurialDate: {
+                type: 'date',
                 help: 'Date the weak layer was buried.',
                 attrs: {
                     placeholder: 'Click to select date'

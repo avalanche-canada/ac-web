@@ -33,8 +33,6 @@ class DatePickerFactory extends t.form.Textbox {
 Object.assign(t.Date, {
     getTcombFormFactory(options) {
         if (isTypeSupported('date')) {
-            options.type = 'date'
-
             return DateFactory
         }
 
@@ -57,8 +55,6 @@ class TimePickerFactory extends t.form.Textbox {
 Object.assign(Time, {
     getTcombFormFactory(options) {
         if (isTypeSupported('time')) {
-            options.type = 'time'
-
             return t.form.Textbox
         }
 
@@ -81,8 +77,6 @@ class DateTimePickerFactory extends t.form.Textbox {
 Object.assign(DateTime, {
     getTcombFormFactory(options) {
         if (isTypeSupported('datetime-local')) {
-            options.type = 'datetime-local'
-
             return DateFactory
         }
 
