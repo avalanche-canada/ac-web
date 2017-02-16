@@ -6,11 +6,18 @@ Entry.propTypes = {
     term: PropTypes.string,
     children: PropTypes.node.isRequired,
     sideBySide: PropTypes.bool,
+    fullWidth: PropTypes.bool,
 }
 
-function Entry({term, children, sideBySide}) {
+function Entry({term, children, sideBySide, fullWidth}) {
+    var styleName = 'Entry';
+    if(sideBySide) {
+        styleName = 'Entry--SideBySide';
+    }else if(fullWidth) {
+        styleName = 'Entry--Full';
+    }
     return (
-        <dl styleName={sideBySide ? 'Entry--SideBySide' : 'Entry'}>
+        <dl styleName={styleName}>
             <dt styleName='Term'>{term}</dt>
             <dd styleName='Description'>{children}</dd>
         </dl>
