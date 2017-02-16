@@ -1,4 +1,5 @@
 import t, {GeoPosition, DateTime, FileList} from 'services/tcomb-form'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'constants/min'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -26,7 +27,7 @@ export const RequiredInformation = t.struct({
     latlng: GeoPosition,
 })
 
-export const Uploads = t.struct({
+export const UploadSet = t.struct({
     files: t.maybe(FileList)
 })
 
@@ -126,40 +127,40 @@ export const AvalancheReport = t.struct({
 })
 
 export const SnowpackReport = t.struct({
-    snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
-    snowpackSiteElevation: t.maybe(range(0, 4000)),
-    snowpackSiteElevationBand: t.maybe(t.struct({
-        'Alpine': t.Boolean,
-        'Treeline': t.Boolean,
-        'Below treeline': t.Boolean,
-    })),
-    snowpackSiteAspect: t.maybe(Aspect),
-    snowpackDepth: t.maybe(range(0, 10000)),
-    snowpackWhumpfingObserved: t.maybe(YesNo),
-    snowpackCrackingObserved: t.maybe(YesNo),
-    snowpackSurfaceCondition: t.maybe(t.struct({
-        'New snow': t.Boolean,
-        'Crust': t.Boolean,
-        'Surface hoar': t.Boolean,
-        'Facets': t.Boolean,
-        'Corn': t.Boolean,
-        'Variable': t.Boolean,
-    })),
-    snowpackFootPenetration: t.maybe(range(0, 200)),
-    snowpackSkiPenetration: t.maybe(range(0, 200)),
-    snowpackSledPenetration: t.maybe(range(0, 200)),
-    snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
-    snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
-    snowpackTestFailure: t.maybe(range(0, 200)),
-    snowpackTestFailureLayerCrystalType: t.maybe(t.struct({
-        'Surface hoar': t.Boolean,
-        'Facets': t.Boolean,
-        'Depth hoar': t.Boolean,
-        'Storm snow': t.Boolean,
-        'Crust': t.Boolean,
-        'Other': t.Boolean,
-    })),
-    snowpackObsComment: t.maybe(t.String),
+    // snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
+    // snowpackSiteElevation: t.maybe(range(0, 4000)),
+    // snowpackSiteElevationBand: t.maybe(t.struct({
+    //     'Alpine': t.Boolean,
+    //     'Treeline': t.Boolean,
+    //     'Below treeline': t.Boolean,
+    // })),
+    // snowpackSiteAspect: t.maybe(Aspect),
+    // snowpackDepth: t.maybe(range(0, 10000)),
+    // snowpackWhumpfingObserved: t.maybe(YesNo),
+    // snowpackCrackingObserved: t.maybe(YesNo),
+    // snowpackSurfaceCondition: t.maybe(t.struct({
+    //     'New snow': t.Boolean,
+    //     'Crust': t.Boolean,
+    //     'Surface hoar': t.Boolean,
+    //     'Facets': t.Boolean,
+    //     'Corn': t.Boolean,
+    //     'Variable': t.Boolean,
+    // })),
+    // snowpackFootPenetration: t.maybe(range(0, 200)),
+    // snowpackSkiPenetration: t.maybe(range(0, 200)),
+    // snowpackSledPenetration: t.maybe(range(0, 200)),
+    // snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
+    // snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
+    // snowpackTestFailure: t.maybe(range(0, 200)),
+    // snowpackTestFailureLayerCrystalType: t.maybe(t.struct({
+    //     'Surface hoar': t.Boolean,
+    //     'Facets': t.Boolean,
+    //     'Depth hoar': t.Boolean,
+    //     'Storm snow': t.Boolean,
+    //     'Crust': t.Boolean,
+    //     'Other': t.Boolean,
+    // })),
+    // snowpackObsComment: t.maybe(t.String),
 })
 
 export const WeatherReport = t.struct({
@@ -184,14 +185,14 @@ export const WeatherReport = t.struct({
 export const IncidentReport = t.struct({
     groupActivity: t.maybe(t.enums.of(['Snowmobiling', 'Skiing', 'Climbing/Mountaineering', 'Hiking/Scrambling', 'Snowshoeing', 'Tobogganing', 'Other'])),
     otherActivityDescription: t.maybe(t.String),
-    groupDetails: t.struct({
+    groupDetails: t.maybe(t.struct({
         groupSize: t.maybe(range(1, 100)),
         numberFullyBuried: t.maybe(range(1, 100)),
         numberPartlyBuriedImpairedBreathing: t.maybe(range(0, 100)),
         numberPartlyBuriedAbleBreathing: t.maybe(range(0, 100)),
         numberCaughtOnly: t.maybe(range(0, 100)),
         numberPeopleInjured: t.maybe(range(0, 400)),
-    }),
+    })),
     terrainShapeTriggerPoint: t.maybe(t.enums.of(['Convex', 'Planar', 'Concave', 'Unsupported'])),
     snowDepthTriggerPoint: t.maybe(t.enums.of(['Shallow', 'Deep', 'Average', 'Variable'])),
     terrainTrap: t.maybe(t.struct({
@@ -205,22 +206,21 @@ export const IncidentReport = t.struct({
     numberInvolved: t.maybe(t.Number),
 })
 
-// TODO: Use this type to render the form...
-// It will be easier to validate...and render
 export const ObservationSet = t.refinement(t.struct({
-    quickReport: t.maybe(QuickReport),
-    avalancheReport: t.maybe(AvalancheReport),
-    snowpackReport: t.maybe(SnowpackReport),
-    weatherReport: t.maybe(WeatherReport),
-    incidentReport: t.maybe(IncidentReport),
+    [QUICK]: t.maybe(QuickReport),
+    [AVALANCHE]: t.maybe(AvalancheReport),
+    [SNOWPACK]: t.maybe(SnowpackReport),
+    [WEATHER]: t.maybe(WeatherReport),
+    [INCIDENT]: t.maybe(IncidentReport),
 }), observations => {
+    console.warn(observations)
     const keys = Object.keys(observations)
 
     return keys.length > 0 && keys.every(key => !t.Nil.is(observations[key]))
 })
 
-Object.assign(ObservationSet.prototype, {
-    transformForServer() {
-        console.warn('not implemented')
-    }
+export const Submission = t.struct({
+    required: RequiredInformation,
+    observations: ObservationSet,
+    uploads: UploadSet,
 })

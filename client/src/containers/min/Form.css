@@ -179,7 +179,7 @@
     }
 }
 
-.Observations {
+.ObservationSet {
     composes: MainFieldsetContainer;
 
     flex: 1;
