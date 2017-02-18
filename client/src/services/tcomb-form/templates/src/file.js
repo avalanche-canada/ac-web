@@ -53,9 +53,7 @@ class Slider extends Component {
     }
     setImages(files) {
         this.setState(STATE, () => {
-            const promises = Array.from(files).map(read)
-
-            Promise.all(promises)
+            Promise.all(Array.from(files).map(read))
                 .then(images => ({images}), () => ({hasError: true}))
                 .then(state => this.setState(state))
         })

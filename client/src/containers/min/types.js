@@ -1,5 +1,5 @@
 import t, {GeoPosition, DateTime, FileList} from 'services/tcomb-form'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from 'constants/min'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, TYPES} from 'constants/min'
 
 function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
@@ -31,7 +31,13 @@ export const UploadSet = t.struct({
     files: t.maybe(FileList)
 })
 
-export const QuickReport = t.struct({
+const ObservationType = t.enums.of(TYPES)
+
+const BaseObservation = t.struct({
+    type: ObservationType
+})
+
+const QuickObservation = BaseObservation.extend({
     ridingConditions: t.maybe(t.struct({
         ridingQuality: t.maybe(t.enums.of(['Amazing', 'Good', 'OK', 'Terrible'])),
         snowConditions: t.maybe(t.struct({
@@ -81,7 +87,7 @@ export const QuickReport = t.struct({
     comment: t.maybe(t.String),
 })
 
-export const AvalancheReport = t.struct({
+const AvalancheObservation = BaseObservation.extend({
     avalancheOccurrence: DateTime,
     avalancheObservation: t.maybe(t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago'])),
     avalancheNumber: t.maybe(t.enums.of(['1', '2-5', '6-10', '11-50', '51-100'])),
@@ -126,44 +132,44 @@ export const AvalancheReport = t.struct({
     avalancheObsComment: t.maybe(t.String),
 })
 
-export const SnowpackReport = t.struct({
-    // snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
-    // snowpackSiteElevation: t.maybe(range(0, 4000)),
-    // snowpackSiteElevationBand: t.maybe(t.struct({
-    //     'Alpine': t.Boolean,
-    //     'Treeline': t.Boolean,
-    //     'Below treeline': t.Boolean,
-    // })),
-    // snowpackSiteAspect: t.maybe(Aspect),
-    // snowpackDepth: t.maybe(range(0, 10000)),
-    // snowpackWhumpfingObserved: t.maybe(YesNo),
-    // snowpackCrackingObserved: t.maybe(YesNo),
-    // snowpackSurfaceCondition: t.maybe(t.struct({
-    //     'New snow': t.Boolean,
-    //     'Crust': t.Boolean,
-    //     'Surface hoar': t.Boolean,
-    //     'Facets': t.Boolean,
-    //     'Corn': t.Boolean,
-    //     'Variable': t.Boolean,
-    // })),
-    // snowpackFootPenetration: t.maybe(range(0, 200)),
-    // snowpackSkiPenetration: t.maybe(range(0, 200)),
-    // snowpackSledPenetration: t.maybe(range(0, 200)),
-    // snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
-    // snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
-    // snowpackTestFailure: t.maybe(range(0, 200)),
-    // snowpackTestFailureLayerCrystalType: t.maybe(t.struct({
-    //     'Surface hoar': t.Boolean,
-    //     'Facets': t.Boolean,
-    //     'Depth hoar': t.Boolean,
-    //     'Storm snow': t.Boolean,
-    //     'Crust': t.Boolean,
-    //     'Other': t.Boolean,
-    // })),
-    // snowpackObsComment: t.maybe(t.String),
+const SnowpackObservation = BaseObservation.extend({
+    snowpackObsType: t.maybe(t.enums.of(['Point observation', 'Summary'])),
+    snowpackSiteElevation: t.maybe(range(0, 4000)),
+    snowpackSiteElevationBand: t.maybe(t.struct({
+        'Alpine': t.Boolean,
+        'Treeline': t.Boolean,
+        'Below treeline': t.Boolean,
+    })),
+    snowpackSiteAspect: t.maybe(Aspect),
+    snowpackDepth: t.maybe(range(0, 10000)),
+    snowpackWhumpfingObserved: t.maybe(YesNo),
+    snowpackCrackingObserved: t.maybe(YesNo),
+    snowpackSurfaceCondition: t.maybe(t.struct({
+        'New snow': t.Boolean,
+        'Crust': t.Boolean,
+        'Surface hoar': t.Boolean,
+        'Facets': t.Boolean,
+        'Corn': t.Boolean,
+        'Variable': t.Boolean,
+    })),
+    snowpackFootPenetration: t.maybe(range(0, 200)),
+    snowpackSkiPenetration: t.maybe(range(0, 200)),
+    snowpackSledPenetration: t.maybe(range(0, 200)),
+    snowpackTestInitiation: t.maybe(t.enums.of(['None', 'Very easy', 'Easy', 'Moderate', 'Hard'])),
+    snowpackTestFracture: t.maybe(t.enums.of(['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'])),
+    snowpackTestFailure: t.maybe(range(0, 200)),
+    snowpackTestFailureLayerCrystalType: t.maybe(t.struct({
+        'Surface hoar': t.Boolean,
+        'Facets': t.Boolean,
+        'Depth hoar': t.Boolean,
+        'Storm snow': t.Boolean,
+        'Crust': t.Boolean,
+        'Other': t.Boolean,
+    })),
+    snowpackObsComment: t.maybe(t.String),
 })
 
-export const WeatherReport = t.struct({
+const WeatherObservation = BaseObservation.extend({
     skyCondition: t.maybe(t.enums.of(['Clear', 'Few clouds (<2/8)', 'Scattered clouds (2/8-4/8)', 'Broken clouds (5/8-7/8)', 'Overcast (8/8)', 'Fog'])),
     precipitationType: t.maybe(t.enums.of(['Snow', 'Rain', 'Mixed snow & rain', 'None'])),
     snowfallRate: t.maybe(range(1, 20)),
@@ -182,7 +188,7 @@ export const WeatherReport = t.struct({
     weatherObsComment: t.maybe(t.maybe(t.String)),
 })
 
-export const IncidentReport = t.struct({
+const IncidentObservation = BaseObservation.extend({
     groupActivity: t.maybe(t.enums.of(['Snowmobiling', 'Skiing', 'Climbing/Mountaineering', 'Hiking/Scrambling', 'Snowshoeing', 'Tobogganing', 'Other'])),
     otherActivityDescription: t.maybe(t.String),
     groupDetails: t.maybe(t.struct({
@@ -206,18 +212,19 @@ export const IncidentReport = t.struct({
     numberInvolved: t.maybe(t.Number),
 })
 
-export const ObservationSet = t.refinement(t.struct({
-    [QUICK]: t.maybe(QuickReport),
-    [AVALANCHE]: t.maybe(AvalancheReport),
-    [SNOWPACK]: t.maybe(SnowpackReport),
-    [WEATHER]: t.maybe(WeatherReport),
-    [INCIDENT]: t.maybe(IncidentReport),
-}), observations => {
-    console.warn(observations)
-    const keys = Object.keys(observations)
+export const ObservationTypes = new Map([
+    [QUICK, QuickObservation],
+    [AVALANCHE, AvalancheObservation],
+    [SNOWPACK, SnowpackObservation],
+    [WEATHER, WeatherObservation],
+    [INCIDENT, IncidentObservation],
+])
 
-    return keys.length > 0 && keys.every(key => !t.Nil.is(observations[key]))
-})
+const Observation = t.union(Array.from(ObservationTypes.values()))
+
+Observation.dispatch = observation => ObservationTypes.get(observation.type)
+
+const ObservationSet = t.refinement(t.list(Observation), items => items.length > 0)
 
 export const Submission = t.struct({
     required: RequiredInformation,

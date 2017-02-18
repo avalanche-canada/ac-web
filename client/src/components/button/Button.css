@@ -125,7 +125,7 @@
 
 .ChevronRight {
     &:after {
-        content: " ›";
+        content: "\00a0›";
         color: white;
         font-size: 1.25em;
         line-height: 0;
@@ -134,7 +134,7 @@
 
 .ChevronLeft {
     &:before {
-        content: "‹ ";
+        content: "‹\00a0";
         color: white;
         font-size: 1.25em;
         line-height: 0;
