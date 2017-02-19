@@ -1,6 +1,6 @@
 import QUICK_REPORT from 'containers/min/quick.json'
 import t from 'services/tcomb-form'
-import {Submission} from 'containers/min/types'
+import Submission from 'containers/min/types'
 import {QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT} from 'constants/min'
 import identity from 'lodash/identity'
 
@@ -13,6 +13,8 @@ const ObservationKeys = new Map([
 ])
 const ObservationTransformers = new Map([
     [QUICK, quick => {
+        quick.ridingConditions = quick.ridingConditions || {}
+
         function ridingConditionsReducer(conditions, key) {
             const prev = QUICK_REPORT.ridingConditions[key]
             const next = quick.ridingConditions[key]
@@ -25,7 +27,7 @@ const ObservationTransformers = new Map([
             } else {
                 conditions[key] = {
                     ...prev,
-                    options: next
+                    options: next || prev.options
                 }
             }
 
@@ -54,7 +56,7 @@ const ObservationTransformers = new Map([
             numberPartlyBuriedAbleBreathing = 0,
             numberCaughtOnly = 0,
             numberPeopleInjured = 0,
-        } = incident.groupDetails
+        } = incident.groupDetails || {}
         const numberInvolved = numberFullyBuried + numberPartlyBuriedImpairedBreathing + numberPartlyBuriedAbleBreathing + numberCaughtOnly + numberPeopleInjured
 
         if (numberInvolved > 0) {
@@ -112,17 +114,22 @@ export function transformSubmissionForPost(value) {
         ...required,
         datetime: required.datetime.toISOString(),
         latlng: [String(latitude), String(longitude)],
-        obs: observations.reduce((obs, {type, ...ob}) => {
-            const transformer = ObservationTransformers.get(type)
-            const key = ObservationKeys.get(type)
+        obs: Object.keys(observations).reduce((obs, type) => {
+            const ob = observations[type]
 
-            obs[key] = transformer.call(null, ob)
+            if (ob) {
+                const transformer = ObservationTransformers.get(type)
+                const key = ObservationKeys.get(type)
+
+                obs[key] = transformer.call(null, ob)
+            }
 
             return obs
         }, {})
     }
 
     // Conversion to form data
+    // Could be a util function
     const form = new FormData()
 
     Object.keys(data).forEach(key => {

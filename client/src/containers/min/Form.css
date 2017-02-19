@@ -212,3 +212,7 @@
         left: 99999px;
     }
 }
+
+.ObservationSetError {
+    color: var(--brand-secondary);
+}

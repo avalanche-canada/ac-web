@@ -7,13 +7,20 @@ import {MountainInformationNetworkSubmission} from 'api/schemas'
 import {Page, Header, Main, Content} from 'components/page'
 import OPTIONS from './options'
 import {postMountainInformationNetworkSubmission} from 'actions/entities'
-import {Submission} from './types'
+import Submission from './types'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
 import {Submit} from 'components/button'
 import styles from './Form.css'
+import set from 'lodash/set'
+import {TYPES} from 'constants/min'
+import ObservationSetError from './ObservationSetError'
 
 const {Form} = t.form
+
+function isObservationError(error) {
+    return error.path[0] === 'observations'
+}
 
 @withRouter
 @connect(null, {
@@ -31,6 +38,56 @@ export default class SubmissionForm extends Component {
         super(props)
 
         this.auth = AuthService.create()
+        this.state.options.fields.observations.config.onTabActivate = this.handleTabActivate
+    }
+    set activeIndex(activeIndex) {
+        if (typeof activeIndex === 'string') {
+            activeIndex = TYPES.indexOf(activeIndex)
+        }
+
+        this.setState({
+            options: t.update(this.state.options, {
+                fields: {
+                    observations: {
+                        config: {
+                            activeIndex: {
+                                '$set': activeIndex
+                            }
+                        }
+                    }
+                }
+            })
+        })
+    }
+    set observationErrors(errors) {
+        if (errors.length === 0) {
+            return
+        }
+
+        this.setState({
+            options: t.update(this.state.options, {
+                fields: {
+                    observations: {
+                        error: {
+                            '$set': <ObservationSetError errors={errors} onErrorClick={this.handleErrorClick} />
+                        }
+                    }
+                }
+            })
+        }, () => {
+            const [{path: [root, type]}] = errors
+
+            if (type) {
+                this.activeIndex = type
+            }
+        })
+    }
+    handleTabActivate = activeIndex => {
+        this.activeIndex = activeIndex
+    }
+    handleErrorClick = (type, event) => {
+        event.preventDefault()
+        this.activeIndex = type
     }
     handleChange = value => {
         this.setState({value})
@@ -41,18 +98,20 @@ export default class SubmissionForm extends Component {
         const result = this.refs.submission.validate()
 
         if (result.isValid()) {
-            this.submit()
+            this.submit(result.value)
         } else {
-            // console.warn(result.errors)
-            window.scrollTo(0, 0)
+            const {path: [root]} = result.firstError()
+            const element = document.querySelector(`.fieldset-${root}`)
+
+            this.observationErrors = result.errors.filter(isObservationError)
+            element.scrollIntoView(true)
+            document.body.scrollTop -= 85 // Magic number ;)
         }
     }
-    submit() {
+    submit(value) {
         this.setState({
             isSubmitting: true,
         }, () => {
-            const value = this.refs.submission.getValue()
-
             this.props.post(value).then(data => {
                 const {key} = MountainInformationNetworkSubmission
                 const id = MountainInformationNetworkSubmission.getId(data.value)
@@ -67,6 +126,8 @@ export default class SubmissionForm extends Component {
                 this.setState({
                     isSubmitting: false,
                 })
+                
+                throw err
             })
         })
     }

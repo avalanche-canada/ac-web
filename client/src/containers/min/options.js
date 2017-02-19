@@ -1,11 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {Error} from 'components/misc'
-import t from 'tcomb-form/lib'
+import t from 'services/tcomb-form'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, NAMES} from 'constants/min'
-import {layout} from './templates'
-import {ObservationSet} from './factories'
+import {layout, observationSet} from './templates'
 import styles from './Form.css'
+import noop from 'lodash/noop'
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -40,16 +40,66 @@ const ASPECT_FIELDS = {
     },
 }
 
-const type = {
-    type: 'hidden',
-    factory: t.form.Textbox,
+const Required = {
+    label: 'Step 1. Required Information',
+    fields: {
+        title: {
+            label: 'Name your report',
+            attrs: {
+                placeholder: 'e.g. Upper Raft River',
+            },
+        },
+        datetime: {
+            type: 'datetime-local',
+            label: 'When were you in the field?',
+            attrs: {
+                placeholder: 'Select a date/time',
+            },
+        },
+        latlng: {
+            label: 'Location',
+            help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
+            fields: {
+                longitude: {
+                    error: 'Enter a number between -180° and 180°',
+                    attrs: {
+                        placeholder: 'e.g. -118.18',
+                    }
+                },
+                latitude: {
+                    error: 'Enter a number between -90° and 90°',
+                    attrs: {
+                        placeholder: 'e.g. 50.98',
+                    }
+                },
+            },
+            config: {
+                className: styles.GeoPosition,
+            },
+        },
+    },
+}
+
+const UploadSet = {
+    label: 'Step 2. Uploads',
+    help: 'A photo help to tell your story.',
+    fields: {
+        files: {
+            label: 'Click to upload a photo',
+            help: 'If uploading more than one photo, select all and submit photos together.',
+            type: 'file',
+            attrs: {
+                multiple: true,
+                accept: 'image/jpeg,image/jpg,image/png',
+            },
+        }
+    },
 }
 
 const Quick = {
     label: NAMES.get(QUICK),
     help: 'Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.',
     fields: {
-        type,
         ridingConditions: {
             fields: {
                 ridingQuality: {
@@ -100,7 +150,6 @@ const Weather = {
     label: NAMES.get(WEATHER),
     help: 'Key data includes information about current and accumulated precipitation, wind speed and direction, temperatures, and cloud cover.',
     fields: {
-        type,
         temperatureTrend: {
             factory: t.form.Radio,
             label: 'Describe how the temperature changed in the last 3 hours. (optional)',
@@ -223,7 +272,6 @@ const Snowpack = {
     label: NAMES.get(SNOWPACK),
     help: 'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
     fields: {
-        type,
         snowpackObsType: {
             label: 'Is this a point observation or a summary of your day? (optional)',
             factory: t.form.Radio,
@@ -335,7 +383,6 @@ const Avalanche = {
     label: NAMES.get(AVALANCHE),
     help: 'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
     fields: {
-        type,
         avalancheOccurrence: {
             type: 'datetime-local',
             label: 'Avalanche date/time',
@@ -490,7 +537,6 @@ const Incident = {
         </span>
     ),
     fields: {
-        type,
         groupActivity: {
             factory: t.form.Radio,
             label: 'Activity (optional)',
@@ -607,68 +653,22 @@ export const Options = new Map([
 export default {
     template: layout,
     fields: {
-        required: {
-            label: 'Step 1. Required Information',
-            fields: {
-                title: {
-                    label: 'Name your report',
-                    attrs: {
-                        placeholder: 'e.g. Upper Raft River',
-                    },
-                },
-                datetime: {
-                    type: 'datetime-local',
-                    label: 'When were you in the field?',
-                    attrs: {
-                        placeholder: 'Select a date/time',
-                    },
-                },
-                latlng: {
-                    label: 'Location',
-                    help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
-                    fields: {
-                        longitude: {
-                            error: 'Enter a number between -180° and 180°',
-                            attrs: {
-                                placeholder: 'e.g. -118.18',
-                            }
-                        },
-                        latitude: {
-                            error: 'Enter a number between -90° and 90°',
-                            attrs: {
-                                placeholder: 'e.g. 50.98',
-                            }
-                        },
-                    },
-                    config: {
-                        className: styles.GeoPosition,
-                    },
-                },
-            },
-        },
-        uploads: {
-            label: 'Step 2. Uploads',
-            help: 'A photo help to tell your story.',
-            fields: {
-                files: {
-                    label: 'Click to upload a photo',
-                    help: 'If uploading more than one photo, select all and submit photos together.',
-                    type: 'file',
-                    attrs: {
-                        multiple: true,
-                        accept: 'image/jpeg,image/jpg,image/png',
-                    },
-                }
-            },
-        },
+        required: Required,
+        uploads: UploadSet,
         observations: {
-            factory: ObservationSet,
-            disableAdd: true,
-            disableRemove: true,
-            disableOrder: true,
+            template: observationSet,
             label: 'Step 3. Observations',
-            error: 'Add information on one, some, or all tabs.',
-            item: Array.from(Options.values()),
+            config: {
+                activeIndex: 0,
+                onTabActivate: noop,
+            },
+            fields: {
+                [QUICK]: Quick,
+                [AVALANCHE]: Avalanche,
+                [SNOWPACK]: Snowpack,
+                [WEATHER]: Weather,
+                [INCIDENT]: Incident,
+            }
         },
     },
 }
