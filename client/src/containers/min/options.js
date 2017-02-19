@@ -59,6 +59,7 @@ const Required = {
         latlng: {
             label: 'Location',
             help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
+            className: styles.GeoPosition,
             fields: {
                 longitude: {
                     error: 'Enter a number between -180° and 180°',
@@ -72,9 +73,6 @@ const Required = {
                         placeholder: 'e.g. 50.98',
                     }
                 },
-            },
-            config: {
-                className: styles.GeoPosition,
             },
         },
     },
