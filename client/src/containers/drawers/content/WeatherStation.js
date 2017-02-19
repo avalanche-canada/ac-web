@@ -7,6 +7,7 @@ import {Link} from 'react-router'
 import {weatherStation} from 'containers/connectors'
 import Sponsor from 'containers/Sponsor'
 import {Wrapper} from 'components/tooltip'
+import {Generic} from 'prismic/components'
 
 const LOCATE_STYLE = {
     padding: '0.15em'
@@ -46,6 +47,7 @@ function WeatherStation({
                 {station &&
                     <Station {...station} columns={columns} measurements={measurements} headers={headers} />
                 }
+                <Generic uid='weather-station-disclaimer' />
             </Body>
         </Container>
     )

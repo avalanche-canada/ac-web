@@ -25,6 +25,10 @@
     border-bottom: 2px solid var(--border-color);
     text-transform: uppercase;
 }
+.Entry--Full {
+    composes: Entry;
+    flex: 100%;
+}
 
 .Entry--SideBySide {
     composes: Entry;
