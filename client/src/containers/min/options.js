@@ -155,6 +155,7 @@ const Weather = {
         snowfallRate: {
             label: 'Snowfall rate (cm/hour) (optional)',
             help: 'If there was no snow, please leave this field blank.',
+            error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -169,6 +170,7 @@ const Weather = {
         },
         newSnow24Hours: {
             label: 'Amount of new snow in last 24 hours (cm) (optional)',
+            error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -179,6 +181,7 @@ const Weather = {
         },
         precipitation24Hours: {
             label: 'Total rain and snow combined in last 24 hours (mm) (optional)',
+            error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -190,6 +193,7 @@ const Weather = {
         stormSnowAmount: {
             label: 'Total snow from the most recent storm (cm) (optional)',
             help: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
+            error: 'Enter a number between 0 and 300',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -207,6 +211,7 @@ const Weather = {
         },
         temperature: {
             label: 'Temperature at time of observation (deg C) (optional)',
+            error: 'Enter a number between -50 and 40',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -217,6 +222,7 @@ const Weather = {
         },
         minTemp: {
             label: 'Minimum temperature in last 24 hours (deg C) (optional)',
+            error: 'Enter a number between -50 and 30',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -227,6 +233,7 @@ const Weather = {
         },
         maxTemp: {
             label: 'Maximum temperature in last 24 hours (deg C) (optional)',
+            error: 'Enter a number between -40 and 40',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -276,6 +283,7 @@ const Snowpack = {
         },
         snowpackSiteElevation: {
             label: 'Elevation (m) above sea level (optional)',
+            error: 'Enter a number between 0 and 4000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -293,6 +301,7 @@ const Snowpack = {
         snowpackDepth: {
             label: 'Snowpack depth (cm) (optional)',
             help: 'Total height of snow in centimetres. Averaged if this is a summary.',
+            error: 'Enter a number between 0 and 10000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -316,6 +325,7 @@ const Snowpack = {
         snowpackFootPenetration: {
             label: 'Foot penetration (cm) (optional)',
             help: 'How far you sink into the snow when standing on one fully-weighted foot',
+            error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -327,6 +337,7 @@ const Snowpack = {
         snowpackSkiPenetration: {
             label: 'Ski penetration (cm) (optional)',
             help: 'How far you sink into the snow when standing on one fully-weighted ski.',
+            error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -338,6 +349,7 @@ const Snowpack = {
         snowpackSledPenetration: {
             label: 'Sled penetration (cm) (optional)',
             help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
+            error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -359,6 +371,7 @@ const Snowpack = {
         snowpackTestFailure: {
             label: 'Snowpack test failure depth (optional)',
             help: 'Depth below the surface that failure occurred.',
+            error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -418,6 +431,7 @@ const Avalanche = {
         },
         slabThickness: {
             label: 'Slab thickness (cm) (optional)',
+            error: 'Enter a number between 10 and 500',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -428,6 +442,7 @@ const Avalanche = {
         },
         slabWidth: {
             label: 'Slab width (m) (optional)',
+            error: 'Enter a number between 1 and 3000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -439,6 +454,7 @@ const Avalanche = {
         runLength: {
             label: 'Run length (m) (optional)',
             help: 'Length from crown to toe of debris.',
+            error: 'Enter a number between 1 and 10000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -463,6 +479,7 @@ const Avalanche = {
         triggerDistance: {
             label: 'Remote trigger distance (m) (optional)',
             help: 'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
+            error: 'Enter a number between 0 and 2000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -477,6 +494,7 @@ const Avalanche = {
         },
         startZoneElevation: {
             label: 'Start zone elevation (m) (optional)',
+            error: 'Enter a number between 0 and 5000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -487,6 +505,7 @@ const Avalanche = {
         },
         startZoneIncline: {
             type: 'number',
+            error: 'Enter a number between 0 and 90',
             attrs: {
                 onWheel: handleNumberInputWheel,
                 placeholder: 'Number between 0 and 90',
@@ -496,6 +515,7 @@ const Avalanche = {
         },
         runoutZoneElevation: {
             help: 'The lowest point of the debris.',
+            error: 'Enter a number between 0 and 5000',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
@@ -548,6 +568,7 @@ const Incident = {
             fields: {
                 groupSize: {
                     label: 'Total in the group? (optional)',
+                    error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
@@ -558,6 +579,7 @@ const Incident = {
                 },
                 numberFullyBuried: {
                     label: 'People fully buried? (optional)',
+                    error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
@@ -568,6 +590,7 @@ const Incident = {
                 },
                 numberPartlyBuriedImpairedBreathing: {
                     label: 'People partly buried with impaired breathing? (optional)',
+                    error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
@@ -578,6 +601,7 @@ const Incident = {
                 },
                 numberPartlyBuriedAbleBreathing: {
                     label: 'People partly buried with normal breathing? (optional)',
+                    error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
@@ -588,6 +612,7 @@ const Incident = {
                 },
                 numberCaughtOnly: {
                     label: 'People injured (caught but not buried)? (optional)',
+                    error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
@@ -598,6 +623,7 @@ const Incident = {
                 },
                 numberPeopleInjured: {
                     label: 'People not injured (caught but not buried)? (optional)',
+                    error: 'Enter a number between 0 and 400',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
