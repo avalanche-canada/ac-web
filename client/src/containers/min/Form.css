@@ -217,4 +217,8 @@
 
 .ObservationSetError {
     color: var(--brand-secondary);
+
+    & ul {
+        margin-top: 0;
+    }
 }
