@@ -12,6 +12,7 @@ const ObservationKeys = new Map([
     [WEATHER, 'weatherReport'],
     [INCIDENT, 'incidentReport'],
 ])
+
 const ObservationTransformers = new Map([
     [QUICK, quick => {
         quick.ridingConditions = quick.ridingConditions || {}
@@ -23,7 +24,7 @@ const ObservationTransformers = new Map([
             if (prev.type === 'single') {
                 conditions[key] = {
                     ...prev,
-                    selected: next
+                    selected: next || prev.selected
                 }
             } else {
                 conditions[key] = {
@@ -36,7 +37,8 @@ const ObservationTransformers = new Map([
         }
 
         return {
-            ...quick,
+            comment: quick.comment || QUICK_REPORT.comment,
+            avalancheConditions: quick.avalancheConditions || QUICK_REPORT.avalancheConditions,
             ridingConditions: Object.keys(QUICK_REPORT.ridingConditions)
                                     .reduce(ridingConditionsReducer, {}),
         }

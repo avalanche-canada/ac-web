@@ -18,10 +18,10 @@ export default struct.clone({
                     const color = value ? COLORS.get(ref) : null
 
                     return (
-                        <Tab title={title} color={color}>
+                        <Tab key={ref} title={title} color={color}>
                             {child}
                             <Reset disabled={disabled || !value} onClick={event => onChange(ref, null)}>
-                                Reset {title} report
+                                Remove your {title} report
                             </Reset>
                         </Tab>
                     )
