@@ -10,9 +10,10 @@ import {postMountainInformationNetworkSubmission} from 'actions/entities'
 import Submission from './types'
 import AuthService from 'services/auth'
 import CancelError from 'utils/promise/CancelError'
-import {Submit} from 'components/button'
+import Button, {Submit} from 'components/button'
 import styles from './Form.css'
 import set from 'lodash/set'
+import get from 'lodash/get'
 import {TYPES} from 'constants/min'
 import ObservationSetError from './ObservationSetError'
 
@@ -40,73 +41,111 @@ export default class SubmissionForm extends Component {
         this.auth = AuthService.create()
         this.state.options.fields.observations.config.onTabActivate = this.handleTabActivate
     }
-    set activeIndex(activeIndex) {
+    setActiveTab(activeIndex) {
         if (typeof activeIndex === 'string') {
             activeIndex = TYPES.indexOf(activeIndex)
         }
 
-        this.setState({
-            options: t.update(this.state.options, {
-                fields: {
-                    observations: {
-                        config: {
-                            activeIndex: {
-                                '$set': activeIndex
-                            }
+        if (typeof activeIndex !== 'number') {
+            return
+        }
+
+        this.patchOptions({
+            fields: {
+                observations: {
+                    config: {
+                        activeIndex: {
+                            '$set': activeIndex
                         }
                     }
                 }
-            })
+            }
         })
     }
-    set observationErrors(errors) {
+    setObservationErrors(errors) {
         if (errors.length === 0) {
             return
         }
 
-        this.setState({
-            options: t.update(this.state.options, {
-                fields: {
-                    observations: {
-                        error: {
-                            '$set': <ObservationSetError errors={errors} onErrorClick={this.handleErrorClick} />
-                        }
+        const [{path: [root, type]}] = errors
+        const patch = {
+            fields: {
+                observations: {
+                    error: {
+                        '$set': <ObservationSetError errors={errors} onErrorClick={this.handleErrorClick} />
                     }
                 }
-            })
-        }, () => {
-            const [{path: [root, type]}] = errors
-
-            if (type) {
-                this.activeIndex = type
             }
-        })
+        }
+
+        this.patchOptions(patch, this.setActiveTab.bind(this, type))
+    }
+    updateAfterChange = () => {
+        // const {type, value} = this.state
+
+        // const {length} = Object.keys(get(this.state, ['value', 'observations'], {}))
+        // let {label} = OPTIONS.fields.observations
+        //
+        // if (length > 0) {
+        //     label = label + ` (${length})`
+        // }
+        //
+        // this.patchOptions({
+        //     fields: {
+        //         observations: {
+        //             label: {
+        //                 '$set': label
+        //             }
+        //         }
+        //     }
+        // })
+    }
+    patchOptions(patch, callback) {
+        this.setState({
+            options: t.update(this.state.options, patch)
+        }, callback)
     }
     handleTabActivate = activeIndex => {
-        this.activeIndex = activeIndex
+        this.setActiveTab(activeIndex)
     }
     handleErrorClick = (type, event) => {
         event.preventDefault()
-        this.activeIndex = type
+        this.setActiveTab(type)
     }
     handleChange = value => {
-        this.setState({value})
+        this.setState({value}, this.updateAfterChange)
+    }
+    validate() {
+        return this.refs.submission.validate()
+    }
+    handlePreviewClick = event => {
+        const result = this.validate()
+
+        if (result.isValid()) {
+            console.warn('showPreview')
+        } else {
+            this.showErrorState(result)
+        }
     }
     handleSubmit = event => {
         event.preventDefault()
 
-        const result = this.refs.submission.validate()
+        const result = this.validate()
 
         if (result.isValid()) {
             this.submit(result.value)
         } else {
-            const {path: [root]} = result.firstError()
-            const element = document.querySelector(`.fieldset-${root}`)
-
-            this.observationErrors = result.errors.filter(isObservationError)
-            element.scrollIntoView(true)
-            document.body.scrollTop -= 85 // Magic number ;)
+            this.showErrorState(result)
         }
+    }
+    showErrorState(result) {
+        const {path: [root]} = result.firstError()
+        const element = document.querySelector(`.fieldset-${root}`)
+
+        this.setObservationErrors(result.errors.filter(isObservationError))
+        element.scrollIntoView(true)
+        document.body.scrollTop -= 85 // Magic number ;)
+
     }
     submit(value) {
         this.setState({
@@ -126,7 +165,7 @@ export default class SubmissionForm extends Component {
                 this.setState({
                     isSubmitting: false,
                 })
-                
+
                 throw err
             })
         })
@@ -154,6 +193,9 @@ export default class SubmissionForm extends Component {
                             <Submit large disabled={isSubmitting}>
                                 {isSubmitting ? 'Submitting your report...' : 'Submit your report'}
                             </Submit>
+                            {/* <Button type='button' large onClick={this.handlePreviewClick}>
+                                Preview
+                            </Button> */}
                         </form>
                     </Main>
                 </Content>
