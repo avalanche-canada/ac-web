@@ -8,11 +8,13 @@
 
 .Label {
     position: absolute;
-    left: 10000px;
+    left: 99999px;
 }
 
 .Input {
     display: flex;
+
+    flex: 50%;
 
     & > input {
         font-weight: 700;

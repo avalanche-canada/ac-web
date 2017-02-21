@@ -4,8 +4,23 @@ import en from 'tcomb-form/lib/i18n/en'
 import templates, {pickers} from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
+import {isTypeSupported} from 'utils/input'
+import parse from 'date-fns/parse'
 
 // Date
+class DateFactory extends t.form.Textbox {
+    static transformer = {
+        format(value) {
+            return value instanceof Date ? value.toISOString() : value
+        },
+        parse(value) {
+            return value ? parse(value) : null
+        }
+    }
+    getTransformer() {
+        return DateFactory.transformer
+    }
+}
 class DatePickerFactory extends t.form.Textbox {
     getTemplate() {
         return templates.textbox.clone({
@@ -15,7 +30,15 @@ class DatePickerFactory extends t.form.Textbox {
         })
     }
 }
-t.Date.getTcombFormFactory = () => DatePickerFactory
+Object.assign(t.Date, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('date')) {
+            return DateFactory
+        }
+
+        return DatePickerFactory
+    }
+})
 
 // Time
 export const Time = t.irreducible('Time', value => typeof value === 'string')
@@ -29,7 +52,15 @@ class TimePickerFactory extends t.form.Textbox {
         })
     }
 }
-Time.getTcombFormFactory = () => TimePickerFactory
+Object.assign(Time, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('time')) {
+            return t.form.Textbox
+        }
+
+        return TimePickerFactory
+    }
+})
 
 // Date and Time
 export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
@@ -43,8 +74,15 @@ class DateTimePickerFactory extends t.form.Textbox {
         })
     }
 }
-DateTime.getTcombFormFactory = () => DateTimePickerFactory
+Object.assign(DateTime, {
+    getTcombFormFactory(options) {
+        if (isTypeSupported('datetime-local')) {
+            return DateFactory
+        }
 
+        return DateTimePickerFactory
+    }
+})
 
 // FileList
 export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
@@ -98,6 +136,32 @@ class GeoPositionFactory extends t.form.Struct {
 }
 
 GeoPosition.getTcombFormFactory = () => GeoPositionFactory
+
+export const BooleanStruct = t.dict(t.String, t.Boolean, 'BooleanStruct')
+
+export function createBooleanStruct(values) {
+    const struct = t.struct(values.reduce((struct, value) => {
+        struct[value] = t.Boolean
+
+        return struct
+    }, {}))
+
+    return Object.assign(struct, {
+        getTcombFormFactory() {
+            return CheckboxSet
+        }
+    })
+}
+
+class CheckboxSet extends t.form.Struct {
+    isValueNully() {
+        return Object.keys(this.refs).every(ref => {
+            const value = this.refs[ref].getValue()
+
+            return t.Nil.is(value) || value !== true
+        })
+    }
+}
 
 Object.assign(t.form.Form, {
     templates,

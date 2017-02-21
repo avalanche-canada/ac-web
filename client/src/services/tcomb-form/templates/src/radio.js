@@ -57,8 +57,10 @@ function create(overrides = {}) {
       error: locals.hasError,
       disabled: locals.disabled,
       [`field-depth-${locals.path.length}`]: true,
-      [`field-${locals.path.join('-')}`]: locals.path.length > 0
+      [`field-${locals.path.join('-')}`]: locals.path.length > 0,
+      [locals.config.className]: Boolean(locals.config.className),
     }
+
     return (
       <div className={classnames(className)}>
         {radio.renderLabel(locals)}

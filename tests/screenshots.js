@@ -74,7 +74,8 @@ const paths = [
 ]
 const hosts = [
     'http://avalanche.ca/',
-    'http://avalanche-canada-dev.elasticbeanstalk.com/'
+    'http://avalanche-canada-dev.elasticbeanstalk.com/',
+    'http://localhost:9000/'
 ]
 
 phantomcss.init({
