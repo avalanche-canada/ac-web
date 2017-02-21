@@ -90,7 +90,7 @@ function take(name, index) {
     phantomcss.screenshot('body', name)
 }
 
-const host = hosts[1]
+const host = hosts[2]
 
 paths.forEach(function(path, index) {
     casper.thenOpen(host + path)
