@@ -1,6 +1,7 @@
 import React from 'react'
 import getAlert from './getAlert'
 import renderFieldset from './renderFieldset'
+import classnames from 'classnames'
 
 function create(overrides = {}) {
   function struct(locals) {

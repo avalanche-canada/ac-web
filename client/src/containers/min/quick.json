@@ -1,7 +1,7 @@
 {
   "ridingConditions":{
     "ridingQuality": {
-        "selected" : "",
+        "selected" : null,
         "type" : "single",
         "prompt" : "Riding quality was:",
         "options" : [
@@ -71,5 +71,5 @@
     "sound":false,
     "temp":false
   },
-  "comment":""
+  "comment":null
 }

@@ -137,6 +137,32 @@ class GeoPositionFactory extends t.form.Struct {
 
 GeoPosition.getTcombFormFactory = () => GeoPositionFactory
 
+export const BooleanStruct = t.dict(t.String, t.Boolean, 'BooleanStruct')
+
+export function createBooleanStruct(values) {
+    const struct = t.struct(values.reduce((struct, value) => {
+        struct[value] = t.Boolean
+
+        return struct
+    }, {}))
+
+    return Object.assign(struct, {
+        getTcombFormFactory() {
+            return CheckboxSet
+        }
+    })
+}
+
+class CheckboxSet extends t.form.Struct {
+    isValueNully() {
+        return Object.keys(this.refs).every(ref => {
+            const value = this.refs[ref].getValue()
+
+            return t.Nil.is(value) || value !== true
+        })
+    }
+}
+
 Object.assign(t.form.Form, {
     templates,
     i18n: en,

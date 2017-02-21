@@ -3,15 +3,16 @@
 @custom-media --two-columns-inputs (width > 600px);
 @custom-media --two-columns (width > 900px);
 
-/*
---quick-obs
---avalanche-obs
---snowpack-obs
---weather-obs
---incident-obs
-*/
+/* TODO: Some clean up here */
 
-.Form {
+.Container {
+    & button[type="submit"] {
+        display: block;
+        width: 100%;
+    }
+}
+
+.Layout {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -39,49 +40,15 @@
         width: 100%;
     }
 
-    & :global(.field-avalancheOccurrence-time > label),
-    & :global(.field-avalancheOccurrence-epoch > label),
-    & :global(.field-otherActivityDescription > label),
-    & :global(.fieldset-ridingConditions > legend) {
+    & :global(div[role="tabpanel"] > fieldset > legend) {
         /* Hide label but still accesible */
         position: absolute;
-        left: 10000px;
+        left: 99999px;
     }
 
     & :global(.fieldset-content),
     & :global(.field-radio-set) {
         margin-bottom: 1em;
-    }
-
-    & :global(.field-avalancheSize > .field-radio-set),
-    & :global(.field-triggerType > .field-radio-set),
-    & :global(.field-windExposure > .field-radio-set),
-    & :global(.field-skyCondition > .field-radio-set),
-    & :global(.field-windDirection > .field-radio-set),
-    & :global(.field-groupActivity > .field-radio-set),
-    & :global(.fieldset-latlng > .fieldset-content),
-    & :global(.fieldset-avalancheCharacter > .fieldset-content),
-    & :global(.fieldset-snowpackSiteAspect > .fieldset-content),
-    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
-    & :global(.fieldset-snowpackTestFailureLayerCrystalType > .fieldset-content),
-    & :global(.fieldset-snowpackSurfaceCondition > .fieldset-content),
-    & :global(.fieldset-weakLayerCrystalType > .fieldset-content),
-    & :global(.fieldset-startZoneAspect > .fieldset-content),
-    & :global(.fieldset-ridingConditions-snowConditions > .fieldset-content),
-    & :global(.fieldset-ridingConditions-rideType > .fieldset-content),
-    & :global(.fieldset-ridingConditions-weather > .fieldset-content),
-    & :global(.fieldset-ridingConditions-stayedAway > .fieldset-content) {
-        column-count: 1;
-
-        /* SHAME, but column CSS is so weird. Remove margins and apply line-height instead */
-        & > :global(.field) {
-            margin: 0;
-            line-height: 2;
-        }
-
-        @media (--two-columns-inputs) {
-            column-count: 2;
-        }
     }
 
     & :global(.fieldset-depth-1 .fieldset-depth-2:last-child > .fieldset-content) {
@@ -98,21 +65,20 @@
         }
     }
 
-    & :global(.ui.message.info) {
+    & :global(.ui.message) {
         display: block;
         color: var(--gray-dark);
         margin-bottom: 1em;
     }
 
-    & :global(.field.error > label) {
+    & :global(.fieldset.error > legend),
+    & :global(.ui.message.error),
+    & :global(.field.error > label),
+    & :global(.fieldset-observations.error > .ui.message.info) {
         color: var(--brand-secondary);
     }
 
-    & :global(.fieldset.error > legend) {
-        color: var(--brand-secondary);
-    }
-
-    & :global(.field-files) {
+    & :global(.field-uploads-files) {
         position: relative;
 
         & > label {
@@ -129,6 +95,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        & > input {
+            outline: none;
         }
     }
 
@@ -179,7 +149,7 @@
     }
 }
 
-.Observations {
+.ObservationSet {
     composes: MainFieldsetContainer;
 
     flex: 1;
@@ -198,6 +168,57 @@
     }
 }
 
-.Uploads {
+.UploadSet {
     composes: MainFieldsetContainer;
+}
+
+.GeoPosition {
+    & :global(.fieldset-content) {
+        display: flex;
+        justify-content: space-between;
+
+        & :global(.field) {
+            flex: 0 0 49%;
+        }
+    }
+}
+
+.TwoColumnsField {
+    & :global(.fieldset-content),
+    & :global(.field-radio-set) {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        @media (--two-columns-inputs) {
+            flex-direction: row;
+            & :global(.field) {
+                flex: 1 0 50%;
+            }
+        }
+    }
+}
+
+/* TODO: Remove the selector below. There an issue with rendering of the that field, it does not add the className */
+:global(div[class*="otherActivityDescription"]),
+.WihoutLabel {
+    & > label {
+        position: absolute;
+        left: 99999px;
+    }
+}
+
+.WihoutLegend {
+    & > legend {
+        position: absolute;
+        left: 99999px;
+    }
+}
+
+.ObservationSetError {
+    color: var(--brand-secondary);
+
+    & ul {
+        margin-top: 0;
+    }
 }
