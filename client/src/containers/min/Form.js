@@ -39,7 +39,11 @@ export default class SubmissionForm extends Component {
         super(props)
 
         this.auth = AuthService.create()
-        this.state.options.fields.observations.config.onTabActivate = this.handleTabActivate
+
+        Object.assign(this.state.options.fields.observations.config, {
+            onReportRemove: this.handleReportRemove,
+            onTabActivate: this.handleTabActivate,
+        })
     }
     setActiveTab(activeIndex) {
         if (typeof activeIndex === 'string') {
@@ -80,30 +84,13 @@ export default class SubmissionForm extends Component {
 
         this.patchOptions(patch, this.setActiveTab.bind(this, type))
     }
-    updateAfterChange = () => {
-        // const {type, value} = this.state
-
-        // const {length} = Object.keys(get(this.state, ['value', 'observations'], {}))
-        // let {label} = OPTIONS.fields.observations
-        //
-        // if (length > 0) {
-        //     label = label + ` (${length})`
-        // }
-        //
-        // this.patchOptions({
-        //     fields: {
-        //         observations: {
-        //             label: {
-        //                 '$set': label
-        //             }
-        //         }
-        //     }
-        // })
-    }
     patchOptions(patch, callback) {
         this.setState({
             options: t.update(this.state.options, patch)
         }, callback)
+    }
+    handleReportRemove = type => {
+        setTimeout(this.validate)
     }
     handleTabActivate = activeIndex => {
         this.setActiveTab(activeIndex)
@@ -113,18 +100,20 @@ export default class SubmissionForm extends Component {
         this.setActiveTab(type)
     }
     handleChange = value => {
-        this.setState({value}, this.updateAfterChange)
+        this.setState({value})
     }
-    validate() {
-        return this.refs.submission.validate()
+    validate = () => {
+        const result = this.refs.submission.validate()
+
+        this.showErrorState(result)
+
+        return result
     }
     handlePreviewClick = event => {
         const result = this.validate()
 
         if (result.isValid()) {
             console.warn('showPreview')
-        } else {
-            this.showErrorState(result)
         }
     }
     handleSubmit = event => {
@@ -134,18 +123,19 @@ export default class SubmissionForm extends Component {
 
         if (result.isValid()) {
             this.submit(result.value)
-        } else {
-            this.showErrorState(result)
         }
     }
     showErrorState(result) {
+        if (result.isValid()) {
+            return
+        }
+
         const {path: [root]} = result.firstError()
         const element = document.querySelector(`.fieldset-${root}`)
 
         this.setObservationErrors(result.errors.filter(isObservationError))
         element.scrollIntoView(true)
         document.body.scrollTop -= 85 // Magic number ;)
-
     }
     submit(value) {
         this.setState({
