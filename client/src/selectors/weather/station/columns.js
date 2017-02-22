@@ -1,6 +1,22 @@
 import moment from 'moment'
 import {toCompass} from 'utils/degrees'
 
+const DASH='—'
+
+//
+// Check if properties are null/undefined/NaN and return a dash otherwise
+// process and return that value
+//
+function maybeNull(name, fn=(x => x)) {
+    return function(obj) {
+        if (obj[name] === undefined || obj[name] === null || isNaN(obj[name])) {
+            return DASH
+        }
+        return fn(obj[name])
+    }
+}
+
+
 export const Hour = {
     name: 'hour',
     title: 'Hour',
@@ -12,9 +28,7 @@ export const Hour = {
 export const SnowHeight = {
     name: 'snowHeight',
     title: 'Height',
-    property({snowHeight}) {
-        return Math.round(snowHeight)
-    },
+    property: maybeNull('snowHeight', snowHeight => Math.round(snowHeight)),
     style: {
         minWidth: 65
     }
@@ -23,7 +37,7 @@ export const SnowHeight = {
 export const NewSnow = {
     name: 'newSnow',
     title: 'New',
-    property: 'newSnow',
+    property: maybeNull('newSnow'),
     style: {
         minWidth: 65
     }
@@ -32,7 +46,7 @@ export const NewSnow = {
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
     title: 'Air Temperature Average (°C)',
-    property: 'airTempAvg',
+    property: maybeNull('airTempAvg'),
     style: {
         minWidth: 65
     }
@@ -41,7 +55,7 @@ export const AirTemperatureAvg = {
 export const AirTemperatureMax = {
     name: 'airTempMax',
     title: 'Air Temperature Max (°C)',
-    property: 'airTempMax',
+    property: maybeNull('airTempMax'),
     style: {
         minWidth: 65
     }
@@ -50,7 +64,7 @@ export const AirTemperatureMax = {
 export const AirTemperatureMin = {
     name: 'airTempMin',
     title: 'Air Temperature Min (°C)',
-    property: 'airTempMin',
+    property: maybeNull('airTempMin'),
     style: {
         minWidth: 65
     }
@@ -59,9 +73,7 @@ export const AirTemperatureMin = {
 export const WindSpeedAvg = {
     name: 'windSpeedAvg',
     title: 'Wind Speed Average (km/h)',
-    property({windSpeedAvg}) {
-        return Math.round(windSpeedAvg * 10) / 10
-    },
+    property: maybeNull('windSpeedAvg', speed =>  Math.round(speed * 10) / 10),
     style: {
         minWidth: 65
     }
@@ -70,9 +82,7 @@ export const WindSpeedAvg = {
 export const WindDirectionAvg = {
     name: 'windDirAvg',
     title: 'Wind Direction Average',
-    property({windDirAvg}) {
-        return `${windDirAvg} ° (${toCompass(windDirAvg)})`
-    },
+    property: maybeNull('windDirAvg', wda => `${wda} ° (${toCompass(wda)})`),
     style: {
         minWidth: 105
     }
@@ -81,9 +91,7 @@ export const WindDirectionAvg = {
 export const WindSpeedGust = {
     name: 'windSpeedGust',
     title: 'Wind Speed Gust (km/h)',
-    property({windSpeedGust}) {
-        return Math.round(windSpeedGust * 10) / 10
-    },
+    property: maybeNull('windSpeedGust', wsg => Math.round(wsg * 10) / 10),
     style: {
         minWidth: 65
     }
@@ -92,9 +100,7 @@ export const WindSpeedGust = {
 export const RelativeHumidity = {
     name: 'relativeHumidity',
     title: 'Relative Humidity (%)',
-    property({relativeHumidity}) {
-        return Math.min(Math.round(relativeHumidity), 100)
-    },
+    property: maybeNull('relativeHumidity', rh => Math.min(Math.round(rh), 100)),
     style: {
         minWidth: 65
     }
