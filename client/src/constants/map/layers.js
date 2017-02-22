@@ -100,7 +100,6 @@ const fatalAccidentLayers = [{
     type: 'symbol',
     layout: {
         visibility: 'visible',
-        // 'icon-image': 'hospital-15',
         'icon-image': 'fatal-accident',
         'icon-allow-overlap': true,
         'icon-size': 0.75,
