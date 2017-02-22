@@ -1,7 +1,12 @@
 import React, {PropTypes, PureComponent, createElement} from 'react'
-import Content from 'components/mountainInformationNetwork/Content'
-import {InnerHTML} from 'components/misc'
+import CSSModules from 'react-css-modules'
+import Comment from 'components/mountainInformationNetwork/Comment'
+import Section from 'components/mountainInformationNetwork/Section'
+import List from 'components/mountainInformationNetwork/List'
 import {Term, Definition} from 'components/description'
+import Panel, {INVERSE} from 'components/panel'
+import styles from './HotZoneReport.css'
+import {RED, ORANGE} from 'constants/forecast/palette'
 
 const TERMS = new Map([
     ['persistentAvalancheProblem', 'Persistent avalanche problem'],
@@ -12,21 +17,53 @@ const TERMS = new Map([
     ['recentWindLoading', 'Recent wind loading'],
     ['significantWarming', 'Significant warming'],
 ])
+const YES = 'Yes'
+const NO = 'No'
+const UNKNOWN = 'Unknown'
+
 const VALUES = new Map([
-    [true, 'Yes'],
-    [false, 'No'],
-    [null, 'Unknown'],
-    [undefined, 'Unknown'],
+    [true, YES],
+    [false, NO],
+    [null, UNKNOWN],
+    [undefined, UNKNOWN],
 ])
-const AVOID = {
-    fontWeight: 700,
-    color: '#E6252F',
-}
+const STYLES = new Map([
+    [YES, {
+        fontWeight: 700,
+        color: RED,
+    }],
+    [NO, {
+        fontWeight: 700,
+        color: '#595959',
+    }],
+    [UNKNOWN, {
+        fontWeight: 700,
+        color: ORANGE,
+    }],
+])
 
 const truthPropType = PropTypes.oneOf([true, false, null])
+function createDescriptions(values = []) {
+    return Object.keys(values).reduce((children, key) => {
+        const value = VALUES.get(values[key])
+        const style = STYLES.get(value)
+        const term = (
+            <Term style={style}>
+                {TERMS.get(key)}
+            </Term>
+        )
+        const definition = (
+            <Definition style={style}>
+                {value}
+            </Definition>
+        )
 
-export default class CriticalFactors extends PureComponent {
-    static propTypes = {
+        return children.concat(term, definition)
+    }, [])
+}
+
+CriticalFactors.propTypes = {
+    report: PropTypes.shape({
         persistentAvalancheProblem: truthPropType,
         slabAvalanches: truthPropType,
         instability: truthPropType,
@@ -34,29 +71,39 @@ export default class CriticalFactors extends PureComponent {
         recentRainfall: truthPropType,
         recentWindLoading: truthPropType,
         significantWarming: truthPropType,
+        questions: PropTypes.string,
         comments: PropTypes.string,
-    }
-    render() {
-        const {comments, ...values} = this.props
-
-        return createElement(Content, {
-            comment: comments && <InnerHTML>{comments}</InnerHTML>,
-            descriptions: Object.keys(values).reduce((children, key) => {
-                const value = values[key]
-                const style = value ? AVOID : null
-                children.push(
-                    <Term style={style}>
-                        {TERMS.get(key)}
-                    </Term>
-                )
-                children.push(
-                    <Definition style={style}>
-                        {VALUES.get(value)}
-                    </Definition>
-                )
-
-                return children
-            }, [])
-        })
-    }
+    })
 }
+
+function CriticalFactors({report}) {
+    if (!report || !report.criticalFactors) {
+        return null
+    }
+
+    const {comments, questions, ...values} = report.criticalFactors
+
+    return (
+        <Panel header='Critical Factors Summary' expanded expandable theme={INVERSE}>
+            <p>
+                <strong>
+                    Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
+                </strong>
+            </p>
+            <div styleName='CriticalFactors'>
+                <List>
+                    {createDescriptions(values)}
+                </List>
+                <Comment title='Information to collect while traveling'>
+                    {questions}
+                </Comment>
+                <Comment>
+                    {comments}
+                </Comment>
+            </div>
+        </Panel>
+
+    )
+}
+
+export default CSSModules(CriticalFactors, styles)

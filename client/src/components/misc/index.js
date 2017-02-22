@@ -1,4 +1,6 @@
-import {dateFormat} from 'utils/date'
+import startOfDay from 'date-fns/start_of_day'
+import parse from 'date-fns/parse'
+import {DATE, DATETIME, TIME} from 'utils/date'
 import {createTime} from './Time'
 
 export Ribbon from './Ribbon'
@@ -18,11 +20,21 @@ export SPAW from './SPAW'
 
 export GoBack from './GoBack'
 
+function dateTimeFormatGetter(date) {
+    date = parse(date)
+
+    if (startOfDay(date).getTime() === date.getTime()) {
+        return DATE
+    }
+
+    return DATETIME
+}
+
 export {Relative} from './Time'
-export const Time = createTime('Time', 'HH:mm')
-export const DateTime = createTime('DateTime', 'dddd, MMMM D, HH:mm')
+export const Time = createTime('Time', TIME)
+export const DateTime = createTime('DateTime', dateTimeFormatGetter)
 export const Day = createTime('Day', 'dddd')
-export const DateElement = createTime('Date', dateFormat)
+export const DateElement = createTime('Date', DATE)
 
 export InnerHTML from './InnerHTML'
 

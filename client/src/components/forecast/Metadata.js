@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react'
 import {Metadata, Entry, ShareEntry} from 'components/metadata'
 import {DateElement} from 'components/misc'
+import {DATETIME} from 'utils/date'
 
 export function DateIssued({dateIssued}) {
     return (
         <Entry term='Date Issued'>
-            <DateElement format="dddd MMMM D, HH:mm, YYYY" value={dateIssued} />
+            <DateElement format={DATETIME} value={dateIssued} />
         </Entry>
     )
 }
@@ -13,7 +14,7 @@ export function DateIssued({dateIssued}) {
 export function ValidUntil({validUntil}) {
     return (
         <Entry term='Valid Until'>
-            <DateElement format="dddd MMMM D, HH:mm, YYYY" value={validUntil} />
+            <DateElement format={DATETIME} value={validUntil} />
         </Entry>
     )
 }

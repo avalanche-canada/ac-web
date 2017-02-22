@@ -27,6 +27,7 @@ function HotZoneReport({report}) {
             original: url,
             description: caption,
         }))
+
         gallery = images.length > 0 && {
             items: images,
             showBullets: images.length > 1,
@@ -38,24 +39,17 @@ function HotZoneReport({report}) {
     return (
         <div styleName='HotZoneReport'>
             {(report && report.title) &&
-                <div styleName='Title'>{report.title}</div>
+                <div styleName='Title'>
+                    {report.title}
+                </div>
             }
             {(report && report.headline) &&
-                <div styleName='Headline'>{report.headline}</div>
+                <div styleName='Headline'>
+                    {report.headline}
+                </div>
             }
             {gallery && <ImageGallery {...gallery} />}
-            {report &&
-                <Panel header='Critical Factors Summary' expanded>
-                    <p>
-                        <strong>
-                            Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
-                        </strong>
-                    </p>
-                    <div styleName='CriticalFactors'>
-                        <CriticalFactors {...report.criticalFactors} />
-                    </div>
-                </Panel>
-            }
+            <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
             {!report &&

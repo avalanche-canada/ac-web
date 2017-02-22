@@ -9,7 +9,7 @@ import Callout, {BOTTOM} from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
-import {formatAsDay, parseFromDay} from 'utils/date'
+import {formatAsDay} from 'utils/date'
 import styles from './DateRange.css'
 import noop from 'lodash/noop'
 

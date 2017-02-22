@@ -4,6 +4,7 @@ import {List} from 'immutable'
 import moment from 'moment'
 import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
 import styles from './Table.css'
+import {DATE} from 'utils/date'
 
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -30,7 +31,7 @@ function renderRow({property, name, ...props}, index) {
 
 function StationTable({columns, measurements, headers, caption}) {
     const bodies = measurements.groupBy(({measurementDateTime, utcOffset}) => (
-        moment(measurementDateTime).utcOffset(utcOffset).format('dddd, MMMM D, YYYY')
+        moment(measurementDateTime).utcOffset(utcOffset).format(DATE)
     ))
 
     return (

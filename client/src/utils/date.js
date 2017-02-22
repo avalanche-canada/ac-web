@@ -1,13 +1,16 @@
 import isSameYear from 'date-fns/is_same_year'
 import format from 'date-fns/format'
+import parse from 'date-fns/parse'
 import moment from 'moment'
 
-export function formatAsDay(date) {
-    return moment(date).format('YYYY-MM-DD')
-}
+// http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=eng&cont=867
+export const DATE = 'dddd, MMMM D, YYYY'
+export const DATETIME = 'dddd, MMMM D, YYYY HH:mm'
+export const TIME = 'HH:mm'
 
-export function parseFromDay(string) {
-    return moment(string, 'YYYY-MM-DD').toDate()
+// TODO: Remove that function, but needs to consider that data could be string or Date
+export function formatAsDay(date) {
+    return format(parse(date), 'YYYY-MM-DD')
 }
 
 export function yesterday() {
@@ -16,12 +19,4 @@ export function yesterday() {
 
 export function tomorrow() {
     return moment.utc(moment().startOf('day').add(1, 'days')).toDate()
-}
-
-export function dateFormat(date) {
-    return isSameYear(date, new Date()) ? 'dddd, MMMM D' : 'dddd, MMMM D, YYYY'
-}
-
-export function formatDate(date) {
-    return format(date, dateFormat(date))
 }

@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
-import Section from './Section'
 import Comment from './Comment'
-import {List} from 'components/description'
+import List from './List'
 
 Content.propTypes = {
     comment: PropTypes.node.isRequired,
@@ -16,11 +15,9 @@ export default function Content({
 }) {
     return (
         <div>
-            <Section title={descriptionTitle}>
-                <List bordered>
-                    {descriptions}
-                </List>
-            </Section>
+            <List title={descriptionTitle}>
+                {descriptions}
+            </List>
             <Comment>
                 {comment}
             </Comment>

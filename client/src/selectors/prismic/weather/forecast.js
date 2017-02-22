@@ -2,7 +2,8 @@ import {createSelector, createStructuredSelector} from 'reselect'
 import {getWeatherForecast} from 'getters/prismic'
 import {getProfile, getIsAuthenticated} from 'getters/auth'
 import Parser from 'prismic/parser'
-import {formatDate} from 'utils/date'
+import format from 'date-fns/format'
+import {DATE} from 'utils/date'
 import TABS, {DAY5TO7} from 'components/weather/tabs'
 
 const isAvCanEmployeeEmail = /@avalanche.ca$/
@@ -36,8 +37,8 @@ const getForecast = createSelector(
 const getMessages = createSelector(
     (state, props) => props.date,
     date => ({
-        isLoading: `Loading weather forecast for ${formatDate(date)}...`,
-        isError: `Error happened to load weather forecast for ${formatDate(date)}.`
+        isLoading: `Loading weather forecast for ${format(date, DATE)}...`,
+        isError: `Error happened to load weather forecast for ${format(date, DATE)}.`
     })
 )
 

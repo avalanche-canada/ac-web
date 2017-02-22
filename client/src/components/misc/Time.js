@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react'
 import {compose, setDisplayName, withProps, mapProps, defaultProps} from 'recompose'
-import moment from 'moment'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import parse from 'date-fns/parse'
+import formatDate from 'date-fns/format'
 
 Time.propTypes = {
     value: PropTypes.instanceOf(Date),
@@ -10,15 +11,15 @@ Time.propTypes = {
 }
 
 export default function Time({value = new Date(), format, children}) {
-    const date = moment(value)
+    const date = parse(value)
 
     if (typeof format === 'function') {
         format = format(value)
     }
 
     return (
-        <time dateTime={date.format()}>
-            {children || date.format(format)}
+        <time dateTime={formatDate(date)}>
+            {children || formatDate(date, format)}
         </time>
     )
 }
