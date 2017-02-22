@@ -7,6 +7,9 @@ import MapSources from 'constants/map/sources'
 import * as PrismicActions from 'actions/prismic'
 import * as EntitiesActions from 'actions/entities'
 import * as Layers from 'constants/drawers'
+import {Predicates} from 'prismic'
+import format from 'date-fns/format'
+import {yesterday, tomorrow} from 'utils/date'
 
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
@@ -41,15 +44,29 @@ export function loadData() {
 function createActionForLayer(layer) {
     switch (layer.get('id')) {
         case Layers.HOT_ZONE_REPORTS:
-            return PrismicActions.loadHotZoneReports()
+            return PrismicActions.load({
+                type: 'hotzone-report',
+                predicates: [
+                    Predicates.dateBefore('my.hotzone-report.dateOfIssue', format(tomorrow(), 'YYYY-MM-DD')),
+                    Predicates.dateAfter('my.hotzone-report.validUntil', format(yesterday(), 'YYYY-MM-DD')),
+                ]
+            })
         case Layers.MOUNTAIN_INFORMATION_NETWORK:
             const value = layer.getIn(['filters', 'days', 'value'])
 
             return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
         case Layers.TOYOTA_TRUCK_REPORTS:
-            return PrismicActions.loadToyotaTruckReports()
+            return PrismicActions.load({
+                type: 'toyota-truck-report'
+            })
         case Layers.SPECIAL_INFORMATION:
-            return PrismicActions.loadSpecialInformation()
+            return PrismicActions.load({
+                type: 'special-information'
+            })
+        case Layers.FATAL_ACCIDENT:
+            return PrismicActions.load({
+                type: 'fatal-accident'
+            })
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
     }

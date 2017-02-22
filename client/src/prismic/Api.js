@@ -2,50 +2,45 @@ import Prismic from 'prismic.io'
 import {endpoint} from './config.json'
 
 const {Predicates} = Prismic
+let API = null
+let API_PROMISE = null
 
-export function createForm(api) {
-    return api.form('everything').ref(api.master())
-}
+function getApi() {
+    if (API) {
+        return Promise.resolve(API)
+    }
 
-export function Api() {
-    return Prismic.Api(endpoint)
+    if (API_PROMISE) {
+        return API_PROMISE
+    }
+
+    API_PROMISE = Prismic.Api(endpoint)
+
+    return API_PROMISE.then(api => {
+        API = api
+
+        return api
+    })
 }
 
 export function Query(predicates, options) {
-    return Api().then(api => query(api, options, predicates))
+    return getApi().then(api => query(api, options, predicates))
 }
 
-export function QueryDocumentsOfType(type) {
-    return Query(Predicates.at('document.type', type))
-}
-
-export function QueryDocumentByUid(type, uid) {
-    return Query(Predicates.at(`my.${type}.uid`, uid)).then(first)
-}
-
+// TODO: To be removed once tutorial page are ported to store
 export function QueryDocumentByBookmark(name) {
-    return Api().then(api => {
+    return getApi().then(api => {
         const id = api.bookmarks[name]
 
-        return query(api, {}, Predicates.at('document.id', id))
-    }).then(first)
+        return query(api, undefined, Predicates.at('document.id', id))
+    }).then(response => response.results[0])
 }
 
 function query(api, options = {}, ...predicates) {
-    let form = createForm(api)
-    form = form.query(...predicates)
+    const keys = Object.keys(options)
+    const form = api.form('everything').ref(api.master()).query(...predicates)
 
-    form = setOptions(form, options)
+    keys.reduce((form, key) => form[key](options[key]), form)
 
     return form.submit()
-}
-
-export function setOptions(api, options = {}) {
-    const keys = Object.keys(options)
-
-    return keys.reduce((api, key) => api[key](options[key]), api)
-}
-
-function first(response) {
-    return response.results[0]
 }

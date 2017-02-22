@@ -94,12 +94,24 @@ const specialInformationLayers = [{
         'icon-size': 0.65,
     },
 }]
+const fatalAccidentLayers = [{
+    id: Layers.FATAL_ACCIDENT,
+    source: Layers.FATAL_ACCIDENT,
+    type: 'symbol',
+    layout: {
+        visibility: 'visible',
+        'icon-image': 'fatal-accident',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+    },
+}]
 
 export default [
     ...toyotaLayers,
     ...weatherStationLayers,
     ...mountainInformationNetworkLayers,
     ...specialInformationLayers,
+    ...fatalAccidentLayers,
 ]
 
 export const LayerIds = new Map([
@@ -118,9 +130,18 @@ export const LayerIds = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK,
         mountainInformationNetworkLayers.map(pluckLayerId)
     ],
-    [Layers.WEATHER_STATION, weatherStationLayers.map(pluckLayerId)],
-    [Layers.TOYOTA_TRUCK_REPORTS, toyotaLayers.map(pluckLayerId)],
-    [Layers.SPECIAL_INFORMATION, specialInformationLayers.map(pluckLayerId)],
+    [Layers.WEATHER_STATION,
+        weatherStationLayers.map(pluckLayerId)
+    ],
+    [Layers.TOYOTA_TRUCK_REPORTS,
+        toyotaLayers.map(pluckLayerId)
+    ],
+    [Layers.SPECIAL_INFORMATION,
+        specialInformationLayers.map(pluckLayerId)
+    ],
+    [Layers.FATAL_ACCIDENT,
+        fatalAccidentLayers.map(pluckLayerId)
+    ],
 ])
 
 const isActiveRegExp = /-active/

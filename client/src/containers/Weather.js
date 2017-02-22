@@ -3,7 +3,7 @@ import {compose, withHandlers, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import getWeather from 'selectors/prismic/weather'
-import {weatherForecast, weatherTutorial} from 'containers/connectors'
+import {weatherForecast} from 'containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
 

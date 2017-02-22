@@ -4,16 +4,20 @@ const NEWS = 'news'
 const GENERIC = 'generic'
 const STATIC_PAGE = 'static-page'
 
-export function title({type, data}) {
+export function title(document = {}) {
+    const {title, type} = document
+
     switch (type) {
         case EVENT:
         case BLOG:
         case NEWS:
         case GENERIC:
         case STATIC_PAGE:
-            return data[`${type}.title`].value
+            return title
         default:
-            throw new Error(`Can not compute a title from Prismic document of type ${type}.`, data)
+            throw new Error(
+                `Can not compute a title from Prismic document of type "${type}".`
+            )
     }
 }
 
@@ -29,6 +33,8 @@ export function pathname({type, uid}) {
         case STATIC_PAGE:
             return `/pages/${type}/${uid}`
         default:
-            throw new Error(`Can not compute a pathname from Prismic document or props ${type} & ${uid}.`)
+            throw new Error(
+                `Can not compute a pathname from Prismic document or props "${type}" & "${uid}".`
+            )
     }
 }

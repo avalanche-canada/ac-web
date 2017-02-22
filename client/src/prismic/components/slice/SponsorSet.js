@@ -28,6 +28,8 @@ const getSponsors = createSelector(
     }
 )
 
+// TODO: Move the component to components. This should be a container. 
+
 function SponsorSet({sponsors = []}) {
     return (
         <ItemSet>

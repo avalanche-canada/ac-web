@@ -5,15 +5,15 @@ import Status from 'utils/status'
 
 Tutorial.propTypes = {
     status: PropTypes.instanceOf(Status).isRequired,
-    body: PropTypes.string.isRequired,
+    tutorial: PropTypes.string.isRequired,
 }
 
-export default function Tutorial({status = new Status(), body}) {
+export default function Tutorial({status, tutorial = {}}) {
     return (
         <div>
             <StatusComponent {...status.toJSON()} />
             <InnerHTML>
-                {body}
+                {tutorial.tutorial}
             </InnerHTML>
         </div>
     )

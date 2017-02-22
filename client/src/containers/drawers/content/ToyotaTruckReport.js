@@ -1,12 +1,11 @@
 import React, {PropTypes} from 'react'
-import {connect} from 'react-redux'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
 import {InnerHTML, Ratio, Status} from 'components/misc'
 import {Link} from 'react-router'
 import Sponsor from 'containers/Sponsor'
-import getToyotaTruckReport from 'selectors/prismic/toyotaTruckReport'
 import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
+import {toyotaTruckReport} from 'containers/connectors'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -67,4 +66,4 @@ function ToyotaTruckReport({
     )
 }
 
-export default connect(getToyotaTruckReport)(ToyotaTruckReport)
+export default toyotaTruckReport(ToyotaTruckReport)

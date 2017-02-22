@@ -1,10 +1,22 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getWeatherForecast} from 'getters/prismic'
+import {getDocument, getDocumentFromResult, getStatusFactory} from 'selectors/prismic/utils'
 import {getProfile, getIsAuthenticated} from 'getters/auth'
 import Parser from 'prismic/parser'
 import format from 'date-fns/format'
 import {DATE} from 'utils/date'
 import TABS, {DAY5TO7} from 'components/weather/tabs'
+
+export default createStructuredSelector({
+    isAuthenticated: getIsAuthenticated
+})
+
+export const getTutorial = createStructuredSelector({
+    tutorial: getDocument,
+    status: getStatusFactory({
+        isLoading: 'Loading tutorial...',
+        isError: 'Error happened while loading tutorial...',
+    }),
+})
 
 const isAvCanEmployeeEmail = /@avalanche.ca$/
 const isCanadaEmployeeEmail = /@canada.ca$/
@@ -29,12 +41,7 @@ const getTabs = createSelector(
     }
 )
 
-const getForecast = createSelector(
-    (state, props) => getWeatherForecast(state, props.date, true),
-    document => document ? Parser.parse(document) : null
-)
-
-const getMessages = createSelector(
+const getForecastMessages = createSelector(
     (state, props) => props.date,
     date => ({
         isLoading: `Loading weather forecast for ${format(date, DATE)}...`,
@@ -42,14 +49,8 @@ const getMessages = createSelector(
     })
 )
 
-const getStatus = createSelector(
-    (state, props) => props.status,
-    getMessages,
-    (status, messages) => status.set('messages', messages)
-)
-
-export default createStructuredSelector({
-    status: getStatus,
-    forecast: getForecast,
+export const getForecast = createStructuredSelector({
+    status: getStatusFactory(getForecastMessages),
+    forecast: getDocumentFromResult,
     tabs: getTabs,
 })

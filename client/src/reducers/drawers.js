@@ -85,6 +85,12 @@ const MENU = new Map({
             type: 'Observations',
             visible: Boolean(LAYERS_VISIBILITY.get(Layers.WEATHER_STATION, true)),
         }),
+        [Layers.FATAL_ACCIDENT]: new Layer({
+            id: Layers.FATAL_ACCIDENT,
+            title: 'Fatal accidents',
+            type: 'Observations',
+            visible: Boolean(LAYERS_VISIBILITY.get(Layers.FATAL_ACCIDENT, false)),
+        }),
         [Layers.TOYOTA_TRUCK_REPORTS]: new Layer({
             id: Layers.TOYOTA_TRUCK_REPORTS,
             title: 'Follow AvCan Toyota trucks',
@@ -110,6 +116,7 @@ const RouteToLayerMapping = new Map([
     [Schemas.WeatherStation.key, Layers.WEATHER_STATION],
     [Schemas.MountainInformationNetworkSubmission.key, Layers.MOUNTAIN_INFORMATION_NETWORK],
     ['special-information', Layers.SPECIAL_INFORMATION],
+    ['fatal-accident', Layers.FATAL_ACCIDENT],
     ['toyota-truck-reports', Layers.TOYOTA_TRUCK_REPORTS],
 ])
 

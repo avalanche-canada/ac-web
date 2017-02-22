@@ -1,25 +1,183 @@
 import React, {PropTypes} from 'react'
-import {compose, lifecycle, withHandlers, withState} from 'recompose'
+import Immutable from 'immutable'
+import {compose, withHandlers, withState, withProps} from 'recompose'
 import {connect} from 'react-redux'
-import {loadForType} from 'actions/prismic'
-import {createSelector} from 'reselect'
-import {getDocumentsOfType, getIsFetching} from 'getters/prismic'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption, Responsive, PageSizeSelector} from 'components/table'
+import {load} from 'actions/prismic'
+import {createSelector, createStructuredSelector} from 'reselect'
+import {getDocumentsOfType} from 'getters/prismic'
+import {HeaderCellOrders, Caption, Responsive, PageSizeSelector} from 'components/table'
+import Table, {Column, Body} from 'components/table/managed'
 import {FilterSet, FilterEntry} from 'components/filter'
 import Pagination from 'components/pagination'
-import {Loading, InnerHTML, Br} from 'components/misc'
+import {Status, InnerHTML, Br} from 'components/misc'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
 import transform from 'prismic/transformers'
 import get from 'lodash/get'
+import {prismic} from 'containers/connectors'
+import {getStatusFactory} from 'selectors/prismic/utils'
+import * as Factories from 'selectors/factories'
 
-const {NONE, DESC} = HeaderCellOrders
+const {NONE} = HeaderCellOrders
 const YES = 'Yes'
 const NO = 'No'
+const ARRAY = []
+
+const getColumns = createSelector(
+    getContent,
+    columns => columns.map(column => {
+        const {name, sortable, type, property, option1, option2, option3} = column
+
+        return Column.create({
+            name: property,
+            title: name,
+            sorting: sortable === YES ? NONE : undefined,
+            property: createProperty(type, property, option1, option2, option3),
+        })
+    })
+)
+
+const getUpdatedColumns = createSelector(
+    getColumns, getFilterings,
+    (columns, filterings) => columns.map(column => {
+        if (filterings.has(column.property)) {
+
+        }
+
+        return column
+    })
+)
+
+const getTransformedRows = createSelector(
+    (state, props) => getDocumentsOfType(state, getDocumentType(props)),
+    documents => documents.map(document => transform(document)).toList()
+)
+
+const getFilters = createSelector(
+    getContent, getTransformedRows, getFilterings,
+    (columns, rows, filterings) => columns
+        .filter(column => column.filterable === YES)
+        .map(({name, property}) => {
+            const options = rows.map(row => row[property]).filter(Boolean)
+                                .toSet().sort().toArray()
+
+            return {
+                property,
+                options: new Map(options.map(option => [option, option])),
+                value: filterings.has(property) ? filterings.get(property) : new Set(),
+                placeholder: name,
+            }
+        })
+)
+
+const getActiveFilters = createSelector(
+    getFilters,
+    filters => filters
+        .filter(filter => filter.value.size > 0)
+        .map(filter => row => filter.value.has(row[filter.property]))
+)
+
+const getFilteredRows = Factories.createFilteredEntities(
+    getTransformedRows,
+    getActiveFilters
+)
+const getPagination = Factories.createPagination(getFilteredRows)
+const getSortedRows = Factories.createSorter(getFilteredRows)
+const getBodies = createSelector(
+    Factories.createPaginatedEntities(getSortedRows, getPagination),
+    rows => Immutable.List.of(Body.create({
+        data: rows
+    }))
+)
+
+const getMessages = createSelector(
+    (state, props) => getDocumentType(props),
+    type => ({
+        isLoading: `Loading ${type}...`
+    })
+)
+
+const mapStateToProps = createStructuredSelector({
+    filters: getFilters,
+    columns: getUpdatedColumns,
+    bodies: getBodies,
+    pagination: getPagination,
+    status: getStatusFactory(getMessages),
+})
+
+function Container({
+    columns,
+    bodies,
+    filters = [],
+    status,
+    pagination = {},
+    onPageSizeChange,
+    onPageChange,
+    onSortingChange,
+    onFilterChange,
+}) {
+    const {total, count, pageSize, page} = pagination
+
+    return (
+        <div>
+            <Br />
+            <FilterSet>
+            {filters.map(({property, ...filter}) => (
+                <FilterEntry>
+                    <Dropdown onChange={onFilterChange.bind(null, property)} {...filter} />
+                </FilterEntry>
+            ))}
+            </FilterSet>
+            <Responsive>
+                <Table bordered columns={columns} bodies={bodies} onSortingChange={onSortingChange} />
+            </Responsive>
+            <Status {...status.toJSON()} />
+            <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
+            <Pagination active={page} onChange={onPageChange} total={total} />
+        </div>
+    )
+}
+
+export default compose(
+    withProps(props => ({
+        params: {
+            type: getDocumentType(props),
+            options: {
+                pageSize: 150
+            }
+        }
+    })),
+    withState('sorting', 'setSorting', []),
+    withState('filterings', 'setFilterings', new Map()),
+    withState('pageSize', 'setPageSize', 25),
+    withState('page', 'setPage', 1),
+    prismic(mapStateToProps),
+    withHandlers({
+        onFilterChange: props => (property, value) => {
+            const {filterings} = props
+
+            filterings.set(property, value)
+
+            props.setFilterings(new Map([...filterings]))
+        },
+        onSortingChange: props => (...args) => {
+            props.setSorting(args)
+        },
+        onPageSizeChange: props => pageSize => {
+            props.setPage(1)
+            props.setPageSize(pageSize)
+        },
+        onPageChange: props => page => {
+            props.setPage(page)
+        }
+    }),
+)(Container)
 
 function getDocumentType(props) {
     return get(props, 'content[0].source')
 }
-
+function getContent(state, props) {
+    return props.content || ARRAY
+}
 function createProperty(type, property, option1, option2, option3) {
     switch (type) {
         case 'Link':
@@ -30,15 +188,11 @@ function createProperty(type, property, option1, option2, option3) {
                 </a>
             )
         case 'Number':
-            return data => data[property]
         case 'Currency':
-            return data => data[property]
         case 'Date':
-            return data => data[property]
         case 'Time':
-            return data => data[property]
         case 'DateTime':
-            return data => data[property]
+            return property
         case 'Html':
             return data => (
                 <InnerHTML>
@@ -50,159 +204,6 @@ function createProperty(type, property, option1, option2, option3) {
 
     }
 }
-
-function createFilter({name, property}, {createFilterChangeHandler, filterings}, rows) {
-    const options = rows.map(row => row[property]).filter(Boolean).toSet().sort().toArray()
-
-    return {
-        options: new Map(options.map(option => [option, option])),
-        value: filterings.has(property) ? filterings.get(property) : new Set(),
-        placeholder: name,
-        onChange: createFilterChangeHandler(property),
-    }
+function getFilterings(state, props) {
+    return props.filterings
 }
-
-function createColumn({name, sortable, property, type, option1, option2, option3}, {createSortingChangeHandler, sorting}) {
-    return {
-        name,
-        sorting: sortable !== YES ? undefined : (sorting[0] === property ? sorting[1] : NONE),
-        onSortingChange: createSortingChangeHandler(property),
-        property: createProperty(type, property, option1, option2, option3),
-    }
-}
-
-function isFilterable(column) {
-    return column.filterable === YES
-}
-
-const mapStateToProps = createSelector(
-    (state, props) => getDocumentsOfType(state, getDocumentType(props)).toList().map(document => transform(document)),
-    (state, props) => props.content,
-    getIsFetching,
-    (state, props) => props,
-    (state, props) => {
-        const [property, order] = props.sorting
-
-        if (!order || order === NONE) {
-            return
-        }
-
-        return [row => row[property], order]
-    },
-    (state, props) => {
-        const {filterings} = props
-        const filters = []
-
-        filterings.forEach((values, property) => {
-            if (values.size > 0) {
-                filters.push(row => values.has(row[property]))
-            }
-        })
-
-        return filters
-    },
-    function computeRows(documents, columns, isFetching, props, sorting, filters) {
-        const {page, pageSize} = props
-        const begin = (page - 1) * pageSize
-        const end = page * pageSize
-        let rows = filters.reduce((rows, filter) => rows.filter(filter), documents)
-
-        if (Array.isArray(sorting)) {
-            const [sorter, order] = sorting
-
-            rows = rows.sortBy(sorter)
-
-            if (order === DESC) {
-                rows = rows.reverse()
-            }
-        }
-
-        return {
-            isFetching,
-            rows: rows.slice(begin, end),
-            total: rows.size,
-            columns: columns.map(column => createColumn(column, props)),
-            filters: columns.filter(isFilterable).map(filter => createFilter(filter, props, documents)),
-        }
-    }
-)
-
-function Container({columns = [], rows = [], filters = [], total, pageSize, onPageSizeChange, page, setPage}) {
-    // TODO: Use the Table generator!
-    return (
-        <div>
-            <Br />
-            <FilterSet>
-            {filters.map(filter => (
-                <FilterEntry>
-                    <Dropdown {...filter} />
-                </FilterEntry>
-            ))}
-            </FilterSet>
-            <Responsive>
-                <Table bordered>
-                    <Header>
-                        <Row>
-                        {columns.map(({name, property, ...header}) => (
-                            <HeaderCell key={name} {...header}>
-                                {name}
-                            </HeaderCell>
-                        ))}
-                        </Row>
-                    </Header>
-                    <TBody>
-                    {rows.map(row => (
-                        <Row key={row.id}>
-                        {columns.map(({property, name}) => (
-                            <Cell key={name}>
-                                {typeof property === 'function' ? property(row) : row[property]}
-                            </Cell>
-                        ))}
-                        </Row>
-                    ))}
-                    </TBody>
-                </Table>
-            </Responsive>
-            <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
-            <Pagination active={page} onChange={setPage} total={Math.ceil(total/pageSize)} />
-        </div>
-    )
-}
-
-export default compose(
-    withState('sorting', 'setSorting', []),
-    withState('filterings', 'setFilterings', new Map()),
-    withState('pageSize', 'setPageSize', 25),
-    withState('page', 'setPage', 1),
-    withHandlers({
-        createSortingChangeHandler: props => property => order => {
-            props.setSorting([property, order])
-        },
-        createFilterChangeHandler: props => property => value => {
-            const {filterings, setFilterings} = props
-
-            filterings.set(property, value)
-
-            setFilterings(new Map([...filterings]))
-        },
-        onPageSizeChange: props => page => {
-            const {setPage, setPageSize} = props
-
-            setPage(1)
-            setPageSize(page)
-        },
-    }),
-    connect(mapStateToProps, {
-        loadForType
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {props} = this
-            const type = getDocumentType(props)
-
-            props.loadForType(type, {
-                pageSize: 150
-            })
-        }
-    }),
-)(Container)

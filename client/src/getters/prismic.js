@@ -1,57 +1,52 @@
-import {createSelector} from 'reselect'
+import Immutable from 'immutable'
+import RESULT from 'reducers/result'
+import {paramsToKey} from 'actions/prismic'
 import transform from 'prismic/transformers'
-import {Map} from 'immutable'
-import {formatAsDay} from 'utils/date'
-import addDays from 'date-fns/add_days'
-import isToday from 'date-fns/is_today'
+import {createSelector} from 'reselect'
 
-const MAP = new Map()
+const MAP = new Immutable.Map()
 
 export function getDocuments(state) {
     return state.prismic.documents
 }
 
+export function getResults(state) {
+    return state.prismic.results
+}
+
+export function getResult(state, params) {
+    return state.prismic.results.get(paramsToKey(params), RESULT)
+}
+
 export function getDocumentsOfType(state, type) {
-    return getDocuments(state).get(type, MAP)
+    const ids = state.prismic.ids.get(type, MAP).toMap()
+    const {documents} = state.prismic
+
+    return ids.map(id => documents.get(id))
 }
 
 export function getDocumentForUid(state, type, uid) {
-    const path = [type, getDocumentId(state, type, uid)]
+    const id = getDocumentId(state, type, uid)
 
-    return getDocuments(state).getIn(path)
+    return state.prismic.documents.get(id)
 }
 
 export function hasDocumentForUid(state, type, uid) {
-    const path = [type, getDocumentId(state, type, uid)]
+    const id = getDocumentId(state, type, uid)
 
-    return getDocuments(state).hasIn(path)
+    return state.prismic.documents.has(id)
 }
 
-export function getIsFetching(state) {
-    return state.prismic.fetchingCounter > 0
+function getDocumentId(state, type, uid) {
+    return state.prismic.uids.getIn([type, uid])
 }
 
-function getDocumentId({prismic}, type, uid) {
-    return prismic.uids.getIn([type, uid])
-}
-
-function createFinder(date) {
-    date = formatAsDay(date)
-
-    return document => document.data['weather-forecast.date'].value === date
-}
-
-export function getWeatherForecast(state, date = new Date(), getYesterday = false) {
-    const forecasts = getDocumentsOfType(state, 'weather-forecast')
-    const forecast  = forecasts.find(createFinder(date))
-
-    if (forecast) {
-        return forecast
+export function getDocumentFromParams(state, {id, type, uid}) {
+    if (!id) {
+        id = getDocumentId(state, type, uid)
     }
 
-    if (getYesterday && isToday(date)) {
-        return forecasts.find(createFinder(addDays(date, -1)))
-    }
+    return state.prismic.documents.get(id)
 }
 
 export const getHighlight = createSelector(

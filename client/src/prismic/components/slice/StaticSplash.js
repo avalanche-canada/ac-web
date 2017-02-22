@@ -3,7 +3,7 @@ import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
 import Generic from 'prismic/components/Generic'
 
-export default function FeedSplash({
+export default function StaticSplash({
     content: [{header, post1, post2, post3, hash}],
     label,
 }) {

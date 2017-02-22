@@ -1,23 +1,14 @@
 import {compose, lifecycle} from 'recompose'
-import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {loadForUid} from 'actions/prismic'
 import Post from 'components/page/post'
-import mapStateToProps from 'selectors/prismic/post'
+import {post} from 'containers/connectors'
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {
-        loadForUid
-    }),
+    post,
     lifecycle({
-        componentDidMount() {
-            const {loadForUid, params: {uid}, type} = this.props
-
-            loadForUid(type, uid)
-        },
-        componentWillUpdate({isFetching, router, post, route}) {
-            if (!isFetching && !post) {
+        componentWillUpdate({status, router, post, route}) {
+            if (status.isLoaded && !post) {
                 const [path] = route.path.split('/')
 
                 router.replace(path)

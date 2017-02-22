@@ -1,35 +1,9 @@
-import {PropTypes} from 'react'
-import {compose, flattenProp, branch, mapProps, lifecycle, setPropTypes, defaultProps, renderNothing} from 'recompose'
-import {connect} from 'react-redux'
-import mapStateToProps from 'selectors/sponsor'
 import {Sponsor} from 'components/misc'
-import {loadForUid} from 'actions/prismic'
+import {sponsor} from 'containers/connectors'
+import {compose, branch, renderNothing} from 'recompose'
 
 export default compose(
-    setPropTypes({
-        uid: PropTypes.string,
-    }),
-    defaultProps({
-        uid: null,
-    }),
-    connect(mapStateToProps, {
-        loadForUid,
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {loadForUid, uid} = this.props
-
-            if (uid) {
-                loadForUid('sponsor', uid)
-            }
-        },
-        componentWillReceiveProps({uid, loadForUid}) {
-            if (this.props.uid !== uid) {
-                loadForUid('sponsor', uid)
-            }
-        },
-    }),
-    flattenProp('sponsor'),
+    sponsor,
     branch(
         props => !props.url,
         renderNothing,

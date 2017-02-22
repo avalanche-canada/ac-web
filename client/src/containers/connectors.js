@@ -1,4 +1,5 @@
 import {PropTypes} from 'react'
+import {createStructuredSelector} from 'reselect'
 import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import * as EntitiesActions from 'actions/entities'
@@ -12,11 +13,23 @@ import getForecast from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
+import getFatalAccident from 'selectors/prismic/fatalAccident'
+import {getToyotaTruckReport, getPost} from 'selectors/prismic'
 import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
-import getFeed from 'selectors/prismic/feed'
+import getFeed, {
+    getSidebar as getFeedSidebar,
+    getSplash as getFeedSplash,
+} from 'selectors/prismic/feed'
 import isSameDay from 'date-fns/is_same_day'
 import Status from 'utils/status'
 import {Predicates} from 'prismic'
+import startOfDay from 'date-fns/start_of_day'
+import subDays from 'date-fns/sub_days'
+import isToday from 'date-fns/is_today'
+import format from 'date-fns/format'
+import {TYPES, EVENT, NEWS, BLOG} from 'selectors/prismic/feed'
+import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
+import getSponsor, {getSponsorUid} from 'selectors/sponsor'
 
 function connector(mapStateToProps, load, loadAll) {
     return compose(
@@ -50,75 +63,43 @@ function connector(mapStateToProps, load, loadAll) {
     )
 }
 
-// TODO: Remove that function when the store will keep track of the state
-// TODO: Use Status object
-function connectorWithState(mapStateToProps, load, loadAll) {
-    return compose(
-        withState('isLoading', 'setIsLoading', false),
-        withState('isLoaded', 'setIsLoaded', false),
-        withState('isError', 'setIsError', false),
-        connect(mapStateToProps, {
-            load,
-            loadAll,
-            fitBounds,
-        }),
-        withHandlers({
-            loadSingle: props => params => {
-                const {load, setIsLoading, setIsLoaded, setIsError} = props
-
-                const promise = load(params)
-
-                if (promise && typeof promise.then === 'function') {
-                    setIsLoading(true)
-
-                    function onFulfilled() {
-                        setIsLoading(false)
-                        setIsLoaded(true)
-                    }
-                    function onRejected() {
-                        setIsLoading(false)
-                        setIsError(true)
-                    }
-
-                    return promise.then(onFulfilled, onRejected)
-                }
-
-                return promise
-            },
-            onLocateClick: props => event => {
-                const {bbox, options} = props.computeBounds()
-
-                props.fitBounds(bbox, options)
-            }
-        }),
-        lifecycle({
-            componentDidMount() {
-                const {loadSingle, loadAll, params} = this.props
-
-                loadSingle(params)
-                loadAll()
-            },
-            componentWillReceiveProps({load, params}) {
-                const {name, date} = this.props.params
-
-                if (name !== params.name || date !== params.date) {
-                    this.props.loadSingle(params)
-                }
-            },
-        }),
-    )
-}
-
 export const forecast = connector(
     getForecast,
     EntitiesActions.loadForecast,
     EntitiesActions.loadFeaturesMetadata
 )
 
-export const hotZoneReport = connectorWithState(
-    getHotZoneReport,
-    PrismicActions.loadHotZoneReport,
-    EntitiesActions.loadFeaturesMetadata
+export const hotZoneReport = compose(
+    connect(getHotZoneReport, {
+        load: PrismicActions.loadHotZoneReport,
+        loadAll: EntitiesActions.loadFeaturesMetadata,
+        fitBounds,
+    }),
+    withHandlers({
+        loadSingle: props => params => {
+            props.load(params)
+        },
+        onLocateClick: props => event => {
+            const {bbox, options} = props.computeBounds()
+
+            props.fitBounds(bbox, options)
+        }
+    }),
+    lifecycle({
+        componentDidMount() {
+            const {loadSingle, loadAll, params} = this.props
+
+            loadSingle(params)
+            loadAll()
+        },
+        componentWillReceiveProps({load, params}) {
+            const {name, date} = this.props.params
+
+            if (name !== params.name || date !== params.date) {
+                this.props.loadSingle(params)
+            }
+        },
+    }),
 )
 
 function panelConnector(mapStateToProps, load) {
@@ -165,150 +146,257 @@ export const weatherStation = panelConnector(
     EntitiesActions.loadWeatherStation,
 )
 
-function prismicConnector(mapStateToProps, load) {
+export function prismic(mapStateToProps, mapDispatchToProps = {}) {
+    const {load, paramsToKey} = PrismicActions
+
     return compose(
-        // TODO: Remove that state when the store will keep track of the state
-        withState('isLoading', 'setIsLoading', false),
-        // TODO: Remove that state when the store will keep track of the state
-        withState('isLoaded', 'setIsLoaded', false),
-        // TODO: Remove that state when the store will keep track of the state
-        withState('isError', 'setIsError', false),
-        getContext({
-            location: PropTypes.object.isRequired,
+        setPropTypes({
+            params: PropTypes.object.isRequired,
         }),
         connect(mapStateToProps, {
             load,
-            flyTo,
-            fitBounds,
+            ...mapDispatchToProps
         }),
         lifecycle({
             componentDidMount() {
-                const promise = this.props.load()
-
-                if (promise && typeof promise.then === 'function') {
-                    const {setIsLoading, setIsLoaded, setIsError} = this.props
-
-                    setIsLoading(true)
-
-                    function onFulfilled() {
-                        setIsLoading(false)
-                        setIsLoaded(true)
-                    }
-                    function onRejected() {
-                        setIsLoading(false)
-                        setIsError(true)
-                    }
-
-                    return promise.then(onFulfilled, onRejected)
-                }
-
-                return promise
+                this.props.load(this.props.params)
             },
+            componentWillReceiveProps({params}) {
+                if (paramsToKey(params) !== paramsToKey(this.props.params)) {
+                    this.props.load(params)
+                }
+            },
+        }),
+    )
+}
+
+export const generic = compose(
+    withProps(props => ({
+        params: {
+            type: props.type || 'generic',
+            uid: props.uid,
+        }
+    })),
+    prismic(getDocumentAndStatus),
+)
+
+export const post = compose(
+    withProps(props => ({
+        params: {
+            type: props.type,
+            uid: props.params.uid,
+        }
+    })),
+    prismic(getPost),
+)
+
+export const sponsor = compose(
+    connect(createStructuredSelector({
+        uid: getSponsorUid
+    })),
+    withProps(props => ({
+        params: {
+            type: 'sponsor',
+            uid: props.uid || null,
+        }
+    })),
+    prismic(getSponsor),
+)
+
+function panelPrismicConnectorFactory(type, mapStateToProps) {
+    return compose(
+        getContext({
+            location: PropTypes.object.isRequired,
+        }),
+        withProps(props => ({
+            params: {
+                type,
+                uid: props.id,
+            }
+        })),
+        prismic(mapStateToProps, {
+            flyTo,
+            fitBounds,
         }),
         withHandlers({
             onLocateClick: props => event => {
                 if (props.computeFlyTo()) {
-                    props.flyTo(props.computeFlyTo())
+                    return props.flyTo(props.computeFlyTo())
                 }
                 if (props.computeBounds()) {
                     const {bbox, options} = props.computeBounds()
 
-                    props.fitBounds(bbox, options)
+                    return props.fitBounds(bbox, options)
                 }
             }
         }),
     )
 }
 
-// TODO: Add the toyota truck connector!!!
-
-export const specialInformation = prismicConnector(
+export const specialInformation = panelPrismicConnectorFactory(
+    'special-information',
     getSpecialInformation,
-    PrismicActions.loadSpecialInformation,
+)
+
+export const fatalAccident = panelPrismicConnectorFactory(
+    'fatal-accident',
+    getFatalAccident,
+)
+
+export const toyotaTruckReport = panelPrismicConnectorFactory(
+    'toyota-truck-report',
+    getToyotaTruckReport,
 )
 
 export const feed = compose(
-    withState('status', 'setStatus', new Status()),
     setPropTypes({
         type: PropTypes.string.isRequired,
     }),
-    connect(getFeed, {
-        load: PrismicActions.loadForType
-    }),
-
-    lifecycle({
-        componentDidMount() {
-            const {type, load, setStatus} = this.props
-            const status = this.props.status.start()
-
-            setStatus(status)
-
-            load(type, {
-                pageSize: 250
-            }).then(
-                () => setStatus(status.fulfill()),
-                () => setStatus(status.reject()),
-            )
+    withProps(({type}) => ({
+        params: {
+            type,
+            options: {
+                pageSize: 250,
+            }
         }
-    }),
+    })),
+    prismic(getFeed),
 )
 
-export const weatherForecast = compose(
-    // TODO: Remove that state when the store will keep track of the state
-    withState('status', 'setStatus', new Status()),
-    connect(getWeatherForecast, {
-        loadWeatherForecast: PrismicActions.loadWeatherForecast
+export const feedSidebar = compose(
+    setPropTypes({
+        type: PropTypes.oneOf(TYPES).isRequired,
+        uid: PropTypes.string,
     }),
+    withProps(({type}) => {
+        let predicate
+        let ordering
+
+        if (type === EVENT) {
+            const date = format(subDays(startOfDay(new Date()), 1), 'YYYY-MM-DD')
+
+            predicate = Predicates.dateAfter('my.event.start_date', date)
+            ordering = 'my.event.start_date'
+        } else {
+            predicate = Predicates.at('document.tags', ['featured'])
+            ordering = `my.${type}.date desc`
+        }
+
+        return {
+            params: {
+                type,
+                predicates: [predicate],
+                options: {
+                    pageSize: 7,
+                    orderings: [ordering],
+                }
+            }
+        }
+    }),
+    prismic(getFeedSidebar),
+)
+
+export const feedSplash = compose(
+    setPropTypes({
+        type: PropTypes.oneOf(TYPES).isRequired,
+        tags: PropTypes.arrayOf(PropTypes.string),
+    }),
+    withProps(({type, tags = []}) => {
+        const params = {
+            type,
+            predicates: [],
+            options: {
+                pageSize: 5,
+                orderings: [
+                    `my.${type}.date desc`,
+                ],
+            }
+        }
+
+        if (tags.length > 0) {
+            params.predicates.push(Predicates.at('document.tags', tags))
+        }
+
+        if (type === EVENT) {
+            params.predicates.push(
+                Predicates.dateAfter(
+                    `my.${EVENT}.start_date`,
+                    format(new Date(), 'YYYY-MM-DD')
+                )
+            )
+            params.orderings = [`my.${EVENT}.start_date`]
+        }
+
+        return {
+            params
+        }
+    }),
+    prismic(getFeedSplash),
+)
+
+function createWeatherForecastParams(date) {
+    return {
+        type: 'weather-forecast',
+        predicates: [
+            Predicates.at('my.weather-forecast.date', format(date, 'YYYY-MM-DD'))
+        ]
+    }
+}
+
+export const weatherForecast = compose(
     setPropTypes({
         date: PropTypes.instanceOf(Date).isRequired,
     }),
     defaultProps({
         date: new Date()
     }),
-    withHandlers({
-        load: props => date => {
-            const status = props.status.start()
-
-            props.setStatus(status)
-
-            return props.loadWeatherForecast(date, true).then(
-                () => props.setStatus(status.fulfill()),
-                () => props.setStatus(status.reject())
-            )
-        },
-    }),
+    withState('params', 'setParams', props => createWeatherForecastParams(props.date)),
+    connect(createStructuredSelector({
+        result: getResult
+    })),
     lifecycle({
-        componentDidMount() {
-            this.props.load(this.props.date)
-        },
-        componentWillReceiveProps({date = new Date()}) {
-            if (!isSameDay(date, this.props.date)) {
-                this.props.load(date)
+        componentWillReceiveProps({date, result}) {
+            let params
+
+            if (date !== this.props.date) {
+                params = createWeatherForecastParams(date)
+            }
+
+            if (isToday(date) && result.isLoaded && result.ids.size === 0) {
+                params = createWeatherForecastParams(subDays(date, 1))
+            }
+
+            if (params) {
+                this.props.setParams(params)
             }
         },
-    })
+    }),
+    prismic(getWeatherForecast),
 )
 
 export const weatherTutorial = compose(
-    withState('status', 'setStatus', new Status()),
     setPropTypes({
         uid: PropTypes.string.isRequired,
     }),
-    connect(getWeatherTutorial, {
-        loadForUid: PrismicActions.loadForUid
+    withProps(props => ({
+        params: {
+            type: 'weather-forecast-tutorial',
+            uid: props.uid
+        },
+    })),
+    prismic(getWeatherTutorial),
+)
+
+export const documentLink = compose(
+    setPropTypes({
+        type: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired,
     }),
-    lifecycle({
-        componentDidMount() {
-            const {loadForUid, setStatus} = this.props
-            const status = this.props.status.start()
-
-            setStatus(status)
-
-            this.props.loadForUid('weather-forecast-tutorial', this.props.uid)
-            .then(
-                () => setStatus(status.fulfill()),
-                () => setStatus(status.reject()),
-            )
+    withProps(({type, uid}) => ({
+        params: {
+            type,
+            uid,
         }
-    }),
+    })),
+    prismic(getDocumentAndStatus),
 )

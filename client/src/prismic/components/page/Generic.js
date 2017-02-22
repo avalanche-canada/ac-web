@@ -1,20 +1,22 @@
 import React, {PropTypes} from 'react'
 import {Page, Content, Main, Header} from 'components/page'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML, Status} from 'components/misc'
 
 Generic.propTypes = {
-    title: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    document: PropTypes.object,
+    status: PropTypes.object,
 }
 
-export default function Generic({title, body}) {
+export default function Generic({title, status, document = {}}) {
     return (
         <Page>
-            <Header title={title} />
+            <Header title={document.title || title} />
             <Content>
+                <Status {...status.toJSON()} />
                 <Main>
                     <InnerHTML>
-                        {body}
+                        {document.body}
                     </InnerHTML>
                 </Main>
             </Content>

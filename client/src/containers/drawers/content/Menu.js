@@ -24,6 +24,7 @@ const ICONS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
     [Layers.WEATHER_STATION, <WeatherStation />],
     [Layers.SPECIAL_INFORMATION, <Forecast />],
+    [Layers.FATAL_ACCIDENT, <Forecast />],
 ])
 
 // TODO: Improve performance! layers is now an immutable object

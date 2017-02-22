@@ -131,3 +131,7 @@ export function post(schema, data) {
 export function fetchFeaturesMetadata() {
     return api.get('features/metadata').then(extractData)
 }
+
+export function fetchSponsors() {
+    return Axios.get('/static/sponsors.json')
+}

@@ -6,12 +6,12 @@ import {handleOutboundSponsorClick} from 'services/analytics'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     label: PropTypes.string,
 }
 
-function Sponsor({name, src, url, label = 'Brought to you by'}) {
+function Sponsor({name, logo, url, label = 'Brought to you by'}) {
     return (
         <a href={url} target='_blank' title={name} onClick={handleOutboundSponsorClick}>
             <dl styleName='Container'>
@@ -21,7 +21,7 @@ function Sponsor({name, src, url, label = 'Brought to you by'}) {
                     </dt>
                 }
                 <dd styleName='Logo'>
-                    <img src={src} title={name} />
+                    <img src={logo} title={name} />
                 </dd>
             </dl>
         </a>
