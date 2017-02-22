@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Metadata, Entry, ShareEntry} from 'components/metadata'
+import {Metadata, Entry, ShareEntry, TimestampEntry} from 'components/metadata'
 import {DateTime} from 'components/misc'
 
 HotZoneReportMetadata.propTypes = {
@@ -12,7 +12,7 @@ export default function HotZoneReportMetadata({report, shareUrl}) {
         return null
     }
 
-    const {dateOfIssue, validUntil} = report
+    const {dateOfIssue, validUntil, dateUpdated} = report
 
     return (
         <Metadata>
@@ -22,8 +22,8 @@ export default function HotZoneReportMetadata({report, shareUrl}) {
             <Entry term='Valid Until'>
                 <DateTime value={validUntil} />
             </Entry>
+            <TimestampEntry term='Date Updated' timestamp={dateUpdated} hideIfNil />
             {shareUrl && <ShareEntry url={shareUrl} />}
-            {shareUrl && <Entry />}
         </Metadata>
     )
 }
