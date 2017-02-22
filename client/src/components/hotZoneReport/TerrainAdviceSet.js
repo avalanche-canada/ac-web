@@ -15,7 +15,7 @@ const Headers = new Map([
 ])
 
 function createItem({feature, where, elevation}) {
-    return [feature, where, elevation].join(' ')
+    return [feature, where, elevation].filter(Boolean).join(' ')
 }
 
 TerrainAdviceSet.propTypes = {

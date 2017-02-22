@@ -5,7 +5,8 @@ import {withRouter} from 'react-router'
 import {Form as Base, Legend, Control, ControlSet} from 'components/form'
 import {DropdownFromOptions, Input, Geocoder, DateRange} from 'components/controls'
 import {locate} from 'actions/geolocation'
-import {formatAsDay, parseFromDay} from 'utils/date'
+import parse from 'date-fns/parse'
+import {formatAsDay} from 'utils/date'
 import get from 'lodash/get'
 import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
@@ -53,8 +54,8 @@ class Form extends Component {
                     {withDateRange && (
                         <Control>
                             <DateRange
-                                from={from && parseFromDay(from)}
-                                to={to && parseFromDay(to)}
+                                from={from && parse(from)}
+                                to={to && parse(to)}
                                 onChange={onDateRangeChange}
                                 container={this} />
                         </Control>

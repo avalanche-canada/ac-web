@@ -5,7 +5,6 @@ import {loadForType} from 'actions/prismic'
 import {Predicates} from 'prismic'
 import Sidebar, {Header, Item} from 'components/sidebar'
 import Link from 'prismic/components/Link'
-import {formatAsDay} from 'utils/date'
 import moment from 'moment'
 
 const Headers = new Map([

@@ -39,6 +39,7 @@ const HotZoneReport = Immutable.fromJS({
     headline: null,
     dateOfIssue: null,
     validUntil: null,
+    dateUpdated: null,
     criticalFactors: {
         recentWindLoading: null,
         persistentAvalancheProblem: null,
@@ -47,6 +48,7 @@ const HotZoneReport = Immutable.fromJS({
         recentSnowfall: null,
         instability: null,
         significantWarming: null,
+        questions: null,
         comments: null,
     },
     treelineTerrainAvoidance: {
@@ -136,7 +138,7 @@ function extractCriticalFactors(report) {
     const criticalFactors = report.filter((v, k) => regExp.test(k))
             .mapEntries(([k, v]) => [
                 camelCase(k.replace(regExp, '')),
-                k === 'criticalFactorsComments' ? v : yesNoUnknownValues.get(v)
+                k === 'criticalFactorsComments' || k === 'criticalFactorsQuestions' ? v : yesNoUnknownValues.get(v)
             ])
 
     return HotZoneReport.get('criticalFactors').map((v, k) =>
