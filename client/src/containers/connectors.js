@@ -77,7 +77,7 @@ export const hotZoneReport = compose(
     }),
     withHandlers({
         loadSingle: props => params => {
-            this.props.load(params)
+            props.load(params)
         },
         onLocateClick: props => event => {
             const {bbox, options} = props.computeBounds()
