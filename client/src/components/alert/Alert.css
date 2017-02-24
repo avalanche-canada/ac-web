@@ -1,0 +1,58 @@
+@import "../../styles/colors.css";
+
+.Alert {
+    display: block;
+    padding: 1em;
+    margin: 1em 0;
+    font-weight: 700;
+    font-size: 1.15em;
+    color: white;
+    text-align: center;
+    white-space: pre-wrap;
+
+    &:hover {
+        & [href] {
+            text-decoration: underline;
+        }
+    }
+
+    & [href] {
+        color: white;
+
+        &:after {
+            content: "\A0\203A";
+        }
+    }
+}
+
+:global(a[href]) {
+    & > .Alert {
+        &:after {
+            content: "\A0\203A";
+        }
+    }
+}
+
+.Danger {
+    composes: Alert;
+
+    background-color: var(--danger);
+}
+
+.Info {
+    composes: Alert;
+
+    background-color: var(--info);
+}
+
+.Warning {
+    composes: Alert;
+
+    background-color: var(--warning);
+}
+
+.Success {
+    composes: Alert;
+
+    background-color: var(--success);
+}
