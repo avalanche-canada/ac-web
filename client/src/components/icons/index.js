@@ -34,7 +34,6 @@ export MyLocation from './MyLocation'
 
 export Forecast from './Forecast'
 export HotZoneReport from './HotZoneReport'
-export Meteogram from './Meteogram'
 export MountainInformationNetwork from './MountainInformationNetwork'
 export WeatherStation from './WeatherStation'
 export Spinner from './Spinner'

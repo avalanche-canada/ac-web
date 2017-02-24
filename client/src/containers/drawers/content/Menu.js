@@ -12,7 +12,6 @@ import {loadData} from 'actions/map'
 import {
     Forecast,
     HotZoneReport,
-    Meteogram,
     MountainInformationNetwork,
     WeatherStation,
 } from 'components/icons'
@@ -20,7 +19,6 @@ import {
 const ICONS = new Map([
     [Layers.FORECASTS, <Forecast />],
     [Layers.HOT_ZONE_REPORTS, <HotZoneReport />],
-    [Layers.METEOGRAMS, <Meteogram />],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
     [Layers.WEATHER_STATION, <WeatherStation />],
     [Layers.SPECIAL_INFORMATION, <Forecast />],
@@ -35,7 +33,13 @@ Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
-function Menu({sets = EMPTY_LIST, turnOnLayer, turnOffLayer, changeFilter, onCloseClick}) {
+function Menu({
+    sets = EMPTY_LIST,
+    turnOnLayer,
+    turnOffLayer,
+    changeFilter,
+    onCloseClick
+}) {
     return (
         <Container>
             <Navbar>
