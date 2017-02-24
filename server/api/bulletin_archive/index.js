@@ -114,6 +114,9 @@ function newAvalx(req, res) {
             return res.status(500).json({error: error, msg: "Error retreiving forcast from 2016 AvalX Server"});
         }
         xml2js.parseString(xmlbody, function (err, caamlJson) {
+            if(err) {
+                return res.status(500).json({error: err, msg: "Error parsing CAAML forecast"});
+            }
             res.status(200).json(avalx.parksForecast(caamlJson, region));
         });
     });
