@@ -59,7 +59,6 @@ function getWarningUrl(region, date) {
                 d: format(date, 'YYYY-MM-DD')
             })
 
-
             return Url.format(url)
         case LINK:
             return url.replace('http://avalanche.ca', '')
