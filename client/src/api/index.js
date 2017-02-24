@@ -92,7 +92,10 @@ const ENDPOINTS = new Map([
 ])
 
 const api = Axios.create({
-    baseURL
+    baseURL,
+    validateStatus(status) {
+        return status >= 200 && status < 300 || status === 404
+    }
 })
 
 export function fetch(schema, params) {

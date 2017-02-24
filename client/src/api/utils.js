@@ -7,8 +7,7 @@ import {getResultsSet, hasResultsSet} from 'getters/api'
 import {getEntitiesForSchema} from 'getters/entities'
 import {DelayPromise} from 'utils/promise'
 
-const normalizeFactory = schema => response => {
-    const {data} = response
+function normalize(data, schema) {
     let shape = schema
 
     if (Array.isArray(data)) {
@@ -23,13 +22,18 @@ const normalizeFactory = schema => response => {
         }
     }
 
-    return normalizr.normalize(data, shape)
+    return Object.assign({
+        result: []
+    }, normalizr.normalize(data, shape))
 }
 
 export function createFetchActionForSchema(type, schema) {
+    function handleFulfilled({data}) {
+        return normalize(data || [], schema)
+    }
     const creator = createAction(
         type,
-        params => Api.fetch(schema, params).then(normalizeFactory(schema)),
+        params => Api.fetch(schema, params).then(handleFulfilled),
         params => ({
             schema,
             params,
