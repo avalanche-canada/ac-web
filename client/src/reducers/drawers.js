@@ -46,7 +46,7 @@ const MENU = new Map({
         [Layers.SPECIAL_INFORMATION]: new Layer({
             id: Layers.SPECIAL_INFORMATION,
             title: 'Special information',
-            type: 'Observations',
+            type: 'Analysis',
         }),
         [Layers.MOUNTAIN_INFORMATION_NETWORK]: new Layer({
             id: Layers.MOUNTAIN_INFORMATION_NETWORK,
