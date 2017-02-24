@@ -51,15 +51,16 @@ function getWarningUrl(region, date) {
 
     switch (type) {
         case PARKS:
-            const parts = Url.parse(externalUrl, true)
+            const url = Url.parse(externalUrl, true)
 
-            Object.assign(parts.query, {
+            delete url.search
+
+            Object.assign(url.query, {
                 d: format(date, 'YYYY-MM-DD')
             })
 
-            delete parts.search
 
-            return Url.format(parts)
+            return Url.format(url)
         case LINK:
             return url.replace('http://avalanche.ca', '')
         default:
