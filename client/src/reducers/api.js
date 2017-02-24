@@ -37,33 +37,30 @@ function results(state = new Immutable.Map(), {type, payload = {}, meta = {}}) {
 
     state = state.update(key, results => results || new Immutable.Map())
 
-    if (type === `${meta.type}_PENDING`) {
-        return state.updateIn(
-            path,
-            (result = new Result()) => result.start({
-                props: meta.params
-            })
-        )
+    switch (type) {
+        case `${meta.type}_PENDING`:
+            return state.updateIn(
+                path,
+                (result = new Result()) => result.start({
+                    props: meta.params
+                })
+            )
+        case `${meta.type}_REJECTED`:
+            return state.updateIn(
+                path,
+                result => result.reject()
+            )
+        case `${meta.type}_FULFILLED`:
+            return state.updateIn(
+                path,
+                result => result.fulfill({
+                    ids: new Set([...result.ids, ...getIds(payload.result)]),
+                    count: payload.result.count,
+                    next: payload.result.next,
+                    previous: payload.result.previous,
+                })
+            )
+        default:
+            return state
     }
-
-    if (type === `${meta.type}_REJECTED`) {
-        return state.updateIn(
-            path,
-            result => result.reject()
-        )
-    }
-
-    if (type === `${meta.type}_FULFILLED` && payload.result) {
-        return state.updateIn(
-            path,
-            result => result.fulfill({
-                ids: new Set([...result.ids, ...getIds(payload.result)]),
-                count: payload.result.count,
-                next: payload.result.next,
-                previous: payload.result.previous,
-            })
-        )
-    }
-
-    return state
 }
