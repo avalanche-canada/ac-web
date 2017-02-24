@@ -14,16 +14,6 @@
     --gray-lighter: gray(90%);
     --gray-lightest: gray(97%);
 
-    --success: #dff0d8;
-    --success-dark: color(var(--success) lightness(65%));
-    --info: #d9edf7;
-    --info-dark: color(var(--info) lightness(65%));
-    --warning: #fcf8e3;
-    --warning-dark: color(var(--warning) lightness(65%));
-    --danger: #f2dede;
-    --danger-dark: color(var(--danger) lightness(65%));
-
-
     --quick-obs: #4CAF50;
     --avalanche-obs: #03A9F4;
     --snowpack-obs: #3F51B5;
@@ -32,4 +22,14 @@
 
     --spaw: #E6252F;
     --spaw-hover: color(var(--spaw) blackness(15%));
+
+    --success: #4CAF50;
+    --success-dark: color(var(--success) lightness(65%));
+    --info: #03A9F4;
+    --info-dark: color(var(--info) lightness(65%));
+    --warning: #FFC107;
+    --warning-dark: color(var(--warning) lightness(65%));
+    --danger: #E6252F;
+    --danger-dark: color(var(--danger) lightness(65%));
+
 }

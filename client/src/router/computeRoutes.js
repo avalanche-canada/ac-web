@@ -1,6 +1,8 @@
 import React from 'react'
 import {Route, IndexRoute, IndexRedirect, Redirect} from 'react-router'
-import moment from 'moment'
+import parse from 'date-fns/parse'
+import isBefore from 'date-fns/is_before'
+import startOfDay from 'date-fns/start_of_day'
 import {load} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
@@ -194,9 +196,7 @@ export default function computeRoutes(store) {
     }
 
     function handleArchiveForecastRouteEnter({params: {name, date}}, replace) {
-        date = moment(date, 'YYYY-MM-DD')
-
-        if (date.isValid() && date.isBefore(new Date(), 'day')) {
+        if (!date || isBefore(parse(date, 'YYYY-MM-DD'), startOfDay(new Date()))) {
             return
         }
 
@@ -286,12 +286,11 @@ export default function computeRoutes(store) {
             <Route path='blogs' sponsorRef='BlogIndex' component={Layouts.BlogFeed} />
             <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
             {/* FORECAST */}
-            <Route path='forecasts/archives' component={ArchiveForecast} />
+            <Route path='forecasts(/:name)/archives(/:date)' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
             <Route path='forecasts' sponsorRef='Forecast' components={{content: Forecasts, footer: null}} />
             <Route path='forecasts/:name' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
-            <Route path='forecasts/:name/archives/:date' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
-            <Redirect from='forecasts/:name/archives' to='forecasts/:name' />
+            <Route path='forecasts/:name/archives/:date' component={ArchiveForecast}  />
             {/* HOT ZONE REPORT */}
             <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}

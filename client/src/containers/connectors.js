@@ -9,7 +9,7 @@ import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
 } from 'selectors/prismic/weather'
-import getForecast from 'selectors/forecast'
+import getForecast, {getForecastRegions} from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
@@ -31,42 +31,82 @@ import {TYPES, EVENT, NEWS, BLOG} from 'selectors/prismic/feed'
 import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
 import getSponsor, {getSponsorUid} from 'selectors/sponsor'
 
-function connector(mapStateToProps, load, loadAll) {
-    return compose(
-        connect(mapStateToProps, {
-            load,
-            loadAll,
-            fitBounds,
-        }),
-        lifecycle({
-            componentDidMount() {
-                const {load, loadAll, params} = this.props
+export const forecast = compose(
+    connect(getForecast, {
+        load: EntitiesActions.loadForecast,
+        loadAll: EntitiesActions.loadFeaturesMetadata,
+        fitBounds,
+    }),
+    lifecycle({
+        componentDidMount() {
+            const {load, loadAll, params} = this.props
 
+            load(params)
+            loadAll()
+        },
+        componentWillReceiveProps({load, params}) {
+            const {name, date} = this.props.params
+
+            if (name !== params.name || date !== params.date) {
                 load(params)
-                loadAll()
-            },
-            componentWillReceiveProps({load, params}) {
-                const {name, date} = this.props.params
-
-                if (name !== params.name || date !== params.date) {
-                    load(params)
-                }
-            },
-        }),
-        withHandlers({
-            onLocateClick: props => event => {
-                const {bbox, options} = props.computeBounds()
-
-                props.fitBounds(bbox, options)
             }
-        }),
-    )
-}
+        },
+    }),
+    withHandlers({
+        onLocateClick: props => event => {
+            const {bbox, options} = props.computeBounds()
 
-export const forecast = connector(
-    getForecast,
-    EntitiesActions.loadForecast,
-    EntitiesActions.loadFeaturesMetadata
+            props.fitBounds(bbox, options)
+        }
+    }),
+)
+
+export const archiveForecast = compose(
+    connect(createStructuredSelector({
+        regions: getForecastRegions,
+        data: getForecast,
+    }), {
+        load: EntitiesActions.loadForecast,
+        loadAll: EntitiesActions.loadFeaturesMetadata,
+    }),
+    withHandlers({
+        onParamsChange: props => params => {
+            const {name, date} = params
+            let paths = ['/forecasts']
+
+            if (name) {
+                paths.push(name)
+            }
+
+            paths.push('archives')
+
+            if (date) {
+                paths.push(date)
+            }
+
+            props.router.push(paths.join('/'))
+        },
+        loadForecast: props => () => {
+            const {name, date} = props.params
+
+            if (name && date) {
+                props.load(props.params)
+            }
+        },
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.props.loadForecast()
+            this.props.loadAll()
+        },
+        componentDidUpdate({params: {name, date}}) {
+            const {params} = this.props
+
+            if (name !== params.name || date !== params.date) {
+                this.props.loadForecast()
+            }
+        },
+    }),
 )
 
 export const hotZoneReport = compose(

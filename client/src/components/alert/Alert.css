@@ -30,6 +30,9 @@
         &:after {
             content: "\A0\203A";
         }
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
@@ -49,6 +52,7 @@
     composes: Alert;
 
     background-color: var(--warning);
+    color: initial;
 }
 
 .Success {

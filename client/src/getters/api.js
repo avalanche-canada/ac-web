@@ -25,12 +25,15 @@ const EXTERNAL_URLS = new Map([
     ['glacier', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
 ])
 
+const AVCAN = 'avalanche-canada'
+
+// TODO: Move that function to selectors
 export function getForecastRegionExternalUrl(state, id) {
     const region = getEntityForSchema(state, ForecastRegion, id)
     const properties = region && region.get('properties')
 
     return properties ?
-        properties.get('owner') !== 'avalanche-canada' ?
+        properties.get('owner') !== AVCAN ?
             properties.get('externalUrl', properties.get('url')) :
             null :
         EXTERNAL_URLS.get(id) || null

@@ -126,57 +126,65 @@ export default createSelector(
     getForecastResultSet,
     getComputeBounds,
     (highlight, forecast, forecastRegion, result, computeBounds) => {
-        const {isFetching, isError, isLoaded} = result
+        const data = {
+            isLoading: result.isFetching,
+            isError: result.isError,
+            isLoaded: result.isLoaded,
+            title: forecastRegion && forecastRegion.get('name'),
+            region: forecastRegion,
+            computeBounds,
+        }
 
-        if (forecast) {
-            forecast = transform(forecast.toJSON())
-            const {externalUrl, parksUrl, region} = forecast
-            let showForecast = false
-            let link = null
+        if (!forecast) {
+            return data
+        }
 
-            if (externalUrl) {
-                if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
-                    link = {
-                        to: '/blogs?category=north-rockies'
-                    }
-                } else {
-                    link = {
-                        target: '_blank',
-                        to: externalUrl,
-                    }
-                }
-            } else if (parksUrl) {
+        forecast = transform(forecast.toJSON())
+        const {externalUrl, parksUrl, region} = forecast
+        let showForecast = false
+        let link = null
+
+        if (externalUrl) {
+            if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
                 link = {
-                    target: '_blank',
-                    to: parksUrl,
+                    to: '/blogs?category=north-rockies'
                 }
             } else {
-                showForecast = true
                 link = {
-                    to: `/forecasts/${region}`,
+                    target: '_blank',
+                    to: externalUrl,
                 }
             }
-
-            return {
-                isLoading: isFetching,
-                isError,
-                isLoaded,
-                title: forecast.bulletinTitle || forecast.name || region.name,
-                forecast: showForecast ? forecast : null,
-                link,
-                computeBounds,
-                isUnderSpecialWarning: highlight && highlight[camelCase(region)] === 'Yes',
-                specialWarningLink: highlight && highlight.link,
-                specialWarningContent: highlight && highlight.description
+        } else if (parksUrl) {
+            link = {
+                target: '_blank',
+                to: parksUrl,
             }
         } else {
-             return {
-                isLoading: isFetching,
-                isError,
-                isLoaded,
-                title: forecastRegion && forecastRegion.getIn(['properties', name]),
-                computeBounds,
+            showForecast = true
+            link = {
+                to: `/forecasts/${region}`,
             }
         }
+
+        return Object.assign(data, {
+            title: forecast.bulletinTitle || forecast.name || region.name,
+            forecast: showForecast ? forecast : null,
+            link,
+            isUnderSpecialWarning: highlight && highlight[camelCase(region)] === 'Yes',
+            specialWarningLink: highlight && highlight.link,
+            specialWarningContent: highlight && highlight.description
+        })
     }
+)
+
+export function getForecastRegions(state) {
+    return getEntitiesForSchema(state, ForecastRegion)
+}
+
+const AVCAN = 'avalanche-canada'
+
+export const getExternalForecastRegions = createSelector(
+    getForecastRegions,
+    regions => regions.filter(region => region.get('owner') !== AVCAN)
 )
