@@ -2,6 +2,7 @@ import * as Schemas from 'api/schemas'
 import Axios, {defaults} from 'axios'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
+import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
 
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
