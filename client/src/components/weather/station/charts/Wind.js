@@ -5,6 +5,7 @@ import {toCompass} from 'utils/degrees'
 import moment from 'moment'
 import theme from './theme'
 import range from 'lodash/range'
+import {filterDataset, shouldShowGraph} from './filters'
 
 const STYLE = {
     gust: {
@@ -68,28 +69,45 @@ function getLabels({x, y, utcOffset}) {
 
 function computeDomain(data) {
     const max = Math.max(
-        ...data.map(m => Math.max(m.windSpeedAvg, m.windSpeedGust))
+        ...data.map(m => {
+            const mm = Math.max(m.windSpeedAvg, m.windSpeedGust)
+            return isNaN(mm) ? 0 : mm
+        })
     )
 
     return [0, Math.max(Math.ceil(max / 25) * 25, 100)]
 }
 
+
 export default function Wind({data, min, max, width, height}) {
     const container = <VictoryContainer title='Wind speed and direction' desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`} />
     const withCompass = width > 475
+
+
+    const showAvg  = shouldShowGraph(data, 'windSpeedAvg')
+    const showGust = shouldShowGraph(data, 'windSpeedGust')
+
+    const avgData  = filterDataset(data, 'measurementDateTime', 'windSpeedAvg')
+    const gustData = filterDataset(data, 'measurementDateTime', 'windSpeedGust')
+
     const domain = computeDomain(data)
 
-    return (
+    if(!(showAvg || showGust)) {
+        return null
+    }
+
+    return (<div>
+        <h2>Wind speed and direction</h2>
         <VictoryChart width={width} height={height} theme={theme} containerComponent={container} domainPadding={{x: 25}}>
             <VictoryAxis scale='time' tickFormat={formatHours} />
             <VictoryAxis dependentAxis scale='linear' domain={domain} tickValues={range(domain[0], ++domain[1], 25)} label='Speed (km/h)' style={STYLE.axis} />
-            <VictoryLine data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.line} label='Average' labelComponent={<VictoryLabel dx={withCompass ? 5 : undefined} />} />
-            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getSpeedAndDirectionLabels} events={scatterEvents} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />
-            {withCompass &&
-                <VictoryScatter data={data} x='measurementDateTime' y='windSpeedAvg' dataComponent={ARROW} />
+            {showAvg  && <VictoryLine data={avgData} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.line} label='Average' labelComponent={<VictoryLabel dx={withCompass ? 5 : undefined} />} />}
+            {showAvg  && <VictoryScatter data={avgData} x='measurementDateTime' y='windSpeedAvg' style={STYLE.avg.scatter} labels={getSpeedAndDirectionLabels} events={scatterEvents} dataComponent={<Point size={withCompass ? 10 : undefined} />} labelComponent={<VictoryTooltip />} />}
+            {showAvg  && withCompass &&
+                <VictoryScatter data={avgData} x='measurementDateTime' y='windSpeedAvg' dataComponent={ARROW} />
             }
-            <VictoryLine data={data} x='measurementDateTime' y='windSpeedGust' style={STYLE.gust.line} label='Gust' />
-            <VictoryScatter data={data} x='measurementDateTime' y='windSpeedGust' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.gust.scatter} />
+            {showGust && <VictoryLine data={gustData} x='measurementDateTime' y='windSpeedGust' style={STYLE.gust.line} label='Gust' />}
+            {showGust && <VictoryScatter data={gustData} x='measurementDateTime' y='windSpeedGust' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.gust.scatter} />}
         </VictoryChart>
-    )
+    </div>)
 }

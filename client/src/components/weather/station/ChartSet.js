@@ -34,9 +34,7 @@ function ChartSet({measurements, width}) {
                         <Snow data={data} min={min} max={max} width={width} height={height} />
                         <h2>Air Temperature</h2>
                         <Temperature data={data} min={min} max={max} width={width} height={height} />
-                        <h2>Wind speed and direction</h2>
                         <Wind data={data} min={min} max={max} width={width} height={height} />
-                        <h2>Relative humidity</h2>
                         <RelativeHumidity data={data} min={min} max={max} width={width} height={height} />
                     </div>
                 )

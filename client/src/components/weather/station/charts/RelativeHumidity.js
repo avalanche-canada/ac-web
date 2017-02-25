@@ -4,6 +4,7 @@ import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import moment from 'moment'
 import theme from './theme'
 import range from 'lodash/range'
+import {filterDataset, shouldShowGraph} from './filters'
 
 const STYLE = {
     scatter: {
@@ -50,12 +51,21 @@ function getLabels({x, y, utcOffset}) {
 export default function RelativeHumidity({data, min, max, width, height}) {
     const container = <VictoryContainer title='Relative humidity' desc={`Relative humidity (%) every hour from ${min} to ${max}.`} />
 
-    return (
+
+    if(!shouldShowGraph(data,'relativeHumidity')){
+        return null
+    }
+
+    const humidData  = filterDataset(data, 'measurementDateTime', 'relativeHumidity')
+
+    return (<div>
+        <h2>Relative Humidity</h2>
         <VictoryChart width={width} height={height} theme={theme} containerComponent={container} domainPadding={{x: 25}} >
             <VictoryAxis scale='time' tickFormat={formatHours}/>
             <VictoryAxis dependentAxis scale='linear' domain={[0, 100]} label='Relative humidity (%)' tickValues={range(0, 101, 10)} style={STYLE.axis} />
-            <VictoryLine data={data} x='measurementDateTime' style={STYLE.line} y='relativeHumidity' />
-            <VictoryScatter data={data} x='measurementDateTime' y='relativeHumidity' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.scatter} />
+            <VictoryLine data={humidData} x='measurementDateTime' style={STYLE.line} y='relativeHumidity' />
+            <VictoryScatter data={humidData} x='measurementDateTime' y='relativeHumidity' labels={getLabels} labelComponent={<VictoryTooltip />} events={scatterEvents} style={STYLE.scatter} />
         </VictoryChart>
+        </div>
     )
 }
