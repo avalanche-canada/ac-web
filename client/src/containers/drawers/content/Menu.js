@@ -14,6 +14,9 @@ import {
     HotZoneReport,
     MountainInformationNetwork,
     WeatherStation,
+    SpecialInformation,
+    FatalAccident,
+    ToyotaTruck,
 } from 'components/icons'
 
 const ICONS = new Map([
@@ -21,8 +24,9 @@ const ICONS = new Map([
     [Layers.HOT_ZONE_REPORTS, <HotZoneReport />],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
     [Layers.WEATHER_STATION, <WeatherStation />],
-    [Layers.SPECIAL_INFORMATION, <Forecast />],
-    [Layers.FATAL_ACCIDENT, <Forecast />],
+    [Layers.SPECIAL_INFORMATION, <SpecialInformation />],
+    [Layers.FATAL_ACCIDENT, <FatalAccident />],
+    [Layers.TOYOTA_TRUCK_REPORTS, <ToyotaTruck />],
 ])
 
 // TODO: Improve performance! layers is now an immutable object

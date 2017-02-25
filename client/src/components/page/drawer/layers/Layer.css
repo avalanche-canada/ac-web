@@ -21,6 +21,9 @@
                 fill: black;
             }
         }
+        & > img {
+            opacity: 1;
+        }
     }
 }
 
@@ -35,6 +38,9 @@
         & path {
             fill: var(--gray);
         }
+    }
+    & > img {
+        opacity: 0.15;
     }
 }
 

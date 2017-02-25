@@ -127,7 +127,7 @@
     "should": "~3.3.1",
     "style-loader": "^0.13.0",
     "supertest": "~0.11.0",
-    "svg-inline-loader": "^0.4.1",
+    "svg-url-loader": "^2.0.2",
     "tcomb-form": "^0.9.10",
     "tree-model": "^1.0.4",
     "type-to-reducer": "^1.0.2",
