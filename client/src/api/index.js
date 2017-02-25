@@ -48,13 +48,13 @@ const GET_CONFIGS = new Map([
     [Schemas.Provider, params => ({
         baseURL: astBaseUrl,
         params,
-        // TODO: To remove when server return appropriate result
+        // TODO: To remove when server returns appropriate result
         transformResponse: defaults.transformResponse.concat(transformProviderResponse),
     })],
     [Schemas.Course, params => ({
         baseURL: astBaseUrl,
         params,
-        // TODO: To remove when server return appropriate result
+        // TODO: To remove when server returns appropriate result
         transformResponse: defaults.transformResponse.concat(transformCourseResponse),
     })],
     [Schemas.WeatherStation, params => ({
