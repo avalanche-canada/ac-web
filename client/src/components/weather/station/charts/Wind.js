@@ -2,7 +2,8 @@ import React from 'react'
 import {Point, VictoryLabel, VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import {toCompass} from 'utils/degrees'
-import moment from 'moment'
+import format from 'date-fns/format'
+import {setUTCOffset} from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import {filterDataset, shouldShowGraph} from './filters'
@@ -60,11 +61,11 @@ function Arrow({x, y, datum, events, style, ...rest}) {
 const ARROW = <Arrow />
 
 function getSpeedAndDirectionLabels({x, windSpeedAvg, windDirAvg, utcOffset}) {
-    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} km/h\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `${y} km/h\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function computeDomain(data) {

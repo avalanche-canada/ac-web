@@ -2,7 +2,8 @@ import React from 'react'
 import {Line, VictoryLabel, VictoryLine, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import theme from './theme'
-import moment from 'moment'
+import format from 'date-fns/format'
+import {setUTCOffset} from 'utils/date'
 
 const STYLE = {
     avg: {
@@ -66,7 +67,7 @@ function computeDomain(data) {
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} °C\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `${y} °C\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function dy({y}) {

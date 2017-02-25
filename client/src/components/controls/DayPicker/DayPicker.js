@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {findDOMNode} from 'react-dom'
-import moment from 'moment'
+import isAfter from 'date-fns/is_after'
+import endOfDay from 'date-fns/end_of_day'
 import CSSModules from 'react-css-modules'
 import {DateUtils, DayPicker as Base} from 'components/misc'
 import Callout, {BOTTOM} from 'components/callout'
@@ -9,7 +10,6 @@ import styles from './DayPicker.css'
 import Holder from '../Holder'
 import noop from 'lodash/noop'
 
-const today = new Date()
 const {isSameDay} = DateUtils
 
 @CSSModules(styles)
@@ -24,7 +24,7 @@ export default class DayPicker extends Component {
     static defaultProps = {
         date: new Date(),
         onChange: noop,
-        disabledDays: day => moment(day).isAfter(today, 'day'),
+        disabledDays: day => isAfter(day, endOfDay(new Date())),
     }
     state = {
         showCalendar: false,

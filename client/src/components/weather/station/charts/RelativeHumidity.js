@@ -1,7 +1,8 @@
 import React from 'react'
 import {VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
 import {formatHours, formatForUnit, scatterEvents} from '../utils'
-import moment from 'moment'
+import format from 'date-fns/format'
+import {setUTCOffset} from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import {filterDataset, shouldShowGraph} from './filters'
@@ -45,7 +46,7 @@ const STYLE = {
 }
 
 function getLabels({x, y, utcOffset}) {
-    return `${y} %\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `${y} %\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 export default function RelativeHumidity({data, min, max, width, height}) {

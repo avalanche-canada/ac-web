@@ -9,7 +9,8 @@ import * as EntitiesActions from 'actions/entities'
 import * as Layers from 'constants/drawers'
 import {Predicates} from 'prismic'
 import format from 'date-fns/format'
-import {yesterday, tomorrow} from 'utils/date'
+import startOfTomorrow from 'date-fns/start_of_tomorrow'
+import startOfYesterday from 'date-fns/start_of_yesterday'
 
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
@@ -47,8 +48,8 @@ function createActionForLayer(layer) {
             return PrismicActions.load({
                 type: 'hotzone-report',
                 predicates: [
-                    Predicates.dateBefore('my.hotzone-report.dateOfIssue', format(tomorrow(), 'YYYY-MM-DD')),
-                    Predicates.dateAfter('my.hotzone-report.validUntil', format(yesterday(), 'YYYY-MM-DD')),
+                    Predicates.dateBefore('my.hotzone-report.dateOfIssue', format(startOfTomorrow(), 'YYYY-MM-DD')),
+                    Predicates.dateAfter('my.hotzone-report.validUntil', format(startOfYesterday(), 'YYYY-MM-DD')),
                 ]
             })
         case Layers.MOUNTAIN_INFORMATION_NETWORK:

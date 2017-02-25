@@ -1,6 +1,9 @@
 import * as Schemas from 'api/schemas'
 import Axios, {defaults} from 'axios'
-import moment from 'moment'
+import parse from 'date-fns/parse'
+import isValid from 'date-fns/is_valid'
+import startOfToday from 'date-fns/start_of_today'
+
 import {baseURL, astBaseUrl, weatherBaseUrl} from 'api/config.json'
 import Url from 'url'
 import {
@@ -63,18 +66,18 @@ function isArchiveBulletinRequest({name, date}) {
         return false
     }
 
-    const archive = moment(date, 'YYYY-MM-DD')
+    const archive = parse(date, 'YYYY-MM-DD')
 
-    if (!archive.isValid()) {
-        throw new Error(`Date ${date} is not valid.`)
+    if (isValid(archive)) {
+        return isBefore(archive, startOfToday())
     }
 
-    return archive.isBefore(new Date(), 'day')
+    throw new Error(`Date ${date} is not valid.`)
 }
 
 function forecastEndpoint({name, date}) {
     if (isArchiveBulletinRequest({name, date})) {
-        const archive = moment(date)
+        const archive = parse(date)
 
         return `bulletin-archive/${archive.toISOString()}/${name}.json`
     } else {

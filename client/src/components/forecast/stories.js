@@ -1,9 +1,9 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
 import CSSModules from 'react-css-modules'
-import moment from 'moment'
 import styles from './Forecast.css'
 import {Table, Day, Condition} from './danger'
+import addDays from 'date-fns/add_days'
 import {Problem, Topic, Advice, Comment} from './problem'
 import {
     HIGH,
@@ -74,15 +74,13 @@ storiesOf('Forecast', module)
     </Forecast>
 ))
 .add('Danger Table', () => {
-    const date1 = new Date()
-    const date2 = moment(date1).add(1, 'd').toDate()
-    const date3 = moment(date1).add(2, 'd').toDate()
+    const date = new Date()
 
     return (
         <Table confidence='Fair - Really confident ;) and it is long confidence comment...'>
-            <Day date={date1} alp={HIGH} tln={MODERATE} btl={MODERATE} />
-            <Day date={date2} alp={LOW} tln={MODERATE} btl={CONSIDERABLE} />
-            <Day date={date3} alp={LOW} tln={MODERATE} btl={HIGH} />
+            <Day date={date} alp={HIGH} tln={MODERATE} btl={MODERATE} />
+            <Day date={addDays(date, 1)} alp={LOW} tln={MODERATE} btl={CONSIDERABLE} />
+            <Day date={addDays(date, 2)} alp={LOW} tln={MODERATE} btl={HIGH} />
         </Table>
     )
 })

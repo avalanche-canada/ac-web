@@ -2,7 +2,8 @@ import React from 'react'
 import {DayPicker, DateUtils} from 'components/misc'
 import {TimePicker} from 'components/controls'
 import styles from './Picker.css'
-import moment from 'moment'
+import format from 'date-fns/format'
+import parse from 'date-fns/parse'
 
 import checkbox from './checkbox'
 import picker from './picker'
@@ -23,11 +24,6 @@ export default {
   file,
 }
 
-const TODAY = new Date()
-function defaultDisabledDays(day) {
-    return moment(day).isAfter(TODAY, 'day')
-}
-
 export const pickers = {
     date: picker.clone({
         getFormat(locals) {
@@ -43,7 +39,7 @@ export const pickers = {
                 locale,
                 localeUtils,
                 onSelect,
-                disabledDays = defaultDisabledDays,
+                disabledDays,
             } = locals
             const props = {
                 initialMonth: value || undefined,
@@ -76,7 +72,7 @@ export const pickers = {
     }),
     datetime: picker.clone({
         getFormat(locals) {
-            return value => value ? moment(value).format('YYYY-MM-DD HH:mm') : ''
+            return value => value ? format(parse(value), 'YYYY-MM-DD HH:mm') : ''
         },
         renderContent(locals) {
             const value = locals.value || new Date()
@@ -87,7 +83,7 @@ export const pickers = {
                 localeUtils,
                 onChange,
                 close,
-                disabledDays = defaultDisabledDays,
+                disabledDays,
             } = locals
             function onDayClick(event, day) {
                 day.setHours(value.getHours())
