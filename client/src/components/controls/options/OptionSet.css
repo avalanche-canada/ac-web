@@ -7,7 +7,7 @@
     left: -1px;
     /*max-height: 280px;*/
     right: -1px;
-    z-index: 10;
+    z-index: 9;
     overflow-y: auto;
 }
 
