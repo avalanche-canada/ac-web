@@ -6,7 +6,7 @@ import {Form as Base, Legend, Control, ControlSet} from 'components/form'
 import {DropdownFromOptions, Input, Geocoder, DateRange} from 'components/controls'
 import {locate} from 'actions/geolocation'
 import parse from 'date-fns/parse'
-import {formatAsDay} from 'utils/date'
+import format from 'date-fns/format'
 import get from 'lodash/get'
 import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
@@ -115,8 +115,8 @@ const Container = compose(
         onDateRangeChange: props => ({from, to}) => {
             replace({
                 query: {
-                    from: from ? formatAsDay(from) : undefined,
-                    to: to ? formatAsDay(to) : undefined,
+                    from: from ? format(from, 'YYYY-MM-DD') : undefined,
+                    to: to ? format(to, 'YYYY-MM-DD') : undefined,
                 }
             }, props)
         },

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import moment from 'moment'
+import isSameDay from 'date-fns/is_same_day'
 import Url from 'url'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
@@ -12,7 +12,7 @@ export const dateRanges = {
     name: 'dates',
     title: 'Dates',
     property({dateStart, dateEnd}) {
-        if (moment(dateStart).isSame(dateEnd, 'd')) {
+        if (isSameDay(dateStart, dateEnd)) {
             return <DateElement value={dateStart} />
         }
 

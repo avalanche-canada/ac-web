@@ -1,5 +1,4 @@
 import {List} from 'immutable'
-import moment from 'moment'
 import {createSelector, createStructuredSelector} from 'reselect'
 import {WeatherStation} from 'api/schemas'
 import {getEntityForSchema} from 'getters/entities'

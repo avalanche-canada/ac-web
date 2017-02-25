@@ -1,4 +1,4 @@
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 import memoize from 'lodash/memoize'
 
 export function getDateExtent(data) {
@@ -17,7 +17,7 @@ export function formatHours(date, index) {
         format = 'HH[h][\n]YYYY-MM-DD'
     }
 
-    return moment(date).format(format)
+    return formatDate(date, format)
 }
 
 export const formatForUnit = memoize(function(unit) {

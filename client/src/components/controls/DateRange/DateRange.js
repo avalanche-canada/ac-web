@@ -9,7 +9,7 @@ import Callout, {BOTTOM} from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
-import {formatAsDay} from 'utils/date'
+import format from 'date-fns/format'
 import styles from './DateRange.css'
 import noop from 'lodash/noop'
 
@@ -85,7 +85,7 @@ export default class DateRange extends Component {
         const {placeholder, container = this} = this.props
         const {from, to} = this.state
         const showClear = from && to
-        const range = showClear ? `${formatAsDay(from)} to ${formatAsDay(to)}` : ''
+        const range = showClear ? `${format(from, 'YYYY-MM-DD')} to ${format(to, 'YYYY-MM-DD')}` : ''
 
         return (
             <div ref='target' styleName='Container' onClick={this.toggleCalendar}>

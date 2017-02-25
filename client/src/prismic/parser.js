@@ -1,6 +1,6 @@
 import {Fragments, Document, Prismic} from 'prismic.io'
 import camelCase from 'lodash/camelCase'
-import moment from 'moment'
+import parseToDate from 'date-fns/parse'
 import linkResolver from 'prismic/linkResolver'
 import htmlSerializer from 'prismic/htmlSerializer'
 
@@ -64,7 +64,7 @@ export class Parser {
             case Fragments.Color:
                 return fragment.asText()
             case Fragments.Date:
-                return data ? moment(data.value, 'YYYY-MM-DD').toDate() : fragment.value
+                return data ? parseToDate(data.value, 'YYYY-MM-DD') : fragment.value
             case Fragments.Number:
             case Fragments.Timestamp:
             case Fragments.Embed:

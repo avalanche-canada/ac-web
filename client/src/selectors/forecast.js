@@ -1,4 +1,5 @@
-import moment from 'moment'
+import parse from 'date-fns/parse'
+import addDays from 'date-fns/add_days'
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from 'api/schemas'
 import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
@@ -32,7 +33,7 @@ function transformDangerRating({date, dangerRating}) {
     const {alp, tln, btl} = dangerRating
 
     return {
-        date: moment(date).toDate(),
+        date: parse(date),
         dangerRating: {
             alp: TO_RATINGS.get(alp),
             tln: TO_RATINGS.get(tln),
@@ -74,16 +75,17 @@ function transform(forecast) {
     // TODO(wnh): Clean this up and merge it into either the server side or the
     // transformDangerRating function
     const fixDangerRatingDates = function(x, n){
-        let newDate = moment(dateIssued).add(n + 1, 'days')
-        return Object.assign({}, x, {date: newDate.toDate()})
+        return Object.assign({}, x, {
+            date: addDays(parse(dateIssued), n + 1)
+        })
     }
 
     return {
         ...forecast,
         confidence: asConfidenceObject(confidence),
         dangerMode: TO_MODES.get(dangerMode),
-        dateIssued: moment(dateIssued).toDate(),
-        validUntil: moment(validUntil).toDate(),
+        dateIssued: parse(dateIssued),
+        validUntil: parse(validUntil),
         dangerRatings: dangerRatings.map(transformDangerRating).map(fixDangerRatingDates),
         avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),

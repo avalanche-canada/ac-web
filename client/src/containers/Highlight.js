@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {compose, withHandlers, lifecycle, renameProp, withProps, withState} from 'recompose'
 import {connect} from 'react-redux'
-import moment from 'moment'
 import Highlight from 'components/highlight'
 import {InnerHTML} from 'components/misc'
 import {load} from 'actions/prismic'
-import {yesterday, tomorrow, formatAsDay} from 'utils/date'
+import format from 'date-fns/format'
+import startOfTomorrow from 'date-fns/start_of_tomorrow'
+import startOfYesterday from 'date-fns/start_of_yesterday'
 import {Predicates} from 'prismic'
 import parser from 'prismic/parser'
 import {SessionStorage} from 'services/storage'
@@ -39,8 +40,8 @@ export default class Container extends Component {
         return this.props.load({
             type: 'highlight',
             predicates: [
-                Predicates.dateBefore('my.highlight.start_date', formatAsDay(tomorrow())),
-                Predicates.dateAfter('my.highlight.end_date', formatAsDay(yesterday())),
+                Predicates.dateBefore('my.highlight.start_date', format(startOfTomorrow(), 'YYYY-MM-DD')),
+                Predicates.dateAfter('my.highlight.end_date', format(startOfYesterday(), 'YYYY-MM-DD')),
             ]
         }).then(response => {
             const {results: [highlight]} = response

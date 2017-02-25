@@ -2,7 +2,8 @@ import React from 'react'
 import {VictoryScatter, VictoryGroup, VictoryLine, VictoryTooltip, VictoryBar, VictoryChart, VictoryAxis, VictoryContainer} from 'victory'
 import {PRIMARY as SECONDARY_BLUE} from 'constants/colors'
 import {formatHours, formatForUnit, barEvents, scatterEvents} from '../utils'
-import moment from 'moment'
+import format from 'date-fns/format'
+import {setUTCOffset} from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 
@@ -105,11 +106,11 @@ const STYLE = {
 }
 
 function getNewSnowLabels({x, y, utcOffset}) {
-    return `New snow: ${y} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `New snow: ${y} cm\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function getSnowHeightLabels({x, y, utcOffset}) {
-    return `Snow height: ${Math.round(y)} cm\n${moment(x).utcOffset(utcOffset).format('dddd, MMMM D, HH[h]')}`
+    return `Snow height: ${Math.round(y)} cm\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function computeSnowHeightDomain(data) {

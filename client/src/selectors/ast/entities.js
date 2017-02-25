@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import moment from 'moment'
+import parse from 'date-fns/parse'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'
@@ -26,9 +26,8 @@ function normalizeTags(tags) {
 const transformers = new Map([
     [Course, course => Object.assign(course, {
         tags: normalizeTags(course.tags),
-        // DO NOT CHANGE THAT. DATES ARE CONVERTED FINE WITH MOMENT.
-        dateStart: moment(course.dateStart).toDate(),
-        dateEnd: moment(course.dateEnd).toDate(),
+        dateStart: parse(course.dateStart),
+        dateEnd: parse(course.dateEnd),
         isFeatured: false,
     })],
     [Provider, provider => Object.assign(provider, {

@@ -1,7 +1,8 @@
-import moment from 'moment'
+import {setUTCOffset} from 'utils/date'
 import {toCompass} from 'utils/degrees'
+import format from 'date-fns/format'
 
-const DASH='—'
+const DASH = '—'
 
 //
 // Check if properties are null/undefined/NaN and return a dash otherwise
@@ -21,7 +22,7 @@ export const Hour = {
     name: 'hour',
     title: 'Hour',
     property({measurementDateTime, utcOffset}) {
-        return moment(measurementDateTime).utcOffset(utcOffset).format('HH[h]')
+        return format(setUTCOffset(measurementDateTime, utcOffset), 'HH[h]')
     },
 }
 
