@@ -7,6 +7,7 @@ var _       = require('lodash');
 var request = require('request');
 var xml2js = require('xml2js');
 
+var metadata     = require('../features/metadata');
 var regionData   = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx        = require('../forecasts/avalx');
@@ -84,10 +85,14 @@ var DANGER_QUERY =
     '  order by SortOrder asc  ';
 
 router.get('/:date/:region.json', (req,res) => {
+
     var date = moment(req.params.date, moment.ISO_8601);
     if(! date.isValid()) {
-        res.status(404).end();
-        return;
+        return res.status(404).end();
+    }
+    if(typeof(['forecast-regions'][req.params.region]) !== 'undefined' &&
+       metadata['forecast-regions'][req.params.region]['type'] != 'avalx') {
+        return res.status(404).end();
     }
     if(date.isBefore(NEW_AVALX_START_DATE)) {
         return oldAvalx(req, res);
@@ -145,8 +150,7 @@ function oldAvalx(req, res) {
         conn = mssql.connect(ARCHIVE_DBURL)
     } catch(err) {
         console.log('Error connecting to Forecast Archive DB:', err, err.stack) 
-        res.status(503).json({error: 'Error connecting to Forecast Archive Database'})
-        return
+        return res.status(503).json({error: 'Error connecting to Forecast Archive Database'})
     }
     var json = conn
     .then(() => {
