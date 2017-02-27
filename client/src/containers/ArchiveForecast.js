@@ -160,10 +160,12 @@ export default compose(
         ...params,
         date: typeof params.date === 'string' ? parse(params.date, 'YYYY-MM-DD') : null,
         regionOptions: new Map(
-            regions.map(region => [
-                region.get('id'),
-                region.get('name')
-            ]).toArray()
+            regions
+                .filter(region => region.get('type') === 'avalx' || region.get('type') === 'parks')
+                .map(region => [
+                    region.get('id'),
+                    region.get('name')
+                ]).toArray()
         )
     })),
 )(Component)
