@@ -4,13 +4,11 @@ import Backdrop from './Backdrop'
 import Drawer from './Drawer'
 import SIDE, {LEFT, RIGHT} from './constants/sides'
 
-const preset = presets.noWobble
-
 function getMotionStyle(open, side) {
     const value = Number(!open) * (side === LEFT ? -1 : 1)
 
     return {
-        x: spring(value, preset)
+        x: spring(value, presets.noWobble)
     }
 }
 

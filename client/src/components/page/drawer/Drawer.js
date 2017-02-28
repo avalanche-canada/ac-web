@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 import SIDE, {LEFT, RIGHT} from './constants/sides'
 
-function getDrawerStyle(position, width) {
+function computeDrawerStyle(position, width) {
     const transform = `translateX(${position * 100}%)`
 
     return {
@@ -35,7 +35,7 @@ function Drawer({side = SIDE, open, position, width, onCloseClick, children}) {
     }
 
     return (
-        <div style={getDrawerStyle(position, width)} styleName={styleName}>
+        <div style={computeDrawerStyle(position, width)} styleName={styleName}>
             {Children.toArray(children).map(element => cloneElement(element, {
                 onCloseClick
             }))}
