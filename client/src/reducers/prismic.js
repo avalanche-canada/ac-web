@@ -52,9 +52,9 @@ export default combineReducers({
             PENDING(state, {meta}) {
                 return state.set(meta.key, RESULT.start())
             },
-            REJECT(state, {meta}) {
+            REJECTED(state, {meta}) {
                 return state.set(meta.key, RESULT.reject())
-                },
+            },
             FULFILLED(state, {meta, payload}) {
                 return state.set(meta.key, RESULT.fulfill({
                     ids: payload.results.map(pluckId)
