@@ -101,7 +101,7 @@ const MENU = new Map({
             id: Layers.ATES,
             title: 'ATES',
             type: 'Test',
-            visible: Boolean(LAYERS_VISIBILITY.get(Layers.ATES, false)),
+            visible: false,
         }),
     }),
 })
