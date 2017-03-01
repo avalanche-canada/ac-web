@@ -6,6 +6,10 @@ export function getStyle(state) {
     return state.map.style
 }
 
+export function getBounds(state) {
+    return state.map.bounds
+}
+
 export function getStatus(state) {
     return state.map.status
 }
@@ -16,4 +20,8 @@ export function getActiveFeatures(state) {
 
 export function getWidth(state) {
     return state.map.width
+}
+
+export function getSize(state) {
+    return state.map.size
 }

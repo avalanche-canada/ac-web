@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import mapbox from 'services/mapbox/map'
 import {Map, Source, Layer, Marker} from 'components/map'
-import {loadData, loadMapStyle} from 'actions/map'
+import {loadData, loadMapStyle, changeBounds, changeSize} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import {LayerIds, allLayerIds} from 'constants/map/layers'
 import {push} from 'utils/router'
@@ -274,10 +274,25 @@ class Container extends Component {
         }
 
         this.map = map
+        window.map = map
 
         this.forceUpdate(() => {
             this.props.onLoad(map)
         })
+    }
+    handleZoomend = ({target}) => {
+        this.changeBounds(target)
+    }
+    handleMoveend = ({target}) => {
+        this.changeBounds(target)
+    }
+    handleResize = ({target}) => {
+        const {innerWidth, innerHeight} = target.getContainer()
+
+        this.props.changeSize([innerWidth, innerHeight])
+    }
+    changeBounds(map) {
+        this.props.changeBounds(map.getBounds())
     }
     fitBounds(feature, options) {
         if (!feature) {
@@ -324,6 +339,9 @@ class Container extends Component {
         const events = {
             onLoad: this.handleLoad,
             onInitializationError,
+            onZoomend: this.handleZoomend,
+            onMoveend: this.handleMoveend,
+            onResize: this.handleResize,
         }
 
         return (
@@ -344,5 +362,7 @@ export default compose(
     connect(mapStateToProps, {
         loadData,
         loadMapStyle,
+        changeBounds,
+        changeSize,
     }),
 )(Container)

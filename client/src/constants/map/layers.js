@@ -105,6 +105,12 @@ const fatalAccidentLayers = [{
         'icon-size': 0.75,
     },
 }]
+const atesLayers = [{
+    id: Layers.ATES,
+    source: Layers.ATES,
+    type: 'raster'
+}]
+
 
 export default [
     ...toyotaLayers,
@@ -112,6 +118,7 @@ export default [
     ...mountainInformationNetworkLayers,
     ...specialInformationLayers,
     ...fatalAccidentLayers,
+    ...atesLayers
 ]
 
 export const LayerIds = new Map([
@@ -141,6 +148,9 @@ export const LayerIds = new Map([
     ],
     [Layers.FATAL_ACCIDENT,
         fatalAccidentLayers.map(pluckLayerId)
+    ],
+    [Layers.ATES,
+        atesLayers.map(pluckLayerId)
     ],
 ])
 

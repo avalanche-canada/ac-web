@@ -7,6 +7,7 @@ import Layers from 'constants/map/layers'
 import Sources from 'constants/map/sources'
 import Status from 'utils/status'
 import typeToReducer from 'type-to-reducer'
+import {Canadian} from 'constants/map/bounds'
 
 export default combineReducers({
     command: handleAction(Actions.MAP_COMMAND_CREATED, getPayload, null),
@@ -33,7 +34,17 @@ export default combineReducers({
     width: handleAction(
         Actions.MAP_WIDTH_CHANGED,
         getPayload,
-        window.innerWidth
+        window.innerWidth,
+    ),
+    size: handleAction(
+        Actions.CHANGE_SIZE,
+        getPayload,
+        [window.innerWidth, window.innerHeight - 75],
+    ),
+    bounds: handleAction(
+        Actions.CHANGE_BOUNDS,
+        getPayload,
+        Canadian,
     ),
 })
 

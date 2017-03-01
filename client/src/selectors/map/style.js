@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
-import {getStyle, getActiveFeatures} from 'getters/map'
+import {getStyle, getActiveFeatures, getBounds, getSize} from 'getters/map'
 import {createGetEntitiesForSchema} from 'selectors/factories'
 import {getResultsSet} from 'getters/api'
 import {getDocumentsOfType} from 'getters/prismic'
@@ -12,6 +12,7 @@ import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import turf from '@turf/helpers'
 import explode from '@turf/explode'
+import Url from 'url'
 
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
@@ -293,6 +294,40 @@ function getLayerIndexFactory(style) {
     return id => ids.findIndex(value => value === id)
 }
 
+const computeAtesSource = createSelector(
+    getBounds,
+    getSize,
+    (bounds, size) => {
+        const [[west, south], [east, north]] = bounds.toArray()
+
+        return {
+            type: 'image',
+            url: Url.format({
+                protocol: 'http',
+                host: 'delivery.maps.gov.bc.ca',
+                pathname: 'arcgis/rest/services/ates/ates/MapServer/export',
+                query: {
+                    bbox: `${west},${south},${east},${north}`,
+                    bboxSR: 4326,
+                    layers: 'show:1,2,3,4',
+                    size: size.join(','),
+                    imageSR: 4326,
+                    format: 'png32',
+                    transparent: true,
+                    dpi: 96,
+                    f: 'image',
+                }
+            }),
+            coordinates: [
+                [west, north],
+                [east, north],
+                [east, south],
+                [west, south],
+            ],
+        }
+    }
+)
+
 const parse = Parser.parse.bind(Parser)
 
 export default createSelector(
@@ -300,7 +335,8 @@ export default createSelector(
     getLayerFilters,
     getLayersVisibilities,
     getSourceFeatures,
-    (style, filters, visibilities, features) => {
+    computeAtesSource,
+    (style, filters, visibilities, features, ates) => {
         if (!style || !Immutable.Iterable.isIterable(style) || !style.has('id')) {
             return null
         }
@@ -326,6 +362,9 @@ export default createSelector(
 
                 style.setIn(path, visibility)
             })
+
+            // ATES
+            style.setIn(['sources', Layers.ATES], ates)
         })
     }
 )

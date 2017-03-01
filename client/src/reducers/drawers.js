@@ -97,6 +97,12 @@ const MENU = new Map({
             type: 'Sponsor',
             visible: Boolean(LAYERS_VISIBILITY.get(Layers.TOYOTA_TRUCK_REPORTS, true)),
         }),
+        [Layers.ATES]: new Layer({
+            id: Layers.ATES,
+            title: 'ATES',
+            type: 'Test',
+            visible: Boolean(LAYERS_VISIBILITY.get(Layers.ATES, false)),
+        }),
     }),
 })
 

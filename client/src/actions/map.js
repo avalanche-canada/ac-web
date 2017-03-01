@@ -17,8 +17,14 @@ export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
 export const ACTIVE_FEATURES_CHANGED = 'ACTIVE_FEATURES_CHANGED'
 export const MAP_WIDTH_CHANGED = 'MAP_WIDTH_CHANGED'
 
+export const CHANGE_BOUNDS = 'CHANGE_BOUNDS'
+export const CHANGE_SIZE = 'CHANGE_SIZE'
+
 export const activeFeaturesChanged = createAction(ACTIVE_FEATURES_CHANGED)
 export const mapWidthChanged = createAction(MAP_WIDTH_CHANGED)
+
+export const changeBounds = createAction(CHANGE_BOUNDS)
+export const changeSize = createAction(CHANGE_SIZE)
 
 function createMapCommand(name) {
     return createAction(
