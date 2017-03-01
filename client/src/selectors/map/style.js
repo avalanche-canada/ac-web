@@ -311,7 +311,7 @@ const computeAtesSource = createSelector(
                     bboxSR: 4326,
                     layers: 'show:1,2,3,4',
                     size: size.join(','),
-                    imageSR: 4326,
+                    imageSR: 900913,
                     format: 'png32',
                     transparent: true,
                     dpi: 96,
