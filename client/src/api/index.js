@@ -11,6 +11,7 @@ import {
     transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
+    transformForecastResponse,
 } from './transformers'
 
 const POST_CONFIGS = new Map([
@@ -60,6 +61,18 @@ const GET_CONFIGS = new Map([
     [Schemas.WeatherStation, params => ({
         baseURL: weatherBaseUrl,
     })],
+    [Schemas.Forecast, params => {
+        function transform(forecast) {
+            return {
+                ...forecast,
+                isArchived: isArchiveBulletinRequest(params)
+            }
+        }
+
+        return {
+            transformResponse: defaults.transformResponse.concat(transform),
+        }
+    }],
 ])
 
 function isArchiveBulletinRequest({name, date}) {

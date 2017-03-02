@@ -5,6 +5,9 @@ import styles from './Button.css'
 import classNames from 'classnames'
 import KIND, {ALL as KINDS} from './kinds'
 
+const LEFT = 'LEFT'
+const RIGHT = 'RIGHT'
+
 export default compose(
     setDisplayName('Button'),
     setPropTypes({
@@ -13,6 +16,7 @@ export default compose(
         shadow: PropTypes.bool,
         large: PropTypes.bool,
         transparent: PropTypes.bool,
+        chevron: PropTypes.oneOf([LEFT, RIGHT, true]),
         kind: PropTypes.oneOf(Array.from(KINDS)),
         icon: PropTypes.node,
     }),
@@ -23,13 +27,16 @@ export default compose(
         large: false,
         transparent: false,
     }),
-    mapProps(({icon, active, shadow, large, kind, transparent, ...props}) => {
+    mapProps(({icon, active, shadow, large, kind, transparent, chevron, ...props}) => {
         const styleName = classNames({
             [kind]: true,
             Active: active,
             Shadow: shadow,
             Large: large,
             Transparent: transparent,
+            ChevronLeft: chevron === LEFT,
+            ChevronRight: chevron === RIGHT,
+            Chevron: chevron === true,
         })
 
         if (!icon) {

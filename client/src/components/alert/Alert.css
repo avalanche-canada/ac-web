@@ -10,15 +10,12 @@
     text-align: center;
     white-space: pre-wrap;
 
-    &:hover {
-        & [href] {
+    & a[href] {
+        display: block;
+
+        &:hover {
             text-decoration: underline;
         }
-    }
-
-    & [href] {
-        color: white;
-
         &:after {
             content: "\A0\203A";
         }
@@ -40,6 +37,10 @@
     composes: Alert;
 
     background-color: var(--danger);
+
+    & a[href] {
+        color: white;
+    }
 }
 
 .Info {

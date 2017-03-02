@@ -9,7 +9,7 @@ import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
 import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
-import {DateTime} from 'components/misc'
+import Alert, {WARNING} from 'components/alert'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
@@ -24,6 +24,8 @@ Forecast.propTypes = {
         level: PropTypes.string,
         comment: PropTypes.string,
     }),
+    isArchived: PropTypes.bool.isRequired,
+    region: PropTypes.string.isRequired,
 }
 
 export default function Forecast({
@@ -35,9 +37,19 @@ export default function Forecast({
     dangerMode,
     dangerRatings,
     confidence,
+    isArchived,
+    region,
 }) {
     return (
         <section>
+            {isArchived &&
+                <Alert type={WARNING}>
+                    This is an archived avalanche bulletin
+                    <Link to={`/forecasts/${region}`}>
+                        Read today's bulletin
+                    </Link>
+                </Alert>
+            }
             <Headline>{highlights}</Headline>
             <TabSet theme={LOOSE}>
                 <Tab title='Danger ratings'>
@@ -88,7 +100,7 @@ export default function Forecast({
                     }
                 </Tab>
             </TabSet>
-            <Footer />
+            <Footer region={region} />
         </section>
     )
 }

@@ -6,10 +6,19 @@ import Panel, {INVERSE} from 'components/panel'
 import RatingExplanation from 'components/forecast/RatingExplanation'
 import {Generic} from 'prismic/components'
 import styles from './Forecast.css'
+import ArchiveDatePicker from './ArchiveDatePicker'
 
-function Footer() {
+Footer.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+    region: PropTypes.string.isRequired,
+}
+
+function Footer({date = new Date(), region}) {
     return (
         <footer styleName='Footer'>
+            <Panel expandable header='Forecast archives'>
+                <ArchiveDatePicker date={date} region={region} />
+            </Panel>
             <Panel expandable header='Danger Ratings Explained'>
                 <RatingExplanation />
             </Panel>
