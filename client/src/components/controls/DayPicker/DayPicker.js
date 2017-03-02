@@ -27,49 +27,44 @@ export default class DayPicker extends Component {
         disabledDays: day => isAfter(day, endOfDay(new Date())),
     }
     state = {
-        showCalendar: false,
+        isCalendarVisible: false,
     }
-    set showCalendar(showCalendar) {
-        this.setState({showCalendar})
-    }
-    get showCalendar() {
-        return this.state.showCalendar
-    }
-    toggleCalendar = event => {
-        this.showCalendar = !this.showCalendar
+    set isCalendarVisible(isCalendarVisible) {
+        this.setState({isCalendarVisible})
     }
     hideCalendar = () => {
-        this.showCalendar = false
+        this.isCalendarVisible = false
+    }
+    showCalendar = () => {
+        this.isCalendarVisible = true
     }
     handleDayClick = (event, date, modifiers) => {
         if (modifiers.disabled) {
             return
         }
 
-        this.showCalendar = false
+        this.isCalendarVisible = false
         this.props.onChange(date)
-    }
-    get target() {
-        return () => findDOMNode(this.refs.target)
     }
     render() {
         const {date, disabledDays, children, container = this} = this.props
-        const {showCalendar, hideCalendar} = this
-        const styleName = showCalendar ? 'Input--Open' : 'Input'
+        const {isCalendarVisible} = this.state
+        const styleName = isCalendarVisible ? 'Input--Open' : 'Input'
+        const handleClick = isCalendarVisible ? noop : this.showCalendar
 
         return (
-            <div ref='target' styleName='Container' onClick={this.toggleCalendar}>
+            <div ref='target' styleName='Container' onClick={handleClick}>
                 <div styleName={styleName} tabIndex={0} >
                     <Holder value={children} />
                 </div>
                 <Overlay
-                    show={showCalendar}
-                    onHide={hideCalendar}
-                    onEscapeKeyUp={hideCalendar}
+                    show={isCalendarVisible}
+                    onHide={this.hideCalendar}
+                    onEscapeKeyUp={this.hideCalendar}
                     placement='bottom'
                     rootClose
                     shouldUpdatePosition
-                    target={this.target}
+                    target={this.refs.target}
                     container={container}>
                     <Callout placement={BOTTOM}>
                         <Base
