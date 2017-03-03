@@ -6,7 +6,6 @@ var _ = require('lodash');
 
 
 var regions = _.map(feature_metadata['forecast-regions'], function(region, id){
-    console.log(id, region)
     var r = {
         title: region.name,
         icon:  region.dangerIconUrl
@@ -20,7 +19,6 @@ var regions = _.map(feature_metadata['forecast-regions'], function(region, id){
     return r;
 });
 
-console.log(regions)
 
 
 router.get('/', function(req, res) {
