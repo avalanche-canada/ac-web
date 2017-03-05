@@ -267,10 +267,6 @@ exports.saveSubmission = function (token, form, callback) {
 };
 
 exports.getSubmissions = function (filters, callback) {
-    var params = {
-        TableName: OBS_TABLE,
-        IndexName: 'acl-epoch-index'
-    };
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
@@ -284,6 +280,13 @@ exports.getSubmissions = function (filters, callback) {
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
+    return  getSubmissionsRecursive(startDate, endDate, null, [], callback);
+}
+function getSubmissionsRecursive(startDate, endDate, prevKey, prevItems, callback) {
+    var params = {
+        TableName: OBS_TABLE,
+        IndexName: 'acl-epoch-index'
+    };
 
     logger.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
@@ -294,11 +297,24 @@ exports.getSubmissions = function (filters, callback) {
         ':end': endDate.unix()
     };
 
+    if (prevKey !== null) {
+        params.ExclusiveStartKey = prevKey
+    }
+
     dynamodb.query(params, function(err, res) {
         if (err) {
             callback({error: "error fetching observations"});
+        }
+
+        var items = prevItems.concat(res.Items);
+        logger.info('getSubmissionsRecursive: return count =', res.Count);
+
+        if (typeof(res.LastEvaluatedKey) !== 'undefined' ) {
+            logger.info('getSubmissionsRecursive: Running recursive');
+            getSubmissionsRecursive(startDate, endDate, res.LastEvaluatedKey, items, callback)
         } else {
-            var subs = itemsToSubmissions(res.Items);
+            logger.info('getSubmissionsRecursive: final length -', items.length)
+            var subs = itemsToSubmissions(items);
             callback(null, subs);
         }
     });
