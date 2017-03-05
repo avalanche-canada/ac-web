@@ -101,7 +101,7 @@ function validateItem(item) {
 }
 
 exports.saveSubmission = function (token, form, callback) {
-    logger.log("Saving submission");
+    logger.info("Saving submission");
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         obid: uuid.v4(),
@@ -118,7 +118,7 @@ exports.saveSubmission = function (token, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        logger.log('info','Saving field: %s for MIN submission with value: %s', name, value);
+        logger.info('Saving field: %s for MIN submission with value: %s', name, value);
         try {
             switch(name){
                 case "latlng":
@@ -154,13 +154,13 @@ exports.saveSubmission = function (token, form, callback) {
 
         var mimeType = part.headers['content-type'];
 
-        logger.log('info','upload mime type is %s', mimeType);
+        logger.info('upload mime type is %s', mimeType);
 
         if(validMimeTypes.indexOf(mimeType) !== -1) {
             key += '.' + mimeType.split('/')[1];
             item.ob.uploads.push(key);
 
-            logger.log('Uploading %s to S3.', key);
+            logger.info('Uploading %s to S3.', key);
 
             var isDone = q.defer();
             imageUploadPromises.push(isDone.promise);
@@ -175,13 +175,13 @@ exports.saveSubmission = function (token, form, callback) {
             part.pipe(upload);
 
             upload.on('error', function (error) {
-              logger.log("Error uploading object to S3 : %s", error);
+              logger.info("Error uploading object to S3 : %s", error);
               callback("Error uploading object to S3 " + error);
               isDone.resolve();
             });
 
             upload.on('uploaded', function (details) {
-              logger.log("Uploaded object to S3 : %s", JSON.stringify(details));
+              logger.info("Uploaded object to S3 : %s", JSON.stringify(details));
               isDone.resolve();
             });
         } else {
@@ -198,7 +198,7 @@ exports.saveSubmission = function (token, form, callback) {
 
         getAuth0Profile(token, function(err, profile) {
             if (err) {
-                logger.log('info','Error getting user profile : %s', JSON.stringify(err));
+                logger.info('Error getting user profile : %s', JSON.stringify(err));
                 return res.send(500, {error: 'There was an error while saving your submission.'})
             }
             item.userid = profile.user_id;
@@ -228,10 +228,10 @@ exports.saveSubmission = function (token, form, callback) {
                     Item: item
                 }, function (err, data) {
                     if (err) {
-                        logger.log('info', JSON.stringify(err));
+                        logger.info(JSON.stringify(err));
                         defer.reject({error: 'error saving you submission: saving'});
                     } else {
-                        logger.log('info','successfully saved item');
+                        logger.info('successfully saved item');
                         var sub =  itemToSubmission(item);
                         defer.resolve(sub);
                     }
@@ -270,7 +270,7 @@ exports.getSubmissions = function (filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    logger.log('dates = %s', filters.dates)
+    logger.info('dates = %s', filters.dates)
     //todo: validate temporal query string values
 
     if (filters.last) {
@@ -288,7 +288,7 @@ function getSubmissionsRecursive(startDate, endDate, prevKey, prevItems, callbac
         IndexName: 'acl-epoch-index'
     };
 
-    logger.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+    logger.info('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
     params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
     params.ExpressionAttributeValues= {
@@ -353,12 +353,12 @@ exports.getObservations = function (filters, callback) {
         var unit = filters.last.split(':')[1];
         startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-        logger.log('dates = %s', filters.dates);
+        logger.info('dates = %s', filters.dates);
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
 
-    logger.log('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+    logger.info('getting obs between start = %s and end = %s', startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
 
     params.KeyConditionExpression = "acl = :auth and epoch BETWEEN :start AND :end";
     params.ExpressionAttributeValues= {
