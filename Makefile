@@ -16,6 +16,9 @@ build: webpack server-copy
 dev:
 	withenv npm run start-dev
 
+server-dev: build
+	withenv ./node_modules/.bin/nodemon server/app-tmp.js
+
 prod:
 	withenv bash -c 'cd dist && PORT=9000 npm --production start'
 
@@ -70,7 +73,7 @@ purge-dev-builds:
 	 | xargs -t -n1 -I{} aws elasticbeanstalk delete-application-version --profile $(AWS_PROFILE) --application-name avalanche-canada --version-label {}
 
 
-.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds
+.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds server-dev
 
 test:
 	find server -name '*_test.js' | xargs npm run mocha
