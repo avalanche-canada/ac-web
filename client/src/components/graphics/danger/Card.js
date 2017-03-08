@@ -23,7 +23,8 @@ function PositionText({children, ...props}) {
 
 const STYLE = {
     position: 'relative',
-    overflow: 'visible'
+    overflow: 'visible',
+    width: '100%',
 }
 
 export default function Card({
