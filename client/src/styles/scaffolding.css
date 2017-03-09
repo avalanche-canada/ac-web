@@ -1,10 +1,17 @@
 @import "./colors.css";
 
+html {
+    background-color: white;
+}
+
 body {
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 75px 0 0 0;
     font-family: Montserrat, Arial, sans-serif;
     font-size: 15px;
     color: var(--gray-darker);
-    padding-top: 75px;
     box-sizing: border-box;
 }
 

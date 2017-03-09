@@ -22,7 +22,8 @@ function PositionText({children, ...props}) {
 }
 
 const STYLE = {
-    position: 'relative',
+    // FIXME: Fix issue in Edge. It should be overflow:hidden for Edge to not show scrollbars,
+    // but collapsable information does not display properly
     overflow: 'visible',
     width: '100%',
 }
