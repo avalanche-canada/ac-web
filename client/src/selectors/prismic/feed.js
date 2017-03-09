@@ -6,6 +6,8 @@ import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
 import {getType, getStatusFactory, getDocumentsFromResult} from 'selectors/prismic/utils'
+import isBefore from 'date-fns/is_before'
+import startOfDay from 'date-fns/start_of_day'
 
 export const NEWS = 'news'
 export const BLOG = 'blog'
@@ -13,12 +15,14 @@ export const EVENT = 'event'
 
 export const TYPES = [NEWS, BLOG, EVENT]
 
+const PAST = 'past'
+const UPCOMING = 'upcoming'
+
 const timelineOptions = new Map([
-    ['past', 'Past events'],
-    ['upcoming', 'Upcoming events'],
+    [UPCOMING, 'Upcoming events'],
+    [PAST, 'Past events'],
 ])
 
-const now = new Date()
 function isFeatured(post) {
     return post.featured
 }
@@ -28,12 +32,13 @@ const PREDICATES = new Map([
     ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
     ['category', ({category}) => post => post.category == category],
     ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.has(tag)))],
-    ['timeline', ({timeline}) => ({endDate}) => timeline === 'past' ? endDate < now : endDate >= now],
+    ['timeline', ({timeline}) => ({endDate}) => {
+        const isPast = isBefore(endDate, startOfDay(new Date()))
+
+        return timeline === PAST ? isPast : !isPast
+    }],
 ])
 
-function asc(a, b) {
-    return a.date - b.date
-}
 function desc(a, b) {
     return b.date - a.date
 }
@@ -41,7 +46,7 @@ function desc(a, b) {
 const SORTERS = new Map([
     [NEWS, desc],
     [BLOG, desc],
-    [EVENT, asc],
+    [EVENT, desc],
 ])
 
 function getPredicates(state, props) {

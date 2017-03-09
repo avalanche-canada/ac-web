@@ -16,6 +16,7 @@ module.exports = function(app) {
 
     var secret = new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
 
+    app.use('/', require('./favicon'));
     app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
 
     app.use('/api/features', require('./api/features/routes'));
