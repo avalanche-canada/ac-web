@@ -19,6 +19,7 @@ import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountain
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
+    TYPES, EVENT, NEWS, BLOG
 } from 'selectors/prismic/feed'
 import isSameDay from 'date-fns/is_same_day'
 import Status from 'utils/status'
@@ -27,7 +28,6 @@ import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import {TYPES, EVENT, NEWS, BLOG} from 'selectors/prismic/feed'
 import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
 import getSponsor, {getSponsorUid} from 'selectors/sponsor'
 
