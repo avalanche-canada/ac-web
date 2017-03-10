@@ -1,4 +1,4 @@
-include .config.mk
+-include .config.mk
 
 HEAD   := $(shell git log | head -n1 | cut -d' ' -f2 | cut -b-20)
 BRANCH := $(shell git branch | grep -e '^\*' | cut -d' ' -f2 | sed s@/@_@g)
