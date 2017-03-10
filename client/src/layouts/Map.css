@@ -13,7 +13,7 @@
 .LinkControlSet {
     position: fixed;
     left: 15px;
-    bottom: 15px;
+    bottom: 25px;
 
     display: flex;
 }

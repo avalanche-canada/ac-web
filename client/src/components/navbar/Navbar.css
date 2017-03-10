@@ -12,7 +12,7 @@
     top: 0;
     width: 100%;
     height: var(--navbar-height);
-    z-index: 10;
+    z-index: 20;
 
     background-color: white;
     box-sizing: border-box;
@@ -91,7 +91,7 @@
         border-style: solid;
         border-width: 8px;
         margin-left: -8px;
-        z-index: 1;
+        z-index: 11;
     }
 }
 
