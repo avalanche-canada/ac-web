@@ -2,14 +2,11 @@ import React from 'react'
 import {Term, Definition} from 'components/description'
 import {DateElement, DateTime} from 'components/misc'
 import {trulyKeys} from 'utils/object'
-import parse from 'date-fns/parse'
-import isValid from 'date-fns/is_valid'
 import startOfDay from 'date-fns/start_of_day'
 import isEqual from 'date-fns/is_equal'
 
 // TODO: Should be only a function that sanitize keys and values!
 // Rendering should be done outside of these functions
-// TODO: Should not convert dates here
 
 const BooleanValues = new Map([
     [true, 'Yes'],
@@ -19,29 +16,7 @@ const BooleanValues = new Map([
 
 function createDefinitionChildren(value) {
     switch (typeof value) {
-        case 'string': {
-            // TODO: So ugly, need to fix that!!!
-            
-            if (!isNaN(Number(value))) {
-                return value
-            }
-
-            const date = parse(value)
-
-            if (isValid(date)) {
-                if (isEqual(date, startOfDay(isEqual))) {
-                    return (
-                        <DateElement value={date} />
-                    )
-                } else {
-                    return (
-                        <DateTime value={date} />
-                    )
-                }
-            } else {
-                return value
-            }
-        }
+        case 'string':
         case 'number':
             return value
         case 'boolean':
@@ -59,6 +34,16 @@ function createDefinitionChildren(value) {
                                 </li>
                             ))}
                         </ul>
+                    )
+                }
+            } else if (value instanceof Date) {
+                if (isEqual(value, startOfDay(isEqual))) {
+                    return (
+                        <DateElement value={value} />
+                    )
+                } else {
+                    return (
+                        <DateTime value={value} />
                     )
                 }
             } else {
