@@ -9,23 +9,12 @@
     color: white;
     text-align: center;
     white-space: pre-wrap;
-
-    & a[href] {
-        display: block;
-
-        &:hover {
-            text-decoration: underline;
-        }
-        &:after {
-            content: "\A0\203A";
-        }
-    }
 }
 
 :global(a[href]) {
     & > .Alert {
         &:after {
-            content: "\A0\203A";
+            content: "‹\203A";
         }
         &:hover {
             text-decoration: underline;

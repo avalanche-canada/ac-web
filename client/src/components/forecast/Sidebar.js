@@ -21,6 +21,9 @@ export default compose(
                 <Item>
                     <Link to='/blogs'>Visit our Blog</Link>
                 </Item>,
+                <Item>
+                    <Link to='/forecasts/archives'>Forecast archives</Link>
+                </Item>,
                 <Follow />,
                 <Share />,
                 <Contact email={FORECASTERS} />,

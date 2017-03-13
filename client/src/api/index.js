@@ -63,9 +63,12 @@ const GET_CONFIGS = new Map([
     })],
     [Schemas.Forecast, params => {
         function transform(forecast) {
+            const isArchived = isArchiveBulletinRequest(params)
+
             return {
                 ...forecast,
-                isArchived: isArchiveBulletinRequest(params)
+                isArchived,
+                date: isArchived ? parse(params.date) : new Date()
             }
         }
 

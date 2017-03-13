@@ -4,12 +4,12 @@ import {Link} from 'react-router'
 import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'
+import ArchiveWarning from './ArchiveWarning'
 import {Table, Day, DaySet, Condition, Confidence} from './danger'
 import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
 import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
-import Alert, {WARNING} from 'components/alert'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
@@ -39,17 +39,13 @@ export default function Forecast({
     confidence,
     isArchived,
     region,
+    dateIssued,
+    validUntil,
+    date,
 }) {
     return (
         <section>
-            {isArchived &&
-                <Alert type={WARNING}>
-                    This is an archived avalanche bulletin
-                    <Link to={`/forecasts/${region}`}>
-                        Read today's bulletin
-                    </Link>
-                </Alert>
-            }
+            {isArchived && <ArchiveWarning region={region} date={date} />}
             <Headline>{highlights}</Headline>
             <TabSet theme={LOOSE}>
                 <Tab title='Danger ratings'>

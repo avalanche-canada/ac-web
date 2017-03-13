@@ -39,6 +39,9 @@ export default compose(
                 <Item>
                     <Link to='/blogs'>Visit Avalanche Canada Blog</Link>
                 </Item>,
+                <Item>
+                    <Link to='/forecasts/kananaskis/archives'>Forecast archives</Link>
+                </Item>,
                 <Share />,
                 <Follow urls={['https://www.facebook.com/KCPublicSafety']} />,
                 <Contact email={email} title='Email the Kananaskis Country Public Safety Section' />,

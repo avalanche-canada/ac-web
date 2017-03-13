@@ -86,19 +86,36 @@
     }
 }
 
-.ArchiveDatePicker {
+.ArchiveWarningLinks {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+}
 
-    & > * {
-        flex: 1 0;
-        margin: 1em;
+.Link {
+    display: block;
+
+    &:hover {
+        text-decoration: underline;
     }
 }
 
-.ArchiveDatePicker--Link {
-    composes: import Shadow from '../button/Button.css';
-    composes: import Large from '../button/Button.css';
-    composes: import Primary from '../button/Button.css';
-    composes: import Chevron from '../button/Button.css';
+.NextLink {
+    composes: Link;
+
+    &:after {
+        content: "\00a0›";
+    }
+}
+
+.PreviousLink {
+    composes: Link;
+
+    &:before {
+        content: "‹\00a0";
+    }
+}
+
+.TodayLink {
+    display: block;
+    margin: 0.25em 0;
 }

@@ -2,10 +2,12 @@ import React, {PropTypes} from 'react'
 import {compose, withState} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
-import styles from './Forecast.css'
+import styles from './ArchiveDatePicker.css'
 import {DateUtils, DateElement, Day} from 'components/misc'
 import format from 'date-fns/format'
 import {DayPicker} from 'components/controls'
+
+// TODO: Move to another location, so it can be used between components.
 
 ArchiveDatePicker.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

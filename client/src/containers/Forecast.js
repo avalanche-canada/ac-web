@@ -43,8 +43,8 @@ function Container({
             <Content>
                 <Main>
                     {forecast && <Metadata {...forecast} />}
-                    {isLoading && <Muted>Loading forecast...</Muted>}
-                    {isError && <Error>Error happened while loading forecast.</Error>}
+                    {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
+                    {isError && <Error>Error happened while loading avalanche bulletin.</Error>}
                     {isUnderSpecialWarning &&
                         <SPAW link={specialWarningLink} style={SPAW_STYLE}>
                             {specialWarningContent}
