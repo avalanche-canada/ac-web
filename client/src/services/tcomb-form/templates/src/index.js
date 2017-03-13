@@ -4,6 +4,9 @@ import {TimePicker} from 'components/controls'
 import styles from './Picker.css'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
+import isBefore from 'date-fns/is_before'
+import isAfter from 'date-fns/is_after'
+import isWithinRange from 'date-fns/is_within_range'
 
 import checkbox from './checkbox'
 import picker from './picker'
@@ -39,7 +42,6 @@ export const pickers = {
                 locale,
                 localeUtils,
                 onSelect,
-                disabledDays,
             } = locals
             const props = {
                 initialMonth: value || undefined,
@@ -47,7 +49,6 @@ export const pickers = {
                     selected: date => DateUtils.isSameDay(value, date)
                 },
                 onDayClick: onSelect,
-                disabledDays,
                 value,
                 localeUtils,
                 locale,
@@ -72,19 +73,37 @@ export const pickers = {
     }),
     datetime: picker.clone({
         getFormat(locals) {
-            return value => value ? format(parse(value), 'YYYY-MM-DD HH:mm') : ''
+            return value => value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : ''
         },
         renderContent(locals) {
             const value = locals.value || new Date()
-            const time = `${value.getHours()}:${value.getMinutes()}`
+            const time = format(value, 'HH:mm')
             const {
                 renderDay,
                 locale,
                 localeUtils,
                 onChange,
                 close,
-                disabledDays,
+                attrs: {
+                    min,
+                    max
+                }
             } = locals
+            function disabledDays(day) {
+                if (min && max) {
+                    return !isWithinRange(day, min,max)
+                }
+
+                if (min) {
+                    return isBefore(day, min)
+                }
+
+                if (max) {
+                    return isAfter(day, max)
+                }
+
+                return false
+            }
             function onDayClick(event, day) {
                 day.setHours(value.getHours())
                 day.setMinutes(value.getMinutes())
@@ -97,9 +116,9 @@ export const pickers = {
                     selected: date => DateUtils.isSameDay(value, date)
                 },
                 onDayClick,
-                disabledDays,
                 value,
                 localeUtils,
+                disabledDays,
                 locale,
                 renderDay
             }

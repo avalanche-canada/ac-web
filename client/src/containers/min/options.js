@@ -5,8 +5,10 @@ import t from 'services/tcomb-form'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, NAMES} from 'constants/min'
 import {layout, observationSet} from './templates'
 import {ObservationSet} from './factories'
-import styles from './Form.css'
+import format from 'date-fns/format'
+import endOfToday from 'date-fns/end_of_today'
 import noop from 'lodash/noop'
+import styles from './Form.css'
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -53,8 +55,10 @@ const Required = {
         datetime: {
             type: 'datetime-local',
             label: 'When were you in the field?',
+            error: 'Enter a date and time in past',
             attrs: {
                 placeholder: 'Select a date/time',
+                max: format(endOfToday(new Date()), 'YYYY-MM-DDTHH:mm'),
             },
         },
         latlng: {
@@ -396,12 +400,13 @@ const Avalanche = {
     help: 'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
     fields: {
         avalancheOccurrence: {
-            // hasError: true,
             type: 'datetime-local',
             label: 'Avalanche date/time',
+            error: 'Enter an avalanche date and time in the past',
             help: 'If you triggered or witnessed an avalanche add date/time.',
             attrs: {
                 placeholder: 'Select a date/time',
+                max: format(endOfToday(new Date()), 'YYYY-MM-DDTHH:mm'),
             },
         },
         avalancheObservation: {
