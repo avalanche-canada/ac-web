@@ -52,14 +52,16 @@ export const forecast = compose(
         componentDidMount() {
             const {load, loadAll, params, redirectToForecasts} = this.props
 
-            load(params).then(redirectToForecasts)
+            load(params)
+            // .then(redirectToForecasts)
             loadAll()
         },
         componentWillReceiveProps({load, params}) {
             const {name, date} = this.props.params
 
             if (name !== params.name || date !== params.date) {
-                load(params).then(this.props.redirectToForecasts)
+                load(params)
+                // .then(this.props.redirectToForecasts)
             }
         },
     }),
