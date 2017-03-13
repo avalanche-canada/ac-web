@@ -23,11 +23,6 @@ export default function control(Control) {
                 const control = this.control = new Control()
 
                 map.addControl(control, position)
-
-                // FIXME: Remove this hack once https://github.com/mapbox/mapbox-gl-js/pull/4397 gets merged
-                if (control._fullscreenButton) {
-                    control._fullscreenButton.type = 'button'
-                }
             },
             componentWillUnmount() {
                 this.props.map.removeControl(this.control)

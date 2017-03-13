@@ -18,11 +18,6 @@
 
 :global(.mapboxgl-control-container > .mapboxgl-ctrl-bottom-left > .mapboxgl-ctrl) {
     margin: 0 0 0 5px;
-
-    /* TODO: Remove when https://github.com/mapbox/mapbox-gl-js/issues/4382 gets fixed */
-    & > :global(.mapboxgl-ctrl-logo:not(:first-child)) {
-        display: none;
-    }
 }
 
 :global(.mapboxgl-ctrl.mapboxgl-ctrl-attrib.compact) {
