@@ -20,7 +20,7 @@ const TRANSFORMERS = new Map([
         const [lat, lng] = submission.latlng
         const types = submission.obs.map(ob => ob.obtype)
 
-        return turf.point([lng, lat].map(Number), {
+        return turf.point([lng, lat], {
             id: Schemas.MountainInformationNetworkSubmission.getId(submission),
             icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
             title: submission.title,

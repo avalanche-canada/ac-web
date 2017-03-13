@@ -11,6 +11,7 @@ import {
     transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
+    sanitizeMountainInformationNetworkSubmissions,
 } from './transformers'
 
 const POST_CONFIGS = new Map([
@@ -30,19 +31,19 @@ const GET_CONFIGS = new Map([
         }
     }],
     [Schemas.MountainInformationNetworkSubmission, ({id, days}) => {
-        if (id) {
-            return {
-                params: {
-                    client: 'web',
-                }
-            }
-        } else {
-            return {
-                params: {
-                    client: 'web',
-                    last: `${days}:days`,
-                }
-            }
+        const params = {
+            client: 'web',
+        }
+
+        if (days) {
+            Object.assign(params, {
+                last: `${days}:days`,
+            })
+        }
+
+        return {
+            params,
+            transformResponse: defaults.transformResponse.concat(sanitizeMountainInformationNetworkSubmissions),
         }
     }],
     [Schemas.Provider, params => ({
