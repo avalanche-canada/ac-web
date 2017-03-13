@@ -23,7 +23,7 @@ export default compose(
                 <Link to='/blogs'>Visit our Blog</Link>
             </Item>,
             <Item>
-                <Link to='/forecasts/archives'>Forecast archives</Link>
+                <Link to='/forecasts/archives'>Forecast Archive</Link>
             </Item>,
             <Follow />,
             <Share />,

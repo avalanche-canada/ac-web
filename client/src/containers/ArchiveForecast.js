@@ -86,7 +86,7 @@ Component.propTypes = {
     onDateChange: PropTypes.func.isRequired,
 }
 
-// TODO: Combine with the Forecast component. This should not be a different component. 
+// TODO: Combine with the Forecast component. This should not be a different component.
 
 function Component({
     name,
