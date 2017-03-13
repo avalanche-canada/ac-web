@@ -1,5 +1,6 @@
 import t, {GeoPosition, DateTime, FileList, createBooleanStruct} from 'services/tcomb-form'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, TYPES} from 'constants/min'
+import isPast from 'date-fns/is_past'
 
 function range(min, max) {
     return t.refinement(t.Number, value => value >= min && value <= max)
@@ -9,13 +10,12 @@ const DirectionOptions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
 const YesNo = t.enums.of(['Yes', 'No'])
 const Direction = t.enums.of(DirectionOptions)
 const Aspect = createBooleanStruct(DirectionOptions)
-
 YesNo.getTcombFormFactory = options => t.form.Radio
 Direction.getTcombFormFactory = options => t.form.Radio
 
 const RequiredInformation = t.struct({
     title: t.String,
-    datetime: DateTime,
+    datetime: t.refinement(DateTime, value => isPast(value)),
     latlng: GeoPosition,
 })
 
@@ -46,7 +46,7 @@ const ElevationBandOptions = ['Alpine', 'Treeline', 'Below treeline']
 const WeakLayerCrystalTypeOptions = ['Surface hoar', 'Facets', 'Surface hoar and facets', 'Depth hoar', 'Storm snow']
 
 const Avalanche = t.struct({
-    avalancheOccurrence: DateTime,
+    avalancheOccurrence: t.refinement(DateTime, value => isPast(value)),
     avalancheObservation: t.maybe(t.enums.of(['12 hrs ago', '12-24 hrs ago', '>24-48 hrs ago', '>48 hrs ago'])),
     avalancheNumber: t.maybe(t.enums.of(['1', '2-5', '6-10', '11-50', '51-100'])),
     avalancheSize: t.maybe(t.enums.of(['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'])),
