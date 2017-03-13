@@ -30,6 +30,7 @@ function Container({
     specialWarningContent,
 }) {
     const isKananaskis = params.name === 'kananaskis'
+    const isPrintable = Boolean(forecast) ? !forecast.isArchived : false
     // TODO: Huge hack, please FIXME!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')
@@ -43,8 +44,8 @@ function Container({
             <Content>
                 <Main>
                     {forecast && <Metadata {...forecast} />}
-                    {isLoading && <Muted>Loading forecast...</Muted>}
-                    {isError && <Error>Error happened while loading forecast.</Error>}
+                    {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
+                    {isError && <Error>Error happened while loading avalanche bulletin.</Error>}
                     {isUnderSpecialWarning &&
                         <SPAW link={specialWarningLink} style={SPAW_STYLE}>
                             {specialWarningContent}
@@ -52,7 +53,7 @@ function Container({
                     {(forecast && forecast.region) && <Forecast {...forecast} />}
                 </Main>
                 <Aside>
-                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar />}
+                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar isPrintable={isPrintable} />}
                 </Aside>
             </Content>
         </Page>

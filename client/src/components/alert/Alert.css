@@ -9,26 +9,12 @@
     color: white;
     text-align: center;
     white-space: pre-wrap;
-
-    &:hover {
-        & [href] {
-            text-decoration: underline;
-        }
-    }
-
-    & [href] {
-        color: white;
-
-        &:after {
-            content: "\A0\203A";
-        }
-    }
 }
 
 :global(a[href]) {
     & > .Alert {
         &:after {
-            content: "\A0\203A";
+            content: "‹\203A";
         }
         &:hover {
             text-decoration: underline;
@@ -40,6 +26,10 @@
     composes: Alert;
 
     background-color: var(--danger);
+
+    & a[href] {
+        color: white;
+    }
 }
 
 .Info {

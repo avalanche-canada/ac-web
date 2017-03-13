@@ -4,12 +4,12 @@ import {Link} from 'react-router'
 import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'
+import ArchiveWarning from './ArchiveWarning'
 import {Table, Day, DaySet, Condition, Confidence} from './danger'
 import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
 import {Article, Header} from 'components/page'
 import {Metadata, Entry} from 'components/metadata'
 import {TabSet, Tab, LOOSE} from 'components/tab'
-import {DateTime} from 'components/misc'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {
@@ -24,6 +24,8 @@ Forecast.propTypes = {
         level: PropTypes.string,
         comment: PropTypes.string,
     }),
+    isArchived: PropTypes.bool.isRequired,
+    region: PropTypes.string.isRequired,
 }
 
 export default function Forecast({
@@ -35,9 +37,15 @@ export default function Forecast({
     dangerMode,
     dangerRatings,
     confidence,
+    isArchived,
+    region,
+    dateIssued,
+    validUntil,
+    date,
 }) {
     return (
         <section>
+            {isArchived && <ArchiveWarning region={region} date={date} />}
             <Headline>{highlights}</Headline>
             <TabSet theme={LOOSE}>
                 <Tab title='Danger ratings'>
@@ -88,7 +96,7 @@ export default function Forecast({
                     }
                 </Tab>
             </TabSet>
-            <Footer />
+            <Footer region={region} />
         </section>
     )
 }

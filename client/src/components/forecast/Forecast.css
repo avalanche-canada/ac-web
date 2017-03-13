@@ -85,3 +85,37 @@
         font-weight: 700;
     }
 }
+
+.ArchiveWarningLinks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Link {
+    display: block;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.NextLink {
+    composes: Link;
+
+    &:after {
+        content: "\00a0›";
+    }
+}
+
+.PreviousLink {
+    composes: Link;
+
+    &:before {
+        content: "‹\00a0";
+    }
+}
+
+.TodayLink {
+    display: block;
+    margin: 0.25em 0;
+}

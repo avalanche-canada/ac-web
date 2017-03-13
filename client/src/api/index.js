@@ -11,6 +11,7 @@ import {
     transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
+    transformForecastResponse,
     sanitizeMountainInformationNetworkSubmissions,
 } from './transformers'
 
@@ -61,9 +62,24 @@ const GET_CONFIGS = new Map([
     [Schemas.WeatherStation, params => ({
         baseURL: weatherBaseUrl,
     })],
+    [Schemas.Forecast, params => {
+        function transform(forecast) {
+            const isArchived = isArchiveBulletinRequest(params)
+
+            return {
+                ...forecast,
+                isArchived,
+                date: isArchived ? parse(params.date) : new Date()
+            }
+        }
+
+        return {
+            transformResponse: defaults.transformResponse.concat(transform),
+        }
+    }],
 ])
 
-function isArchiveBulletinRequest({name, date}) {
+function isArchiveBulletinRequest({date}) {
     if (!date) {
         return false
     }
@@ -74,7 +90,7 @@ function isArchiveBulletinRequest({name, date}) {
         return isBefore(archive, startOfToday())
     }
 
-    throw new Error(`Date ${date} is not valid.`)
+    return false
 }
 
 function forecastEndpoint({name, date}) {

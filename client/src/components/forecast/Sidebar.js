@@ -1,32 +1,43 @@
-import React from 'react'
-import {neverUpdate} from 'compose'
-import {compose, withProps} from 'recompose'
+import React, {PropTypes} from 'react'
+import {onlyUpdateForKey} from 'compose'
+import {compose, mapProps, setPropTypes} from 'recompose'
 import {Link} from 'react-router'
 import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from 'components/sidebar'
 import {FORECASTERS} from 'constants/emails'
 
 export default compose(
-    neverUpdate,
-    withProps(() => {
+    setPropTypes({
+        isPrintable: PropTypes.bool.isRequired,
+    }),
+    onlyUpdateForKey('isPrintable'),
+    mapProps(({isPrintable, ...props}) => {
         const {pathname, origin} = document.location
+        const children = [
+            <Item>
+                <Link to='/weather'>Your daily Mountain Weather Forecast</Link>
+            </Item>,
+            <Item>
+                <Link to='/mountain-information-network/submit'>Submit a Mountain Information Report</Link>
+            </Item>,
+            <Item>
+                <Link to='/blogs'>Visit our Blog</Link>
+            </Item>,
+            <Item>
+                <Link to='/forecasts/archives'>Forecast archives</Link>
+            </Item>,
+            <Follow />,
+            <Share />,
+            <Contact email={FORECASTERS} />,
+            <RSSFeed url={`${origin}/api${pathname}.rss`} />,
+        ]
+
+        if (isPrintable) {
+            children.push(<Print url={`${origin}/api${pathname}.html`} />)
+        }
 
         return {
-            children: [
-                <Item>
-                    <Link to='/weather'>Your daily Mountain Weather Forecast</Link>
-                </Item>,
-                <Item>
-                    <Link to='/mountain-information-network/submit'>Submit a Mountain Information Report</Link>
-                </Item>,
-                <Item>
-                    <Link to='/blogs'>Visit our Blog</Link>
-                </Item>,
-                <Follow />,
-                <Share />,
-                <Contact email={FORECASTERS} />,
-                <RSSFeed url={`${origin}/api${pathname}.rss`} />,
-                <Print url={`${origin}/api${pathname}.html`} />,
-            ]
+            ...props,
+            children
         }
     })
 )(Sidebar)

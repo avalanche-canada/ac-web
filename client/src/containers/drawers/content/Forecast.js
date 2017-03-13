@@ -62,10 +62,10 @@ function Container({
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
             <Body>
-                {isLoading && <Muted>Loading forecast...</Muted>}
+                {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
                 {isError &&
                     <Error>
-                        Error happened while loading forecast.
+                        Error happened while loading avalanche bulletin.
                     </Error>
                 }
                 {(isLoaded && !forecast) && (

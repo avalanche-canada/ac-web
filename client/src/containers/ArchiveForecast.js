@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router'
 import {Page, Content, Header, Main, Section, Headline} from 'components/page'
 import Forecast from 'components/forecast'
 import {Status, Muted, Error, DateElement} from 'components/misc'
-import Alert, {WARNING, DANGER} from 'components/alert'
+import Alert, {WARNING} from 'components/alert'
 import {Metadata, Entry} from 'components/metadata'
 import {DateIssued, ValidUntil, Forecaster} from 'components/forecast/Metadata'
 import {DropdownFromOptions as Dropdown, DayPicker} from 'components/controls'
@@ -86,6 +86,8 @@ Component.propTypes = {
     onDateChange: PropTypes.func.isRequired,
 }
 
+// TODO: Combine with the Forecast component. This should not be a different component. 
+
 function Component({
     name,
     date,
@@ -125,9 +127,6 @@ function Component({
                     }
                     {isError &&
                         <Error>Error happened while loading archived forecast.</Error>
-                    }
-                    {forecast &&
-                        <Alert type={DANGER}>THIS IS AN ARCHIVED AVALANCHE BULLETIN</Alert>
                     }
                     {(isLoaded && !forecast) &&
                         <Warning region={region} date={date} />
