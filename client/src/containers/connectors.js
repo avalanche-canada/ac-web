@@ -83,13 +83,11 @@ export const archiveForecast = compose(
     withHandlers({
         onParamsChange: props => params => {
             const {name, date} = params
-            let paths = ['/forecasts']
+            const paths = ['/forecasts', 'archives']
 
             if (name) {
                 paths.push(name)
             }
-
-            paths.push('archives')
 
             if (date) {
                 paths.push(date)

@@ -30,6 +30,7 @@ function Container({
     specialWarningContent,
 }) {
     const isKananaskis = params.name === 'kananaskis'
+    const isPrintable = Boolean(forecast) ? !forecast.isArchived : false
     // TODO: Huge hack, please FIXME!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')
@@ -52,7 +53,7 @@ function Container({
                     {(forecast && forecast.region) && <Forecast {...forecast} />}
                 </Main>
                 <Aside>
-                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar />}
+                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar isPrintable={isPrintable} />}
                 </Aside>
             </Content>
         </Page>

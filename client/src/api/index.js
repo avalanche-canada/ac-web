@@ -79,7 +79,7 @@ const GET_CONFIGS = new Map([
     }],
 ])
 
-function isArchiveBulletinRequest({name, date}) {
+function isArchiveBulletinRequest({date}) {
     if (!date) {
         return false
     }
@@ -90,7 +90,7 @@ function isArchiveBulletinRequest({name, date}) {
         return isBefore(archive, startOfToday())
     }
 
-    throw new Error(`Date ${date} is not valid.`)
+    return false
 }
 
 function forecastEndpoint({name, date}) {

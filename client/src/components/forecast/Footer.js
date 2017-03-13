@@ -16,7 +16,7 @@ Footer.propTypes = {
 function Footer({date = new Date(), region}) {
     return (
         <footer styleName='Footer'>
-            <Panel expandable header='Forecast archives'>
+            <Panel expandable header='Archived bulletins'>
                 <ArchiveDatePicker date={date} region={region} />
             </Panel>
             <Panel expandable header='Danger Ratings Explained'>
