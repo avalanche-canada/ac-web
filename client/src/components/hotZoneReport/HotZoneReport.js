@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {Link} from 'react-router'
 import BasePanel, {INVERSE} from 'components/panel'
 import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
@@ -9,6 +10,8 @@ import TerrainAdviceSet from './TerrainAdviceSet'
 import Metadata from './Metadata'
 import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
+import Alert, {WARNING} from 'components/alert'
+import {isHotZoneReportValid} from 'prismic/utils'
 
 const Panel = withProps({
     theme: INVERSE,
@@ -38,6 +41,14 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
+            {(report && !isHotZoneReportValid(report)) &&
+                <Alert type={WARNING}>
+                    This is an archived HotZone report
+                    <Link to={`/hot-zone-reports/${report.region}`}>
+                        Read today's report
+                    </Link>
+                </Alert>
+            }
             {(report && report.title) &&
                 <div styleName='Title'>
                     {report.title}
