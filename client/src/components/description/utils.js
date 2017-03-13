@@ -13,7 +13,6 @@ const BooleanValues = new Map([
     [false, 'No'],
 ])
 
-
 function createDefinitionChildren(value) {
     switch (typeof value) {
         case 'string':
