@@ -13,7 +13,7 @@ var config = require('../../config/environment');
 var fs = require('fs');
 var Prismic = require('prismic.io');
 
-var regions = require('../../data/season').forecast_regions; 
+var regions = require('../../data/season').forecast_regions;
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required
@@ -31,7 +31,7 @@ var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
 
 
 var avalxWebcache = null;
-var fragmentCache = null; 
+var fragmentCache = null;
 
 if(process.env.REDIS_HOST) {
     var webcacheOptions ={ store: new WebCacheRedis(6379, process.env.REDIS_HOST) };
@@ -93,7 +93,7 @@ function getForecastData(regionName, region) {
         .then(function (cached_caaml) {
             if(!cached_caaml) {
                 DEBUG("BUILDING forecast caaml for region:", region.id);
-                return Q.nfcall(avalx.fetchCaamlForecast, region);   
+                return Q.nfcall(avalx.fetchCaamlForecast, region);
             } else {
                 return cached_caaml;
             }
@@ -188,7 +188,7 @@ router.get('/:region/nowcast.svg', function(req, res) {
     var mimeType = 'image/svg+xml';
 
 
-    if (req.region.properties.type === 'parks' 
+    if (req.region.properties.type === 'parks'
      || req.region.properties.type === 'avalx') {
 
         styles = avalx.getNowcastStyles(req.forecast.json);
@@ -212,6 +212,32 @@ router.get('/:region/nowcast.svg', function(req, res) {
     }
 
 });
+
+router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(req, res) {
+    var colors = {
+        1: avalx.dangerColors.green,
+        2: avalx.dangerColors.yellow,
+        3: avalx.dangerColors.orange,
+        4: avalx.dangerColors.red,
+        5: avalx.dangerColors.black,
+        n: avalx.dangerColors.white,
+    }
+    var styles = {
+        alp: colors[req.params.alp],
+        tln: colors[req.params.tln],
+        btl: colors[req.params.btl],
+    }
+
+    res.render('forecasts/danger-icon', styles, function (err, svg) {
+        if(err) {
+            res.send(500);
+        } else {
+            res.header('Cache-Control', 'no-cache');
+            res.header('Content-Type', 'image/svg+xml');
+            res.send(svg)
+        }
+    });
+})
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
     var ratingStyles = {
@@ -253,7 +279,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     }
     // Every other Region will be 'avalx' or 'parks'
 
- 
+
     console.log(req.forecast.region, req.forecast.json.dangerMode);
     // Early season, Regular season, Spring situation, Off season
     if (req.forecast.json.dangerMode === 'Regular season'){

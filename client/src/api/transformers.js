@@ -153,3 +153,18 @@ export function transformSubmissionForPost(value) {
 
     return form
 }
+
+function sanitizeMountainInformationNetworkSubmission(submission) {
+    return {
+        ...submission,
+        latlng: submission.latlng.map(Number),
+    }
+}
+
+export function sanitizeMountainInformationNetworkSubmissions(data) {
+    if (Array.isArray(data)) {
+        return data.map(sanitizeMountainInformationNetworkSubmission)
+    }
+
+    return sanitizeMountainInformationNetworkSubmission(data)
+}

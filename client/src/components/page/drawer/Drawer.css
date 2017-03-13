@@ -4,7 +4,7 @@
 .Drawer {
     position: absolute 0;
     height: 100%;
-    z-index: 1;
+    z-index: 11;
     background-color: white;
     box-sizing: border-box;
 }
@@ -25,7 +25,7 @@
 
     left: auto;
     right: 0;
-    z-index: 1;
+    z-index: 11;
 
     &.Open {
         box-shadow: -4px 0 8px color(black alpha(25%));
@@ -74,6 +74,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        & > :first-child {
+            flex: 1 0;
+        }
     }
 }
 
@@ -112,11 +116,11 @@
 
 .Backdrop {
     position: absolute 0;
-    z-index: 1;
+    z-index: 11;
     background-color: color(black alpha(25%));
 
     & + .Drawer {
-        z-index: 2;
+        z-index: 12;
     }
 }
 

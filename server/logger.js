@@ -10,7 +10,7 @@ var logger,
     consoleLogger = new winston.transports.Console({
         level: 'debug',
         timestamp: function() {
-            return new Date().toString();
+            return new Date().toISOString();
         },
         colorize: true
     }),

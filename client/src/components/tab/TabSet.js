@@ -1,7 +1,6 @@
 import React, {Component, PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
 import classNames from 'classnames'
-import {ElementResize} from 'components/misc'
 import Panel from './Panel'
 import Header from './Header'
 import styles from './Tab.css'

@@ -307,7 +307,7 @@ function parksForecast(caaml, region){
     }*/
 
 
-    // Strip the '!_!' marker that parks uses to split the field 
+    // Strip the '!_!' marker that parks uses to split the field
     //TODO(wnh): Figure out what the first part is and maybe there is a better way to do it.
     //           if not we can remove it in the Avalx-Public app so this can disapear
     var highlights = caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0]['highlights'][0];
@@ -562,5 +562,6 @@ module.exports = {
     getNowcastStyles: getNowcastStyles,
     getForecastTableColors: getForecastTableColors,
     getTableLocals: getTableLocals,
-    parksForecast: parksForecast
+    parksForecast: parksForecast,
+    dangerColors: colors,
 };

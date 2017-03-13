@@ -30,7 +30,7 @@ function Container({
     specialWarningContent,
 }) {
     const isKananaskis = params.name === 'kananaskis'
-    // TODO: Hack, to be fixed!!!
+    // TODO: Huge hack, please FIXME!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')
         specialWarningContent = specialWarningContent.replace('&amp;', '&')

@@ -2,6 +2,7 @@ import {PropTypes} from 'react'
 import {createStructuredSelector} from 'reselect'
 import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import * as EntitiesActions from 'actions/entities'
 import * as PrismicActions from 'actions/prismic'
 import {fitBounds, flyTo} from 'actions/map'
@@ -19,6 +20,7 @@ import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountain
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
+    TYPES, EVENT, NEWS, BLOG
 } from 'selectors/prismic/feed'
 import isSameDay from 'date-fns/is_same_day'
 import Status from 'utils/status'
@@ -27,28 +29,37 @@ import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import {TYPES, EVENT, NEWS, BLOG} from 'selectors/prismic/feed'
 import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
 import getSponsor, {getSponsorUid} from 'selectors/sponsor'
+import get from 'lodash/get'
 
 export const forecast = compose(
+    withRouter,
     connect(getForecast, {
         load: EntitiesActions.loadForecast,
         loadAll: EntitiesActions.loadFeaturesMetadata,
         fitBounds,
     }),
+    withHandlers({
+        redirectToForecasts: props => payload => {
+            if (get(payload, 'value.result.length') === 0) {
+                // TODO: Display a message to let user know about redirection !
+                props.router.push('/forecasts')
+            }
+        }
+    }),
     lifecycle({
         componentDidMount() {
-            const {load, loadAll, params} = this.props
+            const {load, loadAll, params, redirectToForecasts} = this.props
 
-            load(params)
+            load(params).then(redirectToForecasts)
             loadAll()
         },
         componentWillReceiveProps({load, params}) {
             const {name, date} = this.props.params
 
             if (name !== params.name || date !== params.date) {
-                load(params)
+                load(params).then(this.props.redirectToForecasts)
             }
         },
     }),

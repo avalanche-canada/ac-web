@@ -1,7 +1,8 @@
 import {PropTypes} from 'react'
-import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import {compose, renameProps, setDisplayName, setPropTypes, mapProps, withProps} from 'recompose'
 import Content from './Content'
 import {asTermAndDefinition} from 'components/description/utils'
+import parse from 'date-fns/parse'
 
 const {object, number, string} = PropTypes
 
@@ -33,6 +34,10 @@ export default compose(
         avalancheOccurrenceEpoch: string,
         vegetationCover: string,
     }),
+    withProps(({weakLayerBurialDate, avalancheOccurrenceEpoch}) => ({
+        avalancheOccurrenceEpoch: parse(avalancheOccurrenceEpoch),
+        weakLayerBurialDate: weakLayerBurialDate && parse(weakLayerBurialDate),
+    })),
     renameProps({
         avalancheOccurrenceEpoch: 'Avalanche date',
         avalancheOccurrenceTime: 'Avalanche time',

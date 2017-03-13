@@ -1,6 +1,9 @@
 import React from 'react'
 import {Term, Definition} from 'components/description'
+import {DateElement, DateTime} from 'components/misc'
 import {trulyKeys} from 'utils/object'
+import startOfDay from 'date-fns/start_of_day'
+import isEqual from 'date-fns/is_equal'
 
 // TODO: Should be only a function that sanitize keys and values!
 // Rendering should be done outside of these functions
@@ -30,6 +33,16 @@ function createDefinitionChildren(value) {
                                 </li>
                             ))}
                         </ul>
+                    )
+                }
+            } else if (value instanceof Date) {
+                if (isEqual(value, startOfDay(isEqual))) {
+                    return (
+                        <DateElement value={value} />
+                    )
+                } else {
+                    return (
+                        <DateTime value={value} />
                     )
                 }
             } else {

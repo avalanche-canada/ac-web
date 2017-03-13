@@ -28,7 +28,11 @@ function normalize(data, schema) {
 }
 
 export function createFetchActionForSchema(type, schema) {
-    function handleFulfilled({data}) {
+    function handleFulfilled({data, status}) {
+        if (status === 404) {
+            data = []
+        }
+
         return normalize(data || [], schema)
     }
     const creator = createAction(
@@ -48,7 +52,7 @@ export function createFetchActionForSchema(type, schema) {
             const {isLoaded, isFetching} = getResultsSet(state, schema, params)
 
             if (isFetching || isLoaded) {
-                return
+                return Promise.resolve()
             }
         }
 

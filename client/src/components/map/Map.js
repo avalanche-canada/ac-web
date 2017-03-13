@@ -119,7 +119,6 @@ export default class MapComponent extends Component {
     static defaultProps = {
         style: null,
         maxBounds: Canadian,
-        attributionControl: false,
         onInitializationError: noop,
     }
     static childContextTypes = {
