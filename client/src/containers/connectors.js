@@ -50,7 +50,7 @@ export const forecast = compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {load, loadAll, params, redirectToForecasts} = this.props
+            const {load, loadAll, params} = this.props
 
             load(params)
             // .then(redirectToForecasts)
