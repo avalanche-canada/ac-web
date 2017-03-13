@@ -3,8 +3,6 @@ import Overlay from 'react-overlays/lib/Overlay'
 import {Close} from 'components/button'
 import controls from 'components/controls/Controls.css'
 import Callout, {BOTTOM} from 'components/callout'
-import {TimePicker} from 'components/controls'
-import {DayPicker, DateUtils} from 'components/misc'
 import Button from 'components/button'
 import styles from './Picker.css'
 
