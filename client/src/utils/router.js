@@ -1,3 +1,4 @@
+import format from 'date-fns/format'
 import {HeaderCellOrders} from 'components/table'
 import identity from 'lodash/identity'
 
@@ -26,6 +27,7 @@ export function replace(newLocation, {router, location}) {
     return router.replace(merge(location, newLocation))
 }
 
+// TODO: Use these functions on tables
 
 export function valueHandlerFactory(name, format = identity) {
     return props => value => {
@@ -53,4 +55,30 @@ function asArray(values) {
 
 export function arrayValueHandlerFactory(name) {
     return valueHandlerFactory(name, asArray)
+}
+
+function formatDate(date) {
+    return format(date, 'YYYY-MM-DD')
+}
+
+export function dateValueHandlerFactory(name) {
+    return valueHandlerFactory(name, formatDate)
+}
+
+export function computeSortingAsObject(sorting) {
+    if (!sorting) {
+        return null
+    }
+
+    if (isNegativeRegex.test(sorting)) {
+        return {
+            name: sorting.replace(isNegativeRegex, ''),
+            order: DESC
+        }
+    } else {
+        return {
+            name: sorting,
+            order: ASC
+        }
+    }
 }
