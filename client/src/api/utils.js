@@ -52,7 +52,7 @@ export function createFetchActionForSchema(type, schema) {
             const {isLoaded, isFetching} = getResultsSet(state, schema, params)
 
             if (isFetching || isLoaded) {
-                return
+                return Promise.resolve()
             }
         }
 
