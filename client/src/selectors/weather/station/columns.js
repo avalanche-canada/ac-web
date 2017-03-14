@@ -1,6 +1,7 @@
 import {setUTCOffset} from 'utils/date'
 import {toCompass} from 'utils/degrees'
 import format from 'date-fns/format'
+import printf from 'printf'
 
 const DASH = '—'
 
@@ -17,6 +18,9 @@ function maybeNull(name, fn=(x => x)) {
     }
 }
 
+function singleDecimal(x) {
+    return printf('%.1f', Math.round(x * 10) / 10);
+}
 
 export const Hour = {
     name: 'hour',
@@ -47,7 +51,7 @@ export const NewSnow = {
 export const AirTemperatureAvg = {
     name: 'airTempAvg',
     title: 'Air Temperature Average (°C)',
-    property: maybeNull('airTempAvg'),
+    property: maybeNull('airTempAvg', singleDecimal),
     style: {
         minWidth: 65
     }
@@ -74,7 +78,7 @@ export const AirTemperatureMin = {
 export const WindSpeedAvg = {
     name: 'windSpeedAvg',
     title: 'Wind Speed Average (km/h)',
-    property: maybeNull('windSpeedAvg', speed =>  Math.round(speed * 10) / 10),
+    property: maybeNull('windSpeedAvg', singleDecimal),
     style: {
         minWidth: 65
     }
@@ -92,7 +96,7 @@ export const WindDirectionAvg = {
 export const WindSpeedGust = {
     name: 'windSpeedGust',
     title: 'Wind Speed Gust (km/h)',
-    property: maybeNull('windSpeedGust', wsg => Math.round(wsg * 10) / 10),
+    property: maybeNull('windSpeedGust', singleDecimal),
     style: {
         minWidth: 65
     }
