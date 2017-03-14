@@ -1,0 +1,33 @@
+.Links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Link {
+    display: block;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.Next {
+    composes: Link;
+
+    &:after {
+        content: "\00a0›";
+    }
+}
+
+.Previous {
+    composes: Link;
+
+    &:before {
+        content: "‹\00a0";
+    }
+}
+
+.Today {
+    display: block;
+    margin: 0.25em 0;
+}
