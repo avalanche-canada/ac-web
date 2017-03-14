@@ -55,7 +55,6 @@ function computeMeasurements(station) {
         })
         .map(m => m.toObject())
         .reverse()
-        .take(24)
 }
 
 const getMeasurements = createSelector(
