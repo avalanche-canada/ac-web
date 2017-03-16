@@ -11,12 +11,12 @@ import {DropdownFromOptions as Dropdown, DayPicker} from 'components/controls'
 import {archiveForecast} from 'containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
-import startOfDay from 'date-fns/start_of_day'
+import startOfToday from 'date-fns/start_of_today'
 import isBefore from 'date-fns/is_before'
 import Url from 'url'
 
 function handleDisabledDays(day) {
-    return isBefore(startOfDay(new Date()), day)
+    return isBefore(startOfToday(), day)
 }
 
 const AVCAN = 'avalanche-canada'

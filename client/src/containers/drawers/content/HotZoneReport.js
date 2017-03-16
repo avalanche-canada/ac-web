@@ -19,7 +19,6 @@ function Container({
     isLoading,
     isError,
     report,
-    params,
     title = 'Loading...',
     link,
     shareUrl,

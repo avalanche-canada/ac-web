@@ -113,6 +113,10 @@ export const AvalancheCanada = {
                     to: '/forecasts/archives'
                 }, {
                     id: id++,
+                    label: 'HotZone Archive',
+                    to: '/hot-zone-reports/archives'
+                }, {
+                    id: id++,
                     label: 'Avalanche Incident Database',
                     to: '/incidents'
                 }]

@@ -10,8 +10,8 @@ import TerrainAdviceSet from './TerrainAdviceSet'
 import Metadata from './Metadata'
 import ImageGallery from 'react-image-gallery'
 import styles from './HotZoneReport.css'
-import Alert, {WARNING} from 'components/alert'
-import {isHotZoneReportValid} from 'prismic/utils'
+import ArchiveWarning from './ArchiveWarning'
+import get from 'lodash/get'
 
 const Panel = withProps({
     theme: INVERSE,
@@ -20,9 +20,13 @@ const Panel = withProps({
 
 HotZoneReport.propTypes = {
     report: PropTypes.object,
+    previous: PropTypes.object,
+    next: PropTypes.object,
 }
 
-function HotZoneReport({report}) {
+function HotZoneReport({report, previous, next}) {
+    const title = get(report, 'title')
+    const headline = get(report, 'headline')
     let gallery = null
 
     if (report) {
@@ -41,33 +45,26 @@ function HotZoneReport({report}) {
 
     return (
         <div styleName='HotZoneReport'>
-            {(report && !isHotZoneReportValid(report)) &&
-                <Alert type={WARNING}>
-                    This is an archived HotZone report
-                    <Link to={`/hot-zone-reports/${report.region}`}>
-                        Read today's report
-                    </Link>
-                </Alert>
-            }
-            {(report && report.title) &&
+            <ArchiveWarning report={report} next={next} previous={previous} />
+            {title &&
                 <div styleName='Title'>
-                    {report.title}
+                    {title}
                 </div>
             }
-            {(report && report.headline) &&
+            {headline &&
                 <div styleName='Headline'>
-                    {report.headline}
+                    {headline}
                 </div>
             }
-            {gallery && <ImageGallery {...gallery} />}
+            {gallery &&
+                <ImageGallery {...gallery} />
+            }
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
-            {!report &&
-                <Panel header='More information' expanded>
-                    <Generic uid='hot-zone-report-more-information' />
-                </Panel>
-            }
+            <Panel header='More information' expanded>
+                <Generic uid='hot-zone-report-more-information' />
+            </Panel>
             <Panel header='About'>
                 <Generic uid='hot-zone-report-about' />
             </Panel>

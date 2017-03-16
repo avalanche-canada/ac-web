@@ -77,29 +77,33 @@ export function load(params = {}) {
 }
 
 export function loadHotZoneReport({name, uid}) {
+    // TODO: Modify to use the prismic function, should use exdisting function instead
+    const type = 'hotzone-report'
+
     return (dispatch, getState) => {
         const state = getState()
 
         if (typeof uid === 'string') {
             return dispatch(load({
-                type: 'hotzone-report',
+                type,
                 uid
             }))
         } else if (typeof name === 'string') {
-            const documents = getDocumentsOfType(state, 'hotzone-report')
-            const key = 'hotzone-report.region'
-            function finder(document) {
-                return document.data[key].value === name
+            const documents = getDocumentsOfType(state, type)
+            function isNotLoaded(document) {
+                return document.data[`${type}.region`].value !== name
             }
 
-            if (!documents.find(finder)) {
+            if (documents.every(isNotLoaded)) {
                 return dispatch(load({
-                    type: 'hotzone-report',
+                    type,
                     predicates: [
-                        Predicates.at('my.hotzone-report.region', name)
-                    ]
+                        Predicates.at(`my.${type}.region`, name)
+                    ],
                 }))
             }
         }
+
+        return Promise.resolve()
     }
 }
