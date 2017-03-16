@@ -10,6 +10,7 @@ export Forecast from './Forecast'
 export Forecasts from './Forecasts'
 export ArchiveForecast from './ArchiveForecast'
 export HotZoneReport from './HotZoneReport'
+export ArchiveHotZoneReport from './ArchiveHotZoneReport'
 export MountainInformationNetworkSubmission from './MountainInformationNetworkSubmission'
 
 // export IncidentsTable from './IncidentsTable'

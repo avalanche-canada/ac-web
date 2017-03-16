@@ -55,3 +55,5 @@ export ElementResize from './ElementResize'
 export Delay from './Delay'
 
 export Status from './Status'
+
+export ArchiveWarning from './ArchiveWarning'

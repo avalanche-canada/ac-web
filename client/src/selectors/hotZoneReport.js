@@ -1,18 +1,22 @@
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'
 import * as Schemas from 'api/schemas'
-import {getEntityForSchema} from 'getters/entities'
+import {getEntityForSchema, getEntitiesForSchema} from 'getters/entities'
 import {getDocumentsOfType} from 'getters/prismic'
 import {computeFitBounds} from 'selectors/map/bounds'
 import Parser from 'prismic/parser'
 import camelCase from 'lodash/camelCase'
-import {isHotZoneReportValid} from 'prismic/utils'
+import {isHotZoneReportValid, isReportWithinRange} from 'prismic/utils'
+import endOfDay from 'date-fns/end_of_day'
+import parse from 'date-fns/parse'
+
+// TODO: Rework to take advantage of the new prismic structure and loading
 
 function getHotZone(state, {params}) {
     return getEntityForSchema(state, Schemas.HotZone, params.name)
 }
 
-function getHotZoneReportDocuments(state, {params}) {
+function getHotZoneReportDocuments(state) {
     return getDocumentsOfType(state, 'hotzone-report')
 }
 
@@ -160,7 +164,7 @@ function transform(raw) {
     }).toJSON()
 }
 
-const getHotZoneReport = createSelector(
+const getValidHotZoneReport = createSelector(
     (state, props) => props.params,
     getParsedHotZoneReports,
     ({name, uid}, reports) => {
@@ -179,10 +183,11 @@ const getComputeBounds = createSelector(
     (region, computeBounds) => () => computeBounds(region)
 )
 
-export default createSelector(
+const getHotZoneReport = createSelector(
     getHotZone,
-    getHotZoneReport,
+    getValidHotZoneReport,
     getComputeBounds,
+    // TODO: Remove that isLoading
     (state, props) => props.isLoading,
     (zone, report, computeBounds, isLoading) => {
         const name = zone && zone.get('name')
@@ -202,9 +207,54 @@ export default createSelector(
             }
         } else {
             return {
-                title: isLoading ? name : name && `${name} report is not available`,
+                title: isLoading ? name : name && `No ${name} report is currently available`,
                 computeBounds,
             }
         }
+    }
+)
+
+export function getHotZones(state) {
+    return getEntitiesForSchema(state, Schemas.HotZone)
+}
+
+function createDateRange(report) {
+    return {
+        start: report.dateOfIssue,
+        end: endOfDay(report.validUntil),
+    }
+}
+
+export const getHotZoneReportDateRanges = createSelector(
+    (state, props) => report => report.region === props.params.name,
+    getParsedHotZoneReports,
+    (filter, reports) => reports.filter(filter).map(createDateRange).toArray()
+)
+
+export default getHotZoneReport
+
+export const getArchiveHotZoneReport = createSelector(
+    getHotZone,
+    getParsedHotZoneReports,
+    (state, props) => {
+        const {name} = props.params
+        const date = parse(props.params.date, 'YYYY-MM-DD')
+
+        return function find(report) {
+            return report.region === name && isReportWithinRange(report, date)
+        }
+    },
+    (zone, reports, finder) => {
+        const props = {
+            title: zone && zone.get('name')
+        }
+
+        if (reports.some(finder)) {
+            Object.assign(props, {
+                report: transform(reports.find(finder)),
+            })
+        }
+
+        return props
     }
 )

@@ -30,6 +30,7 @@ import {
     Forecasts,
     ArchiveForecast,
     HotZoneReport,
+    ArchiveHotZoneReport,
     MountainInformationNetwork,
     MountainInformationNetworkSubmit,
     MountainInformationNetworkFAQ,
@@ -291,6 +292,7 @@ export default function computeRoutes(store) {
             <Route path='forecasts/:name(/:date)' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
             <Redirect from='forecast/:name' to='forecasts/:name' />
             {/* HOT ZONE REPORT */}
+            <Route path='hot-zone-reports/archives(/:name)(/:date)' sponsorRef='Forecast' component={ArchiveHotZoneReport} />
             <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
             <Route path='weather/stations/:id' component={WeatherStation} />

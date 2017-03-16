@@ -9,9 +9,13 @@ const StringToBoolean = new Map([
     [undefined, false],
 ])
 
-export function isHotZoneReportValid({dateOfIssue, validUntil}) {
+export function isHotZoneReportValid(report) {
+    return isReportWithinRange(report, new Date())
+}
+
+export function isReportWithinRange({dateOfIssue, validUntil}, date) {
     return isWithinRange(
-        new Date(),
+        date,
         startOfDay(dateOfIssue),
         endOfDay(validUntil)
     )

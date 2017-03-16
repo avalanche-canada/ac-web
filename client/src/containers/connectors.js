@@ -12,7 +12,7 @@ import {
 } from 'selectors/prismic/weather'
 import getForecast, {getForecastRegions} from 'selectors/forecast'
 import getWeatherStation from 'selectors/weather/station'
-import getHotZoneReport from 'selectors/hotZoneReport'
+import getHotZoneReport, {getHotZones, getHotZoneReportDateRanges, getArchiveHotZoneReport} from 'selectors/hotZoneReport'
 import getSpecialInformation from 'selectors/prismic/specialInformation'
 import getFatalAccident from 'selectors/prismic/fatalAccident'
 import {getToyotaTruckReport, getPost} from 'selectors/prismic'
@@ -124,28 +124,78 @@ export const hotZoneReport = compose(
         loadAll: EntitiesActions.loadFeaturesMetadata,
         fitBounds,
     }),
-    withHandlers({
-        loadSingle: props => params => {
-            props.load(params)
-        },
-        onLocateClick: props => event => {
-            const {bbox, options} = props.computeBounds()
-
-            props.fitBounds(bbox, options)
-        }
-    }),
     lifecycle({
         componentDidMount() {
-            const {loadSingle, loadAll, params} = this.props
+            const {load, loadAll, params} = this.props
 
-            loadSingle(params)
+            load(params)
             loadAll()
         },
         componentWillReceiveProps({load, params}) {
             const {name, date} = this.props.params
 
             if (name !== params.name || date !== params.date) {
-                this.props.loadSingle(params)
+                load(params)
+            }
+        },
+    }),
+    withHandlers({
+        onLocateClick: props => event => {
+            const {bbox, options} = props.computeBounds()
+
+            props.fitBounds(bbox, options)
+        }
+    }),
+)
+
+export const archiveHotZoneReport = compose(
+    connect(createStructuredSelector({
+        regions: getHotZones,
+        dateRanges: getHotZoneReportDateRanges,
+        data: getArchiveHotZoneReport,
+    }), {
+        load: PrismicActions.loadHotZoneReport,
+        loadAll: EntitiesActions.loadFeaturesMetadata,
+    }),
+    withHandlers({
+        onParamsChange: props => params => {
+            const {name, date} = params
+            const paths = ['/hot-zone-reports', 'archives']
+
+            if (name) {
+                paths.push(name)
+            }
+
+            if (date) {
+                paths.push(date)
+            }
+
+            props.router.push(paths.join('/'))
+        },
+        loadHotZoneReport: props => () => {
+            const {name, date} = props.params
+
+            if (name && date) {
+                props.load(props.params)
+            }
+        },
+    }),
+    lifecycle({
+        componentDidMount() {
+            const {name} = this.props.params
+
+            this.props.loadHotZoneReport()
+            this.props.loadAll()
+
+            if (name) {
+                this.props.load({name})
+            }
+        },
+        componentWillReceiveProps({params: {name, date}}) {
+            const {params} = this.props
+
+            if (name !== params.name || date !== params.date) {
+                this.props.loadHotZoneReport()
             }
         },
     }),
