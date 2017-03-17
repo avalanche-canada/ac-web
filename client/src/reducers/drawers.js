@@ -87,7 +87,7 @@ const MENU = new Map({
         }),
         [Layers.FATAL_ACCIDENT]: new Layer({
             id: Layers.FATAL_ACCIDENT,
-            title: 'Fatal accidents',
+            title: 'Fatal recreational accidents',
             type: 'Observations',
             visible: Boolean(LAYERS_VISIBILITY.get(Layers.FATAL_ACCIDENT, false)),
         }),

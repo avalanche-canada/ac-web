@@ -26,9 +26,9 @@ const getMessages = createSelector(
     getUid,
     getDocument,
     (uid, report) => ({
-        isError: 'An error happened while loading the fatal accident.',
-        isLoading: 'Loading fatal accident...',
-        isLoaded: report ? null : `Fatal accident "${uid}" is not available anymore.`
+        isError: 'An error happened while loading the fatal recreational accident.',
+        isLoading: 'Loading fatal recreational accident...',
+        isLoaded: report ? null : `Fatal recreational accident "${uid}" is not available anymore.`
     })
 )
 

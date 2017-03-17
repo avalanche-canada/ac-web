@@ -21,7 +21,7 @@ function FatalAccident({
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject='Fatal Accident'>
+            <Header subject='Fatal Recreational Accident'>
                 <Status {...status.toJSON()} />
                 {report &&
                     <h1>
