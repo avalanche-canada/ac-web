@@ -182,13 +182,7 @@ const getToyotaTruckFeatures = createSelector(
 function pointReducer(points, feature) {
     // Explode because Mapbox does not cluster on MultiPoint geometries
     // https://github.com/mapbox/mapbox-gl-js/issues/4076
-    const {properties} = feature
-
-    return points.concat(explode(feature).features.map(feature => {
-        // explode does not transfer properties :(
-        // https://github.com/Turfjs/turf/issues/564
-        return turf.feature(feature.geometry, properties)
-    }))
+    return points.concat(explode(feature).features)
 }
 
 // Create Special Information Features
