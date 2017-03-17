@@ -18,8 +18,15 @@ function Row({rating, elevation}) {
     const elevationStyle = {
         backgroundColor: ElevationPalette.get(elevation)
     }
+
+
+    var color = '#000';
+    if (rating === 'EXTREME') {
+        color = '#fff';
+    }
     const ratingStyle = {
-        backgroundColor: RatingPalette.get(rating)
+        backgroundColor: RatingPalette.get(rating),
+        color: color
     }
 
     return (
