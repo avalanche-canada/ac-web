@@ -75,15 +75,21 @@ function dy({y}) {
 }
 
 export default function Temperature({data, min, max, width, height}) {
-    const container = <VictoryContainer title='Air temperature' desc={`Air temperature in degree Celcius (°C) every hour from ${min} to ${max}.`} />
+    const container = <VictoryContainer 
+        title='Air temperature' 
+        desc={`Air temperature in degree Celcius (°C) every hour from ${min} to ${max}.`}
+    />
     const domain = computeDomain(data)
 
     return (
-        <VictoryChart width={width} height={height} theme={theme} domainPadding={{x: 25}} >
-            <VictoryAxis scale='time' tickFormat={formatHours} orientation='bottom' offsetY={50} />
-            <VictoryAxis dependentAxis scale='linear' crossAxis={false} scale='linear' domain={domain} label='Temperature (°C)' style={STYLE.dependentAxis(domain)} />
-            <VictoryLine data={data} x='measurementDateTime' y='airTempAvg' style={STYLE.avg.line} />
-            <VictoryScatter data={data} x='measurementDateTime' y='airTempAvg' labels={getLabels} labelComponent={<VictoryTooltip dy={dy} />} events={scatterEvents} style={STYLE.avg.scatter} />
-        </VictoryChart>
+        <div>
+            <h2>Air Temperature</h2>
+            <VictoryChart width={width} height={height} theme={theme} domainPadding={{x: 25}} >
+                <VictoryAxis scale='time' tickFormat={formatHours} orientation='bottom' offsetY={50} />
+                <VictoryAxis dependentAxis scale='linear' crossAxis={false} scale='linear' domain={domain} label='Temperature (°C)' style={STYLE.dependentAxis(domain)} />
+                <VictoryLine data={data} x='measurementDateTime' y='airTempAvg' style={STYLE.avg.line} />
+                <VictoryScatter data={data} x='measurementDateTime' y='airTempAvg' labels={getLabels} labelComponent={<VictoryTooltip dy={dy} />} events={scatterEvents} style={STYLE.avg.scatter} />
+            </VictoryChart>
+        </div>
     )
 }

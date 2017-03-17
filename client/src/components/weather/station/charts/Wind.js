@@ -81,7 +81,10 @@ function computeDomain(data) {
 
 
 export default function Wind({data, min, max, width, height}) {
-    const container = <VictoryContainer title='Wind speed and direction' desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`} />
+    const container = <VictoryContainer 
+        title='Wind speed and direction' 
+        desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`} 
+    />
     const withCompass = width > 475
 
 

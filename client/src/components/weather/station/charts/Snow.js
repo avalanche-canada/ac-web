@@ -6,6 +6,7 @@ import format from 'date-fns/format'
 import {setUTCOffset} from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
+import {filterDataset, shouldShowGraph} from './filters'
 
 const PRIMARY_BLUE = 'rgb(150, 186, 233)'
 
@@ -133,95 +134,106 @@ export default function SnowHeight({data, min, max, width, height}) {
     const newSnowDomain = computeNewSnowDomain(data)
     const domain = [min, max]
 
+    const newSnow    = filterDataset(data, 'measurementDateTime', 'newSnow')
+    const snowHeight = filterDataset(data, 'measurementDateTime', 'snowHeight')
+
+    const showNewSnow    = shouldShowGraph(data, 'newSnow')
+    const showSnowHeight = shouldShowGraph(data, 'snowHeight')
+    if (!showSnowHeight || !showNewSnow)
+        return null;
     return (
-        <VictoryContainer
-            style={STYLE.parent}
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-            title='Snow height and new snow'
-            desc={`Show height and new snow in centimeter (cm) every hour from ${min} to ${max}.`} >
-            <g style={STYLE.group}>
-                <VictoryAxis
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    scale='time'
-                    domain={[min, max]}
-                    domainPadding={DOMAIN_PADDING}
-                    tickFormat={formatHours}
-                    style={theme.axis.style} />
-                <VictoryAxis
-                    dependentAxis
-                    domain={snowHeightDomain}
-                    domainPadding={DOMAIN_PADDING}
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    scale='linear'
-                    tickValues={range(0, snowHeightDomain[1] + 1, 50)}
-                    orientation='left'
-                    label='Height (cm)'
-                    style={STYLE.axis.primary} />
-                <VictoryAxis
-                    dependentAxis
-                    domain={newSnowDomain}
-                    domainPadding={DOMAIN_PADDING}
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    scale='linear'
-                    orientation='right'
-                    label='New (cm)'
-                    style={STYLE.axis.second} />
-            </g>
-            <g style={STYLE.group}>
-                <VictoryBar
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    data={data}
-                    x='measurementDateTime'
-                    y='newSnow'
-                    domain={{
-                        x: domain,
-                        y: newSnowDomain
-                    }}
-                    domainPadding={DOMAIN_PADDING}
-                    style={STYLE.bar}
-                    events={barEvents}
-                    labels={getNewSnowLabels}
-                    labelComponent={<VictoryTooltip renderInPortal={!false} style={theme.tooltip.style} />} />
-                <VictoryLine
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    data={data}
-                    x='measurementDateTime'
-                    y='snowHeight'
-                    domain={{
-                        x: domain,
-                        y: snowHeightDomain
-                    }}
-                    domainPadding={DOMAIN_PADDING}
-                    style={STYLE.line} />
-                <VictoryScatter
-                    standalone={false}
-                    width={width}
-                    height={height}
-                    data={data}
-                    x='measurementDateTime'
-                    y='snowHeight'
-                    domain={{
-                        x: domain,
-                        y: snowHeightDomain
-                    }}
-                    domainPadding={DOMAIN_PADDING}
-                    style={STYLE.scatter}
-                    events={scatterEvents}
-                    labels={getSnowHeightLabels}
-                    labelComponent={<VictoryTooltip renderInPortal={!false} style={STYLE.tooltip} />} />
-            </g>
-        </VictoryContainer>
+        <div>
+            <h2>Snow</h2>
+            <VictoryContainer
+                style={STYLE.parent}
+                width={width}
+                height={height}
+                viewBox={`0 0 ${width} ${height}`}
+                title='Snow height and new snow'
+                desc={`Show height and new snow in centimeter (cm) every hour from ${min} to ${max}.`} >
+                <g style={STYLE.group}>
+                    <VictoryAxis
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        scale='time'
+                        domain={[min, max]}
+                        domainPadding={DOMAIN_PADDING}
+                        tickFormat={formatHours}
+                        style={theme.axis.style} />
+                    <VictoryAxis
+                        dependentAxis
+                        domain={snowHeightDomain}
+                        domainPadding={DOMAIN_PADDING}
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        scale='linear'
+                        tickValues={range(0, snowHeightDomain[1] + 1, 50)}
+                        orientation='left'
+                        label='Height (cm)'
+                        style={STYLE.axis.primary} />
+                    <VictoryAxis
+                        dependentAxis
+                        domain={newSnowDomain}
+                        domainPadding={DOMAIN_PADDING}
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        scale='linear'
+                        orientation='right'
+                        label='New (cm)'
+                        style={STYLE.axis.second} />
+                </g>
+                <g style={STYLE.group}>
+                    {showNewSnow && <VictoryBar
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        data={data}
+                        x='measurementDateTime'
+                        y='newSnow'
+                        domain={{
+                            x: domain,
+                            y: newSnowDomain
+                        }}
+                        domainPadding={DOMAIN_PADDING}
+                        style={STYLE.bar}
+                        events={barEvents}
+                        labels={getNewSnowLabels}
+                        labelComponent={<VictoryTooltip renderInPortal={!false} style={theme.tooltip.style} />} /> }
+
+                    {showSnowHeight && <VictoryLine
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        data={data}
+                        x='measurementDateTime'
+                        y='snowHeight'
+                        domain={{
+                            x: domain,
+                            y: snowHeightDomain
+                        }}
+                        domainPadding={DOMAIN_PADDING}
+                        style={STYLE.line} />}
+                    {showSnowHeight && <VictoryScatter
+                        standalone={false}
+                        width={width}
+                        height={height}
+                        data={data}
+                        x='measurementDateTime'
+                        y='snowHeight'
+                        domain={{
+                            x: domain,
+                            y: snowHeightDomain
+                        }}
+                        domainPadding={DOMAIN_PADDING}
+                        style={STYLE.scatter}
+                        events={scatterEvents}
+                        labels={getSnowHeightLabels}
+                        labelComponent={<VictoryTooltip renderInPortal={!false} style={STYLE.tooltip} />} />}
+                </g>
+            </VictoryContainer>
+        </div>
     )
 }

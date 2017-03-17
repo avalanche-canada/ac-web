@@ -30,9 +30,7 @@ function ChartSet({measurements, width}) {
 
                 return (
                     <div className={styles.ChartSet}>
-                        <h2>Snow</h2>
                         <Snow data={data} min={min} max={max} width={width} height={height} />
-                        <h2>Air Temperature</h2>
                         <Temperature data={data} min={min} max={max} width={width} height={height} />
                         <Wind data={data} min={min} max={max} width={width} height={height} />
                         <RelativeHumidity data={data} min={min} max={max} width={width} height={height} />
