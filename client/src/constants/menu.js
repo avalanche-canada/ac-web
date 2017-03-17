@@ -105,9 +105,6 @@ export const AvalancheCanada = {
                 to: '/information',
                 header: true,
                 children: [{
-                //     label: 'FAQ',
-                //     to: '/faq'
-                // }, {
                     id: id++,
                     label: 'Forecast Archive',
                     to: '/forecasts/archives'

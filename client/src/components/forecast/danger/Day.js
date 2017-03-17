@@ -3,30 +3,36 @@ import {branch, renderComponent} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {ElementResize} from 'components/misc'
 import styles from './Danger.css'
-import {
+import Elevations, {
     ALP,
     TLN,
     BTL,
     Texts as ElevationTexts,
-    Palette as ElevationPalette
+    Palette as ElevationPalette,
 } from 'constants/forecast/elevation'
-import Ratings, {Texts as RatingTexts, Palette as RatingPalette} from 'constants/forecast/rating'
+import Ratings, {
+    EXTREME,
+    Texts as RatingTexts,
+    Palette as RatingPalette,
+} from 'constants/forecast/rating'
+import {WHITE, BLACK} from 'constants/forecast/palette'
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
+
+const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
+
+Row.propTypes = {
+    rating: RatingPropType.isRequired,
+    elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
+}
 
 function Row({rating, elevation}) {
     const elevationStyle = {
         backgroundColor: ElevationPalette.get(elevation)
     }
-
-
-    var color = '#000';
-    if (rating === 'EXTREME') {
-        color = '#fff';
-    }
     const ratingStyle = {
         backgroundColor: RatingPalette.get(rating),
-        color: color
+        color: rating === EXTREME ? WHITE : BLACK
     }
 
     return (
@@ -43,6 +49,10 @@ function Row({rating, elevation}) {
 
 Row = CSSModules(Row, styles)
 
+Title.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+}
+
 function Title({date}) {
     return (
         <div styleName='Title'>
@@ -55,9 +65,9 @@ Title = CSSModules(Title, styles)
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
-    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
-    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
-    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    alp: RatingPropType.isRequired,
+    tln: RatingPropType.isRequired,
+    btl: RatingPropType.isRequired,
 }
 
 function Day({date, alp, tln, btl}) {
@@ -71,7 +81,12 @@ function Day({date, alp, tln, btl}) {
     )
 }
 
-FirstDay.propTypes = Day.propTypes
+FirstDay.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+    alp: RatingPropType.isRequired,
+    tln: RatingPropType.isRequired,
+    btl: RatingPropType.isRequired,
+}
 
 function FirstDay(props) {
     const {date, ...ratings} = props
