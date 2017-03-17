@@ -48,7 +48,7 @@ function sumNodeWidth(width, node) {
 
     node.style.position = position
 
-    return width + offsetWidth
+    return width + Math.ceil(offsetWidth)
 }
 
 @CSSModules(styles, {allowMultiple: true})
@@ -58,11 +58,11 @@ class TabList extends Component {
         itemsWidth: null,
     }
     updateWidths = () => {
-        const {list} = this.refs
+        const {offsetWidth, childNodes} = this.refs.list
 
         this.setState({
-            width: list.offsetWidth,
-            itemsWidth: Array.from(list.childNodes).reduce(sumNodeWidth, 0)
+            width: Math.ceil(offsetWidth),
+            itemsWidth: Array.from(childNodes).reduce(sumNodeWidth, 0)
         })
     }
     updateWidthsForListeners = debounce(this.updateWidths, 150)
