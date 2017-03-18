@@ -1,5 +1,3 @@
-// TODO: Move that file!
-
 import React from 'react'
 import {neverUpdate} from 'compose'
 import Ratings, {

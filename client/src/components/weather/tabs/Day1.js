@@ -4,11 +4,6 @@ import {DateElement, Image} from 'components/misc'
 import Section from './Section'
 import {formatForecastUrl} from 'services/msc/loop/url'
 
-function description() {
-    // TODO: Finish this with parameters
-    return 'Weather Systems'
-}
-
 Day1.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     above: PropTypes.string.isRequired,
@@ -20,15 +15,17 @@ Day1.propTypes = {
 export default function Day1({date, above, between, below, children}) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
+    const image = {
+        alt: 'Weather Systems',
+        title: 'Weather Systems',
+    }
     const image1 = {
+        ...image,
         src: formatForecastUrl(type, date, 6, 6),
-        alt: description(),
-        title: description(),
     }
     const image2 = {
+        ...image,
         src: formatForecastUrl(type, date, 6, 18),
-        alt: description(),
-        title: description(),
     }
 
     return (
