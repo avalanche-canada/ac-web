@@ -3,8 +3,7 @@ import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
 import Holder from '../Holder'
-import DropdownOption from './DropdownOption'
-import {OptionSet} from 'components/controls/options'
+import {OptionSet, Option} from 'components/controls/options'
 import styles from './Dropdown.css'
 import noop from 'lodash/noop'
 
@@ -13,7 +12,7 @@ const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 @CSSModules(styles)
 export default class Dropdown extends Component {
     static propTypes = {
-        children: PropTypes.arrayOf(DropdownOption).isRequired,
+        children: PropTypes.arrayOf(Option).isRequired,
         onChange: PropTypes.func.isRequired,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Set)]),
         placeholder: PropTypes.string,
