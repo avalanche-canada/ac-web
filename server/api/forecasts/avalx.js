@@ -463,6 +463,44 @@ function parseCaamlForecast(caaml, region, callback) {
  *    confusion, even if the days aren't quite right.
  */
 function getDangerIconStyles(forecast) {
+    if (forecast.region === 'waterton') {
+        return getDangerIconStylesByDate(forecast)
+    } else {
+        return getDangerIconStylesFixed(forecast)
+    }
+}
+
+function getDangerIconStylesByDate(forecast) {
+
+    //! find todays danger rating
+    var todaysRating = _.find(forecast.dangerRatings, function (dr){
+            //! if the forecast is today or tomorrows
+            if (moment(dr.date).isSame(moment(),'day') ||
+                moment(dr.date).isSame(moment().add(1, 'day'),'day')){
+                return true;
+            }
+            return false;
+        });
+
+    //! if there is a danger rating for today found then display the danger rating
+    if(todaysRating){
+        todaysRating = todaysRating.dangerRating;
+    }
+    else{ //! no danger rating for today instead display no rating
+
+        todaysRating = {alp:'N/A:No Rating',
+                        tln:'N/A:No Rating',
+                        btl:'N/A:No Rating'};
+    }
+    //! return the danger rating style for the given danger rating
+    return {
+        alp: dangerRatingStyles.bannerFill[todaysRating.alp],
+        tln: dangerRatingStyles.bannerFill[todaysRating.tln],
+        btl: dangerRatingStyles.bannerFill[todaysRating.btl]
+    };
+}
+
+function getDangerIconStylesFixed(forecast) {
     // Non avalx based forecasts still call this function so we're being
     // defensive 
     var todaysRating = {
@@ -473,6 +511,7 @@ function getDangerIconStyles(forecast) {
     if (typeof(forecast.dangerRatings) !== 'undefined'){
         var todaysRating = forecast.dangerRatings[0].dangerRating;
     } 
+
     return {
         alp: dangerRatingStyles.bannerFill[todaysRating.alp],
         tln: dangerRatingStyles.bannerFill[todaysRating.tln],
