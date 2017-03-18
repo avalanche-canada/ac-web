@@ -1,26 +1,16 @@
-import React, {PropTypes, Component} from 'react'
+import React, {PropTypes, PureComponent} from 'react'
+import {CancelToken} from 'axios'
 import CSSModules from 'react-css-modules'
-import {compose, withHandlers} from 'recompose'
-import {accessToken} from 'services/mapbox/config.json'
-import {DropdownFromOptions, Input} from 'components/controls'
+import noop from 'lodash/noop'
+import {Input} from 'components/controls'
 import {Place, Close, Spinner} from 'components/icons'
-import styles from './Geocoder.css'
-import queryString from 'query-string'
+import {findPlaces} from 'services/mapbox/api'
 import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
-import noop from 'lodash/noop'
-
-// TODO: Move that code to services/mapbox
-const BASEURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
-const PARAMS = {
-    country: ['ca', 'us', 'au', 'jp'].join(','),
-    types: ['country', 'region', 'locality', 'place'].join(','),
-    autocomplete: true,
-    access_token: accessToken,
-}
+import styles from './Geocoder.css'
 
 @CSSModules(styles)
-export default class Geocoder extends Component {
+export default class Geocoder extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         placeholder: PropTypes.string,
@@ -47,12 +37,8 @@ export default class Geocoder extends Component {
     set isActive(isActive) {
         this.setState({isActive})
     }
-    componentWillMount() {
-        this.request = new XMLHttpRequest()
-    }
     handleChange = event => {
         const {value} = event.target
-        const {request} = this
 
         this.setState({
             value,
@@ -63,43 +49,36 @@ export default class Geocoder extends Component {
             return
         }
 
-        request.abort()
-
         this.setState({
             isFetching: true,
-        }, function() {
-            const url = `${BASEURL}/${encodeURIComponent(value.trim())}.json?${queryString.stringify(PARAMS)}`
+        }, this.findPlaces.bind(this, value))
+    }
+    findPlaces(value) {
+        if (this.source) {
+            this.source.cancel()
+        }
 
-            request.open('GET', url, true)
-            request.onload = this.handleLoad
-            request.onerror = this.handleError
-            request.send()
+        const source = this.source = CancelToken.source()
+        const options = {
+            cancelToken: source.token
+        }
+
+        findPlaces(value, options).then(this.handleLoad, this.handleError)
+    }
+    handleLoad = ({data: {features}}) => {
+        this.setState({
+            places: features,
+            isFetching: false,
+            isActive: features.length > 0,
+            error: null,
         })
     }
-    handleLoad = () => {
-        const {status, responseText} = this.request
-
-        if (status >= 200 && status < 400) {
-            const {features} = JSON.parse(responseText)
-
-            this.setState({
-                places: features,
-                isFetching: false,
-                isActive: features.length > 0,
-                error: null,
-            })
-        } else {
-            this.handleError()
-        }
-    }
-    handleError = () => {
-        const {responseText} = this.request
-
+    handleError = error => {
         this.setState({
             isActive: false,
             isFetching: false,
             places: [],
-            error: JSON.parse(responseText).message
+            error,
         })
     }
     handleFocus = event => {

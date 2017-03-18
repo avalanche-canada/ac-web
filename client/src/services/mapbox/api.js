@@ -11,18 +11,15 @@ const Style = Axios.create({
 const Places = Axios.create({
     baseURL: `${api}/geocoding/v5/mapbox.places`,
     params: {
-        country: 'ca',
-        types: ['locality', 'place', 'poi'].join(','),
-        autocomplete: false,
+        country: ['ca', 'us', 'au', 'jp'].join(','),
+        types: ['country', 'region', 'locality', 'place'].join(','),
+        autocomplete: true,
         access_token: accessToken,
     },
 })
 
-export function findPlaces(term = '') {
-    // TODO: Should cancel existing request
-    // https://github.com/mzabriskie/axios/issues/333
-
-    return Places.get(`${encodeURIComponent(term.trim())}.json`)
+export function findPlaces(term = '', options = {}) {
+    return Places.get(`${encodeURIComponent(term.trim())}.json`, options)
 }
 
 export function fetchMapStyle(styleId) {
