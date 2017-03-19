@@ -15,8 +15,8 @@ const Components = new Map([
 ])
 
 export const FallbackPage = compose(
-    withProps(({type}) => ({
-        component: Components.get(type)
+    withProps(props => ({
+        component: Components.get(props.params.type)
     })),
     prismic(getDocumentAndStatus),
 )(componentFromProp('component'))
