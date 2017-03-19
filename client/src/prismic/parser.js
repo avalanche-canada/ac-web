@@ -5,6 +5,7 @@ import linkResolver from 'prismic/linkResolver'
 import htmlSerializer from 'prismic/htmlSerializer'
 
 // TODO: Fixes constructor for prismic object, should a PR to prismic.io repo
+// https://github.com/prismicio/javascript-kit
 Document.prototype.constructor = Document
 Object.keys(Fragments).forEach(key => Fragments[key].prototype.constructor = Fragments[key])
 
