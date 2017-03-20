@@ -19,7 +19,7 @@ build: webpack server-copy
 dev:
 	withenv npm run start-dev
 
-server-dev: build
+server-dev:
 	withenv ./node_modules/.bin/nodemon server/app-server-dev.js
 
 prod:
