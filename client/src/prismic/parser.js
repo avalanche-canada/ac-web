@@ -30,7 +30,7 @@ export class Parser {
     parse(document) {
         const {fragments, data, type, uid, tags, id} = document
         const asKey = document.constructor === Document ? parseKey : camelCase
-        const parsed = Object.keys(fragments).reduce((value, key) => {
+        const properties = Object.keys(fragments).reduce((value, key) => {
             const fragment = fragments[key]
 
             value[asKey(key)] = this.parseFragment(fragment, data[key])
@@ -45,10 +45,10 @@ export class Parser {
                 uid,
                 tags: Array.isArray(tags) ? tags.map(tag => tag.toLowerCase()) : [],
                 // TODO: Should be in a "properties" property
-                ...parsed,
+                ...properties,
             }
         } else {
-            return parsed
+            return properties
         }
     }
     parseSlice({sliceType, label, value}, data) {
