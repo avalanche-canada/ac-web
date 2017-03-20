@@ -93,7 +93,7 @@
     "immutable": "^3.8.1",
     "jshint-stylish": "~0.1.5",
     "json-loader": "^0.5.4",
-    "mapbox-gl": "0.33.1",
+    "mapbox-gl": "0.34.0",
     "mocha": "^3.0.2",
     "nodemon": "^1.11.0",
     "normalizr": "^3.1.0",
