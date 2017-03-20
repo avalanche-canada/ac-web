@@ -5,7 +5,6 @@ var uuid = require('node-uuid');
 var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
-var im = require('imagemagick-stream');
 var changeCase = require('change-case');
 var logger = require('../../logger.js');
 var multiparty = require('multiparty');
@@ -409,14 +408,14 @@ exports.getUploadAsStream = function (key, size) {
 
 
     var stream = s3.getObject(params).createReadStream();
-    /// FIXME: try and reset the stream to stop spawning convert. something aint right
-    return stream;
 
-    var resize = im().resize(size).quality(90);
 
     if(size === 'fullsize'){
         return stream;
     } else {
+        var resize = sharp()
+                        .resize(size,size)
+                        .max();
         return (
            stream
             .on('error', err => {resize.emit('error', err)})

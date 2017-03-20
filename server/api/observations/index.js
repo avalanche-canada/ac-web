@@ -192,7 +192,7 @@ router.get('/observations/:obid.:format?', function (req, res) {
 
 router.get('/uploads/:year/:month/:day/:uploadid', function (req, res) {
     var uploadKey = [req.params.year, req.params.month, req.params.day, req.params.uploadid].join('/');
-    var size = req.query.size || 'fullsize';
+    var size = Number(req.query.size) || 'fullsize';
 
     var stream = minUtils.getUploadAsStream(uploadKey, size);
     stream.on('error',function(err){

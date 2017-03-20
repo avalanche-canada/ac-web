@@ -4,7 +4,6 @@ var moment = require('moment');
 var uuid = require('node-uuid');
 var path = require('path');
 var moment = require('moment');
-var im = require('imagemagick-stream');
 var logger = require('winston');
 var q = require('q');
 
