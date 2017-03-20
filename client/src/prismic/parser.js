@@ -1,6 +1,6 @@
 import {Fragments, Document, Prismic} from 'prismic.io'
 import camelCase from 'lodash/camelCase'
-import parseToDate from 'date-fns/parse'
+import parse from 'date-fns/parse'
 import linkResolver from 'prismic/linkResolver'
 import htmlSerializer from 'prismic/htmlSerializer'
 
@@ -58,14 +58,14 @@ export class Parser {
             content: this.parseFragment(value, data)
         }
     }
-    parseFragment(fragment, data) {
+    parseFragment = (fragment, data) => {
         switch (fragment.constructor) {
             case Fragments.Text:
             case Fragments.Select:
             case Fragments.Color:
                 return fragment.asText()
             case Fragments.Date:
-                return data ? parseToDate(data.value, 'YYYY-MM-DD') : fragment.value
+                return data ? parse(data.value, 'YYYY-MM-DD') : fragment.value
             case Fragments.Number:
             case Fragments.Timestamp:
             case Fragments.Embed:
@@ -83,9 +83,9 @@ export class Parser {
             case Fragments.StructuredText:
                 return fragment.asHtml(this.linkResolver, this.htmlSerializer)
             case Fragments.Group:
-                return fragment.value.map(::this.parseFragment)
+                return fragment.value.map(this.parseFragment)
             case Fragments.SliceZone:
-                return fragment.slices.map(::this.parseFragment)
+                return fragment.slices.map(this.parseFragment)
             case Fragments.Slice:
                 return this.parseSlice(fragment, data)
             default:
