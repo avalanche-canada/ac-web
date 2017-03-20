@@ -10,6 +10,7 @@ var changeCase = require('change-case');
 var logger = require('../../logger.js');
 var multiparty = require('multiparty');
 var q = require('q');
+var sharp = require('sharp');
 
 var request = require('request')
 
@@ -165,6 +166,8 @@ exports.saveSubmission = function (token, form, callback) {
             var isDone = q.defer();
             imageUploadPromises.push(isDone.promise);
 
+            var orienter = sharp().rotate();
+
             var upload = s3Stream.upload({
               Bucket: UPLOADS_BUCKET,
               Key: key,
@@ -172,7 +175,8 @@ exports.saveSubmission = function (token, form, callback) {
               ACL: "private"
             });
 
-            part.pipe(upload);
+            part.pipe(orienter)
+                .pipe(upload);
 
             upload.on('error', function (error) {
               logger.info("Error uploading object to S3 : %s", error);
