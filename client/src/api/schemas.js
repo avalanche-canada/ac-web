@@ -21,7 +21,6 @@ export const MountainInformationNetworkSubmission = new schema.Entity(
         }
     }
 )
-export const Incident = new schema.Entity('incidents')
 export const Provider = new schema.Entity('providers')
 export const Course = new schema.Entity('courses')
 export const WeatherStation = new schema.Entity('weather-stations', {}, {

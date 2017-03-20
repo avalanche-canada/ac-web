@@ -22,15 +22,6 @@ const POST_CONFIGS = new Map([
 ])
 
 const GET_CONFIGS = new Map([
-    [Schemas.Incident, ({slug, ...params}) => {
-        if (slug) {
-            return
-        }
-
-        return {
-            params
-        }
-    }],
     [Schemas.MountainInformationNetworkSubmission, ({id, days}) => {
         const params = {
             client: 'web',
@@ -106,7 +97,6 @@ function forecastEndpoint({name, date}) {
 const ENDPOINTS = new Map([
     [Schemas.Forecast, forecastEndpoint],
     [Schemas.MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
-    [Schemas.Incident, ({slug}) => slug ? `incidents/${slug}` : 'incidents'],
     [Schemas.Provider, params => 'providers'],
     [Schemas.Course, params => 'courses'],
     [Schemas.WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
