@@ -30,12 +30,12 @@ export class Parser {
     parse(document) {
         const {fragments, data, type, uid, tags, id} = document
         const asKey = document.constructor === Document ? parseKey : camelCase
-        const properties = Object.keys(fragments).reduce((value, key) => {
+        const properties = Object.keys(fragments).reduce((properties, key) => {
             const fragment = fragments[key]
 
-            value[asKey(key)] = this.parseFragment(fragment, data[key])
+            properties[asKey(key)] = this.parseFragment(fragment, data[key])
 
-            return value
+            return properties
         }, {})
 
         if (document instanceof Document) {
