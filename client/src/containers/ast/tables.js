@@ -15,6 +15,8 @@ import Pagination from 'components/pagination'
 import {Article, Header as PageHeader} from 'components/page'
 import {sortingHandlerFactory} from 'utils/router'
 
+// TODO: Reuse controlled table component
+
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special 'Description' less special
     //TODO(wnh): Remove the inline style!!!!!!!!

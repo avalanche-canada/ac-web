@@ -18,7 +18,7 @@ import {createSorter, createPagination, createPaginatedEntities} from 'selectors
 
 const {NONE} = HeaderCellOrders
 
-// TODO: Reuse functions from selectors utils
+// TODO: Reuse functions from selectors utils & factories
 
 // Util functions and values...
 function normalizeTags(tags) {
