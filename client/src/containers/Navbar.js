@@ -1,8 +1,7 @@
 import {connect} from 'react-redux'
 import {compose, withProps, withHandlers} from 'recompose'
 import Navbar from 'components/navbar'
-import * as menus from 'constants/menu'
-import TreeModel from 'tree-model'
+import * as Menus from 'constants/menu'
 import {getIsAuthenticated, getProfile} from 'getters/auth'
 import {login, logout} from 'actions/auth'
 
@@ -16,17 +15,13 @@ function mapStateToProps(state) {
     }
 }
 
-function asTree(menu) {
-    return (new TreeModel()).parse(menu)
-}
-
 export const AvalancheCanada = compose(
     connect(mapStateToProps, {
         login,
         logout,
     }),
     withProps({
-        menu: asTree(menus.AvalancheCanada)
+        menu: Menus.AvalancheCanada,
     }),
     withHandlers({
         onLogin: props => event => {
@@ -40,5 +35,5 @@ export const AvalancheCanada = compose(
 
 export const AvalancheCanadaFoundation = withProps({
     isFoundation: true,
-    menu: asTree(menus.AvalancheCanadaFoundation),
+    menu: Menus.AvalancheCanadaFoundation,
 })(Navbar)

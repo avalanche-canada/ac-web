@@ -70,7 +70,7 @@ function sectionsReducer(children) {
     }, [])
 }
 
-export function createItem({model: {id, label, noWrap, children}}, index) {
+export function createItem({id, label, noWrap, children}, index) {
     const key = `${id}-${index}`
 
     return (
