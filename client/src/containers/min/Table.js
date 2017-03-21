@@ -80,7 +80,7 @@ export class Metadata extends PureComponent {
         return (
             <BaseMetadata>
                 <Entry term='From' sideBySide>
-                    <DayPicker date={from} onChange={this.handleFromDateChange} container={this} >
+                    <DayPicker date={from} onChange={this.handleFromDateChange}>
                         <DateElement value={from} />
                     </DayPicker>
                 </Entry>
