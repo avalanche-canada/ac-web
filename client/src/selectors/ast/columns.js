@@ -6,6 +6,8 @@ import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
 import {HeaderCellOrders} from 'components/table'
 import {List, Term, Definition} from 'components/description'
 
+// TODO: Use Column Record
+
 const {NONE} = HeaderCellOrders
 
 export const dateRanges = {

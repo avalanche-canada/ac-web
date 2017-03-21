@@ -106,7 +106,6 @@ export const Forecast = new Immutable.Map({
         hours: range(0, 144 + 1, 6),
         extension: 'jpg',
     }),
-    // TODO: runs should be a map and modify the loops
     'AC_GDPS_BC_850-temp-4am': new Metadata({
         id: 'AC_GDPS_BC_850-temp',
         title: null,
@@ -116,7 +115,6 @@ export const Forecast = new Immutable.Map({
         hours: range(12, 144 + 1, 24),
         extension: 'jpg',
     }),
-    // TODO: runs should be a map and modify the loops
     'AC_GDPS_BC_850-temp-4pm': new Metadata({
         id: 'AC_GDPS_BC_850-temp',
         title: null,

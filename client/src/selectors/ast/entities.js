@@ -18,6 +18,8 @@ import {createSorter, createPagination, createPaginatedEntities} from 'selectors
 
 const {NONE} = HeaderCellOrders
 
+// TODO: Reuse functions from selectors utils
+
 // Util functions and values...
 function normalizeTags(tags) {
     return tags.map(tag => tag.toUpperCase().trim())
