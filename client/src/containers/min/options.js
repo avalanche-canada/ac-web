@@ -55,7 +55,7 @@ const Required = {
         datetime: {
             type: 'datetime-local',
             label: 'When were you in the field?',
-            error: 'Enter a date and time in past',
+            error: 'Enter a date and time in the past',
             attrs: {
                 placeholder: 'Select a date/time',
                 max: format(endOfToday(new Date()), 'YYYY-MM-DDTHH:mm'),
@@ -160,13 +160,13 @@ const Weather = {
         snowfallRate: {
             label: 'Snowfall rate (cm/hour) (optional)',
             help: 'If there was no snow, please leave this field blank.',
-            error: 'Enter a number between 0 and 100',
+            error: 'Enter a number between 1 and 20',
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
-                placeholder: 'Number between 0 and 100',
-                min: 0,
-                max: 100,
+                placeholder: 'Number between 1 and 20',
+                min: 1,
+                max: 20,
             },
         },
         rainfallRate: {
