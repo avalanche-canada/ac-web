@@ -10,7 +10,7 @@ import format from 'date-fns/format'
 import get from 'lodash/get'
 import * as courses from 'selectors/ast/courses'
 import * as providers from 'selectors/ast/providers'
-import {replace} from 'utils/router'
+import {replace, valueHandlerFactory, arrayValueHandlerFactory} from 'utils/router'
 
 const STYLE = {
     margin: 'auto',
@@ -88,17 +88,13 @@ const Container = compose(
         }
     }),
     withHandlers({
-        onLevelChange: props => level => {
+        onLevelChange: valueHandlerFactory('level'),
+        onTagsChange: arrayValueHandlerFactory('tags'),
+        onDateRangeChange: props => ({from, to}) => {
             replace({
                 query: {
-                    level: level || undefined
-                }
-            }, props)
-        },
-        onTagsChange: props => tags => {
-            replace({
-                query: {
-                    tags: tags.size > 0 ? [...tags] : undefined
+                    from: from ? format(from, 'YYYY-MM-DD') : undefined,
+                    to: to ? format(to, 'YYYY-MM-DD') : undefined,
                 }
             }, props)
         },
@@ -109,14 +105,6 @@ const Container = compose(
                 },
                 query: {
                     sorting: 'distance'
-                }
-            }, props)
-        },
-        onDateRangeChange: props => ({from, to}) => {
-            replace({
-                query: {
-                    from: from ? format(from, 'YYYY-MM-DD') : undefined,
-                    to: to ? format(to, 'YYYY-MM-DD') : undefined,
                 }
             }, props)
         },

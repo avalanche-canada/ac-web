@@ -27,8 +27,6 @@ export function replace(newLocation, {router, location}) {
     return router.replace(merge(location, newLocation))
 }
 
-// TODO: Use these functions on tables
-
 export function valueHandlerFactory(name, format = identity) {
     return props => value => {
         push({
@@ -50,7 +48,11 @@ export function sortingHandlerFactory(propName = 'sorting') {
 }
 
 function asArray(values) {
-    return typeof values === 'string' ? new Set([values]) : values
+    if (typeof values === 'string') {
+        values = [values]
+    }
+
+    return Array.from(new Set(values))
 }
 
 export function arrayValueHandlerFactory(name) {
@@ -58,7 +60,7 @@ export function arrayValueHandlerFactory(name) {
 }
 
 function formatDate(date) {
-    return format(date, 'YYYY-MM-DD')
+    return date ? format(date, 'YYYY-MM-DD') : undefined
 }
 
 export function dateValueHandlerFactory(name) {

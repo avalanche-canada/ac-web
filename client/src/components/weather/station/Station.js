@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {onlyUpdateForKeys} from 'recompose'
+import {onlyUpdateForKey} from 'compose'
 import Table from './Table'
 import ChartSet from './ChartSet'
 import {TabSet, Tab, LOOSE} from 'components/tab'
@@ -24,4 +24,4 @@ function Station({measurements, columns, headers}) {
     )
 }
 
-export default onlyUpdateForKeys(['measurements'])(Station)
+export default onlyUpdateForKey('measurements')(Station)

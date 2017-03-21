@@ -13,7 +13,6 @@ import addDays from 'date-fns/add_days'
 import differenceInDays from 'date-fns/difference_in_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
-
 import noop from 'lodash/noop'
 
 function Empty() {

@@ -5,10 +5,8 @@ import {Responsive} from 'components/table'
 import {Br} from 'components/misc'
 import Table, {Status, Metadata} from 'containers/min/Table'
 import {withRouter} from 'react-router'
-import {push, replace} from 'utils/router'
-import {HeaderCellOrders} from 'components/table'
+import {valueHandlerFactory, arrayValueHandlerFactory, sortingHandlerFactory} from 'utils/router'
 
-const {NONE, DESC} = HeaderCellOrders
 const DAYS = '7'
 const TYPES = []
 
@@ -46,28 +44,8 @@ function Drawer({days = DAYS, types = TYPES}) {
 export const Page = compose(
     withRouter,
     withHandlers({
-        handleDaysChange: props => days => {
-            push({
-                query: {
-                    days
-                }
-            }, props)
-        },
-        handleTypesChange: props => types => {
-            types = typeof types === 'string' ? new Set([types]) : types
-
-            push({
-                query: {
-                    types: Array.from(types)
-                }
-            }, props)
-        },
-        handleSortingChange: props => (name, order = NONE) => {
-            replace({
-                query: {
-                    sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
-                }
-            }, props)
-        },
+        handleDaysChange: valueHandlerFactory('days'),
+        handleTypesChange: arrayValueHandlerFactory('types'),
+        handleSortingChange: sortingHandlerFactory(),
     }),
 )(PageLayout)

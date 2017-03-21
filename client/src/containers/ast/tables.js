@@ -5,17 +5,15 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router'
 import {List, Term, Definition} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, HeaderCellOrders, Caption, Responsive} from 'components/table'
+import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, Caption, Responsive} from 'components/table'
 import {Loading} from 'components/misc'
 import {loadProviders, loadCourses} from 'actions/entities'
 import * as providers from 'selectors/ast/providers'
 import * as courses from 'selectors/ast/courses'
-import {replace} from 'utils/router'
 import {Markup} from 'components/markup'
 import Pagination from 'components/pagination'
 import {Article, Header as PageHeader} from 'components/page'
-
-const {NONE, DESC} = HeaderCellOrders
+import {sortingHandlerFactory} from 'utils/router'
 
 function renderControlled(data, asControlled) {
     //TODO(wnh): make the special 'Description' less special
@@ -130,13 +128,7 @@ function connectEntities(name, mapStateToProps, load) {
         withProps({pageSize: 15}),
         connect(mapStateToProps, {load}),
         withHandlers({
-            onSortingChange: props => (name, order = NONE) => {
-                replace({
-                    query: {
-                        sorting: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
-                    }
-                }, props)
-            },
+            onSortingChange: sortingHandlerFactory(),
         }),
         lifecycle({
             componentDidMount() {

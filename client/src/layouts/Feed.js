@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {compose, withProps, withHandlers} from 'recompose'
 import {FilterSet, Feed} from 'containers/feed'
 import {Page, Content, Header, Main} from 'components/page'
-import {replace} from 'utils/router'
+import {valueHandlerFactory, arrayValueHandlerFactory} from 'utils/router'
 import {withRouter} from 'react-router'
 
 Layout.propTypes = {
@@ -51,40 +51,10 @@ export default compose(
         }
     }),
     withHandlers({
-        onYearChange: props => year => {
-            replace({
-                query: {
-                    year
-                }
-            }, props)
-        },
-        onMonthChange: props => month => {
-            replace({
-                query: {
-                    month
-                }
-            }, props)
-        },
-        onTagChange: props => tags => {
-            replace({
-                query: {
-                    tags: tags.size ? [...tags] : undefined
-                }
-            }, props)
-        },
-        onCategoryChange: props => category => {
-            replace({
-                query: {
-                    category
-                }
-            }, props)
-        },
-        onTimelineChange: props => timeline => {
-            replace({
-                query: {
-                    timeline
-                }
-            }, props)
-        },
+        onYearChange: valueHandlerFactory('year'),
+        onMonthChange: valueHandlerFactory('month'),
+        onCategoryChange: valueHandlerFactory('category'),
+        onTimelineChange: valueHandlerFactory('timeline'),
+        onTagChange: arrayValueHandlerFactory('tags'),
     }),
 )(Layout)
