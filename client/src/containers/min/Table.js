@@ -9,7 +9,7 @@ import {FORECAST_REGIONS} from 'services/mapbox/datasets'
 import {DateElement, Status as StatusComponent, Muted} from 'components/misc'
 import {Metadata as BaseMetadata, Entry} from 'components/metadata'
 import {DayPicker} from 'components/controls'
-import addDays from 'date-fns/add_days'
+import subDays from 'date-fns/sub_days'
 import differenceInDays from 'date-fns/difference_in_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import {DropdownFromOptions as Dropdown} from 'components/controls'
@@ -49,18 +49,18 @@ export class Metadata extends PureComponent {
         types: new Set(),
     }
     state = {
-        from: addDays(new Date(), -7),
+        from: subDays(new Date(), 7),
     }
     constructor(props) {
         super(props)
 
         if (typeof props.days === 'number') {
-            this.state.from = addDays(new Date(), -1 * props.days)
+            this.state.from = subDays(new Date(), props.days)
         }
     }
     set days(days) {
         this.setState({
-            from: addDays(new Date(), -1 * days)
+            from: subDays(new Date(), days)
         })
     }
     componentWillReceiveProps({days}) {
