@@ -1,4 +1,4 @@
-import {compose, defaultProps, branch, withState, withProps, lifecycle, onlyUpdateForKeys, shouldUpdate, renderNothing} from 'recompose'
+import {lifecycle, onlyUpdateForKeys, shouldUpdate} from 'recompose'
 import {scrollPosition} from 'utils/dom'
 
 export Element from './Element'
