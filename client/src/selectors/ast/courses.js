@@ -1,13 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {createSelector} from 'reselect'
-import {List, fromJS} from 'immutable'
+import {List} from 'immutable'
 import {Course} from 'api/schemas'
 import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
-import {getLocationAsFeature} from 'selectors/geolocation'
-import {getPlace, getPlaceAsFeature} from 'selectors/router'
 import * as entities from './entities'
-import get from 'lodash/get'
 import * as Columns from './columns'
 
 function asControlled({description, provider}) {
