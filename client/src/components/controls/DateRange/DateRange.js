@@ -1,5 +1,4 @@
 import React, {PropTypes, Component} from 'react'
-import {findDOMNode} from 'react-dom'
 import CSSModules from 'react-css-modules'
 import {compose, withHandlers} from 'recompose'
 import {DropdownFromOptions, Input} from 'components/controls'
@@ -44,9 +43,6 @@ export default class DateRange extends Component {
     }
     get showCalendar() {
         return this.state.showCalendar
-    }
-    get target() {
-        return findDOMNode(this.refs.target)
     }
     toggleCalendar = () => {
         this.showCalendar = !this.showCalendar
@@ -99,7 +95,7 @@ export default class DateRange extends Component {
                     placement='bottom'
                     rootClose
                     shouldUpdatePosition
-                    target={this.target}
+                    target={this.refs.target}
                     container={container} >
                     <Callout placement='Bottom'>
                         <DayPicker selectedDays={this.selectedDays} numberOfMonths={2} onDayClick={this.handleDayClick} />

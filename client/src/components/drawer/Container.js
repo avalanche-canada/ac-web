@@ -31,16 +31,10 @@ function handleContainerClick(event) {
 function handleClose(id, event) {
     event.preventDefault()
 
-    if (!id) {
-        this.onClose()
+    if (id === this.root.id) {
+        this.onClose(id)
     } else {
-        const node = findNode(this.root, id)
-
-        if (node === this.root) {
-            this.onClose()
-        } else {
-            this.setNode(getParent(this.root, id))
-        }
+        this.setNode(getParent(this.root, id))
     }
 }
 function handleCloseChildren(id, event) {
@@ -63,16 +57,6 @@ function createDrawer({id, children, ...drawer}) {
             }))
         }
     }
-}
-
-function itemCreator({id, to, label}) {
-    return (
-        <Item>
-            <Link to={to} onClick={handleClick.bind(this, id)}>
-                {label}
-            </Link>
-        </Item>
-    )
 }
 
 function getStyle({x}) {

@@ -39,7 +39,7 @@ export default class Pagination extends PureComponent {
                 isActive: active === page,
             })
         } else {
-            return <Disabled>…</Disabled>
+            return <Disabled key={index}>…</Disabled>
         }
     }
     render() {

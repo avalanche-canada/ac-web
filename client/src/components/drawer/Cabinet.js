@@ -20,7 +20,7 @@ function willLeave() {
     }
 }
 function getStyles(drawers) {
-    return drawers.map((drawer, index) => ({
+    return drawers.map(drawer => ({
         ...drawer,
         style: {
             x: spring(0, preset),
@@ -28,7 +28,7 @@ function getStyles(drawers) {
     }))
 }
 function getDefaultStyles(drawers) {
-    return drawers.map((drawer, index) => ({
+    return drawers.map(drawer => ({
         ...drawer,
         style: {
             x: 0,
@@ -65,13 +65,14 @@ function Cabinet({drawers = []}) {
     }
 
     return (
-        <TransitionMotion {...motion} >
+        <TransitionMotion {...motion}>
             {configs => (
             <section>
                 {configs.map(({key, style, data}) => (
                     <Drawer
                         key={key}
-                        style={getContainerStyle(style)} {...data} />
+                        style={getContainerStyle(style)}
+                        {...data} />
                 ))}
             </section>
             )}
