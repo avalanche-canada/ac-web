@@ -6,6 +6,8 @@ import {Api as Prismic, Predicates} from 'prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
 
+const {toQuery} = Predicates
+
 function convertParams(params = {}) {
     const {type, uid, id, options = {}, predicates = []} = params
     let predicate
@@ -19,10 +21,10 @@ function convertParams(params = {}) {
     }
 
     if (predicate) {
-        const query = Predicates.toQuery(predicate)
+        const query = toQuery(predicate)
 
         // To make sure we do not two identical predicate
-        if (!predicates.find(predicate => Predicates.toQuery(predicate) === query)) {
+        if (predicates.every(predicate => toQuery(predicate) !== query)) {
             predicates.push(predicate)
         }
     }
@@ -37,7 +39,7 @@ export function paramsToKey(params) {
     const {predicates, options} = convertParams(params)
 
     return Immutable.fromJS({
-        predicates: predicates.map(Predicates.toQuery),
+        predicates: predicates.map(toQuery),
         options,
     }).hashCode()
 }

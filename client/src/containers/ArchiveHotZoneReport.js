@@ -63,7 +63,7 @@ function Component({
                     <HotZoneReportMetadata report={report} />
                     {report ?
                         <HotZoneReport report={report} /> :
-                        (title && date) && 
+                        (title && date) &&
                         <Muted>
                             No report available in {title} for <DateElement value={date} />.
                         </Muted>
@@ -79,7 +79,6 @@ export default compose(
     archiveHotZoneReport,
     withHandlers({
         onNameChange: props => name => {
-            props.load({name})
             props.onParamsChange({
                 ...props.params,
                 name,

@@ -154,7 +154,7 @@ export const archiveHotZoneReport = compose(
         dateRanges: getHotZoneReportDateRanges,
         data: getArchiveHotZoneReport,
     }), {
-        load: PrismicActions.loadHotZoneReport,
+        load: PrismicActions.load,
         loadAll: EntitiesActions.loadFeaturesMetadata,
     }),
     withHandlers({
@@ -172,30 +172,33 @@ export const archiveHotZoneReport = compose(
 
             props.router.push(paths.join('/'))
         },
-        loadHotZoneReport: props => () => {
-            const {name, date} = props.params
+        loadHotZoneReportsForRegion: props => region => {
+            const type = 'hotzone-report'
 
-            if (name && date) {
-                props.load(props.params)
-            }
+            props.load({
+                type,
+                predicates: [
+                    Predicates.at(`my.${type}.region`, region)
+                ],
+                options: {
+                    pageSize: 250,
+                }
+            })
         },
     }),
     lifecycle({
         componentDidMount() {
-            const {name} = this.props.params
-
-            this.props.loadHotZoneReport()
             this.props.loadAll()
 
+            const {name} = this.props.params
+
             if (name) {
-                this.props.load({name})
+                this.props.loadHotZoneReportsForRegion(name)
             }
         },
-        componentWillReceiveProps({params: {name, date}}) {
-            const {params} = this.props
-
-            if (name !== params.name || date !== params.date) {
-                this.props.loadHotZoneReport()
+        componentWillReceiveProps({params: {name}}) {
+            if (name && name !== this.props.params.name) {
+                this.props.loadHotZoneReportsForRegion(name)
             }
         },
     }),
@@ -434,10 +437,12 @@ export const feedSplash = compose(
 )
 
 function createWeatherForecastParams(date) {
+    const type = 'weather-forecast'
+
     return {
-        type: 'weather-forecast',
+        type,
         predicates: [
-            Predicates.at('my.weather-forecast.date', format(date, 'YYYY-MM-DD'))
+            Predicates.at(`my.${type}.date`, format(date, 'YYYY-MM-DD'))
         ]
     }
 }
