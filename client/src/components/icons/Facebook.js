@@ -1,8 +1,6 @@
 import React from 'react'
 import Icon from './Icon'
 
-// TODO: To finish
-
 export default function Facebook({ inverse = false, ...props }) {
 	return (
 		<Icon viewBox='0 0 266.893 266.895' {...props}>
