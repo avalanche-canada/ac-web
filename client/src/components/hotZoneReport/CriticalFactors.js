@@ -48,12 +48,12 @@ function createDescriptions(values = []) {
         const value = VALUES.get(values[key])
         const style = STYLES.get(value)
         const term = (
-            <Term style={style}>
+            <Term key={`term-${key}`} style={style}>
                 {TERMS.get(key)}
             </Term>
         )
         const definition = (
-            <Definition style={style}>
+            <Definition key={`definition-${key}`} style={style}>
                 {value}
             </Definition>
         )

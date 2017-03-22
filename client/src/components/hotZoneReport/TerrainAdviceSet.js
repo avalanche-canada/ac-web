@@ -45,11 +45,11 @@ function TerrainAdviceSet({report}) {
                 comments.push(report[`${key}Comment`])
 
                 return (
-                    <div styleName='Advice--Section'>
+                    <div key={key} styleName='Advice--Section'>
                         <Section title={Headers.get(key)}>
                             <ul styleName='AdviceSet'>
-                                {items.map(item =>
-                                    <li styleName='Advice'>
+                                {items.map((item, index) =>
+                                    <li key={index} styleName='Advice'>
                                         {item}
                                     </li>
                                 )}
