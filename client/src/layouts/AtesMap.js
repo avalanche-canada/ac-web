@@ -55,40 +55,13 @@ export default class AtesMap extends Component {
         url: null,
         coordinates: null,
     }
-    bounds = null
-    size = null
-    setSize(map) {
+    handler = event => {
+        this.update(event.target)
+    }
+    update(map) {
+        const bounds = map.getBounds()
         const {offsetWidth, offsetHeight} = map.getContainer()
-
-        this.size = [offsetWidth, offsetHeight]
-
-        return this
-    }
-    setBounds(map) {
-        this.bounds = map.getBounds()
-
-        return this
-    }
-    handleResize = event => {
-        this.setSize(event.target).update()
-    }
-    handleZoomend = event => {
-        this.setBounds(event.target).update()
-    }
-    handleMoveend = event => {
-        this.setBounds(event.target).update()
-    }
-    handleLoad = event => {
-        const map = event.target
-
-        this.setBounds(map).setSize(map).update()
-    }
-    update = () => {
-        const {bounds, size} = this
-
-        if (!size || !bounds) {
-            return
-        }
+        const size = [offsetWidth, offsetHeight]
 
         this.setState({
             url: computeUrl(bounds, size),
@@ -105,7 +78,7 @@ export default class AtesMap extends Component {
                         <Generic uid='ates-map-disclaimer' />
                     </Alert>
                 </div>
-                <Map zoom={zoom} center={center} style='default' onResize={this.handleResize} onZoomend={this.handleZoomend} onMoveend={this.handleMoveend} onLoad={this.handleLoad}>
+                <Map zoom={zoom} center={center} style='default' onResize={this.handler} onZoomend={this.handler} onMoveend={this.handler} onLoad={this.handler}>
                     <NavigationControl />
                     <Source id='ATES' type='image' url={url} coordinates={coordinates} />
                     <Layer id='ATES' source='ATES' type='raster' before='place-residential' />
