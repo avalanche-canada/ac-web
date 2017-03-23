@@ -26,7 +26,7 @@ export default compose(
             top: 90,
             left: 15,
             backgroundColor: 'white',
-            zIndex: 2,
+            zIndex: 13,
         }
     })),
     neverUpdate,
