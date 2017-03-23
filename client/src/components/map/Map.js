@@ -53,6 +53,7 @@ const EVENTS = new Map([
     ['onDrag', 'drag'],
     ['onDragend', 'dragend'],
     ['onPitch', 'pitch'],
+    ['onResize', 'resize'],
 ])
 
 export default class MapComponent extends Component {
