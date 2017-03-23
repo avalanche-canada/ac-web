@@ -3,6 +3,7 @@ import Feed from './Feed'
 
 export Ast from './Ast'
 export Map from './Map'
+export AtesMap from './AtesMap'
 export Root from './Root'
 export Weather from './Weather'
 
