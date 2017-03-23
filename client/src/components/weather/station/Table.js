@@ -17,14 +17,14 @@ StationTable.propTypes = {
 function renderRow({property, name, ...props}, index) {
     if (index === 0) {
         return (
-            <HeaderCell>
+            <HeaderCell key={name}>
                 {typeof property === 'function' ? property(this) : this[property]}
             </HeaderCell>
         )
     }
 
     return (
-        <Cell key={index} {...props}>
+        <Cell key={name} {...props}>
             {typeof property === 'function' ? property(this) : this[property]}
         </Cell>
     )
@@ -40,21 +40,21 @@ function StationTable({columns, measurements, headers, caption}) {
             <div styleName='Content'>
                 <Table condensed>
                     <Header>
-                        {headers.map(headers => (
-                        <Row>
+                        {headers.map((headers, index) => (
+                        <Row key={index}>
                             <HeaderCell></HeaderCell>
-                            {headers.map(({title, name, property, ...header}, index) => (
-                                <HeaderCell key={index}  {...header}>
+                            {headers.map(({title, name, property, ...header}) => (
+                                <HeaderCell key={name}  {...header}>
                                 {typeof title === 'function' ? title() : title}
                                 </HeaderCell>
                             ))}
                         </Row>
                         ))}
                     </Header>
-                    {bodies.map((measurements, title) => (
-                        <TBody title={title} featured>
-                        {measurements.map(measurement => (
-                            <Row key={measurement.id}>
+                    {bodies.entrySeq().map(([title, measurements]) => (
+                        <TBody key={title} title={title} featured>
+                        {measurements.map((measurement, index) => (
+                            <Row key={index}>
                                 {columns.map(renderRow, measurement)}
                             </Row>
                         ))}
