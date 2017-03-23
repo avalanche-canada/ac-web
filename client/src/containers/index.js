@@ -66,6 +66,6 @@ export const Auction = defaultProps({
 export const Tutoriel = defaultProps({
     name: 'Tutorial / Tutoriel',
     oldUrl: 'http://old.avalanche.ca/fr/cac/training/online-course',
-    title: `${WorkInProgress.defaultProps.title}<br />Nous travaillons présentement sur cette page en regardant les flocons tombés...`,
+    title: `${WorkInProgress.defaultProps.title}<br />Nous travaillons présentement sur cette page...`,
     subtitle: `${WorkInProgress.defaultProps.subtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`,
 })(WorkInProgress)
