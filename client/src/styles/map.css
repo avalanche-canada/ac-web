@@ -12,10 +12,6 @@
     user-select: none;
 }
 
-:global(.mapboxgl-ctrl-group > .mapboxgl-ctrl-compass) {
-    display: none;
-}
-
 :global(.mapboxgl-control-container > .mapboxgl-ctrl-bottom-left > .mapboxgl-ctrl) {
     margin: 0 0 0 5px;
 }

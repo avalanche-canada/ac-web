@@ -9,6 +9,9 @@ import {Generic} from 'prismic/components'
 import styles from './AtesMap.css'
 import throttle from 'lodash/throttle'
 
+const zoom = 5.1
+const center = [-122, 53]
+
 function computeCoordinates(bounds) {
     const west = bounds.getWest()
     const south = bounds.getSouth()
@@ -87,15 +90,9 @@ export default class AtesMap extends Component {
             return
         }
 
-        const url = computeUrl(bounds, size)
-
-        loadImage(url).then(event => {
-            const {src} = event.currentTarget
-
-            this.setState({
-                url: src,
-                coordinates: computeCoordinates(bounds),
-            })
+        this.setState({
+            url: computeUrl(bounds, size),
+            coordinates: computeCoordinates(bounds),
         })
     }
     render() {
@@ -108,7 +105,7 @@ export default class AtesMap extends Component {
                         <Generic uid='ates-map-disclaimer' />
                     </Alert>
                 </div>
-                <Map style='default' onResize={this.handleResize} onZoomend={this.handleZoomend} onMoveend={this.handleMoveend} onLoad={this.handleLoad}>
+                <Map zoom={zoom} center={center} style='default' onResize={this.handleResize} onZoomend={this.handleZoomend} onMoveend={this.handleMoveend} onLoad={this.handleLoad}>
                     <NavigationControl />
                     <Source id='ATES' type='image' url={url} coordinates={coordinates} />
                     <Layer id='ATES' source='ATES' type='raster' before='place-residential' />
