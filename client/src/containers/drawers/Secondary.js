@@ -31,7 +31,9 @@ export default compose(
     connect(getSecondary),
     withHandlers({
         onCloseClick: props => event => {
-            const {panel, ...query} = props.location.query
+            const {query} = props.location
+
+            delete query.panel
 
             push({query}, props)
         }
