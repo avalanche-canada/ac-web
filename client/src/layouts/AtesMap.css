@@ -14,7 +14,14 @@
     position: absolute 0 1em auto 1em;
     z-index: 10;
     & p {
-        margin: 0;
         font-size: 0.85em;
+
+        &:first-child {
+            margin-top: 0;
+        }
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 }

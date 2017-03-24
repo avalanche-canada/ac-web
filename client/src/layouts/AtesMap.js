@@ -1,16 +1,14 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import CSSModules from 'react-css-modules'
-import {Canadian} from 'constants/map/bounds'
 import {Map, Source, Layer, NavigationControl} from 'components/map'
 import Url from 'url'
-import {loadImage} from 'utils/promise'
 import Alert, {WARNING} from 'components/alert'
 import {Generic} from 'prismic/components'
 import styles from './AtesMap.css'
-import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 
-const zoom = 5.1
-const center = [-122, 53]
+const ZOOM = 5.1
+const CENTER = [-122, 53]
 
 function computeCoordinates(bounds) {
     const west = bounds.getWest()
@@ -50,15 +48,15 @@ function computeUrl(bounds, size) {
 }
 
 @CSSModules(styles)
-export default class AtesMap extends Component {
+export default class AtesMap extends PureComponent {
     state = {
         url: null,
         coordinates: null,
     }
-    handler = event => {
+    updateHandler = event => {
         this.update(event.target)
     }
-    update(map) {
+    update = map => {
         const bounds = map.getBounds()
         const {offsetWidth, offsetHeight} = map.getContainer()
         const size = [offsetWidth, offsetHeight]
@@ -78,7 +76,7 @@ export default class AtesMap extends Component {
                         <Generic uid='ates-map-disclaimer' />
                     </Alert>
                 </div>
-                <Map zoom={zoom} center={center} style='default' onResize={this.handler} onZoomend={this.handler} onMoveend={this.handler} onLoad={this.handler}>
+                <Map zoom={ZOOM} center={CENTER} style='default' onResize={this.updateHandler} onZoomend={this.updateHandler} onLoad={this.updateHandler}>
                     <NavigationControl />
                     <Source id='ATES' type='image' url={url} coordinates={coordinates} />
                     <Layer id='ATES' source='ATES' type='raster' before='place-residential' />
