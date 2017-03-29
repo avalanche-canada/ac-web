@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PureComponent, PropTypes} from 'react'
 
-export default class Source extends Component {
+export default class Source extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf(['vector', 'raster', 'geojson', 'image', 'video']),
@@ -20,13 +20,10 @@ export default class Source extends Component {
     get map() {
         return this.context.map
     }
-    get id() {
-        return this.props.id
-    }
     remove() {
-        this.map.removeSource(this.id)
+        this.map.removeSource(this.props.id)
     }
-    componentDidMount() {
+    update() {
         const {map, props} = this
         const {id, ...source} = props
 
@@ -36,24 +33,14 @@ export default class Source extends Component {
 
         map.addSource(id, source)
     }
+    componentDidMount() {
+        this.update()
+    }
     componentWillUnmount() {
         this.remove()
     }
-    componentWillReceiveProps(nextProps) {
-        const {type, data, id} = nextProps
-
-        if (type === 'geojson') {
-            if (data.features !== this.props.data.features) {
-                const source = this.map.getSource(id)
-
-                if (source) {
-                    source.setData(data)
-                }
-            }
-        }
-    }
-    shouldComponentUpdate() {
-        return false
+    componentWillReceiveProps() {
+        this.update()
     }
     render() {
         return null
