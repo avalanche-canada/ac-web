@@ -4,6 +4,8 @@ import {formatHours, formatForUnit, scatterEvents} from '../utils'
 import theme from './theme'
 import format from 'date-fns/format'
 import {setUTCOffset} from 'utils/date'
+import {filterDataset, shouldShowGraph} from './filters'
+import isFinite from 'lodash/isFinite'
 
 const STYLE = {
     avg: {
@@ -59,7 +61,7 @@ const STYLE = {
 }
 
 function computeDomain(data) {
-    const numbers = data.map(m => m.airTempAvg)
+    const numbers = data.map(m => m.airTempAvg).filter(isFinite)
     const min = Math.min(...numbers)
     const max = Math.max(...numbers)
 
@@ -75,10 +77,15 @@ function dy({y}) {
 }
 
 export default function Temperature({data, min, max, width, height}) {
-    const container = <VictoryContainer 
-        title='Air temperature' 
+    if (!shouldShowGraph(data, 'airTempAvg')) {
+        return null
+    }
+
+    const container = <VictoryContainer
+        title='Air temperature'
         desc={`Air temperature in degree Celcius (°C) every hour from ${min} to ${max}.`}
     />
+    const airTempAvg = filterDataset(data, 'airTempAvg')
     const domain = computeDomain(data)
 
     return (
@@ -87,8 +94,8 @@ export default function Temperature({data, min, max, width, height}) {
             <VictoryChart width={width} height={height} theme={theme} domainPadding={{x: 25}} >
                 <VictoryAxis scale='time' tickFormat={formatHours} orientation='bottom' offsetY={50} />
                 <VictoryAxis dependentAxis scale='linear' crossAxis={false} scale='linear' domain={domain} label='Temperature (°C)' style={STYLE.dependentAxis(domain)} />
-                <VictoryLine data={data} x='measurementDateTime' y='airTempAvg' style={STYLE.avg.line} />
-                <VictoryScatter data={data} x='measurementDateTime' y='airTempAvg' labels={getLabels} labelComponent={<VictoryTooltip dy={dy} />} events={scatterEvents} style={STYLE.avg.scatter} />
+                <VictoryLine data={airTempAvg} x='measurementDateTime' y='airTempAvg' style={STYLE.avg.line} />
+                <VictoryScatter data={airTempAvg} x='measurementDateTime' y='airTempAvg' labels={getLabels} labelComponent={<VictoryTooltip dy={dy} />} events={scatterEvents} style={STYLE.avg.scatter} />
             </VictoryChart>
         </div>
     )

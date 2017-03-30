@@ -53,11 +53,11 @@ export default function RelativeHumidity({data, min, max, width, height}) {
     const container = <VictoryContainer title='Relative humidity' desc={`Relative humidity (%) every hour from ${min} to ${max}.`} />
 
 
-    if(!shouldShowGraph(data,'relativeHumidity')){
+    if(!shouldShowGraph(data, 'relativeHumidity')){
         return null
     }
 
-    const humidData  = filterDataset(data, 'measurementDateTime', 'relativeHumidity')
+    const humidData  = filterDataset(data, 'relativeHumidity')
 
     return (<div>
         <h2>Relative Humidity</h2>
