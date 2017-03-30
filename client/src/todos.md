@@ -7,11 +7,7 @@
 
 # Prismic
 
-[] - Remove bookmarks from Static Pages
 [] - Make sure sponsor has a title. See proptypes for sponsor
-
-# Server
-[] - Remove http://avalanche.ca/assets/images/weather/*
 
 # Map
 [] - Remove toJSON in selectors. Have to look at mergeDeep > have to keep plain objects.
