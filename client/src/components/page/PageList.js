@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import Page from './Page'
@@ -9,25 +9,33 @@ import Headline from './Headline'
 import Section from './Section'
 import {Loading} from 'components/misc'
 import styles from './Page.css'
-import mapbox from 'services/mapbox/map'
 
-function Forecasts({forecastRegions}) {
+PageList.propTypes = {
+    title: PropTypes.string.isRequired,
+    headline: PropTypes.string.isRequired,
+    myProp: PropTypes.arrayOf(PropTypes.shape({
+        link: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    })),
+}
+
+function PageList({title, headline, items}) {
     return (
-        <Page styleName='Forecasts'>
-            <Header title='Forecast regions' />
+        <Page styleName='PageList'>
+            <Header title={title} />
             <Content>
                 <Main>
                     <Section>
                         <Headline>
-                            Click on a link below to read the avalanche bulletin.
+                            {headline}
                         </Headline>
-                        {forecastRegions.isEmpty() ?
+                        {items.isEmpty() ?
                             <Loading /> :
                             <ul>
-                            {forecastRegions.map(region => (
-                                <li key={region.get('id')}>
-                                    <Link to={`forecasts/${region.get('id')}`}>
-                                        {region.get('name')}
+                            {items.map((item, index) => (
+                                <li key={index}>
+                                    <Link to={item.link}>
+                                        {item.name}
                                     </Link>
                                 </li>
                             ))}
@@ -40,4 +48,4 @@ function Forecasts({forecastRegions}) {
     )
 }
 
-export default CSSModules(Forecasts, styles)
+export default CSSModules(PageList, styles)

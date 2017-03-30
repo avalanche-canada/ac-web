@@ -53,6 +53,7 @@ import {
     CherryBowl,
     Tech,
     WeatherStation,
+    WeatherStationList,
     EarlySeasonConditions,
 } from 'containers'
 import {Forecast as WeatherForecast} from 'containers/Weather'
@@ -297,6 +298,7 @@ export default function computeRoutes(store) {
             <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
             {/* WEATHER */}
             <Route path='weather/stations/:id' component={WeatherStation} />
+            <Route path='weather/stations' component={WeatherStationList} />
             <Route path='weather' sponsorRef='Weather' component={Layouts.Weather}>
                 <IndexRedirect to='forecast' />
                 <Route path='forecast(/:date)' component={WeatherForecast} />
