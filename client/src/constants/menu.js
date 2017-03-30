@@ -29,6 +29,11 @@ const TripPlanner = {
     label: 'Trip Planner',
     to: '/trip-planner'
 }
+const AtesMap = {
+    id: String(id++),
+    label: 'Beta ATES Map',
+    to: '/map/ates'
+}
 const Forecasts = {
     id: String(id++),
     label: 'Forecast Regions',
@@ -89,7 +94,8 @@ const Planning = {
         ForecasterBlog,
         Gear,
         TripPlanner,
-        Forecasts
+        Forecasts,
+        AtesMap,
     ]
 }
 
