@@ -10,11 +10,11 @@ const mapStateToProps = createSelector(
     state => getEntitiesForSchema(state, WeatherStation),
     stations => ({
         items: stations.sortBy(
-            entity => entity.get('name')
+            station => station.get('name')
         ).map(
-            entity => ({
-                link: `/weather/stations/${entity.get('stationId')}`,
-                name: entity.get('name'),
+            station => ({
+                link: `/weather/stations/${station.get('stationId')}`,
+                name: station.get('name'),
             })
         ).toList(),
     })
