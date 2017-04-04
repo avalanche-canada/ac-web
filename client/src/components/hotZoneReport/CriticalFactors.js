@@ -43,22 +43,24 @@ const STYLES = new Map([
 ])
 
 const truthPropType = PropTypes.oneOf([true, false, null])
-function createDescriptions(values = []) {
+function createDescriptions(values) {
     return Object.keys(values).reduce((children, key) => {
         const value = VALUES.get(values[key])
         const style = STYLES.get(value)
-        const term = (
-            <Term key={`term-${key}`} style={style}>
+
+        children.push(
+            <Term key={`term-${key}`} styleName='CriticalFactors--Term' style={style}>
                 {TERMS.get(key)}
             </Term>
         )
-        const definition = (
-            <Definition key={`definition-${key}`} style={style}>
+        
+        children.push(
+            <Definition key={`definition-${key}`} styleName='CriticalFactors--Definition' style={style}>
                 {value}
             </Definition>
         )
 
-        return children.concat(term, definition)
+        return children
     }, [])
 }
 
@@ -90,17 +92,15 @@ function CriticalFactors({report}) {
                     Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
                 </strong>
             </p>
-            <div styleName='CriticalFactors'>
-                <List>
-                    {createDescriptions(values)}
-                </List>
-                <Comment title='Information to collect while traveling'>
-                    {questions}
-                </Comment>
-                <Comment>
-                    {comments}
-                </Comment>
-            </div>
+            <List>
+                {createDescriptions(values)}
+            </List>
+            <Comment title='Information to collect while traveling'>
+                {questions}
+            </Comment>
+            <Comment>
+                {comments}
+            </Comment>
         </Panel>
 
     )

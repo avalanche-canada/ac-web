@@ -55,14 +55,12 @@
     }
 }
 
-.CriticalFactors {
-    & dt {
-        flex: 75% !important;
-    }
-    & dd {
-        flex: 25% !important;
-        text-align: right;
-    }
+.CriticalFactors--Term {
+    flex: 75% !important;
+}
+.CriticalFactors--Definition {
+    flex: 25% !important;
+    text-align: right;
 }
 
 .AdviceSet {
