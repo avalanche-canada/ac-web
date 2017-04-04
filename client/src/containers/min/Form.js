@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import t from 'services/tcomb-form'
+import t from 'vendor/tcomb-form'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import CSSModules from 'react-css-modules'
