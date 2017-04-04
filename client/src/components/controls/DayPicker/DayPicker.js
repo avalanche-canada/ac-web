@@ -1,7 +1,4 @@
 import React, {PropTypes, Component} from 'react'
-import {findDOMNode} from 'react-dom'
-import isAfter from 'date-fns/is_after'
-import endOfDay from 'date-fns/end_of_day'
 import CSSModules from 'react-css-modules'
 import {DateUtils, DayPicker as Base} from 'components/misc'
 import Callout, {BOTTOM} from 'components/callout'
@@ -24,7 +21,9 @@ export default class DayPicker extends Component {
     static defaultProps = {
         date: new Date(),
         onChange: noop,
-        disabledDays: day => isAfter(day, endOfDay(new Date())),
+        disabledDays: {
+            after: new Date()
+        },
     }
     state = {
         isCalendarVisible: false,
@@ -38,13 +37,13 @@ export default class DayPicker extends Component {
     showCalendar = () => {
         this.isCalendarVisible = true
     }
-    handleDayClick = (event, date, modifiers) => {
+    handleDayClick = (day, modifiers, event) => {
         if (modifiers.disabled) {
             return
         }
 
         this.isCalendarVisible = false
-        this.props.onChange(date)
+        this.props.onChange(day)
     }
     render() {
         const {date, disabledDays, children, container = this} = this.props
@@ -69,7 +68,7 @@ export default class DayPicker extends Component {
                     <Callout placement={BOTTOM}>
                         <Base
                             initialMonth={date || undefined}
-                            selectedDays={day => isSameDay(day, date)}
+                            selectedDays={date}
                             disabledDays={disabledDays}
                             onDayClick={this.handleDayClick} />
                     </Callout>

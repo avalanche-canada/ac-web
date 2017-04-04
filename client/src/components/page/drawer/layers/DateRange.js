@@ -30,8 +30,6 @@ function DateRange({onChange = noop, focus, setFocus, ...range}) {
         const range = DateUtils.addDayToRange(day, {from, to})
 
         onChange(range)
-
-        // setFocus(null)
     }
 
     const {from, to} = range
@@ -43,7 +41,7 @@ function DateRange({onChange = noop, focus, setFocus, ...range}) {
                 <Input type='text' placeholder='End date' name='to' value={to} onChange={handleInputChange} onFocus={handleFocus} />
             </div>
             {focus &&
-                <DayPicker selectedDays={day => DateUtils.isDayInRange(day, range)} onDayClick={handleDayClick} />
+                <DayPicker selectedDays={range} onDayClick={handleDayClick} />
             }
         </div>
     )

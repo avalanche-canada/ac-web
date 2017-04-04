@@ -50,10 +50,7 @@ export default class DateRange extends Component {
     hideCalendar = () => {
         this.showCalendar = false
     }
-    selectedDays = day => {
-        return DateUtils.isDayInRange(day, this.state)
-    }
-    handleDayClick = (event, day) => {
+    handleDayClick = (day, modifiers, event) => {
         const range= DateUtils.addDayToRange(day, this.state)
 
         this.onChange(range)
@@ -98,7 +95,7 @@ export default class DateRange extends Component {
                     target={this.refs.target}
                     container={container} >
                     <Callout placement='Bottom'>
-                        <DayPicker selectedDays={this.selectedDays} numberOfMonths={2} onDayClick={this.handleDayClick} />
+                        <DayPicker selectedDays={this.state} numberOfMonths={2} onDayClick={this.handleDayClick} />
                     </Callout>
                 </Overlay>
             </div>

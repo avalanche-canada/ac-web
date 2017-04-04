@@ -46,7 +46,7 @@ export const pickers = {
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
-                    selected: date => DateUtils.isSameDay(value, date)
+                    selected: value,
                 },
                 onDayClick: onSelect,
                 value,
@@ -104,7 +104,7 @@ export const pickers = {
 
                 return false
             }
-            function onDayClick(event, day) {
+            function onDayClick(day, modifiers, event) {
                 day.setHours(value.getHours())
                 day.setMinutes(value.getMinutes())
 
@@ -113,7 +113,7 @@ export const pickers = {
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
-                    selected: date => DateUtils.isSameDay(value, date)
+                    selected: value
                 },
                 onDayClick,
                 value,
