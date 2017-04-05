@@ -7,15 +7,7 @@ import {computeRouter} from 'router'
 import {configure, serializeFactory, deserialize} from 'store'
 import configureRaven from 'services/raven'
 import throttle from 'lodash/throttle'
-
-// TODO: Need to put these imports in a better spot
-// There should be a vendor.css
-import 'normalize.css'
-import 'react-image-gallery/styles/css/image-gallery.css'
-
-import 'styles/scaffolding.css'
-import 'styles/prismic.css'
-import 'styles/map.css'
+import 'styles/index.css'
 
 configureRaven()
 
