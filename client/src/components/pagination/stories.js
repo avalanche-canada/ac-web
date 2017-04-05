@@ -20,6 +20,6 @@ const options = {
 stories.addWithInfo('Pagination', () => (
     <Pagination total={number('Total', 10, options)} onSelect={action('onSelect')} />
 ))
-stories.add('Controlled', () => (
+stories.addWithInfo('Controlled', () => (
     <Controlled total={10} active={4} />
 ))

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes, Children} from 'react'
 import CSSModules from 'react-css-modules'
 import classNames from 'classnames'
+import Tab from './Tab'
 import Panel from './Panel'
 import Header from './Header'
 import styles from './Tab.css'
@@ -13,8 +14,8 @@ function toArray(children) {
 	return Children.toArray(children).filter(Boolean)
 }
 
-function isEnabled({props}) {
-    return !props.disabled
+function isEnabled(tab) {
+    return !tab.props.disabled
 }
 
 function validateActiveIndex({activeIndex, children}) {
@@ -106,6 +107,7 @@ class TabList extends Component {
 
 export default class TabSet extends Component {
 	static propTypes = {
+        children: PropTypes.arrayOf(PropTypes.instanceOf(Tab)).isRequired,
 		activeIndex: PropTypes.number,
 		onActivate: PropTypes.func,
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
@@ -147,11 +149,9 @@ export default class TabSet extends Component {
 		this.props.onActivate(this.state.activeIndex)
 	}
 	componentWillReceiveProps(nextProps) {
-		if (typeof nextProps.activeIndex !== 'number') {
-			return
+		if (typeof nextProps.activeIndex === 'number') {
+            this.activeIndex = validateActiveIndex(nextProps)
 		}
-
-		this.activeIndex = validateActiveIndex(nextProps)
 	}
     handleExpandClick = event => {
         event.stopPropagation()
