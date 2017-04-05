@@ -1,10 +1,13 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import {Blockquote, Footer} from './index'
+import Blockquote from './Blockquote'
+import Footer from './Footer'
 
-storiesOf('Blockquote', module)
-.add('Blockquote', () => <Blockquote>Blockquote</Blockquote>)
-.add('Blockquote w/ footer', () => (
+const stories = storiesOf('Blockquote', module)
+
+stories.add('Blockquote', () => <Blockquote>Blockquote</Blockquote>)
+
+stories.add('Blockquote w/ footer', () => (
     <Blockquote>
         Blockquote
         <Footer>Karl Guillotte</Footer>
