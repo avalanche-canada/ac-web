@@ -31,12 +31,12 @@ module.exports = {
             path.resolve('./node_modules')
         ],
         alias: {
+            mapbox: 'mapbox-gl/dist/mapbox-gl',
             constants: 'constants',
             styles: 'styles',
             components: 'components',
             compose: 'compose',
             containers: 'containers',
-            mapbox: 'mapbox',
             prismic: 'prismic',
             reducers: 'reducers',
             router: 'router',

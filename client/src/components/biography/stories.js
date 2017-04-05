@@ -12,7 +12,7 @@ const Karl = {
 }
 
 storiesOf('Biography', module)
-.add('Biography', () => (
+.addWithInfo('Biography', () => (
     <Biography {...Karl} >
         His biography.
     </Biography>

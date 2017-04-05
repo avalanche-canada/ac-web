@@ -15,8 +15,6 @@ import Panel from 'components/panel'
 import Footer from './Footer'
 import Headline from './Headline'
 import Summary from './Summary'
-import DISCLAIMER from 'constants/forecast/disclaimer'
-import RSS from 'constants/forecast/rss'
 import RatingExplanation from 'components/forecast/RatingExplanation'
 import * as Modes from 'constants/forecast/mode'
 

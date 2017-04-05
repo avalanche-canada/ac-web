@@ -1,10 +1,25 @@
 import React from 'react'
 import {withState} from 'recompose'
 import {storiesOf, action} from '@kadira/storybook'
-import {Pagination, Left, Right, Center} from './index'
+import {withKnobs, number} from '@kadira/storybook-addon-knobs'
+import Pagination from './index'
 
 const Controlled = withState('active', 'onSelect', props => props.active || 0)(Pagination)
 
-storiesOf('Pagination', module)
-.add('Pagination #1', () => <Pagination pages={10} />)
-.add('Pagination #2', () => <Controlled pages={10} active={4} first previous next last />)
+const stories = storiesOf('Pagination', module)
+
+stories.addDecorator(withKnobs)
+
+const options = {
+   range: true,
+   min: 0,
+   max: 100,
+   step: 1,
+}
+
+stories.addWithInfo('Pagination', () => (
+    <Pagination total={number('Total', 10, options)} onSelect={action('onSelect')} />
+))
+stories.add('Controlled', () => (
+    <Controlled total={10} active={4} />
+))

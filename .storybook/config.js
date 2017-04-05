@@ -1,19 +1,14 @@
-import { configure } from '@kadira/storybook';
+import {configure, setAddon} from '@kadira/storybook'
+import infoAddon from '@kadira/react-storybook-addon-info'
 
-import 'normalize.css'
-import 'react-image-gallery/styles/css/image-gallery.css'
+import '../client/src/styles/index.css'
 
-import '../client/src/styles/scaffolding.css'
-import '../client/src/styles/prismic.css'
-import '../client/src/styles/auth0.css'
-import '../client/src/styles/map.css'
+const req = require.context('../client/src', true, /stories.js$/)
 
 function loadStories() {
-  require('../client/src/components/blockquote/stories')
-  require('../client/src/components/biography/stories')
-  require('../client/src/components/description/stories')
-  // require('../client/src/components/drawer/stories')
-  // require('../client/src/components/footer/stories')
+    req.keys().forEach(req)
 }
 
-configure(loadStories, module);
+setAddon(infoAddon)
+
+configure(loadStories, module)
