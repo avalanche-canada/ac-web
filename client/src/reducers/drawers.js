@@ -101,7 +101,7 @@ const MENU = new Map({
 })
 
 function setLayerVisibilityFactory(visible) {
-    return (state, {payload}) => {
+    return function setLayerVisibility(state, {payload}) {
         LAYERS_VISIBILITY.set(payload, visible)
 
         return state.setIn(['layers', payload, 'visible'], visible)
