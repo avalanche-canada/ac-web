@@ -38,7 +38,6 @@ module.exports = {
             containers: 'containers',
             mapbox: 'mapbox',
             prismic: 'prismic',
-            webworkify: 'webworkify-webpack',
             reducers: 'reducers',
             router: 'router',
             store: 'store',

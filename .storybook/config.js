@@ -1,14 +1,19 @@
-import { configure } from '@kadira/storybook'
+import { configure } from '@kadira/storybook';
 
-// TODO: Need to put these imports in a better spot
 import 'normalize.css'
+import 'react-image-gallery/styles/css/image-gallery.css'
+
 import '../client/src/styles/scaffolding.css'
 import '../client/src/styles/prismic.css'
-
-const req = require.context('../client/src', true, /stories.js$/)
+import '../client/src/styles/auth0.css'
+import '../client/src/styles/map.css'
 
 function loadStories() {
-    req.keys().forEach(req)
+  require('../client/src/components/blockquote/stories')
+  require('../client/src/components/biography/stories')
+  require('../client/src/components/description/stories')
+  // require('../client/src/components/drawer/stories')
+  // require('../client/src/components/footer/stories')
 }
 
-configure(loadStories, module)
+configure(loadStories, module);
