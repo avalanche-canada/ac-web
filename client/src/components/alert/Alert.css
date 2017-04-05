@@ -43,6 +43,10 @@ a[href] {
     composes: Alert;
 
     background-color: var(--warning);
+
+    &, & a[href] {
+        color: black;
+    }
 }
 
 .Success {
