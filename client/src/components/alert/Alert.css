@@ -9,9 +9,14 @@
     color: white;
     text-align: center;
     white-space: pre-wrap;
+
+    & a[href] {
+        color: white;
+        text-decoration: underline;
+    }
 }
 
-:global(a[href]) {
+a[href] {
     & > .Alert {
         &:after {
             content: "‹\203A";
@@ -26,10 +31,6 @@
     composes: Alert;
 
     background-color: var(--danger);
-
-    & a[href] {
-        color: white;
-    }
 }
 
 .Info {
@@ -42,7 +43,6 @@
     composes: Alert;
 
     background-color: var(--warning);
-    color: initial;
 }
 
 .Success {
