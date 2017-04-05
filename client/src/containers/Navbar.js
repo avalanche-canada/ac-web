@@ -6,7 +6,7 @@ import {getIsAuthenticated, getProfile} from 'getters/auth'
 import {login, logout} from 'actions/auth'
 
 function mapStateToProps(state) {
-    const {name, email, picture} = getProfile(state) || {}
+    const {name, picture} = getProfile(state) || {}
 
     return {
         isAuthenticated: getIsAuthenticated(state),
