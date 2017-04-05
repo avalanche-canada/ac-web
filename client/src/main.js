@@ -8,13 +8,7 @@ import {configure, serializeFactory, deserialize} from 'store'
 import configureRaven from 'services/raven'
 import throttle from 'lodash/throttle'
 
-import 'normalize.css'
-import 'react-image-gallery/styles/css/image-gallery.css'
-
-import 'styles/scaffolding.css'
-import 'styles/prismic.css'
-import 'styles/map.css'
-// import 'styles/index.css'
+import 'styles'
 
 configureRaven()
 
