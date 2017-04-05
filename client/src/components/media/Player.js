@@ -11,8 +11,6 @@ function MediaPlayer(props) {
                     <Player {...props} />
                 </div>
                 <div styleName="Controls">
-                    {/* <PlayPause isPlaying={isPlaying} onClick={playPause} /> */}
-                    {/* <Fullscreen /> */}
                 </div>
             </div>
         </Media>
