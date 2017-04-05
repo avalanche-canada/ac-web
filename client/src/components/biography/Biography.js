@@ -1,17 +1,15 @@
 import React, {PropTypes} from 'react'
-import {compose, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import styles from './Biography.css'
-import {Image} from '../media'
 import {Mailto, Phone, Avatar} from 'components/misc'
+import styles from './Biography.css'
 
 Biography.propTypes = {
     fullName: PropTypes.string.isRequired,
     email: PropTypes.string,
     title: PropTypes.string,
     avatar: PropTypes.string,
-    children: PropTypes.node,
     workPhoneNumber: PropTypes.string,
+    children: PropTypes.node,
 }
 
 function Biography({email, workPhoneNumber, children, fullName, title, avatar}) {
