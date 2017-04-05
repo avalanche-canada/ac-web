@@ -5,6 +5,7 @@ import Caption from './Caption'
 
 Media.propTypes = {
     caption: PropTypes.node,
+    children: PropTypes.node,
 }
 
 function Media({caption, children}) {
