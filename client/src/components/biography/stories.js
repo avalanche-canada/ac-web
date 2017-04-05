@@ -11,8 +11,9 @@ const Karl = {
     avatar: 'https://avatars1.githubusercontent.com/u/744011?v=3&s=60',
 }
 
-storiesOf('Biography', module)
-.addWithInfo('Biography', () => (
+const stories = storiesOf('Biography', module)
+
+stories.addWithInfo('Biography', () => (
     <Biography {...Karl} >
         His biography.
     </Biography>

@@ -17,9 +17,15 @@ const options = {
    step: 1,
 }
 
-stories.addWithInfo('Pagination', () => (
-    <Pagination total={number('Total', 10, options)} onSelect={action('onSelect')} />
-))
-stories.addWithInfo('Controlled', () => (
-    <Controlled total={10} active={4} />
-))
+stories.addWithInfo('Pagination', () => {
+    const total = number('Total pages', 10, options)
+    const handleSelect = action('onSelect')
+
+    return (
+        <Pagination total={total} onSelect={handleSelect} />
+    )
+})
+stories.addWithInfo('Controlled', () => {
+
+    return <Controlled total={10} active={4} />
+})
