@@ -30,7 +30,9 @@ function Ambassador({fullName, socials = [], banner, avatar, children, hash}) {
                 <div styleName='Avatar'>
                     <img src={avatar.src} />
                     <SocialSet>
-                        {socials.map(link => <SocialItem key={link} link={link} title={title} />)}
+                        {socials.map(link =>
+                            <SocialItem key={link} link={link} title={title} />
+                        )}
                     </SocialSet>
                 </div>
                 <div styleName='Content'>
