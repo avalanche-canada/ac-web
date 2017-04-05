@@ -1,5 +1,6 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
+import {withKnobs, number, select, boolean} from '@kadira/storybook-addon-knobs'
 import {TabSet, Tab, COMPACT, LOOSE} from './index'
 import {
     QUICK,
@@ -9,33 +10,32 @@ import {
     INCIDENT,
 } from 'components/icons/min/colors'
 
-function tabSet(props = {}) {
+const stories = storiesOf('Tab', module)
+
+stories.addDecorator(withKnobs)
+
+stories.addWithInfo('TabSet', () => {
+    const arrow = boolean('Arrow', true)
+    const stacked = boolean('Stacked', false)
+    const theme = select('Theme', [COMPACT, LOOSE], COMPACT)
+    const activeIndex = number('Active tab', 0)
+
     return (
-        <TabSet {...props}>
-            <Tab title='Header #1'>
+        <TabSet arrow={arrow} stacked={stacked} activeIndex={activeIndex} onActivate={action('activated')} theme={theme}>
+            <Tab arrow={arrow} title='Header #1'>
                 Tab content #1
             </Tab>
-            <Tab title='Header #2'>
+            <Tab arrow={arrow} title='Header #2'>
                 Tab content #2
             </Tab>
-            <Tab title='Header #3'>
+            <Tab arrow={arrow} title='Header #3'>
                 Tab content #3
             </Tab>
         </TabSet>
     )
-}
+})
 
-
-storiesOf('Tab', module)
-.add('TabSet', () => tabSet())
-.add('TabSet w/ 2nd tab active', () => tabSet({ activeIndex: 1 }))
-.add('TabSet controlled', () => tabSet({
-    onActivate: action('tab'),
-    activeIndex: 2
-}))
-.add('Compact TabSet', () => tabSet({theme: COMPACT}))
-.add('Loose TabSet', () => tabSet({theme: LOOSE}))
-.add('TabSet with colors', () => (
+stories.add('TabSet with colors', () => (
     <TabSet arrow>
         <Tab arrow title='Quick' color={QUICK}>
             Content for QUICK

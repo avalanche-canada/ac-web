@@ -8,4 +8,5 @@ storiesOf('Blockquote', module)
     <Blockquote>
         Blockquote
         <Footer>Karl Guillotte</Footer>
-    </Blockquote>))
+    </Blockquote>)
+)

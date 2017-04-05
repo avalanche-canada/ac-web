@@ -1,14 +1,14 @@
-import { configure } from '@kadira/storybook'
+import {configure, setAddon} from '@kadira/storybook'
+import infoAddon from '@kadira/react-storybook-addon-info'
 
-// TODO: Need to put these imports in a better spot
-import 'normalize.css'
-import '../client/src/styles/scaffolding.css'
-import '../client/src/styles/prismic.css'
+import '../client/src/styles/index.css'
 
 const req = require.context('../client/src', true, /stories.js$/)
 
 function loadStories() {
     req.keys().forEach(req)
 }
+
+setAddon(infoAddon)
 
 configure(loadStories, module)
