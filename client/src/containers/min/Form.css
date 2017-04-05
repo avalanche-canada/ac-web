@@ -89,7 +89,7 @@
             line-height: 38px;
             pointer-events: none;
             padding: 0 1em;
-            margin: 0 !important;
+            margin: 0;
             text-align: center;
             background-color: white;
             overflow: hidden;

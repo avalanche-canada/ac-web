@@ -85,12 +85,6 @@
         height: 1px;
         background-color: var(--gray-lightest);
     }
-
-    @media print {
-        & * {
-            height: auto !important;
-        }
-    }
 }
 
 .Container--Simple {

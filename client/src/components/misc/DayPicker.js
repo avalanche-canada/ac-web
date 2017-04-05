@@ -3,8 +3,7 @@ import {withProps} from 'recompose'
 import DayPicker, {WeekdayPropTypes, NavbarPropTypes} from 'react-day-picker'
 import {Previous, Next} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
-import 'react-day-picker/lib/style.css'
-import './DayPicker.css'
+import classNames from './DayPicker.css'
 
 Weekday.propTypes = WeekdayPropTypes
 
@@ -20,12 +19,21 @@ function Weekday({weekday, className, localeUtils, locale}) {
 
 Navbar.propTypes = NavbarPropTypes
 
-function Navbar({nextMonth, previousMonth, onPreviousClick, onNextClick, className, localeUtils}) {
+function Navbar({
+    showNextButton,
+    nextMonth,
+    showPreviousButton,
+    previousMonth,
+    onPreviousClick,
+    onNextClick,
+    className,
+    localeUtils
+}) {
     const months = localeUtils.getMonths()
     const previous = {
          kind: SUBTILE,
          title: months[previousMonth.getMonth()],
-         style: {float: 'left'},
+         className: classNames.navButtonPrev,
          icon: <Previous />,
          onClick: event => {
              event.preventDefault()
@@ -35,7 +43,7 @@ function Navbar({nextMonth, previousMonth, onPreviousClick, onNextClick, classNa
     const next = {
          kind: SUBTILE,
          title: months[nextMonth.getMonth()],
-         style: {float: 'right'},
+         className: classNames.navButtonNext,
          icon: <Next />,
          onClick: event => {
              event.preventDefault()
@@ -45,14 +53,15 @@ function Navbar({nextMonth, previousMonth, onPreviousClick, onNextClick, classNa
 
     return (
         <div className={className}>
-            <Button {...previous} />
-            <Button {...next} />
+            {showPreviousButton && <Button {...previous} />}
+            {showNextButton && <Button {...next} />}
         </div>
     )
 }
 
 
 export default withProps({
-    weekdayElement: <Weekday />,
-    navbarElement: <Navbar />,
+    weekdayElement: Weekday,
+    navbarElement: Navbar,
+    classNames,
 })(DayPicker)

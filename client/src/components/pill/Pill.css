@@ -29,6 +29,7 @@
     cursor: pointer;
 
     & a {
+        display: block;
         color: white;
     }
 

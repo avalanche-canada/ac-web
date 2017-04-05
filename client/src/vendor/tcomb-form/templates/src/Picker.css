@@ -6,9 +6,3 @@
 .Button {
     border-radius: 0 0 5px 5px;
 }
-
-.DateTime {
-    & :global(.DayPicker) {
-        padding-bottom: 0;
-    }
-}

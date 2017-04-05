@@ -15,14 +15,14 @@ import startOfToday from 'date-fns/start_of_today'
 import isBefore from 'date-fns/is_before'
 import Url from 'url'
 
-function handleDisabledDays(day) {
-    return isBefore(startOfToday(), day)
-}
 
 const AVCAN = 'avalanche-canada'
 const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
 const VANCOUVER_ISLAND = 'vancouver-island'
+const disabledDays = {
+    before: new Date()
+}
 
 function getWarningText(region) {
     const owner = region.get('owner')
@@ -114,7 +114,7 @@ function Component({
                             <Dropdown options={regionOptions} value={name} onChange={onNameChange} disabled placeholder='Select a region' />
                         </Entry>
                         <Entry>
-                            <DayPicker date={date} onChange={onDateChange} disabledDays={handleDisabledDays}>
+                            <DayPicker date={date} onChange={onDateChange} disabledDays={disabledDays}>
                                 {date ? <DateElement value={date} /> : 'Select a date'}
                             </DayPicker>
                         </Entry>

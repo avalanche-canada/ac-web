@@ -50,17 +50,9 @@ Object.assign(Body, {
     }
 })
 
-function renderCell({property, name, ...props}, index) {
-    // if (index === 0) {
-    //     return (
-    //         <HeaderCell {...props}>
-    //             {typeof property === 'function' ? property(this) : this[property]}
-    //         </HeaderCell>
-    //     )
-    // }
-
+function renderCell({property, name, style}) {
     return (
-        <Cell key={name} {...props}>
+        <Cell key={name} style={style}>
             {typeof property === 'function' ? property(this) : this[property]}
         </Cell>
     )
@@ -96,10 +88,10 @@ export default function Table({
                     ))}
                 </Row>
             </THead>
-            {bodies.map(({data, title, featured}) => (
-                <TBody title={title} featured={featured}>
-                {data.map(row => (
-                    <Row key={row.id}>
+            {bodies.map(({data, title, featured}, bIndex) => (
+                <TBody key={bIndex} title={title} featured={featured}>
+                {data.map((row, rIndex) => (
+                    <Row key={rIndex}>
                         {columns.map(renderCell, row)}
                     </Row>
                 ))}

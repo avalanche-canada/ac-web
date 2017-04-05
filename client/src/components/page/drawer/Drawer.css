@@ -54,17 +54,18 @@
         padding-top: 0;
     }
 
-    /* TODO: Super fragile selector, should be explicit. For the close button */
-    & > button {
-        color: var(--primary) !important;
-        position: relative;
-        right: 15px;
-    }
-
-    /* TODO: Super fragile selector, should be explicit. For the sponsor image */
+    /* TODO: Super fragile selector, should be explicit.
+        Like I did for the close button.
+        For the sponsor image */
     & img {
         transform: scale(0.65);
     }
+}
+
+.Button--Close {
+    color: var(--primary);
+    position: relative;
+    right: 15px;
 }
 
 .Header {

@@ -72,6 +72,7 @@ function computeDomain(data) {
     const max = Math.max(
         ...data.map(m => {
             const mm = Math.max(m.windSpeedAvg, m.windSpeedGust)
+
             return isNaN(mm) ? 0 : mm
         })
     )
@@ -81,24 +82,22 @@ function computeDomain(data) {
 
 
 export default function Wind({data, min, max, width, height}) {
-    const container = <VictoryContainer 
-        title='Wind speed and direction' 
-        desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`} 
+    const container = <VictoryContainer
+        title='Wind speed and direction'
+        desc={`Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from ${min} to ${max}.`}
     />
     const withCompass = width > 475
-
 
     const showAvg  = shouldShowGraph(data, 'windSpeedAvg')
     const showGust = shouldShowGraph(data, 'windSpeedGust')
 
-    const avgData  = filterDataset(data, 'measurementDateTime', 'windSpeedAvg')
-    const gustData = filterDataset(data, 'measurementDateTime', 'windSpeedGust')
-
-    const domain = computeDomain(data)
-
     if(!(showAvg || showGust)) {
         return null
     }
+
+    const avgData  = filterDataset(data, 'windSpeedAvg')
+    const gustData = filterDataset(data, 'windSpeedGust')
+    const domain = computeDomain(data)
 
     return (<div>
         <h2>Wind speed and direction</h2>

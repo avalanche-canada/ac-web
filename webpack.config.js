@@ -7,7 +7,6 @@ var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin
 var DefinePlugin = webpack.DefinePlugin
 var HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin
-var ContextReplacementPlugin = webpack.ContextReplacementPlugin
 
 module.exports = {
 	entry: {
@@ -96,13 +95,8 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/src/index.tpl.html'),
-            inject: 'body',
             filename: 'index.html',
         }),
         new HotModuleReplacementPlugin(),
-        new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
 	],
-    // stats: {
-    //     errorDetails: true
-    // }
 }

@@ -1,12 +1,14 @@
+import isNumber from 'lodash/isNumber'
+import isFinite from 'lodash/isFinite'
 
-export function shouldShowGraph(data, ...fields) {
-    const hasFielsd = fields.map(f => { 
-        return data.filter(d =>  d[f] !== undefined).length > 0
-    })
-    const yeses = hasFielsd.filter(x => x)
-    return yeses.length > 0 
+function isFiniteNumber(value) {
+    return isNumber(value) && isFinite(value)
 }
 
-export function filterDataset(data, xProp, yProp) {
-    return data.filter(d => d[xProp] !== undefined && d[yProp] !== undefined)
+export function shouldShowGraph(data, prop) {
+    return data.some(object => isFiniteNumber(object[prop]))
+}
+
+export function filterDataset(data, prop) {
+    return data.filter(object => isFiniteNumber(object[prop]))
 }

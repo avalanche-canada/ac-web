@@ -9,7 +9,6 @@ var UglifyJsPlugin           = webpack.optimize.UglifyJsPlugin
 var OccurrenceOrderPlugin    = webpack.optimize.OccurrenceOrderPlugin
 var DedupePlugin             = webpack.optimize.DedupePlugin
 var DefinePlugin             = webpack.DefinePlugin
-var ContextReplacementPlugin = webpack.ContextReplacementPlugin
 
 module.exports = {
 	entry: {
@@ -87,13 +86,11 @@ module.exports = {
 		new ExtractTextPlugin('style.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/src/index.tpl.html'),
-            inject: 'body',
             filename: 'index.html',
         }),
         new DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
         new UglifyJsPlugin(),
         new OccurrenceOrderPlugin(),
         new DedupePlugin(),

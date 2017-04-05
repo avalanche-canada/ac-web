@@ -7,6 +7,7 @@ import {setUTCOffset} from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import {filterDataset, shouldShowGraph} from './filters'
+import isFinite from 'lodash/isFinite'
 
 const PRIMARY_BLUE = 'rgb(150, 186, 233)'
 
@@ -115,13 +116,13 @@ function getSnowHeightLabels({x, y, utcOffset}) {
 }
 
 function computeSnowHeightDomain(data) {
-    const max = data.reduce((max, m) => Math.max(max, m.snowHeight), 0)
+    const max = data.map(m => m.snowHeight).filter(isFinite).reduce((max, m) => Math.max(max, m), 0)
 
     return [0, Math.max(Math.ceil(max / 100) * 100, 300)]
 }
 
 function computeNewSnowDomain(data) {
-    const max = data.reduce((max, m) => Math.max(max, m.newSnow), 0)
+    const max = data.map(m => m.newSnow).filter(isFinite).reduce((max, m) => Math.max(max, m), 0)
 
     return [0, Math.max(Math.ceil(max / 5) * 5, 10)]
 }
@@ -134,13 +135,16 @@ export default function SnowHeight({data, min, max, width, height}) {
     const newSnowDomain = computeNewSnowDomain(data)
     const domain = [min, max]
 
-    const newSnow    = filterDataset(data, 'measurementDateTime', 'newSnow')
-    const snowHeight = filterDataset(data, 'measurementDateTime', 'snowHeight')
-
     const showNewSnow    = shouldShowGraph(data, 'newSnow')
     const showSnowHeight = shouldShowGraph(data, 'snowHeight')
-    if (!showSnowHeight || !showNewSnow)
-        return null;
+
+    if (!showSnowHeight || !showNewSnow) {
+        return null
+    }
+
+    const newSnow    = filterDataset(data, 'newSnow')
+    const snowHeight = filterDataset(data, 'snowHeight')
+
     return (
         <div>
             <h2>Snow</h2>
@@ -190,7 +194,7 @@ export default function SnowHeight({data, min, max, width, height}) {
                         standalone={false}
                         width={width}
                         height={height}
-                        data={data}
+                        data={newSnow}
                         x='measurementDateTime'
                         y='newSnow'
                         domain={{
@@ -207,7 +211,7 @@ export default function SnowHeight({data, min, max, width, height}) {
                         standalone={false}
                         width={width}
                         height={height}
-                        data={data}
+                        data={snowHeight}
                         x='measurementDateTime'
                         y='snowHeight'
                         domain={{
@@ -220,7 +224,7 @@ export default function SnowHeight({data, min, max, width, height}) {
                         standalone={false}
                         width={width}
                         height={height}
-                        data={data}
+                        data={snowHeight}
                         x='measurementDateTime'
                         y='snowHeight'
                         domain={{

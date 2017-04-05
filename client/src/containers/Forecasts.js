@@ -1,21 +1,30 @@
-import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
+import {compose, lifecycle, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ForecastRegion} from 'api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {loadFeaturesMetadata} from 'actions/entities'
-import {Forecasts} from 'components/page'
+import {PageList} from 'components/page'
 
 const mapStateToProps = createSelector(
     state => getEntitiesForSchema(state, ForecastRegion),
     forecastRegions => ({
-        forecastRegions: forecastRegions.sortBy(
+        items: forecastRegions.sortBy(
             entity => entity.get('name')
+        ).map(
+            entity => ({
+                link: `/forecasts/${entity.get('id')}`,
+                name: entity.get('name'),
+            })
         ).toList(),
     })
 )
 
 export default compose(
+    defaultProps({
+        title: 'Forecast regions',
+        headline: 'Click on a link below to read the avalanche bulletin.',
+    }),
     connect(mapStateToProps, {
         loadFeaturesMetadata
     }),
@@ -24,5 +33,4 @@ export default compose(
             this.props.loadFeaturesMetadata()
         },
     }),
-    onlyUpdateForKeys(['forecastRegions']),
-)(Forecasts)
+)(PageList)
