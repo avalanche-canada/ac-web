@@ -22,11 +22,12 @@ const PROVIDER_NAMES = new Map([
     [GOOGLE_PLUS, 'Google Plus'],
 ])
 const PROVIDER_ICONS = new Map([
-    [FACEBOOK, createElement(Icons.Facebook)],
-    [TWITTER, createElement(Icons.Twitter)],
-    [INSTAGRAM, createElement(Icons.Instagram)],
-    [VIMEO, createElement(Icons.Vimeo)],
-    [GOOGLE_PLUS, createElement(Icons.GooglePlus)],
+    [FACEBOOK, <Icons.Facebook />],
+    [TWITTER, <Icons.Twitter />],
+    [INSTAGRAM, <Icons.Instagram />],
+    [VIMEO, <Icons.Vimeo />],
+    [GOOGLE_PLUS, <Icons.GooglePlus />],
+    [null, <Icons.Website />],
 ])
 
 const getProvider = memoize(url => {
@@ -35,6 +36,8 @@ const getProvider = memoize(url => {
             return provider
         }
     }
+
+    return null
 })
 
 Item.propTypes = {
