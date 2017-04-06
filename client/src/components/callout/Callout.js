@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './Callout.css'
 
+// FIXME: values should be uppercase, but it does not work > look at DayPicker in MWF after! 
 export const TOP = 'top'
 export const BOTTOM = 'bottom'
 export const LEFT = 'left'
