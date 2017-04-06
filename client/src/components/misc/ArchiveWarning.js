@@ -19,22 +19,22 @@ ArchiveWarning.propTypes = {
 }
 
 function ArchiveWarning({nowcast, previous, next, children}) {
+    const links = []
+
+    if (previous) {
+        links.push(<Link key='previous' {...previous} styleName='Previous' />)
+    }
+
+    if (next) {
+        links.push(<Link key='next' {...next} styleName='Next' />)
+    }
+
     return (
         <Alert type={WARNING}>
             {children}
-            {createElement(Link, {
-                ...nowcast,
-                styleName: 'Today'
-            })}
+            <Link styleName='Today' {...nowcast} />
             <div styleName='Links'>
-                {previous && createElement(Link, {
-                    ...previous,
-                    styleName: 'Previous'
-                })}
-                {next && createElement(Link, {
-                    ...next,
-                    styleName: 'Next'
-                })}
+                {links}
             </div>
         </Alert>
     )
