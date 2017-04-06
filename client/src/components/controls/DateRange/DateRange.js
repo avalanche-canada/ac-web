@@ -4,7 +4,7 @@ import {compose, withHandlers} from 'recompose'
 import {DropdownFromOptions, Input} from 'components/controls'
 import {Calendar, Close, Home} from 'components/icons'
 import {DayPicker, DateUtils} from 'components/misc'
-import Callout, {BOTTOM} from 'components/callout'
+import Callout from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
@@ -94,8 +94,11 @@ export default class DateRange extends Component {
                     shouldUpdatePosition
                     target={this.refs.target}
                     container={container} >
-                    <Callout placement='Bottom'>
-                        <DayPicker selectedDays={this.state} numberOfMonths={2} onDayClick={this.handleDayClick} />
+                    <Callout>
+                        <DayPicker
+                            selectedDays={this.state} 
+                            numberOfMonths={2}
+                            onDayClick={this.handleDayClick} />
                     </Callout>
                 </Overlay>
             </div>

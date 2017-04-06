@@ -1,13 +1,11 @@
 import React, {PropTypes, Component} from 'react'
 import CSSModules from 'react-css-modules'
-import {DateUtils, DayPicker as Base} from 'components/misc'
-import Callout, {BOTTOM} from 'components/callout'
+import {DayPicker as Base} from 'components/misc'
+import Callout from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'
 import Holder from '../Holder'
 import noop from 'lodash/noop'
-
-const {isSameDay} = DateUtils
 
 @CSSModules(styles)
 export default class DayPicker extends Component {
@@ -65,7 +63,7 @@ export default class DayPicker extends Component {
                     shouldUpdatePosition
                     target={this.refs.target}
                     container={container}>
-                    <Callout placement={BOTTOM}>
+                    <Callout>
                         <Base
                             initialMonth={date || undefined}
                             selectedDays={date}

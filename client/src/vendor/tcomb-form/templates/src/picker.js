@@ -2,7 +2,7 @@ import React from 'react'
 import Overlay from 'react-overlays/lib/Overlay'
 import {Close} from 'components/button'
 import controls from 'components/controls/Controls.css'
-import Callout, {BOTTOM} from 'components/callout'
+import Callout from 'components/callout'
 import Button from 'components/button'
 import styles from './Picker.css'
 
@@ -43,7 +43,7 @@ function create(overrides = {}) {
                     target={document.querySelector(`#container-${id} input`)}
                     rootClose
                     shouldUpdatePosition>
-                    <Callout placement='Bottom'>
+                    <Callout>
                         <div className={styles.Container}>
                             {template.renderContent(locals)}
                             {template.renderButton(locals)}

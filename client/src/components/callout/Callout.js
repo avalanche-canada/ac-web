@@ -17,9 +17,10 @@ const styleNames = new Map([
 Callout.propTypes = {
     children: PropTypes.node.isRequired,
     placement: PropTypes.oneOf([TOP, BOTTOM, LEFT, RIGHT]),
+    style: PropTypes.object,
 }
 
-function Callout({children, placement = RIGHT, style}) {
+function Callout({children, placement = BOTTOM, style}) {
     return (
         <div styleName={styleNames.get(placement)} style={style}>
             <div styleName='Inner'>
