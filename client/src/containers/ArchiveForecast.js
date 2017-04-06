@@ -14,14 +14,14 @@ import format from 'date-fns/format'
 import startOfToday from 'date-fns/start_of_today'
 import isBefore from 'date-fns/is_before'
 import Url from 'url'
-
+import endOfYesterday from 'date-fns/end_of_yesterday'
 
 const AVCAN = 'avalanche-canada'
 const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
 const VANCOUVER_ISLAND = 'vancouver-island'
 const disabledDays = {
-    before: new Date()
+    after: endOfYesterday()
 }
 
 function getWarningText(region) {
