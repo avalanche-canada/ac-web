@@ -7,6 +7,8 @@ import {SocialSet, SocialItem} from 'components/social'
 import {Br} from 'components/misc'
 import styles from './Ambassador.css'
 
+// TODO: Remove Br from here and create an AmbassadorSet component
+
 const ImagePropType = PropTypes.shape({
     src: PropTypes.string.isRequired,
     credit: PropTypes.string,
