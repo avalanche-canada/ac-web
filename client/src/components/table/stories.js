@@ -64,7 +64,7 @@ export const table = (
             {row(true)}
             {controlled()}
         </ControlledTBody>
-        <ControlledTBody>
+        <ControlledTBody title='The others'>
             {row(true)}
             {controlled()}
             {row(false)}
@@ -95,7 +95,7 @@ storiesOf('Table', module)
             {row(true)}
             {controlled()}
         </TBody>
-        <TBody>
+        <TBody title='The others'>
             {row(true)}
             {controlled()}
             {row(false)}

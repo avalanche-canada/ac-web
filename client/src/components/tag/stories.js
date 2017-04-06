@@ -1,8 +1,11 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import {TagSet, Tag} from './index'
+import TagSet from './TagSet'
+import Tag from './Tag'
 
-function tagSet(props = {}) {
+const stories = storiesOf('Tag', module)
+
+stories.add('TagSet', () => {
     return (
         <TagSet {...props}>
             <Tag>
@@ -16,7 +19,4 @@ function tagSet(props = {}) {
             </Tag>
         </TagSet>
     )
-}
-
-
-storiesOf('Tag', module).add('TagSet', () => tagSet())
+})

@@ -28,6 +28,7 @@ stories.addWithInfo('Avalanche Canada', () => {
         <Navbar menu={menu} isAuthenticated={isAuthenticated} name={name} />
     )
 })
+
 stories.add('Menu', () => (
     <Menu isOpened>
         <Section>
