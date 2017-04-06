@@ -3,8 +3,6 @@ import Button from './Button'
 
 export default from './Button'
 
-export Top from './Top'
-export Print from './Print'
 export Expand from './Expand'
 export Sorting from './Sorting'
 export Close from './Close'
