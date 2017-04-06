@@ -146,6 +146,14 @@ export function fetchFeaturesMetadata() {
     return api.get('features/metadata').then(extractData)
 }
 
+const Static = Axios.create({
+    baseURL: '/static'
+})
+
+export function fetchStaticResource(resource) {
+    return Static.get(resource)
+}
+
 export function fetchSponsors() {
-    return Axios.get('/static/sponsors.json')
+    return fetchStaticResource('sponsors.json')
 }

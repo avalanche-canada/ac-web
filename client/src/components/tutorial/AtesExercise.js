@@ -1,13 +1,17 @@
-
-import React from 'react'
-
-import exercises from './ates_exercise.json'
+import React, {Component} from 'react'
+import {compose, lifecycle, withState} from 'recompose'
+import {fetchStaticResource} from 'api'
 import style from './ates.css'
 
-
-const AtesExercise = () => (
-    <div>{exercises.map( e => <Section {...e} /> )}</div>
-)
+function AtesExercise({exercises}) {
+    return (
+        <div>
+            {exercises.map(exercise =>
+                <Section key={exercise.slug} {...exercise} />
+            )}
+        </div>
+    )
+}
 
 function Section({title, desc, images}){
     return (
@@ -15,7 +19,9 @@ function Section({title, desc, images}){
             <h1>{title}</h1>
             <p dangerouslySetInnerHTML={{__html: desc}} />
             <div className={style.ExerciseList}>
-                {images.map( i => <Exercise {...i} /> )}
+                {images.map((image, index) =>
+                    <Exercise key={index} {...image} />
+                )}
             </div>
         </div>
     )
@@ -23,16 +29,35 @@ function Section({title, desc, images}){
 
 function Input({value, onClick, children, picked}) {
     return (
-        <label className={style.Input}><input type="radio" onClick={onClick} value={value} checked={picked === value} />{children}</label>
+        <label className={style.Input}>
+            <input type="radio" onClick={onClick} value={value} checked={picked === value} />
+            {children}
+        </label>
     )
 }
 
-const Yep   = () => <div className={style.Yep}>Well done &mdash; You&rsquo;re right!</div>
-const Nope  = () => <div className={style.Nope}>Sorry, that isn&rsquo;t the right answer. Try again!</div>
+function Yep() {
+    return (
+        <div className={style.Yep}>
+            Well done &mdash; You&rsquo;re right!
+        </div>
+    )
+}
+function Nope() {
+    return (
+        <div className={style.Nope}>
+            Sorry, that isn&rsquo;t the right answer. Try again!
+        </div>
+    )
+}
 
-class Exercise extends React.Component {
-    state = { picked: null }
-
+class Exercise extends Component {
+    state = {
+        picked: null
+    }
+    pickAnswer(evt) {
+        this.setState({picked: evt.target.value})
+    }
     render() {
         let {url, caption, photo_credit, answer} = this.props
         let picked = this.state.picked
@@ -50,11 +75,17 @@ class Exercise extends React.Component {
             </div>
         )
     }
-
-    pickAnswer(evt) {
-        this.setState({picked: evt.target.value})
-    }
 }
 
-export default AtesExercise
+export default compose(
+    withState('exercises', 'setExercises', []),
+    lifecycle({
+        componentDidMount() {
+            const {setIsLoading, setExercises} = this.props
 
+            fetchStaticResource('ates-exercise.json').then(response => {
+                setExercises(response.data)
+            })
+        },
+    }),
+)(AtesExercise)

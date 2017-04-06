@@ -1,4 +1,5 @@
 import React from 'react'
+import {compose, lifecycle, withState} from 'recompose'
 import {Link} from 'react-router'
 import {Fragments} from 'prismic.io'
 import CSSModules from 'react-css-modules'
@@ -6,7 +7,7 @@ import styles from './tutorial.css'
 import {Page, Main, Content} from 'components/page'
 import {Media, Player} from 'components/media'
 import AtesExercise from './AtesExercise'
-import menuTree from './tutorial-menu-tree.json'
+import {fetchStaticResource} from 'api'
 
 const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
 
@@ -23,10 +24,13 @@ function findSlug(pages, prismicSlug) {
     }
 }
 
-function linkResolver(doc) {
-    if (doc.type === 'tutorial-page') {
-        var realSlug = findSlug(menuTree, doc.slug)
-        return `/tutorial/${realSlug}`
+function linkResolverFactory(menuTree) {
+    return function linkResolver(doc) {
+        if (doc.type === 'tutorial-page') {
+            const realSlug = findSlug(menuTree, doc.slug)
+
+            return `/tutorial/${realSlug}`
+        }
     }
 }
 
@@ -43,7 +47,7 @@ const MenuItem = ({title, slug, children, currentPage}) => {
 
     if (showChildren) {
             cc = <ul>
-                {children.map( c => <MenuItem currentPage={currentPage} {...c} /> )}
+                {children.map(c => <MenuItem key={c.slug} currentPage={currentPage} {...c} />)}
             </ul>
     }
 
@@ -60,7 +64,9 @@ const MenuItem = ({title, slug, children, currentPage}) => {
 
 const Gallery = ({imgs}) =>
     <div>
-        {imgs.map( i => <GalleryImage {...flattenImage(i)} /> )}
+        {imgs.map((image, index) => (
+            <GalleryImage key={index} {...flattenImage(image)} />
+        ))}
     </div>
 
 const flattenImage = (img) => {
@@ -84,9 +90,9 @@ function GalleryImage({url, caption, credit }){
         </div>
     )
 }
-const SideBar = ({currentPage}) =>
+const SideBar = ({menuTree, currentPage}) =>
     <ul className={styles.Sidebar}>
-        { menuTree.map( c => <MenuItem currentPage={currentPage} {...c} /> ) }
+        {menuTree.map(c => <MenuItem key={c.slug} currentPage={currentPage} {...c} />)}
     </ul>
 
 
@@ -96,15 +102,17 @@ const Video = ({src}) =>
     </Media>
 
 
-const TextBlock =  ({field}) => {
+const TextBlock =  ({field, linkResolver}) => {
     if (typeof field === 'undefined') {
         return null
     }
+
     const t = new Fragments.StructuredText(field.blocks)
+
     return <div className={styles.TextBlock} dangerouslySetInnerHTML={{__html: t.asHtml(linkResolver)}} />
 }
 
-const TutorialPage = ({doc}) => {
+const TutorialPage = ({doc, linkResolver}) => {
     let gallery = []
     if(typeof doc.data['tutorial-page.gallery'] !== 'undefined') {
         gallery = doc.data['tutorial-page.gallery'].value
@@ -117,26 +125,26 @@ const TutorialPage = ({doc}) => {
     <div>
         <h1>{doc.data['tutorial-page.title'].value}</h1>
 
-        <TextBlock field={doc.fragments['tutorial-page.text1']} />
+        <TextBlock field={doc.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
 
         {/* video here */}
 
         {vid && vid.value && <Video src={vid.value} />}
 
-        <TextBlock field={doc.fragments['tutorial-page.text2']} />
+        <TextBlock field={doc.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
 
         <Gallery  imgs={gallery} />
 
-        <TextBlock field={doc.fragments['tutorial-page.text3']} />
+        <TextBlock field={doc.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
 
         {/* embedded content: raw HTML that comes from prismic :/ */}
 
-        <TextBlock field={doc.fragments['tutorial-page.text4']} />
+        <TextBlock field={doc.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
     </div>
     )
 }
 
-const Tutorial = ({loading, error, doc, params}) => {
+const Tutorial = ({loading, error, doc, params, menuTree}) => {
     let page = null
     let isAtes = params.splat === ATES_EXERCISE_SLUG
     if (isAtes) {
@@ -144,7 +152,7 @@ const Tutorial = ({loading, error, doc, params}) => {
     } else if (params.splat === ''){
         page = doc && <TutorialHome doc={doc} />
     } else {
-        page = doc && <TutorialPage doc={doc} />
+        page = doc && <TutorialPage doc={doc} linkResolver={linkResolverFactory(menuTree)} />
     }
 
     return (
@@ -152,10 +160,10 @@ const Tutorial = ({loading, error, doc, params}) => {
             <Content>
                 <Main>
                     <div styleName='TutorialPage'>
-                        <SideBar currentPage={params.splat} />
+                        <SideBar currentPage={params.splat} menuTree={menuTree} />
                         <div className={styles.TutorialContent}>
-                            { loading && !isAtes && <p>Loading...</p> }
-                            { page }
+                            {loading && !isAtes && <p>Loading...</p>}
+                            {page}
                         </div>
                     </div>
                 </Main>
@@ -175,4 +183,16 @@ function TutorialHome({doc}) {
     )
 }
 
-export default CSSModules(Tutorial, styles)
+export default compose(
+    withState('menuTree', 'setMenuTree', []),
+    lifecycle({
+        componentDidMount() {
+            const {setIsLoadingMenuTree, setMenuTree} = this.props
+
+            fetchStaticResource('tutorial-menu-tree.json').then(response => {
+                setMenuTree(response.data)
+            })
+        }
+    }),
+    CSSModules(styles)
+)(Tutorial)
