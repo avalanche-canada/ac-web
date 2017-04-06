@@ -1,3 +1,5 @@
+@import "../../styles/colors.css";
+
 .Links {
     display: flex;
     justify-content: space-between;
@@ -5,10 +7,7 @@
 
 .Link {
     display: block;
-
-    &:hover {
-        text-decoration: underline;
-    }
+    color: var(--brand-primary) !important;
 }
 
 .Next {
@@ -28,6 +27,7 @@
 }
 
 .Today {
-    display: block;
+    composes: Link;
+
     margin: 0.25em 0;
 }
