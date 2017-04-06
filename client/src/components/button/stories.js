@@ -1,23 +1,40 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import {ChevronRight} from 'components/icons'
-import Button, {Top, Print, PlayPause, SECONDARY, PRIMARY, INCOGNITO} from './index'
+import {withKnobs, number, boolean, text, select} from '@kadira/storybook-addon-knobs'
+import Button, {Expand, Sorting, Close, Locate, SECONDARY, PRIMARY, TERTIARY, INCOGNITO} from './index'
+import KIND, {ALL as KINDS} from './kinds'
 
-storiesOf('Button', module)
-  .add('Primary button', () => <Button onClick={action('clicked')}>Button</Button>)
-  .add('Secondary button', () => <Button kind={SECONDARY}>Button</Button>)
-  .add('Top Button', () => <Top/>)
-  .add('Print Button', () => <Print/>)
-  .add('Print Button', () => <Print/>)
-  .add('Create report', () => (
-      <Button>
-          Create report
-          <ChevronRight inverse />
-      </Button>
-  ))
-  .add('PlayPause', () => (
-      <div>
-          <PlayPause isPlaying />
-          <PlayPause />
-      </div>
-  ))
+const stories = storiesOf('Button', module)
+
+stories.addDecorator(withKnobs)
+
+stories.addWithInfo('Button', () => {
+    const handleClick = action('clicked')
+    const kind = select('Kind', Array.from(KINDS), KIND)
+    const shadow = boolean('Shadow', false)
+    const large = boolean('Large', false)
+    const transparent = boolean('Transparent', false)
+    const chevron = select('Chevron', ['LEFT', 'RIGHT', true])
+
+    return (
+        <Button
+            onClick={handleClick}
+            kind={kind}
+            chevron={chevron}
+            shadow={shadow}
+            large={large}
+            transparent={transparent}>
+            Button
+        </Button>
+    )
+})
+
+stories.add('Expand', () => <Expand />)
+stories.add('Sorting', () => <Sorting />)
+stories.add('Close', () => <Close />)
+stories.add('Locate', () => <Locate />)
+stories.add('Button w/ default chevron', () => (
+  <Button chevron>
+      Create report
+  </Button>
+))
