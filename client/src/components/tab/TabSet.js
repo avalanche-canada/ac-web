@@ -68,17 +68,17 @@ class TabList extends Component {
     }
     updateWidthsForListeners = debounce(this.updateWidths, 150)
     get styleName() {
-        const {theme, opened} = this.props
+        const {theme, opened, stacked} = this.props
         const {itemsWidth, width} = this.state
         const styleNames = {
             List: true,
-            'List--Stacked': false,
+            'List--Stacked': typeof stacked === 'boolean' ? stacked : false,
             'List--Compact': theme === COMPACT,
             'List--Loose': theme === LOOSE,
             'List--Opened': opened,
         }
 
-        if (itemsWidth && width) {
+        if (typeof stacked !== 'boolean' && itemsWidth && width) {
             Object.assign(styleNames, {
                 List: itemsWidth <= width,
                 'List--Stacked': itemsWidth > width,
@@ -113,6 +113,7 @@ export default class TabSet extends Component {
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
         arrow: PropTypes.bool,
         lazy: PropTypes.bool,
+        stacked: PropTypes.bool,
 	}
 	static defaultProps = {
 		activeIndex: 0,
@@ -205,9 +206,11 @@ export default class TabSet extends Component {
         )
 	}
 	render() {
+        const {theme, stacked} = this.props
+
 		return (
             <div>
-                <TabList opened={this.opened} theme={this.props.theme}>
+                <TabList stacked={stacked} opened={this.opened} theme={theme}>
                     {this.tabs.map(this.renderTabHeader, this)}
                 </TabList>
                 {this.tabs.map(this.renderTabPanel, this)}
