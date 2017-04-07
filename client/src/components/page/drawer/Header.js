@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import Sponsor from 'containers/Sponsor'
 import styles from './Drawer.css'
 import Subject from './Subject'
 
