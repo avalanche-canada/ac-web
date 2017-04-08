@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Page, Content, Header, Main} from 'components/page'
 import {Metadata, Station} from 'components/weather/station'
 import {Status} from 'components/misc'

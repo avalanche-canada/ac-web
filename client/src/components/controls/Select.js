@@ -1,5 +1,6 @@
+import {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {Element} from 'compose'
-import {PropTypes, DOM} from 'react'
 import styles from './Controls.css'
 
 export default Element({

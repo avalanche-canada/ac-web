@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, lifecycle, withProps} from 'recompose'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'

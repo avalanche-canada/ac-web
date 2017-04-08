@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 
-export default class Ratio extends React.Component {
+export default class Ratio extends Component {
     static propTypes = {
-        x: React.PropTypes.number,
-        y: React.PropTypes.number,
-        children: React.PropTypes.func.isRequired,
+        x: PropTypes.number,
+        y: PropTypes.number,
+        children: PropTypes.func.isRequired,
         traverse: PropTypes.bool,
     }
     static defaultProps = {

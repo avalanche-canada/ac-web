@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Day from './Day'
 import addDays from 'date-fns/add_days'
 

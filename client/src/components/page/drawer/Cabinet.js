@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import {Motion, spring, presets } from 'react-motion'
 import Backdrop from './Backdrop'
 import Drawer from './Drawer'

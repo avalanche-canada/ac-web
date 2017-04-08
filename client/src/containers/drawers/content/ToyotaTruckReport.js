@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
 import {InnerHTML, Ratio, Status} from 'components/misc'
 import {Link} from 'react-router'

@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
 import {Image, Ratio, Delay, Loading} from 'components/misc'

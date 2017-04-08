@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Loop from '../Loop'
 import Meteogram from '../Meteogram'
 import {InnerHTML} from 'components/misc'

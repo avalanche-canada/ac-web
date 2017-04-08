@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, lifecycle, withState, withHandlers, setPropTypes} from 'recompose'
 import ImageGallery from 'react-image-gallery'
 import * as cloudinary from 'services/cloudinary'

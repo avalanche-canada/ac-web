@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose, withContext, withState, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, mapProps, setDisplayName, setPropTypes} from 'recompose'
 import {neverUpdate} from 'compose'
 import CSSModules from 'react-css-modules'

@@ -1,4 +1,5 @@
-import React, {PropTypes, DOM} from 'react'
+import React, {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {compose, setPropTypes, setDisplayName, mapProps, defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Button.css'

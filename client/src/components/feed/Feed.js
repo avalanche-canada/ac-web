@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Status as StatusComponent} from 'components/misc'
 import EntrySet from './EntrySet'
 import Entry from './Entry'

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {NO_RATING} from 'constants/forecast/rating'
 import {ALP, TLN, BTL} from 'constants/forecast/elevation'
 import Icon from './Icon'

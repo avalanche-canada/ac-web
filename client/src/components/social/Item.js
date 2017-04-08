@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import {compose} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
 import memoize from 'lodash/memoize'

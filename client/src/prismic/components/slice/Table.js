@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import {compose, withHandlers, withState, withProps} from 'recompose'
 import {connect} from 'react-redux'

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose, withState, withProps, setDisplayName} from 'recompose'
 import Navbar from './Navbar'

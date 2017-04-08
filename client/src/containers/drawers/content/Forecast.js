@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {toClass} from 'recompose'
 import {Link} from 'react-router'
 import {Navbar, Header, Container as DrawerContainer, Body, Close} from 'components/page/drawer'

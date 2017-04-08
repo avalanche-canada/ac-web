@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose, withHandlers} from 'recompose'
 import {DropdownFromOptions, Input} from 'components/controls'
@@ -96,7 +97,7 @@ export default class DateRange extends Component {
                     container={container} >
                     <Callout>
                         <DayPicker
-                            selectedDays={this.state} 
+                            selectedDays={this.state}
                             numberOfMonths={2}
                             onDayClick={this.handleDayClick} />
                     </Callout>

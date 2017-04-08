@@ -1,4 +1,5 @@
-import React, {PropTypes, DOM} from 'react'
+import React, {DOM} from 'react'
+import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import styles from './Image.css'
 

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import TerrainSummary from './TerrainSummary'
 import Panel, {INVERSE} from 'components/panel'
 import AdviceText from './AdviceText'

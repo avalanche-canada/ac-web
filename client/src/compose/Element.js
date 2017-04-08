@@ -1,4 +1,5 @@
-import {PropTypes, DOM} from 'react'
+import {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 

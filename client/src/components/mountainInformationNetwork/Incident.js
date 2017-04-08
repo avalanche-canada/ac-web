@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {List} from 'components/description'
 import {asTermAndDefinition} from 'components/description/utils'
 import Section from './Section'

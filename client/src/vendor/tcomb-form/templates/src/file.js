@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {compose, setPropTypes, withState, withPropsOnChange} from 'recompose'
 import textbox from './textbox'
 import ImageGallery from 'react-image-gallery'

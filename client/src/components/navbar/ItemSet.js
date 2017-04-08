@@ -1,4 +1,5 @@
-import React, {PropTypes, Component, cloneElement, Children} from 'react'
+import React, {Component, cloneElement, Children} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import keycode from 'keycode'

@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import Immutable from 'immutable'
 import mapbox, {styles} from 'services/mapbox/map'

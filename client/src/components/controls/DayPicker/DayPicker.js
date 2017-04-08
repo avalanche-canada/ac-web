@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {DayPicker as Base} from 'components/misc'
 import Callout from 'components/callout'

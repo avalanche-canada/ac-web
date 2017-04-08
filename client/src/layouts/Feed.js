@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, withProps, withHandlers} from 'recompose'
 import {FilterSet, Feed} from 'containers/feed'
 import {Page, Content, Header, Main} from 'components/page'

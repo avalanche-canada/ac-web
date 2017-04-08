@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import {createElement} from 'react'
+import PropTypes from 'prop-types'
 import {classify} from 'utils/string'
 import {captureException} from 'services/raven'
 
@@ -22,7 +23,7 @@ export default function Slice({type, ...props}) {
         const message = `Component for ${type} not supported. Rendering will be ignored.`
 
         console.error(error)
-        
+
         captureException(new Error(error, message))
 
         return error

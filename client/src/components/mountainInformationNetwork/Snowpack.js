@@ -1,4 +1,4 @@
-import {PropTypes} from 'react'
+import PropTypes from 'prop-types'
 import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import Content from './Content'
 import {asTermAndDefinition} from 'components/description/utils'

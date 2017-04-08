@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Collapse} from 'components/misc'

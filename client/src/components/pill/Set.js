@@ -1,4 +1,5 @@
-import React, {PropTypes, Children, cloneElement} from 'react'
+import React, {Children, cloneElement} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose, withState, setDisplayName, setPropTypes} from 'recompose'
 import styles from './Pill.css'

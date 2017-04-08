@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import {CancelToken} from 'axios'
 import CSSModules from 'react-css-modules'
 import noop from 'lodash/noop'

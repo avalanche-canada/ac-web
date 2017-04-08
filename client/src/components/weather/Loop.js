@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import Loop from 'components/loop'
 import {computeUrls, getNotes} from 'services/msc/loop/url'

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import {SPRING, SUMMER, OFF, EARLY_SEASON, Texts} from 'constants/forecast/mode'

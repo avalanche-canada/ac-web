@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, withState, mapProps, setPropTypes} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
 import {TransitionMotion, spring, presets} from 'react-motion'

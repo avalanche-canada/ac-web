@@ -1,4 +1,5 @@
-import React, {Component, PropTypes, createElement} from 'react'
+import React, {Component, createElement} from 'react'
+import PropTypes from 'prop-types'
 import {compose, componentFromProp, lifecycle, branch, renderComponent, setPropTypes, setDisplayName, withProps, mapProps, flattenProp, defaultProps} from 'recompose'
 import {StaticPage, Generic, Content} from 'prismic/components/page'
 import {getDocumentAndStatus} from 'selectors/prismic/utils'

@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {TabSet, Tab} from 'components/tab'
 import Synopsis from './tabs/Synopsis'

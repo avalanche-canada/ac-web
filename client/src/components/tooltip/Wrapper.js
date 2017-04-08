@@ -1,4 +1,5 @@
-import React, {PropTypes, Component, cloneElement} from 'react'
+import React, {Component, cloneElement} from 'react'
+import PropTypes from 'prop-types'
 import {findDOMNode} from 'react-dom'
 import CSSModules from 'react-css-modules'
 import Overlay from 'react-overlays/lib/Overlay'

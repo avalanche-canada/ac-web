@@ -1,4 +1,5 @@
-import React, {PropTypes, isValidElement} from 'react'
+import React, {isValidElement} from 'react'
+import PropTypes from 'prop-types'
 import Section from './Section'
 import {Markup} from 'components/markup'
 import {InnerHTML} from 'components/misc'
@@ -16,7 +17,7 @@ export default function Comment({title = 'Comments', children}) {
     return (
         <Section title={title}>
             <Markup>
-                {isValidElement(children) ? children : 
+                {isValidElement(children) ? children :
                     <InnerHTML>
                         {children}
                     </InnerHTML>

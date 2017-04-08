@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, withProps, setPropTypes, defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'

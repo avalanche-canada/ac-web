@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setPropTypes, mapProps} from 'recompose'
 import {withRouter} from 'react-router'
 import {DateElement, ArchiveWarning} from 'components/misc'

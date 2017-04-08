@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setPropTypes, mapProps, branch, renderNothing} from 'recompose'
 import {ArchiveWarning} from 'components/misc'
 import {isHotZoneReportValid} from 'prismic/utils'

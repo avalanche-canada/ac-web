@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import {compose, lifecycle, setPropTypes, defaultProps, renderComponent, renderNothing, branch} from 'recompose'
 import {connect} from 'react-redux'
 import Table from 'components/table/managed'

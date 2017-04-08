@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps, withState, withHandlers, onlyUpdateForKeys} from 'recompose'
 import {ExpandLess, ExpandMore, Remove} from '../icons'
 import Button from './Button'

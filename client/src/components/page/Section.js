@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import {compose, onlyUpdateForKeys, lifecycle} from 'recompose'
 import {withHash} from 'compose'
 import CSSModules from 'react-css-modules'

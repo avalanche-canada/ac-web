@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent, createElement} from 'react'
+import React, {PureComponent, createElement} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import Section from 'components/mountainInformationNetwork/Section'
@@ -53,7 +54,7 @@ function createDescriptions(values) {
                 {TERMS.get(key)}
             </Term>
         )
-        
+
         children.push(
             <Definition key={`definition-${key}`} styleName='CriticalFactors--Definition' style={style}>
                 {value}

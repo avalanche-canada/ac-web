@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, mapProps, defaultProps} from 'recompose'
 import {SUBTILE} from './kinds'
 import Button from './Button'

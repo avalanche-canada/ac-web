@@ -1,4 +1,4 @@
-import {PropTypes, DOM} from 'react'
+import {DOM} from 'react'
 import {onlyUpdateForKey} from 'compose'
 import {Element} from 'compose'
 import styles from './Table.css'

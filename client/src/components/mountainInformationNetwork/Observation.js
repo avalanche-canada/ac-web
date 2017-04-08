@@ -1,4 +1,5 @@
-import React, {PropTypes, createElement} from 'react'
+import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import Quick from './Quick'
 import Weather from './Weather'
 import Snowpack from './Snowpack'

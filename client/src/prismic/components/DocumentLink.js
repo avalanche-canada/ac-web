@@ -1,4 +1,3 @@
-import {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {compose, mapProps, setDisplayName} from 'recompose'
 import {documentLink} from 'containers/connectors'

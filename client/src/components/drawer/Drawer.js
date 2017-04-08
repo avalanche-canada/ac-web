@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, onlyUpdateForKeys, withHandlers} from 'recompose'
 import CSSModules from 'react-css-modules'
 import ItemSet from './ItemSet'

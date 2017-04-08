@@ -1,4 +1,5 @@
-import React, {PropTypes, DOM} from 'react'
+import React, {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {compose, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'

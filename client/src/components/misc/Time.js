@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, setDisplayName, withProps, mapProps, defaultProps} from 'recompose'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import parse from 'date-fns/parse'

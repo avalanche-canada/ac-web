@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import PropTypes from 'prop-types'
 
 Tab.propTypes = {
     title: PropTypes.node.isRequired,

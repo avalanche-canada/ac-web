@@ -1,4 +1,5 @@
-import React, {PropTypes, DOM} from 'react'
+import React, {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {withRouter} from 'react-router'
 import CSSModules from 'react-css-modules'
 import {compose, defaultProps, withHandlers} from 'recompose'

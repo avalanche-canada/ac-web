@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Section from './Section'
 import Comment from './Comment'
 import {trulyKeys, projectKeys} from 'utils/object'

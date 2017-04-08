@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {Page, Header, Main, Content, Headline, Aside} from 'components/page'
 import {Muted, Error} from 'components/misc'

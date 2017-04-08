@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, withProps, withHandlers} from 'recompose'
 import {Link, withRouter} from 'react-router'
 import {Page, Content, Header, Main, Section, Headline} from 'components/page'

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Application from 'components/application'
 import {AvalancheCanada} from 'containers/Navbar'
 import Highlight from 'containers/Highlight'

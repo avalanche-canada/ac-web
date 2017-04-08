@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {createStructuredSelector} from 'reselect'
 import {compose, withHandlers, getContext} from 'recompose'
 import {connect} from 'react-redux'

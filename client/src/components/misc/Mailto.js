@@ -1,4 +1,5 @@
-import React, {PropTypes, DOM} from 'react'
+import React, {DOM} from 'react'
+import PropTypes from 'prop-types'
 import {compose, defaultProps, withProps, mapProps, setDisplayName, setPropTypes} from 'recompose'
 import Url from 'url'
 import {AVALANCHECANADA} from 'constants/emails'
