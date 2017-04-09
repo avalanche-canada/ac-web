@@ -63,7 +63,7 @@ function HotZoneReport({report, previous, next}) {
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
-            <Panel header='More information' expanded>
+            <Panel header='More information'>
                 <Generic uid='hot-zone-report-more-information' />
             </Panel>
             <Panel header='About'>
