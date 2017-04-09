@@ -34,14 +34,14 @@ function Panel({
     header,
     theme = SIMPLE,
     expanded = false,
-    handleClick,
+    onHeaderClick,
     children,
 }) {
     const styleName = expandable ? `Container--${theme}--Expandable` : `Container--${theme}`
 
     return (
         <div styleName={styleName}>
-            <header styleName='Header' onClick={handleClick}>
+            <header styleName='Header' onClick={onHeaderClick}>
                 {expandable && <Expand styleName='Expand' expanded={expanded} />}
                 <span styleName='Title' title={titleOf(header)}>
                     {header}
@@ -63,7 +63,7 @@ function Panel({
 export default compose(
     withState('expanded', 'setExpanded', props => props.expanded),
     withHandlers({
-        handleClick: props => event => {
+        onHeaderClick: props => event => {
             if (!props.expandable) {
                 return
             }
