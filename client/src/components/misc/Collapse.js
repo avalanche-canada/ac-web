@@ -38,9 +38,9 @@ function computeStyle(dimension, value, computed) {
 
 export default class Collapse extends Component {
     static propTypes = {
-        children: PropTypes.node.isRequired,
-        dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
         collapsed: PropTypes.bool.isRequired,
+        dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
+        children: PropTypes.node.isRequired,
     }
     static defaultProps = {
         collapsed: true,
@@ -74,7 +74,6 @@ export default class Collapse extends Component {
     render() {
         const {collapsed, dimension, children} = this.props
         const {computed} = this
-        const child = Children.only(children)
         const defaultStyle = {
             value: collapsed ? 0 : computed,
         }
@@ -86,7 +85,7 @@ export default class Collapse extends Component {
             <Motion defaultStyle={defaultStyle} style={style}>
                 {style => (
                     <div style={computeStyle(dimension, style.value, computed)}>
-                        {cloneElement(child, {
+                        {cloneElement(Children.only(children), {
                             ref: this.setRef
                         })}
                     </div>
