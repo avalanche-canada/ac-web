@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withState} from 'recompose'
+import {compose, withState, withHandlers} from 'recompose'
 import styles from './Panel.css'
 import {Collapse} from 'components/misc'
 import {Expand} from 'components/button'
@@ -34,17 +34,10 @@ function Panel({
     header,
     theme = SIMPLE,
     expanded = false,
-    setExpanded,
+    handleClick,
     children,
 }) {
     const styleName = expandable ? `Container--${theme}--Expandable` : `Container--${theme}`
-    function handleClick() {
-        if (!expandable) {
-            return
-        }
-
-        setExpanded(!expanded)
-    }
 
     return (
         <div styleName={styleName}>
@@ -69,5 +62,14 @@ function Panel({
 
 export default compose(
     withState('expanded', 'setExpanded', props => props.expanded),
+    withHandlers({
+        handleClick: props => event => {
+            if (!props.expandable) {
+                return
+            }
+
+            props.setExpanded(!props.expanded)
+        }
+    }),
     CSSModules(styles),
 )(Panel)
