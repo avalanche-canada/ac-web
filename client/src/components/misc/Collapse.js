@@ -22,6 +22,7 @@ const MARGINS = new Map([
 function styleOf({style}, propertyName) {
     return parseInt(style[propertyName] || 0, 10)
 }
+
 function computeStyle(dimension, value, computed) {
     if (value === computed) {
         return {
@@ -54,6 +55,7 @@ export default class Collapse extends Component {
         this.state.opened = !props.collapsed
     }
     collapsable = null
+    setRef = ref => this.collapsable = ref
     get computed() {
         const {collapsable} = this
 
@@ -83,9 +85,9 @@ export default class Collapse extends Component {
         return (
             <Motion defaultStyle={defaultStyle} style={style}>
                 {style => (
-                    <div style={computeStyle(dimension, style.value, computed)} >
+                    <div style={computeStyle(dimension, style.value, computed)}>
                         {cloneElement(child, {
-                            ref: ref => this.collapsable = ref
+                            ref: this.setRef
                         })}
                     </div>
                 )}

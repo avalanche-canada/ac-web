@@ -11,11 +11,11 @@ export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
 
 Panel.propTypes = {
-    children: PropTypes.node.isRequired,
     expandable: PropTypes.bool,
     expanded: PropTypes.bool,
     header: PropTypes.string.isRequired,
     theme: PropTypes.oneOf([INVERSE, SIMPLE]),
+    children: PropTypes.node.isRequired,
 
 }
 
@@ -29,7 +29,14 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Panel({expandable = false, header, theme = SIMPLE, expanded = false, setExpanded, children}) {
+function Panel({
+    expandable = false,
+    header,
+    theme = SIMPLE,
+    expanded = false,
+    setExpanded,
+    children,
+}) {
     const styleName = expandable ? `Container--${theme}--Expandable` : `Container--${theme}`
     function handleClick() {
         if (!expandable) {
