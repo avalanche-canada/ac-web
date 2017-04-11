@@ -4,7 +4,7 @@ import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withStat
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import mapbox from '/services/mapbox/map'
-import {Map, Source, Layer, Marker} from '/components/map'
+import {Map, Marker} from '/components/map'
 import {loadData, loadMapStyle} from '/actions/map'
 import mapStateToProps from '/selectors/map'
 import {LayerIds, allLayerIds} from '/constants/map/layers'
