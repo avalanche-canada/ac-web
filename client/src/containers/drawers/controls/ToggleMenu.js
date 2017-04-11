@@ -1,7 +1,7 @@
 import React from 'react'
 import {compose, setDisplayName, mapProps, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
-import {toggleMenu} from 'actions/drawers'
+import {toggleMenu} from '/actions/drawers'
 import {Menu} from '/components/icons'
 import Button, {SUBTILE} from '/components/button'
 import {neverUpdate} from '/compose'

@@ -5,11 +5,11 @@ import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {connect} from 'react-redux'
 import {getLayers} from '/getters/drawers'
-import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
+import {turnOnLayer, turnOffLayer, changeFilter} from '/actions/drawers'
 import {Container, Header, Body, Navbar, Close} from '/components/page/drawer'
 import {LayerSet, Layer, FilterSet} from '/components/page/drawer/layers'
 import * as Layers from '/constants/drawers'
-import {loadData} from 'actions/map'
+import {loadData} from '/actions/map'
 import {
     Forecast,
     HotZoneReport,
