@@ -1,6 +1,14 @@
 {
-  "presets": ["latest", "react", "stage-0"],
+  "presets": [
+      ["es2015", {"modules": false}],
+      "react",
+      "stage-0",
+  ],
   "plugins": [
+    ["babel-root-slash-import", {
+        "rootPathSuffix": "client/src"
+    }],
+    "external-helpers",
     "transform-decorators-legacy",
     "transform-react-constant-elements",
     "transform-react-remove-prop-types",
