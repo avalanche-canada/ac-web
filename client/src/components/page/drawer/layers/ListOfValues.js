@@ -1,1 +1,1 @@
-export {DropdownFromOptions as default} from '/components/controls'
+export DropdownFromOptions from '/components/controls'

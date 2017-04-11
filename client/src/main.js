@@ -8,7 +8,7 @@ import {configure, serializeFactory, deserialize} from '/store'
 import configureRaven from '/services/raven'
 import throttle from 'lodash/throttle'
 
-import 'styles'
+import '/styles'
 
 configureRaven()
 
