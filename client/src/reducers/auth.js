@@ -1,11 +1,11 @@
 import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
-import AuthService from 'services/auth'
+import AuthService from '/services/auth'
 import {
     GET_PROFILE,
     LOGOUT,
     TOKEN_RECEIVED,
-} from 'actions/auth'
+} from '/actions/auth'
 
 const auth = AuthService.create()
 

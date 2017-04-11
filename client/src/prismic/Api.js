@@ -1,4 +1,4 @@
-import Prismic from '/prismic.io'
+import Prismic from 'prismic.io'
 import {endpoint} from './config.json'
 
 const {Predicates} = Prismic

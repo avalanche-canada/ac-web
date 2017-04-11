@@ -10,7 +10,7 @@ import {
     RDPS,
     GDPS,
     HRDPS,
-} from 'services/msc/meteograms/url'
+} from '/services/msc/meteograms/url'
 
 
 const POINT = 'point'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {branch, renderComponent} from 'recompose'
 import CSSModules from 'react-css-modules'
-import {ElementResize} from 'components/misc'
+import {ElementResize} from '/components/misc'
 import styles from './Danger.css'
 import Elevations, {
     ALP,
@@ -17,8 +17,8 @@ import Ratings, {
     Palette as RatingPalette,
 } from '/constants/forecast/rating'
 import {WHITE, BLACK} from '/constants/forecast/palette'
-import {Day as DayElement} from 'components/misc'
-import {DangerCard} from 'components/graphics'
+import {Day as DayElement} from '/components/misc'
+import {DangerCard} from '/components/graphics'
 
 const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
 

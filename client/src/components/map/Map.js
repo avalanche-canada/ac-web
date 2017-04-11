@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import Immutable from 'immutable'
-import mapbox, {styles} from 'services/mapbox/map'
+import mapbox, {styles} from '/services/mapbox/map'
 import {Canadian} from '/constants/map/bounds'
-import {captureException} from 'services/raven'
+import {captureException} from '/services/raven'
 import noop from 'lodash/noop'
 
 function toJSON(style) {

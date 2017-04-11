@@ -1,5 +1,5 @@
 import {ForecastRegion, HotZone, WeatherStation} from '/api/schemas'
-import {LocalStorage} from 'services/storage'
+import {LocalStorage} from '/services/storage'
 import Immutable from 'immutable'
 import get from 'lodash/get'
 

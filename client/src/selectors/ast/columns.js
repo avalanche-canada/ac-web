@@ -2,9 +2,9 @@ import React from 'react'
 import {Link} from 'react-router'
 import isSameDay from 'date-fns/is_same_day'
 import Url from 'url'
-import {Phone, Mailto, DateElement, Helper, P} from 'components/misc'
-import {HeaderCellOrders} from 'components/table'
-import {List, Term, Definition} from 'components/description'
+import {Phone, Mailto, DateElement, Helper, P} from '/components/misc'
+import {HeaderCellOrders} from '/components/table'
+import {List, Term, Definition} from '/components/description'
 
 // TODO: Use Column Record
 

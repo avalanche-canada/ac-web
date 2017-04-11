@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
-import {Metadata, Submission} from 'components/mountainInformationNetwork'
-import {LocateAsClass} from 'components/button/Locate'
-import {Loading, Error} from 'components/misc'
+import {Header, Container, Body, Navbar, Close} from '/components/page/drawer'
+import {Metadata, Submission} from '/components/mountainInformationNetwork'
+import {LocateAsClass} from '/components/button/Locate'
+import {Loading, Error} from '/components/misc'
 import Sponsor from '/containers/Sponsor'
 import {mountainInformationNetworkSubmission} from '/containers/connectors'
-import {Wrapper} from 'components/tooltip'
+import {Wrapper} from '/components/tooltip'
 
 const LOCATE_STYLE = {
     padding: '0.15em'

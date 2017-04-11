@@ -9,7 +9,7 @@ import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import {getDateExtent} from './utils'
-import {Ratio} from 'components/misc'
+import {Ratio} from '/components/misc'
 import styles from './Station.css'
 
 const theme = VictoryTheme.material

@@ -1,6 +1,6 @@
 import {defaultProps} from 'recompose'
 import {staticPage, generic} from '/prismic/components/factories'
-import {WorkInProgress} from 'components/page'
+import {WorkInProgress} from '/components/page'
 
 // Map - kind of the home page
 export Map from './Map'

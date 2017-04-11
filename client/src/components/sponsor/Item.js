@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
-import {handleOutboundSponsorClick} from 'services/analytics'
+import {handleOutboundSponsorClick} from '/services/analytics'
 
 Item.propTypes = {
     src: PropTypes.string.isRequired,

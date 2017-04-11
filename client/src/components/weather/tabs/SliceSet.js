@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Loop from '../Loop'
 import Meteogram from '../Meteogram'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML} from '/components/misc'
 
 SliceSet.propTypes = {
     slices: PropTypes.arrayOf(PropTypes.object).isRequired,

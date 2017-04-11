@@ -1,5 +1,5 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocumentsOfType, getResult, getDocuments} from 'getters/prismic'
+import {getDocumentsOfType, getResult, getDocuments} from '/getters/prismic'
 import months, {options as monthOptions} from './months'
 import transform from '/prismic/transformers'
 import computeYearOptions from './computeYearOptions'

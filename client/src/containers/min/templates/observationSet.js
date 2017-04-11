@@ -1,7 +1,7 @@
 import React, {Children} from 'react'
-import t from 'vendor/tcomb-form'
-import {TabSet, Tab} from 'components/tab'
-import {Reset} from 'components/button'
+import t from '/vendor/tcomb-form'
+import {TabSet, Tab} from '/components/tab'
+import {Reset} from '/components/button'
 import {NAMES, COLORS} from '/constants/min'
 
 const {struct} = t.form.Form.templates

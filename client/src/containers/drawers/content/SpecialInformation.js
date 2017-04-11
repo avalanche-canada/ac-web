@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
-import {InnerHTML, Status, DateTime} from 'components/misc'
-import {Metadata, Entry} from 'components/metadata'
+import {Header, Container, Body, Navbar, Close, Banner, Content} from '/components/page/drawer'
+import {InnerHTML, Status, DateTime} from '/components/misc'
+import {Metadata, Entry} from '/components/metadata'
 import {specialInformation} from '/containers/connectors'
-import {LocateAsClass} from 'components/button/Locate'
-import {Wrapper} from 'components/tooltip'
+import {LocateAsClass} from '/components/button/Locate'
+import {Wrapper} from '/components/tooltip'
 
 const LOCATION_STYLE = {
     fontSize: '1.1em',

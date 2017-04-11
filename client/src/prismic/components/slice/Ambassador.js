@@ -1,8 +1,8 @@
 import React, {DOM} from 'react'
 import {compose, mapProps} from 'recompose'
-import Ambassador from 'components/ambassador'
-import QuestionAnswer from 'components/question-answer'
-import {InnerHTML, Br} from 'components/misc'
+import Ambassador from '/components/ambassador'
+import QuestionAnswer from '/components/question-answer'
+import {InnerHTML, Br} from '/components/misc'
 
 function computeSocials({twitter, facebook, instagram, website}) {
     return [twitter, facebook, instagram, website].filter(Boolean)

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Url from 'url'
-import {Input} from 'components/controls'
-import Button from 'components/button'
+import {Input} from '/components/controls'
+import Button from '/components/button'
 import styles from './Subscribe.css'
 
 Subscribe.propTypes = {

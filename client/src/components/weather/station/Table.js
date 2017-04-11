@@ -4,7 +4,7 @@ import CSSModules from 'react-css-modules'
 import {List} from 'immutable'
 import format from 'date-fns/format'
 import {setUTCOffset} from '/utils/date'
-import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from 'components/table'
+import {Responsive, Table, Header, Row, Cell, HeaderCell, TBody, Caption} from '/components/table'
 import styles from './Table.css'
 import {DATE} from '/utils/date'
 

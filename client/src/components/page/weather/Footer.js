@@ -4,7 +4,7 @@ import {compose} from 'recompose'
 import {onlyUpdateForKey} from '/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Weather.css'
-import {Mailto} from 'components/misc'
+import {Mailto} from '/components/misc'
 
 Footer.propTypes = {
     showFeedbackAnchor: PropTypes.bool

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {compose, setPropTypes, withState, withPropsOnChange} from 'recompose'
 import textbox from './textbox'
 import ImageGallery from 'react-image-gallery'
-import {Loading, Muted, Error} from 'components/misc'
+import {Loading, Muted, Error} from '/components/misc'
 import {pluralize} from '/utils/string'
 
 function read(file, index) {

@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions'
-import {getFeatureCollection, getStatus, hasStatus} from 'getters/mapbox'
-import {getFeatures} from 'services/mapbox/datasets'
+import {getFeatureCollection, getStatus, hasStatus} from '/getters/mapbox'
+import {getFeatures} from '/services/mapbox/datasets'
 
 export const GET_FEATURES = 'GET_FEATURES'
 

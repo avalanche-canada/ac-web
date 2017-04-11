@@ -1,5 +1,5 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getResult as getBaseResult, getDocumentFromParams, getDocuments} from 'getters/prismic'
+import {getResult as getBaseResult, getDocumentFromParams, getDocuments} from '/getters/prismic'
 import parser from '/prismic/parser'
 import transform from '/prismic/transformers'
 

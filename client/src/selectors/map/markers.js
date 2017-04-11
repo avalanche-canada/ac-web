@@ -1,8 +1,8 @@
 import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from 'getters/entities'
-import {getVisibleLayers} from 'getters/drawers'
+import {getEntitiesForSchema} from '/getters/entities'
+import {getVisibleLayers} from '/getters/drawers'
 import {ForecastRegion} from '/api/schemas'
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 import * as Layers from '/constants/drawers'
 import * as Schemas from '/api/schemas'
 

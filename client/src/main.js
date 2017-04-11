@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {computeRouter} from '/router'
 import {configure, serializeFactory, deserialize} from '/store'
-import configureRaven from 'services/raven'
+import configureRaven from '/services/raven'
 import throttle from 'lodash/throttle'
 
 import 'styles'

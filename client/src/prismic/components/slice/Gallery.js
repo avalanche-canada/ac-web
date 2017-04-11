@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {TabSet, Tab, LOOSE} from 'components/tab'
-import Base from 'components/gallery'
+import {TabSet, Tab, LOOSE} from '/components/tab'
+import Base from '/components/gallery'
 
 const YES = 'Yes'
 const NO = 'No'

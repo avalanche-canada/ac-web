@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './MultiColumnLayout.css'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML} from '/components/misc'
 
 function MultiColumnLayout({content = []}) {
     return (

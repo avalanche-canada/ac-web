@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getWidth} from 'getters/map'
+import {getWidth} from '/getters/map'
 
 const isMapRoute = /^\/map\//i
 const isExternalForecastRoute = /(\/forecasts\/little-yoho|\/forecasts\/banff-yoho-kootenay|\/forecasts\/vancouver-island|\/forecasts\/jasper|\/forecasts\/waterton|\/forecasts\/chic-chocs|\/forecasts\/glacier)/i

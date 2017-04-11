@@ -1,5 +1,5 @@
 import QUICK_REPORT from '/containers/min/quick.json'
-import t from 'vendor/tcomb-form'
+import t from '/vendor/tcomb-form'
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
 import Submission from '/containers/min/types'

@@ -7,7 +7,7 @@ import Headline from './Headline'
 import Section from './Section'
 import {Mailto, Loading} from '/components/misc'
 import styles from './Page.css'
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 
 function UnsupportedMap({forecastRegions, hotZones}) {
     return (

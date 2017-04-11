@@ -3,13 +3,13 @@ import {compose, withHandlers, lifecycle, renameProp, withProps, withState} from
 import {connect} from 'react-redux'
 import Highlight from '/components/highlight'
 import {InnerHTML} from '/components/misc'
-import {load} from 'actions/prismic'
+import {load} from '/actions/prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
 import {Predicates} from '/prismic'
 import parser from '/prismic/parser'
-import {SessionStorage} from 'services/storage'
+import {SessionStorage} from '/services/storage'
 
 @connect(null, {load})
 export default class Container extends Component {

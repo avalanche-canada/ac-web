@@ -1,6 +1,6 @@
 import {lifecycle} from  'recompose'
 import {Api} from '/prismic'
-import {Predicates} from '/prismic.io'
+import {Predicates} from 'prismic.io'
 import Tutorial from '/components/tutorial'
 
 export default lifecycle({

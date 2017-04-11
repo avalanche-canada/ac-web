@@ -4,10 +4,10 @@ import {compose, lifecycle, withProps} from 'recompose'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {connect} from 'react-redux'
-import {getLayers} from 'getters/drawers'
+import {getLayers} from '/getters/drawers'
 import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
-import {Container, Header, Body, Navbar, Close} from 'components/page/drawer'
-import {LayerSet, Layer, FilterSet} from 'components/page/drawer/layers'
+import {Container, Header, Body, Navbar, Close} from '/components/page/drawer'
+import {LayerSet, Layer, FilterSet} from '/components/page/drawer/layers'
 import * as Layers from '/constants/drawers'
 import {loadData} from 'actions/map'
 import {
@@ -18,7 +18,7 @@ import {
     SpecialInformation,
     FatalAccident,
     ToyotaTruck,
-} from 'components/icons'
+} from '/components/icons'
 
 const ICONS = new Map([
     [Layers.FORECASTS, <Forecast />],

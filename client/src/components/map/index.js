@@ -1,4 +1,4 @@
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 import control from './control'
 
 export Map from './Map'

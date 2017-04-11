@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import RESULT from '/reducers/result'
-import {paramsToKey} from 'actions/prismic'
+import {paramsToKey} from '/actions/prismic'
 import transform from '/prismic/transformers'
 import {createSelector} from 'reselect'
 

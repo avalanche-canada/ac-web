@@ -6,7 +6,8 @@ import {Muted, Error} from '/components/misc'
 import {mountainInformationNetworkSubmission} from '/containers/connectors'
 import {Submission, Metadata} from '/components/mountainInformationNetwork'
 import {Marker} from '/components/map'
-import mapbox from 'mapbox'
+// TODO: Change to an index file
+import mapbox from '/services/mapbox/map'
 import min from '/components/icons/min/min-pin.svg'
 
 function createElement(props) {

@@ -1,7 +1,7 @@
 import React from 'react'
-import {Media, Caption} from 'components/media'
-import {List, Term, Definition} from 'components/description'
-import {InnerHTML} from 'components/misc'
+import {Media, Caption} from '/components/media'
+import {List, Term, Definition} from '/components/description'
+import {InnerHTML} from '/components/misc'
 
 export default function Figure({content}) {
     const {figure, credit, caption} = content[0]

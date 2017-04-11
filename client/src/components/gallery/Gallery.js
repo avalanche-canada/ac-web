@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, lifecycle, withState, withHandlers, setPropTypes} from 'recompose'
 import ImageGallery from 'react-image-gallery'
-import * as cloudinary from 'services/cloudinary'
+import * as cloudinary from '/services/cloudinary'
 
 const mapResource = cloudinary.mapToSizeFactory()
 

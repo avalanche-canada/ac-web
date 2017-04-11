@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {Status, InnerHTML} from 'components/misc'
+import {Status, InnerHTML} from '/components/misc'
 import {generic} from '/containers/connectors'
 
 @generic

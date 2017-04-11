@@ -1,4 +1,4 @@
-import {Fragments, Document, Prismic} from '/prismic.io'
+import {Fragments, Document, Prismic} from 'prismic.io'
 import camelCase from 'lodash/camelCase'
 import parse from 'date-fns/parse'
 import linkResolver from '/prismic/linkResolver'

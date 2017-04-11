@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {InnerHTML} from 'components/misc'
-import {DateElement, Image} from 'components/misc'
+import {InnerHTML} from '/components/misc'
+import {DateElement, Image} from '/components/misc'
 import Section from './Section'
-import {formatForecastUrl} from 'services/msc/loop/url'
+import {formatForecastUrl} from '/services/msc/loop/url'
 
 Day1.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

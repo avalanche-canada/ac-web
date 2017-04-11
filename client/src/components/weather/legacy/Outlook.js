@@ -1,5 +1,5 @@
 import React from 'react'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML} from '/components/misc'
 import Image from './Image'
 
 const sequence = [1, 2, 3, 4]

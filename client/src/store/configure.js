@@ -1,5 +1,5 @@
 import throttle from 'lodash/throttle'
-import {mapWidthChanged} from 'actions/map'
+import {mapWidthChanged} from '/actions/map'
 
 let configure = null
 

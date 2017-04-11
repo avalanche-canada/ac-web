@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions'
-import {isLayerVisible, isMenuOpen} from 'getters/drawers'
+import {isLayerVisible, isMenuOpen} from '/getters/drawers'
 
 export const MENU_OPENED = 'MENU_OPENED'
 export const MENU_CLOSED = 'MENU_CLOSED'

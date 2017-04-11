@@ -7,8 +7,8 @@ import CSSModule from 'react-css-modules'
 import {neverUpdate} from '/compose'
 import {zoomIn, zoomOut} from 'actions/map'
 import {computeOffset} from '/selectors/map/bounds'
-import {Remove, Add} from 'components/icons'
-import Button, {SUBTILE} from 'components/button'
+import {Remove, Add} from '/components/icons'
+import Button, {SUBTILE} from '/components/button'
 import styles from './Map.css'
 
 // TODO: Probably use the mapboxgl zoom control

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Image from './Image'
-import {DateElement, InnerHTML} from 'components/misc'
+import {DateElement, InnerHTML} from '/components/misc'
 
 Day.propTypes = {
 	date: PropTypes.instanceOf(Date).isRequired,

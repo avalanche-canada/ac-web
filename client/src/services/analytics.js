@@ -1,6 +1,6 @@
 
 import ga from 'react-ga'
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 import {googleAnalyticsId} from './config.json'
 
 // Set in the google analytics custom dimentions

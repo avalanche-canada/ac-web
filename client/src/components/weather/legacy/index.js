@@ -1,5 +1,5 @@
 import React from 'react'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML} from '/components/misc'
 import DaySet from './DaySet'
 import Outlook from './Outlook'
 

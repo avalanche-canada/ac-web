@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {ElementResize} from 'components/misc'
+import {ElementResize} from '/components/misc'
 import styles from './Problem.css'
 
 TopicSet.propTypes = {

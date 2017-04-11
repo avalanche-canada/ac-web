@@ -4,7 +4,7 @@ import logo from '/styles/AvalancheCanada.svg'
 import {clientId, domain} from './config.json'
 import decode from 'jwt-decode'
 import CancelError from '/utils/promise/CancelError'
-import {LocalStorage} from 'services/storage'
+import {LocalStorage} from '/services/storage'
 
 export default class AuthService {
     static create(options) {

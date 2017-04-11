@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import CSSModules from 'react-css-modules'
-import mapbox from 'services/mapbox/map'
-import {Map, Marker, NavigationControl, FullscreenControl} from 'components/map'
+import mapbox from '/services/mapbox/map'
+import {Map, Marker, NavigationControl, FullscreenControl} from '/components/map'
 import {Revelstoke} from '/constants/map/locations'
 import styles from './GeoPosition.css'
-import place from 'components/icons/place.svg'
+import place from '/components/icons/place.svg'
 
 const {LngLat} = mapbox
 const MARKER_OPTIONS = {

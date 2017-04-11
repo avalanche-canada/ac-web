@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 import noop from 'lodash/noop'
 
 const {LngLat} = mapbox

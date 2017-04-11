@@ -2,8 +2,8 @@ import {compose, lifecycle, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {WeatherStation} from '/api/schemas'
-import {getEntitiesForSchema} from 'getters/entities'
-import {loadWeatherStations} from 'actions/entities'
+import {getEntitiesForSchema} from '/getters/entities'
+import {loadWeatherStations} from '/actions/entities'
 import {PageList} from '/components/page'
 
 const mapStateToProps = createSelector(

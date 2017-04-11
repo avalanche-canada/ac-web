@@ -3,7 +3,7 @@ import {storiesOf, action} from '@kadira/storybook'
 import Drawer, {LEFT, RIGHT, Header, Content} from './'
 import {LayerSet, Layer} from './layers'
 import {compose, withState} from 'recompose'
-import Button from 'components/button'
+import Button from '/components/button'
 import * as TYPES from '/constants/drawers'
 
 const background = {

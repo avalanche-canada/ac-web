@@ -7,7 +7,7 @@ import {neverUpdate} from '/compose'
 import {Primary, Secondary, Menu, ToggleMenu} from '/containers/drawers'
 import Map from '/containers/Map'
 import UnsupportedMap from '/containers/UnsupportedMap'
-import mapbox from 'services/mapbox/map'
+import mapbox from '/services/mapbox/map'
 import {Wrapper} from '/components/tooltip'
 import styles from './Map.css'
 

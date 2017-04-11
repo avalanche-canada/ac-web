@@ -1,7 +1,7 @@
 import React from 'react'
 import {compose, lifecycle, withState} from 'recompose'
 import {Link} from 'react-router'
-import {Fragments} from '/prismic.io'
+import {Fragments} from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
 import {Page, Main, Content} from '/components/page'

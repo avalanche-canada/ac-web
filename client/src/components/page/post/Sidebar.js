@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, defaultProps} from 'recompose'
 import {feedSidebar} from '/containers/connectors'
-import Sidebar, {Header, Item} from 'components/sidebar'
+import Sidebar, {Header, Item} from '/components/sidebar'
 import Link from '/prismic/components/Link'
 import {EVENT, NEWS, BLOG} from '/selectors/prismic/feed'
 
