@@ -1,9 +1,9 @@
 import Immutable from 'immutable'
 import {combineReducers} from 'redux'
 import {POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION} from 'actions/entities'
-import * as Schemas from 'api/schemas'
-import {paramsToKey, getIds} from 'reducers/utils'
-import {Result} from 'reducers/result'
+import * as Schemas from '/api/schemas'
+import {paramsToKey, getIds} from '/reducers/utils'
+import {Result} from '/reducers/result'
 
 export default combineReducers({
     entities,

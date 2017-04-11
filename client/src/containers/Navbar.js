@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import {compose, withProps, withHandlers} from 'recompose'
-import Navbar from 'components/navbar'
-import * as Menus from 'constants/menu'
+import Navbar from '/components/navbar'
+import * as Menus from '/constants/menu'
 import {getIsAuthenticated, getProfile} from 'getters/auth'
 import {login, logout} from 'actions/auth'
 

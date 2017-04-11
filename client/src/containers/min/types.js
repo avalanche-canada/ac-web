@@ -1,5 +1,5 @@
 import t, {GeoPosition, DateTime, FileList, createBooleanStruct} from 'vendor/tcomb-form'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, TYPES} from 'constants/min'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, TYPES} from '/constants/min'
 import isPast from 'date-fns/is_past'
 
 function range(min, max) {

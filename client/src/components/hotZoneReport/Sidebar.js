@@ -1,9 +1,9 @@
 import React from 'react'
 import {compose, mapProps} from 'recompose'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '/compose'
 import {Link} from 'react-router'
-import {Sidebar, Contact, Follow, Share, Item} from 'components/sidebar'
-import {FORECASTERS} from 'constants/emails'
+import {Sidebar, Contact, Follow, Share, Item} from '/components/sidebar'
+import {FORECASTERS} from '/constants/emails'
 
 export default compose(
     onlyUpdateForKey('shareUrl'),

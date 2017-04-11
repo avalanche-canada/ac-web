@@ -5,8 +5,8 @@ import {Header, Container, Body, Navbar, Close} from 'components/page/drawer'
 import {Metadata, Submission} from 'components/mountainInformationNetwork'
 import {LocateAsClass} from 'components/button/Locate'
 import {Loading, Error} from 'components/misc'
-import Sponsor from 'containers/Sponsor'
-import {mountainInformationNetworkSubmission} from 'containers/connectors'
+import Sponsor from '/containers/Sponsor'
+import {mountainInformationNetworkSubmission} from '/containers/connectors'
 import {Wrapper} from 'components/tooltip'
 
 const LOCATE_STYLE = {

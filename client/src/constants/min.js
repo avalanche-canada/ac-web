@@ -1,4 +1,4 @@
-import * as MIN_COLORS from 'components/icons/min/colors'
+import * as MIN_COLORS from '/components/icons/min/colors'
 
 export const QUICK = 'quick'
 export const WEATHER = 'weather'

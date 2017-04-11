@@ -1,2 +1,2 @@
 export * as Api from './Api'
-export {Predicates} from 'prismic.io'
+export {Predicates} from '/prismic.io'

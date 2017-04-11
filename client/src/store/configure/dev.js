@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import {Iterable} from 'immutable'
 import promise from 'redux-promise-middleware'
-import reducer from 'reducers'
+import reducer from '/reducers'
 // import DevTools from '../containers/DevTools'
 
 export default function configureStore(preloadedState) {

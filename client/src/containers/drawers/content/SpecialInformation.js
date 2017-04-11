@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
 import {InnerHTML, Status, DateTime} from 'components/misc'
 import {Metadata, Entry} from 'components/metadata'
-import {specialInformation} from 'containers/connectors'
+import {specialInformation} from '/containers/connectors'
 import {LocateAsClass} from 'components/button/Locate'
 import {Wrapper} from 'components/tooltip'
 

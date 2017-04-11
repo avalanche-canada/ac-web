@@ -1,4 +1,4 @@
-import {NotImplementedError} from 'utils/error'
+import {NotImplementedError} from '/utils/error'
 import Memory from './Memory'
 
 const {parse, stringify} = JSON

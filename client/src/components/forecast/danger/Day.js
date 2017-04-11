@@ -10,13 +10,13 @@ import Elevations, {
     BTL,
     Texts as ElevationTexts,
     Palette as ElevationPalette,
-} from 'constants/forecast/elevation'
+} from '/constants/forecast/elevation'
 import Ratings, {
     EXTREME,
     Texts as RatingTexts,
     Palette as RatingPalette,
-} from 'constants/forecast/rating'
-import {WHITE, BLACK} from 'constants/forecast/palette'
+} from '/constants/forecast/rating'
+import {WHITE, BLACK} from '/constants/forecast/palette'
 import {Day as DayElement} from 'components/misc'
 import {DangerCard} from 'components/graphics'
 

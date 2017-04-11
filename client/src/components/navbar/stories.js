@@ -1,7 +1,7 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
 import {withKnobs, number, boolean, text} from '@kadira/storybook-addon-knobs'
-import {AvalancheCanada, AvalancheCanadaFoundation} from 'constants/menu'
+import {AvalancheCanada, AvalancheCanadaFoundation} from '/constants/menu'
 import Navbar from './index'
 import Menu from './Menu'
 import Section from './Section'

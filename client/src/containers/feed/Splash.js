@@ -1,8 +1,8 @@
 import React from 'react'
-import {Splash} from 'components/page/sections'
-import {InnerHTML} from 'components/misc'
-import {Entry, EntrySet} from 'components/feed'
-import {feedSplash} from 'containers/connectors'
+import {Splash} from '/components/page/sections'
+import {InnerHTML} from '/components/misc'
+import {Entry, EntrySet} from '/components/feed'
+import {feedSplash} from '/containers/connectors'
 
 // TODO: Move to components feed. Containers should not render anything! 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '/compose'
 
 function createStyle(count, gap) {
     if (count === 1) {

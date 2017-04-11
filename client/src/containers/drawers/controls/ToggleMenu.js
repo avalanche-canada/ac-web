@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {toggleMenu} from 'actions/drawers'
 import {Menu} from 'components/icons'
 import Button, {SUBTILE} from 'components/button'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '/compose'
 
 export default compose(
     setDisplayName('ToggleMenu'),

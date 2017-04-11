@@ -1,4 +1,4 @@
-import * as Layers from 'constants/drawers'
+import * as Layers from '/constants/drawers'
 
 const toyotaLayers = [{
     id: Layers.TOYOTA_TRUCK_REPORTS,

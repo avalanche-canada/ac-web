@@ -6,13 +6,13 @@ import startOfDay from 'date-fns/start_of_day'
 import {load} from 'actions/prismic'
 import {turnOnLayer} from 'actions/drawers'
 import * as MapActions from 'actions/map'
-import * as Drawers from 'containers/drawers'
+import * as Drawers from '/containers/drawers'
 import {getIsAuthenticated} from 'getters/auth'
 import QueryString from 'query-string'
 import {login, receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import AuthService from 'services/auth'
-import {FallbackPage} from 'prismic/components/page'
+import {FallbackPage} from '/prismic/components/page'
 import {
     About,
     Events,
@@ -55,20 +55,20 @@ import {
     WeatherStation,
     WeatherStationList,
     EarlySeasonConditions,
-} from 'containers'
-import {Forecast as WeatherForecast} from 'containers/Weather'
-import * as Feed from 'containers/feed'
-import * as Foundation from 'containers/foundation'
-import * as Funds from 'containers/funds'
-import * as Layouts from 'layouts'
-import * as table from 'layouts/min/table'
-import {NotFound} from 'components/page'
-import * as articles from 'components/page/weather/articles'
-import {AvalancheCanadaFoundation} from 'containers/Navbar'
+} from '/containers'
+import {Forecast as WeatherForecast} from '/containers/Weather'
+import * as Feed from '/containers/feed'
+import * as Foundation from '/containers/foundation'
+import * as Funds from '/containers/funds'
+import * as Layouts from '/layouts'
+import * as table from '/layouts/min/table'
+import {NotFound} from '/components/page'
+import * as articles from '/components/page/weather/articles'
+import {AvalancheCanadaFoundation} from '/containers/Navbar'
 import ReactGA from 'services/analytics'
 import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from 'getters/api'
-import * as Schemas from 'api/schemas'
+import * as Schemas from '/api/schemas'
 
 export default function computeRoutes(store) {
     const {dispatch, getState} = store

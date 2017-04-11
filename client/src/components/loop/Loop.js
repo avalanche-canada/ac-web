@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image, Ratio, Delay, Loading} from 'components/misc'
-import {Fullscreen} from 'components/icons'
+import {Image, Ratio, Delay, Loading} from '/components/misc'
+import {Fullscreen} from '/components/icons'
 import ButtonSet from './ButtonSet'
 import styles from './Loop.css'
-import Button, {PRIMARY} from 'components/button'
+import Button, {PRIMARY} from '/components/button'
 
 const FullscreenIcons = new Map([
     [true, <Fullscreen inverse />],

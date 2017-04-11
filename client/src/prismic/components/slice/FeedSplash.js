@@ -1,5 +1,5 @@
 import {compose, withProps} from 'recompose'
-import FeedSplash from 'containers/feed/Splash'
+import FeedSplash from '/containers/feed/Splash'
 
 const types = new Map([
     ['Events', 'event'],

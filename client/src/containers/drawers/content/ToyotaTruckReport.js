@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from 'components/page/drawer'
 import {InnerHTML, Ratio, Status} from 'components/misc'
 import {Link} from 'react-router'
-import Sponsor from 'containers/Sponsor'
+import Sponsor from '/containers/Sponsor'
 import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
-import {toyotaTruckReport} from 'containers/connectors'
+import {toyotaTruckReport} from '/containers/connectors'
 
 const NAVBAR_STYLE = {
     position: 'absolute',

@@ -1,11 +1,11 @@
 import Immutable from 'immutable'
 import {handleAction, handleActions} from 'redux-actions'
 import {combineReducers} from 'redux'
-import {getPayload} from 'reducers/utils'
+import {getPayload} from '/reducers/utils'
 import * as Actions from 'actions/map'
-import Layers from 'constants/map/layers'
-import Sources from 'constants/map/sources'
-import Status from 'utils/status'
+import Layers from '/constants/map/layers'
+import Sources from '/constants/map/sources'
+import Status from '/utils/status'
 import typeToReducer from 'type-to-reducer'
 
 export default combineReducers({

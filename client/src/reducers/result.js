@@ -1,5 +1,5 @@
 import Immutable from 'immutable'
-import Status from 'utils/status'
+import Status from '/utils/status'
 
 export const Result = Immutable.Record({
     isFetching: false,

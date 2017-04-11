@@ -8,7 +8,7 @@ import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
 import format from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
-import {loadImage} from 'utils/promise'
+import {loadImage} from '/utils/promise'
 
 export function getNotes(type) {
     if (Forecast.has(type)) {

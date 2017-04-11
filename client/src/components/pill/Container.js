@@ -1,5 +1,5 @@
 import {DOM} from 'react'
-import {Element} from 'compose'
+import {Element} from '/compose'
 import styles from './Pill.css'
 
 export default Element({

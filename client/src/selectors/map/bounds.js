@@ -4,10 +4,10 @@ import createBbox from '@turf/bbox'
 import turf from '@turf/helpers'
 import mapbox from 'services/mapbox/map'
 import {getActiveFeatures} from 'getters/map'
-import {getPrimary, getSecondary} from 'selectors/drawers'
+import {getPrimary, getSecondary} from '/selectors/drawers'
 import {getEntities} from 'getters/entities'
 import {getDocuments} from 'getters/prismic'
-import Parser, {parseLocation} from 'prismic/parser'
+import Parser, {parseLocation} from '/prismic/parser'
 
 const {LngLatBounds} = mapbox
 

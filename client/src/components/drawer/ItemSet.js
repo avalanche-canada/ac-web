@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {compose} from 'recompose'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '/compose'
 import CSSModules from 'react-css-modules'
 import Item from './Item'
-import Link from 'components/navbar/Link'
+import Link from '/components/navbar/Link'
 import styles from './Drawer.css'
 
 ItemSet.propTypes = {

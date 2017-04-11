@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
-import Loop from 'components/loop'
+import Loop from '/components/loop'
 import {computeUrls, getNotes} from 'services/msc/loop/url'
 import {Forecast, CurrentConditions} from 'services/msc/loop/Metadata'
-import {Loading, Error} from 'components/misc'
+import {Loading, Error} from '/components/misc'
 
 export default class extends PureComponent {
     static propTypes = {

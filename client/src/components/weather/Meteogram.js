@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, mapProps, setPropTypes, setDisplayName} from 'recompose'
 import padstart from 'lodash/padStart'
-import {Image} from 'components/misc'
+import {Image} from '/components/misc'
 import {
     format,
     POINT_LOCATIONS,

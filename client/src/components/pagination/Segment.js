@@ -1,7 +1,7 @@
 import React, {DOM} from 'react'
 import PropTypes from 'prop-types'
 import {compose, withHandlers, onlyUpdateForKeys} from 'recompose'
-import {Element, neverUpdate} from 'compose'
+import {Element, neverUpdate} from '/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 

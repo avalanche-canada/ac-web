@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
 import Comment from './Comment'
-import {trulyKeys, projectKeys} from 'utils/object'
-import {List, Term, Definition} from 'components/description'
+import {trulyKeys, projectKeys} from '/utils/object'
+import {List, Term, Definition} from '/components/description'
 
 const avalancheConditionsTexts = {
     slab: 'Slab avalanches today or yesterday.',

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Metadata, Entry, ShareEntry} from 'components/metadata'
-import {DateElement} from 'components/misc'
-import {DATETIME} from 'utils/date'
+import {Metadata, Entry, ShareEntry} from '/components/metadata'
+import {DateElement} from '/components/misc'
+import {DATETIME} from '/utils/date'
 
 export function DateIssued({dateIssued}) {
     return (

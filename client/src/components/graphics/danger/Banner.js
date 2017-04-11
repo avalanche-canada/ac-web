@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Elevations, {ALP, TLN, BTL} from 'constants/forecast/elevation'
+import Elevations, {ALP, TLN, BTL} from '/constants/forecast/elevation'
 import Ratings, {
     NO_RATING,
     CONSIDERABLE,
@@ -8,7 +8,7 @@ import Ratings, {
     TravelAdvices,
     LikehoodOfAvalanche,
     SizeAndDistribution,
-} from 'constants/forecast/rating'
+} from '/constants/forecast/rating'
 import {BannerFill, BannerStroke, TextFill} from './colors'
 import IconGroups from './IconGroups'
 import noop from 'lodash/noop'

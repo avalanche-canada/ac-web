@@ -1,7 +1,7 @@
 import React, {DOM} from 'react'
 import PropTypes from 'prop-types'
 import {compose, defaultProps} from 'recompose'
-import {Element} from 'compose'
+import {Element} from '/compose'
 import styles from './Text.css'
 
 function text({children = null, name, component = DOM.p}) {

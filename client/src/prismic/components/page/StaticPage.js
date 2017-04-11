@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Page, Content, Header, Headline, Main, Banner, Aside} from 'components/page'
-import Slice from 'prismic/components/slice'
+import Slice from '/prismic/components/slice'
 import Sidebar from './Sidebar'
 import {Status} from 'components/misc'
 

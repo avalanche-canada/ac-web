@@ -3,7 +3,7 @@ import Immutable from 'immutable'
 import {handleAction} from 'redux-actions'
 import {GET_FEATURES} from 'actions/mapbox'
 import typeToReducer from 'type-to-reducer'
-import Status from 'utils/status'
+import Status from '/utils/status'
 
 export default combineReducers({
     features: typeToReducer({

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {Motion, spring, presets} from 'react-motion'
 import CSSModules from 'react-css-modules'
-import {history} from 'router'
-import Link from 'components/navbar/Link'
+import {history} from '/router'
+import Link from '/components/navbar/Link'
 import Cabinet from './Cabinet'
 import Item from './Item'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
-import {findNode, getPath, getParent} from 'utils/tree'
+import {findNode, getPath, getParent} from '/utils/tree'
 
 const preset = presets.noWobble
 

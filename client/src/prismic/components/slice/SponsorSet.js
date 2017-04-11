@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ItemSet, Item} from 'components/sponsor'
 import {getDocumentsOfType} from 'getters/prismic'
-import transform from 'prismic/transformers'
+import transform from '/prismic/transformers'
 
 function parse(document) {
     const {image229, name, url} = transform(document)

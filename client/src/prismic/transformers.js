@@ -1,5 +1,5 @@
-import PARSER from 'prismic/parser'
-import {normalizeTags, boolean} from 'prismic/utils'
+import PARSER from '/prismic/parser'
+import {normalizeTags, boolean} from '/prismic/utils'
 
 export function blog(document, parser = PARSER) {
     if (!document) {

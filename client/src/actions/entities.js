@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions'
-import * as Schemas from 'api/schemas'
-import * as Api from 'api'
-import {createFetchActionForSchema, createFetchMetadataAction} from 'api/utils'
+import * as Schemas from '/api/schemas'
+import * as Api from '/api'
+import {createFetchActionForSchema, createFetchMetadataAction} from '/api/utils'
 
 export const GET_FORECAST = 'GET_FORECAST'
 export const GET_FEATURES_METADATA = 'GET_FEATURES_METADATA'

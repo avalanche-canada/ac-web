@@ -4,7 +4,7 @@ import en from 'tcomb-form/lib/i18n/en'
 import templates, {pickers} from './templates/src'
 import Picker from './Picker'
 import {GeoPosition as GeoPositionControl} from 'components/controls'
-import {isTypeSupported} from 'utils/input'
+import {isTypeSupported} from '/utils/input'
 import parse from 'date-fns/parse'
 
 // Date

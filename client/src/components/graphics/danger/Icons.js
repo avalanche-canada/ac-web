@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Ratings from 'constants/forecast/rating'
+import * as Ratings from '/constants/forecast/rating'
 import * as Groups from './IconGroups'
 
 function Svg({children, ...props}) {

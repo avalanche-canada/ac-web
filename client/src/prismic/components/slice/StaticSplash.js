@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Splash} from 'components/page/sections'
 import {InnerHTML} from 'components/misc'
-import Generic from 'prismic/components/Generic'
+import Generic from '/prismic/components/Generic'
 
 export default function StaticSplash({
     content: [{header, post1, post2, post3, hash}],

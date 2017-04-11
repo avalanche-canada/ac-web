@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {getDocumentForUid} from 'getters/prismic'
-import transform from 'prismic/transformers'
+import transform from '/prismic/transformers'
 import {getSponsors, getActiveSponsor} from 'getters/sponsors'
 
 const EMPTY = {}

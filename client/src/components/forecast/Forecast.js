@@ -8,9 +8,9 @@ import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import {Table, Day, DaySet, Condition, Confidence} from './danger'
 import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
-import {Article, Header} from 'components/page'
-import {Metadata, Entry} from 'components/metadata'
-import {TabSet, Tab, LOOSE} from 'components/tab'
+import {Article, Header} from '/components/page'
+import {Metadata, Entry} from '/components/metadata'
+import {TabSet, Tab, LOOSE} from '/components/tab'
 import styles from './Forecast.css'
 
 Forecast.propTypes = {

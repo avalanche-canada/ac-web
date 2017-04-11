@@ -3,7 +3,7 @@ import {createSelector} from 'reselect'
 import {compose, withProps, nest} from 'recompose'
 import {connect} from 'react-redux'
 import {isMenuOpen} from 'getters/drawers'
-import Drawer, {LEFT} from 'components/page/drawer'
+import Drawer, {LEFT} from '/components/page/drawer'
 import {closeMenu} from 'actions/drawers'
 import Content from './content/Menu'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Entry from './Entry'
-import {SocialSet, SocialItem} from 'components/social'
-import {createShareUrls} from 'components/social/utils'
+import {SocialSet, SocialItem} from '/components/social'
+import {createShareUrls} from '/components/social/utils'
 
 function createTitle(provider) {
     return `Share on ${provider}`

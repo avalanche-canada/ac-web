@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions'
-import {fetchSponsors} from 'api'
+import {fetchSponsors} from '/api'
 import {getActiveSponsor, getSponsors} from 'getters/sponsors'
-import {DelayPromise} from 'utils/promise'
+import {DelayPromise} from '/utils/promise'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
 export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'

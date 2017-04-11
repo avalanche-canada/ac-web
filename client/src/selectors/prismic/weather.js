@@ -1,9 +1,9 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocument, getDocumentFromResult, getStatusFactory} from 'selectors/prismic/utils'
+import {getDocument, getDocumentFromResult, getStatusFactory} from '/selectors/prismic/utils'
 import {getProfile, getIsAuthenticated} from 'getters/auth'
-import Parser from 'prismic/parser'
+import Parser from '/prismic/parser'
 import format from 'date-fns/format'
-import {DATE} from 'utils/date'
+import {DATE} from '/utils/date'
 import TABS, {DAY5TO7} from 'components/weather/tabs'
 
 export default createStructuredSelector({

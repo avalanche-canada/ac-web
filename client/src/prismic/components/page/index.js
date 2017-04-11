@@ -1,6 +1,6 @@
 import {compose, componentFromProp, withProps} from 'recompose'
-import {getDocumentAndStatus} from 'selectors/prismic/utils'
-import {prismic} from 'containers/connectors'
+import {getDocumentAndStatus} from '/selectors/prismic/utils'
+import {prismic} from '/containers/connectors'
 import StaticPage from './StaticPage'
 import Generic from './Generic'
 

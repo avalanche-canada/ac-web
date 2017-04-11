@@ -2,7 +2,7 @@ import React, {Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, withState, setDisplayName} from 'recompose'
 import CSSModules from 'react-css-modules'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '/compose'
 import styles from './Table.css'
 
 // TODO: Needs to have functions to expandAll and collapseAll

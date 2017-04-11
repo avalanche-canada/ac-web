@@ -5,7 +5,7 @@ import Error from './Error'
 import Main from './Main'
 import Headline from './Headline'
 import Section from './Section'
-import {Mailto, Loading} from 'components/misc'
+import {Mailto, Loading} from '/components/misc'
 import styles from './Page.css'
 import mapbox from 'services/mapbox/map'
 

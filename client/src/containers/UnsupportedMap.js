@@ -1,10 +1,10 @@
 import {compose, lifecycle, onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import {ForecastRegion, HotZone} from 'api/schemas'
+import {ForecastRegion, HotZone} from '/api/schemas'
 import {getEntitiesForSchema} from 'getters/entities'
 import {loadFeaturesMetadata} from 'actions/entities'
-import {UnsupportedMap} from 'components/page'
+import {UnsupportedMap} from '/components/page'
 
 const mapStateToProps = createSelector(
     state => getEntitiesForSchema(state, ForecastRegion),

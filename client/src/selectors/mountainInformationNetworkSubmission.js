@@ -1,8 +1,8 @@
 import {createSelector} from 'reselect'
-import {MountainInformationNetworkSubmission} from 'api/schemas'
+import {MountainInformationNetworkSubmission} from '/api/schemas'
 import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'getters/api'
-import {computeOffset} from 'selectors/map/bounds'
+import {computeOffset} from '/selectors/map/bounds'
 
 export function getId({location, params}) {
     if (location && location.query.panel) {

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
-import Alert, {WARNING} from 'components/alert'
-import {DateElement} from 'components/misc'
+import Alert, {WARNING} from '/components/alert'
+import {DateElement} from '/components/misc'
 import styles from './ArchiveWarning.css'
 
 const LinkPropType = PropTypes.shape({

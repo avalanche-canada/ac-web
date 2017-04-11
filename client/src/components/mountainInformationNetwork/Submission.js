@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import ImageGallery from 'react-image-gallery'
-import {Tab, TabSet} from 'components/tab'
+import {Tab, TabSet} from '/components/tab'
 import Observation from './Observation'
-import {INCIDENT, NAMES, TYPES, COLORS} from 'constants/min'
+import {INCIDENT, NAMES, TYPES, COLORS} from '/constants/min'
 import styles from './MountainInformationNetwork.css'
 
 Submission.propTypes = {

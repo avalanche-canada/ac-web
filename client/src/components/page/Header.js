@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
-import Sponsor from 'containers/Sponsor'
+import Sponsor from '/containers/Sponsor'
 
 Header.propTypes = {
     title: PropTypes.node.isRequired,

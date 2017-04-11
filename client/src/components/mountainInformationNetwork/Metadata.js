@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {DateTime} from 'components/misc'
+import {DateTime} from '/components/misc'
 import {Link} from 'react-router'
-import {MapLocation} from 'components/icons'
-import {Metadata, Entry, ShareEntry} from 'components/metadata'
-import {Wrapper} from 'components/tooltip'
+import {MapLocation} from '/components/icons'
+import {Metadata, Entry, ShareEntry} from '/components/metadata'
+import {Wrapper} from '/components/tooltip'
 import styles from './MountainInformationNetwork.css'
-import {MountainInformationNetworkSubmission as Schema} from 'api/schemas'
+import {MountainInformationNetworkSubmission as Schema} from '/api/schemas'
 
 MountainInformationNetworkMetadata.propTypes = {
     submittedOn: PropTypes.instanceOf(Date).isRequired,

@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose} from 'recompose'
-import Section from 'components/mountainInformationNetwork/Section'
-import {List, Term, Definition} from 'components/description'
-import {InnerHTML} from 'components/misc'
+import Section from '/components/mountainInformationNetwork/Section'
+import {List, Term, Definition} from '/components/description'
+import {InnerHTML} from '/components/misc'
 import styles from './HotZoneReport.css'
 
 TerrainSummary.propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import {List, Term, Definition} from 'components/description'
+import {List, Term, Definition} from '/components/description'
 import Table from './Table'
 import TBody, { Controlled as ControlledTBody} from './TBody'
 import Row from './Row'

@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {compose, withHandlers, lifecycle, renameProp, withProps, withState} from 'recompose'
 import {connect} from 'react-redux'
-import Highlight from 'components/highlight'
-import {InnerHTML} from 'components/misc'
+import Highlight from '/components/highlight'
+import {InnerHTML} from '/components/misc'
 import {load} from 'actions/prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import {Predicates} from 'prismic'
-import parser from 'prismic/parser'
+import {Predicates} from '/prismic'
+import parser from '/prismic/parser'
 import {SessionStorage} from 'services/storage'
 
 @connect(null, {load})

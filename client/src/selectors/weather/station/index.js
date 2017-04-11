@@ -1,12 +1,12 @@
 import {List} from 'immutable'
 import {createSelector, createStructuredSelector} from 'reselect'
-import {WeatherStation} from 'api/schemas'
+import {WeatherStation} from '/api/schemas'
 import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'getters/api'
 import * as Columns from './columns'
 import * as Headers from './headers'
-import {computeOffset} from 'selectors/map/bounds'
-import Status from 'utils/status'
+import {computeOffset} from '/selectors/map/bounds'
+import Status from '/utils/status'
 
 function getWeatherStationRaw(state, {params, id}) {
     // For panel or page

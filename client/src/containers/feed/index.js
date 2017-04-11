@@ -1,4 +1,4 @@
-import {feed} from 'containers/connectors'
+import {feed} from '/containers/connectors'
 import {
     Feed as FeedComponent,
     FilterSet as FilterSetComponent

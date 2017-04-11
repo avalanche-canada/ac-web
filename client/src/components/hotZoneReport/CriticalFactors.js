@@ -1,13 +1,13 @@
 import React, {PureComponent, createElement} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Comment from 'components/mountainInformationNetwork/Comment'
-import Section from 'components/mountainInformationNetwork/Section'
-import List from 'components/mountainInformationNetwork/List'
-import {Term, Definition} from 'components/description'
-import Panel, {INVERSE} from 'components/panel'
+import Comment from '/components/mountainInformationNetwork/Comment'
+import Section from '/components/mountainInformationNetwork/Section'
+import List from '/components/mountainInformationNetwork/List'
+import {Term, Definition} from '/components/description'
+import Panel, {INVERSE} from '/components/panel'
 import styles from './HotZoneReport.css'
-import {RED, ORANGE} from 'constants/forecast/palette'
+import {RED, ORANGE} from '/constants/forecast/palette'
 
 const TERMS = new Map([
     ['persistentAvalancheProblem', 'Persistent avalanche problem'],

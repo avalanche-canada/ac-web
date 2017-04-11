@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Link from 'prismic/components/Link'
+import Link from '/prismic/components/Link'
 import styles from './SPAW.css'
 
 SPAW.propTypes = {

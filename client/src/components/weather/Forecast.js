@@ -1,7 +1,7 @@
 import React, {createElement} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {TabSet, Tab} from 'components/tab'
+import {TabSet, Tab} from '/components/tab'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
@@ -9,9 +9,9 @@ import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
 import styles from './Forecast.css'
-import Tutorial from 'containers/WeatherTutorial'
+import Tutorial from '/containers/WeatherTutorial'
 import Legacy from './legacy'
-import TABS, {SYNOPSIS, DAY1, DAY2, DAY3TO4, DAY5TO7} from 'components/weather/tabs'
+import TABS, {SYNOPSIS, DAY1, DAY2, DAY3TO4, DAY5TO7} from '/components/weather/tabs'
 
 const TABS_PROPS = new Map([
 	[SYNOPSIS, {

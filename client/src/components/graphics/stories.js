@@ -1,6 +1,6 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
-import * as Ratings from 'constants/forecast/rating'
+import * as Ratings from '/constants/forecast/rating'
 import {DangerIcon, DangerCard} from './index'
 
 const {LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING} = Ratings

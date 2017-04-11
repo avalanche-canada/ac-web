@@ -1,11 +1,11 @@
 import * as normalizr from 'normalizr'
 import {createAction} from 'redux-actions'
-import * as Api from 'api'
-import * as Schemas from 'api/schemas'
+import * as Api from '/api'
+import * as Schemas from '/api/schemas'
 import * as Actions from 'actions/entities'
 import {getResultsSet, hasResultsSet} from 'getters/api'
 import {getEntitiesForSchema} from 'getters/entities'
-import {DelayPromise} from 'utils/promise'
+import {DelayPromise} from '/utils/promise'
 
 function normalize(data, schema) {
     let shape = schema

@@ -6,7 +6,7 @@ import {Metadata, Entry} from 'components/metadata'
 import Forecast from 'components/weather'
 import {Status as StatusComponent} from 'components/misc'
 import {DayPicker} from 'components/controls'
-import Status from 'utils/status'
+import Status from '/utils/status'
 import noop from 'lodash/noop'
 
 const STYLE = {

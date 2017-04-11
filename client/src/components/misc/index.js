@@ -1,6 +1,6 @@
 import startOfDay from 'date-fns/start_of_day'
 import parse from 'date-fns/parse'
-import {DATE, DATETIME, TIME} from 'utils/date'
+import {DATE, DATETIME, TIME} from '/utils/date'
 import {createTime} from './Time'
 
 export Ribbon from './Ribbon'

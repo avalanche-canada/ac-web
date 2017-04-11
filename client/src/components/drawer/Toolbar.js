@@ -3,7 +3,7 @@ import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import styles from './Drawer.css'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '/compose'
 
 Toolbar.propTypes = {
     onClose: PropTypes.func.isRequired,

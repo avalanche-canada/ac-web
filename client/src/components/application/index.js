@@ -1,4 +1,4 @@
-import {Element} from 'compose'
+import {Element} from '/compose'
 import styles from './Application.css'
 
 export default Element({

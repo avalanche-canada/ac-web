@@ -1,5 +1,5 @@
-import {setUTCOffset} from 'utils/date'
-import {toCompass} from 'utils/degrees'
+import {setUTCOffset} from '/utils/date'
+import {toCompass} from '/utils/degrees'
 import format from 'date-fns/format'
 import printf from 'printf'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import BaseButton, {PRIMARY} from 'components/button'
+import BaseButton, {PRIMARY} from '/components/button'
 import styles from './Loop.css'
 import {
     FirstPage,
@@ -11,7 +11,7 @@ import {
     Pause,
     ChevronRight,
     ChevronLeft
-} from 'components/icons'
+} from '/components/icons'
 
 const Button = defaultProps({
     kind: PRIMARY

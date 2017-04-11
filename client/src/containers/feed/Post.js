@@ -1,7 +1,7 @@
 import {compose, lifecycle} from 'recompose'
 import {withRouter} from 'react-router'
-import Post from 'components/page/post'
-import {post} from 'containers/connectors'
+import Post from '/components/page/post'
+import {post} from '/containers/connectors'
 
 export default compose(
     withRouter,

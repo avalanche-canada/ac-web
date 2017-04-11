@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {RSS} from 'components/icons'
+import {RSS} from '/components/icons'
 import SocialItem from './SocialItem'
 
 RSSFeed.propTypes = {

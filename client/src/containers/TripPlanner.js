@@ -1,10 +1,10 @@
 import React from 'react'
 import {compose} from 'recompose'
 import {connect} from 'react-redux'
-import {Page, Content, Header, Main, Section} from 'components/page'
-import Forecast, {Metadata} from 'components/forecast'
-import {Muted, Error} from 'components/misc'
-import {Map} from 'components/map'
+import {Page, Content, Header, Main, Section} from '/components/page'
+import Forecast, {Metadata} from '/components/forecast'
+import {Muted, Error} from '/components/misc'
+import {Map} from '/components/map'
 
 const STYLE = {
     position: 'relative',

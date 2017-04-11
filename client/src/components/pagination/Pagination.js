@@ -5,7 +5,7 @@ import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 import Segment, {Disabled} from './Segment'
 import range from 'lodash/range'
-import pagination from 'utils/pagination'
+import pagination from '/utils/pagination'
 import noop from 'lodash/noop'
 
 @CSSModules(styles)

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {Page, Header, Main, Content, Aside} from 'components/page'
-import Forecast, {Metadata, Sidebar, KananaskisSidebar} from 'components/forecast'
-import {Muted, Error, SPAW, InnerHTML} from 'components/misc'
-import {forecast} from 'containers/connectors'
+import {Page, Header, Main, Content, Aside} from '/components/page'
+import Forecast, {Metadata, Sidebar, KananaskisSidebar} from '/components/forecast'
+import {Muted, Error, SPAW, InnerHTML} from '/components/misc'
+import {forecast} from '/containers/connectors'
 
 const SPAW_STYLE = {
     padding: '1em',

@@ -1,10 +1,10 @@
 import React, {createElement} from 'react'
 import PropTypes from 'prop-types'
 import {compose} from 'recompose'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '/compose'
 import memoize from 'lodash/memoize'
 import CSSModules from 'react-css-modules'
-import * as Icons from 'components/icons'
+import * as Icons from '/components/icons'
 import styles from './Social.css'
 import {FACEBOOK, TWITTER, INSTAGRAM, VIMEO, GOOGLE_PLUS} from './Providers'
 
