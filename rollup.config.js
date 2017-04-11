@@ -13,10 +13,12 @@ import builtins from 'rollup-plugin-node-builtins'
 import image from 'rollup-plugin-image'
 
 // PostCSS plugins
-import simplevars from 'postcss-simple-vars'
-import nested from 'postcss-nested'
+import postcssImport from 'postcss-import'
 import cssnext from 'postcss-cssnext'
+import postcssModules from 'postcss-modules'
 import cssnano from 'cssnano'
+
+const cssExportMap = {}
 
 export default {
     entry: 'client/src/main.js',
@@ -29,13 +31,23 @@ export default {
         json(),
         postcss({
             plugins: [
-                simplevars(),
-                nested(),
-                cssnext({ warnForDuplicates: false }),
+                postcssImport(),
+                cssnext({
+                    warnForDuplicates: false
+                }),
+                postcssModules({
+                    getJSON (id, exportTokens) {
+                        cssExportMap[id] = exportTokens
+                    }
+                }),
                 cssnano(),
             ],
+            getExport (id) {
+                return cssExportMap[id]
+            },
             extensions: ['.css'],
             extract : 'dist/public/style.css',
+            sourceMap: true,
         }),
         resolve({
             jsnext: true,
@@ -44,10 +56,10 @@ export default {
         }),
         commonjs({
             exclude: 'client/src/**',
-            include: ['node_modules/**'],
+            include: 'node_modules/**',
             namedExports: {
                 'node_modules/react-dom/index.js': ['render'],
-                'node_modules/react/react.js': ['createElement', 'PureComponent', 'Component', 'DOM', 'cloneElement'],
+                'node_modules/react/react.js': ['createElement', 'PureComponent', 'Component', 'DOM', 'cloneElement', 'PropTypes'],
                 'node_modules/react-router/node_modules/prop-types/index.js': ['object', 'func', 'arrayOf', 'oneOfType', 'element', 'shape', 'string', 'array', 'bool'],
             },
         }),
