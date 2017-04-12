@@ -11,7 +11,6 @@ import {
     transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
-    transformForecastResponse,
     sanitizeMountainInformationNetworkSubmissions,
 } from './transformers'
 
