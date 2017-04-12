@@ -7,7 +7,7 @@ RSSFeed.propTypes = {
     url: PropTypes.string.isRequired,
 }
 
-export default function RSSFeed({url}) {
+function RSSFeed({url}) {
     return (
         <SocialItem>
             <a href={url} target='_blank' title='Subscribe to our RSS Feed'>
@@ -16,3 +16,5 @@ export default function RSSFeed({url}) {
         </SocialItem>
     )
 }
+
+export default RSSFeed

@@ -8,7 +8,7 @@ HotZoneReportMetadata.propTypes = {
     shareUrl: PropTypes.string,
 }
 
-export default function HotZoneReportMetadata({report, shareUrl}) {
+function HotZoneReportMetadata({report, shareUrl}) {
     if (!report) {
         return null
     }
@@ -28,3 +28,5 @@ export default function HotZoneReportMetadata({report, shareUrl}) {
         </Metadata>
     )
 }
+
+export default HotZoneReportMetadata

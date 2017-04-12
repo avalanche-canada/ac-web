@@ -114,7 +114,7 @@ const transformers = new Map([
     ['sponsor', sponsor],
 ])
 
-export default function transformer(document, parser = PARSER) {
+function transformer(document, parser = PARSER) {
     if (!document) {
         return null
     }
@@ -127,3 +127,5 @@ export default function transformer(document, parser = PARSER) {
         return parser.parse(document)
     }
 }
+
+export default transformer

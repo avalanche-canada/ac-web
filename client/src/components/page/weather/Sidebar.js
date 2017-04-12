@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import Sidebar, {Item, Header} from '/components/sidebar'
 
-export default function WeatherSidebar() {
+function WeatherSidebar() {
     return (
         <Sidebar>
             <Header>Forecast</Header>
@@ -44,3 +44,5 @@ export default function WeatherSidebar() {
         </Sidebar>
     )
 }
+
+export default WeatherSidebar

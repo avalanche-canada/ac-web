@@ -26,6 +26,9 @@
     width: 3em;
     height: 3em;
     box-shadow: 0 0 2px color(black alpha(25%)), 0 2px 4px color(black alpha(25%));
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--primary);
 
     &:hover {
         opacity: 1;
@@ -35,19 +38,13 @@
 .LinkControlSet--Weather {
     composes: LinkControl;
 
-    background-image: url('components/icons/weather-forecast.svg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url('/components/icons/weather-forecast.svg');
     background-size: 65%;
-    background-color: var(--primary);
 }
 
 .LinkControlSet--MIN {
     composes: LinkControl;
 
-    background-image: url('components/icons/min/add-min-pin.svg');
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url('/components/icons/min/add-min-pin.svg');
     background-size: 50%;
-    background-color: var(--primary);
 }

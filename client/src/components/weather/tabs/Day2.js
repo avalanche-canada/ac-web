@@ -14,7 +14,7 @@ Day2.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Day2({date, above, between, below, children}) {
+function Day2({date, above, between, below, children}) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
     // TODO: Create a "title" and a "alt" that make sense considering the parameters!!!
@@ -40,3 +40,5 @@ export default function Day2({date, above, between, below, children}) {
         </Section>
     )
 }
+
+export default Day2

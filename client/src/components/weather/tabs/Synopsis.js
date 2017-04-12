@@ -11,7 +11,7 @@ Synopsis.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Synopsis({date, above, below, children}) {
+function Synopsis({date, above, below, children}) {
     return (
         <Section>
             <InnerHTML>{above}</InnerHTML>
@@ -21,3 +21,5 @@ export default function Synopsis({date, above, below, children}) {
         </Section>
     )
 }
+
+export default Synopsis

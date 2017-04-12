@@ -23,7 +23,7 @@ Post.propTypes = {
     message: PropTypes.string,
 }
 
-export default function Post({post = {}, message, type}) {
+function Post({post = {}, message, type}) {
     const {
         uid,
         featured = false,
@@ -93,3 +93,5 @@ export default function Post({post = {}, message, type}) {
         </Page>
     )
 }
+
+export default Post

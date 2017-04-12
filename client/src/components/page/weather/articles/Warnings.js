@@ -2,7 +2,7 @@ import React from 'react'
 import {Article} from '/components/page'
 import {Launch} from '/components/icons'
 
-export default function Warnings() {
+function Warnings() {
     return (
         <Article title='Warnings'>
             <h3>
@@ -13,3 +13,5 @@ export default function Warnings() {
         </Article>
     )
 }
+
+export default Warnings

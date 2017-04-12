@@ -9,7 +9,7 @@ TimestampEntry.propTypes = {
     hideIfNil: PropTypes.boolean,
 }
 
-export default function TimestampEntry({term, timestamp, hideIfNil}) {
+function TimestampEntry({term, timestamp, hideIfNil}) {
     if (hideIfNil && !timestamp) {
         return null
     }
@@ -20,3 +20,5 @@ export default function TimestampEntry({term, timestamp, hideIfNil}) {
         </Entry>
     )
 }
+
+export default TimestampEntry

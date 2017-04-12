@@ -49,7 +49,7 @@ function getLabels({x, y, utcOffset}) {
     return `${y} %\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
-export default function RelativeHumidity({data, min, max, width, height}) {
+function RelativeHumidity({data, min, max, width, height}) {
     const container = <VictoryContainer title='Relative humidity' desc={`Relative humidity (%) every hour from ${min} to ${max}.`} />
 
 
@@ -70,3 +70,5 @@ export default function RelativeHumidity({data, min, max, width, height}) {
         </div>
     )
 }
+
+export default RelativeHumidity

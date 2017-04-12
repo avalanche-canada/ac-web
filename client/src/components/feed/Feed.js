@@ -10,7 +10,7 @@ Feed.propTypes = {
     status: PropTypes.instanceOf(Status),
 }
 
-export default function Feed({content = [], status}) {
+function Feed({content = [], status}) {
     return (
         <div>
             <StatusComponent {...status.toJSON()} />
@@ -20,3 +20,5 @@ export default function Feed({content = [], status}) {
         </div>
     )
 }
+
+export default Feed

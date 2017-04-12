@@ -6,7 +6,7 @@ import promise from 'redux-promise-middleware'
 import reducer from '/reducers'
 // import DevTools from '../containers/DevTools'
 
-export default function configureStore(preloadedState) {
+function configureStore(preloadedState) {
   const store = createStore(
     reducer,
     preloadedState,
@@ -41,3 +41,5 @@ export default function configureStore(preloadedState) {
 
   return store
 }
+
+export default configureStore

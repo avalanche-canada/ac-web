@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AdviceText() {
+function AdviceText() {
     return (
         <div>
             <p>To minimize risk, always:</p>
@@ -13,3 +13,5 @@ export default function AdviceText() {
         </div>
     )
 }
+
+export default AdviceText

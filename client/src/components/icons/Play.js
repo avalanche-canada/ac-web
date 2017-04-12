@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Play({ inverse = false, ...props }) {
+function Play({ inverse = false, ...props }) {
 	return (
 		<Icon {...props}>
 			<path d='M8 5v14l11-7z' fill={inverse ? 'white' : 'black'} />
@@ -9,3 +9,5 @@ export default function Play({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
+
+export default Play

@@ -40,7 +40,7 @@ const TERMS = {
     terrainTrap: 'Terrain trap',
 }
 
-export default function Incident({
+function Incident({
     incidentDescription,
     tempLatlng,
     groupDetails,
@@ -66,3 +66,5 @@ export default function Incident({
         </div>
     )
 }
+
+export default Incident

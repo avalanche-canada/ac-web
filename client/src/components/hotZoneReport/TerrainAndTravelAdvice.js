@@ -9,7 +9,7 @@ TerrainAndTravelAdvice.propTypes = {
 }
 const titles = ['Alpine', 'Treeline', 'Below treeline']
 
-export default function TerrainAndTravelAdvice({report = {}}) {
+function TerrainAndTravelAdvice({report = {}}) {
     const summaries = [
         report.alpineTerrainAvoidance,
         report.treelineTerrainAvoidance,
@@ -29,3 +29,5 @@ export default function TerrainAndTravelAdvice({report = {}}) {
         </Panel>
     )
 }
+
+export default TerrainAndTravelAdvice

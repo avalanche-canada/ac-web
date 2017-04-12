@@ -23,7 +23,7 @@ FilterSet.propTypes = {
     }
 }
 
-export default function FilterSet({
+function FilterSet({
     category,
     onCategoryChange,
     year,
@@ -81,3 +81,5 @@ export default function FilterSet({
         </Base>
     )
 }
+
+export default FilterSet

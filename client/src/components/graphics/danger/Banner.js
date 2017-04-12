@@ -82,7 +82,7 @@ Banner.propTypes = {
     expandable: PropTypes.bool,
 }
 
-export default function Banner({
+function Banner({
     elevation = ALP,
     rating = NO_RATING,
     showTravelAdvice = false,
@@ -111,3 +111,5 @@ export default function Banner({
         </g>
     )
 }
+
+export default Banner

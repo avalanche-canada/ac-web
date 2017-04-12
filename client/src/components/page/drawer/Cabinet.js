@@ -23,7 +23,7 @@ Cabinet.propTypes = {
     onCloseClick: PropTypes.func,
 }
 
-export default function Cabinet({
+function Cabinet({
     open = false,
     side = SIDE,
     width = 250,
@@ -50,3 +50,5 @@ export default function Cabinet({
         </div>
     )
 }
+
+export default Cabinet

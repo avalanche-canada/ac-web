@@ -5,7 +5,7 @@ Image.propTypes = {
 	image: PropTypes.object,
 }
 
-export default function Image({image}) {
+function Image({image}) {
 	if (!image) {
 		return null
 	}
@@ -16,3 +16,5 @@ export default function Image({image}) {
 		<img src={url} />
 	)
 }
+
+export default Image

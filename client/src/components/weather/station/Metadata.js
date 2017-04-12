@@ -17,7 +17,7 @@ WeatherStationMetadata.propTypes = {
     owner: PropTypes.string,
 }
 
-export default function WeatherStationMetadata({longitude, latitude, elevation, utcOffset, description, owner, source}) {
+function WeatherStationMetadata({longitude, latitude, elevation, utcOffset, description, owner, source}) {
     return (
         <Metadata>
             <Entry fullWidth={true} term='Source'>
@@ -48,3 +48,5 @@ export default function WeatherStationMetadata({longitude, latitude, elevation, 
         </Metadata>
     )
 }
+
+export default WeatherStationMetadata

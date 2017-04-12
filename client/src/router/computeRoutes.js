@@ -15,8 +15,6 @@ import AuthService from '/services/auth'
 import {FallbackPage} from '/prismic/components/page'
 import {
     About,
-    Events,
-    Event,
     Sponsors,
     Collaborators,
     Ambassadors,
@@ -70,7 +68,7 @@ import postRedirects from './postRedirects'
 import {getForecastRegionExternalUrl} from '/getters/api'
 import * as Schemas from '/api/schemas'
 
-export default function computeRoutes(store) {
+function computeRoutes(store) {
     const {dispatch, getState} = store
     let external = null
 
@@ -396,3 +394,5 @@ export default function computeRoutes(store) {
         </Route>
     )
 }
+
+export default computeRoutes

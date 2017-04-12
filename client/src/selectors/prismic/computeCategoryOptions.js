@@ -2,7 +2,7 @@ const EMPTY = new Map([
     [undefined, 'All categories']
 ])
 
-export default function computeCategoryOptions(feed) {
+function computeCategoryOptions(feed) {
     if (feed.isEmpty()) {
         return EMPTY
     } else {
@@ -15,3 +15,5 @@ export default function computeCategoryOptions(feed) {
         return set.sort().reduce(reducer, new Map([...EMPTY]))
     }
 }
+
+export default computeCategoryOptions

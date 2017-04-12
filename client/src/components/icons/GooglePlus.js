@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function GooglePlus({ inverse = false, ...props }) {
+function GooglePlus({ inverse = false, ...props }) {
 	return (
 		<Icon {...props} fill='#DC4E41' viewBox='0 0 55 55'>
             <g>
@@ -10,3 +10,5 @@ export default function GooglePlus({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
+
+export default GooglePlus

@@ -8,7 +8,7 @@ Loading.propTypes = {
     message: PropTypes.string,
 }
 
-export default function Loading({title = message, message = 'Loading...'}) {
+function Loading({title = message, message = 'Loading...'}) {
     return (
         <Page>
             <Header title={title} />
@@ -20,3 +20,5 @@ export default function Loading({title = message, message = 'Loading...'}) {
         </Page>
     )
 }
+
+export default Loading

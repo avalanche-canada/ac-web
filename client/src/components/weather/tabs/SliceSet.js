@@ -9,7 +9,7 @@ SliceSet.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-export default function SliceSet({slices = [], date}) {
+function SliceSet({slices = [], date}) {
     return (
         <div>
             {slices.map(({type, content}, index) => {
@@ -50,3 +50,5 @@ export default function SliceSet({slices = [], date}) {
         </div>
     )
 }
+
+export default SliceSet

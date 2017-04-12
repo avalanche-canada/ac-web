@@ -11,7 +11,7 @@ Day.propTypes = {
 
 const sequence = [1, 2, 3, 4]
 
-export default function Day({ forecast, date, index }) {
+function Day({ forecast, date, index }) {
 	function get(type, increment) {
 		return forecast[`day${index+1}${type}${increment}`]
 	}
@@ -36,3 +36,5 @@ export default function Day({ forecast, date, index }) {
 		</section>
 	)
 }
+
+export default Day

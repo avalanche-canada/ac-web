@@ -21,7 +21,7 @@ function Title({date}) {
     )
 }
 
-export default function Day5To7({date, above, between, below, children}) {
+function Day5To7({date, above, between, below, children}) {
     const loop = {
         type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
         date: addDays(date, -1),
@@ -37,3 +37,5 @@ export default function Day5To7({date, above, between, below, children}) {
         </Section>
     )
 }
+
+export default Day5To7

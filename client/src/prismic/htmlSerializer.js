@@ -49,7 +49,7 @@ function createApplicationAnchor({href, content, title = content}) {
     return `<a href="${href}" data-path="${href}" title="${title}">${content}</a>`
 }
 
-export default function htmlSerializer({type, ...props}, content) {
+function htmlSerializer({type, ...props}, content) {
     switch (type) {
         case 'hyperlink': {
             const {url, data: {value, type: linkType}} = props
@@ -76,3 +76,5 @@ export default function htmlSerializer({type, ...props}, content) {
 
     return null
 }
+
+export default htmlSerializer

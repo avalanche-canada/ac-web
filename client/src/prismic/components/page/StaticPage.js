@@ -12,7 +12,7 @@ StaticPage.propTypes = {
     banner: PropTypes.object,
 }
 
-export default function StaticPage({
+function StaticPage({
     type,
     uid,
     title,
@@ -47,3 +47,5 @@ export default function StaticPage({
         </Page>
     )
 }
+
+export default StaticPage

@@ -7,6 +7,8 @@ Icon.propTypes = {
     rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
 }
 
-export default function Icon({rating = NO_RATING}) {
+function Icon({rating = NO_RATING}) {
     return Icons.get(rating)
 }
+
+export default Icon

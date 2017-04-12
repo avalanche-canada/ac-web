@@ -1,6 +1,6 @@
 // Copied and modified from https://gist.github.com/kottenator/9d936eb3e4e3c3e02598
 
-export default function pagination(current, total, delta = 2, fill = '...') {
+function pagination(current, total, delta = 2, fill = '...') {
     const left = current - delta
     const right = current + delta + 1
     const range = []
@@ -27,3 +27,5 @@ export default function pagination(current, total, delta = 2, fill = '...') {
 
     return pages
 }
+
+export default pagination

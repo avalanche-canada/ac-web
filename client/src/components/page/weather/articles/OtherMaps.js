@@ -4,7 +4,7 @@ import {Tab, TabSet} from '/components/tab'
 import Tutorial from '/containers/WeatherTutorial'
 import Loop from '/components/weather/Loop'
 
-export default function SurfaceMaps() {
+function SurfaceMaps() {
     return (
         <Article title='500mb & Precipitable Water'>
             <TabSet>
@@ -21,3 +21,5 @@ export default function SurfaceMaps() {
         </Article>
     )
 }
+
+export default SurfaceMaps

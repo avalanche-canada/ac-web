@@ -18,7 +18,7 @@ function roundCoordinate(coordinate) {
     return Math.round(coordinate * 100000) / 100000
 }
 
-export default function MountainInformationNetworkMetadata({
+function MountainInformationNetworkMetadata({
     submittedOn,
     submittedBy,
     shareUrl,
@@ -58,3 +58,5 @@ export default function MountainInformationNetworkMetadata({
         </Metadata>
     )
 }
+
+export default MountainInformationNetworkMetadata

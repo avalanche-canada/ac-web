@@ -4,7 +4,7 @@ import {Splash} from '/components/page/sections'
 import {InnerHTML} from '/components/misc'
 import Generic from '/prismic/components/Generic'
 
-export default function StaticSplash({
+function StaticSplash({
     content: [{header, post1, post2, post3, hash}],
     label,
 }) {
@@ -19,3 +19,5 @@ export default function StaticSplash({
         </Splash>
     )
 }
+
+export default StaticSplash

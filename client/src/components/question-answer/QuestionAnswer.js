@@ -9,7 +9,7 @@ QuestionAnswer.propTypes = {
     answer: PropTypes.string.isRequired,
 }
 
-export default function QuestionAnswer({question, answer}) {
+function QuestionAnswer({question, answer}) {
     return (
         <section>
             <Question>{question}</Question>
@@ -21,3 +21,5 @@ export default function QuestionAnswer({question, answer}) {
         </section>
     )
 }
+
+export default QuestionAnswer

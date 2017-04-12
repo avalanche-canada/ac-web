@@ -13,7 +13,7 @@ Day1.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Day1({date, above, between, below, children}) {
+function Day1({date, above, between, below, children}) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
     const image = {
@@ -40,3 +40,5 @@ export default function Day1({date, above, between, below, children}) {
         </Section>
     )
 }
+
+export default Day1

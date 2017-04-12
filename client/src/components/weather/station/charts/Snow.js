@@ -130,7 +130,7 @@ const DOMAIN_PADDING = {
     x: 25
 }
 
-export default function SnowHeight({data, min, max, width, height}) {
+function SnowHeight({data, min, max, width, height}) {
     const snowHeightDomain = computeSnowHeightDomain(data)
     const newSnowDomain = computeNewSnowDomain(data)
     const domain = [min, max]
@@ -241,3 +241,5 @@ export default function SnowHeight({data, min, max, width, height}) {
         </div>
     )
 }
+
+export default SnowHeight

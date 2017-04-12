@@ -9,7 +9,7 @@ Comment.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Comment({title = 'Comments', children}) {
+function Comment({title = 'Comments', children}) {
     if (!children) {
         return null
     }
@@ -26,3 +26,5 @@ export default function Comment({title = 'Comments', children}) {
         </Section>
     )
 }
+
+export default Comment

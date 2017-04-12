@@ -5,7 +5,7 @@ export const PATHS = new Map([
     ])],
 ])
 
-export default function linkResolver({document, type, uid}, isBroken) {
+function linkResolver({document, type, uid}, isBroken) {
     if (isBroken) {
         console.error('Broken link to document', document)
         return null
@@ -15,3 +15,5 @@ export default function linkResolver({document, type, uid}, isBroken) {
         return PATHS.get(type).get(uid)
     }
 }
+
+export default linkResolver

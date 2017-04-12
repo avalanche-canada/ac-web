@@ -20,6 +20,8 @@ Observation.propTypes = {
     observation: PropTypes.object.isRequired,
 }
 
-export default function Observation({type, observation}) {
+function Observation({type, observation}) {
     return createElement(Components.get(type), observation)
 }
+
+export default Observation

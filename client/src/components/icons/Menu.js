@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Menu({ inverse = false, ...props }) {
+function Menu({ inverse = false, ...props }) {
 	return (
 		<Icon {...props}>
             <path d='M0 0h24v24H0z' fill='none'/>
@@ -9,3 +9,5 @@ export default function Menu({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
+
+export default Menu

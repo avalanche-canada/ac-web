@@ -87,7 +87,7 @@ Quick.propTypes = {
     comment: PropTypes.string,
 }
 
-export default function Quick({avalancheConditions, ridingConditions, comment}) {
+function Quick({avalancheConditions, ridingConditions, comment}) {
     // TODO: Improve code here! So confusing this key project!!!
     ridingConditions = computeRidingConditions(ridingConditions)
     avalancheConditions = projectKeys(
@@ -126,3 +126,5 @@ export default function Quick({avalancheConditions, ridingConditions, comment}) 
         </div>
     )
 }
+
+export default Quick

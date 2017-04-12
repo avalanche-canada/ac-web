@@ -7,7 +7,7 @@ Weather.propTypes = {
     children: PropTypes.number.isRequired,
 }
 
-export default function Weather({children, isAuthenticated}) {
+function Weather({children, isAuthenticated}) {
     return (
         <div>
             {children}
@@ -19,3 +19,5 @@ export default function Weather({children, isAuthenticated}) {
 export Sidebar from './Sidebar'
 export Tutorial from './Tutorial'
 export Forecast from './articles/Forecast'
+
+export default Weather

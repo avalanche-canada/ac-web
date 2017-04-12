@@ -9,7 +9,7 @@ Generic.propTypes = {
     status: PropTypes.object,
 }
 
-export default function Generic({title, status, document = {}}) {
+function Generic({title, status, document = {}}) {
     return (
         <Page>
             <Header title={document.title || title} />
@@ -24,3 +24,5 @@ export default function Generic({title, status, document = {}}) {
         </Page>
     )
 }
+
+export default Generic

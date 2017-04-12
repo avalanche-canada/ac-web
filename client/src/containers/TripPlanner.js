@@ -11,7 +11,7 @@ const STYLE = {
     height: 500,
 }
 
-export default function Container({incidents = [], isLoading, isError}) {
+function Container({incidents = [], isLoading, isError}) {
     return (
         <Page>
             <Header title='Trip Planner' />
@@ -32,3 +32,5 @@ export default function Container({incidents = [], isLoading, isError}) {
         </Page>
     )
 }
+
+export default Container

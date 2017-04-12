@@ -14,7 +14,7 @@ function mapProperties({tag, fullScreen, playPause}) {
     }
 }
 
-export default function Gallery({content, label}) {
+function Gallery({content, label}) {
     if (content.length === 1) {
         const [gallery] = content
 
@@ -35,3 +35,5 @@ export default function Gallery({content, label}) {
         </TabSet>
     )
 }
+
+export default Gallery

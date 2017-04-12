@@ -29,7 +29,7 @@ const STYLE = {
     width: '100%',
 }
 
-export default function Card({
+function Card({
     alp = NO_RATING,
     tln = NO_RATING,
     btl = NO_RATING,
@@ -102,3 +102,5 @@ export default function Card({
         </svg>
     )
 }
+
+export default Card

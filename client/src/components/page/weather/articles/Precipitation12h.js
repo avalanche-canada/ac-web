@@ -4,7 +4,7 @@ import {Article} from '/components/page'
 import Tutorial from '/containers/WeatherTutorial'
 import {Loop} from '/components/weather'
 
-export default function Precipitation12h() {
+function Precipitation12h() {
     return (
         <Article title='12hr Total Precipitation'>
             <TabSet>
@@ -24,3 +24,5 @@ export default function Precipitation12h() {
         </Article>
     )
 }
+
+export default Precipitation12h

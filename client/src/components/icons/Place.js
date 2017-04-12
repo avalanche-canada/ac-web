@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Place({inverse = false, color, ...props}) {
+function Place({inverse = false, color, ...props}) {
     const fill = color || inverse ? 'white' : 'black'
 
 	return (
@@ -10,3 +10,5 @@ export default function Place({inverse = false, color, ...props}) {
 		</Icon>
 	)
 }
+
+export default Place

@@ -4,7 +4,7 @@ import Image from './Image'
 
 const sequence = [1, 2, 3, 4]
 
-export default function Outlook({forecast}) {
+function Outlook({forecast}) {
 	const {outlook, type} = forecast
 
 	if (outlook === null) {
@@ -28,3 +28,5 @@ export default function Outlook({forecast}) {
 		</section>
 	)
 }
+
+export default Outlook

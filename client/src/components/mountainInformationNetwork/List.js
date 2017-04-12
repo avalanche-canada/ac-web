@@ -8,11 +8,11 @@ List.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }
 
-export default function List({title, children = []}) {
+function List({title, children = []}) {
     if (children.length === 0) {
         return null
     }
-    
+
     return (
         <Section title={title}>
             <Base bordered>
@@ -21,3 +21,5 @@ export default function List({title, children = []}) {
         </Section>
     )
 }
+
+export default List

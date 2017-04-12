@@ -6,10 +6,12 @@ Block.propTypes = {
     content: PropTypes.string.isRequired,
 }
 
-export default function Block({content}) {
+function Block({content}) {
     return (
         <InnerHTML>
             {content}
         </InnerHTML>
     )
 }
+
+export default Block

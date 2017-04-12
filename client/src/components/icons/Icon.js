@@ -8,7 +8,7 @@ Icon.propTypes = {
     fill: PropTypes.string,
 }
 
-export default function Icon({
+function Icon({
 	children,
 	height = 24,
 	width = 24,
@@ -22,3 +22,5 @@ export default function Icon({
 		</svg>
 	)
 }
+
+export default Icon

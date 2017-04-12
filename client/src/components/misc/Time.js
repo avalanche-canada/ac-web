@@ -11,7 +11,7 @@ Time.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Time({value = new Date(), format, children}) {
+function Time({value = new Date(), format, children}) {
     const date = parse(value)
 
     if (typeof format === 'function') {
@@ -24,6 +24,8 @@ export default function Time({value = new Date(), format, children}) {
         </time>
     )
 }
+
+export default Time
 
 export function createTime(displayName, defaultFormat) {
     return compose(

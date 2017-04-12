@@ -29,7 +29,7 @@ function createSocialElement(element, component) {
     return isValidElement(element) ? element : null
 }
 
-export default function CompleteSidebar({children, contact, share, follow}) {
+function CompleteSidebar({children, contact, share, follow}) {
     return (
         <Sidebar>
             {children}
@@ -39,3 +39,5 @@ export default function CompleteSidebar({children, contact, share, follow}) {
         </Sidebar>
     )
 }
+
+export default CompleteSidebar

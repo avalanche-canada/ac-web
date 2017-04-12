@@ -3,7 +3,7 @@ import {InnerHTML} from '/components/misc'
 import DaySet from './DaySet'
 import Outlook from './Outlook'
 
-export default function Legacy({forecast}) {
+function Legacy({forecast}) {
     const {synopsis, date} = forecast
 
     return (
@@ -14,3 +14,5 @@ export default function Legacy({forecast}) {
         </div>
     )
 }
+
+export default Legacy

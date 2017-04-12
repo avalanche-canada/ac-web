@@ -29,7 +29,7 @@ Forecast.propTypes = {
     region: PropTypes.string.isRequired,
 }
 
-export default function Forecast({
+function Forecast({
     highlights,
     avalancheSummary,
     snowpackSummary,
@@ -101,3 +101,5 @@ export default function Forecast({
         </section>
     )
 }
+
+export default Forecast

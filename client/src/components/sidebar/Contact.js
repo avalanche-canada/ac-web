@@ -8,7 +8,7 @@ Contact.propTypes = {
     email: PropTypes.string,
 }
 
-export default function Contact(props) {
+function Contact(props) {
     return (
         <SocialItem>
             <Mailto {...props}>
@@ -17,3 +17,5 @@ export default function Contact(props) {
         </SocialItem>
     )
 }
+
+export default Contact

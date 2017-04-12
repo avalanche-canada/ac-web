@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Home({ inverse = false, ...props }) {
+function Home({ inverse = false, ...props }) {
 	return (
 		<Icon {...props} viewBox='7 5 90 80'>
             <g>
@@ -17,3 +17,5 @@ export default function Home({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
+
+export default Home

@@ -1,13 +1,13 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function MapLocation({ inverse = false, ...props }) {
+function MapLocation({ inverse = false, ...props }) {
 	return (
 		<Icon fill='#000000' viewBox="0 0 32 32" {...props}>
 
 			<g id="layer3" style={{display:"inline"}} transform="matrix(1, 0, 0, 1, -191.87851, -191.48082)">
 				<g id="g4313" transform="matrix(0.13929587,0,0,0.13929587,157.83791,160.19447)">
-					<path id="path4172" 
+					<path id="path4172"
 					      d="m 358.96484,224.60352 a 48.189476,48.36195 0 0 0 -48.18945,48.36132 48.189476,48.36195 0 0 0 4.11719,19.48633 c 10.98453,34.31645 45.10351,63.11328 45.10351,63.11328 0,0 28.49049,-29.20286 40.9043,-58.89062 a 48.189476,48.36195 0 0 0 6.25391,-23.70899 48.189476,48.36195 0 0 0 -48.18946,-48.36132 z m 0.41993,26.44531 a 21.572205,21.572205 0 0 1 21.57226,21.57226 21.572205,21.572205 0 0 1 -21.57226,21.57227 21.572205,21.572205 0 0 1 -21.57227,-21.57227 21.572205,21.572205 0 0 1 21.57227,-21.57226 z"
 					      style={{display: 'inline', fill: '#000000', fillOpacity: 1, fillRule: 'evenodd', stroke: 'none', strokeWidth: 1, strokeLinecap: 'butt', strokeLinejoin: 'miter', strokeOpacity: 1}} />
 					<path id="path4147"
@@ -18,3 +18,5 @@ export default function MapLocation({ inverse = false, ...props }) {
 		</Icon>
 	)
 }
+
+export default MapLocation

@@ -9,7 +9,7 @@ Tutorial.propTypes = {
     tutorial: PropTypes.string.isRequired,
 }
 
-export default function Tutorial({status, tutorial = {}}) {
+function Tutorial({status, tutorial = {}}) {
     return (
         <div>
             <StatusComponent {...status.toJSON()} />
@@ -19,3 +19,5 @@ export default function Tutorial({status, tutorial = {}}) {
         </div>
     )
 }
+
+export default Tutorial

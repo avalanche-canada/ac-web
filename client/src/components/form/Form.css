@@ -1,7 +1,7 @@
 @import "../../styles/colors.css";
 
 .Form {
-    composes: import RestrictFullPageWidth from "components/page/Page.css";
+    composes: import RestrictFullPageWidth from "../page/Page.css";
 
     width: 100%;
     box-sizing: border-box;

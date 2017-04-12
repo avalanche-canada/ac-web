@@ -7,6 +7,8 @@ Tab.propTypes = {
     color: PropTypes.string,
 }
 
-export default function Tab() {
+function Tab() {
 	return null
 }
+
+export default Tab

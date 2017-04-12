@@ -17,7 +17,7 @@ ShareEntry.propTypes = {
     url: PropTypes.string,
 }
 
-export default function ShareEntry({term = null, url = document.location.href}) {
+function ShareEntry({term = null, url = document.location.href}) {
     return (
         <Entry term={term}>
             <SocialSet>
@@ -32,3 +32,5 @@ export default function ShareEntry({term = null, url = document.location.href}) 
         </Entry>
     )
 }
+
+export default ShareEntry

@@ -7,7 +7,7 @@ Print.propTypes = {
     url: PropTypes.string,
 }
 
-export default function Print({url}) {
+function Print({url}) {
     return (
         <SocialItem>
             <a href={url} target='_blank' title='Print this forecast bulletin'>
@@ -16,3 +16,5 @@ export default function Print({url}) {
         </SocialItem>
     )
 }
+
+export default Print

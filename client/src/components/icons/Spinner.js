@@ -2,11 +2,11 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Spinner(props) {
+function Spinner(props) {
 	return (
 		<Icon viewBox="0 0 100 100" {...props}>
            <rect x="0" y="0" width="100" height="100" fill="none" className="bk"></rect>
-           <rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00b2ff' transform='rotate(0 50 50) translate(0 -30)'>  
+           <rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00b2ff' transform='rotate(0 50 50) translate(0 -30)'>
              <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0s' repeatCount='indefinite'/>
            </rect>
            <rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00b2ff' transform='rotate(30 50 50) translate(0 -30)'>
@@ -16,3 +16,5 @@ export default function Spinner(props) {
 		</Icon>
 	)
 }
+
+export default Spinner

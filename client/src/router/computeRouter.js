@@ -19,10 +19,12 @@ function shouldUpdateScroll(previous, next) {
     return pathname !== previous.location.pathname
 }
 
-export default function computeRouter(store) {
+function computeRouter(store) {
     return (
         <Router history={history} render={applyRouterMiddleware(useScroll(shouldUpdateScroll))}>
             {computeRoutes(store)}
         </Router>
     )
 }
+
+export default computeRouter

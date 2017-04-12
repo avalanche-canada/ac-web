@@ -13,7 +13,7 @@ const DEFAULTS = Array(5).fill(null)
                          .map((value, index) => YEAR - index)
                          .reduce(reducer, initial())
 
-export default function computeYearOptions(feed) {
+function computeYearOptions(feed) {
     if (feed.isEmpty()) {
         return DEFAULTS
     } else {
@@ -22,3 +22,5 @@ export default function computeYearOptions(feed) {
         return set.sort().reverse().reduce(reducer, initial())
     }
 }
+
+export default computeYearOptions

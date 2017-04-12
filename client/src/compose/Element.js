@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, withProps} from 'recompose'
 import CSSModules from 'react-css-modules'
 
-export default function Element({
+function Element({
     component = DOM.div,
     name,
     styleName = name,
@@ -19,3 +19,5 @@ export default function Element({
         withProps({styleName}),
     )(component)
 }
+
+export default Element

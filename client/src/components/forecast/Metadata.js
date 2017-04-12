@@ -35,7 +35,7 @@ ForecastMetadata.propTypes = {
     shareUrl: PropTypes.string,
 }
 
-export default function ForecastMetadata({shareUrl, ...props}) {
+function ForecastMetadata({shareUrl, ...props}) {
     return (
         <Metadata>
             <DateIssued {...props} />
@@ -45,3 +45,5 @@ export default function ForecastMetadata({shareUrl, ...props}) {
         </Metadata>
     )
 }
+
+export default ForecastMetadata

@@ -8,7 +8,7 @@ TopicSet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function TopicSet({children}) {
+function TopicSet({children}) {
     return (
         <ElementResize>
             {width => {
@@ -31,3 +31,5 @@ export default function TopicSet({children}) {
         </ElementResize>
     )
 }
+
+export default TopicSet

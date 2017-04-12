@@ -8,7 +8,7 @@ Content.propTypes = {
     status: PropTypes.object,
 }
 
-export default function Content({type, uid, document = {}, status}) {
+function Content({type, uid, document = {}, status}) {
     const {content = []} = document
 
     return (
@@ -18,3 +18,5 @@ export default function Content({type, uid, document = {}, status}) {
         </div>
     )
 }
+
+export default Content

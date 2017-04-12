@@ -69,7 +69,7 @@ Table.propTypes = {
 
 const LIST = new Immutable.List()
 
-export default function Table({
+function Table({
     columns = LIST,
     bodies = LIST,
     headers = columns,
@@ -102,3 +102,5 @@ export default function Table({
         </Base>
     )
 }
+
+export default Table

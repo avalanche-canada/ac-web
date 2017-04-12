@@ -5,7 +5,7 @@ import {Page, Content, Banner, Main, Article, Header} from '/components/page'
 
 const Routes = ['courses', 'providers']
 
-export default function Ast({routes, form = null, table = null}) {
+function Ast({routes, form = null, table = null}) {
     const {path} = routes[routes.length - 1]
 
     return (
@@ -31,3 +31,5 @@ export default function Ast({routes, form = null, table = null}) {
         </Page>
     )
 }
+
+export default Ast

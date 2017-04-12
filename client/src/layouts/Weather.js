@@ -5,7 +5,7 @@ import {Page, Content, Header, Main, Aside} from '/components/page'
 import {Sidebar} from '/components/page/weather'
 import Container from '/containers/Weather'
 
-export default function Weather({children}) {
+function Weather({children}) {
     const title = (
         <Link to='/weather'>
             Mountain Weather Forecast
@@ -28,3 +28,5 @@ export default function Weather({children}) {
         </Page>
     )
 }
+
+export default Weather

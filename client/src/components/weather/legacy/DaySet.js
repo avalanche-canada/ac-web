@@ -8,7 +8,7 @@ DaySet.propTypes = {
     forecast: PropTypes.object,
 }
 
-export default function DaySet({forecast, start}) {
+function DaySet({forecast, start}) {
 	const dates = [0, 1, 2, 3].map(increment => addDays(start, increment))
 
 	return (
@@ -19,3 +19,5 @@ export default function DaySet({forecast, start}) {
 		</div>
 	)
 }
+
+export default DaySet

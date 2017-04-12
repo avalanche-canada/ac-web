@@ -72,7 +72,7 @@ function getLabels({x, y, utcOffset}) {
     return `${y} °C\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
-export default function Temperature({data, min, max, width, height}) {
+function Temperature({data, min, max, width, height}) {
     if (!shouldShowGraph(data, 'airTempAvg')) {
         return null
     }
@@ -96,3 +96,5 @@ export default function Temperature({data, min, max, width, height}) {
         </div>
     )
 }
+
+export default Temperature

@@ -4,7 +4,7 @@ import {Article} from '/components/page'
 import Tutorial from '/containers/WeatherTutorial'
 import {Loop} from '/components/weather'
 
-export default function HourlyPrecipitation() {
+function HourlyPrecipitation() {
     return (
         <Article title='Hourly Precipitation'>
             <TabSet>
@@ -27,3 +27,5 @@ export default function HourlyPrecipitation() {
         </Article>
     )
 }
+
+export default HourlyPrecipitation

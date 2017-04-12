@@ -14,7 +14,7 @@ const URLS = [
     'http://instagram.com/avalanchecanada'
 ]
 
-export default function Follow({label = 'Follow us', urls = URLS}) {
+function Follow({label = 'Follow us', urls = URLS}) {
     const title = name => `${label} on ${name}`
 
     return (
@@ -25,3 +25,5 @@ export default function Follow({label = 'Follow us', urls = URLS}) {
         </SocialItem>
     )
 }
+
+export default Follow

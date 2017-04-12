@@ -4,7 +4,7 @@ import {Tab, TabSet} from '/components/tab'
 import {Loop} from '/components/weather'
 import Tutorial from '/containers/WeatherTutorial'
 
-export default function Radar() {
+function Radar() {
     return (
         <Article title='Radar Imagery'>
             <TabSet>
@@ -24,3 +24,5 @@ export default function Radar() {
         </Article>
     )
 }
+
+export default Radar

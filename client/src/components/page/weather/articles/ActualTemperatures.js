@@ -4,7 +4,7 @@ import {Article} from '/components/page'
 import Tutorial from '/containers/WeatherTutorial'
 import {Loop} from '/components/weather'
 
-export default function ActualTemperatures() {
+function ActualTemperatures() {
     return (
         <Article title='Actual Temperatures (12 hours)'>
             <TabSet>
@@ -18,3 +18,5 @@ export default function ActualTemperatures() {
         </Article>
     )
 }
+
+export default ActualTemperatures

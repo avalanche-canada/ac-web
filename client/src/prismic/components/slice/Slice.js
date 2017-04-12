@@ -12,7 +12,7 @@ Slice.propTypes = {
     ]).isRequired,
 }
 
-export default function Slice({type, ...props}) {
+function Slice({type, ...props}) {
     type = classify(type)
 
     try {
@@ -29,3 +29,5 @@ export default function Slice({type, ...props}) {
         return error
     }
 }
+
+export default Slice

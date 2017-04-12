@@ -36,10 +36,13 @@ function renderAmbassador(props, index) {
 }
 
 
-export default function AmbassadorSet({content = []}) {
+// TODO: Expose that component
+function AmbassadorSet({content = []}) {
     return (
         <div>
             {content.map(renderAmbassador)}
         </div>
     )
 }
+
+export default AmbassadorSet

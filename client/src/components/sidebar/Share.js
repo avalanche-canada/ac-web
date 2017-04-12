@@ -9,7 +9,7 @@ Share.propTypes = {
     text: PropTypes.string,
 }
 
-export default function Share({
+function Share({
     label = 'Share this',
     url = document.location.href
 }) {
@@ -24,3 +24,5 @@ export default function Share({
         </SocialItem>
     )
 }
+
+export default Share

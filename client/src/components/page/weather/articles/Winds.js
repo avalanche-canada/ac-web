@@ -4,7 +4,7 @@ import {Tab, TabSet} from '/components/tab'
 import Tutorial from '/containers/WeatherTutorial'
 import {Loop} from '/components/weather'
 
-export default function Winds() {
+function Winds() {
     return (
         <Article title='Winds'>
             <TabSet>
@@ -24,3 +24,5 @@ export default function Winds() {
         </Article>
     )
 }
+
+export default Winds

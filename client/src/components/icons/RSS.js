@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function RSS({inverse = false, ...props}) {
+function RSS({inverse = false, ...props}) {
 	return (
 		<Icon fill='#000000' {...props}>
             <path d='M0 0h24v24H0z' fill='none'/>
@@ -10,3 +10,5 @@ export default function RSS({inverse = false, ...props}) {
 		</Icon>
 	)
 }
+
+export default RSS

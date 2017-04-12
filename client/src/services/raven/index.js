@@ -5,7 +5,7 @@ import mapbox from '/services/mapbox/map'
 
 const exceptions = new Set()
 
-export default function setup() {
+function setup() {
     if (Raven.isSetup()) {
         return
     }
@@ -59,3 +59,5 @@ export function setUserContext({user_id, email, name}) {
         username: name,
     })
 }
+
+export default setup
