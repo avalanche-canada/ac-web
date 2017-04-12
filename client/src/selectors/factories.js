@@ -1,9 +1,7 @@
 import {createSelector} from 'reselect'
-import {HeaderCellOrders} from '/components/table'
 import {getEntitiesForSchema} from '/getters/entities'
+import {ASC, DESC, NONE} from '/constants/sortings'
 import noop from 'lodash/noop'
-
-const {ASC, DESC, NONE} = HeaderCellOrders
 
 export function createSorter(
     getEntities,

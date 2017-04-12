@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {load} from '/actions/prismic'
 import {createSelector, createStructuredSelector} from 'reselect'
 import {getDocumentsOfType} from '/getters/prismic'
-import {HeaderCellOrders, Caption, Responsive, PageSizeSelector} from '/components/table'
+import {Caption, Responsive, PageSizeSelector} from '/components/table'
 import Table, {Column, Body} from '/components/table/managed'
 import {FilterSet, FilterEntry} from '/components/filter'
 import Pagination from '/components/pagination'
@@ -17,8 +17,8 @@ import get from 'lodash/get'
 import {prismic} from '/containers/connectors'
 import {getStatusFactory} from '/selectors/prismic/utils'
 import * as Factories from '/selectors/factories'
+import {NONE} from '/constants/sortings'
 
-const {NONE} = HeaderCellOrders
 const YES = 'Yes'
 const NO = 'No'
 const ARRAY = []

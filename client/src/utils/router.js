@@ -1,8 +1,6 @@
 import format from 'date-fns/format'
-import {HeaderCellOrders} from '/components/table'
+import {ASC, DESC, NONE} from '/constants/sortings'
 import identity from 'lodash/identity'
-
-const {NONE, DESC} = HeaderCellOrders
 
 function merge(location, {query = {}, state = {}, ...rest}) {
     return {

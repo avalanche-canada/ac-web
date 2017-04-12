@@ -4,13 +4,10 @@ import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps
 import {ExpandLess, ExpandMore, Remove} from '../icons'
 import Button from './Button'
 import {SUBTILE} from './kinds'
+import {ASC, DESC, NONE} from '/constants/sortings'
 import noop from 'lodash/noop'
 
-export const ASC = 'asc'
-export const DESC = 'desc'
-export const NONE = 'none'
-
-export const SORTINGS = [NONE, ASC, DESC]
+const SORTINGS = [NONE, ASC, DESC]
 
 const ICONS = new Map([
     [ASC, <ExpandLess />],

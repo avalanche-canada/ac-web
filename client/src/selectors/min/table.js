@@ -14,12 +14,10 @@ import {getFeatureCollection} from '/getters/mapbox'
 import {FORECAST_REGIONS} from '/services/mapbox/datasets'
 import inside from '@turf/inside'
 import turf from '@turf/helpers'
-import {HeaderCellOrders} from '/components/table'
 import {computeSorting} from '/selectors/utils'
 import {createSorter} from '/selectors/factories'
 import {INCIDENT, NAMES} from '/constants/min'
-
-const {NONE} = HeaderCellOrders
+import {NONE} from '/constants/sortings'
 
 const columns = Immutable.List.of(
     Column.create({

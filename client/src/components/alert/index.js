@@ -1,2 +1,2 @@
 export default from './Alert'
-export * from './Alert'
+export {DANGER, INFO, WARNING, SUCCESS} from './Alert'

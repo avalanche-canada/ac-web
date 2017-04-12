@@ -9,14 +9,12 @@ import distance from '@turf/distance'
 import {Course, Provider} from '/api/schemas'
 import {getEntitiesForSchema} from '/getters/entities'
 import {getResultsSet} from '/getters/api'
-import {HeaderCellOrders} from '/components/table'
 import {Helper} from '/components/misc'
 import {getLocationAsFeature} from '/selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from '/selectors/router'
 import {computeSorting} from '/selectors/utils'
 import {createSorter, createPagination, createPaginatedEntities} from '/selectors/factories'
-
-const {NONE} = HeaderCellOrders
+import {NONE} from '/constants/sortings'
 
 // TODO: Reuse functions from selectors utils & factories
 

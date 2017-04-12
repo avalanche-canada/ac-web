@@ -1,6 +1,4 @@
-import {HeaderCellOrders} from '/components/table'
-
-const {ASC, DESC, NONE} = HeaderCellOrders
+import {ASC, DESC, NONE} from '/constants/sortings'
 
 const isNegativeRegex = /^-/
 
