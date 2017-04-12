@@ -1,4 +1,8 @@
-// import path from 'path'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Immutable from 'immutable'
+import PropTypes from 'prop-types'
+import Axios from 'axios'
 
 // Rollup plugins
 import babel from 'rollup-plugin-babel'
@@ -19,6 +23,23 @@ import postcssModules from 'postcss-modules'
 import cssnano from 'cssnano'
 
 const cssExportMap = {}
+const postCSSPlugins = [
+    postcssImport(),
+    cssnext({
+        warnForDuplicates: false
+    }),
+    postcssModules({
+        getJSON(id, exportTokens) {
+            // console.warn('getJSON', typeof id, id, exportTokens)
+
+            cssExportMap[id] = exportTokens
+        }
+    }),
+]
+
+if (process.env.NODE_ENV === 'production') {
+    postCSSPlugins.push(cssnano())
+}
 
 export default {
     entry: 'client/src/main.js',
@@ -29,38 +50,34 @@ export default {
         image(),
         builtins(),
         json(),
-        postcss({
-            plugins: [
-                postcssImport(),
-                cssnext({
-                    warnForDuplicates: false
-                }),
-                postcssModules({
-                    getJSON (id, exportTokens) {
-                        cssExportMap[id] = exportTokens
-                    }
-                }),
-                cssnano(),
-            ],
-            getExport (id) {
-                return cssExportMap[id]
-            },
-            extensions: ['.css'],
-            extract : 'dist/public/style.css',
-            sourceMap: true,
-        }),
         resolve({
             jsnext: true,
             main: true,
             browser: true,
         }),
+        postcss({
+            plugins: postCSSPlugins,
+            getExport(id) {
+                // console.warn('getExport', typeof id, id)
+                console.warn(id)
+                return cssExportMap[id]
+            },
+            // extensions: ['.karl'],
+            extract: 'dist/public/style.css',
+            sourceMap: true,
+        }),
+        babel({
+            exclude: 'node_modules/**',
+        }),
         commonjs({
             exclude: 'client/src/**',
             include: 'node_modules/**',
             namedExports: {
-                'node_modules/react-dom/index.js': ['render'],
-                'node_modules/react/react.js': ['createElement', 'PureComponent', 'Component', 'DOM', 'cloneElement', 'PropTypes'],
-                'node_modules/react-router/node_modules/prop-types/index.js': ['object', 'func', 'arrayOf', 'oneOfType', 'element', 'shape', 'string', 'array', 'bool'],
+                'react-dom': Object.keys(ReactDOM),
+                'node_modules/react/react.js': Object.keys(React),
+                'node_modules/immutable/dist/immutable.js': Object.keys(Immutable),
+                'node_modules/react-router/node_modules/prop-types/index.js': Object.keys(PropTypes),
+                'node_modules/axios/index.js': Object.keys(Axios),
             },
         }),
         // eslint({
@@ -68,12 +85,8 @@ export default {
         //         'client/src/styles/**/*.css',
         //     ]
         // }),
-        babel({
-            exclude: 'node_modules/**',
-        }),
         replace({
             exclude: 'node_modules/**',
-            // ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
         }),
         (process.env.NODE_ENV === 'production' && uglify()),
