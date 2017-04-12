@@ -130,7 +130,7 @@
     "redux-thunk": "^2.1.0",
     "requirejs": "~2.1.11",
     "reselect": "^2.5.4",
-    "rollup": "^0.41.6",
+    "rollup": "0.41.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-cssnext": "0.0.4",
