@@ -38,6 +38,10 @@ class Form extends Component {
 
         tags = Array.isArray(tags) ? tags : [tags]
 
+        if (typeof level === 'string') {
+            level = level.toUpperCase().trim()
+        }
+
         return (
             <Base style={STYLE}>
                 <Legend>{legend}</Legend>
@@ -46,7 +50,7 @@ class Form extends Component {
                         <Control>
                             <DropdownFromOptions
                                 onChange={onLevelChange}
-                                value={level.toUpperCase().trim()}
+                                value={level}
                                 placeholder='Level'
                                 options={levelOptions} />
                         </Control>

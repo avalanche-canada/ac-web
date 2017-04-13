@@ -5,6 +5,22 @@ export function isMenuOpen(state) {
     return state.drawers.menu.get('open')
 }
 
+export function getPrimaryDrawer(state) {
+    return state.drawers.primary
+}
+
+export function isPrimaryDrawerOpened(state) {
+    return getPrimaryDrawer(state).get('open')
+}
+
+export function getSecondaryDrawer(state) {
+    return state.drawers.secondary
+}
+
+export function isSecondaryDrawerOpened(state) {
+    return getSecondaryDrawer(state).get('open')
+}
+
 export function getLayers(state) {
     return state.drawers.menu.get('layers')
 }

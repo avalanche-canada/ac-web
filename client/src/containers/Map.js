@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withState, getContext} from 'recompose'
+import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withState} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import mapbox from 'services/mapbox/map'
@@ -336,11 +336,6 @@ class Container extends Component {
 }
 
 export default compose(
-    getContext({
-        location: PropTypes.object.isRequired,
-        params: PropTypes.object.isRequired,
-        routes: PropTypes.array.isRequired,
-    }),
     withRouter,
     connect(mapStateToProps, {
         loadData,

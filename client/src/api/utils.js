@@ -60,6 +60,7 @@ export function createFetchActionForSchema(type, schema) {
     }
 }
 
+// TODO: Use createDelayedAction from utils/redux
 export function createFetchMetadataAction() {
     const schema = Schemas.ForecastRegion
     const type = Actions.GET_FEATURES_METADATA
@@ -86,7 +87,7 @@ export function createFetchMetadataAction() {
             }
         }
 
-        const delay = getEntitiesForSchema(state, schema).isEmpty() ? 1 : 10000
+        const delay = getEntitiesForSchema(state, schema).isEmpty() ? 1 : 9999
 
         return DelayPromise(delay).then(() => dispatch(creator()))
     }

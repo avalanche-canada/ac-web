@@ -4,7 +4,7 @@ import createBbox from '@turf/bbox'
 import turf from '@turf/helpers'
 import mapbox from 'services/mapbox/map'
 import {getActiveFeatures} from 'getters/map'
-import {getPrimary, getSecondary} from 'selectors/drawers'
+import {getPrimaryDrawer, getSecondaryDrawer} from 'getters/drawers'
 import {getEntities} from 'getters/entities'
 import {getDocuments} from 'getters/prismic'
 import Parser, {parseLocation} from 'prismic/parser'
@@ -41,8 +41,8 @@ function createLngLatBounds(bbox) {
 }
 
 export const computeOffset = createSelector(
-    getPrimary,
-    getSecondary,
+    getPrimaryDrawer,
+    getSecondaryDrawer,
     (primary, secondary) => (assumePrimaryOpen, assumeSecondaryOpen) => {
         let x = 0
 

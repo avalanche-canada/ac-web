@@ -100,6 +100,13 @@ const MENU = new Map({
     }),
 })
 
+const MAX_DRAWER_WIDTH = 500
+
+const Drawer = Record({
+    open: false,
+    width: MAX_DRAWER_WIDTH,
+})
+
 function setLayerVisibilityFactory(visible) {
     return function setLayerVisibility(state, {payload}) {
         LAYERS_VISIBILITY.set(payload, visible)
@@ -131,6 +138,18 @@ function handleActiveFeaturesChanged(menu, {payload}) {
     })
 }
 
+function openDrawer(drawer) {
+    return drawer.set('open', true)
+}
+
+function closeDrawer(drawer) {
+    return drawer.set('open', false)
+}
+
+function setDrawerWidth(drawer, {payload}) {
+    return drawer.set('width', Math.min(payload, MAX_DRAWER_WIDTH))
+}
+
 export default combineReducers({
     menu: handleActions({
         [DrawersActions.MENU_OPENED]: menu => menu.set('open', true),
@@ -153,4 +172,14 @@ export default combineReducers({
         },
         [MapActions.ACTIVE_FEATURES_CHANGED]: handleActiveFeaturesChanged,
     }, MENU),
+    primary: handleActions({
+        [DrawersActions.OPEN_PRIMARY_DRAWER]: openDrawer,
+        [DrawersActions.CLOSE_PRIMARY_DRAWER]: closeDrawer,
+        [MapActions.MAP_WIDTH_CHANGED]: setDrawerWidth,
+    }, new Drawer()),
+    secondary: handleActions({
+        [DrawersActions.OPEN_SECONDARY_DRAWER]: openDrawer,
+        [DrawersActions.CLOSE_SECONDARY_DRAWER]: closeDrawer,
+        [MapActions.MAP_WIDTH_CHANGED]: setDrawerWidth,
+    }, new Drawer()),
 })

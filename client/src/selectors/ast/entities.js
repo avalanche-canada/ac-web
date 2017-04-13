@@ -92,7 +92,7 @@ function getFilters(state, {location}) {
     const {query} = location
 
     return Object.keys(query).reduce((filters, key) => {
-        if (Filters.has(key)) {
+        if (Filters.has(key) && query[key] !== null) {
             filters.push(Filters.get(key)(query))
         }
 

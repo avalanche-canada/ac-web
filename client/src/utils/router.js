@@ -31,7 +31,8 @@ export function valueHandlerFactory(name, format = identity) {
     return props => value => {
         push({
             query: {
-                [name]: format(value)
+                // "undefined" removes the query params
+                [name]: value === null ? undefined : format(value)
             }
         }, props)
     }
