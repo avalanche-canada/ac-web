@@ -2,7 +2,7 @@ import noop from 'lodash/noop'
 
 export function createOptimisticAction(getter, value, action = noop) {
     return payload => (dispatch, getState) => {
-        if (getter(getState()) === value) {
+        if (getter(getState(), payload) === value) {
             return dispatch(action())
         }
     }
@@ -10,7 +10,7 @@ export function createOptimisticAction(getter, value, action = noop) {
 
 export function createBinaryAction(tester, pass = noop, fail = noop) {
     return payload => (dispatch, getState) => {
-        const action = tester(getState()) ? pass : fail
+        const action = tester(getState(), payload) ? pass : fail
 
         return dispatch(action())
     }
