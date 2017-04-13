@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import {createStructuredSelector} from 'reselect'
-import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, getContext, withHandlers} from 'recompose'
+import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import * as EntitiesActions from 'actions/entities'
@@ -206,9 +206,6 @@ export const archiveHotZoneReport = compose(
 
 function panelConnector(mapStateToProps, load) {
     return compose(
-        getContext({
-            location: PropTypes.object.isRequired,
-        }),
         connect(mapStateToProps, {
             load,
             flyTo,
@@ -307,9 +304,6 @@ export const sponsor = compose(
 
 function panelPrismicConnectorFactory(type, mapStateToProps) {
     return compose(
-        getContext({
-            location: PropTypes.object.isRequired,
-        }),
         withProps(props => ({
             params: {
                 type,

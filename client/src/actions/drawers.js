@@ -1,6 +1,16 @@
 import {createAction} from 'redux-actions'
 import {isLayerVisible, isMenuOpen} from 'getters/drawers'
 
+export const OPEN_PRIMARY_DRAWER = 'OPEN_PRIMARY_DRAWER'
+export const CLOSE_PRIMARY_DRAWER = 'CLOSE_PRIMARY_DRAWER'
+export const OPEN_SECONDARY_DRAWER = 'OPEN_SECONDARY_DRAWER'
+export const CLOSE_SECONDARY_DRAWER = 'CLOSE_SECONDARY_DRAWER'
+
+export const openPrimaryDrawer = createAction(OPEN_PRIMARY_DRAWER)
+export const closePrimaryDrawer = createAction(CLOSE_PRIMARY_DRAWER)
+export const openSecondaryDrawer = createAction(OPEN_SECONDARY_DRAWER)
+export const closeSecondaryDrawer = createAction(CLOSE_SECONDARY_DRAWER)
+
 export const MENU_OPENED = 'MENU_OPENED'
 export const MENU_CLOSED = 'MENU_CLOSED'
 export const FILTER_CHANGED = 'FILTER_CHANGED'

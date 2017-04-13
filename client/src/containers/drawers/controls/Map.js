@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {createStructuredSelector} from 'reselect'
-import {compose, withHandlers, getContext} from 'recompose'
+import {compose, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import CSSModule from 'react-css-modules'
 import {neverUpdate} from 'compose'
@@ -12,6 +12,7 @@ import Button, {SUBTILE} from 'components/button'
 import styles from './Map.css'
 
 // TODO: Probably use the mapboxgl zoom control
+// TODO: Eventually remove that controls...
 
 function ZoomControl({zoomIn, zoomOut}) {
     return (
@@ -31,9 +32,6 @@ function ZoomControl({zoomIn, zoomOut}) {
 }
 
 export default compose(
-    getContext({
-        location: PropTypes.object.isRequired,
-    }),
     connect(createStructuredSelector({
         computeOffset,
     }), {

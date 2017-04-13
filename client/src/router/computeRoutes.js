@@ -4,7 +4,7 @@ import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import startOfDay from 'date-fns/start_of_day'
 import {load} from 'actions/prismic'
-import {turnOnLayer} from 'actions/drawers'
+import * as DrawersActions from 'actions/drawers'
 import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers'
 import {getIsAuthenticated} from 'getters/auth'
@@ -121,13 +121,16 @@ export default function computeRoutes(store) {
     }
 
     function handleAboutRouteEnter() {
+        // TODO: Move that somewhere else
         loadStaffList()
     }
 
     function handleSledPageEnter() {
+        // TODO: Move that somewhere else
         loadStaffList()
     }
 
+    // TODO: Move that function
     function loadStaffList() {
         dispatch(load({
             type: 'staff',
@@ -246,11 +249,27 @@ export default function computeRoutes(store) {
         return new Map(features)
     }
 
-    function onMapRouteEnter(next) {
+    function updateDrawersState({routes, location, params}) {
+        if (routes.length > 2) {
+            dispatch(DrawersActions.openPrimaryDrawer())
+        } else {
+            dispatch(DrawersActions.closePrimaryDrawer())
+        }
+
+        if (location.query.panel) {
+            dispatch(DrawersActions.openSecondaryDrawer())
+        } else {
+            dispatch(DrawersActions.closeSecondaryDrawer())
+        }
+    }
+
+    function handleMapRouteEnter(next) {
+        updateDrawersState(next)
         dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
     }
 
-    function onMapRouteChange(previous, next) {
+    function handleMapRouteChange(previous, next) {
+        updateDrawersState(next)
         dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
     }
 
@@ -266,7 +285,7 @@ export default function computeRoutes(store) {
             {/* AVALANCHE CANADA */}
             <IndexRedirect to='map' />
             <Route path='map/ates' components={{content: Layouts.AtesMap, footer: null}} />
-            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}} onEnter={onMapRouteEnter} onChange={onMapRouteChange}>
+            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}} onEnter={handleMapRouteEnter} onChange={handleMapRouteChange}>
                 <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
                     <Route path=':name' components={{primary: Drawers.Forecast}} />
                 </Route>

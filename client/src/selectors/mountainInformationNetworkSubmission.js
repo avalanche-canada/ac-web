@@ -4,18 +4,9 @@ import {getEntityForSchema} from 'getters/entities'
 import {getResultsSet} from 'getters/api'
 import {computeOffset} from 'selectors/map/bounds'
 
-export function getId({location, params}) {
-    if (location && location.query.panel) {
-        return location.query.panel.split('/')[1]
-    }
-
-    return params.id
-}
-
-function getParams(props) {
-    return {
-        id: getId(props)
-    }
+// TODO: Try to remove the need for that function
+export function getId({id, params}) {
+    return id || params.id
 }
 
 function getSubmission(state, props) {
@@ -25,10 +16,9 @@ function getSubmission(state, props) {
 }
 
 function getSubmissionResultsSet(state, props) {
-    const params = getParams(props)
+    const id = getId(props)
 
-    return getResultsSet(state, MountainInformationNetworkSubmission, params)
-
+    return getResultsSet(state, MountainInformationNetworkSubmission, {id})
 }
 
 const getComputeFlyTo = createSelector(
