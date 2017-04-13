@@ -47,24 +47,16 @@ export const closeMenu = createAction(MENU_CLOSED)
 export const toggleMenu = createBinaryAction(isMenuOpen, closeMenu, openMenu)
 export const changeFilter = createAction(FILTER_CHANGED, changeFilterPayloadCreator)
 
-// Reducing action dispatching to improve performance!
-// Less actions means better performance and it is a pattern that needs to be
-// considered. Only dispatch an action to turn on/off a layer if it needs to.
-export const turnOnLayer = toggleLayerActionCreatorFactory(true)
-export const turnOffLayer = toggleLayerActionCreatorFactory(false)
-
-function toggleLayerActionCreatorFactory(visible) {
-    const type = visible ? LAYER_TURNED_ON : LAYER_TURNED_OFF
-    const actionCreator = createAction(type)
-
-    return layer => (dispatch, getState) => {
-        if (isLayerVisible(getState(), layer) === visible) {
-            return
-        }
-
-        dispatch(actionCreator(layer))
-    }
-}
+export const turnOnLayer = createOptimisticAction(
+    isLayerVisible,
+    false,
+    createAction(LAYER_TURNED_ON)
+)
+export const turnOffLayer = createOptimisticAction(
+    isLayerVisible,
+    true,
+    createAction(LAYER_TURNED_OFF)
+)
 
 function changeFilterPayloadCreator(layer, name, value) {
     return {
