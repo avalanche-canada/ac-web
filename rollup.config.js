@@ -30,8 +30,6 @@ const postCSSPlugins = [
     }),
     postcssModules({
         getJSON(id, exportTokens) {
-            // console.warn('getJSON', typeof id, id, exportTokens)
-
             cssExportMap[id] = exportTokens
         }
     }),
@@ -58,11 +56,8 @@ export default {
         postcss({
             plugins: postCSSPlugins,
             getExport(id) {
-                // console.warn('getExport', typeof id, id)
-                console.warn(id)
                 return cssExportMap[id]
             },
-            // extensions: ['.karl'],
             extract: 'dist/public/style.css',
             sourceMap: true,
         }),
