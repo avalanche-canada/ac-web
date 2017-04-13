@@ -36,7 +36,7 @@ app.use(webpackHotMiddleware(compiler))
 app.use(middleware)
 
 app.get('*', function response(req, res) {
-    const filename = path.resolve(__dirname, '../dist/public/index.html')
+    const filename = path.resolve(__dirname, '../client/index.html')
 
     res.write(middleware.fileSystem.readFileSync(filename))
     res.end()

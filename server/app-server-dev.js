@@ -15,7 +15,7 @@ require('./routes')(app);
 app.use(express.static(path.resolve(__dirname, '../dist/public')))
 
 app.get('*', function response(req, res) {
-    res.sendFile(path.resolve(__dirname, '../dist/public/index.html'))
+    res.sendFile(path.resolve(__dirname, '../client/index.html'))
 })
 
 app.listen(port, '0.0.0.0', function onStart(err) {
