@@ -16,23 +16,19 @@ export const OPEN_SECONDARY_DRAWER = 'OPEN_SECONDARY_DRAWER'
 export const CLOSE_SECONDARY_DRAWER = 'CLOSE_SECONDARY_DRAWER'
 
 export const openPrimaryDrawer = createOptimisticAction(
-    isPrimaryDrawerOpened,
-    false,
+    state => isPrimaryDrawerOpened(state) === false,
     createAction(OPEN_PRIMARY_DRAWER)
 )
 export const closePrimaryDrawer = createOptimisticAction(
-    isPrimaryDrawerOpened,
-    true,
+    state => isPrimaryDrawerOpened(state) === true,
     createAction(CLOSE_PRIMARY_DRAWER)
 )
 export const openSecondaryDrawer = createOptimisticAction(
-    isSecondaryDrawerOpened,
-    false,
+    state => isSecondaryDrawerOpened(state) === false,
     createAction(OPEN_SECONDARY_DRAWER)
 )
 export const closeSecondaryDrawer = createOptimisticAction(
-    isSecondaryDrawerOpened,
-    true,
+    state => isSecondaryDrawerOpened(state) === true,
     createAction(CLOSE_SECONDARY_DRAWER)
 )
 
@@ -48,13 +44,11 @@ export const toggleMenu = createBinaryAction(isMenuOpen, closeMenu, openMenu)
 export const changeFilter = createAction(FILTER_CHANGED, changeFilterPayloadCreator)
 
 export const turnOnLayer = createOptimisticAction(
-    isLayerVisible,
-    false,
+    (state, payload) => isLayerVisible(state, payload) === false,
     createAction(LAYER_TURNED_ON)
 )
 export const turnOffLayer = createOptimisticAction(
-    isLayerVisible,
-    true,
+    (state, payload) => isLayerVisible(state, payload) === true,
     createAction(LAYER_TURNED_OFF)
 )
 

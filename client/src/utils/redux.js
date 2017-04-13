@@ -1,8 +1,8 @@
 import noop from 'lodash/noop'
 
-export function createOptimisticAction(getter, value, action = noop) {
+export function createOptimisticAction(tester, action = noop) {
     return payload => (dispatch, getState) => {
-        if (getter(getState(), payload) === value) {
+        if (tester(getState(), payload)) {
             return dispatch(action(payload))
         }
     }
