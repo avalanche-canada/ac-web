@@ -1,8 +1,5 @@
 import {createAction} from 'redux-actions'
-import {
-    createBinaryAction,
-    createOptimisticAction
-} from 'utils/redux'
+import {createBinaryAction, createOptimisticAction} from 'utils/redux'
 import {
     isLayerVisible,
     isMenuOpen,
@@ -44,11 +41,11 @@ export const toggleMenu = createBinaryAction(isMenuOpen, closeMenu, openMenu)
 export const changeFilter = createAction(FILTER_CHANGED, changeFilterPayloadCreator)
 
 export const turnOnLayer = createOptimisticAction(
-    (state, payload) => isLayerVisible(state, payload) === false,
+    (state, layer) => isLayerVisible(state, layer) === false,
     createAction(LAYER_TURNED_ON)
 )
 export const turnOffLayer = createOptimisticAction(
-    (state, payload) => isLayerVisible(state, payload) === true,
+    (state, layer) => isLayerVisible(state, layer) === true,
     createAction(LAYER_TURNED_OFF)
 )
 
