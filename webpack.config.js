@@ -18,6 +18,11 @@ module.exports = {
         filename: '[name].js',
 	},
 	module: {
+        preLoaders: [{
+			test: /\.js$/,
+			exclude: /node_modules/,
+			loader: 'eslint'
+		}],
 		loaders: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
@@ -74,6 +79,11 @@ module.exports = {
 		require('postcss-cssnext'),
         require('rucksack-css'),
 	],
+    eslint: {
+        failOnWarning: false,
+        // failOnError: false,
+        failOnError: true,
+    },
     devtool: 'eval-source-map',
     watch: true,
     devServer: {
