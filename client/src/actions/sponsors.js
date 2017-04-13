@@ -19,6 +19,6 @@ export const resetActiveSponsor = createOptimisticAction(
 export const GET_SPONSORS = 'GET_SPONSORS'
 
 export const loadSponsors = createDelayedAction(
-    state => Object.keys(getSponsors(state) || {}).length > 0 ? 10000 : 1,
+    state => Object.keys(getSponsors(state) || {}).length > 0 ? 9999 : 1,
     createAction(GET_SPONSORS, fetchSponsors)
 )
