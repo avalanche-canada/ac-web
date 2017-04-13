@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Immutable from 'immutable'
@@ -9,6 +11,7 @@ import babel from 'rollup-plugin-babel'
 import eslint from 'rollup-plugin-eslint'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+// import replace from 'rollup-plugin-post-replace'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import postcss from 'rollup-plugin-postcss'
@@ -39,12 +42,18 @@ if (process.env.NODE_ENV === 'production') {
     postCSSPlugins.push(cssnano())
 }
 
+const pack = JSON.parse(fs.readFileSync('./package.json'))
+
 export default {
     entry: 'client/src/main.js',
     dest: 'dist/public/main.js',
     format: 'iife',
     sourceMap: true,
+    external: Object.keys(pack.devDependencies),
     plugins: [
+        replace({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+        }),
         image(),
         builtins(),
         json(),
@@ -80,10 +89,6 @@ export default {
         //         'client/src/styles/**/*.css',
         //     ]
         // }),
-        replace({
-            exclude: 'node_modules/**',
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-        }),
         (process.env.NODE_ENV === 'production' && uglify()),
     ],
 }
