@@ -1,11 +1,10 @@
-import {NotImplementedError} from 'utils/error'
 import Memory from './Memory'
 
 const {parse, stringify} = JSON
 
 export default class Storage {
     static create(options) {
-        throw new NotImplementedError()
+        throw new Error('Not implemented.')
     }
     constructor(storage = new Memory(), options = {}) {
         this.options = options
