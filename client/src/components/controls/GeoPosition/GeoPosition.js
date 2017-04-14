@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
 import mapbox from 'services/mapbox/map'
 import {Map, Marker, NavigationControl, FullscreenControl} from 'components/map'

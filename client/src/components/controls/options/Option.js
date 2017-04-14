@@ -13,7 +13,7 @@ Option.propTypes = {
 
 function Option({value, onClick = noop, active = false, children}) {
     const styleName = active ? 'Option--Active' : 'Option'
-    function handleClick(event) {
+    function handleClick() {
         onClick(value)
     }
 

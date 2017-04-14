@@ -36,7 +36,7 @@ export default class DayPicker extends Component {
     showCalendar = () => {
         this.isCalendarVisible = true
     }
-    handleDayClick = (day, modifiers, event) => {
+    handleDayClick = (day, modifiers) => {
         if (modifiers.disabled) {
             return
         }

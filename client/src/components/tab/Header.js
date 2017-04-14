@@ -8,7 +8,7 @@ import noop from 'lodash/noop'
 
 Header.propTypes = {
     children: PropTypes.node.isRequired,
-	active: PropTypes.bool,
+    active: PropTypes.bool,
     expanded: PropTypes.bool,
     onClick: PropTypes.func,
     onExpandClick: PropTypes.func,
@@ -64,7 +64,7 @@ function Header({
         styleName = 'ListItem--Active'
     }
 
-	return (
+    return (
         <li role='tab' {...{onClick, styleName, style}} >
             {children}
             {showArrow &&

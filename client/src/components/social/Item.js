@@ -1,4 +1,4 @@
-import React, {createElement} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {compose} from 'recompose'
 import {onlyUpdateForKey} from 'compose'
@@ -45,6 +45,7 @@ Item.propTypes = {
     link: PropTypes.string.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     children: PropTypes.node,
+    style: PropTypes.object,
 }
 
 function Item({link, title, children, style}) {

@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, setPropTypes, withProps, mapProps, defaultProps, withState, withHandlers, onlyUpdateForKeys} from 'recompose'
 import {ExpandLess, ExpandMore, Remove} from '../icons'
 import Button from './Button'
 import {SUBTILE} from './kinds'
@@ -38,7 +37,9 @@ export default class Sorting extends PureComponent {
     constructor(props) {
         super(props)
 
+        /* eslint-disable react/no-direct-mutation-state */
         this.state.sorting = props.sorting || NONE
+        /* eslint-disable react/no-direct-mutation-state */
     }
     get sorting() {
         return this.state.sorting
@@ -53,7 +54,7 @@ export default class Sorting extends PureComponent {
 
         return SORTINGS[SORTINGS.indexOf(sorting) + 1] || SORTINGS[0]
     }
-    handleClick = event => {
+    handleClick = () => {
         this.sorting = this.next
     }
     componentWillReceiveProps({sorting}) {

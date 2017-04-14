@@ -8,5 +8,5 @@ Tab.propTypes = {
 }
 
 export default function Tab() {
-	return null
+    return null
 }

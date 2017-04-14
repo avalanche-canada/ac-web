@@ -5,26 +5,26 @@ import Image from './Image'
 const sequence = [1, 2, 3, 4]
 
 export default function Outlook({forecast}) {
-	const {outlook, type} = forecast
+    const {outlook, type} = forecast
 
-	if (outlook === null) {
-		return null
-	}
+    if (outlook === null) {
+        return null
+    }
 
-	return (
-		<section>
-			<h2>Outlook</h2>
-			<InnerHTML>
+    return (
+        <section>
+            <h2>Outlook</h2>
+            <InnerHTML>
                 {outlook}
             </InnerHTML>
-			{sequence.map(increment => (
-				<div key={increment}>
-					<Image image={forecast[`outlookImage${increment}`]} />
-					<InnerHTML>
+            {sequence.map(increment => (
+                <div key={increment}>
+                    <Image image={forecast[`outlookImage${increment}`]} />
+                    <InnerHTML>
                         {forecast[`outlookText${increment}`]}
                     </InnerHTML>
-				</div>
-			))}
-		</section>
-	)
+                </div>
+            ))}
+        </section>
+    )
 }

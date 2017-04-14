@@ -10,10 +10,8 @@ export function scrollPosition(hash) {
     const {pathname} = document.location
     let offset = 15
 
-    switch (pathname) {
-        case '/ambassadors':
-            offset = 45
-            break;
+    if (pathname === '/ambassadors') {
+        offset = 45
     }
 
     return [0, Math.floor(top + pageYOffset) - 75 - offset]

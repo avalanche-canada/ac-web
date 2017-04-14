@@ -2,8 +2,6 @@ import {createAction} from 'redux-actions'
 import {getVisibleLayers} from 'getters/drawers'
 import {getStyle, getStatus} from 'getters/map'
 import {fetchMapStyle} from 'services/mapbox/api'
-import MapLayers from 'constants/map/layers'
-import MapSources from 'constants/map/sources'
 import * as PrismicActions from 'actions/prismic'
 import * as EntitiesActions from 'actions/entities'
 import * as Layers from 'constants/drawers'
@@ -45,31 +43,31 @@ export function loadData() {
 function createActionForLayer(layer) {
     switch (layer.get('id')) {
         case Layers.HOT_ZONE_REPORTS:
-            return PrismicActions.load({
-                type: 'hotzone-report',
-                predicates: [
-                    Predicates.dateBefore('my.hotzone-report.dateOfIssue', format(startOfTomorrow(), 'YYYY-MM-DD')),
-                    Predicates.dateAfter('my.hotzone-report.validUntil', format(startOfYesterday(), 'YYYY-MM-DD')),
-                ]
-            })
+        return PrismicActions.load({
+            type: 'hotzone-report',
+            predicates: [
+                Predicates.dateBefore('my.hotzone-report.dateOfIssue', format(startOfTomorrow(), 'YYYY-MM-DD')),
+                Predicates.dateAfter('my.hotzone-report.validUntil', format(startOfYesterday(), 'YYYY-MM-DD')),
+            ]
+        })
         case Layers.MOUNTAIN_INFORMATION_NETWORK:
-            const value = layer.getIn(['filters', 'days', 'value'])
+        const value = layer.getIn(['filters', 'days', 'value'])
 
-            return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
+        return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
         case Layers.TOYOTA_TRUCK_REPORTS:
-            return PrismicActions.load({
-                type: 'toyota-truck-report'
-            })
+        return PrismicActions.load({
+            type: 'toyota-truck-report'
+        })
         case Layers.SPECIAL_INFORMATION:
-            return PrismicActions.load({
-                type: 'special-information'
-            })
+        return PrismicActions.load({
+            type: 'special-information'
+        })
         case Layers.FATAL_ACCIDENT:
-            return PrismicActions.load({
-                type: 'fatal-accident'
-            })
+        return PrismicActions.load({
+            type: 'fatal-accident'
+        })
         case Layers.WEATHER_STATION:
-            return EntitiesActions.loadWeatherStations()
+        return EntitiesActions.loadWeatherStations()
     }
 }
 

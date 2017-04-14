@@ -15,25 +15,25 @@ const FullscreenIcons = new Map([
 
 @CSSModule(styles)
 export default class Loop extends Component {
-	static propTypes = {
+    static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         dwell: PropTypes.number,
         startAt: PropTypes.number,
         openImageInNewTab: PropTypes.bool,
-	}
+    }
     static defaultProps = {
         urls: [],
         interval: 1000,
         dwell: 2000,
         openImageInNewTab: false,
     }
-	state = {
-		cursor: 0,
-		isPlaying: false,
-		isLoading: false,
+    state = {
+        cursor: 0,
+        isPlaying: false,
+        isLoading: false,
         isFullscreen: false,
-	}
+    }
     constructor(props) {
         super(props)
 
@@ -51,10 +51,10 @@ export default class Loop extends Component {
             this.fullscreenchangeEventName = 'MSFullscreenChange'
         }
     }
-	get cursor() {
-		return this.state.cursor
-	}
-	set cursor(cursor) {
+    get cursor() {
+        return this.state.cursor
+    }
+    set cursor(cursor) {
         this.setState({
             cursor,
             isLoading: true,
@@ -63,7 +63,7 @@ export default class Loop extends Component {
                 this.setTimeout()
             }
         })
-	}
+    }
     get isPlaying() {
         return this.state.isPlaying
     }
@@ -86,9 +86,9 @@ export default class Loop extends Component {
             }
         })
     }
-	get maxCursor() {
-		return this.props.urls.length - 1
-	}
+    get maxCursor() {
+        return this.props.urls.length - 1
+    }
     get url() {
         return this.props.urls[this.cursor]
     }
@@ -111,36 +111,36 @@ export default class Loop extends Component {
         this.clearTimeout()
         this.timeoutId = window.setTimeout(this.next, interval)
     }
-	next = () => {
-		if (this.maxCursor === this.cursor) {
+    next = () => {
+        if (this.maxCursor === this.cursor) {
             this.cursor = 0
-		} else {
-			this.cursor = this.cursor + 1
-		}
-	}
-	previous = () => {
-		if (this.cursor === 0) {
+        } else {
+            this.cursor = this.cursor + 1
+        }
+    }
+    previous = () => {
+        if (this.cursor === 0) {
             this.cursor = this.maxCursor
-		} else {
-			this.cursor = this.cursor - 1
-		}
-	}
-	first = () => {
+        } else {
+            this.cursor = this.cursor - 1
+        }
+    }
+    first = () => {
         this.pause()
-		this.cursor = 0
-	}
-	last = () => {
+        this.cursor = 0
+    }
+    last = () => {
         this.pause()
-		this.cursor = this.maxCursor
-	}
-	play = () => {
+        this.cursor = this.maxCursor
+    }
+    play = () => {
         this.isPlaying = true
-	}
+    }
     pause = () => {
         this.isPlaying = false
     }
-	componentDidMount() {
-		window.addEventListener('keydown', this.handleKeyDown)
+    componentDidMount() {
+        window.addEventListener('keydown', this.handleKeyDown)
 
         if (this.fullscreenchangeEventName) {
             document.addEventListener(
@@ -148,9 +148,9 @@ export default class Loop extends Component {
                 this.handleFullscreenChange
             )
         }
-	}
-	componentWillUnmount() {
-		window.removeEventListener('keydown', this.handleKeyDown)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeyDown)
         this.clearTimeout()
 
         if (this.fullscreenchangeEventName) {
@@ -159,25 +159,25 @@ export default class Loop extends Component {
                 this.handleFullscreenChange
             )
         }
-	}
-	handleKeyDown = ({keyCode}) => {
-		const {left, right} = keycode.codes
+    }
+    handleKeyDown = ({keyCode}) => {
+        const {left, right} = keycode.codes
 
-		switch (keyCode) {
-			case left:
-				this.previous()
-				break;
-			case right:
-				this.next()
-				break;
-		}
-	}
-	handleImageLoad = () => {
+        switch (keyCode) {
+            case left:
+                this.previous()
+                break;
+            case right:
+                this.next()
+                break;
+        }
+    }
+    handleImageLoad = () => {
         this.isLoading = false
-	}
-	handleImageError = () => {
+    }
+    handleImageError = () => {
         this.isLoading = false
-	}
+    }
     handleFullscreenClick = event => {
         this.isFullscreen = !this.isFullscreen
     }
@@ -220,24 +220,24 @@ export default class Loop extends Component {
             this.isFullscreen = false
         }
     }
-	render() {
+    render() {
         const {isFullscreen} = this
         const {interval} = this.props
         const toolbar = {
-			isPlaying: this.isPlaying,
-			onNext: this.next,
-			onPrevious: this.previous,
-			onFirst: this.first,
-			onLast: this.last,
-			onPlay: this.play,
-			onPause: this.pause,
-		}
-		const image = {
-			src: this.url,
-			onError: this.handleImageError,
-			onLoad: this.handleImageLoad,
+            isPlaying: this.isPlaying,
+            onNext: this.next,
+            onPrevious: this.previous,
+            onFirst: this.first,
+            onLast: this.last,
+            onPlay: this.play,
+            onPause: this.pause,
+        }
+        const image = {
+            src: this.url,
+            onError: this.handleImageError,
+            onLoad: this.handleImageLoad,
             openNewTab: this.props.openImageInNewTab,
-		}
+        }
 
         return (
             <div ref={ref => this.container = ref} className={styles.Container}>
@@ -258,5 +258,5 @@ export default class Loop extends Component {
                 </div>
             </div>
         )
-	}
+    }
 }
