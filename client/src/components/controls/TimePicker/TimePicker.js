@@ -14,7 +14,6 @@ function format({hour, minute}) {
     return `${hour}:${minute}`
 }
 
-
 function TimePicker({hour, onHourChange, minute, onMinuteChange, onFocus, onKeyDown, step, autoFocus}) {
     return (
         <div styleName='Container'>

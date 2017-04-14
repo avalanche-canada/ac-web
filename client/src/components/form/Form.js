@@ -1,6 +1,5 @@
 import {DOM} from 'react'
-import {Element} from 'compose'
-import CSSModules from 'react-css-modules'
+import {Element} from '~/compose'
 import styles from './Form.css'
 
 export default Element({

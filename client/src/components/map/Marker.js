@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import {Component} from 'react'
 import PropTypes from 'prop-types'
-import mapbox from 'services/mapbox/map'
+import mapbox from '~/services/mapbox/map'
 import noop from 'lodash/noop'
 
 const {LngLat} = mapbox
@@ -97,7 +97,7 @@ export default class Marker extends Component {
         this.marker = this.createMarker(this.props)
     }
     componentWillReceiveProps(nextProps) {
-        const {element, lngLat, options} = nextProps
+        const {element, lngLat} = nextProps
 
         if (this.element !== element) {
             this.marker = this.createMarker(nextProps)

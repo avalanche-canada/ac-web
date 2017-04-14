@@ -1,11 +1,15 @@
 import React from 'react'
-import {compose, mapProps} from 'recompose'
-import {onlyUpdateForKey} from 'compose'
+import PropTypes from 'prop-types'
+import {compose, mapProps, setPropTypes} from 'recompose'
+import {onlyUpdateForKey} from '~/compose'
 import {Link} from 'react-router'
-import {Sidebar, Contact, Follow, Share, Item} from 'components/sidebar'
+import {Sidebar, Contact, Follow, Share, Item} from '~/components/sidebar'
 import {FORECASTERS} from 'constants/emails'
 
 export default compose(
+    setPropTypes({
+        shareUrl: PropTypes.string.isRequired,
+    }),
     onlyUpdateForKey('shareUrl'),
     mapProps(({shareUrl, ...props}) => ({
         ...props,
@@ -23,7 +27,7 @@ export default compose(
                 <Link to='/hot-zone-reports/archives'>HotZone Archive</Link>
             </Item>,
             <Follow />,
-            <Share url={props.shareUrl} />,
+            <Share url={shareUrl} />,
             <Contact email={FORECASTERS} />,
         ]
     })),

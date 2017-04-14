@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import CSSModules from 'react-css-modules'
-import mapbox from 'services/mapbox/map'
-import {Map, Marker, NavigationControl, FullscreenControl} from 'components/map'
+import mapbox from '~/services/mapbox/map'
+import {Map, Marker, NavigationControl, FullscreenControl} from '~/components/map'
 import {Revelstoke} from 'constants/map/locations'
 import styles from './GeoPosition.css'
-import place from 'components/icons/place.svg'
+import place from '~/components/icons/place.svg'
 
 const {LngLat} = mapbox
 const MARKER_OPTIONS = {
@@ -47,7 +47,9 @@ export default class GeoPosition extends Component {
         const {longitude, latitude} = props
 
         if (areValidCoordinates(longitude, latitude)) {
+            /* eslint-disable react/no-direct-mutation-state */
             this.state.lngLat = new LngLat(longitude, latitude)
+            /* eslint-disable react/no-direct-mutation-state */
         }
     }
     handleLoad = event => {
@@ -102,7 +104,7 @@ export default class GeoPosition extends Component {
         })
     }
     render() {
-        const {lngLat, map} = this.state
+        const {lngLat} = this.state
         const {allowFullscreen} = this.props
 
         return (

@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {defaultProps} from 'recompose'
 import CSSModules from 'react-css-modules'
-import BaseButton, {PRIMARY} from 'components/button'
+import BaseButton, {PRIMARY} from '~/components/button'
 import styles from './Loop.css'
+import noop from 'lodash/noop'
 import {
     FirstPage,
     LastPage,
@@ -11,13 +12,19 @@ import {
     Pause,
     ChevronRight,
     ChevronLeft
-} from 'components/icons'
+} from '~/components/icons'
 
 const Button = defaultProps({
     kind: PRIMARY
 })(BaseButton)
 
-function AnimateButton({isPlaying, onPause, onPlay}) {
+AnimateButton.propTypes = {
+    isPlaying: PropTypes.bool,
+    onPause: PropTypes.func,
+    onPlay: PropTypes.func
+}
+
+function AnimateButton({isPlaying = false, onPause = noop, onPlay = noop}) {
     const title = `${isPlaying ? 'Pause' : 'Play'} the animation`
     const onClick = isPlaying ? onPause : onPlay
 

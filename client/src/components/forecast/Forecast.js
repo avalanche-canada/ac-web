@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import {Link} from 'react-router'
 import Headline from './Headline'
 import Summary from './Summary'
@@ -8,12 +7,10 @@ import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import {Table, Day, DaySet, Condition, Confidence} from './danger'
 import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
-import {Article, Header} from 'components/page'
-import {Metadata, Entry} from 'components/metadata'
-import {TabSet, Tab, LOOSE} from 'components/tab'
-import styles from './Forecast.css'
+import {TabSet, Tab, LOOSE} from '~/components/tab'
 
 Forecast.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
     highlights: PropTypes.string,
     avalancheSummary: PropTypes.string,
     snowpackSummary: PropTypes.string,
@@ -40,8 +37,6 @@ export default function Forecast({
     confidence,
     isArchived,
     region,
-    dateIssued,
-    validUntil,
     date,
 }) {
     return (

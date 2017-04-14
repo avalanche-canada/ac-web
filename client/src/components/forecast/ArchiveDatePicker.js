@@ -4,19 +4,18 @@ import {compose, withState} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './ArchiveDatePicker.css'
-import {DateUtils, DateElement, Day} from 'components/misc'
+import {DateElement} from '~/components/misc'
 import format from 'date-fns/format'
-import {DayPicker} from 'components/controls'
+import {DayPicker} from '~/components/controls'
 
 // TODO: Move to another location, so it can be used between components.
 
 ArchiveDatePicker.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     region: PropTypes.string.isRequired,
-    onReadClick: PropTypes.func.isRequired,
 }
 
-function ArchiveDatePicker({date, region, onReadClick, selectedDate, setSelectedDate}) {
+function ArchiveDatePicker({date, region, selectedDate, setSelectedDate}) {
     return (
         <div styleName='ArchiveDatePicker'>
             <DayPicker date={selectedDate || date} onChange={setSelectedDate}>

@@ -6,12 +6,8 @@ import Icon from './Icon'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
 
-Card.propTypes = {
-    alp: Icon.propTypes.rating,
-    tln: Icon.propTypes.rating,
-    btl: Icon.propTypes.rating,
-    showTravelAdvice: PropTypes.bool,
-    showExtraInformation: PropTypes.bool,
+PositionText.propTypes = {
+    children: PropTypes.string.isRequired,
 }
 
 function PositionText({children, ...props}) {
@@ -27,6 +23,14 @@ const STYLE = {
     // but collapsable information does not display properly
     overflow: 'visible',
     width: '100%',
+}
+
+Card.propTypes = {
+    alp: Icon.propTypes.rating,
+    tln: Icon.propTypes.rating,
+    btl: Icon.propTypes.rating,
+    showTravelAdvice: PropTypes.bool,
+    showExtraInformation: PropTypes.bool,
 }
 
 export default function Card({

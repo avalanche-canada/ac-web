@@ -1,7 +1,6 @@
 import React, {Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {} from 'recompose'
 import styles from './OptionSet.css'
 
 OptionSet.propTypes = {

@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Ratings, {NO_RATING} from 'constants/forecast/rating'
 import Icons from './Icons'

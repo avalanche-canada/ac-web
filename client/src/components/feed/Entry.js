@@ -1,11 +1,11 @@
-import React, {DOM} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, branch, renderComponent} from 'recompose'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
-import {neverUpdate} from 'compose'
-import {Image, InnerHTML, DateElement} from 'components/misc'
-import {TagSet, Tag} from 'components/tag'
+import {neverUpdate} from '~/compose'
+import {Image, InnerHTML, DateElement} from '~/components/misc'
+import {TagSet, Tag} from '~/components/tag'
 import styles from './Feed.css'
 
 Entry.propTypes = {
@@ -69,7 +69,14 @@ function Entry({
     )
 }
 
-Entry = CSSModules(Entry, styles)
+CondensedEntry.propTypes = {
+    featured: PropTypes.bool,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string,
+    source: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    link: PropTypes.string.isRequired,
+}
 
 function CondensedEntry({
     featured = false,
@@ -97,12 +104,12 @@ function CondensedEntry({
     )
 }
 
-CondensedEntry = CSSModules(CondensedEntry, styles)
-
 export default compose(
     neverUpdate,
     branch(
         props => props.condensed,
-        renderComponent(CondensedEntry),
+        renderComponent(
+            CSSModules(CondensedEntry, styles)
+        ),
     ),
-)(Entry)
+)(CSSModules(Entry, styles))

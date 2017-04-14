@@ -5,6 +5,9 @@ import {withState} from 'recompose'
 BannerSet.propTypes = {
     showTravelAdvice: PropTypes.bool,
     expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
+    setExpanded: PropTypes.func,
+    children: PropTypes.number,
 }
 
 function BannerSet({
@@ -21,7 +24,7 @@ function BannerSet({
                     ...banner.props,
                     showTravelAdvice,
                     expandable,
-                    onExpandClick: event => setExpanded(expanded === index ? null : index),
+                    onExpandClick: () => setExpanded(expanded === index ? null : index),
                     expanded: expanded === index,
                 })
             ))}

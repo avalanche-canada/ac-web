@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Elevations, {ALP, TLN, BTL} from 'constants/forecast/elevation'
 import Ratings, {
     NO_RATING,
-    CONSIDERABLE,
     Texts as RatingTexts,
     TravelAdvices,
     LikehoodOfAvalanche,
@@ -13,7 +12,7 @@ import {BannerFill, BannerStroke, TextFill} from './colors'
 import IconGroups from './IconGroups'
 import noop from 'lodash/noop'
 
-function RatingText({ rating, showTravelAdvice }) {
+function RatingText({rating, showTravelAdvice }) {
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TextFill.get(rating)
@@ -25,6 +24,7 @@ function RatingText({ rating, showTravelAdvice }) {
         </text>
     )
 }
+
 function toLines(text, first = 0) {
     return text.split('\n ').map((line, index) => (
         <tspan key={index} x={70} dy={index === 0 ? first : 9}>
@@ -32,6 +32,7 @@ function toLines(text, first = 0) {
         </tspan>
     ))
 }
+
 function ExtraInformation({rating, expanded}) {
     if (rating === NO_RATING) {
         return null
@@ -48,7 +49,7 @@ function ExtraInformation({rating, expanded}) {
     )
 }
 
-function ExpandButton({ rating, x, onClick, expanded }) {
+function ExpandButton({rating, x, onClick, expanded}) {
     if (rating === NO_RATING) {
         return null
     }
@@ -80,6 +81,7 @@ Banner.propTypes = {
     showTravelAdvice: PropTypes.bool,
     onExpandClick: PropTypes.func,
     expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
 }
 
 export default function Banner({

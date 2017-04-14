@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import {CancelToken} from 'axios'
 import CSSModules from 'react-css-modules'
 import noop from 'lodash/noop'
-import {Input} from 'components/controls'
-import {Place, Close, Spinner} from 'components/icons'
-import {findPlaces} from 'services/mapbox/api'
-import {OptionSet, Option} from 'components/controls/options'
-import Button, {INCOGNITO} from 'components/button'
+import {Input} from '~/components/controls'
+import {Place, Close, Spinner} from '~/components/icons'
+import {findPlaces} from '~/services/mapbox/api'
+import {OptionSet, Option} from '~/components/controls/options'
+import Button, {INCOGNITO} from '~/components/button'
 import styles from './Geocoder.css'
 
 @CSSModules(styles)
@@ -15,6 +15,7 @@ export default class Geocoder extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         placeholder: PropTypes.string,
+        value: PropTypes.string,
     }
     static defaultProps = {
         onChange: noop,

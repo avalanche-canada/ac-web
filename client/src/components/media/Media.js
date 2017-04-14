@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Media.css'
-import Caption from './Caption'
 
 Media.propTypes = {
     caption: PropTypes.node,

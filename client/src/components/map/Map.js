@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import CSSModule from 'react-css-modules'
-import Immutable from 'immutable'
-import mapbox, {styles} from 'services/mapbox/map'
+import mapbox, {styles} from '~/services/mapbox/map'
 import {Canadian} from 'constants/map/bounds'
-import {captureException} from 'services/raven'
+import {captureException} from '~/services/raven'
 import noop from 'lodash/noop'
 
 function toJSON(style) {
@@ -61,7 +59,8 @@ export default class MapComponent extends Component {
     static propTypes = {
         children: PropTypes.node,
         style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object]).isRequired,
-        center: PropTypes.arrayOf(number),
+        containerStyle: PropTypes.object,
+        center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
         bearing: PropTypes.number,
         pitch: PropTypes.number,
@@ -69,7 +68,7 @@ export default class MapComponent extends Component {
         maxZoom: PropTypes.number,
         interactive: PropTypes.bool,
         bearingSnap: PropTypes.number,
-        classes: PropTypes.arrayOf(string),
+        classes: PropTypes.arrayOf(PropTypes.string),
         attributionControl: PropTypes.bool,
         failIfMajorPerformanceCaveat: PropTypes.bool,
         preserveDrawingBuffer: PropTypes.bool,
@@ -140,7 +139,7 @@ export default class MapComponent extends Component {
     }
     componentDidMount() {
         const {container} = this.refs
-        const {style, children, onInitializationError, ...props} = this.props
+        const {style, onInitializationError, ...props} = this.props
 
         try {
             this.map = new mapbox.Map({

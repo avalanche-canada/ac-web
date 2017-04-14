@@ -5,10 +5,9 @@ import styles from './Form.css'
 
 Fieldset.propTypes = {
     children: PropTypes.node.isRequired,
-    legend: PropTypes.string,
 }
 
-function Fieldset({ legend, children }) {
+function Fieldset({children}) {
     return (
         <fieldset styleName='Fieldset'>
             {children}

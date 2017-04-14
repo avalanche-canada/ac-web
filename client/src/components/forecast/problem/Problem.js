@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Problem.css'
 

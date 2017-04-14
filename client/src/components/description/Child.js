@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, componentFromProp, setPropTypes, mapProps} from 'recompose'
 import CSSModules from 'react-css-modules'

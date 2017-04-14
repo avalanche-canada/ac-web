@@ -19,6 +19,14 @@ const hints = new Map([
     [RIGHT, 'Next'],
 ])
 
+Segment.propTypes = {
+    position: PropTypes.oneOf([LEFT, RIGHT]).isRequired,
+    onNavigate: PropTypes.func,
+    hint: PropTypes.string,
+    hidden: PropTypes.bool,
+    children: PropTypes.node.isRequired,
+}
+
 function Segment({
     position,
     onNavigate = noop,
@@ -61,6 +69,10 @@ function segment(position) {
 export const Left = segment(LEFT)
 export const Right = segment(RIGHT)
 export const Center = CSSModules(Middle, styles)
+
+Middle.propTypes = {
+    children: PropTypes.node.isRequired,
+}
 
 function Middle({children}) {
     return (

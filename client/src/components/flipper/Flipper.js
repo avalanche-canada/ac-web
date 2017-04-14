@@ -1,5 +1,4 @@
-import {Element} from 'compose'
-import CSSModules from 'react-css-modules'
+import {Element} from '~/compose'
 import styles from './Flipper.css'
 
 export default Element({

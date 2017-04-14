@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image, Ratio, Delay, Loading} from 'components/misc'
-import {Fullscreen} from 'components/icons'
+import {Image, Delay} from '~/components/misc'
+import {Fullscreen} from '~/components/icons'
 import ButtonSet from './ButtonSet'
 import styles from './Loop.css'
-import Button, {PRIMARY} from 'components/button'
+import Button from '~/components/button'
 
 const FullscreenIcons = new Map([
     [true, <Fullscreen inverse />],
@@ -38,7 +38,9 @@ export default class Loop extends Component {
         super(props)
 
         if (typeof props.startAt === 'number') {
+            /* eslint-disable react/no-direct-mutation-state */
             this.state.cursor = Math.min(props.startAt, props.urls.length - 1)
+            /* eslint-disable react/no-direct-mutation-state */
         }
 
         if ('onfullscreenchange' in document) {
@@ -164,12 +166,12 @@ export default class Loop extends Component {
         const {left, right} = keycode.codes
 
         switch (keyCode) {
-            case left:
-                this.previous()
-                break;
-            case right:
-                this.next()
-                break;
+        case left:
+            this.previous()
+            break
+        case right:
+            this.next()
+            break
         }
     }
     handleImageLoad = () => {
@@ -178,7 +180,7 @@ export default class Loop extends Component {
     handleImageError = () => {
         this.isLoading = false
     }
-    handleFullscreenClick = event => {
+    handleFullscreenClick = () => {
         this.isFullscreen = !this.isFullscreen
     }
     toggleFullscreen = () => {
@@ -206,7 +208,7 @@ export default class Loop extends Component {
             }
         }
     }
-    handleFullscreenChange = event => {
+    handleFullscreenChange = () => {
         const {container} = this
         const fullscreenElement =
             document.fullscreenElement ||
