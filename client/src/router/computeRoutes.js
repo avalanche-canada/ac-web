@@ -9,14 +9,12 @@ import * as MapActions from 'actions/map'
 import * as Drawers from 'containers/drawers'
 import {getIsAuthenticated} from 'getters/auth'
 import QueryString from 'query-string'
-import {login, receiveToken} from 'actions/auth'
+import {receiveToken} from 'actions/auth'
 import {loadSponsors, setActiveSponsor, resetActiveSponsor} from 'actions/sponsors'
 import AuthService from 'services/auth'
 import {FallbackPage} from 'prismic/components/page'
 import {
     About,
-    Events,
-    Event,
     Sponsors,
     Collaborators,
     Ambassadors,
@@ -75,7 +73,6 @@ export default function computeRoutes(store) {
     let external = null
 
     function handleActiveSponsor({routes, params, location}) {
-        const {panel} = location.query
         const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
 
         if (route) {
@@ -148,7 +145,7 @@ export default function computeRoutes(store) {
         } else {
             const auth = AuthService.create()
 
-            auth.login().catch(error => {
+            auth.login().catch(() => {
                 replace('/')
                 callback()
             })
@@ -249,7 +246,7 @@ export default function computeRoutes(store) {
         return new Map(features)
     }
 
-    function updateDrawersState({routes, location, params}) {
+    function updateDrawersState({routes, location}) {
         if (routes.length > 2) {
             dispatch(DrawersActions.openPrimaryDrawer())
         } else {
