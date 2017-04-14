@@ -1,6 +1,5 @@
 import React, {Component, cloneElement, Children} from 'react'
 import PropTypes from 'prop-types'
-import {findDOMNode} from 'react-dom'
 import {Motion, spring} from 'react-motion'
 
 export const HEIGHT = 'HEIGHT'
@@ -52,7 +51,9 @@ export default class Collapse extends Component {
     constructor(props) {
         super(props)
 
+        /* eslint-disable react/no-direct-mutation-state */
         this.state.opened = !props.collapsed
+        /* eslint-disable react/no-direct-mutation-state */
     }
     collapsable = null
     setRef = ref => this.collapsable = ref

@@ -31,24 +31,24 @@ function Navbar({
 }) {
     const months = localeUtils.getMonths()
     const previous = {
-         kind: SUBTILE,
-         title: months[previousMonth.getMonth()],
-         className: classNames.navButtonPrev,
-         icon: <Previous />,
-         onClick: event => {
-             event.preventDefault()
-             onPreviousClick()
-         },
+        kind: SUBTILE,
+        title: months[previousMonth.getMonth()],
+        className: classNames.navButtonPrev,
+        icon: <Previous />,
+        onClick: event => {
+            event.preventDefault()
+            onPreviousClick()
+        },
     }
     const next = {
-         kind: SUBTILE,
-         title: months[nextMonth.getMonth()],
-         className: classNames.navButtonNext,
-         icon: <Next />,
-         onClick: event => {
-             event.preventDefault()
-             onNextClick()
-         },
+        kind: SUBTILE,
+        title: months[nextMonth.getMonth()],
+        className: classNames.navButtonNext,
+        icon: <Next />,
+        onClick: event => {
+            event.preventDefault()
+            onNextClick()
+        },
     }
 
     return (
@@ -58,7 +58,6 @@ function Navbar({
         </div>
     )
 }
-
 
 export default withProps({
     weekdayElement: Weekday,

@@ -1,9 +1,11 @@
-import React, {DOM} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import styles from './Image.css'
 
 Image.propTypes = {
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string,
     openNewTab: PropTypes.bool,
 }
 

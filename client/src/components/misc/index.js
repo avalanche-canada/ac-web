@@ -18,8 +18,6 @@ export P from './P'
 
 export SPAW from './SPAW'
 
-export GoBack from './GoBack'
-
 function dateTimeFormatGetter(date) {
     date = parse(date)
 

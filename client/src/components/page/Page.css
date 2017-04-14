@@ -225,11 +225,6 @@
     composes: import Primary from '../button/Button.css';
 }
 
-.GoBackButton {
-    composes: import Large from '../button/Button.css';
-    composes: import ChevronLeft from '../button/Button.css';
-}
-
 .ContextMap {
     & :global(.mapboxgl-map) {
         height: 250px;
