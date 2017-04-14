@@ -31,7 +31,7 @@ class DatePickerFactory extends t.form.Textbox {
     }
 }
 Object.assign(t.Date, {
-    getTcombFormFactory(options) {
+    getTcombFormFactory() {
         if (isTypeSupported('date')) {
             return DateFactory
         }
@@ -41,7 +41,7 @@ Object.assign(t.Date, {
 })
 
 // Time
-export const Time = t.irreducible('Time', value => typeof value === 'string')
+export const Time = t.irreducible('Time', value => typeof value === 'string')
 
 class TimePickerFactory extends t.form.Textbox {
     getTemplate() {
@@ -53,7 +53,7 @@ class TimePickerFactory extends t.form.Textbox {
     }
 }
 Object.assign(Time, {
-    getTcombFormFactory(options) {
+    getTcombFormFactory() {
         if (isTypeSupported('time')) {
             return t.form.Textbox
         }
@@ -63,7 +63,7 @@ Object.assign(Time, {
 })
 
 // Date and Time
-export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
+export const DateTime = t.irreducible('DateTime', value => value instanceof Date)
 
 class DateTimePickerFactory extends t.form.Textbox {
     getTemplate() {
@@ -75,7 +75,7 @@ class DateTimePickerFactory extends t.form.Textbox {
     }
 }
 Object.assign(DateTime, {
-    getTcombFormFactory(options) {
+    getTcombFormFactory() {
         if (isTypeSupported('datetime-local')) {
             return DateFactory
         }
@@ -85,7 +85,7 @@ Object.assign(DateTime, {
 })
 
 // FileList
-export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
+export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
 
 class FileListFactory extends t.form.Textbox {
     getTemplate() {

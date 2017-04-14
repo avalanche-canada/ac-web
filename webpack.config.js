@@ -81,8 +81,8 @@ module.exports = {
 	],
     eslint: {
         failOnWarning: false,
-        // failOnError: false,
-        failOnError: true,
+        failOnError: false,
+        // failOnError: true,
     },
     devtool: 'eval-source-map',
     watch: true,
