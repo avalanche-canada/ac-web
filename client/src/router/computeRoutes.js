@@ -72,7 +72,7 @@ export default function computeRoutes(store) {
     const {dispatch, getState} = store
     let external = null
 
-    function handleActiveSponsor({routes, params, location}) {
+    function handleActiveSponsor({routes, params}) {
         const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
 
         if (route) {
@@ -214,12 +214,14 @@ export default function computeRoutes(store) {
         })
     }
 
+    /* eslint-disable no-unused-vars */
     function redirect({location}, replace, callback) {
         // Need callback, it is not working if not specified
         // See react-router documentation for more details
         // Leave the application and goes to nginx to do appropriate redirect
         document.location = location.pathname
     }
+    /* eslint-disable no-unused-vars */
 
     const RouteSchemaMapping = new Map([
         [Schemas.Forecast.key, Schemas.ForecastRegion.key],

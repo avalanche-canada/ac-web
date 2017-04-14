@@ -3,7 +3,7 @@ import Memory from './Memory'
 const {parse, stringify} = JSON
 
 export default class Storage {
-    static create(options) {
+    static create(/* options */) {
         throw new Error('Not implemented.')
     }
     constructor(storage = new Memory(), options = {}) {

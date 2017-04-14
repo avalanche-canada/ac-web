@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withHandlers} from 'recompose'
-import {DropdownFromOptions, Input} from 'components/controls'
-import {Calendar, Close, Home} from 'components/icons'
+import {Input} from 'components/controls'
+import {Calendar, Close} from 'components/icons'
 import {DayPicker, DateUtils} from 'components/misc'
 import Callout from 'components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
-import {OptionSet, Option} from 'components/controls/options'
 import Button, {INCOGNITO} from 'components/button'
 import format from 'date-fns/format'
 import styles from './DateRange.css'
@@ -51,7 +49,7 @@ export default class DateRange extends Component {
     hideCalendar = () => {
         this.showCalendar = false
     }
-    handleDayClick = (day, modifiers, event) => {
+    handleDayClick = (day, modifiers) => {
         const range= DateUtils.addDayToRange(day, this.state)
 
         this.onChange(range)

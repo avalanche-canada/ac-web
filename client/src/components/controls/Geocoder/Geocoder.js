@@ -27,10 +27,12 @@ export default class Geocoder extends PureComponent {
         error: null,
         value: '',
     }
-    constructor({value, props}) {
+    constructor(props) {
         super(props)
 
-        this.state.value = value
+        /* eslint-disable react/no-direct-mutation-state */
+        this.state.value = props.value
+        /* eslint-disable react/no-direct-mutation-state */
     }
     get isActive() {
         return this.state.isActive
@@ -82,10 +84,10 @@ export default class Geocoder extends PureComponent {
             error,
         })
     }
-    handleFocus = event => {
+    handleFocus = () => {
         this.isActive = true
     }
-    handleBlur = event => {
+    handleBlur = () => {
         this.isActive = false
     }
     handleOptionClick = place => {
@@ -97,7 +99,7 @@ export default class Geocoder extends PureComponent {
             this.props.onChange(place)
         })
     }
-    handleClearClick = event => {
+    handleClearClick = () => {
         this.setState({
             isActive: false,
             value: '',

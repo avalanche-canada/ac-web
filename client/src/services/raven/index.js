@@ -37,7 +37,9 @@ export function captureException(exception, context) {
 
     Raven.captureException(exception, context)
 
+    /* eslint-disable no-console */
     console.error(exception)
+    /* eslint-disable no-console */
 }
 
 export function captureMessage(message, context) {
