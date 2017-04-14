@@ -14,27 +14,27 @@ import Legacy from './legacy'
 import TABS, {SYNOPSIS, DAY1, DAY2, DAY3TO4, DAY5TO7} from 'components/weather/tabs'
 
 const TABS_PROPS = new Map([
-	[SYNOPSIS, {
+    [SYNOPSIS, {
         name: 'synopsis',
         title: 'Synopsis',
         component: Synopsis,
     }],
-	[DAY1, {
+    [DAY1, {
         name: 'day1',
         title: 'Day 1',
         component: Day1,
     }],
-	[DAY2, {
+    [DAY2, {
         name: 'day2',
         title: 'Day 2',
         component: Day2,
     }],
-	[DAY3TO4, {
+    [DAY3TO4, {
         name: 'day3To4',
         title: 'Day 3-4',
         component: Day3To4,
     }],
-	[DAY5TO7, {
+    [DAY5TO7, {
         name: 'day5To7',
         title: 'Day 5-7',
         component: Day5To7,
@@ -90,12 +90,12 @@ function Forecast({forecast = {}, tabs = TABS}) {
         )
     }
 
-	return (
-		<section styleName='Container'>
+    return (
+        <section styleName='Container'>
             <h2 styleName='Headline'>{headline}</h2>
             {children}
-		</section>
-	)
+        </section>
+    )
 }
 
 export default CSSModules(Forecast, styles)

@@ -11,18 +11,18 @@ Footer.propTypes = {
 }
 
 function Footer({showFeedbackAnchor = false}) {
-	return (
-		<footer styleName='Footer'>
-			Forecasts and graphics produced by the Meteorological Service of Canada (MSC){' '}
-			{showFeedbackAnchor &&
+    return (
+        <footer styleName='Footer'>
+            Forecasts and graphics produced by the Meteorological Service of Canada (MSC){' '}
+            {showFeedbackAnchor &&
                 <Mailto
                     email='ec.cpip-mwf-pspc.ec@canada.ca'
                     subject='Mountain Weather Forecast Feedback'>
                     Send feedback to MSC
                 </Mailto>
             }
-		</footer>
-	)
+        </footer>
+    )
 }
 
 export default compose(

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import bind from 'element-resize-event'
 
 export default class ElementResize extends Component {

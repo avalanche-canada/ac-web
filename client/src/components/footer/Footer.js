@@ -7,8 +7,8 @@ import styles from './Footer.css'
 function Footer() {
     const year = new Date().getFullYear()
 
-	return (
-		<footer styleName='Container'>
+    return (
+        <footer styleName='Container'>
             <div styleName='Content'>
                 <nav styleName='Nav'>
                     <Link styleName='Link' to='/about#contact-us'>Contact</Link>
@@ -19,8 +19,8 @@ function Footer() {
                     ©{year} Avalanche Canada, All Rights Reserved
                 </span>
             </div>
-		</footer>
-	)
+        </footer>
+    )
 }
 
 export default neverUpdate(CSSModules(Footer, styles))

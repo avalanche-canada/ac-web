@@ -6,13 +6,11 @@ import Tab from './Tab'
 import Panel from './Panel'
 import Header from './Header'
 import styles from './Tab.css'
-import {ExpandLess, ExpandMore} from 'components/icons'
-import Button, {INCOGNITO} from 'components/button'
 import noop from 'lodash/noop'
 import debounce from 'lodash/debounce'
 
 function toArray(children) {
-	return Children.toArray(children).filter(Boolean)
+    return Children.toArray(children).filter(Boolean)
 }
 
 function isEnabled(tab) {
@@ -107,60 +105,60 @@ class TabList extends Component {
 }
 
 export default class TabSet extends Component {
-	static propTypes = {
+    static propTypes = {
         children: PropTypes.arrayOf(PropTypes.instanceOf(Tab)).isRequired,
-		activeIndex: PropTypes.number,
-		onActivate: PropTypes.func,
+        activeIndex: PropTypes.number,
+        onActivate: PropTypes.func,
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
         arrow: PropTypes.bool,
         lazy: PropTypes.bool,
         stacked: PropTypes.bool,
-	}
-	static defaultProps = {
-		activeIndex: 0,
+    }
+    static defaultProps = {
+        activeIndex: 0,
         onActivate: noop,
         theme: COMPACT,
         arrow: false,
         lazy: true,
-	}
+    }
     state = {
         opened: false,
     }
-	constructor(props) {
-	  super(props)
+    constructor(props) {
+      super(props)
 
-	  this.state.activeIndex = validateActiveIndex(props)
-	}
-	get activeIndex() {
-		return this.state.activeIndex
-	}
-	set activeIndex(activeIndex) {
-		this.setState({activeIndex}, this.handleActivate)
-	}
-	get tabs() {
-		return toArray(this.props.children)
-	}
+      this.state.activeIndex = validateActiveIndex(props)
+    }
+    get activeIndex() {
+        return this.state.activeIndex
+    }
+    set activeIndex(activeIndex) {
+        this.setState({activeIndex}, this.handleActivate)
+    }
+    get tabs() {
+        return toArray(this.props.children)
+    }
     get opened() {
         return this.state.opened
     }
     set opened(opened) {
         this.setState({opened})
     }
-	handleActivate = () => {
+    handleActivate = () => {
         this.opened = false
-		this.props.onActivate(this.state.activeIndex)
-	}
-	componentWillReceiveProps(nextProps) {
-		if (typeof nextProps.activeIndex === 'number') {
+        this.props.onActivate(this.state.activeIndex)
+    }
+    componentWillReceiveProps(nextProps) {
+        if (typeof nextProps.activeIndex === 'number') {
             this.activeIndex = validateActiveIndex(nextProps)
-		}
-	}
+        }
+    }
     handleExpandClick = event => {
         event.stopPropagation()
 
         this.opened = !this.opened
     }
-	renderTabHeader(tab, index) {
+    renderTabHeader(tab, index) {
         const {theme, arrow} = this.props
         const {title, color, disabled, onClick} = tab.props
         const handleClick = event => this.activeIndex = index
@@ -180,8 +178,8 @@ export default class TabSet extends Component {
                 {title}
             </Header>
         )
-	}
-	renderTabPanel(tab, index) {
+    }
+    renderTabPanel(tab, index) {
         const {children} = tab.props
 
         if (!children) {
@@ -205,17 +203,17 @@ export default class TabSet extends Component {
                 {children}
             </Panel>
         )
-	}
-	render() {
+    }
+    render() {
         const {theme, stacked} = this.props
 
-		return (
+        return (
             <div>
                 <TabList stacked={stacked} opened={this.opened} theme={theme}>
                     {this.tabs.map(this.renderTabHeader, this)}
                 </TabList>
                 {this.tabs.map(this.renderTabPanel, this)}
             </div>
-		)
-	}
+        )
+    }
 }
