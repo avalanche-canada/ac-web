@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Link from 'prismic/components/Link'
+import Link from '~/prismic/components/Link'
 import styles from './SPAW.css'
 
 SPAW.propTypes = {
-    children: PropTypes.node,
     href: PropTypes.object,
+    link: PropTypes.object,
+    style: PropTypes.object,
+    children: PropTypes.node,
 }
 
 function SPAW({children = 'Special Public Avalanche Warning', link, style}) {

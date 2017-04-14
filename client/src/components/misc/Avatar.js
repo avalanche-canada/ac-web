@@ -4,9 +4,20 @@ import {compose, setDisplayName, withProps, setPropTypes, defaultProps} from 're
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'
 import loadingState from './loadingState'
-import {initials} from 'utils/string'
+import {initials} from '~/utils/string'
 
-function Avatar({url, initials, name, onLoad, onError, isLoaded, hasError, isLoading, style}) {
+Avatar.propTypes = {
+    url: PropTypes.string,
+    initials: PropTypes.string,
+    name: PropTypes.string,
+    onLoad: PropTypes.func,
+    onError: PropTypes.func,
+    hasError: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    style: PropTypes.object
+}
+
+function Avatar({url, initials, name, onLoad, onError, hasError, isLoading, style}) {
     const styleName = (hasError === true || isLoading === true) ? 'Initials' : 'Avatar'
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {InnerHTML} from 'components/misc'
+import {InnerHTML} from '~/components/misc'
 import styles from './Forecast.css'
 
 Summary.propTypes = {

@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
-import {Input} from 'components/controls'
+import {Input} from '~/components/controls'
 import styles from './DateRange.css'
-import {DayPicker, DateUtils} from 'components/misc'
+import {DayPicker, DateUtils} from '~/components/misc'
 import noop from 'lodash/noop'
 
 // TODO: Use the control instead!

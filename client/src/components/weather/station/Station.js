@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '~/compose'
 import Table from './Table'
 import ChartSet from './ChartSet'
-import {TabSet, Tab, LOOSE} from 'components/tab'
-import {Loading} from 'components/misc'
+import {TabSet, Tab, LOOSE} from '~/components/tab'
+import {Loading} from '~/components/misc'
 
 function Station({measurements, columns, headers}) {
     return (

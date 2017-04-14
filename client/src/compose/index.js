@@ -1,5 +1,5 @@
 import {lifecycle, onlyUpdateForKeys, shouldUpdate} from 'recompose'
-import {scrollPosition} from 'utils/dom'
+import {scrollPosition} from '~/utils/dom'
 
 export Element from './Element'
 

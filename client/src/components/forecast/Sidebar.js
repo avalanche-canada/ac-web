@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from 'compose'
+import {onlyUpdateForKey} from '~/compose'
 import {compose, mapProps, setPropTypes} from 'recompose'
 import {Link} from 'react-router'
-import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from 'components/sidebar'
+import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from '~/components/sidebar'
 import {FORECASTERS} from 'constants/emails'
 
 export default compose(

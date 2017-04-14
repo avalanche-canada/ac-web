@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SocialItem from './SocialItem'
-import {SocialItem as Item} from 'components/social'
+import {SocialItem as Item} from '~/components/social'
 
 Follow.propTypes = {
     urls: PropTypes.arrayOf(PropTypes.string),

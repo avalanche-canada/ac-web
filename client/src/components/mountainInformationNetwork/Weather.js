@@ -1,30 +1,28 @@
 import PropTypes from 'prop-types'
 import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
 import Content from './Content'
-import {asTermAndDefinition} from 'components/description/utils'
-
-const {object, number, string} = PropTypes
+import {asTermAndDefinition} from '~/components/description/utils'
 
 export default compose(
     setDisplayName('Weather'),
     setPropTypes({
-        snowfallRate: number,
-        newSnow24Hours: number,
-        windDirection: string,
-        stormStartDate: string,
-        minTemp: number,
-        precipitationType: string,
-        temperature: number,
-        weatherObsComment: string,
-        maxTemp: number,
-        windSpeed: string,
-        rainfallRate: string,
-        precipitation24Hours: number,
-        skyCondition: string,
-        stormSnowAmount: number,
-        temperatureTrend: string,
-        blowingSnow: string,
-        tempLatlng: string,
+        snowfallRate: PropTypes.number,
+        newSnow24Hours: PropTypes.number,
+        windDirection: PropTypes.string,
+        stormStartDate: PropTypes.string,
+        minTemp: PropTypes.number,
+        precipitationType: PropTypes.string,
+        temperature: PropTypes.number,
+        weatherObsComment: PropTypes.string,
+        maxTemp: PropTypes.number,
+        windSpeed: PropTypes.string,
+        rainfallRate: PropTypes.string,
+        precipitation24Hours: PropTypes.number,
+        skyCondition: PropTypes.string,
+        stormSnowAmount: PropTypes.number,
+        temperatureTrend: PropTypes.string,
+        blowingSnow: PropTypes.string,
+        tempLatlng: PropTypes.string,
     }),
     renameProps({
         skyCondition: 'Cloud cover',

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Slice from 'prismic/components/slice'
-import {Status} from 'components/misc'
+import Slice from '~/prismic/components/slice'
+import {Status} from '~/components/misc'
 
 Content.propTypes = {
     document: PropTypes.object,

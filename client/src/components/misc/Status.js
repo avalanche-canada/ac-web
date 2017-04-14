@@ -2,7 +2,7 @@ import {createElement} from 'react'
 import PropTypes from 'prop-types'
 import {onlyUpdateForPropTypes} from 'recompose'
 import {Loading, Error, Muted} from './Text'
-import {trulyKeys} from 'utils/object'
+import {trulyKeys} from '~/utils/object'
 
 const Components = new Map([
     ['isLoading', Loading],

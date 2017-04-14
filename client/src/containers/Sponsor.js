@@ -1,6 +1,6 @@
 import {compose, branch, renderNothing} from 'recompose'
-import {Sponsor} from 'components/misc'
-import {sponsor} from 'containers/connectors'
+import {Sponsor} from '~/components/misc'
+import {sponsor} from '~/containers/connectors'
 
 export default compose(
     sponsor,

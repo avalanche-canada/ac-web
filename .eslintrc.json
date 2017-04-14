@@ -41,7 +41,9 @@
         ]
     },
     "settings": {
-        "import/resolver": "webpack"
+        "import/resolver": {
+            "webpack": {}
+        }
     },
     "globals": {
         "process": true,

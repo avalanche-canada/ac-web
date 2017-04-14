@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import Sorting, {SORTINGS} from 'components/button/Sorting'
+import Sorting, {SORTINGS} from '~/components/button/Sorting'
 import noop from 'lodash/noop'
 
 const {ASC, DESC, NONE} = SORTINGS
 
-export {ASC, DESC, NONE} from 'components/button/Sorting'
+export {ASC, DESC, NONE} from '~/components/button/Sorting'
 
 HeaderCell.propTypes = {
     children: PropTypes.node.isRequired,

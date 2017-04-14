@@ -4,10 +4,13 @@ import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
-import {history} from 'router'
+import {history} from '~/router'
 
 @CSSModules(styles)
 export default class ItemSet extends Component {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+    }
     state = {
         activeIndex: null
     }

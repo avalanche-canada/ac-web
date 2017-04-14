@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import {handleActions} from 'redux-actions'
-import AuthService from 'services/auth'
+import AuthService from '~/services/auth'
 import {
     GET_PROFILE,
     LOGOUT,

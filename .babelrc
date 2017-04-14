@@ -1,6 +1,9 @@
 {
   "presets": ["latest", "react", "stage-0"],
   "plugins": [
+    ["babel-plugin-root-import", {
+        "rootPathSuffix": "client/src"
+    }],
     "transform-decorators-legacy",
     "transform-react-constant-elements",
     "transform-react-remove-prop-types",

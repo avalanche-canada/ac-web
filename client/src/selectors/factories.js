@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {HeaderCellOrders} from 'components/table'
+import {HeaderCellOrders} from '~/components/table'
 import {getEntitiesForSchema} from 'getters/entities'
 import noop from 'lodash/noop'
 

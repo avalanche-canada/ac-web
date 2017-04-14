@@ -8,7 +8,7 @@ Object.keys(Icons).forEach(name => {
     stories.add(name, () => (
         <div>
             {createElement(Icons[name])}
-            <pre>{`import {${name}} from 'components/icons'`}</pre>
+            <pre>{`import {${name}} from '~/components/icons'`}</pre>
         </div>
     ))
 })

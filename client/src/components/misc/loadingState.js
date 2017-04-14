@@ -10,10 +10,10 @@ export default compose(
         isLoading: hasError === false && isLoaded === false
     })),
     withHandlers({
-        onLoad: props => event => {
+        onLoad: props => () => {
             props.setIsLoaded(true)
         },
-        onError: props => event => {
+        onError: props => () => {
             props.setIsLoaded(true)
             props.setHasError(true)
         }

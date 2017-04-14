@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import Immutable from 'immutable'
 import {key, project} from './config.json'
-import mapbox from 'services/mapbox/map'
+import mapbox from '~/services/mapbox/map'
 
 const exceptions = new Set()
 

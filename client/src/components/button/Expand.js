@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {compose, setDisplayName, setPropTypes, mapProps, defaultProps} from 'recompose'
 import {SUBTILE} from './kinds'
 import Button from './Button'
-import {Remove, Add, ExpandMore, ExpandLess} from 'components/icons'
+import {Remove, Add, ExpandMore, ExpandLess} from '~/components/icons'
 
 const ICONS = new Map([
     [true, new Map([

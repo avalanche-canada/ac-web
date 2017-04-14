@@ -1,7 +1,7 @@
 import {lifecycle} from  'recompose'
-import {Api} from 'prismic'
+import {Api} from '~/prismic'
 import {Predicates} from 'prismic.io'
-import Tutorial from 'components/tutorial'
+import Tutorial from '~/components/tutorial'
 
 export default lifecycle({
     componentWillMount() {

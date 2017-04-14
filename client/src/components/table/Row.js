@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {compose, onlyUpdateForKeys} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import {Expand} from 'components/button'
+import {Expand} from '~/components/button'
 import noop from 'lodash/noop'
 
 const TR_WITH_BUTTON_PROPS = {

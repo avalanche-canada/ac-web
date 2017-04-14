@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import Error from './Error'
 import Main from './Main'
-import {ButtonSet} from 'components/button'
+import {ButtonSet} from '~/components/button'
 import styles from './Page.css'
 
 function NotFound() {

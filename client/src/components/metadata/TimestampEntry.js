@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Entry from './Entry'
-import {DateTime} from 'components/misc'
+import {DateTime} from '~/components/misc'
 
 TimestampEntry.propTypes = {
     term: PropTypes.string,

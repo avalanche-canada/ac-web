@@ -16,6 +16,7 @@ Item.propTypes = {
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
     noWrap: PropTypes.bool,
+    children: PropTypes.node,
 }
 
 function Item({isActive = false, title, onClick = noop, noWrap = false, children}) {

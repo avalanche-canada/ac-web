@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {FilterSet as Base, FilterEntry} from 'components/filter'
-import {DropdownFromOptions as Dropdown} from 'components/controls'
+import {FilterSet as Base, FilterEntry} from '~/components/filter'
+import {DropdownFromOptions as Dropdown} from '~/components/controls'
 
 FilterSet.propTypes = {
     category: PropTypes.string,

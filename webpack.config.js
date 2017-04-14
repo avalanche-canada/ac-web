@@ -18,11 +18,11 @@ module.exports = {
         filename: '[name].js',
 	},
 	module: {
-        preLoaders: [{
-			test: /\.js$/,
-			exclude: /node_modules/,
-			loader: 'eslint'
-		}],
+        // preLoaders: [{
+		// 	test: /\.js$/,
+		// 	exclude: /node_modules/,
+		// 	loader: 'eslint'
+		// }],
 		loaders: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
@@ -54,25 +54,6 @@ module.exports = {
             path.resolve('./client/src'),
             path.resolve('./node_modules')
         ],
-        alias: {
-            mapbox: 'mapbox-gl/dist/mapbox-gl',
-            constants: 'constants',
-            styles: 'styles',
-            assets: 'assets',
-            components: 'components',
-            compose: 'compose',
-            containers: 'containers',
-            layouts: 'layouts',
-            prismic: 'prismic',
-            webworkify: 'webworkify-webpack',
-            reducers: 'reducers',
-            router: 'router',
-            store: 'store',
-            middleware: 'middleware',
-            api: 'api',
-            selectors: 'selectors',
-            utils: 'utils',
-        }
     },
 	postcss: [
 		require('postcss-import'),

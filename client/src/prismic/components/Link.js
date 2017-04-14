@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {compose, mapProps, setPropTypes} from 'recompose'
-import {pathname, title} from 'utils/prismic'
+import {pathname, title} from '~/utils/prismic'
 
 export default compose(
     setPropTypes({

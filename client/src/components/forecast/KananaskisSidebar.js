@@ -1,9 +1,9 @@
 import React from 'react'
 import {compose, withProps} from 'recompose'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '~/compose'
 import {Link} from 'react-router'
-import {Sidebar, Contact, Follow, Share, Item, Header, RSSFeed} from 'components/sidebar'
-import {Mailto, Phone} from 'components/misc'
+import {Sidebar, Contact, Follow, Share, Item, Header, RSSFeed} from '~/components/sidebar'
+import {Mailto, Phone} from '~/components/misc'
 
 export default compose(
     neverUpdate,

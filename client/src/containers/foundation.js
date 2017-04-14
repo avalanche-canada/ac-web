@@ -1,4 +1,4 @@
-import {staticPage, content} from 'prismic/components/factories'
+import {staticPage, content} from '~/prismic/components/factories'
 
 export const Home = content('foundation-home')
 export const About = staticPage('foundation-about', 'About')

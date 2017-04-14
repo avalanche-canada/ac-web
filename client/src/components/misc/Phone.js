@@ -6,6 +6,7 @@ Phone.propTypes = {
     phone: PropTypes.string.isRequired,
     ext: PropTypes.string,
     title: PropTypes.string,
+    children: PropTypes.node,
 }
 
 function getChildren(children, phone, ext) {

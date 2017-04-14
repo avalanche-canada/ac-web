@@ -9,7 +9,7 @@ import {
     HeaderCell,
     TBody,
     Cell,
-} from 'components/table'
+} from '~/components/table'
 
 export const Column  = Immutable.Record({
     name: null,

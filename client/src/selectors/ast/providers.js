@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
-import {Provider} from 'api/schemas'
+import {Provider} from '~/api/schemas'
 import * as Columns from './columns'
 import * as entities from './entities'
 

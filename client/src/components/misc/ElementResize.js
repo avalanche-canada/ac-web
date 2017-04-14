@@ -14,7 +14,7 @@ export default class ElementResize extends Component {
         bind(this.refs.wrapper, this.updateDimensions)
         this.updateDimensions()
     }
-    updateDimensions = event => {
+    updateDimensions = () => {
         const {
             offsetWidth = null,
             offsetHeight = null

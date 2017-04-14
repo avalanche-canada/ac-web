@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {Status, InnerHTML} from 'components/misc'
-import {generic} from 'containers/connectors'
+import {Status, InnerHTML} from '~/components/misc'
+import {generic} from '~/containers/connectors'
 
 @generic
 export default class Generic extends PureComponent {

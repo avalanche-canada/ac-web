@@ -1,5 +1,5 @@
 import React from 'react'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '~/compose'
 import Ratings, {
     NO_RATING,
     Texts,

@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions'
-import {createBinaryAction, createOptimisticAction} from 'utils/redux'
+import {createBinaryAction, createOptimisticAction} from '~/utils/redux'
 import {
     isLayerVisible,
     isMenuOpen,

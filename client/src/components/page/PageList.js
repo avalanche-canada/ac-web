@@ -8,7 +8,7 @@ import Main from './Main'
 import Content from './Content'
 import Headline from './Headline'
 import Section from './Section'
-import {Loading} from 'components/misc'
+import {Loading} from '~/components/misc'
 import styles from './Page.css'
 
 PageList.propTypes = {

@@ -8,7 +8,7 @@ import {
     SNOWPACK,
     WEATHER,
     INCIDENT,
-} from 'components/icons/min/colors'
+} from '~/components/icons/min/colors'
 
 const stories = storiesOf('Tab', module)
 

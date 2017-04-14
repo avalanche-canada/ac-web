@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
-import {neverUpdate} from 'compose'
+import {neverUpdate} from '~/compose'
 import {Link} from 'react-router'
 import styles from './Navbar.css'
 
@@ -21,7 +21,6 @@ Anchor.propTypes = {
     children: PropTypes.string,
     title: PropTypes.string,
     style: PropTypes.object,
-    onClick: PropTypes.func,
 }
 
 function Anchor({to = '#', children, ...props}) {

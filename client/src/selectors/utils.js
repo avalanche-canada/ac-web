@@ -1,4 +1,4 @@
-import {HeaderCellOrders} from 'components/table'
+import {HeaderCellOrders} from '~/components/table'
 
 const {ASC, DESC, NONE} = HeaderCellOrders
 

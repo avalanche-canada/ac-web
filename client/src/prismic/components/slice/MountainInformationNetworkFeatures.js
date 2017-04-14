@@ -1,7 +1,7 @@
 import React from 'react'
 import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
-import {classify} from 'utils/string'
+import {classify} from '~/utils/string'
 
 const styleNames = new Map([
     ['Yes', 'Supported'],

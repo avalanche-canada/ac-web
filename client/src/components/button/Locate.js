@@ -1,6 +1,6 @@
 import React from 'react'
 import {compose, setDisplayName, withProps, toClass} from 'recompose'
-import {MyLocation} from 'components/icons'
+import {MyLocation} from '~/components/icons'
 import Button from './Button'
 import {SUBTILE} from './kinds'
 

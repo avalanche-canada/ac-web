@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {List} from 'components/description'
-import {asTermAndDefinition} from 'components/description/utils'
+import {List} from '~/components/description'
+import {asTermAndDefinition} from '~/components/description/utils'
 import Section from './Section'
 import Comment from './Comment'
-import {trulyKeys, projectKeys} from 'utils/object'
 
 Incident.propTypes = {
     otherActivityDescription: PropTypes.string,

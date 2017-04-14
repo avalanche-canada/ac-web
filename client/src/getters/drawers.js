@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import * as Layers from 'constants/drawers'
+import * as Layers from '~/constants/drawers'
 
 export function isMenuOpen(state) {
     return state.drawers.menu.get('open')

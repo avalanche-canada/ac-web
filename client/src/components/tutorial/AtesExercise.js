@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {compose, lifecycle, withState} from 'recompose'
-import {fetchStaticResource} from 'api'
+import {fetchStaticResource} from '~/api'
 import style from './ates.css'
 
 function AtesExercise({exercises}) {

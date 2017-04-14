@@ -1,6 +1,6 @@
-import {history} from 'router'
+import {history} from '~/router'
 import Url from 'url'
-import {avalancheCanadaPathRegex, href} from 'utils/url'
+import {avalancheCanadaPathRegex, href} from '~/utils/url'
 
 function isLeftClickEvent(event) {
     return event.button === 0

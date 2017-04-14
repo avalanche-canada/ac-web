@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Metadata, Entry, ShareEntry, TimestampEntry} from 'components/metadata'
-import {DateTime} from 'components/misc'
+import {Metadata, Entry, ShareEntry, TimestampEntry} from '~/components/metadata'
+import {DateTime} from '~/components/misc'
 
 HotZoneReportMetadata.propTypes = {
     report: PropTypes.object,

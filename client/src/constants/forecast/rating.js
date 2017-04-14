@@ -1,4 +1,4 @@
-import * as ForecastPalette from 'constants/forecast/palette'
+import * as ForecastPalette from '~/constants/forecast/palette'
 
 export const LOW = 'LOW'
 export const MODERATE = 'MODERATE'

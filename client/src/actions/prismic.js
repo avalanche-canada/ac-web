@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 import {createAction} from 'redux-actions'
 import noop from 'lodash/noop'
 import {getDocumentsOfType, getDocumentForUid, hasDocumentForUid, getResults} from 'getters/prismic'
-import {Api as Prismic, Predicates} from 'prismic'
+import {Api as Prismic, Predicates} from '~/prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
 

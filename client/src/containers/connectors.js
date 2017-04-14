@@ -9,28 +9,28 @@ import {fitBounds, flyTo} from 'actions/map'
 import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
-} from 'selectors/prismic/weather'
-import getForecast, {getForecastRegions} from 'selectors/forecast'
-import getWeatherStation from 'selectors/weather/station'
-import getHotZoneReport, {getHotZones, getHotZoneReportDateRanges, getArchiveHotZoneReport} from 'selectors/hotZoneReport'
-import getSpecialInformation from 'selectors/prismic/specialInformation'
-import getFatalAccident from 'selectors/prismic/fatalAccident'
-import {getToyotaTruckReport, getPost} from 'selectors/prismic'
-import getMountainInformationNetworkSubmission, {getId} from 'selectors/mountainInformationNetworkSubmission'
+} from '~/selectors/prismic/weather'
+import getForecast, {getForecastRegions} from '~/selectors/forecast'
+import getWeatherStation from '~/selectors/weather/station'
+import getHotZoneReport, {getHotZones, getHotZoneReportDateRanges, getArchiveHotZoneReport} from '~/selectors/hotZoneReport'
+import getSpecialInformation from '~/selectors/prismic/specialInformation'
+import getFatalAccident from '~/selectors/prismic/fatalAccident'
+import {getToyotaTruckReport, getPost} from '~/selectors/prismic'
+import getMountainInformationNetworkSubmission, {getId} from '~/selectors/mountainInformationNetworkSubmission'
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
     TYPES, EVENT, NEWS, BLOG
-} from 'selectors/prismic/feed'
+} from '~/selectors/prismic/feed'
 import isSameDay from 'date-fns/is_same_day'
-import Status from 'utils/status'
-import {Predicates} from 'prismic'
+import Status from '~/utils/status'
+import {Predicates} from '~/prismic'
 import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import {getDocumentAndStatus, getResult} from 'selectors/prismic/utils'
-import getSponsor, {getSponsorUid} from 'selectors/sponsor'
+import {getDocumentAndStatus, getResult} from '~/selectors/prismic/utils'
+import getSponsor, {getSponsorUid} from '~/selectors/sponsor'
 import get from 'lodash/get'
 
 export const forecast = compose(

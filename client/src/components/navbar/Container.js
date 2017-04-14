@@ -8,7 +8,7 @@ import Menu from './Menu'
 import Section from './Section'
 import Header from './Header'
 import Link from './Link'
-import Cabinet from 'components/drawer'
+import Cabinet from '~/components/drawer'
 import {createItem} from './Factories'
 import UserProfile from './UserProfile'
 import {Avatar} from '../misc'
@@ -17,6 +17,7 @@ import noop from 'lodash/noop'
 
 Container.propTypes = {
     isFoundation: PropTypes.bool,
+    menu: PropTypes.object.isRequired,
     name: PropTypes.string,
     avatar: PropTypes.string,
     onLogin: PropTypes.func.isRequired,

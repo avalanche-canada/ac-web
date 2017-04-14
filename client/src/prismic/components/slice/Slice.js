@@ -1,7 +1,7 @@
 import {createElement} from 'react'
 import PropTypes from 'prop-types'
-import {classify} from 'utils/string'
-import {captureException} from 'services/raven'
+import {classify} from '~/utils/string'
+import {captureException} from '~/services/raven'
 
 Slice.propTypes = {
     type: PropTypes.string.isRequired,

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
-import {Map, NavigationControl} from 'components/map'
+import {Map, NavigationControl} from '~/components/map'
 
 function handleLoad(event) {
     // event.target

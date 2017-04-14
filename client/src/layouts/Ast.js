@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router'
-import {Container, PillSet, Pill} from 'components/pill'
-import {Page, Content, Banner, Main, Article, Header} from 'components/page'
+import {Container, PillSet, Pill} from '~/components/pill'
+import {Page, Content, Banner, Main, Article, Header} from '~/components/page'
 
 const Routes = ['courses', 'providers']
 

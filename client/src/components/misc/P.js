@@ -1,7 +1,7 @@
-import React, {DOM} from 'react'
+import {DOM} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withHandlers, mapProps, withState, defaultProps, setPropTypes, removeProp} from 'recompose'
+import {compose, withHandlers, mapProps, withState, defaultProps, setPropTypes} from 'recompose'
 import styles from './P.css'
 
 export default compose(

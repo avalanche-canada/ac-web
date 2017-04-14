@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Print as Icon} from 'components/icons'
+import {Print as Icon} from '~/components/icons'
 import SocialItem from './SocialItem'
 
 Print.propTypes = {

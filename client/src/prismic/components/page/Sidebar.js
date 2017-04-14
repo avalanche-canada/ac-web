@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {withProps} from 'recompose'
-import Sidebar, {Contact, Item, Header} from 'components/sidebar'
-import DocumentLink from 'prismic/components/DocumentLink'
+import Sidebar, {Contact, Item, Header} from '~/components/sidebar'
+import DocumentLink from '~/prismic/components/DocumentLink'
 import {Link} from 'react-router'
-import {href, avalancheCanadaPathRegex} from 'utils/url'
+import {href, avalancheCanadaPathRegex} from '~/utils/url'
 
 function renderLink({title, link}) {
     if (typeof link === 'object') {

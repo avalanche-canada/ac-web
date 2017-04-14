@@ -1,11 +1,11 @@
 import React from 'react'
 import {compose, withHandlers} from 'recompose'
-import {Page as Base, Header, Main, Content} from 'components/page'
-import {Responsive} from 'components/table'
-import {Br} from 'components/misc'
-import Table, {Status, Metadata} from 'containers/min/Table'
+import {Page as Base, Header, Main, Content} from '~/components/page'
+import {Responsive} from '~/components/table'
+import {Br} from '~/components/misc'
+import Table, {Status, Metadata} from '~/containers/min/Table'
 import {withRouter} from 'react-router'
-import {valueHandlerFactory, arrayValueHandlerFactory, sortingHandlerFactory} from 'utils/router'
+import {valueHandlerFactory, arrayValueHandlerFactory, sortingHandlerFactory} from '~/utils/router'
 
 const DAYS = '7'
 const TYPES = []

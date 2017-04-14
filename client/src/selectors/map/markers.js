@@ -1,10 +1,10 @@
 import {createSelector} from 'reselect'
 import {getEntitiesForSchema} from 'getters/entities'
 import {getVisibleLayers} from 'getters/drawers'
-import {ForecastRegion} from 'api/schemas'
-import mapbox from 'services/mapbox/map'
-import * as Layers from 'constants/drawers'
-import * as Schemas from 'api/schemas'
+import {ForecastRegion} from '~/api/schemas'
+import mapbox from '~/services/mapbox/map'
+import * as Layers from '~/constants/drawers'
+import * as Schemas from '~/api/schemas'
 
 function createElement({width = 50, height = 50, title, alt = title, ...rest}) {
     // FIXME: This will not work on the server ;(

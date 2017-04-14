@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {compose, withProps} from 'recompose'
-import {withHash} from 'compose'
+import {withHash} from '~/compose'
 import kebabCase from 'lodash/kebabCase'
-import {SocialSet, SocialItem} from 'components/social'
-import {Br} from 'components/misc'
+import {SocialSet, SocialItem} from '~/components/social'
+import {Br} from '~/components/misc'
 import styles from './Ambassador.css'
 
 // TODO: Remove Br from here and create an AmbassadorSet component

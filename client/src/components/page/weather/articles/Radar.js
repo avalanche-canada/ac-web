@@ -1,8 +1,8 @@
 import React from 'react'
-import {Article} from 'components/page'
-import {Tab, TabSet} from 'components/tab'
-import {Loop} from 'components/weather'
-import Tutorial from 'containers/WeatherTutorial'
+import {Article} from '~/components/page'
+import {Tab, TabSet} from '~/components/tab'
+import {Loop} from '~/components/weather'
+import Tutorial from '~/containers/WeatherTutorial'
 
 export default function Radar() {
     return (

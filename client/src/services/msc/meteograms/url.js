@@ -1,5 +1,5 @@
 import padstart from 'lodash/padStart'
-import {meteogram} from 'services/msc/config.json'
+import {meteogram} from '~/services/msc/config.json'
 
 export const POINT_LOCATIONS = new Set([
     'Seven.Seas@Big.Horn',

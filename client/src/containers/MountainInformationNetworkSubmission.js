@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router'
-import {Page, Header, Main, Content, Headline, ContextMap} from 'components/page'
-import {Muted, Error} from 'components/misc'
-import {mountainInformationNetworkSubmission} from 'containers/connectors'
-import {Submission, Metadata} from 'components/mountainInformationNetwork'
-import {Marker} from 'components/map'
-import mapbox from 'mapbox'
-import min from 'components/icons/min/min-pin.svg'
+import {Page, Header, Main, Content, Headline, ContextMap} from '~/components/page'
+import {Muted, Error} from '~/components/misc'
+import {mountainInformationNetworkSubmission} from '~/containers/connectors'
+import {Submission, Metadata} from '~/components/mountainInformationNetwork'
+import {Marker} from '~/components/map'
+import mapbox from '~/services/mapbox/map'
+import min from '~/components/icons/min/min-pin.svg'
 
 function createElement(props) {
     return Object.assign(document.createElement('img'), {

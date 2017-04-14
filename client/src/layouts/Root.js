@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Application from 'components/application'
-import {AvalancheCanada} from 'containers/Navbar'
-import Highlight from 'containers/Highlight'
-import Footer from 'components/footer'
+import Application from '~/components/application'
+import {AvalancheCanada} from '~/containers/Navbar'
+import Highlight from '~/containers/Highlight'
+import Footer from '~/components/footer'
 
 Root.propTypes = {
     navbar: PropTypes.node,

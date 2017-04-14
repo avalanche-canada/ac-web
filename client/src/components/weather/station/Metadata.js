@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Metadata, Entry} from 'components/metadata'
-import {DateTime} from 'components/misc'
+import {Metadata, Entry} from '~/components/metadata'
+import {DateTime} from '~/components/misc'
 
 const NO_TEXT_TRANSFORM = {
     textTransform: 'none'

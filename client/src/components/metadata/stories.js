@@ -1,7 +1,7 @@
 import React from 'react'
 import {storiesOf, action} from '@kadira/storybook'
 import {Metadata, Entry} from './index'
-import {DateTime} from 'components/misc'
+import {DateTime} from '~/components/misc'
 
 storiesOf('Metadata', module).add('Metadata', () => (
     <Metadata>

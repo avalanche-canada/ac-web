@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, withProps, mapProps, defaultProps} from 'recompose'
+import {compose, setDisplayName, withProps} from 'recompose'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import parse from 'date-fns/parse'
 import formatDate from 'date-fns/format'
@@ -47,7 +47,7 @@ const OPTIONS = {
 export function Relative({value = new Date(), children, options = OPTIONS}) {
     return (
         <time dateTime={value.toISOString()}>
-            {children || distanceInWordsToNow(value, OPTIONS)}
+            {children || distanceInWordsToNow(value, options)}
         </time>
     )
 }

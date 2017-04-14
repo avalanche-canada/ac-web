@@ -1,8 +1,8 @@
 import React from 'react'
-import {Article} from 'components/page'
-import {Tab, TabSet} from 'components/tab'
-import Tutorial from 'containers/WeatherTutorial'
-import Loop from 'components/weather/Loop'
+import {Article} from '~/components/page'
+import {Tab, TabSet} from '~/components/tab'
+import Tutorial from '~/containers/WeatherTutorial'
+import Loop from '~/components/weather/Loop'
 
 export default function SurfaceMaps() {
     return (

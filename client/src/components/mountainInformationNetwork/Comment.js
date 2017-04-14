@@ -1,8 +1,8 @@
 import React, {isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import {Markup} from 'components/markup'
-import {InnerHTML} from 'components/misc'
+import {Markup} from '~/components/markup'
+import {InnerHTML} from '~/components/misc'
 
 Comment.propTypes = {
     title: PropTypes.string,

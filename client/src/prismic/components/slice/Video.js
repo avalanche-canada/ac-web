@@ -1,7 +1,7 @@
 import React, {createElement} from 'react'
 import CSSModules from 'react-css-modules'
-import {Media, Caption, Player} from 'components/media'
-import {InnerHTML, Ribbon} from 'components/misc'
+import {Media, Caption, Player} from '~/components/media'
+import {InnerHTML, Ribbon} from '~/components/misc'
 import styles from './Video.css'
 
 function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {

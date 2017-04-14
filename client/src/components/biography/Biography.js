@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {Mailto, Phone, Avatar} from 'components/misc'
+import {Mailto, Phone, Avatar} from '~/components/misc'
 import styles from './Biography.css'
 
 // FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote. 

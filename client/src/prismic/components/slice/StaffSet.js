@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
-import Biography from 'components/biography'
-import {InnerHTML} from 'components/misc'
+import Biography from '~/components/biography'
+import {InnerHTML} from '~/components/misc'
 import {getDocuments} from 'getters/prismic'
-import transform from 'prismic/transformers'
+import transform from '~/prismic/transformers'
 
 function parse(document) {
     const staff = transform(document)

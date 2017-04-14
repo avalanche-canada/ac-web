@@ -1,5 +1,5 @@
 import format from 'date-fns/format'
-import {HeaderCellOrders} from 'components/table'
+import {HeaderCellOrders} from '~/components/table'
 import identity from 'lodash/identity'
 
 const {NONE, DESC} = HeaderCellOrders
