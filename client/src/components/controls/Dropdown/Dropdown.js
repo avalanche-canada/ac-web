@@ -1,6 +1,5 @@
-import React, {Component, Children, cloneElement} from 'react'
+import React, {Component, Children} from 'react'
 import PropTypes from 'prop-types'
-import {compose, withState} from 'recompose'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
 import Holder from '../Holder'

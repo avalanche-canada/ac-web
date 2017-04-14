@@ -22,6 +22,7 @@ Ambassador.propTypes = {
     children: PropTypes.node.isRequired,
     avatar: ImagePropType,
     banner: ImagePropType,
+    hash: PropTypes.string,
 }
 
 function Ambassador({fullName, socials = [], banner, avatar, children, hash}) {

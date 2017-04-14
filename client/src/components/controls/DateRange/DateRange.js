@@ -43,13 +43,13 @@ export default class DateRange extends Component {
     get showCalendar() {
         return this.state.showCalendar
     }
-    toggleCalendar = () => {
+    toggleCalendar = () => {
         this.showCalendar = !this.showCalendar
     }
     hideCalendar = () => {
         this.showCalendar = false
     }
-    handleDayClick = (day, modifiers) => {
+    handleDayClick = day => {
         const range= DateUtils.addDayToRange(day, this.state)
 
         this.onChange(range)
