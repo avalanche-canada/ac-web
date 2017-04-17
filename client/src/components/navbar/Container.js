@@ -68,7 +68,7 @@ function Container({
 
 export default compose(
     setPropTypes({
-        isFoundation: PropTypes.bool.isRequired,
+        isFoundation: PropTypes.bool,
         isAuthenticated: PropTypes.bool.isRequired,
     }),
     setDisplayName('Container'),
