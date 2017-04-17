@@ -33,6 +33,8 @@ const paths = [
     'weather/satellite',
     'weather/actual-temperatures',
     'weather/warnings',
+    'weather/stations',
+    'weather/stations/1',
     'sponsors',
     'collaborators',
     'ambassadors',
@@ -69,7 +71,7 @@ const paths = [
     'foundation/funds/al-hodgson-memorial',
     'foundation/funds/issw',
     'foundation/donate',
-
+    // 404
     'does-not-exist',
 ]
 const hosts = [
