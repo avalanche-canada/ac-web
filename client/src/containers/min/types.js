@@ -23,11 +23,49 @@ const UploadSet = t.struct({
     files: t.maybe(FileList)
 })
 
-const SnowConditionOptions = ['Deep powder', 'Wet', 'Crusty', 'Powder', 'Heavy', 'Wind affected', 'Hard']
-const RideTypeOptions = ['Mellow slopes', 'Convex slopes', 'Alpine slopes', 'Dense trees', 'Steep slopes', 'Open trees', 'Cut-blocks', 'Sunny slopes']
-const StayedAwayOptions = ['Convex slopes', 'Alpine slopes', 'Cut-blocks', 'Sunny slopes', 'Steep slopes', 'Open trees']
-const WeatherOptions = ['Warm', 'Foggy', 'Cloudy', 'Stormy', 'Windy', 'Cold', 'Wet', 'Sunny']
-const AvalancheConditionsOptions = ['snow', 'slab', 'sound', 'temp']
+const SnowConditionOptions = [
+    'Deep powder',
+    'Wet',
+    'Crusty',
+    'Powder',
+    'Heavy',
+    'Wind affected',
+    'Hard'
+]
+const RideTypeOptions = [
+    'Mellow slopes',
+    'Convex slopes',
+    'Alpine slopes',
+    'Dense trees',
+    'Steep slopes',
+    'Open trees',
+    'Cut-blocks',
+    'Sunny slopes'
+]
+const StayedAwayOptions = [
+    'Convex slopes',
+    'Alpine slopes',
+    'Cut-blocks',
+    'Sunny slopes',
+    'Steep slopes',
+    'Open trees'
+]
+const WeatherOptions = [
+    'Warm',
+    'Foggy',
+    'Cloudy',
+    'Stormy',
+    'Windy',
+    'Cold',
+    'Wet',
+    'Sunny'
+]
+const AvalancheConditionsOptions = [
+    'snow',
+    'slab',
+    'sound',
+    'temp'
+]
 
 const Quick = t.struct({
     ridingConditions: t.maybe(t.struct({
