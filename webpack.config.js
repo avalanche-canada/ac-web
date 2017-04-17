@@ -18,11 +18,11 @@ module.exports = {
         filename: '[name].js',
 	},
 	module: {
-        // preLoaders: [{
-		// 	test: /\.js$/,
-		// 	exclude: /node_modules/,
-		// 	loader: 'eslint'
-		// }],
+        preLoaders: [{
+			test: /\.js$/,
+            include: /client\/src/,
+			loader: 'eslint'
+		}],
 		loaders: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
