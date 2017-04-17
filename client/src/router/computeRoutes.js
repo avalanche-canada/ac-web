@@ -248,8 +248,8 @@ export default function computeRoutes(store) {
         return new Map(features)
     }
 
-    function updateDrawersState({routes, location}) {
-        if (routes.length > 2) {
+    function updateDrawersState({routes, location, params}) {
+        if (routes.length > 2 && handleExternalForecast(params.name)) {
             dispatch(DrawersActions.openPrimaryDrawer())
         } else {
             dispatch(DrawersActions.closePrimaryDrawer())
