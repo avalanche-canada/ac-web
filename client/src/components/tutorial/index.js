@@ -9,6 +9,7 @@ import {Page, Main, Content} from '~/components/page'
 import {Media, Player} from '~/components/media'
 import AtesExercise from './AtesExercise'
 import {fetchStaticResource} from '~/api'
+import {Loading} from '~/components/misc'
 import get from 'lodash/get'
 
 const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
@@ -31,9 +32,9 @@ function findSlug(pages, prismicSlug) {
 }
 
 function linkResolverFactory(menuTree) {
-    return function linkResolver(doc) {
-        if (doc.type === 'tutorial-page') {
-            const realSlug = findSlug(menuTree, doc.slug)
+    return function linkResolver(document) {
+        if (document.type === 'tutorial-page') {
+            const realSlug = findSlug(menuTree, document.slug)
 
             return `/tutorial/${realSlug}`
         }
@@ -166,59 +167,60 @@ function TextBlock({field, linkResolver}) {
 
 
 TutorialPage.propTypes = {
-    doc: PropTypes.object,
+    document: PropTypes.object,
     linkResolver: PropTypes.func.isRequired,
 }
 
-function TutorialPage({doc, linkResolver}) {
+function TutorialPage({document, linkResolver}) {
     let gallery = []
-    if(typeof doc.data['tutorial-page.gallery'] !== 'undefined') {
-        gallery = doc.data['tutorial-page.gallery'].value
+    if(typeof document.data['tutorial-page.gallery'] !== 'undefined') {
+        gallery = document.data['tutorial-page.gallery'].value
     }
 
-    const vid =doc.data['tutorial-page.video-source']
+    const vid =document.data['tutorial-page.video-source']
 
 
     return (
         <div>
-            <h1>{doc.data['tutorial-page.title'].value}</h1>
+            <h1>{document.data['tutorial-page.title'].value}</h1>
 
-            <TextBlock field={doc.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
+            <TextBlock field={document.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
 
             {/* video here */}
 
             {vid && vid.value && <Video src={vid.value} />}
 
-            <TextBlock field={doc.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
+            <TextBlock field={document.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
 
             <Gallery  imgs={gallery} />
 
-            <TextBlock field={doc.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
+            <TextBlock field={document.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
 
             {/* embedded content: raw HTML that comes from prismic :/ */}
 
-            <TextBlock field={doc.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
+            <TextBlock field={document.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
         </div>
     )
 }
 
 Tutorial.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    doc: PropTypes.object,
-    params: PropTypes.object,
+    isLoading: PropTypes.bool.isRequired,
+    document: PropTypes.object,
+    params: PropTypes.object.isRequired,
     menuTree: PropTypes.object.isRequired,
 }
 
-function Tutorial({loading, doc, params, menuTree}) {
+function Tutorial({isLoading, document, params, menuTree}) {
+    const {splat} = params
+    const isAtes = splat === ATES_EXERCISE_SLUG
     let page = null
-    let isAtes = params.splat === ATES_EXERCISE_SLUG
 
     if (isAtes) {
         page = <AtesExercise />
-    } else if (params.splat === ''){
-        page = doc && <TutorialHome doc={doc} />
+    } else if (splat === ''){
+        page = document && <TutorialHome document={document} />
     } else {
-        page = doc && <TutorialPage doc={doc} linkResolver={linkResolverFactory(menuTree)} />
+        page = document && <TutorialPage document={document} linkResolver={linkResolverFactory(menuTree)} />
     }
 
     return (
@@ -226,9 +228,9 @@ function Tutorial({loading, doc, params, menuTree}) {
             <Content>
                 <Main>
                     <div styleName='TutorialPage'>
-                        <SideBar currentPage={params.splat} menuTree={menuTree} />
+                        <SideBar currentPage={splat} menuTree={menuTree} />
                         <div className={styles.TutorialContent}>
-                            {loading && !isAtes && <p>Loading...</p>}
+                            {isLoading && !isAtes && <Loading />}
                             {page}
                         </div>
                     </div>
@@ -240,15 +242,15 @@ function Tutorial({loading, doc, params, menuTree}) {
 
 
 TutorialHome.propTypes = {
-    doc: PropTypes.object.isRequired,
+    document: PropTypes.object.isRequired,
 }
 
-function TutorialHome({doc}) {
-    let title = doc.data['generic.title'].value
+function TutorialHome({document}) {
+    let title = document.data['generic.title'].value
     return (
         <div>
             <h1> {title}</h1>
-            <TextBlock field={doc.fragments['generic.body']} />
+            <TextBlock field={document.fragments['generic.body']} />
         </div>
     )
 }
