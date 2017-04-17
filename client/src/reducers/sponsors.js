@@ -1,7 +1,7 @@
 import {handleActions} from 'redux-actions'
 import typeToReducer from 'type-to-reducer'
 import {combineReducers} from 'redux'
-import {GET_SPONSORS, SET_ACTIVE_SPONSOR, RESET_ACTIVE_SPONSOR} from 'actions/sponsors'
+import {GET_SPONSORS, SET_ACTIVE_SPONSOR, RESET_ACTIVE_SPONSOR} from '~/actions/sponsors'
 import {getPayload} from '~/reducers/utils'
 import {LocalStorage} from '~/services/storage'
 import format from 'date-fns/format'

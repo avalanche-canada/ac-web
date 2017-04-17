@@ -1,19 +1,17 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, setPropTypes, defaultProps, renderComponent, renderNothing, branch} from 'recompose'
+import {compose, lifecycle, setPropTypes, renderComponent, renderNothing, branch} from 'recompose'
 import {connect} from 'react-redux'
 import Table from '~/components/table/managed'
 import mapStateToProps from '~/selectors/min/table'
-import {loadMountainInformationNetworkSubmissionsForDays} from 'actions/entities'
-import {loadFeatures} from 'actions/mapbox'
+import {loadMountainInformationNetworkSubmissionsForDays} from '~/actions/entities'
+import {loadFeatures} from '~/actions/mapbox'
 import {FORECAST_REGIONS} from '~/services/mapbox/datasets'
 import {DateElement, Status as StatusComponent, Muted} from '~/components/misc'
 import {Metadata as BaseMetadata, Entry} from '~/components/metadata'
-import {DayPicker} from '~/components/controls'
 import subDays from 'date-fns/sub_days'
-import differenceInDays from 'date-fns/difference_in_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import {DropdownFromOptions as Dropdown} from '~/components/controls'
+import {DropdownFromOptions as Dropdown, DayPicker} from '~/components/controls'
 import noop from 'lodash/noop'
 
 function Empty() {
@@ -56,7 +54,9 @@ export class Metadata extends PureComponent {
         super(props)
 
         if (typeof props.days === 'number') {
+            /* eslint-disable react/no-direct-mutation-state */
             this.state.from = subDays(new Date(), props.days)
+            /* eslint-disable react/no-direct-mutation-state */
         }
     }
     set days(days) {

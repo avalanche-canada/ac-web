@@ -1,9 +1,13 @@
 import React from 'react'
-import {compose, withState, withHandlers, setPropTypes, withProps, defaultProps} from 'recompose'
+import PropTypes from 'prop-types'
+import {compose, withState, defaultProps, setPropTypes} from 'recompose'
 import ImageGallery from 'react-image-gallery'
 
 export default compose(
     withState('instance', 'ref', null),
+    setPropTypes({
+        children: PropTypes.node,
+    }),
     defaultProps({
         renderItem({children, ...props}) {
             return (

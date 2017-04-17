@@ -1,25 +1,23 @@
-import React, {DOM} from 'react'
+import React from 'react'
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from 'getters/entities'
+import {getEntitiesForSchema} from '~/getters/entities'
 import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
-import {getResultsSet} from 'getters/api'
+import {getResultsSet} from '~/getters/api'
 import {Column, Body} from '~/components/table/managed'
 import pinWithIncident from '~/components/icons/min/min-pin-with-incident.svg'
 import pin from '~/components/icons/min/min-pin.svg'
 import {Link} from 'react-router'
 import {DateTime, Relative} from '~/components/misc'
 import styles from '~/components/misc/Text.css'
-import {getFeatureCollection} from 'getters/mapbox'
+import {getFeatureCollection} from '~/getters/mapbox'
 import {FORECAST_REGIONS} from '~/services/mapbox/datasets'
 import inside from '@turf/inside'
 import turf from '@turf/helpers'
-import {HeaderCellOrders} from '~/components/table'
 import {computeSorting} from '~/selectors/utils'
 import {createSorter} from '~/selectors/factories'
-import {INCIDENT, NAMES} from 'constants/min'
-
-const {NONE} = HeaderCellOrders
+import {INCIDENT, NAMES} from '~/constants/min'
+import {NONE} from '~/constants/sortings'
 
 const columns = Immutable.List.of(
     Column.create({

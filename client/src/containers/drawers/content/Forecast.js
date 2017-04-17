@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {toClass} from 'recompose'
 import {Link} from 'react-router'
 import {Navbar, Header, Container as DrawerContainer, Body, Close} from '~/components/page/drawer'
 import Forecast, {Metadata} from '~/components/forecast'
@@ -19,11 +18,16 @@ const ARROW_STYLE = {
 }
 
 Container.propTypes = {
-    type: PropTypes.string,
     isLoading: PropTypes.bool.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    isUnderSpecialWarning: PropTypes.bool.isRequired,
+    specialWarningLink: PropTypes.string,
     title: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
     forecast: PropTypes.object,
-    region: PropTypes.object,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
 function Container({
@@ -33,7 +37,6 @@ function Container({
     isUnderSpecialWarning,
     specialWarningLink,
     forecast,
-    type,
     title = 'Loading...',
     link,
     onCloseClick,

@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Instagram({ inverse = false, ...props }) {
+export default function Instagram(props) {
     return (
         <Icon {...props} fill='#3F729B' viewBox='0 0 80 80'>
             <g transform="matrix(0.01880253,0,0,-0.01877464,-8.09169,88.053468)" style={{ fill:'#3F729B', stroke:'none' }}>

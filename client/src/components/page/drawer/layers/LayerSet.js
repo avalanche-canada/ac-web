@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Layer from './Layer'
 import Subject from '../Subject'
 import styles from './Layer.css'
 

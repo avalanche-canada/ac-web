@@ -1,7 +1,6 @@
 import distance from '@turf/distance'
 import turf from '@turf/helpers'
 
-const ORIGIN = turf.point([0, 0])
 function sorter(a, b) {
     return a.distance - b.distance
 }

@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, withProps} from 'recompose'
+import {compose, lifecycle} from 'recompose'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {connect} from 'react-redux'
-import {getLayers} from 'getters/drawers'
-import {turnOnLayer, turnOffLayer, changeFilter} from 'actions/drawers'
-import {Container, Header, Body, Navbar, Close} from '~/components/page/drawer'
+import {getLayers} from '~/getters/drawers'
+import {turnOnLayer, turnOffLayer, changeFilter} from '~/actions/drawers'
+import {Container, Body, Navbar, Close} from '~/components/page/drawer'
 import {LayerSet, Layer, FilterSet} from '~/components/page/drawer/layers'
 import * as Layers from '~/constants/drawers'
-import {loadData} from 'actions/map'
+import {loadData} from '~/actions/map'
 import {
     Forecast,
     HotZoneReport,
@@ -38,6 +38,14 @@ Menu.propTypes = {
     layers: PropTypes.object.isRequired,
 }
 
+Menu.propTypes = {
+    sets: PropTypes.array,
+    turnOnLayer: PropTypes.func.isRequired,
+    turnOffLayer: PropTypes.func.isRequired,
+    changeFilter: PropTypes.func.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+}
+
 function Menu({
     sets = EMPTY_LIST,
     turnOnLayer,
@@ -56,7 +64,7 @@ function Menu({
                         {layers.toList().map(layer => {
                             const {id, filters, visible, title} = layer
                             const handleFilterChange = changeFilter.bind(null, id)
-                            function handleClick(event) {
+                            function handleClick() {
                                 if (visible) {
                                     turnOffLayer(id)
                                 } else {
@@ -89,8 +97,7 @@ const mapStateToProps = createSelector(
                     layers,
                 })
             )
-        }
-    )
+    })
 )
 
 export default compose(

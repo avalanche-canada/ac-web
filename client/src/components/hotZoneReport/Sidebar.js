@@ -4,7 +4,7 @@ import {compose, mapProps, setPropTypes} from 'recompose'
 import {onlyUpdateForKey} from '~/compose'
 import {Link} from 'react-router'
 import {Sidebar, Contact, Follow, Share, Item} from '~/components/sidebar'
-import {FORECASTERS} from 'constants/emails'
+import {FORECASTERS} from '~/constants/emails'
 
 export default compose(
     setPropTypes({

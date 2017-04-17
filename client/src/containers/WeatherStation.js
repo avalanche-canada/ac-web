@@ -4,8 +4,18 @@ import {Page, Content, Header, Main} from '~/components/page'
 import {Metadata, Station} from '~/components/weather/station'
 import {Status} from '~/components/misc'
 import {weatherStation} from '~/containers/connectors'
-import Sponsor from '~/containers/Sponsor'
 import {Generic} from '~/prismic/components'
+
+WeatherStation.propTypes = {
+    title: PropTypes.string.isRequired,
+    // TODO: Create a prop type for status
+    status: PropTypes.object.isRequired,
+    station: PropTypes.object,
+    measurements: PropTypes.arrayOf(PropTypes.object),
+    // TODO: Create a prop type for column
+    columns: PropTypes.arrayOf(PropTypes.object),
+    headers: PropTypes.arrayOf(PropTypes.object),
+}
 
 function WeatherStation({
     title,
@@ -14,8 +24,6 @@ function WeatherStation({
     measurements,
     columns,
     headers,
-    rows,
-    onCloseClick,
 }) {
     return (
         <Page>

@@ -11,8 +11,10 @@ import {DayPicker} from '~/components/controls'
 // TODO: Move to another location, so it can be used between components.
 
 ArchiveDatePicker.propTypes = {
-    date: PropTypes.instanceOf(Date).isRequired,
     region: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    selectedDate: PropTypes.instanceOf(Date).isRequired,
+    setSelectedDate: PropTypes.func.isRequired,
 }
 
 function ArchiveDatePicker({date, region, selectedDate, setSelectedDate}) {

@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
 import {Page, Header, Main, Content, Aside} from '~/components/page'
 import Forecast, {Metadata, Sidebar, KananaskisSidebar} from '~/components/forecast'
-import {Muted, Error, SPAW, InnerHTML} from '~/components/misc'
+import {Muted, Error, SPAW} from '~/components/misc'
 import {forecast} from '~/containers/connectors'
 
 const SPAW_STYLE = {
@@ -17,7 +16,9 @@ Container.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
     isUnderSpecialWarning: PropTypes.bool,
+    params: PropTypes.object,
     specialWarningLink: PropTypes.object,
+    specialWarningContent: PropTypes.string,
 }
 
 function Container({
@@ -31,7 +32,8 @@ function Container({
     specialWarningContent,
 }) {
     const isKananaskis = params.name === 'kananaskis'
-    const isPrintable = Boolean(forecast) ? !forecast.isArchived : false
+    const isPrintable = forecast ? !forecast.isArchived : false
+    
     // TODO: Huge hack, please FIXME!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')

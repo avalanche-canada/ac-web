@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {Navbar, Header, Container as DrawerContainer, Body, Close} from '~/components/page/drawer'
 import {Loading, Error} from '~/components/misc'
@@ -13,6 +14,17 @@ const LOCATE_STYLE = {
 }
 const ARROW_STYLE = {
     left: 'calc(50% + 7px)'
+}
+
+Container.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    report: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    shareUrl: PropTypes.string.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
 function Container({

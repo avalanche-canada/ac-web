@@ -8,6 +8,8 @@ export default class Generic extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
         type: PropTypes.string,
+        status: PropTypes.object.isRequired,
+        document: PropTypes.object,
     }
     render() {
         const {status, document} = this.props

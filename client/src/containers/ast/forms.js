@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {compose, lifecycle, withProps, withHandlers, withState, setDisplayName, toClass} from 'recompose'
+import PropTypes from 'prop-types'
+import {compose, lifecycle, withProps, withHandlers, toClass} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Form as Base, Legend, Control, ControlSet} from '~/components/form'
-import {DropdownFromOptions, Input, Geocoder, DateRange} from '~/components/controls'
-import {locate} from 'actions/geolocation'
+import {DropdownFromOptions, Geocoder, DateRange} from '~/components/controls'
+import {locate} from '~/actions/geolocation'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
 import get from 'lodash/get'
@@ -16,11 +17,29 @@ const STYLE = {
     margin: 'auto',
     position: 'relative',
 }
+
 class Form extends Component {
+    static propTypes = {
+        legend: PropTypes.string,
+        location: PropTypes.shape({
+            query: PropTypes.object,
+            state: PropTypes.object
+        }),
+        tagOptions: PropTypes.instanceOf(Map),
+        levelOptions: PropTypes.instanceOf(Map),
+        onLevelChange: PropTypes.func.isRequired,
+        onDateRangeChange: PropTypes.func.isRequired,
+        onTagsChange: PropTypes.func.isRequired,
+        onPlaceChange: PropTypes.func.isRequired,
+        withDateRange: PropTypes.bool,
+    }
     render() {
         const {
             legend,
-            location: {query, state},
+            location: {
+                query,
+                state
+            },
             tagOptions,
             levelOptions,
             onLevelChange,
@@ -94,7 +113,7 @@ const Container = compose(
     withHandlers({
         onLevelChange: valueHandlerFactory('level'),
         onTagsChange: arrayValueHandlerFactory('tags'),
-        onDateRangeChange: props => ({from, to}) => {
+        onDateRangeChange: props => ({from, to}) => {
             replace({
                 query: {
                     from: from ? format(from, 'YYYY-MM-DD') : undefined,

@@ -13,6 +13,8 @@ Layer.propTypes = {
     onClick: PropTypes.func,
     icon: PropTypes.node,
     children: PropTypes.node,
+    expanded: PropTypes.bool,
+    setExpanded: PropTypes.func,
 }
 
 // Little hack to allow accurate mesuring even when chlidren have

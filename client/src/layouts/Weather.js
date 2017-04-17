@@ -5,6 +5,10 @@ import {Page, Content, Header, Main, Aside} from '~/components/page'
 import {Sidebar} from '~/components/page/weather'
 import Container from '~/containers/Weather'
 
+Weather.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
 export default function Weather({children}) {
     const title = (
         <Link to='/weather'>

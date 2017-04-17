@@ -7,37 +7,37 @@ import reducer from 'reducers'
 // import DevTools from '../containers/DevTools'
 
 export default function configureStore(preloadedState) {
-  const store = createStore(
-    reducer,
-    preloadedState,
-    compose(
-      applyMiddleware(thunk, promise(), createLogger({
-          collapsed: true,
-          stateTransformer(state) {
-            let newState = {}
+    const store = createStore(
+        reducer,
+        preloadedState,
+        compose(
+        applyMiddleware(thunk, promise(), createLogger({
+            collapsed: true,
+            stateTransformer(state) {
+                let newState = {}
 
-            for (var key of Object.keys(state)) {
-                if (Iterable.isIterable(state[key])) {
-                    newState[key] = state[key].toJSON()
-                } else {
-                    newState[key] = state[key]
+                for (var key of Object.keys(state)) {
+                    if (Iterable.isIterable(state[key])) {
+                        newState[key] = state[key].toJSON()
+                    } else {
+                        newState[key] = state[key]
+                    }
                 }
+
+                return newState
             }
-
-            return newState
-          }
-      })),
-    //   DevTools.instrument()
+        })),
+        //   DevTools.instrument()
+        )
     )
-  )
 
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('reducers', () => {
-      const nextRootReducer = require('reducers').default
-      store.replaceReducer(nextRootReducer)
-    })
-  }
+    if (module.hot) {
+        // Enable Webpack hot module replacement for reducers
+        module.hot.accept('reducers', () => {
+            const nextRootReducer = require('reducers').default
+            store.replaceReducer(nextRootReducer)
+        })
+    }
 
-  return store
+    return store
 }

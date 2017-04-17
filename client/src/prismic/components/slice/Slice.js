@@ -16,13 +16,12 @@ export default function Slice({type, ...props}) {
     type = classify(type)
 
     try {
+        // TODO: Should be explicit, there is no point reuiring them all the time
         const module = require(`./${type}`)
 
         return createElement(module.default, props)
     } catch (error) {
         const message = `Component for ${type} not supported. Rendering will be ignored.`
-
-        console.error(error)
 
         captureException(new Error(error, message))
 

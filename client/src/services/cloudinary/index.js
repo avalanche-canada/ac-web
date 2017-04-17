@@ -1,4 +1,4 @@
-import Axios, {defaults} from 'axios'
+import Axios from 'axios'
 
 const resourcePrefix = '//res.cloudinary.com/avalanche-ca/image/upload'
 const api = Axios.create({
@@ -10,7 +10,7 @@ export function mapToSizeFactory(width = THUMBNAIL_SIZE, height = THUMBNAIL_SIZE
     const transform = `c_fill,h_${height},w_${width}`
     const original = `c_fill,h_${600},w_${1000}`
 
-    return function mapToSize({public_id, url}) {
+    return function mapToSize({public_id}) {
         return {
             original: `${resourcePrefix}/${original}/${public_id}.png`,
             thumbnail: `${resourcePrefix}/${transform}/${public_id}.png`,

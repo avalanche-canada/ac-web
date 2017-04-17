@@ -1,8 +1,6 @@
-import range from 'lodash/range'
 import padstart from 'lodash/padStart'
 import {Forecast, CurrentConditions} from './Metadata'
 import {domain} from '../config.json'
-import setMinutes from 'date-fns/set_minutes'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
@@ -207,7 +205,6 @@ function formatCurrentConditionsUrl(type, date) {
 
 async function getRun(type, date) {
     const {runs, hours} = Forecast.get(type)
-    const hour = date.getUTCHours()
 
     for (let i = runs.length - 1; i >= 0; i--) {
         const run = runs[i]

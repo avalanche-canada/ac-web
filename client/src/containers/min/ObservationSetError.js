@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import groupBy from 'lodash/groupBy'
 import noop from 'lodash/noop'
-import {NAMES} from 'constants/min'
+import {NAMES} from '~/constants/min'
 import styles from './Form.css'
 import {pluralize} from '~/utils/string'
 

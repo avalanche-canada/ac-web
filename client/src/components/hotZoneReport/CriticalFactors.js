@@ -6,7 +6,7 @@ import List from '~/components/mountainInformationNetwork/List'
 import {Term, Definition} from '~/components/description'
 import Panel, {INVERSE} from '~/components/panel'
 import styles from './HotZoneReport.css'
-import {RED, ORANGE} from 'constants/forecast/palette'
+import {RED, ORANGE} from '~/constants/forecast/palette'
 
 const TERMS = new Map([
     ['persistentAvalancheProblem', 'Persistent avalanche problem'],

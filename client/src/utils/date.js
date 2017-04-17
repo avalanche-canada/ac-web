@@ -1,4 +1,3 @@
-import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 
 // http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=eng&cont=867

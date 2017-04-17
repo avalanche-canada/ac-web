@@ -1,7 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {InnerHTML} from '~/components/misc'
 import DaySet from './DaySet'
 import Outlook from './Outlook'
+
+Legacy.propTypes = {
+    forecast: PropTypes.object.isRequired,
+}
 
 export default function Legacy({forecast}) {
     const {synopsis, date} = forecast

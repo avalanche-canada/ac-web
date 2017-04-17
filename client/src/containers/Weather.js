@@ -1,11 +1,11 @@
-import Weather, {Forecast as ForecastComponent, Tutorial as TutorialComponent} from '~/components/page/weather'
 import {compose, withHandlers, withProps} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import getWeather from '~/selectors/prismic/weather'
-import {weatherForecast} from '~/containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
+import Weather, {Forecast as ForecastComponent} from '~/components/page/weather'
+import getWeather from '~/selectors/prismic/weather'
+import {weatherForecast} from '~/containers/connectors'
 
 export default compose(
     connect(getWeather)

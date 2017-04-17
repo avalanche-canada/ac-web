@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, lifecycle, withState} from 'recompose'
 import {Link} from 'react-router'
 import {Fragments} from 'prismic.io'
@@ -8,18 +9,23 @@ import {Page, Main, Content} from '~/components/page'
 import {Media, Player} from '~/components/media'
 import AtesExercise from './AtesExercise'
 import {fetchStaticResource} from '~/api'
+import get from 'lodash/get'
 
 const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
 
 function findSlug(pages, prismicSlug) {
     for(var i = 0; i < pages.length; i++)  {
-        var page = pages[i]
-        var clean = page.slug.replace(/\//g, '')
+        const page = pages[i]
+        const clean = page.slug.replace(/\//g, '')
+
         if (clean === prismicSlug) {
-            return page.slug;
+            return page.slug
         } else {
-            var next = findSlug(page.children, prismicSlug);
-            if(next) return next;
+            const next = findSlug(page.children, prismicSlug)
+
+            if (next) {
+                return next
+            }
         }
     }
 }
@@ -34,10 +40,16 @@ function linkResolverFactory(menuTree) {
     }
 }
 
-const MenuItem = ({title, slug, children, currentPage}) => {
+MenuItem.propTypes = {
+    title: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    currentPage: PropTypes.number,
+}
+
+function MenuItem({title, slug, children, currentPage}) {
     let cc = null
     let showChildren = currentPage.startsWith(slug)
-    let isActive = currentPage === slug
 
     /* FIXME(wnh): Encode the URL so that '?' -> '%3F'
      * encodeURIComponent  does lots of stuff including '/' so we convert that
@@ -46,9 +58,11 @@ const MenuItem = ({title, slug, children, currentPage}) => {
     let encodedSlug = encodeURIComponent(slug).replace(/%2F/g, '/')
 
     if (showChildren) {
-            cc = <ul>
+        cc = (
+            <ul>
                 {children.map(c => <MenuItem key={c.slug} currentPage={currentPage} {...c} />)}
             </ul>
+        )
     }
 
     let showElipsis = !showChildren && children.length > 0
@@ -62,23 +76,40 @@ const MenuItem = ({title, slug, children, currentPage}) => {
     )
 }
 
-const Gallery = ({imgs}) =>
-    <div>
-        {imgs.map((image, index) => (
-            <GalleryImage key={index} {...flattenImage(image)} />
-        ))}
-    </div>
+Gallery.propTypes = {
+    imgs: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
 
-const flattenImage = (img) => {
+function Gallery({imgs}) {
+    return (
+        <div>
+            {imgs.map((image, index) => (
+                <GalleryImage key={index} {...flattenImage(image)} />
+            ))}
+        </div>
+    )
+}
+
+
+function flattenImage(img) {
     return {
-        caption: ((img || {}).caption || {}).value,
-        credit:  ((img || {}).credit || {}).value,
-        url: ((((img || {}).picture || {}).value || {}).main || {}).url
+        caption: get(img, 'caption.value'),
+        credit: get(img, 'credit.value'),
+        url: get(img, 'picture.value.main.url'),
     }
 }
 
-function GalleryImage({url, caption, credit }){
-    if(!url) { return null }
+GalleryImage.propTypes = {
+    url: PropTypes.string,
+    caption: PropTypes.string,
+    credit: PropTypes.string,
+}
+
+function GalleryImage({url, caption, credit}){
+    if (!url) {
+        return null
+    }
+
     const cap = caption ? caption : ''
     const cred = credit ? `Photo: ${credit}` : ''
     const split = cap && cred ? ' - ':''
@@ -90,20 +121,41 @@ function GalleryImage({url, caption, credit }){
         </div>
     )
 }
-const SideBar = ({menuTree, currentPage}) =>
-    <ul className={styles.Sidebar}>
-        {menuTree.map(c => <MenuItem key={c.slug} currentPage={currentPage} {...c} />)}
-    </ul>
 
+SideBar.propTypes = {
+    menuTree: PropTypes.object.isRequired,
+    currentPage: PropTypes.number.isRequired,
+}
 
-const Video = ({src}) =>
-    <Media>
-        <Player src={src} />
-    </Media>
+function SideBar({menuTree, currentPage}) {
+    return (
+        <ul className={styles.Sidebar}>
+            {menuTree.map(c =>
+                <MenuItem key={c.slug} currentPage={currentPage} {...c} />
+            )}
+        </ul>
+    )
+}
 
+Video.propTypes = {
+    src: PropTypes.string.isRequired,
+}
 
-const TextBlock =  ({field, linkResolver}) => {
-    if (typeof field === 'undefined') {
+function Video({src}) {
+    return (
+        <Media>
+            <Player src={src} />
+        </Media>
+    )
+}
+
+TextBlock.propTypes = {
+    field: PropTypes.object,
+    linkResolver: PropTypes.func.isRequired,
+}
+
+function TextBlock({field, linkResolver}) {
+    if (field === undefined) {
         return null
     }
 
@@ -112,7 +164,13 @@ const TextBlock =  ({field, linkResolver}) => {
     return <div className={styles.TextBlock} dangerouslySetInnerHTML={{__html: t.asHtml(linkResolver)}} />
 }
 
-const TutorialPage = ({doc, linkResolver}) => {
+
+TutorialPage.propTypes = {
+    doc: PropTypes.object,
+    linkResolver: PropTypes.func.isRequired,
+}
+
+function TutorialPage({doc, linkResolver}) {
     let gallery = []
     if(typeof doc.data['tutorial-page.gallery'] !== 'undefined') {
         gallery = doc.data['tutorial-page.gallery'].value
@@ -122,31 +180,39 @@ const TutorialPage = ({doc, linkResolver}) => {
 
 
     return (
-    <div>
-        <h1>{doc.data['tutorial-page.title'].value}</h1>
+        <div>
+            <h1>{doc.data['tutorial-page.title'].value}</h1>
 
-        <TextBlock field={doc.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
+            <TextBlock field={doc.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
 
-        {/* video here */}
+            {/* video here */}
 
-        {vid && vid.value && <Video src={vid.value} />}
+            {vid && vid.value && <Video src={vid.value} />}
 
-        <TextBlock field={doc.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
+            <TextBlock field={doc.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
 
-        <Gallery  imgs={gallery} />
+            <Gallery  imgs={gallery} />
 
-        <TextBlock field={doc.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
+            <TextBlock field={doc.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
 
-        {/* embedded content: raw HTML that comes from prismic :/ */}
+            {/* embedded content: raw HTML that comes from prismic :/ */}
 
-        <TextBlock field={doc.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
-    </div>
+            <TextBlock field={doc.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
+        </div>
     )
 }
 
-const Tutorial = ({loading, error, doc, params, menuTree}) => {
+Tutorial.propTypes = {
+    loading: PropTypes.bool.isRequired,
+    doc: PropTypes.object,
+    params: PropTypes.object,
+    menuTree: PropTypes.object.isRequired,
+}
+
+function Tutorial({loading, doc, params, menuTree}) {
     let page = null
     let isAtes = params.splat === ATES_EXERCISE_SLUG
+
     if (isAtes) {
         page = <AtesExercise />
     } else if (params.splat === ''){
@@ -173,6 +239,10 @@ const Tutorial = ({loading, error, doc, params, menuTree}) => {
 }
 
 
+TutorialHome.propTypes = {
+    doc: PropTypes.object.isRequired,
+}
+
 function TutorialHome({doc}) {
     let title = doc.data['generic.title'].value
     return (
@@ -187,7 +257,7 @@ export default compose(
     withState('menuTree', 'setMenuTree', []),
     lifecycle({
         componentDidMount() {
-            const {setIsLoadingMenuTree, setMenuTree} = this.props
+            const {setMenuTree} = this.props
 
             fetchStaticResource('tutorial-menu-tree.json').then(response => {
                 setMenuTree(response.data)

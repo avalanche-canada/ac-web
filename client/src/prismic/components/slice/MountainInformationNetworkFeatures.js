@@ -1,18 +1,19 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
 import {classify} from '~/utils/string'
 
-const styleNames = new Map([
-    ['Yes', 'Supported'],
-    ['No', 'Unsupported'],
-    ['Not available', 'NotAvailable'],
-])
 const Texts = new Map([
     ['Not available', 'N/A'],
 ])
 
-function MountainInformationNetworkFeatures({content}) {
+MountainInformationNetworkFeatures.propTypes = {
+    // TODO: Create appropriate propType
+    content: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
+function MountainInformationNetworkFeatures({content = []}) {
     return (
         <table styleName='Table'>
             <thead>

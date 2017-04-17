@@ -6,10 +6,17 @@ import Sidebar from './Sidebar'
 import {Status} from '~/components/misc'
 
 StaticPage.propTypes = {
+    type: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
     title: PropTypes.string,
-    headline: PropTypes.string,
-    content: PropTypes.arrayOf(PropTypes.object),
-    banner: PropTypes.object,
+    status: PropTypes.object.isRequired,
+    // TODO: This should be move to some kind of prismic propTypes
+    document: PropTypes.shape({
+        headline: PropTypes.string,
+        content: PropTypes.arrayOf(PropTypes.object),
+        banner: PropTypes.object,
+        sidebar: PropTypes.arrayOf(PropTypes.object),
+    }),
 }
 
 export default function StaticPage({

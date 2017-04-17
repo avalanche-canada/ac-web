@@ -1,4 +1,4 @@
-import t from 'vendor/tcomb-form'
+import t from '~/vendor/tcomb-form'
 
 // TODO: Remove this hack
 

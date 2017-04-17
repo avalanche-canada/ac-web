@@ -10,6 +10,10 @@ Day5To7.propTypes = {
     children: PropTypes.node,
 }
 
+Title.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+}
+
 function Title({date}) {
     const day5 = addDays(date, 4)
     const day7 = addDays(date, 6)
@@ -21,7 +25,7 @@ function Title({date}) {
     )
 }
 
-export default function Day5To7({date, above, between, below, children}) {
+export default function Day5To7({date, children}) {
     const loop = {
         type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
         date: addDays(date, -1),

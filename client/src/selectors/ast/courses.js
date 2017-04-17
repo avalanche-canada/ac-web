@@ -1,9 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router'
 import {createSelector} from 'reselect'
 import {List} from 'immutable'
 import {Course} from '~/api/schemas'
-import {Phone, Mailto, DateElement, Helper, P} from '~/components/misc'
+import {Phone, Mailto} from '~/components/misc'
 import * as entities from './entities'
 import * as Columns from './columns'
 

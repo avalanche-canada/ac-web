@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function GooglePlus({ inverse = false, ...props }) {
+export default function GooglePlus(props) {
     return (
         <Icon {...props} fill='#DC4E41' viewBox='0 0 55 55'>
             <g>

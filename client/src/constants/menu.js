@@ -46,7 +46,7 @@ const MountainWeatherForecast = {
 }
 const ForecasterBlog = {
     id: String(id++),
-    label: "Forecasters’ Blogs",
+    label: 'Forecasters’ Blogs',
     to: '/blogs?category=forecaster+blog'
 }
 const AvCanTrainingCourses = {
@@ -210,9 +210,9 @@ export const AvalancheCanada = {
             }]
         },
         {...MountainInformationNetwork, id: String(id++)},
-        Planning,
+            Planning,
         {...AvCanTrainingCourses, id: String(id++)}
-    ]
+        ]
     }, {
         id: String(id++),
         label: 'News & Events',

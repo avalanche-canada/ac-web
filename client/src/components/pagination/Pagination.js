@@ -1,6 +1,5 @@
 import React, {createElement, PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 import Segment, {Disabled} from './Segment'
@@ -44,9 +43,7 @@ export default class Pagination extends PureComponent {
         }
     }
     render() {
-        const {total, active, onChange} = this.props
-
-        if (total < 2) {
+        if (this.props.total < 2) {
             return null
         }
 

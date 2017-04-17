@@ -4,14 +4,11 @@ import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
-
 import {baseURL, astBaseUrl, weatherBaseUrl} from '~/api/config.json'
-import Url from 'url'
 import {
     transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
-    transformForecastResponse,
     sanitizeMountainInformationNetworkSubmissions,
 } from './transformers'
 
@@ -22,7 +19,7 @@ const POST_CONFIGS = new Map([
 ])
 
 const GET_CONFIGS = new Map([
-    [Schemas.MountainInformationNetworkSubmission, ({id, days}) => {
+    [Schemas.MountainInformationNetworkSubmission, ({days}) => {
         const params = {
             client: 'web',
         }
@@ -50,7 +47,7 @@ const GET_CONFIGS = new Map([
         // TODO: To remove when server returns appropriate result
         transformResponse: defaults.transformResponse.concat(transformCourseResponse),
     })],
-    [Schemas.WeatherStation, params => ({
+    [Schemas.WeatherStation, () => ({
         baseURL: weatherBaseUrl,
     })],
     [Schemas.Forecast, params => {
@@ -97,8 +94,10 @@ function forecastEndpoint({name, date}) {
 const ENDPOINTS = new Map([
     [Schemas.Forecast, forecastEndpoint],
     [Schemas.MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
-    [Schemas.Provider, params => 'providers'],
-    [Schemas.Course, params => 'courses'],
+    // TODO: Allow strings!
+    [Schemas.Provider, () => 'providers'],
+    // TODO: Allow strings!
+    [Schemas.Course, () => 'courses'],
     [Schemas.WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
 ])
 

@@ -5,7 +5,7 @@ import {SocialItem as Item} from '~/components/social'
 
 Follow.propTypes = {
     urls: PropTypes.arrayOf(PropTypes.string),
-    text: PropTypes.string,
+    label: PropTypes.string,
 }
 
 const URLS = [

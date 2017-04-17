@@ -1,13 +1,13 @@
 import React from 'react'
-import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState, defaultProps} from 'recompose'
+import PropTypes from 'prop-types'
+import {compose, lifecycle, withHandlers, setDisplayName, withProps, onlyUpdateForKeys, withState} from 'recompose'
 import Immutable from 'immutable'
 import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router'
+import {withRouter} from 'react-router'
 import {List, Term, Definition} from '~/components/description'
 import {asTermAndDefinition} from '~/components/description/utils'
-import {Table, Row, Cell, Header, ControlledTBody, TBody, HeaderCell, Caption, Responsive} from '~/components/table'
-import {Loading} from '~/components/misc'
-import {loadProviders, loadCourses} from 'actions/entities'
+import {Table, Row, Cell, Header, ControlledTBody, HeaderCell, Caption, Responsive} from '~/components/table'
+import {loadProviders, loadCourses} from '~/actions/entities'
 import * as providers from '~/selectors/ast/providers'
 import * as courses from '~/selectors/ast/courses'
 import {Markup} from '~/components/markup'
@@ -73,6 +73,21 @@ function renderRows(data, columns, asControlled) {
 
         return data
     }, [])
+}
+
+AstTable.propTypes = {
+    title: PropTypes.string.isRequired,
+    featured: PropTypes.array,
+    rows: PropTypes.array,
+    columns: PropTypes.array,
+    caption: PropTypes.node,
+    asControlled: PropTypes.func,
+    onSortingChange: PropTypes.func,
+    pagination: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        page: PropTypes.number.isRequired,
+    }).isRequired,
+    setPage: PropTypes.func.isRequired,
 }
 
 function AstTable({

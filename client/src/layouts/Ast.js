@@ -1,9 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import {Container, PillSet, Pill} from '~/components/pill'
-import {Page, Content, Banner, Main, Article, Header} from '~/components/page'
+import {Page, Content, Banner, Main} from '~/components/page'
 
 const Routes = ['courses', 'providers']
+
+Ast.propTypes = {
+    routes: PropTypes.arrayOf(PropTypes.object),
+    form: PropTypes.element.isRequired,
+    table: PropTypes.element.isRequired,
+}
 
 export default function Ast({routes, form = null, table = null}) {
     const {path} = routes[routes.length - 1]

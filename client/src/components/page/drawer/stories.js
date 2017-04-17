@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {storiesOf, action} from '@kadira/storybook'
 import Drawer, {LEFT, RIGHT, Header, Content} from './'
 import {LayerSet, Layer} from './layers'
@@ -25,16 +26,21 @@ const content = (
     </div>
 )
 
+Controlled.propTypes = {
+    open: PropTypes.bool.isRequired,
+    setOpen: PropTypes.func.isRequired,
+}
+
 function Controlled({open, setOpen, ...rest}) {
     const header = (
-        <Header onCloseClick={e => setOpen(false)}>
+        <Header onCloseClick={() => setOpen(false)}>
             <h1>Title</h1>
         </Header>
     )
 
     return (
         <div style={background}>
-            <Button onClick={e => setOpen(!open)}>Toggle</Button>
+            <Button onClick={() => setOpen(!open)}>Toggle</Button>
             <Drawer open={open} side={RIGHT} {...rest} header={header}>
                 <Content>
                     {content}

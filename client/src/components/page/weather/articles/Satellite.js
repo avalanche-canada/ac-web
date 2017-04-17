@@ -4,7 +4,7 @@ import {Tab, TabSet} from '~/components/tab'
 import {Loop} from '~/components/weather'
 import Tutorial from '~/containers/WeatherTutorial'
 
-export default function Satellite({tutorial}) {
+export default function Satellite() {
     return (
         <Article title='Satellite Imagery'>
             <TabSet>

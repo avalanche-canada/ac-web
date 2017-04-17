@@ -2,7 +2,7 @@ import {DOM} from 'react'
 import PropTypes from 'prop-types'
 import {compose, defaultProps, mapProps, setDisplayName, setPropTypes} from 'recompose'
 import Url from 'url'
-import {AVALANCHECANADA} from 'constants/emails'
+import {AVALANCHECANADA} from '~/constants/emails'
 import {clean} from '~/utils/object'
 
 export default compose(

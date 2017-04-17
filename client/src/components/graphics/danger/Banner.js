@@ -1,18 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Elevations, {ALP, TLN, BTL} from 'constants/forecast/elevation'
-import Ratings, {
+import ELEVATIONS, {ALP, TLN, BTL} from '~/constants/forecast/elevation'
+import RATINGS, {
     NO_RATING,
     Texts as RatingTexts,
     TravelAdvices,
     LikehoodOfAvalanche,
     SizeAndDistribution,
-} from 'constants/forecast/rating'
+} from '~/constants/forecast/rating'
 import {BannerFill, BannerStroke, TextFill} from './colors'
 import IconGroups from './IconGroups'
 import noop from 'lodash/noop'
 
-function RatingText({rating, showTravelAdvice }) {
+const RatingPropType = PropTypes.oneOf(Array.from(RATINGS))
+
+RatingText.propTypes = {
+    rating: RatingPropType.isRequired,
+    showTravelAdvice: PropTypes.bool,
+}
+
+function RatingText({rating, showTravelAdvice = false}) {
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TextFill.get(rating)
@@ -33,7 +40,12 @@ function toLines(text, first = 0) {
     ))
 }
 
-function ExtraInformation({rating, expanded}) {
+ExtraInformation.propTypes = {
+    rating: RatingPropType.isRequired,
+    expanded: PropTypes.bool.isRequired,
+}
+
+function ExtraInformation({rating, expanded = false}) {
     if (rating === NO_RATING) {
         return null
     }
@@ -47,6 +59,13 @@ function ExtraInformation({rating, expanded}) {
             {expanded && toLines(SizeAndDistribution.get(rating), 12)}
         </text>
     )
+}
+
+ExpandButton.propTypes = {
+    rating: RatingPropType,
+    x: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired,
+    expanded: PropTypes.bool.isRequired,
 }
 
 function ExpandButton({rating, x, onClick, expanded}) {
@@ -76,8 +95,8 @@ const ELEVATIONS_VALUES = new Map([
 ])
 
 Banner.propTypes = {
-    elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
-    rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
+    rating: RatingPropType.isRequired,
     showTravelAdvice: PropTypes.bool,
     onExpandClick: PropTypes.func,
     expandable: PropTypes.bool,

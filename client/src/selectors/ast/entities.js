@@ -1,22 +1,19 @@
 import React from 'react'
 import {Link} from 'react-router'
 import parse from 'date-fns/parse'
-import get from 'lodash/get'
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'
 import turf from '@turf/helpers'
 import distance from '@turf/distance'
 import {Course, Provider} from '~/api/schemas'
-import {getEntitiesForSchema} from 'getters/entities'
-import {getResultsSet} from 'getters/api'
-import {HeaderCellOrders} from '~/components/table'
+import {getEntitiesForSchema} from '~/getters/entities'
+import {getResultsSet} from '~/getters/api'
 import {Helper} from '~/components/misc'
 import {getLocationAsFeature} from '~/selectors/geolocation'
 import {getPlace, getPlaceAsFeature} from '~/selectors/router'
 import {computeSorting} from '~/selectors/utils'
 import {createSorter, createPagination, createPaginatedEntities} from '~/selectors/factories'
-
-const {NONE} = HeaderCellOrders
+import {NONE} from '~/constants/sortings'
 
 // TODO: Reuse functions from selectors utils & factories
 

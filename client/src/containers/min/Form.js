@@ -1,20 +1,19 @@
 import React, {Component} from 'react'
-import t from 'vendor/tcomb-form'
+import PropTypes from 'prop-types'
+import t from '~/vendor/tcomb-form'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import CSSModules from 'react-css-modules'
 import {MountainInformationNetworkSubmission} from '~/api/schemas'
 import {Page, Header, Main, Content} from '~/components/page'
 import OPTIONS from './options'
-import {postMountainInformationNetworkSubmission} from 'actions/entities'
+import {postMountainInformationNetworkSubmission} from '~/actions/entities'
 import Submission from './types'
 import AuthService from '~/services/auth'
 import CancelError from '~/utils/promise/CancelError'
-import Button, {Submit} from '~/components/button'
+import {Submit} from '~/components/button'
 import styles from './Form.css'
-import set from 'lodash/set'
-import get from 'lodash/get'
-import {TYPES} from 'constants/min'
+import {TYPES} from '~/constants/min'
 import ObservationSetError from './ObservationSetError'
 
 const {Form} = t.form
@@ -29,6 +28,10 @@ function isObservationError(error) {
 })
 @CSSModules(styles)
 export default class SubmissionForm extends Component {
+    static propTypes = {
+        router: PropTypes.object.isRequired,
+        post: PropTypes.func.isRequired,
+    }
     state = {
         value: null,
         options: OPTIONS,
@@ -71,7 +74,7 @@ export default class SubmissionForm extends Component {
             return
         }
 
-        const [{path: [root, type]}] = errors
+        const type = errors.path[1]
         const patch = {
             fields: {
                 observations: {
@@ -89,7 +92,7 @@ export default class SubmissionForm extends Component {
             options: t.update(this.state.options, patch)
         }, callback)
     }
-    handleReportRemove = type => {
+    handleReportRemove = () => {
         setTimeout(this.validate)
     }
     handleTabActivate = activeIndex => {
@@ -108,13 +111,6 @@ export default class SubmissionForm extends Component {
         this.showErrorState(result)
 
         return result
-    }
-    handlePreviewClick = event => {
-        const result = this.validate()
-
-        if (result.isValid()) {
-            console.warn('showPreview')
-        }
     }
     handleSubmit = event => {
         event.preventDefault()
@@ -183,9 +179,6 @@ export default class SubmissionForm extends Component {
                             <Submit large disabled={isSubmitting}>
                                 {isSubmitting ? 'Submitting your report...' : 'Submit your report'}
                             </Submit>
-                            {/* <Button type='button' large onClick={this.handlePreviewClick}>
-                                Preview
-                            </Button> */}
                         </form>
                     </Main>
                 </Content>

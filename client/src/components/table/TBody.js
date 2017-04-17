@@ -7,13 +7,13 @@ import styles from './Table.css'
 
 // TODO: Needs to have functions to expandAll and collapseAll
 
-TBody.propTypes = {
+BaseTBody.propTypes = {
     children: PropTypes.node.isRequired,
     featured: PropTypes.bool,
     title: PropTypes.string,
 }
 
-function TBody({featured = false, title, children}) {
+function BaseTBody({featured = false, title, children}) {
     return (
         <tbody data-title={title} styleName={featured ? 'TBody--Featured' : 'TBody'}>
             {children}
@@ -21,10 +21,12 @@ function TBody({featured = false, title, children}) {
     )
 }
 
-export default TBody = compose(
+const TBody = compose(
     onlyUpdateForKey('children'),
     CSSModules(styles),
-)(TBody)
+)(BaseTBody)
+
+export default TBody
 
 function isExpandable(row) {
     return typeof row.props.expanded === 'boolean'
@@ -35,8 +37,7 @@ function rowMapper(values, setValues, row, index, rows) {
 
     if (isExpandable(row)) {
         const expanded = values.has(index) ? values.get(index) : row.props.expanded
-
-        function onExpandedToggle() {
+        const onExpandedToggle = () => {
             values.set(index, !expanded)
             setValues(new Map([...values]))
         }

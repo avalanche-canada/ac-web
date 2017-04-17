@@ -1,3 +1,5 @@
+import {captureException} from '~/services/raven'
+
 export const PATHS = new Map([
     ['static-page', new Map([
         ['mountain-information-network-faq', '/mountain-information-network/faq'],
@@ -7,7 +9,8 @@ export const PATHS = new Map([
 
 export default function linkResolver({document, type, uid}, isBroken) {
     if (isBroken) {
-        console.error('Broken link to document', document)
+        captureException(new Error('Broken link to document', document))
+
         return null
     }
 

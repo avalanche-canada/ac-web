@@ -1,7 +1,20 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {compose, lifecycle, withState} from 'recompose'
 import {fetchStaticResource} from '~/api'
 import style from './ates.css'
+
+const ExerciseShape = PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    caption: PropTypes.string.isRequired,
+    photo_credit: PropTypes.string.isRequired,
+    answer: PropTypes.string.isRequired
+})
+
+AtesExercise.propTypes = {
+    exercises: PropTypes.arrayOf(ExerciseShape).isRequired,
+}
 
 function AtesExercise({exercises}) {
     return (
@@ -11,6 +24,12 @@ function AtesExercise({exercises}) {
             )}
         </div>
     )
+}
+
+Section.propTypes = {
+    title: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(ExerciseShape)
 }
 
 function Section({title, desc, images}){
@@ -25,6 +44,13 @@ function Section({title, desc, images}){
             </div>
         </div>
     )
+}
+
+Input.propTypes = {
+    value: PropTypes.string,
+    picked: PropTypes.bool,
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 function Input({value, onClick, children, picked}) {
@@ -43,6 +69,7 @@ function Yep() {
         </div>
     )
 }
+
 function Nope() {
     return (
         <div className={style.Nope}>
@@ -52,6 +79,7 @@ function Nope() {
 }
 
 class Exercise extends Component {
+    static propTypes = ExerciseShape
     state = {
         picked: null
     }
@@ -81,10 +109,8 @@ export default compose(
     withState('exercises', 'setExercises', []),
     lifecycle({
         componentDidMount() {
-            const {setIsLoading, setExercises} = this.props
-
             fetchStaticResource('ates-exercise.json').then(response => {
-                setExercises(response.data)
+                this.props.setExercises(response.data)
             })
         },
     }),

@@ -1,7 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, mapProps, setPropTypes, setDisplayName} from 'recompose'
-import padstart from 'lodash/padStart'
 import {Image} from '~/components/misc'
 import {
     format,
@@ -11,7 +9,6 @@ import {
     GDPS,
     HRDPS,
 } from '~/services/msc/meteograms/url'
-
 
 const POINT = 'point'
 const GROUP = 'group'

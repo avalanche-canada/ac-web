@@ -1,14 +1,15 @@
 import React, {DOM} from 'react'
 import PropTypes from 'prop-types'
-import {compose, withHandlers, onlyUpdateForKeys} from 'recompose'
+import {compose, withHandlers, onlyUpdateForKeys, setPropTypes} from 'recompose'
 import {Element, neverUpdate} from '~/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 
 Segment.propTypes = {
     page: PropTypes.number.isRequired,
-    onActivate: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     isActive: PropTypes.bool,
+    style: PropTypes.object,
     children: PropTypes.node,
 }
 
@@ -23,6 +24,9 @@ function Segment({page, onClick, isActive, children, style}) {
 }
 
 export default compose(
+    setPropTypes({
+        onActivate: PropTypes.func.isRequired,
+    }),
     onlyUpdateForKeys(['isActive', 'page']),
     withHandlers({
         onClick: props => event => {

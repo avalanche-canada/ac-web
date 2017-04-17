@@ -6,7 +6,7 @@ import {createShareUrls} from '~/components/social/utils'
 
 Share.propTypes = {
     url: PropTypes.string.isRequired,
-    text: PropTypes.string,
+    label: PropTypes.string,
 }
 
 export default function Share({

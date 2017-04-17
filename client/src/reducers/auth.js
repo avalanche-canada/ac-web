@@ -5,7 +5,7 @@ import {
     GET_PROFILE,
     LOGOUT,
     TOKEN_RECEIVED,
-} from 'actions/auth'
+} from '~/actions/auth'
 
 const auth = AuthService.create()
 

@@ -1,6 +1,6 @@
 import React, {createElement} from 'react'
 import PropTypes from 'prop-types'
-import {Motion, spring, presets } from 'react-motion'
+import {Motion, spring, presets} from 'react-motion'
 import Backdrop from './Backdrop'
 import Drawer from './Drawer'
 import SIDE, {LEFT, RIGHT} from './constants/sides'

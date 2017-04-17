@@ -14,7 +14,7 @@ import styles from './Page.css'
 PageList.propTypes = {
     title: PropTypes.string.isRequired,
     headline: PropTypes.string.isRequired,
-    myProp: PropTypes.arrayOf(PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
         link: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     })),

@@ -5,7 +5,7 @@ import {compose, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import CSSModule from 'react-css-modules'
 import {neverUpdate} from '~/compose'
-import {zoomIn, zoomOut} from 'actions/map'
+import {zoomIn, zoomOut} from '~/actions/map'
 import {computeOffset} from '~/selectors/map/bounds'
 import {Remove, Add} from '~/components/icons'
 import Button, {SUBTILE} from '~/components/button'
@@ -13,6 +13,11 @@ import styles from './Map.css'
 
 // TODO: Probably use the mapboxgl zoom control
 // TODO: Eventually remove that controls...
+
+ZoomControl.propTypes = {
+    zoomIn: PropTypes.func.isRequired,
+    zoomOut: PropTypes.func.isRequired,
+}
 
 function ZoomControl({zoomIn, zoomOut}) {
     return (
@@ -39,12 +44,12 @@ export default compose(
         zoomOut,
     }),
     withHandlers({
-        zoomIn: props => event => {
+        zoomIn: props => () => {
             props.zoomIn({
                 offset: props.computeOffset()
             })
         },
-        zoomOut: props => event => {
+        zoomOut: props => () => {
             props.zoomOut({
                 offset: props.computeOffset()
             })

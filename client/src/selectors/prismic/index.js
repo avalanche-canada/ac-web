@@ -1,5 +1,5 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getType, getStatusFactory, getStatus, getDocument} from '~/selectors/prismic/utils'
+import {getType, getStatusFactory, getDocument} from '~/selectors/prismic/utils'
 
 export const getPost = createStructuredSelector({
     post: getDocument,

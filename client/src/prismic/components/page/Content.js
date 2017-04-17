@@ -4,13 +4,21 @@ import Slice from '~/prismic/components/slice'
 import {Status} from '~/components/misc'
 
 Content.propTypes = {
+    type: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
     document: PropTypes.object,
+    // TODO: USe appropriate propTypes
     status: PropTypes.object,
 }
 
-export default function Content({type, uid, document = {}, status}) {
-    const {content = []} = document
-
+export default function Content({
+    type,
+    uid,
+    document: {
+        content = []
+    } = {},
+    status
+}) {
     return (
         <div className={`${type}-${uid}`}>
             <Status {...status.toJSON()} />

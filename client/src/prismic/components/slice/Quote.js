@@ -1,6 +1,11 @@
 import React from 'react'
-import {InnerHTML} from '~/components/misc'
+import PropTypes from 'prop-types'
 import {Blockquote, Footer} from '~/components/blockquote'
+
+Quote.propTypes = {
+    content: PropTypes.string.isRequired,
+    footer: PropTypes.string,
+}
 
 export default function Quote({content, footer}) {
     return (

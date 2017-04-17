@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, withHandlers} from 'recompose'
 import {Link, withRouter} from 'react-router'
-import {Page, Content, Header, Main, Section, Headline} from '~/components/page'
+import {Page, Content, Header, Main} from '~/components/page'
 import Forecast from '~/components/forecast'
-import {Status, Muted, Error, DateElement} from '~/components/misc'
+import {Muted, Error, DateElement} from '~/components/misc'
 import Alert, {WARNING} from '~/components/alert'
 import {Metadata, Entry} from '~/components/metadata'
 import {DateIssued, ValidUntil, Forecaster} from '~/components/forecast/Metadata'
@@ -12,12 +12,10 @@ import {DropdownFromOptions as Dropdown, DayPicker} from '~/components/controls'
 import {archiveForecast} from '~/containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
-import startOfToday from 'date-fns/start_of_today'
-import isBefore from 'date-fns/is_before'
 import Url from 'url'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 
-const AVCAN = 'avalanche-canada'
+// TODO: Move these to constants with appropriate function
 const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
 const VANCOUVER_ISLAND = 'vancouver-island'
@@ -30,42 +28,47 @@ function getWarningText(region) {
     const name = region.get('name')
 
     switch (owner) {
-        case PARKS_CANADA:
-            return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
-        case CHIC_CHOCS:
-        case VANCOUVER_ISLAND:
-            return `You can get more information for ${name} region on their website`
-        default:
-            throw new Error(`Owner ${owner} not supported yet.`)
+    case PARKS_CANADA:
+        return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
+    case CHIC_CHOCS:
+    case VANCOUVER_ISLAND:
+        return `You can get more information for ${name} region on their website`
+    default:
+        throw new Error(`Owner ${owner} not supported yet.`)
     }
 }
 
+// TODO: Move these to constants
 const PARKS = 'parks'
 const LINK = 'link'
-const AVALX = 'avalx'
 
 function getWarningUrl(region, date) {
-    const owner = region.get('owner')
     const type = region.get('type')
     const url = region.get('url')
-    const externalUrl = region.get('externalUrl')
 
     switch (type) {
-        case PARKS:
-            const url = Url.parse(externalUrl, true)
+    case PARKS: {
+        const externalUrl = region.get('externalUrl')
+        const url = Url.parse(externalUrl, true)
 
-            delete url.search
+        delete url.search
 
-            Object.assign(url.query, {
-                d: format(date, 'YYYY-MM-DD')
-            })
+        Object.assign(url.query, {
+            d: format(date, 'YYYY-MM-DD')
+        })
 
-            return Url.format(url)
-        case LINK:
-            return url.replace('http://avalanche.ca', '')
-        default:
-            throw new Error(`Type ${type} not supported yet.`)
+        return Url.format(url)
     }
+    case LINK:
+        return url.replace('http://avalanche.ca', '')
+    default:
+        throw new Error(`Type ${type} not supported yet.`)
+    }
+}
+
+Warning.propTypes = {
+    region: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
 }
 
 function Warning({region, date}) {

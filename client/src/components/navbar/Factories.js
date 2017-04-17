@@ -21,8 +21,10 @@ function createLink({label, header, headline, ...rest}, index) {
     return createElement(component, props, label)
 }
 
+const MAX_NUMBER_OF_LINKS_PER_COLUMN = 7
+
 function createSection({label, headline, children = [], ...props}, index) {
-    const column = Math.floor(children.length / 7)
+    const column = Math.floor(children.length / MAX_NUMBER_OF_LINKS_PER_COLUMN)
 
     return (
         <Section key={index}>

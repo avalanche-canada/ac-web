@@ -6,7 +6,7 @@ import Ratings, {
     TravelAdvices,
     LikehoodOfAvalanche,
     SizeAndDistribution,
-} from 'constants/forecast/rating'
+} from '~/constants/forecast/rating'
 
 function RatingExplanation() {
     const keys = Array.from(Ratings).filter(key => key !== NO_RATING)

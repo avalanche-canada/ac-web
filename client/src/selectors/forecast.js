@@ -2,25 +2,25 @@ import parse from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
 import {createSelector} from 'reselect'
 import {Forecast, ForecastRegion} from '~/api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from 'getters/entities'
-import {getResultsSet} from 'getters/api'
+import {getEntitiesForSchema, getEntityForSchema} from '~/getters/entities'
+import {getResultsSet} from '~/getters/api'
 import * as Ratings from '~/constants/forecast/rating'
 import * as Modes from '~/constants/forecast/mode'
 import {computeFitBounds} from '~/selectors/map/bounds'
-import {getHighlight} from 'getters/prismic'
+import {getHighlight} from '~/getters/prismic'
 import camelCase from 'lodash/camelCase'
 
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
 
 const TO_RATINGS = new Map([
-    ["1:Low", Ratings.LOW],
-    ["2:Moderate", Ratings.MODERATE],
-    ["3:Considerable", Ratings.CONSIDERABLE],
-    ["4:High", Ratings.HIGH],
-    ["5:Extreme", Ratings.EXTREME],
+    ['1:Low', Ratings.LOW],
+    ['2:Moderate', Ratings.MODERATE],
+    ['3:Considerable', Ratings.CONSIDERABLE],
+    ['4:High', Ratings.HIGH],
+    ['5:Extreme', Ratings.EXTREME],
     ["N/A:'Spring'", Ratings.NO_RATING],
-    ["N/A:No Rating", Ratings.NO_RATING],
+    ['N/A:No Rating', Ratings.NO_RATING],
 ])
 const TO_MODES = new Map([
     ['Off season', Modes.OFF],

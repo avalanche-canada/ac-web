@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, onlyUpdateForKeys, withProps, withHandlers, withState} from 'recompose'
+import {compose} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import mapbox from '~/services/mapbox/map'
-import {Map, Source, Layer, Marker} from '~/components/map'
-import {loadData, loadMapStyle} from 'actions/map'
+import {Map, Marker} from '~/components/map'
+import {loadData, loadMapStyle} from '~/actions/map'
 import mapStateToProps from '~/selectors/map'
-import {LayerIds, allLayerIds} from 'constants/map/layers'
+import {LayerIds, allLayerIds} from '~/constants/map/layers'
 import {push} from '~/utils/router'
 import {near} from '~/utils/geojson'
 import * as Schemas from '~/api/schemas'
@@ -25,6 +25,12 @@ class Container extends Component {
         onLoad: PropTypes.func,
         onInitializationError: PropTypes.func,
         style: PropTypes.object,
+        markers: PropTypes.arrayOf(PropTypes.object),
+        bounds: PropTypes.object,
+        command: PropTypes.string,
+        computeFitBounds: PropTypes.func.isRequired,
+        loadMapStyle: PropTypes.func.isRequired,
+        loadData: PropTypes.func.isRequired,
     }
     static defaultProps = {
         onLoad: noop,
@@ -50,7 +56,7 @@ class Container extends Component {
         const [feature] = features
 
         if (feature && feature.properties) {
-            const {id, title, name} = feature.properties
+            const {title, name} = feature.properties
 
             if (name || title) {
                 canvas.setAttribute('title', name || title)
@@ -237,7 +243,7 @@ class Container extends Component {
 
             a.href = '#'
             a.textContent = title
-            a.onclick = event => {
+            a.onclick = () => {
                 this.transitionToMIN(id)
             }
 
@@ -308,7 +314,7 @@ class Container extends Component {
 
         return false
     }
-    componentWillReceiveProps({bounds, command, location}) {
+    componentWillReceiveProps({bounds, command}) {
         if (bounds && this.map && this.props.bounds !== bounds && this.isInternalNavigation !== true) {
             this.map.fitBounds(bounds.bbox, bounds.options)
         }

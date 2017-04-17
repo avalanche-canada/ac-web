@@ -1,6 +1,7 @@
 import React from 'react'
-import {Point, VictoryLabel, VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
-import {formatHours, formatForUnit, scatterEvents} from '../utils'
+import PropTypes from 'prop-types'
+import {Point, VictoryLabel, VictoryLine, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
+import {formatHours, scatterEvents} from '../utils'
 import {toCompass} from '~/utils/degrees'
 import format from 'date-fns/format'
 import {setUTCOffset} from '~/utils/date'
@@ -50,7 +51,14 @@ const STYLE = {
     },
 }
 
-function Arrow({x, y, datum, events, style, ...rest}) {
+Arrow.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    datum: PropTypes.object.isRequired,
+    events: PropTypes.object,
+}
+
+function Arrow({x, y, datum, events}) {
     return (
         <g {...events} transform={`translate(${x}, ${y}) rotate(${datum.windDirAvg})`}>
             <text dy={3} style={STYLE.arrow}>↓</text>
@@ -80,6 +88,13 @@ function computeDomain(data) {
     return [0, Math.max(Math.ceil(max / 25) * 25, 100)]
 }
 
+Wind.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+}
 
 export default function Wind({data, min, max, width, height}) {
     const container = <VictoryContainer

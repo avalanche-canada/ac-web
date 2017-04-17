@@ -10,23 +10,23 @@ import Elevations, {
     BTL,
     Texts as ElevationTexts,
     Palette as ElevationPalette,
-} from 'constants/forecast/elevation'
+} from '~/constants/forecast/elevation'
 import Ratings, {
     EXTREME,
     Texts as RatingTexts,
     Palette as RatingPalette,
-} from 'constants/forecast/rating'
-import {WHITE, BLACK} from 'constants/forecast/palette'
+} from '~/constants/forecast/rating'
+import {WHITE, BLACK} from '~/constants/forecast/palette'
 import {DangerCard} from '~/components/graphics'
 
 const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
 
-Row.propTypes = {
+BaseRow.propTypes = {
     rating: RatingPropType.isRequired,
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
 }
 
-function Row({rating, elevation}) {
+function BaseRow({rating, elevation}) {
     const elevationStyle = {
         backgroundColor: ElevationPalette.get(elevation)
     }
@@ -47,13 +47,13 @@ function Row({rating, elevation}) {
     )
 }
 
-Row = CSSModules(Row, styles)
+const Row = CSSModules(BaseRow, styles)
 
-Title.propTypes = {
+BasedTitle.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function Title({date}) {
+function BasedTitle({date}) {
     return (
         <div styleName='Title'>
             <DayElement value={date} />
@@ -61,7 +61,7 @@ function Title({date}) {
     )
 }
 
-Title = CSSModules(Title, styles)
+const Title = CSSModules(BasedTitle, styles)
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

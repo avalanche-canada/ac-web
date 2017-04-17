@@ -2,8 +2,8 @@ import {connect} from 'react-redux'
 import {compose, withProps, withHandlers} from 'recompose'
 import Navbar from '~/components/navbar'
 import * as Menus from '~/constants/menu'
-import {getIsAuthenticated, getProfile} from 'getters/auth'
-import {login, logout} from 'actions/auth'
+import {getIsAuthenticated, getProfile} from '~/getters/auth'
+import {login, logout} from '~/actions/auth'
 
 function mapStateToProps(state) {
     const {name, picture} = getProfile(state) || {}
@@ -24,10 +24,10 @@ export const AvalancheCanada = compose(
         menu: Menus.AvalancheCanada,
     }),
     withHandlers({
-        onLogin: props => event => {
+        onLogin: props => () => {
             props.login()
         },
-        onLogout: props => event => {
+        onLogout: props => () => {
             props.logout()
         },
     })

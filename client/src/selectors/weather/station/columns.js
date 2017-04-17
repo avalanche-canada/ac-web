@@ -19,7 +19,7 @@ function maybeNull(name, fn=(x => x)) {
 }
 
 function singleDecimal(x) {
-    return printf('%.1f', Math.round(x * 10) / 10);
+    return printf('%.1f', Math.round(x * 10) / 10)
 }
 
 export const Hour = {

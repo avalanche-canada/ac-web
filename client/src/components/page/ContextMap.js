@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
 import {Map, NavigationControl} from '~/components/map'
-
-function handleLoad(event) {
-    // event.target
-}
+import noop from 'lodash/noop'
 
 ContextMap.propTypes = {
     children: PropTypes.node.isRequired,
@@ -15,7 +12,7 @@ ContextMap.propTypes = {
 function ContextMap({children, ...props}) {
     return (
         <div styleName='ContextMap'>
-            <Map style='2016' {...props} onLoad={handleLoad} >
+            <Map style='2016' {...props} onLoad={noop} >
                 {children}
                 <NavigationControl />
             </Map>

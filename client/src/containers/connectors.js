@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import {createStructuredSelector} from 'reselect'
-import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, mapProps, withHandlers} from 'recompose'
+import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, withHandlers} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import * as EntitiesActions from 'actions/entities'
-import * as PrismicActions from 'actions/prismic'
-import {fitBounds, flyTo} from 'actions/map'
+import * as EntitiesActions from '~/actions/entities'
+import * as PrismicActions from '~/actions/prismic'
+import {fitBounds, flyTo} from '~/actions/map'
 import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
@@ -20,10 +20,8 @@ import getMountainInformationNetworkSubmission, {getId} from '~/selectors/mounta
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
-    TYPES, EVENT, NEWS, BLOG
+    TYPES, EVENT
 } from '~/selectors/prismic/feed'
-import isSameDay from 'date-fns/is_same_day'
-import Status from '~/utils/status'
 import {Predicates} from '~/prismic'
 import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
@@ -64,7 +62,7 @@ export const forecast = compose(
         },
     }),
     withHandlers({
-        onLocateClick: props => event => {
+        onLocateClick: props => () => {
             const {bbox, options} = props.computeBounds()
 
             props.fitBounds(bbox, options)
@@ -140,7 +138,7 @@ export const hotZoneReport = compose(
         },
     }),
     withHandlers({
-        onLocateClick: props => event => {
+        onLocateClick: props => () => {
             const {bbox, options} = props.computeBounds()
 
             props.fitBounds(bbox, options)
@@ -228,7 +226,7 @@ function panelConnector(mapStateToProps, load) {
             },
         }),
         withHandlers({
-            onLocateClick: props => event => {
+            onLocateClick: props => () => {
                 props.flyTo(props.computeFlyTo())
             }
         }),
@@ -315,7 +313,7 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
             fitBounds,
         }),
         withHandlers({
-            onLocateClick: props => event => {
+            onLocateClick: props => () => {
                 if (props.computeFlyTo()) {
                     return props.flyTo(props.computeFlyTo())
                 }

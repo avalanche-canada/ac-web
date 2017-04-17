@@ -1,9 +1,7 @@
 import {createSelector} from 'reselect'
-import {HeaderCellOrders} from '~/components/table'
-import {getEntitiesForSchema} from 'getters/entities'
+import {getEntitiesForSchema} from '~/getters/entities'
 import noop from 'lodash/noop'
-
-const {ASC, DESC, NONE} = HeaderCellOrders
+import {ASC, DESC} from '~/constants/sortings'
 
 export function createSorter(
     getEntities,
@@ -26,12 +24,12 @@ export function createSorter(
             }
 
             switch (order) {
-                case ASC:
-                    return entities.sortBy(sorter)
-                case DESC:
-                    return entities.sortBy(sorter).reverse()
-                default:
-                    return entities
+            case ASC:
+                return entities.sortBy(sorter)
+            case DESC:
+                return entities.sortBy(sorter).reverse()
+            default:
+                return entities
             }
         }
     )
@@ -40,10 +38,11 @@ export function createSorter(
 function defaultGetPage(state, props) {
     return props.page
 }
+
 function defaultGetPageSize(state, props) {
     return props.pageSize
 }
-const ARRAY = []
+
 function defaultGetSorting(state, props) {
     return props.sorting
 }

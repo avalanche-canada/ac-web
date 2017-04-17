@@ -2,11 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import {compose, withHandlers, withState, withProps} from 'recompose'
-import {connect} from 'react-redux'
-import {load} from 'actions/prismic'
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocumentsOfType} from 'getters/prismic'
-import {HeaderCellOrders, Caption, Responsive, PageSizeSelector} from '~/components/table'
+import {getDocumentsOfType} from '~/getters/prismic'
+import {Responsive, PageSizeSelector} from '~/components/table'
 import Table, {Column, Body} from '~/components/table/managed'
 import {FilterSet, FilterEntry} from '~/components/filter'
 import Pagination from '~/components/pagination'
@@ -17,10 +15,9 @@ import get from 'lodash/get'
 import {prismic} from '~/containers/connectors'
 import {getStatusFactory} from '~/selectors/prismic/utils'
 import * as Factories from '~/selectors/factories'
+import {NONE} from '~/constants/sortings'
 
-const {NONE} = HeaderCellOrders
 const YES = 'Yes'
-const NO = 'No'
 const ARRAY = []
 
 const getColumns = createSelector(
@@ -34,17 +31,6 @@ const getColumns = createSelector(
             sorting: sortable === YES ? NONE : undefined,
             property: createProperty(type, property, option1, option2, option3),
         })
-    })
-)
-
-const getUpdatedColumns = createSelector(
-    getColumns, getFilterings,
-    (columns, filterings) => columns.map(column => {
-        if (filterings.has(column.property)) {
-
-        }
-
-        return column
     })
 )
 
@@ -99,11 +85,25 @@ const getMessages = createSelector(
 
 const mapStateToProps = createStructuredSelector({
     filters: getFilters,
-    columns: getUpdatedColumns,
+    columns: getColumns,
     bodies: getBodies,
     pagination: getPagination,
     status: getStatusFactory(getMessages),
 })
+
+Container.propTypes = {
+    columns: PropTypes.arrayOf(PropTypes.object),
+    bodies: PropTypes.arrayOf(PropTypes.object),
+    filters: PropTypes.arrayOf(PropTypes.object),
+    // TODO: Use appropriate propType
+    status: PropTypes.object,
+    // TODO: Use appropriate propType
+    pagination: PropTypes.object,
+    onPageSizeChange: PropTypes.func,
+    onPageChange: PropTypes.func,
+    onSortingChange: PropTypes.func,
+    onFilterChange: PropTypes.func,
+}
 
 function Container({
     columns,
@@ -116,7 +116,7 @@ function Container({
     onSortingChange,
     onFilterChange,
 }) {
-    const {total, count, pageSize, page} = pagination
+    const {total, pageSize, page} = pagination
 
     return (
         <div>
@@ -179,30 +179,34 @@ function getDocumentType(props) {
 function getContent(state, props) {
     return props.content || ARRAY
 }
-function createProperty(type, property, option1, option2, option3) {
+// TODO: Look to use children as function
+function createProperty(type, property, option1) {
     switch (type) {
-        case 'Link':
-            // TODO: Target could be provided as option, named option like "target"
-            return data => (
+    case 'Link':
+        // TODO: Target could be provided as option, named option like "target"
+        return function link(data) {
+            return (
                 <a href={data[option1]} target='_blank'>
                     {data[property]}
                 </a>
             )
-        case 'Number':
-        case 'Currency':
-        case 'Date':
-        case 'Time':
-        case 'DateTime':
-            return property
-        case 'Html':
-            return data => (
+        }
+    case 'Number':
+    case 'Currency':
+    case 'Date':
+    case 'Time':
+    case 'DateTime':
+        return property
+    case 'Html':
+        return function html(data) {
+            return (
                 <InnerHTML>
                     {data[property]}
                 </InnerHTML>
             )
-        default:
-            return property
-
+        }
+    default:
+        return property
     }
 }
 function getFilterings(state, props) {

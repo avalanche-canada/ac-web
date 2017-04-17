@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import {ItemSet, Item} from '~/components/sponsor'
-import {getDocumentsOfType} from 'getters/prismic'
+import {getDocumentsOfType} from '~/getters/prismic'
 import transform from '~/prismic/transformers'
 
 function parse(document) {
@@ -15,6 +15,7 @@ function parse(document) {
         url,
     }
 }
+
 const getSponsors = createSelector(
     state => getDocumentsOfType(state, 'sponsor'),
     (state, props) => props.content.map(slice => slice.sponsor.id),
@@ -29,7 +30,11 @@ const getSponsors = createSelector(
     }
 )
 
-// TODO: Move the component to components. This should be a container. 
+// TODO: Move the component to components. This should be a container.
+
+SponsorSet.propTypes = {
+    sponsors: PropTypes.arrayOf(PropTypes.object),
+}
 
 function SponsorSet({sponsors = []}) {
     return (

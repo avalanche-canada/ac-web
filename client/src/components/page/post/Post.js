@@ -7,14 +7,12 @@ import Sidebar from './Sidebar'
 
 Post.propTypes = {
     post: PropTypes.shape({
-        featured: PropTypes.bool,
         title: PropTypes.string.isRequired,
         headline: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date).isRequired,
         startDate: PropTypes.instanceOf(Date),
         endDate: PropTypes.instanceOf(Date),
-        media: PropTypes.string,
         source: PropTypes.string,
         location: PropTypes.string,
         hostedBy: PropTypes.string,
@@ -26,14 +24,12 @@ Post.propTypes = {
 export default function Post({post = {}, message, type}) {
     const {
         uid,
-        featured = false,
         title,
         headline,
         content,
         date,
         startDate,
         endDate,
-        media,
         source,
         location,
         hostedBy,

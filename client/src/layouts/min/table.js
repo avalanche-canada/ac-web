@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, withHandlers} from 'recompose'
 import {Page as Base, Header, Main, Content} from '~/components/page'
 import {Responsive} from '~/components/table'
@@ -9,6 +10,14 @@ import {valueHandlerFactory, arrayValueHandlerFactory, sortingHandlerFactory} fr
 
 const DAYS = '7'
 const TYPES = []
+
+PageLayout.propTypes = {
+    // TODO: Look at React Router fora prop types
+    location: PropTypes.object,
+    handleDaysChange: PropTypes.func.isRequired,
+    handleTypesChange: PropTypes.func.isRequired,
+    handleSortingChange: PropTypes.func.isRequired
+}
 
 function PageLayout({location, handleDaysChange, handleTypesChange, handleSortingChange}) {
     let {days = DAYS, types = TYPES, sorting} = location.query
@@ -32,12 +41,6 @@ function PageLayout({location, handleDaysChange, handleTypesChange, handleSortin
                 </Main>
             </Content>
         </Base>
-    )
-}
-
-function Drawer({days = DAYS, types = TYPES}) {
-    return (
-        <Table days={days} types={new Set(types)} />
     )
 }
 

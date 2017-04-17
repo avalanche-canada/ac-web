@@ -10,7 +10,7 @@ import {
     LOW,
     MODERATE,
     CONSIDERABLE,
-} from 'constants/forecast/rating'
+} from '~/constants/forecast/rating'
 import Panel from '~/components/panel'
 import Footer from './Footer'
 import Headline from './Headline'

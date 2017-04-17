@@ -28,12 +28,12 @@ function FilterSet({filters = EMPTY, onChange = noop}) {
                 }
 
                 switch (type) {
-                    case 'dateRange':
-                        return <DateRange {...props} />
-                    case 'listOfValues':
-                        return <ListOfValues {...props} />
-                    default:
-                        throw new Error(`Filter of type ${type} not supported.`)
+                case 'dateRange':
+                    return <DateRange {...props} />
+                case 'listOfValues':
+                    return <ListOfValues {...props} />
+                default:
+                    throw new Error(`Filter of type ${type} not supported.`)
                 }
             })}
         </div>

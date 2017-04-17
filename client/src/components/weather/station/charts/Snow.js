@@ -1,7 +1,8 @@
 import React from 'react'
-import {VictoryScatter, VictoryGroup, VictoryLine, VictoryTooltip, VictoryBar, VictoryChart, VictoryAxis, VictoryContainer} from 'victory'
-import {PRIMARY as SECONDARY_BLUE} from 'constants/colors'
-import {formatHours, formatForUnit, barEvents, scatterEvents} from '../utils'
+import PropTypes from 'prop-types'
+import {VictoryScatter, VictoryLine, VictoryTooltip, VictoryBar, VictoryAxis, VictoryContainer} from 'victory'
+import {PRIMARY as SECONDARY_BLUE} from '~/constants/colors'
+import {formatHours, barEvents, scatterEvents} from '../utils'
 import format from 'date-fns/format'
 import {setUTCOffset} from '~/utils/date'
 import theme from './theme'
@@ -128,6 +129,14 @@ function computeNewSnowDomain(data) {
 }
 const DOMAIN_PADDING = {
     x: 25
+}
+
+SnowHeight.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object),
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
 }
 
 export default function SnowHeight({data, min, max, width, height}) {

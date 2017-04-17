@@ -12,7 +12,7 @@ Root.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Root({navbar, content, footer, children, route}) {
+export default function Root({navbar, content, footer, children}) {
     return (
         <Application>
             {navbar || <AvalancheCanada />}

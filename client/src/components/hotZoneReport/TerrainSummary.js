@@ -25,6 +25,10 @@ const Titles = new Map([
     ['cutblocks', 'Cutblocks'],
 ])
 
+AvoidList.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
 function AvoidList({items}) {
     return (
         <ul styleName='List'>
@@ -37,7 +41,7 @@ function AvoidList({items}) {
     )
 }
 
-AvoidList = CSSModules(AvoidList, styles)
+const StyledAvoidList = CSSModules(AvoidList, styles)
 
 function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
     return (
@@ -45,11 +49,11 @@ function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
             <List>
                 <Term>Aspect</Term>
                 <Definition>
-                    <AvoidList items={aspect} />
+                    <StyledAvoidList items={aspect} />
                 </Definition>
                 <Term>Terrain features</Term>
                 <Definition>
-                    <AvoidList items={terrainFeatures} />
+                    <StyledAvoidList items={terrainFeatures} />
                 </Definition>
                 <Term block >Travel advice</Term>
                 <Definition block styleName='TravelAdvice'>

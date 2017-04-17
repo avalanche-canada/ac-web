@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import {compose, withHandlers, lifecycle, renameProp, withProps, withState} from 'recompose'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Highlight from '~/components/highlight'
 import {InnerHTML} from '~/components/misc'
-import {load} from 'actions/prismic'
+import {load} from '~/actions/prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
@@ -13,6 +13,9 @@ import {SessionStorage} from '~/services/storage'
 
 @connect(null, {load})
 export default class Container extends Component {
+    static propTypes = {
+        load: PropTypes.func.isRequired,
+    }
     state = {
         highlight: null
     }
@@ -58,7 +61,7 @@ export default class Container extends Component {
             return null
         }
 
-        const {description, style, link} = this.highlight
+        const {description, style} = this.highlight
 
         return (
             <Highlight style={style} onDismiss={this.handleDismiss} dismissable>

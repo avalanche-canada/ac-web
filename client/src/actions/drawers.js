@@ -5,7 +5,7 @@ import {
     isMenuOpen,
     isPrimaryDrawerOpened,
     isSecondaryDrawerOpened
-} from 'getters/drawers'
+} from '~/getters/drawers'
 
 export const OPEN_PRIMARY_DRAWER = 'OPEN_PRIMARY_DRAWER'
 export const CLOSE_PRIMARY_DRAWER = 'CLOSE_PRIMARY_DRAWER'

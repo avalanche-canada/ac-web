@@ -4,12 +4,13 @@ import CSSModules from 'react-css-modules'
 import ImageGallery from 'react-image-gallery'
 import {Tab, TabSet} from '~/components/tab'
 import Observation from './Observation'
-import {INCIDENT, NAMES, TYPES, COLORS} from 'constants/min'
+import {INCIDENT, NAMES, TYPES, COLORS} from '~/constants/min'
 import styles from './MountainInformationNetwork.css'
 
 Submission.propTypes = {
     observations: PropTypes.arrayOf(PropTypes.object).isRequired,
     active: PropTypes.oneOf(TYPES),
+    uploads: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 function reducer(observations, {obtype, ob}) {
@@ -46,7 +47,7 @@ function Submission({observations = [], uploads = [], active = INCIDENT}) {
                     )
                 })}
             </TabSet>
-            {uploads.length > 0 &&
+            {uploads.length > 0 &&
                 <ImageGallery
                     items={uploads.map(toGalleryItem)}
                     showBullets={uploads.length > 1}

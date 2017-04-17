@@ -13,6 +13,8 @@ DateRange.propTypes = {
     from: PropTypes.instanceOf(Date).isRequired,
     to: PropTypes.instanceOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
+    focus: PropTypes.bool,
+    setFocus: PropTypes.func,
 }
 
 function DateRange({onChange = noop, focus, setFocus, ...range}) {

@@ -30,12 +30,12 @@ const ContentComponents = new Map([
 export default mapbox.supported() ? compose(
     withState('initializationError', 'setInitializationError', false),
     withHandlers({
-        onPrimaryDrawerCloseClick: props => event => {
+        onPrimaryDrawerCloseClick: props => () => {
             push({
                 pathname: '/map'
             }, props)
         },
-        onSecondaryDrawerCloseClick: props => event => {
+        onSecondaryDrawerCloseClick: props => () => {
             const {query} = props.location
 
             delete query.panel
@@ -100,7 +100,15 @@ function LinkControlSet() {
     )
 }
 
-LinkControlSet = neverUpdate(LinkControlSet)
+const OptimizedLinkControlSet = neverUpdate(LinkControlSet)
+
+Layout.propTypes = {
+    primary: PropTypes.element.isRequired,
+    secondary: PropTypes.element.isRequired,
+    setInitializationError: PropTypes.func.isRequired,
+    onPrimaryDrawerCloseClick: PropTypes.func.isRequired,
+    onSecondaryDrawerCloseClick: PropTypes.func.isRequired,
+}
 
 function Layout({
     primary,
@@ -121,7 +129,7 @@ function Layout({
             </Secondary>
             <Menu />
             <ToggleMenu />
-            <LinkControlSet />
+            <OptimizedLinkControlSet />
         </div>
     )
 }

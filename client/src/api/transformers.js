@@ -1,9 +1,9 @@
 import QUICK_REPORT from '~/containers/min/quick.json'
-import t from 'vendor/tcomb-form'
+import t from '~/vendor/tcomb-form'
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
 import Submission from '~/containers/min/types'
-import {QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT} from 'constants/min'
+import {QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT} from '~/constants/min'
 
 const ObservationKeys = new Map([
     [QUICK, 'quickReport'],
@@ -97,10 +97,6 @@ export function transformCourseResponse(data) {
             provider: transformProvider(course.provider),
         }))
     }
-}
-
-function observationFilter(type) {
-    return observation => observation.type === type
 }
 
 export function transformSubmissionForPost(value) {

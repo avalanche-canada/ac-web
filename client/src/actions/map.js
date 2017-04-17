@@ -1,9 +1,9 @@
 import {createAction} from 'redux-actions'
-import {getVisibleLayers} from 'getters/drawers'
-import {getStyle, getStatus} from 'getters/map'
+import {getVisibleLayers} from '~/getters/drawers'
+import {getStyle, getStatus} from '~/getters/map'
 import {fetchMapStyle} from '~/services/mapbox/api'
-import * as PrismicActions from 'actions/prismic'
-import * as EntitiesActions from 'actions/entities'
+import * as PrismicActions from '~/actions/prismic'
+import * as EntitiesActions from '~/actions/entities'
 import * as Layers from '~/constants/drawers'
 import {Predicates} from '~/prismic'
 import format from 'date-fns/format'
@@ -42,7 +42,7 @@ export function loadData() {
 
 function createActionForLayer(layer) {
     switch (layer.get('id')) {
-        case Layers.HOT_ZONE_REPORTS:
+    case Layers.HOT_ZONE_REPORTS:
         return PrismicActions.load({
             type: 'hotzone-report',
             predicates: [
@@ -50,23 +50,24 @@ function createActionForLayer(layer) {
                 Predicates.dateAfter('my.hotzone-report.validUntil', format(startOfYesterday(), 'YYYY-MM-DD')),
             ]
         })
-        case Layers.MOUNTAIN_INFORMATION_NETWORK:
+    case Layers.MOUNTAIN_INFORMATION_NETWORK: {
         const value = layer.getIn(['filters', 'days', 'value'])
 
         return EntitiesActions.loadMountainInformationNetworkSubmissionsForDays(value)
-        case Layers.TOYOTA_TRUCK_REPORTS:
+    }
+    case Layers.TOYOTA_TRUCK_REPORTS:
         return PrismicActions.load({
             type: 'toyota-truck-report'
         })
-        case Layers.SPECIAL_INFORMATION:
+    case Layers.SPECIAL_INFORMATION:
         return PrismicActions.load({
             type: 'special-information'
         })
-        case Layers.FATAL_ACCIDENT:
+    case Layers.FATAL_ACCIDENT:
         return PrismicActions.load({
             type: 'fatal-accident'
         })
-        case Layers.WEATHER_STATION:
+    case Layers.WEATHER_STATION:
         return EntitiesActions.loadWeatherStations()
     }
 }

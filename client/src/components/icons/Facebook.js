@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function Facebook({ inverse = false, ...props }) {
+export default function Facebook(props) {
     return (
         <Icon viewBox='0 0 266.893 266.895' {...props}>
             <path fill='#3C5A99' d='M248.082,262.307c7.854,0,14.223-6.369,14.223-14.225V18.812

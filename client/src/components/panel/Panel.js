@@ -16,7 +16,7 @@ Panel.propTypes = {
     header: PropTypes.string.isRequired,
     theme: PropTypes.oneOf([INVERSE, SIMPLE]),
     children: PropTypes.node.isRequired,
-
+    onHeaderClick: PropTypes.func.isRequired,
 }
 
 // Little hack to allow accurate mesuring even when chlidren have
@@ -63,7 +63,7 @@ function Panel({
 export default compose(
     withState('expanded', 'setExpanded', props => props.expanded),
     withHandlers({
-        onHeaderClick: props => event => {
+        onHeaderClick: props => () => {
             if (!props.expandable) {
                 return
             }

@@ -6,6 +6,14 @@ import ChartSet from './ChartSet'
 import {TabSet, Tab, LOOSE} from '~/components/tab'
 import {Loading} from '~/components/misc'
 
+Station.propTypes = {
+    measurements: PropTypes.arrayOf(PropTypes.object).isRequired,
+    // TODO: Create column PropTypes
+    columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    // TODO: Create header PropTypes
+    headers: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
 function Station({measurements, columns, headers}) {
     return (
         <TabSet theme={LOOSE}>

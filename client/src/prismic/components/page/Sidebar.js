@@ -6,7 +6,12 @@ import DocumentLink from '~/prismic/components/DocumentLink'
 import {Link} from 'react-router'
 import {href, avalancheCanadaPathRegex} from '~/utils/url'
 
-function renderLink({title, link}) {
+SidebarLink.propTypes = {
+    title: PropTypes.string,
+    link: PropTypes.object,
+}
+
+function SidebarLink({title, link}) {
     if (typeof link === 'object') {
         return (
             <DocumentLink {...link}>
@@ -33,20 +38,20 @@ function renderLink({title, link}) {
 export default withProps(({content, contact}) => ({
     children: content.map(({type, content}, index) => {
         switch (type) {
-            case 'header':
-                return (
-                    <Header key={index}>
-                        {content}
-                    </Header>
-                )
-            case 'items':
-                return content.map((link, index) => (
-                    <Item key={index}>
-                        {renderLink(link)}
-                    </Item>
-                ))
-            default:
-                return null
+        case 'header':
+            return (
+                <Header key={index}>
+                    {content}
+                </Header>
+            )
+        case 'items':
+            return content.map((link, index) => (
+                <Item key={index}>
+                    <SidebarLink {...link} />
+                </Item>
+            ))
+        default:
+            return null
         }
     }),
     contact: typeof contact === 'string' ? <Contact email={contact} /> : contact,

@@ -6,20 +6,18 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
+        /*"plugin:import/errors",*/
+        /*"plugin:import/warnings",*/
         "plugin:react/recommended"
     ],
     "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 6,
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
-        },
-        "sourceType": "module"
+        }
     },
-    "plugins": [
-        "react"
-    ],
     "rules": {
         "indent": [
             "error",
@@ -38,15 +36,28 @@
         "semi": [
             "error",
             "never"
+        ],
+        "no-unused-vars": [
+            "error", {
+                "ignoreRestSiblings": true,
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "react/prop-types": [
+            "error", {
+                "skipUndeclared": true
+            }
         ]
     },
     "settings": {
         "import/resolver": {
-            "webpack": {}
+            "webpack": {},
+            "babel-root-import": {}
         }
     },
     "globals": {
         "process": true,
-        "require": true
+        "require": true,
+        "module": true
     }
 }

@@ -10,6 +10,10 @@ Day3To4.propTypes = {
     children: PropTypes.node,
 }
 
+Title.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+}
+
 function Title({date}) {
     const day3 = addDays(date, 2)
     const day4 = addDays(date, 3)

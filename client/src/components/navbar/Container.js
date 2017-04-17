@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withState, withProps, setDisplayName} from 'recompose'
+import {compose, withState, withProps, setDisplayName, setPropTypes} from 'recompose'
 import Navbar from './Navbar'
 import Item from './Item'
 import Menu from './Menu'
@@ -22,11 +22,14 @@ Container.propTypes = {
     avatar: PropTypes.string,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    showLogin: PropTypes.bool.isRequired,
+    showLogout: PropTypes.bool.isRequired,
+    showCabinet: PropTypes.bool.isRequired,
+    setShowCabinet: PropTypes.func.isRequired,
 }
 
 function Container({
     isFoundation = false,
-    isAuthenticated = false,
     menu,
     name = null,
     avatar = null,
@@ -37,9 +40,10 @@ function Container({
     showLogin,
     showLogout,
 }) {
+    // TODO: Performance: do not create function everything: setShowCabinet
     return (
         <div styleName='Container'>
-            <Navbar isFoundation={isFoundation} onBurgerClick={event => setShowCabinet(true)} >
+            <Navbar isFoundation={isFoundation} onBurgerClick={() => setShowCabinet(true)} >
                 {menu.children.map(createItem)}
                 {showLogin && <Item title='Login' onClick={onLogin} />}
                 {showLogout &&
@@ -62,8 +66,11 @@ function Container({
     )
 }
 
-
 export default compose(
+    setPropTypes({
+        isFoundation: PropTypes.bool.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
+    }),
     setDisplayName('Container'),
     withState('showCabinet', 'setShowCabinet', false),
     withProps(({isFoundation, isAuthenticated}) => ({

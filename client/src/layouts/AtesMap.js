@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {compose, withHandlers} from 'recompose'
 import CSSModules from 'react-css-modules'
 import {Map, NavigationControl} from '~/components/map'
@@ -57,6 +58,10 @@ function updateLayer(map) {
     map.addLayer(layer)
 }
 
+AtesMap.propTypes = {
+    onLoad: PropTypes.func.isRequired,
+}
+
 function AtesMap({onLoad}) {
     return (
         <div styleName='Container'>
@@ -74,7 +79,7 @@ function AtesMap({onLoad}) {
 
 export default compose(
     withHandlers({
-        onLoad: props => event => {
+        onLoad: () => event => {
             const map = event.target
 
             const update = updateLayer.bind(null, map)

@@ -1,8 +1,16 @@
 import React, {createElement} from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {Media, Caption, Player} from '~/components/media'
 import {InnerHTML, Ribbon} from '~/components/misc'
 import styles from './Video.css'
+
+Video.propTypes = {
+    caption: PropTypes.string,
+    credit: PropTypes.string,
+    ribbonCaption: PropTypes.string,
+    ribbonTitle: PropTypes.string
+}
 
 function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
     const media = {}
@@ -33,9 +41,12 @@ function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
     )
 }
 
-function VideoSet({content}) {
-    const {length} = content
+VideoSet.propTypes = {
+    // TODO: Use appropriate propType
+    content: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
 
+function VideoSet({content = []}) {
     return (
         <div styleName='VideoSet'>
             {content.map((props, index) => (

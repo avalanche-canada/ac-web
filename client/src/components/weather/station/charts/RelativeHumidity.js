@@ -1,6 +1,7 @@
 import React from 'react'
-import {VictoryLine, VictoryBar, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
-import {formatHours, formatForUnit, scatterEvents} from '../utils'
+import PropTypes from 'prop-types'
+import {VictoryLine, VictoryChart, VictoryScatter, VictoryAxis, VictoryContainer, VictoryTooltip} from 'victory'
+import {formatHours, scatterEvents} from '../utils'
 import format from 'date-fns/format'
 import {setUTCOffset} from '~/utils/date'
 import theme from './theme'
@@ -47,6 +48,14 @@ const STYLE = {
 
 function getLabels({x, y, utcOffset}) {
     return `${y} %\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
+}
+
+RelativeHumidity.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object),
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
 }
 
 export default function RelativeHumidity({data, min, max, width, height}) {

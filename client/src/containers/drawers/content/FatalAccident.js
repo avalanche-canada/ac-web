@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Header, Container, Body, Navbar, Close, Banner, Content} from '~/components/page/drawer'
+import {Header, Container, Body, Navbar, Close} from '~/components/page/drawer'
 import {InnerHTML, Status, DateTime} from '~/components/misc'
 import {Metadata, Entry} from '~/components/metadata'
 import {fatalAccident} from '~/containers/connectors'
@@ -9,6 +9,13 @@ import {Wrapper} from '~/components/tooltip'
 
 const LOCATE_STYLE = {
     padding: '0.15em'
+}
+
+FatalAccident.propTypes = {
+    report: PropTypes.object.isRequired,
+    status: PropTypes.object.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
 function FatalAccident({

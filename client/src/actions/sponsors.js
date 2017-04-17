@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions'
 import {fetchSponsors} from '~/api'
-import {getActiveSponsor, getSponsors} from 'getters/sponsors'
+import {getActiveSponsor, getSponsors} from '~/getters/sponsors'
 import {createDelayedAction, createOptimisticAction} from '~/utils/redux'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'

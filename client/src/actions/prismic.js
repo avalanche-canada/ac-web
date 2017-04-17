@@ -1,7 +1,5 @@
 import Immutable from 'immutable'
-import {createAction} from 'redux-actions'
-import noop from 'lodash/noop'
-import {getDocumentsOfType, getDocumentForUid, hasDocumentForUid, getResults} from 'getters/prismic'
+import {getDocumentsOfType, hasDocumentForUid, getResults} from '~/getters/prismic'
 import {Api as Prismic, Predicates} from '~/prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
@@ -92,9 +90,9 @@ export function loadHotZoneReport({name, uid}) {
             }))
         } else if (typeof name === 'string') {
             const documents = getDocumentsOfType(state, type)
-            function isNotLoaded(document) {
-                return document.data[`${type}.region`].value !== name
-            }
+            const isNotLoaded = document => (
+                document.data[`${type}.region`].value !== name
+            )
 
             if (documents.every(isNotLoaded)) {
                 return dispatch(load({

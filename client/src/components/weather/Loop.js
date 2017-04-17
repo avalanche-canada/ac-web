@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
-import Loop from '~/components/loop'
+import Base from '~/components/loop'
 import {computeUrls, getNotes} from '~/services/msc/loop/url'
-import {Forecast, CurrentConditions} from '~/services/msc/loop/Metadata'
+import {CurrentConditions} from '~/services/msc/loop/Metadata'
 import {Loading, Error} from '~/components/misc'
 
-export default class extends PureComponent {
+export default class Loop extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date),
@@ -72,7 +71,7 @@ export default class extends PureComponent {
             startAt,
         })
     }
-    handleRejected = reason => {
+    handleRejected = () => {
         this.setState({
             isLoading: false,
             isError: true,
@@ -99,7 +98,7 @@ export default class extends PureComponent {
 
         return (
             <div>
-                <Loop
+                <Base
                     urls={this.state.urls}
                     startAt={this.state.startAt}
                     openImageInNewTab

@@ -1,8 +1,6 @@
 import format from 'date-fns/format'
-import {HeaderCellOrders} from '~/components/table'
 import identity from 'lodash/identity'
-
-const {NONE, DESC} = HeaderCellOrders
+import {DESC, NONE} from '~/constants/sortings'
 
 function merge(location, {query = {}, state = {}, ...rest}) {
     return {
@@ -66,22 +64,4 @@ function formatDate(date) {
 
 export function dateValueHandlerFactory(name) {
     return valueHandlerFactory(name, formatDate)
-}
-
-export function computeSortingAsObject(sorting) {
-    if (!sorting) {
-        return null
-    }
-
-    if (isNegativeRegex.test(sorting)) {
-        return {
-            name: sorting.replace(isNegativeRegex, ''),
-            order: DESC
-        }
-    } else {
-        return {
-            name: sorting,
-            order: ASC
-        }
-    }
 }

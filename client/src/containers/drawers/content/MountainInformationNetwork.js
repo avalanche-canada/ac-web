@@ -13,6 +13,18 @@ const LOCATE_STYLE = {
     padding: '0.15em'
 }
 
+MountainInformationNetwork.propTypes = {
+    title: PropTypes.string.isRequired,
+    metadata: PropTypes.object,
+    isLoading: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
+    props: PropTypes.object,
+    messages: PropTypes.object.isRequired,
+    link: PropTypes.string,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
+}
+
 function MountainInformationNetwork({
     title,
     metadata,

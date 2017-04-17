@@ -53,6 +53,12 @@ function sumNodeWidth(width, node) {
 
 @CSSModules(styles, {allowMultiple: true})
 class TabList extends Component {
+    static propTypes = {
+        opened: PropTypes.bool,
+        stacked: PropTypes.bool,
+        theme: PropTypes.oneOf([LOOSE, COMPACT]),
+        children: PropTypes.number,
+    }
     state = {
         width: null,
         itemsWidth: null,
@@ -125,9 +131,11 @@ export default class TabSet extends Component {
         opened: false,
     }
     constructor(props) {
-      super(props)
+        super(props)
 
-      this.state.activeIndex = validateActiveIndex(props)
+        /* eslint-disable react/no-direct-mutation-state */
+        this.state.activeIndex = validateActiveIndex(props)
+        /* eslint-disable react/no-direct-mutation-state */
     }
     get activeIndex() {
         return this.state.activeIndex
@@ -161,7 +169,7 @@ export default class TabSet extends Component {
     renderTabHeader(tab, index) {
         const {theme, arrow} = this.props
         const {title, color, disabled, onClick} = tab.props
-        const handleClick = event => this.activeIndex = index
+        const handleClick = () => this.activeIndex = index
         const active = index === this.activeIndex
         const header = {
             active,

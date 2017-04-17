@@ -30,7 +30,8 @@ export default class Wrapper extends Component {
     show = () => this.visible = true
     hide = () => this.visible = false
     toggle = () => this.visible = !this.visible
-    target = props => findDOMNode(this.refs.target)
+    // TODO: Remove target function! I do not think it is required
+    target = () => findDOMNode(this.refs.target)
     render() {
         const {children, placement, tooltip, trigger, ...props} = this.props
         const events = trigger === 'hover' ? {

@@ -2,11 +2,10 @@ import React from 'react'
 import {createSelector, createStructuredSelector} from 'reselect'
 import {compose, withProps, defaultProps} from 'recompose'
 import {connect} from 'react-redux'
-import {isMenuOpen} from 'getters/drawers'
+import {isMenuOpen, getPrimaryDrawer, getSecondaryDrawer} from '~/getters/drawers'
 import Drawer, {LEFT, RIGHT} from '~/components/page/drawer'
-import {closeMenu} from 'actions/drawers'
+import {closeMenu} from '~/actions/drawers'
 import MenuContent from './content/Menu'
-import {getPrimaryDrawer, getSecondaryDrawer} from 'getters/drawers'
 
 export ToggleMenu from './controls/ToggleMenu'
 

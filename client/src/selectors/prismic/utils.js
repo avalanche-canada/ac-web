@@ -1,6 +1,5 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getResult as getBaseResult, getDocumentFromParams, getDocuments} from 'getters/prismic'
-import parser from '~/prismic/parser'
+import {getResult as getBaseResult, getDocumentFromParams, getDocuments} from '~/getters/prismic'
 import transform from '~/prismic/transformers'
 
 export function getType(state, props) {

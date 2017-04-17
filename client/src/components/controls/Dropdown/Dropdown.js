@@ -33,7 +33,9 @@ export default class Dropdown extends Component {
 
         const {value} = props
 
+        /* eslint-disable react/no-direct-mutation-state */
         this.state.value = value instanceof Set ? value : new Set([value])
+        /* eslint-disable react/no-direct-mutation-state */
     }
     get isOpen() {
         return this.state.isOpen
@@ -73,7 +75,7 @@ export default class Dropdown extends Component {
 
         return options[index].props.value
     }
-    handleClick = event => {
+    handleClick = () => {
         this.toggle()
     }
     handleKeyDown = event => {
@@ -83,30 +85,30 @@ export default class Dropdown extends Component {
     }
     handleKeyUp = event => {
         switch (event.keyCode) {
-            case keycode.codes.esc:
-                this.close()
-                break
-            case keycode.codes.down:
-                if (this.isOpen) {
-                    this.active = this.active + 1
-                } else {
-                    this.open()
-                }
-                break
-            case keycode.codes.up:
-                if (this.isOpen) {
-                    this.active = this.active - 1
-                } else {
-                    this.open()
-                }
-                break
-            case keycode.codes.enter:
-                this.close()
-                this.props.onChange(this.valueAt(this.active))
-                break
-            case keycode.codes.space:
-                this.toggle()
-                break
+        case keycode.codes.esc:
+            this.close()
+            break
+        case keycode.codes.down:
+            if (this.isOpen) {
+                this.active = this.active + 1
+            } else {
+                this.open()
+            }
+            break
+        case keycode.codes.up:
+            if (this.isOpen) {
+                this.active = this.active - 1
+            } else {
+                this.open()
+            }
+            break
+        case keycode.codes.enter:
+            this.close()
+            this.props.onChange(this.valueAt(this.active))
+            break
+        case keycode.codes.space:
+            this.toggle()
+            break
         }
     }
     handleFocus = ({target}) => {
@@ -160,7 +162,7 @@ export default class Dropdown extends Component {
         }
     }
     render() {
-        const {isOpen, active, holder} = this
+        const {isOpen, holder} = this
         const {children} = this.props
         const {value} = this.state
         const {placeholder} = this.props

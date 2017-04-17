@@ -4,7 +4,6 @@ export const GEOLOCATION_GET_POSITION = 'GEOLOCATION_GET_POSITION'
 export const GEOLOCATION_POSITION_CHANGED = 'GEOLOCATION_POSITION_CHANGED'
 export const GEOLOCATION_WATCH_POSITION_STOPPED = 'GEOLOCATION_WATCH_POSITION_STOPPED'
 
-
 let watcherId = null
 
 const getPosition = createAction(GEOLOCATION_GET_POSITION)
@@ -42,26 +41,20 @@ export function locate(watch = false, options) {
     }
 }
 
-function createError(error) {
-    const {code} = error
-    let { message } = error
+const errorMessages = new Map([
+    [1, 'Permission denied'],
+    [2, 'Position unavailable'],
+    [3, 'Timeout'],
+    [undefined, 'Error'],
+    [null, 'Error']
+])
 
-    if (!message) {
-        switch (code) {
-            case 1:
-                message = 'Permission denied'
-            case 2:
-                message = 'Position unavailable'
-            case 3:
-                message = 'Timeout'
-            default:
-                message = 'Error'
-        }
-    }
+function createError(error) {
+    const {code, message} = error
 
     return new Error({
         code,
-        message: `Geolocation error: ${message}.`
+        message: `Geolocation error: ${errorMessages.get(message)}.`
     })
 }
 function clearWatch() {

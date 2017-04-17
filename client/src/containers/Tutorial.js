@@ -32,7 +32,7 @@ export default lifecycle({
         this.setState({loading:false, isError: false, doc: doc})
     },
     error(err) {
-       this.setState({loading:false, isError: true, err: err})
-       throw err
+        this.setState({loading:false, isError: true, err: err})
+        throw err
     }
 })(Tutorial)

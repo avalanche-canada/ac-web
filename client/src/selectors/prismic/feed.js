@@ -1,5 +1,5 @@
 import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocumentsOfType, getResult, getDocuments} from 'getters/prismic'
+import {getDocumentsOfType, getResult} from '~/getters/prismic'
 import months, {options as monthOptions} from './months'
 import transform from '~/prismic/transformers'
 import computeYearOptions from './computeYearOptions'
@@ -28,9 +28,9 @@ function isFeatured(post) {
 }
 
 const PREDICATES = new Map([
-    ['year', ({year}) => post => post.year == year], // == works with strings and numbers
+    ['year', ({year}) => post => post.year == year], // == works with strings and numbers
     ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
-    ['category', ({category}) => post => post.category == category],
+    ['category', ({category}) => post => post.category == category],
     ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.has(tag)))],
     ['timeline', ({timeline}) => ({endDate}) => {
         const isPast = isBefore(endDate, startOfDay(new Date()))
@@ -65,10 +65,6 @@ function getPredicates(state, props) {
     return predicates.map(predicate => predicate.call(null, props))
 }
 
-function getPageSize(state, {pageSize}) {
-    return pageSize
-}
-
 function getFeed(state, {type}) {
     return getDocumentsOfType(state, type)
 }
@@ -95,25 +91,25 @@ const getFeedOptions = createSelector(
     getType,
     (feed, type) => {
         switch (type) {
-            case NEWS:
-                return {
-                    month: monthOptions,
-                    year: computeYearOptions(feed),
-                    tag: computeTagsOptions(feed),
-                }
-            case BLOG:
-                return {
-                    month: monthOptions,
-                    year: computeYearOptions(feed),
-                    category: computeCategoryOptions(feed),
-                }
-            case EVENT:
-                return {
-                    timeline: timelineOptions,
-                    tag: computeTagsOptions(feed),
-                }
-            default:
-                throw new Error(`Type "${type}" not recognized for creating feed filtering options.`)
+        case NEWS:
+            return {
+                month: monthOptions,
+                year: computeYearOptions(feed),
+                tag: computeTagsOptions(feed),
+            }
+        case BLOG:
+            return {
+                month: monthOptions,
+                year: computeYearOptions(feed),
+                category: computeCategoryOptions(feed),
+            }
+        case EVENT:
+            return {
+                timeline: timelineOptions,
+                tag: computeTagsOptions(feed),
+            }
+        default:
+            throw new Error(`Type "${type}" not recognized for creating feed filtering options.`)
         }
     },
 )

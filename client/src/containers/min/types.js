@@ -1,5 +1,5 @@
-import t, {GeoPosition, DateTime, FileList, createBooleanStruct} from 'vendor/tcomb-form'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, TYPES} from 'constants/min'
+import t, {GeoPosition, DateTime, FileList, createBooleanStruct} from '~/vendor/tcomb-form'
+import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT} from '~/constants/min'
 import isPast from 'date-fns/is_past'
 
 function range(min, max) {
@@ -10,8 +10,8 @@ const DirectionOptions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
 const YesNo = t.enums.of(['Yes', 'No'])
 const Direction = t.enums.of(DirectionOptions)
 const Aspect = createBooleanStruct(DirectionOptions)
-YesNo.getTcombFormFactory = options => t.form.Radio
-Direction.getTcombFormFactory = options => t.form.Radio
+YesNo.getTcombFormFactory = () => t.form.Radio
+Direction.getTcombFormFactory = () => t.form.Radio
 
 const RequiredInformation = t.struct({
     title: t.String,

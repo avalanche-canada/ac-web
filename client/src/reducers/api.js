@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import {combineReducers} from 'redux'
-import {POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION} from 'actions/entities'
+import {POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION} from '~/actions/entities'
 import * as Schemas from '~/api/schemas'
 import {paramsToKey, getIds} from '~/reducers/utils'
 import {Result} from '~/reducers/result'
@@ -38,29 +38,29 @@ function results(state = new Immutable.Map(), {type, payload = {}, meta = {}}) {
     state = state.update(key, results => results || new Immutable.Map())
 
     switch (type) {
-        case `${meta.type}_PENDING`:
-            return state.updateIn(
-                path,
-                (result = new Result()) => result.start({
-                    props: meta.params
-                })
-            )
-        case `${meta.type}_REJECTED`:
-            return state.updateIn(
-                path,
-                result => result.reject()
-            )
-        case `${meta.type}_FULFILLED`:
-            return state.updateIn(
-                path,
-                result => result.fulfill({
-                    ids: new Set([...result.ids, ...getIds(payload.result)]),
-                    count: payload.result.count,
-                    next: payload.result.next,
-                    previous: payload.result.previous,
-                })
-            )
-        default:
-            return state
+    case `${meta.type}_PENDING`:
+        return state.updateIn(
+            path,
+            (result = new Result()) => result.start({
+                props: meta.params
+            })
+        )
+    case `${meta.type}_REJECTED`:
+        return state.updateIn(
+            path,
+            result => result.reject()
+        )
+    case `${meta.type}_FULFILLED`:
+        return state.updateIn(
+            path,
+            result => result.fulfill({
+                ids: new Set([...result.ids, ...getIds(payload.result)]),
+                count: payload.result.count,
+                next: payload.result.next,
+                previous: payload.result.previous,
+            })
+        )
+    default:
+        return state
     }
 }

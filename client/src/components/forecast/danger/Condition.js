@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
-import {SPRING, SUMMER, OFF, EARLY_SEASON, Texts} from 'constants/forecast/mode'
+import {SPRING, SUMMER, OFF, EARLY_SEASON, Texts} from '~/constants/forecast/mode'
 import {Generic} from '~/prismic/components'
 import {domain} from 'assets/config.json'
 

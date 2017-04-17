@@ -4,7 +4,7 @@ export Cell from './Cell'
 export TBody, {Controlled as ControlledTBody} from './TBody'
 
 export Header from './Header'
-export HeaderCell, * as HeaderCellOrders from './HeaderCell'
+export HeaderCell from './HeaderCell'
 
 export Footer from './Footer'
 

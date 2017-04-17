@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
 import Biography from '~/components/biography'
 import {InnerHTML} from '~/components/misc'
-import {getDocuments} from 'getters/prismic'
+import {getDocuments} from '~/getters/prismic'
 import transform from '~/prismic/transformers'
 
 function parse(document) {
@@ -33,6 +33,10 @@ const mapStateToProps = createSelector(
         }
     }
 )
+
+StaffSet.propTypes = {
+    members: PropTypes.arrayOf(PropTypes.object),
+}
 
 function StaffSet({members = []}) {
     return (

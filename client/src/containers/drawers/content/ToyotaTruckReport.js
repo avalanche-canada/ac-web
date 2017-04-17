@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Header, Container, Body, Navbar, Close, Banner, Content} from '~/components/page/drawer'
 import {InnerHTML, Ratio, Status} from '~/components/misc'
-import {Link} from 'react-router'
-import Sponsor from '~/containers/Sponsor'
 import cloudinary from '~/services/cloudinary/cl'
 import format from 'date-fns/format'
 import {toyotaTruckReport} from '~/containers/connectors'
@@ -23,6 +21,12 @@ const TRANSFORMATION = {
 
 const BODY_STYLE = {
     padding: 0,
+}
+
+ToyotaTruckReport.propTypes = {
+    report: PropTypes.object.isRequired,
+    status: PropTypes.object.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
 }
 
 function ToyotaTruckReport({

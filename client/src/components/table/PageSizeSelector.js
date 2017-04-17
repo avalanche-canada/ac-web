@@ -18,6 +18,7 @@ PageSizeSelector.propTypes = {
     onChange: PropTypes.func.isRequired,
     prefix: PropTypes.string,
     suffix: PropTypes.string,
+    options: PropTypes.object,
 }
 
 function PageSizeSelector({

@@ -4,9 +4,7 @@ import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle,
 import {Motion, spring, presets} from 'react-motion'
 import CSSModules from 'react-css-modules'
 import {history} from '~/router'
-import Link from '~/components/navbar/Link'
 import Cabinet from './Cabinet'
-import Item from './Item'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
 import {findNode, getPath, getParent} from '~/utils/tree'
@@ -73,7 +71,15 @@ const defaultStyle = {
     x: -1
 }
 
-function Animated({show = false, onClose = noop, node, setNode, root}) {
+Animated.propTypes = {
+    show: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    root: PropTypes.object.isRequired,
+    node: PropTypes.object.isRequired,
+    setNode: PropTypes.func.isRequired,
+}
+
+function Animated({show = false, onClose = noop, root, node, setNode}) {
     const path = getPath(root, node)
     const onRest = show ? noop : onClose
     const context = {node, setNode, root, onClose}
@@ -93,6 +99,12 @@ function Animated({show = false, onClose = noop, node, setNode, root}) {
             }
         </Motion>
     )
+}
+
+Container.propTypes = {
+    style: PropTypes.object,
+    drawers: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 function Container({style = null, drawers, onClick}) {

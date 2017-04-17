@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {Link} from 'react-router'
 import CSSModules from 'react-css-modules'
 import Error from './Error'
@@ -8,6 +9,11 @@ import Section from './Section'
 import {Mailto, Loading} from '~/components/misc'
 import styles from './Page.css'
 import mapbox from '~/services/mapbox/map'
+
+UnsupportedMap.propTypes = {
+    forecastRegions: PropTypes.array,
+    hotZones: PropTypes.array,
+}
 
 function UnsupportedMap({forecastRegions, hotZones}) {
     return (

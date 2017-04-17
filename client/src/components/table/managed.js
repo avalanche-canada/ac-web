@@ -51,14 +51,6 @@ Object.assign(Body, {
     }
 })
 
-function renderCell({property, name, style}) {
-    return (
-        <Cell key={name} style={style}>
-            {typeof property === 'function' ? property(this) : this[property]}
-        </Cell>
-    )
-}
-
 Table.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.instanceOf(Column)).isRequired,
     headers: PropTypes.arrayOf(PropTypes.instanceOf(Header)),
@@ -93,7 +85,14 @@ export default function Table({
                 <TBody key={bIndex} title={title} featured={featured}>
                 {data.map((row, rIndex) => (
                     <Row key={rIndex}>
-                        {columns.map(renderCell, row)}
+                        {columns.map(({property, name, style}) => (
+                            <Cell key={name} style={style}>
+                                {typeof property === 'function' ?
+                                    property(row) :
+                                    row[property]
+                                }
+                            </Cell>
+                        ))}
                     </Row>
                 ))}
                 </TBody>

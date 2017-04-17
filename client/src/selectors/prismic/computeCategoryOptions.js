@@ -6,11 +6,8 @@ export default function computeCategoryOptions(feed) {
     if (feed.isEmpty()) {
         return EMPTY
     } else {
-        function reducer(categories, category) {
-            return categories.set(category, category)
-        }
-
-        const set = feed.toSet().map(entry => entry.category).filter(category => !!category)
+        const reducer = (categories, category) => categories.set(category, category)
+        const set = feed.toSet().map(entry => entry.category).filter(Boolean)
 
         return set.sort().reduce(reducer, new Map([...EMPTY]))
     }

@@ -1,11 +1,11 @@
 import Immutable from 'immutable'
 import {createSelector} from 'reselect'
-import {getStyle, getActiveFeatures} from 'getters/map'
+import {getStyle, getActiveFeatures} from '~/getters/map'
 import {createGetEntitiesForSchema} from '~/selectors/factories'
-import {getResultsSet} from 'getters/api'
-import {getDocumentsOfType} from 'getters/prismic'
-import {getLayers, getLayerFilter} from 'getters/drawers'
-import {ActiveLayerIds, LayerIds} from 'constants/map/layers'
+import {getResultsSet} from '~/getters/api'
+import {getDocumentsOfType} from '~/getters/prismic'
+import {getLayers, getLayerFilter} from '~/getters/drawers'
+import {ActiveLayerIds, LayerIds} from '~/constants/map/layers'
 import Parser, {parseLocation} from '~/prismic/parser'
 import {isSpecialInformationValid, isHotZoneReportValid} from '~/prismic/utils'
 import * as Layers from '~/constants/drawers'
@@ -103,21 +103,15 @@ function prepareSubmissions(submissions, submission, typeFilter, filter) {
     submissions = submissions.filter(filter)
 
     if (typeFilter.size > 0) {
-        function has(type) {
-            return typeFilter.has(type)
-        }
-        function filter(submission) {
-            return submission.properties.types.find(has)
-        }
+        const has = type => typeFilter.has(type)
+        const filter = submission => submission.properties.types.find(has)
 
         submissions = submissions.filter(filter)
     }
 
     if (submission && filter(submission)) {
         const {id} = submission.properties
-        function filter(submission) {
-            return submission.properties.id === id
-        }
+        const filter = submission => submission.properties.id === id
 
         // We are only adding "submission" once.
         // "submission" may be already in submissions!

@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from 'getters/entities'
-import {getVisibleLayers} from 'getters/drawers'
-import {ForecastRegion} from '~/api/schemas'
+import {getEntitiesForSchema} from '~/getters/entities'
+import {getVisibleLayers} from '~/getters/drawers'
 import mapbox from '~/services/mapbox/map'
 import * as Layers from '~/constants/drawers'
 import * as Schemas from '~/api/schemas'
@@ -44,7 +43,7 @@ function createMarker(region) {
 }
 
 const getTransformedMarkers = createSelector(
-    state => getEntitiesForSchema(state, ForecastRegion),
+    state => getEntitiesForSchema(state, Schemas.ForecastRegion),
     entities => entities.map(createMarker).toList(),
 )
 

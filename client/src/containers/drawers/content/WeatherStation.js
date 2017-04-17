@@ -14,13 +14,24 @@ const LOCATE_STYLE = {
     padding: '0.15em'
 }
 
+WeatherStation.propTypes = {
+    title: PropTypes.string,
+    status: PropTypes.object.isRequired,
+    station: PropTypes.object,
+    measurements: PropTypes.array.isRequired,
+    columns: PropTypes.array.isRequired,
+    link: PropTypes.string,
+    headers: PropTypes.array,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
+}
+
 function WeatherStation({
     title,
     status,
     station,
     measurements,
     columns,
-    rows,
     link,
     headers,
     onCloseClick,

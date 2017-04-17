@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Header, Container, Body, Navbar, Close, Banner, Content} from '~/components/page/drawer'
+import {Header, Container, Body, Navbar, Close} from '~/components/page/drawer'
 import {InnerHTML, Status, DateTime} from '~/components/misc'
 import {Metadata, Entry} from '~/components/metadata'
 import {specialInformation} from '~/containers/connectors'
@@ -12,6 +12,14 @@ const LOCATION_STYLE = {
 }
 const LOCATE_STYLE = {
     padding: '0.15em'
+}
+
+SpecialInformation.propTypes = {
+    report: PropTypes.object,
+    // TODO: Use status PropTypes
+    status: PropTypes.object.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
 function SpecialInformation({

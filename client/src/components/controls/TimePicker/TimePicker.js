@@ -14,6 +14,17 @@ function format({hour, minute}) {
     return `${hour}:${minute}`
 }
 
+TimePicker.propTypes = {
+    hour: PropTypes.number,
+    onHourChange: PropTypes.func.isRequired,
+    minute: PropTypes.number,
+    onMinuteChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func.isRequired,
+    step: PropTypes.number,
+    autoFocus: PropTypes.bool,
+}
+
 function TimePicker({hour, onHourChange, minute, onMinuteChange, onFocus, onKeyDown, step, autoFocus}) {
     return (
         <div styleName='Container'>
@@ -55,7 +66,7 @@ export default compose(
 
             let hour = Number(event.target.value)
 
-            if (hour > 23 || hour < 0) {
+            if (hour > 23 || hour < 0) {
                 hour = 0
             }
 
@@ -82,7 +93,7 @@ export default compose(
                 minute,
             }))
         },
-        onFocus: props => event => {
+        onFocus: () => event => {
             event.target.select()
         }
     }),

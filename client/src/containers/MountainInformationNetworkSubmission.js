@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
-import {Page, Header, Main, Content, Headline, ContextMap} from '~/components/page'
+import {Page, Header, Main, Content, ContextMap} from '~/components/page'
 import {Muted, Error} from '~/components/misc'
 import {mountainInformationNetworkSubmission} from '~/containers/connectors'
 import {Submission, Metadata} from '~/components/mountainInformationNetwork'
@@ -21,6 +20,11 @@ Container.propTypes = {
     report: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
+    metadata: PropTypes.shape({
+        longitude: PropTypes.number.isRequired,
+        latitude: PropTypes.number.isRequired,
+    }),
+    props: PropTypes.object,
 }
 
 function Container({
@@ -29,7 +33,6 @@ function Container({
     isLoading,
     isError,
     props,
-    messages,
 }) {
     const center = metadata ? new mapbox.LngLat(
         metadata.longitude,

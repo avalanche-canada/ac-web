@@ -1,15 +1,35 @@
-import React, {DOM} from 'react'
-import {compose, mapProps} from 'recompose'
-import Ambassador from '~/components/ambassador'
-import QuestionAnswer from '~/components/question-answer'
-import {InnerHTML, Br} from '~/components/misc'
+import React from 'react'
+import PropTypes from 'prop-types'
+import Base from '~/components/ambassador'
+import {InnerHTML} from '~/components/misc'
 
 function computeSocials({twitter, facebook, instagram, website}) {
     return [twitter, facebook, instagram, website].filter(Boolean)
 }
 
-function renderAmbassador(props, index) {
-    const {avatar, avatarCredit, avatarCaption, biography, banner, bannerCredit, bannerCaption,  fullName, ...socials} = props
+Ambassador.propTypes = {
+    fullName: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    avatarCredit: PropTypes.string,
+    avatarCaption: PropTypes.string,
+    biography: PropTypes.string.isRequired,
+    banner: PropTypes.string.isRequired,
+    bannerCredit: PropTypes.string,
+    bannerCaption: PropTypes.string,
+}
+
+function Ambassador({
+    avatar,
+    avatarCredit,
+    avatarCaption,
+    biography,
+    banner,
+    bannerCredit,
+    bannerCaption,
+    fullName,
+    // FIXME: Risky!
+    ...socials
+}) {
     const ambassador = {
         fullName,
         avatar: {
@@ -27,19 +47,24 @@ function renderAmbassador(props, index) {
 
 
     return (
-        <Ambassador key={index} {...ambassador} >
+        <Base {...ambassador} >
             <InnerHTML>
                 {biography}
             </InnerHTML>
-        </Ambassador>
+        </Base>
     )
 }
 
+AmbassadorSet.propTypes = {
+    content: PropTypes.arrayOf(PropTypes.object),
+}
 
 export default function AmbassadorSet({content = []}) {
     return (
         <div>
-            {content.map(renderAmbassador)}
+            {content.map((ambassador, index) => (
+                <Ambassador key={index} {...ambassador} />
+            ))}
         </div>
     )
 }

@@ -14,5 +14,5 @@ export function createShareUrl(provider, url) {
 }
 
 export function createShareUrls(url) {
-    return Array.from(shareUrlCreators).map(([provider, create]) => create(url))
+    return Array.from(shareUrlCreators).map(([_provider, create]) => create(url))
 }
