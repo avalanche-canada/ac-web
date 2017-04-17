@@ -181,6 +181,10 @@ export default function computeRoutes(store) {
     }
 
     function handleExternalForecast(region) {
+        if (!region) {
+            return false
+        }
+
         const url = getForecastRegionExternalUrl(getState(), region)
 
         if (url) {
@@ -249,7 +253,7 @@ export default function computeRoutes(store) {
     }
 
     function updateDrawersState({routes, location, params}) {
-        if (routes.length > 2 && handleExternalForecast(params.name)) {
+        if (routes.length > 2 && !handleExternalForecast(params.name)) {
             dispatch(DrawersActions.openPrimaryDrawer())
         } else {
             dispatch(DrawersActions.closePrimaryDrawer())
