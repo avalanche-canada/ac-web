@@ -1,0 +1,16 @@
+.ImageGallery {
+    margin-top: 1em;
+
+    & :global(.image-gallery-slide .image-gallery-description) {
+        top: 0;
+        bottom: auto;
+        left: 0;
+        right: 0;
+    }
+}
+
+.Description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

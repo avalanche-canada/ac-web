@@ -86,7 +86,9 @@ Object.assign(DateTime, {
 })
 
 // FileList
-export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
+export const FileList = t.irreducible('FileList',
+    files => files instanceof window.FileList || Array.isArray(files)
+)
 
 class FileListFactory extends t.form.Textbox {
     getTemplate() {

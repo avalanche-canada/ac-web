@@ -1,34 +1,28 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, withState, withPropsOnChange} from 'recompose'
-import textbox from './textbox'
-import ImageGallery from 'react-image-gallery'
-import {Loading, Muted, Error} from '~/components/misc'
+import CSSModules from 'react-css-modules'
+import Base from 'react-image-gallery'
+import {Loading, Error} from '~/components/misc'
 import {pluralize} from '~/utils/string'
+import Description from './Description'
+import styles from './File.css'
 
 function read(file, index) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             Object.assign(new FileReader(), {
                 onload(event) {
-                    return resolve(event.target.result)
+                    return resolve({
+                        url: event.target.result,
+                        name: file.name,
+                    })
                 },
                 onerror(event) {
                     return reject(`Error reading ${file.name}: ${event.target.result}`)
                 },
             }).readAsDataURL(file)
-        }, index * 10)
+        }, index + 10)
     })
-}
-
-function toItem(image) {
-    return {
-        original: image
-    }
-}
-
-const SLIDER_STYLE = {
-    marginTop: '1em'
 }
 
 const STATE = {
@@ -36,20 +30,22 @@ const STATE = {
     hasError: false,
 }
 
-class Slider extends Component {
+@CSSModules(styles)
+export default class ImageGallery extends Component {
     static propTypes = {
         files: PropTypes.instanceOf(FileList).isRequired,
+        onRemove: PropTypes.func.isRequired,
     }
     state = STATE
     componentDidMount() {
         const {files} = this.props
 
-        if (files instanceof FileList) {
+        if (files instanceof FileList || Array.isArray(files)) {
             this.setImages(files)
         }
     }
     componentWillReceiveProps({files}) {
-        if (files !== this.props.files && files instanceof FileList) {
+        if (files !== this.props.files && (files instanceof FileList || Array.isArray(files))) {
             this.setImages(files)
         }
     }
@@ -57,8 +53,11 @@ class Slider extends Component {
         this.setState(STATE, () => {
             Promise.all(Array.from(files).map(read))
                 .then(images => ({images}), () => ({hasError: true}))
-                .then(state => this.setState(state))
+                .then(state => this.setState(state))
         })
+    }
+    renderItem() {
+        // TODO: use this function for rendering
     }
     render() {
         const {images, hasError} = this.state
@@ -69,36 +68,34 @@ class Slider extends Component {
             )
         }
 
-        if (!images) {
-            const {length} = this.props.files
+        const {files, onRemove} = this.props
+        const {length} = files
+        const photo = pluralize('photo', length, true)
 
+        if (!images) {
             return (
-                <Loading>Loading {pluralize('photo', length, true)}...</Loading>
+                <Loading>Loading {photo}...</Loading>
             )
         }
 
-        const items = images.map(image => ({
-            original: image
+        const items = images.map(({url}, index) => ({
+            original: url,
+            description: (
+                <Description
+                    index={index}
+                    total={length}
+                    onRemoveClick={onRemove.bind(null, index)} />
+            )
         }))
 
         return (
-            <div style={SLIDER_STYLE}>
-                <Muted>
-                    {pluralize('photo', images.length, true)} will be sent along with your report.
-                </Muted>
-                <ImageGallery items={items}
-                    showBullets={items.length > 1}
+            <div styleName='ImageGallery'>
+                <Base
+                    items={items}
                     showPlayButton={items.length > 1}
+                    showNav={items.length > 1}
                     showThumbnails={false} />
             </div>
         )
     }
 }
-
-export default textbox.clone({
-    renderHelp(locals) {
-        const {value} = locals
-
-        return value ? <Slider files={value} /> : textbox.renderHelp(locals)
-    }
-})
