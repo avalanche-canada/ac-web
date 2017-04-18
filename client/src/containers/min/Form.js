@@ -22,6 +22,8 @@ function isObservationError(error) {
     return error.path[0] === 'observations'
 }
 
+const SCROLL_TOP_OFFSET_MAGIC_NUMBER = 85
+
 @withRouter
 @connect(null, {
     post: postMountainInformationNetworkSubmission
@@ -131,7 +133,7 @@ export default class SubmissionForm extends Component {
 
         this.setObservationErrors(result.errors.filter(isObservationError))
         element.scrollIntoView(true)
-        document.body.scrollTop -= 85 // Magic number ;)
+        document.body.scrollTop -= SCROLL_TOP_OFFSET_MAGIC_NUMBER
     }
     submit(value) {
         this.setState({

@@ -20,6 +20,7 @@ function read(file, index) {
         }, index * 10)
     })
 }
+
 function toItem(image) {
     return {
         original: image

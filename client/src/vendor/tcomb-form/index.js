@@ -41,6 +41,7 @@ Object.assign(t.Date, {
 })
 
 // Time
+// TODO: Remove after looking that it is not used anymore
 export const Time = t.irreducible('Time', value => typeof value === 'string')
 
 class TimePickerFactory extends t.form.Textbox {
