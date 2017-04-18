@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 
 export function paramsToKey(params) {
     // please do not replace with paramsToKey(params = {}), it is not the same!!
-    return Immutable.hash(params || {})
+    return Immutable.fromJS(params || {}).hashCode()
 }
 
 export function getPayload(state, {payload}) {
