@@ -13,7 +13,7 @@ export default function setup() {
     if (process.env.NODE_ENV === 'production') {
         Raven.config(`https://${key}@sentry.io/${project}`, {
             shouldSendCallback({exception = {}}) {
-                const key = Immutable.fromJS(exception).hashCode()
+                const key = Immutable.hash(exception)
                 const shouldSend = !exceptions.has(key)
 
                 exceptions.add(key)

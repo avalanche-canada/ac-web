@@ -36,10 +36,10 @@ function convertParams(params = {}) {
 export function paramsToKey(params) {
     const {predicates, options} = convertParams(params)
 
-    return Immutable.fromJS({
+    return Immutable.hash({
         predicates: predicates.map(toQuery),
         options,
-    }).hashCode()
+    })
 }
 
 export function load(params = {}) {
