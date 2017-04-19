@@ -1,6 +1,6 @@
 import {createElement} from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForPropTypes} from 'recompose'
+import {onlyUpdateForKeys} from 'recompose'
 import {Loading, Error, Muted} from './Text'
 import {trulyKeys} from '~/utils/object'
 
@@ -41,4 +41,8 @@ function Status({isLoading, isError, isLoaded, messages = {}}) {
     return null
 }
 
-export default onlyUpdateForPropTypes(Status)
+export default onlyUpdateForKeys([
+    'isLoading',
+    'isError',
+    'isLoaded'
+])(Status)

@@ -14,9 +14,7 @@ export function getResult(state, props) {
     return getBaseResult(state, props.params)
 }
 
-export function getStatus(state, props) {
-    return getBaseResult(state, props.params).asStatus()
-}
+export const getStatus = createSelector(getResult, result => result.asStatus())
 
 export function getStatusFactory(getMessages) {
     return createSelector(
@@ -40,6 +38,7 @@ export const getDocumentsFromResult = createSelector(
         .map(document => transform(document))
 )
 
+// TODO: Rewrite that so it does not create a new document all the time
 export const getDocumentFromResult = createSelector(
     getDocumentsFromResult,
     documents => documents.shift()

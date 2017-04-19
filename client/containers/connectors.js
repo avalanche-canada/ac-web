@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import {createStructuredSelector} from 'reselect'
-import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, withHandlers} from 'recompose'
+import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, withHandlers, mapProps} from 'recompose'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import * as EntitiesActions from '~/actions/entities'
@@ -268,6 +268,10 @@ export function prismic(mapStateToProps, mapDispatchToProps = {}) {
 }
 
 export const generic = compose(
+    setPropTypes({
+        type: PropTypes.string,
+        uid: PropTypes.string.isRequired,
+    }),
     withProps(props => ({
         params: {
             type: props.type || 'generic',
@@ -275,6 +279,15 @@ export const generic = compose(
         }
     })),
     prismic(getDocumentAndStatus),
+    mapProps(props => {
+        delete props.type
+        delete props.uid
+        delete props.params
+        delete props.load
+
+        return props
+    })
+
 )
 
 export const post = compose(
