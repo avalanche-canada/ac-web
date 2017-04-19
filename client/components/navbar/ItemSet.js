@@ -1,4 +1,4 @@
-import React, {Component, cloneElement, Children} from 'react'
+import React, {PureComponent, cloneElement, Children} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
@@ -7,7 +7,7 @@ import Backdrop from '../misc/Backdrop'
 import {history} from '~/router'
 
 @CSSModules(styles)
-export default class ItemSet extends Component {
+export default class ItemSet extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
     }

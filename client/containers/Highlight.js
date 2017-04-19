@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Highlight from '~/components/highlight'
@@ -12,7 +12,7 @@ import parser from '~/prismic/parser'
 import {SessionStorage} from '~/services/storage'
 
 @connect(null, {load})
-export default class Container extends Component {
+export default class Container extends PureComponent {
     static propTypes = {
         load: PropTypes.func.isRequired,
     }
