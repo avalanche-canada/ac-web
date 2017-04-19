@@ -117,7 +117,7 @@ function create(overrides = {}) {
         )
     }
 
-    template.renderContent = overrides.renderContent || function renderContent(locals) {
+    template.renderContent = overrides.renderContent || function renderContent() {
         return null
     }
 

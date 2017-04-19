@@ -1,5 +1,5 @@
 import React from 'react'
-import {DayPicker, DateUtils} from '~/components/misc'
+import {DayPicker} from '~/components/misc'
 import {TimePicker} from '~/components/controls'
 import styles from './Picker.css'
 import format from 'date-fns/format'
@@ -18,18 +18,18 @@ import struct from './struct'
 import textbox from './textbox'
 
 export default {
-  checkbox,
-  list,
-  radio,
-  select,
-  struct,
-  textbox,
-  file,
+    checkbox,
+    list,
+    radio,
+    select,
+    struct,
+    textbox,
+    file,
 }
 
 export const pickers = {
     date: picker.clone({
-        getFormat(locals) {
+        getFormat() {
             return value => value ? value.toISOString().substring(0, 10) : ''
         },
         renderButton() {
@@ -72,7 +72,7 @@ export const pickers = {
         }
     }),
     datetime: picker.clone({
-        getFormat(locals) {
+        getFormat() {
             return value => value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : ''
         },
         renderContent(locals) {
@@ -83,12 +83,12 @@ export const pickers = {
                 locale,
                 localeUtils,
                 onChange,
-                close,
                 attrs: {
                     min,
                     max
                 }
             } = locals
+
             function disabledDays(day) {
                 if (min && max) {
                     return !isWithinRange(day, min,max)
@@ -104,12 +104,14 @@ export const pickers = {
 
                 return false
             }
-            function onDayClick(day, modifiers, event) {
+
+            function onDayClick(day) {
                 day.setHours(value.getHours())
                 day.setMinutes(value.getMinutes())
 
                 onChange(day)
             }
+
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
@@ -122,6 +124,7 @@ export const pickers = {
                 locale,
                 renderDay
             }
+
             function handleTimeChange(time) {
                 const [hours, minutes] = time.split(':').map(Number)
 

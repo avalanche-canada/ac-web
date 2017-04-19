@@ -4,18 +4,18 @@ import React from 'react'
 import classnames from 'classnames'
 
 function getClassName({path, hasError, className}) {
-  const {length} = path
+    const {length} = path
 
-  return classnames({
-    ui: true,
-    form: true,
-    segment: length > 0,
-    error: hasError,
-    fieldset: true,
-    [`fieldset-depth-${length}`]: true,
-    [`fieldset-${path.join('-')}`]: length > 0,
-    [className]: !!className
-  })
+    return classnames({
+        ui: true,
+        form: true,
+        segment: length > 0,
+        error: hasError,
+        fieldset: true,
+        [`fieldset-depth-${length}`]: true,
+        [`fieldset-${path.join('-')}`]: length > 0,
+        [className]: !!className
+    })
 }
 
 export default function renderFieldset(children, locals) {
@@ -30,6 +30,5 @@ export default function renderFieldset(children, locals) {
         'fieldset',
         props,
         legend
-        ].concat(children)
-    )
+    ].concat(children))
 }
