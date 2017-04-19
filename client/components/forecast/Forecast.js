@@ -8,6 +8,7 @@ import ArchiveWarning from './ArchiveWarning'
 import {Table, Day, DaySet, Condition, Confidence} from './danger'
 import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
 import {TabSet, Tab, LOOSE} from '~/components/tab'
+import {InnerHTML} from '~/components/misc'
 
 Forecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -70,26 +71,24 @@ export default function Forecast({
                     ))}
                 </Tab>
                 <Tab title='Details'>
-                    {avalancheSummary &&
-                        <Summary title='Avalanche Summary'>
+                    <Summary title='Avalanche Summary'>
+                        <InnerHTML>
                             {avalancheSummary}
-                        </Summary>
-                    }
-                    {snowpackSummary &&
-                        <Summary title='Snowpack Summary'>
+                        </InnerHTML>
+                    </Summary>
+                    <Summary title='Snowpack Summary'>
+                        <InnerHTML>
                             {snowpackSummary}
-                        </Summary>
-                    }
-                    {weatherForecast &&
-                        <Summary title='Weather Forecast'>
+                        </InnerHTML>
+                    </Summary>
+                    <Summary title='Weather Forecast'>
+                        <InnerHTML>
                             {weatherForecast}
-                        </Summary>
-                    }
-                    {weatherForecast &&
+                        </InnerHTML>
                         <p>
                             More details can be found on the <Link to='/weather'>Mountain Weather Forecast</Link>.
                         </p>
-                    }
+                    </Summary>
                 </Tab>
             </TabSet>
             <Footer region={region} />
