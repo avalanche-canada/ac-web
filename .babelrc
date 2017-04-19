@@ -2,7 +2,7 @@
   "presets": ["latest", "react", "stage-0"],
   "plugins": [
     ["babel-plugin-root-import", {
-        "rootPathSuffix": "client/src"
+        "rootPathSuffix": "client"
     }],
     "transform-decorators-legacy",
     "transform-react-constant-elements",

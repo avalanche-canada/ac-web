@@ -10,7 +10,7 @@ var HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin
 
 module.exports = {
 	entry: {
-        app: ['webpack-hot-middleware/client?reload=true', path.resolve(__dirname, 'client/src/main.js')],
+        app: ['webpack-hot-middleware/client?reload=true', path.resolve(__dirname, 'client/main.js')],
 	},
 	output: {
         publicPath: '/',
@@ -20,7 +20,7 @@ module.exports = {
 	module: {
         preLoaders: [{
 			test: /\.js$/,
-            include: /client\/src/,
+            include: /client/,
 			loader: 'eslint'
 		}],
 		loaders: [{
@@ -51,7 +51,7 @@ module.exports = {
 	},
     resolve: {
         root: [
-            path.resolve('./client/src'),
+            path.resolve('./client'),
             path.resolve('./node_modules')
         ],
     },
@@ -84,7 +84,7 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'client/src/index.tpl.html'),
+            template: path.resolve(__dirname, 'client/index.tpl.html'),
             filename: 'index.html',
         }),
         new HotModuleReplacementPlugin(),

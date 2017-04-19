@@ -391,7 +391,7 @@ export default function computeRoutes(store) {
                 </Route>
                 <Route path='donate' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donate}} />
             </Route>
-            {/* PAGE FALLBACK. MORE DETAILS at client/src/prismic/htmlSerializer.js and some redirects */}
+            {/* PAGE FALLBACK. MORE DETAILS at client/prismic/htmlSerializer.js and some redirects */}
             <Redirect from='/pages/static-page/sled' to='/sled' />
             <Redirect from='/pages/static-page/youth' to='/youth' />
             <Redirect from='/pages/static-page/essential-gear' to='/gear' />

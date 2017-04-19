@@ -1,8 +1,0 @@
-#forecast.ac-observation-fullpage
-    #inner-forecast(style="background: none;")
-
-        article.container(ng-if="!report.hotzoneid")
-            div(ac-min-report-full-page, report='report', sponsor='sponsor')
-
-        article.container(ng-if="report.hotzoneid")
-            div(ac-hot-zone-report-full-page, report='report', sponsor='sponsor')

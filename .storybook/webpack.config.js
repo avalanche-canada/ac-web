@@ -27,7 +27,7 @@ module.exports = {
     },
     resolve: {
         root: [
-            path.resolve('./client/src'),
+            path.resolve('./client'),
             path.resolve('./node_modules')
         ],
         alias: {

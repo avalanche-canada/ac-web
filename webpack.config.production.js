@@ -12,7 +12,7 @@ var DefinePlugin             = webpack.DefinePlugin
 
 module.exports = {
 	entry: {
-		app: path.resolve(__dirname, 'client/src/main.js'),
+		app: path.resolve(__dirname, 'client/main.js'),
 	},
     output: {
         publicPath: '/',
@@ -49,7 +49,7 @@ module.exports = {
 	},
     resolve: {
         root: [
-            path.resolve('./client/src'),
+            path.resolve('./client'),
             path.resolve('./node_modules')
         ],
     },
@@ -66,7 +66,7 @@ module.exports = {
         }),
 		new ExtractTextPlugin('style.css', { allChunks: true }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'client/src/index.tpl.html'),
+            template: path.resolve(__dirname, 'client/index.tpl.html'),
             filename: 'index.html',
         }),
         new DefinePlugin({
