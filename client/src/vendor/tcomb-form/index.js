@@ -86,9 +86,35 @@ Object.assign(DateTime, {
 })
 
 // FileList
-export const FileList = t.irreducible('FileList', value => value instanceof window.FileList)
+export const FileList = t.irreducible('FileList', files => Array.isArray(files))
 
 class FileListFactory extends t.form.Textbox {
+    getTransformer() {
+        return t.form.List.transformer
+    }
+    removeFile = index => {
+        const value = this.getValue()
+        const files = Array.from(value)
+
+        files.splice(index, 1)
+
+        this.onChange(files)
+    }
+    getLocals() {
+        const locals = super.getLocals()
+
+        return {
+            ...locals,
+            value: Array.from(locals.value),
+            removeFile: this.removeFile,
+            onChange(value) {
+                locals.onChange([
+                    ...Array.from(value),
+                    ...Array.from(locals.value),
+                ])
+            }
+        }
+    }
     getTemplate() {
         return templates.file
     }
