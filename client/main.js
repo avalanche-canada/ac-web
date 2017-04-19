@@ -10,6 +10,12 @@ import throttle from 'lodash/throttle'
 
 import '~/styles'
 
+if (process.env.NODE_ENV !== 'production') {
+    // const {whyDidYouUpdate} = require('why-did-you-update')
+    //
+    // whyDidYouUpdate(React)
+}
+
 configureRaven()
 
 const store = configure(deserialize())

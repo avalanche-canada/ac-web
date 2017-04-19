@@ -137,7 +137,7 @@
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.1.0",
     "requirejs": "~2.1.11",
-    "reselect": "^2.5.4",
+    "reselect": "^3.0.0",
     "rucksack-css": "^0.8.6",
     "should": "~3.3.1",
     "style-loader": "^0.13.0",
@@ -151,7 +151,8 @@
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.2.0",
-    "webworkify-webpack": "1.0.6"
+    "webworkify-webpack": "1.0.6",
+    "why-did-you-update": "0.0.8"
   },
   "engines": {
     "node": ">=0.10.0"
