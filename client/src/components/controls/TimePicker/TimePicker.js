@@ -49,7 +49,6 @@ export default compose(
         autoFocus: PropTypes.bool,
     }),
     defaultProps({
-        step: 15,
         onChange: noop,
         onKeyDown: noop,
     }),
@@ -62,8 +61,6 @@ export default compose(
     // Keeping manipulations simple, no crazy stuff like adding hour if minute > 59...
     withHandlers({
         onHourChange: props => event => {
-            event.target.select()
-
             let hour = Number(event.target.value)
 
             if (hour > 23 || hour < 0) {
@@ -77,8 +74,6 @@ export default compose(
             }))
         },
         onMinuteChange: props => event => {
-            event.target.select()
-
             let minute = Number(event.target.value)
 
             if (minute > 59 || minute < 0) {
@@ -93,9 +88,6 @@ export default compose(
                 minute,
             }))
         },
-        onFocus: () => event => {
-            event.target.select()
-        }
     }),
     CSSModules(styles),
 )(TimePicker)
