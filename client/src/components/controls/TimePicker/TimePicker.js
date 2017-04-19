@@ -10,6 +10,7 @@ function padMinute(minute) {
 
     return minute < 10 ? `0${minute}` : String(minute)
 }
+
 function format({hour, minute}) {
     return `${hour}:${minute}`
 }
@@ -25,7 +26,16 @@ TimePicker.propTypes = {
     autoFocus: PropTypes.bool,
 }
 
-function TimePicker({hour, onHourChange, minute, onMinuteChange, onFocus, onKeyDown, step, autoFocus}) {
+function TimePicker({
+    hour,
+    onHourChange,
+    minute,
+    onMinuteChange,
+    onFocus,
+    onKeyDown,
+    step,
+    autoFocus
+}) {
     return (
         <div styleName='Container'>
             <label title='Hour' styleName='Hour'>
