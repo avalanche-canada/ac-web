@@ -5,11 +5,12 @@ import controls from '~/components/controls/Controls.css'
 import Callout from '~/components/callout'
 import Button from '~/components/button'
 import styles from './Picker.css'
+import noop from 'lodash/noop'
 
 const CONTAINER_STYLE = {
     position: 'relative',
 }
-import noop from 'lodash/noop'
+
 function defaultFormat(value) {
     return value
 }
