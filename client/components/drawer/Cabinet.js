@@ -15,11 +15,13 @@ function willEnter() {
         x: -1,
     }
 }
+
 function willLeave() {
     return {
         x: spring(-1, preset),
     }
 }
+
 function getStyles(drawers) {
     return drawers.map(drawer => ({
         ...drawer,
@@ -28,6 +30,7 @@ function getStyles(drawers) {
         }
     }))
 }
+
 function getDefaultStyles(drawers) {
     return drawers.map(drawer => ({
         ...drawer,
@@ -36,6 +39,7 @@ function getDefaultStyles(drawers) {
         }
     }))
 }
+
 function getContainerStyle({x}) {
     const transform = `translateX(${x * 100}%)`
 

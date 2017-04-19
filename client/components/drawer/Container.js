@@ -18,6 +18,7 @@ function handleClick(id, event) {
 
     this.setNode(node)
 }
+
 function handleContainerClick(event) {
     const {target, currentTarget} = event
 
@@ -27,6 +28,7 @@ function handleContainerClick(event) {
 
     this.onClose()
 }
+
 function handleClose(id, event) {
     event.preventDefault()
 
@@ -36,6 +38,7 @@ function handleClose(id, event) {
         this.setNode(getParent(this.root, id))
     }
 }
+
 function handleCloseChildren(id, event) {
     event.preventDefault()
     const node = findNode(this.root, id)
