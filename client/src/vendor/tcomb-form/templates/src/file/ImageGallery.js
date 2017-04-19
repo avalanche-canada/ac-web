@@ -33,19 +33,19 @@ const STATE = {
 @CSSModules(styles)
 export default class ImageGallery extends Component {
     static propTypes = {
-        files: PropTypes.instanceOf(FileList).isRequired,
+        files: PropTypes.arrayOf(PropTypes.instanceOf(File)).isRequired,
         onRemove: PropTypes.func.isRequired,
     }
     state = STATE
     componentDidMount() {
         const {files} = this.props
 
-        if (files instanceof FileList || Array.isArray(files)) {
+        if (Array.isArray(files)) {
             this.setImages(files)
         }
     }
     componentWillReceiveProps({files}) {
-        if (files !== this.props.files && (files instanceof FileList || Array.isArray(files))) {
+        if (files !== this.props.files && Array.isArray(files)) {
             this.setImages(files)
         }
     }
@@ -55,9 +55,6 @@ export default class ImageGallery extends Component {
                 .then(images => ({images}), () => ({hasError: true}))
                 .then(state => this.setState(state))
         })
-    }
-    renderItem() {
-        // TODO: use this function for rendering
     }
     render() {
         const {images, hasError} = this.state

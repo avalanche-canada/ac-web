@@ -87,8 +87,12 @@ const UploadSet = {
     help: 'A photo help to tell your story.',
     fields: {
         files: {
-            label: 'Click to upload a photo',
-            help: 'If uploading more than one photo, select all and submit photos together.',
+            label: 'Click to upload photos',
+            help: (
+                <p>
+                    <b>New!</b> You can now upload one or more images, click again to add even more. You can now remove photos before submitting your report.
+                </p>
+            ),
             type: 'file',
             attrs: {
                 multiple: true,
