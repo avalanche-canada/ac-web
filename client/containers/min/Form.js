@@ -76,7 +76,7 @@ export default class SubmissionForm extends Component {
             return
         }
 
-        const type = errors.path[1]
+        const type = errors[0].path[1]
         const patch = {
             fields: {
                 observations: {
