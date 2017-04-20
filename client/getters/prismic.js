@@ -49,6 +49,7 @@ export function getDocumentFromParams(state, {id, type, uid}) {
     return state.prismic.documents.get(id)
 }
 
+// TODO: Move that selector out of here, only getters here!  
 export const getHighlight = createSelector(
     state => getDocumentsOfType(state, 'highlight').first(),
     highlight => highlight ? transform(highlight) : null

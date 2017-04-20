@@ -27,7 +27,7 @@ import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import {getDocumentAndStatus, getResult} from '~/selectors/prismic/utils'
+import {makeGetDocumentAndStatus, getResult} from '~/selectors/prismic/utils'
 import getSponsor, {getSponsorUid} from '~/selectors/sponsor'
 import get from 'lodash/get'
 
@@ -278,7 +278,7 @@ export const generic = compose(
             uid: props.uid,
         }
     })),
-    prismic(getDocumentAndStatus),
+    prismic(makeGetDocumentAndStatus),
     mapProps(props => {
         delete props.type
         delete props.uid
@@ -507,5 +507,5 @@ export const documentLink = compose(
             uid,
         }
     })),
-    prismic(getDocumentAndStatus),
+    prismic(makeGetDocumentAndStatus),
 )

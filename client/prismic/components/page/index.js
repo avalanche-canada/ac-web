@@ -1,5 +1,5 @@
 import {compose, componentFromProp, withProps} from 'recompose'
-import {getDocumentAndStatus} from '~/selectors/prismic/utils'
+import {makeGetDocumentAndStatus} from '~/selectors/prismic/utils'
 import {prismic} from '~/containers/connectors'
 import StaticPage from './StaticPage'
 import Generic from './Generic'
@@ -18,5 +18,5 @@ export const FallbackPage = compose(
     withProps(props => ({
         component: Components.get(props.params.type)
     })),
-    prismic(getDocumentAndStatus),
+    prismic(makeGetDocumentAndStatus),
 )(componentFromProp('component'))

@@ -14,7 +14,9 @@ export function getResult(state, props) {
     return getBaseResult(state, props.params)
 }
 
-export const getStatus = createSelector(getResult, result => result.asStatus())
+export function makeGetStatus() {
+    return createSelector(getResult, result => result.asStatus())
+}
 
 export function getStatusFactory(getMessages) {
     return createSelector(
@@ -24,10 +26,13 @@ export function getStatusFactory(getMessages) {
     )
 }
 
-export const getDocument = createSelector(
-    (state, props) => getDocumentFromParams(state, props.params),
-    document => document ? transform(document) : undefined,
-)
+export function makeGetDocument() {
+    return createSelector(
+        (state, props) => getDocumentFromParams(state, props.params),
+        document => document ? transform(document) : undefined,
+    )
+}
+export const getDocument = makeGetDocument()
 
 export const getDocumentsFromResult = createSelector(
     getDocuments,
@@ -44,7 +49,9 @@ export const getDocumentFromResult = createSelector(
     documents => documents.shift()
 )
 
-export const getDocumentAndStatus = createStructuredSelector({
-    status: getStatus,
-    document: getDocument,
-})
+export function makeGetDocumentAndStatus() {
+    return createStructuredSelector({
+        status: makeGetStatus(),
+        document: makeGetDocument(),
+    })
+}
