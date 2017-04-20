@@ -19,11 +19,13 @@ function createElement({width = 50, height = 50, title, alt = title, ...rest}) {
         ...rest
     })
 }
+
 function setVisibility(marker, visible) {
     marker.element.classList.toggle('hidden-map-marker', !visible)
 
     return marker
 }
+
 function createMarker(region) {
     return {
         id: `${Schemas.Forecast.key}:${region.get('id')}`,

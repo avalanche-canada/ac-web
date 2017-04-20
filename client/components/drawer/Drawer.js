@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, onlyUpdateForKeys, withHandlers} from 'recompose'
+import {compose, withHandlers} from 'recompose'
+import {onlyUpdateForKey} from '~/compose'
 import CSSModules from 'react-css-modules'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
@@ -26,7 +27,7 @@ function Drawer({label, to, onClose = noop, onClick, style = null, children}) {
 }
 
 export default compose(
-    onlyUpdateForKeys(['style']),
+    onlyUpdateForKey('style'),
     withHandlers({
         onClick: props => event => {
             const {target, currentTarget} = event

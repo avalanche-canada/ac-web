@@ -1,4 +1,4 @@
-import React, {Component, Children} from 'react'
+import React, {PureComponent, Children} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
@@ -10,7 +10,7 @@ import noop from 'lodash/noop'
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
 @CSSModules(styles)
-export default class Dropdown extends Component {
+export default class Dropdown extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
         onChange: PropTypes.func.isRequired,

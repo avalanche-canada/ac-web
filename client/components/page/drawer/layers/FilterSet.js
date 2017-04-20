@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
+import {compose} from 'recompose'
 import CSSModules from 'react-css-modules'
+import {onlyUpdateForKey} from 'compose'
 import DateRange from './DateRange'
-import ListOfValues from './ListOfValues'
+import {DropdownFromOptions} from '~/components/controls'
 import styles from './Layer.css'
 import noop from 'lodash/noop'
 
@@ -31,7 +33,7 @@ function FilterSet({filters = EMPTY, onChange = noop}) {
                 case 'dateRange':
                     return <DateRange {...props} />
                 case 'listOfValues':
-                    return <ListOfValues {...props} />
+                    return <DropdownFromOptions {...props} />
                 default:
                     throw new Error(`Filter of type ${type} not supported.`)
                 }
@@ -40,4 +42,7 @@ function FilterSet({filters = EMPTY, onChange = noop}) {
     )
 }
 
-export default CSSModules(FilterSet, styles)
+export default compose(
+    onlyUpdateForKey('filters'),
+    CSSModules(styles)
+)(FilterSet)
