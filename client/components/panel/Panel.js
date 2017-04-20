@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withState, withHandlers} from 'recompose'
+import {compose, withState, withHandlers, onlyUpdateForKeys} from 'recompose'
 import styles from './Panel.css'
 import {Collapse} from '~/components/misc'
 import {Expand} from '~/components/button'
@@ -61,6 +61,7 @@ function Panel({
 }
 
 export default compose(
+    onlyUpdateForKeys(['expanded', 'children', 'header', 'children']),
     withState('expanded', 'setExpanded', props => props.expanded),
     withHandlers({
         onHeaderClick: props => () => {

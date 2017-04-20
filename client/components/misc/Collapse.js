@@ -1,4 +1,4 @@
-import React, {Component, cloneElement, Children} from 'react'
+import React, {PureComponent, cloneElement, Children} from 'react'
 import PropTypes from 'prop-types'
 import {Motion, spring} from 'react-motion'
 
@@ -35,7 +35,7 @@ function computeStyle(dimension, value, computed) {
     }
 }
 
-export default class Collapse extends Component {
+export default class Collapse extends PureComponent {
     static propTypes = {
         collapsed: PropTypes.bool.isRequired,
         dimension: PropTypes.oneOf([HEIGHT, WIDTH]),

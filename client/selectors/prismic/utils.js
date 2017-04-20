@@ -15,7 +15,10 @@ export function getResult(state, props) {
 }
 
 export function makeGetStatus() {
-    return createSelector(getResult, result => result.asStatus())
+    return createSelector(
+        getResult,
+        result => result.asStatus()
+    )
 }
 
 export function getStatusFactory(getMessages) {

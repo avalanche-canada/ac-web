@@ -287,7 +287,6 @@ export const generic = compose(
 
         return props
     })
-
 )
 
 export const post = compose(

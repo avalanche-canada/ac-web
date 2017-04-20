@@ -57,7 +57,7 @@ class TabList extends Component {
         opened: PropTypes.bool,
         stacked: PropTypes.bool,
         theme: PropTypes.oneOf([LOOSE, COMPACT]),
-        children: PropTypes.number,
+        children: PropTypes.node.isRequired,
     }
     state = {
         width: null,
@@ -93,9 +93,11 @@ class TabList extends Component {
         return classNames(styleNames)
     }
     componentDidMount() {
-        this.updateWidths()
-        window.addEventListener('resize', this.updateWidthsForListeners, false)
-        window.addEventListener('orientationchange', this.updateWidthsForListeners, false)
+        if (typeof this.props.stacked !== 'boolean') {
+            this.updateWidths()
+            window.addEventListener('resize', this.updateWidthsForListeners, false)
+            window.addEventListener('orientationchange', this.updateWidthsForListeners, false)
+        }
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWidthsForListeners)
