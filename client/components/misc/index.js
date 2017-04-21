@@ -16,6 +16,8 @@ export Br from './Br'
 
 export P from './P'
 
+export Top from './Top'
+
 export SPAW from './SPAW'
 
 function dateTimeFormatGetter(date) {

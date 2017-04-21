@@ -15,14 +15,13 @@ import {Submit} from '~/components/button'
 import styles from './Form.css'
 import {TYPES} from '~/constants/min'
 import ObservationSetError from './ObservationSetError'
+import {scrollIntoView} from '~/utils/dom'
 
 const {Form} = t.form
 
 function isObservationError(error) {
     return error.path[0] === 'observations'
 }
-
-const SCROLL_TOP_OFFSET_MAGIC_NUMBER = 85
 
 @withRouter
 @connect(null, {
@@ -129,11 +128,10 @@ export default class SubmissionForm extends Component {
         }
 
         const {path: [root]} = result.firstError()
-        const element = document.querySelector(`.fieldset-${root}`)
 
         this.setObservationErrors(result.errors.filter(isObservationError))
-        element.scrollIntoView(true)
-        document.body.scrollTop -= SCROLL_TOP_OFFSET_MAGIC_NUMBER
+
+        scrollIntoView(`.fieldset-${root}`)
     }
     submit(value) {
         this.setState({

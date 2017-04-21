@@ -1,14 +1,25 @@
 import React, {Component} from 'react'
+import {withHandlers} from 'recompose'
 import {Page, Main, Content, Header, Headline} from '~/components/page'
 import {fetchStaticResource} from '~/api'
-import {Loading, Error, InnerHTML} from '~/components/misc'
+import {Loading, Error, InnerHTML, Top} from '~/components/misc'
 import {TagSet, Tag} from '~/components/tag'
+import {scrollIntoView} from '~/utils/dom'
+import debounce from 'lodash/debounce'
 
-function Section({letter, terms}) {
+function updateShowTopAnchor() {
+    const {scrollTop} = document.body
+
+    return {
+        showTopAnchor: scrollTop > 250
+    }
+}
+
+let Section = ({letter, terms, onHeaderClick}) => {
     return (
         <section key={letter}>
             <h1>
-                <a href={`#${letter}`} name={letter}>
+                <a href={`#${letter}`} name={letter} onClick={onHeaderClick}>
                     {letter}
                 </a>
             </h1>
@@ -24,15 +35,32 @@ function Section({letter, terms}) {
     )
 }
 
-function Letter({letter}) {
+function letterClickHandler({letter}) {
+    return event => {
+        event.stopPropagation()
+        setTimeout(() => {
+            scrollIntoView(`a[name=${letter}]`)
+        }, 50)
+    }
+}
+
+Section = withHandlers({
+    onHeaderClick: letterClickHandler
+})(Section)
+
+let Letter = ({letter, onClick}) => {
     return (
         <Tag key={letter}>
-            <a href='#'>
+            <a href={`#${letter}`} onClick={onClick}>
                 <b>{letter}</b>
             </a>
         </Tag>
     )
 }
+
+Letter = withHandlers({
+    onClick: letterClickHandler
+})(Letter)
 
 const STATE = {
     isLoading: false,
@@ -40,6 +68,7 @@ const STATE = {
     isError: false,
     terms: [],
     error: null,
+    showTopAnchor: false,
 }
 
 export default class Container extends Component {
@@ -62,14 +91,19 @@ export default class Container extends Component {
             )
         })
     }
+    handleScrollHandler = debounce(() => this.setState(updateShowTopAnchor), 250)
     componentDidMount() {
         this.load()
+        document.addEventListener('scroll', this.handleScrollHandler)
+    }
+    componentWillUnmount() {
+        document.removeEventListener('scroll', this.handleScrollHandler)
     }
     render() {
         function hasTerms(letter) {
             return terms[letter].length > 0
         }
-        const {isLoading, isError, isLoaded, terms} = this.state
+        const {isLoading, isError, isLoaded, terms, showTopAnchor} = this.state
         const letters = Object.keys(terms).filter(hasTerms).sort()
 
         return (
@@ -92,6 +126,7 @@ export default class Container extends Component {
                         {isLoaded && letters.map(letter => (
                             <Section key={letter} letter={letter} terms={terms[letter]} />
                         ))}
+                        {showTopAnchor && <Top />}
                     </Main>
                 </Content>
             </Page>
