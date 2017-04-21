@@ -23,6 +23,8 @@ export Tutorial from './Tutorial'
 export WeatherStation from './WeatherStation'
 export WeatherStationList from './WeatherStationList'
 
+export Glossary from './Glossary'
+
 // Mountain Information Network
 export MountainInformationNetworkSubmit from './min/Form'
 

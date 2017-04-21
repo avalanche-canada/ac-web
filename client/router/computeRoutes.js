@@ -53,6 +53,7 @@ import {
     WeatherStation,
     WeatherStationList,
     EarlySeasonConditions,
+    Glossary,
 } from 'containers'
 import {Forecast as WeatherForecast} from '~/containers/Weather'
 import * as Feed from '~/containers/feed'
@@ -364,6 +365,7 @@ export default function computeRoutes(store) {
             <Route path='trip-planner' components={{content: TripPlanner, footer: null}} />
             <Route path='incidents' components={{content: Incidents, footer: null}} />
             <Route path='membership' component={MembershipOverview} />
+            <Route path='glossary' component={Glossary} />
             {/* Cherry Bowl */}
             <Route path='cherry-bowl' component={CherryBowl} onEnter={redirect} />
             <Redirect from='cherrybowl' to='cherry-bowl' />
