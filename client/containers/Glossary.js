@@ -65,8 +65,8 @@ export default class Container extends Component {
                                                 {letter}
                                             </a>
                                         </h1>
-                                        {terms[letter].map(term => (
-                                            <section>
+                                        {terms[letter].map((term, index) => (
+                                            <section key={index}>
                                                 <h2>{term.title}</h2>
                                                 <InnerHTML>
                                                     {term.content}
