@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {withHandlers} from 'recompose'
-import {Page, Main, Content, Header, Headline} from '~/components/page'
 import {fetchStaticResource} from '~/api'
+import {Page, Main, Content, Header, Headline, Aside} from '~/components/page'
+import Sidebar, {Item as SidebarItem, Header as SidebarHeader} from '~/components/sidebar'
 import {Loading, Error, InnerHTML, Top} from '~/components/misc'
 import {TagSet, Tag} from '~/components/tag'
 import {scrollIntoView} from '~/utils/dom'
@@ -91,6 +92,7 @@ export default class Container extends Component {
             )
         })
     }
+    // TODO: Move that logic to a controlled Top component
     handleScrollHandler = debounce(() => this.setState(updateShowTopAnchor), 250)
     componentDidMount() {
         this.load()
@@ -128,6 +130,23 @@ export default class Container extends Component {
                         ))}
                         {showTopAnchor && <Top />}
                     </Main>
+                    <Aside>
+                        <Sidebar>
+                            <SidebarHeader>
+                                Related links
+                            </SidebarHeader>
+                            <SidebarItem>
+                                <a target='_blank' href='http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088'>
+                                    ICAR Glossary
+                                </a>
+                            </SidebarItem>
+                            <SidebarItem>
+                                <a target='_blank' href='http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf'>
+                                    Lexique Avalanche - Avalanche Lexicon
+                                </a>
+                            </SidebarItem>
+                        </Sidebar>
+                    </Aside>
                 </Content>
             </Page>
         )
