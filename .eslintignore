@@ -1,1 +1,4 @@
 client/**/stories.js
+server/**/*.js
+webpack.config.js
+webpack.config.production.js

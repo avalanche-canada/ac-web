@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
 
 var CommonsChunkPlugin       = webpack.optimize.CommonsChunkPlugin
 var UglifyJsPlugin           = webpack.optimize.UglifyJsPlugin
@@ -17,7 +18,7 @@ module.exports = {
     output: {
         publicPath: '/',
         path: path.join(__dirname, 'dist', 'public'),
-        filename: '[name].js',
+        filename: '[name].[chunkhash].js',
 	},
     devtool: 'source-map',
     module: {
@@ -59,6 +60,7 @@ module.exports = {
         require('rucksack-css'),
 	],
 	plugins: [
+        new WebpackMd5Hash(),
         new CaseSensitivePathsPlugin(),
         new CommonsChunkPlugin({
             name: 'vendor',
