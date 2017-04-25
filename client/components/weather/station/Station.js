@@ -17,7 +17,8 @@ Station.propTypes = {
 
 function Station({measurements, columns, headers}) {
 
-    if (measurements.size === 0){
+    //TODO(karl): Ensure we always get an empty measurements object
+    if (measurements && measurements.size === 0){
         return (<div className={styles.UnavaliableMessage}>
             <Muted>This station currently has no data avaliable</Muted>
         </div>)
