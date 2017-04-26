@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
-import {Image, Delay} from '~/components/misc'
-import {Fullscreen} from '~/components/icons'
+import { Image, Delay } from '~/components/misc'
+import { Fullscreen } from '~/components/icons'
 import ButtonSet from './ButtonSet'
 import styles from './Loop.css'
 import Button from '~/components/button'
@@ -57,14 +57,17 @@ export default class Loop extends Component {
         return this.state.cursor
     }
     set cursor(cursor) {
-        this.setState({
-            cursor,
-            isLoading: true,
-        }, () => {
-            if (this.isPlaying && !this.isLoading) {
-                this.setTimeout()
+        this.setState(
+            {
+                cursor,
+                isLoading: true,
+            },
+            () => {
+                if (this.isPlaying && !this.isLoading) {
+                    this.setTimeout()
+                }
             }
-        })
+        )
     }
     get isPlaying() {
         return this.state.isPlaying
@@ -72,7 +75,7 @@ export default class Loop extends Component {
     set isPlaying(isPlaying) {
         this.clearTimeout()
 
-        this.setState({isPlaying}, () => {
+        this.setState({ isPlaying }, () => {
             if (isPlaying) {
                 this.setTimeout(false)
             }
@@ -82,7 +85,7 @@ export default class Loop extends Component {
         return this.state.isLoading
     }
     set isLoading(isLoading) {
-        this.setState({isLoading}, () => {
+        this.setState({ isLoading }, () => {
             if (!isLoading && this.isPlaying) {
                 this.setTimeout()
             }
@@ -98,13 +101,13 @@ export default class Loop extends Component {
         return this.state.isFullscreen
     }
     set isFullscreen(isFullscreen) {
-        this.setState({isFullscreen}, this.toggleFullscreen)
+        this.setState({ isFullscreen }, this.toggleFullscreen)
     }
     clearTimeout() {
         window.clearTimeout(this.timeoutId)
     }
     setTimeout(waitForDwellTime = true) {
-        let {interval} = this.props
+        let { interval } = this.props
 
         if (waitForDwellTime && this.cursor === this.maxCursor) {
             interval = interval + this.props.dwell
@@ -162,16 +165,16 @@ export default class Loop extends Component {
             )
         }
     }
-    handleKeyDown = ({keyCode}) => {
-        const {left, right} = keycode.codes
+    handleKeyDown = ({ keyCode }) => {
+        const { left, right } = keycode.codes
 
         switch (keyCode) {
-        case left:
-            this.previous()
-            break
-        case right:
-            this.next()
-            break
+            case left:
+                this.previous()
+                break
+            case right:
+                this.next()
+                break
         }
     }
     handleImageLoad = () => {
@@ -185,7 +188,7 @@ export default class Loop extends Component {
     }
     toggleFullscreen = () => {
         if (this.isFullscreen) {
-            const {container} = this
+            const { container } = this
 
             if (container.requestFullscreen) {
                 container.requestFullscreen()
@@ -209,7 +212,7 @@ export default class Loop extends Component {
         }
     }
     handleFullscreenChange = () => {
-        const {container} = this
+        const { container } = this
         const fullscreenElement =
             document.fullscreenElement ||
             document.mozFullScreenElement ||
@@ -223,8 +226,8 @@ export default class Loop extends Component {
         }
     }
     render() {
-        const {isFullscreen} = this
-        const {interval} = this.props
+        const { isFullscreen } = this
+        const { interval } = this.props
         const toolbar = {
             isPlaying: this.isPlaying,
             onNext: this.next,
@@ -242,7 +245,9 @@ export default class Loop extends Component {
         }
 
         return (
-            <div ref={ref => this.container = ref} className={styles.Container}>
+            <div
+                ref={ref => (this.container = ref)}
+                className={styles.Container}>
                 <Image {...image} />
                 <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
@@ -250,13 +255,13 @@ export default class Loop extends Component {
                         {this.isLoading &&
                             <Delay elapse={interval + 50}>
                                 <span>Loading</span>
-                            </Delay>
-                        }
+                            </Delay>}
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
                     <Button
                         icon={FullscreenIcons.get(isFullscreen)}
-                        onClick={this.handleFullscreenClick} />
+                        onClick={this.handleFullscreenClick}
+                    />
                 </div>
             </div>
         )

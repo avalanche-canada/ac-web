@@ -1,7 +1,7 @@
-import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from '~/getters/entities'
+import { createSelector } from 'reselect'
+import { getEntitiesForSchema } from '~/getters/entities'
 import noop from 'lodash/noop'
-import {ASC, DESC} from '~/constants/sortings'
+import { ASC, DESC } from '~/constants/sortings'
 
 export function createSorter(
     getEntities,
@@ -9,13 +9,14 @@ export function createSorter(
     sorters = new Map()
 ) {
     return createSelector(
-        getEntities, getSorting,
+        getEntities,
+        getSorting,
         (entities, [name, order]) => {
             let sorter
 
             if (sorters.has(name)) {
                 sorter = sorters.get(name)
-            } else if (typeof(name) === 'string') {
+            } else if (typeof name === 'string') {
                 sorter = entity => entity[name]
             }
 
@@ -24,12 +25,12 @@ export function createSorter(
             }
 
             switch (order) {
-            case ASC:
-                return entities.sortBy(sorter)
-            case DESC:
-                return entities.sortBy(sorter).reverse()
-            default:
-                return entities
+                case ASC:
+                    return entities.sortBy(sorter)
+                case DESC:
+                    return entities.sortBy(sorter).reverse()
+                default:
+                    return entities
             }
         }
     )
@@ -50,11 +51,13 @@ function defaultGetSorting(state, props) {
 export function createPagination(
     getEntities,
     getPage = defaultGetPage,
-    getPageSize = defaultGetPageSize,
+    getPageSize = defaultGetPageSize
 ) {
     return createSelector(
-        getEntities, getPage, getPageSize,
-        ({size}, page = 1, pageSize = 25) => ({
+        getEntities,
+        getPage,
+        getPageSize,
+        ({ size }, page = 1, pageSize = 25) => ({
             page,
             pageSize,
             count: size,
@@ -66,17 +69,16 @@ export function createPagination(
 export function createFilteredEntities(getEntities, getFilters) {
     const reducer = (entities, filter) => entities.filter(filter)
 
-    return createSelector(
-        getEntities,
-        getFilters,
-        (entities, filters) => filters.reduce(reducer, entities)
+    return createSelector(getEntities, getFilters, (entities, filters) =>
+        filters.reduce(reducer, entities)
     )
 }
 
 export function createPaginatedEntities(getEntities, getPagination) {
     return createSelector(
-        getEntities, getPagination,
-        (entities, {page, pageSize}) => {
+        getEntities,
+        getPagination,
+        (entities, { page, pageSize }) => {
             const begin = (page - 1) * pageSize
             const end = begin + pageSize
 
@@ -86,9 +88,6 @@ export function createPaginatedEntities(getEntities, getPagination) {
 }
 
 export function createGetEntitiesForSchema(schema, getParamsFromProps = noop) {
-    return (state, props) => getEntitiesForSchema(
-        state,
-        schema,
-        getParamsFromProps(props)
-    )
+    return (state, props) =>
+        getEntitiesForSchema(state, schema, getParamsFromProps(props))
 }

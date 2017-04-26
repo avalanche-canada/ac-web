@@ -1,15 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps, withHandlers} from 'recompose'
-import {Link, withRouter} from 'react-router'
-import {Page, Content, Header, Main} from '~/components/page'
+import { compose, withProps, withHandlers } from 'recompose'
+import { Link, withRouter } from 'react-router'
+import { Page, Content, Header, Main } from '~/components/page'
 import Forecast from '~/components/forecast'
-import {Muted, Error, DateElement} from '~/components/misc'
-import Alert, {WARNING} from '~/components/alert'
-import {Metadata, Entry} from '~/components/metadata'
-import {DateIssued, ValidUntil, Forecaster} from '~/components/forecast/Metadata'
-import {DropdownFromOptions as Dropdown, DayPicker} from '~/components/controls'
-import {archiveForecast} from '~/containers/connectors'
+import { Muted, Error, DateElement } from '~/components/misc'
+import Alert, { WARNING } from '~/components/alert'
+import { Metadata, Entry } from '~/components/metadata'
+import {
+    DateIssued,
+    ValidUntil,
+    Forecaster,
+} from '~/components/forecast/Metadata'
+import {
+    DropdownFromOptions as Dropdown,
+    DayPicker,
+} from '~/components/controls'
+import { archiveForecast } from '~/containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
 import Url from 'url'
@@ -20,7 +27,7 @@ const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
 const VANCOUVER_ISLAND = 'vancouver-island'
 const disabledDays = {
-    after: endOfYesterday()
+    after: endOfYesterday(),
 }
 
 function getWarningText(region) {
@@ -28,13 +35,13 @@ function getWarningText(region) {
     const name = region.get('name')
 
     switch (owner) {
-    case PARKS_CANADA:
-        return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
-    case CHIC_CHOCS:
-    case VANCOUVER_ISLAND:
-        return `You can get more information for ${name} region on their website`
-    default:
-        throw new Error(`Owner ${owner} not supported yet.`)
+        case PARKS_CANADA:
+            return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
+        case CHIC_CHOCS:
+        case VANCOUVER_ISLAND:
+            return `You can get more information for ${name} region on their website`
+        default:
+            throw new Error(`Owner ${owner} not supported yet.`)
     }
 }
 
@@ -47,22 +54,22 @@ function getWarningUrl(region, date) {
     const url = region.get('url')
 
     switch (type) {
-    case PARKS: {
-        const externalUrl = region.get('externalUrl')
-        const url = Url.parse(externalUrl, true)
+        case PARKS: {
+            const externalUrl = region.get('externalUrl')
+            const url = Url.parse(externalUrl, true)
 
-        delete url.search
+            delete url.search
 
-        Object.assign(url.query, {
-            d: format(date, 'YYYY-MM-DD')
-        })
+            Object.assign(url.query, {
+                d: format(date, 'YYYY-MM-DD'),
+            })
 
-        return Url.format(url)
-    }
-    case LINK:
-        return url.replace('http://avalanche.ca', '')
-    default:
-        throw new Error(`Type ${type} not supported yet.`)
+            return Url.format(url)
+        }
+        case LINK:
+            return url.replace('http://avalanche.ca', '')
+        default:
+            throw new Error(`Type ${type} not supported yet.`)
     }
 }
 
@@ -71,9 +78,9 @@ Warning.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function Warning({region, date}) {
+function Warning({ region, date }) {
     return (
-        <Link to={getWarningUrl(region, date)} target='_blank'>
+        <Link to={getWarningUrl(region, date)} target="_blank">
             <Alert type={WARNING}>
                 {getWarningText(region)}
             </Alert>
@@ -95,14 +102,7 @@ Component.propTypes = {
 function Component({
     name,
     date,
-    data: {
-        title,
-        region,
-        forecast,
-        isLoaded,
-        isError,
-        isLoading,
-    },
+    data: { title, region, forecast, isLoaded, isError, isLoading },
     regionOptions,
     onNameChange,
     onDateChange,
@@ -115,26 +115,36 @@ function Component({
                 <Main>
                     <Metadata>
                         <Entry>
-                            <Dropdown options={regionOptions} value={name} onChange={onNameChange} disabled placeholder='Select a region' />
+                            <Dropdown
+                                options={regionOptions}
+                                value={name}
+                                onChange={onNameChange}
+                                disabled
+                                placeholder="Select a region"
+                            />
                         </Entry>
                         <Entry>
-                            <DayPicker date={date} onChange={onDateChange} disabledDays={disabledDays}>
-                                {date ? <DateElement value={date} /> : 'Select a date'}
+                            <DayPicker
+                                date={date}
+                                onChange={onDateChange}
+                                disabledDays={disabledDays}>
+                                {date
+                                    ? <DateElement value={date} />
+                                    : 'Select a date'}
                             </DayPicker>
                         </Entry>
                         {forecast && <DateIssued {...forecast} />}
                         {forecast && <ValidUntil {...forecast} />}
                         {forecast && <Forecaster {...forecast} />}
                     </Metadata>
-                    {isLoading &&
-                        <Muted>Loading archived forecast...</Muted>
-                    }
+                    {isLoading && <Muted>Loading archived forecast...</Muted>}
                     {isError &&
-                        <Error>Error happened while loading archived forecast.</Error>
-                    }
-                    {(isLoaded && !forecast) &&
-                        <Warning region={region} date={date} />
-                    }
+                        <Error>
+                            Error happened while loading archived forecast.
+                        </Error>}
+                    {isLoaded &&
+                        !forecast &&
+                        <Warning region={region} date={date} />}
                     {forecast && <Forecast {...forecast} />}
                 </Main>
             </Content>
@@ -159,16 +169,20 @@ export default compose(
             })
         },
     }),
-    withProps(({params, regions}) => ({
+    withProps(({ params, regions }) => ({
         ...params,
-        date: typeof params.date === 'string' ? parse(params.date, 'YYYY-MM-DD') : null,
+        date: typeof params.date === 'string'
+            ? parse(params.date, 'YYYY-MM-DD')
+            : null,
         regionOptions: new Map(
             regions
-                .filter(region => region.get('type') === 'avalx' || region.get('type') === 'parks')
-                .map(region => [
-                    region.get('id'),
-                    region.get('name')
-                ]).toArray()
-        )
-    })),
+                .filter(
+                    region =>
+                        region.get('type') === 'avalx' ||
+                        region.get('type') === 'parks'
+                )
+                .map(region => [region.get('id'), region.get('name')])
+                .toArray()
+        ),
+    }))
 )(Component)

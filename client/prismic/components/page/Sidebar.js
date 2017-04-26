@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withProps} from 'recompose'
-import Sidebar, {Contact, Item, Header} from '~/components/sidebar'
+import { withProps } from 'recompose'
+import Sidebar, { Contact, Item, Header } from '~/components/sidebar'
 import DocumentLink from '~/prismic/components/DocumentLink'
-import {Link} from 'react-router'
-import {href, avalancheCanadaPathRegex} from '~/utils/url'
+import { Link } from 'react-router'
+import { href, avalancheCanadaPathRegex } from '~/utils/url'
 
 SidebarLink.propTypes = {
     title: PropTypes.string,
     link: PropTypes.object,
 }
 
-function SidebarLink({title, link}) {
+function SidebarLink({ title, link }) {
     if (typeof link === 'object') {
         return (
             <DocumentLink {...link}>
@@ -35,24 +35,26 @@ function SidebarLink({title, link}) {
     )
 }
 
-export default withProps(({content, contact}) => ({
-    children: content.map(({type, content}, index) => {
+export default withProps(({ content, contact }) => ({
+    children: content.map(({ type, content }, index) => {
         switch (type) {
-        case 'header':
-            return (
-                <Header key={index}>
-                    {content}
-                </Header>
-            )
-        case 'items':
-            return content.map((link, index) => (
-                <Item key={index}>
-                    <SidebarLink {...link} />
-                </Item>
-            ))
-        default:
-            return null
+            case 'header':
+                return (
+                    <Header key={index}>
+                        {content}
+                    </Header>
+                )
+            case 'items':
+                return content.map((link, index) => (
+                    <Item key={index}>
+                        <SidebarLink {...link} />
+                    </Item>
+                ))
+            default:
+                return null
         }
     }),
-    contact: typeof contact === 'string' ? <Contact email={contact} /> : contact,
+    contact: typeof contact === 'string'
+        ? <Contact email={contact} />
+        : contact,
 }))(Sidebar)

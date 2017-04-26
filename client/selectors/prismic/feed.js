@@ -1,11 +1,15 @@
-import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocumentsOfType, getResult} from '~/getters/prismic'
-import months, {options as monthOptions} from './months'
+import { createSelector, createStructuredSelector } from 'reselect'
+import { getDocumentsOfType, getResult } from '~/getters/prismic'
+import months, { options as monthOptions } from './months'
 import transform from '~/prismic/transformers'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
-import {getType, getStatusFactory, getDocumentsFromResult} from '~/selectors/prismic/utils'
+import {
+    getType,
+    getStatusFactory,
+    getDocumentsFromResult,
+} from '~/selectors/prismic/utils'
 import isBefore from 'date-fns/is_before'
 import startOfDay from 'date-fns/start_of_day'
 
@@ -28,26 +32,28 @@ function isFeatured(post) {
 }
 
 const PREDICATES = new Map([
-    ['year', ({year}) => post => post.year == year], // == works with strings and numbers
-    ['month', ({month}) => post => post.month === months.indexOf(month) - 1],
-    ['category', ({category}) => post => post.category == category],
-    ['tags', ({tags}) => post => Boolean(post.tags.find(tag => tags.has(tag)))],
-    ['timeline', ({timeline}) => ({endDate}) => {
-        const isPast = isBefore(endDate, startOfDay(new Date()))
+    ['year', ({ year }) => post => post.year == year], // == works with strings and numbers
+    ['month', ({ month }) => post => post.month === months.indexOf(month) - 1],
+    ['category', ({ category }) => post => post.category == category],
+    [
+        'tags',
+        ({ tags }) => post => Boolean(post.tags.find(tag => tags.has(tag))),
+    ],
+    [
+        'timeline',
+        ({ timeline }) => ({ endDate }) => {
+            const isPast = isBefore(endDate, startOfDay(new Date()))
 
-        return timeline === PAST ? isPast : !isPast
-    }],
+            return timeline === PAST ? isPast : !isPast
+        },
+    ],
 ])
 
 function desc(a, b) {
     return b.date - a.date
 }
 
-const SORTERS = new Map([
-    [NEWS, desc],
-    [BLOG, desc],
-    [EVENT, desc],
-])
+const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, desc]])
 
 function getPredicates(state, props) {
     const predicates = []
@@ -65,53 +71,54 @@ function getPredicates(state, props) {
     return predicates.map(predicate => predicate.call(null, props))
 }
 
-function getFeed(state, {type}) {
+function getFeed(state, { type }) {
     return getDocumentsOfType(state, type)
 }
 
-const getTransformedFeed = createSelector(
-    getFeed,
-    getType,
-    (feed, type) => {
-        const sorted = feed.map(document => transform(document)).toList().sort(SORTERS.get(type))
+const getTransformedFeed = createSelector(getFeed, getType, (feed, type) => {
+    const sorted = feed
+        .map(document => transform(document))
+        .toList()
+        .sort(SORTERS.get(type))
 
-        if (sorted.isEmpty()) {
-            return sorted
-        }
-
-        const featured = sorted.find(isFeatured)
-        const index = sorted.indexOf(featured)
-
-        return sorted.remove(index).unshift(featured)
+    if (sorted.isEmpty()) {
+        return sorted
     }
-)
+
+    const featured = sorted.find(isFeatured)
+    const index = sorted.indexOf(featured)
+
+    return sorted.remove(index).unshift(featured)
+})
 
 const getFeedOptions = createSelector(
     getTransformedFeed,
     getType,
     (feed, type) => {
         switch (type) {
-        case NEWS:
-            return {
-                month: monthOptions,
-                year: computeYearOptions(feed),
-                tag: computeTagsOptions(feed),
-            }
-        case BLOG:
-            return {
-                month: monthOptions,
-                year: computeYearOptions(feed),
-                category: computeCategoryOptions(feed),
-            }
-        case EVENT:
-            return {
-                timeline: timelineOptions,
-                tag: computeTagsOptions(feed),
-            }
-        default:
-            throw new Error(`Type "${type}" not recognized for creating feed filtering options.`)
+            case NEWS:
+                return {
+                    month: monthOptions,
+                    year: computeYearOptions(feed),
+                    tag: computeTagsOptions(feed),
+                }
+            case BLOG:
+                return {
+                    month: monthOptions,
+                    year: computeYearOptions(feed),
+                    category: computeCategoryOptions(feed),
+                }
+            case EVENT:
+                return {
+                    timeline: timelineOptions,
+                    tag: computeTagsOptions(feed),
+                }
+            default:
+                throw new Error(
+                    `Type "${type}" not recognized for creating feed filtering options.`
+                )
         }
-    },
+    }
 )
 
 const getFilteredFeed = createSelector(
@@ -122,17 +129,17 @@ const getFilteredFeed = createSelector(
             return feed
         }
 
-        return predicates.reduce((feed, predicate) => feed.filter(predicate), feed)
+        return predicates.reduce(
+            (feed, predicate) => feed.filter(predicate),
+            feed
+        )
     }
 )
 
-const getMessages = createSelector(
-    getType,
-    type => ({
-        isLoading: `Loading ${type} feed...`,
-        isError: `An error happened while loading the ${type} feed.`,
-    })
-)
+const getMessages = createSelector(getType, type => ({
+    isLoading: `Loading ${type} feed...`,
+    isError: `An error happened while loading the ${type} feed.`,
+}))
 
 const getStatus = createSelector(
     getType,
@@ -159,15 +166,12 @@ export const getSidebar = createStructuredSelector({
         getDocumentsFromResult,
         (state, props) => document => document.uid !== props.uid,
         (documents, filter) => documents.filter(filter)
-    )
+    ),
 })
 
-const getSplashMessages = createSelector(
-    getType,
-    type => ({
-        isLoading: `Loading latest ${type}...`
-    })
-)
+const getSplashMessages = createSelector(getType, type => ({
+    isLoading: `Loading latest ${type}...`,
+}))
 
 export const getSplash = createSelector(
     getDocumentsFromResult,
