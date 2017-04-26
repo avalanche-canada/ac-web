@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {Metadata, Entry, ShareEntry} from '~/components/metadata'
 import {DateElement} from '~/components/misc'
 import {DATETIME} from '~/utils/date'
+import differenceInDays from 'date-fns/difference_in_days' 
+import {FURTHER_NOTICE_DAYS} from '~/constants/forecast/time'
 
 DateIssued.propTypes = {
     dateIssued: PropTypes.instanceOf(Date).isRequired,
@@ -21,9 +23,14 @@ ValidUntil.propTypes = {
 }
 
 export function ValidUntil({validUntil}) {
+    const now = new Date()
+    var el = <DateElement format={DATETIME} value={validUntil} />
+    if(differenceInDays(now, validUntil) > FURTHER_NOTICE_DAYS) {
+        el = <span>Until further notice</span>
+    }
     return (
         <Entry term='Valid Until'>
-            <DateElement format={DATETIME} value={validUntil} />
+            {el}
         </Entry>
     )
 }
