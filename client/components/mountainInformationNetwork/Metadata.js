@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {compose, withProps, mapProps} from 'recompose'
 import {DateTime} from '~/components/misc'
 import {Link} from 'react-router'
 import {MapLocation} from '~/components/icons'
@@ -8,9 +9,42 @@ import {Wrapper} from '~/components/tooltip'
 import styles from './MountainInformationNetwork.css'
 import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
 
+export const SubmittedBy = compose(
+    withProps({
+        term: 'Submitted by'
+    })
+)(Entry)
+
+export const SubmittedOn = compose(
+    mapProps(props => ({
+        term: 'Submitted on',
+        children: <DateTime value={props.children} />
+    }))
+)(Entry)
+
+export const Location = mapProps(({longitude, latitude, link}) => {
+    return {
+        term: 'Location',
+        children: (
+            <span className={styles.MapLocationWrap}>
+                <span className={styles.MapLocationItem}>
+                    {roundCoordinate(longitude)}&nbsp;&deg;, {roundCoordinate(latitude)}&nbsp;&deg;
+                </span>
+                {link && (
+                    <Wrapper tooltip='View on Main Map'>
+                        <Link to={link} className={styles.MapLocationLink}>
+                            <MapLocation />
+                        </Link>
+                    </Wrapper>
+                )}
+            </span>
+        )
+    }
+})(Entry)
+
 MountainInformationNetworkMetadata.propTypes = {
+    submittedBy: PropTypes.string.isRequired,
     submittedOn: PropTypes.instanceOf(Date).isRequired,
-    submittedBy: PropTypes.instanceOf(Date).isRequired,
     shareUrl: PropTypes.string,
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -27,37 +61,24 @@ export default function MountainInformationNetworkMetadata({
     shareUrl,
     latitude,
     longitude,
-    submissionId
+    submissionId,
 }) {
+    let link = null
 
-    const path = `/map?panel=${Schema.key}/${submissionId}`
-    const mapLink = (
-        <Wrapper tooltip='View on Main Map'>
-            <Link to={path} className={styles.MapLocationLink}><MapLocation /></Link>
-        </Wrapper>
-    )
+    if (!shareUrl) {
+        link = `/map?panel=${Schema.key}/${submissionId}`
+    }
 
-    const loc = (
-        <Entry term='Location'>
-            <span className={styles.MapLocationWrap}>
-                <span className={styles.MapLocationItem}>
-                    {roundCoordinate(longitude)}&nbsp;&deg;, {roundCoordinate(latitude)}&nbsp;&deg;
-                </span>
-                {!shareUrl && mapLink}
-            </span>
-        </Entry>
-    )
     return (
         <Metadata>
-            <Entry term='Submitted by'>
+            <SubmittedBy>
                 {submittedBy}
-            </Entry>
-            <Entry term='Submitted on'>
-                <DateTime value={submittedOn} />
-            </Entry>
-            {loc}
+            </SubmittedBy>
+            <SubmittedOn>
+                {submittedOn}
+            </SubmittedOn>
+            <Location longitude={longitude} latitude={latitude} link={link} />
             {shareUrl && <ShareEntry url={shareUrl} />}
-            {shareUrl && <Entry />}
         </Metadata>
     )
 }
