@@ -246,6 +246,18 @@ export const CurrentConditions = new Immutable.Map({
             'Visible imagery not available at night.'
         ]
     }),
+    'AC_SAT_BC_visible': new Metadata({
+        id: 'AC_SAT_BC_visible',
+        title: 'Visible',
+        shortTitle: 'VIS BC',
+        // There is no point showing visible at night! A message is display to the user.
+        // minutes: range(5 * 60, 22 * 60 + 1, 60),
+        minutes: range(0, 24 * 60, 60),
+        extension: 'jpg',
+        notes: [
+            'Visible imagery not available at night.'
+        ]
+    }),
     // Current/Warnings
     'AC_PLOT_BC_weather-warnings': new Metadata({
         id: 'AC_PLOT_BC_weather-warnings',

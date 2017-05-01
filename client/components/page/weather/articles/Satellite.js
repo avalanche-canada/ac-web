@@ -20,6 +20,9 @@ export default function Satellite() {
                 <Tab title='IR-VIS BC'>
                     <Loop type='AC_SAT_BC_ir-vis' interval={200} />
                 </Tab>
+                <Tab title='1km VIS BC'>
+                    <Loop type='AC_SAT_BC_visible' interval={200} />
+                </Tab>
                 <Tab title='Tutorials'>
                     <Tutorial uid='satellite' />
                 </Tab>
