@@ -227,10 +227,10 @@
 
 .ContextMap {
     & :global(.mapboxgl-map) {
-        height: 200px;
+        height: 175px;
 
         @media(--side-by-side) {
-            height: 250px;
+            height: 225px;
         }
     }
 }
