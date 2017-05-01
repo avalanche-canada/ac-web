@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Navbar, Header, Container as DrawerContainer, Body, Close} from '~/components/page/drawer'
 import Forecast, {Metadata} from '~/components/forecast'
 import {Muted, Error, SPAW} from '~/components/misc'

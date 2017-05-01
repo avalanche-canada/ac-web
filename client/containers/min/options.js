@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import t from '~/vendor/tcomb-form'
 import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, NAMES} from '~/constants/min'
 import {layout, observationSet} from './templates'

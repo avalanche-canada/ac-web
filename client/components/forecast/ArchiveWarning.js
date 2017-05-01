@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, setPropTypes, mapProps} from 'recompose'
-import {withRouter} from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 import {DateElement, ArchiveWarning} from '~/components/misc'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'

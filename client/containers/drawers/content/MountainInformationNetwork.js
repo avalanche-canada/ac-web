@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Header, Container, Body, Navbar, Close} from '~/components/page/drawer'
 import {Metadata, Submission} from '~/components/mountainInformationNetwork'
 import {LocateAsClass} from '~/components/button/Locate'

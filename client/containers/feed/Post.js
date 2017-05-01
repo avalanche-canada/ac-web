@@ -1,5 +1,5 @@
 import {compose, lifecycle} from 'recompose'
-import {withRouter} from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 import Post from '~/components/page/post'
 import {post} from '~/containers/connectors'
 

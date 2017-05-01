@@ -1,6 +1,4 @@
-import {browserHistory} from 'react-router'
+export history from 'react-router/lib/browserHistory'
 
 export computeRouter from './computeRouter'
 export computeRoutes from './computeRoutes'
-
-export const history = browserHistory

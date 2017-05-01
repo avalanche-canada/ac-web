@@ -4,7 +4,7 @@ import {compose, withProps, withHandlers} from 'recompose'
 import {FilterSet, Feed} from '~/containers/feed'
 import {Page, Content, Header, Main} from '~/components/page'
 import {valueHandlerFactory, arrayValueHandlerFactory} from '~/utils/router'
-import {withRouter} from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 
 Layout.propTypes = {
     type: PropTypes.string.isRequired,

@@ -5,7 +5,7 @@ import {Page as Base, Header, Main, Content} from '~/components/page'
 import {Responsive} from '~/components/table'
 import {Br} from '~/components/misc'
 import Table, {Status, Metadata} from '~/containers/min/Table'
-import {withRouter} from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 import {valueHandlerFactory, arrayValueHandlerFactory, sortingHandlerFactory} from '~/utils/router'
 
 const DAYS = '7'

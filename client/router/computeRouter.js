@@ -1,5 +1,6 @@
 import React from 'react'
-import {Router, applyRouterMiddleware} from 'react-router'
+import Router from 'react-router/lib/Router'
+import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware'
 import {history} from './'
 import useScroll from 'react-router-scroll/lib/useScroll'
 import computeRoutes from './computeRoutes'

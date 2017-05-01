@@ -1,4 +1,4 @@
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {compose, mapProps, setDisplayName} from 'recompose'
 import {documentLink} from '~/containers/connectors'
 import {pathname, title} from '~/utils/prismic'

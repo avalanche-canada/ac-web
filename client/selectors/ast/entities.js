@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import parse from 'date-fns/parse'
 import {createSelector} from 'reselect'
 import Immutable from 'immutable'

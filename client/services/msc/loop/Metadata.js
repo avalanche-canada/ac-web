@@ -1,6 +1,10 @@
 import Immutable from 'immutable'
 import range from 'lodash/range'
 
+// TODO: Looking at moving that chunk of data to the server. 
+// But need to remove dependency to Immutable.
+// There is no big advantages here to use Immutable.
+
 const Metadata = Immutable.Record({
     id: null,
     title: null,

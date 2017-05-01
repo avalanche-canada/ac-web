@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Page, Header, Main, Content, Aside} from '~/components/page'
 import {Muted, Error} from '~/components/misc'
 import {Item} from '~/components/sidebar'

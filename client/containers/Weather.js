@@ -1,6 +1,6 @@
 import {compose, withHandlers, withProps} from 'recompose'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
 import Weather, {Forecast as ForecastComponent} from '~/components/page/weather'

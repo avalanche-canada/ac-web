@@ -1,7 +1,7 @@
 import React from 'react'
 import {compose, withProps} from 'recompose'
 import {neverUpdate} from '~/compose'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Sidebar, Contact, Follow, Share, Item, Header, RSSFeed} from '~/components/sidebar'
 import {Mailto, Phone} from '~/components/misc'
 

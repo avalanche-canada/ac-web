@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withProps } from 'recompose'
 import Sidebar, { Contact, Item, Header } from '~/components/sidebar'
 import DocumentLink from '~/prismic/components/DocumentLink'
-import { Link } from 'react-router'
+import Link from 'react-router/lib/Link'
 import { href, avalancheCanadaPathRegex } from '~/utils/url'
 
 SidebarLink.propTypes = {

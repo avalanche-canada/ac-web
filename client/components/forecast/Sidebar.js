@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {onlyUpdateForKey} from '~/compose'
 import {compose, mapProps, setPropTypes} from 'recompose'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from '~/components/sidebar'
 import {FORECASTERS} from '~/constants/emails'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, branch, renderComponent} from 'recompose'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import CSSModules from 'react-css-modules'
 import {neverUpdate} from '~/compose'
 import {Image, InnerHTML, DateElement} from '~/components/misc'

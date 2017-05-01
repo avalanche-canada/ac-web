@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, lifecycle, withState} from 'recompose'
-import {Link} from 'react-router'
+import Link from 'react-router/lib/Link'
 import {Fragments} from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
