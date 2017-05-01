@@ -3,6 +3,12 @@
 .HotZoneReport {
     margin-top: 1em;
 
+    & :global(.image-gallery-slide .image-gallery-description) {
+        top: 1em;
+        bottom: auto;
+        left: 0;
+        right: 0;
+    }
 }
 
 .TravelAdvice {
