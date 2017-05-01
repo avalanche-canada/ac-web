@@ -126,7 +126,7 @@
     "react-jsonschema-form": "^0.40.0",
     "react-media-player": "^0.6.0",
     "react-motion": "^0.5.0",
-    "react-overlays": "^0.6.10",
+    "react-overlays": "^0.7.0",
     "react-redux": "^4.4.6",
     "react-router": "^3.0.5",
     "react-router-scroll": "^0.4.2",
