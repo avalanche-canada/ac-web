@@ -36,13 +36,7 @@ module.exports = {
             include: /node_modules/,
             loaders: ['style', 'css']
 		}, {
-            test: /\.(eot|woff|woff2|ttf)$/,
-            loader: 'file'
-		}, {
-            test: /\.(png|jpg)$/,
-            loader: 'url?limit=8192'
-		}, {
-            test: /\.svg$/,
+            test: /\.(eot|woff|woff2|ttf|png|jpg|svg)$/,
             loader: 'file'
 		}, {
             test: /\.json$/,

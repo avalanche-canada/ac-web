@@ -125,6 +125,15 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: PropTypes.object,
     }
+    state = {
+        map: null
+    }
+    get map() {
+        return this.state.map
+    }
+    set map(map) {
+        this.setState({map})
+    }
     constructor(props) {
         super(props)
 
@@ -142,7 +151,7 @@ export default class MapComponent extends Component {
         const {style, onInitializationError, ...props} = this.props
 
         try {
-            this.map = new mapbox.Map({
+            const map = new mapbox.Map({
                 ...props,
                 container,
                 style: typeof style === 'string' ? styles[style] : toJSON(style),
@@ -150,9 +159,11 @@ export default class MapComponent extends Component {
 
             EVENTS.forEach((name, method) => {
                 if (typeof props[method] === 'function') {
-                    this.map.on(name, props[method])
+                    map.on(name, props[method])
                 }
             })
+
+            this.map = map
         } catch (error) {
             captureException(error)
             onInitializationError(error)
@@ -191,8 +202,8 @@ export default class MapComponent extends Component {
     set style(style) {
         this.map.setStyle(toJSON(style))
     }
-    shouldComponentUpdate({children}) {
-        return children !== this.props.children
+    shouldComponentUpdate({children}, {map}) {
+        return children !== this.props.children || map !== this.map
     }
     render() {
         return (

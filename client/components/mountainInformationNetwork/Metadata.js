@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withProps, mapProps, setPropTypes} from 'recompose'
 import {DateTime} from '~/components/misc'
-import {Link} from 'react-router'
-import {MapLocation} from '~/components/icons'
 import {Metadata, Entry, ShareEntry} from '~/components/metadata'
-import {Wrapper} from '~/components/tooltip'
 import styles from './MountainInformationNetwork.css'
-import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
 
 export const SubmittedBy = compose(
     setPropTypes({
@@ -32,9 +28,8 @@ export const Location = compose(
     setPropTypes({
         longitude: PropTypes.number.isRequired,
         latitude: PropTypes.number.isRequired,
-        link: PropTypes.string,
     }),
-    mapProps(({longitude, latitude, link}) => {
+    mapProps(({longitude, latitude}) => {
         return {
             term: 'Location',
             children: (
@@ -42,13 +37,6 @@ export const Location = compose(
                     <span className={styles.MapLocationItem}>
                         {roundCoordinate(longitude)}&nbsp;&deg;, {roundCoordinate(latitude)}&nbsp;&deg;
                     </span>
-                    {link && (
-                        <Wrapper tooltip='View on Main Map'>
-                            <Link to={link} className={styles.MapLocationLink}>
-                                <MapLocation />
-                            </Link>
-                        </Wrapper>
-                    )}
                 </span>
             )
         }
@@ -61,7 +49,6 @@ MountainInformationNetworkMetadata.propTypes = {
     shareUrl: PropTypes.string,
     longitude: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,
-    submissionId: PropTypes.string.isRequired
 }
 
 function roundCoordinate(coordinate) {
@@ -74,14 +61,7 @@ export default function MountainInformationNetworkMetadata({
     shareUrl,
     latitude,
     longitude,
-    submissionId,
 }) {
-    let link = null
-
-    if (!shareUrl) {
-        link = `/map?panel=${Schema.key}/${submissionId}`
-    }
-
     return (
         <Metadata>
             <SubmittedBy>
@@ -90,7 +70,7 @@ export default function MountainInformationNetworkMetadata({
             <SubmittedOn>
                 {submittedOn}
             </SubmittedOn>
-            <Location longitude={longitude} latitude={latitude} link={link} />
+            <Location longitude={longitude} latitude={latitude} />
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>
     )

@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Header, Main, Content, ContextMap} from '~/components/page'
+import {Link} from 'react-router'
+import {Page, Header, Main, Content, Aside, ContextMap} from '~/components/page'
+import {Item} from '~/components/sidebar'
 import {Muted, Error} from '~/components/misc'
 import {mountainInformationNetworkSubmission} from '~/containers/connectors'
-import {Submission, Metadata} from '~/components/mountainInformationNetwork'
+import {Submission, Metadata, Sidebar} from '~/components/mountainInformationNetwork'
 import {Marker} from '~/components/map'
 import mapbox from '~/services/mapbox/map'
-import min from '~/components/icons/min/min-pin.svg'
+import min from '~/components/icons/min/min-pin.png'
 
 function createElement(props) {
     return Object.assign(document.createElement('img'), {
@@ -15,8 +17,14 @@ function createElement(props) {
     })
 }
 
+const MARKER_OPTIONS = {
+    offset: [-25, -25]
+}
+
 Container.propTypes = {
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    mapLink: PropTypes.string.isRequired,
     report: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
@@ -29,25 +37,31 @@ Container.propTypes = {
 
 function Container({
     title = 'Mountain Information Network',
+    mapLink,
     metadata,
     isLoading,
     isError,
     props,
 }) {
-    const center = metadata ? new mapbox.LngLat(
+    const center = metadata && new mapbox.LngLat(
         metadata.longitude,
         metadata.latitude
-    ) : null
+    )
 
     return (
         <Page>
             <Header title={title} />
             <Content>
                 <Main>
-                    {metadata && <Metadata {...metadata} />}
-                    {false &&
+                    {metadata &&
+                        <Metadata {...metadata} />
+                    }
+                    {center &&
                         <ContextMap center={center} zoom={8}>
-                            <Marker element={createElement({title})} lngLat={center} />
+                            <Marker
+                                element={createElement({title})}
+                                lngLat={center}
+                                options={MARKER_OPTIONS} />
                         </ContextMap>
                     }
                     {isError && <Error>Error happened while loading submission.</Error>}
@@ -56,6 +70,15 @@ function Container({
                         <Submission {...props} />
                     }
                 </Main>
+                <Aside>
+                    <Sidebar>
+                        <Item>
+                            <Link to={mapLink}>
+                                See this submission on the main map
+                            </Link>
+                        </Item>
+                    </Sidebar>
+                </Aside>
             </Content>
         </Page>
     )

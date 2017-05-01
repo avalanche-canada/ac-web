@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Children} from 'react'
 import {withProps} from 'recompose'
 import {Link} from 'react-router'
 import {Sidebar, Contact, Follow, Share, Item} from '~/components/sidebar'
@@ -23,8 +23,9 @@ const blog = (
     </Item>
 )
 
-export default withProps({
+export default withProps(props => ({
     children: [
+        ...Children.toArray(props.children || []),
         weather,
         min,
         blog,
@@ -32,4 +33,4 @@ export default withProps({
         share,
         contact,
     ]
-})(Sidebar)
+}))(Sidebar)

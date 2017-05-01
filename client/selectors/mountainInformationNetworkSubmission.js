@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {MountainInformationNetworkSubmission} from '~/api/schemas'
+import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
 import {getEntityForSchema} from '~/getters/entities'
 import {getResultsSet} from '~/getters/api'
 import {computeOffset} from '~/selectors/map/bounds'
@@ -12,13 +12,13 @@ export function getId({id, params}) {
 function getSubmission(state, props) {
     const id = getId(props)
 
-    return getEntityForSchema(state, MountainInformationNetworkSubmission, id)
+    return getEntityForSchema(state, Schema, id)
 }
 
 function getSubmissionResultsSet(state, props) {
     const id = getId(props)
 
-    return getResultsSet(state, MountainInformationNetworkSubmission, {id})
+    return getResultsSet(state, Schema, {id})
 }
 
 const getComputeFlyTo = createSelector(
@@ -38,10 +38,12 @@ export default createSelector(
     getComputeFlyTo,
     (id, submission, result, computeFlyTo) => {
         const props = {
+            id,
             isLoading: result.isFetching,
             isError: result.isError,
             isLoaded: result.isLoaded,
             link: `/mountain-information-network/submissions/${id}`,
+            mapLink: `/map?panel=${Schema.key}/${id}`,
             title: 'Loading...',
             messages: {
                 error: 'An error occured while loading the Mountain Information Network submission.',
@@ -61,7 +63,6 @@ export default createSelector(
                     submittedBy: user,
                     latitude: Number(latlng[0]),
                     longitude: Number(latlng[1]),
-                    submissionId: id,
                 },
                 props: {
                     observations: obs,
