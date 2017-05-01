@@ -189,7 +189,8 @@ const getHotZoneReport = createSelector(
     getComputeBounds,
     // TODO: Remove that isLoading
     (state, props) => props.isLoading,
-    (zone, report, computeBounds, isLoading) => {
+    (state, props) => props.params.name,
+    (zone, report, computeBounds, isLoading, region) => {
         const name = zone && zone.get('name')
         const Schema = Schemas.HotZoneReport
 
@@ -199,6 +200,7 @@ const getHotZoneReport = createSelector(
             const {key} = Schema
 
             return {
+                region,
                 title: name,
                 report,
                 link: `/${key}/${region}`,
@@ -207,6 +209,7 @@ const getHotZoneReport = createSelector(
             }
         } else {
             return {
+                region,
                 title: isLoading ? name : name && `No ${name} report is currently available`,
                 computeBounds,
             }
