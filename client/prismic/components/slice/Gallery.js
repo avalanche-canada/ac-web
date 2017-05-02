@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {TabSet, Tab, LOOSE} from '~/components/tab'
-import Base from '~/components/gallery'
+import {CloudinaryGallery} from '~/components/gallery'
 
 function mapProperties({tag, fullScreen, playPause}) {
     return {
@@ -20,7 +20,7 @@ export default function Gallery({content}) {
         const [gallery] = content
 
         return (
-            <Base {...mapProperties(gallery)} />
+            <CloudinaryGallery {...mapProperties(gallery)} />
         )
     }
 
@@ -29,7 +29,7 @@ export default function Gallery({content}) {
         {content.map(({name, ...gallery}, index) => {
             return (
                 <Tab key={index} title={name}>
-                    <Base {...mapProperties(gallery)} />
+                    <CloudinaryGallery {...mapProperties(gallery)} />
                 </Tab>
             )
         })}

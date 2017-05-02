@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Base from 'react-image-gallery'
+import Base from '~/components/gallery'
 import {Loading, Error} from '~/components/misc'
 import {pluralize} from '~/utils/string'
 import Description from './Description'

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {compose, withState, defaultProps, setPropTypes} from 'recompose'
-import ImageGallery from 'react-image-gallery'
+import ImageGallery from '~/components/gallery'
 
 export default compose(
     withState('instance', 'ref', null),

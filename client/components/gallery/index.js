@@ -1,2 +1,2 @@
+export CloudinaryGallery from './CloudinaryGallery'
 export default from './Gallery'
-export Gallery from './Gallery'

@@ -1,33 +1,47 @@
-import PropTypes from 'prop-types'
-import {compose, lifecycle, withState, withHandlers, setPropTypes} from 'recompose'
-import ImageGallery from 'react-image-gallery'
-import * as cloudinary from '~/services/cloudinary'
+import React, {DOM} from 'react'
+import {defaultProps, withProps} from 'recompose'
+import Gallery from 'react-image-gallery'
+import {
+    Play,
+    Pause,
+    Fullscreen,
+    ChevronRight,
+    ChevronLeft
+} from '~/components/icons'
+import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
 
-const mapResource = cloudinary.mapToSizeFactory()
+const Button = defaultProps({
+    type: 'button',
+})(DOM.button)
 
-export default compose(
-    setPropTypes({
-        tag: PropTypes.string.isRequired,
-    }),
-    withState('cursor', 'setCursor', null),
-    withState('items', 'setItems', []),
-    withHandlers({
-        onSuccessResponse: props => data => {
-            const {setItems, setCursor} = props
-            const {resources, next_cursor} = data
+export default withProps({
+    renderLeftNav(onClick, disabled) {
+        return (
+            <Button className='image-gallery-left-nav' onClick={onClick} disabled={disabled}>
+                <ChevronLeft height={36} width={36} inverse />
+            </Button>
+        )
+    },
+    renderRightNav(onClick, disabled) {
+        return (
+            <Button className='image-gallery-right-nav' onClick={onClick} disabled={disabled}>
+                <ChevronRight height={36} width={36} inverse />
+            </Button>
+        )
 
-            setCursor(next_cursor)
-            setItems(resources.map(mapResource))
-        },
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {tag, cursor, onSuccessResponse} = this.props
-            const options = {
-                next_cursor: cursor
-            }
-
-            cloudinary.getByTag(tag, options).then(onSuccessResponse)
-        },
-    }),
-)(ImageGallery)
+    },
+    renderPlayPauseButton(onClick, isPlaying) {
+        return (
+            <Button className='image-gallery-play-button' onClick={onClick}>
+                {isPlaying ? <Pause inverse /> : <Play inverse />}
+            </Button>
+        )
+    },
+    renderFullscreenButton(onClick, _isFullscreen) {
+        return (
+            <Button className='image-gallery-fullscreen-button' onClick={onClick}>
+                <Fullscreen inverse />
+            </Button>
+        )
+    },
+})(Gallery)
