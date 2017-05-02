@@ -1,4 +1,4 @@
-import {accessToken, username, api} from './config.json'
+import { accessToken, username, api } from './config.json'
 import Axios from 'axios'
 
 const Datasets = Axios.create({

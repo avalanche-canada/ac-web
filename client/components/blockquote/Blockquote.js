@@ -7,9 +7,9 @@ Blockquote.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Blockquote({children}) {
+function Blockquote({ children }) {
     return (
-        <blockquote styleName='Blockquote'>
+        <blockquote styleName="Blockquote">
             {children}
         </blockquote>
     )

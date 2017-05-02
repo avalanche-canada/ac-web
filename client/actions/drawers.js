@@ -1,10 +1,10 @@
-import {createAction} from 'redux-actions'
-import {createBinaryAction, createOptimisticAction} from '~/utils/redux'
+import { createAction } from 'redux-actions'
+import { createBinaryAction, createOptimisticAction } from '~/utils/redux'
 import {
     isLayerVisible,
     isMenuOpen,
     isPrimaryDrawerOpened,
-    isSecondaryDrawerOpened
+    isSecondaryDrawerOpened,
 } from '~/getters/drawers'
 
 export const OPEN_PRIMARY_DRAWER = 'OPEN_PRIMARY_DRAWER'
@@ -38,7 +38,10 @@ export const LAYER_TURNED_OFF = 'LAYER_TURNED_OFF'
 const openMenu = createAction(MENU_OPENED)
 export const closeMenu = createAction(MENU_CLOSED)
 export const toggleMenu = createBinaryAction(isMenuOpen, closeMenu, openMenu)
-export const changeFilter = createAction(FILTER_CHANGED, changeFilterPayloadCreator)
+export const changeFilter = createAction(
+    FILTER_CHANGED,
+    changeFilterPayloadCreator
+)
 
 export const turnOnLayer = createOptimisticAction(
     (state, layer) => isLayerVisible(state, layer) === false,

@@ -8,5 +8,7 @@ export const TIME = 'HH:mm'
 export function setUTCOffset(date, offset) {
     date = parse(date)
 
-    return date.setHours(date.getHours() + date.getTimezoneOffset() / 60 + offset)
+    return date.setHours(
+        date.getHours() + date.getTimezoneOffset() / 60 + offset
+    )
 }

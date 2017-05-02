@@ -1,10 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Header, Container, Body, Navbar, Close, Banner, Content} from '~/components/page/drawer'
-import {InnerHTML, Ratio, Status} from '~/components/misc'
+import {
+    Header,
+    Container,
+    Body,
+    Navbar,
+    Close,
+    Banner,
+    Content,
+} from '~/components/page/drawer'
+import { InnerHTML, Ratio, Status } from '~/components/misc'
 import cloudinary from '~/services/cloudinary/cl'
 import format from 'date-fns/format'
-import {toyotaTruckReport} from '~/containers/connectors'
+import { toyotaTruckReport } from '~/containers/connectors'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -29,17 +37,8 @@ ToyotaTruckReport.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
 }
 
-function ToyotaTruckReport({
-    report = {},
-    status,
-    onCloseClick,
-}) {
-    const {
-        headline,
-        content,
-        date,
-        banner,
-    } = report
+function ToyotaTruckReport({ report = {}, status, onCloseClick }) {
+    const { headline, content, date, banner } = report
     let subject = 'Toyota Truck Report'
 
     if (date) {
@@ -53,11 +52,16 @@ function ToyotaTruckReport({
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>
                 <Ratio>
-                {(width, height) =>
-                    <Banner
-                        url={cloudinary.url(banner, {...TRANSFORMATION, height, width})}
-                        style={{height}} />
-                }
+                    {(width, height) => (
+                        <Banner
+                            url={cloudinary.url(banner, {
+                                ...TRANSFORMATION,
+                                height,
+                                width,
+                            })}
+                            style={{ height }}
+                        />
+                    )}
                 </Ratio>
                 <Header subject={subject}>
                     <h1>{headline}</h1>

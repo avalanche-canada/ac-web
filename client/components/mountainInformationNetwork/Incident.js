@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {List} from '~/components/description'
-import {asTermAndDefinition} from '~/components/description/utils'
+import { List } from '~/components/description'
+import { asTermAndDefinition } from '~/components/description/utils'
 import Section from './Section'
 import Comment from './Comment'
 
@@ -53,12 +53,11 @@ export default function Incident({
                 </List>
             </Section>
             {groupDetails &&
-                <Section title='Group details'>
+                <Section title="Group details">
                     <List bordered>
                         {asTermAndDefinition(groupDetails, TERMS)}
                     </List>
-                </Section>
-            }
+                </Section>}
             <Comment>
                 {incidentDescription}
             </Comment>

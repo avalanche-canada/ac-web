@@ -1,12 +1,16 @@
-import {createSelector, createStructuredSelector} from 'reselect'
-import {getDocument, getDocumentFromResult, getStatusFactory} from '~/selectors/prismic/utils'
-import {getProfile, getIsAuthenticated} from '~/getters/auth'
+import { createSelector, createStructuredSelector } from 'reselect'
+import {
+    getDocument,
+    getDocumentFromResult,
+    getStatusFactory,
+} from '~/selectors/prismic/utils'
+import { getProfile, getIsAuthenticated } from '~/getters/auth'
 import format from 'date-fns/format'
-import {DATE} from '~/utils/date'
-import TABS, {DAY5TO7} from '~/components/weather/tabs'
+import { DATE } from '~/utils/date'
+import TABS, { DAY5TO7 } from '~/components/weather/tabs'
 
 export default createStructuredSelector({
-    isAuthenticated: getIsAuthenticated
+    isAuthenticated: getIsAuthenticated,
 })
 
 export const getTutorial = createStructuredSelector({
@@ -29,7 +33,7 @@ const getTabs = createSelector(
     getIsAuthenticated,
     (profile, isAuthenticated) => {
         if (isAuthenticated && profile) {
-            const {email, email_verified} = profile
+            const { email, email_verified } = profile
 
             if (email_verified && canReadDay5To7Tab(email)) {
                 return [...TABS, DAY5TO7]
@@ -44,7 +48,7 @@ const getForecastMessages = createSelector(
     (state, props) => props.date,
     date => ({
         isLoading: `Loading weather forecast for ${format(date, DATE)}...`,
-        isError: `Error happened to load weather forecast for ${format(date, DATE)}.`
+        isError: `Error happened to load weather forecast for ${format(date, DATE)}.`,
     })
 )
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Metadata, Entry} from '~/components/metadata'
+import { Metadata, Entry } from '~/components/metadata'
 
 const NO_TEXT_TRANSFORM = {
-    textTransform: 'none'
+    textTransform: 'none',
 }
 
 WeatherStationMetadata.propTypes = {
@@ -16,34 +16,41 @@ WeatherStationMetadata.propTypes = {
     owner: PropTypes.string,
 }
 
-export default function WeatherStationMetadata({longitude, latitude, elevation, utcOffset, description, owner, source}) {
+export default function WeatherStationMetadata({
+    longitude,
+    latitude,
+    elevation,
+    utcOffset,
+    description,
+    owner,
+    source,
+}) {
     return (
         <Metadata>
-            <Entry fullWidth={true} term='Source'>
+            <Entry fullWidth={true} term="Source">
                 {source}
             </Entry>
-            <Entry term='Longitude'>
+            <Entry term="Longitude">
                 {longitude.toPrecision(6)} °
             </Entry>
-            <Entry term='Latitude'>
+            <Entry term="Latitude">
                 {latitude.toPrecision(6)} °
             </Entry>
-            <Entry term='Elevation'>
+            <Entry term="Elevation">
                 <span style={NO_TEXT_TRANSFORM}>{elevation} m</span>
             </Entry>
-            <Entry term='Time zone'>
+            <Entry term="Time zone">
                 UTC-0{Math.abs(utcOffset)}:00
             </Entry>
             {description &&
-                <Entry title='Description'>
+                <Entry title="Description">
                     {description}
-                </Entry>
-            }
-            {(owner && typeof owner === 'object') &&
-                <Entry title='Owner'>
+                </Entry>}
+            {owner &&
+                typeof owner === 'object' &&
+                <Entry title="Owner">
                     {owner}
-                </Entry>
-            }
+                </Entry>}
         </Metadata>
     )
 }

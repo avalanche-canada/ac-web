@@ -5,10 +5,10 @@ import Link from 'react-router/lib/Link'
 import Page from './Page'
 import Content from './Content'
 import Main from './Main'
-import {ButtonSet} from '~/components/button'
+import { ButtonSet } from '~/components/button'
 import styles from './Page.css'
-import {InnerHTML} from '~/components/misc'
-import {Credit} from '~/components/markup'
+import { InnerHTML } from '~/components/misc'
+import { Credit } from '~/components/markup'
 
 WorkInProgress.propTypes = {
     name: PropTypes.string.isRequired,
@@ -29,7 +29,7 @@ function WorkInProgress({
     subtitle = WorkInProgress.defaultProps.subtitle,
 }) {
     return (
-        <Page styleName='WorkInProgress'>
+        <Page styleName="WorkInProgress">
             <Content>
                 <Main>
                     <h1>
@@ -44,7 +44,7 @@ function WorkInProgress({
                             </InnerHTML>
                         </h2>
                         <ButtonSet>
-                            <Link to={oldUrl} target='_blank' styleName='Link'>
+                            <Link to={oldUrl} target="_blank" styleName="Link">
                                 {name}
                             </Link>
                         </ButtonSet>

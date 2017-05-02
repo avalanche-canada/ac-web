@@ -1,12 +1,13 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {withKnobs, number, boolean, text, select} from '@kadira/storybook-addon-knobs'
-import Alert, {
-    DANGER,
-    INFO,
-    WARNING,
-    SUCCESS,
-} from './index'
+import { storiesOf, action } from '@kadira/storybook'
+import {
+    withKnobs,
+    number,
+    boolean,
+    text,
+    select,
+} from '@kadira/storybook-addon-knobs'
+import Alert, { DANGER, INFO, WARNING, SUCCESS } from './index'
 
 const stories = storiesOf('Alert', module)
 

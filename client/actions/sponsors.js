@@ -1,7 +1,7 @@
-import {createAction} from 'redux-actions'
-import {fetchSponsors} from '~/api'
-import {getActiveSponsor, getSponsors} from '~/getters/sponsors'
-import {createDelayedAction, createOptimisticAction} from '~/utils/redux'
+import { createAction } from 'redux-actions'
+import { fetchSponsors } from '~/api'
+import { getActiveSponsor, getSponsors } from '~/getters/sponsors'
+import { createDelayedAction, createOptimisticAction } from '~/utils/redux'
 
 export const SET_ACTIVE_SPONSOR = 'SET_ACTIVE_SPONSOR'
 export const RESET_ACTIVE_SPONSOR = 'RESET_ACTIVE_SPONSOR'
@@ -19,6 +19,6 @@ export const resetActiveSponsor = createOptimisticAction(
 export const GET_SPONSORS = 'GET_SPONSORS'
 
 export const loadSponsors = createDelayedAction(
-    state => Object.keys(getSponsors(state) || {}).length > 0 ? 9999 : 1,
+    state => (Object.keys(getSponsors(state) || {}).length > 0 ? 9999 : 1),
     createAction(GET_SPONSORS, fetchSponsors)
 )

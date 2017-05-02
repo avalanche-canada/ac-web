@@ -1,10 +1,10 @@
 import * as Schemas from '~/api/schemas'
-import Axios, {defaults} from 'axios'
+import Axios, { defaults } from 'axios'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
-import {baseURL, astBaseUrl, weatherBaseUrl} from '~/api/config.json'
+import { baseURL, astBaseUrl, weatherBaseUrl } from '~/api/config.json'
 import {
     transformSubmissionForPost,
     transformProviderResponse,
@@ -13,61 +13,88 @@ import {
 } from './transformers'
 
 const POST_CONFIGS = new Map([
-    [Schemas.MountainInformationNetworkSubmission, {
-        transformRequest: [transformSubmissionForPost, ...defaults.transformRequest]
-    }],
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        {
+            transformRequest: [
+                transformSubmissionForPost,
+                ...defaults.transformRequest,
+            ],
+        },
+    ],
 ])
 
 const GET_CONFIGS = new Map([
-    [Schemas.MountainInformationNetworkSubmission, ({days}) => {
-        const params = {
-            client: 'web',
-        }
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        ({ days }) => {
+            const params = {
+                client: 'web',
+            }
 
-        if (days) {
-            Object.assign(params, {
-                last: `${days}:days`,
-            })
-        }
-
-        return {
-            params,
-            transformResponse: defaults.transformResponse.concat(sanitizeMountainInformationNetworkSubmissions),
-        }
-    }],
-    [Schemas.Provider, params => ({
-        baseURL: astBaseUrl,
-        params,
-        // TODO: To remove when server returns appropriate result
-        transformResponse: defaults.transformResponse.concat(transformProviderResponse),
-    })],
-    [Schemas.Course, params => ({
-        baseURL: astBaseUrl,
-        params,
-        // TODO: To remove when server returns appropriate result
-        transformResponse: defaults.transformResponse.concat(transformCourseResponse),
-    })],
-    [Schemas.WeatherStation, () => ({
-        baseURL: weatherBaseUrl,
-    })],
-    [Schemas.Forecast, params => {
-        function transform(forecast) {
-            const isArchived = isArchiveBulletinRequest(params)
+            if (days) {
+                Object.assign(params, {
+                    last: `${days}:days`,
+                })
+            }
 
             return {
-                ...forecast,
-                isArchived,
-                date: isArchived ? parse(params.date) : new Date()
+                params,
+                transformResponse: defaults.transformResponse.concat(
+                    sanitizeMountainInformationNetworkSubmissions
+                ),
             }
-        }
+        },
+    ],
+    [
+        Schemas.Provider,
+        params => ({
+            baseURL: astBaseUrl,
+            params,
+            // TODO: To remove when server returns appropriate result
+            transformResponse: defaults.transformResponse.concat(
+                transformProviderResponse
+            ),
+        }),
+    ],
+    [
+        Schemas.Course,
+        params => ({
+            baseURL: astBaseUrl,
+            params,
+            // TODO: To remove when server returns appropriate result
+            transformResponse: defaults.transformResponse.concat(
+                transformCourseResponse
+            ),
+        }),
+    ],
+    [
+        Schemas.WeatherStation,
+        () => ({
+            baseURL: weatherBaseUrl,
+        }),
+    ],
+    [
+        Schemas.Forecast,
+        params => {
+            function transform(forecast) {
+                const isArchived = isArchiveBulletinRequest(params)
 
-        return {
-            transformResponse: defaults.transformResponse.concat(transform),
-        }
-    }],
+                return {
+                    ...forecast,
+                    isArchived,
+                    date: isArchived ? parse(params.date) : new Date(),
+                }
+            }
+
+            return {
+                transformResponse: defaults.transformResponse.concat(transform),
+            }
+        },
+    ],
 ])
 
-function isArchiveBulletinRequest({date}) {
+function isArchiveBulletinRequest({ date }) {
     if (!date) {
         return false
     }
@@ -81,8 +108,8 @@ function isArchiveBulletinRequest({date}) {
     return false
 }
 
-function forecastEndpoint({name, date}) {
-    if (isArchiveBulletinRequest({name, date})) {
+function forecastEndpoint({ name, date }) {
+    if (isArchiveBulletinRequest({ name, date })) {
         const archive = parse(date)
 
         return `bulletin-archive/${archive.toISOString()}/${name}.json`
@@ -93,36 +120,45 @@ function forecastEndpoint({name, date}) {
 
 const ENDPOINTS = new Map([
     [Schemas.Forecast, forecastEndpoint],
-    [Schemas.MountainInformationNetworkSubmission, (params = {}) => params.id ? `min/submissions/${params.id}`: 'min/submissions'],
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        (params = {}) =>
+            (params.id ? `min/submissions/${params.id}` : 'min/submissions'),
+    ],
     // TODO: Allow strings!
     [Schemas.Provider, () => 'providers'],
     // TODO: Allow strings!
     [Schemas.Course, () => 'courses'],
-    [Schemas.WeatherStation, (params = {}) => params.id ? `stations/${params.id}/`: 'stations/'],
+    [
+        Schemas.WeatherStation,
+        (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
+    ],
 ])
 
 const api = Axios.create({
     baseURL,
     validateStatus(status) {
-        return status >= 200 && status < 300 || status === 404
-    }
+        return (status >= 200 && status < 300) || status === 404
+    },
 })
 
 export function fetch(schema, params) {
     const endpoint = ENDPOINTS.get(schema)(params)
-    const config = GET_CONFIGS.has(schema) ? GET_CONFIGS.get(schema).call(null, params) : null
+    const config = GET_CONFIGS.has(schema)
+        ? GET_CONFIGS.get(schema).call(null, params)
+        : null
 
     if (schema === Schemas.WeatherStation && params && params.id) {
         // It is a single Schemas.WeatherStation request
         return Promise.all([
             api.get(endpoint, config),
-            api.get(`${endpoint}measurements/`, config)
-        ]).then(function merge([{data: station}, {data: measurements}]) {
+            api.get(`${endpoint}measurements/`, config),
+        ]).then(function merge([{ data: station }, { data: measurements }]) {
             return {
                 data: {
                     ...station,
                     measurements,
-                }
+                },
             }
         })
     }
@@ -146,7 +182,7 @@ export function fetchFeaturesMetadata() {
 }
 
 const Static = Axios.create({
-    baseURL: '/static'
+    baseURL: '/static',
 })
 
 export function fetchStaticResource(resource) {

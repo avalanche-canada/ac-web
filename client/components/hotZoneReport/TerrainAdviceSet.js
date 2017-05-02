@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {InnerHTML} from '~/components/misc'
-import Panel, {INVERSE} from '~/components/panel'
+import { InnerHTML } from '~/components/misc'
+import Panel, { INVERSE } from '~/components/panel'
 import Comment from '~/components/mountainInformationNetwork/Comment'
 import Section from '~/components/mountainInformationNetwork/Section'
 import styles from './HotZoneReport.css'
@@ -14,7 +14,7 @@ const Headers = new Map([
     ['goodTerrainChoices', 'Good Terrain Choices'],
 ])
 
-function createItem({feature, where, elevation}) {
+function createItem({ feature, where, elevation }) {
     return [feature, where, elevation].filter(Boolean).join(' ')
 }
 
@@ -22,7 +22,7 @@ TerrainAdviceSet.propTypes = {
     report: PropTypes.object.isRequired,
 }
 
-function TerrainAdviceSet({report}) {
+function TerrainAdviceSet({ report }) {
     if (!report) {
         return null
     }
@@ -35,7 +35,7 @@ function TerrainAdviceSet({report}) {
     }
 
     return (
-        <Panel header='Terrain Advice' expanded expandable theme={INVERSE}>
+        <Panel header="Terrain Advice" expanded expandable theme={INVERSE}>
             <AdviceText />
             {keys.map(key => {
                 const items = report[key].map(createItem)
@@ -45,28 +45,27 @@ function TerrainAdviceSet({report}) {
                 comments.push(report[`${key}Comment`])
 
                 return (
-                    <div key={key} styleName='Advice--Section'>
+                    <div key={key} styleName="Advice--Section">
                         <Section title={Headers.get(key)}>
-                            <ul styleName='AdviceSet'>
-                                {items.map((item, index) =>
-                                    <li key={index} styleName='Advice'>
+                            <ul styleName="AdviceSet">
+                                {items.map((item, index) => (
+                                    <li key={index} styleName="Advice">
                                         {item}
                                     </li>
-                                )}
+                                ))}
                             </ul>
                         </Section>
                     </div>
                 )
             })}
             {comments.filter(Boolean).length > 0 &&
-                <div styleName='Advice--Comment'>
+                <div styleName="Advice--Comment">
                     <Comment>
                         <InnerHTML>
                             {comments.filter(Boolean).join(' ')}
                         </InnerHTML>
                     </Comment>
-                </div>
-            }
+                </div>}
         </Panel>
     )
 }

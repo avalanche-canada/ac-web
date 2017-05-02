@@ -5,10 +5,10 @@ import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
-import {Table, Day, DaySet, Condition, Confidence} from './danger'
-import {Problem, Topic, TopicSet, Advice, Comment} from './problem'
-import {TabSet, Tab, LOOSE} from '~/components/tab'
-import {InnerHTML} from '~/components/misc'
+import { Table, Day, DaySet, Condition, Confidence } from './danger'
+import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
+import { TabSet, Tab, LOOSE } from '~/components/tab'
+import { InnerHTML } from '~/components/misc'
 
 Forecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -45,48 +45,76 @@ export default function Forecast({
             {isArchived && <ArchiveWarning region={region} date={date} />}
             <Headline>{highlights}</Headline>
             <TabSet stacked={false} theme={LOOSE}>
-                <Tab title='Danger ratings'>
+                <Tab title="Danger ratings">
                     <Condition mode={dangerMode} />
                     <Table mode={dangerMode}>
                         <DaySet>
-                            {dangerRatings.map(({date, dangerRating}, index) => (
-                                <Day key={index} date={date} {...dangerRating} />
-                            ))}
+                            {dangerRatings.map(
+                                ({ date, dangerRating }, index) => (
+                                    <Day
+                                        key={index}
+                                        date={date}
+                                        {...dangerRating}
+                                    />
+                                )
+                            )}
                         </DaySet>
                         <Confidence {...confidence} />
                     </Table>
                 </Tab>
-                <Tab title='Problems' disabled={problems.length === 0}>
-                    {problems.map(({type, icons, comment, travelAndTerrainAdvice}, index) => (
-                        <Problem key={type} title={`Avalanche Problem ${index + 1}: ${type}`} >
-                            <TopicSet>
-                                <Topic title='What Elevation?' src={icons.elevations} />
-                                <Topic title='Which Slopes?' src={icons.aspects} />
-                                <Topic title='Chances of Avalanches?' src={icons.likelihood} />
-                                <Topic title='Expected Size?' src={icons.expectedSize} />
-                            </TopicSet>
-                            <Comment>{comment}</Comment>
-                            <Advice>{travelAndTerrainAdvice}</Advice>
-                        </Problem>
-                    ))}
+                <Tab title="Problems" disabled={problems.length === 0}>
+                    {problems.map(
+                        (
+                            { type, icons, comment, travelAndTerrainAdvice },
+                            index
+                        ) => (
+                            <Problem
+                                key={type}
+                                title={`Avalanche Problem ${index + 1}: ${type}`}>
+                                <TopicSet>
+                                    <Topic
+                                        title="What Elevation?"
+                                        src={icons.elevations}
+                                    />
+                                    <Topic
+                                        title="Which Slopes?"
+                                        src={icons.aspects}
+                                    />
+                                    <Topic
+                                        title="Chances of Avalanches?"
+                                        src={icons.likelihood}
+                                    />
+                                    <Topic
+                                        title="Expected Size?"
+                                        src={icons.expectedSize}
+                                    />
+                                </TopicSet>
+                                <Comment>{comment}</Comment>
+                                <Advice>{travelAndTerrainAdvice}</Advice>
+                            </Problem>
+                        )
+                    )}
                 </Tab>
-                <Tab title='Details'>
-                    <Summary title='Avalanche Summary'>
+                <Tab title="Details">
+                    <Summary title="Avalanche Summary">
                         <InnerHTML>
                             {avalancheSummary}
                         </InnerHTML>
                     </Summary>
-                    <Summary title='Snowpack Summary'>
+                    <Summary title="Snowpack Summary">
                         <InnerHTML>
                             {snowpackSummary}
                         </InnerHTML>
                     </Summary>
-                    <Summary title='Weather Forecast'>
+                    <Summary title="Weather Forecast">
                         <InnerHTML>
                             {weatherForecast}
                         </InnerHTML>
                         <p>
-                            More details can be found on the <Link to='/weather'>Mountain Weather Forecast</Link>.
+                            More details can be found on the
+                            {' '}
+                            <Link to="/weather">Mountain Weather Forecast</Link>
+                            .
                         </p>
                     </Summary>
                 </Tab>

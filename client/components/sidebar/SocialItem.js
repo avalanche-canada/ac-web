@@ -8,14 +8,13 @@ SocialItem.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function SocialItem({label, children}) {
+function SocialItem({ label, children }) {
     return (
-        <div styleName='SocialItem'>
+        <div styleName="SocialItem">
             {label &&
-                <span styleName='Label'>
+                <span styleName="Label">
                     {label}
-                </span>
-            }
+                </span>}
             {children}
         </div>
     )

@@ -16,13 +16,13 @@ Table.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Table({children, mode}) {
+function Table({ children, mode }) {
     if (UNHANDLED.has(mode)) {
         return null
     }
 
     return (
-        <div styleName='Table'>
+        <div styleName="Table">
             {children}
         </div>
     )

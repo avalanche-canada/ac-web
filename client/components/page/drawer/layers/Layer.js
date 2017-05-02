@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withState} from 'recompose'
+import { compose, withState } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {Collapse} from '~/components/misc'
-import {Expand} from '~/components/button'
+import { Collapse } from '~/components/misc'
+import { Expand } from '~/components/button'
 import styles from './Layer.css'
 import noop from 'lodash/noop'
 
@@ -27,7 +27,15 @@ const STYLE = {
     marginBottom: -1,
 }
 
-function Layer({title, visible = true, onClick = noop, icon, children, expanded, setExpanded}) {
+function Layer({
+    title,
+    visible = true,
+    onClick = noop,
+    icon,
+    children,
+    expanded,
+    setExpanded,
+}) {
     function handleClick(event) {
         event.stopPropagation()
 
@@ -36,25 +44,27 @@ function Layer({title, visible = true, onClick = noop, icon, children, expanded,
 
     return (
         <div styleName={visible ? 'Layer--Visible' : 'Layer'}>
-            <div styleName='Header' onClick={onClick}>
+            <div styleName="Header" onClick={onClick}>
                 {icon}
-                <span styleName='Title'>{title}</span>
+                <span styleName="Title">{title}</span>
                 {children &&
-                    <Expand expanded={expanded} onClick={handleClick} chevron />
-                }
+                    <Expand
+                        expanded={expanded}
+                        onClick={handleClick}
+                        chevron
+                    />}
             </div>
             {children &&
                 <Collapse collapsed={!expanded}>
-                    <div style={STYLE} >
+                    <div style={STYLE}>
                         {children}
                     </div>
-                </Collapse>
-            }
+                </Collapse>}
         </div>
     )
 }
 
 export default compose(
     withState('expanded', 'setExpanded', false),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Layer)

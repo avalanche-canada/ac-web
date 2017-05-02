@@ -1,6 +1,6 @@
 import Raven from 'raven-js'
 import Immutable from 'immutable'
-import {key, project} from './config.json'
+import { key, project } from './config.json'
 import mapbox from '~/services/mapbox/map'
 
 const exceptions = new Set()
@@ -12,7 +12,7 @@ export default function setup() {
 
     if (process.env.NODE_ENV === 'production') {
         Raven.config(`https://${key}@sentry.io/${project}`, {
-            shouldSendCallback({exception = {}}) {
+            shouldSendCallback({ exception = {} }) {
                 const key = Immutable.fromJS(exception).hashCode()
                 const shouldSend = !exceptions.has(key)
 
@@ -24,8 +24,8 @@ export default function setup() {
                 return shouldSend
             },
             tags: {
-                'mapboxgl.supported': mapbox.supported()
-            }
+                'mapboxgl.supported': mapbox.supported(),
+            },
         }).install()
     }
 }
@@ -50,7 +50,7 @@ export function captureMessage(message, context) {
     Raven.captureMessage(message, context)
 }
 
-export function setUserContext({user_id, email, name}) {
+export function setUserContext({ user_id, email, name }) {
     if (!Raven.isSetup()) {
         return
     }

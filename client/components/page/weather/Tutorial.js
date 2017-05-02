@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {InnerHTML, Status as StatusComponent} from '~/components/misc'
+import { InnerHTML, Status as StatusComponent } from '~/components/misc'
 import Status from '~/utils/status'
 
 Tutorial.propTypes = {
@@ -8,7 +8,7 @@ Tutorial.propTypes = {
     tutorial: PropTypes.string.isRequired,
 }
 
-export default function Tutorial({status, tutorial = {}}) {
+export default function Tutorial({ status, tutorial = {} }) {
     return (
         <div>
             <StatusComponent {...status.toJSON()} />

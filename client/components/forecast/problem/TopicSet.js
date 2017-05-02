@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {ElementResize} from '~/components/misc'
+import { ElementResize } from '~/components/misc'
 import styles from './Problem.css'
 
 TopicSet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function TopicSet({children}) {
+export default function TopicSet({ children }) {
     return (
         <ElementResize>
             {width => {

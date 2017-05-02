@@ -1,10 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, withProps, setPropTypes, defaultProps} from 'recompose'
+import {
+    compose,
+    setDisplayName,
+    withProps,
+    setPropTypes,
+    defaultProps,
+} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'
 import loadingState from './loadingState'
-import {initials} from '~/utils/string'
+import { initials } from '~/utils/string'
 
 Avatar.propTypes = {
     url: PropTypes.string,
@@ -14,15 +20,32 @@ Avatar.propTypes = {
     onError: PropTypes.func,
     hasError: PropTypes.bool,
     isLoading: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
 }
 
-function Avatar({url, initials, name, onLoad, onError, hasError, isLoading, style}) {
-    const styleName = (hasError === true || isLoading === true) ? 'Initials' : 'Avatar'
+function Avatar({
+    url,
+    initials,
+    name,
+    onLoad,
+    onError,
+    hasError,
+    isLoading,
+    style,
+}) {
+    const styleName = hasError === true || isLoading === true
+        ? 'Initials'
+        : 'Avatar'
 
     return (
-        <div styleName={styleName} data-initials={initials} style={style} >
-            <img src={url} alt={initials} title={name} onLoad={onLoad} onError={onError} />
+        <div styleName={styleName} data-initials={initials} style={style}>
+            <img
+                src={url}
+                alt={initials}
+                title={name}
+                onLoad={onLoad}
+                onError={onError}
+            />
         </div>
     )
 }
@@ -37,14 +60,14 @@ export default compose(
     defaultProps({
         size: 60,
     }),
-    withProps(({name, size}) => ({
+    withProps(({ name, size }) => ({
         initials: initials(name),
         style: {
             height: size,
             width: size,
             fontSize: size < 50 ? '0.75em' : '1em',
-        }
+        },
     })),
     loadingState,
-    CSSModules(styles),
+    CSSModules(styles)
 )(Avatar)

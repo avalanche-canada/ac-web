@@ -1,14 +1,16 @@
-import {DOM} from 'react'
-import {defaultProps} from 'recompose'
-import {Element} from '~/compose'
+import { DOM } from 'react'
+import { defaultProps } from 'recompose'
+import { Element } from '~/compose'
 import styles from './Text.css'
 
-function text({children = null, name, component = DOM.p}) {
-    return defaultProps({children})(Element({
-        name,
-        component,
-        styles,
-    }))
+function text({ children = null, name, component = DOM.p }) {
+    return defaultProps({ children })(
+        Element({
+            name,
+            component,
+            styles,
+        })
+    )
 }
 
 export const Text = text({

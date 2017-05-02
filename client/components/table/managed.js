@@ -11,32 +11,38 @@ import {
     Cell,
 } from '~/components/table'
 
-export const Column  = Immutable.Record({
-    name: null,
-    title: null,
-    property: null,
-    style: null,
-    sorting: null,
-}, 'Column')
+export const Column = Immutable.Record(
+    {
+        name: null,
+        title: null,
+        property: null,
+        style: null,
+        sorting: null,
+    },
+    'Column'
+)
 
 Object.assign(Column, {
     create(definition) {
         return new Column(definition)
-    }
+    },
 })
 
-export const Header = Immutable.Record({
-    name: null,
-    title: null,
-    rowSpan: null,
-    colSpan: null,
-    style: null,
-}, 'Header')
+export const Header = Immutable.Record(
+    {
+        name: null,
+        title: null,
+        rowSpan: null,
+        colSpan: null,
+        style: null,
+    },
+    'Header'
+)
 
 Object.assign(Header, {
     create(definition) {
         return new Header(definition)
-    }
+    },
 })
 
 export const Body = Immutable.Record({
@@ -48,7 +54,7 @@ export const Body = Immutable.Record({
 Object.assign(Body, {
     create(definition) {
         return new Body(definition)
-    }
+    },
 })
 
 Table.propTypes = {
@@ -74,27 +80,35 @@ export default function Table({
             <THead>
                 {/* TODO Could have more than a header row. Headers cold be an Iterable of headers */}
                 <Row>
-                    {headers.map(({title, name, property, style, sorting}, index) => (
-                        <HeaderCell key={index}  style={style} sorting={sorting} onSortingChange={onSortingChange.bind(null, name)}>
-                            {typeof title === 'function' ? title() : title}
-                        </HeaderCell>
-                    ))}
+                    {headers.map(
+                        ({ title, name, property, style, sorting }, index) => (
+                            <HeaderCell
+                                key={index}
+                                style={style}
+                                sorting={sorting}
+                                onSortingChange={onSortingChange.bind(
+                                    null,
+                                    name
+                                )}>
+                                {typeof title === 'function' ? title() : title}
+                            </HeaderCell>
+                        )
+                    )}
                 </Row>
             </THead>
-            {bodies.map(({data, title, featured}, bIndex) => (
+            {bodies.map(({ data, title, featured }, bIndex) => (
                 <TBody key={bIndex} title={title} featured={featured}>
-                {data.map((row, rIndex) => (
-                    <Row key={rIndex}>
-                        {columns.map(({property, name, style}) => (
-                            <Cell key={name} style={style}>
-                                {typeof property === 'function' ?
-                                    property(row) :
-                                    row[property]
-                                }
-                            </Cell>
-                        ))}
-                    </Row>
-                ))}
+                    {data.map((row, rIndex) => (
+                        <Row key={rIndex}>
+                            {columns.map(({ property, name, style }) => (
+                                <Cell key={name} style={style}>
+                                    {typeof property === 'function'
+                                        ? property(row)
+                                        : row[property]}
+                                </Cell>
+                            ))}
+                        </Row>
+                    ))}
                 </TBody>
             ))}
             {children}

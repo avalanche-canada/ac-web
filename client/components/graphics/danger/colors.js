@@ -20,19 +20,19 @@ export const BannerFill = new Map([
 ])
 
 export const BannerStroke = new Map([
-     [Ratings.EXTREME, Palette.RED],
-     [Ratings.HIGH, Palette.BLACK],
-     [Ratings.CONSIDERABLE, Palette.BLACK],
-     [Ratings.MODERATE, Palette.BLACK],
-     [Ratings.LOW, Palette.BLACK],
-     [Ratings.NO_RATING, Palette.BLACK],
+    [Ratings.EXTREME, Palette.RED],
+    [Ratings.HIGH, Palette.BLACK],
+    [Ratings.CONSIDERABLE, Palette.BLACK],
+    [Ratings.MODERATE, Palette.BLACK],
+    [Ratings.LOW, Palette.BLACK],
+    [Ratings.NO_RATING, Palette.BLACK],
 ])
 
 export const DangerIcon = new Map([
-     [Ratings.EXTREME, Palette.RED],
-     [Ratings.HIGH, Palette.RED],
-     [Ratings.CONSIDERABLE, Palette.ORANGE],
-     [Ratings.MODERATE, Palette.YELLOW],
-     [Ratings.LOW, Palette.GREEN],
-     [Ratings.NO_RATING, Palette.WHITE],
+    [Ratings.EXTREME, Palette.RED],
+    [Ratings.HIGH, Palette.RED],
+    [Ratings.CONSIDERABLE, Palette.ORANGE],
+    [Ratings.MODERATE, Palette.YELLOW],
+    [Ratings.LOW, Palette.GREEN],
+    [Ratings.NO_RATING, Palette.WHITE],
 ])

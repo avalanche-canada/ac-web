@@ -8,10 +8,10 @@ Topic.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Topic({title, src}) {
+function Topic({ title, src }) {
     return (
-        <figure styleName='Topic'>
-            <div styleName='Topic--Content'>
+        <figure styleName="Topic">
+            <div styleName="Topic--Content">
                 <img src={src} />
             </div>
             <figcaption>{title}</figcaption>

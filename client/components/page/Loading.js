@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Content, Main, Header} from '~/components/page'
-import {Muted} from '~/components/misc'
+import { Page, Content, Main, Header } from '~/components/page'
+import { Muted } from '~/components/misc'
 
 Loading.propTypes = {
     title: PropTypes.string,
     message: PropTypes.string,
 }
 
-export default function Loading({title = message, message = 'Loading...'}) {
+export default function Loading({ title = message, message = 'Loading...' }) {
     return (
         <Page>
             <Header title={title} />

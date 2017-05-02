@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 import prismic from './prismic'
 import map from './map'
 import api from './api'

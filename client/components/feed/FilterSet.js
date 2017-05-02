@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {FilterSet as Base, FilterEntry} from '~/components/filter'
-import {DropdownFromOptions as Dropdown} from '~/components/controls'
+import { FilterSet as Base, FilterEntry } from '~/components/filter'
+import { DropdownFromOptions as Dropdown } from '~/components/controls'
 
 FilterSet.propTypes = {
     category: PropTypes.string,
@@ -20,7 +20,7 @@ FilterSet.propTypes = {
         month: PropTypes.instanceOf(Map),
         timeline: PropTypes.instanceOf(Map),
         tag: PropTypes.instanceOf(Map),
-    }
+    },
 }
 
 export default function FilterSet({
@@ -40,44 +40,49 @@ export default function FilterSet({
         <Base>
             {options.category &&
                 <FilterEntry>
-                    <Dropdown value={category}
+                    <Dropdown
+                        value={category}
                         onChange={onCategoryChange}
                         options={options.category}
-                        placeholder={options.category.get()}/>
-                </FilterEntry>
-            }
+                        placeholder={options.category.get()}
+                    />
+                </FilterEntry>}
             {options.timeline &&
                 <FilterEntry>
-                    <Dropdown value={timeline}
+                    <Dropdown
+                        value={timeline}
                         onChange={onTimelineChange}
                         options={options.timeline}
-                        placeholder={options.timeline.get()}/>
-                </FilterEntry>
-            }
+                        placeholder={options.timeline.get()}
+                    />
+                </FilterEntry>}
             {options.year &&
                 <FilterEntry>
-                    <Dropdown value={year}
+                    <Dropdown
+                        value={year}
                         onChange={onYearChange}
                         options={options.year}
-                        placeholder={options.year.get()} />
-                </FilterEntry>
-            }
+                        placeholder={options.year.get()}
+                    />
+                </FilterEntry>}
             {options.month &&
                 <FilterEntry>
-                    <Dropdown value={month}
+                    <Dropdown
+                        value={month}
                         onChange={onMonthChange}
                         options={options.month}
-                        placeholder={options.month.get()} />
-                </FilterEntry>
-            }
+                        placeholder={options.month.get()}
+                    />
+                </FilterEntry>}
             {options.tag &&
                 <FilterEntry>
-                    <Dropdown value={tags}
+                    <Dropdown
+                        value={tags}
                         onChange={onTagChange}
                         options={options.tag}
-                        placeholder='All tags' />
-                </FilterEntry>
-            }
+                        placeholder="All tags"
+                    />
+                </FilterEntry>}
         </Base>
     )
 }

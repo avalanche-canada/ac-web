@@ -24,26 +24,32 @@ function create(overrides = {}) {
         return struct.renderFieldset(children, locals)
     }
 
-    struct.renderHelp = overrides.renderHelp || function renderHelp(locals) {
-        return getAlert('info', locals.help)
-    }
+    struct.renderHelp =
+        overrides.renderHelp ||
+        function renderHelp(locals) {
+            return getAlert('info', locals.help)
+        }
 
-    struct.renderError = overrides.renderError || function renderError(locals) {
-        return getAlert('error', locals.error)
-    }
+    struct.renderError =
+        overrides.renderError ||
+        function renderError(locals) {
+            return getAlert('error', locals.error)
+        }
 
     struct.renderFieldset = overrides.renderFieldset || renderFieldset
 
-    struct.renderFieldsetFields = overrides.renderFieldsetFields || function renderFieldsetFields(children) {
-        return (
-            <div className='fieldset-content'>
-            {children}
-        </div>
-        )
-    }
+    struct.renderFieldsetFields =
+        overrides.renderFieldsetFields ||
+        function renderFieldsetFields(children) {
+            return (
+                <div className="fieldset-content">
+                    {children}
+                </div>
+            )
+        }
 
     struct.clone = function clone(newOverrides = {}) {
-        return create({...overrides, ...newOverrides})
+        return create({ ...overrides, ...newOverrides })
     }
 
     return struct

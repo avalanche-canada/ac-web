@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Base from '~/components/ambassador'
-import {InnerHTML} from '~/components/misc'
+import { InnerHTML } from '~/components/misc'
 
-function computeSocials({twitter, facebook, instagram, website}) {
+function computeSocials({ twitter, facebook, instagram, website }) {
     return [twitter, facebook, instagram, website].filter(Boolean)
 }
 
@@ -45,9 +45,8 @@ function Ambassador({
         socials: computeSocials(socials),
     }
 
-
     return (
-        <Base {...ambassador} >
+        <Base {...ambassador}>
             <InnerHTML>
                 {biography}
             </InnerHTML>
@@ -59,7 +58,7 @@ AmbassadorSet.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object),
 }
 
-export default function AmbassadorSet({content = []}) {
+export default function AmbassadorSet({ content = [] }) {
     return (
         <div>
             {content.map((ambassador, index) => (

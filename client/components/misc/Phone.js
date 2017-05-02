@@ -14,17 +14,17 @@ function getChildren(children, phone, ext) {
         return children
     }
 
-    return `${phone}${ext ?  ` ext. ${ext}` : ''}`
+    return `${phone}${ext ? ` ext. ${ext}` : ''}`
 }
 
-export default function Phone({phone, ext, title, children}) {
+export default function Phone({ phone, ext, title, children }) {
     const href = url.format({
         protocol: 'tel',
         pathname: phone,
     })
 
     return (
-        <a {...{href, title}}>
+        <a {...{ href, title }}>
             {getChildren(children, phone, ext)}
         </a>
     )

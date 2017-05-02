@@ -8,12 +8,15 @@ export const propType = PropTypes.shape({
     messages: PropTypes.object,
 })
 
-const Status = Immutable.Record({
-    isLoading: false,
-    isLoaded: false,
-    isError: false,
-    messages: {},
-}, 'Status')
+const Status = Immutable.Record(
+    {
+        isLoading: false,
+        isLoaded: false,
+        isError: false,
+        messages: {},
+    },
+    'Status'
+)
 
 Object.assign(Status.prototype, {
     start() {
@@ -34,18 +37,18 @@ Object.assign(Status.prototype, {
             isLoading: false,
             isError: true,
         })
-    }
+    },
 })
 
 Object.assign(Status, {
-    createFromResultSet({isFetching, ...rest}, messages = {}) {
+    createFromResultSet({ isFetching, ...rest }, messages = {}) {
         const status = new Status({
             ...rest,
-            isLoading: isFetching
+            isLoading: isFetching,
         })
 
         return status.set('messages', messages)
-    }
+    },
 })
 
 export default Status

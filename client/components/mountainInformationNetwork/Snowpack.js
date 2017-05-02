@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types'
-import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import {
+    compose,
+    renameProps,
+    setDisplayName,
+    setPropTypes,
+    mapProps,
+} from 'recompose'
 import Content from './Content'
-import {asTermAndDefinition} from '~/components/description/utils'
+import { asTermAndDefinition } from '~/components/description/utils'
 
-const {object, number, string} = PropTypes
+const { object, number, string } = PropTypes
 
 export default compose(
     setDisplayName('Snowpack'),
@@ -43,7 +49,7 @@ export default compose(
         snowpackTestFailure: 'Snowpack test failure depth',
         snowpackTestFailureLayerCrystalType: 'Snowpack test failure layer crystal type',
     }),
-    mapProps(({snowpackObsComment, tempLatlng, ...values}) => ({
+    mapProps(({ snowpackObsComment, tempLatlng, ...values }) => ({
         comment: snowpackObsComment,
         descriptions: asTermAndDefinition(values),
     }))

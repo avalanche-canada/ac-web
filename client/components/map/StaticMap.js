@@ -1,7 +1,7 @@
-import React, {PureComponent, Children} from 'react'
-import {mapProps} from 'recompose'
+import React, { PureComponent, Children } from 'react'
+import { mapProps } from 'recompose'
 import PropTypes from 'prop-types'
-import {createStyleUrl} from '~/services/mapbox/api'
+import { createStyleUrl } from '~/services/mapbox/api'
 import debounce from 'lodash/debounce'
 
 export default class StaticMap extends PureComponent {
@@ -25,7 +25,7 @@ export default class StaticMap extends PureComponent {
         isError: false,
     }
     setUrl() {
-        const {tracked, ...props} = this.props
+        const { tracked, ...props } = this.props
 
         if (tracked) {
             props.width = this.refs.map.clientWidth
@@ -33,7 +33,7 @@ export default class StaticMap extends PureComponent {
         }
 
         this.setState({
-            url: createStyleUrl(props)
+            url: createStyleUrl(props),
         })
     }
     handleResize = debounce(() => {
@@ -63,28 +63,30 @@ export default class StaticMap extends PureComponent {
     }
     render() {
         return (
-            <div ref='map'>
-                <img src={this.state.url}
+            <div ref="map">
+                <img
+                    src={this.state.url}
                     onLoad={this.handleLoad}
-                    onError={this.handleError} />
+                    onError={this.handleError}
+                />
             </div>
         )
     }
 }
 
-// TODO: Need to find a better way to create overlay. 
-function createOverlay({props: {element, lngLat}}) {
+// TODO: Need to find a better way to create overlay.
+function createOverlay({ props: { element, lngLat } }) {
     const url = encodeURIComponent(element.src)
 
     return `url-${url}(${lngLat.lng},${lngLat.lat})`
 }
 
-function propsMapper({children, center, ...props}) {
+function propsMapper({ children, center, ...props }) {
     return {
         ...props,
         longitude: center.lng,
         latitude: center.lat,
-        overlay: Children.toArray(children).map(createOverlay)
+        overlay: Children.toArray(children).map(createOverlay),
     }
 }
 

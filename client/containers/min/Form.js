@@ -1,23 +1,23 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import t from '~/vendor/tcomb-form'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import withRouter from 'react-router/lib/withRouter'
 import CSSModules from 'react-css-modules'
-import {MountainInformationNetworkSubmission} from '~/api/schemas'
-import {Page, Header, Main, Content} from '~/components/page'
+import { MountainInformationNetworkSubmission } from '~/api/schemas'
+import { Page, Header, Main, Content } from '~/components/page'
 import OPTIONS from './options'
-import {postMountainInformationNetworkSubmission} from '~/actions/entities'
+import { postMountainInformationNetworkSubmission } from '~/actions/entities'
 import Submission from './types'
 import AuthService from '~/services/auth'
 import CancelError from '~/utils/promise/CancelError'
-import {Submit} from '~/components/button'
+import { Submit } from '~/components/button'
 import styles from './Form.css'
-import {TYPES} from '~/constants/min'
+import { TYPES } from '~/constants/min'
 import ObservationSetError from './ObservationSetError'
-import {scrollIntoView} from '~/utils/dom'
+import { scrollIntoView } from '~/utils/dom'
 
-const {Form} = t.form
+const { Form } = t.form
 
 function isObservationError(error) {
     return error.path[0] === 'observations'
@@ -25,7 +25,7 @@ function isObservationError(error) {
 
 @withRouter
 @connect(null, {
-    post: postMountainInformationNetworkSubmission
+    post: postMountainInformationNetworkSubmission,
 })
 @CSSModules(styles)
 export default class SubmissionForm extends Component {
@@ -63,11 +63,11 @@ export default class SubmissionForm extends Component {
                 observations: {
                     config: {
                         activeIndex: {
-                            '$set': activeIndex
-                        }
-                    }
-                }
-            }
+                            $set: activeIndex,
+                        },
+                    },
+                },
+            },
         })
     }
     setObservationErrors(errors) {
@@ -80,18 +80,26 @@ export default class SubmissionForm extends Component {
             fields: {
                 observations: {
                     error: {
-                        '$set': <ObservationSetError errors={errors} onErrorClick={this.handleErrorClick} />
-                    }
-                }
-            }
+                        $set: (
+                            <ObservationSetError
+                                errors={errors}
+                                onErrorClick={this.handleErrorClick}
+                            />
+                        ),
+                    },
+                },
+            },
         }
 
         this.patchOptions(patch, this.setActiveTab.bind(this, type))
     }
     patchOptions(patch, callback) {
-        this.setState({
-            options: t.update(this.state.options, patch)
-        }, callback)
+        this.setState(
+            {
+                options: t.update(this.state.options, patch),
+            },
+            callback
+        )
     }
     handleReportRemove = () => {
         setTimeout(this.validate)
@@ -104,7 +112,7 @@ export default class SubmissionForm extends Component {
         this.setActiveTab(type)
     }
     handleChange = value => {
-        this.setState({value})
+        this.setState({ value })
     }
     validate = () => {
         const result = this.refs.submission.validate()
@@ -127,34 +135,42 @@ export default class SubmissionForm extends Component {
             return
         }
 
-        const {path: [root]} = result.firstError()
+        const { path: [root] } = result.firstError()
 
         this.setObservationErrors(result.errors.filter(isObservationError))
 
         scrollIntoView(`.fieldset-${root}`)
     }
     submit(value) {
-        this.setState({
-            isSubmitting: true,
-        }, () => {
-            this.props.post(value).then(data => {
-                const {key} = MountainInformationNetworkSubmission
-                const id = MountainInformationNetworkSubmission.getId(data.value)
+        this.setState(
+            {
+                isSubmitting: true,
+            },
+            () => {
+                this.props.post(value).then(
+                    data => {
+                        const { key } = MountainInformationNetworkSubmission
+                        const id = MountainInformationNetworkSubmission.getId(
+                            data.value
+                        )
 
-                this.props.router.push({
-                    pathname: '/map',
-                    query: {
-                        panel: `${key}/${id}`
+                        this.props.router.push({
+                            pathname: '/map',
+                            query: {
+                                panel: `${key}/${id}`,
+                            },
+                        })
+                    },
+                    err => {
+                        this.setState({
+                            isSubmitting: false,
+                        })
+
+                        throw err
                     }
-                })
-            }, err => {
-                this.setState({
-                    isSubmitting: false,
-                })
-
-                throw err
-            })
-        })
+                )
+            }
+        )
     }
     componentDidUpdate() {
         if (!this.auth.isAuthenticated()) {
@@ -166,18 +182,30 @@ export default class SubmissionForm extends Component {
         }
     }
     render() {
-        const {options, type, value, isSubmitting} = this.state
+        const { options, type, value, isSubmitting } = this.state
         const disabled = isSubmitting
 
         return (
             <Page>
-                <Header title='Mountain Information Network — Create report' />
+                <Header title="Mountain Information Network — Create report" />
                 <Content>
                     <Main>
-                        <form onSubmit={this.handleSubmit} noValidate styleName='Container'>
-                            <Form ref='submission' value={value} type={type} options={options} disabled={disabled} onChange={this.handleChange} />
+                        <form
+                            onSubmit={this.handleSubmit}
+                            noValidate
+                            styleName="Container">
+                            <Form
+                                ref="submission"
+                                value={value}
+                                type={type}
+                                options={options}
+                                disabled={disabled}
+                                onChange={this.handleChange}
+                            />
                             <Submit large disabled={isSubmitting}>
-                                {isSubmitting ? 'Submitting your report...' : 'Submit your report'}
+                                {isSubmitting
+                                    ? 'Submitting your report...'
+                                    : 'Submit your report'}
                             </Submit>
                         </form>
                     </Main>

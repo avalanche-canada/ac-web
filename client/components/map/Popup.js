@@ -1,10 +1,19 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import mapbox from '~/services/mapbox/map'
 
-const {LngLat} = mapbox
-const ANCHORS = ['top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right']
+const { LngLat } = mapbox
+const ANCHORS = [
+    'top',
+    'bottom',
+    'left',
+    'right',
+    'top-left',
+    'top-right',
+    'bottom-left',
+    'bottom-right',
+]
 
 export default class Popup extends Component {
     static propTypes = {
@@ -34,7 +43,7 @@ export default class Popup extends Component {
         return this.context.map
     }
     createPopup() {
-        const {lngLat, children, show, options} = this.props
+        const { lngLat, children, show, options } = this.props
         const popup = new mapbox.Popup(options)
 
         ReactDOM.render(children, this.container)

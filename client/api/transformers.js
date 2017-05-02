@@ -3,7 +3,7 @@ import t from '~/vendor/tcomb-form'
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
 import Submission from '~/containers/min/types'
-import {QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT} from '~/constants/min'
+import { QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT } from '~/constants/min'
 
 const ObservationKeys = new Map([
     [QUICK, 'quickReport'],
@@ -14,60 +14,79 @@ const ObservationKeys = new Map([
 ])
 
 const ObservationTransformers = new Map([
-    [QUICK, quick => {
-        quick.ridingConditions = quick.ridingConditions || {}
+    [
+        QUICK,
+        quick => {
+            quick.ridingConditions = quick.ridingConditions || {}
 
-        function ridingConditionsReducer(conditions, key) {
-            const prev = QUICK_REPORT.ridingConditions[key]
-            const next = quick.ridingConditions[key]
+            function ridingConditionsReducer(conditions, key) {
+                const prev = QUICK_REPORT.ridingConditions[key]
+                const next = quick.ridingConditions[key]
 
-            if (prev.type === 'single') {
-                conditions[key] = {
-                    ...prev,
-                    selected: next || prev.selected
+                if (prev.type === 'single') {
+                    conditions[key] = {
+                        ...prev,
+                        selected: next || prev.selected,
+                    }
+                } else {
+                    conditions[key] = {
+                        ...prev,
+                        options: next || prev.options,
+                    }
                 }
-            } else {
-                conditions[key] = {
-                    ...prev,
-                    options: next || prev.options
-                }
+
+                return conditions
             }
 
-            return conditions
-        }
-
-        return {
-            comment: quick.comment || QUICK_REPORT.comment,
-            avalancheConditions: quick.avalancheConditions || QUICK_REPORT.avalancheConditions,
-            ridingConditions: Object.keys(QUICK_REPORT.ridingConditions)
-                                    .reduce(ridingConditionsReducer, {}),
-        }
-    }],
-    [AVALANCHE, ({avalancheOccurrence, ...avalanche}) => {
-        return {
-            ...avalanche,
-            avalancheOccurrenceEpoch: format(avalancheOccurrence, 'YYYY-MM-DD'),
-            avalancheOccurrenceTime: format(avalancheOccurrence, 'hh:mm A'),
-        }
-    }],
+            return {
+                comment: quick.comment || QUICK_REPORT.comment,
+                avalancheConditions: quick.avalancheConditions ||
+                    QUICK_REPORT.avalancheConditions,
+                ridingConditions: Object.keys(
+                    QUICK_REPORT.ridingConditions
+                ).reduce(ridingConditionsReducer, {}),
+            }
+        },
+    ],
+    [
+        AVALANCHE,
+        ({ avalancheOccurrence, ...avalanche }) => {
+            return {
+                ...avalanche,
+                avalancheOccurrenceEpoch: format(
+                    avalancheOccurrence,
+                    'YYYY-MM-DD'
+                ),
+                avalancheOccurrenceTime: format(avalancheOccurrence, 'hh:mm A'),
+            }
+        },
+    ],
     [SNOWPACK, identity],
     [WEATHER, identity],
-    [INCIDENT, incident => {
-        const {
-            numberFullyBuried = 0,
-            numberPartlyBuriedImpairedBreathing = 0,
-            numberPartlyBuriedAbleBreathing = 0,
-            numberCaughtOnly = 0,
-            numberPeopleInjured = 0,
-        } = incident.groupDetails || {}
-        const numberInvolved = numberFullyBuried + numberPartlyBuriedImpairedBreathing + numberPartlyBuriedAbleBreathing + numberCaughtOnly + numberPeopleInjured
+    [
+        INCIDENT,
+        incident => {
+            const {
+                numberFullyBuried = 0,
+                numberPartlyBuriedImpairedBreathing = 0,
+                numberPartlyBuriedAbleBreathing = 0,
+                numberCaughtOnly = 0,
+                numberPeopleInjured = 0,
+            } = incident.groupDetails || {}
+            const numberInvolved =
+                numberFullyBuried +
+                numberPartlyBuriedImpairedBreathing +
+                numberPartlyBuriedAbleBreathing +
+                numberCaughtOnly +
+                numberPeopleInjured
 
-        if (numberInvolved > 0) {
-            incident.numberInvolved = numberInvolved
-        }
+            if (numberInvolved > 0) {
+                incident.numberInvolved = numberInvolved
+            }
 
-        return incident
-    }],
+            return incident
+        },
+    ],
 ])
 
 function transformProvider(provider) {
@@ -82,7 +101,7 @@ function transformProvider(provider) {
 export function transformProviderResponse(data) {
     return {
         ...data,
-        results: data.results.map(transformProvider)
+        results: data.results.map(transformProvider),
     }
 }
 
@@ -95,7 +114,7 @@ export function transformCourseResponse(data) {
             dateEnd: course.date_end,
             locDescription: course.loc_description,
             provider: transformProvider(course.provider),
-        }))
+        })),
     }
 }
 
@@ -106,9 +125,9 @@ export function transformSubmissionForPost(value) {
         throw new Error('Can not transform submission because it is not valid')
     }
 
-    const {required, uploads} = value
+    const { required, uploads } = value
     const observations = JSON.parse(JSON.stringify(value.observations))
-    const {longitude, latitude} = required.latlng
+    const { longitude, latitude } = required.latlng
     const data = {
         ...required,
         datetime: required.datetime.toISOString(),
@@ -124,7 +143,7 @@ export function transformSubmissionForPost(value) {
             }
 
             return obs
-        }, {})
+        }, {}),
     }
 
     // Conversion to form data
@@ -144,7 +163,7 @@ export function transformSubmissionForPost(value) {
     // Files[Iterator] does not exist in Safari :(
     const files = uploads.files || []
     for (let i = 0; i < files.length; i++) {
-        form.append(`files${i+1}`, files[i])
+        form.append(`files${i + 1}`, files[i])
     }
 
     return form

@@ -21,8 +21,8 @@ export const RelativeHumidity = {
     title: 'RH (%)',
     rowSpan: 2,
     style: {
-        whiteSpace: 'normal'
-    }
+        whiteSpace: 'normal',
+    },
 }
 
 export const Snow = {
@@ -30,8 +30,8 @@ export const Snow = {
     title: 'Snow (cm)',
     colSpan: 2,
     style: {
-        whiteSpace: 'normal'
-    }
+        whiteSpace: 'normal',
+    },
 }
 
 export const SnowHeight = {

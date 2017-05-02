@@ -8,4 +8,4 @@ export Content from './Content'
 export Banner from './Banner'
 export Close from './Close'
 
-export {LEFT, RIGHT} from './constants/sides'
+export { LEFT, RIGHT } from './constants/sides'

@@ -11,16 +11,16 @@ SPAW.propTypes = {
     children: PropTypes.node,
 }
 
-function SPAW({children = 'Special Public Avalanche Warning', link, style}) {
+function SPAW({ children = 'Special Public Avalanche Warning', link, style }) {
     if (!link) {
         return (
-            <span styleName='SPAW'>
+            <span styleName="SPAW">
                 {children}
             </span>
         )
     }
     return (
-        <Link styleName='SPAW' document={link} style={style}>
+        <Link styleName="SPAW" document={link} style={style}>
             {children}
         </Link>
     )

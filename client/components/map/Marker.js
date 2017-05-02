@@ -1,9 +1,9 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from '~/services/mapbox/map'
 import noop from 'lodash/noop'
 
-const {LngLat} = mapbox
+const { LngLat } = mapbox
 
 export default class Marker extends Component {
     static propTypes = {
@@ -46,11 +46,11 @@ export default class Marker extends Component {
             this.marker.remove()
         }
     }
-    createMarker({element, lngLat, options, onClick, draggable}) {
+    createMarker({ element, lngLat, options, onClick, draggable }) {
         // TODO: Remove that. Should by provided as part of the element
         if (onClick) {
             Object.assign(element, {
-                onclick: event => onClick(this.props, event)
+                onclick: event => onClick(this.props, event),
             })
         }
 
@@ -63,8 +63,8 @@ export default class Marker extends Component {
 
         return new mapbox.Marker(element, options).setLngLat(lngLat)
     }
-    handleMousedown = ({target}) => {
-        const {map} = this
+    handleMousedown = ({ target }) => {
+        const { map } = this
         const canvas = map.getCanvas()
 
         canvas.style.cursor = 'move'
@@ -80,7 +80,7 @@ export default class Marker extends Component {
         this.element.style.transform += ' scale(1.25)'
     }
     handleMapMouseup = event => {
-        const {map} = this
+        const { map } = this
         const canvas = map.getCanvas()
 
         canvas.style.cursor = ''
@@ -97,7 +97,7 @@ export default class Marker extends Component {
         this.marker = this.createMarker(this.props)
     }
     componentWillReceiveProps(nextProps) {
-        const {element, lngLat} = nextProps
+        const { element, lngLat } = nextProps
 
         if (this.element !== element) {
             this.marker = this.createMarker(nextProps)

@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import range from 'lodash/range'
 
-// TODO: Looking at moving that chunk of data to the server. 
+// TODO: Looking at moving that chunk of data to the server.
 // But need to remove dependency to Immutable.
 // There is no big advantages here to use Immutable.
 
@@ -182,7 +182,7 @@ export const Forecast = new Immutable.Map({
         hours: range(12, 144 + 1, 6),
         extension: 'jpg',
     }),
-    'AC_GDPS_EPA_tpw': new Metadata({
+    AC_GDPS_EPA_tpw: new Metadata({
         id: 'AC_GDPS_EPA_tpw',
         title: 'Precipitable Water (G)',
         shortTitle: 'Precipitable water',
@@ -246,11 +246,9 @@ export const CurrentConditions = new Immutable.Map({
         // minutes: range(5 * 60, 22 * 60 + 1, 60),
         minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
-        notes: [
-            'Visible imagery not available at night.'
-        ]
+        notes: ['Visible imagery not available at night.'],
     }),
-    'AC_SAT_BC_visible': new Metadata({
+    AC_SAT_BC_visible: new Metadata({
         id: 'AC_SAT_BC_visible',
         title: 'Visible',
         shortTitle: 'VIS BC',
@@ -258,9 +256,7 @@ export const CurrentConditions = new Immutable.Map({
         // minutes: range(5 * 60, 22 * 60 + 1, 60),
         minutes: range(0, 24 * 60, 60),
         extension: 'jpg',
-        notes: [
-            'Visible imagery not available at night.'
-        ]
+        notes: ['Visible imagery not available at night.'],
     }),
     // Current/Warnings
     'AC_PLOT_BC_weather-warnings': new Metadata({

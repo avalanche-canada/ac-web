@@ -4,16 +4,16 @@ import styles from '~/containers/min/Form.css'
 
 function Layout(locals) {
     return (
-        <div styleName='Layout'>
-            <div styleName='Sidebar'>
-                <div styleName='RequiredInformation'>
+        <div styleName="Layout">
+            <div styleName="Sidebar">
+                <div styleName="RequiredInformation">
                     {locals.inputs.required}
                 </div>
-                <div styleName='UploadSet'>
+                <div styleName="UploadSet">
                     {locals.inputs.uploads}
                 </div>
             </div>
-            <div styleName='ObservationSet'>
+            <div styleName="ObservationSet">
                 {locals.inputs.observations}
             </div>
         </div>

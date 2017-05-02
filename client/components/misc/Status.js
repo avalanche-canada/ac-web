@@ -1,8 +1,8 @@
-import {createElement} from 'react'
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKeys} from 'recompose'
-import {Loading, Error, Muted} from './Text'
-import {trulyKeys} from '~/utils/object'
+import { onlyUpdateForKeys } from 'recompose'
+import { Loading, Error, Muted } from './Text'
+import { trulyKeys } from '~/utils/object'
 
 const Components = new Map([
     ['isLoading', Loading],
@@ -21,8 +21,8 @@ Status.propTypes = {
     }),
 }
 
-function Status({isLoading, isError, isLoaded, messages = {}}) {
-    const [key] = trulyKeys({isLoading, isError, isLoaded})
+function Status({ isLoading, isError, isLoaded, messages = {} }) {
+    const [key] = trulyKeys({ isLoading, isError, isLoaded })
 
     if (!key) {
         return null
@@ -31,7 +31,7 @@ function Status({isLoading, isError, isLoaded, messages = {}}) {
     messages = {
         isLoading: 'Loading...',
         isError: 'An error happened...',
-        ...messages
+        ...messages,
     }
 
     if (messages[key]) {
@@ -41,8 +41,4 @@ function Status({isLoading, isError, isLoaded, messages = {}}) {
     return null
 }
 
-export default onlyUpdateForKeys([
-    'isLoading',
-    'isError',
-    'isLoaded'
-])(Status)
+export default onlyUpdateForKeys(['isLoading', 'isError', 'isLoaded'])(Status)

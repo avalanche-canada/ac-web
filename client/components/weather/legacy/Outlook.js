@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {InnerHTML} from '~/components/misc'
+import { InnerHTML } from '~/components/misc'
 import Image from './Image'
 
 const sequence = [1, 2, 3, 4]
@@ -9,8 +9,8 @@ Outlook.propTypes = {
     forecast: PropTypes.object.isRequired,
 }
 
-export default function Outlook({forecast}) {
-    const {outlook} = forecast
+export default function Outlook({ forecast }) {
+    const { outlook } = forecast
 
     if (outlook === null) {
         return null

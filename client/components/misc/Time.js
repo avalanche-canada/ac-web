@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, withProps} from 'recompose'
+import { compose, setDisplayName, withProps } from 'recompose'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import parse from 'date-fns/parse'
 import formatDate from 'date-fns/format'
@@ -11,7 +11,7 @@ Time.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Time({value = new Date(), format, children}) {
+export default function Time({ value = new Date(), format, children }) {
     const date = parse(value)
 
     if (typeof format === 'function') {
@@ -28,9 +28,9 @@ export default function Time({value = new Date(), format, children}) {
 export function createTime(displayName, defaultFormat) {
     return compose(
         setDisplayName(displayName),
-        withProps(({format}) => ({
-            format: format || defaultFormat
-        })),
+        withProps(({ format }) => ({
+            format: format || defaultFormat,
+        }))
     )(Time)
 }
 
@@ -41,10 +41,10 @@ Relative.propTypes = {
 }
 
 const OPTIONS = {
-    addSuffix: true
+    addSuffix: true,
 }
 
-export function Relative({value = new Date(), children, options = OPTIONS}) {
+export function Relative({ value = new Date(), children, options = OPTIONS }) {
     return (
         <time dateTime={value.toISOString()}>
             {children || distanceInWordsToNow(value, options)}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from '~/compose'
+import { onlyUpdateForKey } from '~/compose'
 
 function createStyle(count, gap) {
     if (count === 1) {
@@ -23,7 +23,7 @@ ColumnSet.propTypes = {
     children: PropTypes.node,
 }
 
-function ColumnSet({count = 1, gap = 25, children}) {
+function ColumnSet({ count = 1, gap = 25, children }) {
     return (
         <div style={createStyle(count, gap)}>
             {children}

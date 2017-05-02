@@ -10,9 +10,9 @@ Item.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Item({active = false, onClick = noop, children}) {
+function Item({ active = false, onClick = noop, children }) {
     return (
-        <li styleName={active ? 'Item--Active' :'Item'} onClick={onClick} >
+        <li styleName={active ? 'Item--Active' : 'Item'} onClick={onClick}>
             {children}
         </li>
     )

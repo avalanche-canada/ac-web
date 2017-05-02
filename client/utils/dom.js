@@ -5,9 +5,9 @@ export function scrollPosition(hash) {
         return null
     }
 
-    const {top} = element.parentElement.getBoundingClientRect()
-    const {pageYOffset} = window
-    const {pathname} = document.location
+    const { top } = element.parentElement.getBoundingClientRect()
+    const { pageYOffset } = window
+    const { pathname } = document.location
     let offset = 15
 
     if (pathname === '/ambassadors') {

@@ -3,8 +3,8 @@
 import React from 'react'
 import classnames from 'classnames'
 
-function getClassName({path, hasError, className}) {
-    const {length} = path
+function getClassName({ path, hasError, className }) {
+    const { length } = path
 
     return classnames({
         ui: true,
@@ -14,21 +14,22 @@ function getClassName({path, hasError, className}) {
         fieldset: true,
         [`fieldset-depth-${length}`]: true,
         [`fieldset-${path.join('-')}`]: length > 0,
-        [className]: !!className
+        [className]: !!className,
     })
 }
 
 export default function renderFieldset(children, locals) {
-    const {label, disabled} = locals
-    const legend = label ? <legend className='ui dividing header'>{label}</legend> : null
+    const { label, disabled } = locals
+    const legend = label
+        ? <legend className="ui dividing header">{label}</legend>
+        : null
     const props = {
         className: getClassName(locals),
         disabled,
     }
 
-    return React.createElement.apply(null, [
-        'fieldset',
-        props,
-        legend
-    ].concat(children))
+    return React.createElement.apply(
+        null,
+        ['fieldset', props, legend].concat(children)
+    )
 }

@@ -9,9 +9,9 @@ LayerSet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function LayerSet({title, children}) {
+function LayerSet({ title, children }) {
     return (
-        <div styleName='LayerSet'>
+        <div styleName="LayerSet">
             <Subject>{title}</Subject>
             {children}
         </div>

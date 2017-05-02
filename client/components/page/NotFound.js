@@ -3,7 +3,7 @@ import Link from 'react-router/lib/Link'
 import CSSModules from 'react-css-modules'
 import Error from './Error'
 import Main from './Main'
-import {ButtonSet} from '~/components/button'
+import { ButtonSet } from '~/components/button'
 import styles from './Page.css'
 
 function NotFound() {
@@ -14,19 +14,19 @@ function NotFound() {
                 <div>
                     <h2>The page you are looking for has not been found.</h2>
                     <ButtonSet>
-                        <Link to='/' styleName='Link'>
+                        <Link to="/" styleName="Link">
                             Forecasts
                         </Link>
-                        <Link to='/training' styleName='Link'>
+                        <Link to="/training" styleName="Link">
                             Training
                         </Link>
-                        <Link to='/news' styleName='Link'>
+                        <Link to="/news" styleName="Link">
                             Latest news
                         </Link>
-                        <Link to='/events' styleName='Link'>
+                        <Link to="/events" styleName="Link">
                             Upcoming events
                         </Link>
-                        <Link to='/blogs' styleName='Link'>
+                        <Link to="/blogs" styleName="Link">
                             Our blog
                         </Link>
                     </ButtonSet>

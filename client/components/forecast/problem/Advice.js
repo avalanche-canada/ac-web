@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {InnerHTML} from '~/components/misc'
+import { InnerHTML } from '~/components/misc'
 import styles from './Problem.css'
 
 Advice.propTypes = {
@@ -9,10 +9,10 @@ Advice.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Advice({children}) {
+function Advice({ children }) {
     return (
-        <div styleName='Advice'>
-            <h3 styleName='SubHeader'>
+        <div styleName="Advice">
+            <h3 styleName="SubHeader">
                 Travel and Terrain Advice
             </h3>
             <InnerHTML>

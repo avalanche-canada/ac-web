@@ -1,5 +1,5 @@
 import padstart from 'lodash/padStart'
-import {meteogram} from '~/services/msc/config.json'
+import { meteogram } from '~/services/msc/config.json'
 
 export const POINT_LOCATIONS = new Set([
     'Seven.Seas@Big.Horn',
@@ -72,7 +72,7 @@ export const POINT_LOCATIONS = new Set([
     'Paddy.Peak@Yukon',
     'Tally.Ho.Mtn@Yukon',
     'White.Pass.East@Yukon',
-    'White.Pass@Yukon'
+    'White.Pass@Yukon',
 ])
 export const GROUP_LOCATIONS = new Set([
     'Big.Horn',
@@ -89,20 +89,16 @@ export const GROUP_LOCATIONS = new Set([
     'South.Coast.Inland',
     'South.Columbia',
     'South.Rockies',
-    'Yukon'
+    'Yukon',
 ])
 
 export const RDPS = 'RDPS'
 export const GDPS = 'GDPS'
 export const HRDPS = 'HRDPS'
 
-const PREFIXES = new Map([
-    [RDPS, 'GEMr'],
-    [GDPS, 'GEMg'],
-    [HRDPS, 'LAMw'],
-])
+const PREFIXES = new Map([[RDPS, 'GEMr'], [GDPS, 'GEMg'], [HRDPS, 'LAMw']])
 
-export function format({model, run, location}) {
+export function format({ model, run, location }) {
     if (!PREFIXES.has(model)) {
         throw new TypeError(`${model} is not recognized model.`)
     }

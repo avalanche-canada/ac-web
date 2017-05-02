@@ -5,7 +5,7 @@ export function paramsToKey(params) {
     return Immutable.fromJS(params || {}).hashCode()
 }
 
-export function getPayload(state, {payload}) {
+export function getPayload(state, { payload }) {
     return payload
 }
 

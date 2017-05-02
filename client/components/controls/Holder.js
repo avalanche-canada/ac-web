@@ -8,10 +8,10 @@ Holder.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
-function Holder({value, placeholder}) {
+function Holder({ value, placeholder }) {
     return (
         <div styleName={value ? 'Valueholder' : 'Placeholder'}>
-            <div styleName='Holder--Content'>
+            <div styleName="Holder--Content">
                 {value || placeholder}
             </div>
         </div>

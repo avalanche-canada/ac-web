@@ -1,13 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, setDisplayName, withState, renameProp, lifecycle, onlyUpdateForKeys} from 'recompose'
-import {Motion, spring, presets} from 'react-motion'
+import {
+    compose,
+    setPropTypes,
+    setDisplayName,
+    withState,
+    renameProp,
+    lifecycle,
+    onlyUpdateForKeys,
+} from 'recompose'
+import { Motion, spring, presets } from 'react-motion'
 import CSSModules from 'react-css-modules'
-import {history} from '~/router'
+import { history } from '~/router'
 import Cabinet from './Cabinet'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
-import {findNode, getPath, getParent} from '~/utils/tree'
+import { findNode, getPath, getParent } from '~/utils/tree'
 
 const preset = presets.noWobble
 
@@ -20,7 +28,7 @@ function handleClick(id, event) {
 }
 
 function handleContainerClick(event) {
-    const {target, currentTarget} = event
+    const { target, currentTarget } = event
 
     if (target !== currentTarget) {
         return
@@ -46,7 +54,7 @@ function handleCloseChildren(id, event) {
     this.setNode(node)
 }
 
-function createDrawer({id, children, ...drawer}) {
+function createDrawer({ id, children, ...drawer }) {
     return {
         key: id,
         data: {
@@ -55,13 +63,13 @@ function createDrawer({id, children, ...drawer}) {
             onClick: handleCloseChildren.bind(this, id),
             children: children.map(item => ({
                 ...item,
-                onClick: handleClick.bind(this, item.id)
-            }))
-        }
+                onClick: handleClick.bind(this, item.id),
+            })),
+        },
     }
 }
 
-function getStyle({x}) {
+function getStyle({ x }) {
     const transform = `translateX(${x * 100}%)`
 
     return {
@@ -71,7 +79,7 @@ function getStyle({x}) {
 }
 
 const defaultStyle = {
-    x: -1
+    x: -1,
 }
 
 Animated.propTypes = {
@@ -82,24 +90,25 @@ Animated.propTypes = {
     setNode: PropTypes.func.isRequired,
 }
 
-function Animated({show = false, onClose = noop, root, node, setNode}) {
+function Animated({ show = false, onClose = noop, root, node, setNode }) {
     const path = getPath(root, node)
     const onRest = show ? noop : onClose
-    const context = {node, setNode, root, onClose}
+    const context = { node, setNode, root, onClose }
     const drawers = path.reverse().map(createDrawer, context)
     const onClick = handleContainerClick.bind(context)
     const style = {
-        x: spring(show ? 0 : -1, preset)
+        x: spring(show ? 0 : -1, preset),
     }
 
     return (
-        <Motion {...{defaultStyle, style, onRest}}>
-            {value =>
+        <Motion {...{ defaultStyle, style, onRest }}>
+            {value => (
                 <StylishedContainer
                     style={getStyle(value)}
                     onClick={onClick}
-                    drawers={drawers} />
-            }
+                    drawers={drawers}
+                />
+            )}
         </Motion>
     )
 }
@@ -110,9 +119,9 @@ Container.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Container({style = null, drawers, onClick}) {
+function Container({ style = null, drawers, onClick }) {
     return (
-        <div style={style} styleName='Container' onClick={onClick}>
+        <div style={style} styleName="Container" onClick={onClick}>
             <Cabinet drawers={drawers} />
         </div>
     )
@@ -133,6 +142,6 @@ export default compose(
     lifecycle({
         componentDidMount() {
             history.listenBefore(this.props.onClose)
-        }
+        },
     })
 )(Animated)

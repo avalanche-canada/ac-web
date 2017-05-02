@@ -1,13 +1,13 @@
 import React from 'react'
-import {withProps} from 'recompose'
-import DayPicker, {WeekdayPropTypes, NavbarPropTypes} from 'react-day-picker'
-import {Previous, Next} from '~/components/icons'
-import Button, {SUBTILE} from '~/components/button'
+import { withProps } from 'recompose'
+import DayPicker, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
+import { Previous, Next } from '~/components/icons'
+import Button, { SUBTILE } from '~/components/button'
 import classNames from './DayPicker.css'
 
 Weekday.propTypes = WeekdayPropTypes
 
-function Weekday({weekday, className, localeUtils, locale}) {
+function Weekday({ weekday, className, localeUtils, locale }) {
     const weekdayName = localeUtils.formatWeekdayLong(weekday, locale)
 
     return (
@@ -27,7 +27,7 @@ function Navbar({
     onPreviousClick,
     onNextClick,
     className,
-    localeUtils
+    localeUtils,
 }) {
     const months = localeUtils.getMonths()
     const previous = {

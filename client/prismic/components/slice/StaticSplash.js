@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Splash} from '~/components/page/sections'
-import {InnerHTML} from '~/components/misc'
+import { Splash } from '~/components/page/sections'
+import { InnerHTML } from '~/components/misc'
 import Generic from '~/prismic/components/Generic'
 
 StaticSplash.propTypes = {
@@ -9,7 +9,7 @@ StaticSplash.propTypes = {
 }
 
 export default function StaticSplash({
-    content: [{header, post1, post2, post3}] = []
+    content: [{ header, post1, post2, post3 }] = [],
 }) {
     const posts = [post1, post2, post3].filter(Boolean)
 

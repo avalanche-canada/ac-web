@@ -1,5 +1,5 @@
-import React, {createElement} from 'react'
-import {storiesOf, action} from '@kadira/storybook'
+import React, { createElement } from 'react'
+import { storiesOf, action } from '@kadira/storybook'
 import * as Icons from './index'
 
 const stories = storiesOf('Icons', module)

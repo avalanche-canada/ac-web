@@ -1,11 +1,11 @@
 import * as normalizr from 'normalizr'
-import {createAction} from 'redux-actions'
+import { createAction } from 'redux-actions'
 import * as Api from '~/api'
 import * as Schemas from '~/api/schemas'
 import * as Actions from '~/actions/entities'
-import {getResultsSet, hasResultsSet} from '~/getters/api'
-import {getEntitiesForSchema} from '~/getters/entities'
-import {DelayPromise} from '~/utils/promise'
+import { getResultsSet, hasResultsSet } from '~/getters/api'
+import { getEntitiesForSchema } from '~/getters/entities'
+import { DelayPromise } from '~/utils/promise'
 
 function normalize(data, schema) {
     let shape = schema
@@ -14,21 +14,24 @@ function normalize(data, schema) {
         shape = [schema]
     } else if (Array.isArray(data.results)) {
         shape = {
-            results: [schema]
+            results: [schema],
         }
     } else if (Array.isArray(data.features)) {
         shape = {
-            features: [schema]
+            features: [schema],
         }
     }
 
-    return Object.assign({
-        result: []
-    }, normalizr.normalize(data, shape))
+    return Object.assign(
+        {
+            result: [],
+        },
+        normalizr.normalize(data, shape)
+    )
 }
 
 export function createFetchActionForSchema(type, schema) {
-    function handleFulfilled({data, status}) {
+    function handleFulfilled({ data, status }) {
         if (status === 404) {
             data = []
         }
@@ -49,7 +52,11 @@ export function createFetchActionForSchema(type, schema) {
         const state = getState()
 
         if (hasResultsSet(state, schema, params)) {
-            const {isLoaded, isFetching} = getResultsSet(state, schema, params)
+            const { isLoaded, isFetching } = getResultsSet(
+                state,
+                schema,
+                params
+            )
 
             if (isFetching || isLoaded) {
                 return Promise.resolve()
@@ -67,20 +74,20 @@ export function createFetchMetadataAction() {
     function normalize(entities) {
         return {
             entities,
-            result: Object.keys(entities[schema.key])
+            result: Object.keys(entities[schema.key]),
         }
     }
     const creator = createAction(
         type,
         () => Api.fetchFeaturesMetadata().then(normalize),
-        () => ({type, schema}) // To have results reducer to work as expected
+        () => ({ type, schema }) // To have results reducer to work as expected
     )
 
     return () => (dispatch, getState) => {
         const state = getState()
 
         if (hasResultsSet(state, schema)) {
-            const {isLoaded, isFetching} = getResultsSet(state, schema)
+            const { isLoaded, isFetching } = getResultsSet(state, schema)
 
             if (isFetching || isLoaded) {
                 return

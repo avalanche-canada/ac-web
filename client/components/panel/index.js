@@ -1,1 +1,1 @@
-export default, {SIMPLE, INVERSE} from './Panel'
+export default, { SIMPLE, INVERSE } from './Panel'

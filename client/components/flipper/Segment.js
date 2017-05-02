@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import { compose, setDisplayName, setPropTypes, mapProps } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {ChevronLeft, ChevronRight} from '../icons'
+import { ChevronLeft, ChevronRight } from '../icons'
 import Button from '../button'
 import styles from './Flipper.css'
 import noop from 'lodash/noop'
@@ -14,10 +14,7 @@ const icons = new Map([
     [LEFT, <ChevronLeft inverse />],
     [RIGHT, <ChevronRight inverse />],
 ])
-const hints = new Map([
-    [LEFT, 'Previous'],
-    [RIGHT, 'Next'],
-])
+const hints = new Map([[LEFT, 'Previous'], [RIGHT, 'Next']])
 
 Segment.propTypes = {
     position: PropTypes.oneOf([LEFT, RIGHT]).isRequired,
@@ -32,17 +29,17 @@ function Segment({
     onNavigate = noop,
     hint = hints.get(position),
     hidden = false,
-    children
+    children,
 }) {
     return (
         <div styleName={`${position}${hidden ? '--hidden' : ''}`}>
-            <div styleName='Navigation'>
+            <div styleName="Navigation">
                 <Button onClick={onNavigate}>
                     {icons.get(position)}
                 </Button>
             </div>
-            <div styleName='Description'>
-                <div styleName='Hint'>
+            <div styleName="Description">
+                <div styleName="Hint">
                     {hint}
                 </div>
                 {children}
@@ -74,9 +71,9 @@ Middle.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Middle({children}) {
+function Middle({ children }) {
     return (
-        <div styleName='Center'>
+        <div styleName="Center">
             {children}
         </div>
     )

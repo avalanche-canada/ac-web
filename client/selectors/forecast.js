@@ -1,13 +1,13 @@
 import parse from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
-import {createSelector} from 'reselect'
-import {Forecast, ForecastRegion} from '~/api/schemas'
-import {getEntitiesForSchema, getEntityForSchema} from '~/getters/entities'
-import {getResultsSet} from '~/getters/api'
+import { createSelector } from 'reselect'
+import { Forecast, ForecastRegion } from '~/api/schemas'
+import { getEntitiesForSchema, getEntityForSchema } from '~/getters/entities'
+import { getResultsSet } from '~/getters/api'
 import * as Ratings from '~/constants/forecast/rating'
 import * as Modes from '~/constants/forecast/mode'
-import {computeFitBounds} from '~/selectors/map/bounds'
-import {getHighlight} from '~/getters/prismic'
+import { computeFitBounds } from '~/selectors/map/bounds'
+import { getHighlight } from '~/getters/prismic'
 import camelCase from 'lodash/camelCase'
 
 // TODO: Use constants server response to reduce client side transformation.
@@ -29,8 +29,8 @@ const TO_MODES = new Map([
     ['Early season', Modes.EARLY_SEASON],
 ])
 
-function transformDangerRating({date, dangerRating}) {
-    const {alp, tln, btl} = dangerRating
+function transformDangerRating({ date, dangerRating }) {
+    const { alp, tln, btl } = dangerRating
 
     return {
         date: parse(date),
@@ -38,7 +38,7 @@ function transformDangerRating({date, dangerRating}) {
             alp: TO_RATINGS.get(alp),
             tln: TO_RATINGS.get(tln),
             btl: TO_RATINGS.get(btl),
-        }
+        },
     }
 }
 
@@ -48,7 +48,9 @@ function trim(text) {
 
 // TODO: Have the server to provide it as object instead of a string
 function asConfidenceObject(confidence) {
-    const [level, comment] = typeof confidence === 'string' ? confidence.split(' - ') : []
+    const [level, comment] = typeof confidence === 'string'
+        ? confidence.split(' - ')
+        : []
 
     return {
         level,
@@ -69,14 +71,14 @@ function transform(forecast) {
         confidence,
         avalancheSummary,
         snowpackSummary,
-        weatherForecast
+        weatherForecast,
     } = forecast
 
     // TODO(wnh): Clean this up and merge it into either the server side or the
     // transformDangerRating function
-    const fixDangerRatingDates = function(x, n){
+    const fixDangerRatingDates = function(x, n) {
         return Object.assign({}, x, {
-            date: addDays(parse(dateIssued), n + 1)
+            date: addDays(parse(dateIssued), n + 1),
         })
     }
 
@@ -86,7 +88,9 @@ function transform(forecast) {
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued: parse(dateIssued),
         validUntil: parse(validUntil),
-        dangerRatings: dangerRatings.map(transformDangerRating).map(fixDangerRatingDates),
+        dangerRatings: dangerRatings
+            .map(transformDangerRating)
+            .map(fixDangerRatingDates),
         avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
@@ -97,18 +101,18 @@ function getForecasts(state) {
     return getEntitiesForSchema(state, Forecast)
 }
 
-function getForecastRegion(state, {params}) {
+function getForecastRegion(state, { params }) {
     return getEntityForSchema(state, ForecastRegion, params.name)
 }
 
-function getForecastResultSet(state, {params}) {
+function getForecastResultSet(state, { params }) {
     return getResultsSet(state, Forecast, params)
 }
 
 const getForecast = createSelector(
     getForecasts,
     getForecastResultSet,
-    function findForecast(forecasts, {ids}) {
+    function findForecast(forecasts, { ids }) {
         const [id] = ids
 
         return forecasts.get(id)
@@ -142,14 +146,14 @@ export default createSelector(
         }
 
         forecast = transform(forecast.toJSON())
-        const {externalUrl, parksUrl, region} = forecast
+        const { externalUrl, parksUrl, region } = forecast
         let showForecast = false
         let link = null
 
         if (externalUrl) {
             if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
                 link = {
-                    to: '/blogs?category=north-rockies'
+                    to: '/blogs?category=north-rockies',
                 }
             } else {
                 link = {
@@ -173,9 +177,10 @@ export default createSelector(
             title: forecast.bulletinTitle || forecast.name || region.name,
             forecast: showForecast ? forecast : null,
             link,
-            isUnderSpecialWarning: highlight && highlight[camelCase(region)] === 'Yes',
+            isUnderSpecialWarning: highlight &&
+                highlight[camelCase(region)] === 'Yes',
             specialWarningLink: highlight && highlight.link,
-            specialWarningContent: highlight && highlight.description
+            specialWarningContent: highlight && highlight.description,
         })
     }
 )

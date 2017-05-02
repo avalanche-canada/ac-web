@@ -1,11 +1,11 @@
-import {createSelector} from 'reselect'
-import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
-import {getEntityForSchema} from '~/getters/entities'
-import {getResultsSet} from '~/getters/api'
-import {computeOffset} from '~/selectors/map/bounds'
+import { createSelector } from 'reselect'
+import { MountainInformationNetworkSubmission as Schema } from '~/api/schemas'
+import { getEntityForSchema } from '~/getters/entities'
+import { getResultsSet } from '~/getters/api'
+import { computeOffset } from '~/selectors/map/bounds'
 
 // TODO: Try to remove the need for that function
-export function getId({id, params}) {
+export function getId({ id, params }) {
     return id || params.id
 }
 
@@ -18,7 +18,7 @@ function getSubmission(state, props) {
 function getSubmissionResultsSet(state, props) {
     const id = getId(props)
 
-    return getResultsSet(state, Schema, {id})
+    return getResultsSet(state, Schema, { id })
 }
 
 const getComputeFlyTo = createSelector(
@@ -53,7 +53,15 @@ export default createSelector(
         }
 
         if (submission) {
-            const {title, user, datetime, obtype, obs, uploads, latlng} = submission.toJSON()
+            const {
+                title,
+                user,
+                datetime,
+                obtype,
+                obs,
+                uploads,
+                latlng,
+            } = submission.toJSON()
 
             return {
                 ...props,

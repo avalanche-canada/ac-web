@@ -9,14 +9,13 @@ Header.propTypes = {
     children: PropTypes.node,
 }
 
-function Header({subject, children}) {
+function Header({ subject, children }) {
     return (
-        <header styleName='Header'>
+        <header styleName="Header">
             {subject &&
                 <Subject>
                     {subject}
-                </Subject>
-            }
+                </Subject>}
             {children}
         </header>
     )

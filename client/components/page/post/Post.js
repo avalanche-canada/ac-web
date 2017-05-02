@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Content, Header, Main, Headline, Aside} from '~/components/page'
-import {Metadata, Entry} from '~/components/metadata'
-import {DateElement, InnerHTML, Muted} from '~/components/misc'
+import { Page, Content, Header, Main, Headline, Aside } from '~/components/page'
+import { Metadata, Entry } from '~/components/metadata'
+import { DateElement, InnerHTML, Muted } from '~/components/misc'
 import Sidebar from './Sidebar'
 
 Post.propTypes = {
@@ -21,7 +21,7 @@ Post.propTypes = {
     message: PropTypes.string,
 }
 
-export default function Post({post = {}, message, type}) {
+export default function Post({ post = {}, message, type }) {
     const {
         uid,
         title,
@@ -41,46 +41,43 @@ export default function Post({post = {}, message, type}) {
             <Header title={title || message} />
             <Content>
                 <Main>
-                <Metadata>
-                    {date &&
-                        <Entry term='Date'>
-                            {hasDateRange ?
-                                <span>
-                                    <DateElement value={startDate} /> <em>to</em> <DateElement value={endDate} />
-                                </span> :
-                                <DateElement value={date} />
-                            }
-                        </Entry>
-                    }
-                    {typeof location === 'string' &&
-                        <Entry term='Location'>
-                            {location}
-                        </Entry>
-                    }
-                    {source &&
-                        <Entry term='Source'>
-                            {source}
-                        </Entry>
-                    }
-                    {hostedBy &&
-                        <Entry term='Hosted by'>
-                            {hostedBy}
-                        </Entry>
-                    }
-                </Metadata>
-                {headline &&
-                    <Headline>
-                        <InnerHTML>
-                            {headline}
-                        </InnerHTML>
-                    </Headline>
-                }
-                {message ?
-                    <Muted>{message}</Muted> :
-                    <InnerHTML>
-                        {content}
-                    </InnerHTML>
-                }
+                    <Metadata>
+                        {date &&
+                            <Entry term="Date">
+                                {hasDateRange
+                                    ? <span>
+                                          <DateElement value={startDate} />
+                                          {' '}
+                                          <em>to</em>
+                                          {' '}
+                                          <DateElement value={endDate} />
+                                      </span>
+                                    : <DateElement value={date} />}
+                            </Entry>}
+                        {typeof location === 'string' &&
+                            <Entry term="Location">
+                                {location}
+                            </Entry>}
+                        {source &&
+                            <Entry term="Source">
+                                {source}
+                            </Entry>}
+                        {hostedBy &&
+                            <Entry term="Hosted by">
+                                {hostedBy}
+                            </Entry>}
+                    </Metadata>
+                    {headline &&
+                        <Headline>
+                            <InnerHTML>
+                                {headline}
+                            </InnerHTML>
+                        </Headline>}
+                    {message
+                        ? <Muted>{message}</Muted>
+                        : <InnerHTML>
+                              {content}
+                          </InnerHTML>}
                 </Main>
                 <Aside>
                     <Sidebar type={type} uid={uid} />

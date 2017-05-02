@@ -1,10 +1,16 @@
-import React, {DOM} from 'react'
+import React, { DOM } from 'react'
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, setDisplayName, mapProps, defaultProps} from 'recompose'
+import {
+    compose,
+    setPropTypes,
+    setDisplayName,
+    mapProps,
+    defaultProps,
+} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Button.css'
 import classNames from 'classnames'
-import KIND, {ALL as KINDS} from './kinds'
+import KIND, { ALL as KINDS } from './kinds'
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'
@@ -28,37 +34,47 @@ export default compose(
         large: false,
         transparent: false,
     }),
-    mapProps(({icon, active, shadow, large, kind, transparent, chevron, ...props}) => {
-        const styleName = classNames({
-            [kind]: true,
-            Active: active,
-            Shadow: shadow,
-            Large: large,
-            Transparent: transparent,
-            ChevronLeft: chevron === LEFT,
-            ChevronRight: chevron === RIGHT,
-            Chevron: chevron === true,
-        })
+    mapProps(
+        ({
+            icon,
+            active,
+            shadow,
+            large,
+            kind,
+            transparent,
+            chevron,
+            ...props
+        }) => {
+            const styleName = classNames({
+                [kind]: true,
+                Active: active,
+                Shadow: shadow,
+                Large: large,
+                Transparent: transparent,
+                ChevronLeft: chevron === LEFT,
+                ChevronRight: chevron === RIGHT,
+                Chevron: chevron === true,
+            })
 
-        if (!icon) {
-            return {...props, styleName}
-        }
+            if (!icon) {
+                return { ...props, styleName }
+            }
 
-        const {children} = props
+            const { children } = props
 
-        return {
-            ...props,
-            styleName: `${styleName} ${children ? '' : 'IconOnly'}`,
-            children: (
-                <div styleName='IconContainer'>
-                    {icon}
-                    {typeof children === 'string' ?
-                        <span>{children}</span> :
-                        children
-                    }
+            return {
+                ...props,
+                styleName: `${styleName} ${children ? '' : 'IconOnly'}`,
+                children: (
+                    <div styleName="IconContainer">
+                        {icon}
+                        {typeof children === 'string'
+                            ? <span>{children}</span>
+                            : children}
                     </div>
-            )
+                ),
+            }
         }
-    }),
-    CSSModules(styles, {allowMultiple: true})
+    ),
+    CSSModules(styles, { allowMultiple: true })
 )(DOM.button)

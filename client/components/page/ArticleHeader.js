@@ -9,9 +9,9 @@ ArticleHeader.propTypes = {
 
 // TODO: header tag should not be used in that case
 
-function ArticleHeader({children}) {
+function ArticleHeader({ children }) {
     return (
-        <header styleName='ArticleHeader'>
+        <header styleName="ArticleHeader">
             <h2>{children}</h2>
         </header>
     )

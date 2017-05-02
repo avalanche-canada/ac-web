@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
-import {connect} from 'react-redux'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import withRouter from 'react-router/lib/withRouter'
 import mapbox from '~/services/mapbox/map'
-import {Map, Marker} from '~/components/map'
-import {loadData, loadMapStyle} from '~/actions/map'
+import { Map, Marker } from '~/components/map'
+import { loadData, loadMapStyle } from '~/actions/map'
 import mapStateToProps from '~/selectors/map'
-import {LayerIds, allLayerIds} from '~/constants/map/layers'
-import {push} from '~/utils/router'
-import {near} from '~/utils/geojson'
+import { LayerIds, allLayerIds } from '~/constants/map/layers'
+import { push } from '~/utils/router'
+import { near } from '~/utils/geojson'
 import * as Schemas from '~/api/schemas'
 import * as Layers from '~/constants/drawers'
 import noop from 'lodash/noop'
@@ -46,9 +46,9 @@ class Container extends Component {
         }
 
         const canvas = this.map.getCanvas()
-        const {point} = this.lastMouseMoveEvent
+        const { point } = this.lastMouseMoveEvent
         const features = this.map.queryRenderedFeatures(point, {
-            layers: allLayerIds
+            layers: allLayerIds,
         })
 
         canvas.style.cursor = features.length ? 'pointer' : null
@@ -56,7 +56,7 @@ class Container extends Component {
         const [feature] = features
 
         if (feature && feature.properties) {
-            const {title, name} = feature.properties
+            const { title, name } = feature.properties
 
             if (name || title) {
                 canvas.setAttribute('title', name || title)
@@ -67,7 +67,7 @@ class Container extends Component {
 
         this.lastMouseMoveEvent = null
     }
-    handleMarkerClick = ({location}, event) => {
+    handleMarkerClick = ({ location }, event) => {
         event.stopPropagation()
         this.push(location)
     }
@@ -81,37 +81,42 @@ class Container extends Component {
             return
         }
 
-        const {point} = event
+        const { point } = event
         let features = null
 
         // TODO: Find a way, so everytime I add a layer, I do not have to touch that method
 
         // Special Information
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.SPECIAL_INFORMATION)
+            layers: LayerIds.get(Layers.SPECIAL_INFORMATION),
         })
 
         if (features.length > 0) {
             let [feature] = features
 
             if (feature.properties.cluster) {
-                const {data} = this.map.getSource(feature.layer.source).serialize()
+                const { data } = this.map
+                    .getSource(feature.layer.source)
+                    .serialize()
 
                 feature = nearest(feature, data)
             }
 
             const panel = `special-information/${feature.properties.id}`
 
-            return push({
-                query: {
-                    panel
-                }
-            }, this.props)
+            return push(
+                {
+                    query: {
+                        panel,
+                    },
+                },
+                this.props
+            )
         }
 
         // Fatal accident
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.FATAL_ACCIDENT)
+            layers: LayerIds.get(Layers.FATAL_ACCIDENT),
         })
 
         if (features.length > 0) {
@@ -119,24 +124,29 @@ class Container extends Component {
 
             const panel = `fatal-accident/${feature.properties.id}`
 
-            return push({
-                query: {
-                    panel
-                }
-            }, this.props)
+            return push(
+                {
+                    query: {
+                        panel,
+                    },
+                },
+                this.props
+            )
         }
 
         // Handle Mountain Information Network layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK)
+            layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK),
         })
 
         if (features.length > 0) {
             const [feature] = features
 
             if (feature.properties.cluster) {
-                const {point_count} = feature.properties
-                const {data} = this.map.getSource(Layers.MOUNTAIN_INFORMATION_NETWORK).serialize()
+                const { point_count } = feature.properties
+                const { data } = this.map
+                    .getSource(Layers.MOUNTAIN_INFORMATION_NETWORK)
+                    .serialize()
                 const submissions = near(feature, data, point_count)
                 const coordinates = submissions.features.map(
                     feature => feature.geometry.coordinates
@@ -152,7 +162,10 @@ class Container extends Component {
 
                 return
             } else {
-                if (features.filter(feature => !feature.properties.cluster).length > 1) {
+                if (
+                    features.filter(feature => !feature.properties.cluster)
+                        .length > 1
+                ) {
                     this.showMINPopup(features)
                 } else {
                     this.transitionToMIN(feature.properties.id)
@@ -164,61 +177,72 @@ class Container extends Component {
 
         // Weather Stations
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.WEATHER_STATION)
+            layers: LayerIds.get(Layers.WEATHER_STATION),
         })
 
         if (features.length > 0) {
             const [feature] = features
 
             if (feature.properties.cluster) {
-                const {point_count} = feature.properties
-                const {data} = this.map.getSource(Layers.WEATHER_STATION).serialize()
+                const { point_count } = feature.properties
+                const { data } = this.map
+                    .getSource(Layers.WEATHER_STATION)
+                    .serialize()
                 const stations = near(feature, data, point_count)
 
                 return this.fitBounds(stations, CLUSTER_BOUNDS_OPTIONS)
             } else {
-                const {key} = Schemas.WeatherStation
+                const { key } = Schemas.WeatherStation
 
-                return this.push({
-                    query: {
-                        panel: `${key}/${feature.properties.id}`
-                    }
-                }, this.props)
+                return this.push(
+                    {
+                        query: {
+                            panel: `${key}/${feature.properties.id}`,
+                        },
+                    },
+                    this.props
+                )
             }
         }
 
         // Toyota truck reports
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.TOYOTA_TRUCK_REPORTS)
+            layers: LayerIds.get(Layers.TOYOTA_TRUCK_REPORTS),
         })
 
         if (features.length > 0) {
             const [feature] = features
             const panel = `toyota-truck-reports/${feature.properties.id}`
 
-            return push({
-                query: {
-                    panel
-                }
-            }, this.props)
+            return push(
+                {
+                    query: {
+                        panel,
+                    },
+                },
+                this.props
+            )
         }
 
         // Handle Hot Zone Report layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.HOT_ZONE_REPORTS)
+            layers: LayerIds.get(Layers.HOT_ZONE_REPORTS),
         })
 
         if (features.length > 0) {
             const [feature] = features
 
-            return this.push({
-                pathname: `/map/hot-zone-reports/${feature.properties.id}`,
-            }, this.props)
+            return this.push(
+                {
+                    pathname: `/map/hot-zone-reports/${feature.properties.id}`,
+                },
+                this.props
+            )
         }
 
         // Handle Forecast layers
         features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.FORECASTS)
+            layers: LayerIds.get(Layers.FORECASTS),
         })
 
         if (features.length > 0) {
@@ -230,14 +254,14 @@ class Container extends Component {
         }
     }
     showMINPopup(features) {
-        const [{geometry: {coordinates}}] = features
+        const [{ geometry: { coordinates } }] = features
         const html = document.createElement('div')
         const p = document.createElement('p')
         const ul = document.createElement('ul')
 
         p.textContent = `${features.length} reports are available at this location:`
 
-        features.forEach(({properties: {id, title}}) => {
+        features.forEach(({ properties: { id, title } }) => {
             const li = document.createElement('li')
             const a = document.createElement('a')
 
@@ -258,11 +282,14 @@ class Container extends Component {
         this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
     }
     transitionToMIN(id) {
-        return this.push({
-            query: {
-                panel: `${Schemas.MountainInformationNetworkSubmission.key}/${id}`
-            }
-        }, this.props)
+        return this.push(
+            {
+                query: {
+                    panel: `${Schemas.MountainInformationNetworkSubmission.key}/${id}`,
+                },
+            },
+            this.props
+        )
     }
     push(location) {
         this.isInternalNavigation = true
@@ -271,7 +298,7 @@ class Container extends Component {
     }
     handleLoad = event => {
         const map = event.target
-        const {bounds} = this.props
+        const { bounds } = this.props
 
         map.on('mousemove', this.handleMousemove)
         map.on('click', this.handleClick)
@@ -291,7 +318,12 @@ class Container extends Component {
             return
         }
 
-        const bounds = this.props.computeFitBounds(feature, false, false, options)
+        const bounds = this.props.computeFitBounds(
+            feature,
+            false,
+            false,
+            options
+        )
 
         this.map.fitBounds(bounds.bbox, bounds.options)
     }
@@ -305,17 +337,20 @@ class Container extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalID)
     }
-    shouldComponentUpdate({markers, style}) {
-        if (markers !== this.props.markers ||
-            style !== this.props.style
-        ) {
+    shouldComponentUpdate({ markers, style }) {
+        if (markers !== this.props.markers || style !== this.props.style) {
             return true
         }
 
         return false
     }
-    componentWillReceiveProps({bounds, command}) {
-        if (bounds && this.map && this.props.bounds !== bounds && this.isInternalNavigation !== true) {
+    componentWillReceiveProps({ bounds, command }) {
+        if (
+            bounds &&
+            this.map &&
+            this.props.bounds !== bounds &&
+            this.isInternalNavigation !== true
+        ) {
             this.map.fitBounds(bounds.bbox, bounds.options)
         }
 
@@ -323,11 +358,11 @@ class Container extends Component {
             this.map[command.name].apply(this.map, command.args)
         }
     }
-    renderMarker = ({id, ...marker}) => {
+    renderMarker = ({ id, ...marker }) => {
         return <Marker key={id} {...marker} onClick={this.handleMarkerClick} />
     }
     render() {
-        const {markers, onInitializationError, style} = this.props
+        const { markers, onInitializationError, style } = this.props
         const events = {
             onLoad: this.handleLoad,
             onInitializationError,
@@ -346,5 +381,5 @@ export default compose(
     connect(mapStateToProps, {
         loadData,
         loadMapStyle,
-    }),
+    })
 )(Container)

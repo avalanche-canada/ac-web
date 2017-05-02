@@ -1,7 +1,12 @@
-import React, {DOM} from 'react'
+import React, { DOM } from 'react'
 import PropTypes from 'prop-types'
-import {compose, withHandlers, onlyUpdateForKeys, setPropTypes} from 'recompose'
-import {Element, neverUpdate} from '~/compose'
+import {
+    compose,
+    withHandlers,
+    onlyUpdateForKeys,
+    setPropTypes,
+} from 'recompose'
+import { Element, neverUpdate } from '~/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 
@@ -13,11 +18,11 @@ Segment.propTypes = {
     children: PropTypes.node,
 }
 
-function Segment({page, onClick, isActive, children, style}) {
+function Segment({ page, onClick, isActive, children, style }) {
     const styleName = isActive ? 'Segment--Active' : 'Segment'
 
     return (
-        <a href='#' onClick={onClick} styleName={styleName} style={style} >
+        <a href="#" onClick={onClick} styleName={styleName} style={style}>
             {children || page}
         </a>
     )
@@ -32,14 +37,15 @@ export default compose(
         onClick: props => event => {
             event.preventDefault()
             props.onActivate(props.page)
-        }
+        },
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Segment)
 
-
-export const Disabled = neverUpdate(Element({
-    component: DOM.span,
-    name: 'Disabled',
-    styles,
-}))
+export const Disabled = neverUpdate(
+    Element({
+        component: DOM.span,
+        name: 'Disabled',
+        styles,
+    })
+)

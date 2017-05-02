@@ -1,13 +1,17 @@
 import Immutable from 'immutable'
-import {getDocumentsOfType, hasDocumentForUid, getResults} from '~/getters/prismic'
-import {Api as Prismic, Predicates} from '~/prismic'
+import {
+    getDocumentsOfType,
+    hasDocumentForUid,
+    getResults,
+} from '~/getters/prismic'
+import { Api as Prismic, Predicates } from '~/prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
 
-const {toQuery} = Predicates
+const { toQuery } = Predicates
 
 function convertParams(params = {}) {
-    const {type, uid, id, options = {}, predicates = []} = params
+    const { type, uid, id, options = {}, predicates = [] } = params
     let predicate
 
     if (id) {
@@ -34,7 +38,7 @@ function convertParams(params = {}) {
 }
 
 export function paramsToKey(params) {
-    const {predicates, options} = convertParams(params)
+    const { predicates, options } = convertParams(params)
 
     return Immutable.fromJS({
         predicates: predicates.map(toQuery),
@@ -49,20 +53,20 @@ export function load(params = {}) {
         const key = paramsToKey(params)
 
         if (results.has(key)) {
-            const {isFetching, isLoaded} = results.get(key)
+            const { isFetching, isLoaded } = results.get(key)
 
             if (isFetching || isLoaded) {
                 return Promise.resolve()
             }
         } else {
-            const {type, uid} = params
+            const { type, uid } = params
 
             if (hasDocumentForUid(state, type, uid)) {
                 return Promise.resolve()
             }
         }
 
-        const {predicates, options} = convertParams(params)
+        const { predicates, options } = convertParams(params)
 
         return dispatch({
             type: GET_PRISMIC,
@@ -71,12 +75,12 @@ export function load(params = {}) {
                 key,
                 predicates,
                 options,
-            }
+            },
         }).then(response => response.value)
     }
 }
 
-export function loadHotZoneReport({name, uid}) {
+export function loadHotZoneReport({ name, uid }) {
     // TODO: Modify to use the prismic function, should use exdisting function instead
     const type = 'hotzone-report'
 
@@ -84,23 +88,24 @@ export function loadHotZoneReport({name, uid}) {
         const state = getState()
 
         if (typeof uid === 'string') {
-            return dispatch(load({
-                type,
-                uid
-            }))
+            return dispatch(
+                load({
+                    type,
+                    uid,
+                })
+            )
         } else if (typeof name === 'string') {
             const documents = getDocumentsOfType(state, type)
-            const isNotLoaded = document => (
+            const isNotLoaded = document =>
                 document.data[`${type}.region`].value !== name
-            )
 
             if (documents.every(isNotLoaded)) {
-                return dispatch(load({
-                    type,
-                    predicates: [
-                        Predicates.at(`my.${type}.region`, name)
-                    ],
-                }))
+                return dispatch(
+                    load({
+                        type,
+                        predicates: [Predicates.at(`my.${type}.region`, name)],
+                    })
+                )
             }
         }
 

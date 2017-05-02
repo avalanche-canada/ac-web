@@ -8,7 +8,7 @@ ControlSet.propTypes = {
     horizontal: PropTypes.bool,
 }
 
-function ControlSet({horizontal = false, children}) {
+function ControlSet({ horizontal = false, children }) {
     return (
         <div styleName={horizontal ? 'ControlSet--Horizontal' : 'ControlSet'}>
             {children}

@@ -1,7 +1,7 @@
-import {createSelector} from 'reselect'
-import {getDocumentForUid} from '~/getters/prismic'
+import { createSelector } from 'reselect'
+import { getDocumentForUid } from '~/getters/prismic'
 import transform from '~/prismic/transformers'
-import {getSponsors, getActiveSponsor} from '~/getters/sponsors'
+import { getSponsors, getActiveSponsor } from '~/getters/sponsors'
 
 const EMPTY = {}
 

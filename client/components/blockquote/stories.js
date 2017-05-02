@@ -1,5 +1,5 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
+import { storiesOf, action } from '@kadira/storybook'
 import Blockquote from './Blockquote'
 import Footer from './Footer'
 
@@ -11,5 +11,5 @@ stories.add('Blockquote w/ footer', () => (
     <Blockquote>
         Blockquote
         <Footer>Karl Guillotte</Footer>
-    </Blockquote>)
-)
+    </Blockquote>
+))

@@ -1,5 +1,5 @@
 import PARSER from '~/prismic/parser'
-import {normalizeTags, boolean} from '~/prismic/utils'
+import { normalizeTags, boolean } from '~/prismic/utils'
 
 export function blog(document, parser = PARSER) {
     if (!document) {
@@ -7,7 +7,7 @@ export function blog(document, parser = PARSER) {
     }
 
     const data = parser.parse(document)
-    const {shortlede, body, previewImage, uid, date, tags} = data
+    const { shortlede, body, previewImage, uid, date, tags } = data
 
     return {
         ...data,
@@ -28,7 +28,15 @@ export function event(document, parser = PARSER) {
     }
 
     const data = parser.parse(document)
-    const {shortlede, description, featuredImage, uid, startDate, endDate, tags} = data
+    const {
+        shortlede,
+        description,
+        featuredImage,
+        uid,
+        startDate,
+        endDate,
+        tags,
+    } = data
 
     return {
         ...data,
@@ -52,7 +60,7 @@ export function news(document, parser = PARSER) {
     }
 
     const data = parser.parse(document)
-    const {shortlede, body, featuredImage, uid, date, tags} = data
+    const { shortlede, body, featuredImage, uid, date, tags } = data
 
     return {
         ...data,
@@ -77,7 +85,14 @@ export function staff(document, parser = PARSER) {
 }
 
 export function staticPage(document, parser = PARSER) {
-    let {sharing, following, contacting, sidebar = [], contact, ...props} = parser.parse(document)
+    let {
+        sharing,
+        following,
+        contacting,
+        sidebar = [],
+        contact,
+        ...props
+    } = parser.parse(document)
 
     sharing = boolean(sharing)
     following = boolean(following)
@@ -85,14 +100,18 @@ export function staticPage(document, parser = PARSER) {
 
     return {
         ...props,
-        sidebar: (sharing || following || contacting || sidebar.length) ? {
-            share: sharing,
-            follow: following,
-            contact: contacting ? (
-                typeof contact === 'string' ? contact.replace(/^mailto:/, '') : true
-            ): false,
-            content: sidebar,
-        } : null
+        sidebar: sharing || following || contacting || sidebar.length
+            ? {
+                share: sharing,
+                follow: following,
+                contact: contacting
+                  ? typeof contact === 'string'
+                        ? contact.replace(/^mailto:/, '')
+                        : true
+                  : false,
+                content: sidebar,
+            }
+            : null,
     }
 }
 
@@ -119,7 +138,7 @@ export default function transformer(document, parser = PARSER) {
         return null
     }
 
-    const {type} = document
+    const { type } = document
 
     if (transformers.has(type)) {
         return transformers.get(type).call(null, document)

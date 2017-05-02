@@ -42,7 +42,7 @@ Object.assign(Result.prototype, {
             isError: this.isError,
             messages,
         })
-    }
+    },
 })
 
 export default new Result()

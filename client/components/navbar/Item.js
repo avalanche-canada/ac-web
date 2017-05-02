@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, onlyUpdateForKeys} from 'recompose'
+import { compose, onlyUpdateForKeys } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import noop from 'lodash/noop'
 
 function createStyle(noWrap) {
     return {
-        whiteSpace: noWrap ? 'nowrap' : null
+        whiteSpace: noWrap ? 'nowrap' : null,
     }
 }
 
@@ -19,10 +19,18 @@ Item.propTypes = {
     children: PropTypes.node,
 }
 
-function Item({isActive = false, title, onClick = noop, noWrap = false, children}) {
+function Item({
+    isActive = false,
+    title,
+    onClick = noop,
+    noWrap = false,
+    children,
+}) {
     return (
-        <li style={createStyle(noWrap)} styleName={isActive ? 'Item--active' : 'Item'}>
-            <a href='#' onClick={onClick}>
+        <li
+            style={createStyle(noWrap)}
+            styleName={isActive ? 'Item--active' : 'Item'}>
+            <a href="#" onClick={onClick}>
                 <span>{title}</span>
             </a>
             {children}

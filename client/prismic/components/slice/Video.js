@@ -1,18 +1,18 @@
-import React, {createElement} from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {Media, Caption, Player} from '~/components/media'
-import {InnerHTML, Ribbon} from '~/components/misc'
+import { Media, Caption, Player } from '~/components/media'
+import { InnerHTML, Ribbon } from '~/components/misc'
 import styles from './Video.css'
 
 Video.propTypes = {
     caption: PropTypes.string,
     credit: PropTypes.string,
     ribbonCaption: PropTypes.string,
-    ribbonTitle: PropTypes.string
+    ribbonTitle: PropTypes.string,
 }
 
-function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
+function Video({ caption, credit, ribbonCaption, ribbonTitle, ...player }) {
     const media = {}
 
     if (caption || credit) {
@@ -23,7 +23,7 @@ function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
                         {caption}
                     </InnerHTML>
                 </Caption>
-            )
+            ),
         })
     }
 
@@ -32,9 +32,8 @@ function Video({caption, credit, ribbonCaption, ribbonTitle, ...player}) {
             {ribbonTitle &&
                 <Ribbon caption={ribbonCaption}>
                     {ribbonTitle}
-                </Ribbon>
-            }
-            <Media {...media} >
+                </Ribbon>}
+            <Media {...media}>
                 <Player {...player} />
             </Media>
         </div>
@@ -46,15 +45,15 @@ VideoSet.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function VideoSet({content = []}) {
+function VideoSet({ content = [] }) {
     return (
-        <div styleName='VideoSet'>
-            {content.map((props, index) => (
+        <div styleName="VideoSet">
+            {content.map((props, index) =>
                 createElement(Video, {
                     key: index,
                     ...props,
                 })
-            ))}
+            )}
         </div>
     )
 }

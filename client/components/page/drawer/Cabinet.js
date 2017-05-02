@@ -1,15 +1,15 @@
-import React, {createElement} from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import {Motion, spring, presets} from 'react-motion'
+import { Motion, spring, presets } from 'react-motion'
 import Backdrop from './Backdrop'
 import Drawer from './Drawer'
-import SIDE, {LEFT, RIGHT} from './constants/sides'
+import SIDE, { LEFT, RIGHT } from './constants/sides'
 
 function getMotionStyle(open, side) {
     const value = Number(!open) * (side === LEFT ? -1 : 1)
 
     return {
-        x: spring(value, presets.noWobble)
+        x: spring(value, presets.noWobble),
     }
 }
 
@@ -30,7 +30,7 @@ export default function Cabinet({
     header = null,
     backdrop = false,
     onCloseClick,
-    children
+    children,
 }) {
     const withBackdrop = open && backdrop
 
@@ -38,14 +38,19 @@ export default function Cabinet({
         <div>
             {withBackdrop && <Backdrop onClick={onCloseClick} />}
             <Motion style={getMotionStyle(open, side)}>
-                {style => createElement(Drawer, {
-                    position: style.x,
-                    width,
-                    side,
-                    open,
-                    header,
-                    onCloseClick,
-                }, children)}
+                {style =>
+                    createElement(
+                        Drawer,
+                        {
+                            position: style.x,
+                            width,
+                            side,
+                            open,
+                            header,
+                            onCloseClick,
+                        },
+                        children
+                    )}
             </Motion>
         </div>
     )

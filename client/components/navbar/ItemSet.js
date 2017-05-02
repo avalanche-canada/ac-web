@@ -1,10 +1,10 @@
-import React, {PureComponent, cloneElement, Children} from 'react'
+import React, { PureComponent, cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
-import {history} from '~/router'
+import { history } from '~/router'
 
 @CSSModules(styles)
 export default class ItemSet extends PureComponent {
@@ -12,7 +12,7 @@ export default class ItemSet extends PureComponent {
         children: PropTypes.node.isRequired,
     }
     state = {
-        activeIndex: null
+        activeIndex: null,
     }
     set activeIndex(activeIndex) {
         this.setState({ activeIndex })
@@ -31,7 +31,7 @@ export default class ItemSet extends PureComponent {
         }
     }
     handleKeyUp = ({ keyCode }) => {
-        if (keycode.codes.esc !== keyCode ) {
+        if (keycode.codes.esc !== keyCode) {
             return
         }
 
@@ -52,8 +52,8 @@ export default class ItemSet extends PureComponent {
     }
     render() {
         return (
-            <div styleName='ItemSet--Container'>
-                <ul styleName='ItemSet'>
+            <div styleName="ItemSet--Container">
+                <ul styleName="ItemSet">
                     {Children.map(this.props.children, (item, index) => {
                         const isActive = this.activeIndex === index
 
@@ -66,10 +66,10 @@ export default class ItemSet extends PureComponent {
                             onClick: event => {
                                 event.preventDefault()
                                 this.handleClick(index)
-                            }
+                            },
                         }
                         const children = cloneElement(item.props.children, {
-                            isOpened: isActive
+                            isOpened: isActive,
                         })
 
                         return cloneElement(item, props, children)

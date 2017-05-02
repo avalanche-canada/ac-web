@@ -1,9 +1,16 @@
 import React from 'react'
 import Link from 'react-router/lib/Link'
 import t from '~/vendor/tcomb-form'
-import {QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT, NAMES} from '~/constants/min'
-import {layout, observationSet} from './templates'
-import {ObservationSet} from './factories'
+import {
+    QUICK,
+    WEATHER,
+    SNOWPACK,
+    AVALANCHE,
+    INCIDENT,
+    NAMES,
+} from '~/constants/min'
+import { layout, observationSet } from './templates'
+import { ObservationSet } from './factories'
 import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
 import noop from 'lodash/noop'
@@ -69,13 +76,13 @@ const Required = {
                     error: 'Enter a number between -180° and 180°',
                     attrs: {
                         placeholder: 'e.g. -118.18',
-                    }
+                    },
                 },
                 latitude: {
                     error: 'Enter a number between -90° and 90°',
                     attrs: {
                         placeholder: 'e.g. 50.98',
-                    }
+                    },
                 },
             },
         },
@@ -90,7 +97,9 @@ const UploadSet = {
             label: 'Click to upload photos',
             help: (
                 <p>
-                    <b>New!</b> You can now upload one or more images, click again to add even more. You can now remove photos before submitting your report.
+                    <b>New!</b>
+                    {' '}
+                    You can now upload one or more images, click again to add even more. You can now remove photos before submitting your report.
                 </p>
             ),
             type: 'file',
@@ -98,7 +107,7 @@ const UploadSet = {
                 multiple: true,
                 accept: 'image/jpeg,image/jpg,image/png',
             },
-        }
+        },
     },
 }
 
@@ -129,7 +138,7 @@ const Quick = {
                     className: styles.TwoColumnsField,
                 },
             },
-            className: styles.WihoutLegend
+            className: styles.WihoutLegend,
         },
         avalancheConditions: {
             fields: {
@@ -144,13 +153,13 @@ const Quick = {
                 },
                 temp: {
                     label: 'Rapid temperature rise to near zero degrees or wet surface snow.',
-                }
-            }
+                },
+            },
         },
         comment: {
-            type: 'textarea'
-        }
-    }
+            type: 'textarea',
+        },
+    },
 }
 const Weather = {
     label: NAMES.get(WEATHER),
@@ -214,7 +223,7 @@ const Weather = {
             type: 'date',
             help: 'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
             attrs: {
-                placeholder: 'Click to select a date'
+                placeholder: 'Click to select a date',
             },
         },
         temperature: {
@@ -253,7 +262,7 @@ const Weather = {
         windDirection: {
             fields: ASPECT_FIELDS,
             config: {
-                className: styles.TwoColumnsField
+                className: styles.TwoColumnsField,
             },
         },
         blowingSnow: {
@@ -265,7 +274,7 @@ const Weather = {
             label: 'Cloud cover (optional)',
             help: 'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
             config: {
-                className: styles.TwoColumnsField
+                className: styles.TwoColumnsField,
             },
         },
         precipitationType: {
@@ -277,9 +286,9 @@ const Weather = {
         },
         weatherObsComment: {
             label: 'Weather observation comment (optional)',
-            type: 'textarea'
+            type: 'textarea',
         },
-    }
+    },
 }
 const Snowpack = {
     label: NAMES.get(SNOWPACK),
@@ -295,7 +304,7 @@ const Snowpack = {
             type: 'number',
             attrs: {
                 onWheel: handleNumberInputWheel,
-                placeholder: 'Metres above sea level'
+                placeholder: 'Metres above sea level',
             },
         },
         snowpackSiteElevationBand: {
@@ -304,7 +313,7 @@ const Snowpack = {
         snowpackSiteAspect: {
             label: 'Aspect (optional)',
             fields: ASPECT_FIELDS,
-            className: styles.TwoColumnsField
+            className: styles.TwoColumnsField,
         },
         snowpackDepth: {
             label: 'Snowpack depth (cm) (optional)',
@@ -389,14 +398,14 @@ const Snowpack = {
             },
         },
         snowpackTestFailureLayerCrystalType: {
-            className: styles.TwoColumnsField
+            className: styles.TwoColumnsField,
         },
         snowpackObsComment: {
             type: 'textarea',
             label: 'Observation comment (optional)',
             help: 'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
-        }
-    }
+        },
+    },
 }
 const Avalanche = {
     label: NAMES.get(AVALANCHE),
@@ -474,7 +483,7 @@ const Avalanche = {
             },
         },
         avalancheCharacter: {
-            className: styles.TwoColumnsField
+            className: styles.TwoColumnsField,
         },
         triggerType: {
             factory: t.form.Radio,
@@ -500,7 +509,7 @@ const Avalanche = {
         },
         startZoneAspect: {
             fields: ASPECT_FIELDS,
-            className: styles.TwoColumnsField
+            className: styles.TwoColumnsField,
         },
         startZoneElevation: {
             label: 'Start zone elevation (m) (optional)',
@@ -536,11 +545,11 @@ const Avalanche = {
             type: 'date',
             help: 'Date the weak layer was buried.',
             attrs: {
-                placeholder: 'Click to select date'
+                placeholder: 'Click to select date',
             },
         },
         weakLayerCrystalType: {
-            className: styles.TwoColumnsField
+            className: styles.TwoColumnsField,
         },
         windExposure: {
             config: {
@@ -554,14 +563,21 @@ const Avalanche = {
         avalancheObsComment: {
             type: 'textarea',
             help: 'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
-        }
-    }
+        },
+    },
 }
 const Incident = {
     label: NAMES.get(INCIDENT),
     help: (
         <span>
-            Sharing incidents can help us all learn. Describe close calls and accidents here. Be sensitive to the privacy of others. Before reporting serious accidents check our <Link to='/mountain-information-network/submission-guidelines' target='_blank'>submission guidelines</Link>.
+            Sharing incidents can help us all learn. Describe close calls and accidents here. Be sensitive to the privacy of others. Before reporting serious accidents check our
+            {' '}
+            <Link
+                to="/mountain-information-network/submission-guidelines"
+                target="_blank">
+                submission guidelines
+            </Link>
+            .
         </span>
     ),
     fields: {
@@ -585,7 +601,7 @@ const Incident = {
                         placeholder: 'Number between 0 and 100',
                         min: 0,
                         max: 100,
-                    }
+                    },
                 },
                 numberFullyBuried: {
                     label: 'People fully buried? (optional)',
@@ -596,7 +612,7 @@ const Incident = {
                         placeholder: 'Number between 0 and 100',
                         min: 0,
                         max: 100,
-                    }
+                    },
                 },
                 numberPartlyBuriedImpairedBreathing: {
                     label: 'People partly buried with impaired breathing? (optional)',
@@ -607,7 +623,7 @@ const Incident = {
                         placeholder: 'Number between 0 and 100',
                         min: 0,
                         max: 100,
-                    }
+                    },
                 },
                 numberPartlyBuriedAbleBreathing: {
                     label: 'People partly buried with normal breathing? (optional)',
@@ -618,7 +634,7 @@ const Incident = {
                         placeholder: 'Number between 0 and 100',
                         min: 0,
                         max: 100,
-                    }
+                    },
                 },
                 numberCaughtOnly: {
                     label: 'People injured (caught but not buried)? (optional)',
@@ -629,7 +645,7 @@ const Incident = {
                         placeholder: 'Number between 0 and 100',
                         min: 0,
                         max: 100,
-                    }
+                    },
                 },
                 numberPeopleInjured: {
                     label: 'People not injured (caught but not buried)? (optional)',
@@ -640,9 +656,9 @@ const Incident = {
                         placeholder: 'Number between 0 and 400',
                         min: 0,
                         max: 400,
-                    }
-                }
-            }
+                    },
+                },
+            },
         },
         terrainTrap: {
             help: 'Terrain traps are features that increase the consequences of an avalanche.',
@@ -666,12 +682,20 @@ const Incident = {
             type: 'textarea',
             help: (
                 <span>
-                    No names and no judging please. See <Link to='/mountain-information-network/submission-guidelines' target='_blank'>submission guidelines</Link> for more details.
+                    No names and no judging please. See
+                    {' '}
+                    <Link
+                        to="/mountain-information-network/submission-guidelines"
+                        target="_blank">
+                        submission guidelines
+                    </Link>
+                    {' '}
+                    for more details.
                 </span>
             ),
         },
         numberInvolved: {
-            type: 'hidden'
+            type: 'hidden',
         },
     },
 }
@@ -703,7 +727,7 @@ export default {
                 [SNOWPACK]: Snowpack,
                 [WEATHER]: Weather,
                 [INCIDENT]: Incident,
-            }
+            },
         },
     },
 }

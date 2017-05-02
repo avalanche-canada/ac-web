@@ -4,7 +4,8 @@ export function isTypeSupported(type) {
     if (!suported.has(type)) {
         suported.set(
             type,
-            Object.assign(document.createElement('input'), {type}).type === type
+            Object.assign(document.createElement('input'), { type }).type ===
+                type
         )
     }
 

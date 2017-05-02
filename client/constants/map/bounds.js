@@ -1,6 +1,6 @@
 import mapbox from '~/services/mapbox/map'
 
-const {LngLatBounds, LngLat} = mapbox
+const { LngLatBounds, LngLat } = mapbox
 
 const sw = new LngLat(-174, 35)
 const ne = new LngLat(-48, 90)

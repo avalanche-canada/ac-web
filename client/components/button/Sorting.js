@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {ExpandLess, ExpandMore, Remove} from '../icons'
+import { ExpandLess, ExpandMore, Remove } from '../icons'
 import Button from './Button'
-import {SUBTILE} from './kinds'
+import { SUBTILE } from './kinds'
 import noop from 'lodash/noop'
-import {NONE, ASC, DESC} from '~/constants/sortings'
+import { NONE, ASC, DESC } from '~/constants/sortings'
 
 const SORTINGS = [NONE, ASC, DESC]
 
@@ -42,7 +42,7 @@ export default class Sorting extends PureComponent {
         return this.state.sorting
     }
     set sorting(sorting) {
-        this.setState({sorting}, () => {
+        this.setState({ sorting }, () => {
             this.props.onChange(sorting)
         })
     }
@@ -54,16 +54,21 @@ export default class Sorting extends PureComponent {
     handleClick = () => {
         this.sorting = this.next
     }
-    componentWillReceiveProps({sorting}) {
+    componentWillReceiveProps({ sorting }) {
         if (sorting !== this.sorting) {
-            this.setState({sorting})
+            this.setState({ sorting })
         }
     }
     render() {
-        const {sorting} = this
+        const { sorting } = this
 
         return (
-            <Button onClick={this.handleClick} kind={SUBTILE} icon={ICONS.get(sorting)} title={TITLES.get(sorting)} />
+            <Button
+                onClick={this.handleClick}
+                kind={SUBTILE}
+                icon={ICONS.get(sorting)}
+                title={TITLES.get(sorting)}
+            />
         )
     }
 }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import {compose, mapProps, setDisplayName, setPropTypes} from 'recompose'
-import {neverUpdate} from '~/compose'
+import { compose, mapProps, setDisplayName, setPropTypes } from 'recompose'
+import { neverUpdate } from '~/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import Link from './Link'
@@ -8,13 +8,15 @@ import Link from './Link'
 export default compose(
     setDisplayName('Brand'),
     setPropTypes({
-        isFoundation: PropTypes.bool
+        isFoundation: PropTypes.bool,
     }),
     neverUpdate,
-    mapProps(({isFoundation = false}) => ({
+    mapProps(({ isFoundation = false }) => ({
         to: isFoundation ? '/foundation' : '/',
-        title: isFoundation ? 'Avalanche Canada Foundation' : 'Avalanche Canada',
-        styleName: isFoundation ? 'Brand--Foundation' : 'Brand'
+        title: isFoundation
+            ? 'Avalanche Canada Foundation'
+            : 'Avalanche Canada',
+        styleName: isFoundation ? 'Brand--Foundation' : 'Brand',
     })),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Link)

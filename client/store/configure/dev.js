@@ -1,7 +1,7 @@
-import {createStore, applyMiddleware, compose} from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-import {Iterable} from 'immutable'
+import { Iterable } from 'immutable'
 import promise from 'redux-promise-middleware'
 import reducer from 'reducers'
 // import DevTools from '../containers/DevTools'
@@ -11,23 +11,27 @@ export default function configureStore(preloadedState) {
         reducer,
         preloadedState,
         compose(
-        applyMiddleware(thunk, promise(), createLogger({
-            collapsed: true,
-            stateTransformer(state) {
-                let newState = {}
+            applyMiddleware(
+                thunk,
+                promise(),
+                createLogger({
+                    collapsed: true,
+                    stateTransformer(state) {
+                        let newState = {}
 
-                for (var key of Object.keys(state)) {
-                    if (Iterable.isIterable(state[key])) {
-                        newState[key] = state[key].toJSON()
-                    } else {
-                        newState[key] = state[key]
-                    }
-                }
+                        for (var key of Object.keys(state)) {
+                            if (Iterable.isIterable(state[key])) {
+                                newState[key] = state[key].toJSON()
+                            } else {
+                                newState[key] = state[key]
+                            }
+                        }
 
-                return newState
-            }
-        })),
-        //   DevTools.instrument()
+                        return newState
+                    },
+                })
+            )
+            //   DevTools.instrument()
         )
     )
 

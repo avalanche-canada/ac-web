@@ -13,15 +13,11 @@ export function isHotZoneReportValid(report) {
     return isReportWithinRange(report, new Date())
 }
 
-export function isReportWithinRange({dateOfIssue, validUntil}, date) {
-    return isWithinRange(
-        date,
-        startOfDay(dateOfIssue),
-        endOfDay(validUntil)
-    )
+export function isReportWithinRange({ dateOfIssue, validUntil }, date) {
+    return isWithinRange(date, startOfDay(dateOfIssue), endOfDay(validUntil))
 }
 
-export function isSpecialInformationValid({dateOfIssue, validUntil}) {
+export function isSpecialInformationValid({ dateOfIssue, validUntil }) {
     if (!validUntil) {
         return isBefore(startOfDay(dateOfIssue), new Date())
     }

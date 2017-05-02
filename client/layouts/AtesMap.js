@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withHandlers} from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {Map, NavigationControl} from '~/components/map'
+import { Map, NavigationControl } from '~/components/map'
 import Url from 'url'
-import Alert, {WARNING} from '~/components/alert'
-import {Generic} from '~/prismic/components'
+import Alert, { WARNING } from '~/components/alert'
+import { Generic } from '~/prismic/components'
 import styles from './AtesMap.css'
 
 const ZOOM = 5.1
 const CENTER = [-122, 53]
 
 function createLayer(map) {
-    const {offsetWidth, offsetHeight} = map.getContainer()
+    const { offsetWidth, offsetHeight } = map.getContainer()
     const bounds = map.getBounds()
     const west = bounds.getWest()
     const south = bounds.getSouth()
@@ -38,7 +38,7 @@ function createLayer(map) {
                     transparent: true,
                     dpi: 96,
                     f: 'image',
-                }
+                },
             }),
             coordinates: [
                 [west, north],
@@ -62,15 +62,15 @@ AtesMap.propTypes = {
     onLoad: PropTypes.func.isRequired,
 }
 
-function AtesMap({onLoad}) {
+function AtesMap({ onLoad }) {
     return (
-        <div styleName='Container'>
-            <div styleName='Disclaimer'>
+        <div styleName="Container">
+            <div styleName="Disclaimer">
                 <Alert type={WARNING}>
-                    <Generic uid='ates-map-disclaimer' />
+                    <Generic uid="ates-map-disclaimer" />
                 </Alert>
             </div>
-            <Map zoom={ZOOM} center={CENTER} style='default' onLoad={onLoad}>
+            <Map zoom={ZOOM} center={CENTER} style="default" onLoad={onLoad}>
                 <NavigationControl />
             </Map>
         </div>
@@ -89,7 +89,7 @@ export default compose(
             map.on('moveend', update)
 
             map.addLayer(createLayer(map))
-        }
+        },
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(AtesMap)

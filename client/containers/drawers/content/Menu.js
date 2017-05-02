@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle} from 'recompose'
-import {createSelector} from 'reselect'
-import {List} from 'immutable'
-import {connect} from 'react-redux'
-import {getLayers} from '~/getters/drawers'
-import {turnOnLayer, turnOffLayer, changeFilter} from '~/actions/drawers'
-import {Container, Body, Navbar, Close} from '~/components/page/drawer'
-import {LayerSet, Layer, FilterSet} from '~/components/page/drawer/layers'
+import { compose, lifecycle } from 'recompose'
+import { createSelector } from 'reselect'
+import { List } from 'immutable'
+import { connect } from 'react-redux'
+import { getLayers } from '~/getters/drawers'
+import { turnOnLayer, turnOffLayer, changeFilter } from '~/actions/drawers'
+import { Container, Body, Navbar, Close } from '~/components/page/drawer'
+import { LayerSet, Layer, FilterSet } from '~/components/page/drawer/layers'
 import * as Layers from '~/constants/drawers'
-import {loadData} from '~/actions/map'
+import { loadData } from '~/actions/map'
 import {
     Forecast,
     HotZoneReport,
@@ -51,7 +51,7 @@ function Menu({
     turnOnLayer,
     turnOffLayer,
     changeFilter,
-    onCloseClick
+    onCloseClick,
 }) {
     return (
         <Container>
@@ -59,11 +59,14 @@ function Menu({
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Body>
-                {sets.toList().map(({title, layers}, index) => (
+                {sets.toList().map(({ title, layers }, index) => (
                     <LayerSet key={index} title={title}>
                         {layers.toList().map(layer => {
-                            const {id, filters, visible, title} = layer
-                            const handleFilterChange = changeFilter.bind(null, id)
+                            const { id, filters, visible, title } = layer
+                            const handleFilterChange = changeFilter.bind(
+                                null,
+                                id
+                            )
                             function handleClick() {
                                 if (visible) {
                                     turnOffLayer(id)
@@ -73,10 +76,17 @@ function Menu({
                             }
 
                             return (
-                                <Layer key={id} icon={ICONS.get(id)} onClick={handleClick} title={title} visible={visible} >
+                                <Layer
+                                    key={id}
+                                    icon={ICONS.get(id)}
+                                    onClick={handleClick}
+                                    title={title}
+                                    visible={visible}>
                                     {filters &&
-                                        <FilterSet filters={filters} onChange={handleFilterChange} />
-                                    }
+                                        <FilterSet
+                                            filters={filters}
+                                            onChange={handleFilterChange}
+                                        />}
                                 </Layer>
                             )
                         })}
@@ -91,12 +101,11 @@ const mapStateToProps = createSelector(
     state => getLayers(state),
     layers => ({
         sets: layers
-                .groupBy(layer => layer.get('type'))
-                .map((layers, title) => ({
-                    title,
-                    layers,
-                })
-            )
+            .groupBy(layer => layer.get('type'))
+            .map((layers, title) => ({
+                title,
+                layers,
+            })),
     })
 )
 
@@ -110,6 +119,6 @@ export default compose(
     lifecycle({
         componentDidUpdate() {
             this.props.loadData()
-        }
-    }),
+        },
+    })
 )(Menu)

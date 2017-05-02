@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps} from 'recompose'
+import { compose, withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {DropdownFromOptions as Dropdown} from '~/components/controls'
+import { DropdownFromOptions as Dropdown } from '~/components/controls'
 import styles from './Table.css'
 import noop from 'lodash/noop'
 
@@ -26,10 +26,10 @@ function PageSizeSelector({
     options,
     onChange = noop,
     prefix = 'Show',
-    suffix = 'entries per page.'
+    suffix = 'entries per page.',
 }) {
     return (
-        <div styleName='PageSizeSelector'>
+        <div styleName="PageSizeSelector">
             <div>{prefix}</div>
             <div>
                 <Dropdown options={options} value={value} onChange={onChange} />
@@ -40,7 +40,7 @@ function PageSizeSelector({
 }
 
 export default compose(
-    withProps(({max, numbers, value}) => {
+    withProps(({ max, numbers, value }) => {
         if (!Array.isArray(numbers)) {
             if (typeof max === 'number') {
                 numbers = NUMBERS.filter(number => number < max)
@@ -54,5 +54,5 @@ export default compose(
             value: value || numbers[0],
         }
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(PageSizeSelector)

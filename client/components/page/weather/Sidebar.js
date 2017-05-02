@@ -1,44 +1,48 @@
 import React from 'react'
 import Link from 'react-router/lib/Link'
-import Sidebar, {Item, Header} from '~/components/sidebar'
+import Sidebar, { Item, Header } from '~/components/sidebar'
 
 export default function WeatherSidebar() {
     return (
         <Sidebar>
             <Header>Forecast</Header>
             <Item>
-                <Link to='/weather'>Mountain Weather Forecast</Link>
+                <Link to="/weather">Mountain Weather Forecast</Link>
             </Item>
             <Item>
-                <Link to='/weather/hourly-precipitation'>Hourly Precipitation</Link>
+                <Link to="/weather/hourly-precipitation">
+                    Hourly Precipitation
+                </Link>
             </Item>
             <Item>
-                <Link to='/weather/12h-precipitation'>12hr Total Precipitation</Link>
+                <Link to="/weather/12h-precipitation">
+                    12hr Total Precipitation
+                </Link>
             </Item>
             <Item>
-                <Link to='/weather/temperatures'>Temperatures</Link>
+                <Link to="/weather/temperatures">Temperatures</Link>
             </Item>
             <Item>
-                <Link to='/weather/winds'>Winds</Link>
+                <Link to="/weather/winds">Winds</Link>
             </Item>
             <Item>
-                <Link to='/weather/surface-maps'>Surface Maps</Link>
+                <Link to="/weather/surface-maps">Surface Maps</Link>
             </Item>
             <Item>
-                <Link to='/weather/other-maps'>500mb & Precipitable Water</Link>
+                <Link to="/weather/other-maps">500mb & Precipitable Water</Link>
             </Item>
             <Header>Current Conditions</Header>
             <Item>
-                <Link to='/weather/radar'>Radar</Link>
+                <Link to="/weather/radar">Radar</Link>
             </Item>
             <Item>
-                <Link to='/weather/satellite'>Satellite</Link>
+                <Link to="/weather/satellite">Satellite</Link>
             </Item>
             <Item>
-                <Link to='/weather/actual-temperatures'>Temperatures</Link>
+                <Link to="/weather/actual-temperatures">Temperatures</Link>
             </Item>
             <Item>
-                <Link to='/weather/warnings'>Warnings</Link>
+                <Link to="/weather/warnings">Warnings</Link>
             </Item>
         </Sidebar>
     )

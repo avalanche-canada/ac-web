@@ -1,30 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from '~/compose'
-import {compose, mapProps, setPropTypes} from 'recompose'
+import { onlyUpdateForKey } from '~/compose'
+import { compose, mapProps, setPropTypes } from 'recompose'
 import Link from 'react-router/lib/Link'
-import {Sidebar, Contact, Follow, Share, Item, RSSFeed, Print} from '~/components/sidebar'
-import {FORECASTERS} from '~/constants/emails'
+import {
+    Sidebar,
+    Contact,
+    Follow,
+    Share,
+    Item,
+    RSSFeed,
+    Print,
+} from '~/components/sidebar'
+import { FORECASTERS } from '~/constants/emails'
 
 export default compose(
     setPropTypes({
         isPrintable: PropTypes.bool.isRequired,
     }),
     onlyUpdateForKey('isPrintable'),
-    mapProps(({isPrintable, ...props}) => {
-        const {pathname, origin} = document.location
+    mapProps(({ isPrintable, ...props }) => {
+        const { pathname, origin } = document.location
         const children = [
             <Item>
-                <Link to='/weather'>Your daily Mountain Weather Forecast</Link>
+                <Link to="/weather">Your daily Mountain Weather Forecast</Link>
             </Item>,
             <Item>
-                <Link to='/mountain-information-network/submit'>Submit a Mountain Information Report</Link>
+                <Link to="/mountain-information-network/submit">
+                    Submit a Mountain Information Report
+                </Link>
             </Item>,
             <Item>
-                <Link to='/blogs'>Visit our Blog</Link>
+                <Link to="/blogs">Visit our Blog</Link>
             </Item>,
             <Item>
-                <Link to='/forecasts/archives'>Forecast Archive</Link>
+                <Link to="/forecasts/archives">Forecast Archive</Link>
             </Item>,
             <Follow />,
             <Share />,
@@ -38,7 +48,7 @@ export default compose(
 
         return {
             ...props,
-            children
+            children,
         }
     })
 )(Sidebar)

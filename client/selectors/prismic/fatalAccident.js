@@ -1,7 +1,11 @@
-import {createSelector, createStructuredSelector} from 'reselect'
-import {computeOffset} from '~/selectors/map/bounds'
-import {parseLocation} from '~/prismic/parser'
-import {getStatusFactory, getDocument, getUid} from '~/selectors/prismic/utils'
+import { createSelector, createStructuredSelector } from 'reselect'
+import { computeOffset } from '~/selectors/map/bounds'
+import { parseLocation } from '~/prismic/parser'
+import {
+    getStatusFactory,
+    getDocument,
+    getUid,
+} from '~/selectors/prismic/utils'
 
 // TODO: Create a connector, it is really similar to special-information
 // TODO: Move to index!
@@ -22,15 +26,13 @@ const getComputeFlyTo = createSelector(
     }
 )
 
-const getMessages = createSelector(
-    getUid,
-    getDocument,
-    (uid, report) => ({
-        isError: 'An error happened while loading the fatal recreational accident.',
-        isLoading: 'Loading fatal recreational accident...',
-        isLoaded: report ? null : `Fatal recreational accident "${uid}" is not available anymore.`
-    })
-)
+const getMessages = createSelector(getUid, getDocument, (uid, report) => ({
+    isError: 'An error happened while loading the fatal recreational accident.',
+    isLoading: 'Loading fatal recreational accident...',
+    isLoaded: report
+        ? null
+        : `Fatal recreational accident "${uid}" is not available anymore.`,
+}))
 
 export default createStructuredSelector({
     report: getDocument,

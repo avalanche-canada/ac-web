@@ -1,18 +1,16 @@
-import {createElement} from 'react'
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
-import {classify} from '~/utils/string'
-import {captureException} from '~/services/raven'
+import { classify } from '~/utils/string'
+import { captureException } from '~/services/raven'
 
 Slice.propTypes = {
     type: PropTypes.string.isRequired,
     label: PropTypes.string,
-    content: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.string,
-    ]).isRequired,
+    content: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+        .isRequired,
 }
 
-export default function Slice({type, ...props}) {
+export default function Slice({ type, ...props }) {
     type = classify(type)
 
     try {

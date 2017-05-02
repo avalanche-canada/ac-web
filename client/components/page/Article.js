@@ -8,9 +8,9 @@ Article.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Article({title, children}) {
+function Article({ title, children }) {
     return (
-        <article styleName='Article'>
+        <article styleName="Article">
             {title && <h2>{title}</h2>}
             {children}
         </article>

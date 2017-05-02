@@ -5,13 +5,11 @@ import styles from './Backdrop.css'
 import noop from 'lodash/noop'
 
 Backdrop.propTypes = {
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
 }
 
-function Backdrop({onClick = noop}) {
-    return (
-        <div styleName='Backdrop' onClick={onClick}></div>
-    )
+function Backdrop({ onClick = noop }) {
+    return <div styleName="Backdrop" onClick={onClick} />
 }
 
 export default CSSModules(Backdrop, styles)

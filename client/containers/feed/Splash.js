@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Splash} from '~/components/page/sections'
-import {InnerHTML} from '~/components/misc'
-import {Entry, EntrySet} from '~/components/feed'
-import {feedSplash} from '~/containers/connectors'
+import { Splash } from '~/components/page/sections'
+import { InnerHTML } from '~/components/misc'
+import { Entry, EntrySet } from '~/components/feed'
+import { feedSplash } from '~/containers/connectors'
 
 // TODO: Move to components feed. Containers should not render anything!
 
@@ -13,11 +13,7 @@ FeedSplash.propTypes = {
     documents: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function FeedSplash({
-    header,
-    featured,
-    documents = [],
-}) {
+function FeedSplash({ header, featured, documents = [] }) {
     return (
         <Splash>
             <InnerHTML>
@@ -26,10 +22,11 @@ function FeedSplash({
             {featured &&
                 <EntrySet>
                     <Entry {...featured} />
-                </EntrySet>
-            }
+                </EntrySet>}
             <EntrySet>
-                {documents.map(entry => <Entry condensed key={entry.uid} {...entry} />)}
+                {documents.map(entry => (
+                    <Entry condensed key={entry.uid} {...entry} />
+                ))}
             </EntrySet>
         </Splash>
     )

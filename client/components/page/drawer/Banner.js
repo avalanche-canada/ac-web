@@ -1,6 +1,6 @@
-import {DOM} from 'react'
+import { DOM } from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps, setPropTypes, renameProp} from 'recompose'
+import { compose, withProps, setPropTypes, renameProp } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 
@@ -12,5 +12,5 @@ export default compose(
         styleName: 'Banner',
     }),
     renameProp('url', 'src'),
-    CSSModules(styles),
+    CSSModules(styles)
 )(DOM.img)

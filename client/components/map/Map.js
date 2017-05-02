@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import mapbox, {styles} from '~/services/mapbox/map'
-import {Canadian} from '~/constants/map/bounds'
-import {captureException} from '~/services/raven'
+import mapbox, { styles } from '~/services/mapbox/map'
+import { Canadian } from '~/constants/map/bounds'
+import { captureException } from '~/services/raven'
 import noop from 'lodash/noop'
 
 function toJSON(style) {
@@ -17,7 +17,7 @@ function toJSON(style) {
     return style
 }
 
-const {LngLatBounds} = mapbox
+const { LngLatBounds } = mapbox
 const STYLES = Object.keys(styles)
 const EVENTS = new Map([
     ['onWebglcontextlost', 'webglcontextlost'],
@@ -58,7 +58,8 @@ const EVENTS = new Map([
 export default class MapComponent extends Component {
     static propTypes = {
         children: PropTypes.node,
-        style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object]).isRequired,
+        style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object])
+            .isRequired,
         containerStyle: PropTypes.object,
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
@@ -126,13 +127,13 @@ export default class MapComponent extends Component {
         map: PropTypes.object,
     }
     state = {
-        map: null
+        map: null,
     }
     get map() {
         return this.state.map
     }
     set map(map) {
-        this.setState({map})
+        this.setState({ map })
     }
     constructor(props) {
         super(props)
@@ -143,18 +144,20 @@ export default class MapComponent extends Component {
     }
     getChildContext() {
         return {
-            map: this.map
+            map: this.map,
         }
     }
     componentDidMount() {
-        const {container} = this.refs
-        const {style, onInitializationError, ...props} = this.props
+        const { container } = this.refs
+        const { style, onInitializationError, ...props } = this.props
 
         try {
             const map = new mapbox.Map({
                 ...props,
                 container,
-                style: typeof style === 'string' ? styles[style] : toJSON(style),
+                style: typeof style === 'string'
+                    ? styles[style]
+                    : toJSON(style),
             })
 
             EVENTS.forEach((name, method) => {
@@ -174,7 +177,7 @@ export default class MapComponent extends Component {
             this.map.off()
         }
     }
-    componentWillReceiveProps({style}) {
+    componentWillReceiveProps({ style }) {
         if (!this.map || style === this.props.style) {
             return
         }
@@ -202,12 +205,12 @@ export default class MapComponent extends Component {
     set style(style) {
         this.map.setStyle(toJSON(style))
     }
-    shouldComponentUpdate({children}, {map}) {
+    shouldComponentUpdate({ children }, { map }) {
         return children !== this.props.children || map !== this.map
     }
     render() {
         return (
-            <div ref='container' style={this.props.containerStyle}>
+            <div ref="container" style={this.props.containerStyle}>
                 {this.map && this.props.children}
             </div>
         )

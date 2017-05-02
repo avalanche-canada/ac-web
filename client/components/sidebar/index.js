@@ -1,4 +1,4 @@
-import React, {isValidElement, createElement} from 'react'
+import React, { isValidElement, createElement } from 'react'
 import PropTypes from 'prop-types'
 import Contact from './Contact'
 import Share from './Share'
@@ -29,7 +29,7 @@ function createSocialElement(element, component) {
     return isValidElement(element) ? element : null
 }
 
-export default function CompleteSidebar({children, contact, share, follow}) {
+export default function CompleteSidebar({ children, contact, share, follow }) {
     return (
         <Sidebar>
             {children}

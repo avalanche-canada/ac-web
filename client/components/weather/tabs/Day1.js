@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {InnerHTML, DateElement, Image} from '~/components/misc'
+import { InnerHTML, DateElement, Image } from '~/components/misc'
 import Section from './Section'
-import {formatForecastUrl} from '~/services/msc/loop/url'
+import { formatForecastUrl } from '~/services/msc/loop/url'
 
 Day1.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -12,7 +12,7 @@ Day1.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Day1({date, above, between, below, children}) {
+export default function Day1({ date, above, between, below, children }) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
     const image = {

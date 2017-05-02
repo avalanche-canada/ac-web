@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, withState} from 'recompose'
+import { compose, lifecycle, withState } from 'recompose'
 import Link from 'react-router/lib/Link'
-import {Fragments} from 'prismic.io'
+import { Fragments } from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
-import {Page, Main, Content} from '~/components/page'
-import {Media, Player} from '~/components/media'
+import { Page, Main, Content } from '~/components/page'
+import { Media, Player } from '~/components/media'
 import AtesExercise from './AtesExercise'
-import {fetchStaticResource} from '~/api'
-import {Loading} from '~/components/misc'
+import { fetchStaticResource } from '~/api'
+import { Loading } from '~/components/misc'
 import get from 'lodash/get'
 
-const ATES_EXERCISE_SLUG = 'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
+const ATES_EXERCISE_SLUG =
+    'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
 
 function findSlug(pages, prismicSlug) {
-    for(var i = 0; i < pages.length; i++)  {
+    for (var i = 0; i < pages.length; i++) {
         const page = pages[i]
         const clean = page.slug.replace(/\//g, '')
 
@@ -48,7 +49,7 @@ MenuItem.propTypes = {
     currentPage: PropTypes.number,
 }
 
-function MenuItem({title, slug, children, currentPage}) {
+function MenuItem({ title, slug, children, currentPage }) {
     let cc = null
     let showChildren = currentPage.startsWith(slug)
 
@@ -61,7 +62,9 @@ function MenuItem({title, slug, children, currentPage}) {
     if (showChildren) {
         cc = (
             <ul>
-                {children.map(c => <MenuItem key={c.slug} currentPage={currentPage} {...c} />)}
+                {children.map(c => (
+                    <MenuItem key={c.slug} currentPage={currentPage} {...c} />
+                ))}
             </ul>
         )
     }
@@ -71,7 +74,11 @@ function MenuItem({title, slug, children, currentPage}) {
 
     return (
         <li>
-            <Link activeClassName={styles.active} to={`/tutorial/${encodedSlug}`}>{displayTitle}</Link>
+            <Link
+                activeClassName={styles.active}
+                to={`/tutorial/${encodedSlug}`}>
+                {displayTitle}
+            </Link>
             {cc}
         </li>
     )
@@ -81,7 +88,7 @@ Gallery.propTypes = {
     imgs: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function Gallery({imgs}) {
+function Gallery({ imgs }) {
     return (
         <div>
             {imgs.map((image, index) => (
@@ -90,7 +97,6 @@ function Gallery({imgs}) {
         </div>
     )
 }
-
 
 function flattenImage(img) {
     return {
@@ -106,18 +112,18 @@ GalleryImage.propTypes = {
     credit: PropTypes.string,
 }
 
-function GalleryImage({url, caption, credit}){
+function GalleryImage({ url, caption, credit }) {
     if (!url) {
         return null
     }
 
     const cap = caption ? caption : ''
     const cred = credit ? `Photo: ${credit}` : ''
-    const split = cap && cred ? ' - ':''
+    const split = cap && cred ? ' - ' : ''
     return (
         <div className={styles.ImageContainer}>
-            <Media caption={`${cap}${split}${cred}`} >
-                <img className={styles.Image}src={url} />
+            <Media caption={`${cap}${split}${cred}`}>
+                <img className={styles.Image} src={url} />
             </Media>
         </div>
     )
@@ -128,12 +134,12 @@ SideBar.propTypes = {
     currentPage: PropTypes.number.isRequired,
 }
 
-function SideBar({menuTree, currentPage}) {
+function SideBar({ menuTree, currentPage }) {
     return (
         <ul className={styles.Sidebar}>
-            {menuTree.map(c =>
+            {menuTree.map(c => (
                 <MenuItem key={c.slug} currentPage={currentPage} {...c} />
-            )}
+            ))}
         </ul>
     )
 }
@@ -142,7 +148,7 @@ Video.propTypes = {
     src: PropTypes.string.isRequired,
 }
 
-function Video({src}) {
+function Video({ src }) {
     return (
         <Media>
             <Player src={src} />
@@ -155,50 +161,65 @@ TextBlock.propTypes = {
     linkResolver: PropTypes.func.isRequired,
 }
 
-function TextBlock({field, linkResolver}) {
+function TextBlock({ field, linkResolver }) {
     if (field === undefined) {
         return null
     }
 
     const t = new Fragments.StructuredText(field.blocks)
 
-    return <div className={styles.TextBlock} dangerouslySetInnerHTML={{__html: t.asHtml(linkResolver)}} />
+    return (
+        <div
+            className={styles.TextBlock}
+            dangerouslySetInnerHTML={{ __html: t.asHtml(linkResolver) }}
+        />
+    )
 }
-
 
 TutorialPage.propTypes = {
     document: PropTypes.object,
     linkResolver: PropTypes.func.isRequired,
 }
 
-function TutorialPage({document, linkResolver}) {
+function TutorialPage({ document, linkResolver }) {
     let gallery = []
-    if(typeof document.data['tutorial-page.gallery'] !== 'undefined') {
+    if (typeof document.data['tutorial-page.gallery'] !== 'undefined') {
         gallery = document.data['tutorial-page.gallery'].value
     }
 
-    const vid =document.data['tutorial-page.video-source']
-
+    const vid = document.data['tutorial-page.video-source']
 
     return (
         <div>
             <h1>{document.data['tutorial-page.title'].value}</h1>
 
-            <TextBlock field={document.fragments['tutorial-page.text1']} linkResolver={linkResolver} />
+            <TextBlock
+                field={document.fragments['tutorial-page.text1']}
+                linkResolver={linkResolver}
+            />
 
             {/* video here */}
 
             {vid && vid.value && <Video src={vid.value} />}
 
-            <TextBlock field={document.fragments['tutorial-page.text2']} linkResolver={linkResolver} />
+            <TextBlock
+                field={document.fragments['tutorial-page.text2']}
+                linkResolver={linkResolver}
+            />
 
-            <Gallery  imgs={gallery} />
+            <Gallery imgs={gallery} />
 
-            <TextBlock field={document.fragments['tutorial-page.text3']} linkResolver={linkResolver} />
+            <TextBlock
+                field={document.fragments['tutorial-page.text3']}
+                linkResolver={linkResolver}
+            />
 
             {/* embedded content: raw HTML that comes from prismic :/ */}
 
-            <TextBlock field={document.fragments['tutorial-page.text4']} linkResolver={linkResolver} />
+            <TextBlock
+                field={document.fragments['tutorial-page.text4']}
+                linkResolver={linkResolver}
+            />
         </div>
     )
 }
@@ -210,24 +231,29 @@ Tutorial.propTypes = {
     menuTree: PropTypes.object.isRequired,
 }
 
-function Tutorial({isLoading, document, params, menuTree}) {
-    const {splat} = params
+function Tutorial({ isLoading, document, params, menuTree }) {
+    const { splat } = params
     const isAtes = splat === ATES_EXERCISE_SLUG
     let page = null
 
     if (isAtes) {
         page = <AtesExercise />
-    } else if (splat === ''){
+    } else if (splat === '') {
         page = document && <TutorialHome document={document} />
     } else {
-        page = document && <TutorialPage document={document} linkResolver={linkResolverFactory(menuTree)} />
+        page =
+            document &&
+            <TutorialPage
+                document={document}
+                linkResolver={linkResolverFactory(menuTree)}
+            />
     }
 
     return (
         <Page>
             <Content>
                 <Main>
-                    <div styleName='TutorialPage'>
+                    <div styleName="TutorialPage">
                         <SideBar currentPage={splat} menuTree={menuTree} />
                         <div className={styles.TutorialContent}>
                             {isLoading && !isAtes && <Loading />}
@@ -240,12 +266,11 @@ function Tutorial({isLoading, document, params, menuTree}) {
     )
 }
 
-
 TutorialHome.propTypes = {
     document: PropTypes.object.isRequired,
 }
 
-function TutorialHome({document}) {
+function TutorialHome({ document }) {
     let title = document.data['generic.title'].value
     return (
         <div>
@@ -259,12 +284,12 @@ export default compose(
     withState('menuTree', 'setMenuTree', []),
     lifecycle({
         componentDidMount() {
-            const {setMenuTree} = this.props
+            const { setMenuTree } = this.props
 
             fetchStaticResource('tutorial-menu-tree.json').then(response => {
                 setMenuTree(response.data)
             })
-        }
+        },
     }),
     CSSModules(styles)
 )(Tutorial)

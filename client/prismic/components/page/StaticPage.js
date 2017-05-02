@@ -1,9 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Content, Header, Headline, Main, Banner, Aside} from '~/components/page'
+import {
+    Page,
+    Content,
+    Header,
+    Headline,
+    Main,
+    Banner,
+    Aside,
+} from '~/components/page'
 import Slice from '~/prismic/components/slice'
 import Sidebar from './Sidebar'
-import {Status} from '~/components/misc'
+import { Status } from '~/components/misc'
 
 StaticPage.propTypes = {
     type: PropTypes.string.isRequired,
@@ -26,12 +34,7 @@ export default function StaticPage({
     status,
     document = {},
 }) {
-    const {
-        headline,
-        content = [],
-        banner,
-        sidebar,
-    } = document
+    const { headline, content = [], banner, sidebar } = document
 
     return (
         <Page className={`${type}-${uid}`}>
@@ -48,8 +51,7 @@ export default function StaticPage({
                 {sidebar &&
                     <Aside>
                         <Sidebar {...sidebar} />
-                    </Aside>
-                }
+                    </Aside>}
             </Content>
         </Page>
     )

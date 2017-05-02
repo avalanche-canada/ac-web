@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from '~/compose'
-import {List} from 'immutable'
+import { onlyUpdateForKey } from '~/compose'
+import { List } from 'immutable'
 import RelativeHumidity from './charts/RelativeHumidity'
 import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
-import {getDateExtent} from './utils'
-import {Ratio} from '~/components/misc'
+import { getDateExtent } from './utils'
+import { Ratio } from '~/components/misc'
 import styles from './Station.css'
 
 ChartSet.propTypes = {
@@ -16,9 +16,9 @@ ChartSet.propTypes = {
 
 const MIN_HEIGHT = 200
 
-function ChartSet({measurements}) {
+function ChartSet({ measurements }) {
     const data = measurements.toArray()
-    const {min, max} = getDateExtent(data)
+    const { min, max } = getDateExtent(data)
 
     return (
         <Ratio traverse>
@@ -27,10 +27,34 @@ function ChartSet({measurements}) {
 
                 return (
                     <div className={styles.ChartSet}>
-                        <Snow data={data} min={min} max={max} width={width} height={height} />
-                        <Temperature data={data} min={min} max={max} width={width} height={height} />
-                        <Wind data={data} min={min} max={max} width={width} height={height} />
-                        <RelativeHumidity data={data} min={min} max={max} width={width} height={height} />
+                        <Snow
+                            data={data}
+                            min={min}
+                            max={max}
+                            width={width}
+                            height={height}
+                        />
+                        <Temperature
+                            data={data}
+                            min={min}
+                            max={max}
+                            width={width}
+                            height={height}
+                        />
+                        <Wind
+                            data={data}
+                            min={min}
+                            max={max}
+                            width={width}
+                            height={height}
+                        />
+                        <RelativeHumidity
+                            data={data}
+                            min={min}
+                            max={max}
+                            width={width}
+                            height={height}
+                        />
                     </div>
                 )
             }}

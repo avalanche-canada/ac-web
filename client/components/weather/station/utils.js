@@ -24,94 +24,110 @@ export const formatForUnit = memoize(function(unit) {
     return value => `${value} ${unit}`
 })
 
-export const scatterEvents = [{
-    target: 'data',
-    eventHandlers: {
-        onMouseOver() {
-            return [{
-                target: 'data',
-                mutation({style}) {
-                    return {
-                        style: {
-                            ...style,
-                            fill: style.stroke,
-                        }
-                    }
-                }
-            }, {
-                target: 'labels',
-                mutation() {
-                    return {
-                        active: true,
-                    }
-                },
-            }]
+export const scatterEvents = [
+    {
+        target: 'data',
+        eventHandlers: {
+            onMouseOver() {
+                return [
+                    {
+                        target: 'data',
+                        mutation({ style }) {
+                            return {
+                                style: {
+                                    ...style,
+                                    fill: style.stroke,
+                                },
+                            }
+                        },
+                    },
+                    {
+                        target: 'labels',
+                        mutation() {
+                            return {
+                                active: true,
+                            }
+                        },
+                    },
+                ]
+            },
+            onMouseOut() {
+                return [
+                    {
+                        target: 'data',
+                        mutation({ style }) {
+                            return {
+                                style: {
+                                    ...style,
+                                    fill: 'white',
+                                },
+                            }
+                        },
+                    },
+                    {
+                        target: 'labels',
+                        mutation() {
+                            return {
+                                active: false,
+                            }
+                        },
+                    },
+                ]
+            },
         },
-        onMouseOut() {
-            return [{
-                target: 'data',
-                mutation({style}) {
-                    return {
-                        style: {
-                            ...style,
-                            fill: 'white'
-                        }
-                    }
-                }
-            }, {
-                target: 'labels',
-                mutation() {
-                    return {
-                        active: false,
-                    }
-                },
-            }]
-        }
-    }
-}]
+    },
+]
 
-export const barEvents = [{
-    target: 'data',
-    eventHandlers: {
-        onMouseOver() {
-            return [{
-                target: 'data',
-                mutation({style}) {
-                    return {
-                        style: {
-                            ...style,
-                            opacity: 0.5,
-                        }
-                    }
-                }
-            }, {
-                target: 'labels',
-                mutation() {
-                    return {
-                        active: true,
-                    }
-                },
-            }]
+export const barEvents = [
+    {
+        target: 'data',
+        eventHandlers: {
+            onMouseOver() {
+                return [
+                    {
+                        target: 'data',
+                        mutation({ style }) {
+                            return {
+                                style: {
+                                    ...style,
+                                    opacity: 0.5,
+                                },
+                            }
+                        },
+                    },
+                    {
+                        target: 'labels',
+                        mutation() {
+                            return {
+                                active: true,
+                            }
+                        },
+                    },
+                ]
+            },
+            onMouseOut() {
+                return [
+                    {
+                        target: 'data',
+                        mutation({ style }) {
+                            return {
+                                style: {
+                                    ...style,
+                                    opacity: 1,
+                                },
+                            }
+                        },
+                    },
+                    {
+                        target: 'labels',
+                        mutation() {
+                            return {
+                                active: false,
+                            }
+                        },
+                    },
+                ]
+            },
         },
-        onMouseOut() {
-            return [{
-                target: 'data',
-                mutation({style}) {
-                    return {
-                        style: {
-                            ...style,
-                            opacity: 1,
-                        }
-                    }
-                }
-            }, {
-                target: 'labels',
-                mutation() {
-                    return {
-                        active: false,
-                    }
-                },
-            }]
-        }
-    }
-}]
+    },
+]

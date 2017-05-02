@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 
@@ -22,8 +22,8 @@ export default class Ratio extends Component {
         return this.computeDimensionsElement(this.container, props)
     }
     computeDimensionsElement(element, props) {
-        const {x, y, traverse} = props
-        const {width} = element.getBoundingClientRect()
+        const { x, y, traverse } = props
+        const { width } = element.getBoundingClientRect()
 
         if (traverse === true && width === 0) {
             return this.computeDimensionsElement(element.parentNode, props)
@@ -49,19 +49,26 @@ export default class Ratio extends Component {
         window.removeEventListener('resize', this.handleResize, false)
     }
     handleResize = debounce(() => {
-        this.setState({
-            hasComputed: false,
-        }, () => {
-            this.setState({
-                hasComputed: true,
-                ...this.getComputedDimensions(this.props),
-            })
-        })
+        this.setState(
+            {
+                hasComputed: false,
+            },
+            () => {
+                this.setState({
+                    hasComputed: true,
+                    ...this.getComputedDimensions(this.props),
+                })
+            }
+        )
     }, 100)
     render() {
         return (
-            <div ref={ref => this.container = ref}>
-                {this.props.children(this.state.width, this.state.height, this.state.hasComputed)}
+            <div ref={ref => (this.container = ref)}>
+                {this.props.children(
+                    this.state.width,
+                    this.state.height,
+                    this.state.hasComputed
+                )}
             </div>
         )
     }

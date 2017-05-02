@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, onlyUpdateForKeys} from 'recompose'
+import { compose, onlyUpdateForKeys } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
-import {handleOutboundSponsorClick} from '~/services/analytics'
+import { handleOutboundSponsorClick } from '~/services/analytics'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
@@ -12,16 +12,19 @@ Sponsor.propTypes = {
     label: PropTypes.string,
 }
 
-function Sponsor({name, logo, url, label = 'Brought to you by'}) {
+function Sponsor({ name, logo, url, label = 'Brought to you by' }) {
     return (
-        <a href={url} target='_blank' title={name} onClick={handleOutboundSponsorClick}>
-            <dl styleName='Container'>
+        <a
+            href={url}
+            target="_blank"
+            title={name}
+            onClick={handleOutboundSponsorClick}>
+            <dl styleName="Container">
                 {label &&
-                    <dt styleName='Label'>
+                    <dt styleName="Label">
                         {label}
-                    </dt>
-                }
-                <dd styleName='Logo'>
+                    </dt>}
+                <dd styleName="Logo">
                     <img src={logo} title={name} />
                 </dd>
             </dl>
@@ -31,5 +34,5 @@ function Sponsor({name, logo, url, label = 'Brought to you by'}) {
 
 export default compose(
     onlyUpdateForKeys(['name', 'src', 'url']),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Sponsor)

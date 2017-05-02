@@ -8,13 +8,13 @@ Summary.propTypes = {
     children: PropTypes.node,
 }
 
-function Summary({title, children}) {
+function Summary({ title, children }) {
     if (!children) {
         return null
     }
 
     return (
-        <div styleName='Summary'>
+        <div styleName="Summary">
             <h3>{title}</h3>
             {children}
         </div>

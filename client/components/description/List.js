@@ -24,10 +24,10 @@ function List({
     theme = 'Simple',
     condensed = false,
     bordered = false,
-    children
+    children,
 }) {
     return (
-        <dl styleName={computeStyleName(columns, theme, condensed, bordered)} >
+        <dl styleName={computeStyleName(columns, theme, condensed, bordered)}>
             {children}
         </dl>
     )

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {onlyUpdateForKey} from '~/compose'
+import { onlyUpdateForKey } from '~/compose'
 import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
@@ -16,10 +16,10 @@ Navbar.propTypes = {
     onBurgerClick: PropTypes.func.isRequired,
 }
 
-function Navbar({isFoundation = false, onBurgerClick = noop, children = []}) {
+function Navbar({ isFoundation = false, onBurgerClick = noop, children = [] }) {
     return (
-        <div styleName='Navbar'>
-            <nav styleName='Navigation'>
+        <div styleName="Navbar">
+            <nav styleName="Navigation">
                 <Brand isFoundation={isFoundation} />
                 <Burger onClick={onBurgerClick} />
                 <ItemSet>
@@ -31,7 +31,4 @@ function Navbar({isFoundation = false, onBurgerClick = noop, children = []}) {
     )
 }
 
-export default compose(
-    onlyUpdateForKey('children'),
-    CSSModules(styles),
-)(Navbar)
+export default compose(onlyUpdateForKey('children'), CSSModules(styles))(Navbar)

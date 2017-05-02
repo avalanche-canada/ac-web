@@ -1,6 +1,6 @@
 import Memory from './Memory'
 
-const {parse, stringify} = JSON
+const { parse, stringify } = JSON
 
 export default class Storage {
     static create(/* options */) {

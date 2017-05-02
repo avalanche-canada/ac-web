@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {DateElement} from '~/components/misc'
+import { DateElement } from '~/components/misc'
 import Section from './Section'
 import Loop from '../Loop'
 import addDays from 'date-fns/add_days'
@@ -14,7 +14,7 @@ Title.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function Title({date}) {
+function Title({ date }) {
     const day3 = addDays(date, 2)
     const day4 = addDays(date, 3)
 
@@ -25,7 +25,7 @@ function Title({date}) {
     )
 }
 
-export default function Day3To4({date, children}) {
+export default function Day3To4({ date, children }) {
     const loop = {
         type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
         date: addDays(date, -1),

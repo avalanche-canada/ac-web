@@ -1,10 +1,8 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {Media, Caption, Player} from './index'
+import { storiesOf, action } from '@kadira/storybook'
+import { Media, Caption, Player } from './index'
 
-const image = (
-    <img src='http://www.avalanche.ca/assets/avalanche_canada.svg' />
-)
+const image = <img src="http://www.avalanche.ca/assets/avalanche_canada.svg" />
 const caption = (
     <Caption>
         Avalanche Canada
@@ -12,10 +10,10 @@ const caption = (
 )
 
 storiesOf('Media', module)
-.add('Image', () => <Media>{image}</Media>)
-.add('Image w/ caption', () => <Media caption={caption}>{image}</Media>)
-.add('Video', () => (
-    <Media>
-        <Player src='https://player.vimeo.com/video/141111236' />
-    </Media>
-))
+    .add('Image', () => <Media>{image}</Media>)
+    .add('Image w/ caption', () => <Media caption={caption}>{image}</Media>)
+    .add('Video', () => (
+        <Media>
+            <Player src="https://player.vimeo.com/video/141111236" />
+        </Media>
+    ))

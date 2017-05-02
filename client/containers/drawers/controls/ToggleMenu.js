@@ -1,10 +1,10 @@
 import React from 'react'
-import {compose, setDisplayName, mapProps, withHandlers} from 'recompose'
-import {connect} from 'react-redux'
-import {toggleMenu} from '~/actions/drawers'
-import {Menu} from '~/components/icons'
-import Button, {SUBTILE} from '~/components/button'
-import {neverUpdate} from '~/compose'
+import { compose, setDisplayName, mapProps, withHandlers } from 'recompose'
+import { connect } from 'react-redux'
+import { toggleMenu } from '~/actions/drawers'
+import { Menu } from '~/components/icons'
+import Button, { SUBTILE } from '~/components/button'
+import { neverUpdate } from '~/compose'
 
 export default compose(
     setDisplayName('ToggleMenu'),
@@ -14,7 +14,7 @@ export default compose(
     withHandlers({
         onClick: props => () => {
             props.toggleMenu()
-        }
+        },
     }),
     mapProps(props => ({
         onClick: props.onClick,
@@ -27,7 +27,7 @@ export default compose(
             left: 15,
             backgroundColor: 'white',
             zIndex: 13,
-        }
+        },
     })),
-    neverUpdate,
+    neverUpdate
 )(Button)

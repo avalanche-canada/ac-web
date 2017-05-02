@@ -1,30 +1,42 @@
 import React from 'react'
-import {Article} from '~/components/page'
-import {Tab, TabSet} from '~/components/tab'
-import {Loop} from '~/components/weather'
+import { Article } from '~/components/page'
+import { Tab, TabSet } from '~/components/tab'
+import { Loop } from '~/components/weather'
 import Tutorial from '~/containers/WeatherTutorial'
 
 export default function Satellite() {
     return (
-        <Article title='Satellite Imagery'>
+        <Article title="Satellite Imagery">
             <TabSet>
-                <Tab title='IR West Coast'>
-                    <Loop type='AC_SAT_CAN-W-CST_ir-redtop' interval={200} amount={24} />
+                <Tab title="IR West Coast">
+                    <Loop
+                        type="AC_SAT_CAN-W-CST_ir-redtop"
+                        interval={200}
+                        amount={24}
+                    />
                 </Tab>
-                <Tab title='IR Pacific'>
-                    <Loop type='AC_SAT_EPA_ir-redtop' interval={200} amount={24} />
+                <Tab title="IR Pacific">
+                    <Loop
+                        type="AC_SAT_EPA_ir-redtop"
+                        interval={200}
+                        amount={24}
+                    />
                 </Tab>
-                <Tab title='Water Vapour/Jet'>
-                    <Loop type='AC_SAT_EPA_water-vapour-jet' interval={200} amount={24} />
+                <Tab title="Water Vapour/Jet">
+                    <Loop
+                        type="AC_SAT_EPA_water-vapour-jet"
+                        interval={200}
+                        amount={24}
+                    />
                 </Tab>
-                <Tab title='IR-VIS BC'>
-                    <Loop type='AC_SAT_BC_ir-vis' interval={200} />
+                <Tab title="IR-VIS BC">
+                    <Loop type="AC_SAT_BC_ir-vis" interval={200} />
                 </Tab>
-                <Tab title='1km VIS BC'>
-                    <Loop type='AC_SAT_BC_visible' interval={200} />
+                <Tab title="1km VIS BC">
+                    <Loop type="AC_SAT_BC_visible" interval={200} />
                 </Tab>
-                <Tab title='Tutorials'>
-                    <Tutorial uid='satellite' />
+                <Tab title="Tutorials">
+                    <Tutorial uid="satellite" />
                 </Tab>
             </TabSet>
         </Article>

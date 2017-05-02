@@ -1,6 +1,6 @@
-import {compose, componentFromProp, withProps} from 'recompose'
-import {makeGetDocumentAndStatus} from '~/selectors/prismic/utils'
-import {prismic} from '~/containers/connectors'
+import { compose, componentFromProp, withProps } from 'recompose'
+import { makeGetDocumentAndStatus } from '~/selectors/prismic/utils'
+import { prismic } from '~/containers/connectors'
 import StaticPage from './StaticPage'
 import Generic from './Generic'
 
@@ -9,14 +9,11 @@ export Sidebar from './Sidebar'
 export Content from './Content'
 export StaticPage from './StaticPage'
 
-const Components = new Map([
-    ['static-page', StaticPage],
-    ['generic', Generic],
-])
+const Components = new Map([['static-page', StaticPage], ['generic', Generic]])
 
 export const FallbackPage = compose(
     withProps(props => ({
-        component: Components.get(props.params.type)
+        component: Components.get(props.params.type),
     })),
-    prismic(makeGetDocumentAndStatus),
+    prismic(makeGetDocumentAndStatus)
 )(componentFromProp('component'))

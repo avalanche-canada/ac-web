@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps, withHandlers} from 'recompose'
-import {FilterSet, Feed} from '~/containers/feed'
-import {Page, Content, Header, Main} from '~/components/page'
-import {valueHandlerFactory, arrayValueHandlerFactory} from '~/utils/router'
+import { compose, withProps, withHandlers } from 'recompose'
+import { FilterSet, Feed } from '~/containers/feed'
+import { Page, Content, Header, Main } from '~/components/page'
+import { valueHandlerFactory, arrayValueHandlerFactory } from '~/utils/router'
 import withRouter from 'react-router/lib/withRouter'
 
 Layout.propTypes = {
@@ -11,7 +11,7 @@ Layout.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Layout({type, title, ...query}) {
+function Layout({ type, title, ...query }) {
     return (
         <Page>
             <Header title={title} />
@@ -28,7 +28,6 @@ function Layout({type, title, ...query}) {
 function toSet(tags) {
     if (Array.isArray(tags)) {
         return new Set(tags)
-
     }
 
     if (typeof tags === 'string') {
@@ -41,7 +40,7 @@ function toSet(tags) {
 export default compose(
     withRouter,
     withProps(props => {
-        const {year, month, category, tags, timeline} = props.location.query
+        const { year, month, category, tags, timeline } = props.location.query
 
         return {
             year: year ? Number(year) : year,
@@ -57,5 +56,5 @@ export default compose(
         onCategoryChange: valueHandlerFactory('category'),
         onTimelineChange: valueHandlerFactory('timeline'),
         onTagChange: arrayValueHandlerFactory('tags'),
-    }),
+    })
 )(Layout)

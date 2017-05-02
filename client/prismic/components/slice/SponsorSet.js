@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {createSelector} from 'reselect'
-import {ItemSet, Item} from '~/components/sponsor'
-import {getDocumentsOfType} from '~/getters/prismic'
+import { connect } from 'react-redux'
+import { createSelector } from 'reselect'
+import { ItemSet, Item } from '~/components/sponsor'
+import { getDocumentsOfType } from '~/getters/prismic'
 import transform from '~/prismic/transformers'
 
 function parse(document) {
-    const {image229, name, url} = transform(document)
+    const { image229, name, url } = transform(document)
 
     return {
         title: name,
-        src : image229,
+        src: image229,
         url,
     }
 }
@@ -25,7 +25,10 @@ const getSponsors = createSelector(
         }
 
         return {
-            sponsors: ids.map(id => documents.get(id)).filter(Boolean).map(parse)
+            sponsors: ids
+                .map(id => documents.get(id))
+                .filter(Boolean)
+                .map(parse),
         }
     }
 )
@@ -36,12 +39,12 @@ SponsorSet.propTypes = {
     sponsors: PropTypes.arrayOf(PropTypes.object),
 }
 
-function SponsorSet({sponsors = []}) {
+function SponsorSet({ sponsors = [] }) {
     return (
         <ItemSet>
-            {sponsors.map((sponsor, index) =>
+            {sponsors.map((sponsor, index) => (
                 <Item key={index} {...sponsor} />
-            )}
+            ))}
         </ItemSet>
     )
 }

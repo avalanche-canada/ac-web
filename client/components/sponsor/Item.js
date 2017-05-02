@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
-import {handleOutboundSponsorClick} from '~/services/analytics'
+import { handleOutboundSponsorClick } from '~/services/analytics'
 
 Item.propTypes = {
     src: PropTypes.string.isRequired,
@@ -10,10 +10,15 @@ Item.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Item({src, url, title = url}) {
+function Item({ src, url, title = url }) {
     return (
-        <a styleName='Item' href={url} target='_blank' title={title} onClick={handleOutboundSponsorClick}>
-            <img styleName='Logo' src={src} alt={title} />
+        <a
+            styleName="Item"
+            href={url}
+            target="_blank"
+            title={title}
+            onClick={handleOutboundSponsorClick}>
+            <img styleName="Logo" src={src} alt={title} />
         </a>
     )
 }

@@ -1,23 +1,23 @@
 import React from 'react'
 import Immutable from 'immutable'
-import {createSelector} from 'reselect'
-import {getEntitiesForSchema} from '~/getters/entities'
-import {MountainInformationNetworkSubmission as Schema} from '~/api/schemas'
-import {getResultsSet} from '~/getters/api'
-import {Column, Body} from '~/components/table/managed'
+import { createSelector } from 'reselect'
+import { getEntitiesForSchema } from '~/getters/entities'
+import { MountainInformationNetworkSubmission as Schema } from '~/api/schemas'
+import { getResultsSet } from '~/getters/api'
+import { Column, Body } from '~/components/table/managed'
 import pinWithIncident from '~/components/icons/min/min-pin-with-incident.svg'
 import pin from '~/components/icons/min/min-pin.svg'
 import Link from 'react-router/lib/Link'
-import {DateTime, Relative} from '~/components/misc'
+import { DateTime, Relative } from '~/components/misc'
 import styles from '~/components/misc/Text.css'
-import {getFeatureCollection} from '~/getters/mapbox'
-import {FORECAST_REGIONS} from '~/services/mapbox/datasets'
+import { getFeatureCollection } from '~/getters/mapbox'
+import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
 import inside from '@turf/inside'
 import turf from '@turf/helpers'
-import {computeSorting} from '~/selectors/utils'
-import {createSorter} from '~/selectors/factories'
-import {INCIDENT, NAMES} from '~/constants/min'
-import {NONE} from '~/constants/sortings'
+import { computeSorting } from '~/selectors/utils'
+import { createSorter } from '~/selectors/factories'
+import { INCIDENT, NAMES } from '~/constants/min'
+import { NONE } from '~/constants/sortings'
 
 const columns = Immutable.List.of(
     Column.create({
@@ -25,7 +25,10 @@ const columns = Immutable.List.of(
         property(submission) {
             const id = submission.get('subid')
             const title = submission.get('title')
-            const types = submission.get('obs').map(ob => ob.get('obtype')).toSet()
+            const types = submission
+                .get('obs')
+                .map(ob => ob.get('obtype'))
+                .toSet()
             const icon = types.has(INCIDENT) ? pinWithIncident : pin
             const path = `/map?panel=${Schema.key}/${id}`
 
@@ -36,8 +39,8 @@ const columns = Immutable.List.of(
             )
         },
         style: {
-            minWidth: 40
-        }
+            minWidth: 40,
+        },
     }),
     Column.create({
         name: 'title',
@@ -77,7 +80,7 @@ const columns = Immutable.List.of(
         title: 'Forecast Region',
         property(submission) {
             if (submission.has('region')) {
-                const {name, id} = submission.get('region')
+                const { name, id } = submission.get('region')
 
                 return (
                     <Link to={`/map/forecasts/${id}`}>
@@ -106,27 +109,31 @@ const columns = Immutable.List.of(
                 </ul>
             )
         },
-    }),
+    })
 )
 
-function getSubmissionsResultsSet(state, {days}) {
-    return getResultsSet(state, Schema, {days})
+function getSubmissionsResultsSet(state, { days }) {
+    return getResultsSet(state, Schema, { days })
 }
 
 function getSubmissions(state) {
     return getEntitiesForSchema(state, Schema)
 }
 
-function getFilter(state, {types}) {
+function getFilter(state, { types }) {
     if (types.size === 0) {
         return () => true
     }
 
     types = new Immutable.Set(types)
 
-    return submission => !submission.get('obs')
-        .map(ob => ob.get('obtype')).toSet()
-        .intersect(types).isEmpty()
+    return submission =>
+        !submission
+            .get('obs')
+            .map(ob => ob.get('obtype'))
+            .toSet()
+            .intersect(types)
+            .isEmpty()
 }
 
 const runSubmissionsSpatialAnalysis = createSelector(
@@ -137,10 +144,12 @@ const runSubmissionsSpatialAnalysis = createSelector(
             return submissions
         }
 
-        const {features} = regions
+        const { features } = regions
 
         function setRegion(submission) {
-            const point = turf.point(submission.get('latlng').reverse().toArray())
+            const point = turf.point(
+                submission.get('latlng').reverse().toArray()
+            )
 
             for (var i = 0; i < features.length; i++) {
                 const region = features[i]
@@ -161,19 +170,22 @@ const getFilteredSubmissions = createSelector(
     runSubmissionsSpatialAnalysis,
     getSubmissionsResultsSet,
     getFilter,
-    (submissions, {ids}, filter) => new Immutable.List(ids)
-        .map(id => submissions.get(id))
-        .filter(filter)
-        .sortBy(submission => new Date(submission.get('datetime')))
-        .reverse()
+    (submissions, { ids }, filter) =>
+        new Immutable.List(ids)
+            .map(id => submissions.get(id))
+            .filter(filter)
+            .sortBy(submission => new Date(submission.get('datetime')))
+            .reverse()
 )
 
 const sorters = new Map([
     ['date', submission => new Date(submission.get('datetime'))],
     ['reporter', submission => submission.get('user')],
-    ['forecast-region', submission => (
-        submission.has('region') ? submission.get('region').name : 'z'
-    )],
+    [
+        'forecast-region',
+        submission =>
+            (submission.has('region') ? submission.get('region').name : 'z'),
+    ],
 ])
 
 function getSorting(state, props) {
@@ -186,11 +198,10 @@ const getSortedSubmissions = createSorter(
     sorters
 )
 
-const createBodies = createSelector(
-    getSortedSubmissions,
-    data => Immutable.List.of(
+const createBodies = createSelector(getSortedSubmissions, data =>
+    Immutable.List.of(
         Body.create({
-            data
+            data,
         })
     )
 )
@@ -204,15 +215,20 @@ export default createSelector(
     createBodies,
     getSubmissionsResultsSet,
     getSorting,
-    (bodies, {isFetching, isLoaded, isError}, [name, order]) => {
+    (bodies, { isFetching, isLoaded, isError }, [name, order]) => {
         return {
             isLoading: isFetching,
             total: bodies.reduce((total, body) => total + body.data.size, 0),
             isLoaded,
             isError,
-            columns: columns.map(column => column.set('sorting',
-                column.sorting ? column.name === name ? order : NONE : undefined
-            )),
+            columns: columns.map(column =>
+                column.set(
+                    'sorting',
+                    column.sorting
+                        ? column.name === name ? order : NONE
+                        : undefined
+                )
+            ),
             bodies,
             typeOptions: NAMES,
             messages,

@@ -1,6 +1,6 @@
-import {DOM} from 'react'
+import { DOM } from 'react'
 import PropTypes from 'prop-types'
-import {compose, setDisplayName, setPropTypes, withProps} from 'recompose'
+import { compose, setDisplayName, setPropTypes, withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 
 export default function Element({
@@ -16,6 +16,6 @@ export default function Element({
         setDisplayName(name),
         setPropTypes(propTypes),
         CSSModules(styles),
-        withProps({styleName}),
+        withProps({ styleName })
     )(component)
 }

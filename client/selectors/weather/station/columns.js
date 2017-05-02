@@ -1,5 +1,5 @@
-import {setUTCOffset} from '~/utils/date'
-import {toCompass} from '~/utils/degrees'
+import { setUTCOffset } from '~/utils/date'
+import { toCompass } from '~/utils/degrees'
 import format from 'date-fns/format'
 import printf from 'printf'
 
@@ -9,7 +9,7 @@ const DASH = '—'
 // Check if properties are null/undefined/NaN and return a dash otherwise
 // process and return that value
 //
-function maybeNull(name, fn=(x => x)) {
+function maybeNull(name, fn = x => x) {
     return function(obj) {
         if (obj[name] === undefined || obj[name] === null || isNaN(obj[name])) {
             return DASH
@@ -25,7 +25,7 @@ function singleDecimal(x) {
 export const Hour = {
     name: 'hour',
     title: 'Hour',
-    property({measurementDateTime, utcOffset}) {
+    property({ measurementDateTime, utcOffset }) {
         return format(setUTCOffset(measurementDateTime, utcOffset), 'HH[h]')
     },
 }
@@ -35,8 +35,8 @@ export const SnowHeight = {
     title: 'Height',
     property: maybeNull('snowHeight', snowHeight => Math.round(snowHeight)),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const NewSnow = {
@@ -44,8 +44,8 @@ export const NewSnow = {
     title: 'New',
     property: maybeNull('newSnow'),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const AirTemperatureAvg = {
@@ -53,8 +53,8 @@ export const AirTemperatureAvg = {
     title: 'Air Temperature Average (°C)',
     property: maybeNull('airTempAvg', singleDecimal),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const AirTemperatureMax = {
@@ -62,8 +62,8 @@ export const AirTemperatureMax = {
     title: 'Air Temperature Max (°C)',
     property: maybeNull('airTempMax'),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const AirTemperatureMin = {
@@ -71,8 +71,8 @@ export const AirTemperatureMin = {
     title: 'Air Temperature Min (°C)',
     property: maybeNull('airTempMin'),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const WindSpeedAvg = {
@@ -80,8 +80,8 @@ export const WindSpeedAvg = {
     title: 'Wind Speed Average (km/h)',
     property: maybeNull('windSpeedAvg', singleDecimal),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const WindDirectionAvg = {
@@ -89,8 +89,8 @@ export const WindDirectionAvg = {
     title: 'Wind Direction Average',
     property: maybeNull('windDirAvg', wda => `${wda} ° (${toCompass(wda)})`),
     style: {
-        minWidth: 105
-    }
+        minWidth: 105,
+    },
 }
 
 export const WindSpeedGust = {
@@ -98,15 +98,17 @@ export const WindSpeedGust = {
     title: 'Wind Speed Gust (km/h)',
     property: maybeNull('windSpeedGust', singleDecimal),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }
 
 export const RelativeHumidity = {
     name: 'relativeHumidity',
     title: 'Relative Humidity (%)',
-    property: maybeNull('relativeHumidity', rh => Math.min(Math.round(rh), 100)),
+    property: maybeNull('relativeHumidity', rh =>
+        Math.min(Math.round(rh), 100)
+    ),
     style: {
-        minWidth: 65
-    }
+        minWidth: 65,
+    },
 }

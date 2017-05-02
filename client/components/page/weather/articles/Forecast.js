@@ -1,10 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Article} from '~/components/page'
-import {DateElement, Muted, Status as StatusComponent} from '~/components/misc'
-import {Metadata, Entry} from '~/components/metadata'
+import { Article } from '~/components/page'
+import {
+    DateElement,
+    Muted,
+    Status as StatusComponent,
+} from '~/components/misc'
+import { Metadata, Entry } from '~/components/metadata'
 import Forecast from '~/components/weather'
-import {DayPicker} from '~/components/controls'
+import { DayPicker } from '~/components/controls'
 import Status from '~/utils/status'
 import noop from 'lodash/noop'
 
@@ -29,36 +33,51 @@ export default class Container extends Component {
         onDayChange: noop,
     }
     render() {
-        const {isAuthenticated, forecast, status, date, onDayChange, tabs} = this.props
+        const {
+            isAuthenticated,
+            forecast,
+            status,
+            date,
+            onDayChange,
+            tabs,
+        } = this.props
 
         return (
             <Article style={STYLE}>
                 <Metadata>
-                    <Entry term='Date' sideBySide>
-                        <DayPicker date={date} onChange={onDayChange} container={this} >
+                    <Entry term="Date" sideBySide>
+                        <DayPicker
+                            date={date}
+                            onChange={onDayChange}
+                            container={this}>
                             <DateElement value={date} />
                         </DayPicker>
                     </Entry>
                     {forecast &&
-                        <Entry term='Issued at' sideBySide>
+                        <Entry term="Issued at" sideBySide>
                             {forecast.issued || '04:00'} PST/PDT
-                        </Entry>
-                    }
-                    {(forecast && forecast.handle) &&
-                        <Entry term='Created by' sideBySide>
+                        </Entry>}
+                    {forecast &&
+                        forecast.handle &&
+                        <Entry term="Created by" sideBySide>
                             {forecast.handle}
-                        </Entry>
-                    }
+                        </Entry>}
                 </Metadata>
                 <StatusComponent {...status.toJSON()} />
-                {(!forecast && status.isLoaded) &&
+                {!forecast &&
+                    status.isLoaded &&
                     <Muted>
-                        No weather forecast available for <DateElement value={date} />.
-                    </Muted>
-                }
+                        No weather forecast available for
+                        {' '}
+                        <DateElement value={date} />
+                        .
+                    </Muted>}
                 {forecast &&
-                    <Forecast isAuthenticated={isAuthenticated} forecast={forecast} tabs={tabs} />
-                }
+                    <Forecast
+                        isAuthenticated={isAuthenticated}
+                        forecast={forecast}
+                        tabs={tabs}
+                    />}
             </Article>
         )
     }

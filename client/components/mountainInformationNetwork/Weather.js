@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types'
-import {compose, renameProps, setDisplayName, setPropTypes, mapProps} from 'recompose'
+import {
+    compose,
+    renameProps,
+    setDisplayName,
+    setPropTypes,
+    mapProps,
+} from 'recompose'
 import Content from './Content'
-import {asTermAndDefinition} from '~/components/description/utils'
+import { asTermAndDefinition } from '~/components/description/utils'
 
 export default compose(
     setDisplayName('Weather'),
@@ -41,7 +47,7 @@ export default compose(
         windDirection: 'Wind direction',
         blowingSnow: 'Blowing snow',
     }),
-    mapProps(({weatherObsComment, tempLatlng, ...values}) => ({
+    mapProps(({ weatherObsComment, tempLatlng, ...values }) => ({
         comment: weatherObsComment,
         descriptions: asTermAndDefinition(values),
     }))
