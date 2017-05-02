@@ -1,15 +1,15 @@
-import React, {isValidElement} from 'react'
+import React, { isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import {Markup} from '~/components/markup'
-import {InnerHTML} from '~/components/misc'
+import { Markup } from '~/components/markup'
+import { InnerHTML } from '~/components/misc'
 
 Comment.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,
 }
 
-export default function Comment({title = 'Comments', children}) {
+export default function Comment({ title = 'Comments', children }) {
     if (!children) {
         return null
     }
@@ -17,11 +17,11 @@ export default function Comment({title = 'Comments', children}) {
     return (
         <Section title={title}>
             <Markup>
-                {isValidElement(children) ? children :
-                    <InnerHTML>
-                        {children}
-                    </InnerHTML>
-                }
+                {isValidElement(children)
+                    ? children
+                    : <InnerHTML>
+                          {children}
+                      </InnerHTML>}
             </Markup>
         </Section>
     )

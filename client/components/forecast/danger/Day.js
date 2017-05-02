@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {branch, renderComponent} from 'recompose'
+import { branch, renderComponent } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {ElementResize, Day as DayElement} from '~/components/misc'
+import { ElementResize, Day as DayElement } from '~/components/misc'
 import styles from './Danger.css'
 import Elevations, {
     ALP,
@@ -16,8 +16,8 @@ import Ratings, {
     Texts as RatingTexts,
     Palette as RatingPalette,
 } from '~/constants/forecast/rating'
-import {WHITE, BLACK} from '~/constants/forecast/palette'
-import {DangerCard} from '~/components/graphics'
+import { WHITE, BLACK } from '~/constants/forecast/palette'
+import { DangerCard } from '~/components/graphics'
 
 const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
 
@@ -26,21 +26,21 @@ BaseRow.propTypes = {
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
 }
 
-function BaseRow({rating, elevation}) {
+function BaseRow({ rating, elevation }) {
     const elevationStyle = {
-        backgroundColor: ElevationPalette.get(elevation)
+        backgroundColor: ElevationPalette.get(elevation),
     }
     const ratingStyle = {
         backgroundColor: RatingPalette.get(rating),
-        color: rating === EXTREME ? WHITE : BLACK
+        color: rating === EXTREME ? WHITE : BLACK,
     }
 
     return (
-        <div styleName='Row'>
-            <div style={elevationStyle} styleName='Elevation'>
+        <div styleName="Row">
+            <div style={elevationStyle} styleName="Elevation">
                 {ElevationTexts.get(elevation)}
             </div>
-            <div style={ratingStyle} styleName='Rating'>
+            <div style={ratingStyle} styleName="Rating">
                 {RatingTexts.get(rating)}
             </div>
         </div>
@@ -53,9 +53,9 @@ BasedTitle.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function BasedTitle({date}) {
+function BasedTitle({ date }) {
     return (
-        <div styleName='Title'>
+        <div styleName="Title">
             <DayElement value={date} />
         </div>
     )
@@ -70,9 +70,9 @@ Day.propTypes = {
     btl: RatingPropType.isRequired,
 }
 
-function Day({date, alp, tln, btl}) {
+function Day({ date, alp, tln, btl }) {
     return (
-        <div styleName='Day'>
+        <div styleName="Day">
             <Title date={date} />
             <Row rating={alp} elevation={ALP} />
             <Row rating={tln} elevation={TLN} />
@@ -89,18 +89,36 @@ FirstDay.propTypes = {
 }
 
 function FirstDay(props) {
-    const {date, ...ratings} = props
+    const { date, ...ratings } = props
 
     return (
-        <div styleName='FirstDay'>
+        <div styleName="FirstDay">
             <ElementResize>
                 {width => {
-                    const children = [<Title key='title' date={date} />]
+                    const children = [<Title key="title" date={date} />]
 
                     if (width < 400) {
-                        children.push(<Row key='alp' rating={ratings.alp} elevation={ALP} />)
-                        children.push(<Row key='tln' rating={ratings.tln} elevation={TLN} />)
-                        children.push(<Row key='btl' rating={ratings.btl} elevation={BTL} />)
+                        children.push(
+                            <Row
+                                key="alp"
+                                rating={ratings.alp}
+                                elevation={ALP}
+                            />
+                        )
+                        children.push(
+                            <Row
+                                key="tln"
+                                rating={ratings.tln}
+                                elevation={TLN}
+                            />
+                        )
+                        children.push(
+                            <Row
+                                key="btl"
+                                rating={ratings.btl}
+                                elevation={BTL}
+                            />
+                        )
                     } else {
                         const props = {
                             key: 'card',
@@ -121,5 +139,5 @@ function FirstDay(props) {
 
 export default branch(
     props => props.first,
-    renderComponent(CSSModules(FirstDay, styles)),
+    renderComponent(CSSModules(FirstDay, styles))
 )(CSSModules(Day, styles))

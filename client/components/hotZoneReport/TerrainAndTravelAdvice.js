@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TerrainSummary from './TerrainSummary'
-import Panel, {INVERSE} from '~/components/panel'
+import Panel, { INVERSE } from '~/components/panel'
 import AdviceText from './AdviceText'
 
 TerrainAndTravelAdvice.propTypes = {
@@ -9,11 +9,11 @@ TerrainAndTravelAdvice.propTypes = {
 }
 const titles = ['Alpine', 'Treeline', 'Below treeline']
 
-export default function TerrainAndTravelAdvice({report = {}}) {
+export default function TerrainAndTravelAdvice({ report = {} }) {
     const summaries = [
         report.alpineTerrainAvoidance,
         report.treelineTerrainAvoidance,
-        report.belowTreelineTerrainAvoidance
+        report.belowTreelineTerrainAvoidance,
     ].filter(Boolean)
 
     if (summaries.length === 0) {
@@ -21,10 +21,18 @@ export default function TerrainAndTravelAdvice({report = {}}) {
     }
 
     return (
-        <Panel header='Terrain and Travel Advice' theme={INVERSE} expanded expandable>
+        <Panel
+            header="Terrain and Travel Advice"
+            theme={INVERSE}
+            expanded
+            expandable>
             <AdviceText />
             {summaries.map((summary, index) => (
-                <TerrainSummary key={index} title={titles[index]} {...summary} />
+                <TerrainSummary
+                    key={index}
+                    title={titles[index]}
+                    {...summary}
+                />
             ))}
         </Panel>
     )

@@ -1,31 +1,25 @@
 import React from 'react'
-import {createSelector} from 'reselect'
-import {List} from 'immutable'
-import {Course} from '~/api/schemas'
-import {Phone, Mailto} from '~/components/misc'
+import { createSelector } from 'reselect'
+import { List } from 'immutable'
+import { Course } from '~/api/schemas'
+import { Phone, Mailto } from '~/components/misc'
 import * as entities from './entities'
 import * as Columns from './columns'
 
-function asControlled({description, provider}) {
-    const {name, email, phone, website, location} = provider
+function asControlled({ description, provider }) {
+    const { name, email, phone, website, location } = provider
 
     return {
         Name: name,
         Description: description,
         Website() {
-            return (
-                <a href={website} target='_blank'>{website}</a>
-            )
+            return <a href={website} target="_blank">{website}</a>
         },
         Email() {
-            return (
-                <Mailto email={email} />
-            )
+            return <Mailto email={email} />
         },
         Phone() {
-            return (
-                <Phone phone={phone} />
-            )
+            return <Phone phone={phone} />
         },
         Location: location,
     }
@@ -51,7 +45,7 @@ export const table = createSelector(
             Columns.distance,
             Columns.location,
             Columns.tags,
-            Columns.cost,
+            Columns.cost
         )
     ),
     props => ({
@@ -60,11 +54,8 @@ export const table = createSelector(
     })
 )
 
-export const form = createSelector(
-    table,
-    ({tags}) => ({
-        legend: 'Find a course',
-        tagOptions: new Map([...tags].map(tag => [tag, tag])),
-        levelOptions,
-    })
-)
+export const form = createSelector(table, ({ tags }) => ({
+    legend: 'Find a course',
+    tagOptions: new Map([...tags].map(tag => [tag, tag])),
+    levelOptions,
+}))

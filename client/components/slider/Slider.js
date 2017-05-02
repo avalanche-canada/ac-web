@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withState, defaultProps, setPropTypes} from 'recompose'
+import { compose, withState, defaultProps, setPropTypes } from 'recompose'
 import ImageGallery from '~/components/gallery'
 
 export default compose(
@@ -9,14 +9,14 @@ export default compose(
         children: PropTypes.node,
     }),
     defaultProps({
-        renderItem({children, ...props}) {
+        renderItem({ children, ...props }) {
             return (
-                <div className='image-gallery-image'>
+                <div className="image-gallery-image">
                     <img {...props} />
                     {children}
                 </div>
             )
         },
         showBullets: true,
-    }),
+    })
 )(ImageGallery)

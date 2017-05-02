@@ -8,9 +8,9 @@ Reset.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Reset({children}) {
+function Reset({ children }) {
     return (
-        <Button type='reset' styleName='Reset'>
+        <Button type="reset" styleName="Reset">
             {children}
         </Button>
     )

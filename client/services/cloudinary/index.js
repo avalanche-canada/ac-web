@@ -2,15 +2,18 @@ import Axios from 'axios'
 
 const resourcePrefix = '//res.cloudinary.com/avalanche-ca/image/upload'
 const api = Axios.create({
-    baseURL: '/vendor/cloudinary/resources/image/tags/'
+    baseURL: '/vendor/cloudinary/resources/image/tags/',
 })
 const THUMBNAIL_SIZE = 50
 
-export function mapToSizeFactory(width = THUMBNAIL_SIZE, height = THUMBNAIL_SIZE) {
+export function mapToSizeFactory(
+    width = THUMBNAIL_SIZE,
+    height = THUMBNAIL_SIZE
+) {
     const transform = `c_fill,h_${height},w_${width}`
     const original = `c_fill,h_${600},w_${1000}`
 
-    return function mapToSize({public_id}) {
+    return function mapToSize({ public_id }) {
         return {
             original: `${resourcePrefix}/${original}/${public_id}.png`,
             thumbnail: `${resourcePrefix}/${transform}/${public_id}.png`,
@@ -27,12 +30,12 @@ export function getByTag(tag, options = {}) {
         ...OPTIONS,
         ...options,
     }
-    const {max_results, next_cursor} = params
+    const { max_results, next_cursor } = params
     const config = {
         params: {
             max_results,
-            next_cursor
-        }
+            next_cursor,
+        },
     }
 
     return api.get(tag, config).then(result => result.data)

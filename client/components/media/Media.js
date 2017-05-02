@@ -8,9 +8,9 @@ Media.propTypes = {
     children: PropTypes.node,
 }
 
-function Media({caption, children}) {
+function Media({ caption, children }) {
     return (
-        <figure styleName='Container'>
+        <figure styleName="Container">
             {children}
             {caption}
         </figure>

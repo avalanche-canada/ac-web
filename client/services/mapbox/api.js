@@ -1,7 +1,14 @@
-import {accessToken, username, api, protocol, hostname, styleIds} from './config.json'
+import {
+    accessToken,
+    username,
+    api,
+    protocol,
+    hostname,
+    styleIds,
+} from './config.json'
 import Axios from 'axios'
 import Url from 'url'
-import {Revelstoke} from '~/constants/map/locations'
+import { Revelstoke } from '~/constants/map/locations'
 
 const style = Axios.create({
     baseURL: `${api}/styles/v1/${username}`,
@@ -28,19 +35,21 @@ export function fetchMapStyle(styleId) {
     return style.get(styleId).then(response => response.data)
 }
 
-export function createStyleUrl({
-    styleId = styleIds['2016'],
-    overlay,
-    longitude = Revelstoke.lng,
-    latitude = Revelstoke.lat,
-    zoom = 10,
-    bearing = 0,
-    pitch = 0,
-    auto = false,
-    width = 250,
-    height = 250,
-    retina = false
-} = {}) {
+export function createStyleUrl(
+    {
+        styleId = styleIds['2016'],
+        overlay,
+        longitude = Revelstoke.lng,
+        latitude = Revelstoke.lat,
+        zoom = 10,
+        bearing = 0,
+        pitch = 0,
+        auto = false,
+        width = 250,
+        height = 250,
+        retina = false,
+    } = {}
+) {
     let pathname = [
         'styles/v1',
         username,
@@ -50,7 +59,9 @@ export function createStyleUrl({
         `${longitude},${latitude},${zoom},${bearing},${pitch}`,
         auto ? 'auto' : false,
         `${width}x${height}`,
-    ].filter(Boolean).join('/')
+    ]
+        .filter(Boolean)
+        .join('/')
 
     if (retina) {
         pathname = pathname + '@2x'
@@ -62,6 +73,6 @@ export function createStyleUrl({
         pathname,
         query: {
             access_token: accessToken,
-        }
+        },
     })
 }

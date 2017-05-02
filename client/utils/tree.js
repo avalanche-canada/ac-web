@@ -1,7 +1,6 @@
 export function findNode(root, id) {
-    let node = null;
-
-    (function recurse(current) {
+    let node = null
+    ;(function recurse(current) {
         for (let child of current.children || []) {
             if (child.id === id) {
                 node = child
@@ -10,7 +9,6 @@ export function findNode(root, id) {
             }
         }
     })(root)
-
 
     return node
 }
@@ -35,9 +33,8 @@ export function getPath(root, node) {
 }
 
 export function getParent(root, id) {
-    let parent = root;
-
-    (function recurse(current) {
+    let parent = root
+    ;(function recurse(current) {
         for (let child of current.children || []) {
             if (child.id === id) {
                 parent = current

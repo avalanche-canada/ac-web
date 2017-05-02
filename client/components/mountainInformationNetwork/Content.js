@@ -12,7 +12,7 @@ Content.propTypes = {
 export default function Content({
     comment,
     descriptions,
-    descriptionTitle = 'Information'
+    descriptionTitle = 'Information',
 }) {
     return (
         <div>

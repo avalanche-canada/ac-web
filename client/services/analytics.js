@@ -1,18 +1,18 @@
 import ga from 'react-ga'
 import mapbox from '~/services/mapbox/map'
-import {googleAnalyticsId} from './config.json'
+import { googleAnalyticsId } from './config.json'
 
 // Set in the google analytics custom dimentions
 //  Needs to use the dimention<n> settings
 //  it will be named correctly in the UI
 const MAPBOXGL_SUPPORTED = 'dimension1'
 
-const options = process.env.NODE_ENV === 'production' ? {} : {debug:true}
+const options = process.env.NODE_ENV === 'production' ? {} : { debug: true }
 
 ga.initialize(googleAnalyticsId, options)
 
 ga.set({
-    [MAPBOXGL_SUPPORTED]: mapbox.supported()
+    [MAPBOXGL_SUPPORTED]: mapbox.supported(),
 })
 
 export default ga
@@ -23,6 +23,6 @@ export function handleOutboundSponsorClick(event) {
         eventCategory: 'Outbound Sponsor',
         eventAction: 'click',
         eventLabel: event.currentTarget.href,
-        transport: 'beacon'
+        transport: 'beacon',
     })
 }

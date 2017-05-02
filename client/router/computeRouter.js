@@ -1,17 +1,17 @@
 import React from 'react'
 import Router from 'react-router/lib/Router'
 import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware'
-import {history} from './'
+import { history } from './'
 import useScroll from 'react-router-scroll/lib/useScroll'
 import computeRoutes from './computeRoutes'
-import {scrollPosition} from '~/utils/dom'
+import { scrollPosition } from '~/utils/dom'
 
 function shouldUpdateScroll(previous, next) {
     if (!previous) {
         return true
     }
 
-    const {location: {hash, pathname}} = next
+    const { location: { hash, pathname } } = next
 
     if (hash) {
         return scrollPosition(hash) || [0, 0]
@@ -22,7 +22,9 @@ function shouldUpdateScroll(previous, next) {
 
 export default function computeRouter(store) {
     return (
-        <Router history={history} render={applyRouterMiddleware(useScroll(shouldUpdateScroll))}>
+        <Router
+            history={history}
+            render={applyRouterMiddleware(useScroll(shouldUpdateScroll))}>
             {computeRoutes(store)}
         </Router>
     )

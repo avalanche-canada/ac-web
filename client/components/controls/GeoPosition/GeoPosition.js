@@ -1,14 +1,19 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import mapbox from '~/services/mapbox/map'
-import {Map, Marker, NavigationControl, FullscreenControl} from '~/components/map'
-import {Revelstoke} from '~/constants/map/locations'
+import {
+    Map,
+    Marker,
+    NavigationControl,
+    FullscreenControl,
+} from '~/components/map'
+import { Revelstoke } from '~/constants/map/locations'
 import styles from './GeoPosition.css'
 import place from '~/components/icons/place.svg'
 
-const {LngLat} = mapbox
+const { LngLat } = mapbox
 const MARKER_OPTIONS = {
-    offset: [-12, -12]
+    offset: [-12, -12],
 }
 
 function isValidNumber(number) {
@@ -16,10 +21,12 @@ function isValidNumber(number) {
 }
 
 function areValidCoordinates(longitude, latitude) {
-    return isValidNumber(latitude) &&
+    return (
+        isValidNumber(latitude) &&
         latitude <= 90 &&
         latitude >= -90 &&
         isValidNumber(longitude)
+    )
 }
 
 function round(number) {
@@ -44,7 +51,7 @@ export default class GeoPosition extends Component {
     constructor(props) {
         super(props)
 
-        const {longitude, latitude} = props
+        const { longitude, latitude } = props
 
         if (areValidCoordinates(longitude, latitude)) {
             /* eslint-disable react/no-direct-mutation-state */
@@ -54,25 +61,25 @@ export default class GeoPosition extends Component {
     }
     handleLoad = event => {
         this.setState({
-            map: event.target
+            map: event.target,
         })
     }
     setLngLat(lngLat, callback) {
-        this.setState({lngLat}, callback)
+        this.setState({ lngLat }, callback)
     }
-    handleClick = ({lngLat}) => {
+    handleClick = ({ lngLat }) => {
         this.setLngLat(lngLat, this.handleChange)
     }
-    handleDragEnd = ({lngLat}) => {
+    handleDragEnd = ({ lngLat }) => {
         this.setLngLat(lngLat, this.handleChange)
     }
     handleChange = () => {
-        const {lngLat, map} = this.state
-        const {lng, lat} = lngLat.wrap()
+        const { lngLat, map } = this.state
+        const { lng, lat } = lngLat.wrap()
 
         if (map) {
             map.easeTo({
-                center: lngLat
+                center: lngLat,
             })
         }
 
@@ -86,7 +93,7 @@ export default class GeoPosition extends Component {
             src: place,
         })
     }
-    componentWillReceiveProps({longitude, latitude}) {
+    componentWillReceiveProps({ longitude, latitude }) {
         if (!areValidCoordinates(longitude, latitude)) {
             return
         }
@@ -94,24 +101,24 @@ export default class GeoPosition extends Component {
         const center = new LngLat(longitude, latitude)
 
         this.setLngLat(center, () => {
-            const {map} = this.state
+            const { map } = this.state
             if (map) {
                 map.flyTo({
                     center,
-                    speed: 1
+                    speed: 1,
                 })
             }
         })
     }
     render() {
-        const {lngLat} = this.state
-        const {allowFullscreen} = this.props
+        const { lngLat } = this.state
+        const { allowFullscreen } = this.props
 
         return (
-            <div styleName='Container'>
+            <div styleName="Container">
                 <Map
-                    ref='map'
-                    style='default'
+                    ref="map"
+                    style="default"
                     touchZoomRotate={false}
                     dragRotate={false}
                     center={lngLat}
@@ -124,7 +131,8 @@ export default class GeoPosition extends Component {
                         onDragEnd={this.handleDragEnd}
                         lngLat={lngLat}
                         element={this.element}
-                        options={MARKER_OPTIONS} />
+                        options={MARKER_OPTIONS}
+                    />
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />
                 </Map>

@@ -7,9 +7,9 @@ Fieldset.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Fieldset({children}) {
+function Fieldset({ children }) {
     return (
-        <fieldset styleName='Fieldset'>
+        <fieldset styleName="Fieldset">
             {children}
         </fieldset>
     )

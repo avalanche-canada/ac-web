@@ -1,7 +1,7 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {withKnobs, select} from '@kadira/storybook-addon-knobs'
-import Callout, {TOP, BOTTOM, LEFT, RIGHT} from './Callout'
+import { storiesOf, action } from '@kadira/storybook'
+import { withKnobs, select } from '@kadira/storybook-addon-knobs'
+import Callout, { TOP, BOTTOM, LEFT, RIGHT } from './Callout'
 
 const stories = storiesOf('Callout', module)
 

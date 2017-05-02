@@ -1,4 +1,4 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 export default class Delay extends PureComponent {
@@ -7,15 +7,15 @@ export default class Delay extends PureComponent {
         elapse: PropTypes.number,
     }
     static defaultProps = {
-        elapse: 0
+        elapse: 0,
     }
     state = {
-        visible: false
+        visible: false,
     }
     componentWillMount() {
         this.timeoutId = window.setTimeout(() => {
             this.setState({
-                visible: true
+                visible: true,
             })
         }, this.props.elapse)
     }

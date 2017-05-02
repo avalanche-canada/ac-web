@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {Mailto, Phone, Avatar} from '~/components/misc'
+import { Mailto, Phone, Avatar } from '~/components/misc'
 import styles from './Biography.css'
 
-// FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote. 
+// FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote.
 
 Biography.propTypes = {
     fullName: PropTypes.string.isRequired,
@@ -15,20 +15,36 @@ Biography.propTypes = {
     children: PropTypes.node,
 }
 
-function Biography({email, workPhoneNumber, children, fullName, title, avatar}) {
+function Biography({
+    email,
+    workPhoneNumber,
+    children,
+    fullName,
+    title,
+    avatar,
+}) {
     return (
-        <section styleName='Container'>
-            <div styleName='Media'>
+        <section styleName="Container">
+            <div styleName="Media">
                 <Avatar url={avatar} name={fullName} />
             </div>
-            <div styleName='Content'>
-                <header styleName='Header'>
-                    <span styleName='Name'>{fullName}</span>
-                    {title && <span styleName='Title'>{title}</span>}
+            <div styleName="Content">
+                <header styleName="Header">
+                    <span styleName="Name">{fullName}</span>
+                    {title && <span styleName="Title">{title}</span>}
                 </header>
-                <address styleName='Address'>
-                    {email && <Mailto email={email} title={`Send ${fullName} an email`} />}
-                    {workPhoneNumber && <Phone phone={workPhoneNumber} ext={null} title={`Give ${fullName} a call`} />}
+                <address styleName="Address">
+                    {email &&
+                        <Mailto
+                            email={email}
+                            title={`Send ${fullName} an email`}
+                        />}
+                    {workPhoneNumber &&
+                        <Phone
+                            phone={workPhoneNumber}
+                            ext={null}
+                            title={`Give ${fullName} a call`}
+                        />}
                 </address>
                 {children}
             </div>

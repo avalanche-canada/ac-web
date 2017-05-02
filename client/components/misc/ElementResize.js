@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import bind from 'element-resize-event'
 
@@ -15,10 +15,8 @@ export default class ElementResize extends Component {
         this.updateDimensions()
     }
     updateDimensions = () => {
-        const {
-            offsetWidth = null,
-            offsetHeight = null
-        } = this.refs.wrapper || {}
+        const { offsetWidth = null, offsetHeight = null } = this.refs
+            .wrapper || {}
 
         this.setState({
             width: offsetWidth,
@@ -27,7 +25,7 @@ export default class ElementResize extends Component {
     }
     render() {
         return (
-            <div ref='wrapper'>
+            <div ref="wrapper">
                 {this.props.children(this.state.width, this.state.height)}
             </div>
         )

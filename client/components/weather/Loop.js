@@ -1,9 +1,9 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Base from '~/components/loop'
-import {computeUrls, getNotes} from '~/services/msc/loop/url'
-import {CurrentConditions} from '~/services/msc/loop/Metadata'
-import {Loading, Error} from '~/components/misc'
+import { computeUrls, getNotes } from '~/services/msc/loop/url'
+import { CurrentConditions } from '~/services/msc/loop/Metadata'
+import { Loading, Error } from '~/components/misc'
 
 export default class Loop extends PureComponent {
     static propTypes = {
@@ -18,7 +18,7 @@ export default class Loop extends PureComponent {
         withNotes: PropTypes.bool,
     }
     static defaultProps = {
-        withNotes: false
+        withNotes: false,
     }
     state = {
         urls: null,
@@ -36,7 +36,7 @@ export default class Loop extends PureComponent {
                 this.computeUrls,
                 5 * 60 * 1000, // every 5 minutes!
                 undefined,
-                true,
+                true
             )
         }
     }
@@ -49,14 +49,20 @@ export default class Loop extends PureComponent {
         this.computeUrls(props)
     }
     computeUrls = (props = this.props, silent = false) => {
-        this.setState({
-            isLoading: silent ? false : true,
-        }, () => {
-            computeUrls(props).then(this.handleFulfilled, this.handleRejected)
-        })
+        this.setState(
+            {
+                isLoading: silent ? false : true,
+            },
+            () => {
+                computeUrls(props).then(
+                    this.handleFulfilled,
+                    this.handleRejected
+                )
+            }
+        )
     }
     handleFulfilled = urls => {
-        const {type, withNotes} = this.props
+        const { type, withNotes } = this.props
         let startAt
 
         if (CurrentConditions.has(type)) {
@@ -78,7 +84,7 @@ export default class Loop extends PureComponent {
         })
     }
     render() {
-        const {isLoading, isError, notes} = this.state
+        const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
             return (
@@ -102,15 +108,16 @@ export default class Loop extends PureComponent {
                     urls={this.state.urls}
                     startAt={this.state.startAt}
                     openImageInNewTab
-                    interval={this.props.interval} />
-                {(Array.isArray(notes) && notes.length > 0) &&
+                    interval={this.props.interval}
+                />
+                {Array.isArray(notes) &&
+                    notes.length > 0 &&
                     <div>
                         <p>Please note:</p>
                         <ul>
                             {notes.map(note => <li>{note}</li>)}
                         </ul>
-                    </div>
-                }
+                    </div>}
             </div>
         )
     }

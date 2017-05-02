@@ -1,34 +1,50 @@
 import PropTypes from 'prop-types'
-import {createStructuredSelector} from 'reselect'
-import {compose, defaultProps, setPropTypes, withProps, withState, lifecycle, withHandlers, mapProps} from 'recompose'
-import {connect} from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import {
+    compose,
+    defaultProps,
+    setPropTypes,
+    withProps,
+    withState,
+    lifecycle,
+    withHandlers,
+    mapProps,
+} from 'recompose'
+import { connect } from 'react-redux'
 import withRouter from 'react-router/lib/withRouter'
 import * as EntitiesActions from '~/actions/entities'
 import * as PrismicActions from '~/actions/prismic'
-import {fitBounds, flyTo} from '~/actions/map'
+import { fitBounds, flyTo } from '~/actions/map'
 import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
 } from '~/selectors/prismic/weather'
-import getForecast, {getForecastRegions} from '~/selectors/forecast'
+import getForecast, { getForecastRegions } from '~/selectors/forecast'
 import getWeatherStation from '~/selectors/weather/station'
-import getHotZoneReport, {getHotZones, getHotZoneReportDateRanges, getArchiveHotZoneReport} from '~/selectors/hotZoneReport'
+import getHotZoneReport, {
+    getHotZones,
+    getHotZoneReportDateRanges,
+    getArchiveHotZoneReport,
+} from '~/selectors/hotZoneReport'
 import getSpecialInformation from '~/selectors/prismic/specialInformation'
 import getFatalAccident from '~/selectors/prismic/fatalAccident'
-import {getToyotaTruckReport, getPost} from '~/selectors/prismic'
-import getMountainInformationNetworkSubmission, {getId} from '~/selectors/mountainInformationNetworkSubmission'
+import { getToyotaTruckReport, getPost } from '~/selectors/prismic'
+import getMountainInformationNetworkSubmission, {
+    getId,
+} from '~/selectors/mountainInformationNetworkSubmission'
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
-    TYPES, EVENT
+    TYPES,
+    EVENT,
 } from '~/selectors/prismic/feed'
-import {Predicates} from '~/prismic'
+import { Predicates } from '~/prismic'
 import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import {makeGetDocumentAndStatus, getResult} from '~/selectors/prismic/utils'
-import getSponsor, {getSponsorUid} from '~/selectors/sponsor'
+import { makeGetDocumentAndStatus, getResult } from '~/selectors/prismic/utils'
+import getSponsor, { getSponsorUid } from '~/selectors/sponsor'
 import get from 'lodash/get'
 
 export const forecast = compose(
@@ -44,17 +60,17 @@ export const forecast = compose(
                 // TODO: Display a message to let user know about redirection !
                 props.router.push('/forecasts')
             }
-        }
+        },
     }),
     lifecycle({
         componentDidMount() {
-            const {load, loadAll, params, redirectToForecasts} = this.props
+            const { load, loadAll, params, redirectToForecasts } = this.props
 
             load(params).then(redirectToForecasts)
             loadAll()
         },
-        componentWillReceiveProps({load, params}) {
-            const {name, date} = this.props.params
+        componentWillReceiveProps({ load, params }) {
+            const { name, date } = this.props.params
 
             if (name !== params.name || date !== params.date) {
                 load(params).then(this.props.redirectToForecasts)
@@ -63,24 +79,27 @@ export const forecast = compose(
     }),
     withHandlers({
         onLocateClick: props => () => {
-            const {bbox, options} = props.computeBounds()
+            const { bbox, options } = props.computeBounds()
 
             props.fitBounds(bbox, options)
-        }
-    }),
+        },
+    })
 )
 
 export const archiveForecast = compose(
-    connect(createStructuredSelector({
-        regions: getForecastRegions,
-        data: getForecast,
-    }), {
-        load: EntitiesActions.loadForecast,
-        loadAll: EntitiesActions.loadFeaturesMetadata,
-    }),
+    connect(
+        createStructuredSelector({
+            regions: getForecastRegions,
+            data: getForecast,
+        }),
+        {
+            load: EntitiesActions.loadForecast,
+            loadAll: EntitiesActions.loadFeaturesMetadata,
+        }
+    ),
     withHandlers({
         onParamsChange: props => params => {
-            const {name, date} = params
+            const { name, date } = params
             const paths = ['/forecasts', 'archives']
 
             if (name) {
@@ -94,7 +113,7 @@ export const archiveForecast = compose(
             props.router.push(paths.join('/'))
         },
         loadForecast: props => () => {
-            const {name, date} = props.params
+            const { name, date } = props.params
 
             if (name && date) {
                 props.load(props.params)
@@ -106,14 +125,14 @@ export const archiveForecast = compose(
             this.props.loadForecast()
             this.props.loadAll()
         },
-        componentDidUpdate({params: {name, date}}) {
-            const {params} = this.props
+        componentDidUpdate({ params: { name, date } }) {
+            const { params } = this.props
 
             if (name !== params.name || date !== params.date) {
                 this.props.loadForecast()
             }
         },
-    }),
+    })
 )
 
 export const hotZoneReport = compose(
@@ -124,13 +143,13 @@ export const hotZoneReport = compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {load, loadAll, params} = this.props
+            const { load, loadAll, params } = this.props
 
             load(params)
             loadAll()
         },
-        componentWillReceiveProps({load, params}) {
-            const {name, date} = this.props.params
+        componentWillReceiveProps({ load, params }) {
+            const { name, date } = this.props.params
 
             if (name !== params.name || date !== params.date) {
                 load(params)
@@ -139,25 +158,28 @@ export const hotZoneReport = compose(
     }),
     withHandlers({
         onLocateClick: props => () => {
-            const {bbox, options} = props.computeBounds()
+            const { bbox, options } = props.computeBounds()
 
             props.fitBounds(bbox, options)
-        }
-    }),
+        },
+    })
 )
 
 export const archiveHotZoneReport = compose(
-    connect(createStructuredSelector({
-        regions: getHotZones,
-        dateRanges: getHotZoneReportDateRanges,
-        data: getArchiveHotZoneReport,
-    }), {
-        load: PrismicActions.load,
-        loadAll: EntitiesActions.loadFeaturesMetadata,
-    }),
+    connect(
+        createStructuredSelector({
+            regions: getHotZones,
+            dateRanges: getHotZoneReportDateRanges,
+            data: getArchiveHotZoneReport,
+        }),
+        {
+            load: PrismicActions.load,
+            loadAll: EntitiesActions.loadFeaturesMetadata,
+        }
+    ),
     withHandlers({
         onParamsChange: props => params => {
-            const {name, date} = params
+            const { name, date } = params
             const paths = ['/hot-zone-reports', 'archives']
 
             if (name) {
@@ -175,12 +197,10 @@ export const archiveHotZoneReport = compose(
 
             props.load({
                 type,
-                predicates: [
-                    Predicates.at(`my.${type}.region`, region)
-                ],
+                predicates: [Predicates.at(`my.${type}.region`, region)],
                 options: {
                     pageSize: 250,
-                }
+                },
             })
         },
     }),
@@ -188,18 +208,18 @@ export const archiveHotZoneReport = compose(
         componentDidMount() {
             this.props.loadAll()
 
-            const {name} = this.props.params
+            const { name } = this.props.params
 
             if (name) {
                 this.props.loadHotZoneReportsForRegion(name)
             }
         },
-        componentWillReceiveProps({params: {name}}) {
+        componentWillReceiveProps({ params: { name } }) {
             if (name && name !== this.props.params.name) {
                 this.props.loadHotZoneReportsForRegion(name)
             }
         },
-    }),
+    })
 )
 
 function panelConnector(mapStateToProps, load) {
@@ -211,11 +231,11 @@ function panelConnector(mapStateToProps, load) {
         withProps(props => ({
             load() {
                 props.load(getId(props))
-            }
+            },
         })),
         lifecycle({
             componentDidMount() {
-                const {props} = this
+                const { props } = this
 
                 props.load()
             },
@@ -228,23 +248,23 @@ function panelConnector(mapStateToProps, load) {
         withHandlers({
             onLocateClick: props => () => {
                 props.flyTo(props.computeFlyTo())
-            }
-        }),
+            },
+        })
     )
 }
 
 export const mountainInformationNetworkSubmission = panelConnector(
     getMountainInformationNetworkSubmission,
-    EntitiesActions.loadMountainInformationNetworkSubmission,
+    EntitiesActions.loadMountainInformationNetworkSubmission
 )
 
 export const weatherStation = panelConnector(
     getWeatherStation,
-    EntitiesActions.loadWeatherStation,
+    EntitiesActions.loadWeatherStation
 )
 
 export function prismic(mapStateToProps, mapDispatchToProps = {}) {
-    const {load, paramsToKey} = PrismicActions
+    const { load, paramsToKey } = PrismicActions
 
     return compose(
         setPropTypes({
@@ -252,18 +272,18 @@ export function prismic(mapStateToProps, mapDispatchToProps = {}) {
         }),
         connect(mapStateToProps, {
             load,
-            ...mapDispatchToProps
+            ...mapDispatchToProps,
         }),
         lifecycle({
             componentDidMount() {
                 this.props.load(this.props.params)
             },
-            componentWillReceiveProps({params}) {
+            componentWillReceiveProps({ params }) {
                 if (paramsToKey(params) !== paramsToKey(this.props.params)) {
                     this.props.load(params)
                 }
             },
-        }),
+        })
     )
 }
 
@@ -276,7 +296,7 @@ export const generic = compose(
         params: {
             type: props.type || 'generic',
             uid: props.uid,
-        }
+        },
     })),
     prismic(makeGetDocumentAndStatus),
     mapProps(props => {
@@ -294,22 +314,24 @@ export const post = compose(
         params: {
             type: props.type,
             uid: props.params.uid,
-        }
+        },
     })),
-    prismic(getPost),
+    prismic(getPost)
 )
 
 export const sponsor = compose(
-    connect(createStructuredSelector({
-        uid: getSponsorUid
-    })),
+    connect(
+        createStructuredSelector({
+            uid: getSponsorUid,
+        })
+    ),
     withProps(props => ({
         params: {
             type: 'sponsor',
             uid: props.uid || null,
-        }
+        },
     })),
-    prismic(getSponsor),
+    prismic(getSponsor)
 )
 
 function panelPrismicConnectorFactory(type, mapStateToProps) {
@@ -318,7 +340,7 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
             params: {
                 type,
                 uid: props.id,
-            }
+            },
         })),
         prismic(mapStateToProps, {
             flyTo,
@@ -330,43 +352,43 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
                     return props.flyTo(props.computeFlyTo())
                 }
                 if (props.computeBounds()) {
-                    const {bbox, options} = props.computeBounds()
+                    const { bbox, options } = props.computeBounds()
 
                     return props.fitBounds(bbox, options)
                 }
-            }
-        }),
+            },
+        })
     )
 }
 
 export const specialInformation = panelPrismicConnectorFactory(
     'special-information',
-    getSpecialInformation,
+    getSpecialInformation
 )
 
 export const fatalAccident = panelPrismicConnectorFactory(
     'fatal-accident',
-    getFatalAccident,
+    getFatalAccident
 )
 
 export const toyotaTruckReport = panelPrismicConnectorFactory(
     'toyota-truck-report',
-    getToyotaTruckReport,
+    getToyotaTruckReport
 )
 
 export const feed = compose(
     setPropTypes({
         type: PropTypes.string.isRequired,
     }),
-    withProps(({type}) => ({
+    withProps(({ type }) => ({
         params: {
             type,
             options: {
                 pageSize: 250,
-            }
-        }
+            },
+        },
     })),
-    prismic(getFeed),
+    prismic(getFeed)
 )
 
 export const feedSidebar = compose(
@@ -374,12 +396,15 @@ export const feedSidebar = compose(
         type: PropTypes.oneOf(TYPES).isRequired,
         uid: PropTypes.string,
     }),
-    withProps(({type}) => {
+    withProps(({ type }) => {
         let predicate
         let ordering
 
         if (type === EVENT) {
-            const date = format(subDays(startOfDay(new Date()), 1), 'YYYY-MM-DD')
+            const date = format(
+                subDays(startOfDay(new Date()), 1),
+                'YYYY-MM-DD'
+            )
 
             predicate = Predicates.dateAfter('my.event.start_date', date)
             ordering = 'my.event.start_date'
@@ -395,11 +420,11 @@ export const feedSidebar = compose(
                 options: {
                     pageSize: 7,
                     orderings: [ordering],
-                }
-            }
+                },
+            },
         }
     }),
-    prismic(getFeedSidebar),
+    prismic(getFeedSidebar)
 )
 
 export const feedSplash = compose(
@@ -407,16 +432,14 @@ export const feedSplash = compose(
         type: PropTypes.oneOf(TYPES).isRequired,
         tags: PropTypes.arrayOf(PropTypes.string),
     }),
-    withProps(({type, tags = []}) => {
+    withProps(({ type, tags = [] }) => {
         const params = {
             type,
             predicates: [],
             options: {
                 pageSize: 5,
-                orderings: [
-                    `my.${type}.date desc`,
-                ],
-            }
+                orderings: [`my.${type}.date desc`],
+            },
         }
 
         if (tags.length > 0) {
@@ -434,10 +457,10 @@ export const feedSplash = compose(
         }
 
         return {
-            params
+            params,
         }
     }),
-    prismic(getFeedSplash),
+    prismic(getFeedSplash)
 )
 
 function createWeatherForecastParams(date) {
@@ -446,8 +469,8 @@ function createWeatherForecastParams(date) {
     return {
         type,
         predicates: [
-            Predicates.at(`my.${type}.date`, format(date, 'YYYY-MM-DD'))
-        ]
+            Predicates.at(`my.${type}.date`, format(date, 'YYYY-MM-DD')),
+        ],
     }
 }
 
@@ -456,14 +479,18 @@ export const weatherForecast = compose(
         date: PropTypes.instanceOf(Date).isRequired,
     }),
     defaultProps({
-        date: new Date()
+        date: new Date(),
     }),
-    withState('params', 'setParams', props => createWeatherForecastParams(props.date)),
-    connect(createStructuredSelector({
-        result: getResult
-    })),
+    withState('params', 'setParams', props =>
+        createWeatherForecastParams(props.date)
+    ),
+    connect(
+        createStructuredSelector({
+            result: getResult,
+        })
+    ),
     lifecycle({
-        componentWillReceiveProps({date, result}) {
+        componentWillReceiveProps({ date, result }) {
             let params
 
             if (date !== this.props.date) {
@@ -479,7 +506,7 @@ export const weatherForecast = compose(
             }
         },
     }),
-    prismic(getWeatherForecast),
+    prismic(getWeatherForecast)
 )
 
 export const weatherTutorial = compose(
@@ -489,10 +516,10 @@ export const weatherTutorial = compose(
     withProps(props => ({
         params: {
             type: 'weather-forecast-tutorial',
-            uid: props.uid
+            uid: props.uid,
         },
     })),
-    prismic(getWeatherTutorial),
+    prismic(getWeatherTutorial)
 )
 
 export const documentLink = compose(
@@ -500,11 +527,11 @@ export const documentLink = compose(
         type: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
     }),
-    withProps(({type, uid}) => ({
+    withProps(({ type, uid }) => ({
         params: {
             type,
             uid,
-        }
+        },
     })),
-    prismic(makeGetDocumentAndStatus),
+    prismic(makeGetDocumentAndStatus)
 )

@@ -1,7 +1,12 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {withKnobs, number, select, boolean} from '@kadira/storybook-addon-knobs'
-import {TabSet, Tab, COMPACT, LOOSE} from './index'
+import { storiesOf, action } from '@kadira/storybook'
+import {
+    withKnobs,
+    number,
+    select,
+    boolean,
+} from '@kadira/storybook-addon-knobs'
+import { TabSet, Tab, COMPACT, LOOSE } from './index'
 import {
     QUICK,
     AVALANCHE,
@@ -21,14 +26,19 @@ stories.addWithInfo('TabSet', () => {
     const activeIndex = number('Active tab', 0)
 
     return (
-        <TabSet arrow={arrow} stacked={stacked} activeIndex={activeIndex} onActivate={action('activated')} theme={theme}>
-            <Tab arrow={arrow} title='Header #1'>
+        <TabSet
+            arrow={arrow}
+            stacked={stacked}
+            activeIndex={activeIndex}
+            onActivate={action('activated')}
+            theme={theme}>
+            <Tab arrow={arrow} title="Header #1">
                 Tab content #1
             </Tab>
-            <Tab arrow={arrow} title='Header #2'>
+            <Tab arrow={arrow} title="Header #2">
                 Tab content #2
             </Tab>
-            <Tab arrow={arrow} title='Header #3'>
+            <Tab arrow={arrow} title="Header #3">
                 Tab content #3
             </Tab>
         </TabSet>
@@ -37,19 +47,19 @@ stories.addWithInfo('TabSet', () => {
 
 stories.add('TabSet with colors', () => (
     <TabSet arrow>
-        <Tab arrow title='Quick' color={QUICK}>
+        <Tab arrow title="Quick" color={QUICK}>
             Content for QUICK
         </Tab>
-        <Tab arrow title='Avalanche' color={AVALANCHE}>
+        <Tab arrow title="Avalanche" color={AVALANCHE}>
             Content for AVALANCHE
         </Tab>
-        <Tab arrow title='Snowpack' color={SNOWPACK}>
+        <Tab arrow title="Snowpack" color={SNOWPACK}>
             Content for SNOWPACK
         </Tab>
-        <Tab arrow title='Weather' color={WEATHER}>
+        <Tab arrow title="Weather" color={WEATHER}>
             Content for WEATHER
         </Tab>
-        <Tab arrow title='Incident' color={INCIDENT}>
+        <Tab arrow title="Incident" color={INCIDENT}>
             Content for INCIDENT
         </Tab>
     </TabSet>

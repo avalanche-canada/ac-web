@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {DayPicker as Base} from '~/components/misc'
+import { DayPicker as Base } from '~/components/misc'
 import Callout from '~/components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'
@@ -21,14 +21,14 @@ export default class DayPicker extends Component {
         date: new Date(),
         onChange: noop,
         disabledDays: {
-            after: new Date()
+            after: new Date(),
         },
     }
     state = {
         isCalendarVisible: false,
     }
     set isCalendarVisible(isCalendarVisible) {
-        this.setState({isCalendarVisible})
+        this.setState({ isCalendarVisible })
     }
     hideCalendar = () => {
         this.isCalendarVisible = false
@@ -45,21 +45,21 @@ export default class DayPicker extends Component {
         this.props.onChange(day)
     }
     render() {
-        const {date, disabledDays, children, container = this} = this.props
-        const {isCalendarVisible} = this.state
+        const { date, disabledDays, children, container = this } = this.props
+        const { isCalendarVisible } = this.state
         const styleName = isCalendarVisible ? 'Input--Open' : 'Input'
         const handleClick = isCalendarVisible ? noop : this.showCalendar
 
         return (
-            <div ref='target' styleName='Container' onClick={handleClick}>
-                <div styleName={styleName} tabIndex={0} >
+            <div ref="target" styleName="Container" onClick={handleClick}>
+                <div styleName={styleName} tabIndex={0}>
                     <Holder value={children} />
                 </div>
                 <Overlay
                     show={isCalendarVisible}
                     onHide={this.hideCalendar}
                     onEscapeKeyUp={this.hideCalendar}
-                    placement='bottom'
+                    placement="bottom"
                     rootClose
                     shouldUpdatePosition
                     target={this.refs.target}
@@ -69,7 +69,8 @@ export default class DayPicker extends Component {
                             initialMonth={date || undefined}
                             selectedDays={date}
                             disabledDays={disabledDays}
-                            onDayClick={this.handleDayClick} />
+                            onDayClick={this.handleDayClick}
+                        />
                     </Callout>
                 </Overlay>
             </div>

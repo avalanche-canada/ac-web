@@ -1,7 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withState, withProps, setDisplayName, setPropTypes} from 'recompose'
+import {
+    compose,
+    withState,
+    withProps,
+    setDisplayName,
+    setPropTypes,
+} from 'recompose'
 import Navbar from './Navbar'
 import Item from './Item'
 import Menu from './Menu'
@@ -9,9 +15,9 @@ import Section from './Section'
 import Header from './Header'
 import Link from './Link'
 import Cabinet from '~/components/drawer'
-import {createItem} from './Factories'
+import { createItem } from './Factories'
 import UserProfile from './UserProfile'
-import {Avatar} from '../misc'
+import { Avatar } from '../misc'
 import styles from './Navbar.css'
 import noop from 'lodash/noop'
 
@@ -42,10 +48,12 @@ function Container({
 }) {
     // TODO: Performance: do not create function everything: setShowCabinet
     return (
-        <div styleName='Container'>
-            <Navbar isFoundation={isFoundation} onBurgerClick={() => setShowCabinet(true)} >
+        <div styleName="Container">
+            <Navbar
+                isFoundation={isFoundation}
+                onBurgerClick={() => setShowCabinet(true)}>
                 {menu.children.map(createItem)}
-                {showLogin && <Item title='Login' onClick={onLogin} />}
+                {showLogin && <Item title="Login" onClick={onLogin} />}
                 {showLogout &&
                     <Item title={<Avatar name={name} url={avatar} size={30} />}>
                         <Menu>
@@ -58,10 +66,14 @@ function Container({
                                 </Header>
                             </Section>
                         </Menu>
-                    </Item>
-                }
+                    </Item>}
             </Navbar>
-            <Cabinet menu={menu} show={showCabinet} isFoundation={isFoundation} onClose={() => setShowCabinet(false)} />
+            <Cabinet
+                menu={menu}
+                show={showCabinet}
+                isFoundation={isFoundation}
+                onClose={() => setShowCabinet(false)}
+            />
         </div>
     )
 }
@@ -73,9 +85,9 @@ export default compose(
     }),
     setDisplayName('Container'),
     withState('showCabinet', 'setShowCabinet', false),
-    withProps(({isFoundation, isAuthenticated}) => ({
+    withProps(({ isFoundation, isAuthenticated }) => ({
         showLogin: !isFoundation && !isAuthenticated,
         showLogout: !isFoundation && isAuthenticated,
     })),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Container)

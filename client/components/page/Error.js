@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, defaultProps, withProps} from 'recompose'
+import { compose, setPropTypes, defaultProps, withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Content from './Content'
@@ -13,12 +13,12 @@ export default compose(
     defaultProps({
         styleName: 'Error',
     }),
-    withProps(({children}) => ({
+    withProps(({ children }) => ({
         children: (
             <Content>
                 {children}
             </Content>
-        )
+        ),
     })),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Page)

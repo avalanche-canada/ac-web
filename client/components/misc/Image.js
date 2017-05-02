@@ -9,12 +9,12 @@ Image.propTypes = {
     openNewTab: PropTypes.bool,
 }
 
-function Image({openNewTab, ...props}) {
+function Image({ openNewTab, ...props }) {
     const image = <img {...props} />
 
     if (openNewTab) {
         return (
-            <a href={props.src} title={props.alt} target='_blank'>
+            <a href={props.src} title={props.alt} target="_blank">
                 {image}
             </a>
         )

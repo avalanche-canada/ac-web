@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Content, Main, Header} from '~/components/page'
-import {InnerHTML, Status} from '~/components/misc'
+import { Page, Content, Main, Header } from '~/components/page'
+import { InnerHTML, Status } from '~/components/misc'
 
 Generic.propTypes = {
     title: PropTypes.string,
@@ -9,7 +9,7 @@ Generic.propTypes = {
     status: PropTypes.object,
 }
 
-export default function Generic({title, status, document = {}}) {
+export default function Generic({ title, status, document = {} }) {
     return (
         <Page>
             <Header title={document.title || title} />

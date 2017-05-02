@@ -1,8 +1,12 @@
-import {createSelector, createStructuredSelector} from 'reselect'
+import { createSelector, createStructuredSelector } from 'reselect'
 import turf from '@turf/helpers'
-import {computeOffset, computeFitBounds} from '~/selectors/map/bounds'
-import {parseLocation} from '~/prismic/parser'
-import {getStatusFactory, getDocument, getUid} from '~/selectors/prismic/utils'
+import { computeOffset, computeFitBounds } from '~/selectors/map/bounds'
+import { parseLocation } from '~/prismic/parser'
+import {
+    getStatusFactory,
+    getDocument,
+    getUid,
+} from '~/selectors/prismic/utils'
 
 // TODO: Create a connector, it is really similar to toyota-truck-report
 
@@ -37,22 +41,21 @@ const getComputeBounds = createSelector(
         return computeBounds(
             turf.multiPoint(coordinates),
             undefined,
-            undefined, {
-                padding: 200
+            undefined,
+            {
+                padding: 200,
             }
         )
     }
 )
 
-const getMessages = createSelector(
-    getUid,
-    getDocument,
-    (uid, report) => ({
-        isError: 'An error happened while loading the special information.',
-        isLoading: 'Loading latest special information...',
-        isLoaded: report ? null : `Special information "${uid}" is not available anymore.`
-    })
-)
+const getMessages = createSelector(getUid, getDocument, (uid, report) => ({
+    isError: 'An error happened while loading the special information.',
+    isLoading: 'Loading latest special information...',
+    isLoaded: report
+        ? null
+        : `Special information "${uid}" is not available anymore.`,
+}))
 
 export default createStructuredSelector({
     report: getDocument,

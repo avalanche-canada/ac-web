@@ -1,4 +1,4 @@
-import {withProps} from 'recompose'
+import { withProps } from 'recompose'
 import Feed from './Feed'
 
 export Ast from './Ast'

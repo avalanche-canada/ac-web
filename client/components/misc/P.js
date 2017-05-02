@@ -1,7 +1,14 @@
-import {DOM} from 'react'
+import { DOM } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withHandlers, mapProps, withState, defaultProps, setPropTypes} from 'recompose'
+import {
+    compose,
+    withHandlers,
+    mapProps,
+    withState,
+    defaultProps,
+    setPropTypes,
+} from 'recompose'
 import styles from './P.css'
 
 export default compose(
@@ -14,7 +21,7 @@ export default compose(
         capAt: Infinity,
     }),
     withState('capAt', 'setCapAt', props => props.capAt),
-    mapProps(({capAt, children, title, ...props}) => {
+    mapProps(({ capAt, children, title, ...props }) => {
         const capped = children.length > capAt
 
         return {
@@ -29,7 +36,7 @@ export default compose(
             event.preventDefault()
 
             props.setCapAt(Infinity)
-        }
+        },
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(DOM.p)

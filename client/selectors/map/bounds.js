@@ -1,15 +1,15 @@
 import Immutable from 'immutable'
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 import createBbox from '@turf/bbox'
 import turf from '@turf/helpers'
 import mapbox from '~/services/mapbox/map'
-import {getActiveFeatures} from '~/getters/map'
-import {getPrimaryDrawer, getSecondaryDrawer} from '~/getters/drawers'
-import {getEntities} from '~/getters/entities'
-import {getDocuments} from '~/getters/prismic'
-import Parser, {parseLocation} from '~/prismic/parser'
+import { getActiveFeatures } from '~/getters/map'
+import { getPrimaryDrawer, getSecondaryDrawer } from '~/getters/drawers'
+import { getEntities } from '~/getters/entities'
+import { getDocuments } from '~/getters/prismic'
+import Parser, { parseLocation } from '~/prismic/parser'
 
-const {LngLatBounds} = mapbox
+const { LngLatBounds } = mapbox
 
 function createLngLatBounds(bbox) {
     if (bbox instanceof LngLatBounds) {
@@ -55,43 +55,44 @@ export const computeOffset = createSelector(
 
         return [x, 0]
     }
-
 )
 
-export const computeFitBounds = createSelector(
-    computeOffset,
-    computeOffset => (feature, assumePrimaryOpen, assumeSecondaryOpen, options = {}) => {
-        if (!feature) {
+export const computeFitBounds = createSelector(computeOffset, computeOffset => (
+    feature,
+    assumePrimaryOpen,
+    assumeSecondaryOpen,
+    options = {}
+) => {
+    if (!feature) {
+        return null
+    }
+
+    let bbox = null
+
+    if (Immutable.Iterable.isIterable(feature)) {
+        if (feature.has('bbox')) {
+            bbox = feature.get('bbox').toJSON()
+        } else if (feature.has('geometry')) {
+            const geometry = feature.get('geometry').toJSON()
+
+            bbox = createBbox(turf.feature(geometry))
+        } else {
             return null
         }
-
-        let bbox = null
-
-        if (Immutable.Iterable.isIterable(feature)) {
-            if (feature.has('bbox')) {
-                bbox = feature.get('bbox').toJSON()
-            } else if (feature.has('geometry')) {
-                const geometry = feature.get('geometry').toJSON()
-
-                bbox = createBbox(turf.feature(geometry))
-            } else {
-                return null
-            }
-        } else {
-            bbox = createBbox(feature)
-        }
-
-        return {
-            bbox: createLngLatBounds(bbox),
-            options: {
-                offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
-                padding: 75,
-                maxZoom: 12.5,
-                ...options,
-            }
-        }
+    } else {
+        bbox = createBbox(feature)
     }
-)
+
+    return {
+        bbox: createLngLatBounds(bbox),
+        options: {
+            offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
+            padding: 75,
+            maxZoom: 12.5,
+            ...options,
+        },
+    }
+})
 
 const DocumentPathToSchema = new Map([
     ['toyota-truck-reports', 'toyota-truck-report'],
@@ -120,7 +121,9 @@ export default createSelector(
                 const entity = entities.get(schema).get(id)
 
                 if (entity.has('bbox')) {
-                    const [west, south, east, north] = entity.get('bbox').toArray()
+                    const [west, south, east, north] = entity
+                        .get('bbox')
+                        .toArray()
 
                     return bounds.extend([[west, south], [east, north]])
                 } else if (entity.has('latlng')) {
@@ -135,23 +138,24 @@ export default createSelector(
                     ])
                 }
             } else if (documents.has(schema)) {
-                const document = documents.get(schema).find(
-                    document => document.uid === id
-                )
+                const document = documents
+                    .get(schema)
+                    .find(document => document.uid === id)
 
                 if (document) {
-                    const {position, locations} = Parser.parse(document)
+                    const { position, locations } = Parser.parse(document)
 
                     if (locations && locations.length > 0) {
                         const [west, south, east, north] = createBbox(
-                            turf.multiPoint(
-                                locations.map(parseLocation)
-                            )
+                            turf.multiPoint(locations.map(parseLocation))
                         )
 
                         return bounds.extend([[west, south], [east, north]])
                     } else if (position) {
-                        return bounds.extend([position.longitude, position.latitude])
+                        return bounds.extend([
+                            position.longitude,
+                            position.latitude,
+                        ])
                     }
                 }
             }
@@ -165,7 +169,7 @@ export default createSelector(
                 options: {
                     offset: computeOffset(),
                     padding: 50,
-                }
+                },
             }
         } else {
             return null

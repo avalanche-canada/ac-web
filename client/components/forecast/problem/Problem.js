@@ -8,10 +8,10 @@ Problem.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Problem({title, children}) {
+function Problem({ title, children }) {
     return (
-        <div styleName='Container'>
-            <h2 styleName='Header'>{title}</h2>
+        <div styleName="Container">
+            <h2 styleName="Header">{title}</h2>
             {children}
         </div>
     )

@@ -1,23 +1,23 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Highlight from '~/components/highlight'
-import {InnerHTML} from '~/components/misc'
-import {load} from '~/actions/prismic'
+import { InnerHTML } from '~/components/misc'
+import { load } from '~/actions/prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import {Predicates} from '~/prismic'
+import { Predicates } from '~/prismic'
 import parser from '~/prismic/parser'
-import {SessionStorage} from '~/services/storage'
+import { SessionStorage } from '~/services/storage'
 
-@connect(null, {load})
+@connect(null, { load })
 export default class Container extends PureComponent {
     static propTypes = {
         load: PropTypes.func.isRequired,
     }
     state = {
-        highlight: null
+        highlight: null,
     }
     constructor(props) {
         super(props)
@@ -25,7 +25,7 @@ export default class Container extends PureComponent {
         this.storage = SessionStorage.create()
     }
     set highlight(highlight = null) {
-        this.setState({highlight})
+        this.setState({ highlight })
     }
     get highlight() {
         return this.state.highlight
@@ -40,17 +40,25 @@ export default class Container extends PureComponent {
         this.load()
     }
     load() {
-        return this.props.load({
-            type: 'highlight',
-            predicates: [
-                Predicates.dateBefore('my.highlight.start_date', format(startOfTomorrow(), 'YYYY-MM-DD')),
-                Predicates.dateAfter('my.highlight.end_date', format(startOfYesterday(), 'YYYY-MM-DD')),
-            ]
-        }).then(response => {
-            const {results: [highlight]} = response
+        return this.props
+            .load({
+                type: 'highlight',
+                predicates: [
+                    Predicates.dateBefore(
+                        'my.highlight.start_date',
+                        format(startOfTomorrow(), 'YYYY-MM-DD')
+                    ),
+                    Predicates.dateAfter(
+                        'my.highlight.end_date',
+                        format(startOfYesterday(), 'YYYY-MM-DD')
+                    ),
+                ],
+            })
+            .then(response => {
+                const { results: [highlight] } = response
 
-            this.highlight = highlight ? parser.parse(highlight) : null
-        })
+                this.highlight = highlight ? parser.parse(highlight) : null
+            })
     }
     handleDismiss = () => {
         this.hidden = true
@@ -61,7 +69,7 @@ export default class Container extends PureComponent {
             return null
         }
 
-        const {description, style} = this.highlight
+        const { description, style } = this.highlight
 
         return (
             <Highlight style={style} onDismiss={this.handleDismiss} dismissable>

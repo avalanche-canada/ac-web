@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 export default class Picker extends Component {
@@ -7,7 +7,7 @@ export default class Picker extends Component {
         template: PropTypes.func.isRequired,
     }
     state = {
-        isOpen: false
+        isOpen: false,
     }
     get locals() {
         return {
@@ -24,7 +24,7 @@ export default class Picker extends Component {
         return this.state.isOpen
     }
     set isOpen(isOpen) {
-        this.setState({isOpen})
+        this.setState({ isOpen })
     }
     open = () => {
         this.isOpen = true
@@ -36,12 +36,12 @@ export default class Picker extends Component {
         this.isOpen = !this.isOpen
     }
     onReset = () => {
-        this.setState({isOpen: false}, () => {
+        this.setState({ isOpen: false }, () => {
             this.props.onChange(null)
         })
     }
     onSelect = (event, value) => {
-        this.setState({isOpen: false}, () => {
+        this.setState({ isOpen: false }, () => {
             this.props.onChange(value)
         })
     }

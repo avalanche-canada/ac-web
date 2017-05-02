@@ -7,9 +7,9 @@ Subject.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Subject({children}) {
+function Subject({ children }) {
     return (
-        <div styleName='Subject'>
+        <div styleName="Subject">
             <span>{children}</span>
         </div>
     )

@@ -1,8 +1,8 @@
-import React, {createElement, PureComponent} from 'react'
+import React, { createElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
-import Segment, {Disabled} from './Segment'
+import Segment, { Disabled } from './Segment'
 import range from 'lodash/range'
 import pagination from '~/utils/pagination'
 import noop from 'lodash/noop'
@@ -20,7 +20,7 @@ export default class Pagination extends PureComponent {
         onChange: noop,
     }
     get segments() {
-        const {active, total} = this.props
+        const { active, total } = this.props
 
         if (total <= 10) {
             return range(1, total + 1)
@@ -29,7 +29,7 @@ export default class Pagination extends PureComponent {
         return pagination(active, total, 3, null)
     }
     createSegment(page, index) {
-        const {onChange, active} = this.props
+        const { onChange, active } = this.props
 
         if (typeof page === 'number') {
             return createElement(Segment, {
@@ -48,7 +48,7 @@ export default class Pagination extends PureComponent {
         }
 
         return (
-            <div styleName='Container'>
+            <div styleName="Container">
                 {this.segments.map(this.createSegment, this)}
             </div>
         )

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Content, Header, Main} from '~/components/page'
-import {Metadata, Station} from '~/components/weather/station'
-import {Status} from '~/components/misc'
-import {weatherStation} from '~/containers/connectors'
-import {Generic} from '~/prismic/components'
+import { Page, Content, Header, Main } from '~/components/page'
+import { Metadata, Station } from '~/components/weather/station'
+import { Status } from '~/components/misc'
+import { weatherStation } from '~/containers/connectors'
+import { Generic } from '~/prismic/components'
 
 WeatherStation.propTypes = {
     title: PropTypes.string.isRequired,
@@ -33,9 +33,13 @@ function WeatherStation({
                     <Status {...status.toJSON()} />
                     {station && <Metadata {...station} />}
                     {station &&
-                        <Station {...station} columns={columns} measurements={measurements} headers={headers} />
-                    }
-                    <Generic uid='weather-station-disclaimer' />
+                        <Station
+                            {...station}
+                            columns={columns}
+                            measurements={measurements}
+                            headers={headers}
+                        />}
+                    <Generic uid="weather-station-disclaimer" />
                 </Main>
             </Content>
         </Page>

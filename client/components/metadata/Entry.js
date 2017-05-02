@@ -10,19 +10,19 @@ Entry.propTypes = {
     fullWidth: PropTypes.bool,
 }
 
-function Entry({term, children, sideBySide, fullWidth}) {
+function Entry({ term, children, sideBySide, fullWidth }) {
     let styleName = 'Entry'
 
     if (sideBySide) {
         styleName = 'Entry--SideBySide'
-    } else if(fullWidth) {
+    } else if (fullWidth) {
         styleName = 'Entry--Full'
     }
-    
+
     return (
         <dl styleName={styleName}>
-            <dt styleName='Term'>{term}</dt>
-            <dd styleName='Description'>{children}</dd>
+            <dt styleName="Term">{term}</dt>
+            <dd styleName="Description">{children}</dd>
         </dl>
     )
 }

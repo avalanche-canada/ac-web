@@ -1,16 +1,18 @@
-import {createSelector, createStructuredSelector} from 'reselect'
-import {getType, getStatusFactory, getDocument} from '~/selectors/prismic/utils'
+import { createSelector, createStructuredSelector } from 'reselect'
+import {
+    getType,
+    getStatusFactory,
+    getDocument,
+} from '~/selectors/prismic/utils'
 
 export const getPost = createStructuredSelector({
     post: getDocument,
-    status: getStatusFactory(createSelector(
-        getType,
-        getDocument,
-        (type, post) => ({
+    status: getStatusFactory(
+        createSelector(getType, getDocument, (type, post) => ({
             isLoading: `Loading the ${type} post...`,
-            isLoaded: post ? null : `No ${type} found.`
-        })
-    )),
+            isLoaded: post ? null : `No ${type} found.`,
+        }))
+    ),
 })
 
 export const getToyotaTruckReport = createStructuredSelector({

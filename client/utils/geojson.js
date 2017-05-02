@@ -7,8 +7,8 @@ function sorter(a, b) {
 
 export function near(targetPoint, points, n = 1) {
     const distances = []
-    const {features} = points
-    const {length} = features
+    const { features } = points
+    const { length } = features
 
     for (let i = 0; i < length; i++) {
         distances.push({
@@ -18,6 +18,6 @@ export function near(targetPoint, points, n = 1) {
     }
 
     return turf.featureCollection(
-        distances.sort(sorter).slice(0, n).map(({feature}) => feature)
+        distances.sort(sorter).slice(0, n).map(({ feature }) => feature)
     )
 }

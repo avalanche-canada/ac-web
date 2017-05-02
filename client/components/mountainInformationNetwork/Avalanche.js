@@ -1,10 +1,17 @@
 import PropTypes from 'prop-types'
-import {compose, renameProps, setDisplayName, setPropTypes, mapProps, withProps} from 'recompose'
+import {
+    compose,
+    renameProps,
+    setDisplayName,
+    setPropTypes,
+    mapProps,
+    withProps,
+} from 'recompose'
 import Content from './Content'
-import {asTermAndDefinition} from '~/components/description/utils'
+import { asTermAndDefinition } from '~/components/description/utils'
 import parse from 'date-fns/parse'
 
-const {object, number, string} = PropTypes
+const { object, number, string } = PropTypes
 
 export default compose(
     setDisplayName('Avalanche'),
@@ -34,7 +41,7 @@ export default compose(
         avalancheOccurrenceEpoch: string,
         vegetationCover: string,
     }),
-    withProps(({weakLayerBurialDate, avalancheOccurrenceEpoch}) => ({
+    withProps(({ weakLayerBurialDate, avalancheOccurrenceEpoch }) => ({
         avalancheOccurrenceEpoch: parse(avalancheOccurrenceEpoch),
         weakLayerBurialDate: weakLayerBurialDate && parse(weakLayerBurialDate),
     })),
@@ -62,7 +69,7 @@ export default compose(
         windExposure: 'Wind exposure',
         vegetationCover: 'Vegetation cover',
     }),
-    mapProps(({avalancheObsComment, tempLatlng, ...values}) => ({
+    mapProps(({ avalancheObsComment, tempLatlng, ...values }) => ({
         comment: avalancheObsComment,
         descriptions: asTermAndDefinition(values),
     }))

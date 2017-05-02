@@ -1,17 +1,23 @@
-import {createAction} from 'redux-actions'
+import { createAction } from 'redux-actions'
 import * as Schemas from '~/api/schemas'
 import * as Api from '~/api'
-import {createFetchActionForSchema, createFetchMetadataAction} from '~/api/utils'
+import {
+    createFetchActionForSchema,
+    createFetchMetadataAction,
+} from '~/api/utils'
 
 export const GET_FORECAST = 'GET_FORECAST'
 export const GET_FEATURES_METADATA = 'GET_FEATURES_METADATA'
-export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS = 'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS'
-export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION = 'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
+export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS =
+    'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS'
+export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
+    'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
 export const GET_PROVIDERS = 'GET_PROVIDERS'
 export const GET_COURSES = 'GET_COURSES'
 export const GET_WEATHER_STATIONS = 'GET_WEATHER_STATIONS'
 
-export const POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION = 'POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
+export const POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
+    'POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
 
 export const loadFeaturesMetadata = createFetchMetadataAction()
 
@@ -22,38 +28,39 @@ export const loadForecast = createFetchActionForSchema(
 
 const loadMountainInformationNetworkSubmissions = createFetchActionForSchema(
     GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS,
-    Schemas.MountainInformationNetworkSubmission,
+    Schemas.MountainInformationNetworkSubmission
 )
 
 export function loadMountainInformationNetworkSubmissionsForDays(days = 7) {
-    return loadMountainInformationNetworkSubmissions({days})
+    return loadMountainInformationNetworkSubmissions({ days })
 }
 
 export function loadMountainInformationNetworkSubmission(id) {
-    return loadMountainInformationNetworkSubmissions({id})
+    return loadMountainInformationNetworkSubmissions({ id })
 }
 
 export const loadProviders = createFetchActionForSchema(
     GET_PROVIDERS,
-    Schemas.Provider,
+    Schemas.Provider
 )
 
 export const loadCourses = createFetchActionForSchema(
     GET_COURSES,
-    Schemas.Course,
+    Schemas.Course
 )
 
 export const loadWeatherStations = createFetchActionForSchema(
     GET_WEATHER_STATIONS,
-    Schemas.WeatherStation,
+    Schemas.WeatherStation
 )
 
 export function loadWeatherStation(id) {
-    return loadWeatherStations({id})
+    return loadWeatherStations({ id })
 }
 
 // CREATE ENTITY
 export const postMountainInformationNetworkSubmission = createAction(
     POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION,
-    submission => Api.post(Schemas.MountainInformationNetworkSubmission, submission)
+    submission =>
+        Api.post(Schemas.MountainInformationNetworkSubmission, submission)
 )

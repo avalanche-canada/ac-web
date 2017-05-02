@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, mapProps, branch, renderNothing} from 'recompose'
-import {ArchiveWarning} from '~/components/misc'
-import {isHotZoneReportValid} from '~/prismic/utils'
+import {
+    compose,
+    setPropTypes,
+    mapProps,
+    branch,
+    renderNothing,
+} from 'recompose'
+import { ArchiveWarning } from '~/components/misc'
+import { isHotZoneReportValid } from '~/prismic/utils'
 
 export default compose(
     setPropTypes({
@@ -11,9 +17,9 @@ export default compose(
     }),
     branch(
         props => !props.report || isHotZoneReportValid(props.report),
-        renderNothing,
+        renderNothing
     ),
-    mapProps(({report, previous, next}) => {
+    mapProps(({ report, previous, next }) => {
         const props = {
             children: 'This is an archived HotZone report',
             nowcast: {
@@ -27,7 +33,7 @@ export default compose(
                 previous: {
                     to: `/hot-zone-reports/${report.region}/${previous.region}`,
                     children: previous.title,
-                }
+                },
             })
         }
 
@@ -36,7 +42,7 @@ export default compose(
                 next: {
                     to: `/hot-zone-reports/${report.region}/${next.region}`,
                     children: next.title,
-                }
+                },
             })
         }
 

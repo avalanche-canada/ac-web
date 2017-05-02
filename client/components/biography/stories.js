@@ -1,5 +1,5 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
+import { storiesOf, action } from '@kadira/storybook'
 import Biography from './index'
 
 const Karl = {
@@ -14,7 +14,7 @@ const Karl = {
 const stories = storiesOf('Biography', module)
 
 stories.addWithInfo('Biography', () => (
-    <Biography {...Karl} >
+    <Biography {...Karl}>
         His biography.
     </Biography>
 ))

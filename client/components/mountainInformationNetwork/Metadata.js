@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps, mapProps, setPropTypes} from 'recompose'
-import {DateTime} from '~/components/misc'
-import {Metadata, Entry, ShareEntry} from '~/components/metadata'
+import { compose, withProps, mapProps, setPropTypes } from 'recompose'
+import { DateTime } from '~/components/misc'
+import { Metadata, Entry, ShareEntry } from '~/components/metadata'
 import styles from './MountainInformationNetwork.css'
 
 export const SubmittedBy = compose(
@@ -10,7 +10,7 @@ export const SubmittedBy = compose(
         children: PropTypes.string.isRequired,
     }),
     withProps({
-        term: 'Submitted by'
+        term: 'Submitted by',
     })
 )(Entry)
 
@@ -20,7 +20,7 @@ export const SubmittedOn = compose(
     }),
     mapProps(props => ({
         term: 'Submitted on',
-        children: <DateTime value={props.children} />
+        children: <DateTime value={props.children} />,
     }))
 )(Entry)
 
@@ -29,16 +29,20 @@ export const Location = compose(
         longitude: PropTypes.number.isRequired,
         latitude: PropTypes.number.isRequired,
     }),
-    mapProps(({longitude, latitude}) => {
+    mapProps(({ longitude, latitude }) => {
         return {
             term: 'Location',
             children: (
                 <span className={styles.MapLocationWrap}>
                     <span className={styles.MapLocationItem}>
-                        {roundCoordinate(longitude)}&nbsp;&deg;, {roundCoordinate(latitude)}&nbsp;&deg;
+                        {roundCoordinate(longitude)}
+                        &nbsp;°,
+                        {' '}
+                        {roundCoordinate(latitude)}
+                        &nbsp;°
                     </span>
                 </span>
-            )
+            ),
         }
     })
 )(Entry)

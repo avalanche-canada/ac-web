@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types'
-import {compose, lifecycle, withState, withHandlers, setPropTypes} from 'recompose'
+import {
+    compose,
+    lifecycle,
+    withState,
+    withHandlers,
+    setPropTypes,
+} from 'recompose'
 import Gallery from './Gallery'
 import * as cloudinary from '~/services/cloudinary'
 
@@ -13,8 +19,8 @@ export default compose(
     withState('items', 'setItems', []),
     withHandlers({
         onSuccessResponse: props => data => {
-            const {setItems, setCursor} = props
-            const {resources, next_cursor} = data
+            const { setItems, setCursor } = props
+            const { resources, next_cursor } = data
 
             setCursor(next_cursor)
             setItems(resources.map(mapResource))
@@ -22,12 +28,12 @@ export default compose(
     }),
     lifecycle({
         componentDidMount() {
-            const {tag, cursor, onSuccessResponse} = this.props
+            const { tag, cursor, onSuccessResponse } = this.props
             const options = {
-                next_cursor: cursor
+                next_cursor: cursor,
             }
 
             cloudinary.getByTag(tag, options).then(onSuccessResponse)
         },
-    }),
+    })
 )(Gallery)

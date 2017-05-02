@@ -1,17 +1,33 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {compose, lifecycle, setPropTypes, renderComponent, renderNothing, branch} from 'recompose'
-import {connect} from 'react-redux'
+import {
+    compose,
+    lifecycle,
+    setPropTypes,
+    renderComponent,
+    renderNothing,
+    branch,
+} from 'recompose'
+import { connect } from 'react-redux'
 import Table from '~/components/table/managed'
 import mapStateToProps from '~/selectors/min/table'
-import {loadMountainInformationNetworkSubmissionsForDays} from '~/actions/entities'
-import {loadFeatures} from '~/actions/mapbox'
-import {FORECAST_REGIONS} from '~/services/mapbox/datasets'
-import {DateElement, Status as StatusComponent, Muted} from '~/components/misc'
-import {Metadata as BaseMetadata, Entry} from '~/components/metadata'
+import {
+    loadMountainInformationNetworkSubmissionsForDays,
+} from '~/actions/entities'
+import { loadFeatures } from '~/actions/mapbox'
+import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
+import {
+    DateElement,
+    Status as StatusComponent,
+    Muted,
+} from '~/components/misc'
+import { Metadata as BaseMetadata, Entry } from '~/components/metadata'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import {DropdownFromOptions as Dropdown, DayPicker} from '~/components/controls'
+import {
+    DropdownFromOptions as Dropdown,
+    DayPicker,
+} from '~/components/controls'
 import noop from 'lodash/noop'
 
 function Empty() {
@@ -24,10 +40,7 @@ function Empty() {
 
 export const Status = compose(
     connect(mapStateToProps),
-    branch(
-        props => props.isLoaded && props.total === 0,
-        renderComponent(Empty)
-    ),
+    branch(props => props.isLoaded && props.total === 0, renderComponent(Empty))
 )(StatusComponent)
 
 @connect(mapStateToProps)
@@ -61,10 +74,10 @@ export class Metadata extends PureComponent {
     }
     set days(days) {
         this.setState({
-            from: subDays(new Date(), days)
+            from: subDays(new Date(), days),
         })
     }
-    componentWillReceiveProps({days}) {
+    componentWillReceiveProps({ days }) {
         if (this.props.days !== days) {
             this.days = days
         }
@@ -75,27 +88,34 @@ export class Metadata extends PureComponent {
         this.props.onDaysChange(days)
     }
     render() {
-        const {isLoaded, total, types, typeOptions, onTypesChange} = this.props
-        const {from} = this.state
+        const {
+            isLoaded,
+            total,
+            types,
+            typeOptions,
+            onTypesChange,
+        } = this.props
+        const { from } = this.state
 
         return (
             <BaseMetadata>
-                <Entry term='From' sideBySide>
+                <Entry term="From" sideBySide>
                     <DayPicker date={from} onChange={this.handleFromDateChange}>
                         <DateElement value={from} />
                     </DayPicker>
                 </Entry>
-                <Entry term='To' sideBySide>
+                <Entry term="To" sideBySide>
                     <DateElement />
                 </Entry>
-                <Entry term='Reports' sideBySide>
+                <Entry term="Reports" sideBySide>
                     <Dropdown
                         value={types}
                         onChange={onTypesChange}
                         options={typeOptions}
-                        placeholder='Show all' />
+                        placeholder="Show all"
+                    />
                 </Entry>
-                <Entry term='Number of submissions' sideBySide>
+                <Entry term="Number of submissions" sideBySide>
                     {isLoaded ? total : 'Loading...'}
                 </Entry>
             </BaseMetadata>
@@ -117,12 +137,9 @@ export default compose(
             this.props.load(this.props.days)
             this.props.loadFeatures(FORECAST_REGIONS)
         },
-        componentWillReceiveProps({days}) {
+        componentWillReceiveProps({ days }) {
             this.props.load(days)
         },
     }),
-    branch(
-        props => !props.isLoaded || props.total === 0,
-        renderNothing
-    )
+    branch(props => !props.isLoaded || props.total === 0, renderNothing)
 )(Table)

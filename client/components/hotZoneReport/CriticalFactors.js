@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Comment from '~/components/mountainInformationNetwork/Comment'
 import List from '~/components/mountainInformationNetwork/List'
-import {Term, Definition} from '~/components/description'
-import Panel, {INVERSE} from '~/components/panel'
+import { Term, Definition } from '~/components/description'
+import Panel, { INVERSE } from '~/components/panel'
 import styles from './HotZoneReport.css'
-import {RED, ORANGE} from '~/constants/forecast/palette'
+import { RED, ORANGE } from '~/constants/forecast/palette'
 
 const TERMS = new Map([
     ['persistentAvalancheProblem', 'Persistent avalanche problem'],
@@ -28,18 +28,27 @@ const VALUES = new Map([
     [undefined, UNKNOWN],
 ])
 const STYLES = new Map([
-    [YES, {
-        fontWeight: 700,
-        color: RED,
-    }],
-    [NO, {
-        fontWeight: 700,
-        color: '#595959',
-    }],
-    [UNKNOWN, {
-        fontWeight: 700,
-        color: ORANGE,
-    }],
+    [
+        YES,
+        {
+            fontWeight: 700,
+            color: RED,
+        },
+    ],
+    [
+        NO,
+        {
+            fontWeight: 700,
+            color: '#595959',
+        },
+    ],
+    [
+        UNKNOWN,
+        {
+            fontWeight: 700,
+            color: ORANGE,
+        },
+    ],
 ])
 
 const truthPropType = PropTypes.oneOf([true, false, null])
@@ -49,13 +58,19 @@ function createDescriptions(values) {
         const style = STYLES.get(value)
 
         children.push(
-            <Term key={`term-${key}`} styleName='CriticalFactors--Term' style={style}>
+            <Term
+                key={`term-${key}`}
+                styleName="CriticalFactors--Term"
+                style={style}>
                 {TERMS.get(key)}
             </Term>
         )
 
         children.push(
-            <Definition key={`definition-${key}`} styleName='CriticalFactors--Definition' style={style}>
+            <Definition
+                key={`definition-${key}`}
+                styleName="CriticalFactors--Definition"
+                style={style}>
                 {value}
             </Definition>
         )
@@ -75,18 +90,22 @@ CriticalFactors.propTypes = {
         significantWarming: truthPropType,
         questions: PropTypes.string,
         comments: PropTypes.string,
-    })
+    }),
 }
 
-function CriticalFactors({report}) {
+function CriticalFactors({ report }) {
     if (!report || !report.criticalFactors) {
         return null
     }
 
-    const {comments, questions, ...values} = report.criticalFactors
+    const { comments, questions, ...values } = report.criticalFactors
 
     return (
-        <Panel header='Critical Factors Summary' expanded expandable theme={INVERSE}>
+        <Panel
+            header="Critical Factors Summary"
+            expanded
+            expandable
+            theme={INVERSE}>
             <p>
                 <strong>
                     Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
@@ -95,14 +114,13 @@ function CriticalFactors({report}) {
             <List>
                 {createDescriptions(values)}
             </List>
-            <Comment title='Information to collect while traveling'>
+            <Comment title="Information to collect while traveling">
                 {questions}
             </Comment>
             <Comment>
                 {comments}
             </Comment>
         </Panel>
-
     )
 }
 

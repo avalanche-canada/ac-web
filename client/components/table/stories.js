@@ -1,13 +1,13 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {List, Term, Definition} from '~/components/description'
+import { storiesOf, action } from '@kadira/storybook'
+import { List, Term, Definition } from '~/components/description'
 import Table from './Table'
-import TBody, { Controlled as ControlledTBody} from './TBody'
+import TBody, { Controlled as ControlledTBody } from './TBody'
 import Row from './Row'
 import Cell from './Cell'
 import Header from './Header'
 import HeaderCell from './HeaderCell'
-import {ASC, DESC, NONE} from '~/constants/sortings'
+import { ASC, DESC, NONE } from '~/constants/sortings'
 
 const description = (
     <List columns={2} horizontal>
@@ -28,10 +28,16 @@ const header = (
     <Header>
         <Row>
             <HeaderCell>Dates</HeaderCell>
-            <HeaderCell sorting={ASC} onSortingChange={onSortingChange}>Type</HeaderCell>
+            <HeaderCell sorting={ASC} onSortingChange={onSortingChange}>
+                Type
+            </HeaderCell>
             <HeaderCell>Location</HeaderCell>
-            <HeaderCell sorting={DESC} onSortingChange={onSortingChange}>User group</HeaderCell>
-            <HeaderCell sorting={NONE} onSortingChange={onSortingChange}>Provider</HeaderCell>
+            <HeaderCell sorting={DESC} onSortingChange={onSortingChange}>
+                User group
+            </HeaderCell>
+            <HeaderCell sorting={NONE} onSortingChange={onSortingChange}>
+                Provider
+            </HeaderCell>
         </Row>
     </Header>
 )
@@ -40,7 +46,7 @@ function row(expanded) {
         <Row expanded={expanded}>
             <Cell>Jan 00, 0000 to <br />Jan 00, 0000</Cell>
             <Cell>
-                <a href='#'>AST 1</a>
+                <a href="#">AST 1</a>
             </Cell>
             <Cell>Rogers Pass and Revelstoke, BC</Cell>
             <Cell>Ski</Cell>
@@ -59,13 +65,13 @@ function controlled() {
 export const table = (
     <Table>
         {header}
-        <ControlledTBody featured title='Our sponsors'>
+        <ControlledTBody featured title="Our sponsors">
             {row(true)}
             {controlled()}
             {row(true)}
             {controlled()}
         </ControlledTBody>
-        <ControlledTBody title='The others'>
+        <ControlledTBody title="The others">
             {row(true)}
             {controlled()}
             {row(false)}
@@ -87,28 +93,28 @@ export const table = (
 )
 
 storiesOf('Table', module)
-.add('Uncontrolled', () => (
-    <Table>
-        {header}
-        <TBody featured title='Our sponsors'>
-            {row()}
-            {row()}
-            {row(true)}
-            {controlled()}
-        </TBody>
-        <TBody title='The others'>
-            {row(true)}
-            {controlled()}
-            {row(false)}
-            {controlled()}
-            {row(true)}
-            {controlled()}
-            {row(true)}
-            {controlled()}
-            {row()}
-            {row()}
-            {row()}
-        </TBody>
-    </Table>
-))
-.add('Controlled', () => table)
+    .add('Uncontrolled', () => (
+        <Table>
+            {header}
+            <TBody featured title="Our sponsors">
+                {row()}
+                {row()}
+                {row(true)}
+                {controlled()}
+            </TBody>
+            <TBody title="The others">
+                {row(true)}
+                {controlled()}
+                {row(false)}
+                {controlled()}
+                {row(true)}
+                {controlled()}
+                {row(true)}
+                {controlled()}
+                {row()}
+                {row()}
+                {row()}
+            </TBody>
+        </Table>
+    ))
+    .add('Controlled', () => table)

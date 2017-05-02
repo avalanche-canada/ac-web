@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import turf from '@turf/helpers'
 
@@ -9,5 +9,5 @@ export const getPlace = createSelector(
 
 export const getPlaceAsFeature = createSelector(
     getPlace,
-    place => place && turf.point(place.center) || null
+    place => (place && turf.point(place.center)) || null
 )

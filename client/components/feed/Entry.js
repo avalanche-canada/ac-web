@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, branch, renderComponent} from 'recompose'
+import { compose, branch, renderComponent } from 'recompose'
 import Link from 'react-router/lib/Link'
 import CSSModules from 'react-css-modules'
-import {neverUpdate} from '~/compose'
-import {Image, InnerHTML, DateElement} from '~/components/misc'
-import {TagSet, Tag} from '~/components/tag'
+import { neverUpdate } from '~/compose'
+import { Image, InnerHTML, DateElement } from '~/components/misc'
+import { TagSet, Tag } from '~/components/tag'
 import styles from './Feed.css'
 
 Entry.propTypes = {
@@ -41,11 +41,14 @@ function Entry({
     return (
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
             {preview &&
-                <div styleName='Image'>
-                    <Image src={preview.url} title={preview.alt} alt={preview.alt} />
-                </div>
-            }
-            <div styleName='Content'>
+                <div styleName="Image">
+                    <Image
+                        src={preview.url}
+                        title={preview.alt}
+                        alt={preview.alt}
+                    />
+                </div>}
+            <div styleName="Content">
                 <h2>
                     <Link to={link}>
                         {title}
@@ -54,7 +57,7 @@ function Entry({
                 <InnerHTML>
                     {headline}
                 </InnerHTML>
-                <ul styleName='Metadata'>
+                <ul styleName="Metadata">
                     {date && <li><DateElement value={date} /></li>}
                     {category && <li>{category}</li>}
                     {source && <li>{source}</li>}
@@ -62,8 +65,7 @@ function Entry({
                 {Array.isArray(tags) &&
                     <TagSet>
                         {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
-                    </TagSet>
-                }
+                    </TagSet>}
             </div>
         </div>
     )
@@ -88,13 +90,13 @@ function CondensedEntry({
 }) {
     return (
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
-            <div styleName='Content'>
+            <div styleName="Content">
                 <h2>
                     <Link to={link}>
                         {title}
                     </Link>
                 </h2>
-                <ul styleName='Metadata'>
+                <ul styleName="Metadata">
                     {date && <li><DateElement value={date} /></li>}
                     {category && <li>{category}</li>}
                     {source && <li>{source}</li>}
@@ -108,8 +110,6 @@ export default compose(
     neverUpdate,
     branch(
         props => props.condensed,
-        renderComponent(
-            CSSModules(CondensedEntry, styles)
-        ),
-    ),
+        renderComponent(CSSModules(CondensedEntry, styles))
+    )
 )(CSSModules(Entry, styles))

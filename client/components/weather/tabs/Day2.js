@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {InnerHTML, DateElement, Image} from '~/components/misc'
+import { InnerHTML, DateElement, Image } from '~/components/misc'
 import Section from './Section'
-import {formatForecastUrl} from '~/services/msc/loop/url'
+import { formatForecastUrl } from '~/services/msc/loop/url'
 import addDays from 'date-fns/add_days'
 
 Day2.propTypes = {
@@ -13,7 +13,7 @@ Day2.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Day2({date, above, between, below, children}) {
+export default function Day2({ date, above, between, below, children }) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
     // TODO: Create a "title" and a "alt" that make sense considering the parameters!!!

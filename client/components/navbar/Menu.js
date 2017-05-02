@@ -8,13 +8,13 @@ Menu.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Menu({isOpened, children}) {
+function Menu({ isOpened, children }) {
     if (!isOpened) {
         return null
     }
 
     return (
-        <div styleName='Menu'>
+        <div styleName="Menu">
             {children}
         </div>
     )

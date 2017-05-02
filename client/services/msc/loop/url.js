@@ -1,12 +1,12 @@
 import padstart from 'lodash/padStart'
-import {Forecast, CurrentConditions} from './Metadata'
-import {domain} from '../config.json'
+import { Forecast, CurrentConditions } from './Metadata'
+import { domain } from '../config.json'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
 import format from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
-import {loadImage} from '~/utils/promise'
+import { loadImage } from '~/utils/promise'
 
 export function getNotes(type) {
     if (Forecast.has(type)) {
@@ -34,24 +34,27 @@ function getForecastNotes(type) {
         throw new Error(`Unrecognizable Forecast loop type=${type}.`)
     }
 
-    const updates = Forecast.get(type).updates.map(updates => {
-        const date = new Date()
+    const updates = Forecast.get(type)
+        .updates.map(updates => {
+            const date = new Date()
 
-        date.setHours(updates)
-        date.setMinutes(0)
+            date.setHours(updates)
+            date.setMinutes(0)
 
-        return date
-    })
-    .sort(hourSorter)
-    .map(date => format(date, 'HH[:]mm'))
+            return date
+        })
+        .sort(hourSorter)
+        .map(date => format(date, 'HH[:]mm'))
 
     const last = updates.pop()
 
-    return [`Updated at approximately ${updates.join(', ')} & ${last} every day.`]
+    return [
+        `Updated at approximately ${updates.join(', ')} & ${last} every day.`,
+    ]
 }
 
 export async function computeUrls(props) {
-    const {type} = props
+    const { type } = props
 
     if (Forecast.has(type)) {
         return computeForecastUrls(props)
@@ -62,18 +65,12 @@ export async function computeUrls(props) {
     }
 }
 
-async function computeForecastUrls({
-    type,
-    run,
-    date = new Date(),
-    from,
-    to,
-}) {
+async function computeForecastUrls({ type, run, date = new Date(), from, to }) {
     if (!Forecast.has(type)) {
         throw new Error(`Unrecognizable Forecast loop type=${type}.`)
     }
 
-    let {hours} = Forecast.get(type)
+    let { hours } = Forecast.get(type)
     if (typeof from === 'number') {
         hours = hours.filter(hour => hour >= from)
     }
@@ -87,18 +84,13 @@ async function computeForecastUrls({
     while (attempts < 10) {
         attempts++
         try {
-
             if (typeof run === 'number') {
-                await loadImage(
-                    formatForecastUrl(type, date, run, hours[0])
-                )
+                await loadImage(formatForecastUrl(type, date, run, hours[0]))
             } else {
                 run = await getRun(type, date)
             }
 
-            return hours.map(
-                hour => formatForecastUrl(type, date, run, hour)
-            )
+            return hours.map(hour => formatForecastUrl(type, date, run, hour))
         } catch (e) {
             date = addDays(date, -1)
         }
@@ -116,20 +108,20 @@ async function computeCurrentConditionsUrls({
         throw new Error(`Unrecognizable Current Conditions loop type=${type}.`)
     }
 
-    const {minutes} = CurrentConditions.get(type)
+    const { minutes } = CurrentConditions.get(type)
     const start = startOfDay(date)
     const utcMinutes = differenceInMinutes(date, start)
     const previous = addDays(start, -1)
     let dates = [
         // after the cut off time that we bring the day before and
         // add minutes to the previous day
-        ...minutes.filter(minute => minute >= utcMinutes).map(
-            minute => addMinutes(previous, minute)
-        ),
+        ...minutes
+            .filter(minute => minute >= utcMinutes)
+            .map(minute => addMinutes(previous, minute)),
         // before the cut off time on the same day
-        ...minutes.filter(minute => minute < utcMinutes).map(
-            minute => addMinutes(start, minute)
-        ),
+        ...minutes
+            .filter(minute => minute < utcMinutes)
+            .map(minute => addMinutes(start, minute)),
     ]
 
     // Find the lastest image available and adjust the dates
@@ -162,9 +154,7 @@ async function computeCurrentConditionsUrls({
         dates = dates.splice(dates.length - amount)
     }
 
-    return dates.map(date =>
-        formatCurrentConditionsUrl(type, date)
-    )
+    return dates.map(date => formatCurrentConditionsUrl(type, date))
 }
 
 export function formatForecastUrl(type, date, run, hour) {
@@ -176,11 +166,14 @@ export function formatForecastUrl(type, date, run, hour) {
         domain,
         year,
         month,
-        day, [
+        day,
+        [
             Forecast.getIn([type, 'id']),
             year + month + day + padstart(run, 2, '0'),
-            padstart(hour, 3, '0') + 'HR.' + Forecast.getIn([type, 'extension']),
-        ].join('_')
+            padstart(hour, 3, '0') +
+                'HR.' +
+                Forecast.getIn([type, 'extension']),
+        ].join('_'),
     ].join('/')
 }
 
@@ -195,16 +188,17 @@ function formatCurrentConditionsUrl(type, date) {
         domain,
         year,
         month,
-        day, [
+        day,
+        [
             CurrentConditions.getIn([type, 'id']),
             year + month + day,
             `${hour}${minute}Z.${CurrentConditions.getIn([type, 'extension'])}`,
-        ].join('_')
+        ].join('_'),
     ].join('/')
 }
 
 async function getRun(type, date) {
-    const {runs, hours} = Forecast.get(type)
+    const { runs, hours } = Forecast.get(type)
 
     for (let i = runs.length - 1; i >= 0; i--) {
         const run = runs[i]

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withProps} from 'recompose'
+import { withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
-import BasePanel, {INVERSE} from '~/components/panel'
+import BasePanel, { INVERSE } from '~/components/panel'
 import Generic from '~/prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
@@ -23,13 +23,13 @@ HotZoneReport.propTypes = {
     next: PropTypes.object,
 }
 
-function HotZoneReport({report, previous, next}) {
+function HotZoneReport({ report, previous, next }) {
     const title = get(report, 'title')
     const headline = get(report, 'headline')
     let gallery = null
 
     if (report) {
-        const images = report.images.map(({url, caption}) => ({
+        const images = report.images.map(({ url, caption }) => ({
             original: url,
             description: caption,
         }))
@@ -43,29 +43,25 @@ function HotZoneReport({report, previous, next}) {
     }
 
     return (
-        <div styleName='HotZoneReport'>
+        <div styleName="HotZoneReport">
             <ArchiveWarning report={report} next={next} previous={previous} />
             {title &&
-                <div styleName='Title'>
+                <div styleName="Title">
                     {title}
-                </div>
-            }
+                </div>}
             {headline &&
-                <div styleName='Headline'>
+                <div styleName="Headline">
                     {headline}
-                </div>
-            }
-            {gallery &&
-                <ImageGallery {...gallery} />
-            }
+                </div>}
+            {gallery && <ImageGallery {...gallery} />}
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
-            <Panel header='More information'>
-                <Generic uid='hot-zone-report-more-information' />
+            <Panel header="More information">
+                <Generic uid="hot-zone-report-more-information" />
             </Panel>
-            <Panel header='About'>
-                <Generic uid='hot-zone-report-about' />
+            <Panel header="About">
+                <Generic uid="hot-zone-report-about" />
             </Panel>
         </div>
     )

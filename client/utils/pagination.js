@@ -8,7 +8,7 @@ export default function pagination(current, total, delta = 2, fill = '...') {
     let l
 
     for (let i = 1; i <= total; i++) {
-        if (i == 1 || i == total || i >= left && i < right) {
+        if (i == 1 || i == total || (i >= left && i < right)) {
             range.push(i)
         }
     }

@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 
 export function isMenuOpen(state) {
     return state.drawers.menu.get('open')
@@ -27,9 +27,8 @@ export function getLayer(state, layer) {
     return state.drawers.menu.getIn(['layers', layer])
 }
 
-export const getVisibleLayers = createSelector(
-    getLayers,
-    layers => layers.filter(layer => layer.visible)
+export const getVisibleLayers = createSelector(getLayers, layers =>
+    layers.filter(layer => layer.visible)
 )
 
 export function isLayerVisible(state, layer) {

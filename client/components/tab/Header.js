@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Tab.css'
-import Button, {INCOGNITO} from '~/components/button'
-import {ExpandLess, ExpandMore} from '~/components/icons'
+import Button, { INCOGNITO } from '~/components/button'
+import { ExpandLess, ExpandMore } from '~/components/icons'
 import noop from 'lodash/noop'
 
 Header.propTypes = {
@@ -17,7 +17,7 @@ Header.propTypes = {
     disabled: PropTypes.bool,
 }
 
-function computeArrowStyle({color}) {
+function computeArrowStyle({ color }) {
     if (!color) {
         return null
     }
@@ -27,7 +27,7 @@ function computeArrowStyle({color}) {
     }
 }
 
-function computeStyle({color, active}) {
+function computeStyle({ color, active }) {
     if (!color) {
         return null
     }
@@ -54,7 +54,7 @@ function Header({
     children,
 }) {
     const icon = expanded ? <ExpandLess inverse /> : <ExpandMore inverse />
-    const style = computeStyle({color, active, arrow})
+    const style = computeStyle({ color, active, arrow })
     let styleName = 'ListItem'
     const showArrow = arrow && active
 
@@ -65,12 +65,20 @@ function Header({
     }
 
     return (
-        <li role='tab' {...{onClick, styleName, style}} >
+        <li role="tab" {...{ onClick, styleName, style }}>
             {children}
             {showArrow &&
-                <span styleName='ListItem--Arrow' style={computeArrowStyle({color})} />
-            }
-            <Button type='button' styleName='ExpandButton' kind={INCOGNITO} onClick={onExpandClick} icon={icon} />
+                <span
+                    styleName="ListItem--Arrow"
+                    style={computeArrowStyle({ color })}
+                />}
+            <Button
+                type="button"
+                styleName="ExpandButton"
+                kind={INCOGNITO}
+                onClick={onExpandClick}
+                icon={icon}
+            />
         </li>
     )
 }

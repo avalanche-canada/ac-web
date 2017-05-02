@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {compose, withState, withHandlers, onlyUpdateForKeys} from 'recompose'
+import { compose, withState, withHandlers, onlyUpdateForKeys } from 'recompose'
 import styles from './Panel.css'
-import {Collapse} from '~/components/misc'
-import {Expand} from '~/components/button'
-import {titleOf} from '~/utils/string'
+import { Collapse } from '~/components/misc'
+import { Expand } from '~/components/button'
+import { titleOf } from '~/utils/string'
 
 export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
@@ -37,24 +37,27 @@ function Panel({
     onHeaderClick,
     children,
 }) {
-    const styleName = expandable ? `Container--${theme}--Expandable` : `Container--${theme}`
+    const styleName = expandable
+        ? `Container--${theme}--Expandable`
+        : `Container--${theme}`
 
     return (
         <div styleName={styleName}>
-            <header styleName='Header' onClick={onHeaderClick}>
-                {expandable && <Expand styleName='Expand' expanded={expanded} />}
-                <span styleName='Title' title={titleOf(header)}>
+            <header styleName="Header" onClick={onHeaderClick}>
+                {expandable &&
+                    <Expand styleName="Expand" expanded={expanded} />}
+                <span styleName="Title" title={titleOf(header)}>
                     {header}
                 </span>
             </header>
-            <div styleName='Content'>
-                {expandable ?
-                    <Collapse collapsed={!expanded}>
-                        <div style={STYLE}>
-                            {children}
-                        </div>
-                    </Collapse>
-                : children}
+            <div styleName="Content">
+                {expandable
+                    ? <Collapse collapsed={!expanded}>
+                          <div style={STYLE}>
+                              {children}
+                          </div>
+                      </Collapse>
+                    : children}
             </div>
         </div>
     )
@@ -70,7 +73,7 @@ export default compose(
             }
 
             props.setExpanded(!props.expanded)
-        }
+        },
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Panel)

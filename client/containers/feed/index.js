@@ -1,10 +1,10 @@
-import {feed} from '~/containers/connectors'
+import { feed } from '~/containers/connectors'
 import {
     Feed as FeedComponent,
-    FilterSet as FilterSetComponent
+    FilterSet as FilterSetComponent,
 } from '~/components/feed'
 import Post from './Post'
-import {withProps} from 'recompose'
+import { withProps } from 'recompose'
 
 export Splash from './Splash'
 export const Feed = feed(FeedComponent)

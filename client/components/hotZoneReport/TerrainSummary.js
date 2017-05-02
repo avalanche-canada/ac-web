@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Section from '~/components/mountainInformationNetwork/Section'
-import {List, Term, Definition} from '~/components/description'
-import {InnerHTML} from '~/components/misc'
+import { List, Term, Definition } from '~/components/description'
+import { InnerHTML } from '~/components/misc'
 import styles from './HotZoneReport.css'
 
 TerrainSummary.propTypes = {
@@ -29,9 +29,9 @@ AvoidList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function AvoidList({items}) {
+function AvoidList({ items }) {
     return (
-        <ul styleName='List'>
+        <ul styleName="List">
             {Object.keys(items).map(name => (
                 <li key={name} styleName={items[name] ? 'Avoid' : 'Okay'}>
                     {Titles.get(name) || name}
@@ -43,7 +43,7 @@ function AvoidList({items}) {
 
 const StyledAvoidList = CSSModules(AvoidList, styles)
 
-function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
+function TerrainSummary({ title, aspect, terrainFeatures, travelAdvice }) {
     return (
         <Section title={title}>
             <List>
@@ -55,8 +55,8 @@ function TerrainSummary({title, aspect, terrainFeatures, travelAdvice}) {
                 <Definition>
                     <StyledAvoidList items={terrainFeatures} />
                 </Definition>
-                <Term block >Travel advice</Term>
-                <Definition block styleName='TravelAdvice'>
+                <Term block>Travel advice</Term>
+                <Definition block styleName="TravelAdvice">
                     <InnerHTML>
                         {travelAdvice}
                     </InnerHTML>

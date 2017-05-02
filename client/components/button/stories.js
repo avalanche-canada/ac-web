@@ -1,8 +1,23 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {withKnobs, number, boolean, text, select} from '@kadira/storybook-addon-knobs'
-import Button, {Expand, Sorting, Close, Locate, SECONDARY, PRIMARY, TERTIARY, INCOGNITO} from './index'
-import KIND, {ALL as KINDS} from './kinds'
+import { storiesOf, action } from '@kadira/storybook'
+import {
+    withKnobs,
+    number,
+    boolean,
+    text,
+    select,
+} from '@kadira/storybook-addon-knobs'
+import Button, {
+    Expand,
+    Sorting,
+    Close,
+    Locate,
+    SECONDARY,
+    PRIMARY,
+    TERTIARY,
+    INCOGNITO,
+} from './index'
+import KIND, { ALL as KINDS } from './kinds'
 
 const stories = storiesOf('Button', module)
 
@@ -34,7 +49,7 @@ stories.add('Sorting', () => <Sorting />)
 stories.add('Close', () => <Close />)
 stories.add('Locate', () => <Locate />)
 stories.add('Button w/ default chevron', () => (
-  <Button chevron>
-      Create report
-  </Button>
+    <Button chevron>
+        Create report
+    </Button>
 ))

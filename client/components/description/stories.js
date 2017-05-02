@@ -1,12 +1,12 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
+import { storiesOf, action } from '@kadira/storybook'
 import List from './List'
 import Term from './Term'
 import Definition from './Definition'
 
 function description(columns, theme) {
     return (
-        <List {...{columns, theme}} >
+        <List {...{ columns, theme }}>
             <Term>Telephone</Term>
             <Definition>(000) 000-0000</Definition>
             <Term>Email</Term>
@@ -22,7 +22,7 @@ function description(columns, theme) {
 }
 
 storiesOf('Description', module)
-.add('1 Column', () => description(1))
-.add('2 Columns', () => description(2))
-.add('Inverse 1 Column', () => description(1, 'Inverse'))
-.add('Inverse 2 Columns', () => description(2, 'Inverse'))
+    .add('1 Column', () => description(1))
+    .add('2 Columns', () => description(2))
+    .add('Inverse 1 Column', () => description(1, 'Inverse'))
+    .add('Inverse 2 Columns', () => description(2, 'Inverse'))

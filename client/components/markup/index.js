@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Element} from '~/compose'
+import { Element } from '~/compose'
 import styles from './Markup.css'
 
 Markup.propTypes = {
     children: PropTypes.string,
 }
 
-export function Markup({children}) {
+export function Markup({ children }) {
     if (!children) {
         return null
     }
@@ -20,7 +20,7 @@ export function Markup({children}) {
 
     return (
         <div>
-            {parts.map(text => [text, <br/>])}
+            {parts.map(text => [text, <br />])}
         </div>
     )
 }

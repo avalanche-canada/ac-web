@@ -1,4 +1,4 @@
-import React, {Children, cloneElement} from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './OptionSet.css'
@@ -14,20 +14,20 @@ function OptionSet({
     show = false,
     selected = new Set(),
     onOptionClick,
-    children
+    children,
 }) {
     if (!show) {
         return null
     }
 
     return (
-        <div styleName='OptionSet'>
-            {Children.map(children, option => (
+        <div styleName="OptionSet">
+            {Children.map(children, option =>
                 cloneElement(option, {
                     active: selected.has(option.props.value),
                     onClick: onOptionClick,
                 })
-            ))}
+            )}
         </div>
     )
 }

@@ -1,8 +1,8 @@
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
-import {DESC, NONE} from '~/constants/sortings'
+import { DESC, NONE } from '~/constants/sortings'
 
-function merge(location, {query = {}, state = {}, ...rest}) {
+function merge(location, { query = {}, state = {}, ...rest }) {
     return {
         ...location,
         ...rest,
@@ -17,32 +17,40 @@ function merge(location, {query = {}, state = {}, ...rest}) {
     }
 }
 
-export function push(newLocation, {router, location}) {
+export function push(newLocation, { router, location }) {
     return router.push(merge(location, newLocation))
 }
 
-export function replace(newLocation, {router, location}) {
+export function replace(newLocation, { router, location }) {
     return router.replace(merge(location, newLocation))
 }
 
 export function valueHandlerFactory(name, format = identity) {
     return props => value => {
-        push({
-            query: {
-                // "undefined" removes the query params
-                [name]: value === null ? undefined : format(value)
-            }
-        }, props)
+        push(
+            {
+                query: {
+                    // "undefined" removes the query params
+                    [name]: value === null ? undefined : format(value),
+                },
+            },
+            props
+        )
     }
 }
 
 export function sortingHandlerFactory(propName = 'sorting') {
     return props => (name, order = NONE) => {
-        replace({
-            query: {
-                [propName]: order === NONE ? undefined : `${order === DESC ? '-' : ''}${name}`
-            }
-        }, props)
+        replace(
+            {
+                query: {
+                    [propName]: order === NONE
+                        ? undefined
+                        : `${order === DESC ? '-' : ''}${name}`,
+                },
+            },
+            props
+        )
     }
 }
 

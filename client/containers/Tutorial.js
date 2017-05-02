@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {Api} from '~/prismic'
-import {Predicates} from 'prismic.io'
+import React, { Component } from 'react'
+import { Api } from '~/prismic'
+import { Predicates } from 'prismic.io'
 import Base from '~/components/tutorial'
 
 export default class Tutorial extends Component {
@@ -13,14 +13,14 @@ export default class Tutorial extends Component {
     load(slug) {
         let promise
 
-        this.setState({isLoading: true, isError: false, document: null})
+        this.setState({ isLoading: true, isError: false, document: null })
 
         if (slug === '') {
             promise = Api.QueryDocumentByBookmark('tutorial-home')
         } else {
             promise = Api.Query([
                 Predicates.at('document.type', 'tutorial-page'),
-                Predicates.at('my.tutorial-page.slug', slug)
+                Predicates.at('my.tutorial-page.slug', slug),
             ]).then(response => response.results[0])
         }
 
@@ -30,14 +30,14 @@ export default class Tutorial extends Component {
         this.setState({
             isLoading: false,
             isError: false,
-            document
+            document,
         })
     }
     onError = error => {
         this.setState({
             isLoading: false,
             isError: true,
-            error
+            error,
         })
 
         throw error
@@ -45,7 +45,7 @@ export default class Tutorial extends Component {
     componentWillMount() {
         this.load(this.props.params.splat)
     }
-    componentWillReceiveProps({params: {splat}}) {
+    componentWillReceiveProps({ params: { splat } }) {
         if (this.props.params.splat !== splat) {
             this.load(splat)
         }

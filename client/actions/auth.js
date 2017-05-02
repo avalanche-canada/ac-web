@@ -1,14 +1,14 @@
-import {createAction} from 'redux-actions'
+import { createAction } from 'redux-actions'
 import Axios from 'axios'
 import AuthService from '~/services/auth'
-import {getIsAuthenticated} from '~/getters/auth'
-import {setUserContext} from '~/services/raven'
+import { getIsAuthenticated } from '~/getters/auth'
+import { setUserContext } from '~/services/raven'
 
 export const TOKEN_RECEIVED = 'TOKEN_RECEIVED'
 export const LOGOUT = 'LOGOUT'
 export const GET_PROFILE = 'GET_PROFILE'
 
-const {idToken, profile} = AuthService.create()
+const { idToken, profile } = AuthService.create()
 
 if (profile) {
     setUserContext(profile)
@@ -36,7 +36,7 @@ export function receiveToken(idToken, accessToken) {
             payload: {
                 id: idToken,
                 access: accessToken,
-            }
+            },
         })
 
         return dispatch(getProfile()).then(profile => {
@@ -64,7 +64,7 @@ export function logout() {
         auth.logout()
 
         return dispatch({
-            type: LOGOUT
+            type: LOGOUT,
         })
     }
 }

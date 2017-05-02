@@ -10,11 +10,11 @@ Description.propTypes = {
     onRemoveClick: PropTypes.func.isRequired,
 }
 
-function Description({index, total, onRemoveClick}) {
+function Description({ index, total, onRemoveClick }) {
     return (
-        <div styleName='Description'>
+        <div styleName="Description">
             {index + 1} / {total}
-            <Button type='button' onClick={onRemoveClick}>
+            <Button type="button" onClick={onRemoveClick}>
                 Remove
             </Button>
         </div>

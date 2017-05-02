@@ -1,5 +1,5 @@
 import noop from 'lodash/noop'
-import {DelayPromise} from '~/utils/promise'
+import { DelayPromise } from '~/utils/promise'
 
 export function createOptimisticAction(tester, action = noop) {
     return payload => (dispatch, getState) => {

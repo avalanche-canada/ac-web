@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import capitalize from 'lodash/capitalize'
-import {Close} from '~/components/button'
+import { Close } from '~/components/button'
 import styles from './Highlight.css'
 import noop from 'lodash/noop'
 
@@ -13,7 +13,12 @@ Highlight.propTypes = {
     onDismiss: PropTypes.func,
 }
 
-function Highlight({style = 'warning', dismissable, onDismiss = noop, children}) {
+function Highlight({
+    style = 'warning',
+    dismissable,
+    onDismiss = noop,
+    children,
+}) {
     return (
         <div styleName={`Highlight--${capitalize(style)}`}>
             {children}

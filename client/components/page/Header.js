@@ -9,9 +9,9 @@ Header.propTypes = {
     children: PropTypes.node,
 }
 
-function Header({title, children}) {
+function Header({ title, children }) {
     return (
-        <header styleName='Header'>
+        <header styleName="Header">
             <h1>{title}</h1>
             <Sponsor />
             {children}

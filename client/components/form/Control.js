@@ -1,4 +1,4 @@
-import React, {Children, cloneElement} from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Form.css'
@@ -8,13 +8,13 @@ Control.propTypes = {
     icon: PropTypes.node,
 }
 
-function Control({icon = null, children, ...props}) {
+function Control({ icon = null, children, ...props }) {
     const withIcon = icon !== null
 
     return (
-        <div styleName='Control' {...props}>
-            {Children.map(children, child => cloneElement(child, {withIcon}))}
-            {withIcon && cloneElement(icon, {height: 40})}
+        <div styleName="Control" {...props}>
+            {Children.map(children, child => cloneElement(child, { withIcon }))}
+            {withIcon && cloneElement(icon, { height: 40 })}
         </div>
     )
 }

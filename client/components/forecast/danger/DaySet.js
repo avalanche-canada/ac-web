@@ -1,11 +1,11 @@
-import React, {Children, cloneElement} from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 
 function cloneDay(day, index) {
     return cloneElement(day, {
-        first: index === 0
+        first: index === 0,
     })
 }
 
@@ -13,9 +13,9 @@ DaySet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function DaySet({children}) {
+function DaySet({ children }) {
     return (
-        <div styleName='DaySet'>
+        <div styleName="DaySet">
             {Children.map(children, cloneDay)}
         </div>
     )

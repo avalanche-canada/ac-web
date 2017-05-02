@@ -1,7 +1,7 @@
-import React, {createElement} from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {TabSet, Tab} from '~/components/tab'
+import { TabSet, Tab } from '~/components/tab'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
@@ -11,37 +11,58 @@ import SliceSet from './tabs/SliceSet'
 import styles from './Forecast.css'
 import Tutorial from '~/containers/WeatherTutorial'
 import Legacy from './legacy'
-import TABS, {SYNOPSIS, DAY1, DAY2, DAY3TO4, DAY5TO7} from '~/components/weather/tabs'
+import TABS, {
+    SYNOPSIS,
+    DAY1,
+    DAY2,
+    DAY3TO4,
+    DAY5TO7,
+} from '~/components/weather/tabs'
 
 const TABS_PROPS = new Map([
-    [SYNOPSIS, {
-        name: 'synopsis',
-        title: 'Synopsis',
-        component: Synopsis,
-    }],
-    [DAY1, {
-        name: 'day1',
-        title: 'Day 1',
-        component: Day1,
-    }],
-    [DAY2, {
-        name: 'day2',
-        title: 'Day 2',
-        component: Day2,
-    }],
-    [DAY3TO4, {
-        name: 'day3To4',
-        title: 'Day 3-4',
-        component: Day3To4,
-    }],
-    [DAY5TO7, {
-        name: 'day5To7',
-        title: 'Day 5-7',
-        component: Day5To7,
-    }],
+    [
+        SYNOPSIS,
+        {
+            name: 'synopsis',
+            title: 'Synopsis',
+            component: Synopsis,
+        },
+    ],
+    [
+        DAY1,
+        {
+            name: 'day1',
+            title: 'Day 1',
+            component: Day1,
+        },
+    ],
+    [
+        DAY2,
+        {
+            name: 'day2',
+            title: 'Day 2',
+            component: Day2,
+        },
+    ],
+    [
+        DAY3TO4,
+        {
+            name: 'day3To4',
+            title: 'Day 3-4',
+            component: Day3To4,
+        },
+    ],
+    [
+        DAY5TO7,
+        {
+            name: 'day5To7',
+            title: 'Day 5-7',
+            component: Day5To7,
+        },
+    ],
 ])
 
-function isLegacy({synopsis}) {
+function isLegacy({ synopsis }) {
     return !Array.isArray(synopsis)
 }
 
@@ -50,8 +71,8 @@ Forecast.propTypes = {
     tabs: PropTypes.arrayOf(PropTypes.oneOf(TABS)),
 }
 
-function Forecast({forecast = {}, tabs = TABS}) {
-    const {date, headline} = forecast
+function Forecast({ forecast = {}, tabs = TABS }) {
+    const { date, headline } = forecast
     let children = null
 
     if (isLegacy(forecast)) {
@@ -60,7 +81,7 @@ function Forecast({forecast = {}, tabs = TABS}) {
         children = (
             <TabSet>
                 {tabs.map(id => {
-                    const {title, component, name} = TABS_PROPS.get(id)
+                    const { title, component, name } = TABS_PROPS.get(id)
                     const group = forecast[name]
                     const slices = forecast[`${name}More`] || group
 
@@ -68,7 +89,7 @@ function Forecast({forecast = {}, tabs = TABS}) {
                         return null
                     }
                     const props = {
-                        date
+                        date,
                     }
 
                     if (group) {
@@ -83,16 +104,16 @@ function Forecast({forecast = {}, tabs = TABS}) {
                         </Tab>
                     )
                 })}
-                <Tab title='Tutorials'>
-                    <Tutorial uid='weather' />
+                <Tab title="Tutorials">
+                    <Tutorial uid="weather" />
                 </Tab>
             </TabSet>
         )
     }
 
     return (
-        <section styleName='Container'>
-            <h2 styleName='Headline'>{headline}</h2>
+        <section styleName="Container">
+            <h2 styleName="Headline">{headline}</h2>
             {children}
         </section>
     )

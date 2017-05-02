@@ -6,16 +6,20 @@ import Redirect from 'react-router/lib/Redirect'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import startOfDay from 'date-fns/start_of_day'
-import {load} from '~/actions/prismic'
+import { load } from '~/actions/prismic'
 import * as DrawersActions from '~/actions/drawers'
 import * as MapActions from '~/actions/map'
 import * as Drawers from '~/containers/drawers'
-import {getIsAuthenticated} from '~/getters/auth'
+import { getIsAuthenticated } from '~/getters/auth'
 import QueryString from 'query-string'
-import {receiveToken} from '~/actions/auth'
-import {loadSponsors, setActiveSponsor, resetActiveSponsor} from '~/actions/sponsors'
+import { receiveToken } from '~/actions/auth'
+import {
+    loadSponsors,
+    setActiveSponsor,
+    resetActiveSponsor,
+} from '~/actions/sponsors'
 import AuthService from '~/services/auth'
-import {FallbackPage} from '~/prismic/components/page'
+import { FallbackPage } from '~/prismic/components/page'
 import {
     About,
     Sponsors,
@@ -58,29 +62,31 @@ import {
     EarlySeasonConditions,
     Glossary,
 } from 'containers'
-import {Forecast as WeatherForecast} from '~/containers/Weather'
+import { Forecast as WeatherForecast } from '~/containers/Weather'
 import * as Feed from '~/containers/feed'
 import * as Foundation from '~/containers/foundation'
 import * as Funds from '~/containers/funds'
 import * as Layouts from '~/layouts'
 import * as table from '~/layouts/min/table'
-import {NotFound} from '~/components/page'
+import { NotFound } from '~/components/page'
 import * as articles from '~/components/page/weather/articles'
-import {AvalancheCanadaFoundation} from '~/containers/Navbar'
+import { AvalancheCanadaFoundation } from '~/containers/Navbar'
 import ReactGA from '~/services/analytics'
 import postRedirects from './postRedirects'
-import {getForecastRegionExternalUrl} from '~/getters/api'
+import { getForecastRegionExternalUrl } from '~/getters/api'
 import * as Schemas from '~/api/schemas'
 
 export default function computeRoutes(store) {
-    const {dispatch, getState} = store
+    const { dispatch, getState } = store
     let external = null
 
-    function handleActiveSponsor({routes, params}) {
-        const [route] = routes.filter(({sponsorRef}) => Boolean(sponsorRef)).reverse()
+    function handleActiveSponsor({ routes, params }) {
+        const [route] = routes
+            .filter(({ sponsorRef }) => Boolean(sponsorRef))
+            .reverse()
 
         if (route) {
-            const {sponsorRef} = route
+            const { sponsorRef } = route
 
             if (sponsorRef === 'Forecast' && params.name === 'kananaskis') {
                 dispatch(setActiveSponsor('kananaskis'))
@@ -101,18 +107,22 @@ export default function computeRoutes(store) {
 
     function handleRootRouteEnter(props) {
         ReactGA.pageview(props.location.pathname)
-        dispatch(load({
-            type: 'sponsor',
-            options: {
-                pageSize: 100
-            }
-        }))
+        dispatch(
+            load({
+                type: 'sponsor',
+                options: {
+                    pageSize: 100,
+                },
+            })
+        )
         dispatch(loadSponsors())
         handleActiveSponsor(props)
     }
 
-    function handleLoginCompleteRouteEnter({location}, replace) {
-        const {id_token, access_token, state} = QueryString.parse(location.hash)
+    function handleLoginCompleteRouteEnter({ location }, replace) {
+        const { id_token, access_token, state } = QueryString.parse(
+            location.hash
+        )
 
         if (id_token && access_token) {
             dispatch(receiveToken(id_token, access_token))
@@ -133,15 +143,17 @@ export default function computeRoutes(store) {
 
     // TODO: Move that function
     function loadStaffList() {
-        dispatch(load({
-            type: 'staff',
-            options: {
-                pageSize: 100
-            }
-        }))
+        dispatch(
+            load({
+                type: 'staff',
+                options: {
+                    pageSize: 100,
+                },
+            })
+        )
     }
 
-    function requireAuth({location}, replace, callback) {
+    function requireAuth({ location }, replace, callback) {
         const state = getState()
 
         if (getIsAuthenticated(state)) {
@@ -156,8 +168,8 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleEventFeedEnter({location}, replace) {
-        const {query} = location
+    function handleEventFeedEnter({ location }, replace) {
+        const { query } = location
 
         if (typeof query.timeline === 'string') {
             return
@@ -165,20 +177,20 @@ export default function computeRoutes(store) {
 
         query.timeline = 'upcoming'
 
-        replace({...location, query})
+        replace({ ...location, query })
     }
 
-    function handleMapForecastRouteEnter({params}) {
+    function handleMapForecastRouteEnter({ params }) {
         handleExternalForecast(params.name)
     }
 
-    function handleMapForecastRouteChange(prev, {params: {name}}) {
+    function handleMapForecastRouteChange(prev, { params: { name } }) {
         if (name !== prev.params.name) {
             handleExternalForecast(name)
         }
     }
 
-    function handlePageForecastRouteEnter({params: {name}}, replace) {
+    function handlePageForecastRouteEnter({ params: { name } }, replace) {
         if (handleExternalForecast(name)) {
             replace(`/map/forecasts/${name}`)
         }
@@ -205,15 +217,21 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleArchiveForecastRouteEnter({params: {name, date}}, replace) {
-        if (!date || isBefore(parse(date, 'YYYY-MM-DD'), startOfDay(new Date()))) {
+    function handleArchiveForecastRouteEnter(
+        { params: { name, date } },
+        replace
+    ) {
+        if (
+            !date ||
+            isBefore(parse(date, 'YYYY-MM-DD'), startOfDay(new Date()))
+        ) {
             return
         }
 
         replace(`/forecasts/${name}`)
     }
 
-    function handleNotFoundRouteEnter({location}) {
+    function handleNotFoundRouteEnter({ location }) {
         ReactGA.event({
             category: 'Navigation',
             action: 'Not Found',
@@ -223,7 +241,7 @@ export default function computeRoutes(store) {
     }
 
     /* eslint-disable no-unused-vars */
-    function redirect({location}, replace, callback) {
+    function redirect({ location }, replace, callback) {
         // Need callback, it is not working if not specified
         // See react-router documentation for more details
         // Leave the application and goes to nginx to do appropriate redirect
@@ -236,10 +254,10 @@ export default function computeRoutes(store) {
         [Schemas.HotZoneReport.key, Schemas.HotZone.key],
     ])
 
-    function createActiveFeatures({routes, params, location}) {
+    function createActiveFeatures({ routes, params, location }) {
         const features = []
-        const {panel} = location.query
-        const {name} = params
+        const { panel } = location.query
+        const { name } = params
 
         if (panel) {
             features.push(panel.split('/'))
@@ -256,7 +274,7 @@ export default function computeRoutes(store) {
         return new Map(features)
     }
 
-    function updateDrawersState({routes, location, params}) {
+    function updateDrawersState({ routes, location, params }) {
         if (routes.length > 2 && !handleExternalForecast(params.name)) {
             dispatch(DrawersActions.openPrimaryDrawer())
         } else {
@@ -281,145 +299,394 @@ export default function computeRoutes(store) {
     }
 
     return (
-        <Route path='/' component={Layouts.Root} onEnter={handleRootRouteEnter} onChange={handleRootRouteChange} >
+        <Route
+            path="/"
+            component={Layouts.Root}
+            onEnter={handleRootRouteEnter}
+            onChange={handleRootRouteChange}>
             {/* EMERGENCY REDIRECTS */}
-            {postRedirects.map((redirect, index) =>
+            {postRedirects.map((redirect, index) => (
                 <Redirect key={index} {...redirect} />
-            )}
+            ))}
 
             {/* AUTHORIZATION */}
-            <Route path='login-complete' onEnter={handleLoginCompleteRouteEnter} />
+            <Route
+                path="login-complete"
+                onEnter={handleLoginCompleteRouteEnter}
+            />
             {/* AVALANCHE CANADA */}
-            <IndexRedirect to='map' />
-            <Route path='map/ates' components={{content: Layouts.AtesMap, footer: null}} />
-            <Route path='map' sponsorRef='Forecast' components={{content: Layouts.Map, footer: null}} onEnter={handleMapRouteEnter} onChange={handleMapRouteChange}>
-                <Route path='forecasts' onEnter={handleMapForecastRouteEnter} onChange={handleMapForecastRouteChange} >
-                    <Route path=':name' components={{primary: Drawers.Forecast}} />
+            <IndexRedirect to="map" />
+            <Route
+                path="map/ates"
+                components={{ content: Layouts.AtesMap, footer: null }}
+            />
+            <Route
+                path="map"
+                sponsorRef="Forecast"
+                components={{ content: Layouts.Map, footer: null }}
+                onEnter={handleMapRouteEnter}
+                onChange={handleMapRouteChange}>
+                <Route
+                    path="forecasts"
+                    onEnter={handleMapForecastRouteEnter}
+                    onChange={handleMapForecastRouteChange}>
+                    <Route
+                        path=":name"
+                        components={{ primary: Drawers.Forecast }}
+                    />
                 </Route>
-                <Route path='hot-zone-reports'>
-                    <Route path=':name' components={{primary: Drawers.HotZoneReport}} />
+                <Route path="hot-zone-reports">
+                    <Route
+                        path=":name"
+                        components={{ primary: Drawers.HotZoneReport }}
+                    />
                 </Route>
             </Route>
-            <Route path='mountain-information-network' sponsorRef='MIN' component={MountainInformationNetwork} />
-            <Route path='mountain-information-network/submit' sponsorRef='MIN' component={MountainInformationNetworkSubmit} onEnter={requireAuth} />
-            <Redirect from='submit' to='mountain-information-network/submit' />
-            <Route path='mountain-information-network/faq' sponsorRef='MIN' component={MountainInformationNetworkFAQ} />
-            <Route path='mountain-information-network/submission-guidelines' sponsorRef='MIN' component={MountainInformationNetworkSubmissionGuidelines} />
-            <Route path='mountain-information-network/submissions/:id' sponsorRef='MIN' component={MountainInformationNetworkSubmission} />
-            <Route path='mountain-information-network/submissions' sponsorRef='MIN' component={table.Page} />
-            <Route path='about' sponsorRef='About' component={About} onEnter={handleAboutRouteEnter} />
-            <Route path='events' sponsorRef='EventIndex' component={Layouts.EventFeed} onEnter={handleEventFeedEnter} />
-            <Route path='events/:uid' sponsorRef='EventPage' component={Feed.EventPost} />
-            <Route path='news' sponsorRef='NewsIndex' component={Layouts.NewsFeed} />
-            <Route path='news/:uid' sponsorRef='NewsPage' component={Feed.NewsPost} />
-            <Route path='blogs' sponsorRef='BlogIndex' component={Layouts.BlogFeed} />
-            <Route path='blogs/:uid' sponsorRef='BlogPage' component={Feed.BlogPost} />
+            <Route
+                path="mountain-information-network"
+                sponsorRef="MIN"
+                component={MountainInformationNetwork}
+            />
+            <Route
+                path="mountain-information-network/submit"
+                sponsorRef="MIN"
+                component={MountainInformationNetworkSubmit}
+                onEnter={requireAuth}
+            />
+            <Redirect from="submit" to="mountain-information-network/submit" />
+            <Route
+                path="mountain-information-network/faq"
+                sponsorRef="MIN"
+                component={MountainInformationNetworkFAQ}
+            />
+            <Route
+                path="mountain-information-network/submission-guidelines"
+                sponsorRef="MIN"
+                component={MountainInformationNetworkSubmissionGuidelines}
+            />
+            <Route
+                path="mountain-information-network/submissions/:id"
+                sponsorRef="MIN"
+                component={MountainInformationNetworkSubmission}
+            />
+            <Route
+                path="mountain-information-network/submissions"
+                sponsorRef="MIN"
+                component={table.Page}
+            />
+            <Route
+                path="about"
+                sponsorRef="About"
+                component={About}
+                onEnter={handleAboutRouteEnter}
+            />
+            <Route
+                path="events"
+                sponsorRef="EventIndex"
+                component={Layouts.EventFeed}
+                onEnter={handleEventFeedEnter}
+            />
+            <Route
+                path="events/:uid"
+                sponsorRef="EventPage"
+                component={Feed.EventPost}
+            />
+            <Route
+                path="news"
+                sponsorRef="NewsIndex"
+                component={Layouts.NewsFeed}
+            />
+            <Route
+                path="news/:uid"
+                sponsorRef="NewsPage"
+                component={Feed.NewsPost}
+            />
+            <Route
+                path="blogs"
+                sponsorRef="BlogIndex"
+                component={Layouts.BlogFeed}
+            />
+            <Route
+                path="blogs/:uid"
+                sponsorRef="BlogPage"
+                component={Feed.BlogPost}
+            />
             {/* FORECAST */}
-            <Route path='forecasts/archives(/:name)(/:date)' component={ArchiveForecast} onEnter={handleArchiveForecastRouteEnter} />
-            <Route path='forecasts' sponsorRef='Forecast' components={{content: Forecasts, footer: null}} />
-            <Route path='forecasts/:name(/:date)' sponsorRef='Forecast' component={Forecast} onEnter={handlePageForecastRouteEnter} />
-            <Redirect from='forecast/:name' to='forecasts/:name' />
+            <Route
+                path="forecasts/archives(/:name)(/:date)"
+                component={ArchiveForecast}
+                onEnter={handleArchiveForecastRouteEnter}
+            />
+            <Route
+                path="forecasts"
+                sponsorRef="Forecast"
+                components={{ content: Forecasts, footer: null }}
+            />
+            <Route
+                path="forecasts/:name(/:date)"
+                sponsorRef="Forecast"
+                component={Forecast}
+                onEnter={handlePageForecastRouteEnter}
+            />
+            <Redirect from="forecast/:name" to="forecasts/:name" />
             {/* HOT ZONE REPORT */}
-            <Route path='hot-zone-reports/archives(/:name)(/:date)' sponsorRef='Forecast' component={ArchiveHotZoneReport} />
-            <Route path='hot-zone-reports/:name(/:uid)' sponsorRef='Forecast' component={HotZoneReport} />
+            <Route
+                path="hot-zone-reports/archives(/:name)(/:date)"
+                sponsorRef="Forecast"
+                component={ArchiveHotZoneReport}
+            />
+            <Route
+                path="hot-zone-reports/:name(/:uid)"
+                sponsorRef="Forecast"
+                component={HotZoneReport}
+            />
             {/* WEATHER */}
-            <Route path='weather/stations/:id' component={WeatherStation} />
-            <Route path='weather/stations' component={WeatherStationList} />
-            <Route path='weather' sponsorRef='Weather' component={Layouts.Weather}>
-                <IndexRedirect to='forecast' />
-                <Route path='forecast(/:date)' component={WeatherForecast} />
-                <Route path='hourly-precipitation' component={articles.HourlyPrecipitation} />
-                <Route path='12h-precipitation' component={articles.Precipitation12h} />
-                <Route path='temperatures' component={articles.Temperatures} />
-                <Route path='winds' component={articles.Winds} />
-                <Route path='surface-maps' component={articles.SurfaceMaps} />
-                <Route path='other-maps' component={articles.OtherMaps} />
-                <Route path='radar' component={articles.Radar} />
-                <Route path='satellite' component={articles.Satellite} />
-                <Route path='actual-temperatures' component={articles.ActualTemperatures} />
-                <Route path='warnings' component={articles.Warnings} />
+            <Route path="weather/stations/:id" component={WeatherStation} />
+            <Route path="weather/stations" component={WeatherStationList} />
+            <Route
+                path="weather"
+                sponsorRef="Weather"
+                component={Layouts.Weather}>
+                <IndexRedirect to="forecast" />
+                <Route path="forecast(/:date)" component={WeatherForecast} />
+                <Route
+                    path="hourly-precipitation"
+                    component={articles.HourlyPrecipitation}
+                />
+                <Route
+                    path="12h-precipitation"
+                    component={articles.Precipitation12h}
+                />
+                <Route path="temperatures" component={articles.Temperatures} />
+                <Route path="winds" component={articles.Winds} />
+                <Route path="surface-maps" component={articles.SurfaceMaps} />
+                <Route path="other-maps" component={articles.OtherMaps} />
+                <Route path="radar" component={articles.Radar} />
+                <Route path="satellite" component={articles.Satellite} />
+                <Route
+                    path="actual-temperatures"
+                    component={articles.ActualTemperatures}
+                />
+                <Route path="warnings" component={articles.Warnings} />
             </Route>
-            <Route path='sponsors' component={Sponsors} />
-            <Route path='collaborators' component={Collaborators} />
-            <Route path='ambassadors' component={Ambassadors} />
-            <Redirect from='learn' to='training' />
-            <Route path='training' sponsorRef='Training' >
+            <Route path="sponsors" component={Sponsors} />
+            <Route path="collaborators" component={Collaborators} />
+            <Route path="ambassadors" component={Ambassadors} />
+            <Redirect from="learn" to="training" />
+            <Route path="training" sponsorRef="Training">
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
-                    <Route path='providers' components={{table: ProvidersTable, form: ProvidersForm}} />
-                    <Route path='courses' sponsorRef='TrainingCourses' components={{table: CoursesTable, form: CoursesForm}} />
+                    <Route
+                        path="providers"
+                        components={{
+                            table: ProvidersTable,
+                            form: ProvidersForm,
+                        }}
+                    />
+                    <Route
+                        path="courses"
+                        sponsorRef="TrainingCourses"
+                        components={{ table: CoursesTable, form: CoursesForm }}
+                    />
                 </Route>
             </Route>
-            <Route path='faq' component={FAQ} />
-            <Route path='planning' component={Planning} />
-            <Route path='information' component={Information} />
-            <Route path='tech' component={Tech} />
-            <Route path='early-season-conditions' component={EarlySeasonConditions} />
-            <Route path='instructing-ast' sponsorRef='Training' component={InstructingAst} />
-            <Route path='youth' sponsorRef='Youth' component={Youth} />
-            <Route path='gear' sponsorRef='Gear' component={Gear} />
-            <Route path='sled' component={Sled} onEnter={handleSledPageEnter} />
-            <Route path='tutorial/*' component={Tutorial} />
-            <Redirect from='tutorial' to='tutorial/' />
-            <Route path='auction' components={{content: Auction, footer: null}} />
-            <Route path='tutoriel' components={{content: Tutoriel, footer: null}} />
-            <Route path='terms-of-use' component={TermsOfUse} />
-            <Route path='privacy-policy' component={PrivacyPolicy} />
-            <Route path='trip-planner' components={{content: TripPlanner, footer: null}} />
-            <Route path='incidents' components={{content: Incidents, footer: null}} />
-            <Route path='membership' component={MembershipOverview} />
-            <Route path='glossary' component={Glossary} />
+            <Route path="faq" component={FAQ} />
+            <Route path="planning" component={Planning} />
+            <Route path="information" component={Information} />
+            <Route path="tech" component={Tech} />
+            <Route
+                path="early-season-conditions"
+                component={EarlySeasonConditions}
+            />
+            <Route
+                path="instructing-ast"
+                sponsorRef="Training"
+                component={InstructingAst}
+            />
+            <Route path="youth" sponsorRef="Youth" component={Youth} />
+            <Route path="gear" sponsorRef="Gear" component={Gear} />
+            <Route path="sled" component={Sled} onEnter={handleSledPageEnter} />
+            <Route path="tutorial/*" component={Tutorial} />
+            <Redirect from="tutorial" to="tutorial/" />
+            <Route
+                path="auction"
+                components={{ content: Auction, footer: null }}
+            />
+            <Route
+                path="tutoriel"
+                components={{ content: Tutoriel, footer: null }}
+            />
+            <Route path="terms-of-use" component={TermsOfUse} />
+            <Route path="privacy-policy" component={PrivacyPolicy} />
+            <Route
+                path="trip-planner"
+                components={{ content: TripPlanner, footer: null }}
+            />
+            <Route
+                path="incidents"
+                components={{ content: Incidents, footer: null }}
+            />
+            <Route path="membership" component={MembershipOverview} />
+            <Route path="glossary" component={Glossary} />
             {/* Cherry Bowl */}
-            <Route path='cherry-bowl' component={CherryBowl} onEnter={redirect} />
-            <Redirect from='cherrybowl' to='cherry-bowl' />
+            <Route
+                path="cherry-bowl"
+                component={CherryBowl}
+                onEnter={redirect}
+            />
+            <Redirect from="cherrybowl" to="cherry-bowl" />
             {/* REDIRECTS */}
-            <Redirect from='min' to='mountain-information-network' />
-            <Redirect from='min/submit' to='mountain-information-network/submit' />
-            <Redirect from='min/faq' to='mountain-information-network/faq' />
-            <Redirect from='min/submission-guidelines' to='mountain-information-network/submission-guidelines' />
-            <Redirect from='min/submissions/:id' to='mountain-information-network/submissions/:id' />
-            <Redirect from='min/submissions' to='mountain-information-network/submissions' />
+            <Redirect from="min" to="mountain-information-network" />
+            <Redirect
+                from="min/submit"
+                to="mountain-information-network/submit"
+            />
+            <Redirect from="min/faq" to="mountain-information-network/faq" />
+            <Redirect
+                from="min/submission-guidelines"
+                to="mountain-information-network/submission-guidelines"
+            />
+            <Redirect
+                from="min/submissions/:id"
+                to="mountain-information-network/submissions/:id"
+            />
+            <Redirect
+                from="min/submissions"
+                to="mountain-information-network/submissions"
+            />
             {/* AVALANCHE CANADA FOUNDATION */}
-            <Route path='foundation'>
-                <IndexRoute components={{navbar: AvalancheCanadaFoundation, content: Foundation.Home, footer: null}} />
-                <Route path='about' components={{navbar: AvalancheCanadaFoundation, content: Foundation.About}} onEnter={handleAboutRouteEnter} />
-                <Route path='programs' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Programs}} />
-                <Route path='donors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donors}} />
-                <Route path='event-sponsors' components={{navbar: AvalancheCanadaFoundation, content: Foundation.EventSponsors}} />
-                <Route path='news-and-events' components={{navbar: AvalancheCanadaFoundation, content: Foundation.NewsAndEvents}} />
-                <Route path='funds'>
-                    <Route path='hugh-and-helen-hincks-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.HughAndHelenHincksMemorial}} />
-                    <Route path='craig-kelly-memorial-scholarship' components={{navbar: AvalancheCanadaFoundation, content: Funds.CraigKellyScholarshipMemorial}} />
-                    <Route path='cora-shea-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.CoraSheaMemorial}} />
-                    <Route path='al-hodgson-memorial' components={{navbar: AvalancheCanadaFoundation, content: Funds.AlHodgsonMemorial}} />
-                    <Route path='issw' components={{navbar: AvalancheCanadaFoundation, content: Funds.ISSW}} />
+            <Route path="foundation">
+                <IndexRoute
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.Home,
+                        footer: null,
+                    }}
+                />
+                <Route
+                    path="about"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.About,
+                    }}
+                    onEnter={handleAboutRouteEnter}
+                />
+                <Route
+                    path="programs"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.Programs,
+                    }}
+                />
+                <Route
+                    path="donors"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.Donors,
+                    }}
+                />
+                <Route
+                    path="event-sponsors"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.EventSponsors,
+                    }}
+                />
+                <Route
+                    path="news-and-events"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.NewsAndEvents,
+                    }}
+                />
+                <Route path="funds">
+                    <Route
+                        path="hugh-and-helen-hincks-memorial"
+                        components={{
+                            navbar: AvalancheCanadaFoundation,
+                            content: Funds.HughAndHelenHincksMemorial,
+                        }}
+                    />
+                    <Route
+                        path="craig-kelly-memorial-scholarship"
+                        components={{
+                            navbar: AvalancheCanadaFoundation,
+                            content: Funds.CraigKellyScholarshipMemorial,
+                        }}
+                    />
+                    <Route
+                        path="cora-shea-memorial"
+                        components={{
+                            navbar: AvalancheCanadaFoundation,
+                            content: Funds.CoraSheaMemorial,
+                        }}
+                    />
+                    <Route
+                        path="al-hodgson-memorial"
+                        components={{
+                            navbar: AvalancheCanadaFoundation,
+                            content: Funds.AlHodgsonMemorial,
+                        }}
+                    />
+                    <Route
+                        path="issw"
+                        components={{
+                            navbar: AvalancheCanadaFoundation,
+                            content: Funds.ISSW,
+                        }}
+                    />
                 </Route>
-                <Route path='donate' components={{navbar: AvalancheCanadaFoundation, content: Foundation.Donate}} />
+                <Route
+                    path="donate"
+                    components={{
+                        navbar: AvalancheCanadaFoundation,
+                        content: Foundation.Donate,
+                    }}
+                />
             </Route>
             {/* PAGE FALLBACK. MORE DETAILS at client/prismic/htmlSerializer.js and some redirects */}
-            <Redirect from='/pages/static-page/sled' to='/sled' />
-            <Redirect from='/pages/static-page/youth' to='/youth' />
-            <Redirect from='/pages/static-page/essential-gear' to='/gear' />
-            <Redirect from='/pages/static-page/training' to='/training' />
-            <Redirect from='/pages/static-page/mountain-information-network-overview' to='/mountain-information-network' />
-            <Redirect from='/pages/static-page/mountain-information-network-submission-guidelines' to='/mountain-information-network/submission-guidelines' />
-            <Redirect from='/pages/static-page/about' to='/about' />
-            <Redirect from='/pages/static-page/mountain-information-network-faq' to='/mountain-information-network/faq' />
-            <Redirect from='/pages/static-page/ambassadors' to='/ambassadors' />
-            <Redirect from='/pages/static-page/sponsors' to='/sponsors' />
-            <Redirect from='/pages/static-page/collaborators' to='/collaborators' />
-            <Redirect from='/pages/static-page/membership-overview' to='/membership' />
+            <Redirect from="/pages/static-page/sled" to="/sled" />
+            <Redirect from="/pages/static-page/youth" to="/youth" />
+            <Redirect from="/pages/static-page/essential-gear" to="/gear" />
+            <Redirect from="/pages/static-page/training" to="/training" />
+            <Redirect
+                from="/pages/static-page/mountain-information-network-overview"
+                to="/mountain-information-network"
+            />
+            <Redirect
+                from="/pages/static-page/mountain-information-network-submission-guidelines"
+                to="/mountain-information-network/submission-guidelines"
+            />
+            <Redirect from="/pages/static-page/about" to="/about" />
+            <Redirect
+                from="/pages/static-page/mountain-information-network-faq"
+                to="/mountain-information-network/faq"
+            />
+            <Redirect from="/pages/static-page/ambassadors" to="/ambassadors" />
+            <Redirect from="/pages/static-page/sponsors" to="/sponsors" />
+            <Redirect
+                from="/pages/static-page/collaborators"
+                to="/collaborators"
+            />
+            <Redirect
+                from="/pages/static-page/membership-overview"
+                to="/membership"
+            />
 
-            <Redirect from='generic/privacy-policy' to='privacy-policy' />
-            <Redirect from='generic/terms-of-use' to='terms-of-use' />
-            <Redirect from='generic/auction' to='auction' />
+            <Redirect from="generic/privacy-policy" to="privacy-policy" />
+            <Redirect from="generic/terms-of-use" to="terms-of-use" />
+            <Redirect from="generic/auction" to="auction" />
 
             {/* fxresources has to go to nginx */}
-            <Route path='fxresources/*' onEnter={redirect} />
+            <Route path="fxresources/*" onEnter={redirect} />
 
-            <Route path='pages/:type/:uid' component={FallbackPage} />
+            <Route path="pages/:type/:uid" component={FallbackPage} />
             {/* FALLBACK */}
-            <Route path='*' components={{content: NotFound, footer: null}} onEnter={handleNotFoundRouteEnter} />
+            <Route
+                path="*"
+                components={{ content: NotFound, footer: null }}
+                onEnter={handleNotFoundRouteEnter}
+            />
         </Route>
     )
 }

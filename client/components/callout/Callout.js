@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Callout.css'
 
-// FIXME: values should be uppercase, but it does not work > look at DayPicker in MWF after! 
+// FIXME: values should be uppercase, but it does not work > look at DayPicker in MWF after!
 export const TOP = 'top'
 export const BOTTOM = 'bottom'
 export const LEFT = 'left'
@@ -22,10 +22,10 @@ Callout.propTypes = {
     style: PropTypes.object,
 }
 
-function Callout({children, placement = BOTTOM, style}) {
+function Callout({ children, placement = BOTTOM, style }) {
     return (
         <div styleName={styleNames.get(placement)} style={style}>
-            <div styleName='Inner'>
+            <div styleName="Inner">
                 {children}
             </div>
         </div>

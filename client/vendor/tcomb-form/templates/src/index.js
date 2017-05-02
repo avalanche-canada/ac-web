@@ -1,6 +1,6 @@
 import React from 'react'
-import {DayPicker} from '~/components/misc'
-import {TimePicker} from '~/components/controls'
+import { DayPicker } from '~/components/misc'
+import { TimePicker } from '~/components/controls'
 import styles from './Picker.css'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
@@ -30,19 +30,13 @@ export default {
 export const pickers = {
     date: picker.clone({
         getFormat() {
-            return value => value ? value.toISOString().substring(0, 10) : ''
+            return value => (value ? value.toISOString().substring(0, 10) : '')
         },
         renderButton() {
             return null
         },
         renderContent(locals) {
-            const {
-                value,
-                renderDay,
-                locale,
-                localeUtils,
-                onSelect,
-            } = locals
+            const { value, renderDay, locale, localeUtils, onSelect } = locals
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
@@ -52,15 +46,15 @@ export const pickers = {
                 value,
                 localeUtils,
                 locale,
-                renderDay
+                renderDay,
             }
 
             return <DayPicker {...props} />
-        }
+        },
     }),
     time: picker.clone({
         renderContent(locals) {
-            const {value, onChange, close} = locals
+            const { value, onChange, close } = locals
             function handleKeyDown(event) {
                 if (event.keyCode === 13) {
                     onChange(value)
@@ -68,12 +62,20 @@ export const pickers = {
                 }
             }
 
-            return <TimePicker value={value} onChange={onChange} onKeyDown={handleKeyDown} autoFocus />
-        }
+            return (
+                <TimePicker
+                    value={value}
+                    onChange={onChange}
+                    onKeyDown={handleKeyDown}
+                    autoFocus
+                />
+            )
+        },
     }),
     datetime: picker.clone({
         getFormat() {
-            return value => value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : ''
+            return value =>
+                (value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : '')
         },
         renderContent(locals) {
             const value = locals.value || new Date()
@@ -83,15 +85,12 @@ export const pickers = {
                 locale,
                 localeUtils,
                 onChange,
-                attrs: {
-                    min,
-                    max
-                }
+                attrs: { min, max },
             } = locals
 
             function disabledDays(day) {
                 if (min && max) {
-                    return !isWithinRange(day, min,max)
+                    return !isWithinRange(day, min, max)
                 }
 
                 if (min) {
@@ -115,14 +114,14 @@ export const pickers = {
             const props = {
                 initialMonth: value || undefined,
                 modifiers: {
-                    selected: value
+                    selected: value,
                 },
                 onDayClick,
                 value,
                 localeUtils,
                 disabledDays,
                 locale,
-                renderDay
+                renderDay,
             }
 
             function handleTimeChange(time) {
@@ -140,6 +139,6 @@ export const pickers = {
                     <TimePicker value={time} onChange={handleTimeChange} />
                 </div>
             )
-        }
-    })
+        },
+    }),
 }

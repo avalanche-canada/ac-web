@@ -1,15 +1,15 @@
-import React, {Children, cloneElement} from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import {compose, onlyUpdateForKeys} from 'recompose'
+import { compose, onlyUpdateForKeys } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import {Expand} from '~/components/button'
+import { Expand } from '~/components/button'
 import noop from 'lodash/noop'
 
 const TR_WITH_BUTTON_PROPS = {
     style: {
-        paddingRight: 36
-    }
+        paddingRight: 36,
+    },
 }
 
 Row.propTypes = {
@@ -21,7 +21,7 @@ Row.propTypes = {
     onClick: PropTypes.func,
 }
 
-const TR = <tr></tr>
+const TR = <tr />
 
 function Row({
     children,
@@ -29,7 +29,7 @@ function Row({
     onExpandedToggle = noop,
     hide = false,
     controlled = false,
-    onClick
+    onClick,
 }) {
     if (hide) {
         return TR
@@ -45,20 +45,31 @@ function Row({
 
     return (
         <tr styleName={styleName} onClick={onClick}>
-            {expandable ? Children.map(children, (child, index) => {
-                if (index !== lastIndex) {
-                    return child
-                }
+            {expandable
+                ? Children.map(children, (child, index) => {
+                    if (index !== lastIndex) {
+                        return child
+                    }
 
-                const button = <Expand key={index} expanded={expanded} onClick={onExpandedToggle} />
+                    const button = (
+                        <Expand
+                            key={index}
+                            expanded={expanded}
+                            onClick={onExpandedToggle}
+                        />
+                    )
 
-                return cloneElement(child, TR_WITH_BUTTON_PROPS, [child.props.children, button])
-            }) : children}
+                    return cloneElement(child, TR_WITH_BUTTON_PROPS, [
+                        child.props.children,
+                        button,
+                    ])
+                })
+                : children}
         </tr>
     )
 }
 
 export default compose(
     onlyUpdateForKeys(['children', 'hide', 'expanded']),
-    CSSModules(styles, {allowMultiple: true}),
+    CSSModules(styles, { allowMultiple: true })
 )(Row)

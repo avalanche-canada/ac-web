@@ -1,18 +1,18 @@
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 import Immutable from 'immutable'
 import * as Schemas from '~/api/schemas'
-import {getEntityForSchema, getEntitiesForSchema} from '~/getters/entities'
-import {getDocumentsOfType} from '~/getters/prismic'
-import {computeFitBounds} from '~/selectors/map/bounds'
+import { getEntityForSchema, getEntitiesForSchema } from '~/getters/entities'
+import { getDocumentsOfType } from '~/getters/prismic'
+import { computeFitBounds } from '~/selectors/map/bounds'
 import Parser from '~/prismic/parser'
 import camelCase from 'lodash/camelCase'
-import {isHotZoneReportValid, isReportWithinRange} from '~/prismic/utils'
+import { isHotZoneReportValid, isReportWithinRange } from '~/prismic/utils'
 import endOfDay from 'date-fns/end_of_day'
 import parse from 'date-fns/parse'
 
 // TODO: Rework to take advantage of the new prismic structure and loading
 
-function getHotZone(state, {params}) {
+function getHotZone(state, { params }) {
     return getEntityForSchema(state, Schemas.HotZone, params.name)
 }
 
@@ -119,13 +119,17 @@ function extractTerrainAvoidance(report, prefix) {
     prefix = `${prefix}TerrainAvoidance`
 
     const prefixRegExp = new RegExp(`^${prefix}`)
-    const data = report.filter((v, k) => prefixRegExp.test(k))
-                       .mapKeys(k => camelCase(k.replace(prefixRegExp, '')))
-    const aspect = data.mapKeys(k => k.toUpperCase())
-                       .filter((v, k) => ASPECT.has(k))
-                       .map(v => yesNoValues.get(v))
-    const terrainFeatures = HotZoneReport.getIn([prefix, 'terrainFeatures'])
-                            .map((v, k) => yesNoValues.get(data.get(k)))
+    const data = report
+        .filter((v, k) => prefixRegExp.test(k))
+        .mapKeys(k => camelCase(k.replace(prefixRegExp, '')))
+    const aspect = data
+        .mapKeys(k => k.toUpperCase())
+        .filter((v, k) => ASPECT.has(k))
+        .map(v => yesNoValues.get(v))
+    const terrainFeatures = HotZoneReport.getIn([
+        prefix,
+        'terrainFeatures',
+    ]).map((v, k) => yesNoValues.get(data.get(k)))
 
     if (!data.has('travelAdvice') && aspect.isEmpty()) {
         return null
@@ -139,11 +143,14 @@ function extractTerrainAvoidance(report, prefix) {
 }
 function extractCriticalFactors(report) {
     const regExp = /^criticalFactors/
-    const criticalFactors = report.filter((v, k) => regExp.test(k))
-            .mapEntries(([k, v]) => [
-                camelCase(k.replace(regExp, '')),
-                k === 'criticalFactorsComments' || k === 'criticalFactorsQuestions' ? v : yesNoUnknownValues.get(v)
-            ])
+    const criticalFactors = report
+        .filter((v, k) => regExp.test(k))
+        .mapEntries(([k, v]) => [
+            camelCase(k.replace(regExp, '')),
+            k === 'criticalFactorsComments' || k === 'criticalFactorsQuestions'
+                ? v
+                : yesNoUnknownValues.get(v),
+        ])
 
     return HotZoneReport.get('criticalFactors').map((v, k) =>
         criticalFactors.get(k, yesNoUnknownValues.get(v))
@@ -152,28 +159,38 @@ function extractCriticalFactors(report) {
 function transform(raw) {
     const report = Immutable.fromJS(raw)
 
-    return HotZoneReport.map((v, k) => raw[k]).merge({
-        criticalFactors: extractCriticalFactors(report),
-        treelineTerrainAvoidance: extractTerrainAvoidance(report, 'treeline'),
-        belowTreelineTerrainAvoidance: extractTerrainAvoidance(report, 'belowTreeline'),
-        alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
-        images: report.get('hotzoneImages', []).map(image => ({
-            ...image.get('hotzoneImage'),
-            caption: image.get('caption'),
-        })),
-    }).toJSON()
+    return HotZoneReport.map((v, k) => raw[k])
+        .merge({
+            criticalFactors: extractCriticalFactors(report),
+            treelineTerrainAvoidance: extractTerrainAvoidance(
+                report,
+                'treeline'
+            ),
+            belowTreelineTerrainAvoidance: extractTerrainAvoidance(
+                report,
+                'belowTreeline'
+            ),
+            alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
+            images: report.get('hotzoneImages', []).map(image => ({
+                ...image.get('hotzoneImage'),
+                caption: image.get('caption'),
+            })),
+        })
+        .toJSON()
 }
 
 const getValidHotZoneReport = createSelector(
     (state, props) => props.params,
     getParsedHotZoneReports,
-    ({name, uid}, reports) => {
-        const filter = typeof uid === 'string' ?
-            report => report.uid === uid :
-            report => report.region === name && isHotZoneReportValid(report)
+    ({ name, uid }, reports) => {
+        const filter = typeof uid === 'string'
+            ? report => report.uid === uid
+            : report => report.region === name && isHotZoneReportValid(report)
 
-
-        return reports.filter(filter).sortBy(report => report.dateOfIssue).last()
+        return reports
+            .filter(filter)
+            .sortBy(report => report.dateOfIssue)
+            .last()
     }
 )
 
@@ -196,8 +213,8 @@ const getHotZoneReport = createSelector(
 
         if (report) {
             report = transform(report)
-            const {region, uid} = report
-            const {key} = Schema
+            const { region, uid } = report
+            const { key } = Schema
 
             return {
                 region,
@@ -210,7 +227,9 @@ const getHotZoneReport = createSelector(
         } else {
             return {
                 region,
-                title: isLoading ? name : name && `No ${name} report is currently available`,
+                title: isLoading
+                    ? name
+                    : name && `No ${name} report is currently available`,
                 computeBounds,
             }
         }
@@ -240,7 +259,7 @@ export const getArchiveHotZoneReport = createSelector(
     getHotZone,
     getParsedHotZoneReports,
     (state, props) => {
-        const {name} = props.params
+        const { name } = props.params
         const date = parse(props.params.date, 'YYYY-MM-DD')
 
         return function find(report) {
@@ -249,7 +268,7 @@ export const getArchiveHotZoneReport = createSelector(
     },
     (zone, reports, finder) => {
         const props = {
-            title: zone && zone.get('name')
+            title: zone && zone.get('name'),
         }
 
         if (reports.some(finder)) {

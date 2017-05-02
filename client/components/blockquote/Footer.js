@@ -7,9 +7,9 @@ Footer.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Footer({children}) {
+function Footer({ children }) {
     return (
-        <footer styleName='Footer'>
+        <footer styleName="Footer">
             {children}
         </footer>
     )

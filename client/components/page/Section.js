@@ -1,7 +1,7 @@
-import React, {createElement} from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import {compose, onlyUpdateForKeys} from 'recompose'
-import {withHash} from '~/compose'
+import { compose, onlyUpdateForKeys } from 'recompose'
+import { withHash } from '~/compose'
 import CSSModules from 'react-css-modules'
 import Headline from './Headline'
 import styles from './Page.css'
@@ -16,13 +16,15 @@ Section.propTypes = {
 
 // TODO: No header tag if there is no headline
 
-function Section({title, headline, children, hash, level = 1}) {
+function Section({ title, headline, children, hash, level = 1 }) {
     const header = `h${level + 1}`
 
     return (
-        <section styleName='Section'>
+        <section styleName="Section">
             <header>
-                {createElement(header, null,
+                {createElement(
+                    header,
+                    null,
                     hash ? <a href={`#${hash}`}>{title}</a> : title
                 )}
                 {headline && <Headline>{headline}</Headline>}
@@ -35,5 +37,5 @@ function Section({title, headline, children, hash, level = 1}) {
 export default compose(
     withHash,
     onlyUpdateForKeys(['title', 'headline', 'children', 'hash']),
-    CSSModules(styles),
+    CSSModules(styles)
 )(Section)

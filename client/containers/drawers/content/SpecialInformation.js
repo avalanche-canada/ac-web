@@ -1,17 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Header, Container, Body, Navbar, Close} from '~/components/page/drawer'
-import {InnerHTML, Status, DateTime} from '~/components/misc'
-import {Metadata, Entry} from '~/components/metadata'
-import {specialInformation} from '~/containers/connectors'
-import {LocateAsClass} from '~/components/button/Locate'
-import {Wrapper} from '~/components/tooltip'
+import {
+    Header,
+    Container,
+    Body,
+    Navbar,
+    Close,
+} from '~/components/page/drawer'
+import { InnerHTML, Status, DateTime } from '~/components/misc'
+import { Metadata, Entry } from '~/components/metadata'
+import { specialInformation } from '~/containers/connectors'
+import { LocateAsClass } from '~/components/button/Locate'
+import { Wrapper } from '~/components/tooltip'
 
 const LOCATION_STYLE = {
     fontSize: '1.1em',
 }
 const LOCATE_STYLE = {
-    padding: '0.15em'
+    padding: '0.15em',
 }
 
 SpecialInformation.propTypes = {
@@ -22,56 +28,48 @@ SpecialInformation.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function SpecialInformation({
-    report,
-    status,
-    onCloseClick,
-    onLocateClick,
-}) {
+function SpecialInformation({ report, status, onCloseClick, onLocateClick }) {
     return (
         <Container>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject='Special Information'>
+            <Header subject="Special Information">
                 <Status {...status.toJSON()} />
                 {report &&
                     <h1>
                         {report.headline}
-                        <Wrapper tooltip='Display on map'>
-                            <LocateAsClass onClick={onLocateClick} style={LOCATE_STYLE} />
+                        <Wrapper tooltip="Display on map">
+                            <LocateAsClass
+                                onClick={onLocateClick}
+                                style={LOCATE_STYLE}
+                            />
                         </Wrapper>
-                    </h1>
-                }
+                    </h1>}
                 {report &&
                     <Metadata>
-                        <Entry term='Date Issued'>
+                        <Entry term="Date Issued">
                             <DateTime value={report.dateOfIssue} />
                         </Entry>
-                        <Entry term='Valid Until'>
-                            {report.validUntil ?
-                                <DateTime value={report.validUntil} /> :
-                                'Further notice'
-                            }
+                        <Entry term="Valid Until">
+                            {report.validUntil
+                                ? <DateTime value={report.validUntil} />
+                                : 'Further notice'}
                         </Entry>
                         {report.dateUpdated &&
-                            <Entry term='Date Updated'>
+                            <Entry term="Date Updated">
                                 <DateTime value={report.dateUpdated} />
-                            </Entry>
-                        }
-                    </Metadata>
-                }
+                            </Entry>}
+                    </Metadata>}
                 {report &&
-                    <p style={LOCATION_STYLE}>{report.locationDescription}</p>
-                }
+                    <p style={LOCATION_STYLE}>{report.locationDescription}</p>}
             </Header>
             {report &&
                 <Body>
                     <InnerHTML>
                         {report.content}
                     </InnerHTML>
-                </Body>
-            }
+                </Body>}
         </Container>
     )
 }

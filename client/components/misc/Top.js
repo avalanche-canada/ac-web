@@ -8,12 +8,9 @@ Top.propTypes = {
     children: PropTypes.node,
 }
 
-function Top({
-    title = 'Go to top of document',
-    children = 'Top'
-}) {
+function Top({ title = 'Go to top of document', children = 'Top' }) {
     return (
-        <a styleName='Fixed' href='#top' title={title}>
+        <a styleName="Fixed" href="#top" title={title}>
             {children}
         </a>
     )

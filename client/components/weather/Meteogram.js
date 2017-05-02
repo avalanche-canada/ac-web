@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types'
-import {compose, withProps, mapProps, setPropTypes, setDisplayName} from 'recompose'
-import {Image} from '~/components/misc'
+import {
+    compose,
+    withProps,
+    mapProps,
+    setPropTypes,
+    setDisplayName,
+} from 'recompose'
+import { Image } from '~/components/misc'
 import {
     format,
     POINT_LOCATIONS,
@@ -17,7 +23,10 @@ const propTypes = {
     model: PropTypes.oneOf([RDPS, GDPS, HRDPS]),
     run: PropTypes.oneOf([0, 6, 12, 18]),
     product: PropTypes.oneOf([POINT, GROUP]),
-    location: PropTypes.oneOf([...[...POINT_LOCATIONS], ...[...GROUP_LOCATIONS]]),
+    location: PropTypes.oneOf([
+        ...[...POINT_LOCATIONS],
+        ...[...GROUP_LOCATIONS],
+    ]),
 }
 
 export default compose(
@@ -27,6 +36,6 @@ export default compose(
     }),
     setPropTypes(propTypes),
     mapProps(props => ({
-        src: format(props)
-    })),
+        src: format(props),
+    }))
 )(Image)

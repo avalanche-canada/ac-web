@@ -9,7 +9,7 @@ Table.propTypes = {
     condensed: PropTypes.bool,
 }
 
-function Table({children, hoverable, condensed}) {
+function Table({ children, hoverable, condensed }) {
     let styleName = condensed ? 'Table--Condensed' : 'Table'
 
     if (hoverable === true) {
@@ -23,4 +23,4 @@ function Table({children, hoverable, condensed}) {
     )
 }
 
-export default CSSModules(Table, styles, {allowMultiple: true})
+export default CSSModules(Table, styles, { allowMultiple: true })

@@ -1,6 +1,6 @@
-import React, {Children, cloneElement} from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import {withState} from 'recompose'
+import { withState } from 'recompose'
 
 BannerSet.propTypes = {
     showTravelAdvice: PropTypes.bool,
@@ -19,15 +19,16 @@ function BannerSet({
 }) {
     return (
         <g>
-            {Children.toArray(children).map((banner, index) => (
+            {Children.toArray(children).map((banner, index) =>
                 cloneElement(banner, {
                     ...banner.props,
                     showTravelAdvice,
                     expandable,
-                    onExpandClick: () => setExpanded(expanded === index ? null : index),
+                    onExpandClick: () =>
+                        setExpanded(expanded === index ? null : index),
                     expanded: expanded === index,
                 })
-            ))}
+            )}
         </g>
     )
 }

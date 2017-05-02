@@ -1,23 +1,27 @@
 import React from 'react'
 import Url from 'url'
 import isSameDay from 'date-fns/is_same_day'
-import {Phone, Mailto, DateElement, P} from '~/components/misc'
-import {List, Term, Definition} from '~/components/description'
-import {NONE} from '~/constants/sortings'
+import { Phone, Mailto, DateElement, P } from '~/components/misc'
+import { List, Term, Definition } from '~/components/description'
+import { NONE } from '~/constants/sortings'
 
 // TODO: Use Column Record
 
 export const dateRanges = {
     name: 'dates',
     title: 'Dates',
-    property({dateStart, dateEnd}) {
+    property({ dateStart, dateEnd }) {
         if (isSameDay(dateStart, dateEnd)) {
             return <DateElement value={dateStart} />
         }
 
         return (
             <div>
-                <DateElement value={dateStart} /> <em>to</em> <DateElement value={dateEnd} />
+                <DateElement value={dateStart} />
+                {' '}
+                <em>to</em>
+                {' '}
+                <DateElement value={dateEnd} />
             </div>
         )
     },
@@ -33,7 +37,7 @@ export const level = {
 export const description = {
     name: 'description',
     title: 'Description',
-    property({description}) {
+    property({ description }) {
         return (
             <P capAt={300}>
                 {description}
@@ -46,7 +50,7 @@ export const courseProvider = {
     name: 'courseprovider',
     title: 'Provider',
     sorting: NONE,
-    property({provider}) {
+    property({ provider }) {
         return (
             <span>
                 {provider.name}
@@ -58,7 +62,7 @@ export const courseProvider = {
 export const distance = {
     name: 'distance',
     title: 'Distance',
-    property({distance}) {
+    property({ distance }) {
         if (typeof distance === 'number') {
             if (distance <= 10) {
                 return '< 10 km'
@@ -81,7 +85,7 @@ export const location = {
 export const tags = {
     name: 'tags',
     title: 'Tags',
-    property({tags}) {
+    property({ tags }) {
         return tags.join(', ')
     },
 }
@@ -95,15 +99,18 @@ export const provider = {
 
 const PathShortenerRegex = /\//
 const TERM_STYLE = {
-    flex: '0 1 35%'
+    flex: '0 1 35%',
 }
 export const contacts = {
     name: 'contacts',
     title: 'Contacts',
-    property({email, phone, website}) {
-        let {hostname, path} = Url.parse(website)
+    property({ email, phone, website }) {
+        let { hostname, path } = Url.parse(website)
 
-        path = typeof path === 'string' && path.replace(PathShortenerRegex, '') || null
+        path =
+            (typeof path === 'string' &&
+                path.replace(PathShortenerRegex, '')) ||
+            null
 
         return (
             <List>
@@ -111,31 +118,28 @@ export const contacts = {
                 {email &&
                     <Definition>
                         <Mailto email={email} />
-                    </Definition>
-                }
+                    </Definition>}
                 {phone && <Term style={TERM_STYLE}>Phone</Term>}
                 {phone &&
                     <Definition>
                         <Phone phone={phone} />
-                    </Definition>
-                }
+                    </Definition>}
                 {website && <Term style={TERM_STYLE}>Website</Term>}
                 {website &&
                     <Definition>
-                        <a href={website} title={website} target='_blank'>
+                        <a href={website} title={website} target="_blank">
                             {path ? `${hostname}/…` : hostname}
                         </a>
-                    </Definition>
-                }
+                    </Definition>}
             </List>
         )
-    }
+    },
 }
 
 export const cost = {
     name: 'cost',
     title: 'Cost',
-    property({cost: {cost, currency}}) {
+    property({ cost: { cost, currency } }) {
         return `${cost} ${currency}`
     },
 }

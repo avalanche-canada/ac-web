@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
-import {onlyUpdateForKey} from '~/compose'
-import {TransitionMotion, spring, presets} from 'react-motion'
+import { compose } from 'recompose'
+import { onlyUpdateForKey } from '~/compose'
+import { TransitionMotion, spring, presets } from 'react-motion'
 import CSSModules from 'react-css-modules'
 import Drawer from './Drawer'
 import styles from './Drawer.css'
@@ -27,7 +27,7 @@ function getStyles(drawers) {
         ...drawer,
         style: {
             x: spring(0, preset),
-        }
+        },
     }))
 }
 
@@ -36,11 +36,11 @@ function getDefaultStyles(drawers) {
         ...drawer,
         style: {
             x: 0,
-        }
+        },
     }))
 }
 
-function getContainerStyle({x}) {
+function getContainerStyle({ x }) {
     const transform = `translateX(${x * 100}%)`
 
     return {
@@ -50,16 +50,18 @@ function getContainerStyle({x}) {
 }
 
 Cabinet.propTypes = {
-    drawers: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        data: PropTypes.shape({
-            onClose: PropTypes.func.isRequired,
-            children: PropTypes.array,
+    drawers: PropTypes.arrayOf(
+        PropTypes.shape({
+            key: PropTypes.string.isRequired,
+            data: PropTypes.shape({
+                onClose: PropTypes.func.isRequired,
+                children: PropTypes.array,
+            }),
         })
-    })),
+    ),
 }
 
-function Cabinet({drawers = []}) {
+function Cabinet({ drawers = [] }) {
     const styles = getStyles(drawers)
     const defaultStyles = getDefaultStyles(drawers)
     const motion = {
@@ -72,20 +74,18 @@ function Cabinet({drawers = []}) {
     return (
         <TransitionMotion {...motion}>
             {configs => (
-            <section>
-                {configs.map(({key, style, data}) => (
-                    <Drawer
-                        key={key}
-                        style={getContainerStyle(style)}
-                        {...data} />
-                ))}
-            </section>
+                <section>
+                    {configs.map(({ key, style, data }) => (
+                        <Drawer
+                            key={key}
+                            style={getContainerStyle(style)}
+                            {...data}
+                        />
+                    ))}
+                </section>
             )}
         </TransitionMotion>
     )
 }
 
-export default compose(
-    onlyUpdateForKey('drawers'),
-    CSSModules(styles),
-)(Cabinet)
+export default compose(onlyUpdateForKey('drawers'), CSSModules(styles))(Cabinet)

@@ -1,13 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withProps, withHandlers} from 'recompose'
+import { compose, withProps, withHandlers } from 'recompose'
 import withRouter from 'react-router/lib/withRouter'
-import {Page, Content, Header, Main} from '~/components/page'
-import HotZoneReport, {Metadata as HotZoneReportMetadata} from '~/components/hotZoneReport'
-import {Muted, DateElement} from '~/components/misc'
-import {Metadata, Entry} from '~/components/metadata'
-import {DropdownFromOptions as Dropdown, DayPicker} from '~/components/controls'
-import {archiveHotZoneReport} from '~/containers/connectors'
+import { Page, Content, Header, Main } from '~/components/page'
+import HotZoneReport, {
+    Metadata as HotZoneReportMetadata,
+} from '~/components/hotZoneReport'
+import { Muted, DateElement } from '~/components/misc'
+import { Metadata, Entry } from '~/components/metadata'
+import {
+    DropdownFromOptions as Dropdown,
+    DayPicker,
+} from '~/components/controls'
+import { archiveHotZoneReport } from '~/containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
@@ -19,10 +24,12 @@ Component.propTypes = {
     regionOptions: PropTypes.instanceOf(Map),
     onNameChange: PropTypes.func.isRequired,
     onDateChange: PropTypes.func.isRequired,
-    dateRanges: PropTypes.arrayOf(PropTypes.shape({
-        start: PropTypes.instanceOf(Date).isRequired,
-        end: PropTypes.instanceOf(Date).isRequired,
-    })).isRequired,
+    dateRanges: PropTypes.arrayOf(
+        PropTypes.shape({
+            start: PropTypes.instanceOf(Date).isRequired,
+            end: PropTypes.instanceOf(Date).isRequired,
+        })
+    ).isRequired,
 }
 
 // TODO: Combine with the Forecast component. This should not be that different component.
@@ -30,17 +37,16 @@ Component.propTypes = {
 function Component({
     name,
     date,
-    data: {
-        title,
-        report,
-    },
+    data: { title, report },
     regionOptions,
     dateRanges = [],
     onNameChange,
     onDateChange,
 }) {
     function handleDisabledDays(day) {
-        return dateRanges.every(range => !isWithinRange(day, range.start, range.end))
+        return dateRanges.every(
+            range => !isWithinRange(day, range.start, range.end)
+        )
     }
 
     return (
@@ -50,22 +56,40 @@ function Component({
                 <Main>
                     <Metadata>
                         <Entry>
-                            <Dropdown options={regionOptions} value={name} onChange={onNameChange} disabled placeholder='Select a region' />
+                            <Dropdown
+                                options={regionOptions}
+                                value={name}
+                                onChange={onNameChange}
+                                disabled
+                                placeholder="Select a region"
+                            />
                         </Entry>
                         <Entry>
-                            <DayPicker date={date} onChange={onDateChange} disabledDays={handleDisabledDays}>
-                                {date ? <DateElement value={date} /> : 'Select a date'}
+                            <DayPicker
+                                date={date}
+                                onChange={onDateChange}
+                                disabledDays={handleDisabledDays}>
+                                {date
+                                    ? <DateElement value={date} />
+                                    : 'Select a date'}
                             </DayPicker>
                         </Entry>
                     </Metadata>
                     <HotZoneReportMetadata report={report} />
-                    {report ?
-                        <HotZoneReport report={report} /> :
-                        (title && date) &&
-                        <Muted>
-                            No report available in {title} for <DateElement value={date} />.
-                        </Muted>
-                    }
+                    {report
+                        ? <HotZoneReport report={report} />
+                        : title &&
+                              date &&
+                              <Muted>
+                                  No report available in
+                                  {' '}
+                                  {title}
+                                  {' '}
+                                  for
+                                  {' '}
+                                  <DateElement value={date} />
+                                  .
+                              </Muted>}
                 </Main>
             </Content>
         </Page>
@@ -89,14 +113,15 @@ export default compose(
             })
         },
     }),
-    withProps(({params, regions}) => ({
+    withProps(({ params, regions }) => ({
         ...params,
-        date: typeof params.date === 'string' ? parse(params.date, 'YYYY-MM-DD') : null,
+        date: typeof params.date === 'string'
+            ? parse(params.date, 'YYYY-MM-DD')
+            : null,
         regionOptions: new Map(
-            regions.map(region => [
-                region.get('id'),
-                region.get('name')
-            ]).toArray()
-        )
-    })),
+            regions
+                .map(region => [region.get('id'), region.get('name')])
+                .toArray()
+        ),
+    }))
 )(Component)

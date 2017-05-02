@@ -1,4 +1,4 @@
-import {withProps} from 'recompose'
+import { withProps } from 'recompose'
 import Child from './Child'
 
 export default withProps({

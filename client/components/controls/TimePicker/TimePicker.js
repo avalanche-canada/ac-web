@@ -1,6 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, withState, withHandlers, setPropTypes, defaultProps} from 'recompose'
+import {
+    compose,
+    withState,
+    withHandlers,
+    setPropTypes,
+    defaultProps,
+} from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './TimePicker.css'
 import noop from 'lodash/noop'
@@ -11,7 +17,7 @@ function padMinute(minute) {
     return minute < 10 ? `0${minute}` : String(minute)
 }
 
-function format({hour, minute}) {
+function format({ hour, minute }) {
     return `${hour}:${minute}`
 }
 
@@ -34,17 +40,37 @@ function TimePicker({
     onFocus,
     onKeyDown,
     step,
-    autoFocus
+    autoFocus,
 }) {
     return (
-        <div styleName='Container'>
-            <label title='Hour' styleName='Hour'>
-                <input value={hour} name='time-picker-hour' onChange={onHourChange} onKeyDown={onKeyDown} type='number' min='0' max='23' onFocus={onFocus} autoFocus={autoFocus} />
-                <span styleName='Label'>Hour</span>
+        <div styleName="Container">
+            <label title="Hour" styleName="Hour">
+                <input
+                    value={hour}
+                    name="time-picker-hour"
+                    onChange={onHourChange}
+                    onKeyDown={onKeyDown}
+                    type="number"
+                    min="0"
+                    max="23"
+                    onFocus={onFocus}
+                    autoFocus={autoFocus}
+                />
+                <span styleName="Label">Hour</span>
             </label>
-            <label title='Minute' styleName='Minute'>
-                <input value={minute} name='time-picker-minute' onChange={onMinuteChange} onKeyDown={onKeyDown} type='number' min='0' max='59' step={step} onFocus={onFocus} />
-                <span styleName='Label'>Minute</span>
+            <label title="Minute" styleName="Minute">
+                <input
+                    value={minute}
+                    name="time-picker-minute"
+                    onChange={onMinuteChange}
+                    onKeyDown={onKeyDown}
+                    type="number"
+                    min="0"
+                    max="59"
+                    step={step}
+                    onFocus={onFocus}
+                />
+                <span styleName="Label">Minute</span>
             </label>
         </div>
     )
@@ -62,10 +88,10 @@ export default compose(
         onChange: noop,
         onKeyDown: noop,
     }),
-    withState('hour', 'setHour', ({value = ''}) => {
+    withState('hour', 'setHour', ({ value = '' }) => {
         return value.split(':')[0] || 0
     }),
-    withState('minute', 'setMinute', ({value = ''}) => {
+    withState('minute', 'setMinute', ({ value = '' }) => {
         return padMinute(value.split(':')[1] || 0)
     }),
     // Keeping manipulations simple, no crazy stuff like adding hour if minute > 59...
@@ -78,10 +104,12 @@ export default compose(
             }
 
             props.setHour(hour)
-            props.onChange(format({
-                ...props,
-                hour,
-            }))
+            props.onChange(
+                format({
+                    ...props,
+                    hour,
+                })
+            )
         },
         onMinuteChange: props => event => {
             let minute = Number(event.target.value)
@@ -93,11 +121,13 @@ export default compose(
             minute = padMinute(minute)
 
             props.setMinute(minute)
-            props.onChange(format({
-                ...props,
-                minute,
-            }))
+            props.onChange(
+                format({
+                    ...props,
+                    minute,
+                })
+            )
         },
     }),
-    CSSModules(styles),
+    CSSModules(styles)
 )(TimePicker)

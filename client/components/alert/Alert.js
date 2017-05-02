@@ -20,7 +20,7 @@ Alert.propTypes = {
     children: PropTypes.node,
 }
 
-function Alert({type = DANGER, children, ...props}) {
+function Alert({ type = DANGER, children, ...props }) {
     return (
         <div styleName={styleNames.get(type)} {...props}>
             {children}

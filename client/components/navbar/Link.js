@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
-import {neverUpdate} from '~/compose'
+import { neverUpdate } from '~/compose'
 import Link from 'react-router/lib/Link'
 import styles from './Navbar.css'
 
@@ -23,23 +23,20 @@ Anchor.propTypes = {
     style: PropTypes.object,
 }
 
-function Anchor({to = '#', children, ...props}) {
+function Anchor({ to = '#', children, ...props }) {
     if (isExternal(to)) {
         return (
-            <a href={to} target='_blank' styleName='Link' {...props} >
+            <a href={to} target="_blank" styleName="Link" {...props}>
                 {children}
             </a>
         )
     }
 
     return (
-        <Link styleName='Link' to={to} {...props} >
+        <Link styleName="Link" to={to} {...props}>
             {children}
         </Link>
     )
 }
 
-export default compose(
-    neverUpdate,
-    CSSModules(styles),
-)(Anchor)
+export default compose(neverUpdate, CSSModules(styles))(Anchor)

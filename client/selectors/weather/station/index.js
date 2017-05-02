@@ -1,13 +1,13 @@
-import {createSelector, createStructuredSelector} from 'reselect'
-import {WeatherStation} from '~/api/schemas'
-import {getEntityForSchema} from '~/getters/entities'
-import {getResultsSet} from '~/getters/api'
+import { createSelector, createStructuredSelector } from 'reselect'
+import { WeatherStation } from '~/api/schemas'
+import { getEntityForSchema } from '~/getters/entities'
+import { getResultsSet } from '~/getters/api'
 import * as Columns from './columns'
 import * as Headers from './headers'
-import {computeOffset} from '~/selectors/map/bounds'
+import { computeOffset } from '~/selectors/map/bounds'
 import Status from '~/utils/status'
 
-function getWeatherStationRaw(state, {params, id}) {
+function getWeatherStationRaw(state, { params, id }) {
     // For panel or page
     id = id || params.id
 
@@ -16,11 +16,11 @@ function getWeatherStationRaw(state, {params, id}) {
 
 const messages = {
     isError: 'Oups!! An error happened while loading weather station data.',
-    isLoading: 'Loading weather station data...'
+    isLoading: 'Loading weather station data...',
 }
 
 const getStatus = createSelector(
-    (state, {params}) => getResultsSet(state, WeatherStation, params),
+    (state, { params }) => getResultsSet(state, WeatherStation, params),
     result => Status.createFromResultSet(result, messages)
 )
 
@@ -41,14 +41,18 @@ function computeMeasurements(station) {
 
     const utcOffset = station.get('utcOffset')
 
-    return station.get('measurements')
-        .map(m => m.merge({
-            measurementDateTime: new Date(m.get('measurementDateTime')),
-            utcOffset,
-        }))
+    return station
+        .get('measurements')
+        .map(m =>
+            m.merge({
+                measurementDateTime: new Date(m.get('measurementDateTime')),
+                utcOffset,
+            })
+        )
         .sortBy(m => m.get('measurementDateTime'))
         .map((m, i, all) => {
-            const newSnow = m.get('snowHeight') - all.getIn([i - 1, 'snowHeight'], NaN)
+            const newSnow =
+                m.get('snowHeight') - all.getIn([i - 1, 'snowHeight'], NaN)
 
             return m.set('newSnow', newSnow < 0.5 ? 0 : Math.round(newSnow))
         })
@@ -66,19 +70,22 @@ const getWeatherStation = createSelector(
     station => station && station.toJSON()
 )
 
-const HEADERS = [[
-    Headers.Snow,
-    Headers.AirTemperature,
-    Headers.Wind,
-    Headers.RelativeHumidity,
-], [
-    Headers.SnowHeight,
-    Headers.NewSnow,
-    Headers.AirTemperatureAvg,
-    Headers.WindSpeedAvg,
-    Headers.WindDirectionAvg,
-    Headers.WindSpeedGust,
-]]
+const HEADERS = [
+    [
+        Headers.Snow,
+        Headers.AirTemperature,
+        Headers.Wind,
+        Headers.RelativeHumidity,
+    ],
+    [
+        Headers.SnowHeight,
+        Headers.NewSnow,
+        Headers.AirTemperatureAvg,
+        Headers.WindSpeedAvg,
+        Headers.WindDirectionAvg,
+        Headers.WindSpeedGust,
+    ],
+]
 
 const COLUMNS = [
     Columns.Hour,

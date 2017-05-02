@@ -1,5 +1,5 @@
-import React, {createElement} from 'react'
-import {nest} from 'recompose'
+import React, { createElement } from 'react'
+import { nest } from 'recompose'
 import Item from './Item'
 import Menu from './Menu'
 import Section from './Section'
@@ -10,12 +10,14 @@ import Headline from './Headline'
 
 const HeaderLink = nest(Header, Link)
 
-function createLink({label, header, headline, ...rest}, index) {
+function createLink({ label, header, headline, ...rest }, index) {
     const hasHeader = header === true || typeof headline === 'string'
-    const component = hasHeader ? typeof rest.to === 'string' ? HeaderLink : Header : Link
+    const component = hasHeader
+        ? typeof rest.to === 'string' ? HeaderLink : Header
+        : Link
     const props = {
         ...rest,
-        key: index
+        key: index,
     }
 
     return createElement(component, props, label)
@@ -23,12 +25,12 @@ function createLink({label, header, headline, ...rest}, index) {
 
 const MAX_NUMBER_OF_LINKS_PER_COLUMN = 7
 
-function createSection({label, headline, children = [], ...props}, index) {
+function createSection({ label, headline, children = [], ...props }, index) {
     const column = Math.floor(children.length / MAX_NUMBER_OF_LINKS_PER_COLUMN)
 
     return (
         <Section key={index}>
-            {label && createLink({headline, label, ...props})}
+            {label && createLink({ headline, label, ...props })}
             {headline && <Headline>{headline}</Headline>}
             <ColumnSet count={column}>
                 {children.map(createLink)}
@@ -37,7 +39,7 @@ function createSection({label, headline, children = [], ...props}, index) {
     )
 }
 
-function isBreakpoint({headline, children}) {
+function isBreakpoint({ headline, children }) {
     return headline !== undefined || children !== undefined
 }
 
@@ -47,14 +49,14 @@ function sectionsReducer(children) {
             sections.push(child)
         } else if (sections.length === 0) {
             sections.push({
-                children: [child]
+                children: [child],
             })
         } else {
             const last = sections[sections.length - 1]
 
             if (isBreakpoint(children[index - 1])) {
                 sections.push({
-                    children: [child]
+                    children: [child],
                 })
             } else {
                 if (Array.isArray(last.children)) {
@@ -69,7 +71,7 @@ function sectionsReducer(children) {
     }, [])
 }
 
-export function createItem({id, label, noWrap, children}, index) {
+export function createItem({ id, label, noWrap, children }, index) {
     const key = `${id}-${index}`
 
     return (
@@ -77,8 +79,7 @@ export function createItem({id, label, noWrap, children}, index) {
             {children &&
                 <Menu>
                     {sectionsReducer(children).map(createSection)}
-                </Menu>
-            }
+                </Menu>}
         </Item>
     )
 }

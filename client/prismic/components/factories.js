@@ -1,7 +1,7 @@
-import {compose, withProps} from 'recompose'
-import {StaticPage, Generic, Content} from '~/prismic/components/page'
-import {makeGetDocumentAndStatus} from '~/selectors/prismic/utils'
-import {prismic} from '~/containers/connectors'
+import { compose, withProps } from 'recompose'
+import { StaticPage, Generic, Content } from '~/prismic/components/page'
+import { makeGetDocumentAndStatus } from '~/selectors/prismic/utils'
+import { prismic } from '~/containers/connectors'
 
 export function staticPage(uid, title, message) {
     const type = 'static-page'
@@ -15,9 +15,9 @@ export function staticPage(uid, title, message) {
             params: {
                 type,
                 uid,
-            }
+            },
         }),
-        prismic(makeGetDocumentAndStatus),
+        prismic(makeGetDocumentAndStatus)
     )(StaticPage)
 }
 
@@ -29,9 +29,9 @@ export function generic(uid, title) {
             params: {
                 type: 'generic',
                 uid,
-            }
+            },
         }),
-        prismic(makeGetDocumentAndStatus),
+        prismic(makeGetDocumentAndStatus)
     )(Generic)
 }
 
@@ -47,6 +47,6 @@ export function content(uid) {
                 uid,
             },
         }),
-        prismic(makeGetDocumentAndStatus),
+        prismic(makeGetDocumentAndStatus)
     )(Content)
 }

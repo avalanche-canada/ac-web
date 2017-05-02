@@ -10,12 +10,11 @@ Tooltip.propTypes = {
     arrowStyle: PropTypes.object,
 }
 
-function Tooltip({placement, children, style, arrowStyle}) {
-
+function Tooltip({ placement, children, style, arrowStyle }) {
     return (
         <div styleName={`Container--${placement}`} style={style}>
             <div styleName={`Arrow--${placement}`} style={arrowStyle} />
-            <div styleName='Content'>
+            <div styleName="Content">
                 {children}
             </div>
         </div>

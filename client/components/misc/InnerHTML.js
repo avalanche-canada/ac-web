@@ -1,13 +1,13 @@
-import {createElement} from 'react'
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
-import {onlyUpdateForKey} from '~/compose'
+import { onlyUpdateForKey } from '~/compose'
 
 InnerHTML.propTypes = {
     children: PropTypes.string,
     component: PropTypes.string,
 }
 
-function InnerHTML({children, component = 'div', ...props}) {
+function InnerHTML({ children, component = 'div', ...props }) {
     if (!children) {
         return null
     }
@@ -15,8 +15,8 @@ function InnerHTML({children, component = 'div', ...props}) {
     return createElement(component, {
         ...props,
         dangerouslySetInnerHTML: {
-            __html: children
-        }
+            __html: children,
+        },
     })
 }
 

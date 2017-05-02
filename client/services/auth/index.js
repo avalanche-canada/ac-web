@@ -1,17 +1,17 @@
 import Auth0Lock from 'auth0-lock'
-import {PRIMARY} from '~/constants/colors'
+import { PRIMARY } from '~/constants/colors'
 import logo from '~/styles/AvalancheCanada.svg'
-import {clientId, domain} from './config.json'
+import { clientId, domain } from './config.json'
 import decode from 'jwt-decode'
 import CancelError from '~/utils/promise/CancelError'
-import {LocalStorage} from '~/services/storage'
+import { LocalStorage } from '~/services/storage'
 
 export default class AuthService {
     static create(options) {
         return new AuthService(options)
     }
     constructor() {
-        const {origin, pathname} = document.location
+        const { origin, pathname } = document.location
 
         this.storage = LocalStorage.create()
         this.lock = new Auth0Lock(clientId, domain, {
@@ -21,8 +21,8 @@ export default class AuthService {
                 redirectUrl: `${origin}/login-complete`,
                 responseType: 'token',
                 params: {
-                    state: pathname
-                }
+                    state: pathname,
+                },
             },
             theme: {
                 primaryColor: PRIMARY,
@@ -30,8 +30,8 @@ export default class AuthService {
             },
             socialButtonStyle: 'small',
             languageDictionary: {
-                title: ''
-            }
+                title: '',
+            },
         })
     }
     get profile() {
@@ -55,7 +55,9 @@ export default class AuthService {
     login() {
         return new Promise((resolve, reject) => {
             this.lock.on('authorization_error', error => reject(error))
-            this.lock.on('hide', () => reject(new CancelError('User hides lock login modal.')))
+            this.lock.on('hide', () =>
+                reject(new CancelError('User hides lock login modal.'))
+            )
 
             this.lock.show()
         })
@@ -92,7 +94,7 @@ export default class AuthService {
             return false
         }
 
-        const {exp} = decode(this.idToken)
+        const { exp } = decode(this.idToken)
         const expiryDate = new Date(0)
 
         expiryDate.setUTCSeconds(exp)

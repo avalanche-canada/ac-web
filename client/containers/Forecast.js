@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Page, Header, Main, Content, Aside} from '~/components/page'
-import Forecast, {Metadata, Sidebar, KananaskisSidebar} from '~/components/forecast'
-import {Muted, Error, SPAW} from '~/components/misc'
-import {forecast} from '~/containers/connectors'
+import { Page, Header, Main, Content, Aside } from '~/components/page'
+import Forecast, {
+    Metadata,
+    Sidebar,
+    KananaskisSidebar,
+} from '~/components/forecast'
+import { Muted, Error, SPAW } from '~/components/misc'
+import { forecast } from '~/containers/connectors'
 
 const SPAW_STYLE = {
     padding: '1em',
@@ -33,7 +37,7 @@ function Container({
 }) {
     const isKananaskis = params.name === 'kananaskis'
     const isPrintable = forecast ? !forecast.isArchived : false
-    
+
     // TODO: Huge hack, please FIXME!!!
     if (specialWarningContent) {
         specialWarningContent = specialWarningContent.replace('<p>', '')
@@ -48,15 +52,20 @@ function Container({
                 <Main>
                     {forecast && <Metadata {...forecast} />}
                     {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
-                    {isError && <Error>Error happened while loading avalanche bulletin.</Error>}
+                    {isError &&
+                        <Error>
+                            Error happened while loading avalanche bulletin.
+                        </Error>}
                     {isUnderSpecialWarning &&
                         <SPAW link={specialWarningLink} style={SPAW_STYLE}>
                             {specialWarningContent}
                         </SPAW>}
-                    {(forecast && forecast.region) && <Forecast {...forecast} />}
+                    {forecast && forecast.region && <Forecast {...forecast} />}
                 </Main>
                 <Aside>
-                    {isKananaskis ? <KananaskisSidebar /> : <Sidebar isPrintable={isPrintable} />}
+                    {isKananaskis
+                        ? <KananaskisSidebar />
+                        : <Sidebar isPrintable={isPrintable} />}
                 </Aside>
             </Content>
         </Page>

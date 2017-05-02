@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {storiesOf, action} from '@kadira/storybook'
-import Drawer, {LEFT, RIGHT, Header, Content} from './'
-import {LayerSet, Layer} from './layers'
-import {compose, withState} from 'recompose'
+import { storiesOf, action } from '@kadira/storybook'
+import Drawer, { LEFT, RIGHT, Header, Content } from './'
+import { LayerSet, Layer } from './layers'
+import { compose, withState } from 'recompose'
 import Button from '~/components/button'
 import * as TYPES from '~/constants/drawers'
 
@@ -12,11 +12,11 @@ const background = {
     height: '100vh',
 }
 const header = (
-    <Header subject='Avalanche Forecast'>
+    <Header subject="Avalanche Forecast">
         <h1>Title</h1>
     </Header>
 )
-const style = {marginTop:150, marginBottom: 150}
+const style = { marginTop: 150, marginBottom: 150 }
 const content = (
     <div>
         <p style={style}>Drawer content</p>
@@ -31,7 +31,7 @@ Controlled.propTypes = {
     setOpen: PropTypes.func.isRequired,
 }
 
-function Controlled({open, setOpen, ...rest}) {
+function Controlled({ open, setOpen, ...rest }) {
     const header = (
         <Header onCloseClick={() => setOpen(false)}>
             <h1>Title</h1>
@@ -50,26 +50,42 @@ function Controlled({open, setOpen, ...rest}) {
     )
 }
 
-
 Controlled = withState('open', 'setOpen', false)(Controlled)
 
-function TwoDrawers({open, setOpen, width, setWidth, ...rest}) {
+function TwoDrawers({ open, setOpen, width, setWidth, ...rest }) {
     const header = (
-        <Header onCloseClick={e => setOpen(!open)} >
+        <Header onCloseClick={e => setOpen(!open)}>
             <h1>Title</h1>
         </Header>
     )
 
     return (
         <div style={background}>
-            <Drawer open={open} side={LEFT} width={width} header={header} onClose={action('onClose Left')} onOpen={action('onOpen Left')} >
+            <Drawer
+                open={open}
+                side={LEFT}
+                width={width}
+                header={header}
+                onClose={action('onClose Left')}
+                onOpen={action('onOpen Left')}>
                 <Content>
-                    <label for='width' >Width</label>
-                    <input id='width' name='width' type='number' value={width} onChange={e => setWidth(e.target.value)} />
+                    <label for="width">Width</label>
+                    <input
+                        id="width"
+                        name="width"
+                        type="number"
+                        value={width}
+                        onChange={e => setWidth(e.target.value)}
+                    />
                     {content}
                 </Content>
             </Drawer>
-            <Drawer open={!open} side={RIGHT} header={header} onClose={action('onClose Right')} onOpen={action('onOpen Right')} >
+            <Drawer
+                open={!open}
+                side={RIGHT}
+                header={header}
+                onClose={action('onClose Right')}
+                onOpen={action('onOpen Right')}>
                 <Content>
                     {content}
                 </Content>
@@ -80,63 +96,77 @@ function TwoDrawers({open, setOpen, width, setWidth, ...rest}) {
 
 TwoDrawers = compose(
     withState('open', 'setOpen', false),
-    withState('width', 'setWidth', 500),
+    withState('width', 'setWidth', 500)
 )(TwoDrawers)
 
 storiesOf('Page Drawer', module)
-.add('Default and opened', () => (
-    <Drawer open>
-        <Content>
-            The drawer content on the left
-        </Content>
-    </Drawer>
-))
-.add('Opened with a header', () => (
-    <Drawer open header={header}>
-        <Content>
-            The drawer content on the left
-        </Content>
-    </Drawer>
-))
-.add('Opened on the right', () => (
-    <Drawer open side={RIGHT} header={header}>
-        <Content>
-            {content}
-        </Content>
-    </Drawer>
-))
-.add('Controlled', () => <Controlled />)
-.add('Two drawers', () => <TwoDrawers />)
-.add('Menu drawer', () => {
-    const dateRange = {
-        from: null,
-        to: null
-    }
-    const listOfValues = {
-        options: new Map([
-            ['all', 'Show all report types'],
-            ['quick', 'Quick'],
-            ['avalanche', 'Avalanche'],
-            ['snowpack', 'Snowpack'],
-            ['weather', 'Weather'],
-            ['incident', 'Incident'],
-        ]),
-        value: 'all',
-    }
-
-    return (
-        <Drawer open width={300}>
-            <Header />
+    .add('Default and opened', () => (
+        <Drawer open>
             <Content>
-                <LayerSet title='Avalanche Forecast'>
-                    <Layer type={TYPES.FORECASTS} title='Forecasts' active={false} />
-                    <Layer type={TYPES.HOT_ZONE_REPORTS} title='Hot Zone Reports' />
-                </LayerSet>
-                <LayerSet title='Observations'>
-                    <Layer type={TYPES.MOUNTAIN_INFORMATION_NETWORK} title='Mountain Information Network' filters={{dateRange, listOfValues}} />
-                    <Layer type={TYPES.WEATHER_STATION} title='Weather stations' />
-                </LayerSet>
+                The drawer content on the left
             </Content>
         </Drawer>
-    )
-})
+    ))
+    .add('Opened with a header', () => (
+        <Drawer open header={header}>
+            <Content>
+                The drawer content on the left
+            </Content>
+        </Drawer>
+    ))
+    .add('Opened on the right', () => (
+        <Drawer open side={RIGHT} header={header}>
+            <Content>
+                {content}
+            </Content>
+        </Drawer>
+    ))
+    .add('Controlled', () => <Controlled />)
+    .add('Two drawers', () => <TwoDrawers />)
+    .add('Menu drawer', () => {
+        const dateRange = {
+            from: null,
+            to: null,
+        }
+        const listOfValues = {
+            options: new Map([
+                ['all', 'Show all report types'],
+                ['quick', 'Quick'],
+                ['avalanche', 'Avalanche'],
+                ['snowpack', 'Snowpack'],
+                ['weather', 'Weather'],
+                ['incident', 'Incident'],
+            ]),
+            value: 'all',
+        }
+
+        return (
+            <Drawer open width={300}>
+                <Header />
+                <Content>
+                    <LayerSet title="Avalanche Forecast">
+                        <Layer
+                            type={TYPES.FORECASTS}
+                            title="Forecasts"
+                            active={false}
+                        />
+                        <Layer
+                            type={TYPES.HOT_ZONE_REPORTS}
+                            title="Hot Zone Reports"
+                        />
+                    </LayerSet>
+                    <LayerSet title="Observations">
+                        <Layer
+                            type={TYPES.MOUNTAIN_INFORMATION_NETWORK}
+                            title="Mountain Information Network"
+                            filters={{ dateRange, listOfValues }}
+                        />
+                        <Layer
+                            type={TYPES.WEATHER_STATION}
+                            title="Weather stations"
+                        />
+                    </LayerSet>
+                </Content>
+            </Drawer>
+        )
+    })

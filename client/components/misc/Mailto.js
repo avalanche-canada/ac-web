@@ -1,9 +1,15 @@
-import {DOM} from 'react'
+import { DOM } from 'react'
 import PropTypes from 'prop-types'
-import {compose, defaultProps, mapProps, setDisplayName, setPropTypes} from 'recompose'
+import {
+    compose,
+    defaultProps,
+    mapProps,
+    setDisplayName,
+    setPropTypes,
+} from 'recompose'
 import Url from 'url'
-import {AVALANCHECANADA} from '~/constants/emails'
-import {clean} from '~/utils/object'
+import { AVALANCHECANADA } from '~/constants/emails'
+import { clean } from '~/utils/object'
 
 export default compose(
     setDisplayName('Mailto'),
@@ -19,7 +25,7 @@ export default compose(
         email: AVALANCHECANADA,
         title: 'Email Avalanche Canada',
     }),
-    mapProps(({email, subject, cc, bcc, body, title, children, ...rest}) => {
+    mapProps(({ email, subject, cc, bcc, body, title, children, ...rest }) => {
         return {
             ...rest,
             title,
@@ -31,7 +37,7 @@ export default compose(
                     subject,
                     cc,
                     bcc,
-                    body
+                    body,
                 }),
             }),
         }

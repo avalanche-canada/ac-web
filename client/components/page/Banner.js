@@ -8,13 +8,13 @@ Banner.propTypes = {
     children: PropTypes.node,
 }
 
-function Banner({url, children}) {
+function Banner({ url, children }) {
     const style = {
-        backgroundImage: `url("${url}")`
+        backgroundImage: `url("${url}")`,
     }
 
     return (
-        <div styleName='Banner' style={style} >
+        <div styleName="Banner" style={style}>
             {children}
         </div>
     )

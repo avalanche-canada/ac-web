@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, setPropTypes, mapProps} from 'recompose'
+import { compose, setPropTypes, mapProps } from 'recompose'
 import withRouter from 'react-router/lib/withRouter'
-import {DateElement, ArchiveWarning} from '~/components/misc'
+import { DateElement, ArchiveWarning } from '~/components/misc'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import format from 'date-fns/format'
@@ -30,7 +30,7 @@ export default compose(
     }),
     withRouter,
     mapProps(props => {
-        const {region, date, router} = props
+        const { region, date, router } = props
         const isArchivesPage = router.isActive(createLink(region, date, true))
         const previous = subDays(date, 1)
         const next = addDays(date, 1)
@@ -43,11 +43,11 @@ export default compose(
             },
             previous: {
                 to: createLink(region, previous, isArchivesPage),
-                children: <DateElement value={previous} />
+                children: <DateElement value={previous} />,
             },
             next: {
                 to: createLink(region, next, isArchivesPage),
-                children: <DateElement value={next} />
+                children: <DateElement value={next} />,
             },
         }
     })
