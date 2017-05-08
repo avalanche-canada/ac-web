@@ -2,10 +2,12 @@
 
 var express = require('express');
 var moment  = require('moment');
-var mssql   = require('mssql');
+var pg      = require('pg');
 var _       = require('lodash');
 var request = require('request');
-var xml2js = require('xml2js');
+var xml2js  = require('xml2js');
+var url     = require('url');
+var querystring = require('querystring')
 
 var metadata     = require('../features/metadata');
 var regionData   = require('../../data/season').forecast_regions;
@@ -15,6 +17,41 @@ var avalx        = require('../forecasts/avalx');
 var BULLETIN_NOT_FOUND = "BULLETIN_NOT_FOUND"
 var NEW_AVALX_START_DATE = '2016-10-01'
 var AVALX2016_ENDPOINT = 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx';
+
+
+const db_params = url.parse(process.env.BULLETIN_ARCHIVE_DB);
+const db_auth = db_params.auth.split(':');
+
+var db_use_ssl = true;
+if (db_params.search) {
+    const db_opts = querystring.parse(db_params.search.slice(1));
+    if(db_opts.use_ssl === 'false') {
+        db_use_ssl = false;
+    }
+}
+
+const config = {
+  user:      db_auth[0],
+  password:  db_auth[1],
+  host:      db_params.hostname,
+  port:      db_params.port,
+  database:  db_params.pathname.split('/')[1],
+  ssl:       db_use_ssl
+};
+
+var pg_pool = new pg.Pool(config);
+
+function pg_query(text, values) {
+    var p = new Promise(function(resolve, reject){
+        pg_pool.query(text, values, function(err, result){
+            if(err) {
+                reject({error: err, query: text})
+            }
+            resolve(result)
+        });
+    });
+    return p;
+}
 
 // TODO(wnh): merge your other work and make a single collection of this static
 // data
@@ -40,14 +77,14 @@ var STATIC_LIKELIHOOD = {
 };
 
 var STATIC_ASPECTS = {
-    "AspectNorth":      "N",
-    "AspectNorthEast":  "NE",
-    "AspectEast":       "E",
-    "AspectSouthEast":  "SE",
-    "AspectSouth":      "S",
-    "AspectSouthWest":  "SW",
-    "AspectWest":       "W",
-    "AspectNorthWest":  "NW",
+    "aspect_north":       "N",
+    "aspect_north_east":  "NE",
+    "aspect_east":        "E",
+    "aspect_south_east":  "SE",
+    "aspect_south":       "S",
+    "aspect_south_west":  "SW",
+    "aspect_west":        "W",
+    "aspect_north_west":  "NW",
 };
 
 
@@ -63,26 +100,26 @@ var router = express.Router();
 var ARCHIVE_DBURL = process.env.ARCHIVE_DBURL;
 
 var BULLETIN_QUERY =
-    '  select top(1)                    '+
-    '       B.*                         '+
-    '  from Bulletin B                  '+
-    '  join BulletinRegion R            '+
-    '      on R.RegionID = B.RegionID   '+
-    '  where R.Link = @region           '+
-    '        and B.DateIssued < @date   '+
-    '        and B.ValidUntil > @date   '+
-    '  order by B.DateIssued desc       ';
+    '  SELECT                             '+
+    '       B.*                           '+
+    '  FROM bulletin B                    '+
+    '  JOIN bulletin_region R             '+
+    '      ON R.region_id = B.region_id   '+
+    '  WHERE R.link = $1                  '+
+    '        AND B.date_issued < $2       '+
+    '        AND B.valid_until > $2       '+
+    '  ORDER BY B.date_issued DESC LIMIT 1';
 
 var AVPROB_QUERY =
-    '  select *                '+
-    '  from Problem            '+
-    '  where BulletinID = @bid ';
+    '  SELECT *                 '+
+    '  FROM problem             '+
+    '  WHERE bulletin_id = $1   ';
 
 var DANGER_QUERY = 
-    '  select *                '+
-    '  from DangerRating       '+
-    '  where BulletinID = @bid '+
-    '  order by SortOrder asc  ';
+    '  SELECT *                '+
+    '  FROM danger_rating       '+
+    '  WHERE bulletin_id = $1   '+
+    '  ORDER BY sort_order ASC  ';
 
 router.get('/:date/:region.json', (req,res) => {
 
@@ -127,7 +164,7 @@ function newAvalx(req, res) {
     });
     
 }
-        
+
 function oldAvalx(req, res) {
     // Validate :region is something we know about
     // TODO(wnh): Maybe not since its all old stuff and regions are in flux?
@@ -145,22 +182,7 @@ function oldAvalx(req, res) {
         return;
     }
 
-    var conn;
-    try {
-        conn = mssql.connect(ARCHIVE_DBURL)
-    } catch(err) {
-        console.log('Error connecting to Forecast Archive DB:', err, err.stack) 
-        return res.status(503).json({error: 'Error connecting to Forecast Archive Database'})
-    }
-    var json = conn
-    .then(() => {
-        return (
-            new mssql.Request()
-                .input('region', regionId)
-                .input('date',   date.utc().format())
-                .query(BULLETIN_QUERY)
-        );
-    })
+    pg_query(BULLETIN_QUERY, [regionId, date.utc().format()])
     .then(getFirstBulletin)
     .then(getAvProblems)
     .then(getDangerRatings)
@@ -183,29 +205,25 @@ function oldAvalx(req, res) {
 
 function getAvProblems(bulletin) {
     var probs = 
-        (new mssql.Request())
-        .input('bid', bulletin.bulletinID)
-        .query(AVPROB_QUERY)
-        .then((x) => x);
+        pg_query(AVPROB_QUERY, [bulletin.bulletin_id])
+        .then((x) => x.rows);
 
     return Promise.all([bulletin, probs]);
 }
 
 function getDangerRatings(args) {
     var ratings = 
-        (new mssql.Request())
-        .input('bid', args[0].bulletinID)
-        .query(DANGER_QUERY)
-        .then((x) => x);
+        pg_query(DANGER_QUERY, [args[0].bulletin_id])
+        .then((x) => x.rows);
 
     return Promise.all([args[0], args[1], ratings]);
 }
 
 function getFirstBulletin(bulletins) {
-    if(bulletins.length < 1) {
+    if((bulletins.rowCount < 1) || (bulletins.rows.length < 1)) {
         throw new Error(BULLETIN_NOT_FOUND)
     }
-    return bulletins[0];
+    return bulletins.rows[0];
 }
 
 /*
@@ -225,23 +243,23 @@ function filterRatingsForRegion(region, ratings) {
 }
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
-    var issued = moment(bulletin.DateIssued);
-    var until  = moment(bulletin.ValidUntil);
+    var issued = moment(bulletin.date_issued);
+    var until  = moment(bulletin.valid_until);
     var out_bulletin = {
-        id:             'bid_' + bulletin.bulletinID,
+        id:             'bid_' + bulletin.bulletin_id,
         region:         region,
         dateIssued:     issued.utc().format(),
         validUntil:     until.utc().format(),
-        forecaster:     bulletin.IssuedBy,
-        bulletinTitle:  bulletin.Header,
-        highlights:     bulletin.Headline,
-        confidence:     bulletin.Confidence,
-        avalancheSummary:  bulletin.AvalancheActivity,
-        snowpackSummary:   bulletin.SnowPack,
-        weatherForecast:   bulletin.Outlook,
+        forecaster:     bulletin.issued_by,
+        bulletinTitle:  bulletin.header,
+        highlights:     bulletin.headline,
+        confidence:     bulletin.confidence,
+        avalancheSummary:  bulletin.avalanche_activity,
+        snowpackSummary:   bulletin.snow_pack,
+        weatherForecast:   bulletin.outlook,
     };
     out_bulletin['dangerRatings'] = filterRatingsForRegion(region, ratings).map(formatDangerRating(issued));
-    out_bulletin['problems']      = problems.filter((p) => p.ShowToPublic).map(formatAvProblem(issued));
+    out_bulletin['problems']      = problems.filter((p) => p.show_to_public).map(formatAvProblem(issued));
     return out_bulletin;
 }
 /*
@@ -252,13 +270,12 @@ function generateJsonBulletin(region, bulletin, problems, ratings) {
  */
 function formatAvProblem(date) {
     return function(problem) {
-        console.log(date.format(), problem);
         return {
-            type: problem.Type,
+            type: problem.type,
             likelihood: formatLikelihood(problem),
-            travelAndTerrainAdvice: problem.TravelAdvisory,
-            comment: problem.Comments,
-            expectedSize: { min: String(problem.SizeMin), max: String(problem.SizeMax), },
+            travelAndTerrainAdvice: problem.travel_advisory,
+            comment: problem.comments,
+            expectedSize: { min: String(problem.size_min), max: String(problem.size_max) },
             aspects: formatAspects(problem),
             icons: formatIcons(problem),
             elevations: formatElevations(problem),
@@ -269,8 +286,8 @@ function formatAvProblem(date) {
 function formatIcons(prob) {
     var ROOT = "http://www.avalanche.ca/assets/images"
 
-    var sizemin = prob.SizeMin*10;
-    var sizemax = prob.SizeMax*10;
+    var sizemin = prob.size_min*10;
+    var sizemax = prob.size_max*10;
 
     var aspects = formatAspects(prob);
     var ha = (a) => (aspects.indexOf(a) > -1) ? '1' : '0';
@@ -290,7 +307,7 @@ function formatIcons(prob) {
     var mtn = [he('Alp'), he('Tln'), he('Btl')].join('-');
 
     return {
-        "likelihood":   ROOT + "/Likelihood/Likelihood-" + prob.LikelyhoodTypical + "_EN.png",
+        "likelihood":   ROOT + "/Likelihood/Likelihood-" + prob.likelyhood_typical + "_EN.png",
         "expectedSize": ROOT + "/size/Size-"+sizemin+"-"+sizemax+"_EN.png",
         "aspects":      ROOT + "/Compass/compass-"+compass+"_EN.png",
         "elevations":   ROOT + "/Elevation/Elevation-"+mtn+"_EN.png",
@@ -304,14 +321,14 @@ function formatAspects(prob) {
 }
 
 function formatLikelihood(p) {
-    return STATIC_LIKELIHOOD[p.LikelyhoodTypical];
+    return STATIC_LIKELIHOOD[p.likelyhood_typical];
 }
 
 function formatElevations(p) {
     var elv = [];
-    if(p.Alpine)   { elv.push("Alp") };
-    if(p.Treeline) { elv.push("Tln") };
-    if(p.Below)    { elv.push("Btl") };
+    if(p.alpine)   { elv.push("Alp") };
+    if(p.treeline) { elv.push("Tln") };
+    if(p.below)    { elv.push("Btl") };
     return elv;
 }
 
@@ -325,13 +342,13 @@ function formatDangerRating(date) {
     return function(rating) {
         // This needs to be copied because moment makes dates mutable o_O
         var d = moment(date);
-        d.add(rating.SortOrder - 1, 'days');
+        d.add(rating.sort_order - 1, 'days');
         return {
             date: d,
             dangerRating: {
-                alp: STATIC_RATINGS[rating.Alpine],
-                tln: STATIC_RATINGS[rating.Treeline],
-                btl: STATIC_RATINGS[rating.Below],
+                alp: STATIC_RATINGS[rating.alpine],
+                tln: STATIC_RATINGS[rating.treeline],
+                btl: STATIC_RATINGS[rating.below],
             }
         };
     }
