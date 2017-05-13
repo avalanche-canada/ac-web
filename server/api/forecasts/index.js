@@ -22,20 +22,27 @@ require('es6-promise');
 var cacheManager = require('cache-manager');
 var redisStore = require('cache-manager-redis');
 
-
-var acAvalxUrls = _.chain(regions.features).filter(function (feature) {
-    return (feature.properties.type === 'avalx' || feature.properties.type === 'parks');
-}).map(function (feature) {
-    return feature.properties.url;
-}).value();
-
+var acAvalxUrls = _.chain(regions.features)
+    .filter(function(feature) {
+        return (
+            feature.properties.type === 'avalx' ||
+            feature.properties.type === 'parks'
+        );
+    })
+    .map(function(feature) {
+        return feature.properties.url;
+    })
+    .value();
 
 var avalxWebcache = null;
 var fragmentCache = null;
 
-if(process.env.REDIS_HOST) {
-    var webcacheOptions ={ store: new WebCacheRedis(6379, process.env.REDIS_HOST) };
-    if(!process.env.NO_CACHE_REFRESH) webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
+if (process.env.REDIS_HOST) {
+    var webcacheOptions = {
+        store: new WebCacheRedis(6379, process.env.REDIS_HOST),
+    };
+    if (!process.env.NO_CACHE_REFRESH)
+        webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
     avalxWebcache = new WebCache(webcacheOptions);
 
     fragmentCache = cacheManager.caching({
@@ -43,87 +50,91 @@ if(process.env.REDIS_HOST) {
         host: process.env.REDIS_HOST, // default value
         port: 6379, // default value
         db: 1,
-        ttl: 60*5 /*seconds*/,
+        ttl: 60 * 5 /*seconds*/,
     });
-}
-else {
+} else {
     avalxWebcache = new WebCache();
-    fragmentCache = cacheManager.caching({store: 'memory', max: 100, ttl: 60*10/*seconds*/});
+    fragmentCache = cacheManager.caching({
+        store: 'memory',
+        max: 100,
+        ttl: 60 * 10 /*seconds*/,
+    });
 }
 
 avalxWebcache.seed(acAvalxUrls);
 
 var DEBUG = console.log.bind(console);
 
-router.param('region', function (req, res, next) {
-    req.region = _.find(regions.features, {id: req.params.region});
+router.param('region', function(req, res, next) {
+    req.region = _.find(regions.features, { id: req.params.region });
 
     // Bail out if there is no region with that ID
     if (!req.region) {
-        logger.log('info','forecast region not found url="' + req.originalUrl + '"');
-        res.status(404)
-           .end("Not Found");
-        return
+        logger.log(
+            'info',
+            'forecast region not found url="' + req.originalUrl + '"'
+        );
+        res.status(404).end('Not Found');
+        return;
     }
 
     getForecastData(req.params.region, req.region)
-        .then(function (forecast) {
+        .then(function(forecast) {
             req.forecast = forecast;
             next();
-        }).catch(function (e) {
-            logger.log('error',e);
+        })
+        .catch(function(e) {
+            logger.log('error', e);
             res.send(500);
-        }).done();
-
+        })
+        .done();
 });
 
 function getForecastData(regionName, region) {
-
-    if(region.properties.type === 'link') {
+    if (region.properties.type === 'link') {
         return Q.resolve({
             json: {
                 id: region.id,
                 name: region.properties.name,
-                externalUrl: region.properties.url
-            }
+                externalUrl: region.properties.url,
+            },
         });
     }
 
-    return avalxWebcache.get(region.properties.url)
-        .then(function (cached_caaml) {
-            if(!cached_caaml) {
-                DEBUG("BUILDING forecast caaml for region:", region.id);
+    return avalxWebcache
+        .get(region.properties.url)
+        .then(function(cached_caaml) {
+            if (!cached_caaml) {
+                DEBUG('BUILDING forecast caaml for region:', region.id);
                 return Q.nfcall(avalx.fetchCaamlForecast, region);
             } else {
                 return cached_caaml;
             }
-         })
-         .then(function (caaml) {
-             return [caaml]
-         }).spread(function (caaml) {
+        })
+        .then(function(caaml) {
+            return [caaml];
+        })
+        .spread(function(caaml) {
             var cacheKey = 'forecast-data::json::' + region.id;
-            var json = fragmentCache.wrap(cacheKey, function(){
-                DEBUG("BUILDING forecast data...", cacheKey);
+            var json = fragmentCache.wrap(cacheKey, function() {
+                DEBUG('BUILDING forecast data...', cacheKey);
                 return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
             });
             return [caaml, json];
-        }).spread(function(caaml, json) {
-
-
-            if (region.properties.type === 'avalx'){
+        })
+        .spread(function(caaml, json) {
+            if (region.properties.type === 'avalx') {
                 json.bulletinTitle = region.properties.name;
-
-            }else if (region.properties.type === 'parks'){
+            } else if (region.properties.type === 'parks') {
                 json.parksUrl = region.properties.externalUrl;
-                json.name        = region.properties.name;
+                json.name = region.properties.name;
             }
 
             return {
                 region: region.id,
                 caaml: caaml,
-                json: json
+                json: json,
             };
-
         });
 }
 
@@ -137,11 +148,11 @@ router.get('/areas', function(req, res) {
 });
 
 router.get('/:region.:format', function(req, res) {
-    req.params.format = req.params.format || 'json'
+    req.params.format = req.params.format || 'json';
     var forecast;
     var locals;
 
-    switch(req.params.format) {
+    switch (req.params.format) {
         case 'xml':
             res.header('Content-Type', 'application/xml');
             res.send(req.forecast.caaml);
@@ -155,24 +166,24 @@ router.get('/:region.:format', function(req, res) {
         case 'rss':
             locals = avalx.getTableLocals(req.forecast.json);
 
-            res.render('forecasts/forecast-rss', locals, function (err, xml) {
-                if(err) {
+            res.render('forecasts/forecast-rss', locals, function(err, xml) {
+                if (err) {
                     res.send(500);
                 } else {
                     res.header('Content-Type', 'application/rss+xml');
-                    res.send(xml)
+                    res.send(xml);
                 }
             });
             break;
         case 'html':
             locals = avalx.getTableLocals(req.forecast.json);
             locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
-            res.render('forecasts/forecast-html', locals, function (err, html) {
-                if(err) {
+            res.render('forecasts/forecast-html', locals, function(err, html) {
+                if (err) {
                     res.send(500);
                 } else {
                     //req.webcache(html);
-                    res.send(html)
+                    res.send(html);
                 }
             });
             break;
@@ -180,40 +191,47 @@ router.get('/:region.:format', function(req, res) {
             res.send(404);
             break;
     }
-
 });
 
 router.get('/:region/nowcast.svg', function(req, res) {
     var styles;
     var mimeType = 'image/svg+xml';
 
-
-    if (req.region.properties.type === 'parks'
-     || req.region.properties.type === 'avalx') {
-
+    if (
+        req.region.properties.type === 'parks' ||
+        req.region.properties.type === 'avalx'
+    ) {
         styles = avalx.getNowcastStyles(req.forecast.json);
 
-        var cacheKey = "nowcast-image::" + req.region.id;
-        fragmentCache.wrap(cacheKey, function(){
-            DEBUG('BUILDING Nowcast image...', cacheKey);
-            return Q.nfcall(res.render.bind(res), 'forecasts/nowcast', styles);
-        }).then(function (svg) {
+        var cacheKey = 'nowcast-image::' + req.region.id;
+        fragmentCache
+            .wrap(cacheKey, function() {
+                DEBUG('BUILDING Nowcast image...', cacheKey);
+                return Q.nfcall(
+                    res.render.bind(res),
+                    'forecasts/nowcast',
+                    styles
+                );
+            })
+            .then(function(svg) {
                 res.set('Cache-Control', 'no-cache');
                 res.set('Content-Type', mimeType);
                 res.send(svg);
-        }).catch(function(err) {
-          console.log("Error generating nowcast:", err);
-          res.send(500);
-        });
+            })
+            .catch(function(err) {
+                console.log('Error generating nowcast:', err);
+                res.send(500);
+            });
         //.done();
-
     } else {
         res.send(404);
     }
-
 });
 
-router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(req, res) {
+router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(
+    req,
+    res
+) {
     var colors = {
         1: avalx.dangerColors.green,
         2: avalx.dangerColors.yellow,
@@ -221,47 +239,48 @@ router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(req, res)
         4: avalx.dangerColors.red,
         5: avalx.dangerColors.black,
         n: avalx.dangerColors.white,
-    }
+    };
     var styles = {
         alp: colors[req.params.alp],
         tln: colors[req.params.tln],
         btl: colors[req.params.btl],
-    }
+    };
 
-    res.render('forecasts/danger-icon', styles, function (err, svg) {
-        if(err) {
+    res.render('forecasts/danger-icon', styles, function(err, svg) {
+        if (err) {
             res.send(500);
         } else {
             res.header('Cache-Control', 'no-cache');
             res.header('Content-Type', 'image/svg+xml');
-            res.send(svg)
+            res.send(svg);
         }
     });
-})
+});
 
 router.get('/:region/danger-rating-icon.svg', function(req, res) {
     var ratingStyles = {
         alp: '',
         tln: '',
-        btl: ''
+        btl: '',
     };
 
     // TODO(wnh): Remove this giant hack
-    if(req.region.id === 'north-rockies')
-    {
-      console.log("Sending static conditions-report icon");
-      res.sendFile(config.root + '/server/views/forecasts/conditions-report-icon.svg');
-      return
+    if (req.region.id === 'north-rockies') {
+        console.log('Sending static conditions-report icon');
+        res.sendFile(
+            config.root + '/server/views/forecasts/conditions-report-icon.svg'
+        );
+        return;
     }
 
-    var renderIcon = function(styles){
-        res.render('forecasts/danger-icon', styles, function (err, svg) {
-            if(err) {
+    var renderIcon = function(styles) {
+        res.render('forecasts/danger-icon', styles, function(err, svg) {
+            if (err) {
                 res.send(500);
             } else {
                 res.header('Cache-Control', 'no-cache');
                 res.header('Content-Type', 'image/svg+xml');
-                res.send(svg)
+                res.send(svg);
             }
         });
     };
@@ -269,78 +288,107 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     ratingStyles = avalx.getDangerIconStyles(req.forecast.json);
 
     // Render Empty for Links
-    if(req.region.properties.type === 'link') {
+    if (req.region.properties.type === 'link') {
         renderIcon({
             alp: '',
             tln: '',
-            btl: ''
+            btl: '',
         });
         return;
     }
     // Every other Region will be 'avalx' or 'parks'
 
-
     console.log(req.forecast.region, req.forecast.json.dangerMode);
     // Early season, Regular season, Spring situation, Off season
-    if (req.forecast.json.dangerMode === 'Regular season'){
+    if (req.forecast.json.dangerMode === 'Regular season') {
         //renderIcon(ratingStyles);
         var cacheKey = 'danger-rating-icon::' + req.region.id;
-        fragmentCache.wrap(cacheKey, function(){
-            DEBUG('BUILDING danger-rating-icon...', cacheKey);
-            return Q.nfcall(res.render.bind(res), 'forecasts/danger-icon', ratingStyles);
-        }).then(function(svg){
-            res.header('Cache-Control', 'no-cache');
-            res.header('Content-Type', 'image/svg+xml');
-            res.send(svg)
-        }).catch(function(err){
-            console.log("Error rendering danger rating:", err);
-            res.status(500).send(err);
-        });
+        fragmentCache
+            .wrap(cacheKey, function() {
+                DEBUG('BUILDING danger-rating-icon...', cacheKey);
+                return Q.nfcall(
+                    res.render.bind(res),
+                    'forecasts/danger-icon',
+                    ratingStyles
+                );
+            })
+            .then(function(svg) {
+                res.header('Cache-Control', 'no-cache');
+                res.header('Content-Type', 'image/svg+xml');
+                res.send(svg);
+            })
+            .catch(function(err) {
+                console.log('Error rendering danger rating:', err);
+                res.status(500).send(err);
+            });
     } else if (req.forecast.json.dangerMode === 'Off season') {
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
-        fs.createReadStream(config.root + '/server/views/forecasts/no_rating_icon.svg')
+        fs
+            .createReadStream(
+                config.root + '/server/views/forecasts/no_rating_icon.svg'
+            )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Early season') {
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
-        fs.createReadStream(config.root + '/server/views/forecasts/early_season_icon.svg')
+        fs
+            .createReadStream(
+                config.root + '/server/views/forecasts/early_season_icon.svg'
+            )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Spring situation') {
         res.header('cache-control', 'no-cache');
         res.header('content-type', 'image/svg+xml');
-        fs.createReadStream(config.root + '/server/views/forecasts/spring_situation_icon_map.svg')
+        fs
+            .createReadStream(
+                config.root +
+                    '/server/views/forecasts/spring_situation_icon_map.svg'
+            )
             .pipe(res);
     } else {
-        console.log("ERROR: unknown danger mode: ", req.forecast.json.dangerMode);
+        console.log(
+            'ERROR: unknown danger mode: ',
+            req.forecast.json.dangerMode
+        );
         res.send(500);
     }
-
 });
 
 function getDangerModes() {
-    return fragmentCache.wrap('danger-modes', function(){
-        console.log("BUILDING danger-modes");
+    return fragmentCache.wrap('danger-modes', function() {
+        console.log('BUILDING danger-modes');
         /*
          * Use Q.Promise because the promise handleing in the Prismic library
          * wasnt working as expected
          */
         return Q.Promise(function(resolve, reject) {
-            Prismic.api("https://avalancheca.prismic.io/api", function(err, api){
-                if(err) { reject(err); return; }
+            Prismic.api('https://avalancheca.prismic.io/api', function(
+                err,
+                api
+            ) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
                 var dangerId = api.bookmarks['danger-modes'];
 
-                api.getByID(dangerId, {}, function(err2, doc){
-                    if(err2) { reject(err2); return; }
+                api.getByID(dangerId, {}, function(err2, doc) {
+                    if (err2) {
+                        reject(err2);
+                        return;
+                    }
                     resolve(doc);
                 });
             });
-        }).then(function(doc){
-            var ids = _.map(regions.features, function(x){ return x.id; });
+        }).then(function(doc) {
+            var ids = _.map(regions.features, function(x) {
+                return x.id;
+            });
             var modes = {};
-            var dangerModes = _.each(ids, function(id){
+            var dangerModes = _.each(ids, function(id) {
                 var value = doc.data['forecast-conditions.' + id];
-                if(value) {
+                if (value) {
                     modes[id] = value.value;
                 }
             });
@@ -349,8 +397,7 @@ function getDangerModes() {
     });
 }
 
-
 module.exports = {
-    router:router,
-    getForecastData: getForecastData
+    router: router,
+    getForecastData: getForecastData,
 };

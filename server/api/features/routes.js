@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var feature_metadata = require('./metadata');
 
-
-
 var STATIC_METADATA = JSON.stringify(feature_metadata);
 
 router.get('/metadata', function(req, res) {
@@ -11,4 +9,3 @@ router.get('/metadata', function(req, res) {
 });
 
 module.exports = router;
-

@@ -16,31 +16,29 @@ var path = require('path');
 var config = require('./environment');
 var cors = require('cors');
 
-
-
 var ROOT = path.normalize(__dirname + '/../..');
 
 module.exports = function(app) {
-  var env = app.get('env');
+    var env = app.get('env');
 
-  app.use(cors());
-  app.set('views', ROOT + '/server/views');
-  app.set('view engine', 'jade');
-  app.use(compression());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-  app.use(methodOverride());
-  app.use(cookieParser());
-  
-  if ('production' === env) {
-    app.use(favicon(path.join(ROOT, 'public', 'favicon.ico')));
-    app.set('appPath', ROOT + '/public');
-    app.use(morgan('dev'));
-  }
+    app.use(cors());
+    app.set('views', ROOT + '/server/views');
+    app.set('view engine', 'jade');
+    app.use(compression());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+    app.use(methodOverride());
+    app.use(cookieParser());
 
-  if ('development' === env || 'test' === env) {
-    app.set('appPath', 'client');
-    app.use(morgan('dev'));
-    app.use(errorHandler()); // Error handler - has to be last
-  }
+    if ('production' === env) {
+        app.use(favicon(path.join(ROOT, 'public', 'favicon.ico')));
+        app.set('appPath', ROOT + '/public');
+        app.use(morgan('dev'));
+    }
+
+    if ('development' === env || 'test' === env) {
+        app.set('appPath', 'client');
+        app.use(morgan('dev'));
+        app.use(errorHandler()); // Error handler - has to be last
+    }
 };

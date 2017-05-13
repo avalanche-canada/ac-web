@@ -1,5 +1,5 @@
 {
-  "name": "avalanche-canada",
+
  "version": "0.0.0",
   "main": "server/app.js",
   "homepage": "http://www.avalanche.ca/",
@@ -166,7 +166,8 @@
     "dev": "webpack-dev-server",
     "mocha": "mocha",
     "build-storybook": "build-storybook",
-    "prettier": "prettier --write --tab-width=4 --no-semi --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"client/**/*.js\"",
+    "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+    "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
     "lint": "eslint \"client/**/*.js\""
   },
   "private": true
