@@ -1,7 +1,14 @@
-import { compose, flattenProp, mapProps } from 'recompose'
+import React from 'react'
+import { mapProps } from 'recompose'
 import QuestionAnswer from '~/components/question-answer'
+import { parse } from '~/prismic'
+import { StructuredText } from '~/prismic/components/base'
 
-export default compose(
-    mapProps(props => props.content[0]),
-    flattenProp('content')
-)(QuestionAnswer)
+export default mapProps(props => {
+    const [{ question, answer }] = parse(props)
+
+    return {
+        question,
+        answer: <StructuredText value={answer} />,
+    }
+})(QuestionAnswer)

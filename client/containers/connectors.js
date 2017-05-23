@@ -46,6 +46,7 @@ import format from 'date-fns/format'
 import { makeGetDocumentAndStatus, getResult } from '~/selectors/prismic/utils'
 import getSponsor, { getSponsorUid } from '~/selectors/sponsor'
 import get from 'lodash/get'
+import { parse } from '~/prismic'
 
 export const forecast = compose(
     withRouter,
@@ -162,7 +163,10 @@ export const hotZoneReport = compose(
 
             props.fitBounds(bbox, options)
         },
-    })
+    }),
+    withProps(({ report }) => ({
+        report: parse(report).data,
+    }))
 )
 
 export const archiveHotZoneReport = compose(

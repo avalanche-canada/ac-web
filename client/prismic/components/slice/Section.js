@@ -1,18 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Section as PageSection } from '~/components/page'
-import { InnerHTML } from '~/components/misc'
+import { mapProps } from 'recompose'
+import { Section } from '~/components/page'
+import { StructuredText } from '~/prismic/components/base'
+import { parseGroup } from '~/prismic/parsers'
 
-Section.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
+export default mapProps(props => {
+    const [{ content, ...group }] = parseGroup(props)
 
-export default function Section({ content: [props] = [] }) {
-    return (
-        <PageSection {...props}>
-            <InnerHTML>
-                {props.content}
-            </InnerHTML>
-        </PageSection>
-    )
-}
+    return {
+        ...group,
+        children: <StructuredText value={content} />,
+    }
+})(Section)

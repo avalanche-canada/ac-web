@@ -1,9 +1,11 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { Media, Caption, Player } from '~/components/media'
-import { InnerHTML, Ribbon } from '~/components/misc'
+import { Ribbon } from '~/components/misc'
 import styles from './Video.css'
+import { parseGroup } from '~/prismic/parsers'
+import { StructuredText } from '~/prismic/components/base'
 
 Video.propTypes = {
     caption: PropTypes.string,
@@ -13,28 +15,18 @@ Video.propTypes = {
 }
 
 function Video({ caption, credit, ribbonCaption, ribbonTitle, ...player }) {
-    const media = {}
-
-    if (caption || credit) {
-        Object.assign(media, {
-            caption: (
-                <Caption>
-                    <InnerHTML>
-                        {caption}
-                    </InnerHTML>
-                </Caption>
-            ),
-        })
-    }
-
     return (
         <div>
             {ribbonTitle &&
                 <Ribbon caption={ribbonCaption}>
                     {ribbonTitle}
                 </Ribbon>}
-            <Media {...media}>
+            <Media>
                 <Player {...player} />
+                {caption &&
+                    <Caption>
+                        <StructuredText value={caption} />
+                    </Caption>}
             </Media>
         </div>
     )
@@ -45,15 +37,12 @@ VideoSet.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function VideoSet({ content = [] }) {
+function VideoSet(props) {
     return (
         <div styleName="VideoSet">
-            {content.map((props, index) =>
-                createElement(Video, {
-                    key: index,
-                    ...props,
-                })
-            )}
+            {parseGroup(props).map((props, index) => (
+                <Video key={index} {...props} />
+            ))}
         </div>
     )
 }

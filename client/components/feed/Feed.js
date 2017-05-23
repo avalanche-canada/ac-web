@@ -5,6 +5,10 @@ import EntrySet from './EntrySet'
 import Entry from './Entry'
 import Status from '~/utils/status'
 
+function createEntry(entry) {
+    return <Entry key={entry.uid} {...entry} />
+}
+
 Feed.propTypes = {
     content: PropTypes.array,
     status: PropTypes.instanceOf(Status),
@@ -15,7 +19,7 @@ export default function Feed({ content = [], status }) {
         <div>
             <StatusComponent {...status.toJSON()} />
             <EntrySet>
-                {content.map(entry => <Entry key={entry.uid} {...entry} />)}
+                {content.map(createEntry)}
             </EntrySet>
         </div>
     )

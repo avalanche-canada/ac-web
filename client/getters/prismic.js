@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import RESULT from '~/reducers/result'
 import { paramsToKey } from '~/actions/prismic'
-import transform from '~/prismic/transformers'
+import { parse } from '~/prismic'
 import { createSelector } from 'reselect'
 
 const MAP = new Immutable.Map()
@@ -52,5 +52,5 @@ export function getDocumentFromParams(state, { id, type, uid }) {
 // TODO: Move that selector out of here, only getters here!
 export const getHighlight = createSelector(
     state => getDocumentsOfType(state, 'highlight').first(),
-    highlight => (highlight ? transform(highlight) : null)
+    highlight => (highlight ? parse(highlight) : null)
 )

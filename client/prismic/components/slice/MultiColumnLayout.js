@@ -2,21 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './MultiColumnLayout.css'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
+import { parseGroup } from '~/prismic/parsers'
+
+function createItem({ content }, index) {
+    return <StructuredText key={index} value={content} />
+}
 
 MultiColumnLayout.propTypes = {
     // TODO: Create appropriate propType
-    content: PropTypes.arrayOf(PropTypes.string).isRequired,
+    value: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
-function MultiColumnLayout({ content = [] }) {
+function MultiColumnLayout(props) {
     return (
         <div styleName="ColumnSet">
-            {content.map(({ content }, index) => (
-                <InnerHTML key={index}>
-                    {content}
-                </InnerHTML>
-            ))}
+            {parseGroup(props).map(createItem)}
         </div>
     )
 }

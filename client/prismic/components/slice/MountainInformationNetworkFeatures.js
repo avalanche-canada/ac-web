@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
 import { classify } from '~/utils/string'
+import { parseGroup } from '~/prismic/parsers'
 
 const Texts = new Map([['Not available', 'N/A']])
 
@@ -11,7 +12,9 @@ MountainInformationNetworkFeatures.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function MountainInformationNetworkFeatures({ content = [] }) {
+function MountainInformationNetworkFeatures(props) {
+    const features = parseGroup(props)
+
     return (
         <table styleName="Table">
             <thead>
@@ -28,7 +31,7 @@ function MountainInformationNetworkFeatures({ content = [] }) {
                 </tr>
             </thead>
             <tbody>
-                {content.map(({ feature, ...values }) => (
+                {features.map(({ feature, ...values }) => (
                     <tr key={feature}>
                         <td>{feature}</td>
                         {Object.keys(values).map(key => {

@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 import { computeOffset } from '~/selectors/map/bounds'
-import { parseLocation } from '~/prismic/parser'
+import { parseLocation } from '~/prismic/parsers'
 import {
     getStatusFactory,
     getDocument,

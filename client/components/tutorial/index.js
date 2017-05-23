@@ -6,7 +6,7 @@ import { Fragments } from 'prismic.io'
 import CSSModules from 'react-css-modules'
 import styles from './tutorial.css'
 import { Page, Main, Content } from '~/components/page'
-import { Media, Player } from '~/components/media'
+import { Media, Player, Caption } from '~/components/media'
 import AtesExercise from './AtesExercise'
 import { fetchStaticResource } from '~/api'
 import { Loading } from '~/components/misc'
@@ -122,8 +122,11 @@ function GalleryImage({ url, caption, credit }) {
     const split = cap && cred ? ' - ' : ''
     return (
         <div className={styles.ImageContainer}>
-            <Media caption={`${cap}${split}${cred}`}>
+            <Media>
                 <img className={styles.Image} src={url} />
+                <Caption>
+                    {cap + split + cred}
+                </Caption>
             </Media>
         </div>
     )

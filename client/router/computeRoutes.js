@@ -554,6 +554,14 @@ export default function computeRoutes(store) {
                 from="min/submissions"
                 to="mountain-information-network/submissions"
             />
+            <Redirect
+                from="pages/static-page/mountain-information-network-faq"
+                to="mountain-information-network/faq"
+            />
+            <Redirect
+                from="pages/static-page/mountain-information-network-submission-guidelines"
+                to="mountain-information-network/submission-guidelines"
+            />
             {/* AVALANCHE CANADA FOUNDATION */}
             <Route path="foundation">
                 <IndexRoute

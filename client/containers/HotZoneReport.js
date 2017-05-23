@@ -24,6 +24,7 @@ function Container({
     shareUrl,
     region,
 }) {
+    console.warn(report)
     return (
         <Page>
             <Header title={title} />

@@ -6,6 +6,7 @@ import List from '~/components/mountainInformationNetwork/List'
 import { Term, Definition } from '~/components/description'
 import Panel, { INVERSE } from '~/components/panel'
 import styles from './HotZoneReport.css'
+import { StructuredText } from '~/prismic/components/base'
 import { RED, ORANGE } from '~/constants/forecast/palette'
 
 const TERMS = new Map([
@@ -118,7 +119,7 @@ function CriticalFactors({ report }) {
                 {questions}
             </Comment>
             <Comment>
-                {comments}
+                <StructuredText value={comments} />
             </Comment>
         </Panel>
     )

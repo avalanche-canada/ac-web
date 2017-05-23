@@ -1,11 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Splash } from '~/components/page/sections'
-import { InnerHTML } from '~/components/misc'
 import { Entry, EntrySet } from '~/components/feed'
 import { feedSplash } from '~/containers/connectors'
+import { parse } from '~/prismic'
 
 // TODO: Move to components feed. Containers should not render anything!
+
+function createEntry(document) {
+    // TODO: Should be the same as all other parser
+    const data = parse(document)
+
+    return <Entry condensed key={document.uid} {...data} />
+}
 
 FeedSplash.propTypes = {
     header: PropTypes.string.isRequired,
@@ -16,17 +23,13 @@ FeedSplash.propTypes = {
 function FeedSplash({ header, featured, documents = [] }) {
     return (
         <Splash>
-            <InnerHTML>
-                {header}
-            </InnerHTML>
+            {header}
             {featured &&
                 <EntrySet>
-                    <Entry {...featured} />
+                    {createEntry(featured)}
                 </EntrySet>}
             <EntrySet>
-                {documents.map(entry => (
-                    <Entry condensed key={entry.uid} {...entry} />
-                ))}
+                {documents.map(createEntry)}
             </EntrySet>
         </Splash>
     )

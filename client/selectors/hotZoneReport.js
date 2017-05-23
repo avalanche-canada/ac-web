@@ -1,16 +1,13 @@
 import { createSelector } from 'reselect'
-import Immutable from 'immutable'
 import * as Schemas from '~/api/schemas'
 import { getEntityForSchema, getEntitiesForSchema } from '~/getters/entities'
 import { getDocumentsOfType } from '~/getters/prismic'
 import { computeFitBounds } from '~/selectors/map/bounds'
-import Parser from '~/prismic/parser'
-import camelCase from 'lodash/camelCase'
+import { parse } from '~/prismic'
+import { parseData } from '~/prismic/parsers'
 import { isHotZoneReportValid, isReportWithinRange } from '~/prismic/utils'
 import endOfDay from 'date-fns/end_of_day'
-import parse from 'date-fns/parse'
-
-// TODO: Rework to take advantage of the new prismic structure and loading
+import parseDate from 'date-fns/parse'
 
 function getHotZone(state, { params }) {
     return getEntityForSchema(state, Schemas.HotZone, params.name)
@@ -22,10 +19,10 @@ function getHotZoneReportDocuments(state) {
 
 const getParsedHotZoneReports = createSelector(
     getHotZoneReportDocuments,
-    documents => documents.map(document => Parser.parse(document))
+    documents => documents.map(document => parse(document)).map(transform)
 )
 
-const ASPECT = new Immutable.Map({
+const ASPECTS = {
     E: false,
     W: false,
     SE: false,
@@ -34,72 +31,7 @@ const ASPECT = new Immutable.Map({
     NW: false,
     N: false,
     NE: false,
-})
-
-const HotZoneReport = Immutable.fromJS({
-    uid: null,
-    region: null,
-    title: null,
-    headline: null,
-    dateOfIssue: null,
-    validUntil: null,
-    dateUpdated: null,
-    criticalFactors: {
-        recentWindLoading: null,
-        persistentAvalancheProblem: null,
-        recentRainfall: null,
-        slabAvalanches: null,
-        recentSnowfall: null,
-        instability: null,
-        significantWarming: null,
-        questions: null,
-        comments: null,
-    },
-    treelineTerrainAvoidance: {
-        aspect: ASPECT.toObject(),
-        terrainFeatures: {
-            unsupported: false,
-            leeSlopes: false,
-            crossloadedSlopes: false,
-            convex: false,
-            shallowSnowpack: false,
-            variableDepthSnowpack: false,
-        },
-        travelAdvice: null,
-    },
-    belowTreelineTerrainAvoidance: {
-        aspect: ASPECT.toObject(),
-        terrainFeatures: {
-            creeks: false,
-            unsupported: false,
-            leeSlopes: false,
-            convex: false,
-            cutblocks: false,
-            runoutZones: false,
-        },
-        travelAdvice: null,
-    },
-    alpineTerrainAvoidance: {
-        aspect: ASPECT.toObject(),
-        terrainFeatures: {
-            unsupported: false,
-            leeSlopes: false,
-            crossloadedSlopes: false,
-            convex: false,
-            shallowSnowpack: false,
-            variableDepthSnowpack: false,
-        },
-        travelAdvice: null,
-    },
-    images: [],
-    goodTerrainChoices: null,
-    terrainToWatch: null,
-    terrainToAvoid: null,
-    goodTerrainChoicesComment: null,
-    terrainToWatchComment: null,
-    terrainToAvoidComment: null,
-    terrainAdviceComment: null,
-})
+}
 
 const yesNoValues = new Map([
     ['Yes', true],
@@ -108,6 +40,7 @@ const yesNoValues = new Map([
     [null, false],
     [undefined, false],
 ])
+
 const yesNoUnknownValues = new Map([
     ['Yes', true],
     ['No', false],
@@ -115,74 +48,152 @@ const yesNoUnknownValues = new Map([
     [null, null],
     [undefined, null],
 ])
-function extractTerrainAvoidance(report, prefix) {
-    prefix = `${prefix}TerrainAvoidance`
 
-    const prefixRegExp = new RegExp(`^${prefix}`)
-    const data = report
-        .filter((v, k) => prefixRegExp.test(k))
-        .mapKeys(k => camelCase(k.replace(prefixRegExp, '')))
-    const aspect = data
-        .mapKeys(k => k.toUpperCase())
-        .filter((v, k) => ASPECT.has(k))
-        .map(v => yesNoValues.get(v))
-    const terrainFeatures = HotZoneReport.getIn([
-        prefix,
-        'terrainFeatures',
-    ]).map((v, k) => yesNoValues.get(data.get(k)))
+function parseFeatures(features = []) {
+    return features.map(features => parseData(features))
+}
 
-    if (!data.has('travelAdvice') && aspect.isEmpty()) {
-        return null
+function mergeAspects(report, prefix) {
+    const keyRegExp = new RegExp(`${prefix}(E|W|Se|Sw|S|Nw|N|Ne)$`)
+    function reducer(aspects, key) {
+        const aspectKey = key.replace(keyRegExp, (match, key) =>
+            key.toUpperCase()
+        )
+
+        aspects[aspectKey] = yesNoValues.get(report[key])
+
+        return aspects
     }
 
     return {
-        aspect: ASPECT.merge(aspect),
-        travelAdvice: data.get('travelAdvice'),
-        terrainFeatures,
+        ...ASPECTS,
+        ...Object.keys(report).filter(::keyRegExp.test).reduce(reducer, {}),
     }
 }
-function extractCriticalFactors(report) {
-    const regExp = /^criticalFactors/
-    const criticalFactors = report
-        .filter((v, k) => regExp.test(k))
-        .mapEntries(([k, v]) => [
-            camelCase(k.replace(regExp, '')),
-            k === 'criticalFactorsComments' || k === 'criticalFactorsQuestions'
-                ? v
-                : yesNoUnknownValues.get(v),
-        ])
 
-    return HotZoneReport.get('criticalFactors').map((v, k) =>
-        criticalFactors.get(k, yesNoUnknownValues.get(v))
-    )
-}
-function transform(raw) {
-    const report = Immutable.fromJS(raw)
-
-    return HotZoneReport.map((v, k) => raw[k])
-        .merge({
-            criticalFactors: extractCriticalFactors(report),
-            treelineTerrainAvoidance: extractTerrainAvoidance(
-                report,
-                'treeline'
+function transform({ uid, data }) {
+    return {
+        uid,
+        region: data.region,
+        title: data.title,
+        headline: data.headline,
+        dateOfIssue: data.dateOfIssue,
+        validUntil: data.validUntil,
+        dateUpdated: data.dateUpdated,
+        criticalFactors: {
+            recentWindLoading: yesNoUnknownValues.get(
+                data.criticalFactorsRecentWindLoading
             ),
-            belowTreelineTerrainAvoidance: extractTerrainAvoidance(
-                report,
-                'belowTreeline'
+            persistentAvalancheProblem: yesNoUnknownValues.get(
+                data.criticalFactorsPersistentAvalancheProblem
             ),
-            alpineTerrainAvoidance: extractTerrainAvoidance(report, 'alpine'),
-            images: report.get('hotzoneImages', []).map(image => ({
-                ...image.get('hotzoneImage'),
-                caption: image.get('caption'),
-            })),
-        })
-        .toJSON()
+            recentRainfall: yesNoUnknownValues.get(
+                data.criticalFactorsRecentRainfall
+            ),
+            slabAvalanches: yesNoUnknownValues.get(
+                data.criticalFactorsSlabAvalanches
+            ),
+            recentSnowfall: yesNoUnknownValues.get(
+                data.criticalFactorsRecentSnowfall
+            ),
+            instability: yesNoUnknownValues.get(
+                data.criticalFactorsInstability
+            ),
+            significantWarming: yesNoUnknownValues.get(
+                data.criticalFactorsSignificantWarming
+            ),
+            questions: data.criticalFactorsQuestions,
+            comments: data.criticalFactorsComments,
+        },
+        treelineTerrainAvoidance: {
+            aspect: mergeAspects(data, 'treelineTerrainAvoidance'),
+            terrainFeatures: {
+                unsupported: yesNoValues.get(
+                    data.treelineTerrainAvoidanceUnsupported
+                ),
+                leeSlopes: yesNoValues.get(
+                    data.treelineTerrainAvoidanceLeeSlopes
+                ),
+                crossloadedSlopes: yesNoValues.get(
+                    data.treelineTerrainAvoidanceCrossloadedSlopes
+                ),
+                convex: yesNoValues.get(data.treelineTerrainAvoidanceConvex),
+                shallowSnowpack: yesNoValues.get(
+                    data.treelineTerrainAvoidanceShallowSnowpack
+                ),
+                variableDepthSnowpack: yesNoValues.get(
+                    data.treelineTerrainAvoidanceVariableDepthSnowpack
+                ),
+            },
+            travelAdvice: data.treelineTerrainAvoidanceTravelAdvice,
+        },
+        belowTreelineTerrainAvoidance: {
+            aspect: mergeAspects(data, 'belowTreelineTerrainAvoidance'),
+            terrainFeatures: {
+                creeks: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceCreeks
+                ),
+                unsupported: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceUnsupported
+                ),
+                leeSlopes: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceLeeSlopes
+                ),
+                convex: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceConvex
+                ),
+                cutblocks: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceCutblocks
+                ),
+                runoutZones: yesNoValues.get(
+                    data.belowTreelineTerrainAvoidanceRunoutZones
+                ),
+            },
+            travelAdvice: data.belowTreelineTerrainAvoidanceTravelAdvice,
+        },
+        alpineTerrainAvoidance: {
+            aspect: mergeAspects(data, 'alpineTerrainAvoidance'),
+            terrainFeatures: {
+                unsupported: yesNoValues.get(
+                    data.alpineTerrainAvoidanceUnsupported
+                ),
+                leeSlopes: yesNoValues.get(
+                    data.alpineTerrainAvoidanceLeeSlopes
+                ),
+                crossloadedSlopes: yesNoValues.get(
+                    data.alpineTerrainAvoidanceCrossloadedSlopes
+                ),
+                convex: yesNoValues.get(data.alpineTerrainAvoidanceConvex),
+                shallowSnowpack: yesNoValues.get(
+                    data.alpineTerrainAvoidanceShallowSnowpack
+                ),
+                variableDepthSnowpack: yesNoValues.get(
+                    data.alpineTerrainAvoidanceVariableDepthSnowpack
+                ),
+            },
+            travelAdvice: data.alpineTerrainAvoidanceTravelAdvice,
+        },
+        images: Array.isArray(data.hotzoneImages)
+            ? data.hotzoneImages.map(image => ({
+                  ...image.hotzoneImage,
+                  caption: image.caption,
+              }))
+            : [],
+        goodTerrainChoices: parseFeatures(data.goodTerrainChoices),
+        terrainToWatch: parseFeatures(data.terrainToWatch),
+        terrainToAvoid: parseFeatures(data.terrainToAvoid),
+        goodTerrainChoicesComment: data.goodTerrainChoicesComment,
+        terrainToWatchComment: data.terrainToWatchComment,
+        terrainToAvoidComment: data.terrainToAvoidComment,
+        terrainAdviceComment: data.terrainAdviceComment,
+    }
 }
 
 const getValidHotZoneReport = createSelector(
-    (state, props) => props.params,
+    (state, props) => props.params.name,
+    (state, props) => props.params.uid,
     getParsedHotZoneReports,
-    ({ name, uid }, reports) => {
+    (name, uid, reports) => {
         const filter = typeof uid === 'string'
             ? report => report.uid === uid
             : report => report.region === name && isHotZoneReportValid(report)
@@ -212,7 +223,6 @@ const getHotZoneReport = createSelector(
         const Schema = Schemas.HotZoneReport
 
         if (report) {
-            report = transform(report)
             const { region, uid } = report
             const { key } = Schema
 
@@ -248,9 +258,13 @@ function createDateRange(report) {
 }
 
 export const getHotZoneReportDateRanges = createSelector(
-    (state, props) => report => report.region === props.params.name,
+    (state, props) => props.params.name,
     getParsedHotZoneReports,
-    (filter, reports) => reports.filter(filter).map(createDateRange).toArray()
+    (name, reports) =>
+        reports
+            .filter(report => report.region === name)
+            .map(createDateRange)
+            .toArray()
 )
 
 export default getHotZoneReport
@@ -260,7 +274,7 @@ export const getArchiveHotZoneReport = createSelector(
     getParsedHotZoneReports,
     (state, props) => {
         const { name } = props.params
-        const date = parse(props.params.date, 'YYYY-MM-DD')
+        const date = parseDate(props.params.date, 'YYYY-MM-DD')
 
         return function find(report) {
             return report.region === name && isReportWithinRange(report, date)
@@ -273,7 +287,7 @@ export const getArchiveHotZoneReport = createSelector(
 
         if (reports.some(finder)) {
             Object.assign(props, {
-                report: transform(reports.find(finder)),
+                report: reports.find(finder),
             })
         }
 

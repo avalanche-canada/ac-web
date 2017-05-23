@@ -10,7 +10,6 @@ import TerrainAdviceSet from './TerrainAdviceSet'
 import ImageGallery from '~/components/gallery'
 import styles from './HotZoneReport.css'
 import ArchiveWarning from './ArchiveWarning'
-import get from 'lodash/get'
 
 const Panel = withProps({
     theme: INVERSE,
@@ -24,24 +23,20 @@ HotZoneReport.propTypes = {
 }
 
 function HotZoneReport({ report, previous, next }) {
-    const title = get(report, 'title')
-    const headline = get(report, 'headline')
+    const { title, headline, images } = report
     let gallery = null
 
-    if (report) {
-        const images = report.images.map(({ url, caption }) => ({
-            original: url,
-            description: caption,
-        }))
-
+    if (images) {
         gallery = images.length > 0 && {
-            items: images,
+            items: images.map(({ value, caption = {} }) => ({
+                original: value.main.url,
+                description: caption.value,
+            })),
             showBullets: images.length > 1,
             showPlayButton: images.length > 1,
             showThumbnails: false,
         }
     }
-
     return (
         <div styleName="HotZoneReport">
             <ArchiveWarning report={report} next={next} previous={previous} />

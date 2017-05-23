@@ -10,7 +10,6 @@ export Splash from './Splash'
 export const Feed = feed(FeedComponent)
 export const FilterSet = feed(FilterSetComponent)
 
-// TODO: Not required once moved to redux-little-router
 export const NewsPost = post('news')
 export const BlogPost = post('blog')
 export const EventPost = post('event')

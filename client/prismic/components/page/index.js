@@ -5,7 +5,6 @@ import StaticPage from './StaticPage'
 import Generic from './Generic'
 
 export Generic from './Generic'
-export Sidebar from './Sidebar'
 export Content from './Content'
 export StaticPage from './StaticPage'
 

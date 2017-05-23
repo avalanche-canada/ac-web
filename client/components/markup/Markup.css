@@ -1,10 +1,11 @@
 @import "../../styles/colors.css";
 
 .Credit {
-    position: absolute auto 0 0 auto;
+    position: absolute auto 0 0.25em auto;
     color: white;
     background-color: var(--gray-darker);
     padding: 0.25em 0.5em;
+    opacity: 0.75;
 
     &:before {
         content: 'Credits: '

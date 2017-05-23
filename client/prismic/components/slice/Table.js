@@ -8,14 +8,16 @@ import { Responsive, PageSizeSelector } from '~/components/table'
 import Table, { Column, Body } from '~/components/table/managed'
 import { FilterSet, FilterEntry } from '~/components/filter'
 import Pagination from '~/components/pagination'
-import { Status, InnerHTML, Br } from '~/components/misc'
+import { Status, Br } from '~/components/misc'
 import { DropdownFromOptions as Dropdown } from '~/components/controls'
-import transform from '~/prismic/transformers'
+import { parseForMap } from '~/prismic'
+import { parseData } from '~/prismic/parsers'
 import get from 'lodash/get'
 import { prismic } from '~/containers/connectors'
 import { getStatusFactory } from '~/selectors/prismic/utils'
 import * as Factories from '~/selectors/factories'
 import { NONE } from '~/constants/sortings'
+import { StructuredText } from '~/prismic/components/base'
 
 const YES = 'Yes'
 const ARRAY = []
@@ -43,7 +45,7 @@ const getColumns = createSelector(getContent, columns =>
 
 const getTransformedRows = createSelector(
     (state, props) => getDocumentsOfType(state, getDocumentType(props)),
-    documents => documents.map(document => transform(document)).toList()
+    documents => documents.toList().map(parseForMap).map(row => row.data)
 )
 
 const getFilters = createSelector(
@@ -200,10 +202,10 @@ export default compose(
 )(Container)
 
 function getDocumentType(props) {
-    return get(props, 'content[0].source')
+    return get(props, ['value', 0, 'source', 'value'])
 }
-function getContent(state, props) {
-    return props.content || ARRAY
+function getContent(state, { value = ARRAY }) {
+    return value.map(data => parseData(data))
 }
 // TODO: Look to use children as function
 function createProperty(type, property, option1) {
@@ -225,11 +227,7 @@ function createProperty(type, property, option1) {
             return property
         case 'Html':
             return function html(data) {
-                return (
-                    <InnerHTML>
-                        {data[property]}
-                    </InnerHTML>
-                )
+                return <StructuredText value={data[property]} />
             }
         default:
             return property

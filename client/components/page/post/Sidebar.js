@@ -17,14 +17,22 @@ export default compose(
         follow: true,
     }),
     feedSidebar,
-    withProps(({ documents, type }) => ({
-        children: [
-            <Header>{Headers.get(type)}</Header>,
-            ...documents.map(document => (
-                <Item key={document.uid}>
-                    <Link document={document} />
-                </Item>
-            )),
-        ],
-    }))
+    withProps(({ documents, type }) => {
+        let children = []
+
+        if (documents.length > 0) {
+            children = [
+                <Header>{Headers.get(type)}</Header>,
+                ...documents.map(document => (
+                    <Item key={document.uid}>
+                        <Link document={document} />
+                    </Item>
+                )),
+            ]
+        }
+
+        return {
+            children,
+        }
+    })
 )(Sidebar)

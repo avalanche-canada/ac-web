@@ -1,58 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
+import { createSelector, createStructuredSelector } from 'reselect'
 import Biography from '~/components/biography'
-import { InnerHTML } from '~/components/misc'
 import { getDocuments } from '~/getters/prismic'
-import transform from '~/prismic/transformers'
+import { StructuredText } from '~/prismic/components/base'
+import { parse } from '~/prismic'
 
-function parse(document) {
-    const staff = transform(document)
-
-    if (staff.avatar) {
-        return {
-            ...staff,
-            avatar: staff.avatar.url,
-        }
+function createStaff({ data: { biography, avatar, ...props } }, index) {
+    if (avatar) {
+        avatar = avatar.main.url
     }
 
-    return staff
+    return (
+        <Biography key={index} avatar={avatar} {...props}>
+            <StructuredText value={biography} />
+        </Biography>
+    )
 }
-
-const mapStateToProps = createSelector(
-    getDocuments,
-    (state, { content }) => content.map(({ staff }) => staff.id),
-    (documents, ids) => {
-        if (documents.isEmpty()) {
-            return {}
-        }
-
-        return {
-            members: ids
-                .map(id => documents.get(id))
-                .filter(Boolean)
-                .map(parse),
-        }
-    }
-)
 
 StaffSet.propTypes = {
     members: PropTypes.arrayOf(PropTypes.object),
 }
 
-function StaffSet({ members = [] }) {
+function StaffSet({ members }) {
     return (
         <div>
-            {members.map(({ biography, ...props }, index) => (
-                <Biography key={index} {...props}>
-                    <InnerHTML>
-                        {biography}
-                    </InnerHTML>
-                </Biography>
-            ))}
+            {members.map(parse).map(createStaff)}
         </div>
     )
 }
 
-export default connect(mapStateToProps)(StaffSet)
+const getMembers = createSelector(
+    getDocuments,
+    (state, { value }) => value.map(item => item.staff.value.document.id),
+    (documents, ids) => ids.map(id => documents.get(id)).filter(Boolean)
+)
+
+export default connect(
+    createStructuredSelector({
+        members: getMembers,
+    })
+)(StaffSet)

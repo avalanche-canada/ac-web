@@ -12,3 +12,11 @@ export function setUTCOffset(date, offset) {
         date.getHours() + date.getTimezoneOffset() / 60 + offset
     )
 }
+
+export function lazyParse(date, ...rest) {
+    if (date === null || date === undefined) {
+        return date
+    }
+
+    return parse(date, ...rest)
+}

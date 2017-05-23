@@ -1,9 +1,14 @@
 import Prismic from 'prismic.io'
+import axios from 'axios'
 import { endpoint } from './config.json'
 
 const { Predicates } = Prismic
 let API = null
 let API_PROMISE = null
+
+function toQuery(predicate) {
+    return Predicates.toQuery(predicate)
+}
 
 function getApi() {
     if (API) {
@@ -14,7 +19,8 @@ function getApi() {
         return API_PROMISE
     }
 
-    API_PROMISE = Prismic.Api(endpoint)
+    API_PROMISE = axios.get(endpoint).then(response => response.data)
+    // API_PROMISE = fetch(endpoint).then(response => response.json())
 
     return API_PROMISE.then(api => {
         API = api
@@ -38,11 +44,17 @@ export function QueryDocumentByBookmark(name) {
         .then(response => response.results[0])
 }
 
-function query(api, options = {}, ...predicates) {
-    const keys = Object.keys(options)
-    const form = api.form('everything').ref(api.master()).query(...predicates)
+function query(api, options = {}, predicates) {
+    const [{ ref }] = api.refs
 
-    keys.reduce((form, key) => form[key](options[key]), form)
-
-    return form.submit()
+    return axios
+        .get(`${endpoint}/documents/search`, {
+            params: {
+                page: 1,
+                ...options,
+                q: `[${predicates.map(toQuery).join('')}]`,
+                ref,
+            },
+        })
+        .then(response => response.data)
 }

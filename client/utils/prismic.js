@@ -1,11 +1,13 @@
+import get from 'lodash/get'
+
 const EVENT = 'event'
 const BLOG = 'blog'
 const NEWS = 'news'
 const GENERIC = 'generic'
 const STATIC_PAGE = 'static-page'
 
-export function title(document = {}) {
-    const { title, type } = document
+export function title(document) {
+    const type = get(document, 'type')
 
     switch (type) {
         case EVENT:
@@ -13,7 +15,7 @@ export function title(document = {}) {
         case NEWS:
         case GENERIC:
         case STATIC_PAGE:
-            return title
+            return get(document, ['data', type, 'title', 'value'])
         default:
             throw new Error(
                 `Can not compute a title from Prismic document of type "${type}".`

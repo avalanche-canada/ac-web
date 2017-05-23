@@ -1,0 +1,6 @@
+@import "../../../styles/colors.css";
+
+.Figure {
+    position: relative;
+    margin: 0;
+}

@@ -9,10 +9,12 @@ import {
     Banner,
     Content,
 } from '~/components/page/drawer'
-import { InnerHTML, Ratio, Status } from '~/components/misc'
+import { Ratio, Status } from '~/components/misc'
 import cloudinary from '~/services/cloudinary/cl'
 import format from 'date-fns/format'
 import { toyotaTruckReport } from '~/containers/connectors'
+import { parse } from '~/prismic'
+import { StructuredText } from '~/prismic/components/base'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -37,8 +39,8 @@ ToyotaTruckReport.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
 }
 
-function ToyotaTruckReport({ report = {}, status, onCloseClick }) {
-    const { headline, content, date, banner } = report
+function ToyotaTruckReport({ report, status, onCloseClick }) {
+    const { data: { headline, content, date, banner } } = parse(report)
     let subject = 'Toyota Truck Report'
 
     if (date) {
@@ -68,7 +70,7 @@ function ToyotaTruckReport({ report = {}, status, onCloseClick }) {
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />
-                    <InnerHTML>{content}</InnerHTML>
+                    <StructuredText value={content} />
                 </Content>
             </Body>
         </Container>
