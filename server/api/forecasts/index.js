@@ -154,12 +154,10 @@ router.get('/:region.:format', function(req, res) {
 
     switch (req.params.format) {
         case 'xml':
-            res.header('Content-Type', 'application/xml');
-            res.send(req.forecast.caaml);
+            res.type('application/xml').send(req.forecast.caaml);
             break;
 
         case 'json':
-            res.header('Content-Type', 'application/json');
             res.json(req.forecast.json);
             break;
 
@@ -168,10 +166,9 @@ router.get('/:region.:format', function(req, res) {
 
             res.render('forecasts/forecast-rss', locals, function(err, xml) {
                 if (err) {
-                    res.send(500);
+                    res.status(500).end();
                 } else {
-                    res.header('Content-Type', 'application/rss+xml');
-                    res.send(xml);
+                    res.type('application/rss+xml').send(xml);
                 }
             });
             break;
@@ -180,15 +177,14 @@ router.get('/:region.:format', function(req, res) {
             locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
             res.render('forecasts/forecast-html', locals, function(err, html) {
                 if (err) {
-                    res.send(500);
+                    res.status(500).end();
                 } else {
-                    //req.webcache(html);
                     res.send(html);
                 }
             });
             break;
         default:
-            res.send(404);
+            res.status(404).end();
             break;
     }
 });
