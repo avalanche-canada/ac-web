@@ -31,7 +31,9 @@ module.exports = function(app) {
     app.use('/schema', require('./schema/handlers'));
     app.use('/static', require('./static'));
 
-    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
+    if (typeof process.env.SENTRY_DSN !== 'undefined') {
+        app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
+    }
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function(err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
@@ -52,7 +54,20 @@ module.exports = function(app) {
 
             res.status(401).send('UnauthorizedError');
         } else {
-            logger.log('error', 'Unhandled Error occured in request:', err);
+            logger.log(
+                'error',
+                'Unhandled Error occured in request [' + req.path + ']:',
+                err
+            );
+            if (typeof err.stack !== 'undefined') {
+                logger.log(
+                    'error',
+                    'Unhandled Error occured in request [' +
+                        req.path +
+                        '] STACK:',
+                    JSON.stringify(err.stack)
+                );
+            }
             res.status(500);
             res.send('error', { error: err });
         }
