@@ -124,6 +124,7 @@ function forecastPage(req, res) {
     var region = _.find(forecastRegions.features, { id: req.params.region });
     if (!region) {
         res.status(404).send('NOT FOUND');
+        return;
     }
     getForecastData(req.params.region, region).then(function(data) {
         var out = renderTags([
