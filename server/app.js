@@ -4,14 +4,11 @@
 
 const express = require('express');
 const path = require('path');
-const raven = require('raven');
 
 const port = process.env.PORT || 9000;
 const app = express();
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
-
-app.use(raven.middleware.express.requestHandler(process.env.SENTRY_DSN));
 
 require('./config/express')(app);
 require('./routes')(app);
