@@ -1,6 +1,11 @@
 'use strict';
 
-const raven = require('raven');
+const Raven = require('raven');
+var useRaven = false;
+if (typeof process.env.SENTRY_DSN !== 'undefined') {
+    Raven.config(process.env.SENTRY_DSN).install();
+    useRaven = true;
+}
 
 module.exports = function(app) {
     var env = app.get('env');
@@ -31,9 +36,6 @@ module.exports = function(app) {
     app.use('/schema', require('./schema/handlers'));
     app.use('/static', require('./static'));
 
-    if (typeof process.env.SENTRY_DSN !== 'undefined') {
-        app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
-    }
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function(err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
@@ -54,6 +56,9 @@ module.exports = function(app) {
 
             res.status(401).send('UnauthorizedError');
         } else {
+            if (useRaven) {
+                Raven.captureException(err);
+            }
             logger.log(
                 'error',
                 'Unhandled Error occured in request [' + req.path + ']:',
@@ -68,8 +73,7 @@ module.exports = function(app) {
                     JSON.stringify(err.stack)
                 );
             }
-            res.status(500);
-            res.send('error', { error: err });
+            res.status(500).send('An Error occured on the server.');
         }
     });
 };
