@@ -163,15 +163,10 @@ router.get('/:region.:format', function(req, res) {
 
         case 'rss':
             locals = avalx.getTableLocals(req.forecast.json);
-
-            res.render('forecasts/forecast-rss', locals, function(err, xml) {
-                if (err) {
-                    res.status(500).end();
-                } else {
-                    res.type('application/rss+xml').send(xml);
-                }
-            });
+            //TODO(wnh): Assert the failure mode for this hits the top level error handler
+            res.render('forecasts/forecast-rss', locals);
             break;
+
         case 'html':
             locals = avalx.getTableLocals(req.forecast.json);
             locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
