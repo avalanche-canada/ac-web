@@ -81,7 +81,7 @@ router.param('region', function(req, res, next) {
     getForecastData(req.params.region, req.region)
         .then(function(forecast) {
             req.forecast = forecast;
-            next();
+            return next();
         })
         .catch(function(e) {
             logger.log('error', e);

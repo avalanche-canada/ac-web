@@ -126,13 +126,16 @@ function forecastPage(req, res) {
         res.status(404).send('NOT FOUND');
         return;
     }
-    getForecastData(req.params.region, region).then(function(data) {
-        var out = renderTags([
-            ['og:title', 'Latest forecast for ' + data.json.bulletinTitle],
-            ['og:description', cleanHTML(data.json.highlights)],
-        ]);
-        res.status(200).send(out);
-    });
+    getForecastData(req.params.region, region)
+        .then(function(data) {
+            var out = renderTags([
+                ['og:title', 'Latest forecast for ' + data.json.bulletinTitle],
+                ['og:description', cleanHTML(data.json.highlights)],
+            ]);
+            res.status(200).send(out);
+            return;
+        })
+        .done();
 }
 
 function cleanHTML(txt) {
