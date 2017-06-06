@@ -71,7 +71,7 @@ export const Forecast = new Immutable.Map({
     'AC_HRDPS_BC-S-Int_12hr-precip': new Metadata({
         id: 'AC_HRDPS_BC-S-Int_12hr-precip',
         title: 'Precipitation 12hr HR SI',
-        shortTitle: 'Sourth Interior HR',
+        shortTitle: 'South Interior HR',
         runs: [6, 18],
         updates: [2, 14],
         hours: range(12, 42 + 1, 6),
@@ -212,7 +212,7 @@ export const CurrentConditions = new Immutable.Map({
     'AC_RADAR_BC-S-INT_precip-rate': new Metadata({
         id: 'AC_RADAR_BC-S-INT_precip-rate',
         title: 'Radar-South Interior',
-        shortTitle: 'Sourth Interior',
+        shortTitle: 'South Interior',
         minutes: range(0, 24 * 60, 10),
         extension: 'jpg',
     }),
