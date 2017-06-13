@@ -14,7 +14,7 @@ export default function Precipitation12h() {
                 <Tab title="South Coast HR">
                     <Loop type="AC_HRDPS_BC-S-Cst_12hr-precip" withNotes />
                 </Tab>
-                <Tab title="Sourth Interior HR">
+                <Tab title="South Interior HR">
                     <Loop type="AC_HRDPS_BC-S-Int_12hr-precip" withNotes />
                 </Tab>
                 <Tab title="Tutorials">

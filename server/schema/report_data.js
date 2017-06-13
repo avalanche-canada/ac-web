@@ -4,52 +4,50 @@
  * ac-component types
  */
 var converters = {
-    multiple: (field) => {
+    multiple: field => {
         var out = {
-            "type": "object",
-            "properties":{},
-            "required":[]
+            type: 'object',
+            properties: {},
+            required: [],
         };
-        Object.keys(field.options).forEach( k => {
-            out.properties[k] = {"type": "boolean"}
-            out.required.push(k)
-        }) 
+        Object.keys(field.options).forEach(k => {
+            out.properties[k] = { type: 'boolean' };
+            out.required.push(k);
+        });
         return out;
     },
     single: f => {
         var opts = f.options.slice(0);
         opts.push(null);
-        return {"enum": opts};
+        return { enum: opts };
     },
     datetime: f => {
         var key = 'format';
         var val = 'date-time';
 
-        if(f.showOnlyDate) {
+        if (f.showOnlyDate) {
             key = 'pattern';
             val = '^\\d\\d\\d\\d-\\d\\d-\\d\\d$';
-
-        } else  if(f.showOnlyTime) {
+        } else if (f.showOnlyTime) {
             key = 'pattern';
             val = '^(1|2|3|4|5|6|7|8|9|10|11|12):[0-5][0-9] (AM|PM)$';
         }
         var out = {
-            "type": "string",
+            type: 'string',
         };
         out[key] = val;
         return out;
     },
     number: f => {
         var out = {
-            "type": ["integer", "null"],
-            "minimum": f.options.min,
-            "maximum": f.options.max,
+            type: ['integer', 'null'],
+            minimum: f.options.min,
+            maximum: f.options.max,
         };
         return out;
     },
-    textarea:   _ => new Object({ "$ref": "#/definitions/NullString" }),
-    calculated: _ => new Object({type:["number", "null"]}),
-
+    textarea: _ => new Object({ $ref: '#/definitions/NullString' }),
+    calculated: _ => new Object({ type: ['number', 'null'] }),
 };
 
 converters.text = converters.textarea;
@@ -59,75 +57,69 @@ converters.radio = converters.single;
 /*
  * toJsonSchema converts a top level ac-component field spec into json schema.
  */
-function toJsonSchema(fields){
-  var out  = {
-    "type": "object",
-    "properties": {},
-    "required": []
-  };
-  
-  Object.keys(fields).forEach( key =>{
-    var field = fields[key];
-    var xx = {};
-    //console.log(field.type);
-    var fn = converters[field.type];
-    xx = fn(field);
-    out.properties[key] = xx;
-    out.required.push(key);
-  });
-  
- return out;
+function toJsonSchema(fields) {
+    var out = {
+        type: 'object',
+        properties: {},
+        required: [],
+    };
+
+    Object.keys(fields).forEach(key => {
+        var field = fields[key];
+        var xx = {};
+        //console.log(field.type);
+        var fn = converters[field.type];
+        xx = fn(field);
+        out.properties[key] = xx;
+        out.required.push(key);
+    });
+
+    return out;
 }
-
-
 
 /* 
  * Assembly of the raw ac-components descrtiptions
  */
 var raw = {
-  quickReport:     require('./reports/quick').rawDescription,
-  avalancheReport: require('./reports/avalanche'),
-  snowpackReport:  require('./reports/snowpack'),
-  weatherReport:   require('./reports/weather'),
-  incidentReport:  require('./reports/incident')
+    quickReport: require('./reports/quick').rawDescription,
+    avalancheReport: require('./reports/avalanche'),
+    snowpackReport: require('./reports/snowpack'),
+    weatherReport: require('./reports/weather'),
+    incidentReport: require('./reports/incident'),
 };
-
 
 /*
  * A full json schema to validate the input to the MIN service
  */
 var jsonSchema = {
     id: 'http://www.avalanche.ca/schema/min-16.09#',
-    type: "object",
+    type: 'object',
     definitions: {
-        "NullString": {
-            "anyOf" : [
-                {"type": "string", "minLength": 1, "pattern":"\\S+"},
-                {"type": "null"}
-            ]
-        }
+        NullString: {
+            anyOf: [
+                { type: 'string', minLength: 1, pattern: '\\S+' },
+                { type: 'null' },
+            ],
+        },
     },
     properties: {
-      quickReport:      require('./reports/quick').jsonSchema,
-      avalancheReport:  toJsonSchema(raw.avalancheReport),
-      snowpackReport:   toJsonSchema(raw.snowpackReport),
-      weatherReport:    toJsonSchema(raw.weatherReport),
-      incidentReport:   toJsonSchema(raw.incidentReport),
+        quickReport: require('./reports/quick').jsonSchema,
+        avalancheReport: toJsonSchema(raw.avalancheReport),
+        snowpackReport: toJsonSchema(raw.snowpackReport),
+        weatherReport: toJsonSchema(raw.weatherReport),
+        incidentReport: toJsonSchema(raw.incidentReport),
     },
     anyOf: [
-        {"required": ['quickReport']},
-        {"required": ['avalancheReport']},
-        {"required": ['snowpackReport']},
-        {"required": ['weatherReport']},
-        {"required": ['incidentReport']}
-    ]
-}
-
-
-module.exports =  {
-    raw: raw,
-    jsonSchema: jsonSchema,
-    converters: converters
+        { required: ['quickReport'] },
+        { required: ['avalancheReport'] },
+        { required: ['snowpackReport'] },
+        { required: ['weatherReport'] },
+        { required: ['incidentReport'] },
+    ],
 };
 
-
+module.exports = {
+    raw: raw,
+    jsonSchema: jsonSchema,
+    converters: converters,
+};

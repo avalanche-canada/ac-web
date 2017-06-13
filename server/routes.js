@@ -1,23 +1,29 @@
 'use strict';
 
-const raven = require('raven')
+const Raven = require('raven');
+var useRaven = false;
+if (typeof process.env.SENTRY_DSN !== 'undefined') {
+    Raven.config(process.env.SENTRY_DSN).install();
+    useRaven = true;
+}
 
 module.exports = function(app) {
-
     var env = app.get('env');
     var logger = require('./logger.js');
     var expressJwt = require('express-jwt');
     var jwt = require('jsonwebtoken');
 
-    var shareRouter =  require('./share');
+    var shareRouter = require('./share');
 
     app.use(shareRouter);
-
 
     var secret = new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
 
     app.use('/', require('./favicon'));
-    app.use('/api', expressJwt({secret: secret}).unless({ method: ['GET', 'HEAD'] }));
+    app.use(
+        '/api',
+        expressJwt({ secret: secret }).unless({ method: ['GET', 'HEAD'] })
+    );
 
     app.use('/api/features', require('./api/features/routes'));
     app.use('/api/forecasts', require('./api/forecasts').router);
@@ -30,24 +36,44 @@ module.exports = function(app) {
     app.use('/schema', require('./schema/handlers'));
     app.use('/static', require('./static'));
 
-    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
     //! Error middle ware \todo make this better and inc better logging (winston)
-    app.use(function (err, req, res, next) {
+    app.use(function(err, req, res, next) {
         if (err.name === 'UnauthorizedError') {
-
-            logger.warn('UnauthorizedError', req.method, req.path, req.params, '--', err.code+':', err.message);
+            logger.warn(
+                'UnauthorizedError',
+                req.method,
+                req.path,
+                req.params,
+                '--',
+                err.code + ':',
+                err.message
+            );
 
             var auth = req.get('Authorization');
-            if(typeof auth !== 'undefined'){
+            if (typeof auth !== 'undefined') {
                 logger.warn('Token=' + auth);
             }
 
             res.status(401).send('UnauthorizedError');
-        }
-        else{
-            logger.log('error','Unhandled Error occured in request:', err);
-            res.status(500);
-            res.send('error', { error: err });
+        } else {
+            if (useRaven) {
+                Raven.captureException(err);
+            }
+            logger.log(
+                'error',
+                'Unhandled Error occured in request [' + req.path + ']:',
+                err
+            );
+            if (typeof err.stack !== 'undefined') {
+                logger.log(
+                    'error',
+                    'Unhandled Error occured in request [' +
+                        req.path +
+                        '] STACK:',
+                    JSON.stringify(err.stack)
+                );
+            }
+            res.status(500).send('An Error occured on the server.');
         }
     });
 };

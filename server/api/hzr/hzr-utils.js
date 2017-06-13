@@ -8,7 +8,7 @@ var logger = require('winston');
 var q = require('q');
 
 var AWS = require('aws-sdk');
-AWS.config.update({region: 'us-west-2'});
+AWS.config.update({ region: 'us-west-2' });
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
@@ -16,7 +16,7 @@ var HZR_TABLE = process.env.HOTZONE_DYNAMODB_TABLE;
 var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-hzr-uploads';
 var UPLOADS_BUCKET_URL = +UPLOADS_BUCKET;
 
-exports.saveHZR = function (user, form, callback) {
+exports.saveHZR = function(user, form, callback) {
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var item = {
         hzid: uuid.v4(),
@@ -25,34 +25,34 @@ exports.saveHZR = function (user, form, callback) {
         user: user.nickname || 'unknown',
         acl: 'public',
         report: {
-            uploads: []
-        }
+            uploads: [],
+        },
     };
     var tempObs = {};
 
     form.on('field', function(name, value) {
         value = value.trim();
         try {
-            switch(name){
-                case "dateissued":
+            switch (name) {
+                case 'dateissued':
                     var val = moment(value, 'YYYY-MM-DD hh:mm A').utc();
                     item.dateissued = val.unix();
                     item.report[name] = val.format();
                     break;
-                case "datevalid":
+                case 'datevalid':
                     var val = moment(value, 'YYYY-MM-DD hh:mm A').utc();
                     item.datevalid = val.unix();
                     item.report[name] = val.format();
                     break;
-                case "hotzoneid":
+                case 'hotzoneid':
                     item.hotzoneid = value;
                     item.report[name] = value;
                     break;
-                case "data":
+                case 'data':
                     item.report[name] = JSON.parse(value);
                     break;
                 default:
-                    if(/^\{|^\[/.test(value)) {
+                    if (/^\{|^\[/.test(value)) {
                         value = JSON.parse(value);
                     }
                     item.report[name] = value;
@@ -70,84 +70,94 @@ exports.saveHZR = function (user, form, callback) {
 
         var mimeType = part.headers['content-type'];
 
-        logger.log('info','upload mime type is %s', mimeType);
+        logger.log('info', 'upload mime type is %s', mimeType);
 
-        if(validMimeTypes.indexOf(mimeType) !== -1) {
+        if (validMimeTypes.indexOf(mimeType) !== -1) {
             key += '.' + mimeType.split('/')[1];
             item.report.uploads.push(key);
 
             console.log('Uploading %s to S3.', key);
 
             var upload = s3Stream.upload({
-              Bucket: UPLOADS_BUCKET,
-              Key: key,
-              ContentType: part.type,
-              ACL: "private"
+                Bucket: UPLOADS_BUCKET,
+                Key: key,
+                ContentType: part.type,
+                ACL: 'private',
             });
 
             part.pipe(upload);
 
-            upload.on('error', function (error) {
-              callback("Error uploading object to S3 : %s", error);
+            upload.on('error', function(error) {
+                callback('Error uploading object to S3 : %s', error);
             });
 
-            upload.on('uploaded', function (details) {
-              console.log("Uploaded object to S3 : %s", JSON.stringify(details));
+            upload.on('uploaded', function(details) {
+                console.log(
+                    'Uploaded object to S3 : %s',
+                    JSON.stringify(details)
+                );
             });
         } else {
-            callback({error: 'Invalid file extention. Valid file extentions are ' + validMimeTypes.join()});
+            callback({
+                error: 'Invalid file extention. Valid file extentions are ' +
+                    validMimeTypes.join(),
+            });
         }
-
     });
 
-    form.on('error', function (err) {
+    form.on('error', function(err) {
         callback('error accepting report form: ' + err);
     });
 
-    form.on('close', function (err) {
-        saveReport(item)
-            .then(function(ob){
+    form.on('close', function(err) {
+        saveReport(item).then(
+            function(ob) {
                 callback(null, ob);
-            }, function (err){
+            },
+            function(err) {
                 callback(err);
-            });
+            }
+        );
 
-
-        function saveReport(item){
+        function saveReport(item) {
             var defer = q.defer();
 
-            dynamodb.put({
-                TableName: HZR_TABLE,
-                Item: item
-            }, function (err, data) {
-                if (err) {
-                    logger.log('info', JSON.stringify(err));
-                    defer.reject({error: 'error saving your submission: saving'});
-                } else {
-                    logger.log('info','successfully saved report');
-                    defer.resolve(item);
+            dynamodb.put(
+                {
+                    TableName: HZR_TABLE,
+                    Item: item,
+                },
+                function(err, data) {
+                    if (err) {
+                        logger.log('info', JSON.stringify(err));
+                        defer.reject({
+                            error: 'error saving your submission: saving',
+                        });
+                    } else {
+                        logger.log('info', 'successfully saved report');
+                        defer.resolve(item);
+                    }
                 }
-            });
+            );
 
             return defer.promise;
         }
-
     });
 };
 
-exports.getReports = function (callback) {
+exports.getReports = function(callback) {
     var params = {
         TableName: HZR_TABLE,
-        IndexName: 'acl-datevalid-index'
+        IndexName: 'acl-datevalid-index',
     };
     var today = moment();
 
     console.log('getting valid reports for  %s', today.format('YYYY-MM-DD'));
 
-    params.KeyConditionExpression = "acl = :auth and datevalid >= :today";
-    params.ExpressionAttributeValues= {
+    params.KeyConditionExpression = 'acl = :auth and datevalid >= :today';
+    params.ExpressionAttributeValues = {
         ':auth': 'public',
-        ':today': today.unix()
+        ':today': today.unix(),
     };
 
     console.log(params);
@@ -155,31 +165,36 @@ exports.getReports = function (callback) {
     dynamodb.query(params, function(err, res) {
         if (err) {
             console.log(err);
-            callback({error: "error fetching hot zone reports: " + JSON.stringify(err)});
+            callback({
+                error: 'error fetching hot zone reports: ' +
+                    JSON.stringify(err),
+            });
         } else {
             var reports = [];
             var groupedItems = _.groupBy(res.Items, 'hotzoneid');
             for (var key in groupedItems) {
-                reports.push(_.max(groupedItems[key], function (item) {
-                    return item.dateissued;
-                }));
+                reports.push(
+                    _.max(groupedItems[key], function(item) {
+                        return item.dateissued;
+                    })
+                );
             }
             callback(null, reports);
         }
     });
 };
 
-exports.getReport = function (subid, client, callback) {
+exports.getReport = function(subid, client, callback) {
     var params = {
         TableName: HZR_TABLE,
         IndexName: 'subid-index',
         KeyConditionExpression: 'subid = :subid',
-        ExpressionAttributeValues: {':subid' : subid}
+        ExpressionAttributeValues: { ':subid': subid },
     };
 
     dynamodb.query(params, function(err, res) {
         if (err) {
-            callback({error: "error fetching report"});
+            callback({ error: 'error fetching report' });
         } else {
             callback(null, res.Items);
         }

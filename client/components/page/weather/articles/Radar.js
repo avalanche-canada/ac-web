@@ -22,7 +22,7 @@ export default function Radar() {
                         amount={18}
                     />
                 </Tab>
-                <Tab title="Sourth Interior">
+                <Tab title="South Interior">
                     <Loop
                         type="AC_RADAR_BC-S-INT_precip-rate"
                         interval={200}

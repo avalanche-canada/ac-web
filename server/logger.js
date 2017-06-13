@@ -12,7 +12,7 @@ var logger,
         timestamp: function() {
             return new Date().toISOString();
         },
-        colorize: true
+        colorize: true,
     }),
     ptTransport = new Papertrail({
         host: 'logs2.papertrailapp.com',
@@ -21,7 +21,7 @@ var logger,
         level: 'debug',
         logFormat: function(level, message) {
             return '[' + level + '] ' + message;
-        }
+        },
     });
 
 ptTransport.on('error', function(err) {
@@ -29,7 +29,7 @@ ptTransport.on('error', function(err) {
 });
 
 ptTransport.on('connect', function(message) {
-    console.log('Papertrail Connected: ' + message)
+    console.log('Papertrail Connected: ' + message);
 });
 
 var logger = new winston.Logger({
@@ -37,12 +37,9 @@ var logger = new winston.Logger({
         debug: 0,
         info: 1,
         warn: 2,
-        error: 3
+        error: 3,
     },
-    transports: [
-        ptTransport,
-        consoleLogger
-    ]
+    transports: [ptTransport, consoleLogger],
 });
 
-module.exports= logger;
+module.exports = logger;

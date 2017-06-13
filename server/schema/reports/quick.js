@@ -13,21 +13,21 @@ module.exports.rawDescription = {
         prompt: 'Riding quality was:',
         type: 'single',
         options: ['Amazing', 'Good', 'OK', 'Terrible'],
-        selected: null
+        selected: null,
     },
 
     snowConditions: {
         type: 'multiple',
         prompt: 'Snow conditions were:',
         options: {
-            'Crusty': false,
-            'Powder': false,
+            Crusty: false,
+            Powder: false,
             'Deep powder': false,
-            'Wet': false,
-            'Heavy': false,
+            Wet: false,
+            Heavy: false,
             'Wind affected': false,
-            'Hard': false
-        }
+            Hard: false,
+        },
     },
 
     rideType: {
@@ -41,8 +41,8 @@ module.exports.rawDescription = {
             'Cut-blocks': false,
             'Open trees': false,
             'Dense trees': false,
-            'Alpine slopes': false
-        }
+            'Alpine slopes': false,
+        },
     },
 
     stayedAway: {
@@ -54,35 +54,35 @@ module.exports.rawDescription = {
             'Sunny slopes': false,
             'Cut-blocks': false,
             'Open trees': false,
-            'Alpine slopes': false
-        }
+            'Alpine slopes': false,
+        },
     },
 
     weather: {
         type: 'multiple',
         prompt: 'The day was:',
         options: {
-            'Stormy': false,
-            'Windy': false,
-            'Sunny': false,
-            'Cold': false,
-            'Warm': false,
-            'Cloudy': false,
-            'Foggy': false,
-            'Wet': false
-        }
+            Stormy: false,
+            Windy: false,
+            Sunny: false,
+            Cold: false,
+            Warm: false,
+            Cloudy: false,
+            Foggy: false,
+            Wet: false,
+        },
     },
-    avalancheConditions : {
+    avalancheConditions: {
         prompt: 'Avalanche conditions',
         type: 'multiple',
         order: 2,
         options: {
-          'slab': false,
-          'sound': false,
-          'snow': false,
-          'temp': false
-        }
-    }
+            slab: false,
+            sound: false,
+            snow: false,
+            temp: false,
+        },
+    },
 };
 
 /*
@@ -98,290 +98,255 @@ conditionsToLabel = {
 */
 
 module.exports.jsonSchema = {
-   "type" : "object",
-   "required" : [
-      "avalancheConditions",
-      "comment",
-      "ridingConditions"
-   ],
-   "properties" : {
-      "ridingConditions" : {
-         "required" : [
-            "ridingQuality",
-            "weather",
-            "snowConditions",
-            "stayedAway",
-            "rideType"
-         ],
-         "properties" : {
-            "rideType" : {
-               "type" : "object",
-               "properties" : {
-                  "prompt" : {
-                     "type" : "string"
-                  },
-                  "type" : {
-                     "type" : "string"
-                  },
-                  "options" : {
-                     "properties" : {
-                        "Alpine slopes" : {
-                           "type" : "boolean"
+    type: 'object',
+    required: ['avalancheConditions', 'comment', 'ridingConditions'],
+    properties: {
+        ridingConditions: {
+            required: [
+                'ridingQuality',
+                'weather',
+                'snowConditions',
+                'stayedAway',
+                'rideType',
+            ],
+            properties: {
+                rideType: {
+                    type: 'object',
+                    properties: {
+                        prompt: {
+                            type: 'string',
                         },
-                        "Convex slopes" : {
-                           "type" : "boolean"
+                        type: {
+                            type: 'string',
                         },
-                        "Cut-blocks" : {
-                           "type" : "boolean"
+                        options: {
+                            properties: {
+                                'Alpine slopes': {
+                                    type: 'boolean',
+                                },
+                                'Convex slopes': {
+                                    type: 'boolean',
+                                },
+                                'Cut-blocks': {
+                                    type: 'boolean',
+                                },
+                                'Steep slopes': {
+                                    type: 'boolean',
+                                },
+                                'Open trees': {
+                                    type: 'boolean',
+                                },
+                                'Mellow slopes': {
+                                    type: 'boolean',
+                                },
+                                'Dense trees': {
+                                    type: 'boolean',
+                                },
+                                'Sunny slopes': {
+                                    type: 'boolean',
+                                },
+                            },
+                            required: [
+                                'Mellow slopes',
+                                'Convex slopes',
+                                'Alpine slopes',
+                                'Dense trees',
+                                'Steep slopes',
+                                'Open trees',
+                                'Cut-blocks',
+                                'Sunny slopes',
+                            ],
+                            type: 'object',
                         },
-                        "Steep slopes" : {
-                           "type" : "boolean"
+                    },
+                    required: ['type', 'prompt', 'options'],
+                },
+                ridingQuality: {
+                    properties: {
+                        type: {
+                            type: 'string',
                         },
-                        "Open trees" : {
-                           "type" : "boolean"
+                        options: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                            },
                         },
-                        "Mellow slopes" : {
-                           "type" : "boolean"
+                        selected: {
+                            type: 'string',
+                            enum: ['Amazing', 'Good', 'OK', 'Terrible'],
                         },
-                        "Dense trees" : {
-                           "type" : "boolean"
+                        prompt: {
+                            type: 'string',
                         },
-                        "Sunny slopes" : {
-                           "type" : "boolean"
-                        }
-                     },
-                     "required" : [
-                        "Mellow slopes",
-                        "Convex slopes",
-                        "Alpine slopes",
-                        "Dense trees",
-                        "Steep slopes",
-                        "Open trees",
-                        "Cut-blocks",
-                        "Sunny slopes"
-                     ],
-                     "type" : "object"
-                  }
-               },
-               "required" : [
-                  "type",
-                  "prompt",
-                  "options"
-               ]
+                    },
+                    required: ['selected', 'type', 'prompt', 'options'],
+                    type: 'object',
+                },
+                stayedAway: {
+                    properties: {
+                        options: {
+                            properties: {
+                                'Sunny slopes': {
+                                    type: 'boolean',
+                                },
+                                'Open trees': {
+                                    type: 'boolean',
+                                },
+                                'Steep slopes': {
+                                    type: 'boolean',
+                                },
+                                'Cut-blocks': {
+                                    type: 'boolean',
+                                },
+                                'Convex slopes': {
+                                    type: 'boolean',
+                                },
+                                'Alpine slopes': {
+                                    type: 'boolean',
+                                },
+                            },
+                            required: [
+                                'Convex slopes',
+                                'Alpine slopes',
+                                'Cut-blocks',
+                                'Sunny slopes',
+                                'Steep slopes',
+                                'Open trees',
+                            ],
+                            type: 'object',
+                        },
+                        type: {
+                            type: 'string',
+                        },
+                        prompt: {
+                            type: 'string',
+                        },
+                    },
+                    required: ['prompt', 'type', 'options'],
+                    type: 'object',
+                },
+                snowConditions: {
+                    type: 'object',
+                    required: ['options', 'prompt', 'type'],
+                    properties: {
+                        prompt: {
+                            type: 'string',
+                        },
+                        options: {
+                            type: 'object',
+                            required: [
+                                'Deep powder',
+                                'Wet',
+                                'Crusty',
+                                'Powder',
+                                'Heavy',
+                                'Wind affected',
+                                'Hard',
+                            ],
+                            properties: {
+                                Wet: {
+                                    type: 'boolean',
+                                },
+                                Powder: {
+                                    type: 'boolean',
+                                },
+                                'Wind affected': {
+                                    type: 'boolean',
+                                },
+                                'Deep powder': {
+                                    type: 'boolean',
+                                },
+                                Hard: {
+                                    type: 'boolean',
+                                },
+                                Heavy: {
+                                    type: 'boolean',
+                                },
+                                Crusty: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        type: {
+                            type: 'string',
+                        },
+                    },
+                },
+                weather: {
+                    required: ['type', 'prompt', 'options'],
+                    properties: {
+                        type: {
+                            type: 'string',
+                        },
+                        options: {
+                            required: [
+                                'Warm',
+                                'Foggy',
+                                'Cloudy',
+                                'Stormy',
+                                'Windy',
+                                'Cold',
+                                'Wet',
+                                'Sunny',
+                            ],
+                            properties: {
+                                Windy: {
+                                    type: 'boolean',
+                                },
+                                Warm: {
+                                    type: 'boolean',
+                                },
+                                Sunny: {
+                                    type: 'boolean',
+                                },
+                                Cloudy: {
+                                    type: 'boolean',
+                                },
+                                Cold: {
+                                    type: 'boolean',
+                                },
+                                Wet: {
+                                    type: 'boolean',
+                                },
+                                Stormy: {
+                                    type: 'boolean',
+                                },
+                                Foggy: {
+                                    type: 'boolean',
+                                },
+                            },
+                            type: 'object',
+                        },
+                        prompt: {
+                            type: 'string',
+                        },
+                    },
+                    type: 'object',
+                },
             },
-            "ridingQuality" : {
-               "properties" : {
-                  "type" : {
-                     "type" : "string"
-                  },
-                  "options" : {
-                     "type" : "array",
-                     "items" : {
-                        "type" : "string"
-                     }
-                  },
-                  "selected" : {
-                     "type" : "string",
-                     "enum" : [
-                        "Amazing",
-                        "Good",
-                        "OK",
-                        "Terrible"
-                     ]
-                  },
-                  "prompt" : {
-                     "type" : "string"
-                  }
-               },
-               "required" : [
-                  "selected",
-                  "type",
-                  "prompt",
-                  "options"
-               ],
-               "type" : "object"
+            type: 'object',
+        },
+        avalancheConditions: {
+            type: 'object',
+            required: ['snow', 'slab', 'sound', 'temp'],
+            properties: {
+                slab: {
+                    type: 'boolean',
+                },
+                sound: {
+                    type: 'boolean',
+                },
+                temp: {
+                    type: 'boolean',
+                },
+                snow: {
+                    type: 'boolean',
+                },
             },
-            "stayedAway" : {
-               "properties" : {
-                  "options" : {
-                     "properties" : {
-                        "Sunny slopes" : {
-                           "type" : "boolean"
-                        },
-                        "Open trees" : {
-                           "type" : "boolean"
-                        },
-                        "Steep slopes" : {
-                           "type" : "boolean"
-                        },
-                        "Cut-blocks" : {
-                           "type" : "boolean"
-                        },
-                        "Convex slopes" : {
-                           "type" : "boolean"
-                        },
-                        "Alpine slopes" : {
-                           "type" : "boolean"
-                        }
-                     },
-                     "required" : [
-                        "Convex slopes",
-                        "Alpine slopes",
-                        "Cut-blocks",
-                        "Sunny slopes",
-                        "Steep slopes",
-                        "Open trees"
-                     ],
-                     "type" : "object"
-                  },
-                  "type" : {
-                     "type" : "string"
-                  },
-                  "prompt" : {
-                     "type" : "string"
-                  }
-               },
-               "required" : [
-                  "prompt",
-                  "type",
-                  "options"
-               ],
-               "type" : "object"
-            },
-            "snowConditions" : {
-               "type" : "object",
-               "required" : [
-                  "options",
-                  "prompt",
-                  "type"
-               ],
-               "properties" : {
-                  "prompt" : {
-                     "type" : "string"
-                  },
-                  "options" : {
-                     "type" : "object",
-                     "required" : [
-                        "Deep powder",
-                        "Wet",
-                        "Crusty",
-                        "Powder",
-                        "Heavy",
-                        "Wind affected",
-                        "Hard"
-                     ],
-                     "properties" : {
-                        "Wet" : {
-                           "type" : "boolean"
-                        },
-                        "Powder" : {
-                           "type" : "boolean"
-                        },
-                        "Wind affected" : {
-                           "type" : "boolean"
-                        },
-                        "Deep powder" : {
-                           "type" : "boolean"
-                        },
-                        "Hard" : {
-                           "type" : "boolean"
-                        },
-                        "Heavy" : {
-                           "type" : "boolean"
-                        },
-                        "Crusty" : {
-                           "type" : "boolean"
-                        }
-                     }
-                  },
-                  "type" : {
-                     "type" : "string"
-                  }
-               }
-            },
-            "weather" : {
-               "required" : [
-                  "type",
-                  "prompt",
-                  "options"
-               ],
-               "properties" : {
-                  "type" : {
-                     "type" : "string"
-                  },
-                  "options" : {
-                     "required" : [
-                        "Warm",
-                        "Foggy",
-                        "Cloudy",
-                        "Stormy",
-                        "Windy",
-                        "Cold",
-                        "Wet",
-                        "Sunny"
-                     ],
-                     "properties" : {
-                        "Windy" : {
-                           "type" : "boolean"
-                        },
-                        "Warm" : {
-                           "type" : "boolean"
-                        },
-                        "Sunny" : {
-                           "type" : "boolean"
-                        },
-                        "Cloudy" : {
-                           "type" : "boolean"
-                        },
-                        "Cold" : {
-                           "type" : "boolean"
-                        },
-                        "Wet" : {
-                           "type" : "boolean"
-                        },
-                        "Stormy" : {
-                           "type" : "boolean"
-                        },
-                        "Foggy" : {
-                           "type" : "boolean"
-                        }
-                     },
-                     "type" : "object"
-                  },
-                  "prompt" : {
-                     "type" : "string"
-                  }
-               },
-               "type" : "object"
-            }
-         },
-         "type" : "object"
-      },
-      "avalancheConditions" : {
-         "type" : "object",
-         "required" : [
-            "snow",
-            "slab",
-            "sound",
-            "temp"
-         ],
-         "properties" : {
-            "slab" : {
-               "type" : "boolean"
-            },
-            "sound" : {
-               "type" : "boolean"
-            },
-            "temp" : {
-               "type" : "boolean"
-            },
-            "snow" : {
-               "type" : "boolean"
-            }
-         }
-      },
-      "comment" : {
-         "type" : "string"
-      }
-   }
-}
+        },
+        comment: {
+            type: 'string',
+        },
+    },
+};
