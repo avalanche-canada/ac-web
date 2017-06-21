@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Loop from '../Loop'
 import Meteogram from '../Meteogram'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
 
 SliceSet.propTypes = {
     slices: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -11,16 +11,12 @@ SliceSet.propTypes = {
 export default function SliceSet({ slices = [] }) {
     return (
         <div>
-            {slices.map(({ type, content }, index) => {
+            {slices.map(({ slice_type: type, value }, index) => {
                 switch (type) {
                     case 'text':
-                        return (
-                            <InnerHTML key={index}>
-                                {content}
-                            </InnerHTML>
-                        )
+                        return <StructuredText key={index} {...value} />
                     case 'loop': {
-                        const [loop] = content
+                        const [loop] = value
                         const [type, run] = loop.type.split('@')
                         const props = {
                             ...loop,
@@ -32,7 +28,7 @@ export default function SliceSet({ slices = [] }) {
                     }
                     case 'point-meteogram':
                     case 'group-meteogram': {
-                        const [meteogram] = content
+                        const [meteogram] = value
                         const [model, run] = meteogram.type.split('@')
                         const props = {
                             model,

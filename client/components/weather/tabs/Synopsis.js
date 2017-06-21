@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
 import Section from './Section'
 import Loop from '../Loop'
 
@@ -14,9 +14,9 @@ Synopsis.propTypes = {
 export default function Synopsis({ date, above, below, children }) {
     return (
         <Section>
-            <InnerHTML>{above}</InnerHTML>
+            <StructuredText {...above} />
             <Loop type="AC_GDPS_EPA_clds-th-500hts" date={date} run={0} />
-            <InnerHTML>{below}</InnerHTML>
+            <StructuredText {...below} />
             {children}
         </Section>
     )
