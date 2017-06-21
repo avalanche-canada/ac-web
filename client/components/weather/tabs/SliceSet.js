@@ -17,6 +17,14 @@ export default function SliceSet({ slices = [] }) {
                         return <StructuredText key={index} {...value} />
                     case 'loop': {
                         const [loop] = value
+
+                        if (!loop.type) {
+                            // in case the loop is empty
+                            // example: user adds a slice in slice and does not
+                            // enters any information
+                            return null
+                        }
+
                         const [type, run] = loop.type.split('@')
                         const props = {
                             ...loop,
@@ -29,6 +37,14 @@ export default function SliceSet({ slices = [] }) {
                     case 'point-meteogram':
                     case 'group-meteogram': {
                         const [meteogram] = value
+
+                        if (!meteogram.type) {
+                            // in case the meteogram is empty
+                            // example: user adds a slice in slice and does not
+                            // enters any information
+                            return null
+                        }
+
                         const [model, run] = meteogram.type.split('@')
                         const props = {
                             model,
