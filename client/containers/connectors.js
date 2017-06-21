@@ -352,10 +352,16 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
         }),
         withHandlers({
             onLocateClick: props => () => {
-                if (props.computeFlyTo()) {
+                if (
+                    typeof props.computeFlyTo === 'function' &&
+                    props.computeFlyTo()
+                ) {
                     return props.flyTo(props.computeFlyTo())
                 }
-                if (props.computeBounds()) {
+                if (
+                    typeof props.computeBounds === 'function' &&
+                    props.computeBounds()
+                ) {
                     const { bbox, options } = props.computeBounds()
 
                     return props.fitBounds(bbox, options)

@@ -14,14 +14,16 @@ const getComputeFlyTo = createSelector(
     getDocument,
     computeOffset,
     (accident, computeOffset) => () => {
-        if (!accident.location) {
-            return null
-        }
+        const center = parseLocation(accident)
 
-        return {
-            center: parseLocation(accident),
-            zoom: 9,
-            offset: computeOffset(),
+        if (center) {
+            return {
+                center,
+                zoom: 9,
+                offset: computeOffset(),
+            }
+        } else {
+            return null
         }
     }
 )

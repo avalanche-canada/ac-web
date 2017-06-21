@@ -40,7 +40,7 @@ ToyotaTruckReport.propTypes = {
 }
 
 function ToyotaTruckReport({ report, status, onCloseClick }) {
-    const { data: { headline, content, date, banner } } = parse(report)
+    const { headline, content, date, banner } = parse(report).data
     let subject = 'Toyota Truck Report'
 
     if (date) {

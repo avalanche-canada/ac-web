@@ -6,18 +6,16 @@ import { normalizeTags, boolean } from '~/prismic/utils'
 
 const DEFAULTS = {}
 
-export function parseLocation({ location }) {
-    return [location.longitude, location.latitude]
+export function parseLocation(document) {
+    const { location } = parse(document).data
+
+    return location ? [location.longitude, location.latitude] : null
 }
 
 const TypeTransformers = new Map([
     ['Date', parseDate],
     ['StructuredText', identity],
 ])
-
-export function getData(report) {
-    return report.data[report.type]
-}
 
 export function parseData(data, defaults = DEFAULTS, transformer = identity) {
     return transformer({
@@ -41,17 +39,20 @@ export function parseData(data, defaults = DEFAULTS, transformer = identity) {
 
 function parseDocument(document, defaults, transformer = identity) {
     const {
-        tags,
+        type,
         first_publication_date,
         last_publication_date,
+        tags,
+        data,
         ...rest
     } = document
 
     Object.assign(rest, {
+        type,
         firstPublicationDate: parseDate(first_publication_date),
         lastPublicationDate: parseDate(last_publication_date),
         tags: normalizeTags(tags),
-        data: parseData(getData(document), defaults),
+        data: parseData(data[type], defaults),
     })
 
     return transformer(rest)
@@ -119,6 +120,12 @@ function transformStaff(staff) {
     })
 }
 
+function transformWeatherForecast(forecast) {
+    return mergeInData(forecast, {
+        isLegacy: Array.isArray(forecast.data.outlook),
+    })
+}
+
 function transformStaticPage(page) {
     let { sharing, following, contacting, sidebar = [], contact } = page.data
 
@@ -159,6 +166,7 @@ function mergeInData({ data, ...object }, collection) {
     })
 }
 
+// TODO: Review if we need all these transformers
 const DocumentTransformers = new Map([
     ['blog', transformBlog],
     ['event', transformEvent],
@@ -166,6 +174,7 @@ const DocumentTransformers = new Map([
     ['staff', transformStaff],
     ['static-page', transformStaticPage],
     ['sponsor', transformSponsor],
+    ['weather-forecast', transformWeatherForecast],
 ])
 
 export default function parse(object, defaults = DEFAULTS, transformer) {
