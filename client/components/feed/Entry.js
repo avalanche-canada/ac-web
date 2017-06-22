@@ -6,7 +6,7 @@ import CSSModules from 'react-css-modules'
 import { neverUpdate } from '~/compose'
 import { DateElement } from '~/components/misc'
 import { TagSet, Tag } from '~/components/tag'
-import { StructuredText, InlineImage } from '~/prismic/components/base'
+import { StructuredText, Image } from '~/prismic/components/base'
 import styles from './Feed.css'
 
 Entry.propTypes = {
@@ -18,7 +18,7 @@ Entry.propTypes = {
     headline: PropTypes.shape(StructuredText.propTypes).isRequired,
     tags: PropTypes.arrayOf(PropTypes.string),
     link: PropTypes.string.isRequired,
-    preview: PropTypes.shape(InlineImage.propTypes),
+    preview: PropTypes.shape(Image.propTypes),
     uid: PropTypes.string.isRequired,
     condensed: PropTypes.bool,
 }
@@ -38,7 +38,7 @@ function Entry({
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
             {preview &&
                 <div styleName="Image">
-                    <InlineImage {...preview} />
+                    <Image {...preview} />
                 </div>}
             <div styleName="Content">
                 <h2>

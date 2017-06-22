@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StructuredText, InlineImage } from '~/prismic/components/base'
+import { StructuredText, Image } from '~/prismic/components/base'
 import { DateElement } from '~/components/misc'
 import addDays from 'date-fns/add_days'
 
@@ -9,7 +9,7 @@ const SEQUENCE = [0, 1, 2, 3]
 function Content({ image, text }) {
     return (
         <div>
-            {image && <InlineImage {...image.main} />}
+            {image && <Image {...image.main} />}
             <StructuredText value={text} />
         </div>
     )

@@ -1,7 +1,5 @@
-import React, { DOM } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Element } from '~/compose'
-import styles from './Markup.css'
 
 Markup.propTypes = {
     children: PropTypes.node,
@@ -25,8 +23,4 @@ export function Markup({ children }) {
     return children
 }
 
-export const Credit = Element({
-    name: 'Credit',
-    component: DOM.small,
-    styles,
-})
+export Credit from './Credit'

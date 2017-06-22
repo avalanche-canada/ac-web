@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DateElement } from '~/components/misc'
-import { StructuredText, InlineImage } from '~/prismic/components/base'
+import {
+    StructuredText,
+    Image,
+    OpenImageInNewTab,
+} from '~/prismic/components/base'
 import Section from './Section'
 import { formatForecastUrl } from '~/services/msc/loop/url'
 import addDays from 'date-fns/add_days'
@@ -32,9 +36,15 @@ export default function Day2({ date, above, between, below, children }) {
     return (
         <Section title={<DateElement value={addDays(date, 1)} />}>
             {hasHardWired && <StructuredText {...above} />}
-            {hasHardWired && <InlineImage openImageInNewTab {...image1} />}
+            {hasHardWired &&
+                <OpenImageInNewTab>
+                    <Image {...image1} />
+                </OpenImageInNewTab>}
             {hasHardWired && <StructuredText {...between} />}
-            {hasHardWired && <InlineImage openImageInNewTab {...image2} />}
+            {hasHardWired &&
+                <OpenImageInNewTab>
+                    <Image {...image2} />
+                </OpenImageInNewTab>}
             {hasHardWired && <StructuredText {...below} />}
             {children}
         </Section>

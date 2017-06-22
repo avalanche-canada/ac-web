@@ -1,7 +1,7 @@
 import React, { createElement, cloneElement, DOM } from 'react'
 import { compose, setPropTypes, mapProps } from 'recompose'
 import PropTypes from 'prop-types'
-import Image from './InlineImage'
+import Image from './Image'
 import Embed from './Embed'
 import WebLink from './WebLink'
 import DocumentLink from './DocumentLink'

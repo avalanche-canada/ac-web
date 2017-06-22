@@ -4,7 +4,7 @@ import { Media, Caption } from '~/components/media'
 import { List, Term, Definition } from '~/components/description'
 import { StructuredText } from '~/prismic/components/base'
 import { parseGroup } from '~/prismic/parsers'
-import InlineImage from '../base/InlineImage'
+import Image from '../base/Image'
 
 Figure.propTypes = {
     content: PropTypes.arrayOf(PropTypes.object),
@@ -15,7 +15,7 @@ export default function Figure(props) {
 
     return (
         <Media>
-            <InlineImage {...figure.main} />
+            <Image {...figure.main} />
             <Caption>
                 <StructuredText value={caption} />
                 <List>
