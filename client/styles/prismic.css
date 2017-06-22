@@ -9,14 +9,14 @@
     }
 }
 
-:global(.float-right) {
-    float: right;
-    padding-left: 1em;
-}
-
 :global(.float-left) {
     float: left;
-    padding-right: 1em;
+    margin-right: 1em;
+}
+
+:global(.float-right) {
+    float: right;
+    margin-left: 1em;
 }
 
 :global(.primary-text) {
@@ -162,12 +162,12 @@
 }
 
 :global(.static-page-mountain-information-network-overview) {
-    & main > div:not([class]):not(:last-child) {
-        display: flex;
-        align-items: center;
-
-        & > :first-child {
-            padding-right: 1em;
+    & main > div:not([class]) {
+        &  > div:not([class]):nth-child(2),
+        &  > div:not([class]):nth-child(3),
+        &  > div:not([class]):nth-child(4) {
+            display: flex;
+            align-items: center;
         }
     }
 }
