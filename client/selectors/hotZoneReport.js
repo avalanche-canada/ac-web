@@ -174,11 +174,7 @@ function transform({ uid, data }) {
             travelAdvice: data.alpineTerrainAvoidanceTravelAdvice,
         },
         images: Array.isArray(data.hotzoneImages)
-            ? data.hotzoneImages.map(image => ({
-                  ...image.hotzoneImage,
-                  caption: image.caption,
-              }))
-            : [],
+            ? data.hotzoneImages.map(image => ({...image.hotzoneImage, caption: image.caption})) : [],
         goodTerrainChoices: parseFeatures(data.goodTerrainChoices),
         terrainToWatch: parseFeatures(data.terrainToWatch),
         terrainToAvoid: parseFeatures(data.terrainToAvoid),
