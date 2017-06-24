@@ -5,7 +5,6 @@ import StaticPage from './StaticPage'
 import Generic from './Generic'
 
 export Generic from './Generic'
-export Content from './Content'
 export StaticPage from './StaticPage'
 
 const Components = new Map([['static-page', StaticPage], ['generic', Generic]])

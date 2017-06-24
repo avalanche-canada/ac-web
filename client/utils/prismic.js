@@ -6,13 +6,14 @@ const NEWS = 'news'
 const GENERIC = 'generic'
 const STATIC_PAGE = 'static-page'
 
-export function title(document) {
-    const type = get(document, 'type')
+export function title(document = {}) {
+    const { type } = document
 
     switch (type) {
         case EVENT:
         case BLOG:
         case NEWS:
+            return document.title
         case GENERIC:
         case STATIC_PAGE:
             return get(document, ['data', type, 'title', 'value'])
