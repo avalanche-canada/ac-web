@@ -21,24 +21,35 @@ StaticPage.propTypes = {
     title: PropTypes.string,
     status: PropTypes.object.isRequired,
     document: PropTypes.object,
+    fullWidth: PropTypes.bool,
 }
 
-export default function StaticPage({ type, uid, title, status, document }) {
+const ARRAY = []
+
+export default function StaticPage({
+    type,
+    uid,
+    title,
+    status,
+    document,
+    fullWidth = false,
+}) {
     const defaults = {
         title,
-        content: [],
+        content: ARRAY,
     }
-    const page = parse(document, defaults)
-    const { headline, content, sidebar, banner, ...rest } = page.data
+    const { data } = parse(document, defaults)
+    const { headline, content, sidebar, banner } = data
     const contact = typeof contact === 'string'
         ? <Contact email={contact} />
         : contact
 
-    // TODO: Looking at className usage and find out is we still need that
+    // TODO: Looking at className (prismic.css) usage and find out is we still need that
+    // TODO: Removing className here and in the stylesheet
     return (
-        <Page className={`${type}-${uid}`}>
+        <Page className={`${type}-${uid}`} fullWidth={fullWidth}>
             {banner && <Banner url={banner.main.url} />}
-            <Header title={rest.title} />
+            <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>

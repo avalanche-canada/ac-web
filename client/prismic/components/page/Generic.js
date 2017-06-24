@@ -12,15 +12,15 @@ Generic.propTypes = {
 }
 
 export default function Generic({ title, status, document }) {
-    const generic = parse(document, { title }).data
+    const { data } = parse(document, { title })
 
     return (
         <Page>
-            <Header title={generic.title} />
+            <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>
-                    <StructuredText value={generic.body} />
+                    <StructuredText value={data.body} />
                 </Main>
             </Content>
         </Page>

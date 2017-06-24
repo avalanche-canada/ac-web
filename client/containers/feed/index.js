@@ -10,6 +10,8 @@ export Splash from './Splash'
 export const Feed = feed(FeedComponent)
 export const FilterSet = feed(FilterSetComponent)
 
+// TODO: Use constants
+
 export const NewsPost = post('news')
 export const BlogPost = post('blog')
 export const EventPost = post('event')
