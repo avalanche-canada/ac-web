@@ -63,6 +63,7 @@ function transformBlog({ uid, type, tags, data }) {
 
     return {
         ...data,
+        type,
         uid,
         tags,
         featured: tags.includes('featured'),
@@ -80,6 +81,7 @@ function transformEvent({ uid, type, tags, data }) {
 
     return {
         ...data,
+        type,
         uid,
         tags,
         featured: tags.includes('featured'),
@@ -100,6 +102,7 @@ function transformNews({ uid, type, tags, data }) {
 
     return {
         ...data,
+        type,
         uid,
         tags,
         featured: tags.includes('featured'),
