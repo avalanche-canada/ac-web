@@ -161,6 +161,20 @@
     }
 }
 
+:global(.static-page-foundation-home) {
+    & > header {
+        display: none;
+    }
+    & > div {
+        max-width: 100%;
+        padding: 0;
+    }
+    & :global(.image-gallery-image > img) {
+        height: calc(100vh - 75px);
+        object-fit: cover;
+    }
+}
+
 :global(.static-page-mountain-information-network-overview) {
     & main > div:not([class]) {
         &  > div:not([class]):nth-child(2),
