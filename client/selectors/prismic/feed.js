@@ -53,7 +53,11 @@ function desc(a, b) {
     return b.date - a.date
 }
 
-const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, desc]])
+function asc(a, b) {
+    return a.date - b.date
+}
+
+const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, asc]])
 
 function getPredicates(state, props) {
     const predicates = []
@@ -82,6 +86,7 @@ const getTransformedFeed = createSelector(getFeed, getType, (feed, type) => {
         return sorted
     }
 
+    // Bringing the first featured one on top!
     const featured = sorted.find(isFeatured)
     const index = sorted.indexOf(featured)
 
@@ -161,8 +166,14 @@ export default createStructuredSelector({
 export const getSidebar = createStructuredSelector({
     documents: createSelector(
         getDocumentsFromResult,
+        getType,
         (state, props) => document => document.uid !== props.uid,
-        (documents, filter) => documents.filter(filter)
+        (documents, type, filter) => {
+            return documents
+                .filter(filter)
+                .map(parseForMap)
+                .sort(SORTERS.get(type))
+        }
     ),
 })
 
