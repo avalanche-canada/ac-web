@@ -21,14 +21,14 @@ export default compose(
         let children = []
 
         if (documents.length > 0) {
-            children = [
+            children = documents.map(document => (
+                <Item key={document.uid}>
+                    <Link document={document} />
+                </Item>
+            ))
+            children.unshift(
                 <Header>{Headers.get(type)}</Header>,
-                ...documents.map(document => (
-                    <Item key={document.uid}>
-                        <Link document={document} />
-                    </Item>
-                )),
-            ]
+            )
         }
 
         return {
