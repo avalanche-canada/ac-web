@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Image from './Image'
 import Embed from './Embed'
 import WebLink from './WebLink'
+import ImageLink from './ImageLink'
 import DocumentLink from './DocumentLink'
 import { replaceLineFeed, swap } from '~/utils/react'
 
@@ -26,7 +27,11 @@ const EMBED = 'embed'
 const SpanComponents = new Map([
     [
         HYPERLINK,
-        new Map([['Link.web', WebLink], ['Link.document', DocumentLink]]),
+        new Map([
+            ['Link.web', WebLink],
+            ['Link.document', DocumentLink],
+            ['Link.image', ImageLink],
+        ]),
     ],
     [EM, new Map([[undefined, 'em']])],
     [STRONG, new Map([[undefined, 'strong']])],
@@ -87,14 +92,8 @@ const Components = new Map([
 ])
 
 const GroupTypes = new Set([LIST_ITEM, ORDERED_LIST_ITEM])
-
-StructuredText.propTypes = {
-    value: PropTypes.arrayOf(
-        PropTypes.shape({
-            type: PropTypes.oneOf(Array.from(Components.keys())).isRequired,
-        })
-    ).isRequired,
-}
+// FIXME: Tried to use DOM.ul & DOM.ol instead of string and it does not work?!?
+const GroupComponents = new Map([[LIST_ITEM, 'ul'], [ORDERED_LIST_ITEM, 'ol']])
 
 function childrenElementReducer(children, { type, ...props }, index, value) {
     props.key = index
@@ -112,7 +111,11 @@ function childrenElementReducer(children, { type, ...props }, index, value) {
 
             children[previousIndex] = cloneElement(group, group.props)
         } else {
-            const group = createElement('ul', { key: index }, [element])
+            const group = createElement(
+                GroupComponents.get(type),
+                { key: index },
+                [element]
+            )
 
             children.push(group)
         }
@@ -123,9 +126,18 @@ function childrenElementReducer(children, { type, ...props }, index, value) {
     return children
 }
 
-export default function StructuredText({ value = [] }) {
+StructuredText.propTypes = {
+    value: PropTypes.arrayOf(
+        PropTypes.shape({
+            type: PropTypes.oneOf(Array.from(Components.keys())).isRequired,
+        })
+    ).isRequired,
+    className: PropTypes.string,
+}
+
+export default function StructuredText({ value = [], className }) {
     return (
-        <div>
+        <div className={className}>
             {value.reduce(childrenElementReducer, [])}
         </div>
     )
