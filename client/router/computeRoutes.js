@@ -420,7 +420,7 @@ export default function computeRoutes(store) {
             <Route
                 path="forecasts"
                 sponsorRef="Forecast"
-                components={{ content: Forecasts, footer: null }}
+                component={Forecasts}
             />
             <Route
                 path="forecasts/:name(/:date)"
