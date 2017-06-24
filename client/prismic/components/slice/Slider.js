@@ -13,7 +13,7 @@ export default compose(
     }),
     withProps(props => ({
         items: parseGroup(props).map(({ image, content }) => ({
-            src: image.url,
+            src: image.main.url,
             children: (
                 <StructuredText value={content} className={styles.Item} />
             ),
