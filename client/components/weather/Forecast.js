@@ -81,7 +81,7 @@ export default function Forecast({ forecast = {}, tabs = TABS }) {
                     date,
                 }
 
-                if (group) {
+                if (Array.isArray(group)) {
                     Object.assign(props, group[0])
                 }
 
