@@ -4,10 +4,10 @@ import Loop from '../Loop'
 import Meteogram from '../Meteogram'
 import { StructuredText } from '~/prismic/components/base'
 
-function createSlice({ slice_type: type, value }, index) {
+function Slice({ type, value }) {
     switch (type) {
         case 'text':
-            return <StructuredText key={index} {...value} />
+            return <StructuredText value={value} />
         case 'loop': {
             const [loop] = value
 
@@ -25,7 +25,7 @@ function createSlice({ slice_type: type, value }, index) {
                 run: Number(run.replace('Z', '')),
             }
 
-            return <Loop key={index} {...props} />
+            return <Loop {...props} />
         }
         case 'point-meteogram':
         case 'group-meteogram': {
@@ -46,7 +46,7 @@ function createSlice({ slice_type: type, value }, index) {
                 location: meteogram.location,
             }
 
-            return <Meteogram key={index} {...props} />
+            return <Meteogram {...props} />
         }
         default:
             return null
@@ -60,7 +60,7 @@ SliceSet.propTypes = {
 export default function SliceSet({ slices = [] }) {
     return (
         <div>
-            {slices.map(createSlice)}
+            {slices.map((slice, index) => <Slice key={index} {...slice} />)}
         </div>
     )
 }

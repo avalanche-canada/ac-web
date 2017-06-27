@@ -1,7 +1,6 @@
 import React from 'react'
 import { withProps } from 'recompose'
 import FeedSplash from '~/containers/feed/Splash'
-import { parseGroup } from '~/prismic/parsers'
 import { StructuredText } from '~/prismic/components/base'
 
 const types = new Map([
@@ -10,8 +9,8 @@ const types = new Map([
     ['News', 'news'],
 ])
 
-export default withProps(props => {
-    const [{ type, header, tags }] = parseGroup(props)
+export default withProps(({ value }) => {
+    const [{ type, header, tags }] = value
 
     return {
         type: types.get(type),

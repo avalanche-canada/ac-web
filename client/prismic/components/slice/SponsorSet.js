@@ -26,7 +26,9 @@ export default compose(
             sponsors: getSponsors,
         })
     ),
-    mapProps(props => ({
-        children: props.sponsors.map(createSponsor),
-    }))
+    mapProps(props => {
+        return {
+            children: props.sponsors.map(createSponsor),
+        }
+    })
 )(ItemSet)

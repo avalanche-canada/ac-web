@@ -7,6 +7,10 @@ import Url from 'url'
 const BLANK = '_blank'
 const TARGETS = new Map([['http:', BLANK], ['https:', BLANK]])
 
+// TODO: Rework links props. Should be simplified.
+// Links are used in StructuredText and as standalone types.
+// So needs to look at both usage and change parsers accordingly
+
 WebLink.propTypes = {
     value: PropTypes.shape({
         url: PropTypes.string.isRequired,

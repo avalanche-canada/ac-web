@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Ambassador from '~/components/ambassador'
 import { StructuredText } from '~/prismic/components/base'
-import { parseGroup } from '~/prismic/parsers'
 
+// TODO: Could potentially move that transformer to module prismic/parsers
 function transformer({
     avatar,
     avatarCredit,
@@ -47,10 +47,10 @@ AmbassadorSet.propTypes = {
     value: PropTypes.arrayOf(PropTypes.object),
 }
 
-export default function AmbassadorSet(props) {
+export default function AmbassadorSet({ value }) {
     return (
         <div>
-            {parseGroup(props, undefined, transformer).map(createAmbassador)}
+            {value.map(transformer).map(createAmbassador)}
         </div>
     )
 }

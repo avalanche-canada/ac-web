@@ -1,16 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Blockquote, Footer } from '~/components/blockquote'
-import { parseGroup } from '~/prismic/parsers'
 import { StructuredText } from '~/prismic/components/base'
 
 Quote.propTypes = {
-    content: PropTypes.string.isRequired,
-    footer: PropTypes.string,
+    value: PropTypes.arrayOf(
+        PropTypes.shape({
+            content: PropTypes.string.isRequired,
+            footer: PropTypes.string,
+        })
+    ).isRequired,
 }
 
-export default function Quote(props) {
-    const [{ content, footer }] = parseGroup(props)
+export default function Quote({ value }) {
+    const [{ content, footer }] = value
 
     return (
         <Blockquote>

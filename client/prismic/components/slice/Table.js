@@ -11,7 +11,6 @@ import Pagination from '~/components/pagination'
 import { Status, Br } from '~/components/misc'
 import { DropdownFromOptions as Dropdown } from '~/components/controls'
 import { parseForMap } from '~/prismic'
-import { parseData } from '~/prismic/parsers'
 import get from 'lodash/get'
 import { prismic } from '~/containers/connectors'
 import { getStatusFactory } from '~/selectors/prismic/utils'
@@ -202,10 +201,10 @@ export default compose(
 )(Container)
 
 function getDocumentType(props) {
-    return get(props, ['value', 0, 'source', 'value'])
+    return get(props, ['value', 0, 'source'])
 }
 function getContent(state, { value = ARRAY }) {
-    return value.map(data => parseData(data))
+    return value
 }
 // TODO: Look to use children as function
 function createProperty(type, property, option1) {

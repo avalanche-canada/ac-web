@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules'
 import { Media, Caption, Player } from '~/components/media'
 import { Ribbon } from '~/components/misc'
 import styles from './Video.css'
-import { parseGroup } from '~/prismic/parsers'
 import { StructuredText } from '~/prismic/components/base'
 
 Video.propTypes = {
@@ -34,15 +33,13 @@ function Video({ caption, credit, ribbonCaption, ribbonTitle, ...player }) {
 
 VideoSet.propTypes = {
     // TODO: Use appropriate propType
-    content: PropTypes.arrayOf(PropTypes.object).isRequired,
+    value: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function VideoSet(props) {
+function VideoSet({ value }) {
     return (
         <div styleName="VideoSet">
-            {parseGroup(props).map((props, index) => (
-                <Video key={index} {...props} />
-            ))}
+            {value.map((props, index) => <Video key={index} {...props} />)}
         </div>
     )
 }

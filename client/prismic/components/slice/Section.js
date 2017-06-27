@@ -2,10 +2,9 @@ import React from 'react'
 import { mapProps } from 'recompose'
 import { Section } from '~/components/page'
 import { StructuredText } from '~/prismic/components/base'
-import { parseGroup } from '~/prismic/parsers'
 
-export default mapProps(props => {
-    const [{ content, ...group }] = parseGroup(props)
+export default mapProps(({ value }) => {
+    const [{ content, ...group }] = value
 
     return {
         ...group,

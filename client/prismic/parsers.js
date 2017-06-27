@@ -4,37 +4,53 @@ import identity from 'lodash/identity'
 import get from 'lodash/get'
 import { normalizeTags, boolean } from '~/prismic/utils'
 
-const DEFAULTS = {}
-
-export function parseLocation(document) {
-    const { location } = parse(document).data
-
-    return location ? [location.longitude, location.latitude] : null
-}
-
 const TypeTransformers = new Map([
     ['Date', parseDate],
     ['StructuredText', identity],
+    ['Group', parseGroup],
+    ['SliceZone', parseSliceZone],
+    ['Link.web', value => ({ type: 'Link.web', value })],
+    ['Link.document', value => ({ type: 'Link.document', value })],
+    ['Link.image', value => ({ type: 'Link.image', value })],
 ])
 
-export function parseData(data, defaults = DEFAULTS, transformer = identity) {
+function parseValue({ type, value }, defaultValue) {
+    if (TypeTransformers.has(type)) {
+        const transformer = TypeTransformers.get(type)
+
+        value = transformer(value)
+    }
+
+    return value === undefined ? defaultValue : value
+}
+
+function parseSlice({ slice_type, slice_label, value }) {
+    return {
+        type: slice_type,
+        label: slice_label,
+        value: parseValue(value),
+    }
+}
+
+function parseSliceZone(slices = []) {
+    return slices.map(parseSlice)
+}
+
+function parseData(data, defaults = {}, transformer = identity) {
     return transformer({
         ...defaults,
         ...Object.keys(data).reduce((object, key) => {
-            const { type } = data[key]
-            let { value } = data[key]
+            const camelCaseKey = camelCase(key)
 
-            if (TypeTransformers.has(type)) {
-                value = TypeTransformers.get(type).call(null, value)
-            }
-
-            key = camelCase(key)
-
-            object[key] = value === undefined ? defaults[key] : value
+            object[camelCaseKey] = parseValue(data[key], defaults[camelCaseKey])
 
             return object
         }, {}),
     })
+}
+
+function parseGroup(group, defaults, transformer) {
+    return group.map(item => parseData(item, defaults, transformer))
 }
 
 function parseDocument(document, defaults, transformer = identity) {
@@ -180,17 +196,17 @@ const DocumentTransformers = new Map([
     ['weather-forecast', transformWeatherForecast],
 ])
 
-export default function parse(object, defaults = DEFAULTS, transformer) {
+export default function parse(object, defaults = {}, transformer) {
     if (!object) {
         return {
             data: defaults,
         }
     }
 
-    const { type } = object
+    const { type, value } = object
 
     if (type === 'Group') {
-        return parseGroup(object, defaults, transformer)
+        return parseGroup(value, defaults, transformer)
     }
 
     return parseDocument(
@@ -200,6 +216,8 @@ export default function parse(object, defaults = DEFAULTS, transformer) {
     )
 }
 
-export function parseGroup({ value }, defaults, transformer) {
-    return value.map(group => parseData(group, defaults, transformer))
+export function parseLocation(document) {
+    const { location } = parse(document).data
+
+    return location ? [location.longitude, location.latitude] : null
 }

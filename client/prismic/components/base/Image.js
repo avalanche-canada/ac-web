@@ -26,8 +26,11 @@ function Image({ url, alt, copyright, label }) {
                 <ElementResize>
                     {width => {
                         if (copyright) {
+                            const compact =
+                                width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
+
                             return (
-                                <Credit compact={width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT}>
+                                <Credit compact={compact}>
                                     {copyright}
                                 </Credit>
                             )

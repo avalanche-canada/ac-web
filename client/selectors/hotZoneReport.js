@@ -4,7 +4,6 @@ import { getEntityForSchema, getEntitiesForSchema } from '~/getters/entities'
 import { getDocumentsOfType } from '~/getters/prismic'
 import { computeFitBounds } from '~/selectors/map/bounds'
 import { parse } from '~/prismic'
-import { parseData } from '~/prismic/parsers'
 import { isHotZoneReportValid, isReportWithinRange } from '~/prismic/utils'
 import endOfDay from 'date-fns/end_of_day'
 import parseDate from 'date-fns/parse'
@@ -48,10 +47,6 @@ const yesNoUnknownValues = new Map([
     [null, null],
     [undefined, null],
 ])
-
-function parseFeatures(features = []) {
-    return features.map(features => parseData(features))
-}
 
 function mergeAspects(report, prefix) {
     const keyRegExp = new RegExp(`${prefix}(E|W|Se|Sw|S|Nw|N|Ne)$`)
@@ -174,14 +169,22 @@ function transform({ uid, data }) {
             travelAdvice: data.alpineTerrainAvoidanceTravelAdvice,
         },
         images: Array.isArray(data.hotzoneImages)
-            ? data.hotzoneImages.map(image => ({...image.hotzoneImage, caption: image.caption})) : [],
-        goodTerrainChoices: parseFeatures(data.goodTerrainChoices),
-        terrainToWatch: parseFeatures(data.terrainToWatch),
-        terrainToAvoid: parseFeatures(data.terrainToAvoid),
+            ? data.hotzoneImages.map(createHotzoneImage)
+            : [],
+        goodTerrainChoices: data.goodTerrainChoices,
+        terrainToWatch: data.terrainToWatch,
+        terrainToAvoid: data.terrainToAvoid,
         goodTerrainChoicesComment: data.goodTerrainChoicesComment,
         terrainToWatchComment: data.terrainToWatchComment,
         terrainToAvoidComment: data.terrainToAvoidComment,
         terrainAdviceComment: data.terrainAdviceComment,
+    }
+}
+
+function createHotzoneImage(image) {
+    return {
+        ...image.hotzoneImage,
+        caption: image.caption,
     }
 }
 

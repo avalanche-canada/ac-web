@@ -31,9 +31,13 @@ function StaffSet({ members }) {
     )
 }
 
+function pluck({ staff }) {
+    return staff.value.document.id
+}
+
 const getMembers = createSelector(
     getDocuments,
-    (state, { value }) => value.map(item => item.staff.value.document.id),
+    (state, { value }) => value.map(pluck),
     (documents, ids) => ids.map(id => documents.get(id)).filter(Boolean)
 )
 

@@ -14,9 +14,9 @@ Synopsis.propTypes = {
 export default function Synopsis({ date, above, below, children }) {
     return (
         <Section>
-            <StructuredText {...above} />
+            <StructuredText value={above} />
             <Loop type="AC_GDPS_EPA_clds-th-500hts" date={date} run={0} />
-            <StructuredText {...below} />
+            <StructuredText value={below} />
             {children}
         </Section>
     )
