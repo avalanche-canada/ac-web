@@ -1,11 +1,10 @@
 import React from 'react'
 import { mapProps } from 'recompose'
 import QuestionAnswer from '~/components/question-answer'
-import { parse } from '~/prismic'
 import { StructuredText } from '~/prismic/components/base'
 
-export default mapProps(props => {
-    const [{ question, answer }] = parse(props)
+export default mapProps(({ value }) => {
+    const { question, answer } = value[0]
 
     return {
         question,

@@ -31,7 +31,7 @@ function transformer({
             credit: bannerCredit,
             caption: bannerCaption,
         },
-        socials: socials.filter(Boolean).map(social => social.url),
+        socials: socials.filter(Boolean).map(social => social.value.url),
     }
 }
 
