@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
-import BasePanel, { INVERSE } from '~/components/panel'
+import Panel, { INVERSE } from '~/components/panel'
 import Generic from '~/prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
@@ -11,10 +10,10 @@ import ImageGallery from '~/components/gallery'
 import styles from './HotZoneReport.css'
 import ArchiveWarning from './ArchiveWarning'
 
-const Panel = withProps({
+const panel = {
     theme: INVERSE,
     expandable: true,
-})(BasePanel)
+}
 
 HotZoneReport.propTypes = {
     report: PropTypes.object,
@@ -23,7 +22,7 @@ HotZoneReport.propTypes = {
 }
 
 function HotZoneReport({ report, previous, next }) {
-    const { title, headline, images } = report
+    const { title, headline, images } = report || {}
     let gallery = null
 
     if (images) {
@@ -52,10 +51,10 @@ function HotZoneReport({ report, previous, next }) {
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
-            <Panel header="More information">
+            <Panel {...panel} header="More information">
                 <Generic uid="hot-zone-report-more-information" />
             </Panel>
-            <Panel header="About">
+            <Panel {...panel} header="About">
                 <Generic uid="hot-zone-report-about" />
             </Panel>
         </div>

@@ -164,9 +164,13 @@ export const hotZoneReport = compose(
             props.fitBounds(bbox, options)
         },
     }),
-    withProps(({ report }) => ({
-        report: parse(report).data,
-    }))
+    withProps(({ report }) => {
+        if (report) {
+            report = parse(report).data
+        }
+
+        return report
+    })
 )
 
 export const archiveHotZoneReport = compose(
