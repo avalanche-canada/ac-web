@@ -54,7 +54,7 @@ const STYLES = new Map([
 
 const truthPropType = PropTypes.oneOf([true, false, null])
 function createDescriptions(values) {
-    return Object.keys(values).reduce((children, key) => {
+    return Object.keys(values).sort().reduce((children, key) => {
         const value = VALUES.get(values[key])
         const style = STYLES.get(value)
 

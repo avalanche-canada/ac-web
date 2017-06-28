@@ -7,6 +7,9 @@ import { parse } from '~/prismic'
 import { isHotZoneReportValid, isReportWithinRange } from '~/prismic/utils'
 import endOfDay from 'date-fns/end_of_day'
 import parseDate from 'date-fns/parse'
+import capitalize from 'lodash/capitalize'
+
+// TODO: Move most of these parsing function to module prismic/parsers
 
 function getHotZone(state, { params }) {
     return getEntityForSchema(state, Schemas.HotZone, params.name)
@@ -50,6 +53,7 @@ const yesNoUnknownValues = new Map([
 
 function mergeAspects(report, prefix) {
     const keyRegExp = new RegExp(`${prefix}(E|W|Se|Sw|S|Nw|N|Ne)$`)
+    const keys = Object.keys(report).filter(::keyRegExp.test)
     function reducer(aspects, key) {
         const aspectKey = key.replace(keyRegExp, (match, key) =>
             key.toUpperCase()
@@ -60,13 +64,49 @@ function mergeAspects(report, prefix) {
         return aspects
     }
 
+    if (keys.length === 0) {
+        return null
+    }
+
     return {
         ...ASPECTS,
-        ...Object.keys(report).filter(::keyRegExp.test).reduce(reducer, {}),
+        ...keys.reduce(reducer, {}),
+    }
+}
+
+function createHotzoneImage(image) {
+    return {
+        ...image.hotzoneImage,
+        caption: image.caption,
+    }
+}
+
+function parseTerrainFeatures(data, key, suffices) {
+    return suffices.reduce((features, suffix) => {
+        features[suffix] = yesNoValues.get(data[key + capitalize(suffix)])
+
+        return features
+    }, {})
+}
+
+function parseTerrainAvoidance(data, key, suffices) {
+    const aspect = mergeAspects(data, key)
+
+    if (!aspect) {
+        return null
+    }
+
+    return {
+        aspect,
+        terrainFeatures: parseTerrainFeatures(data, key, suffices),
+        travelAdvice: data[`${key}Advice`],
     }
 }
 
 function transform({ uid, data }) {
+    // alpineTerrainAvoidance
+    // treelineTerrainAvoidance
+    // belowTreelineTerrainAvoidance
     return {
         uid,
         region: data.region,
@@ -100,74 +140,6 @@ function transform({ uid, data }) {
             questions: data.criticalFactorsQuestions,
             comments: data.criticalFactorsComments,
         },
-        treelineTerrainAvoidance: {
-            aspect: mergeAspects(data, 'treelineTerrainAvoidance'),
-            terrainFeatures: {
-                unsupported: yesNoValues.get(
-                    data.treelineTerrainAvoidanceUnsupported
-                ),
-                leeSlopes: yesNoValues.get(
-                    data.treelineTerrainAvoidanceLeeSlopes
-                ),
-                crossloadedSlopes: yesNoValues.get(
-                    data.treelineTerrainAvoidanceCrossloadedSlopes
-                ),
-                convex: yesNoValues.get(data.treelineTerrainAvoidanceConvex),
-                shallowSnowpack: yesNoValues.get(
-                    data.treelineTerrainAvoidanceShallowSnowpack
-                ),
-                variableDepthSnowpack: yesNoValues.get(
-                    data.treelineTerrainAvoidanceVariableDepthSnowpack
-                ),
-            },
-            travelAdvice: data.treelineTerrainAvoidanceTravelAdvice,
-        },
-        belowTreelineTerrainAvoidance: {
-            aspect: mergeAspects(data, 'belowTreelineTerrainAvoidance'),
-            terrainFeatures: {
-                creeks: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceCreeks
-                ),
-                unsupported: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceUnsupported
-                ),
-                leeSlopes: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceLeeSlopes
-                ),
-                convex: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceConvex
-                ),
-                cutblocks: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceCutblocks
-                ),
-                runoutZones: yesNoValues.get(
-                    data.belowTreelineTerrainAvoidanceRunoutZones
-                ),
-            },
-            travelAdvice: data.belowTreelineTerrainAvoidanceTravelAdvice,
-        },
-        alpineTerrainAvoidance: {
-            aspect: mergeAspects(data, 'alpineTerrainAvoidance'),
-            terrainFeatures: {
-                unsupported: yesNoValues.get(
-                    data.alpineTerrainAvoidanceUnsupported
-                ),
-                leeSlopes: yesNoValues.get(
-                    data.alpineTerrainAvoidanceLeeSlopes
-                ),
-                crossloadedSlopes: yesNoValues.get(
-                    data.alpineTerrainAvoidanceCrossloadedSlopes
-                ),
-                convex: yesNoValues.get(data.alpineTerrainAvoidanceConvex),
-                shallowSnowpack: yesNoValues.get(
-                    data.alpineTerrainAvoidanceShallowSnowpack
-                ),
-                variableDepthSnowpack: yesNoValues.get(
-                    data.alpineTerrainAvoidanceVariableDepthSnowpack
-                ),
-            },
-            travelAdvice: data.alpineTerrainAvoidanceTravelAdvice,
-        },
         images: Array.isArray(data.hotzoneImages)
             ? data.hotzoneImages.map(createHotzoneImage)
             : [],
@@ -178,13 +150,42 @@ function transform({ uid, data }) {
         terrainToWatchComment: data.terrainToWatchComment,
         terrainToAvoidComment: data.terrainToAvoidComment,
         terrainAdviceComment: data.terrainAdviceComment,
-    }
-}
-
-function createHotzoneImage(image) {
-    return {
-        ...image.hotzoneImage,
-        caption: image.caption,
+        treelineTerrainAvoidance: parseTerrainAvoidance(
+            data,
+            'treelineTerrainAvoidance',
+            [
+                'unsupported',
+                'leeSlopes',
+                'crossloadedSlopes',
+                'convex',
+                'shallowSnowpack',
+                'variableDepthSnowpack',
+            ]
+        ),
+        belowTreelineTerrainAvoidance: parseTerrainAvoidance(
+            data,
+            'belowTreelineTerrainAvoidance',
+            [
+                'creeks',
+                'unsupported',
+                'leeSlopes',
+                'convex',
+                'cutblocks',
+                'runoutZones',
+            ]
+        ),
+        alpineTerrainAvoidance: parseTerrainAvoidance(
+            data,
+            'alpineTerrainAvoidance',
+            [
+                'unsupported',
+                'leeSlopes',
+                'crossloadedSlopes',
+                'convex',
+                'shallowSnowpack',
+                'variableDepthSnowpack',
+            ]
+        ),
     }
 }
 

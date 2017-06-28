@@ -169,7 +169,7 @@ export const hotZoneReport = compose(
             report = parse(report).data
         }
 
-        return report
+        return { report }
     })
 )
 
