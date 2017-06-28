@@ -10,7 +10,7 @@ function Content({ image, text }) {
     return (
         <div>
             {image && <Image {...image.main} />}
-            <StructuredText value={text} />
+            {text && <StructuredText value={text} />}
         </div>
     )
 }
@@ -33,8 +33,8 @@ function Outlook({ forecast }) {
             {SEQUENCE.map(increment => (
                 <Content
                     key={increment}
-                    image={forecast[`outlookImage${increment}`]}
-                    text={forecast[`outlookText${increment}`]}
+                    image={forecast[`outlookImage${increment + 1}`]}
+                    text={forecast[`outlookText${increment + 1}`]}
                 />
             ))}
         </section>
@@ -49,11 +49,7 @@ Day.propTypes = {
 
 function Day({ forecast, date, index }) {
     function get(type, increment) {
-        return forecast[`day${index + 1}${type}${increment}`]
-    }
-
-    if (!get('Image', 1) && !get('Text', 1)) {
-        return null
+        return forecast[`day${index + 1}${type}${increment + 1}`]
     }
 
     return (
