@@ -7,7 +7,7 @@ import { parse } from '~/prismic'
 import { isHotZoneReportValid, isReportWithinRange } from '~/prismic/utils'
 import endOfDay from 'date-fns/end_of_day'
 import parseDate from 'date-fns/parse'
-import capitalize from 'lodash/capitalize'
+import upperFirst from 'lodash/upperFirst'
 
 // TODO: Move most of these parsing function to module prismic/parsers
 
@@ -51,9 +51,8 @@ const yesNoUnknownValues = new Map([
     [undefined, null],
 ])
 
-function mergeAspects(report, prefix) {
+function parseAspects(report, prefix) {
     const keyRegExp = new RegExp(`${prefix}(E|W|Se|Sw|S|Nw|N|Ne)$`)
-    const keys = Object.keys(report).filter(::keyRegExp.test)
     function reducer(aspects, key) {
         const aspectKey = key.replace(keyRegExp, (match, key) =>
             key.toUpperCase()
@@ -64,14 +63,7 @@ function mergeAspects(report, prefix) {
         return aspects
     }
 
-    if (keys.length === 0) {
-        return null
-    }
-
-    return {
-        ...ASPECTS,
-        ...keys.reduce(reducer, {}),
-    }
+    return Object.keys(report).filter(::keyRegExp.test).reduce(reducer, {})
 }
 
 function createHotzoneImage(image) {
@@ -82,31 +74,42 @@ function createHotzoneImage(image) {
 }
 
 function parseTerrainFeatures(data, key, suffices) {
+    function hasNotSuffix(suffix) {
+        return !data.hasOwnProperty(key + upperFirst(suffix))
+    }
+
+    if (suffices.every(hasNotSuffix)) {
+        return null
+    }
+
     return suffices.reduce((features, suffix) => {
-        features[suffix] = yesNoValues.get(data[key + capitalize(suffix)])
+        features[suffix] = yesNoValues.get(data[key + upperFirst(suffix)])
 
         return features
     }, {})
 }
 
 function parseTerrainAvoidance(data, key, suffices) {
-    const aspect = mergeAspects(data, key)
+    const aspects = parseAspects(data, key)
 
-    if (!aspect) {
+    if (
+        Object.keys(aspects).length === 0 &&
+        !data.hasOwnProperty(`${key}TravelAdvice`)
+    ) {
         return null
     }
 
     return {
-        aspect,
+        aspect: {
+            ...ASPECTS,
+            ...aspects,
+        },
         terrainFeatures: parseTerrainFeatures(data, key, suffices),
-        travelAdvice: data[`${key}Advice`],
+        travelAdvice: data[`${key}TravelAdvice`],
     }
 }
 
 function transform({ uid, data }) {
-    // alpineTerrainAvoidance
-    // treelineTerrainAvoidance
-    // belowTreelineTerrainAvoidance
     return {
         uid,
         region: data.region,
