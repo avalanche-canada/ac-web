@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName, withProps } from 'recompose'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
-import parse from 'date-fns/parse'
+import parseDate from 'date-fns/parse'
 import formatDate from 'date-fns/format'
 
 Time.propTypes = {
@@ -18,7 +18,7 @@ export default function Time({
     children,
     className,
 }) {
-    const date = parse(value)
+    const date = parseDate(value)
 
     if (typeof format === 'function') {
         format = format(value)
