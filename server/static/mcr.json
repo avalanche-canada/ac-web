@@ -1,0 +1,342 @@
+[
+    {
+        "id": "1",
+        "location":[
+            -123.13400403828,
+            49.300345747628
+        ],
+        "location_desc":"Cypress Bowl",
+        "permalink":"https://staging.mountainconditions.com/reports/loose-terrain-0",
+        "body":"<p>Short descirption</p>\n",
+        "title":"Loose Terrain",
+        "image":"public://images/reports/avalanche-canada-mcr_0.png",
+        "user":{
+            "name":"Steve Krueger",
+            "certs":null
+        },
+        "date":"2017-06-23T14:45:00-07:00"
+    },
+    {
+        "id": "2",
+        "location":[
+            -124.52964039551,
+            51.074880732231
+        ],
+        "location_desc":"Flagpole",
+        "permalink":"https://staging.mountainconditions.com/reports/red-tooth-and-claw",
+        "body":"<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>\n",
+        "title":"Red In Tooth And Claw",
+        "image":"public://images/reports/Image 5.jpg",
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-26T17:00:00-07:00"
+    },
+    {
+        "id": "3",
+        "location":[
+            178.94,
+            -16.26
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-54",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 54",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-25T17:00:00-07:00"
+    },
+    {
+        "id": "4",
+        "location":[
+            178.93,
+            -16.27
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-53",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 53",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-25T17:00:00-07:00"
+    },
+    {
+        "id": "5",
+        "location":[
+            178.92,
+            -16.28
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-52",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 52",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-25T17:00:00-07:00"
+    },
+    {
+        "id": "6",
+        "location":[
+            178.91,
+            -16.29
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-51",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 51",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-25T17:00:00-07:00"
+    },
+    {
+        "id": "7",
+        "location":[
+            178.9,
+            -16.3
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-50",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 50",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-25T17:00:00-07:00"
+    },
+    {
+        "id": "8",
+        "location":[
+            -123.09164582178,
+            49.249017331332
+        ],
+        "location_desc":"D",
+        "permalink":"https://staging.mountainconditions.com/reports/d",
+        "body":"<p>D</p>\n",
+        "title":"D",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-25T00:00:00-07:00"
+    },
+    {
+        "id": "9",
+        "location":[
+            -123.11,
+            49.285
+        ],
+        "location_desc":"C",
+        "permalink":"https://staging.mountainconditions.com/reports/c",
+        "body":"<p>C</p>\n",
+        "title":"C",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-25T00:00:00-07:00"
+    },
+    {
+        "id": "10",
+        "location":[
+            -123.11,
+            49.285
+        ],
+        "location_desc":"B",
+        "permalink":"https://staging.mountainconditions.com/reports/b",
+        "body":"<p>B</p>\n",
+        "title":"B",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-25T00:00:00-07:00"
+    },
+    {
+        "id": "11",
+        "location":[
+            -123.09168141727,
+            49.287698122246
+        ],
+        "location_desc":"A",
+        "permalink":"https://staging.mountainconditions.com/reports/a",
+        "body":"<p>A</p>\n",
+        "title":"A",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-25T00:00:00-07:00"
+    },
+    {
+        "id": "12",
+        "location":[
+            -123.10347686778,
+            49.27480929716
+        ],
+        "location_desc":"Science World",
+        "permalink":"https://staging.mountainconditions.com/reports/cool-dome-thing",
+        "body":"<p>There is a cool dome thing here.</p>\n",
+        "title":"Cool Dome Thing",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-25T00:00:00-07:00"
+    },
+    {
+        "id": "13",
+        "location":[
+            -123.15703718777,
+            49.298695177785
+        ],
+        "location_desc":"Vancouver seawall",
+        "permalink":"https://staging.mountainconditions.com/reports/nice-walk",
+        "body":"<p>This is a nice walk around the seawall.</p>\n",
+        "title":"A Nice Walk",
+        "image":null,
+        "user":{
+            "name":"Demo Guide",
+            "certs":"ACMG Demonstrator"
+        },
+        "date":"2017-05-23T17:00:00-07:00"
+    },
+    {
+        "id": "14",
+        "location":[
+            178.88,
+            -16.32
+        ],
+        "location_desc":"Greater Fiji",
+        "permalink":"https://staging.mountainconditions.com/reports/test-post-48",
+        "body":"<p>This is a test post</p>\n",
+        "title":"Test Post 48",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-24T00:00:00-07:00"
+    },
+    {
+        "id": "15",
+        "location":[
+            -123.11878857847,
+            49.334573675421
+        ],
+        "location_desc":"Capilano Canyon",
+        "permalink":"https://staging.mountainconditions.com/reports/bit-muddy",
+        "body":"<p>Walked up to Cleveland Dam on the Capilano Pacific Trail and found the trail generally clear, but a bit muddy in some places.</p>\n",
+        "title":"A Bit Muddy",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-21T00:00:00-07:00"
+    },
+    {
+        "id": "16",
+        "location":[
+            -123.11,
+            49.285
+        ],
+        "location_desc":"Vancouver",
+        "permalink":"https://staging.mountainconditions.com/reports/test-2",
+        "body":"<p>Test Test</p>\n",
+        "title":"Test",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-23T00:00:00-07:00"
+    },
+    {
+        "id": "17",
+        "location":[
+            -123.02622924892,
+            49.294069074149
+        ],
+        "location_desc":"Ironworker&#039;s Memorial Bridge",
+        "permalink":"https://staging.mountainconditions.com/reports/high-traffic-area",
+        "body":"<p>There is a lot of traffic in this area.</p>\n",
+        "title":"High Traffic Area",
+        "image":null,
+        "user":{
+            "name":"Brent Marykuca",
+            "certs":"ACMG Swift Guy"
+        },
+        "date":"2017-05-14T00:00:00-07:00"
+    },
+    {
+        "id": "18",
+        "location":[
+            -122.36915433546,
+            49.227626377842
+        ],
+        "location_desc":"Test",
+        "permalink":"https://staging.mountainconditions.com/reports/test-1",
+        "body":"<p>Test</p>\n",
+        "title":"Test",
+        "image":null,
+        "user":{
+            "name":"Leah",
+            "certs":null
+        },
+        "date":"2017-05-12T00:00:00-07:00"
+        },
+    {
+        "id": "19",
+        "location":[
+            -122.37494286406,
+            49.228115032764
+        ],
+        "location_desc":null,
+        "permalink":"https://staging.mountainconditions.com/reports/test-report-3",
+        "body":"<p>test</p>\n",
+        "title":"Test report 3",
+        "image":null,
+        "user":{
+            "name":"Leah",
+            "certs":null
+        },
+        "date":"2017-05-12T00:00:00-07:00"
+    },
+    {
+        "id": "20",
+        "location":[
+            -122.36910717724,
+            49.232151586728
+        ],
+        "location_desc":null,
+        "permalink":"https://staging.mountainconditions.com/reports/test-report-2",
+        "body":"<p>test</p>\n",
+        "title":"Test Report 2",
+        "image":null,
+        "user":{
+            "name":"Leah",
+            "certs":null
+        },
+        "date":"2017-05-12T00:00:00-07:00"
+    }
+]

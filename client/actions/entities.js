@@ -15,6 +15,7 @@ export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
 export const GET_PROVIDERS = 'GET_PROVIDERS'
 export const GET_COURSES = 'GET_COURSES'
 export const GET_WEATHER_STATIONS = 'GET_WEATHER_STATIONS'
+export const GET_MOUNTAIN_CONDITIONS_REPORTS = 'GET_MOUNTAIN_CONDITIONS_REPORTS'
 
 export const POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
     'POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
@@ -57,6 +58,11 @@ export const loadWeatherStations = createFetchActionForSchema(
 export function loadWeatherStation(id) {
     return loadWeatherStations({ id })
 }
+
+export const loadMountainConditionsReports = createFetchActionForSchema(
+    GET_MOUNTAIN_CONDITIONS_REPORTS,
+    Schemas.MountainConditionsReport
+)
 
 // CREATE ENTITY
 export const postMountainInformationNetworkSubmission = createAction(

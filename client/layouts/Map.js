@@ -24,6 +24,8 @@ import WeatherStation from '~/containers/drawers/content/WeatherStation'
 import ToyotaTruckReport from '~/containers/drawers/content/ToyotaTruckReport'
 import SpecialInformation from '~/containers/drawers/content/SpecialInformation'
 import FatalAccident from '~/containers/drawers/content/FatalAccident'
+import MountainConditionsReport
+    from '~/containers/drawers/content/MountainConditionsReport'
 import * as Schemas from '~/api/schemas'
 import Controls from '~/containers/drawers/controls/Map'
 
@@ -32,6 +34,7 @@ const ContentComponents = new Map([
         Schemas.MountainInformationNetworkSubmission.key,
         MountainInformationNetwork,
     ],
+    [Schemas.MountainConditionsReport.key, MountainConditionsReport],
     ['weather-stations', WeatherStation],
     ['toyota-truck-reports', ToyotaTruckReport],
     ['special-information', SpecialInformation],

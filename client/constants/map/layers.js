@@ -13,6 +13,19 @@ const toyotaLayers = [
         },
     },
 ]
+const mountainConditionsReportsLayers = [
+    {
+        id: Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        source: Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        type: 'symbol',
+        layout: {
+            visibility: 'visible',
+            'icon-image': 'mountain-conditions-report',
+            'icon-size': 0.75,
+            'icon-allow-overlap': true,
+        },
+    },
+]
 const weatherStationLayers = [
     {
         id: Layers.WEATHER_STATION,
@@ -125,6 +138,7 @@ export default [
     ...mountainInformationNetworkLayers,
     ...specialInformationLayers,
     ...fatalAccidentLayers,
+    ...mountainConditionsReportsLayers,
 ]
 
 export const LayerIds = new Map([
@@ -148,6 +162,10 @@ export const LayerIds = new Map([
     ],
     [Layers.WEATHER_STATION, weatherStationLayers.map(pluckLayerId)],
     [Layers.TOYOTA_TRUCK_REPORTS, toyotaLayers.map(pluckLayerId)],
+    [
+        Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        mountainConditionsReportsLayers.map(pluckLayerId),
+    ],
     [Layers.SPECIAL_INFORMATION, specialInformationLayers.map(pluckLayerId)],
     [Layers.FATAL_ACCIDENT, fatalAccidentLayers.map(pluckLayerId)],
 ])

@@ -60,6 +60,17 @@ const TRANSFORMERS = new Map([
         },
     ],
     [
+        Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        report => {
+            const { id, location, title } = report.toJSON()
+
+            return turf.point(location, {
+                title,
+                id,
+            })
+        },
+    ],
+    [
         Layers.FATAL_ACCIDENT,
         document => {
             const { uid, location, title } = Parser.parse(document)
@@ -197,6 +208,16 @@ const getWeatherStationFeatures = createSelector(
     }
 )
 
+// Create mountain conditions reports source
+const getMountainConditionsReports = createSelector(
+    createGetEntitiesForSchema(Schemas.MountainConditionsReport),
+    reportd => {
+        const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_CONDITIONS_REPORTS)
+
+        return reportd.map(transformer).toArray()
+    }
+)
+
 // Create Toyota Truck Report Features
 const getToyotaTruckFeatures = createSelector(
     state => getDocumentsOfType(state, 'toyota-truck-report'),
@@ -237,7 +258,16 @@ const getSourceFeatures = createSelector(
     getToyotaTruckFeatures,
     getSpecialInformationFeatures,
     getFatalAccidentFeatures,
-    (submissions, incidents, stations, toyota, special, fatalAccidents) =>
+    getMountainConditionsReports,
+    (
+        submissions,
+        incidents,
+        stations,
+        toyota,
+        special,
+        fatalAccidents,
+        mountainConditionsReports
+    ) =>
         new Map([
             [Layers.MOUNTAIN_INFORMATION_NETWORK, submissions],
             [Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS, incidents],
@@ -245,6 +275,7 @@ const getSourceFeatures = createSelector(
             [Layers.TOYOTA_TRUCK_REPORTS, toyota],
             [Layers.SPECIAL_INFORMATION, special],
             [Layers.FATAL_ACCIDENT, fatalAccidents],
+            [Layers.MOUNTAIN_CONDITIONS_REPORTS, mountainConditionsReports],
         ])
 )
 

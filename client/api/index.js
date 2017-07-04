@@ -10,6 +10,7 @@ import {
     transformProviderResponse,
     transformCourseResponse,
     sanitizeMountainInformationNetworkSubmissions,
+    transformMountainConditionsReports,
 } from './transformers'
 
 const POST_CONFIGS = new Map([
@@ -92,6 +93,14 @@ const GET_CONFIGS = new Map([
             }
         },
     ],
+    [
+        Schemas.MountainConditionsReport,
+        () => ({
+            transformResponse: defaults.transformResponse.concat(
+                transformMountainConditionsReports
+            ),
+        }),
+    ],
 ])
 
 function isArchiveBulletinRequest({ date }) {
@@ -133,6 +142,10 @@ const ENDPOINTS = new Map([
         Schemas.WeatherStation,
         (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
     ],
+    [
+        Schemas.MountainConditionsReport,
+        () => `${document.location.origin}/static/mcr.json`,
+    ],
 ])
 
 const api = Axios.create({
@@ -148,6 +161,7 @@ export function fetch(schema, params) {
         ? GET_CONFIGS.get(schema).call(null, params)
         : null
 
+    // FIXME: Remove specific code
     if (schema === Schemas.WeatherStation && params && params.id) {
         // It is a single Schemas.WeatherStation request
         return Promise.all([

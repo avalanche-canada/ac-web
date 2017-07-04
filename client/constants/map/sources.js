@@ -24,6 +24,10 @@ export default {
         type,
         data,
     },
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS]: {
+        type,
+        data,
+    },
     [Layers.SPECIAL_INFORMATION]: {
         type,
         data,

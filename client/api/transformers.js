@@ -1,6 +1,7 @@
 import QUICK_REPORT from '~/containers/min/quick.json'
 import t from '~/vendor/tcomb-form'
 import format from 'date-fns/format'
+import parse from 'date-fns/parse'
 import identity from 'lodash/identity'
 import Submission from '~/containers/min/types'
 import { QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT } from '~/constants/min'
@@ -182,4 +183,24 @@ export function sanitizeMountainInformationNetworkSubmissions(data) {
     }
 
     return sanitizeMountainInformationNetworkSubmission(data)
+}
+
+export function transformMountainConditionsReports(data) {
+    return data.map(transformMountainConditionsReport)
+}
+
+function transformMountainConditionsReport({
+    location_desc,
+    date,
+    user = {},
+    ...report
+}) {
+    return Object.assign(report, {
+        user: {
+            ...user,
+            certification: user.certs,
+        },
+        date: parse(date),
+        locationDescription: location_desc,
+    })
 }

@@ -36,3 +36,6 @@ export const WeatherStation = new schema.Entity(
         idAttribute: 'stationId',
     }
 )
+export const MountainConditionsReport = new schema.Entity(
+    'mountain-conditions-reports'
+)

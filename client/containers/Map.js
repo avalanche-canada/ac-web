@@ -205,6 +205,25 @@ class Container extends Component {
             }
         }
 
+        // Mountain Conditions Reports
+        features = this.map.queryRenderedFeatures(point, {
+            layers: LayerIds.get(Layers.MOUNTAIN_CONDITIONS_REPORTS),
+        })
+
+        if (features.length > 0) {
+            const [feature] = features
+            const panel = `mountain-conditions-reports/${feature.properties.id}`
+
+            return push(
+                {
+                    query: {
+                        panel,
+                    },
+                },
+                this.props
+            )
+        }
+
         // Toyota truck reports
         features = this.map.queryRenderedFeatures(point, {
             layers: LayerIds.get(Layers.TOYOTA_TRUCK_REPORTS),
