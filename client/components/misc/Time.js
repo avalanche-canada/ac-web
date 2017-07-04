@@ -8,10 +8,16 @@ import formatDate from 'date-fns/format'
 Time.propTypes = {
     value: PropTypes.instanceOf(Date),
     format: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    className: PropTypes.string,
     children: PropTypes.node,
 }
 
-export default function Time({ value = new Date(), format, children }) {
+export default function Time({
+    value = new Date(),
+    format,
+    children,
+    className,
+}) {
     const date = parse(value)
 
     if (typeof format === 'function') {
@@ -19,7 +25,7 @@ export default function Time({ value = new Date(), format, children }) {
     }
 
     return (
-        <time dateTime={formatDate(date)}>
+        <time dateTime={formatDate(date)} className={className}>
             {children || formatDate(date, format)}
         </time>
     )

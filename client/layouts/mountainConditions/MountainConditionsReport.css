@@ -28,9 +28,6 @@
     font-size: 0.9em;
 }
 
-.Title {
-}
-
 .Date {
     composes: HeaderComponent;
 

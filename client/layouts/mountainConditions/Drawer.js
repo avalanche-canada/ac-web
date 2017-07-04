@@ -54,14 +54,12 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
                 </Navbar>
                 <Banner url={IMAGE} />
                 <Header subject={subject}>
-                    <h1 styleName="Title">
+                    <h1>
                         <a href={permalink} target="_blank">
                             {title}
                         </a>
                     </h1>
-                    <div styleName="Date">
-                        <DateElement value={date} />
-                    </div>
+                    <DateElement className={styles.Date} value={date} />
                     <InnerHTML styleName="Location">
                         {locationDescription}
                     </InnerHTML>
