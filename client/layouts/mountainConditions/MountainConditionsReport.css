@@ -12,6 +12,8 @@
 .Footer {
     composes: Flex;
 
+    margin: 2em 0 1em;
+
     & img {
         width: 125px;
         border-radius: 25%;
