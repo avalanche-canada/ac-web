@@ -129,7 +129,7 @@
     border: none;
     width: 100%;
     height: 250px;
-    object-fit: cover;
+    object-fit: none;
     background-color: var(--gray-lightest);
     background-image: url('styles/AvalanchePath.svg');
     background-repeat: no-repeat;
