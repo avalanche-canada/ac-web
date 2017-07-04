@@ -13,11 +13,13 @@ const toyotaLayers = [
         },
     },
 ]
+
 const mountainConditionsReportsLayers = [
     {
         id: Layers.MOUNTAIN_CONDITIONS_REPORTS,
         source: Layers.MOUNTAIN_CONDITIONS_REPORTS,
         type: 'symbol',
+        filter: ['!has', 'point_count'],
         layout: {
             visibility: 'visible',
             'icon-image': 'mountain-conditions-report',
@@ -25,7 +27,29 @@ const mountainConditionsReportsLayers = [
             'icon-allow-overlap': true,
         },
     },
+    {
+        id: `${Layers.MOUNTAIN_CONDITIONS_REPORTS}-cluster`,
+        source: Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        type: 'symbol',
+        filter: ['has', 'point_count'],
+        layout: {
+            visibility: 'visible',
+            'icon-image': 'mountain-conditions-report',
+            'icon-allow-overlap': true,
+            'icon-size': 0.9,
+            'text-font': ['Open Sans Extrabold'],
+            'text-field': '{point_count}',
+            'text-size': 12,
+            'text-offset': [-0.75, -0.9],
+        },
+        paint: {
+            'text-color': '#1996BA',
+            'text-halo-color': '#FFFFFF',
+            'text-halo-width': 2,
+        },
+    },
 ]
+
 const weatherStationLayers = [
     {
         id: Layers.WEATHER_STATION,
@@ -61,6 +85,7 @@ const weatherStationLayers = [
         },
     },
 ]
+
 const mountainInformationNetworkLayers = [
     {
         id: Layers.MOUNTAIN_INFORMATION_NETWORK,
@@ -105,6 +130,7 @@ const mountainInformationNetworkLayers = [
         },
     },
 ]
+
 const specialInformationLayers = [
     {
         id: Layers.SPECIAL_INFORMATION,
@@ -118,6 +144,7 @@ const specialInformationLayers = [
         },
     },
 ]
+
 const fatalAccidentLayers = [
     {
         id: Layers.FATAL_ACCIDENT,

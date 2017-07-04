@@ -27,6 +27,7 @@ export default {
     [Layers.MOUNTAIN_CONDITIONS_REPORTS]: {
         type,
         data,
+        cluster: true,
     },
     [Layers.SPECIAL_INFORMATION]: {
         type,

@@ -212,16 +212,27 @@ class Container extends Component {
 
         if (features.length > 0) {
             const [feature] = features
-            const panel = `mountain-conditions-reports/${feature.properties.id}`
 
-            return push(
-                {
-                    query: {
-                        panel,
+            if (feature.properties.cluster) {
+                const { point_count } = feature.properties
+                const { data } = this.map
+                    .getSource(Layers.MOUNTAIN_CONDITIONS_REPORTS)
+                    .serialize()
+                const reports = near(feature, data, point_count)
+
+                return this.fitBounds(reports, CLUSTER_BOUNDS_OPTIONS)
+            } else {
+                const { key } = Schemas.MountainConditionsReport
+
+                return this.push(
+                    {
+                        query: {
+                            panel: `${key}/${feature.properties.id}`,
+                        },
                     },
-                },
-                this.props
-            )
+                    this.props
+                )
+            }
         }
 
         // Toyota truck reports
