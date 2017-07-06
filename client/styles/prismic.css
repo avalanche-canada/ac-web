@@ -3,6 +3,10 @@
 
 @custom-media --more-then-700 (width > 700px);
 
+p img {
+    margin: 1em;
+}
+
 :global(.block-img) {
     & > img {
         max-width: 100%;
@@ -35,6 +39,24 @@
     &:hover {
         color: var(--gray);
     }
+}
+
+:global(.callout-info) {
+    background-color: var(--info);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
+}
+
+:global(.callout-warning) {
+    background-color: var(--danger);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
 }
 
 :global(.primary-big-button) {

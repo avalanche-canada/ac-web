@@ -43,7 +43,6 @@ import {
     MountainInformationNetworkSubmission,
     Training,
     InstructingAst,
-    Tutorial,
     Gear,
     Sled,
     FAQ,
@@ -67,6 +66,7 @@ import * as Feed from '~/containers/feed'
 import * as Foundation from '~/containers/foundation'
 import * as Funds from '~/containers/funds'
 import * as Layouts from '~/layouts'
+import Tutorial from '~/layouts/Tutorial'
 import * as table from '~/layouts/min/table'
 import { NotFound } from '~/components/page'
 import * as articles from '~/components/page/weather/articles'

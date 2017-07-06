@@ -8,6 +8,15 @@ import ImageLink from './ImageLink'
 import DocumentLink from './DocumentLink'
 import { replaceLineFeed, swap } from '~/utils/react'
 
+function Label({ label, children }) {
+    return (
+        <span className={label}>
+            {children}
+        </span>
+    )
+}
+
+const LABEL = 'label'
 const HEADING1 = 'heading1'
 const HEADING2 = 'heading2'
 const HEADING3 = 'heading3'
@@ -35,6 +44,7 @@ const SpanComponents = new Map([
     ],
     [EM, new Map([[undefined, 'em']])],
     [STRONG, new Map([[undefined, 'strong']])],
+    [LABEL, new Map([[undefined, Label]])],
 ])
 
 const addSpans = compose(
@@ -43,7 +53,8 @@ const addSpans = compose(
         label: PropTypes.string,
         spans: PropTypes.arrayOf(
             PropTypes.shape({
-                type: PropTypes.oneOf([HYPERLINK, STRONG, EM]).isRequired,
+                type: PropTypes.oneOf([HYPERLINK, STRONG, EM, LABEL])
+                    .isRequired,
                 start: PropTypes.number.isRequired,
                 end: PropTypes.number.isRequired,
                 data: PropTypes.object,

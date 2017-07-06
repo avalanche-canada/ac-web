@@ -366,3 +366,19 @@ export function hourAfter(fragment, hour) {
 export function near(fragment, latitude, longitude, radius) {
     return ['geopoint.near', fragment, latitude, longitude, radius]
 }
+
+export function uid(type, uid) {
+    return at(`my.${type}.uid`, uid)
+}
+
+export function type(type) {
+    return at('document.type', type)
+}
+
+export function tags(tags) {
+    if (typeof tags === 'string') {
+        tags = [tags]
+    }
+
+    return at('document.tags', tags)
+}

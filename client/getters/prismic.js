@@ -41,9 +41,19 @@ function getDocumentId(state, type, uid) {
     return state.prismic.uids.getIn([type, uid])
 }
 
-export function getDocumentFromParams(state, { id, type, uid }) {
+export function getDocumentFromParams(state, params) {
+    const { type, uid, predicates } = params
+    let { id } = params
+
     if (!id) {
-        id = getDocumentId(state, type, uid)
+        if (type && uid) {
+            id = getDocumentId(state, type, uid)
+        }
+        if (Array.isArray(predicates)) {
+            const result = getResult(state, params)
+
+            id = result.toJSON().ids[0]
+        }
     }
 
     return state.prismic.documents.get(id)

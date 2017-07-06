@@ -20,8 +20,6 @@ export {
 } from './ast/tables'
 export { Providers as ProvidersForm, Courses as CoursesForm } from './ast/forms'
 
-export Tutorial from './Tutorial'
-
 // Weather
 export WeatherStation from './WeatherStation'
 export WeatherStationList from './WeatherStationList'

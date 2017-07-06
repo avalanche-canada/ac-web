@@ -5,6 +5,7 @@ const BLOG = 'blog'
 const NEWS = 'news'
 const GENERIC = 'generic'
 const STATIC_PAGE = 'static-page'
+const TUTORIAL_PAGE = 'tutorial-page'
 
 export function title(document = {}) {
     const { type } = document
@@ -24,7 +25,7 @@ export function title(document = {}) {
     }
 }
 
-export function pathname({ type, uid }) {
+export function pathname({ type, uid, slug }) {
     switch (type) {
         case EVENT:
             return `/events/${uid}`
@@ -35,9 +36,11 @@ export function pathname({ type, uid }) {
         case GENERIC:
         case STATIC_PAGE:
             return `/pages/${type}/${uid}`
+        case TUTORIAL_PAGE:
+            return `/tutorial?slug=${slug}`
         default:
             throw new Error(
-                `Can not compute a pathname from Prismic document or props "${type}" & "${uid}".`
+                `Can not compute a pathname from Prismic document or props "${type}" & "${uid || slug}".`
             )
     }
 }

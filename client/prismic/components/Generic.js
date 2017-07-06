@@ -12,7 +12,7 @@ export default class Generic extends PureComponent {
         document: PropTypes.object,
     }
     render() {
-        const { document } = this.props
+        const { document, status } = this.props
 
         if (document) {
             const { data: { body } } = parse(document)
@@ -20,6 +20,6 @@ export default class Generic extends PureComponent {
             return <StructuredText value={body} />
         }
 
-        return <Status {...this.props.status.toJSON()} />
+        return <Status {...status.toJSON()} />
     }
 }

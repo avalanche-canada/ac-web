@@ -1,8 +1,7 @@
-import Prismic from 'prismic.io'
+import { Predicates } from '~/prismic'
 import axios from 'axios'
 import { endpoint } from './config.json'
 
-const { Predicates } = Prismic
 let API = null
 let API_PROMISE = null
 
@@ -31,17 +30,6 @@ function getApi() {
 
 export function Query(predicates, options) {
     return getApi().then(api => query(api, options, predicates))
-}
-
-// TODO: To be removed once tutorial page are ported to store
-export function QueryDocumentByBookmark(name) {
-    return getApi()
-        .then(api => {
-            const id = api.bookmarks[name]
-
-            return query(api, undefined, Predicates.at('document.id', id))
-        })
-        .then(response => response.results[0])
 }
 
 function query(api, options = {}, predicates) {
