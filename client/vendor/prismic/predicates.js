@@ -368,11 +368,19 @@ export function near(fragment, latitude, longitude, radius) {
 }
 
 export function uid(type, uid) {
-    return at(`my.${type}.uid`, uid)
+    return my(type, 'uid', uid)
+}
+
+export function my(type, field, value) {
+    return at(`my.${type}.${field}`, value)
 }
 
 export function type(type) {
     return at('document.type', type)
+}
+
+export function id(id) {
+    return at('document.id', id)
 }
 
 export function tags(tags) {

@@ -15,11 +15,11 @@ function convertParams(params = {}) {
     let predicate
 
     if (id) {
-        predicate = Predicates.at('document.id', id)
+        predicate = Predicates.id(id)
     } else if (uid && type) {
-        predicate = Predicates.at(`my.${type}.uid`, uid)
+        predicate = Predicates.uid(type, uid)
     } else if (type) {
-        predicate = Predicates.at('document.type', type)
+        predicate = Predicates.type(type)
     }
 
     if (predicate) {
@@ -103,7 +103,7 @@ export function loadHotZoneReport({ name, uid }) {
                 return dispatch(
                     load({
                         type,
-                        predicates: [Predicates.at(`my.${type}.region`, name)],
+                        predicates: [Predicates.my(type, 'region', name)],
                     })
                 )
             }

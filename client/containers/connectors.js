@@ -205,7 +205,7 @@ export const archiveHotZoneReport = compose(
 
             props.load({
                 type,
-                predicates: [Predicates.at(`my.${type}.region`, region)],
+                predicates: [Predicates.my(type, 'region', region)],
                 options: {
                     pageSize: 250,
                 },
@@ -323,7 +323,7 @@ export const tutorial = compose(
     }),
     withProps(props => ({
         params: {
-            predicates: [Predicates.at('my.tutorial-page.slug', props.splat)],
+            predicates: [Predicates.my('tutorial-page', 'slug', props.splat)],
         },
     })),
     prismic(makeGetDocumentAndStatus)
@@ -435,7 +435,7 @@ export const feedSidebar = compose(
             predicate = Predicates.dateAfter('my.event.start_date', date)
             ordering = 'my.event.start_date'
         } else {
-            predicate = Predicates.at('document.tags', ['featured'])
+            predicate = Predicates.tags('featured')
             ordering = `my.${type}.date desc`
         }
 
@@ -469,7 +469,7 @@ export const feedSplash = compose(
         }
 
         if (tags.length > 0) {
-            params.predicates.push(Predicates.at('document.tags', tags))
+            params.predicates.push(Predicates.tags(tags))
         }
 
         if (type === EVENT) {
@@ -494,9 +494,7 @@ function createWeatherForecastParams(date) {
 
     return {
         type,
-        predicates: [
-            Predicates.at(`my.${type}.date`, format(date, 'YYYY-MM-DD')),
-        ],
+        predicates: [Predicates.my(type, 'date', format(date, 'YYYY-MM-DD'))],
     }
 }
 
