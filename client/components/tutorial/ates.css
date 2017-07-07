@@ -1,35 +1,34 @@
 @import "../../styles/colors.css";
 
 .Input {
-  flex: 1;
+    flex: 1;
+    text-align: center;
+
+    & > input {
+        margin: 0 0.5em;
+    }
 }
 
 .Choices {
-  display: flex;
-  padding: 0.5em;
+    display: flex;
+    margin-top: 1em;
 }
 
-.ExerciseList {
-  text-align: center;
-}
-.Exercise {
-  background-color: var(--gray-lighter);
-  margin: 2em;
-  padding: 1em;
-  display: inline-block;
+.Result {
+    text-align: center;
+    padding: 1em;
+    margin: 1em 0;
+    color: white;
 }
 
-.Yep, .Nope {
-  text-align: center;
-  padding: 1em;
-}
-.Yep{
-  background-color: var(--success);
-  border: 1px solid var(--success-dark);
-}
-.Nope{
-  background-color: var(--danger);
-  border: 1px solid var(--danger-dark);
+.Yep {
+    composes: Result;
+
+    background-color: var(--success);
 }
 
-.PhotoCred { color: var(--gray-dark); }
+.Nope {
+    composes: Result;
+
+    background-color: var(--danger);
+}

@@ -10,17 +10,17 @@ const ATES_EXERCISE_SPLAT =
 function Layout({ params, location }) {
     const { splat } = params
     const { slug } = location.query
-    let content = null
+    let children = null
 
     if (splat === ATES_EXERCISE_SPLAT) {
-        content = <AtesExercise />
+        children = <AtesExercise />
     } else {
         if (splat) {
-            content = <Tutorial splat={splat} />
+            children = <Tutorial splat={splat} />
         } else if (slug) {
-            content = <Tutorial slug={slug} />
+            children = <Tutorial slug={slug} />
         } else {
-            content = <Home />
+            children = <Home />
         }
     }
 
@@ -33,7 +33,7 @@ function Layout({ params, location }) {
                             <Tree currentPage={splat} />
                         </div>
                         <div styleName="Content">
-                            {content}
+                            {children}
                         </div>
                     </div>
                 </Main>
