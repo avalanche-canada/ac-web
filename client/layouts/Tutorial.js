@@ -1,6 +1,6 @@
 import React from 'react'
 import { Page, Main, Content } from '~/components/page'
-import { Home, Tree, Tutorial, AtesExercise } from '~/containers/tutorial'
+import { Home, Tree, Tutorial, AtesExercise } from '~/containers/Tutorial'
 import CSSModules from 'react-css-modules'
 import styles from './Tutorial.css'
 
