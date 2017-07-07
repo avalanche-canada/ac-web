@@ -3,10 +3,6 @@
 
 @custom-media --more-then-700 (width > 700px);
 
-p img {
-    margin: 1em;
-}
-
 :global(.block-img) {
     & > img {
         max-width: 100%;
@@ -204,6 +200,9 @@ p img {
         &  > div:not([class]):nth-child(4) {
             display: flex;
             align-items: center;
+            & figure {
+                margin: 1em;
+            }
         }
     }
 }

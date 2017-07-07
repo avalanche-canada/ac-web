@@ -22,23 +22,25 @@ function Image({ url, alt, copyright, label }) {
     return (
         <figure className={label} styleName="Figure">
             <img src={url} alt={alt} />
-            <footer>
-                <ElementResize>
-                    {width => {
-                        if (copyright) {
-                            const compact =
-                                width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
+            {copyright &&
+                <footer>
+                    <ElementResize>
+                        {width => {
+                            if (copyright) {
+                                const compact =
+                                    width <
+                                    MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
 
-                            return (
-                                <Credit compact={compact}>
-                                    {copyright}
-                                </Credit>
-                            )
-                        }
-                        return null
-                    }}
-                </ElementResize>
-            </footer>
+                                return (
+                                    <Credit compact={compact}>
+                                        {copyright}
+                                    </Credit>
+                                )
+                            }
+                            return null
+                        }}
+                    </ElementResize>
+                </footer>}
         </figure>
     )
 }
