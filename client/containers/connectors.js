@@ -205,7 +205,7 @@ export const archiveHotZoneReport = compose(
 
             props.load({
                 type,
-                predicates: [Predicates.my(type, 'region', region)],
+                predicates: [Predicates.field(type, 'region', region)],
                 options: {
                     pageSize: 250,
                 },
@@ -323,7 +323,9 @@ export const tutorial = compose(
     }),
     withProps(props => ({
         params: {
-            predicates: [Predicates.my('tutorial-page', 'slug', props.splat)],
+            predicates: [
+                Predicates.field('tutorial-page', 'slug', props.splat),
+            ],
         },
     })),
     prismic(makeGetDocumentAndStatus)
@@ -494,7 +496,9 @@ function createWeatherForecastParams(date) {
 
     return {
         type,
-        predicates: [Predicates.my(type, 'date', format(date, 'YYYY-MM-DD'))],
+        predicates: [
+            Predicates.field(type, 'date', format(date, 'YYYY-MM-DD')),
+        ],
     }
 }
 
