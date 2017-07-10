@@ -34,6 +34,10 @@ export function getDocumentForUid(state, type, uid) {
 export function hasDocumentForUid(state, type, uid) {
     const id = getDocumentId(state, type, uid)
 
+    return hasDocumentForId(state, id)
+}
+
+export function hasDocumentForId(state, type, id) {
     return state.prismic.documents.has(id)
 }
 

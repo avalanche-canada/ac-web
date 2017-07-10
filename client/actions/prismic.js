@@ -2,6 +2,7 @@ import Immutable from 'immutable'
 import {
     getDocumentsOfType,
     hasDocumentForUid,
+    hasDocumentForId,
     getResults,
 } from '~/getters/prismic'
 import { Api as Prismic, Predicates } from '~/prismic'
@@ -46,29 +47,38 @@ export function paramsToKey(params) {
     }).hashCode()
 }
 
+function getValue({ value }) {
+    return value
+}
+
 export function load(params = {}) {
     return (dispatch, getState) => {
         const state = getState()
         const results = getResults(state)
         const key = paramsToKey(params)
+        const { id, type, uid } = params
+
+        if (hasDocumentForId(state, id)) {
+            // FIXME: Return the document
+            return Promise.resolve()
+        }
+
+        if (hasDocumentForUid(state, type, uid)) {
+            // FIXME: Return the document
+            return Promise.resolve()
+        }
 
         if (results.has(key)) {
             const { isFetching, isLoaded } = results.get(key)
 
             if (isFetching || isLoaded) {
-                return Promise.resolve()
-            }
-        } else {
-            const { type, uid } = params
-
-            if (hasDocumentForUid(state, type, uid)) {
+                // FIXME: Return the documents
                 return Promise.resolve()
             }
         }
 
         const { predicates, options } = convertParams(params)
-
-        return dispatch({
+        const action = {
             type: GET_PRISMIC,
             payload: Prismic.Query(predicates, options),
             meta: {
@@ -76,7 +86,9 @@ export function load(params = {}) {
                 predicates,
                 options,
             },
-        }).then(response => response.value)
+        }
+
+        return dispatch(action).then(getValue)
     }
 }
 
@@ -103,7 +115,7 @@ export function loadHotZoneReport({ name, uid }) {
                 return dispatch(
                     load({
                         type,
-                        predicates: [Predicates.my(type, 'region', name)],
+                        predicates: [Predicates.field(type, 'region', name)],
                     })
                 )
             }
