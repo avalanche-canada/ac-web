@@ -10,8 +10,6 @@
     text-align: center;
     margin: 0 auto;
     z-index: 2;
-    border-style: solid;
-    border-width: 1px;
 
     & > *:first-child {
         flex: 1 0;
@@ -38,7 +36,6 @@
     color: white;
     font-weight: 700;
     background-color: var(--brand-secondary);
-    border-color: var(--brand-secondary);
 
     & a {
         color: white;
@@ -54,19 +51,16 @@
     composes: Highlight;
 
     background-color: var(--warning);
-    border-color: var(--warning-dark);
 }
 
 .Highlight--Info {
     composes: Highlight;
 
     background-color: var(--info);
-    border-color: var(--info-dark);
 }
 
 .Highlight--Success {
     composes: Highlight;
 
     background-color: var(--success);
-    border-color: var(--success-dark);
 }

@@ -56,7 +56,7 @@ export default class Container extends PureComponent {
             .then(response => {
                 const { results: [highlight] } = response
 
-                this.highlight = parse(highlight) || null
+                this.highlight = highlight ? parse(highlight) : null
             })
     }
     handleDismiss = () => {
