@@ -107,14 +107,6 @@ export default function computeRoutes(store) {
 
     function handleRootRouteEnter(props) {
         ReactGA.pageview(props.location.pathname)
-        dispatch(
-            load({
-                type: 'sponsor',
-                options: {
-                    pageSize: 100,
-                },
-            })
-        )
         dispatch(loadSponsors())
         handleActiveSponsor(props)
     }

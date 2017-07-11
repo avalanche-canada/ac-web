@@ -1,8 +1,9 @@
 import React from 'react'
-import { compose, mapProps } from 'recompose'
+import { compose, mapProps, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { createSelector, createStructuredSelector } from 'reselect'
 import { ItemSet, Item } from '~/components/sponsor'
+import { load } from '~/actions/prismic'
 import { getDocumentsOfType } from '~/getters/prismic'
 import { parseForMap } from '~/prismic'
 
@@ -24,8 +25,19 @@ export default compose(
     connect(
         createStructuredSelector({
             sponsors: getSponsors,
-        })
+        }),
+        { load }
     ),
+    lifecycle({
+        componentDidMount() {
+            this.props.load({
+                type: 'sponsor',
+                options: {
+                    pageSize: 100,
+                },
+            })
+        },
+    }),
     mapProps(props => {
         return {
             children: props.sponsors.map(createSponsor),
