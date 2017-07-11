@@ -5,7 +5,7 @@ import { createSelector, createStructuredSelector } from 'reselect'
 import { ItemSet, Item } from '~/components/sponsor'
 import { load } from '~/actions/prismic'
 import { getDocumentsOfType } from '~/getters/prismic'
-import { parseForMap } from '~/prismic'
+import { parseForMap, Predicates } from '~/prismic'
 
 function pluck({ sponsor }) {
     return sponsor.value.document.id
@@ -13,7 +13,7 @@ function pluck({ sponsor }) {
 
 const getSponsors = createSelector(
     state => getDocumentsOfType(state, 'sponsor'),
-    (state, props) => props.value.map(pluck),
+    (state, { value }) => value.map(pluck),
     (docs, ids) => ids.map(id => docs.get(id)).filter(Boolean).map(parseForMap)
 )
 
@@ -30,11 +30,11 @@ export default compose(
     ),
     lifecycle({
         componentDidMount() {
+            const ids = this.props.value.map(pluck)
+
             this.props.load({
-                type: 'sponsor',
-                options: {
-                    pageSize: 100,
-                },
+                predicates: [Predicates.in('document.id', ids)],
+                pageSize: ids.length,
             })
         },
     }),

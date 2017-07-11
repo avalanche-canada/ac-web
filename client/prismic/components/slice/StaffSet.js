@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, mapProps, lifecycle } from 'recompose'
+import { compose, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { createSelector, createStructuredSelector } from 'reselect'
 import Biography from '~/components/biography'
 import { getDocuments } from '~/getters/prismic'
 import { StructuredText } from '~/prismic/components/base'
 import { load } from '~/actions/prismic'
-import { parse } from '~/prismic'
+import { parse, Predicates } from '~/prismic'
 
 function createStaff({ data: { biography, avatar, ...props } }, index) {
     if (avatar) {
@@ -52,11 +52,11 @@ export default compose(
     ),
     lifecycle({
         componentDidMount() {
+            const ids = this.props.value.map(pluck)
+
             this.props.load({
-                type: 'staff',
-                options: {
-                    pageSize: 100,
-                },
+                predicates: [Predicates.in('document.id', ids)],
+                pageSize: ids.length,
             })
         },
     })

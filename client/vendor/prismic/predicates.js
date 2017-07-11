@@ -108,9 +108,8 @@ export function any(fragment, values) {
  * @param values {Array}
  * @returns {Array} an array corresponding to the predicate
  */
-// export function in(fragment, values) {
-//     return ['in', fragment, values]
-// }
+// Because function in() {} causes conflicts as "in" is a reserved word!
+module.exports.in = (fragment, values) => ['in', fragment, values]
 
 /**
  * Build a "fulltext" predicate: fulltext search in a fragment.
