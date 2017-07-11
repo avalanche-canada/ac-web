@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Muted } from '~/components/misc'
 import { Splash } from '~/components/page/sections'
 import { Entry, EntrySet } from '~/components/feed'
 import { feedSplash } from '~/containers/connectors'
@@ -20,7 +21,9 @@ FeedSplash.propTypes = {
     documents: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function FeedSplash({ header, featured, documents = [] }) {
+function FeedSplash({ header, featured, documents }) {
+    const isEmpty = !featured && documents.length === 0
+
     return (
         <Splash>
             {header}
@@ -28,9 +31,11 @@ function FeedSplash({ header, featured, documents = [] }) {
                 <EntrySet>
                     {createEntry(featured)}
                 </EntrySet>}
-            <EntrySet>
-                {documents.map(createEntry)}
-            </EntrySet>
+            {documents.length > 0 &&
+                <EntrySet>
+                    {documents.map(createEntry)}
+                </EntrySet>}
+            {isEmpty && <Muted>Nothing found.</Muted>}
         </Splash>
     )
 }
