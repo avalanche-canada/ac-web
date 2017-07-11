@@ -6,7 +6,6 @@ import Redirect from 'react-router/lib/Redirect'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import startOfDay from 'date-fns/start_of_day'
-import { load } from '~/actions/prismic'
 import * as DrawersActions from '~/actions/drawers'
 import * as MapActions from '~/actions/map'
 import * as Drawers from '~/containers/drawers'
@@ -121,28 +120,6 @@ export default function computeRoutes(store) {
         }
 
         replace(state || '/')
-    }
-
-    function handleAboutRouteEnter() {
-        // TODO: Move that somewhere else
-        loadStaffList()
-    }
-
-    function handleSledPageEnter() {
-        // TODO: Move that somewhere else
-        loadStaffList()
-    }
-
-    // TODO: Move that function
-    function loadStaffList() {
-        dispatch(
-            load({
-                type: 'staff',
-                options: {
-                    pageSize: 100,
-                },
-            })
-        )
     }
 
     function requireAuth({ location }, replace, callback) {
@@ -366,12 +343,7 @@ export default function computeRoutes(store) {
                 sponsorRef="MIN"
                 component={table.Page}
             />
-            <Route
-                path="about"
-                sponsorRef="About"
-                component={About}
-                onEnter={handleAboutRouteEnter}
-            />
+            <Route path="about" sponsorRef="About" component={About} />
             <Route
                 path="events"
                 sponsorRef="EventIndex"
@@ -497,7 +469,7 @@ export default function computeRoutes(store) {
             />
             <Route path="youth" sponsorRef="Youth" component={Youth} />
             <Route path="gear" sponsorRef="Gear" component={Gear} />
-            <Route path="sled" component={Sled} onEnter={handleSledPageEnter} />
+            <Route path="sled" component={Sled} />
             <Route path="tutorial/*" component={Tutorial} />
             <Redirect from="tutorial" to="tutorial/" />
             <Route
@@ -569,7 +541,6 @@ export default function computeRoutes(store) {
                         navbar: AvalancheCanadaFoundation,
                         content: Foundation.About,
                     }}
-                    onEnter={handleAboutRouteEnter}
                 />
                 <Route
                     path="programs"
