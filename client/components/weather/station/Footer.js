@@ -8,9 +8,9 @@ Footer.propTypes = {
 
 export default function Footer({ children }) {
     return (
-        <div>
+        <footer>
             <Generic uid="weather-station-disclaimer" />
             {children}
-        </div>
+        </footer>
     )
 }
