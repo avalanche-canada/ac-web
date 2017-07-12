@@ -12,7 +12,7 @@ function createStyle(noWrap) {
 }
 
 Item.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    title: PropTypes.node.isRequired,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
     noWrap: PropTypes.bool,
@@ -42,3 +42,20 @@ export default compose(
     onlyUpdateForKeys(['isActive', 'children']),
     CSSModules(styles)
 )(Item)
+
+// export const Login = compose(
+//     item,
+//     defaultProps({
+//         title: 'Login',
+//     })
+// )
+//
+// export const Logout = compose(
+//     item,
+//     defaultProps({
+//         title: 'Logout',
+//     }),
+//     withProps(props => ({
+//         children: null,
+//     }))
+// )
