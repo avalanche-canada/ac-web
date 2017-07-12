@@ -5,10 +5,10 @@ import {
     compose,
     withState,
     withProps,
-    setDisplayName,
     setPropTypes,
+    withHandlers,
 } from 'recompose'
-import Navbar from './Navbar'
+import Base from './Navbar'
 import Item from './Item'
 import Menu from './Menu'
 import Section from './Section'
@@ -21,7 +21,7 @@ import { Avatar } from '../misc'
 import styles from './Navbar.css'
 import noop from 'lodash/noop'
 
-Container.propTypes = {
+Navbar.propTypes = {
     isFoundation: PropTypes.bool,
     menu: PropTypes.object.isRequired,
     name: PropTypes.string,
@@ -30,28 +30,27 @@ Container.propTypes = {
     onLogout: PropTypes.func.isRequired,
     showLogin: PropTypes.bool.isRequired,
     showLogout: PropTypes.bool.isRequired,
-    showCabinet: PropTypes.bool.isRequired,
-    setShowCabinet: PropTypes.func.isRequired,
+    isCabinetOpened: PropTypes.bool.isRequired,
+    showCabinet: PropTypes.func.isRequired,
+    hideCabinet: PropTypes.func.isRequired,
 }
 
-function Container({
+function Navbar({
     isFoundation = false,
     menu,
     name = null,
     avatar = null,
     onLogin = noop,
     onLogout = noop,
-    setShowCabinet,
     showCabinet,
+    hideCabinet,
+    isCabinetOpened,
     showLogin,
     showLogout,
 }) {
-    // TODO: Performance: do not create function everything: setShowCabinet
     return (
         <div styleName="Container">
-            <Navbar
-                isFoundation={isFoundation}
-                onBurgerClick={() => setShowCabinet(true)}>
+            <Base isFoundation={isFoundation} onBurgerClick={showCabinet}>
                 {menu.children.map(createItem)}
                 {showLogin && <Item title="Login" onClick={onLogin} />}
                 {showLogout &&
@@ -67,12 +66,12 @@ function Container({
                             </Section>
                         </Menu>
                     </Item>}
-            </Navbar>
+            </Base>
             <Cabinet
                 menu={menu}
-                show={showCabinet}
+                show={isCabinetOpened}
                 isFoundation={isFoundation}
-                onClose={() => setShowCabinet(false)}
+                onClose={hideCabinet}
             />
         </div>
     )
@@ -83,11 +82,14 @@ export default compose(
         isFoundation: PropTypes.bool,
         isAuthenticated: PropTypes.bool.isRequired,
     }),
-    setDisplayName('Container'),
-    withState('showCabinet', 'setShowCabinet', false),
+    withState('isCabinetOpened', 'setCabinetOpened', false),
+    withHandlers({
+        showCabinet: props => () => props.setCabinetOpened(true),
+        hideCabinet: props => () => props.setCabinetOpened(false),
+    }),
     withProps(({ isFoundation, isAuthenticated }) => ({
         showLogin: !isFoundation && !isAuthenticated,
         showLogout: !isFoundation && isAuthenticated,
     })),
     CSSModules(styles)
-)(Container)
+)(Navbar)
