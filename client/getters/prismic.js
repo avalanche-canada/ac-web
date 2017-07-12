@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import RESULT from '~/reducers/result'
 import { paramsToKey } from '~/actions/prismic'
-import transform from '~/prismic/transformers'
+import { parse } from '~/prismic'
 import { createSelector } from 'reselect'
 
 const MAP = new Immutable.Map()
@@ -34,6 +34,10 @@ export function getDocumentForUid(state, type, uid) {
 export function hasDocumentForUid(state, type, uid) {
     const id = getDocumentId(state, type, uid)
 
+    return hasDocumentForId(state, id)
+}
+
+export function hasDocumentForId(state, type, id) {
     return state.prismic.documents.has(id)
 }
 
@@ -41,9 +45,19 @@ function getDocumentId(state, type, uid) {
     return state.prismic.uids.getIn([type, uid])
 }
 
-export function getDocumentFromParams(state, { id, type, uid }) {
+export function getDocumentFromParams(state, params) {
+    const { type, uid, predicates } = params
+    let { id } = params
+
     if (!id) {
-        id = getDocumentId(state, type, uid)
+        if (type && uid) {
+            id = getDocumentId(state, type, uid)
+        }
+        if (Array.isArray(predicates)) {
+            const result = getResult(state, params)
+
+            id = result.toJSON().ids[0]
+        }
     }
 
     return state.prismic.documents.get(id)
@@ -52,5 +66,5 @@ export function getDocumentFromParams(state, { id, type, uid }) {
 // TODO: Move that selector out of here, only getters here!
 export const getHighlight = createSelector(
     state => getDocumentsOfType(state, 'highlight').first(),
-    highlight => (highlight ? transform(highlight) : null)
+    highlight => (highlight ? parse(highlight) : null)
 )

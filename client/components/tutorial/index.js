@@ -1,52 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, lifecycle, withState } from 'recompose'
 import Link from 'react-router/lib/Link'
-import { Fragments } from 'prismic.io'
-import CSSModules from 'react-css-modules'
-import styles from './tutorial.css'
-import { Page, Main, Content } from '~/components/page'
-import { Media, Player } from '~/components/media'
-import AtesExercise from './AtesExercise'
-import { fetchStaticResource } from '~/api'
+import { Media, Player, Caption } from '~/components/media'
 import { Loading } from '~/components/misc'
-import get from 'lodash/get'
+import { StructuredText, Image } from '~/prismic/components/base'
 
-const ATES_EXERCISE_SLUG =
-    'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
-
-function findSlug(pages, prismicSlug) {
-    for (var i = 0; i < pages.length; i++) {
-        const page = pages[i]
-        const clean = page.slug.replace(/\//g, '')
-
-        if (clean === prismicSlug) {
-            return page.slug
-        } else {
-            const next = findSlug(page.children, prismicSlug)
-
-            if (next) {
-                return next
-            }
-        }
-    }
-}
-
-function linkResolverFactory(menuTree) {
-    return function linkResolver(document) {
-        if (document.type === 'tutorial-page') {
-            const realSlug = findSlug(menuTree, document.slug)
-
-            return `/tutorial/${realSlug}`
-        }
-    }
-}
+export AtesExercise from './AtesExercise'
 
 MenuItem.propTypes = {
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     currentPage: PropTypes.number,
+}
+
+const ACTIVE_STYLE = {
+    fontWeight: 'bold',
 }
 
 function MenuItem({ title, slug, children, currentPage }) {
@@ -74,9 +43,7 @@ function MenuItem({ title, slug, children, currentPage }) {
 
     return (
         <li>
-            <Link
-                activeClassName={styles.active}
-                to={`/tutorial/${encodedSlug}`}>
+            <Link activeStyle={ACTIVE_STYLE} to={`/tutorial/${encodedSlug}`}>
                 {displayTitle}
             </Link>
             {cc}
@@ -85,25 +52,25 @@ function MenuItem({ title, slug, children, currentPage }) {
 }
 
 Gallery.propTypes = {
-    imgs: PropTypes.arrayOf(PropTypes.object).isRequired,
+    images: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function Gallery({ imgs }) {
+function Gallery({ images }) {
     return (
         <div>
-            {imgs.map((image, index) => (
-                <GalleryImage key={index} {...flattenImage(image)} />
-            ))}
+            {images
+                .filter(Boolean)
+                .filter(image => Boolean(image.picture))
+                .map(({ picture, credit, caption }, index) => (
+                    <GalleryImage
+                        key={index}
+                        url={picture.main.url}
+                        credit={credit}
+                        caption={caption}
+                    />
+                ))}
         </div>
     )
-}
-
-function flattenImage(img) {
-    return {
-        caption: get(img, 'caption.value'),
-        credit: get(img, 'credit.value'),
-        url: get(img, 'picture.value.main.url'),
-    }
 }
 
 GalleryImage.propTypes = {
@@ -117,28 +84,31 @@ function GalleryImage({ url, caption, credit }) {
         return null
     }
 
-    const cap = caption ? caption : ''
-    const cred = credit ? `Photo: ${credit}` : ''
-    const split = cap && cred ? ' - ' : ''
     return (
-        <div className={styles.ImageContainer}>
-            <Media caption={`${cap}${split}${cred}`}>
-                <img className={styles.Image} src={url} />
-            </Media>
-        </div>
+        <Media>
+            <Image url={url} copyright={credit} />
+            {caption &&
+                <Caption>
+                    {caption}
+                </Caption>}
+        </Media>
     )
 }
 
-SideBar.propTypes = {
-    menuTree: PropTypes.object.isRequired,
+Tree.propTypes = {
+    menu: PropTypes.object,
     currentPage: PropTypes.number.isRequired,
 }
 
-function SideBar({ menuTree, currentPage }) {
+export function Tree({ menu, currentPage }) {
+    if (menu === null) {
+        return <Loading />
+    }
+
     return (
-        <ul className={styles.Sidebar}>
-            {menuTree.map(c => (
-                <MenuItem key={c.slug} currentPage={currentPage} {...c} />
+        <ul>
+            {menu.map(item => (
+                <MenuItem key={item.slug} currentPage={currentPage} {...item} />
             ))}
         </ul>
     )
@@ -156,140 +126,48 @@ function Video({ src }) {
     )
 }
 
-TextBlock.propTypes = {
-    field: PropTypes.object,
-    linkResolver: PropTypes.func.isRequired,
+Home.propTypes = {
+    title: PropTypes.string.isRequired,
+    body: PropTypes.array.isRequired,
 }
 
-function TextBlock({ field, linkResolver }) {
-    if (field === undefined) {
-        return null
-    }
-
-    const t = new Fragments.StructuredText(field.blocks)
-
-    return (
-        <div
-            className={styles.TextBlock}
-            dangerouslySetInnerHTML={{ __html: t.asHtml(linkResolver) }}
-        />
-    )
-}
-
-TutorialPage.propTypes = {
-    document: PropTypes.object,
-    linkResolver: PropTypes.func.isRequired,
-}
-
-function TutorialPage({ document, linkResolver }) {
-    let gallery = []
-    if (typeof document.data['tutorial-page.gallery'] !== 'undefined') {
-        gallery = document.data['tutorial-page.gallery'].value
-    }
-
-    const vid = document.data['tutorial-page.video-source']
-
+export function Home({ title, body }) {
     return (
         <div>
-            <h1>{document.data['tutorial-page.title'].value}</h1>
-
-            <TextBlock
-                field={document.fragments['tutorial-page.text1']}
-                linkResolver={linkResolver}
-            />
-
-            {/* video here */}
-
-            {vid && vid.value && <Video src={vid.value} />}
-
-            <TextBlock
-                field={document.fragments['tutorial-page.text2']}
-                linkResolver={linkResolver}
-            />
-
-            <Gallery imgs={gallery} />
-
-            <TextBlock
-                field={document.fragments['tutorial-page.text3']}
-                linkResolver={linkResolver}
-            />
-
-            {/* embedded content: raw HTML that comes from prismic :/ */}
-
-            <TextBlock
-                field={document.fragments['tutorial-page.text4']}
-                linkResolver={linkResolver}
-            />
+            <h1>{title}</h1>
+            <StructuredText value={body} />
         </div>
     )
 }
 
 Tutorial.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    document: PropTypes.object,
-    params: PropTypes.object.isRequired,
-    menuTree: PropTypes.object.isRequired,
+    text1: StructuredText.propTypes.value,
+    text2: StructuredText.propTypes.value,
+    text3: StructuredText.propTypes.value,
+    text4: StructuredText.propTypes.value,
+    title: PropTypes.string.isRequired,
+    gallery: PropTypes.array.isRequired,
+    videoSource: PropTypes.object,
 }
 
-function Tutorial({ isLoading, document, params, menuTree }) {
-    const { splat } = params
-    const isAtes = splat === ATES_EXERCISE_SLUG
-    let page = null
-
-    if (isAtes) {
-        page = <AtesExercise />
-    } else if (splat === '') {
-        page = document && <TutorialHome document={document} />
-    } else {
-        page =
-            document &&
-            <TutorialPage
-                document={document}
-                linkResolver={linkResolverFactory(menuTree)}
-            />
-    }
-
-    return (
-        <Page>
-            <Content>
-                <Main>
-                    <div styleName="TutorialPage">
-                        <SideBar currentPage={splat} menuTree={menuTree} />
-                        <div className={styles.TutorialContent}>
-                            {isLoading && !isAtes && <Loading />}
-                            {page}
-                        </div>
-                    </div>
-                </Main>
-            </Content>
-        </Page>
-    )
-}
-
-TutorialHome.propTypes = {
-    document: PropTypes.object.isRequired,
-}
-
-function TutorialHome({ document }) {
-    let title = document.data['generic.title'].value
+export function Tutorial({
+    text1,
+    text2,
+    text3,
+    text4,
+    title,
+    gallery,
+    videoSource,
+}) {
     return (
         <div>
-            <h1> {title}</h1>
-            <TextBlock field={document.fragments['generic.body']} />
+            <h1>{title}</h1>
+            {text1 && <StructuredText value={text1} />}
+            {videoSource && <Video src={videoSource} />}
+            {text2 && <StructuredText value={text2} />}
+            {Array.isArray(gallery) && <Gallery images={gallery} />}
+            {text3 && <StructuredText value={text3} />}
+            {text4 && <StructuredText value={text4} />}
         </div>
     )
 }
-
-export default compose(
-    withState('menuTree', 'setMenuTree', []),
-    lifecycle({
-        componentDidMount() {
-            const { setMenuTree } = this.props
-
-            fetchStaticResource('tutorial-menu-tree.json').then(response => {
-                setMenuTree(response.data)
-            })
-        },
-    }),
-    CSSModules(styles)
-)(Tutorial)

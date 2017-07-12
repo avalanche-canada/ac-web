@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
-import BasePanel, { INVERSE } from '~/components/panel'
+import Panel, { INVERSE } from '~/components/panel'
 import Generic from '~/prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
@@ -10,12 +9,6 @@ import TerrainAdviceSet from './TerrainAdviceSet'
 import ImageGallery from '~/components/gallery'
 import styles from './HotZoneReport.css'
 import ArchiveWarning from './ArchiveWarning'
-import get from 'lodash/get'
-
-const Panel = withProps({
-    theme: INVERSE,
-    expandable: true,
-})(BasePanel)
 
 HotZoneReport.propTypes = {
     report: PropTypes.object,
@@ -24,24 +17,24 @@ HotZoneReport.propTypes = {
 }
 
 function HotZoneReport({ report, previous, next }) {
-    const title = get(report, 'title')
-    const headline = get(report, 'headline')
+    const { title, headline, images } = report || {}
     let gallery = null
+    const panel = {
+        theme: INVERSE,
+        expandable: true,
+    }
 
-    if (report) {
-        const images = report.images.map(({ url, caption }) => ({
-            original: url,
-            description: caption,
-        }))
-
+    if (images) {
         gallery = images.length > 0 && {
-            items: images,
+            items: images.map(({ main, caption }) => ({
+                original: main.url,
+                description: caption,
+            })),
             showBullets: images.length > 1,
             showPlayButton: images.length > 1,
             showThumbnails: false,
         }
     }
-
     return (
         <div styleName="HotZoneReport">
             <ArchiveWarning report={report} next={next} previous={previous} />
@@ -57,10 +50,10 @@ function HotZoneReport({ report, previous, next }) {
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
             <TerrainAdviceSet report={report} />
-            <Panel header="More information">
+            <Panel {...panel} header="More information">
                 <Generic uid="hot-zone-report-more-information" />
             </Panel>
-            <Panel header="About">
+            <Panel {...panel} header="About">
                 <Generic uid="hot-zone-report-about" />
             </Panel>
         </div>

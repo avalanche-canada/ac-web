@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 import { getDocumentsOfType, getResult } from '~/getters/prismic'
 import months, { options as monthOptions } from './months'
-import transform from '~/prismic/transformers'
+import { parseForMap } from '~/prismic'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
@@ -53,7 +53,11 @@ function desc(a, b) {
     return b.date - a.date
 }
 
-const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, desc]])
+function asc(a, b) {
+    return a.date - b.date
+}
+
+const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, asc]])
 
 function getPredicates(state, props) {
     const predicates = []
@@ -76,15 +80,13 @@ function getFeed(state, { type }) {
 }
 
 const getTransformedFeed = createSelector(getFeed, getType, (feed, type) => {
-    const sorted = feed
-        .map(document => transform(document))
-        .toList()
-        .sort(SORTERS.get(type))
+    const sorted = feed.map(parseForMap).toList().sort(SORTERS.get(type))
 
     if (sorted.isEmpty()) {
         return sorted
     }
 
+    // Bringing the first featured one on top!
     const featured = sorted.find(isFeatured)
     const index = sorted.indexOf(featured)
 
@@ -164,8 +166,14 @@ export default createStructuredSelector({
 export const getSidebar = createStructuredSelector({
     documents: createSelector(
         getDocumentsFromResult,
+        getType,
         (state, props) => document => document.uid !== props.uid,
-        (documents, filter) => documents.filter(filter)
+        (documents, type, filter) => {
+            return documents
+                .filter(filter)
+                .map(parseForMap)
+                .sort(SORTERS.get(type))
+        }
     ),
 })
 

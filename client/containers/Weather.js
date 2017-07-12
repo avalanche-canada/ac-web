@@ -1,7 +1,8 @@
 import { compose, withHandlers, withProps } from 'recompose'
 import { connect } from 'react-redux'
 import withRouter from 'react-router/lib/withRouter'
-import parse from 'date-fns/parse'
+import parseDate from 'date-fns/parse'
+import { parse } from '~/prismic'
 import format from 'date-fns/format'
 import Weather, {
     Forecast as ForecastComponent,
@@ -17,7 +18,7 @@ export const Forecast = compose(
         const { date } = props.params
 
         return {
-            date: date ? parse(date) : new Date(),
+            date: date ? parseDate(date) : new Date(),
         }
     }),
     weatherForecast,
@@ -25,5 +26,8 @@ export const Forecast = compose(
         onDayChange: props => date => {
             props.router.push(`/weather/forecast/${format(date, 'YYYY-MM-DD')}`)
         },
-    })
+    }),
+    withProps(({ forecast }) => ({
+        forecast: parse(forecast).data,
+    }))
 )(ForecastComponent)

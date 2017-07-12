@@ -1,8 +1,7 @@
-import React, { isValidElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
 import { Markup } from '~/components/markup'
-import { InnerHTML } from '~/components/misc'
 
 Comment.propTypes = {
     title: PropTypes.string,
@@ -16,13 +15,11 @@ export default function Comment({ title = 'Comments', children }) {
 
     return (
         <Section title={title}>
-            <Markup>
-                {isValidElement(children)
-                    ? children
-                    : <InnerHTML>
-                          {children}
-                      </InnerHTML>}
-            </Markup>
+            {typeof children === 'string'
+                ? <Markup>
+                      {children}
+                  </Markup>
+                : children}
         </Section>
     )
 }

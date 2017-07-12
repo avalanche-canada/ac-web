@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Status, InnerHTML } from '~/components/misc'
+import { Status } from '~/components/misc'
 import { generic } from '~/containers/connectors'
+import { StructuredText } from '~/prismic/components/base'
+import { parse } from '~/prismic'
 
 @generic
 export default class Generic extends PureComponent {
@@ -10,14 +12,12 @@ export default class Generic extends PureComponent {
         document: PropTypes.object,
     }
     render() {
-        const { status, document } = this.props
+        const { document, status } = this.props
 
         if (document) {
-            return (
-                <InnerHTML>
-                    {document.body}
-                </InnerHTML>
-            )
+            const { data: { body } } = parse(document)
+
+            return <StructuredText value={body} />
         }
 
         return <Status {...status.toJSON()} />

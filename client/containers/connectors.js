@@ -46,6 +46,7 @@ import format from 'date-fns/format'
 import { makeGetDocumentAndStatus, getResult } from '~/selectors/prismic/utils'
 import getSponsor, { getSponsorUid } from '~/selectors/sponsor'
 import get from 'lodash/get'
+import { parse } from '~/prismic'
 
 export const forecast = compose(
     withRouter,
@@ -162,6 +163,13 @@ export const hotZoneReport = compose(
 
             props.fitBounds(bbox, options)
         },
+    }),
+    withProps(({ report }) => {
+        if (report) {
+            report = parse(report).data
+        }
+
+        return { report }
     })
 )
 
@@ -197,7 +205,7 @@ export const archiveHotZoneReport = compose(
 
             props.load({
                 type,
-                predicates: [Predicates.at(`my.${type}.region`, region)],
+                predicates: [Predicates.field(type, 'region', region)],
                 options: {
                     pageSize: 250,
                 },
@@ -309,6 +317,20 @@ export const generic = compose(
     })
 )
 
+export const tutorial = compose(
+    setPropTypes({
+        splat: PropTypes.string.isRequired,
+    }),
+    withProps(props => ({
+        params: {
+            predicates: [
+                Predicates.field('tutorial-page', 'slug', props.splat),
+            ],
+        },
+    })),
+    prismic(makeGetDocumentAndStatus)
+)
+
 export const post = compose(
     withProps(props => ({
         params: {
@@ -348,10 +370,16 @@ function panelPrismicConnectorFactory(type, mapStateToProps) {
         }),
         withHandlers({
             onLocateClick: props => () => {
-                if (props.computeFlyTo()) {
+                if (
+                    typeof props.computeFlyTo === 'function' &&
+                    props.computeFlyTo()
+                ) {
                     return props.flyTo(props.computeFlyTo())
                 }
-                if (props.computeBounds()) {
+                if (
+                    typeof props.computeBounds === 'function' &&
+                    props.computeBounds()
+                ) {
                     const { bbox, options } = props.computeBounds()
 
                     return props.fitBounds(bbox, options)
@@ -409,7 +437,7 @@ export const feedSidebar = compose(
             predicate = Predicates.dateAfter('my.event.start_date', date)
             ordering = 'my.event.start_date'
         } else {
-            predicate = Predicates.at('document.tags', ['featured'])
+            predicate = Predicates.tags('featured')
             ordering = `my.${type}.date desc`
         }
 
@@ -443,7 +471,7 @@ export const feedSplash = compose(
         }
 
         if (tags.length > 0) {
-            params.predicates.push(Predicates.at('document.tags', tags))
+            params.predicates.push(Predicates.tags(tags))
         }
 
         if (type === EVENT) {
@@ -469,7 +497,7 @@ function createWeatherForecastParams(date) {
     return {
         type,
         predicates: [
-            Predicates.at(`my.${type}.date`, format(date, 'YYYY-MM-DD')),
+            Predicates.field(type, 'date', format(date, 'YYYY-MM-DD')),
         ],
     }
 }

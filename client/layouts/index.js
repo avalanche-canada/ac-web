@@ -6,6 +6,7 @@ export Map from './Map'
 export AtesMap from './AtesMap'
 export Root from './Root'
 export Weather from './Weather'
+export Tutorial from './Tutorial'
 
 // TODO: Not required once moved to redux-little-router
 export const NewsFeed = feed('news', 'Recent news')

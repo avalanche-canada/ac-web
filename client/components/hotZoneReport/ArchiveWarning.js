@@ -9,6 +9,8 @@ import {
 import { ArchiveWarning } from '~/components/misc'
 import { isHotZoneReportValid } from '~/prismic/utils'
 
+// TODO: Rework to a stateless component!
+
 export default compose(
     setPropTypes({
         report: PropTypes.object,

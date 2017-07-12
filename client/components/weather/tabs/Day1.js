@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InnerHTML, DateElement, Image } from '~/components/misc'
+import { DateElement } from '~/components/misc'
+import { StructuredText, Image } from '~/prismic/components/base'
 import Section from './Section'
 import { formatForecastUrl } from '~/services/msc/loop/url'
 
@@ -15,26 +16,26 @@ Day1.propTypes = {
 export default function Day1({ date, above, between, below, children }) {
     const hasHardWired = above || between || below
     const type = 'AC_RDPS_BC_weather-systems'
-    const image = {
-        alt: 'Weather Systems',
-        title: 'Weather Systems',
-    }
+    const alt = 'Weather Systems'
+    const title = 'Weather Systems'
     const image1 = {
-        ...image,
+        alt,
+        title,
         src: formatForecastUrl(type, date, 6, 6),
     }
     const image2 = {
-        ...image,
+        alt,
+        title,
         src: formatForecastUrl(type, date, 6, 18),
     }
 
     return (
         <Section title={<DateElement value={date} />}>
-            {hasHardWired && <InnerHTML>{above}</InnerHTML>}
+            {hasHardWired && <StructuredText {...above} />}
             {hasHardWired && <Image {...image1} openNewTab />}
-            {hasHardWired && <InnerHTML>{between}</InnerHTML>}
+            {hasHardWired && <StructuredText {...between} />}
             {hasHardWired && <Image {...image2} openNewTab />}
-            {hasHardWired && <InnerHTML>{below}</InnerHTML>}
+            {hasHardWired && <StructuredText {...below} />}
             {children}
         </Section>
     )

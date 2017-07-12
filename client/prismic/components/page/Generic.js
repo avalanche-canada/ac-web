@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Page, Content, Main, Header } from '~/components/page'
-import { InnerHTML, Status } from '~/components/misc'
+import { Status } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
+import { parse } from '~/prismic'
 
 Generic.propTypes = {
     title: PropTypes.string,
@@ -9,16 +11,16 @@ Generic.propTypes = {
     status: PropTypes.object,
 }
 
-export default function Generic({ title, status, document = {} }) {
+export default function Generic({ title, status, document }) {
+    const { data } = parse(document, { title })
+
     return (
         <Page>
-            <Header title={document.title || title} />
+            <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>
-                    <InnerHTML>
-                        {document.body}
-                    </InnerHTML>
+                    <StructuredText value={data.body} />
                 </Main>
             </Content>
         </Page>

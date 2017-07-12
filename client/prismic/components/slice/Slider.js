@@ -1,10 +1,8 @@
 import React from 'react'
 import { compose, withProps, defaultProps } from 'recompose'
 import Slider from '~/components/slider'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
 import styles from './Slider.css'
-
-const { Item } = styles
 
 export default compose(
     defaultProps({
@@ -12,13 +10,11 @@ export default compose(
         autoPlay: true,
         slideInterval: 5000,
     }),
-    withProps(({ content }) => ({
-        items: content.map(({ image, content }) => ({
-            src: image.url,
+    withProps(({ value }) => ({
+        items: value.map(({ image, content }) => ({
+            src: image.main.url,
             children: (
-                <InnerHTML className={Item}>
-                    {content}
-                </InnerHTML>
+                <StructuredText value={content} className={styles.Item} />
             ),
         })),
     }))

@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Element } from '~/compose'
-import styles from './Markup.css'
 
 Markup.propTypes = {
-    children: PropTypes.string,
+    children: PropTypes.node,
 }
 
 export function Markup({ children }) {
@@ -12,20 +10,17 @@ export function Markup({ children }) {
         return null
     }
 
-    if (typeof children !== 'string') {
-        return children
+    if (typeof children === 'string') {
+        const parts = children.replace(/\r/g, '').split(/\n/)
+
+        return (
+            <div>
+                {parts.map(text => [text, <br />])}
+            </div>
+        )
     }
 
-    const parts = children.replace(/\r/g, '').split(/\n/)
-
-    return (
-        <div>
-            {parts.map(text => [text, <br />])}
-        </div>
-    )
+    return children
 }
 
-export const Credit = Element({
-    name: 'Credit',
-    styles,
-})
+export Credit from './Credit'

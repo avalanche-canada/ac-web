@@ -1,3 +1,4 @@
 {
-    "endpoint": "https://avalancheca.prismic.io/api"
+    "root": "https://avalancheca.prismic.io/api",
+    "version": "v1"
 }

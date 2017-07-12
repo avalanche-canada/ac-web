@@ -87,6 +87,10 @@ ul:not([class]) {
     }*/
 }
 
+p {
+    /*white-space: pre;*/
+}
+
 /* PRINT */
 @media print {
     a:after {

@@ -9,14 +9,14 @@
     }
 }
 
-:global(.float-right) {
-    float: right;
-    padding-left: 1em;
-}
-
 :global(.float-left) {
     float: left;
-    padding-right: 1em;
+    margin-right: 1em;
+}
+
+:global(.float-right) {
+    float: right;
+    margin-left: 1em;
 }
 
 :global(.primary-text) {
@@ -35,6 +35,24 @@
     &:hover {
         color: var(--gray);
     }
+}
+
+:global(.callout-info) {
+    background-color: var(--info);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
+}
+
+:global(.callout-warning) {
+    background-color: var(--danger);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
 }
 
 :global(.primary-big-button) {
@@ -134,7 +152,7 @@
 }
 
 :global(.static-page-sled) {
-    & main > section:first-of-type {
+    & main > div > section:first-of-type {
         font-size: 1.5rem;
         line-height: 1.5;
         margin: 0 3em;
@@ -161,13 +179,30 @@
     }
 }
 
-:global(.static-page-mountain-information-network-overview) {
-    & main > div:not([class]):not(:last-child) {
-        display: flex;
-        align-items: center;
+:global(.static-page-foundation-home) {
+    & > header {
+        display: none;
+    }
+    & > div {
+        max-width: 100%;
+        padding: 0;
+    }
+    & :global(.image-gallery-image > img) {
+        height: calc(100vh - 75px);
+        object-fit: cover;
+    }
+}
 
-        & > :first-child {
-            padding-right: 1em;
+:global(.static-page-mountain-information-network-overview) {
+    & main > div:not([class]) {
+        &  > div:not([class]):nth-child(2),
+        &  > div:not([class]):nth-child(3),
+        &  > div:not([class]):nth-child(4) {
+            display: flex;
+            align-items: center;
+            & figure {
+                margin: 1em;
+            }
         }
     }
 }

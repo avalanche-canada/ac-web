@@ -64,15 +64,15 @@ export default class Container extends Component {
                         </Entry>}
                 </Metadata>
                 <StatusComponent {...status.toJSON()} />
-                {!forecast &&
-                    status.isLoaded &&
+                {status.isLoaded &&
+                    !forecast &&
                     <Muted>
                         No weather forecast available for
                         {' '}
                         <DateElement value={date} />
                         .
                     </Muted>}
-                {forecast &&
+                {status.isLoaded &&
                     <Forecast
                         isAuthenticated={isAuthenticated}
                         forecast={forecast}
