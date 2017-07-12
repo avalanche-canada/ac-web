@@ -109,7 +109,7 @@ export function loadHotZoneReport({ name, uid }) {
         } else if (typeof name === 'string') {
             const documents = getDocumentsOfType(state, type)
             const isNotLoaded = document =>
-                document.data[`${type}.region`].value !== name
+                document.data[type].region.value !== name
 
             if (documents.every(isNotLoaded)) {
                 return dispatch(
