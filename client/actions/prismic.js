@@ -93,7 +93,7 @@ export function load(params = {}) {
 }
 
 export function loadHotZoneReport({ name, uid }) {
-    // TODO: Modify to use the prismic function, should use exdisting function instead
+    // TODO: Modify to use the prismic function, should use existing function instead
     const type = 'hotzone-report'
 
     return (dispatch, getState) => {

@@ -81,7 +81,7 @@ export default function computeRoutes(store) {
 
     function handleActiveSponsor({ routes, params }) {
         const [route] = routes
-            .filter(({ sponsorRef }) => Boolean(sponsorRef))
+            .filter(route => Boolean(route.sponsorRef))
             .reverse()
 
         if (route) {
