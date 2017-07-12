@@ -7,14 +7,13 @@ import {
     Navbar,
     Close,
 } from '~/components/page/drawer'
-import { Metadata, Station } from '~/components/weather/station'
+import { Metadata, Station, Footer } from '~/components/weather/station'
 import { Status } from '~/components/misc'
 import { LocateAsClass } from '~/components/button/Locate'
 import Link from 'react-router/lib/Link'
 import { weatherStation } from '~/containers/connectors'
 import Sponsor from '~/containers/Sponsor'
 import { Wrapper } from '~/components/tooltip'
-import { Generic } from '~/prismic/components'
 
 const LOCATE_STYLE = {
     padding: '0.15em',
@@ -71,7 +70,7 @@ function WeatherStation({
                         measurements={measurements}
                         headers={headers}
                     />}
-                <Generic uid="weather-station-disclaimer" />
+                <Footer />
             </Body>
         </Container>
     )

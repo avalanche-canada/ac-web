@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Page, Content, Header, Main } from '~/components/page'
-import { Metadata, Station } from '~/components/weather/station'
+import { Metadata, Station, Footer } from '~/components/weather/station'
 import { Status } from '~/components/misc'
 import { weatherStation } from '~/containers/connectors'
-import { Generic } from '~/prismic/components'
 
 WeatherStation.propTypes = {
     title: PropTypes.string.isRequired,
@@ -39,7 +38,7 @@ function WeatherStation({
                             measurements={measurements}
                             headers={headers}
                         />}
-                    <Generic uid="weather-station-disclaimer" />
+                    <Footer />
                 </Main>
             </Content>
         </Page>
