@@ -1,53 +1,41 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    setPropTypes,
-    mapProps,
-    branch,
-    renderNothing,
-} from 'recompose'
-import { ArchiveWarning } from '~/components/misc'
+import { ArchiveWarning as Base } from '~/components/misc'
 import { isHotZoneReportValid } from '~/prismic/utils'
 
-// TODO: Rework to a stateless component!
+ArchiveWarning.propTypes = {
+    report: PropTypes.object,
+    previous: PropTypes.string,
+    next: PropTypes.string,
+}
 
-export default compose(
-    setPropTypes({
-        report: PropTypes.object,
-        previous: PropTypes.string,
-        next: PropTypes.string,
-    }),
-    branch(
-        props => !props.report || isHotZoneReportValid(props.report),
-        renderNothing
-    ),
-    mapProps(({ report, previous, next }) => {
-        const props = {
-            children: 'This is an archived HotZone report',
-            nowcast: {
-                to: `/hot-zone-reports/${report.region}`,
-                children: "Read today's report",
-            },
+export default function ArchiveWarning({ report, previous, next }) {
+    if (!report || isHotZoneReportValid(report)) {
+        return null
+    }
+
+    const nowcast = {
+        to: `/hot-zone-reports/${report.region}`,
+        children: "Read today's report",
+    }
+
+    if (previous) {
+        previous = {
+            to: `/hot-zone-reports/${report.region}/${previous.region}`,
+            children: previous.title,
         }
+    }
 
-        if (previous) {
-            Object.assign(props, {
-                previous: {
-                    to: `/hot-zone-reports/${report.region}/${previous.region}`,
-                    children: previous.title,
-                },
-            })
+    if (next) {
+        next = {
+            to: `/hot-zone-reports/${report.region}/${next.region}`,
+            children: next.title,
         }
+    }
 
-        if (next) {
-            Object.assign(props, {
-                next: {
-                    to: `/hot-zone-reports/${report.region}/${next.region}`,
-                    children: next.title,
-                },
-            })
-        }
-
-        return props
-    })
-)(ArchiveWarning)
+    return (
+        <Base nowcast={nowcast} previous={previous} next={next}>
+            This is an archived HotZone report
+        </Base>
+    )
+}
