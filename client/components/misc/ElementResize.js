@@ -5,6 +5,7 @@ import bind from 'element-resize-event'
 export default class ElementResize extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
+        style: PropTypes.object,
     }
     state = {
         width: null,
@@ -25,7 +26,7 @@ export default class ElementResize extends Component {
     }
     render() {
         return (
-            <div ref="wrapper">
+            <div style={this.props.style} ref="wrapper">
                 {this.props.children(this.state.width, this.state.height)}
             </div>
         )

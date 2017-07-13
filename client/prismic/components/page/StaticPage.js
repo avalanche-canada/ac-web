@@ -48,7 +48,7 @@ export default function StaticPage({
     // TODO: Removing className here and in the stylesheet
     return (
         <Page className={`${type}-${uid}`} fullWidth={fullWidth}>
-            {banner && <Banner url={banner.main.url} />}
+            {banner && <Banner {...banner.main} />}
             <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
