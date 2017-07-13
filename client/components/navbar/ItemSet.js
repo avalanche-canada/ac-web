@@ -55,12 +55,11 @@ export default class ItemSet extends PureComponent {
             <div styleName="ItemSet--Container">
                 <ul styleName="ItemSet">
                     {Children.map(this.props.children, (item, index) => {
-                        const isActive = this.activeIndex === index
-
                         if (Children.count(item.props.children) === 0) {
                             return item
                         }
 
+                        const isActive = this.activeIndex === index
                         const props = {
                             isActive,
                             onClick: event => {
