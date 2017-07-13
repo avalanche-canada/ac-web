@@ -125,10 +125,8 @@ const ENDPOINTS = new Map([
         (params = {}) =>
             (params.id ? `min/submissions/${params.id}` : 'min/submissions'),
     ],
-    // TODO: Allow strings!
-    [Schemas.Provider, () => 'providers'],
-    // TODO: Allow strings!
-    [Schemas.Course, () => 'courses'],
+    [Schemas.Provider, 'providers'],
+    [Schemas.Course, 'courses'],
     [
         Schemas.WeatherStation,
         (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
@@ -143,10 +141,14 @@ const api = Axios.create({
 })
 
 export function fetch(schema, params) {
-    const endpoint = ENDPOINTS.get(schema)(params)
+    let endpoint = ENDPOINTS.get(schema)
     const config = GET_CONFIGS.has(schema)
         ? GET_CONFIGS.get(schema).call(null, params)
         : null
+
+    if (typeof endpoint === 'function') {
+        endpoint = endpoint(params)
+    }
 
     if (schema === Schemas.WeatherStation && params && params.id) {
         // It is a single Schemas.WeatherStation request
@@ -171,8 +173,12 @@ function extractData(response) {
 }
 
 export function post(schema, data) {
-    const endpoint = ENDPOINTS.get(schema).call()
+    let endpoint = ENDPOINTS.get(schema)
     const config = POST_CONFIGS.get(schema)
+
+    if (typeof endpoint === 'function') {
+        endpoint = endpoint()
+    }
 
     return api.post(endpoint, data, config).then(extractData)
 }
