@@ -5,8 +5,6 @@ import CSSModules from 'react-css-modules'
 import { onlyUpdateForKey } from '~/compose'
 import styles from './Table.css'
 
-// TODO: Needs to have functions to expandAll and collapseAll
-
 BaseTBody.propTypes = {
     children: PropTypes.node.isRequired,
     featured: PropTypes.bool,
