@@ -6,6 +6,10 @@ import { getFeatures } from '~/services/mapbox/datasets'
 
 export const GET_FEATURES = 'GET_FEATURES'
 
-export const loadFeatures = createAction(GET_FEATURES, getFeatures, id => ({
-    id,
-}))
+function metaCreator(id) {
+    return {
+        id,
+    }
+}
+
+export const loadFeatures = createAction(GET_FEATURES, getFeatures, metaCreator)
