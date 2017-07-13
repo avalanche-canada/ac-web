@@ -40,20 +40,3 @@ export default compose(
     onlyUpdateForKeys(['isActive', 'children']),
     CSSModules(styles)
 )(Item)
-
-// export const Login = compose(
-//     item,
-//     defaultProps({
-//         title: 'Login',
-//     })
-// )
-//
-// export const Logout = compose(
-//     item,
-//     defaultProps({
-//         title: 'Logout',
-//     }),
-//     withProps(props => ({
-//         children: null,
-//     }))
-// )

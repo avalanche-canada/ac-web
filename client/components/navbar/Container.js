@@ -33,7 +33,6 @@ Navbar.propTypes = {
     isCabinetOpened: PropTypes.bool.isRequired,
     showCabinet: PropTypes.func.isRequired,
     hideCabinet: PropTypes.func.isRequired,
-    children: PropTypes.node,
 }
 
 function Navbar({
@@ -48,13 +47,11 @@ function Navbar({
     isCabinetOpened,
     showLogin,
     showLogout,
-    children,
 }) {
     return (
         <div styleName="Container">
             <Base isFoundation={isFoundation} onBurgerClick={showCabinet}>
                 {menu.children.map(createItem)}
-                {children}
                 {showLogin && <Item title="Login" onClick={onLogin} />}
                 {showLogout &&
                     <Item title={<Avatar name={name} url={avatar} size={30} />}>
