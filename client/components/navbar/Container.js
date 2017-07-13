@@ -67,12 +67,7 @@ function Navbar({
                         </Menu>
                     </Item>}
             </Base>
-            <Cabinet
-                menu={menu}
-                show={isCabinetOpened}
-                isFoundation={isFoundation}
-                onClose={hideCabinet}
-            />
+            <Cabinet menu={menu} show={isCabinetOpened} onClose={hideCabinet} />
         </div>
     )
 }
