@@ -5,14 +5,12 @@ import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import noop from 'lodash/noop'
 
-function createStyle(noWrap) {
-    return {
-        whiteSpace: noWrap ? 'nowrap' : null,
-    }
+const NOWRAP_STYLE = {
+    whiteSpace: 'nowrap',
 }
 
 Item.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    title: PropTypes.node.isRequired,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
     noWrap: PropTypes.bool,
@@ -28,7 +26,7 @@ function Item({
 }) {
     return (
         <li
-            style={createStyle(noWrap)}
+            style={noWrap ? NOWRAP_STYLE : null}
             styleName={isActive ? 'Item--active' : 'Item'}>
             <a href="#" onClick={onClick}>
                 <span>{title}</span>
