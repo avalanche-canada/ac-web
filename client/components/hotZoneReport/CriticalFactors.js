@@ -116,7 +116,7 @@ function CriticalFactors({ report }) {
                 {createDescriptions(values)}
             </List>
             <Comment title="Information to collect while traveling">
-                {questions}
+                <StructuredText value={questions} />
             </Comment>
             <Comment>
                 <StructuredText value={comments} />
