@@ -113,6 +113,8 @@ const Planning = {
 
 export const AvalancheCanada = {
     id: String(id++),
+    label: 'Avalanche Canada',
+    to: '/',
     children: [
         {
             id: String(id++),
@@ -440,6 +442,8 @@ export const AvalancheCanada = {
 }
 export const AvalancheCanadaFoundation = {
     id: String(id++),
+    label: 'Avalanche Canada Foundation',
+    to: '/foundation',
     children: [
         {
             id: String(id++),

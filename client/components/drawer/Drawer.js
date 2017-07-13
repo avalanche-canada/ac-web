@@ -10,6 +10,7 @@ import noop from 'lodash/noop'
 
 Drawer.propTypes = {
     label: PropTypes.string.isRequired,
+    home: Toolbar.propTypes.home,
     to: PropTypes.string,
     onClose: PropTypes.func,
     onClick: PropTypes.func,
@@ -24,10 +25,11 @@ function Drawer({
     onClick,
     style = null,
     children,
+    home,
 }) {
     return (
         <nav style={style} styleName="Drawer" onClick={onClick}>
-            <Toolbar onClose={onClose} />
+            <Toolbar home={home} onClose={onClose} />
             <ItemSet label={label} to={to} items={children} />
         </nav>
     )

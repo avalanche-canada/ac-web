@@ -7,7 +7,7 @@
     --navbar-height: 75px;
 }
 
-.Container {
+.Layout {
     position: fixed;
     top: 0;
     width: 100%;
@@ -95,22 +95,15 @@
     }
 }
 
-.CoreBrand {
+.Brand {
     flex: 2 0;
     height: var(--navbar-height);
     padding: 0 15px;
     min-width: 100px;
     max-width: 200px;
-}
-
-.Brand {
-    composes: CoreBrand;
-    composes: import AvalancheCanada from '../../styles/logos.css';
-}
-
-.Brand--Foundation {
-    composes: CoreBrand;
-    composes: import AvalancheCanadaFoundation from '../../styles/logos.css';
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .Burger--Container {
