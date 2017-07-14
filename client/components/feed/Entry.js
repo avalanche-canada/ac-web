@@ -4,8 +4,9 @@ import { compose, branch, renderComponent } from 'recompose'
 import Link from 'react-router/lib/Link'
 import CSSModules from 'react-css-modules'
 import { neverUpdate } from '~/compose'
-import { Image, InnerHTML, DateElement } from '~/components/misc'
+import { DateElement } from '~/components/misc'
 import { TagSet, Tag } from '~/components/tag'
+import { StructuredText, Image } from '~/prismic/components/base'
 import styles from './Feed.css'
 
 Entry.propTypes = {
@@ -14,15 +15,10 @@ Entry.propTypes = {
     source: PropTypes.string,
     category: PropTypes.string,
     date: PropTypes.instanceOf(Date).isRequired,
-    headline: PropTypes.string.isRequired,
+    headline: PropTypes.shape(StructuredText.propTypes).isRequired,
     tags: PropTypes.arrayOf(PropTypes.string),
     link: PropTypes.string.isRequired,
-    preview: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        width: PropTypes.number,
-        height: PropTypes.number,
-        alt: PropTypes.string,
-    }),
+    preview: PropTypes.shape(Image.propTypes),
     uid: PropTypes.string.isRequired,
     condensed: PropTypes.bool,
 }
@@ -42,11 +38,7 @@ function Entry({
         <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
             {preview &&
                 <div styleName="Image">
-                    <Image
-                        src={preview.url}
-                        title={preview.alt}
-                        alt={preview.alt}
-                    />
+                    <Image {...preview} />
                 </div>}
             <div styleName="Content">
                 <h2>
@@ -54,9 +46,7 @@ function Entry({
                         {title}
                     </Link>
                 </h2>
-                <InnerHTML>
-                    {headline}
-                </InnerHTML>
+                <StructuredText value={headline} />
                 <ul styleName="Metadata">
                     {date && <li><DateElement value={date} /></li>}
                     {category && <li>{category}</li>}

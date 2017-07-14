@@ -7,11 +7,13 @@ import {
     Navbar,
     Close,
 } from '~/components/page/drawer'
-import { InnerHTML, Status, DateTime } from '~/components/misc'
+import { Status, DateTime } from '~/components/misc'
 import { Metadata, Entry } from '~/components/metadata'
 import { fatalAccident } from '~/containers/connectors'
 import { LocateAsClass } from '~/components/button/Locate'
 import { Wrapper } from '~/components/tooltip'
+import { parse } from '~/prismic'
+import { StructuredText } from '~/prismic/components/base'
 
 const LOCATE_STYLE = {
     padding: '0.15em',
@@ -25,6 +27,8 @@ FatalAccident.propTypes = {
 }
 
 function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
+    const { title, dateOfAccident, content } = parse(report).data
+
     return (
         <Container>
             <Navbar>
@@ -32,9 +36,9 @@ function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
             </Navbar>
             <Header subject="Fatal Recreational Accident">
                 <Status {...status.toJSON()} />
-                {report &&
+                {title &&
                     <h1>
-                        {report.title}
+                        {title}
                         <Wrapper tooltip="Display on map">
                             <LocateAsClass
                                 onClick={onLocateClick}
@@ -42,18 +46,16 @@ function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
                             />
                         </Wrapper>
                     </h1>}
-                {report &&
+                {dateOfAccident &&
                     <Metadata>
                         <Entry term="Accident date">
-                            <DateTime value={report.dateOfAccident} />
+                            <DateTime value={dateOfAccident} />
                         </Entry>
                     </Metadata>}
             </Header>
-            {report &&
+            {content &&
                 <Body>
-                    <InnerHTML>
-                        {report.content}
-                    </InnerHTML>
+                    <StructuredText value={content} />
                 </Body>}
         </Container>
     )

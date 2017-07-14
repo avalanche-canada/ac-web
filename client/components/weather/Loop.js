@@ -1,9 +1,32 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Base from '~/components/loop'
-import { computeUrls, getNotes } from '~/services/msc/loop/url'
-import { CurrentConditions } from '~/services/msc/loop/Metadata'
+import {
+    computeUrls,
+    getNotes,
+    isForecast,
+    fetchMetadata,
+} from '~/services/msc/loop'
 import { Loading, Error } from '~/components/misc'
+
+NoteSet.propTypes = {
+    notes: PropTypes.arrayOf(PropTypes.string).isRequired,
+}
+
+function NoteSet({ notes = [] }) {
+    if (!Array.isArray(notes) || notes.length === 0) {
+        return null
+    }
+
+    return (
+        <div>
+            <p>Please note:</p>
+            <ul>
+                {notes.map((note, index) => <li key={index}>{note}</li>)}
+            </ul>
+        </div>
+    )
+}
 
 export default class Loop extends PureComponent {
     static propTypes = {
@@ -21,24 +44,39 @@ export default class Loop extends PureComponent {
         withNotes: false,
     }
     state = {
-        urls: null,
+        urls: [],
         notes: null,
         startAt: undefined,
-        isLoading: true,
+        isLoading: false,
         isError: false,
+        metadata: null,
+    }
+    fetchMetadata = () => {
+        return new Promise(resolve => {
+            this.setState({ isLoading: true }, () => {
+                fetchMetadata().then(metadata => {
+                    this.setState({ metadata, isLoading: false }, resolve)
+                })
+            })
+        })
     }
     componentDidMount() {
-        this.computeUrls(this.props)
+        this.fetchMetadata().then(() => {
+            const { metadata } = this.state
+            const { type } = this.props
 
-        // Autorefresh the urls for current conditions!
-        if (CurrentConditions.has(this.props.type)) {
-            this.intervalId = window.setInterval(
-                this.computeUrls,
-                5 * 60 * 1000, // every 5 minutes!
-                undefined,
-                true
-            )
-        }
+            this.computeUrls(this.props)
+
+            // Autorefresh the urls for current conditions!
+            if (metadata.hasOwnProperty(type) && !isForecast(metadata[type])) {
+                this.intervalId = window.setInterval(
+                    this.computeUrls,
+                    5 * 60 * 1000, // every 5 minutes!
+                    undefined,
+                    true
+                )
+            }
+        })
     }
     componentWillUnmount() {
         if (this.intervalId) {
@@ -54,7 +92,7 @@ export default class Loop extends PureComponent {
                 isLoading: silent ? false : true,
             },
             () => {
-                computeUrls(props).then(
+                computeUrls(this.state.metadata, props).then(
                     this.handleFulfilled,
                     this.handleRejected
                 )
@@ -63,9 +101,10 @@ export default class Loop extends PureComponent {
     }
     handleFulfilled = urls => {
         const { type, withNotes } = this.props
+        const { metadata } = this.state
         let startAt
 
-        if (CurrentConditions.has(type)) {
+        if (this.state.metadata.hasOwnProperty(type)) {
             startAt = urls.length - 1
         }
 
@@ -73,7 +112,7 @@ export default class Loop extends PureComponent {
             isLoading: false,
             isError: false,
             urls,
-            notes: withNotes ? getNotes(type) : null,
+            notes: withNotes ? getNotes(metadata, type) : null,
             startAt,
         })
     }
@@ -110,14 +149,7 @@ export default class Loop extends PureComponent {
                     openImageInNewTab
                     interval={this.props.interval}
                 />
-                {Array.isArray(notes) &&
-                    notes.length > 0 &&
-                    <div>
-                        <p>Please note:</p>
-                        <ul>
-                            {notes.map(note => <li>{note}</li>)}
-                        </ul>
-                    </div>}
+                <NoteSet notes={notes} />
             </div>
         )
     }

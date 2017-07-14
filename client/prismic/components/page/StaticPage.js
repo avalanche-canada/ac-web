@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Contact } from '~/components/sidebar'
 import {
     Page,
     Content,
@@ -9,48 +10,57 @@ import {
     Banner,
     Aside,
 } from '~/components/page'
-import Slice from '~/prismic/components/slice'
-import Sidebar from './Sidebar'
+import Sidebar from '~/components/sidebar'
 import { Status } from '~/components/misc'
+import { parse } from '~/prismic'
+import { SliceZone } from '~/prismic/components/base'
 
 StaticPage.propTypes = {
     type: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string,
     status: PropTypes.object.isRequired,
-    // TODO: This should be move to some kind of prismic propTypes
-    document: PropTypes.shape({
-        headline: PropTypes.string,
-        content: PropTypes.arrayOf(PropTypes.object),
-        banner: PropTypes.object,
-        sidebar: PropTypes.arrayOf(PropTypes.object),
-    }),
+    document: PropTypes.object,
+    fullWidth: PropTypes.bool,
 }
+
+const ARRAY = []
 
 export default function StaticPage({
     type,
     uid,
     title,
     status,
-    document = {},
+    document,
+    fullWidth = false,
 }) {
-    const { headline, content = [], banner, sidebar } = document
+    const defaults = {
+        title,
+        content: ARRAY,
+    }
+    const { data } = parse(document, defaults)
+    const { headline, content, sidebar, banner } = data
+    const contact = typeof contact === 'string'
+        ? <Contact email={contact} />
+        : contact
 
+    // TODO: Looking at className (prismic.css) usage and find out is we still need that
+    // TODO: Removing className here and in the stylesheet
     return (
-        <Page className={`${type}-${uid}`}>
-            {banner && <Banner {...banner} />}
-            <Header title={document.title || title} />
+        <Page className={`${type}-${uid}`} fullWidth={fullWidth}>
+            {banner && <Banner {...banner.main} />}
+            <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>
                     {headline && <Headline>{headline}</Headline>}
-                    {content.map((slice, index) => (
-                        <Slice key={index} {...slice} />
-                    ))}
+                    <SliceZone value={content} />
                 </Main>
                 {sidebar &&
                     <Aside>
-                        <Sidebar {...sidebar} />
+                        <Sidebar {...sidebar}>
+                            <SliceZone value={sidebar.content} />
+                        </Sidebar>
                     </Aside>}
             </Content>
         </Page>

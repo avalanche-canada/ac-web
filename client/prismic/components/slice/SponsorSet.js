@@ -1,52 +1,46 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { compose, mapProps, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
+import { createSelector, createStructuredSelector } from 'reselect'
 import { ItemSet, Item } from '~/components/sponsor'
+import { load } from '~/actions/prismic'
 import { getDocumentsOfType } from '~/getters/prismic'
-import transform from '~/prismic/transformers'
+import { parseForMap, Predicates } from '~/prismic'
 
-function parse(document) {
-    const { image229, name, url } = transform(document)
-
-    return {
-        title: name,
-        src: image229,
-        url,
-    }
+function pluck({ sponsor }) {
+    return sponsor.value.document.id
 }
 
 const getSponsors = createSelector(
     state => getDocumentsOfType(state, 'sponsor'),
-    (state, props) => props.content.map(slice => slice.sponsor.id),
-    function computeSponsors(documents, ids) {
-        if (documents.isEmpty()) {
-            return {}
-        }
-
-        return {
-            sponsors: ids
-                .map(id => documents.get(id))
-                .filter(Boolean)
-                .map(parse),
-        }
-    }
+    (state, { value }) => value.map(pluck),
+    (docs, ids) => ids.map(id => docs.get(id)).filter(Boolean).map(parseForMap)
 )
 
-// TODO: Move the component to components. This should be a container.
-
-SponsorSet.propTypes = {
-    sponsors: PropTypes.arrayOf(PropTypes.object),
+function createSponsor({ data: { logo, name, url } }, index) {
+    return <Item key={index} title={name} src={logo} url={url} />
 }
 
-function SponsorSet({ sponsors = [] }) {
-    return (
-        <ItemSet>
-            {sponsors.map((sponsor, index) => (
-                <Item key={index} {...sponsor} />
-            ))}
-        </ItemSet>
-    )
-}
+export default compose(
+    connect(
+        createStructuredSelector({
+            sponsors: getSponsors,
+        }),
+        { load }
+    ),
+    lifecycle({
+        componentDidMount() {
+            const ids = this.props.value.map(pluck)
 
-export default connect(getSponsors)(SponsorSet)
+            this.props.load({
+                predicates: [Predicates.in('document.id', ids)],
+                pageSize: ids.length,
+            })
+        },
+    }),
+    mapProps(props => {
+        return {
+            children: props.sponsors.map(createSponsor),
+        }
+    })
+)(ItemSet)

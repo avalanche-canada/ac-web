@@ -2,6 +2,7 @@ import Immutable from 'immutable'
 import {
     getDocumentsOfType,
     hasDocumentForUid,
+    hasDocumentForId,
     getResults,
 } from '~/getters/prismic'
 import { Api as Prismic, Predicates } from '~/prismic'
@@ -15,11 +16,11 @@ function convertParams(params = {}) {
     let predicate
 
     if (id) {
-        predicate = Predicates.at('document.id', id)
+        predicate = Predicates.id(id)
     } else if (uid && type) {
-        predicate = Predicates.at(`my.${type}.uid`, uid)
+        predicate = Predicates.uid(type, uid)
     } else if (type) {
-        predicate = Predicates.at('document.type', type)
+        predicate = Predicates.type(type)
     }
 
     if (predicate) {
@@ -46,29 +47,38 @@ export function paramsToKey(params) {
     }).hashCode()
 }
 
+function getValue({ value }) {
+    return value
+}
+
 export function load(params = {}) {
     return (dispatch, getState) => {
         const state = getState()
         const results = getResults(state)
         const key = paramsToKey(params)
+        const { id, type, uid } = params
+
+        if (hasDocumentForId(state, id)) {
+            // FIXME: Return the document
+            return Promise.resolve()
+        }
+
+        if (hasDocumentForUid(state, type, uid)) {
+            // FIXME: Return the document
+            return Promise.resolve()
+        }
 
         if (results.has(key)) {
             const { isFetching, isLoaded } = results.get(key)
 
             if (isFetching || isLoaded) {
-                return Promise.resolve()
-            }
-        } else {
-            const { type, uid } = params
-
-            if (hasDocumentForUid(state, type, uid)) {
+                // FIXME: Return the documents
                 return Promise.resolve()
             }
         }
 
         const { predicates, options } = convertParams(params)
-
-        return dispatch({
+        const action = {
             type: GET_PRISMIC,
             payload: Prismic.Query(predicates, options),
             meta: {
@@ -76,12 +86,14 @@ export function load(params = {}) {
                 predicates,
                 options,
             },
-        }).then(response => response.value)
+        }
+
+        return dispatch(action).then(getValue)
     }
 }
 
 export function loadHotZoneReport({ name, uid }) {
-    // TODO: Modify to use the prismic function, should use exdisting function instead
+    // TODO: Modify to use the prismic function, should use existing function instead
     const type = 'hotzone-report'
 
     return (dispatch, getState) => {
@@ -97,13 +109,13 @@ export function loadHotZoneReport({ name, uid }) {
         } else if (typeof name === 'string') {
             const documents = getDocumentsOfType(state, type)
             const isNotLoaded = document =>
-                document.data[`${type}.region`].value !== name
+                document.data[type].region.value !== name
 
             if (documents.every(isNotLoaded)) {
                 return dispatch(
                     load({
                         type,
-                        predicates: [Predicates.at(`my.${type}.region`, name)],
+                        predicates: [Predicates.field(type, 'region', name)],
                     })
                 )
             }

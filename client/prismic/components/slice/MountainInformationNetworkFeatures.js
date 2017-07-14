@@ -8,10 +8,10 @@ const Texts = new Map([['Not available', 'N/A']])
 
 MountainInformationNetworkFeatures.propTypes = {
     // TODO: Create appropriate propType
-    content: PropTypes.arrayOf(PropTypes.object).isRequired,
+    value: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function MountainInformationNetworkFeatures({ content = [] }) {
+function MountainInformationNetworkFeatures({ value }) {
     return (
         <table styleName="Table">
             <thead>
@@ -28,7 +28,7 @@ function MountainInformationNetworkFeatures({ content = [] }) {
                 </tr>
             </thead>
             <tbody>
-                {content.map(({ feature, ...values }) => (
+                {value.map(({ feature, ...values }) => (
                     <tr key={feature}>
                         <td>{feature}</td>
                         {Object.keys(values).map(key => {

@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withState } from 'recompose'
 import { fetchStaticResource } from '~/api'
+import { InnerHTML } from '~/components/misc'
 import style from './ates.css'
+import { Media, Caption } from '~/components/media'
+import { Image } from '~/prismic/components/base'
 
 const ExerciseShape = PropTypes.shape({
     slug: PropTypes.string.isRequired,
@@ -34,15 +37,13 @@ Section.propTypes = {
 
 function Section({ title, desc, images }) {
     return (
-        <div>
+        <section>
             <h1>{title}</h1>
-            <p dangerouslySetInnerHTML={{ __html: desc }} />
-            <div className={style.ExerciseList}>
-                {images.map((image, index) => (
-                    <Exercise key={index} {...image} />
-                ))}
-            </div>
-        </div>
+            <InnerHTML component="p">
+                {desc}
+            </InnerHTML>
+            {images.map((image, index) => <Exercise key={index} {...image} />)}
+        </section>
     )
 }
 
@@ -88,45 +89,41 @@ class Exercise extends Component {
     state = {
         picked: null,
     }
-    pickAnswer(evt) {
-        this.setState({ picked: evt.target.value })
+    pickAnswer = event => {
+        this.setState({ picked: event.target.value })
     }
     render() {
-        let { url, caption, photo_credit, answer } = this.props
-        let picked = this.state.picked
+        const { url, caption, photo_credit, answer } = this.props
+        const { picked } = this.state
 
         return (
-            <div className={style.Exercise}>
-                <img src={url} />
-                <p>
+            <Media>
+                <Image url={url} copyright={photo_credit} />
+                <Caption>
                     {caption}
-                    {' '}
-                    <small className={style.PhotoCred}>
-                        Photo: {photo_credit}
-                    </small>
-                </p>
-                {picked && (picked === answer ? <Yep /> : <Nope />)}
-                <div className={style.Choices}>
-                    <Input
-                        value="SIMPLE"
-                        onClick={e => this.pickAnswer(e)}
-                        picked={picked}>
-                        &nbsp; Simple
-                    </Input>
-                    <Input
-                        value="CHALLENGING"
-                        onClick={e => this.pickAnswer(e)}
-                        picked={picked}>
-                        &nbsp; Challenging
-                    </Input>
-                    <Input
-                        value="COMPLEX"
-                        onClick={e => this.pickAnswer(e)}
-                        picked={picked}>
-                        &nbsp; Complex
-                    </Input>
-                </div>
-            </div>
+                    {picked && (picked === answer ? <Yep /> : <Nope />)}
+                    <div className={style.Choices}>
+                        <Input
+                            value="SIMPLE"
+                            onClick={this.pickAnswer}
+                            picked={picked}>
+                            Simple
+                        </Input>
+                        <Input
+                            value="CHALLENGING"
+                            onClick={this.pickAnswer}
+                            picked={picked}>
+                            Challenging
+                        </Input>
+                        <Input
+                            value="COMPLEX"
+                            onClick={this.pickAnswer}
+                            picked={picked}>
+                            Complex
+                        </Input>
+                    </div>
+                </Caption>
+            </Media>
         )
     }
 }

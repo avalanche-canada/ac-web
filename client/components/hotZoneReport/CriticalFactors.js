@@ -6,6 +6,7 @@ import List from '~/components/mountainInformationNetwork/List'
 import { Term, Definition } from '~/components/description'
 import Panel, { INVERSE } from '~/components/panel'
 import styles from './HotZoneReport.css'
+import { StructuredText } from '~/prismic/components/base'
 import { RED, ORANGE } from '~/constants/forecast/palette'
 
 const TERMS = new Map([
@@ -53,7 +54,7 @@ const STYLES = new Map([
 
 const truthPropType = PropTypes.oneOf([true, false, null])
 function createDescriptions(values) {
-    return Object.keys(values).reduce((children, key) => {
+    return Object.keys(values).sort().reduce((children, key) => {
         const value = VALUES.get(values[key])
         const style = STYLES.get(value)
 
@@ -115,10 +116,10 @@ function CriticalFactors({ report }) {
                 {createDescriptions(values)}
             </List>
             <Comment title="Information to collect while traveling">
-                {questions}
+                <StructuredText value={questions} />
             </Comment>
             <Comment>
-                {comments}
+                <StructuredText value={comments} />
             </Comment>
         </Panel>
     )

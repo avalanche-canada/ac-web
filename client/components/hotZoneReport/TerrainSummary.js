@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Section from '~/components/mountainInformationNetwork/Section'
 import { List, Term, Definition } from '~/components/description'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
 import styles from './HotZoneReport.css'
 
 TerrainSummary.propTypes = {
@@ -57,9 +57,7 @@ function TerrainSummary({ title, aspect, terrainFeatures, travelAdvice }) {
                 </Definition>
                 <Term block>Travel advice</Term>
                 <Definition block styleName="TravelAdvice">
-                    <InnerHTML>
-                        {travelAdvice}
-                    </InnerHTML>
+                    <StructuredText value={travelAdvice} />
                 </Definition>
             </List>
         </Section>

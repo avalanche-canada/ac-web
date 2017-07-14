@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Page, Content, Header, Main, Headline, Aside } from '~/components/page'
 import { Metadata, Entry } from '~/components/metadata'
-import { DateElement, InnerHTML, Muted } from '~/components/misc'
+import { DateElement, Muted } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
 import Sidebar from './Sidebar'
 
 Post.propTypes = {
@@ -69,15 +70,11 @@ export default function Post({ post = {}, message, type }) {
                     </Metadata>
                     {headline &&
                         <Headline>
-                            <InnerHTML>
-                                {headline}
-                            </InnerHTML>
+                            <StructuredText value={headline} />
                         </Headline>}
                     {message
                         ? <Muted>{message}</Muted>
-                        : <InnerHTML>
-                              {content}
-                          </InnerHTML>}
+                        : <StructuredText value={content} />}
                 </Main>
                 <Aside>
                     <Sidebar type={type} uid={uid} />

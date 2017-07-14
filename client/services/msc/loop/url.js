@@ -1,21 +1,50 @@
 import padstart from 'lodash/padStart'
-import { Forecast, CurrentConditions } from './Metadata'
 import { domain } from '../config.json'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
-import format from 'date-fns/format'
+import formatDate from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
 import { loadImage } from '~/utils/promise'
 
-export function getNotes(type) {
-    if (Forecast.has(type)) {
-        return getForecastNotes(type).concat(Forecast.get(type).notes)
-    } else if (CurrentConditions.has(type)) {
-        return CurrentConditions.get(type).notes
-    } else {
+const MAX_ATTEMPTS = 10
+
+export function isForecast({ runs }) {
+    return Array.isArray(runs)
+}
+
+export function getNotes(metadata, type) {
+    if (!metadata.hasOwnProperty(type)) {
         throw new Error(`Loop of type=${type} not recognized.`)
     }
+
+    const { notes } = metadata[type]
+
+    if (isForecast(metadata[type])) {
+        return getForecastNotes(metadata[type]).concat(notes)
+    }
+
+    return notes
+}
+
+function getForecastNotes({ updates }) {
+    updates = updates
+        .map(update => {
+            const date = new Date()
+
+            date.setHours(update)
+            date.setMinutes(0)
+
+            return date
+        })
+        .sort(hourSorter)
+        .map(date => formatDate(date, 'HH[:]mm'))
+
+    const last = updates.pop()
+
+    return [
+        `Updated at approximately ${updates.join(', ')} & ${last} every day.`,
+    ]
 }
 
 function hourSorter(left, right) {
@@ -29,48 +58,32 @@ function hourSorter(left, right) {
     return 0
 }
 
-function getForecastNotes(type) {
-    if (!Forecast.has(type)) {
-        throw new Error(`Unrecognizable Forecast loop type=${type}.`)
-    }
-
-    const updates = Forecast.get(type)
-        .updates.map(updates => {
-            const date = new Date()
-
-            date.setHours(updates)
-            date.setMinutes(0)
-
-            return date
-        })
-        .sort(hourSorter)
-        .map(date => format(date, 'HH[:]mm'))
-
-    const last = updates.pop()
-
-    return [
-        `Updated at approximately ${updates.join(', ')} & ${last} every day.`,
-    ]
-}
-
-export async function computeUrls(props) {
+export async function computeUrls(metadata, props, maxAttempts = MAX_ATTEMPTS) {
     const { type } = props
 
-    if (Forecast.has(type)) {
-        return computeForecastUrls(props)
-    } else if (CurrentConditions.has(type)) {
-        return computeCurrentConditionsUrls(props)
-    } else {
+    if (!metadata.hasOwnProperty(type)) {
         throw new Error(`Loop of type=${type} not recognized.`)
+    }
+
+    if (isForecast(metadata[type])) {
+        // It is a forecast! Using a model...
+        return computeForecastUrls(metadata, props, maxAttempts)
+    } else {
+        return computeCurrentConditionsUrls(metadata, props)
     }
 }
 
-async function computeForecastUrls({ type, run, date = new Date(), from, to }) {
-    if (!Forecast.has(type)) {
+async function computeForecastUrls(
+    metadata,
+    { type, run, date = new Date(), from, to },
+    maxAttempts = MAX_ATTEMPTS
+) {
+    if (!metadata.hasOwnProperty(type)) {
         throw new Error(`Unrecognizable Forecast loop type=${type}.`)
     }
 
-    let { hours } = Forecast.get(type)
+    let { hours } = metadata[type]
+
     if (typeof from === 'number') {
         hours = hours.filter(hour => hour >= from)
     }
@@ -81,16 +94,21 @@ async function computeForecastUrls({ type, run, date = new Date(), from, to }) {
 
     let attempts = 0
 
-    while (attempts < 10) {
+    while (attempts < maxAttempts) {
         attempts++
+
         try {
             if (typeof run === 'number') {
-                await loadImage(formatForecastUrl(type, date, run, hours[0]))
+                await loadImage(
+                    formatForecastUrl(metadata, type, date, run, hours[0])
+                )
             } else {
-                run = await getRun(type, date)
+                run = await getRun(metadata, type, date)
             }
 
-            return hours.map(hour => formatForecastUrl(type, date, run, hour))
+            return hours.map(hour =>
+                formatForecastUrl(metadata, type, date, run, hour)
+            )
         } catch (e) {
             date = addDays(date, -1)
         }
@@ -99,16 +117,15 @@ async function computeForecastUrls({ type, run, date = new Date(), from, to }) {
     throw new Error(`Can not create Forecast loop of type=${type}.`)
 }
 
-async function computeCurrentConditionsUrls({
-    type,
-    amount = null,
-    date = new Date(),
-}) {
-    if (!CurrentConditions.get(type)) {
+async function computeCurrentConditionsUrls(
+    metadata,
+    { type, amount = null, date = new Date() }
+) {
+    if (!metadata.hasOwnProperty(type)) {
         throw new Error(`Unrecognizable Current Conditions loop type=${type}.`)
     }
 
-    const { minutes } = CurrentConditions.get(type)
+    const { minutes } = metadata[type]
     const start = startOfDay(date)
     const utcMinutes = differenceInMinutes(date, start)
     const previous = addDays(start, -1)
@@ -132,7 +149,7 @@ async function computeCurrentConditionsUrls({
         const date = dates.pop()
 
         try {
-            await loadImage(formatCurrentConditionsUrl(type, date))
+            await loadImage(formatCurrentConditionsUrl(metadata, type, date))
 
             dates.push(date)
             found = true
@@ -141,7 +158,7 @@ async function computeCurrentConditionsUrls({
 
             if (i === 0) {
                 // start over again!
-                return computeCurrentConditionsUrls({
+                return computeCurrentConditionsUrls(metadata, {
                     type,
                     amount,
                     date: addDays(date, -1),
@@ -154,13 +171,14 @@ async function computeCurrentConditionsUrls({
         dates = dates.splice(dates.length - amount)
     }
 
-    return dates.map(date => formatCurrentConditionsUrl(type, date))
+    return dates.map(date => formatCurrentConditionsUrl(metadata, type, date))
 }
 
-export function formatForecastUrl(type, date, run, hour) {
+export function formatForecastUrl(metadata, type, date, run, hour) {
     const year = date.getUTCFullYear()
     const month = padstart(date.getUTCMonth() + 1, 2, '0')
     const day = padstart(date.getUTCDate(), 2, '0')
+    const { id, extension } = metadata[type]
 
     return [
         domain,
@@ -168,41 +186,36 @@ export function formatForecastUrl(type, date, run, hour) {
         month,
         day,
         [
-            Forecast.getIn([type, 'id']),
+            id,
             year + month + day + padstart(run, 2, '0'),
-            padstart(hour, 3, '0') +
-                'HR.' +
-                Forecast.getIn([type, 'extension']),
+            padstart(hour, 3, '0') + 'HR.' + extension,
         ].join('_'),
     ].join('/')
 }
 
-function formatCurrentConditionsUrl(type, date) {
+function formatCurrentConditionsUrl(metadata, type, date) {
     const year = date.getUTCFullYear()
     const month = padstart(date.getUTCMonth() + 1, 2, '0')
     const day = padstart(date.getUTCDate(), 2, '0')
     const hour = padstart(date.getUTCHours(), 2, '0')
     const minute = padstart(date.getUTCMinutes(), 2, '0')
+    const { id, extension } = metadata[type]
 
     return [
         domain,
         year,
         month,
         day,
-        [
-            CurrentConditions.getIn([type, 'id']),
-            year + month + day,
-            `${hour}${minute}Z.${CurrentConditions.getIn([type, 'extension'])}`,
-        ].join('_'),
+        [id, year + month + day, `${hour}${minute}Z.${extension}`].join('_'),
     ].join('/')
 }
 
-async function getRun(type, date) {
-    const { runs, hours } = Forecast.get(type)
+async function getRun(metadata, type, date) {
+    const { runs, hours } = metadata[type]
 
     for (let i = runs.length - 1; i >= 0; i--) {
         const run = runs[i]
-        const url = formatForecastUrl(type, date, run, hours[0])
+        const url = formatForecastUrl(metadata, type, date, run, hours[0])
 
         try {
             await loadImage(url)

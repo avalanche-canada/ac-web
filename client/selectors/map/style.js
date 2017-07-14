@@ -6,7 +6,8 @@ import { getResultsSet } from '~/getters/api'
 import { getDocumentsOfType } from '~/getters/prismic'
 import { getLayers, getLayerFilter } from '~/getters/drawers'
 import { ActiveLayerIds, LayerIds } from '~/constants/map/layers'
-import Parser, { parseLocation } from '~/prismic/parser'
+import { parseLocation } from '~/prismic/parsers'
+import { parse, parseForMap } from '~/prismic'
 import {
     isSpecialInformationValid,
     isHotZoneReportValid,
@@ -50,14 +51,11 @@ const TRANSFORMERS = new Map([
     ],
     [
         Layers.TOYOTA_TRUCK_REPORTS,
-        document => {
-            const { uid, position, headline } = Parser.parse(document)
-
-            return turf.point([position.longitude, position.latitude], {
+        ({ uid, data: { position, headline } }) =>
+            turf.point([position.longitude, position.latitude], {
                 title: headline,
                 id: uid,
-            })
-        },
+            }),
     ],
     [
         Layers.MOUNTAIN_CONDITIONS_REPORTS,
@@ -72,25 +70,19 @@ const TRANSFORMERS = new Map([
     ],
     [
         Layers.FATAL_ACCIDENT,
-        document => {
-            const { uid, location, title } = Parser.parse(document)
-
-            return turf.point([location.longitude, location.latitude], {
+        ({ uid, data: { location, title } }) =>
+            turf.point([location.longitude, location.latitude], {
                 title,
                 id: uid,
-            })
-        },
+            }),
     ],
     [
         Layers.SPECIAL_INFORMATION,
-        document => {
-            const { uid, headline, locations } = document
-
-            return turf.multiPoint(locations.map(parseLocation), {
+        ({ uid, data: { headline, locations } }) =>
+            turf.multiPoint(locations.map(parseLocation), {
                 title: headline,
                 id: uid,
-            })
-        },
+            }),
     ],
 ])
 
@@ -222,7 +214,10 @@ const getMountainConditionsReports = createSelector(
 const getToyotaTruckFeatures = createSelector(
     state => getDocumentsOfType(state, 'toyota-truck-report'),
     documents =>
-        documents.map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS)).toArray()
+        documents
+            .toArray()
+            .map(parseForMap)
+            .map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS))
 )
 
 function pointReducer(points, feature) {
@@ -237,7 +232,7 @@ const getSpecialInformationFeatures = createSelector(
     documents =>
         documents
             .toArray()
-            .map(document => Parser.parse(document))
+            .map(parseForMap)
             .filter(isSpecialInformationValid)
             .map(TRANSFORMERS.get(Layers.SPECIAL_INFORMATION))
             .reduce(pointReducer, [])
@@ -247,7 +242,10 @@ const getSpecialInformationFeatures = createSelector(
 const getFatalAccidentFeatures = createSelector(
     state => getDocumentsOfType(state, 'fatal-accident'),
     documents =>
-        documents.map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT)).toArray()
+        documents
+            .toArray()
+            .map(parseForMap)
+            .map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
 )
 
 // All map sources
@@ -320,7 +318,7 @@ const getActiveFeatureFilters = createSelector(getActiveFeatures, features => {
 
 const getHotZoneReports = createSelector(
     state => getDocumentsOfType(state, 'hotzone-report'),
-    reports => reports.map(parse).filter(isHotZoneReportValid)
+    reports => reports.map(report => parse(report)).filter(isHotZoneReportValid)
 )
 
 const getActiveHotZoneFilters = createSelector(getHotZoneReports, reports => {
@@ -343,8 +341,6 @@ function getLayerIndexFactory(style) {
 
     return id => ids.findIndex(value => value === id)
 }
-
-const parse = Parser.parse.bind(Parser)
 
 export default createSelector(
     getStyle,

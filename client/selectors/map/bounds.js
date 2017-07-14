@@ -7,7 +7,8 @@ import { getActiveFeatures } from '~/getters/map'
 import { getPrimaryDrawer, getSecondaryDrawer } from '~/getters/drawers'
 import { getEntities } from '~/getters/entities'
 import { getDocuments } from '~/getters/prismic'
-import Parser, { parseLocation } from '~/prismic/parser'
+import { parseLocation } from '~/prismic/parsers'
+import { parse } from '~/prismic'
 
 const { LngLatBounds } = mapbox
 
@@ -143,7 +144,7 @@ export default createSelector(
                     .find(document => document.uid === id)
 
                 if (document) {
-                    const { position, locations } = Parser.parse(document)
+                    const { position, locations } = parse(document).data
 
                     if (locations && locations.length > 0) {
                         const [west, south, east, north] = createBbox(

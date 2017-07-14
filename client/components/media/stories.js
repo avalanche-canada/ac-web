@@ -11,7 +11,7 @@ const caption = (
 
 storiesOf('Media', module)
     .add('Image', () => <Media>{image}</Media>)
-    .add('Image w/ caption', () => <Media caption={caption}>{image}</Media>)
+    .add('Image w/ caption', () => <Media>{image}{caption}</Media>)
     .add('Video', () => (
         <Media>
             <Player src="https://player.vimeo.com/video/141111236" />

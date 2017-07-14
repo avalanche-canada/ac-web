@@ -12,19 +12,19 @@ function mapProperties({ tag, fullScreen, playPause }) {
 }
 
 Gallery.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object),
 }
 
-export default function Gallery({ content }) {
-    if (content.length === 1) {
-        const [gallery] = content
+export default function Gallery({ value }) {
+    if (value.length === 1) {
+        const [gallery] = value
 
         return <CloudinaryGallery {...mapProperties(gallery)} />
     }
 
     return (
         <TabSet theme={LOOSE}>
-            {content.map(({ name, ...gallery }, index) => {
+            {value.map(({ name, ...gallery }, index) => {
                 return (
                     <Tab key={index} title={name}>
                         <CloudinaryGallery {...mapProperties(gallery)} />

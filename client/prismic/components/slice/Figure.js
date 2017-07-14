@@ -2,28 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from '~/components/media'
 import { List, Term, Definition } from '~/components/description'
-import { InnerHTML } from '~/components/misc'
+import { StructuredText } from '~/prismic/components/base'
+import Image from '../base/Image'
 
 Figure.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object),
 }
 
-export default function Figure({ content = [] }) {
-    const [{ figure, credit, caption }] = content
-
-    const cap = (
-        <Caption>
-            <InnerHTML>{caption}</InnerHTML>
-            <List>
-                <Term>Credit</Term>
-                <Definition><InnerHTML>{credit}</InnerHTML></Definition>
-            </List>
-        </Caption>
-    )
+export default function Figure({ value }) {
+    const [{ figure, credit, caption }] = value
 
     return (
-        <Media caption={cap}>
-            <img src={figure.url} />
+        <Media>
+            <Image {...figure.main} />
+            <Caption>
+                <StructuredText value={caption} />
+                <List>
+                    <Term>Credit</Term>
+                    <Definition>
+                        <StructuredText value={credit} />
+                    </Definition>
+                </List>
+            </Caption>
         </Media>
     )
 }

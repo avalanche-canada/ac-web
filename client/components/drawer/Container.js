@@ -59,6 +59,10 @@ function createDrawer({ id, children, ...drawer }) {
         key: id,
         data: {
             ...drawer,
+            home: {
+                to: this.root.to,
+                label: this.root.label,
+            },
             onClose: handleClose.bind(this, id),
             onClick: handleCloseChildren.bind(this, id),
             children: children.map(item => ({

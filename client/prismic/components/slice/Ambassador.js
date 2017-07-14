@@ -1,69 +1,56 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Base from '~/components/ambassador'
-import { InnerHTML } from '~/components/misc'
+import Ambassador from '~/components/ambassador'
+import { StructuredText } from '~/prismic/components/base'
 
-function computeSocials({ twitter, facebook, instagram, website }) {
-    return [twitter, facebook, instagram, website].filter(Boolean)
-}
-
-Ambassador.propTypes = {
-    fullName: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
-    avatarCredit: PropTypes.string,
-    avatarCaption: PropTypes.string,
-    biography: PropTypes.string.isRequired,
-    banner: PropTypes.string.isRequired,
-    bannerCredit: PropTypes.string,
-    bannerCaption: PropTypes.string,
-}
-
-function Ambassador({
+// TODO: Could potentially move that transformer to module prismic/parsers
+function transformer({
     avatar,
     avatarCredit,
     avatarCaption,
-    biography,
     banner,
     bannerCredit,
     bannerCaption,
-    fullName,
-    // FIXME: Risky!
-    ...socials
+    twitter,
+    facebook,
+    instagram,
+    website,
+    ...rest
 }) {
-    const ambassador = {
-        fullName,
+    const socials = [twitter, facebook, instagram, website]
+
+    return {
+        ...rest,
         avatar: {
-            src: avatar.url,
+            src: avatar.main.url,
             credit: avatarCredit,
             caption: avatarCaption,
         },
         banner: {
-            src: banner.url,
+            src: banner.main.url,
             credit: bannerCredit,
             caption: bannerCaption,
         },
-        socials: computeSocials(socials),
+        socials: socials.filter(Boolean).map(social => social.value.url),
     }
+}
 
+function createAmbassador({ biography, ...props }, index) {
     return (
-        <Base {...ambassador}>
-            <InnerHTML>
-                {biography}
-            </InnerHTML>
-        </Base>
+        <Ambassador key={index} {...props}>
+            <StructuredText value={biography} />
+        </Ambassador>
     )
 }
 
 AmbassadorSet.propTypes = {
-    content: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object),
 }
 
-export default function AmbassadorSet({ content = [] }) {
+export default function AmbassadorSet({ value }) {
     return (
         <div>
-            {content.map((ambassador, index) => (
-                <Ambassador key={index} {...ambassador} />
-            ))}
+            {value.map(transformer).map(createAmbassador)}
         </div>
     )
 }

@@ -2,8 +2,8 @@ const phantomcss = require('phantomcss')
 const casper = require('casper').create({
     viewportSize: {
         width: 1024,
-        height: 768
-    }
+        height: 768,
+    },
 })
 
 const paths = [
@@ -23,6 +23,7 @@ const paths = [
     'forecasts',
     'forecasts/purcells',
     'weather/forecast/2017-02-01',
+    'weather/forecast/2016-02-01',
     'weather/hourly-precipitation',
     'weather/12h-precipitation',
     'weather/temperatures',
@@ -77,7 +78,7 @@ const paths = [
 const hosts = [
     'http://avalanche.ca/',
     'http://avalanche-canada-dev.elasticbeanstalk.com/',
-    'http://localhost:9000/'
+    'http://localhost:9000/',
 ]
 
 phantomcss.init({
@@ -95,8 +96,7 @@ function take(name, index) {
 const host = hosts[2]
 
 paths.forEach(function(path, index) {
-    casper.thenOpen(host + path)
-          .wait(10000, take.bind(null, path, index))
+    casper.thenOpen(host + path).wait(10000, take.bind(null, path, index))
 })
 
 casper.then(function() {
