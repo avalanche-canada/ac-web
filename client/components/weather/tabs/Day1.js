@@ -8,6 +8,9 @@ Day1.propTypes = {
     children: PropTypes.node,
 }
 
+// When weather systems images are created.
+// See, SHA = fec1f74c0aa5bc2d65796bc678199cb1701f1fef
+
 export default function Day1({ date, children }) {
     return (
         <Section title={<DateElement value={date} />}>
