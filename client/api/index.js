@@ -4,7 +4,7 @@ import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
-import { baseURL, astBaseUrl, weatherBaseUrl } from '~/api/config.json'
+import { baseURL, astBaseUrl, weatherBaseUrl, root } from './config.json'
 import {
     transformSubmissionForPost,
     transformProviderResponse,
@@ -128,26 +128,30 @@ function forecastEndpoint({ name, date }) {
 }
 
 const ENDPOINTS = new Map([
+    [Schemas.Provider, 'providers'],
+    [Schemas.Course, 'courses'],
+    [Schemas.MountainConditionsReport, 'mcr'],
     [Schemas.Forecast, forecastEndpoint],
     [
         Schemas.MountainInformationNetworkSubmission,
         (params = {}) =>
             (params.id ? `min/submissions/${params.id}` : 'min/submissions'),
     ],
-    [Schemas.Provider, 'providers'],
-    [Schemas.Course, 'courses'],
     [
         Schemas.WeatherStation,
         (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
     ],
-    [
-        Schemas.MountainConditionsReport,
-        () => `${document.location.origin}/static/mcr.json`,
-    ],
 ])
 
-const api = Axios.create({
+const Api = Axios.create({
     baseURL,
+    validateStatus(status) {
+        return (status >= 200 && status < 300) || status === 404
+    },
+})
+
+const UmbrellaApi = Axios.create({
+    baseURL: root,
     validateStatus(status) {
         return (status >= 200 && status < 300) || status === 404
     },
@@ -166,8 +170,8 @@ export function fetch(schema, params) {
     if (schema === Schemas.WeatherStation && params && params.id) {
         // It is a single Schemas.WeatherStation request
         return Promise.all([
-            api.get(endpoint, config),
-            api.get(`${endpoint}measurements/`, config),
+            Api.get(endpoint, config),
+            Api.get(`${endpoint}measurements/`, config),
         ]).then(function merge([{ data: station }, { data: measurements }]) {
             return {
                 data: {
@@ -178,7 +182,11 @@ export function fetch(schema, params) {
         })
     }
 
-    return api.get(endpoint, config)
+    if (schema === Schemas.MountainConditionsReport) {
+        return UmbrellaApi.get(endpoint, config)
+    }
+
+    return Api.get(endpoint, config)
 }
 
 function extractData(response) {
@@ -193,11 +201,11 @@ export function post(schema, data) {
         endpoint = endpoint()
     }
 
-    return api.post(endpoint, data, config).then(extractData)
+    return Api.post(endpoint, data, config).then(extractData)
 }
 
 export function fetchFeaturesMetadata() {
-    return api.get('features/metadata').then(extractData)
+    return Api.get('features/metadata').then(extractData)
 }
 
 const Static = Axios.create({

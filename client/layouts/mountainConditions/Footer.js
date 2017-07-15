@@ -6,7 +6,7 @@ import styles from './MountainConditionsReport.css'
 import logo from '~/styles/mcr-logo.jpg'
 
 function Footer() {
-    const url = 'https://mountainconditions.com/'
+    const url = 'https://mountainconditions.com'
 
     return (
         <div styleName="Footer">

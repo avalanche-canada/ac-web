@@ -15,7 +15,6 @@ import Submitter from './Submitter'
 import { InnerHTML, DateElement, Status } from '~/components/misc'
 import CSSModules from 'react-css-modules'
 import styles from './MountainConditionsReport.css'
-import IMAGE from '~/styles/mcr-logo.jpg'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -41,9 +40,9 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
         permalink,
         body,
         title,
-        // image,
+        images,
         user,
-        date,
+        dates,
     } = report.toJSON()
 
     return (
@@ -52,18 +51,18 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
                 <Navbar style={NAVBAR_STYLE}>
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>
-                <Banner url={IMAGE} />
+                <Banner url={images[0]} />
                 <Header subject={subject}>
                     <h1>
                         <a href={permalink} target="_blank">
                             {title}
                         </a>
                     </h1>
-                    <DateElement className={styles.Date} value={date} />
+                    <DateElement className={styles.Date} value={dates[0]} />
                     <InnerHTML styleName="Location">
                         {locationDescription}
                     </InnerHTML>
-                    <Submitter {...user} certification="ACMG" />
+                    <Submitter {...user} />
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />
