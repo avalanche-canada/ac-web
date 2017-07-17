@@ -17,62 +17,62 @@ import * as Schemas from '~/api/schemas'
 import turf from '@turf/helpers'
 import explode from '@turf/explode'
 
+function transformSubmission(submission) {
+    submission = submission.toJSON()
+    const [lat, lng] = submission.latlng
+    const types = submission.obs.map(ob => ob.obtype)
+
+    return turf.point([lng, lat], {
+        id: Schemas.MountainInformationNetworkSubmission.getId(submission),
+        icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
+        title: submission.title,
+        types,
+    })
+}
+
+function transformStation(station) {
+    station = station.toJSON()
+
+    return turf.point([station.longitude, station.latitude], {
+        title: station.name,
+        id: Schemas.WeatherStation.getId(station),
+    })
+}
+
+function transformTruckReport(report) {
+    const { uid, data: { position, headline } } = report
+
+    return turf.point([position.longitude, position.latitude], {
+        title: headline,
+        id: uid,
+    })
+}
+
+function fatalAccident(accident) {
+    const { uid, data: { location, title } } = accident
+
+    return turf.point([location.longitude, location.latitude], {
+        title,
+        id: uid,
+    })
+}
+
+function transformSpecialInformation(special) {
+    const { uid, data: { headline, locations } } = special
+
+    return turf.multiPoint(locations.map(parseLocation), {
+        title: headline,
+        id: uid,
+    })
+}
+
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
-    [
-        Layers.MOUNTAIN_INFORMATION_NETWORK,
-        submission => {
-            submission = submission.toJSON()
-            const [lat, lng] = submission.latlng
-            const types = submission.obs.map(ob => ob.obtype)
-
-            return turf.point([lng, lat], {
-                id: Schemas.MountainInformationNetworkSubmission.getId(
-                    submission
-                ),
-                icon: types.includes('incident')
-                    ? 'min-pin-with-incident'
-                    : 'min-pin',
-                title: submission.title,
-                types,
-            })
-        },
-    ],
-    [
-        Layers.WEATHER_STATION,
-        station => {
-            station = station.toJSON()
-
-            return turf.point([station.longitude, station.latitude], {
-                title: station.name,
-                id: Schemas.WeatherStation.getId(station),
-            })
-        },
-    ],
-    [
-        Layers.TOYOTA_TRUCK_REPORTS,
-        ({ uid, data: { position, headline } }) =>
-            turf.point([position.longitude, position.latitude], {
-                title: headline,
-                id: uid,
-            }),
-    ],
-    [
-        Layers.FATAL_ACCIDENT,
-        ({ uid, data: { location, title } }) =>
-            turf.point([location.longitude, location.latitude], {
-                title,
-                id: uid,
-            }),
-    ],
-    [
-        Layers.SPECIAL_INFORMATION,
-        ({ uid, data: { headline, locations } }) =>
-            turf.multiPoint(locations.map(parseLocation), {
-                title: headline,
-                id: uid,
-            }),
-    ],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, transformSubmission],
+    [Layers.WEATHER_STATION, transformStation],
+    [Layers.TOYOTA_TRUCK_REPORTS, transformTruckReport],
+    [Layers.FATAL_ACCIDENT, fatalAccident],
+    [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
 ])
 
 function getPanelIdFactory(schema) {
@@ -195,6 +195,7 @@ const getToyotaTruckFeatures = createSelector(
     documents =>
         documents
             .toArray()
+            // TODO: Use parse instead of parseForMap
             .map(parseForMap)
             .map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS))
 )
@@ -223,6 +224,7 @@ const getFatalAccidentFeatures = createSelector(
     documents =>
         documents
             .toArray()
+            // TODO: Use parse instead of parseForMap
             .map(parseForMap)
             .map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
 )
