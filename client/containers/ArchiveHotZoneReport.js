@@ -32,7 +32,8 @@ Component.propTypes = {
     ).isRequired,
 }
 
-// TODO: Combine with the Forecast component. This should not be that different component.
+// TODO: Combine with the Forecast component.
+// This should not be that different component.
 
 function Component({
     name,
