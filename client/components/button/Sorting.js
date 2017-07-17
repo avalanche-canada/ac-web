@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { ExpandLess, ExpandMore, Remove } from '../icons'
+import { ExpandLess, ExpandMore, Remove } from '~/components/icons'
 import Button from './Button'
 import { SUBTILE } from './kinds'
 import noop from 'lodash/noop'

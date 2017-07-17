@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Email } from '../icons'
+import { Email } from '~/components/icons'
 import { Mailto } from '../misc'
 import SocialItem from './SocialItem'
 
