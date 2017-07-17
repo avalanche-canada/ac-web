@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Ambassador from '~/components/ambassador'
 import { StructuredText } from '~/prismic/components/base'
+import { Br } from '~/components/misc'
 
-// TODO: Could potentially move that transformer to module prismic/parsers
-function transformer({
+function transform({
     avatar,
     avatarCredit,
     avatarCaption,
@@ -15,12 +15,9 @@ function transformer({
     facebook,
     instagram,
     website,
-    ...rest
+    ...ambassador
 }) {
-    const socials = [twitter, facebook, instagram, website]
-
-    return {
-        ...rest,
+    return Object.assign(ambassador, {
         avatar: {
             src: avatar.main.url,
             credit: avatarCredit,
@@ -31,26 +28,33 @@ function transformer({
             credit: bannerCredit,
             caption: bannerCaption,
         },
-        socials: socials.filter(Boolean).map(social => social.value.url),
-    }
+        socials: [twitter, facebook, instagram, website]
+            .filter(Boolean)
+            .map(social => social.value.url),
+    })
 }
 
-function createAmbassador({ biography, ...props }, index) {
+function createAmbassador(ambassador, index, ambassadors) {
+    const { biography, ...props } = transform(ambassador)
+
     return (
-        <Ambassador key={index} {...props}>
-            <StructuredText value={biography} />
-        </Ambassador>
+        <div key={index}>
+            <Ambassador {...props}>
+                <StructuredText value={biography} />
+            </Ambassador>
+            {index + 1 < ambassadors.length && <Br />}
+        </div>
     )
 }
 
 AmbassadorSet.propTypes = {
-    value: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-export default function AmbassadorSet({ value }) {
+export default function AmbassadorSet({ value = [] }) {
     return (
         <div>
-            {value.map(transformer).map(createAmbassador)}
+            {value.map(createAmbassador)}
         </div>
     )
 }

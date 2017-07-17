@@ -5,10 +5,7 @@ import { compose, withProps } from 'recompose'
 import { withHash } from '~/compose'
 import kebabCase from 'lodash/kebabCase'
 import { SocialSet, SocialItem } from '~/components/social'
-import { Br } from '~/components/misc'
 import styles from './Ambassador.css'
-
-// TODO: Remove Br from here and create an AmbassadorSet component
 
 const ImagePropType = PropTypes.shape({
     src: PropTypes.string.isRequired,
@@ -56,7 +53,6 @@ function Ambassador({
                 </div>
             </div>
             <img styleName="Banner" src={banner.src} />
-            <Br />
         </section>
     )
 }
