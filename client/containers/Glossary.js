@@ -131,13 +131,10 @@ export default class Container extends Component {
                 <Content>
                     <Main>
                         <Headline>
-                            This is the starting place for help on the AvCan bulletins. The
-                            {' '}
-                            <b>Avalanche Glossary</b>
-                            {' '}
-                            includes the standard set of terms that are used as a guideline for public avalanche bulletins production by the AvCan. If you can't understand a term in one of the AvCan bulletins, this is where to look first. The Avalanche Glossary definitions were written by
-                            {' '}
-                            <a href="http://www.schulich.ucalgary.ca/enci/BruceJamieson">
+                            This is the starting place for help on the AvCan bulletins. The Avalanche Glossary includes the standard set of terms that are used as a guideline for public avalanche bulletins production by the AvCan. If you can't understand a term in one of the AvCan bulletins, this is where to look first. The Avalanche Glossary definitions were written by
+                            <a
+                                target="_blank"
+                                href="http://www.schulich.ucalgary.ca/enci/BruceJamieson">
                                 Bruce Jamieson
                             </a>
                             , one of the CAA professional members.
