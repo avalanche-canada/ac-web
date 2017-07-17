@@ -7,7 +7,7 @@ import { getDocumentsOfType } from '~/getters/prismic'
 import { getLayers, getLayerFilter } from '~/getters/drawers'
 import { ActiveLayerIds, LayerIds } from '~/constants/map/layers'
 import { parseLocation } from '~/prismic/parsers'
-import { parse, parseForMap } from '~/prismic'
+import { parse } from '~/prismic'
 import {
     isSpecialInformationValid,
     isHotZoneReportValid,
@@ -40,7 +40,7 @@ function transformStation(station) {
 }
 
 function transformTruckReport(report) {
-    const { uid, data: { position, headline } } = report
+    const { uid, data: { position, headline } } = parse(report)
 
     return turf.point([position.longitude, position.latitude], {
         title: headline,
@@ -48,8 +48,8 @@ function transformTruckReport(report) {
     })
 }
 
-function fatalAccident(accident) {
-    const { uid, data: { location, title } } = accident
+function transformFatalAccident(accident) {
+    const { uid, data: { location, title } } = parse(accident)
 
     return turf.point([location.longitude, location.latitude], {
         title,
@@ -71,7 +71,7 @@ const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, transformSubmission],
     [Layers.WEATHER_STATION, transformStation],
     [Layers.TOYOTA_TRUCK_REPORTS, transformTruckReport],
-    [Layers.FATAL_ACCIDENT, fatalAccident],
+    [Layers.FATAL_ACCIDENT, transformFatalAccident],
     [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
 ])
 
@@ -182,22 +182,14 @@ const getSubmissionFeatures = createSelector(
 // Create weather station source
 const getWeatherStationFeatures = createSelector(
     createGetEntitiesForSchema(Schemas.WeatherStation),
-    stations => {
-        const transformer = TRANSFORMERS.get(Layers.WEATHER_STATION)
-
-        return stations.map(transformer).toArray()
-    }
+    stations => stations.map(TRANSFORMERS.get(Layers.WEATHER_STATION)).toArray()
 )
 
 // Create Toyota Truck Report Features
 const getToyotaTruckFeatures = createSelector(
     state => getDocumentsOfType(state, 'toyota-truck-report'),
     documents =>
-        documents
-            .toArray()
-            // TODO: Use parse instead of parseForMap
-            .map(parseForMap)
-            .map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS))
+        documents.map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS)).toArray()
 )
 
 function pointReducer(points, feature) {
@@ -212,7 +204,7 @@ const getSpecialInformationFeatures = createSelector(
     documents =>
         documents
             .toArray()
-            .map(parseForMap)
+            .map(special => parse(special))
             .filter(isSpecialInformationValid)
             .map(TRANSFORMERS.get(Layers.SPECIAL_INFORMATION))
             .reduce(pointReducer, [])
@@ -222,11 +214,7 @@ const getSpecialInformationFeatures = createSelector(
 const getFatalAccidentFeatures = createSelector(
     state => getDocumentsOfType(state, 'fatal-accident'),
     documents =>
-        documents
-            .toArray()
-            // TODO: Use parse instead of parseForMap
-            .map(parseForMap)
-            .map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
+        documents.toArray().map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
 )
 
 // All map sources
