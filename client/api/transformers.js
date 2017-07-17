@@ -190,12 +190,14 @@ export function transformMountainConditionsReports(data) {
 }
 
 function transformMountainConditionsReport({
+    id,
     location_desc,
     dates,
     user = {},
     ...report
 }) {
     return Object.assign(report, {
+        id: String(id),
         user: {
             ...user,
             certification: user.certs,

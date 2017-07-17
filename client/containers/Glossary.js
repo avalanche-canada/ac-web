@@ -83,7 +83,7 @@ export default class Container extends Component {
                 isLoading: true,
             },
             () => {
-                fetchStaticResource('glossary.json').then(
+                fetchStaticResource('glossary').then(
                     response =>
                         this.setState({
                             ...STATE,

@@ -2,7 +2,7 @@ import { fetchStaticResource } from '~/api'
 
 let METADATA = null
 let PROMISE = null
-const URL = 'weather-loops-metadata.json'
+const URL = 'weather-loops-metadata'
 
 function handleMetadataFulfilled({ data }) {
     METADATA = data
