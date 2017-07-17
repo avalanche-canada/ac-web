@@ -214,8 +214,3 @@ export function fetchFeaturesMetadata() {
 export function fetchStaticResource(resource) {
     return api.get(`${staticBaseURL}/${resource}`)
 }
-
-// TODO: Remove that function
-export function fetchSponsors() {
-    return fetchStaticResource('sponsors')
-}
