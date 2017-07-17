@@ -24,8 +24,6 @@ const LAYERS = [
     Layers.FORECASTS,
 ]
 
-// TODO: Should be a link on the feature's properties...
-
 function createPathnameFactory({ key }) {
     return id => ({
         pathname: `/map/${key}/${id}`,
