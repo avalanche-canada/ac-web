@@ -40,9 +40,9 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
         permalink,
         body,
         title,
-        images,
+        images = [],
         user,
-        dates,
+        dates = [],
     } = report.toJSON()
 
     return (
@@ -66,7 +66,9 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />
-                    <InnerHTML>{body}</InnerHTML>
+                    <InnerHTML>
+                        {body}
+                    </InnerHTML>
                     <Footer />
                 </Content>
             </Body>

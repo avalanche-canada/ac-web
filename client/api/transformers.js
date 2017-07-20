@@ -41,7 +41,8 @@ const ObservationTransformers = new Map([
 
             return {
                 comment: quick.comment || QUICK_REPORT.comment,
-                avalancheConditions: quick.avalancheConditions ||
+                avalancheConditions:
+                    quick.avalancheConditions ||
                     QUICK_REPORT.avalancheConditions,
                 ridingConditions: Object.keys(
                     QUICK_REPORT.ridingConditions
@@ -73,7 +74,8 @@ const ObservationTransformers = new Map([
                 numberPartlyBuriedAbleBreathing = 0,
                 numberCaughtOnly = 0,
                 numberPeopleInjured = 0,
-            } = incident.groupDetails || {}
+            } =
+                incident.groupDetails || {}
             const numberInvolved =
                 numberFullyBuried +
                 numberPartlyBuriedImpairedBreathing +
