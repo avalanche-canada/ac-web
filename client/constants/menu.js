@@ -372,16 +372,6 @@ export const AvalancheCanada = {
                             label: 'Wayne Flann',
                             to: '/ambassadors#wayne-flann',
                         },
-                        {
-                            id: String(id++),
-                            label: 'Piper Noble',
-                            to: '/ambassadors#piper-noble',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Keegan Capel',
-                            to: '/ambassadors#keegan-capel',
-                        },
                     ],
                 },
                 {
