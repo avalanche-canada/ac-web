@@ -5,7 +5,7 @@ import { createSelector, createStructuredSelector } from 'reselect'
 import { ItemSet, Item } from '~/components/sponsor'
 import { load } from '~/actions/prismic'
 import { getDocumentsOfType } from '~/getters/prismic'
-import { parseForMap, Predicates } from '~/prismic'
+import { parse, Predicates } from '~/prismic'
 
 function pluck({ sponsor }) {
     return sponsor.value.document.id
@@ -14,10 +14,12 @@ function pluck({ sponsor }) {
 const getSponsors = createSelector(
     state => getDocumentsOfType(state, 'sponsor'),
     (state, { value }) => value.map(pluck),
-    (docs, ids) => ids.map(id => docs.get(id)).filter(Boolean).map(parseForMap)
+    (docs, ids) => ids.map(id => docs.get(id)).filter(Boolean)
 )
 
-function createSponsor({ data: { logo, name, url } }, index) {
+function createSponsor(sponsor, index) {
+    const { logo, name, url } = parse(sponsor).data
+
     return <Item key={index} title={name} src={logo} url={url} />
 }
 

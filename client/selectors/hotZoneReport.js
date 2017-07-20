@@ -21,7 +21,7 @@ function getHotZoneReportDocuments(state) {
 
 const getParsedHotZoneReports = createSelector(
     getHotZoneReportDocuments,
-    documents => documents.map(document => parse(document)).map(transform)
+    documents => documents.map(document => transform(parse(document)))
 )
 
 const ASPECTS = {

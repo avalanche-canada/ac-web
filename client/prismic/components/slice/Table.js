@@ -10,7 +10,7 @@ import { FilterSet, FilterEntry } from '~/components/filter'
 import Pagination from '~/components/pagination'
 import { Status, Br } from '~/components/misc'
 import { DropdownFromOptions as Dropdown } from '~/components/controls'
-import { parseForMap } from '~/prismic'
+import { parse } from '~/prismic'
 import get from 'lodash/get'
 import { prismic } from '~/containers/connectors'
 import { getStatusFactory } from '~/selectors/prismic/utils'
@@ -44,7 +44,7 @@ const getColumns = createSelector(getContent, columns =>
 
 const getTransformedRows = createSelector(
     (state, props) => getDocumentsOfType(state, getDocumentType(props)),
-    documents => documents.toList().map(parseForMap).map(row => row.data)
+    documents => documents.toList().map(document => parse(document).data)
 )
 
 const getFilters = createSelector(

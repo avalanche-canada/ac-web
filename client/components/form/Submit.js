@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Form.css'
-import { ChevronRight } from '../icons'
+import { ChevronRight } from '~/components/icons'
 import Button from '../button'
 
 Submit.propTypes = {

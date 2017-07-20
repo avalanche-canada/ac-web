@@ -330,17 +330,20 @@ export const AvalancheCanada = {
                     children: [
                         {
                             id: String(id++),
-                            to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
+                            to:
+                                'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
                             label: 'Individual',
                         },
                         {
                             id: String(id++),
-                            to: 'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp?&constTypeFlag=org',
+                            to:
+                                'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp?&constTypeFlag=org',
                             label: 'Organization',
                         },
                         {
                             id: String(id++),
-                            to: 'https://membership.avalanche.ca/np/clients/cac/login.jsp',
+                            to:
+                                'https://membership.avalanche.ca/np/clients/cac/login.jsp',
                             label: 'Already a Member?',
                         },
                     ],
@@ -368,21 +371,6 @@ export const AvalancheCanada = {
                             id: String(id++),
                             label: 'Wayne Flann',
                             to: '/ambassadors#wayne-flann',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Brodie Evans',
-                            to: '/ambassadors#brodie-evans',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Piper Noble',
-                            to: '/ambassadors#piper-noble',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Keegan Capel',
-                            to: '/ambassadors#keegan-capel',
                         },
                     ],
                 },

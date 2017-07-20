@@ -16,8 +16,7 @@ const DAYS = '7'
 const TYPES = []
 
 PageLayout.propTypes = {
-    // TODO: Look at React Router fora prop types
-    location: PropTypes.object,
+    location: PropTypes.object.isRequired,
     handleDaysChange: PropTypes.func.isRequired,
     handleTypesChange: PropTypes.func.isRequired,
     handleSortingChange: PropTypes.func.isRequired,

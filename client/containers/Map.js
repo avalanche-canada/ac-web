@@ -4,7 +4,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import withRouter from 'react-router/lib/withRouter'
 import mapbox from '~/services/mapbox/map'
-import { Map, Marker } from '~/components/map'
+import { Map as Base, Marker } from '~/components/map'
 import { loadData, loadMapStyle } from '~/actions/map'
 import mapStateToProps from '~/selectors/map'
 import { LayerIds, allLayerIds } from '~/constants/map/layers'
@@ -13,7 +13,47 @@ import { near } from '~/utils/geojson'
 import * as Schemas from '~/api/schemas'
 import * as Layers from '~/constants/drawers'
 import noop from 'lodash/noop'
-import nearest from '@turf/nearest'
+
+const LAYERS = [
+    Layers.SPECIAL_INFORMATION,
+    Layers.FATAL_ACCIDENT,
+    Layers.MOUNTAIN_INFORMATION_NETWORK,
+    Layers.WEATHER_STATION,
+    Layers.TOYOTA_TRUCK_REPORTS,
+    Layers.HOT_ZONE_REPORTS,
+    Layers.FORECASTS,
+]
+
+function createPathnameFactory({ key }) {
+    return id => ({
+        pathname: `/map/${key}/${id}`,
+    })
+}
+
+function createPanelFactory(key) {
+    if (typeof key === 'string') {
+        return id => ({
+            query: {
+                panel: `${key}/${id}`,
+            },
+        })
+    }
+
+    return createPanelFactory(key.key)
+}
+
+const LOCATION_CREATORS = new Map([
+    [Layers.SPECIAL_INFORMATION, createPanelFactory('special-information')],
+    [Layers.FATAL_ACCIDENT, createPanelFactory('fatal-accident')],
+    [
+        Layers.MOUNTAIN_INFORMATION_NETWORK,
+        createPanelFactory(Schemas.MountainInformationNetworkSubmission),
+    ],
+    [Layers.WEATHER_STATION, createPanelFactory(Schemas.WeatherStation)],
+    [Layers.TOYOTA_TRUCK_REPORTS, createPanelFactory('toyota-truck-reports')],
+    [Layers.HOT_ZONE_REPORTS, createPathnameFactory(Schemas.HotZoneReport)],
+    [Layers.FORECASTS, createPathnameFactory(Schemas.Forecast)],
+])
 
 const CLUSTER_BOUNDS_OPTIONS = {
     padding: 75,
@@ -76,214 +116,54 @@ class Container extends Component {
             this.lastMouseMoveEvent = event
         }
     }
-    handleClick = event => {
+    handleClick = ({ point }) => {
         if (!this.map) {
             return
         }
 
-        const { point } = event
-        let features = null
-
-        // TODO: Find a way, so everytime I add a layer, I do not have to touch that method
-
-        // Special Information
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.SPECIAL_INFORMATION),
-        })
-
-        if (features.length > 0) {
-            let [feature] = features
-
-            if (feature.properties.cluster) {
-                const { data } = this.map
-                    .getSource(feature.layer.source)
-                    .serialize()
-
-                feature = nearest(feature, data)
-            }
-
-            const panel = `special-information/${feature.properties.id}`
-
-            return push(
-                {
-                    query: {
-                        panel,
-                    },
-                },
-                this.props
-            )
-        }
-
-        // Fatal accident
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.FATAL_ACCIDENT),
-        })
-
-        if (features.length > 0) {
-            let [feature] = features
-
-            const panel = `fatal-accident/${feature.properties.id}`
-
-            return push(
-                {
-                    query: {
-                        panel,
-                    },
-                },
-                this.props
-            )
-        }
-
-        // Handle Mountain Information Network layers
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.MOUNTAIN_INFORMATION_NETWORK),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            if (feature.properties.cluster) {
-                const { point_count } = feature.properties
-                const { data } = this.map
-                    .getSource(Layers.MOUNTAIN_INFORMATION_NETWORK)
-                    .serialize()
-                const submissions = near(feature, data, point_count)
-                const coordinates = submissions.features.map(
-                    feature => feature.geometry.coordinates
-                )
-                const longitudes = new Set(coordinates.map(c => c[0]))
-                const latitudes = new Set(coordinates.map(c => c[1]))
-
-                if (longitudes.size === 1 && latitudes.size === 1) {
-                    this.showMINPopup(submissions.features)
-                } else {
-                    this.fitBounds(submissions, CLUSTER_BOUNDS_OPTIONS)
-                }
-
-                return
-            } else {
-                if (
-                    features.filter(feature => !feature.properties.cluster)
-                        .length > 1
-                ) {
-                    this.showMINPopup(features)
-                } else {
-                    this.transitionToMIN(feature.properties.id)
-                }
-
-                return
-            }
-        }
-
-        // Weather Stations
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.WEATHER_STATION),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            if (feature.properties.cluster) {
-                const { point_count } = feature.properties
-                const { data } = this.map
-                    .getSource(Layers.WEATHER_STATION)
-                    .serialize()
-                const stations = near(feature, data, point_count)
-
-                return this.fitBounds(stations, CLUSTER_BOUNDS_OPTIONS)
-            } else {
-                const { key } = Schemas.WeatherStation
-
-                return this.push(
-                    {
-                        query: {
-                            panel: `${key}/${feature.properties.id}`,
-                        },
-                    },
-                    this.props
-                )
-            }
-        }
-
-        // Mountain Conditions Reports
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.MOUNTAIN_CONDITIONS_REPORTS),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            if (feature.properties.cluster) {
-                const { point_count } = feature.properties
-                const { data } = this.map
-                    .getSource(Layers.MOUNTAIN_CONDITIONS_REPORTS)
-                    .serialize()
-                const reports = near(feature, data, point_count)
-
-                return this.fitBounds(reports, CLUSTER_BOUNDS_OPTIONS)
-            } else {
-                const { key } = Schemas.MountainConditionsReport
-
-                return this.push(
-                    {
-                        query: {
-                            panel: `${key}/${feature.properties.id}`,
-                        },
-                    },
-                    this.props
-                )
-            }
-        }
-
-        // Toyota truck reports
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.TOYOTA_TRUCK_REPORTS),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-            const panel = `toyota-truck-reports/${feature.properties.id}`
-
-            return push(
-                {
-                    query: {
-                        panel,
-                    },
-                },
-                this.props
-            )
-        }
-
-        // Handle Hot Zone Report layers
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.HOT_ZONE_REPORTS),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            return this.push(
-                {
-                    pathname: `/map/hot-zone-reports/${feature.properties.id}`,
-                },
-                this.props
-            )
-        }
-
-        // Handle Forecast layers
-        features = this.map.queryRenderedFeatures(point, {
-            layers: LayerIds.get(Layers.FORECASTS),
-        })
-
-        if (features.length > 0) {
-            const [feature] = features
-
-            return this.push({
-                pathname: `/map/forecasts/${feature.properties.id}`,
+        for (const layer of LAYERS) {
+            const features = this.map.queryRenderedFeatures(point, {
+                layers: LayerIds.get(layer),
             })
+
+            if (features.length > 0) {
+                const [feature] = features
+
+                if (feature.properties.cluster) {
+                    const { point_count } = feature.properties
+                    const { data } = this.map
+                        .getSource(feature.layer.source)
+                        .serialize()
+                    const cluster = near(feature, data, point_count)
+                    const coordinates = cluster.features.map(
+                        feature => feature.geometry.coordinates
+                    )
+                    const longitudes = new Set(coordinates.map(c => c[0]))
+                    const latitudes = new Set(coordinates.map(c => c[1]))
+
+                    if (longitudes.size === 1 && latitudes.size === 1) {
+                        this.showClusterPopup(layer, cluster.features)
+                    } else {
+                        this.fitBounds(cluster, CLUSTER_BOUNDS_OPTIONS)
+                    }
+
+                    return
+                } else {
+                    if (
+                        features.filter(feature => !feature.properties.cluster)
+                            .length > 1
+                    ) {
+                        this.showClusterPopup(layer, features)
+                    } else {
+                        this.transitionToFeature(layer, feature.properties.id)
+                    }
+
+                    return
+                }
+            }
         }
     }
-    showMINPopup(features) {
+    showClusterPopup(layer, features) {
         const [{ geometry: { coordinates } }] = features
         const html = document.createElement('div')
         const p = document.createElement('p')
@@ -298,7 +178,7 @@ class Container extends Component {
             a.href = '#'
             a.textContent = title
             a.onclick = () => {
-                this.transitionToMIN(id)
+                this.transitionToFeature(layer, id)
             }
 
             li.appendChild(a)
@@ -311,15 +191,11 @@ class Container extends Component {
 
         this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
     }
-    transitionToMIN(id) {
-        return this.push(
-            {
-                query: {
-                    panel: `${Schemas.MountainInformationNetworkSubmission.key}/${id}`,
-                },
-            },
-            this.props
-        )
+    transitionToFeature(layer, id) {
+        const createLocation = LOCATION_CREATORS.get(layer)
+        const location = createLocation(id)
+
+        return this.push(location, this.props)
     }
     push(location) {
         this.isInternalNavigation = true
@@ -399,9 +275,9 @@ class Container extends Component {
         }
 
         return (
-            <Map style={style} {...events}>
+            <Base style={style} {...events}>
                 {this.map && markers.map(this.renderMarker)}
-            </Map>
+            </Base>
         )
     }
 }

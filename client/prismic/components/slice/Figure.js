@@ -11,19 +11,22 @@ Figure.propTypes = {
 
 export default function Figure({ value }) {
     const [{ figure, credit, caption }] = value
+    const hasCaptionContent = caption || credit
 
     return (
         <Media>
             <Image {...figure.main} />
-            <Caption>
-                <StructuredText value={caption} />
-                <List>
-                    <Term>Credit</Term>
-                    <Definition>
-                        <StructuredText value={credit} />
-                    </Definition>
-                </List>
-            </Caption>
+            {hasCaptionContent &&
+                <Caption>
+                    {caption && <StructuredText value={caption} />}
+                    {credit &&
+                        <List>
+                            <Term>Credit</Term>
+                            <Definition>
+                                <StructuredText value={credit} />
+                            </Definition>
+                        </List>}
+                </Caption>}
         </Media>
     )
 }

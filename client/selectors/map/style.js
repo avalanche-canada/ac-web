@@ -7,7 +7,7 @@ import { getDocumentsOfType } from '~/getters/prismic'
 import { getLayers, getLayerFilter } from '~/getters/drawers'
 import { ActiveLayerIds, LayerIds } from '~/constants/map/layers'
 import { parseLocation } from '~/prismic/parsers'
-import { parse, parseForMap } from '~/prismic'
+import { parse } from '~/prismic'
 import {
     isSpecialInformationValid,
     isHotZoneReportValid,
@@ -17,73 +17,62 @@ import * as Schemas from '~/api/schemas'
 import turf from '@turf/helpers'
 import explode from '@turf/explode'
 
+function transformSubmission(submission) {
+    submission = submission.toJSON()
+    const [lat, lng] = submission.latlng
+    const types = submission.obs.map(ob => ob.obtype)
+
+    return turf.point([lng, lat], {
+        id: Schemas.MountainInformationNetworkSubmission.getId(submission),
+        icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
+        title: submission.title,
+        types,
+    })
+}
+
+function transformStation(station) {
+    station = station.toJSON()
+
+    return turf.point([station.longitude, station.latitude], {
+        title: station.name,
+        id: Schemas.WeatherStation.getId(station),
+    })
+}
+
+function transformTruckReport(report) {
+    const { uid, data: { position, headline } } = parse(report)
+
+    return turf.point([position.longitude, position.latitude], {
+        title: headline,
+        id: uid,
+    })
+}
+
+function transformFatalAccident(accident) {
+    const { uid, data: { location, title } } = parse(accident)
+
+    return turf.point([location.longitude, location.latitude], {
+        title,
+        id: uid,
+    })
+}
+
+function transformSpecialInformation(special) {
+    const { uid, data: { headline, locations } } = special
+
+    return turf.multiPoint(locations.map(parseLocation), {
+        title: headline,
+        id: uid,
+    })
+}
+
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
-    [
-        Layers.MOUNTAIN_INFORMATION_NETWORK,
-        submission => {
-            submission = submission.toJSON()
-            const [lat, lng] = submission.latlng
-            const types = submission.obs.map(ob => ob.obtype)
-
-            return turf.point([lng, lat], {
-                id: Schemas.MountainInformationNetworkSubmission.getId(
-                    submission
-                ),
-                icon: types.includes('incident')
-                    ? 'min-pin-with-incident'
-                    : 'min-pin',
-                title: submission.title,
-                types,
-            })
-        },
-    ],
-    [
-        Layers.WEATHER_STATION,
-        station => {
-            station = station.toJSON()
-
-            return turf.point([station.longitude, station.latitude], {
-                title: station.name,
-                id: Schemas.WeatherStation.getId(station),
-            })
-        },
-    ],
-    [
-        Layers.TOYOTA_TRUCK_REPORTS,
-        ({ uid, data: { position, headline } }) =>
-            turf.point([position.longitude, position.latitude], {
-                title: headline,
-                id: uid,
-            }),
-    ],
-    [
-        Layers.MOUNTAIN_CONDITIONS_REPORTS,
-        report => {
-            const { id, location, title } = report.toJSON()
-
-            return turf.point(location, {
-                title,
-                id,
-            })
-        },
-    ],
-    [
-        Layers.FATAL_ACCIDENT,
-        ({ uid, data: { location, title } }) =>
-            turf.point([location.longitude, location.latitude], {
-                title,
-                id: uid,
-            }),
-    ],
-    [
-        Layers.SPECIAL_INFORMATION,
-        ({ uid, data: { headline, locations } }) =>
-            turf.multiPoint(locations.map(parseLocation), {
-                title: headline,
-                id: uid,
-            }),
-    ],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, transformSubmission],
+    [Layers.WEATHER_STATION, transformStation],
+    [Layers.TOYOTA_TRUCK_REPORTS, transformTruckReport],
+    [Layers.FATAL_ACCIDENT, transformFatalAccident],
+    [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
 ])
 
 function getPanelIdFactory(schema) {
@@ -193,11 +182,7 @@ const getSubmissionFeatures = createSelector(
 // Create weather station source
 const getWeatherStationFeatures = createSelector(
     createGetEntitiesForSchema(Schemas.WeatherStation),
-    stations => {
-        const transformer = TRANSFORMERS.get(Layers.WEATHER_STATION)
-
-        return stations.map(transformer).toArray()
-    }
+    stations => stations.map(TRANSFORMERS.get(Layers.WEATHER_STATION)).toArray()
 )
 
 // Create mountain conditions reports source
@@ -214,10 +199,7 @@ const getMountainConditionsReports = createSelector(
 const getToyotaTruckFeatures = createSelector(
     state => getDocumentsOfType(state, 'toyota-truck-report'),
     documents =>
-        documents
-            .toArray()
-            .map(parseForMap)
-            .map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS))
+        documents.map(TRANSFORMERS.get(Layers.TOYOTA_TRUCK_REPORTS)).toArray()
 )
 
 function pointReducer(points, feature) {
@@ -232,7 +214,7 @@ const getSpecialInformationFeatures = createSelector(
     documents =>
         documents
             .toArray()
-            .map(parseForMap)
+            .map(special => parse(special))
             .filter(isSpecialInformationValid)
             .map(TRANSFORMERS.get(Layers.SPECIAL_INFORMATION))
             .reduce(pointReducer, [])
@@ -242,10 +224,7 @@ const getSpecialInformationFeatures = createSelector(
 const getFatalAccidentFeatures = createSelector(
     state => getDocumentsOfType(state, 'fatal-accident'),
     documents =>
-        documents
-            .toArray()
-            .map(parseForMap)
-            .map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
+        documents.toArray().map(TRANSFORMERS.get(Layers.FATAL_ACCIDENT))
 )
 
 // All map sources

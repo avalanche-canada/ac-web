@@ -7,7 +7,7 @@ import {
     branch,
     renderComponent,
 } from 'recompose'
-import { withRouter } from 'react-router'
+import withRouter from 'react-router/lib/withRouter'
 import * as Components from '~/components/tutorial'
 import { generic, tutorial } from '~/containers/connectors'
 import { parse } from '~/prismic'

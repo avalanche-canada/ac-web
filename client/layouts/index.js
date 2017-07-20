@@ -8,7 +8,6 @@ export Root from './Root'
 export Weather from './Weather'
 export Tutorial from './Tutorial'
 
-// TODO: Not required once moved to redux-little-router
 export const NewsFeed = feed('news', 'Recent news')
 export const BlogFeed = feed('blog', 'Blogs')
 export const EventFeed = feed('event', 'Events')

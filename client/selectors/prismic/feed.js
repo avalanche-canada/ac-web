@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 import { getDocumentsOfType, getResult } from '~/getters/prismic'
 import months, { options as monthOptions } from './months'
-import { parseForMap } from '~/prismic'
+import { parse } from '~/prismic'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
@@ -80,7 +80,10 @@ function getFeed(state, { type }) {
 }
 
 const getTransformedFeed = createSelector(getFeed, getType, (feed, type) => {
-    const sorted = feed.map(parseForMap).toList().sort(SORTERS.get(type))
+    const sorted = feed
+        .map(item => parse(item))
+        .toList()
+        .sort(SORTERS.get(type))
 
     if (sorted.isEmpty()) {
         return sorted
@@ -171,7 +174,7 @@ export const getSidebar = createStructuredSelector({
         (documents, type, filter) => {
             return documents
                 .filter(filter)
-                .map(parseForMap)
+                .map(document => parse(document))
                 .sort(SORTERS.get(type))
         }
     ),

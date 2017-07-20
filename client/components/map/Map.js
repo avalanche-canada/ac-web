@@ -4,6 +4,7 @@ import mapbox, { styles } from '~/services/mapbox/map'
 import { Canadian } from '~/constants/map/bounds'
 import { captureException } from '~/services/raven'
 import noop from 'lodash/noop'
+import './Map.css'
 
 function toJSON(style) {
     if (!style) {

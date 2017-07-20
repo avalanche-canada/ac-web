@@ -13,6 +13,12 @@ export const Result = Immutable.Record({
     props: {},
 })
 
+Object.assign(Result, {
+    create(props = {}) {
+        return new Result(props)
+    },
+})
+
 Object.assign(Result.prototype, {
     start(props = {}) {
         return this.merge({
@@ -45,4 +51,4 @@ Object.assign(Result.prototype, {
     },
 })
 
-export default new Result()
+export default Result.create()

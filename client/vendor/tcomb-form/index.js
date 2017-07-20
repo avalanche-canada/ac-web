@@ -40,29 +40,6 @@ Object.assign(t.Date, {
     },
 })
 
-// Time
-// TODO: Remove after looking that it is not used anymore
-export const Time = t.irreducible('Time', value => typeof value === 'string')
-
-class TimePickerFactory extends t.form.Textbox {
-    getTemplate() {
-        return templates.textbox.clone({
-            renderTextbox(locals) {
-                return <Picker template={pickers.time} {...locals} />
-            },
-        })
-    }
-}
-Object.assign(Time, {
-    getTcombFormFactory() {
-        if (isTypeSupported('time')) {
-            return t.form.Textbox
-        }
-
-        return TimePickerFactory
-    },
-})
-
 // Date and Time
 export const DateTime = t.irreducible(
     'DateTime',

@@ -44,7 +44,7 @@ function results(
 
     switch (type) {
         case `${meta.type}_PENDING`:
-            return state.updateIn(path, (result = new Result()) =>
+            return state.updateIn(path, (result = Result.create()) =>
                 result.start({
                     props: meta.params,
                 })
