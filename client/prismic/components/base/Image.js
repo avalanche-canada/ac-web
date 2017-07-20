@@ -4,6 +4,7 @@ import CSSModules from 'react-css-modules'
 import { Credit } from '~/components/markup'
 import { ElementResize } from '~/components/misc'
 import styles from './Image.css'
+import WebLink from './WebLink'
 
 const MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT = 200
 
@@ -16,12 +17,19 @@ Image.propTypes = {
         width: PropTypes.number.isRequired,
     }),
     label: PropTypes.string,
+    linkTo: PropTypes.object,
 }
 
-function Image({ url, alt, copyright, label }) {
+function Image({ url, alt, copyright, label, linkTo }) {
+    const image = <img src={url} alt={alt} />
+
     return (
         <figure className={label} styleName="Figure">
-            <img src={url} alt={alt} />
+            {typeof linkTo === 'object'
+                ? <WebLink {...linkTo}>
+                      {image}
+                  </WebLink>
+                : image}
             {copyright &&
                 <footer>
                     <ElementResize>
