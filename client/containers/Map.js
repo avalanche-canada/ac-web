@@ -18,6 +18,7 @@ const LAYERS = [
     Layers.SPECIAL_INFORMATION,
     Layers.FATAL_ACCIDENT,
     Layers.MOUNTAIN_INFORMATION_NETWORK,
+    Layers.MOUNTAIN_CONDITIONS_REPORTS,
     Layers.WEATHER_STATION,
     Layers.TOYOTA_TRUCK_REPORTS,
     Layers.HOT_ZONE_REPORTS,
@@ -48,6 +49,10 @@ const LOCATION_CREATORS = new Map([
     [
         Layers.MOUNTAIN_INFORMATION_NETWORK,
         createPanelFactory(Schemas.MountainInformationNetworkSubmission),
+    ],
+    [
+        Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        createPanelFactory(Schemas.MountainConditionsReport),
     ],
     [Layers.WEATHER_STATION, createPanelFactory(Schemas.WeatherStation)],
     [Layers.TOYOTA_TRUCK_REPORTS, createPanelFactory('toyota-truck-reports')],

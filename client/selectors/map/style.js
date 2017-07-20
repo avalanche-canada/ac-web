@@ -66,6 +66,12 @@ function transformSpecialInformation(special) {
     })
 }
 
+function transformMountainConditionsReport(report) {
+    const { location, title, id } = report.toJSON()
+
+    return turf.point(location, { title, id })
+}
+
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, transformSubmission],
@@ -73,6 +79,7 @@ const TRANSFORMERS = new Map([
     [Layers.TOYOTA_TRUCK_REPORTS, transformTruckReport],
     [Layers.FATAL_ACCIDENT, transformFatalAccident],
     [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS, transformMountainConditionsReport],
 ])
 
 function getPanelIdFactory(schema) {
@@ -188,10 +195,10 @@ const getWeatherStationFeatures = createSelector(
 // Create mountain conditions reports source
 const getMountainConditionsReports = createSelector(
     createGetEntitiesForSchema(Schemas.MountainConditionsReport),
-    reportd => {
+    reports => {
         const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_CONDITIONS_REPORTS)
 
-        return reportd.map(transformer).toArray()
+        return reports.map(transformer).toArray()
     }
 )
 
