@@ -74,10 +74,26 @@ import ReactGA from '~/services/analytics'
 import postRedirects from './postRedirects'
 import { getForecastRegionExternalUrl } from '~/getters/api'
 import * as Schemas from '~/api/schemas'
+import Alert, { WARNING } from '~/components/alert'
 
 export default function computeRoutes(store) {
     const { dispatch, getState } = store
     let external = null
+
+    function WeatherLoopIssue() {
+        return (
+            <Alert type={WARNING}>
+                <h2>
+                    We are currently experiencing some issues with weather loops
+                    generation!
+                </h2>
+                <h3>
+                    This product will be available as soon as we solve the
+                    issue.<br />Thanks for your patience!
+                </h3>
+            </Alert>
+        )
+    }
 
     function handleActiveSponsor({ routes, params }) {
         const [route] = routes
@@ -274,9 +290,9 @@ export default function computeRoutes(store) {
             onEnter={handleRootRouteEnter}
             onChange={handleRootRouteChange}>
             {/* EMERGENCY REDIRECTS */}
-            {postRedirects.map((redirect, index) => (
+            {postRedirects.map((redirect, index) =>
                 <Redirect key={index} {...redirect} />
-            ))}
+            )}
 
             {/* AUTHORIZATION */}
             <Route
@@ -415,21 +431,18 @@ export default function computeRoutes(store) {
                 <Route path="forecast(/:date)" component={WeatherForecast} />
                 <Route
                     path="hourly-precipitation"
-                    component={articles.HourlyPrecipitation}
+                    component={WeatherLoopIssue}
                 />
-                <Route
-                    path="12h-precipitation"
-                    component={articles.Precipitation12h}
-                />
-                <Route path="temperatures" component={articles.Temperatures} />
-                <Route path="winds" component={articles.Winds} />
-                <Route path="surface-maps" component={articles.SurfaceMaps} />
-                <Route path="other-maps" component={articles.OtherMaps} />
-                <Route path="radar" component={articles.Radar} />
-                <Route path="satellite" component={articles.Satellite} />
+                <Route path="12h-precipitation" component={WeatherLoopIssue} />
+                <Route path="temperatures" component={WeatherLoopIssue} />
+                <Route path="winds" component={WeatherLoopIssue} />
+                <Route path="surface-maps" component={WeatherLoopIssue} />
+                <Route path="other-maps" component={WeatherLoopIssue} />
+                <Route path="radar" component={WeatherLoopIssue} />
+                <Route path="satellite" component={WeatherLoopIssue} />
                 <Route
                     path="actual-temperatures"
-                    component={articles.ActualTemperatures}
+                    component={WeatherLoopIssue}
                 />
                 <Route path="warnings" component={articles.Warnings} />
             </Route>
