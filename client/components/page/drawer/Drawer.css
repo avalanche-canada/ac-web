@@ -129,9 +129,22 @@
     border: none;
     width: 100%;
     height: 250px;
-    object-fit: none;
     background-color: var(--gray-lightest);
     background-image: url('styles/AvalanchePath.svg');
     background-repeat: no-repeat;
     background-position: center;
+
+    & > img {
+        object-fit: cover;
+        height: 100%;
+    }
+
+    & > :global(.image-gallery) {
+        & :global(.image-gallery-content:not(.fullscreen)) {
+            & :global(.image-gallery-image img) {
+                height: 250px;
+                object-fit: cover;
+            }
+        }
+    }
 }

@@ -204,7 +204,7 @@ function transformMountainConditionsReport({
             ...user,
             certification: user.certs,
         },
-        dates: dates.map(date => parseDate(date)),
+        dates: dates.map(date => parseDate(date)).sort(),
         locationDescription: location_desc,
     })
 }
