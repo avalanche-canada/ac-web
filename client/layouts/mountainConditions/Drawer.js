@@ -11,6 +11,7 @@ import {
     Banner,
     Content,
 } from '~/components/page/drawer'
+import { LocateAsClass } from '~/components/button/Locate'
 import Footer from './Footer'
 import Submitter from './Submitter'
 import { InnerHTML, DateElement, Status } from '~/components/misc'
@@ -33,38 +34,42 @@ Drawer.propTypes = {
     report: PropTypes.object.isRequired,
     status: PropTypes.object.isRequired,
     onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
-const BANNER_IMAGE_STYLE = {
-    objectFit: 'cover',
-    height: '100%',
-}
-
-function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
+function Drawer({
+    report = new Immutable.Map(),
+    onCloseClick,
+    onLocateClick,
+    status,
+}) {
     const subject = "Arc'Teryx Mountain Conditions Report"
+    const { isLoaded } = status
     const {
         locationDescription,
         permalink,
         body,
         title,
-        images = [],
+        images,
         user,
-        dates = [],
+        dates,
     } = report.toJSON()
 
     let banner
 
-    if (images.length === 0) {
-        banner = <img src={IMAGE} style={BANNER_IMAGE_STYLE} />
-    } else {
-        banner = (
-            <Gallery
-                items={images.map(original => ({ original }))}
-                showThumbnails={false}
-                showBullets
-                showPlayButton={false}
-            />
-        )
+    if (isLoaded) {
+        if (images.length === 0) {
+            banner = <img src={IMAGE} />
+        } else {
+            banner = (
+                <Gallery
+                    items={images.map(original => ({ original }))}
+                    showThumbnails={false}
+                    showBullets
+                    showPlayButton={false}
+                />
+            )
+        }
     }
 
     return (
@@ -77,23 +82,38 @@ function Drawer({ report = new Immutable.Map(), onCloseClick, status }) {
                     {banner}
                 </Banner>
                 <Header subject={subject}>
-                    <h1>
-                        <a href={permalink} target="_blank">
-                            {title}
-                        </a>
-                    </h1>
-                    <DateElement className={styles.Date} value={dates[0]} />
-                    <InnerHTML styleName="Location">
-                        {locationDescription}
-                    </InnerHTML>
-                    <Submitter {...user} />
+                    {title &&
+                        <h1>
+                            <a href={permalink} target="_blank">
+                                {title}
+                            </a>
+                            <LocateAsClass onClick={onLocateClick} />
+                        </h1>}
+                    {Array.isArray(dates) &&
+                        <div styleName="Date">
+                            {dates.reduce((elements, date) => {
+                                if (elements.length > 0) {
+                                    elements.push(' to ')
+                                }
+
+                                elements.push(<DateElement value={date} />)
+
+                                return elements
+                            }, [])}
+                        </div>}
+                    {locationDescription &&
+                        <InnerHTML styleName="Location">
+                            {locationDescription}
+                        </InnerHTML>}
+                    {user && <Submitter {...user} />}
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />
-                    <InnerHTML>
-                        {body}
-                    </InnerHTML>
-                    <Footer />
+                    {body &&
+                        <InnerHTML>
+                            {body}
+                        </InnerHTML>}
+                    {isLoaded && <Footer />}
                 </Content>
             </Body>
         </Container>

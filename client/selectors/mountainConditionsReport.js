@@ -8,8 +8,8 @@ function getReport(state, props) {
     return getEntityForSchema(state, Schema, props.id)
 }
 
-function getReportStatus(state, { id }) {
-    return getResultsSet(state, Schema, { id }).asStatus()
+function getReportStatus(state) {
+    return getResultsSet(state, Schema).asStatus()
 }
 
 const getComputeFlyTo = createSelector(
@@ -23,9 +23,6 @@ const getComputeFlyTo = createSelector(
 )
 
 export default createStructuredSelector({
-    id(state, props) {
-        return props.id
-    },
     report: getReport,
     status: getReportStatus,
     computeFlyTo: getComputeFlyTo,

@@ -36,7 +36,6 @@
 
 .Location {
     composes: HeaderComponent;
-
 }
 
 .Submitter {
@@ -45,8 +44,8 @@
     margin: 1em 0;
     line-height: 0;
 
-
     & img {
         width: 35px;
+        height: 35px;
     }
 }
