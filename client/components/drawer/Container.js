@@ -3,15 +3,14 @@ import PropTypes from 'prop-types'
 import {
     compose,
     setPropTypes,
-    setDisplayName,
     withState,
     renameProp,
     lifecycle,
     onlyUpdateForKeys,
 } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import { Motion, spring, presets } from 'react-motion'
 import CSSModules from 'react-css-modules'
-import { history } from '~/router'
 import Cabinet from './Cabinet'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
@@ -106,13 +105,12 @@ function Animated({ show = false, onClose = noop, root, node, setNode }) {
 
     return (
         <Motion {...{ defaultStyle, style, onRest }}>
-            {value => (
+            {value =>
                 <StylishedContainer
                     style={getStyle(value)}
                     onClick={onClick}
                     drawers={drawers}
-                />
-            )}
+                />}
         </Motion>
     )
 }
@@ -134,18 +132,21 @@ function Container({ style = null, drawers, onClick }) {
 const StylishedContainer = CSSModules(Container, styles)
 
 export default compose(
-    setDisplayName('Container'),
-    renameProp('menu', 'root'),
-    withState('node', 'setNode'),
-    onlyUpdateForKeys(['show', 'node']),
+    withRouter,
     setPropTypes({
         menu: PropTypes.object,
         show: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
+        location: PropTypes.object.isRequired,
     }),
     lifecycle({
-        componentDidMount() {
-            history.listenBefore(this.props.onClose)
+        componentWillReceiveProps({ location }) {
+            if (location !== this.props.location) {
+                this.props.onClose()
+            }
         },
-    })
+    }),
+    renameProp('menu', 'root'),
+    withState('node', 'setNode'),
+    onlyUpdateForKeys(['show', 'node'])
 )(Animated)

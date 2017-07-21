@@ -1,6 +1,6 @@
 import React from 'react'
 import { neverUpdate } from '~/compose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import {
     Sidebar,
     Contact,

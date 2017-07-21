@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
-import Link from 'react-router/lib/Link'
+import { Link } from 'react-router-dom'
 import styles from './Drawer.css'
 import { neverUpdate } from '~/compose'
 

@@ -1,5 +1,5 @@
 import { Record, Map } from 'immutable'
-import { handleActions } from 'redux-actions'
+import { handleActions, handleAction } from 'redux-actions'
 import { combineReducers } from 'redux'
 import { LocalStorage } from '~/services/storage'
 import * as DrawersActions from '~/actions/drawers'
@@ -125,7 +125,6 @@ const MENU = new Map({
 const MAX_DRAWER_WIDTH = 500
 
 const Drawer = Record({
-    open: false,
     width: MAX_DRAWER_WIDTH,
 })
 
@@ -162,14 +161,6 @@ function handleActiveFeaturesChanged(menu, { payload }) {
     })
 }
 
-function openDrawer(drawer) {
-    return drawer.set('open', true)
-}
-
-function closeDrawer(drawer) {
-    return drawer.set('open', false)
-}
-
 function setDrawerWidth(drawer, { payload }) {
     return drawer.set('width', Math.min(payload, MAX_DRAWER_WIDTH))
 }
@@ -199,20 +190,14 @@ export default combineReducers({
         },
         MENU
     ),
-    primary: handleActions(
-        {
-            [DrawersActions.OPEN_PRIMARY_DRAWER]: openDrawer,
-            [DrawersActions.CLOSE_PRIMARY_DRAWER]: closeDrawer,
-            [MapActions.MAP_WIDTH_CHANGED]: setDrawerWidth,
-        },
+    primary: handleAction(
+        MapActions.MAP_WIDTH_CHANGED,
+        setDrawerWidth,
         new Drawer()
     ),
-    secondary: handleActions(
-        {
-            [DrawersActions.OPEN_SECONDARY_DRAWER]: openDrawer,
-            [DrawersActions.CLOSE_SECONDARY_DRAWER]: closeDrawer,
-            [MapActions.MAP_WIDTH_CHANGED]: setDrawerWidth,
-        },
+    secondary: handleAction(
+        MapActions.MAP_WIDTH_CHANGED,
+        setDrawerWidth,
         new Drawer()
     ),
 })

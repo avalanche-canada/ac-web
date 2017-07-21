@@ -75,18 +75,20 @@ const TRANSFORMERS = new Map([
     [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
 ])
 
-function getPanelIdFactory(schema) {
-    return (state, props) => {
-        const { panel } = props.location.query
-
-        if (!panel) {
-            return null
-        }
-
-        const [key, id] = panel.split('/')
-
-        return schema.key === key ? id : undefined
-    }
+// TODO: Rework that
+function getPanelIdFactory() {
+    return () => undefined
+    // return (state, props) => {
+    //     const { panel } = props.location.query
+    //
+    //     if (!panel) {
+    //         return null
+    //     }
+    //
+    //     const [key, id] = panel.split('/')
+    //
+    //     return schema.key === key ? id : undefined
+    // }
 }
 
 // Create submissions source

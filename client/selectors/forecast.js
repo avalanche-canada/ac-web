@@ -48,9 +48,8 @@ function trim(text) {
 
 // TODO: Have the server to provide it as object instead of a string
 function asConfidenceObject(confidence) {
-    const [level, comment] = typeof confidence === 'string'
-        ? confidence.split(' - ')
-        : []
+    const [level, comment] =
+        typeof confidence === 'string' ? confidence.split(' - ') : []
 
     return {
         level,
@@ -101,12 +100,12 @@ function getForecasts(state) {
     return getEntitiesForSchema(state, Forecast)
 }
 
-function getForecastRegion(state, { params }) {
-    return getEntityForSchema(state, ForecastRegion, params.name)
+function getForecastRegion(state, { name }) {
+    return getEntityForSchema(state, ForecastRegion, name)
 }
 
-function getForecastResultSet(state, { params }) {
-    return getResultsSet(state, Forecast, params)
+function getForecastResultSet(state, { name, date }) {
+    return getResultsSet(state, Forecast, { name, date })
 }
 
 const getForecast = createSelector(
@@ -177,8 +176,8 @@ export default createSelector(
             title: forecast.bulletinTitle || forecast.name || region.name,
             forecast: showForecast ? forecast : null,
             link,
-            isUnderSpecialWarning: highlight &&
-                highlight[camelCase(region)] === 'Yes',
+            isUnderSpecialWarning:
+                highlight && highlight[camelCase(region)] === 'Yes',
             specialWarningLink: highlight && highlight.link,
             specialWarningContent: highlight && highlight.description,
         })

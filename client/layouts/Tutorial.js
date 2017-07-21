@@ -4,6 +4,8 @@ import { Home, Tree, Tutorial, AtesExercise } from '~/containers/Tutorial'
 import CSSModules from 'react-css-modules'
 import styles from './Tutorial.css'
 
+// TODO: Rework Tutorial layout with Route
+
 const ATES_EXERCISE_SPLAT =
     'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withProps, withHandlers } from 'recompose'
-import Link from 'react-router/lib/Link'
-import withRouter from 'react-router/lib/withRouter'
+import { compose, withProps, withHandlers, lifecycle } from 'recompose'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Page, Content, Header, Main } from '~/components/page'
 import Forecast from '~/components/forecast'
 import { Muted, Error, DateElement } from '~/components/misc'
@@ -20,8 +20,10 @@ import {
 import { archiveForecast } from '~/containers/connectors'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
-import Url from 'url'
+import isBefore from 'date-fns/is_before'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import startOfToday from 'date-fns/start_of_today'
+import Url from 'url'
 
 // TODO: Move these to constants with appropriate function
 const PARKS_CANADA = 'parks-canada'
@@ -46,7 +48,6 @@ function getWarningText(region) {
     }
 }
 
-// TODO: Move these to constants
 const PARKS = 'parks'
 const LINK = 'link'
 
@@ -156,6 +157,15 @@ function Component({
 export default compose(
     withRouter,
     archiveForecast,
+    lifecycle({
+        componentDidMount() {
+            const { name, date } = this.props.match.params
+
+            if (date && isBefore(parse(date, 'YYYY-MM-DD'), startOfToday())) {
+                this.props.history.replace(`/forecasts/${name}`)
+            }
+        },
+    }),
     withHandlers({
         onNameChange: props => name => {
             props.onParamsChange({
@@ -172,9 +182,10 @@ export default compose(
     }),
     withProps(({ params, regions }) => ({
         ...params,
-        date: typeof params.date === 'string'
-            ? parse(params.date, 'YYYY-MM-DD')
-            : null,
+        date:
+            typeof params.date === 'string'
+                ? parse(params.date, 'YYYY-MM-DD')
+                : null,
         regionOptions: new Map(
             regions
                 .filter(

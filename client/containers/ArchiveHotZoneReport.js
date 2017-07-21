@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps, withHandlers } from 'recompose'
-import withRouter from 'react-router/lib/withRouter'
+import {withRouter} from 'react-router-dom'
 import { Page, Content, Header, Main } from '~/components/page'
 import HotZoneReport, {
     Metadata as HotZoneReportMetadata,

@@ -122,36 +122,37 @@ export default function computeRoutes(store) {
         replace(state || '/')
     }
 
-    function requireAuth({ location }, replace, callback) {
-        const state = getState()
+    // function requireAuth({ location }, replace, callback) {
+    //     const state = getState()
+    //
+    //     if (getIsAuthenticated(state)) {
+    //         callback()
+    //     } else {
+    //         const auth = AuthService.create()
+    //
+    //         auth.login().catch(() => {
+    //             replace('/')
+    //             callback()
+    //         })
+    //     }
+    // }
 
-        if (getIsAuthenticated(state)) {
-            callback()
-        } else {
-            const auth = AuthService.create()
+    // TODO: Should be done in the container
+    // function handleEventFeedEnter({ location }, replace) {
+    //     const { query } = location
+    //
+    //     if (typeof query.timeline === 'string') {
+    //         return
+    //     }
+    //
+    //     query.timeline = 'upcoming'
+    //
+    //     replace({ ...location, query })
+    // }
 
-            auth.login().catch(() => {
-                replace('/')
-                callback()
-            })
-        }
-    }
-
-    function handleEventFeedEnter({ location }, replace) {
-        const { query } = location
-
-        if (typeof query.timeline === 'string') {
-            return
-        }
-
-        query.timeline = 'upcoming'
-
-        replace({ ...location, query })
-    }
-
-    function handleMapForecastRouteEnter({ params }) {
-        handleExternalForecast(params.name)
-    }
+    // function handleMapForecastRouteEnter({ params }) {
+    //     handleExternalForecast(params.name)
+    // }
 
     function handleMapForecastRouteChange(prev, { params: { name } }) {
         if (name !== prev.params.name) {
@@ -186,86 +187,86 @@ export default function computeRoutes(store) {
         }
     }
 
-    function handleArchiveForecastRouteEnter(
-        { params: { name, date } },
-        replace
-    ) {
-        if (
-            !date ||
-            isBefore(parse(date, 'YYYY-MM-DD'), startOfDay(new Date()))
-        ) {
-            return
-        }
+    // function handleArchiveForecastRouteEnter(
+    //     { params: { name, date } },
+    //     replace
+    // ) {
+    //     if (
+    //         !date ||
+    //         isBefore(parse(date, 'YYYY-MM-DD'), startOfDay(new Date()))
+    //     ) {
+    //         return
+    //     }
+    //
+    //     replace(`/forecasts/${name}`)
+    // }
 
-        replace(`/forecasts/${name}`)
-    }
-
-    function handleNotFoundRouteEnter({ location }) {
-        ReactGA.event({
-            category: 'Navigation',
-            action: 'Not Found',
-            label: location.pathname,
-            nonInteraction: true,
-        })
-    }
+    // function handleNotFoundRouteEnter({ location }) {
+    //     ReactGA.event({
+    //         category: 'Navigation',
+    //         action: 'Not Found',
+    //         label: location.pathname,
+    //         nonInteraction: true,
+    //     })
+    // }
 
     /* eslint-disable no-unused-vars */
-    function redirect({ location }, replace, callback) {
-        // Need callback, it is not working if not specified
-        // See react-router documentation for more details
-        // Leave the application and goes to nginx to do appropriate redirect
-        document.location = location.pathname
-    }
+    // function redirect({ location }, replace, callback) {
+    //     // Need callback, it is not working if not specified
+    //     // See react-router documentation for more details
+    //     // Leave the application and goes to nginx to do appropriate redirect
+    //     document.location = location.pathname
+    // }
     /* eslint-disable no-unused-vars */
 
-    const RouteSchemaMapping = new Map([
-        [Schemas.Forecast.key, Schemas.ForecastRegion.key],
-        [Schemas.HotZoneReport.key, Schemas.HotZone.key],
-    ])
+    // const RouteSchemaMapping = new Map([
+    //     [Schemas.Forecast.key, Schemas.ForecastRegion.key],
+    //     [Schemas.HotZoneReport.key, Schemas.HotZone.key],
+    // ])
 
-    function createActiveFeatures({ routes, params, location }) {
-        const features = []
-        const { panel } = location.query
-        const { name } = params
+    // function createActiveFeatures({ routes, params, location }) {
+    //     const features = []
+    //     const { panel } = location.query
+    //     const { name } = params
+    //
+    //     if (panel) {
+    //         features.push(panel.split('/'))
+    //     }
+    //
+    //     if (name) {
+    //         Array.from(RouteSchemaMapping).forEach(([from, to]) => {
+    //             if (routes.find(route => route.path === from)) {
+    //                 features.push([to, name])
+    //             }
+    //         })
+    //     }
+    //
+    //     return new Map(features)
+    // }
 
-        if (panel) {
-            features.push(panel.split('/'))
-        }
-
-        if (name) {
-            Array.from(RouteSchemaMapping).forEach(([from, to]) => {
-                if (routes.find(route => route.path === from)) {
-                    features.push([to, name])
-                }
-            })
-        }
-
-        return new Map(features)
+    // function updateDrawersState({ routes, location, params }) {
+    //     if (routes.length > 2 && !handleExternalForecast(params.name)) {
+    //         // dispatch(DrawersActions.openPrimaryDrawer())
+    //     } else {
+    //         // dispatch(DrawersActions.closePrimaryDrawer())
+    //     }
+    //
+    //     if (location.query.panel) {
+    //         // dispatch(DrawersActions.openSecondaryDrawer())
+    //     } else {
+    //         // dispatch(DrawersActions.closeSecondaryDrawer())
+    //     }
     }
 
-    function updateDrawersState({ routes, location, params }) {
-        if (routes.length > 2 && !handleExternalForecast(params.name)) {
-            dispatch(DrawersActions.openPrimaryDrawer())
-        } else {
-            dispatch(DrawersActions.closePrimaryDrawer())
-        }
+    // function handleMapRouteEnter(next) {
+    //     // updateDrawersState(next)
+    //     dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
+    // }
 
-        if (location.query.panel) {
-            dispatch(DrawersActions.openSecondaryDrawer())
-        } else {
-            dispatch(DrawersActions.closeSecondaryDrawer())
-        }
-    }
-
-    function handleMapRouteEnter(next) {
-        updateDrawersState(next)
-        dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
-    }
-
-    function handleMapRouteChange(previous, next) {
-        updateDrawersState(next)
-        dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
-    }
+    // function handleMapRouteChange(previous, next) {
+    //     // updateDrawersState(next)
+    //     dispatch(MapActions.activeFeaturesChanged(createActiveFeatures(next)))
+    // }
 
     return (
         <Route
@@ -274,9 +275,9 @@ export default function computeRoutes(store) {
             onEnter={handleRootRouteEnter}
             onChange={handleRootRouteChange}>
             {/* EMERGENCY REDIRECTS */}
-            {postRedirects.map((redirect, index) => (
+            {/* {postRedirects.map((redirect, index) => (
                 <Redirect key={index} {...redirect} />
-            ))}
+            ))} */}
 
             {/* AUTHORIZATION */}
             <Route
@@ -284,11 +285,11 @@ export default function computeRoutes(store) {
                 onEnter={handleLoginCompleteRouteEnter}
             />
             {/* AVALANCHE CANADA */}
-            <IndexRedirect to="map" />
-            <Route
+            {/* <IndexRedirect to="map" /> */}
+            {/* <Route
                 path="map/ates"
                 components={{ content: Layouts.AtesMap, footer: null }}
-            />
+            /> */}
             <Route
                 path="map"
                 sponsorRef="Forecast"
@@ -311,102 +312,102 @@ export default function computeRoutes(store) {
                     />
                 </Route>
             </Route>
-            <Route
+            {/* <Route
                 path="mountain-information-network"
                 sponsorRef="MIN"
                 component={MountainInformationNetwork}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="mountain-information-network/submit"
                 sponsorRef="MIN"
                 component={MountainInformationNetworkSubmit}
                 onEnter={requireAuth}
-            />
-            <Redirect from="submit" to="mountain-information-network/submit" />
-            <Route
+            /> */}
+            {/* <Redirect from="submit" to="mountain-information-network/submit" /> */}
+            {/* <Route
                 path="mountain-information-network/faq"
                 sponsorRef="MIN"
                 component={MountainInformationNetworkFAQ}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="mountain-information-network/submission-guidelines"
                 sponsorRef="MIN"
                 component={MountainInformationNetworkSubmissionGuidelines}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="mountain-information-network/submissions/:id"
                 sponsorRef="MIN"
                 component={MountainInformationNetworkSubmission}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="mountain-information-network/submissions"
                 sponsorRef="MIN"
                 component={table.Page}
-            />
-            <Route path="about" sponsorRef="About" component={About} />
-            <Route
+            /> */}
+            {/* <Route path="about" sponsorRef="About" component={About} /> */}
+            {/* <Route
                 path="events"
                 sponsorRef="EventIndex"
                 component={Layouts.EventFeed}
                 onEnter={handleEventFeedEnter}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="events/:uid"
                 sponsorRef="EventPage"
                 component={Feed.EventPost}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="news"
                 sponsorRef="NewsIndex"
                 component={Layouts.NewsFeed}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="news/:uid"
                 sponsorRef="NewsPage"
                 component={Feed.NewsPost}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="blogs"
                 sponsorRef="BlogIndex"
                 component={Layouts.BlogFeed}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="blogs/:uid"
                 sponsorRef="BlogPage"
                 component={Feed.BlogPost}
-            />
+            /> */}
             {/* FORECAST */}
             <Route
                 path="forecasts/archives(/:name)(/:date)"
                 component={ArchiveForecast}
                 onEnter={handleArchiveForecastRouteEnter}
             />
-            <Route
+            {/* <Route
                 path="forecasts"
                 sponsorRef="Forecast"
                 component={Forecasts}
-            />
+            /> */}
             <Route
                 path="forecasts/:name(/:date)"
                 sponsorRef="Forecast"
                 component={Forecast}
                 onEnter={handlePageForecastRouteEnter}
             />
-            <Redirect from="forecast/:name" to="forecasts/:name" />
+            {/* <Redirect from="forecast/:name" to="forecasts/:name" /> */}
             {/* HOT ZONE REPORT */}
-            <Route
+            {/* <Route
                 path="hot-zone-reports/archives(/:name)(/:date)"
                 sponsorRef="Forecast"
                 component={ArchiveHotZoneReport}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="hot-zone-reports/:name(/:uid)"
                 sponsorRef="Forecast"
                 component={HotZoneReport}
-            />
+            /> */}
             {/* WEATHER */}
-            <Route path="weather/stations/:id" component={WeatherStation} />
-            <Route path="weather/stations" component={WeatherStationList} />
+            {/* <Route path="weather/stations/:id" component={WeatherStation} /> */}
+            {/* <Route path="weather/stations" component={WeatherStationList} /> */}
             <Route
                 path="weather"
                 sponsorRef="Weather"
@@ -433,10 +434,10 @@ export default function computeRoutes(store) {
                 />
                 <Route path="warnings" component={articles.Warnings} />
             </Route>
-            <Route path="sponsors" component={Sponsors} />
-            <Route path="collaborators" component={Collaborators} />
-            <Route path="ambassadors" component={Ambassadors} />
-            <Redirect from="learn" to="training" />
+            {/* <Route path="sponsors" component={Sponsors} /> */}
+            {/* <Route path="collaborators" component={Collaborators} /> */}
+            {/* <Route path="ambassadors" component={Ambassadors} /> */}
+            {/* <Redirect from="learn" to="training" /> */}
             <Route path="training" sponsorRef="Training">
                 <IndexRoute component={Training} />
                 <Route component={Layouts.Ast}>
@@ -454,53 +455,53 @@ export default function computeRoutes(store) {
                     />
                 </Route>
             </Route>
-            <Route path="faq" component={FAQ} />
-            <Route path="planning" component={Planning} />
-            <Route path="information" component={Information} />
-            <Route path="tech" component={Tech} />
-            <Route
+            {/* <Route path="faq" component={FAQ} /> */}
+            {/* <Route path="planning" component={Planning} /> */}
+            {/* <Route path="information" component={Information} /> */}
+            {/* <Route path="tech" component={Tech} /> */}
+            {/* <Route
                 path="early-season-conditions"
                 component={EarlySeasonConditions}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="instructing-ast"
                 sponsorRef="Training"
                 component={InstructingAst}
-            />
-            <Route path="youth" sponsorRef="Youth" component={Youth} />
-            <Route path="gear" sponsorRef="Gear" component={Gear} />
-            <Route path="sled" component={Sled} />
-            <Route path="tutorial/*" component={Tutorial} />
-            <Redirect from="tutorial" to="tutorial/" />
-            <Route
+            /> */}
+            {/* <Route path="youth" sponsorRef="Youth" component={Youth} /> */}
+            {/* <Route path="gear" sponsorRef="Gear" component={Gear} /> */}
+            {/* <Route path="sled" component={Sled} /> */}
+            {/* <Route path="tutorial/*" component={Tutorial} /> */}
+            {/* <Redirect from="tutorial" to="tutorial/" /> */}
+            {/* <Route
                 path="auction"
                 components={{ content: Auction, footer: null }}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="tutoriel"
                 components={{ content: Tutoriel, footer: null }}
-            />
-            <Route path="terms-of-use" component={TermsOfUse} />
-            <Route path="privacy-policy" component={PrivacyPolicy} />
-            <Route
+            /> */}
+            {/* <Route path="terms-of-use" component={TermsOfUse} /> */}
+            {/* <Route path="privacy-policy" component={PrivacyPolicy} /> */}
+            {/* <Route
                 path="trip-planner"
                 components={{ content: TripPlanner, footer: null }}
-            />
-            <Route
+            /> */}
+            {/* <Route
                 path="incidents"
                 components={{ content: Incidents, footer: null }}
-            />
-            <Route path="membership" component={MembershipOverview} />
-            <Route path="glossary" component={Glossary} />
+            /> */}
+            {/* <Route path="membership" component={MembershipOverview} /> */}
+            {/* <Route path="glossary" component={Glossary} /> */}
             {/* Cherry Bowl */}
-            <Route
+            {/* <Route
                 path="cherry-bowl"
                 component={CherryBowl}
                 onEnter={redirect}
-            />
-            <Redirect from="cherrybowl" to="cherry-bowl" />
+            /> */}
+            {/* <Redirect from="cherrybowl" to="cherry-bowl" /> */}
             {/* REDIRECTS */}
-            <Redirect from="min" to="mountain-information-network" />
+            {/* <Redirect from="min" to="mountain-information-network" />
             <Redirect
                 from="min/submit"
                 to="mountain-information-network/submit"
@@ -525,9 +526,9 @@ export default function computeRoutes(store) {
             <Redirect
                 from="pages/static-page/mountain-information-network-submission-guidelines"
                 to="mountain-information-network/submission-guidelines"
-            />
+            /> */}
             {/* AVALANCHE CANADA FOUNDATION */}
-            <Route path="foundation">
+            {/* <Route path="foundation">
                 <IndexRoute
                     components={{
                         navbar: AvalancheCanadaFoundation,
@@ -614,9 +615,9 @@ export default function computeRoutes(store) {
                         content: Foundation.Donate,
                     }}
                 />
-            </Route>
+            </Route> */}
             {/* PAGE FALLBACK. MORE DETAILS at client/prismic/htmlSerializer.js and some redirects */}
-            <Redirect from="/pages/static-page/sled" to="/sled" />
+            {/* <Redirect from="/pages/static-page/sled" to="/sled" />
             <Redirect from="/pages/static-page/youth" to="/youth" />
             <Redirect from="/pages/static-page/essential-gear" to="/gear" />
             <Redirect from="/pages/static-page/training" to="/training" />
@@ -646,18 +647,18 @@ export default function computeRoutes(store) {
 
             <Redirect from="generic/privacy-policy" to="privacy-policy" />
             <Redirect from="generic/terms-of-use" to="terms-of-use" />
-            <Redirect from="generic/auction" to="auction" />
+            <Redirect from="generic/auction" to="auction" /> */}
 
             {/* fxresources has to go to nginx */}
-            <Route path="fxresources/*" onEnter={redirect} />
+            {/* <Route path="fxresources/*" onEnter={redirect} /> */}
 
-            <Route path="pages/:type/:uid" component={FallbackPage} />
+            {/* <Route path="pages/:type/:uid" component={FallbackPage} /> */}
             {/* FALLBACK */}
-            <Route
+            {/* <Route
                 path="*"
                 components={{ content: NotFound, footer: null }}
                 onEnter={handleNotFoundRouteEnter}
-            />
+            /> */}
         </Route>
     )
 }

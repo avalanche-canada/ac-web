@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { Page, Content, Header, Main, Aside } from '~/components/page'
 import { Sidebar } from '~/components/page/weather'
 import Container from '~/containers/Weather'

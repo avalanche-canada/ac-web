@@ -11,7 +11,7 @@ import {
     mapProps,
 } from 'recompose'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
 import * as EntitiesActions from '~/actions/entities'
 import * as PrismicActions from '~/actions/prismic'
 import { fitBounds, flyTo } from '~/actions/map'
@@ -59,21 +59,28 @@ export const forecast = compose(
         redirectToForecasts: props => payload => {
             if (get(payload, 'value.result.length') === 0) {
                 // TODO: Display a message to let user know about redirection !
-                props.router.push('/forecasts')
+                props.history.push('/forecasts')
             }
         },
     }),
     lifecycle({
         componentDidMount() {
-            const { load, loadAll, params, redirectToForecasts } = this.props
+            const {
+                load,
+                loadAll,
+                name,
+                date,
+                redirectToForecasts,
+            } = this.props
+            const params = { name, date }
 
             load(params).then(redirectToForecasts)
             loadAll()
         },
-        componentWillReceiveProps({ load, params }) {
-            const { name, date } = this.props.params
+        componentWillReceiveProps({ load, name, date }) {
+            if (name !== this.props.name || date !== this.props.date) {
+                const params = { name, date }
 
-            if (name !== params.name || date !== params.date) {
                 load(params).then(this.props.redirectToForecasts)
             }
         },
@@ -99,8 +106,7 @@ export const archiveForecast = compose(
         }
     ),
     withHandlers({
-        onParamsChange: props => params => {
-            const { name, date } = params
+        onParamsChange: props => ({ name, date }) => {
             const paths = ['/forecasts', 'archives']
 
             if (name) {
@@ -111,13 +117,13 @@ export const archiveForecast = compose(
                 paths.push(date)
             }
 
-            props.router.push(paths.join('/'))
+            props.history.push(paths.join('/'))
         },
         loadForecast: props => () => {
-            const { name, date } = props.params
+            const { name, date } = props
 
             if (name && date) {
-                props.load(props.params)
+                props.load({ name, date })
             }
         },
     }),
@@ -126,10 +132,8 @@ export const archiveForecast = compose(
             this.props.loadForecast()
             this.props.loadAll()
         },
-        componentDidUpdate({ params: { name, date } }) {
-            const { params } = this.props
-
-            if (name !== params.name || date !== params.date) {
+        componentDidUpdate({ name, date }) {
+            if (name !== this.props.name || date !== this.props.date) {
                 this.props.loadForecast()
             }
         },
@@ -144,16 +148,14 @@ export const hotZoneReport = compose(
     }),
     lifecycle({
         componentDidMount() {
-            const { load, loadAll, params } = this.props
+            const { load, loadAll, name, uid } = this.props
 
-            load(params)
+            load({ name, uid })
             loadAll()
         },
-        componentWillReceiveProps({ load, params }) {
-            const { name, date } = this.props.params
-
-            if (name !== params.name || date !== params.date) {
-                load(params)
+        componentWillReceiveProps({ load, name, date }) {
+            if (name !== this.props.name || date !== this.props.date) {
+                load({ name, date })
             }
         },
     }),
@@ -186,8 +188,7 @@ export const archiveHotZoneReport = compose(
         }
     ),
     withHandlers({
-        onParamsChange: props => params => {
-            const { name, date } = params
+        onParamsChange: props => ({ name, date }) => {
             const paths = ['/hot-zone-reports', 'archives']
 
             if (name) {
@@ -198,7 +199,7 @@ export const archiveHotZoneReport = compose(
                 paths.push(date)
             }
 
-            props.router.push(paths.join('/'))
+            props.history.push(paths.join('/'))
         },
         loadHotZoneReportsForRegion: props => region => {
             const type = 'hotzone-report'
@@ -295,16 +296,48 @@ export function prismic(mapStateToProps, mapDispatchToProps = {}) {
     )
 }
 
+// TODO: Modify code to use this function instead of prismic
+export function prismicPatch(params, mapStateToProps, mapDispatchToProps = {}) {
+    function computeParams(props) {
+        return typeof params === 'function' ? params(props) : params
+    }
+
+    return compose(
+        connect(mapStateToProps, {
+            load: PrismicActions.load,
+            ...mapDispatchToProps,
+        }),
+        lifecycle({
+            componentDidMount() {
+                this.props.load(computeParams(this.props))
+            },
+            componentWillReceiveProps(props) {
+                this.props.load(computeParams(props))
+            },
+        })
+    )
+}
+
+export function withParams(params) {
+    return withProps(props => {
+        if (typeof params === 'function') {
+            params = params(props)
+        }
+
+        return {
+            params,
+        }
+    })
+}
+
 export const generic = compose(
     setPropTypes({
         type: PropTypes.string,
         uid: PropTypes.string.isRequired,
     }),
-    withProps(props => ({
-        params: {
-            type: props.type || 'generic',
-            uid: props.uid,
-        },
+    withParams(props => ({
+        type: props.type || 'generic',
+        uid: props.uid,
     })),
     prismic(makeGetDocumentAndStatus),
     mapProps(props => {
@@ -332,11 +365,9 @@ export const tutorial = compose(
 )
 
 export const post = compose(
-    withProps(props => ({
-        params: {
-            type: props.type,
-            uid: props.params.uid,
-        },
+    withParams(props => ({
+        type: props.type,
+        uid: props.params.uid,
     })),
     prismic(getPost)
 )
@@ -347,22 +378,18 @@ export const sponsor = compose(
             uid: getSponsorUid,
         })
     ),
-    withProps(props => ({
-        params: {
-            type: 'sponsor',
-            uid: props.uid || null,
-        },
+    withParams(props => ({
+        type: 'sponsor',
+        uid: props.uid || null,
     })),
     prismic(getSponsor)
 )
 
 function panelPrismicConnectorFactory(type, mapStateToProps) {
     return compose(
-        withProps(props => ({
-            params: {
-                type,
-                uid: props.id,
-            },
+        withParams(props => ({
+            type,
+            uid: props.id,
         })),
         prismic(mapStateToProps, {
             flyTo,
@@ -408,12 +435,10 @@ export const feed = compose(
     setPropTypes({
         type: PropTypes.string.isRequired,
     }),
-    withProps(({ type }) => ({
-        params: {
-            type,
-            options: {
-                pageSize: 250,
-            },
+    withParams(({ type }) => ({
+        type,
+        options: {
+            pageSize: 250,
         },
     })),
     prismic(getFeed)

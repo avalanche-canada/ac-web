@@ -1,33 +1,6 @@
 import { createAction } from 'redux-actions'
 import { createBinaryAction, createOptimisticAction } from '~/utils/redux'
-import {
-    isLayerVisible,
-    isMenuOpen,
-    isPrimaryDrawerOpened,
-    isSecondaryDrawerOpened,
-} from '~/getters/drawers'
-
-export const OPEN_PRIMARY_DRAWER = 'OPEN_PRIMARY_DRAWER'
-export const CLOSE_PRIMARY_DRAWER = 'CLOSE_PRIMARY_DRAWER'
-export const OPEN_SECONDARY_DRAWER = 'OPEN_SECONDARY_DRAWER'
-export const CLOSE_SECONDARY_DRAWER = 'CLOSE_SECONDARY_DRAWER'
-
-export const openPrimaryDrawer = createOptimisticAction(
-    state => isPrimaryDrawerOpened(state) === false,
-    createAction(OPEN_PRIMARY_DRAWER)
-)
-export const closePrimaryDrawer = createOptimisticAction(
-    state => isPrimaryDrawerOpened(state) === true,
-    createAction(CLOSE_PRIMARY_DRAWER)
-)
-export const openSecondaryDrawer = createOptimisticAction(
-    state => isSecondaryDrawerOpened(state) === false,
-    createAction(OPEN_SECONDARY_DRAWER)
-)
-export const closeSecondaryDrawer = createOptimisticAction(
-    state => isSecondaryDrawerOpened(state) === true,
-    createAction(CLOSE_SECONDARY_DRAWER)
-)
+import { isLayerVisible, isMenuOpen } from '~/getters/drawers'
 
 export const MENU_OPENED = 'MENU_OPENED'
 export const MENU_CLOSED = 'MENU_CLOSED'

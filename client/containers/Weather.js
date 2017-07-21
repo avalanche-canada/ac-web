@@ -1,6 +1,6 @@
 import { compose, withHandlers, withProps } from 'recompose'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import {withRouter} from 'react-router-dom'
 import parseDate from 'date-fns/parse'
 import { parse } from '~/prismic'
 import format from 'date-fns/format'

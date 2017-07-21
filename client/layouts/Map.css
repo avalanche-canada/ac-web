@@ -1,6 +1,6 @@
 @import "../styles/colors.css";
 
-.Container {
+.Layout {
     position: relative;
     height: 100%;
     overflow: hidden;

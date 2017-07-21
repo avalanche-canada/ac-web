@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { Media, Player, Caption } from '~/components/media'
 import { Loading } from '~/components/misc'
 import { StructuredText, Image } from '~/prismic/components/base'

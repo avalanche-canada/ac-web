@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps } from 'recompose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { documentLink } from '~/containers/connectors'
 import { pathname } from '~/utils/prismic'
 import get from 'lodash/get'

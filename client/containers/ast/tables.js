@@ -11,7 +11,7 @@ import {
 } from 'recompose'
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import {withRouter} from 'react-router-dom'
 import { List, Term, Definition } from '~/components/description'
 import { asTermAndDefinition } from '~/components/description/utils'
 import {

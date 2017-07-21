@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { onlyUpdateForKey } from '~/compose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import {
     Sidebar as Base,
     Contact,

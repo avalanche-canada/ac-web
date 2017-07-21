@@ -1,7 +1,6 @@
 import { ForecastRegion, HotZone } from '~/api/schemas'
 import { LocalStorage } from '~/services/storage'
 import Immutable from 'immutable'
-import get from 'lodash/get'
 
 export configure from './configure'
 
@@ -17,9 +16,7 @@ export const serializeFactory = store => () => {
     const { api, sponsors } = store.getState()
 
     storage.set('state', {
-        sponsors: {
-            data: sponsors.data,
-        },
+        sponsors: sponsors,
         api: {
             entities: api.entities.filter(canBeCached).toJSON(),
         },
@@ -27,14 +24,12 @@ export const serializeFactory = store => () => {
 }
 
 export function deserialize() {
-    const state = storage.get('state')
+    const { sponsors = {}, api = {} } = storage.get('state', {})
 
     return {
-        sponsors: {
-            data: get(state, 'sponsors.data', {}),
-        },
+        sponsors: sponsors.data || sponsors, // For backward compatibality
         api: {
-            entities: Immutable.fromJS(get(state, 'api.entities', {})),
+            entities: Immutable.fromJS(api.entities),
         },
     }
 }

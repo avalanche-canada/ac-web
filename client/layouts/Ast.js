@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { Container, PillSet, Pill } from '~/components/pill'
 import { Page, Content, Banner, Main } from '~/components/page'
 
