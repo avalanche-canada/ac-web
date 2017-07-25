@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { compose, withState, branch, renderComponent } from 'recompose'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 import { neverUpdate } from '~/compose'
-import Url from 'url'
+import { parse } from '~/utils/search'
 import Map from '~/containers/Map'
 import UnsupportedMap from '~/containers/UnsupportedMap'
 import mapbox from '~/services/mapbox/map'
@@ -35,9 +35,9 @@ function primary(props) {
 }
 
 function secondary(props) {
-    const panel = Url.parse(props.location.search, true).query.panel || ''
+    const panel = parse(props.location.search).panel || ''
     const [type, id] = panel.split('/')
-    const open = type && id
+    const open = typeof type === 'string' && typeof id === 'string'
 
     return <Secondary open={open} {...props} type={type} id={id} />
 }
@@ -50,10 +50,9 @@ function Layout({ onInitializationError }) {
     return (
         <div styleName="Layout">
             <Map onInitializationError={onInitializationError} />
-            <Switch>
-                <Route path="/map/:type/:name" children={primary} />
-                <Route path="/map*" children={secondary} />
-            </Switch>
+            {/* Orders matter here for the route components */}
+            <Route path="/map*" children={secondary} />
+            <Route path="/map/:type/:name" children={primary} />
             <Menu />
             <ToggleMenu />
             <OptimizedLinkControlSet />

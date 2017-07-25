@@ -5,7 +5,9 @@ import { FilterSet, Feed as Base } from '~/containers/feed'
 import { Page, Content, Header, Main } from '~/components/page'
 import { valueHandlerFactory, arrayValueHandlerFactory } from '~/utils/router'
 import { withRouter } from 'react-router-dom'
-import Url from 'url'
+import { parse } from '~/utils/search'
+import { replace } from '~/utils/router'
+import { NEWS, BLOG, EVENT } from '~/selectors/prismic/feed'
 
 Layout.propTypes = {
     type: PropTypes.string.isRequired,
@@ -40,8 +42,8 @@ function toSet(tags) {
 
 const Feed = compose(
     withRouter,
-    withProps(props => {
-        const { year, month, category, tags, timeline } = props.location.query
+    withProps(({ location }) => {
+        const { year, month, category, tags, timeline } = parse(location.search)
 
         return {
             year: year ? Number(year) : year,
@@ -63,35 +65,31 @@ const Feed = compose(
 export default Feed
 
 export const NewsFeed = withProps({
-    type: 'news',
+    type: NEWS,
     title: 'Recent news',
 })(Feed)
 
 export const BlogFeed = withProps({
-    type: 'blog',
+    type: BLOG,
     title: 'Blogs',
 })(Feed)
 
 export const EventFeed = compose(
     withProps({
-        type: 'event',
+        type: EVENT,
         title: 'Events',
     }),
     lifecycle({
         componentDidMount() {
-            const { location, history } = this.props
-            const { query } = Url.parse(location.search, true)
+            const search = parse(this.props.location.search)
 
-            if (typeof query.timeline === 'string') {
+            if ('timeline' in search) {
                 return
             }
 
-            query.timeline = 'upcoming'
+            search.timeline = 'upcoming'
 
-            history.replace({
-                ...location,
-                search: Url.format({ query }),
-            })
+            replace(this.props, { search })
         },
     })
 )(Feed)

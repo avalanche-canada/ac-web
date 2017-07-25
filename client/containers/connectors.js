@@ -367,7 +367,7 @@ export const tutorial = compose(
 export const post = compose(
     withParams(props => ({
         type: props.type,
-        uid: props.params.uid,
+        uid: props.match.params.uid,
     })),
     prismic(getPost)
 )

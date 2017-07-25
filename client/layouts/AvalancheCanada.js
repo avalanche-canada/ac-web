@@ -1,7 +1,7 @@
 import React from 'react'
 import Application from '~/components/application'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import { PrivateRoute, createRoute } from '~/router'
+import { PrivateRoute, NotFoundRoute, createRoute } from '~/router'
 import { AvalancheCanada as Navbar } from '~/containers/Navbar'
 import Highlight from '~/containers/Highlight'
 import Footer from '~/components/footer'
@@ -32,6 +32,7 @@ export default function AvalancheCanada() {
             <Navbar />
             <Highlight />
             <Switch>
+                <Redirect exact from="/" to="/map" />
                 {/* <LoginRoute /> */}
                 {/* <Route path="/login-complete" render={noop} /> */}
                 <PrivateRoute
@@ -42,7 +43,7 @@ export default function AvalancheCanada() {
                 {WIPPageRoutes}
                 {GenericPageRoutes}
                 {StaticPageRoutes}
-                <Redirect exact from="/" to="/map" />
+                <NotFoundRoute />
             </Switch>
             <Switch>
                 {Array.from(WITHOUT_FOOTER_PATHS).map(path =>
@@ -75,12 +76,12 @@ const PATH_TO_COMPONENT = new Map([
     ['/forecasts/:name/:date?', Forecast],
     ['/forecasts', Forecasts],
     ['/forecasts/archives/:name?/:date?', ArchiveForecast],
-    ['/blogs', FeedContainers.BlogFeed],
     ['/blogs/:uid', FeedPostContainers.BlogPost],
-    ['/news', FeedContainers.NewsFeed],
+    ['/blogs', FeedContainers.BlogFeed],
     ['/news/:uid', FeedPostContainers.NewsPost],
-    ['/events', FeedContainers.EventFeed],
+    ['/news', FeedContainers.NewsFeed],
     ['/events/:uid', FeedPostContainers.EventPost],
+    ['/events', FeedContainers.EventFeed],
     ['/mountain-information-network/submissions', MINTableLayouts.Page],
     [
         '/mountain-information-network/submissions/:id',

@@ -30,33 +30,20 @@ import redirects from './redirects'
 // TODO: Look if still need that, it is used for the listen or listenBefore function!
 // There is probably a way to get around it!
 
-// export computeRouter from './computeRouter'
-// export computeRoutes from './computeRoutes'
-
 function redirect({ location }) {
     // Leave the application and goes to nginx to do appropriate redirect
     document.location = location.pathname
 }
 
-function notFound({ location: { pathname } }) {
-    if (redirects.has(pathname)) {
-        return <Redirect to={redirects.get(pathname)} />
-    }
-
-    ReactGA.event({
-        category: 'Navigation',
-        action: 'Not Found',
-        label: pathname,
-        nonInteraction: true,
-    })
-
-    return <NotFound />
-}
+const RedirectRoutes = Array.from(redirects).map(([from, to]) =>
+    createElement(Redirect, { from, to })
+)
 
 export default function Router() {
     return (
         <Base>
             <Switch>
+                {RedirectRoutes}
                 <Route path="/fxresources/*" render={redirect} />
                 <Route path="/cherry-bowl*" render={redirect} />
                 <Route
@@ -65,7 +52,6 @@ export default function Router() {
                 />
                 <Route path="/pages/:type/:uid" component={FallbackPage} />
                 <Route path="/" component={AvalancheCanada} />
-                <Route render={notFound} />
             </Switch>
         </Base>
     )
@@ -120,4 +106,19 @@ export function LoginRoute({ path = '/login', ...rest }) {
 
 export function createRoute(props) {
     return createElement(Route, { key: props.path, ...props })
+}
+
+function notFound({ location: { pathname } }) {
+    ReactGA.event({
+        category: 'Navigation',
+        action: 'Not Found',
+        label: pathname,
+        nonInteraction: true,
+    })
+
+    return <NotFound />
+}
+
+export function NotFoundRoute() {
+    return <Route render={notFound} />
 }
