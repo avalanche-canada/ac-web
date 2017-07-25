@@ -5,10 +5,7 @@ import { getSponsors } from '~/getters/sponsors'
 export const getSponsorUid = createSelector(
     getSponsors,
     (state, props) => props.name,
-    (sponsors, name) => {
-        console.warn(sponsors, name, sponsors[name])
-        return sponsors[name] || name
-    }
+    (sponsors, name) => sponsors[name] || name
 )
 
 export default createSelector(

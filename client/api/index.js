@@ -51,7 +51,6 @@ const GET_CONFIGS = new Map([
         params => ({
             baseURL: astBaseUrl,
             params,
-            // TODO: To remove when server returns appropriate result
             transformResponse: defaults.transformResponse.concat(
                 transformProviderResponse
             ),
@@ -62,7 +61,6 @@ const GET_CONFIGS = new Map([
         params => ({
             baseURL: astBaseUrl,
             params,
-            // TODO: To remove when server returns appropriate result
             transformResponse: defaults.transformResponse.concat(
                 transformCourseResponse
             ),

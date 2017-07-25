@@ -20,37 +20,30 @@ import ArchiveForecast from '~/containers/ArchiveForecast'
 import HotZoneReport from '~/containers/HotZoneReport'
 import ArchiveHotZoneReport from '~/containers/ArchiveHotZoneReport'
 import MountainInformationNetworkSubmission from '~/containers/MountainInformationNetworkSubmission'
-// import {
-//     Providers as ProvidersTable,
-//     Courses as CoursesTable,
-// } from '~/containers/ast/tables'
-// import {
-//     Providers as ProvidersForm,
-//     Courses as CoursesForm,
-// } from '~/containers/ast/forms'
+import Ast from './Ast'
 import WeatherStation from '~/containers/WeatherStation'
 import WeatherStationList from '~/containers/WeatherStationList'
 import Glossary from '~/containers/Glossary'
 import Submit from '~/containers/min/Form'
-
-// TODO: Sponsor ref!!!!
 
 export default function AvalancheCanada() {
     return (
         <Application>
             <Navbar />
             <Highlight />
-            <Redirect exact from="/" to="/map" />
-            {/* <LoginRoute /> */}
-            {/* <Route path="/login-complete" render={noop} /> */}
-            <PrivateRoute
-                path="/mountain-information-network/submit"
-                component={Submit}
-            />
-            {WIPPageRoutes}
-            {GenericPageRoutes}
-            {StaticPageRoutes}
-            {ComponentRoutes}
+            <Switch>
+                {/* <LoginRoute /> */}
+                {/* <Route path="/login-complete" render={noop} /> */}
+                <PrivateRoute
+                    path="/mountain-information-network/submit"
+                    component={Submit}
+                />
+                {ComponentRoutes}
+                {WIPPageRoutes}
+                {GenericPageRoutes}
+                {StaticPageRoutes}
+                <Redirect exact from="/" to="/map" />
+            </Switch>
             <Switch>
                 {Array.from(WITHOUT_FOOTER_PATHS).map(path =>
                     <Route key={path} path={path} component={null} />
@@ -93,6 +86,7 @@ const PATH_TO_COMPONENT = new Map([
         '/mountain-information-network/submissions/:id',
         MountainInformationNetworkSubmission,
     ],
+    ['/training/:type', Ast],
 ])
 
 const ComponentRoutes = Array.from(PATH_TO_COMPONENT).map(([path, component]) =>

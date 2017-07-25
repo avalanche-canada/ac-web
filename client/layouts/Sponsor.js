@@ -1,19 +1,27 @@
 import React from 'react'
-import { Switch } from 'react-router-dom'
-import { createRoute } from '~/router'
+import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
 import Container from '~/containers/Sponsor'
 
-export default function Sponsor() {
-    return (
-        <Switch>
-            {ROUTES}
-        </Switch>
-    )
+Sponsor.propTypes = {
+    label: PropTypes.string,
+}
+
+export default function Sponsor({ label }) {
+    function render({ match }) {
+        const { url, path } = match
+        const name = MATCHES.get(url) || MATCHES.get(path)
+
+        return name ? <Container name={name} label={label} /> : null
+    }
+
+    return <Route render={render} />
 }
 
 const MATCHES = new Map([
     ['/map/forecasts/kananaskis', 'kananaskis'],
-    ['/map', 'Forecast'],
+    ['/map/forecasts/:name', 'Forecast'],
+    ['/map/hot-zone-reports/:name', 'Forecast'],
     ['/mountain-information-network', 'MIN'],
     ['/events/:uid', 'EventPage'],
     ['/events', 'EventIndex'],
@@ -31,13 +39,3 @@ const MATCHES = new Map([
     ['/youth', 'Youth'],
     ['/gear', 'Gear'],
 ])
-
-const ROUTES = Array.from(MATCHES.keys()).map(path =>
-    createRoute({ render, path })
-)
-
-function render({ match }) {
-    const { path } = match
-
-    return <Container name={MATCHES.get(path)} />
-}
