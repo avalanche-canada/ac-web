@@ -85,7 +85,7 @@ export default function computeRoutes(store) {
             <Alert type={WARNING}>
                 <h2>
                     We are currently experiencing some issues with weather loops
-                    generation!
+                    image generation!
                 </h2>
                 <h3>
                     This product will be available as soon as we solve the
