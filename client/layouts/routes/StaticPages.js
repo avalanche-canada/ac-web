@@ -1,6 +1,6 @@
 import React from 'react'
 import { StaticPage } from '~/prismic/containers'
-import { createRoute } from '~/router'
+import { createRoute } from '~/utils/router'
 
 const PROPS = new Map([
     [

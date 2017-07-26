@@ -1,3 +1,5 @@
+import { createElement } from 'react'
+import { Route } from 'react-router-dom'
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
 import { DESC, NONE } from '~/constants/sortings'
@@ -75,4 +77,8 @@ export function dateRangeValueHandlerFactory(
 
         return merge(props, { search }, push)
     }
+}
+
+export function createRoute(props) {
+    return createElement(Route, { key: props.path, ...props })
 }

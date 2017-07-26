@@ -5,14 +5,11 @@ import {
     Switch,
     Redirect,
 } from 'react-router-dom'
-import AuthService from '~/services/auth'
 import { AvalancheCanada, AvalancheCanadaFoundation } from '~/layouts'
 import { FallbackPage } from '~/prismic/containers'
-import { NotFound } from '~/components/page'
-// import { scrollPosition } from '~/utils/dom'
-import ReactGA from '~/services/analytics'
 import redirects from './redirects'
 
+// import { scrollPosition } from '~/utils/dom'
 // function shouldUpdateScroll(previous, next) {
 //     if (!previous) {
 //         return true
@@ -35,10 +32,6 @@ function redirect({ location }) {
     document.location = location.pathname
 }
 
-const RedirectRoutes = Array.from(redirects).map(([from, to]) =>
-    createElement(Redirect, { from, to })
-)
-
 export default function Router() {
     return (
         <Base>
@@ -57,68 +50,6 @@ export default function Router() {
     )
 }
 
-function privateRenderFactory(render, component, children) {
-    return function privateRender(props) {
-        const auth = AuthService.create()
-
-        if (auth.isAuthenticated()) {
-            if (component) {
-                return createElement(component, props)
-            } else {
-                return (render || children)(props)
-            }
-        } else {
-            const to = {
-                pathname: '/login',
-                state: {
-                    from: props.location,
-                },
-            }
-
-            return <Redirect to={to} />
-        }
-    }
-}
-
-export function PrivateRoute({ render, component, children, ...rest }) {
-    return (
-        <Route
-            {...rest}
-            render={privateRenderFactory(render, component, children)}
-        />
-    )
-}
-
-function login({ history, location }) {
-    const auth = AuthService.create()
-    function redirect() {
-        history.replace(location.state.from || '/')
-    }
-
-    auth.login().then(redirect, redirect)
-
-    return null
-}
-
-export function LoginRoute({ path = '/login', ...rest }) {
-    return <Route path={path} {...rest} render={login} />
-}
-
-export function createRoute(props) {
-    return createElement(Route, { key: props.path, ...props })
-}
-
-function notFound({ location: { pathname } }) {
-    ReactGA.event({
-        category: 'Navigation',
-        action: 'Not Found',
-        label: pathname,
-        nonInteraction: true,
-    })
-
-    return <NotFound />
-}
-
-export function NotFoundRoute() {
-    return <Route render={notFound} />
-}
+const RedirectRoutes = Array.from(redirects).map(([from, to]) =>
+    createElement(Redirect, { from, to })
+)

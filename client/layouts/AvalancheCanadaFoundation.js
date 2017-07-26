@@ -7,7 +7,7 @@ import Footer from '~/components/footer'
 import { Route, Switch } from 'react-router-dom'
 import { StaticPage } from '~/prismic/containers'
 import { NotFound } from '~/components/page'
-import { createRoute } from '~/router'
+import { createRoute } from '~/utils/router'
 
 function createRoutes(root) {
     return [

@@ -1,7 +1,14 @@
 import React from 'react'
 import Application from '~/components/application'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import { PrivateRoute, NotFoundRoute, createRoute } from '~/router'
+import { createRoute } from '~/utils/router'
+import {
+    LoginCompleteRoute,
+    loginComplete,
+    PrivateRoute,
+    NotFoundRoute,
+    LoginRoute,
+} from '~/router/common'
 import { AvalancheCanada as Navbar } from '~/containers/Navbar'
 import Highlight from '~/containers/Highlight'
 import Footer from '~/components/footer'
@@ -33,8 +40,9 @@ export default function AvalancheCanada() {
             <Highlight />
             <Switch>
                 <Redirect exact from="/" to="/map" />
-                {/* <LoginRoute /> */}
-                {/* <Route path="/login-complete" render={noop} /> */}
+                <LoginRoute path="/login" />
+                <Route path="/login-complete" render={loginComplete} />
+                {/* <LoginCompleteRoute path="/login-complete" /> */}
                 <PrivateRoute
                     path="/mountain-information-network/submit"
                     component={Submit}
