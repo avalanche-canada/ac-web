@@ -3,7 +3,6 @@ import { PRIMARY } from '~/constants/colors'
 import logo from '~/styles/AvalancheCanada.svg'
 import { clientId, domain } from './config.json'
 import decode from 'jwt-decode'
-import CancelError from '~/utils/promise/CancelError'
 import { LocalStorage } from '~/services/storage'
 
 export default class AuthService {
@@ -11,7 +10,7 @@ export default class AuthService {
         return new AuthService(options)
     }
     constructor() {
-        const { origin, pathname } = document.location
+        const { origin, pathname, search, hash } = document.location
 
         this.storage = LocalStorage.create()
         this.lock = new Auth0Lock(clientId, domain, {
@@ -21,7 +20,7 @@ export default class AuthService {
                 redirectUrl: `${origin}/login-complete`,
                 responseType: 'token',
                 params: {
-                    state: pathname,
+                    state: pathname + search + hash,
                 },
             },
             theme: {
@@ -54,10 +53,12 @@ export default class AuthService {
     }
     login() {
         return new Promise((resolve, reject) => {
-            this.lock.on('authorization_error', error => reject(error))
-            this.lock.on('hide', () =>
-                reject(new CancelError('User hides lock login modal.'))
-            )
+            this.lock.on('authorization_error', error => {
+                reject(error)
+            })
+            this.lock.on('hide', () => {
+                reject(new Error('User hides Auth0 Lock login modal.'))
+            })
 
             this.lock.show()
         })

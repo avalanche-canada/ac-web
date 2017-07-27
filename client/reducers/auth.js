@@ -3,12 +3,21 @@ import { handleActions } from 'redux-actions'
 import AuthService from '~/services/auth'
 import { GET_PROFILE, LOGOUT, TOKEN_RECEIVED } from '~/actions/auth'
 
-const auth = AuthService.create()
-
 const Session = Immutable.Record({
     isAuthenticated: false,
     profile: null,
     error: null,
+})
+
+Object.assign(Session, {
+    create() {
+        const auth = AuthService.create()
+
+        return new Session({
+            isAuthenticated: auth.isAuthenticated(),
+            profile: auth.profile,
+        })
+    },
 })
 
 export default handleActions(
@@ -18,10 +27,7 @@ export default handleActions(
             session.set('profile', payload),
         [`${GET_PROFILE}_REJECTED`]: (session, { error }) =>
             session.set('error', error),
-        [LOGOUT]: () => new Session(),
+        [LOGOUT]: () => Session.create(),
     },
-    new Session({
-        isAuthenticated: auth.checkTokenExpiry(),
-        profile: auth.profile,
-    })
+    Session.create()
 )

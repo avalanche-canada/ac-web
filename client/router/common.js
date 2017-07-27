@@ -1,10 +1,12 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import AuthService from '~/services/auth'
 import { NotFound } from '~/components/page'
+import LoginComplete from '~/containers/LoginComplete'
 import ReactGA from '~/services/analytics'
-import { parse } from '~/utils/search'
+import { StaticPage, Generic } from '~/prismic/containers'
+import { WorkInProgress } from '~/components/page'
 
 function privateRenderFactory(render, component, children) {
     return function privateRender(props) {
@@ -17,14 +19,9 @@ function privateRenderFactory(render, component, children) {
                 return (render || children)(props)
             }
         } else {
-            const to = {
-                pathname: '/login',
-                state: {
-                    from: props.location,
-                },
-            }
+            auth.login().catch(() => props.history.push('/'))
 
-            return <Redirect to={to} />
+            return null
         }
     }
 }
@@ -38,43 +35,12 @@ export function PrivateRoute({ render, component, children, ...rest }) {
     )
 }
 
-function login({ history, location }) {
-    const auth = AuthService.create()
-    function redirect() {
-        history.replace(location.state.from || '/')
-    }
-
-    auth.login().then(redirect, redirect)
-
-    return null
-}
-
-LoginRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-}
-
-export function LoginRoute({ path }) {
-    return <Route path={path} render={login} />
-}
-
-export function loginComplete({ location, history }) {
-    const { id_token, access_token } = parse(location.search)
-
-    if (id_token && access_token) {
-        // TODO: need to dispatch tokens
-        console.warn(id_token, access_token)
-        // dispatch(receiveToken(id_token, access_token))
-    }
-    console.warn(location)
-    history.replace(location.state.from || '/')
-}
-
 LoginCompleteRoute.propTypes = {
     path: PropTypes.string.isRequired,
 }
 
-export function LoginCompleteRoute({ path }) {
-    return <Route path={path} render={loginComplete} />
+export function LoginCompleteRoute(props) {
+    return <Route {...props} component={LoginComplete} />
 }
 
 function notFound({ location: { pathname } }) {
@@ -94,4 +60,36 @@ NotFoundRoute.propTypes = {
 
 export function NotFoundRoute({ path }) {
     return <Route path={path} render={notFound} />
+}
+
+StaticPageRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    title: PropTypes.string,
+}
+
+export function StaticPageRoute({ path, ...rest }) {
+    return <Route path={path} render={() => <StaticPage {...rest} />} />
+}
+
+GenricPageRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    title: PropTypes.string,
+}
+
+export function GenricPageRoute({ path, ...rest }) {
+    return <Route path={path} render={() => <Generic {...rest} />} />
+}
+
+WIPPageRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    oldUrl: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+}
+
+export function WIPPageRoute({ path, ...rest }) {
+    return <Route path={path} render={() => <WorkInProgress {...rest} />} />
 }

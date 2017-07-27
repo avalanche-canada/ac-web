@@ -1,13 +1,12 @@
 import React from 'react'
 import Application from '~/components/application'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import { createRoute } from '~/utils/router'
 import {
     LoginCompleteRoute,
-    loginComplete,
-    PrivateRoute,
     NotFoundRoute,
-    LoginRoute,
+    StaticPageRoute,
+    GenricPageRoute,
+    WIPPageRoute,
 } from '~/router/common'
 import { AvalancheCanada as Navbar } from '~/containers/Navbar'
 import Highlight from '~/containers/Highlight'
@@ -15,10 +14,6 @@ import Footer from '~/components/footer'
 import MainMap from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
-import * as MINTableLayouts from '~/layouts/min/table'
-import WIPPageRoutes from './routes/WIPPages'
-import GenericPageRoutes from './routes/GenericPages'
-import StaticPageRoutes from './routes/StaticPages'
 import * as FeedContainers from './Feed'
 import * as FeedPostContainers from '~/containers/feed'
 import Forecast from '~/containers/Forecast'
@@ -26,12 +21,11 @@ import Forecasts from '~/containers/Forecasts'
 import ArchiveForecast from '~/containers/ArchiveForecast'
 import HotZoneReport from '~/containers/HotZoneReport'
 import ArchiveHotZoneReport from '~/containers/ArchiveHotZoneReport'
-import MountainInformationNetworkSubmission from '~/containers/MountainInformationNetworkSubmission'
 import Ast from './Ast'
+import MountainInformationNetwork from './MountainInformationNetwork'
 import WeatherStation from '~/containers/WeatherStation'
 import WeatherStationList from '~/containers/WeatherStationList'
 import Glossary from '~/containers/Glossary'
-import Submit from '~/containers/min/Form'
 
 export default function AvalancheCanada() {
     return (
@@ -40,64 +34,153 @@ export default function AvalancheCanada() {
             <Highlight />
             <Switch>
                 <Redirect exact from="/" to="/map" />
-                <LoginRoute path="/login" />
-                <Route path="/login-complete" render={loginComplete} />
-                {/* <LoginCompleteRoute path="/login-complete" /> */}
-                <PrivateRoute
-                    path="/mountain-information-network/submit"
-                    component={Submit}
+                <LoginCompleteRoute path="/login-complete" />
+                <Route path="/map/ates" component={AtesMap} />
+                <Route path="/map/:type?/:name?" component={MainMap} />
+                <Route path="/glossary" component={Glossary} />
+                <Route path="/tutorial" component={Tutorial} />
+                <Route
+                    path="/weather/stations/:id"
+                    component={WeatherStation}
                 />
-                {ComponentRoutes}
-                {WIPPageRoutes}
-                {GenericPageRoutes}
-                {StaticPageRoutes}
+                <Route
+                    path="/weather/stations"
+                    component={WeatherStationList}
+                />
+                <Route
+                    path="/hot-zone-reports/:name/:uid?"
+                    component={HotZoneReport}
+                />
+                <Route
+                    path="/hot-zone-reports/archives/:name?/:date?"
+                    component={ArchiveHotZoneReport}
+                />
+                <Route path="/forecasts/:name/:date?" component={Forecast} />
+                <Route path="/forecasts" component={Forecasts} />
+                <Route
+                    path="/forecasts/archives/:name?/:date?"
+                    component={ArchiveForecast}
+                />
+                <Route
+                    path="/blogs/:uid"
+                    component={FeedPostContainers.BlogPost}
+                />
+                <Route path="/blogs" component={FeedContainers.BlogFeed} />
+                <Route
+                    path="/news/:uid"
+                    component={FeedPostContainers.NewsPost}
+                />
+                <Route path="/news" component={FeedContainers.NewsFeed} />
+                <Route
+                    path="/events/:uid"
+                    component={FeedPostContainers.EventPost}
+                />
+                <Route path="/events" component={FeedContainers.EventFeed} />
+                <Route
+                    path="/mountain-information-network"
+                    component={MountainInformationNetwork}
+                />
+                <Route path="/training/:type" component={Ast} />
+                <StaticPageRoute path="/about" uid="about" title="About" />
+                <StaticPageRoute
+                    path="/early-season-conditions"
+                    uid="early-season-conditions"
+                    title="Early Season Conditions"
+                />
+                <StaticPageRoute path="/tech" uid="tech" title="Tech" />
+                <StaticPageRoute path="/faq" uid="faq" title="FAQ" />
+                <StaticPageRoute
+                    path="/planning"
+                    uid="planning"
+                    title="Planning"
+                />
+                <StaticPageRoute
+                    path="/information"
+                    uid="information"
+                    title="Information"
+                />
+                <StaticPageRoute path="/sled" uid="sled" title="Sled" />
+                <StaticPageRoute path="/youth" uid="youth" title="Youth" />
+                <StaticPageRoute
+                    path="/gear"
+                    uid="essential-gear"
+                    title="Essential Gear"
+                />
+                <StaticPageRoute
+                    path="/training"
+                    uid="training"
+                    title="Go farther — Get avalanche trained"
+                />
+                <StaticPageRoute
+                    path="/instructing-ast"
+                    uid="instructing-ast"
+                    title="Teaching Avalanche Skills Training (AST)"
+                />
+                <StaticPageRoute
+                    path="/ambassadors"
+                    uid="ambassadors"
+                    title="Ambassadors"
+                />
+                <StaticPageRoute
+                    path="/sponsors"
+                    uid="sponsors"
+                    title="Sponsors"
+                />
+                <StaticPageRoute
+                    path="/collaborators"
+                    uid="collaborators"
+                    title="Collaborators"
+                />
+                <StaticPageRoute
+                    path="/membership"
+                    uid="membership-overview"
+                    title="Membership Overview"
+                />
+                <GenricPageRoute
+                    path="/privacy-policy"
+                    uid="privacy-policy"
+                    title="Privacy Policy"
+                />
+                <GenricPageRoute
+                    path="/terms-of-use"
+                    uid="terms-of-use"
+                    title="Terms of use"
+                />
+                <WIPPageRoute
+                    path="/trip-planner"
+                    name="Trip Planner"
+                    oldUrl="http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning"
+                />
+                <WIPPageRoute
+                    path="/incidents"
+                    name="Historic Incidents"
+                    oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
+                />
+                <WIPPageRoute
+                    path="/auction"
+                    name="Web Auction"
+                    oldUrl="http://old.avalanche.ca/cac/auctions"
+                />
+                <WIPPageRoute
+                    path="/tutoriel"
+                    name="Tutorial / Tutoriel"
+                    oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
+                    title={defaultTitle =>
+                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`}
+                    subtitle={defaultSubtitle =>
+                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`}
+                />
                 <NotFoundRoute />
             </Switch>
             <Switch>
-                {Array.from(WITHOUT_FOOTER_PATHS).map(path =>
-                    <Route key={path} path={path} component={null} />
-                )}
+                <Route path="/map" component={null} />
+                <Route path="/map/ates" component={null} />
+                <Route path="/trip-planner" component={null} />
+                <Route path="/incidents" component={null} />
+                <Route path="/tutoriel" component={null} />
+                <Route path="/auction" component={null} />
                 <Route component={Footer} />
             </Switch>
         </Application>
     )
 }
-
-const WITHOUT_FOOTER_PATHS = new Set([
-    '/map',
-    '/map/ates',
-    '/trip-planner',
-    '/incidents',
-    '/tutoriel',
-    '/auction',
-])
-
-const PATH_TO_COMPONENT = new Map([
-    ['/map/:type?/:name?', MainMap],
-    ['/map/ates', AtesMap],
-    ['/glossary', Glossary],
-    ['/tutorial', Tutorial],
-    ['/weather/stations/:id', WeatherStation],
-    ['/weather/stations', WeatherStationList],
-    ['/hot-zone-reports/:name/:uid?', HotZoneReport],
-    ['/hot-zone-reports/archives/:name?/:date?', ArchiveHotZoneReport],
-    ['/forecasts/:name/:date?', Forecast],
-    ['/forecasts', Forecasts],
-    ['/forecasts/archives/:name?/:date?', ArchiveForecast],
-    ['/blogs/:uid', FeedPostContainers.BlogPost],
-    ['/blogs', FeedContainers.BlogFeed],
-    ['/news/:uid', FeedPostContainers.NewsPost],
-    ['/news', FeedContainers.NewsFeed],
-    ['/events/:uid', FeedPostContainers.EventPost],
-    ['/events', FeedContainers.EventFeed],
-    ['/mountain-information-network/submissions', MINTableLayouts.Page],
-    [
-        '/mountain-information-network/submissions/:id',
-        MountainInformationNetworkSubmission,
-    ],
-    ['/training/:type', Ast],
-])
-
-const ComponentRoutes = Array.from(PATH_TO_COMPONENT).map(([path, component]) =>
-    createRoute({ path, component })
-)
