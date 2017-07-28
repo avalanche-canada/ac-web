@@ -318,26 +318,16 @@ export function prismicPatch(params, mapStateToProps, mapDispatchToProps = {}) {
     )
 }
 
-export function withParams(params) {
-    return withProps(props => {
-        if (typeof params === 'function') {
-            params = params(props)
-        }
-
-        return {
-            params,
-        }
-    })
-}
-
 export const generic = compose(
     setPropTypes({
         type: PropTypes.string,
         uid: PropTypes.string.isRequired,
     }),
-    withParams(props => ({
-        type: props.type || 'generic',
-        uid: props.uid,
+    withProps(props => ({
+        params: {
+            type: props.type || 'generic',
+            uid: props.uid,
+        },
     })),
     prismic(makeGetDocumentAndStatus),
     mapProps(props => {
@@ -365,9 +355,11 @@ export const tutorial = compose(
 )
 
 export const post = compose(
-    withParams(props => ({
-        type: props.type,
-        uid: props.match.params.uid,
+    withProps(props => ({
+        params: {
+            type: props.type,
+            uid: props.match.params.uid,
+        },
     })),
     prismic(getPost)
 )
@@ -378,18 +370,22 @@ export const sponsor = compose(
             uid: getSponsorUid,
         })
     ),
-    withParams(props => ({
-        type: 'sponsor',
-        uid: props.uid || null,
+    withProps(props => ({
+        params: {
+            type: 'sponsor',
+            uid: props.uid || null,
+        },
     })),
     prismic(getSponsor)
 )
 
 function panelPrismicConnectorFactory(type, mapStateToProps) {
     return compose(
-        withParams(props => ({
-            type,
-            uid: props.id,
+        withProps(props => ({
+            params: {
+                type,
+                uid: props.id,
+            },
         })),
         prismic(mapStateToProps, {
             flyTo,
@@ -435,10 +431,12 @@ export const feed = compose(
     setPropTypes({
         type: PropTypes.string.isRequired,
     }),
-    withParams(props => ({
-        type: props.type,
-        options: {
-            pageSize: 250,
+    withProps(props => ({
+        params: {
+            type: props.type,
+            options: {
+                pageSize: 250,
+            },
         },
     })),
     prismic(getFeed)
@@ -566,9 +564,11 @@ export const weatherTutorial = compose(
     setPropTypes({
         uid: PropTypes.string.isRequired,
     }),
-    withParams(props => ({
-        type: 'weather-forecast-tutorial',
-        uid: props.uid,
+    withProps(props => ({
+        params: {
+            type: 'weather-forecast-tutorial',
+            uid: props.uid,
+        },
     })),
     prismic(getWeatherTutorial)
 )
@@ -578,9 +578,11 @@ export const documentLink = compose(
         type: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
     }),
-    withParams(props => ({
-        type: props.type,
-        uid: props.uid,
+    withProps(props => ({
+        params: {
+            type: props.type,
+            uid: props.uid,
+        },
     })),
     prismic(makeGetDocumentAndStatus)
 )
