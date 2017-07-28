@@ -23,8 +23,7 @@ import HotZoneReport from '~/containers/HotZoneReport'
 import ArchiveHotZoneReport from '~/containers/ArchiveHotZoneReport'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
-import WeatherStation from '~/containers/WeatherStation'
-import WeatherStationList from '~/containers/WeatherStationList'
+import Weather from './Weather'
 import Glossary from '~/containers/Glossary'
 
 export default function AvalancheCanada() {
@@ -39,14 +38,6 @@ export default function AvalancheCanada() {
                 <Route path="/map/:type?/:name?" component={MainMap} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
-                <Route
-                    path="/weather/stations/:id"
-                    component={WeatherStation}
-                />
-                <Route
-                    path="/weather/stations"
-                    component={WeatherStationList}
-                />
                 <Route
                     path="/hot-zone-reports/:name/:uid?"
                     component={HotZoneReport}
@@ -80,6 +71,7 @@ export default function AvalancheCanada() {
                     path="/mountain-information-network"
                     component={MountainInformationNetwork}
                 />
+                <Route path="/weather" component={Weather} />
                 <Route path="/training/:type" component={Ast} />
                 <StaticPageRoute path="/about" uid="about" title="About" />
                 <StaticPageRoute

@@ -1,21 +1,23 @@
 import { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { compose, setPropTypes } from 'recompose'
+import { compose, setPropTypes, withProps } from 'recompose'
 import * as Pages from '~/prismic/components/page'
 import { makeGetDocumentAndStatus } from '~/selectors/prismic/utils'
-import { prismicPatch } from '~/containers/connectors'
+import { prismic } from '~/containers/connectors'
 import { GENERIC, STATIC_PAGE } from '~/constants/prismic'
 
 function page(type) {
-    function getParams({ uid }) {
-        return { type, uid }
-    }
-
     return compose(
         setPropTypes({
             uid: PropTypes.string.isRequired,
         }),
-        prismicPatch(getParams, makeGetDocumentAndStatus(getParams))
+        withProps(props => ({
+            params: {
+                uid: props.uid,
+                type,
+            },
+        })),
+        prismic(makeGetDocumentAndStatus)
     )
 }
 

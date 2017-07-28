@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps } from 'recompose'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { documentLink } from '~/containers/connectors'
 import { pathname } from '~/utils/prismic'
 import get from 'lodash/get'
@@ -12,7 +12,6 @@ const Document = PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
-    title: PropTypes.object,
 })
 
 DocumentLink.propTypes = {

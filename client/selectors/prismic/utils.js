@@ -5,9 +5,9 @@ import {
     getDocuments,
 } from '~/getters/prismic'
 
-function makeParams(params, props) {
-    return typeof params === 'function' ? params(props) : params
-}
+// function makeParams(params, props) {
+//     return typeof params === 'function' ? params(props) : params
+// }
 
 export function getType(state, props) {
     return props.params.type
@@ -21,15 +21,6 @@ export function getResult(state, props) {
     return getResultFromParams(state, props.params)
 }
 
-export function makeGetStatus(params) {
-    if (params) {
-        return (state, props) =>
-            getResultFromParams(state, makeParams(params, props))
-    }
-
-    return createSelector(getResult, result => result.asStatus())
-}
-
 export function getStatusFactory(getMessages) {
     return createSelector(
         getResult,
@@ -40,11 +31,6 @@ export function getStatusFactory(getMessages) {
 
 export function getDocument(state, props) {
     return getDocumentFromParams(state, props.params)
-}
-
-function makeGetDocument(params) {
-    return (state, props) =>
-        getDocumentFromParams(state, makeParams(params, props))
 }
 
 export const getDocumentsFromResult = createSelector(
@@ -60,9 +46,17 @@ export const getDocumentFromResult = createSelector(
     documents => documents.shift()
 )
 
-export function makeGetDocumentAndStatus(params) {
+function makeGetStatus() {
+    return createSelector(getResult, result => result.asStatus())
+}
+
+function makeGetDocument() {
+    return (state, props) => getDocumentFromParams(state, props.params)
+}
+
+export function makeGetDocumentAndStatus() {
     return createStructuredSelector({
-        status: makeGetStatus(params),
-        document: makeGetDocument(params),
+        status: makeGetStatus(),
+        document: makeGetDocument(),
     })
 }

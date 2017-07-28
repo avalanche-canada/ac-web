@@ -68,8 +68,14 @@ StaticPageRoute.propTypes = {
     title: PropTypes.string,
 }
 
-export function StaticPageRoute({ path, ...rest }) {
-    return <Route path={path} render={() => <StaticPage {...rest} />} />
+function staticPageFactory(uid, title) {
+    return function staticPage() {
+        return <StaticPage uid={uid} title={title} />
+    }
+}
+
+export function StaticPageRoute({ path, uid, title }) {
+    return <Route path={path} render={staticPageFactory(uid, title)} />
 }
 
 GenricPageRoute.propTypes = {
@@ -78,8 +84,14 @@ GenricPageRoute.propTypes = {
     title: PropTypes.string,
 }
 
-export function GenricPageRoute({ path, ...rest }) {
-    return <Route path={path} render={() => <Generic {...rest} />} />
+function genericFactory(uid, title) {
+    return function generic() {
+        return <Generic uid={uid} title={title} />
+    }
+}
+
+export function GenricPageRoute({ path, uid, title }) {
+    return <Route path={path} render={genericFactory(uid, title)} />
 }
 
 WIPPageRoute.propTypes = {

@@ -435,8 +435,8 @@ export const feed = compose(
     setPropTypes({
         type: PropTypes.string.isRequired,
     }),
-    withParams(({ type }) => ({
-        type,
+    withParams(props => ({
+        type: props.type,
         options: {
             pageSize: 250,
         },
@@ -566,11 +566,9 @@ export const weatherTutorial = compose(
     setPropTypes({
         uid: PropTypes.string.isRequired,
     }),
-    withProps(props => ({
-        params: {
-            type: 'weather-forecast-tutorial',
-            uid: props.uid,
-        },
+    withParams(props => ({
+        type: 'weather-forecast-tutorial',
+        uid: props.uid,
     })),
     prismic(getWeatherTutorial)
 )
@@ -580,11 +578,9 @@ export const documentLink = compose(
         type: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
     }),
-    withProps(({ type, uid }) => ({
-        params: {
-            type,
-            uid,
-        },
+    withParams(props => ({
+        type: props.type,
+        uid: props.uid,
     })),
     prismic(makeGetDocumentAndStatus)
 )
