@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isAfter from 'date-fns/is_after'
 import Base from '~/components/loop'
 import {
     computeUrls,
@@ -127,6 +128,10 @@ export default class Loop extends PureComponent {
         })
     }
     render() {
+        if (isAfter(this.props.date, new Date('2017-07-22'))) {
+            return null
+        }
+
         const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
