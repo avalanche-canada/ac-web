@@ -22,7 +22,11 @@ function NoteSet({ notes = [] }) {
         <div>
             <p>Please note:</p>
             <ul>
-                {notes.map((note, index) => <li key={index}>{note}</li>)}
+                {notes.map((note, index) =>
+                    <li key={index}>
+                        {note}
+                    </li>
+                )}
             </ul>
         </div>
     )
@@ -126,19 +130,11 @@ export default class Loop extends PureComponent {
         const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
-            return (
-                <Loading>
-                    Creating the loop...
-                </Loading>
-            )
+            return <Loading>Creating the loop...</Loading>
         }
 
         if (isError) {
-            return (
-                <Error>
-                    Sorry, we are not able to create your loop.
-                </Error>
-            )
+            return <Error>Sorry, we are not able to create the loop.</Error>
         }
 
         return (
