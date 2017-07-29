@@ -40,6 +40,8 @@ export const AvalancheCanada = compose(
             return () => {
                 props.logout()
 
+                // TODO: Need to test if current route is private!
+
                 props.history.push('/')
             }
         },
