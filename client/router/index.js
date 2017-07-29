@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { AvalancheCanada, AvalancheCanadaFoundation } from '~/layouts'
-import { FallbackPage } from '~/prismic/containers'
 import ScrollTo from './ScrollTo'
 
 function redirect({ location }) {
@@ -519,7 +518,6 @@ export default function Router() {
                         path="/foundation"
                         component={AvalancheCanadaFoundation}
                     />
-                    <Route path="/pages/:type/:uid" component={FallbackPage} />
                     <Route path="/" component={AvalancheCanada} />
                 </Switch>
             </ScrollTo>

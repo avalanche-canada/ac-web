@@ -5,7 +5,7 @@ import AuthService from '~/services/auth'
 import { NotFound } from '~/components/page'
 import LoginComplete from '~/containers/LoginComplete'
 import ReactGA from '~/services/analytics'
-import { StaticPage, Generic } from '~/prismic/containers'
+import { StaticPage, Generic, FallbackPage } from '~/prismic/containers'
 import { WorkInProgress } from '~/components/page'
 import Sponsor from '~/containers/Sponsor'
 
@@ -121,4 +121,16 @@ function sponsorFactory(name, label) {
 
 export function SponsorRoute({ path, name, label }) {
     return <Route path={path} render={sponsorFactory(name, label)} />
+}
+
+function fallbackPage({ match }) {
+    return <FallbackPage {...match.params} />
+}
+
+FallbackPageRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+}
+
+export function FallbackPageRoute({ path }) {
+    return <Route path={path} render={fallbackPage} />
 }

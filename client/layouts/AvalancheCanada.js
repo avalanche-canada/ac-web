@@ -7,6 +7,7 @@ import {
     StaticPageRoute,
     GenricPageRoute,
     WIPPageRoute,
+    FallbackPageRoute,
 } from '~/router/common'
 import { AvalancheCanada as Navbar } from '~/containers/Navbar'
 import Highlight from '~/containers/Highlight'
@@ -162,6 +163,7 @@ export default function AvalancheCanada() {
                     subtitle={defaultSubtitle =>
                         `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`}
                 />
+                <FallbackPageRoute path="/pages/:type/:uid" />
                 <NotFoundRoute />
             </Switch>
             <Switch>
