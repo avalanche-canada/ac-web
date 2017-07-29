@@ -36,10 +36,7 @@ export default class Container extends PureComponent {
         return this.storage.set('highlight-hidden-status', hidden)
     }
     componentDidMount() {
-        this.load()
-    }
-    load() {
-        return this.props
+        this.props
             .load({
                 type: 'highlight',
                 predicates: [
@@ -54,9 +51,11 @@ export default class Container extends PureComponent {
                 ],
             })
             .then(response => {
-                const { results: [highlight] } = response
+                if (response) {
+                    const [highlight] = response.results
 
-                this.highlight = highlight ? parse(highlight) : null
+                    this.highlight = highlight ? parse(highlight) : null
+                }
             })
     }
     handleDismiss = () => {
