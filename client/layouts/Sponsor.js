@@ -1,41 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
-import Container from '~/containers/Sponsor'
+import { Switch } from 'react-router-dom'
+import { SponsorRoute } from '~/router/common'
 
-Sponsor.propTypes = {
-    label: PropTypes.string,
+export default function Sponsor() {
+    return (
+        <Switch>
+            <SponsorRoute path="/map/forecasts/kananaskis" name="kananaskis" />
+            <SponsorRoute path="/map/forecasts/:name" name="Forecast" />
+            <SponsorRoute path="/map/hot-zone-reports/:name" name="Forecast" />
+            <SponsorRoute path="/mountain-information-network" name="MIN" />
+            <SponsorRoute path="/events/:uid" name="EventPage" />
+            <SponsorRoute path="/events" name="EventIndex" />
+            <SponsorRoute path="/news/:uid" name="NewsPage" />
+            <SponsorRoute path="/news" name="NewsIndex" />
+            <SponsorRoute path="/blogs/:uid" name="BlogPage" />
+            <SponsorRoute path="/blogs" name="BlogIndex" />
+            <SponsorRoute path="/forecasts/kananaskis" name="kananaskis" />
+            <SponsorRoute path="/forecasts" name="Forecast" />
+            <SponsorRoute path="/hot-zone-reports" name="Forecast" />
+            <SponsorRoute path="/weather" name="Weather" />
+            <SponsorRoute path="/training" name="Training" />
+            <SponsorRoute path="/courses" name="TrainingCourses" />
+            <SponsorRoute path="/instructing-ast" name="Training" />
+            <SponsorRoute path="/youth" name="Youth" />
+            <SponsorRoute path="/gear" name="Gear" />
+        </Switch>
+    )
 }
-
-export default function Sponsor({ label }) {
-    function render({ match }) {
-        const { url, path } = match
-        const name = MATCHES.get(url) || MATCHES.get(path)
-
-        return name ? <Container name={name} label={label} /> : null
-    }
-
-    return <Route render={render} />
-}
-
-const MATCHES = new Map([
-    ['/map/forecasts/kananaskis', 'kananaskis'],
-    ['/map/forecasts/:name', 'Forecast'],
-    ['/map/hot-zone-reports/:name', 'Forecast'],
-    ['/mountain-information-network', 'MIN'],
-    ['/events/:uid', 'EventPage'],
-    ['/events', 'EventIndex'],
-    ['/news/:uid', 'NewsPage'],
-    ['/news', 'NewsIndex'],
-    ['/blogs/:uid', 'BlogPage'],
-    ['/blogs', 'BlogIndex'],
-    ['/forecasts/kananaskis', 'kananaskis'],
-    ['/forecasts', 'Forecast'],
-    ['/hot-zone-reports', 'Forecast'],
-    ['/weather', 'Weather'],
-    ['/training', 'Training'],
-    ['/courses', 'TrainingCourses'],
-    ['/instructing-ast', 'Training'],
-    ['/youth', 'Youth'],
-    ['/gear', 'Gear'],
-])

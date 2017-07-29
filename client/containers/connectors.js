@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom'
 import * as EntitiesActions from '~/actions/entities'
 import * as PrismicActions from '~/actions/prismic'
 import { fitBounds, flyTo } from '~/actions/map'
+import { loadSponsors } from '~/actions/sponsors'
 import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
@@ -368,7 +369,8 @@ export const sponsor = compose(
     connect(
         createStructuredSelector({
             uid: getSponsorUid,
-        })
+        }),
+        { loadSponsors }
     ),
     withProps(props => ({
         params: {
@@ -376,6 +378,11 @@ export const sponsor = compose(
             uid: props.uid || null,
         },
     })),
+    lifecycle({
+        componentDidMount() {
+            this.props.loadSponsors()
+        },
+    }),
     prismic(getSponsor)
 )
 

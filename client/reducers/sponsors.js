@@ -1,18 +1,18 @@
 import typeToReducer from 'type-to-reducer'
 import { GET_SPONSORS } from '~/actions/sponsors'
 import { LocalStorage } from '~/services/storage'
-import format from 'date-fns/format'
+import formatDate from 'date-fns/format'
+
+const storage = LocalStorage.create()
 
 export default typeToReducer(
     {
         [GET_SPONSORS]: {
-            FULFILLED(state, { payload: { data } }) {
-                const storage = LocalStorage.create()
-                const date = format(new Date(), 'YYYY-MM-DD')
-                const sponsors = {
-                    ...data.default,
-                    ...(data[date] || {}),
-                }
+            FULFILLED(state, { payload }) {
+                const date = formatDate(new Date(), 'YYYY-MM-DD')
+                const sponsors = {}
+
+                Object.assign(sponsors, payload.default, payload[date])
 
                 storage.set('sponsors', sponsors)
 
@@ -20,5 +20,5 @@ export default typeToReducer(
             },
         },
     },
-    LocalStorage.create().get('sponsors', {})
+    storage.get('sponsors', {})
 )

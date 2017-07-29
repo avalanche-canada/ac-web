@@ -7,6 +7,7 @@ import LoginComplete from '~/containers/LoginComplete'
 import ReactGA from '~/services/analytics'
 import { StaticPage, Generic } from '~/prismic/containers'
 import { WorkInProgress } from '~/components/page'
+import Sponsor from '~/containers/Sponsor'
 
 function privateRenderFactory(render, component, children) {
     return function privateRender(props) {
@@ -104,4 +105,20 @@ WIPPageRoute.propTypes = {
 
 export function WIPPageRoute({ path, ...rest }) {
     return <Route path={path} render={() => <WorkInProgress {...rest} />} />
+}
+
+SponsorRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+}
+
+function sponsorFactory(name, label) {
+    return function sponsor() {
+        return <Sponsor name={name} label={label} />
+    }
+}
+
+export function SponsorRoute({ path, name, label }) {
+    return <Route path={path} render={sponsorFactory(name, label)} />
 }
