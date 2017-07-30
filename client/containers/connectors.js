@@ -107,19 +107,6 @@ export const archiveForecast = compose(
         }
     ),
     withHandlers({
-        onParamsChange: props => ({ name, date }) => {
-            const paths = ['/forecasts', 'archives']
-
-            if (name) {
-                paths.push(name)
-            }
-
-            if (date) {
-                paths.push(date)
-            }
-
-            props.history.push(paths.join('/'))
-        },
         loadForecast: props => () => {
             const { name, date } = props
 
@@ -189,19 +176,6 @@ export const archiveHotZoneReport = compose(
         }
     ),
     withHandlers({
-        onParamsChange: props => ({ name, date }) => {
-            const paths = ['/hot-zone-reports', 'archives']
-
-            if (name) {
-                paths.push(name)
-            }
-
-            if (date) {
-                paths.push(date)
-            }
-
-            props.history.push(paths.join('/'))
-        },
         loadHotZoneReportsForRegion: props => region => {
             const type = 'hotzone-report'
 
@@ -218,14 +192,16 @@ export const archiveHotZoneReport = compose(
         componentDidMount() {
             this.props.loadAll()
 
-            const { name } = this.props.params
+            const { name } = this.props.match.params
 
             if (name) {
                 this.props.loadHotZoneReportsForRegion(name)
             }
         },
-        componentWillReceiveProps({ params: { name } }) {
-            if (name && name !== this.props.params.name) {
+        componentWillReceiveProps({ match }) {
+            const { name } = match.params
+
+            if (name && name !== this.props.match.params.name) {
                 this.props.loadHotZoneReportsForRegion(name)
             }
         },

@@ -25,13 +25,13 @@ function createLink(region, date, isArchivesPage) {
 }
 
 export default compose(
+    withRouter,
     setPropTypes({
         region: PropTypes.string.isRequired,
     }),
-    withRouter,
     mapProps(props => {
-        const { region, date, router } = props
-        const isArchivesPage = router.isActive(createLink(region, date, true))
+        const { region, date, match } = props
+        const isArchivesPage = match.url === createLink(region, date, true)
         const previous = subDays(date, 1)
         const next = addDays(date, 1)
 

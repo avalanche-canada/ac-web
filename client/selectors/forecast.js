@@ -13,6 +13,8 @@ import camelCase from 'lodash/camelCase'
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
 
+// TODO: Move to API transformers
+
 const TO_RATINGS = new Map([
     ['1:Low', Ratings.LOW],
     ['2:Moderate', Ratings.MODERATE],
@@ -150,6 +152,7 @@ export default createSelector(
         let link = null
 
         if (externalUrl) {
+            // TODO: Rework with the rr4
             if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
                 link = {
                     to: '/blogs?category=north-rockies',

@@ -15,16 +15,12 @@ import Footer from '~/components/footer'
 import MainMap from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
-import * as FeedContainers from './Feed'
-import * as FeedPostContainers from '~/containers/feed'
-import Forecast from '~/containers/Forecast'
-import Forecasts from '~/containers/Forecasts'
-import ArchiveForecast from '~/containers/ArchiveForecast'
-import HotZoneReport from '~/containers/HotZoneReport'
-import ArchiveHotZoneReport from '~/containers/ArchiveHotZoneReport'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './Weather'
+import HotZoneReport from './HotZoneReport'
+import Forecast from './Forecast'
+import * as Feed from './Feed'
 import Glossary from '~/containers/Glossary'
 
 export default function AvalancheCanada() {
@@ -39,35 +35,11 @@ export default function AvalancheCanada() {
                 <Route path="/map/:type?/:name?" component={MainMap} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
-                <Route
-                    path="/hot-zone-reports/:name/:uid?"
-                    component={HotZoneReport}
-                />
-                <Route
-                    path="/hot-zone-reports/archives/:name?/:date?"
-                    component={ArchiveHotZoneReport}
-                />
-                <Route path="/forecasts/:name/:date?" component={Forecast} />
-                <Route path="/forecasts" component={Forecasts} />
-                <Route
-                    path="/forecasts/archives/:name?/:date?"
-                    component={ArchiveForecast}
-                />
-                <Route
-                    path="/blogs/:uid"
-                    component={FeedPostContainers.BlogPost}
-                />
-                <Route path="/blogs" component={FeedContainers.BlogFeed} />
-                <Route
-                    path="/news/:uid"
-                    component={FeedPostContainers.NewsPost}
-                />
-                <Route path="/news" component={FeedContainers.NewsFeed} />
-                <Route
-                    path="/events/:uid"
-                    component={FeedPostContainers.EventPost}
-                />
-                <Route path="/events" component={FeedContainers.EventFeed} />
+                <Route path="/hot-zone-reports" component={HotZoneReport} />
+                <Route path="/forecasts" component={Forecast} />
+                <Route path="/blogs" component={Feed.Blogs} />
+                <Route path="/news" component={Feed.News} />
+                <Route path="/events" component={Feed.Events} />
                 <Route
                     path="/mountain-information-network"
                     component={MountainInformationNetwork}

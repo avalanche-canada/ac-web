@@ -20,7 +20,7 @@ Container.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
     isUnderSpecialWarning: PropTypes.bool,
-    params: PropTypes.object,
+    name: PropTypes.string,
     specialWarningLink: PropTypes.object,
     specialWarningContent: PropTypes.string,
 }
@@ -30,12 +30,11 @@ function Container({
     forecast,
     isLoading,
     isError,
-    params,
     isUnderSpecialWarning,
     specialWarningLink,
     specialWarningContent,
 }) {
-    const isKananaskis = params.name === 'kananaskis'
+    const isKananaskis = name === 'kananaskis'
     const isPrintable = forecast ? !forecast.isArchived : false
 
     // TODO: Huge hack, please FIXME!!!

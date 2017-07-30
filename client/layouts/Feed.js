@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withProps, withHandlers, lifecycle } from 'recompose'
+import { Route, Redirect, Switch } from 'react-router-dom'
+import { compose, withProps, withHandlers } from 'recompose'
 import { FilterSet, Feed as Base } from '~/containers/feed'
 import { Page, Content, Header, Main } from '~/components/page'
 import { valueHandlerFactory, arrayValueHandlerFactory } from '~/utils/router'
 import { withRouter } from 'react-router-dom'
 import { parse } from '~/utils/search'
-import { replace } from '~/utils/router'
 import { NEWS, BLOG, EVENT } from '~/selectors/prismic/feed'
+import { BlogPost, NewsPost, EventPost } from '~/containers/feed'
 
 Layout.propTypes = {
     type: PropTypes.string.isRequired,
@@ -28,16 +29,12 @@ function Layout({ type, title, ...query }) {
     )
 }
 
-function toSet(tags) {
-    if (Array.isArray(tags)) {
-        return new Set(tags)
-    }
-
+function toSet(tags = []) {
     if (typeof tags === 'string') {
-        return new Set([tags])
+        tags = [tags]
     }
 
-    return new Set()
+    return new Set(tags)
 }
 
 const Feed = compose(
@@ -62,34 +59,70 @@ const Feed = compose(
     })
 )(Layout)
 
-export default Feed
+function blogs() {
+    return <Feed type={BLOG} title="Blogs" />
+}
 
-export const NewsFeed = withProps({
-    type: NEWS,
-    title: 'Recent news',
-})(Feed)
+Blogs.propTypes = {
+    match: PropTypes.object.isRequired,
+}
 
-export const BlogFeed = withProps({
-    type: BLOG,
-    title: 'Blogs',
-})(Feed)
+export function Blogs({ match }) {
+    const { path } = match
 
-export const EventFeed = compose(
-    withProps({
-        type: EVENT,
-        title: 'Events',
-    }),
-    lifecycle({
-        componentDidMount() {
-            const search = parse(this.props.location.search)
+    return (
+        <Switch>
+            <Route path={`${path}/:uid`} component={BlogPost} />
+            <Route path={path} render={blogs} />
+        </Switch>
+    )
+}
 
-            if ('timeline' in search) {
-                return
-            }
+function news() {
+    return <Feed type={NEWS} title="Recent news" />
+}
 
-            search.timeline = 'upcoming'
+News.propTypes = {
+    match: PropTypes.object.isRequired,
+}
 
-            replace(this.props, { search })
-        },
-    })
-)(Feed)
+export function News({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Route path={`${path}/:uid`} component={NewsPost} />
+            <Route path={path} render={news} />
+        </Switch>
+    )
+}
+
+function events(props) {
+    const search = parse(props.location.search)
+
+    if ('timeline' in search) {
+        return <Feed type={EVENT} title="Events" />
+    }
+
+    const location = {
+        ...props.location,
+        search: '?timeline=upcoming',
+    }
+
+    return <Redirect to={location} />
+}
+
+Events.propTypes = {
+    match: PropTypes.object.isRequired,
+}
+
+export function Events({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Route path={`${path}/:uid`} component={EventPost} />
+            <Route path={path} render={events} />
+        </Switch>
+    )
+}
