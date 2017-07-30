@@ -12,7 +12,7 @@ import { Wrapper } from '~/components/tooltip'
 import styles from './Map.css'
 import Primary from './Primary'
 import Secondary from './Secondary'
-import Menu from '~/containers/drawers/content/Menu'
+import { Menu } from '~/containers/drawers'
 import ToggleMenu from '~/containers/drawers/controls/ToggleMenu'
 import externals from '~/router/externals'
 
