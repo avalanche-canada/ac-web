@@ -5,9 +5,21 @@ import { SponsorRoute } from '~/router/common'
 export default function Sponsor() {
     return (
         <Switch>
-            <SponsorRoute path="/map/forecasts/kananaskis" name="kananaskis" />
-            <SponsorRoute path="/map/forecasts/:name" name="Forecast" />
-            <SponsorRoute path="/map/hot-zone-reports/:name" name="Forecast" />
+            <SponsorRoute
+                path="/map/forecasts/kananaskis"
+                name="kananaskis"
+                label={null}
+            />
+            <SponsorRoute
+                path="/map/forecasts/:name"
+                name="Forecast"
+                label={null}
+            />
+            <SponsorRoute
+                path="/map/hot-zone-reports/:name"
+                name="Forecast"
+                label={null}
+            />
             <SponsorRoute path="/mountain-information-network" name="MIN" />
             <SponsorRoute path="/events/:uid" name="EventPage" />
             <SponsorRoute path="/events" name="EventIndex" />
