@@ -5,7 +5,7 @@ import { Page as Base, Header, Main, Content } from '~/components/page'
 import { Responsive } from '~/components/table'
 import { Br } from '~/components/misc'
 import Table, { Status, Metadata } from '~/containers/min/Table'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import {
     valueHandlerFactory,
     arrayValueHandlerFactory,
@@ -16,23 +16,22 @@ const DAYS = '7'
 const TYPES = []
 
 PageLayout.propTypes = {
-    location: PropTypes.object.isRequired,
-    handleDaysChange: PropTypes.func.isRequired,
-    handleTypesChange: PropTypes.func.isRequired,
-    handleSortingChange: PropTypes.func.isRequired,
+    days: PropTypes.number,
+    types: PropTypes.arrayOf(PropTypes.string),
+    sorting: PropTypes.string,
+    onDaysChange: PropTypes.func.isRequired,
+    onTypesChange: PropTypes.func.isRequired,
+    onSortingChange: PropTypes.func.isRequired,
 }
 
 function PageLayout({
-    location,
-    handleDaysChange,
-    handleTypesChange,
-    handleSortingChange,
+    days = DAYS,
+    types = TYPES,
+    sorting,
+    onDaysChange,
+    onTypesChange,
+    onSortingChange,
 }) {
-    let { days = DAYS, types = TYPES, sorting } = location.query
-
-    days = Number(days)
-    types = typeof types === 'string' ? new Set([types]) : new Set(types)
-
     return (
         <Base>
             <Header title="Mountain Information Network submissions" />
@@ -41,8 +40,8 @@ function PageLayout({
                     <Metadata
                         days={days}
                         types={types}
-                        onDaysChange={handleDaysChange}
-                        onTypesChange={handleTypesChange}
+                        onDaysChange={onDaysChange}
+                        onTypesChange={onTypesChange}
                     />
                     <Br />
                     <Responsive>
@@ -50,7 +49,7 @@ function PageLayout({
                             days={days}
                             types={types}
                             sorting={sorting}
-                            onSortingChange={handleSortingChange}
+                            onSortingChange={onSortingChange}
                         />
                     </Responsive>
                     <Status days={days} types={types} />
@@ -63,8 +62,8 @@ function PageLayout({
 export const Page = compose(
     withRouter,
     withHandlers({
-        handleDaysChange: valueHandlerFactory('days'),
-        handleTypesChange: arrayValueHandlerFactory('types'),
-        handleSortingChange: sortingHandlerFactory(),
+        onDaysChange: valueHandlerFactory('days'),
+        onTypesChange: arrayValueHandlerFactory('types'),
+        onSortingChange: sortingHandlerFactory(),
     })
 )(PageLayout)
