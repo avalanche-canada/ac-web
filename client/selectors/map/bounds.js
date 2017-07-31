@@ -99,7 +99,7 @@ export const computeFitBounds = createSelector(
             options: {
                 offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
                 padding: 75,
-                maxZoom: 12.5,
+                maxZoom: 15,
                 ...options,
             },
         }
