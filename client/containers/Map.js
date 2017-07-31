@@ -140,7 +140,7 @@ class Container extends Component {
             return
         }
 
-        // TODO: Only use the visible layers
+        // TODO: Only use the visible layers, actually, it is not working, need to respect an order!
         for (const layer of LAYERS) {
             const features = this.map.queryRenderedFeatures(point, {
                 layers: LayerIds.get(layer),
