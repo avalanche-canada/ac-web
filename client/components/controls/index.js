@@ -1,5 +1,4 @@
 export Input from './Input'
-export Select from './Select'
 export * from './Dropdown'
 export Geocoder from './Geocoder'
 export DateRange from './DateRange'
