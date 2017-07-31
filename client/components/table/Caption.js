@@ -1,11 +1,19 @@
-import { Element, onlyUpdateForKey } from '~/compose'
-import { DOM } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
+import { onlyUpdateForKey } from '~/compose'
 import styles from './Table.css'
 
-export default onlyUpdateForKey('children')(
-    Element({
-        name: 'Caption',
-        component: DOM.caption,
-        styles,
-    })
-)
+Caption.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function Caption({ children }) {
+    return (
+        <caption styleName="Caption">
+            {children}
+        </caption>
+    )
+}
+
+export default onlyUpdateForKey('children')(CSSModules(Caption, styles))

@@ -39,12 +39,11 @@ function Button({
         ChevronLeft: chevron === LEFT,
         ChevronRight: chevron === RIGHT,
         Chevron: chevron === true,
+        IconOnly: !children,
     })
 
     return (
-        <button
-            styleName={`${styleName} ${children ? '' : 'IconOnly'}`}
-            {...rest}>
+        <button styleName={styleName} {...rest}>
             {icon
                 ? <div styleName="IconContainer">
                       {icon}

@@ -1,12 +1,13 @@
-import React, { DOM } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
     compose,
     withHandlers,
     onlyUpdateForKeys,
     setPropTypes,
+    withProps,
 } from 'recompose'
-import { Element, neverUpdate } from '~/compose'
+import { neverUpdate } from '~/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 
@@ -42,10 +43,10 @@ export default compose(
     CSSModules(styles)
 )(Segment)
 
-export const Disabled = neverUpdate(
-    Element({
-        component: DOM.span,
-        name: 'Disabled',
-        styles,
+export const Disabled = compose(
+    neverUpdate,
+    CSSModules(styles),
+    withProps({
+        styleName: 'Disabled',
     })
-)
+)('span')

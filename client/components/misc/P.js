@@ -1,36 +1,31 @@
-import { DOM } from 'react'
+import React from 'react'
+import { compose, withHandlers, withState } from 'recompose'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import {
-    compose,
-    withHandlers,
-    mapProps,
-    withState,
-    defaultProps,
-    setPropTypes,
-} from 'recompose'
 import styles from './P.css'
 
-export default compose(
-    setPropTypes({
-        children: PropTypes.string.isRequired,
-        capAt: PropTypes.number,
-    }),
-    defaultProps({
-        children: '',
-        capAt: Infinity,
-    }),
-    withState('capAt', 'setCapAt', props => props.capAt),
-    mapProps(({ capAt, children, title, ...props }) => {
-        const capped = children.length > capAt
+P.propTypes = {
+    children: PropTypes.string.isRequired,
+    capAt: PropTypes.number,
+    title: PropTypes.string,
+}
 
-        return {
-            ...props,
-            children: capped ? children.substr(0, capAt) : children,
-            styleName: capped ? 'Capped' : null,
-            title: capped ? 'Click to read more' : title,
-        }
-    }),
+function P({ children = '', capAt = Infinity, title, ...props }) {
+    const capped = children.length > capAt
+    const styleName = capped ? 'Capped' : null
+
+    title = capped ? 'Click to read more' : title
+    children = capped ? children.substr(0, capAt) : children
+
+    return (
+        <p styleName={styleName} {...props}>
+            {children}
+        </p>
+    )
+}
+
+export default compose(
+    withState('capAt', 'setCapAt', props => props.capAt),
     withHandlers({
         onClick: props => event => {
             event.preventDefault()
@@ -39,4 +34,4 @@ export default compose(
         },
     }),
     CSSModules(styles)
-)(DOM.p)
+)(P)

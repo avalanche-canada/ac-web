@@ -1,9 +1,8 @@
-import { DOM } from 'react'
 import { defaultProps } from 'recompose'
 import { Element } from '~/compose'
 import styles from './Text.css'
 
-function text({ children = null, name, component = DOM.p }) {
+function text({ children = null, name, component = 'p' }) {
     return defaultProps({ children })(
         Element({
             name,
@@ -37,5 +36,5 @@ export const Warning = text({
 
 export const Helper = text({
     name: 'Helper',
-    component: DOM.span,
+    component: 'span',
 })

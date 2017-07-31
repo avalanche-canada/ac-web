@@ -8,9 +8,9 @@ DrawerClose.propTypes = {
     children: PropTypes.node,
 }
 
-function DrawerClose({ children, ...props }) {
+function DrawerClose({ children, ...rest }) {
     return (
-        <Close styleName="Button--Close" {...props}>
+        <Close styleName="Button--Close" {...rest}>
             {children}
         </Close>
     )

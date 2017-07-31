@@ -1,17 +1,20 @@
-import { compose, setDisplayName, withProps } from 'recompose'
+import React from 'react'
+import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import Button from './Button'
 import { SUBTILE } from './kinds'
 import styles from './Button.css'
 
-// TODO Modify prop types to have an aria-label
+Close.propTypes = {
+    children: PropTypes.node.isRequired,
+}
 
-export default compose(
-    setDisplayName('Close'),
-    CSSModules(styles),
-    withProps({
-        children: '×',
-        kind: SUBTILE,
-        styleName: 'Close',
-    })
-)(Button)
+function Close({ children = '×', ...rest }) {
+    return (
+        <Button kind={SUBTILE} styleName="Close" {...rest}>
+            {children}
+        </Button>
+    )
+}
+
+export default CSSModules(Close, styles)
