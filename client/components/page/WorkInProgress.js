@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Link from 'react-router/lib/Link'
+import { Link } from 'react-router-dom'
 import Page from './Page'
 import Content from './Content'
 import Main from './Main'
@@ -11,8 +11,8 @@ import { InnerHTML } from '~/components/misc'
 import { Credit } from '~/components/markup'
 
 WorkInProgress.propTypes = {
-    name: PropTypes.string.isRequired,
-    oldUrl: PropTypes.string.isRequired,
+    name: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
+    oldUrl: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
     title: PropTypes.string,
     subtitle: PropTypes.string,
 }
@@ -28,6 +28,14 @@ function WorkInProgress({
     title = WorkInProgress.defaultProps.title,
     subtitle = WorkInProgress.defaultProps.subtitle,
 }) {
+    if (typeof title === 'function') {
+        title = title(WorkInProgress.defaultProps.title)
+    }
+
+    if (typeof subtitle === 'function') {
+        subtitle = subtitle(WorkInProgress.defaultProps.subtitle)
+    }
+
     return (
         <Page styleName="WorkInProgress">
             <Content>
@@ -49,9 +57,7 @@ function WorkInProgress({
                             </Link>
                         </ButtonSet>
                     </div>
-                    <Credit>
-                        RavenEye Photography
-                    </Credit>
+                    <Credit>RavenEye Photography</Credit>
                 </Main>
             </Content>
         </Page>

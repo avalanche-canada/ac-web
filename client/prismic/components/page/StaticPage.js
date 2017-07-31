@@ -14,9 +14,9 @@ import Sidebar from '~/components/sidebar'
 import { Status } from '~/components/misc'
 import { parse } from '~/prismic'
 import { SliceZone } from '~/prismic/components/base'
+import { STATIC_PAGE } from '~/constants/prismic'
 
 StaticPage.propTypes = {
-    type: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string,
     status: PropTypes.object.isRequired,
@@ -27,7 +27,6 @@ StaticPage.propTypes = {
 const ARRAY = []
 
 export default function StaticPage({
-    type,
     uid,
     title,
     status,
@@ -40,20 +39,22 @@ export default function StaticPage({
     }
     const { data } = parse(document, defaults)
     const { headline, content, sidebar, banner } = data
-    const contact = typeof contact === 'string'
-        ? <Contact email={contact} />
-        : contact
+    const contact =
+        typeof contact === 'string' ? <Contact email={contact} /> : contact
 
     // TODO: Looking at className (prismic.css) usage and find out is we still need that
     // TODO: Removing className here and in the stylesheet
     return (
-        <Page className={`${type}-${uid}`} fullWidth={fullWidth}>
+        <Page className={`${STATIC_PAGE}-${uid}`} fullWidth={fullWidth}>
             {banner && <Banner {...banner.main} />}
             <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>
-                    {headline && <Headline>{headline}</Headline>}
+                    {headline &&
+                        <Headline>
+                            {headline}
+                        </Headline>}
                     <SliceZone value={content} />
                 </Main>
                 {sidebar &&

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import {
     Navbar,
     Header,
@@ -11,7 +11,7 @@ import {
 import Forecast, { Metadata } from '~/components/forecast'
 import { Muted, Error, SPAW } from '~/components/misc'
 import { forecast } from '~/containers/connectors'
-import Sponsor from '~/containers/Sponsor'
+import Sponsor from '~/layouts/Sponsor'
 import { LocateAsClass } from '~/components/button/Locate'
 import { Wrapper } from '~/components/tooltip'
 import { Feed } from '~/containers/feed'

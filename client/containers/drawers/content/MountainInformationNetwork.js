@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import {
     Header,
     Container,
@@ -11,7 +11,7 @@ import {
 import { Metadata, Submission } from '~/components/mountainInformationNetwork'
 import { LocateAsClass } from '~/components/button/Locate'
 import { Loading, Error } from '~/components/misc'
-import Sponsor from '~/containers/Sponsor'
+import Sponsor from '~/layouts/Sponsor'
 import { mountainInformationNetworkSubmission } from '~/containers/connectors'
 import { Wrapper } from '~/components/tooltip'
 

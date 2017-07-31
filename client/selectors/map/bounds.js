@@ -4,7 +4,11 @@ import createBbox from '@turf/bbox'
 import turf from '@turf/helpers'
 import mapbox from '~/services/mapbox/map'
 import { getActiveFeatures } from '~/getters/map'
-import { getPrimaryDrawer, getSecondaryDrawer } from '~/getters/drawers'
+import {
+    getDrawers,
+    isPrimaryDrawerOpened,
+    isSecondaryDrawerOpened,
+} from '~/getters/drawers'
 import { getEntities } from '~/getters/entities'
 import { getDocuments } from '~/getters/prismic'
 import { parseLocation } from '~/prismic/parsers'
@@ -42,15 +46,19 @@ function createLngLatBounds(bbox) {
 }
 
 export const computeOffset = createSelector(
-    getPrimaryDrawer,
-    getSecondaryDrawer,
-    (primary, secondary) => (assumePrimaryOpen, assumeSecondaryOpen) => {
+    getDrawers,
+    isPrimaryDrawerOpened,
+    isSecondaryDrawerOpened,
+    ({ primary, secondary }, primaryOpened, secondaryOpened) => (
+        assumePrimaryOpen,
+        assumeSecondaryOpen
+    ) => {
         let x = 0
 
-        if (assumePrimaryOpen || primary.open) {
+        if (assumePrimaryOpen || primaryOpened) {
             x -= primary.width / 2
         }
-        if (assumeSecondaryOpen || secondary.open) {
+        if (assumeSecondaryOpen || secondaryOpened) {
             x += secondary.width / 2
         }
 
@@ -58,42 +66,45 @@ export const computeOffset = createSelector(
     }
 )
 
-export const computeFitBounds = createSelector(computeOffset, computeOffset => (
-    feature,
-    assumePrimaryOpen,
-    assumeSecondaryOpen,
-    options = {}
-) => {
-    if (!feature) {
-        return null
-    }
-
-    let bbox = null
-
-    if (Immutable.Iterable.isIterable(feature)) {
-        if (feature.has('bbox')) {
-            bbox = feature.get('bbox').toJSON()
-        } else if (feature.has('geometry')) {
-            const geometry = feature.get('geometry').toJSON()
-
-            bbox = createBbox(turf.feature(geometry))
-        } else {
+export const computeFitBounds = createSelector(
+    computeOffset,
+    computeOffset => (
+        feature,
+        assumePrimaryOpen,
+        assumeSecondaryOpen,
+        options = {}
+    ) => {
+        if (!feature) {
             return null
         }
-    } else {
-        bbox = createBbox(feature)
-    }
 
-    return {
-        bbox: createLngLatBounds(bbox),
-        options: {
-            offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
-            padding: 75,
-            maxZoom: 12.5,
-            ...options,
-        },
+        let bbox = null
+
+        if (Immutable.Iterable.isIterable(feature)) {
+            if (feature.has('bbox')) {
+                bbox = feature.get('bbox').toJSON()
+            } else if (feature.has('geometry')) {
+                const geometry = feature.get('geometry').toJSON()
+
+                bbox = createBbox(turf.feature(geometry))
+            } else {
+                return null
+            }
+        } else {
+            bbox = createBbox(feature)
+        }
+
+        return {
+            bbox: createLngLatBounds(bbox),
+            options: {
+                offset: computeOffset(assumePrimaryOpen, assumeSecondaryOpen),
+                padding: 75,
+                maxZoom: 12.5,
+                ...options,
+            },
+        }
     }
-})
+)
 
 const DocumentPathToSchema = new Map([
     ['toyota-truck-reports', 'toyota-truck-report'],

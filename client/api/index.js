@@ -51,7 +51,6 @@ const GET_CONFIGS = new Map([
         params => ({
             baseURL: astBaseUrl,
             params,
-            // TODO: To remove when server returns appropriate result
             transformResponse: defaults.transformResponse.concat(
                 transformProviderResponse
             ),
@@ -62,7 +61,6 @@ const GET_CONFIGS = new Map([
         params => ({
             baseURL: astBaseUrl,
             params,
-            // TODO: To remove when server returns appropriate result
             transformResponse: defaults.transformResponse.concat(
                 transformCourseResponse
             ),
@@ -123,7 +121,7 @@ const ENDPOINTS = new Map([
     [
         Schemas.MountainInformationNetworkSubmission,
         (params = {}) =>
-            (params.id ? `min/submissions/${params.id}` : 'min/submissions'),
+            params.id ? `min/submissions/${params.id}` : 'min/submissions',
     ],
     [Schemas.Provider, 'providers'],
     [Schemas.Course, 'courses'],
@@ -196,5 +194,5 @@ export function fetchStaticResource(resource) {
 }
 
 export function fetchSponsors() {
-    return fetchStaticResource('sponsors.json')
+    return fetchStaticResource('sponsors.json').then(extractData)
 }

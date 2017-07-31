@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import Headline from './Headline'
 import Summary from './Summary'
 import Footer from './Footer'

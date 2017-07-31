@@ -1,4 +1,5 @@
-import { lifecycle, onlyUpdateForKeys, shouldUpdate } from 'recompose'
+import { compose, lifecycle, onlyUpdateForKeys, shouldUpdate } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import { scrollPosition } from '~/utils/dom'
 
 export Element from './Element'
@@ -9,16 +10,19 @@ export function onlyUpdateForKey(key) {
     return onlyUpdateForKeys([key])
 }
 
-export const withHash = lifecycle({
-    componentDidMount() {
-        const { hash } = document.location
+export const withHash = compose(
+    withRouter,
+    lifecycle({
+        componentDidMount() {
+            const { hash } = this.props.location
 
-        if (hash && this.props.hash && hash === `#${this.props.hash}`) {
-            const position = scrollPosition(hash)
+            if (hash && this.props.hash && hash === `#${this.props.hash}`) {
+                const position = scrollPosition(hash)
 
-            if (position) {
-                window.scrollTo(...position)
+                if (position) {
+                    window.scrollTo(...position)
+                }
             }
-        }
-    },
-})
+        },
+    })
+)

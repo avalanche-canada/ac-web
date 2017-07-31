@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isAfter from 'date-fns/is_after'
 import Base from '~/components/loop'
 import {
     computeUrls,
@@ -7,7 +8,6 @@ import {
     isForecast,
     fetchMetadata,
 } from '~/services/msc/loop'
-import isAfter from 'date-fns/is_after'
 import { Loading, Error } from '~/components/misc'
 
 NoteSet.propTypes = {
@@ -139,7 +139,7 @@ export default class Loop extends PureComponent {
         }
 
         if (isError) {
-            return <Error>Sorry, we are not able to create your loop.</Error>
+            return <Error>Sorry, we are not able to create the loop.</Error>
         }
 
         return (

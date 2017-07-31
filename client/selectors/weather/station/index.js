@@ -7,10 +7,7 @@ import * as Headers from './headers'
 import { computeOffset } from '~/selectors/map/bounds'
 import Status from '~/utils/status'
 
-function getWeatherStationRaw(state, { params, id }) {
-    // For panel or page
-    id = id || params.id
-
+function getWeatherStationRaw(state, { id }) {
     return getEntityForSchema(state, WeatherStation, id)
 }
 
@@ -20,7 +17,7 @@ const messages = {
 }
 
 const getStatus = createSelector(
-    (state, { params }) => getResultsSet(state, WeatherStation, params),
+    (state, { id }) => getResultsSet(state, WeatherStation, { id }),
     result => Status.createFromResultSet(result, messages)
 )
 

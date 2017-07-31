@@ -10,9 +10,9 @@ import {
 import { Metadata, Station, Footer } from '~/components/weather/station'
 import { Status } from '~/components/misc'
 import { LocateAsClass } from '~/components/button/Locate'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { weatherStation } from '~/containers/connectors'
-import Sponsor from '~/containers/Sponsor'
+import Sponsor from '~/layouts/Sponsor'
 import { Wrapper } from '~/components/tooltip'
 
 const LOCATE_STYLE = {

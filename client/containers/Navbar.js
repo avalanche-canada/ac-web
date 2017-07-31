@@ -1,7 +1,8 @@
 import React from 'react'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import { compose, defaultProps, withProps } from 'recompose'
+import { withRouter } from 'react-router-dom'
+import { compose, defaultProps, withProps, withHandlers } from 'recompose'
 import Navbar, {
     Item,
     Menu,
@@ -15,10 +16,10 @@ import * as Menus from '~/constants/menu'
 import { getIsAuthenticated, getProfile } from '~/getters/auth'
 import { login, logout } from '~/actions/auth'
 import AvalancheCanadaLogo from '~/styles/AvalancheCanada.svg'
-import AvalancheCanadaFoundationLogo
-    from '~/styles/AvalancheCanadaFoundation.svg'
+import AvalancheCanadaFoundationLogo from '~/styles/AvalancheCanadaFoundation.svg'
 
 export const AvalancheCanada = compose(
+    withRouter,
     defaultProps({
         logo: AvalancheCanadaLogo,
         donate: '/foundation',
@@ -30,11 +31,22 @@ export const AvalancheCanada = compose(
             profile: getProfile,
         }),
         {
-            onLogin: login,
-            onLogout: logout,
+            onLoginClick: login,
+            logout,
         }
     ),
-    withProps(({ isAuthenticated, profile, onLogin, onLogout }) => {
+    withHandlers({
+        onLogoutClick(props) {
+            return () => {
+                props.logout()
+
+                // TODO: Need to test if current route is private!
+
+                props.history.push('/')
+            }
+        },
+    }),
+    withProps(({ isAuthenticated, profile, onLoginClick, onLogoutClick }) => {
         const { name, picture } = profile || {}
 
         return {
@@ -44,14 +56,12 @@ export const AvalancheCanada = compose(
                           <Section>
                               <UserProfile name={name} avatar={picture} />
                               <Header>
-                                  <Link onClick={onLogout}>
-                                      Logout
-                                  </Link>
+                                  <Link onClick={onLogoutClick}>Logout</Link>
                               </Header>
                           </Section>
                       </Menu>
                   </Item>
-                : <Item title="Login" onClick={onLogin} />,
+                : <Item title="Login" onClick={onLoginClick} />,
         }
     })
 )(Navbar)

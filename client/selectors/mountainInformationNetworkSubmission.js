@@ -5,8 +5,8 @@ import { getResultsSet } from '~/getters/api'
 import { computeOffset } from '~/selectors/map/bounds'
 
 // TODO: Try to remove the need for that function
-export function getId({ id, params }) {
-    return id || params.id
+export function getId({ id, match }) {
+    return id || match.params.id
 }
 
 function getSubmission(state, props) {
@@ -46,7 +46,8 @@ export default createSelector(
             mapLink: `/map?panel=${Schema.key}/${id}`,
             title: 'Loading...',
             messages: {
-                error: 'An error occured while loading the Mountain Information Network submission.',
+                error:
+                    'An error occured while loading the Mountain Information Network submission.',
                 loading: 'Loading Mountain Information Network submission...',
             },
             computeFlyTo,

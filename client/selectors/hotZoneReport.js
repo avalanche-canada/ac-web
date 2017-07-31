@@ -11,8 +11,8 @@ import upperFirst from 'lodash/upperFirst'
 
 // TODO: Move most of these parsing function to module prismic/parsers
 
-function getHotZone(state, { params }) {
-    return getEntityForSchema(state, Schemas.HotZone, params.name)
+function getHotZone(state, { name }) {
+    return getEntityForSchema(state, Schemas.HotZone, name)
 }
 
 function getHotZoneReportDocuments(state) {
@@ -193,13 +193,15 @@ function transform({ uid, data }) {
 }
 
 const getValidHotZoneReport = createSelector(
-    (state, props) => props.params.name,
-    (state, props) => props.params.uid,
+    (state, props) => props.name,
+    (state, props) => props.uid,
     getParsedHotZoneReports,
     (name, uid, reports) => {
-        const filter = typeof uid === 'string'
-            ? report => report.uid === uid
-            : report => report.region === name && isHotZoneReportValid(report)
+        const filter =
+            typeof uid === 'string'
+                ? report => report.uid === uid
+                : report =>
+                      report.region === name && isHotZoneReportValid(report)
 
         return reports
             .filter(filter)
@@ -220,7 +222,7 @@ const getHotZoneReport = createSelector(
     getComputeBounds,
     // TODO: Remove that isLoading
     (state, props) => props.isLoading,
-    (state, props) => props.params.name,
+    (state, props) => props.name,
     (zone, report, computeBounds, isLoading, region) => {
         const name = zone && zone.get('name')
         const Schema = Schemas.HotZoneReport
@@ -261,7 +263,7 @@ function createDateRange(report) {
 }
 
 export const getHotZoneReportDateRanges = createSelector(
-    (state, props) => props.params.name,
+    (state, props) => props.name,
     getParsedHotZoneReports,
     (name, reports) =>
         reports
@@ -276,8 +278,8 @@ export const getArchiveHotZoneReport = createSelector(
     getHotZone,
     getParsedHotZoneReports,
     (state, props) => {
-        const { name } = props.params
-        const date = parseDate(props.params.date, 'YYYY-MM-DD')
+        const { name } = props
+        const date = parseDate(props.date, 'YYYY-MM-DD')
 
         return function find(report) {
             return report.region === name && isReportWithinRange(report, date)

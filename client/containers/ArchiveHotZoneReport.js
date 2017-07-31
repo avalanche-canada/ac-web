@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { compose, withProps, withHandlers } from 'recompose'
-import withRouter from 'react-router/lib/withRouter'
 import { Page, Content, Header, Main } from '~/components/page'
 import HotZoneReport, {
     Metadata as HotZoneReportMetadata,
@@ -13,8 +13,8 @@ import {
     DayPicker,
 } from '~/components/controls'
 import { archiveHotZoneReport } from '~/containers/connectors'
-import parse from 'date-fns/parse'
-import format from 'date-fns/format'
+import parseDate from 'date-fns/parse'
+import formatDate from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
 
 Component.propTypes = {
@@ -80,21 +80,30 @@ function Component({
                     {report
                         ? <HotZoneReport report={report} />
                         : title &&
-                              date &&
-                              <Muted>
-                                  No report available in
-                                  {' '}
-                                  {title}
-                                  {' '}
-                                  for
-                                  {' '}
-                                  <DateElement value={date} />
-                                  .
-                              </Muted>}
+                          date &&
+                          <Muted>
+                              No report available in {title} for{' '}
+                              <DateElement value={date} />
+                              .
+                          </Muted>}
                 </Main>
             </Content>
         </Page>
     )
+}
+
+function push(history, name, date) {
+    const paths = ['/hot-zone-reports', 'archives']
+
+    if (name) {
+        paths.push(name)
+    }
+
+    if (date) {
+        paths.push(formatDate(date, 'YYYY-MM-DD'))
+    }
+
+    history.push(paths.join('/'))
 }
 
 export default compose(
@@ -102,23 +111,14 @@ export default compose(
     archiveHotZoneReport,
     withHandlers({
         onNameChange: props => name => {
-            props.onParamsChange({
-                ...props.params,
-                name,
-            })
+            push(props.history, name, props.date)
         },
         onDateChange: props => date => {
-            props.onParamsChange({
-                ...props.params,
-                date: format(date, 'YYYY-MM-DD'),
-            })
+            push(props.history, props.name, date)
         },
     }),
-    withProps(({ params, regions }) => ({
-        ...params,
-        date: typeof params.date === 'string'
-            ? parse(params.date, 'YYYY-MM-DD')
-            : null,
+    withProps(({ date, regions }) => ({
+        date: typeof date === 'string' ? parseDate(date, 'YYYY-MM-DD') : null,
         regionOptions: new Map(
             regions
                 .map(region => [region.get('id'), region.get('name')])

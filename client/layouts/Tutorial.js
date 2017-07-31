@@ -1,28 +1,13 @@
 import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 import { Page, Main, Content } from '~/components/page'
 import { Home, Tree, Tutorial, AtesExercise } from '~/containers/Tutorial'
 import CSSModules from 'react-css-modules'
 import styles from './Tutorial.css'
 
-const ATES_EXERCISE_SPLAT =
-    'avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise'
-
-function Layout({ params, location }) {
-    const { splat } = params
-    const { slug } = location.query
-    let children = null
-
-    if (splat === ATES_EXERCISE_SPLAT) {
-        children = <AtesExercise />
-    } else {
-        if (splat) {
-            children = <Tutorial splat={splat} />
-        } else if (slug) {
-            children = <Tutorial slug={slug} />
-        } else {
-            children = <Home />
-        }
-    }
+function Layout({ match: { path }, location }) {
+    const regex = new RegExp(`^${path}/?`)
+    const splat = location.pathname.replace(regex, '')
 
     return (
         <Page>
@@ -33,7 +18,16 @@ function Layout({ params, location }) {
                             <Tree currentPage={splat} />
                         </div>
                         <div styleName="Content">
-                            {children}
+                            <Switch>
+                                <Route
+                                    path={`${path}/avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise`}
+                                    component={AtesExercise}
+                                />
+                                <Route exact path={path} component={Home} />
+                                <Route
+                                    render={() => <Tutorial splat={splat} />}
+                                />
+                            </Switch>
                         </div>
                     </div>
                 </Main>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import t from '~/vendor/tcomb-form'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import { MountainInformationNetworkSubmission } from '~/api/schemas'
 import { Page, Header, Main, Content } from '~/components/page'
@@ -10,7 +10,6 @@ import OPTIONS from './options'
 import { postMountainInformationNetworkSubmission } from '~/actions/entities'
 import Submission from './types'
 import AuthService from '~/services/auth'
-import CancelError from '~/utils/promise/CancelError'
 import { Submit } from '~/components/button'
 import styles from './Form.css'
 import { TYPES } from '~/constants/min'
@@ -30,7 +29,7 @@ function isObservationError(error) {
 @CSSModules(styles)
 export default class SubmissionForm extends Component {
     static propTypes = {
-        router: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         post: PropTypes.func.isRequired,
     }
     state = {
@@ -142,43 +141,29 @@ export default class SubmissionForm extends Component {
         scrollIntoView(`.fieldset-${root}`)
     }
     submit(value) {
-        this.setState(
-            {
-                isSubmitting: true,
-            },
-            () => {
-                this.props.post(value).then(
-                    data => {
-                        const { key } = MountainInformationNetworkSubmission
-                        const id = MountainInformationNetworkSubmission.getId(
-                            data.value
-                        )
+        this.setState({ isSubmitting: true }, () => {
+            this.props.post(value).then(
+                data => {
+                    const { key } = MountainInformationNetworkSubmission
+                    const id = MountainInformationNetworkSubmission.getId(
+                        data.value
+                    )
 
-                        this.props.router.push({
-                            pathname: '/map',
-                            query: {
-                                panel: `${key}/${id}`,
-                            },
-                        })
-                    },
-                    err => {
-                        this.setState({
-                            isSubmitting: false,
-                        })
+                    this.props.history.push(`/map?panel=${key}/${id}`)
+                },
+                err => {
+                    this.setState({
+                        isSubmitting: false,
+                    })
 
-                        throw err
-                    }
-                )
-            }
-        )
+                    throw err
+                }
+            )
+        })
     }
     componentDidUpdate() {
         if (!this.auth.isAuthenticated()) {
-            this.auth.login().catch(err => {
-                if (err instanceof CancelError) {
-                    this.props.router.replace('')
-                }
-            })
+            this.auth.login().catch(() => this.props.history.push('/'))
         }
     }
     render() {

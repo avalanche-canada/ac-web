@@ -1,9 +1,13 @@
 import { createSelector, createStructuredSelector } from 'reselect'
 import {
-    getResult as getBaseResult,
+    getResult as getResultFromParams,
     getDocumentFromParams,
     getDocuments,
 } from '~/getters/prismic'
+
+// function makeParams(params, props) {
+//     return typeof params === 'function' ? params(props) : params
+// }
 
 export function getType(state, props) {
     return props.params.type
@@ -14,11 +18,7 @@ export function getUid(state, props) {
 }
 
 export function getResult(state, props) {
-    return getBaseResult(state, props.params)
-}
-
-export function makeGetStatus() {
-    return createSelector(getResult, result => result.asStatus())
+    return getResultFromParams(state, props.params)
 }
 
 export function getStatusFactory(getMessages) {
@@ -46,9 +46,17 @@ export const getDocumentFromResult = createSelector(
     documents => documents.shift()
 )
 
+function makeGetStatus() {
+    return createSelector(getResult, result => result.asStatus())
+}
+
+function makeGetDocument() {
+    return (state, props) => getDocumentFromParams(state, props.params)
+}
+
 export function makeGetDocumentAndStatus() {
     return createStructuredSelector({
         status: makeGetStatus(),
-        document: getDocument,
+        document: makeGetDocument(),
     })
 }

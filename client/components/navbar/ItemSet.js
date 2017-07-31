@@ -4,12 +4,13 @@ import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
-import { history } from '~/router'
+import { withRouter } from 'react-router-dom'
 
 @CSSModules(styles)
-export default class ItemSet extends PureComponent {
+class ItemSet extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
+        location: PropTypes.object.isRequired,
     }
     state = {
         activeIndex: null,
@@ -45,10 +46,14 @@ export default class ItemSet extends PureComponent {
     }
     componentDidMount() {
         window.addEventListener('keyup', this.handleKeyUp)
-        history.listenBefore(this.close)
     }
     componentWillUnmount() {
         window.removeEventListener('keyup', this.handleKeyUp)
+    }
+    componentWillReceiveProps({ location }) {
+        if (location !== this.props.location) {
+            this.close()
+        }
     }
     render() {
         return (
@@ -79,3 +84,5 @@ export default class ItemSet extends PureComponent {
         )
     }
 }
+
+export default withRouter(ItemSet)

@@ -3,10 +3,10 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { computeRouter } from '~/router'
 import { configure, serializeFactory, deserialize } from '~/store'
 import configureRaven from '~/services/raven'
 import throttle from 'lodash/throttle'
+import Router from '~/router'
 
 import '~/styles'
 
@@ -26,7 +26,7 @@ const element = document.getElementById('app')
 
 const application = (
     <Provider store={store}>
-        {computeRouter(store)}
+        <Router />
     </Provider>
 )
 

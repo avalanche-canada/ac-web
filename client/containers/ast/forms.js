@@ -1,20 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, lifecycle, withProps, withHandlers, toClass } from 'recompose'
+import { compose, lifecycle, withProps, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
+import parseDate from 'date-fns/parse'
+import { parse } from '~/utils/search'
+import get from 'lodash/get'
 import { Form as Base, Legend, Control, ControlSet } from '~/components/form'
 import { DropdownFromOptions, Geocoder, DateRange } from '~/components/controls'
 import { locate } from '~/actions/geolocation'
-import parse from 'date-fns/parse'
-import format from 'date-fns/format'
-import get from 'lodash/get'
 import * as courses from '~/selectors/ast/courses'
 import * as providers from '~/selectors/ast/providers'
 import {
-    replace,
     valueHandlerFactory,
     arrayValueHandlerFactory,
+    dateRangeValueHandlerFactory,
+    replace,
 } from '~/utils/router'
 
 const STYLE = {
@@ -22,83 +23,84 @@ const STYLE = {
     position: 'relative',
 }
 
-class Form extends Component {
-    static propTypes = {
-        legend: PropTypes.string,
-        location: PropTypes.shape({
-            query: PropTypes.object,
-            state: PropTypes.object,
-        }),
-        tagOptions: PropTypes.instanceOf(Map),
-        levelOptions: PropTypes.instanceOf(Map),
-        onLevelChange: PropTypes.func.isRequired,
-        onDateRangeChange: PropTypes.func.isRequired,
-        onTagsChange: PropTypes.func.isRequired,
-        onPlaceChange: PropTypes.func.isRequired,
-        withDateRange: PropTypes.bool,
+Form.propTypes = {
+    legend: PropTypes.string,
+    location: PropTypes.shape({
+        search: PropTypes.string,
+        state: PropTypes.object,
+    }).isRequired,
+    tagOptions: PropTypes.instanceOf(Map),
+    levelOptions: PropTypes.instanceOf(Map),
+    onLevelChange: PropTypes.func.isRequired,
+    onDateRangeChange: PropTypes.func.isRequired,
+    onTagsChange: PropTypes.func.isRequired,
+    onPlaceChange: PropTypes.func.isRequired,
+    withDateRange: PropTypes.bool,
+}
+
+function Form({
+    legend,
+    location,
+    tagOptions,
+    levelOptions,
+    onLevelChange,
+    onDateRangeChange,
+    onTagsChange,
+    onPlaceChange,
+    withDateRange,
+}) {
+    // TODO: move this parsing to layout!
+    let { level = '', tags = [], from, to } = parse(location.search)
+
+    tags = Array.isArray(tags) ? tags : [tags]
+
+    if (typeof level === 'string') {
+        level = level.toUpperCase().trim()
     }
-    render() {
-        const {
-            legend,
-            location: { query, state },
-            tagOptions,
-            levelOptions,
-            onLevelChange,
-            onDateRangeChange,
-            onTagsChange,
-            onPlaceChange,
-            withDateRange,
-        } = this.props
-        let { level = '', tags = [], from, to } = query
 
-        tags = Array.isArray(tags) ? tags : [tags]
-
-        if (typeof level === 'string') {
-            level = level.toUpperCase().trim()
-        }
-
-        return (
-            <Base style={STYLE}>
-                <Legend>{legend}</Legend>
-                <ControlSet horizontal>
-                    {levelOptions &&
-                        <Control>
-                            <DropdownFromOptions
-                                onChange={onLevelChange}
-                                value={level}
-                                placeholder="Level"
-                                options={levelOptions}
-                            />
-                        </Control>}
-                    {withDateRange &&
-                        <Control>
-                            <DateRange
-                                from={from && parse(from)}
-                                to={to && parse(to)}
-                                onChange={onDateRangeChange}
-                                container={this}
-                            />
-                        </Control>}
+    return (
+        <Base style={STYLE}>
+            <Legend>
+                {legend}
+            </Legend>
+            <ControlSet horizontal>
+                {levelOptions &&
                     <Control>
                         <DropdownFromOptions
-                            multiple
-                            onChange={onTagsChange}
-                            value={new Set(tags.map(tag => tag.toUpperCase()))}
-                            placeholder="Filter by"
-                            options={tagOptions}
+                            onChange={onLevelChange}
+                            value={level}
+                            placeholder="Level"
+                            options={levelOptions}
                         />
-                    </Control>
+                    </Control>}
+                {withDateRange &&
                     <Control>
-                        <Geocoder
-                            placeholder="Location"
-                            onChange={onPlaceChange}
-                            value={get(state, 'place.text')}
+                        <DateRange
+                            from={from && parseDate(from)}
+                            to={to && parseDate(to)}
+                            onChange={onDateRangeChange}
+                            container={this}
                         />
-                    </Control>
-                </ControlSet>
-            </Base>
-        )
-    }
+                    </Control>}
+                <Control>
+                    <DropdownFromOptions
+                        multiple
+                        onChange={onTagsChange}
+                        value={new Set(tags.map(tag => tag.toUpperCase()))}
+                        placeholder="Filter by"
+                        options={tagOptions}
+                    />
+                </Control>
+                <Control>
+                    <Geocoder
+                        placeholder="Location"
+                        onChange={onPlaceChange}
+                        value={get(location, 'state.place.text')}
+                    />
+                </Control>
+            </ControlSet>
+        </Base>
+    )
 }
 
 const Container = compose(
@@ -111,32 +113,21 @@ const Container = compose(
     withHandlers({
         onLevelChange: valueHandlerFactory('level'),
         onTagsChange: arrayValueHandlerFactory('tags'),
-        onDateRangeChange: props => ({ from, to }) => {
-            replace(
-                {
-                    query: {
-                        from: from ? format(from, 'YYYY-MM-DD') : undefined,
-                        to: to ? format(to, 'YYYY-MM-DD') : undefined,
-                    },
-                },
-                props
-            )
-        },
-        onPlaceChange: props => place => {
-            replace(
-                {
+        onDateRangeChange: dateRangeValueHandlerFactory(),
+        onPlaceChange(props) {
+            return place => {
+                const location = {
                     state: {
                         place,
                     },
-                    query: {
-                        sorting: 'distance',
-                    },
-                },
-                props
-            )
+                    search: '?sorting=distance',
+                }
+
+                replace(props, location)
+            }
         },
     })
-)(toClass(Form))
+)(Form)
 
 export const Courses = compose(
     connect(courses.form, { locate }),

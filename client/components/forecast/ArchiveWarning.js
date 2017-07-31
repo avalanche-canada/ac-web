@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, setPropTypes, mapProps } from 'recompose'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
 import { DateElement, ArchiveWarning } from '~/components/misc'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
@@ -25,13 +25,13 @@ function createLink(region, date, isArchivesPage) {
 }
 
 export default compose(
+    withRouter,
     setPropTypes({
         region: PropTypes.string.isRequired,
     }),
-    withRouter,
     mapProps(props => {
-        const { region, date, router } = props
-        const isArchivesPage = router.isActive(createLink(region, date, true))
+        const { region, date, match } = props
+        const isArchivesPage = match.url === createLink(region, date, true)
         const previous = subDays(date, 1)
         const next = addDays(date, 1)
 

@@ -1,4 +1,4 @@
-import React, { Children, cloneElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
@@ -21,18 +21,10 @@ Drawer.propTypes = {
     open: PropTypes.bool.isRequired,
     position: PropTypes.number.isRequired,
     width: PropTypes.number,
-    onCloseClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 }
 
-function Drawer({
-    side = SIDE,
-    open,
-    position,
-    width,
-    onCloseClick,
-    children,
-}) {
+function Drawer({ side = SIDE, open, position, width, children }) {
     let styleName = STYLE_NAMES.get(side)
 
     if (open) {
@@ -41,11 +33,7 @@ function Drawer({
 
     return (
         <div style={computeDrawerStyle(position, width)} styleName={styleName}>
-            {Children.toArray(children).map(element =>
-                cloneElement(element, {
-                    onCloseClick,
-                })
-            )}
+            {children}
         </div>
     )
 }

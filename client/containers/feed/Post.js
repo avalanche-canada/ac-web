@@ -1,5 +1,5 @@
 import { compose, lifecycle, withProps } from 'recompose'
-import withRouter from 'react-router/lib/withRouter'
+import {withRouter} from 'react-router-dom'
 import Post from '~/components/page/post'
 import { post } from '~/containers/connectors'
 import { parse } from '~/prismic'

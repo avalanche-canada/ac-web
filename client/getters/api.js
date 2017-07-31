@@ -40,7 +40,7 @@ export function getForecastRegionExternalUrl(state, id) {
 
     return properties
         ? properties.get('owner') !== AVCAN
-              ? properties.get('externalUrl', properties.get('url'))
-              : null
+          ? properties.get('externalUrl', properties.get('url'))
+          : null
         : EXTERNAL_URLS.get(id) || null
 }

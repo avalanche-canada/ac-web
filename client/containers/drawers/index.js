@@ -22,11 +22,11 @@ function drawer(side, getter) {
             side,
         }),
         connect(createSelector(getter, drawer => drawer.toObject()))
-    )
+    )(Drawer)
 }
 
-export const Primary = drawer(RIGHT, getPrimaryDrawer)(Drawer)
-export const Secondary = drawer(LEFT, getSecondaryDrawer)(Drawer)
+export const Primary = drawer(RIGHT, getPrimaryDrawer)
+export const Secondary = drawer(LEFT, getSecondaryDrawer)
 export const Menu = compose(
     connect(
         createStructuredSelector({
