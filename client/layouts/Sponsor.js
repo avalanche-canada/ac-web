@@ -36,6 +36,7 @@ export default function Sponsor() {
             <SponsorRoute path="/instructing-ast" name="Training" />
             <SponsorRoute path="/youth" name="Youth" />
             <SponsorRoute path="/gear" name="Gear" />
+            <SponsorRoute path="/about" name="About" />
         </Switch>
     )
 }
