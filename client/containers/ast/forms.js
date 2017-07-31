@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { compose, lifecycle, withProps, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import parse from 'date-fns/parse'
+import parseDate from 'date-fns/parse'
+import { parse } from '~/utils/search'
 import get from 'lodash/get'
-import Url from 'url'
 import { Form as Base, Legend, Control, ControlSet } from '~/components/form'
 import { DropdownFromOptions, Geocoder, DateRange } from '~/components/controls'
 import { locate } from '~/actions/geolocation'
@@ -49,8 +49,8 @@ function Form({
     onPlaceChange,
     withDateRange,
 }) {
-    const { query } = Url.parse(location.search, true)
-    let { level = '', tags = [], from, to } = query
+    // TODO: move this parsing to layout!
+    let { level = '', tags = [], from, to } = parse(location.search)
 
     tags = Array.isArray(tags) ? tags : [tags]
 
@@ -76,8 +76,8 @@ function Form({
                 {withDateRange &&
                     <Control>
                         <DateRange
-                            from={from && parse(from)}
-                            to={to && parse(to)}
+                            from={from && parseDate(from)}
+                            to={to && parseDate(to)}
                             onChange={onDateRangeChange}
                             container={this}
                         />
