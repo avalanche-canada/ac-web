@@ -36,10 +36,10 @@ export const Menu = compose(
             onCloseClick: closeMenu,
         }
     ),
-    withProps({
+    withProps(props => ({
         side: LEFT,
         width: 300,
         backdrop: true,
-        children: <MenuContent />,
-    })
+        children: <MenuContent onCloseClick={props.onCloseClick} />,
+    }))
 )(Drawer)
