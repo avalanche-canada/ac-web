@@ -142,9 +142,8 @@ class Container extends Component {
 
         // TODO: Only use the visible layers, actually, it is not working, need to respect an order!
         for (const layer of LAYERS) {
-            const [id] = LayerIds.get(layer)
             const features = this.map.queryRenderedFeatures(point, {
-                layers: [id], // Only one layer is necessary
+                layers: LayerIds.get(layer),
             })
 
             if (features.length > 0) {
@@ -170,11 +169,19 @@ class Container extends Component {
 
                     return
                 } else {
-                    if (
-                        features.filter(feature => !feature.properties.cluster)
-                            .length > 1
-                    ) {
-                        this.showClusterPopup(layer, features)
+                    const uniqueFeatures = Array.from(
+                        features
+                            .filter(feature => !feature.properties.cluster)
+                            .reduce((features, feature) => {
+                                features.set(feature.id, feature)
+
+                                return features
+                            }, new Map())
+                            .values()
+                    )
+
+                    if (uniqueFeatures.length > 1) {
+                        this.showClusterPopup(layer, uniqueFeatures)
                     } else {
                         this.transitionToFeature(layer, feature.properties.id)
                     }
@@ -192,12 +199,12 @@ class Container extends Component {
 
         p.textContent = `${features.length} reports are available at this location:`
 
-        features.forEach(({ properties: { id, title } }) => {
+        features.forEach(({ properties: { id, name, title } }) => {
             const li = document.createElement('li')
             const a = document.createElement('a')
 
             a.href = '#'
-            a.textContent = title
+            a.textContent = title || name
             a.onclick = () => {
                 this.transitionToFeature(layer, id)
             }
