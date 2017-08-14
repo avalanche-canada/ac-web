@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tag component 1`] = `
+<ul
+  className="Set"
+>
+  <li
+    className="Item"
+  >
+    Tag #1
+  </li>
+  <li
+    className="Item"
+  >
+    Tag #2
+  </li>
+  <li
+    className="Item"
+  >
+    Tag #3
+  </li>
+</ul>
+`;

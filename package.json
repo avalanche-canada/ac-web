@@ -95,6 +95,7 @@
         "eslint-import-resolver-webpack": "^0.8.1",
         "eslint-loader": "^1.7.1",
         "eslint-plugin-import": "^2.2.0",
+        "eslint-plugin-jest": "^20.0.3",
         "eslint-plugin-jsx-a11y": "^4.0.0",
         "eslint-plugin-react": "^6.10.3",
         "expose-loader": "^0.7.1",
@@ -102,7 +103,9 @@
         "faker": "^3.1.0",
         "file-loader": "^0.8.5",
         "html-webpack-plugin": "^2.21.0",
+        "identity-obj-proxy": "^3.0.0",
         "immutable": "^3.8.1",
+        "jest-cli": "^20.0.4",
         "jshint-stylish": "~0.1.5",
         "json-loader": "^0.5.4",
         "mapbox-gl": "0.39.1",
@@ -129,6 +132,7 @@
         "react-overlays": "^0.7.0",
         "react-redux": "^4.4.6",
         "react-router-dom": "^4.1.2",
+        "react-test-renderer": "^15.6.1",
         "recompose": "^0.24.0",
         "redux": "^3.6.0",
         "redux-actions": "^1.1.0",
@@ -166,7 +170,14 @@
         "build-storybook": "build-storybook",
         "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
         "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
-        "lint": "eslint \"client/**/*.js\""
+        "lint": "eslint \"client/**/*.js\"",
+        "test": "jest"
     },
-    "private": true
+    "private": true,
+    "jest": {
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(css)$": "identity-obj-proxy"
+        }
+    }
 }

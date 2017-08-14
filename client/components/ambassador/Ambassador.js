@@ -17,8 +17,8 @@ Ambassador.propTypes = {
     fullName: PropTypes.string.isRequired,
     socials: PropTypes.arrayOf(PropTypes.string),
     children: PropTypes.node.isRequired,
-    avatar: ImagePropType,
-    banner: ImagePropType,
+    avatar: ImagePropType.isRequired,
+    banner: ImagePropType.isRequired,
     hash: PropTypes.string,
 }
 
@@ -36,11 +36,11 @@ function Ambassador({
         <section styleName="Ambassador">
             <div styleName="Biography">
                 <div styleName="Avatar">
-                    <img src={avatar.src} />
+                    {avatar && <img src={avatar.src} />}
                     <SocialSet>
-                        {socials.map(link => (
+                        {socials.map(link =>
                             <SocialItem key={link} link={link} title={title} />
-                        ))}
+                        )}
                     </SocialSet>
                 </div>
                 <div styleName="Content">
@@ -52,7 +52,7 @@ function Ambassador({
                     {children}
                 </div>
             </div>
-            <img styleName="Banner" src={banner.src} />
+            {banner && <img styleName="Banner" src={banner.src} />}
         </section>
     )
 }

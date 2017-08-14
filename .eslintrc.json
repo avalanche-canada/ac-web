@@ -2,10 +2,15 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jest/globals": true
     },
+    "plugins": [
+        "jest"
+    ],
     "extends": [
         "eslint:recommended",
+        "plugin:jest/recommended",
         /*"plugin:import/errors",*/
         /*"plugin:import/warnings",*/
         "plugin:react/recommended"
