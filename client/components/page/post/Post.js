@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Page, Content, Header, Main, Headline, Aside } from '~/components/page'
 import { Metadata, Entry } from '~/components/metadata'
-import { DateElement, Muted } from '~/components/misc'
+import { DateElement } from '~/components/time'
+import { Muted } from '~/components/misc'
 import { StructuredText } from '~/prismic/components/base'
 import Sidebar from './Sidebar'
 
@@ -47,10 +48,8 @@ export default function Post({ post = {}, message, type }) {
                             <Entry term="Date">
                                 {hasDateRange
                                     ? <span>
-                                          <DateElement value={startDate} />
-                                          {' '}
-                                          <em>to</em>
-                                          {' '}
+                                          <DateElement value={startDate} />{' '}
+                                          <em>to</em>{' '}
                                           <DateElement value={endDate} />
                                       </span>
                                     : <DateElement value={date} />}
@@ -73,7 +72,9 @@ export default function Post({ post = {}, message, type }) {
                             <StructuredText value={headline} />
                         </Headline>}
                     {message
-                        ? <Muted>{message}</Muted>
+                        ? <Muted>
+                              {message}
+                          </Muted>
                         : <StructuredText value={content} />}
                 </Main>
                 <Aside>

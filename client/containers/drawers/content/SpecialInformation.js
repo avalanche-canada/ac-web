@@ -7,7 +7,8 @@ import {
     Navbar,
     Close,
 } from '~/components/page/drawer'
-import { InnerHTML, Status, DateTime } from '~/components/misc'
+import { InnerHTML, Status } from '~/components/misc'
+import { DateTime } from '~/components/time'
 import { Metadata, Entry } from '~/components/metadata'
 import { specialInformation } from '~/containers/connectors'
 import { LocateAsClass } from '~/components/button/Locate'
@@ -62,7 +63,9 @@ function SpecialInformation({ report, status, onCloseClick, onLocateClick }) {
                             </Entry>}
                     </Metadata>}
                 {report &&
-                    <p style={LOCATION_STYLE}>{report.locationDescription}</p>}
+                    <p style={LOCATION_STYLE}>
+                        {report.locationDescription}
+                    </p>}
             </Header>
             {report &&
                 <Body>

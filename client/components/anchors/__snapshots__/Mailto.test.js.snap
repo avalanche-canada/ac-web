@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mailto component 1`] = `
+<a
+  href="mailto:kguillotte@avalanche.ca"
+  title="Email Avalanche Canada"
+>
+  kguillotte@avalanche.ca
+</a>
+`;
+
+exports[`mailto component 2`] = `
+<a
+  href="mailto:kguillotte@avalanche.ca"
+  title="Email Avalanche Canada"
+>
+  Karl Guillotte
+</a>
+`;

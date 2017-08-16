@@ -1,31 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import url from 'url'
+import Url from 'url'
 
 Phone.propTypes = {
     phone: PropTypes.string.isRequired,
     ext: PropTypes.string,
-    title: PropTypes.string,
     children: PropTypes.node,
 }
 
-function getChildren(children, phone, ext) {
-    if (children) {
-        return children
-    }
-
+function computePhoneString(phone, ext) {
     return `${phone}${ext ? ` ext. ${ext}` : ''}`
 }
 
-export default function Phone({ phone, ext, title, children }) {
-    const href = url.format({
+export default function Phone({ phone, ext, children, ...rest }) {
+    const href = Url.format({
         protocol: 'tel',
         pathname: phone,
     })
 
     return (
-        <a {...{ href, title }}>
-            {getChildren(children, phone, ext)}
+        <a href={href} {...rest}>
+            {children || computePhoneString(phone, ext)}
         </a>
     )
 }

@@ -16,21 +16,21 @@
         margin-left: 1em;
     }
 
-    @media(--medium-screen-width) {
+    @media (--medium-screen-width) {
         right: 125px;
         left: 125px;
     }
-    @media(--large-screen-width) {
+    @media (--large-screen-width) {
         right: 200px;
         left: 200px;
     }
-    @media(--massive-screen-width) {
+    @media (--massive-screen-width) {
         right: 250px;
         left: 250px;
     }
 }
 
-.Highlight--Danger {
+.Danger {
     composes: Highlight;
 
     color: white;
@@ -47,19 +47,19 @@
     }
 }
 
-.Highlight--Warning {
+.Warning {
     composes: Highlight;
 
     background-color: var(--warning);
 }
 
-.Highlight--Info {
+.Info {
     composes: Highlight;
 
     background-color: var(--info);
 }
 
-.Highlight--Success {
+.Success {
     composes: Highlight;
 
     background-color: var(--success);

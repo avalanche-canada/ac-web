@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { Input } from '~/components/controls'
 import { Calendar, Close } from '~/components/icons'
-import { DayPicker, DateUtils } from '~/components/misc'
+import { DayPicker } from '~/components/pickers'
+import { addDayToRange } from '~/utils/date'
 import Callout from '~/components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import Button, { INCOGNITO } from '~/components/button'
@@ -50,7 +51,7 @@ export default class DateRange extends Component {
         this.showCalendar = false
     }
     handleDayClick = day => {
-        const range = DateUtils.addDayToRange(day, this.state)
+        const range = addDayToRange(day, this.state)
 
         this.onChange(range)
     }

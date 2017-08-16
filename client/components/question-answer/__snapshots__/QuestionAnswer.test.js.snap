@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`question & answer component 1`] = `
+<section>
+  <p
+    className="Question"
+  >
+    A question
+  </p>
+  <div
+    className="Answer"
+  >
+    An answer
+  </div>
+</section>
+`;

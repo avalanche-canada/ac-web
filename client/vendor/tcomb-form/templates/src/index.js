@@ -1,5 +1,5 @@
 import React from 'react'
-import { DayPicker } from '~/components/misc'
+import { DayPicker } from '~/components/pickers'
 import { TimePicker } from '~/components/controls'
 import styles from './Picker.css'
 import format from 'date-fns/format'
@@ -75,7 +75,7 @@ export const pickers = {
     datetime: picker.clone({
         getFormat() {
             return value =>
-                (value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : '')
+                value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : ''
         },
         renderContent(locals) {
             const value = locals.value || new Date()

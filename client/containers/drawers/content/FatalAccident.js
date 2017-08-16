@@ -7,7 +7,8 @@ import {
     Navbar,
     Close,
 } from '~/components/page/drawer'
-import { Status, DateTime } from '~/components/misc'
+import { Status } from '~/components/misc'
+import { DateTime } from '~/components/time'
 import { Metadata, Entry } from '~/components/metadata'
 import { fatalAccident } from '~/containers/connectors'
 import { LocateAsClass } from '~/components/button/Locate'

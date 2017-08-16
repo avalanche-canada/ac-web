@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, branch, renderComponent } from 'recompose'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import { neverUpdate } from '~/compose'
-import { DateElement } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import { TagSet, Tag } from '~/components/tag'
 import { StructuredText, Image } from '~/prismic/components/base'
 import styles from './Feed.css'
@@ -48,13 +48,26 @@ function Entry({
                 </h2>
                 <StructuredText value={headline} />
                 <ul styleName="Metadata">
-                    {date && <li><DateElement value={date} /></li>}
-                    {category && <li>{category}</li>}
-                    {source && <li>{source}</li>}
+                    {date &&
+                        <li>
+                            <DateElement value={date} />
+                        </li>}
+                    {category &&
+                        <li>
+                            {category}
+                        </li>}
+                    {source &&
+                        <li>
+                            {source}
+                        </li>}
                 </ul>
                 {Array.isArray(tags) &&
                     <TagSet>
-                        {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
+                        {tags.sort().map(tag =>
+                            <Tag key={tag}>
+                                {tag}
+                            </Tag>
+                        )}
                     </TagSet>}
             </div>
         </div>
@@ -87,9 +100,18 @@ function CondensedEntry({
                     </Link>
                 </h2>
                 <ul styleName="Metadata">
-                    {date && <li><DateElement value={date} /></li>}
-                    {category && <li>{category}</li>}
-                    {source && <li>{source}</li>}
+                    {date &&
+                        <li>
+                            <DateElement value={date} />
+                        </li>}
+                    {category &&
+                        <li>
+                            {category}
+                        </li>}
+                    {source &&
+                        <li>
+                            {source}
+                        </li>}
                 </ul>
             </div>
         </div>

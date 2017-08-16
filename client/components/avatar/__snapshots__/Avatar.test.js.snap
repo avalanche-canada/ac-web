@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`avatar component 1`] = `
+<div
+  className="Initials"
+  data-initials="KG"
+  style={
+    Object {
+      "fontSize": "1em",
+      "height": 60,
+      "width": 60,
+    }
+  }
+>
+  <img
+    alt="KG"
+    onError={[Function]}
+    onLoad={[Function]}
+    src={undefined}
+    title="Karl Guillotte"
+  />
+</div>
+`;
+
+exports[`avatar component 2`] = `
+<div
+  className="Initials"
+  data-initials="KG"
+  style={
+    Object {
+      "fontSize": "1em",
+      "height": 60,
+      "width": 60,
+    }
+  }
+>
+  <img
+    alt="KG"
+    onError={[Function]}
+    onLoad={[Function]}
+    src="//avatars1.githubusercontent.com/u/744011?v=3&s=40"
+    title="Karl Guillotte"
+  />
+</div>
+`;

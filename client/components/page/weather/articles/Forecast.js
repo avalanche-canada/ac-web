@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Article } from '~/components/page'
-import {
-    DateElement,
-    Muted,
-    Status as StatusComponent,
-} from '~/components/misc'
+import { Muted, Status as StatusComponent } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import { Metadata, Entry } from '~/components/metadata'
 import Forecast from '~/components/weather'
 import { DayPicker } from '~/components/controls'
@@ -67,8 +64,7 @@ export default class Container extends Component {
                 {status.isLoaded &&
                     !forecast &&
                     <Muted>
-                        No weather forecast available for
-                        {' '}
+                        No weather forecast available for{' '}
                         <DateElement value={date} />
                         .
                     </Muted>}

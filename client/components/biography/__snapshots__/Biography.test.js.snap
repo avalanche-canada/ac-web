@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`biography component 1`] = `
+<section
+  className="Container"
+>
+  <div
+    className="Media"
+  >
+    <div
+      className="Initials"
+      data-initials="KG"
+      style={
+        Object {
+          "fontSize": "1em",
+          "height": 60,
+          "width": 60,
+        }
+      }
+    >
+      <img
+        alt="KG"
+        onError={[Function]}
+        onLoad={[Function]}
+        src="https://avatars1.githubusercontent.com/u/744011?v=3&s=60"
+        title="Karl Guillotte"
+      />
+    </div>
+  </div>
+  <div
+    className="Content"
+  >
+    <header
+      className="Header"
+    >
+      <span
+        className="Name"
+      >
+        Karl Guillotte
+      </span>
+      <span
+        className="Title"
+      >
+        Web developer
+      </span>
+    </header>
+    <address
+      className="Address"
+    >
+      <a
+        href="mailto:kguillotte@avalanche.ca"
+        title="Send Karl Guillotte an email"
+      >
+        kguillotte@avalanche.ca
+      </a>
+      <a
+        href="tel:250-837-2141"
+        title="Give Karl Guillotte a call"
+      >
+        250-837-2141
+      </a>
+    </address>
+    Karl's bio
+  </div>
+</section>
+`;

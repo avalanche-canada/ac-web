@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState } from 'recompose'
 import CSSModules from 'react-css-modules'
-import { Collapse } from '~/components/misc'
+import Collapse from '~/components/collapse'
 import { Expand } from '~/components/button'
 import styles from './Layer.css'
 import noop from 'lodash/noop'
@@ -46,7 +46,9 @@ function Layer({
         <div styleName={visible ? 'Layer--Visible' : 'Layer'}>
             <div styleName="Header" onClick={onClick}>
                 {icon}
-                <span styleName="Title">{title}</span>
+                <span styleName="Title">
+                    {title}
+                </span>
                 {children &&
                     <Expand
                         expanded={expanded}

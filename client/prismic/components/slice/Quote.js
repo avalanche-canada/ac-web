@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DateElement } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import { Blockquote, Footer } from '~/components/blockquote'
 import { StructuredText } from '~/prismic/components/base'
 

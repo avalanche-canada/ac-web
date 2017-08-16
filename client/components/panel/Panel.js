@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { compose, withState, withHandlers, onlyUpdateForKeys } from 'recompose'
 import styles from './Panel.css'
-import { Collapse } from '~/components/misc'
+import Collapse from '~/components/collapse'
 import { Expand } from '~/components/button'
 import { titleOf } from '~/utils/string'
 

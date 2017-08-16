@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import {TabSet, Tab} from './'
+import { TabSet, Tab } from './'
 
 // properties needed by the tabset component
 function createNodeMock(element) {

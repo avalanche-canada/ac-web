@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`highlight component 1`] = `
+<div
+  className="Danger"
+>
+  Content
+</div>
+`;
+
+exports[`highlight component 2`] = `
+<div
+  className="Warning"
+>
+  Content
+</div>
+`;
+
+exports[`highlight component 3`] = `
+<div
+  className="Info"
+>
+  Content
+</div>
+`;
+
+exports[`highlight component 4`] = `
+<div
+  className="Success"
+>
+  Content
+</div>
+`;

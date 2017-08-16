@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { DayPicker as Base } from '~/components/misc'
+import { DayPicker as Base } from '~/components/pickers'
 import Callout from '~/components/callout'
 import Overlay from 'react-overlays/lib/Overlay'
 import styles from './DayPicker.css'

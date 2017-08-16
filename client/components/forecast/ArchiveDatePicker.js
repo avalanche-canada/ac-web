@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState } from 'recompose'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import styles from './ArchiveDatePicker.css'
-import { DateElement } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import format from 'date-fns/format'
 import { DayPicker } from '~/components/controls'
 
@@ -28,7 +28,10 @@ function ArchiveDatePicker({ date, region, selectedDate, setSelectedDate }) {
             {selectedDate &&
                 <Link
                     styleName="ArchiveDatePicker--Link"
-                    to={`/forecasts/${region}/${format(selectedDate, 'YYYY-MM-DD')}`}>
+                    to={`/forecasts/${region}/${format(
+                        selectedDate,
+                        'YYYY-MM-DD'
+                    )}`}>
                     Read avalanche bulletin
                 </Link>}
         </div>

@@ -3,7 +3,7 @@ import { withProps } from 'recompose'
 import DayPicker, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
 import { Previous, Next } from '~/components/icons'
 import Button, { SUBTILE } from '~/components/button'
-import classNames from './DayPicker.css'
+import classNames from './Day.css'
 
 Weekday.propTypes = WeekdayPropTypes
 

@@ -11,16 +11,11 @@ import {
 import { connect } from 'react-redux'
 import Table from '~/components/table/managed'
 import mapStateToProps from '~/selectors/min/table'
-import {
-    loadMountainInformationNetworkSubmissionsForDays,
-} from '~/actions/entities'
+import { loadMountainInformationNetworkSubmissionsForDays } from '~/actions/entities'
 import { loadFeatures } from '~/actions/mapbox'
 import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
-import {
-    DateElement,
-    Status as StatusComponent,
-    Muted,
-} from '~/components/misc'
+import { Status as StatusComponent, Muted } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import { Metadata as BaseMetadata, Entry } from '~/components/metadata'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
@@ -31,11 +26,7 @@ import {
 import noop from 'lodash/noop'
 
 function Empty() {
-    return (
-        <Muted>
-            No submissions found.
-        </Muted>
-    )
+    return <Muted>No submissions found.</Muted>
 }
 
 export const Status = compose(

@@ -7,9 +7,9 @@ import { getResultsSet } from '~/getters/api'
 import { Column, Body } from '~/components/table/managed'
 import pinWithIncident from '~/components/icons/min/min-pin-with-incident.svg'
 import pin from '~/components/icons/min/min-pin.svg'
-import {Link} from 'react-router-dom'
-import { DateTime, Relative } from '~/components/misc'
-import styles from '~/components/misc/Text.css'
+import { Link } from 'react-router-dom'
+import { DateTime, Relative } from '~/components/time'
+import styles from '~/components/text/Text.css'
 import { getFeatureCollection } from '~/getters/mapbox'
 import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
 import inside from '@turf/inside'
@@ -101,11 +101,11 @@ const columns = Immutable.List.of(
 
             return (
                 <ul>
-                    {types.map(type => (
+                    {types.map(type =>
                         <li key={type}>
                             {NAMES.get(type)}
                         </li>
-                    ))}
+                    )}
                 </ul>
             )
         },
@@ -184,7 +184,7 @@ const sorters = new Map([
     [
         'forecast-region',
         submission =>
-            (submission.has('region') ? submission.get('region').name : 'z'),
+            submission.has('region') ? submission.get('region').name : 'z',
     ],
 ])
 

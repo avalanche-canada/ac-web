@@ -24,14 +24,14 @@ export default function ShareEntry({
     return (
         <Entry term={term}>
             <SocialSet>
-                {createShareUrls(url).map(url => (
+                {createShareUrls(url).map(url =>
                     <SocialItem
                         key={url}
                         link={url}
                         title={createTitle}
                         style={ITEM_STYLE}
                     />
-                ))}
+                )}
             </SocialSet>
         </Entry>
     )

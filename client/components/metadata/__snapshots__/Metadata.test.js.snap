@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`metadata component 1`] = `
+<div
+  className="Metadata"
+>
+  <dl
+    className="Entry"
+  >
+    <dt
+      className="Term"
+    >
+      Date issued
+    </dt>
+    <dd
+      className="Description"
+    >
+      <time
+        dateTime="2017-02-01T00:00:00.000-08:00"
+      >
+        Wednesday, February 1, 2017
+      </time>
+    </dd>
+  </dl>
+  <dl
+    className="Entry"
+  >
+    <dt
+      className="Term"
+    >
+      Valid until
+    </dt>
+    <dd
+      className="Description"
+    >
+      <time
+        dateTime="2017-02-02T00:00:00.000-08:00"
+      >
+        Thursday, February 2, 2017
+      </time>
+    </dd>
+  </dl>
+  <dl
+    className="Entry"
+  >
+    <dt
+      className="Term"
+    >
+      Forecaster
+    </dt>
+    <dd
+      className="Description"
+    >
+      James Floyer
+    </dd>
+  </dl>
+  <dl
+    className="Entry"
+  >
+    <dt
+      className="Term"
+    />
+    <dd
+      className="Description"
+    >
+      <div
+        className="Set"
+      >
+        <a
+          className="Item"
+          href="https://www.facebook.com/sharer.php?u=about:blank"
+          style={
+            Object {
+              "padding": "0 0.5em",
+            }
+          }
+          target="_blank"
+          title="Share on Facebook"
+        >
+          <svg
+            className={undefined}
+            fill="none"
+            height={24}
+            viewBox="0 0 266.893 266.895"
+            width={24}
+          >
+            <path
+              d="M248.082,262.307c7.854,0,14.223-6.369,14.223-14.225V18.812 c0-7.857-6.368-14.224-14.223-14.224H18.812c-7.857,0-14.224,6.367-14.224,14.224v229.27c0,7.855,6.366,14.225,14.224,14.225 H248.082z"
+              fill="#3C5A99"
+            />
+            <path
+              d="M182.409,262.307v-99.803h33.499l5.016-38.895h-38.515V98.777c0-11.261,3.127-18.935,19.275-18.935 l20.596-0.009V45.045c-3.562-0.474-15.788-1.533-30.012-1.533c-29.695,0-50.025,18.126-50.025,51.413v28.684h-33.585v38.895h33.585 v99.803H182.409z"
+              fill="#FFFFFF"
+            />
+          </svg>
+        </a>
+        <a
+          className="Item"
+          href="https://twitter.com/intent/tweet?url=about:blank"
+          style={
+            Object {
+              "padding": "0 0.5em",
+            }
+          }
+          target="_blank"
+          title="Share on Twitter"
+        >
+          <svg
+            className={undefined}
+            fill="#55ACEE"
+            height={24}
+            viewBox="0 0 335 276"
+            width={24}
+          >
+            <path
+              d="m302 70a195 195 0 0 1 -299 175 142 142 0 0 0 97 -30 70 70 0 0 1 -58 -47 70 70 0 0 0 31 -2 70 70 0 0 1 -57 -66 70 70 0 0 0 28 5 70 70 0 0 1 -18 -90 195 195 0 0 0 141 72 67 67 0 0 1 116 -62 117 117 0 0 0 43 -17 65 65 0 0 1 -31 38 117 117 0 0 0 39 -11 65 65 0 0 1 -32 35"
+            />
+          </svg>
+        </a>
+        <a
+          className="Item"
+          href="https://plus.google.com/share?url=about:blank"
+          style={
+            Object {
+              "padding": "0 0.5em",
+            }
+          }
+          target="_blank"
+          title="Share on Google Plus"
+        >
+          <svg
+            className={undefined}
+            fill="#DC4E41"
+            height={24}
+            viewBox="0 0 55 55"
+            width={24}
+          >
+            <g>
+              <path
+                d="M19.6671,25.7867c-0.0075,1.7935,0,3.5869,0.0076,5.3803c3.0067,0.098,6.0208,0.0527,9.0275,0.098   c-1.3262,6.6689-10.3989,8.8315-15.199,4.4761C8.5674,31.9206,8.801,23.5412,13.9327,19.992   c3.5869-2.8635,8.6884-2.1552,12.2752,0.324c1.4092-1.3036,2.7278-2.6977,4.0013-4.1445   c-2.984-2.3812-6.6462-4.0767-10.5421-3.8958c-8.1307-0.2713-15.6059,6.8497-15.7415,14.9805   c-0.52,6.6462,3.8506,13.1644,10.0222,15.5155c6.1489,2.3661,14.031,0.7535,17.957-4.77c2.5922-3.4889,3.1498-7.98,2.8484-12.1999   C29.7194,25.7641,24.6933,25.7716,19.6671,25.7867z"
+              />
+              <path
+                d="M49.0704,25.7641c-0.0151-1.4996-0.0226-3.0067-0.0301-4.5062c-1.4996,0-2.9916,0-4.4836,0   c-0.0151,1.4996-0.0301,2.9991-0.0377,4.5062c-1.5071,0.0075-3.0067,0.0151-4.5062,0.0302c0,1.4995,0,2.9915,0,4.4836   c1.4995,0.0151,3.0066,0.0302,4.5062,0.0452c0.0151,1.4996,0.0151,2.9991,0.0302,4.4987c1.4996,0,2.9916,0,4.4911,0   c0.0075-1.4996,0.015-2.9991,0.0301-4.5062c1.5071-0.0151,3.0067-0.0226,4.5062-0.0377c0-1.4921,0-2.9916,0-4.4836 C52.0771,25.7792,50.57,25.7792,49.0704,25.7641z"
+              />
+            </g>
+          </svg>
+        </a>
+      </div>
+    </dd>
+  </dl>
+</div>
+`;

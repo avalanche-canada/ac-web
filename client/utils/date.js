@@ -1,4 +1,5 @@
 import parse from 'date-fns/parse'
+import { DateUtils } from 'react-day-picker'
 
 // http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=eng&cont=867
 export const DATE = 'dddd, MMMM D, YYYY'
@@ -20,3 +21,5 @@ export function lazyParse(date, ...rest) {
 
     return parse(date, ...rest)
 }
+
+export const addDayToRange = DateUtils.addDayToRange

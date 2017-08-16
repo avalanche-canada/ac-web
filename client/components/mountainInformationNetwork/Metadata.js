@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps, mapProps, setPropTypes } from 'recompose'
-import { DateTime } from '~/components/misc'
+import { DateTime } from '~/components/time'
 import { Metadata, Entry, ShareEntry } from '~/components/metadata'
 import styles from './MountainInformationNetwork.css'
 
@@ -36,9 +36,7 @@ export const Location = compose(
                 <span className={styles.MapLocationWrap}>
                     <span className={styles.MapLocationItem}>
                         {roundCoordinate(longitude)}
-                        &nbsp;°,
-                        {' '}
-                        {roundCoordinate(latitude)}
+                        &nbsp;°, {roundCoordinate(latitude)}
                         &nbsp;°
                     </span>
                 </span>
