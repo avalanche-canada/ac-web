@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { Page, Content, Header, Main } from '~/components/page'
 import Forecast from '~/components/forecast'
 import { DateElement } from '~/components/time'
-import { Muted, Error } from '~/components/misc'
+import { Muted, Error } from '~/components/text'
 import Alert, { WARNING } from '~/components/alert'
 import { Metadata, Entry } from '~/components/metadata'
 import {

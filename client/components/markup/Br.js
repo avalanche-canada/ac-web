@@ -7,7 +7,7 @@ Br.propTypes = {
     ribbon: PropTypes.bool,
 }
 
-function Br({ ribbon = false }) {
+function Br({ ribbon }) {
     return <div styleName={ribbon ? 'Ribbon' : 'Main'} />
 }
 

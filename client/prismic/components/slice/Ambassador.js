@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Ambassador from '~/components/ambassador'
 import { StructuredText } from '~/prismic/components/base'
-import { Br } from '~/components/misc'
+import { Br } from '~/components/markup'
 
 function transform({
     avatar,

@@ -6,7 +6,8 @@ import Forecast, {
     Sidebar,
     KananaskisSidebar,
 } from '~/components/forecast'
-import { Muted, Error, SPAW } from '~/components/misc'
+import { SPAW } from '~/components/misc'
+import { Muted, Error } from '~/components/text'
 import { forecast } from '~/containers/connectors'
 
 const SPAW_STYLE = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     Navbar,
     Header,
@@ -9,7 +9,8 @@ import {
     Close,
 } from '~/components/page/drawer'
 import Forecast, { Metadata } from '~/components/forecast'
-import { Muted, Error, SPAW } from '~/components/misc'
+import { SPAW } from '~/components/misc'
+import { Muted, Error } from '~/components/text'
 import { forecast } from '~/containers/connectors'
 import Sponsor from '~/layouts/Sponsor'
 import { LocateAsClass } from '~/components/button/Locate'
@@ -63,7 +64,11 @@ function Container({
             </Navbar>
             <Header subject="Avalanche Forecast">
                 <h1>
-                    {link ? <Link {...link}>{title}</Link> : title}
+                    {link
+                        ? <Link {...link}>
+                              {title}
+                          </Link>
+                        : title}
                     {isLoading ||
                         <Wrapper
                             tooltip="Display on map"

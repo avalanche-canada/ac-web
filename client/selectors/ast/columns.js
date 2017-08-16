@@ -1,7 +1,7 @@
 import React from 'react'
 import Url from 'url'
 import isSameDay from 'date-fns/is_same_day'
-import { P } from '~/components/misc'
+import { P } from '~/components/markup'
 import { DateElement } from '~/components/time'
 import { Mailto, Phone } from '~/components/anchors'
 import { List, Term, Definition } from '~/components/description'

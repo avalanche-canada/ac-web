@@ -7,7 +7,7 @@ import HotZoneReport, {
     Metadata as HotZoneReportMetadata,
 } from '~/components/hotZoneReport'
 import { DateElement } from '~/components/time'
-import { Muted } from '~/components/misc'
+import { Muted } from '~/components/text'
 import { Metadata, Entry } from '~/components/metadata'
 import {
     DropdownFromOptions as Dropdown,

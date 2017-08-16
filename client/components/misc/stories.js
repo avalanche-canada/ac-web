@@ -2,8 +2,7 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import {
     Ribbon,
-    Sponsor,
-    Br,
+    Sponsor
 } from './index'
 
 const path = 'avatars1.githubusercontent.com/u/744011?v=3&s=40'
@@ -18,5 +17,3 @@ storiesOf('Misc')
         <Ribbon caption="custom caption">Avalanche Canada</Ribbon>
     ))
     .add('Sponsor', () => <Sponsor name="Karl Guillotte" url={`//${path}`} />)
-    .add('Br', () => <Br />)
-    .add('Br w/ ribbon', () => <Br ribbon />)
