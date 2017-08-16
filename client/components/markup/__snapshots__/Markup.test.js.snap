@@ -30,6 +30,13 @@ exports[`Credit component 2`] = `
 </span>
 `;
 
+exports[`Markup component 1`] = `
+<div>
+  Some content...
+  <br />
+</div>
+`;
+
 exports[`P component 1`] = `
 <p
   onClick={[Function]}

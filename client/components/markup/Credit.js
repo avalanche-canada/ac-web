@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
-import styles from './Markup.css'
+import styles from './Credit.css'
 
 Credit.propTypes = {
     children: PropTypes.string.isRequired,

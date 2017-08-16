@@ -1,8 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Br from './Br'
-import P from './P'
-import Credit from './Credit'
+import { Br, P, Credit, Markup } from './'
 
 test('Br component', () => {
     expect(Renderer.create(<Br />)).toMatchSnapshot()
@@ -21,4 +19,8 @@ test('Credit component', () => {
     expect(
         Renderer.create(<Credit compact>Some credit</Credit>)
     ).toMatchSnapshot()
+})
+
+test('Markup component', () => {
+    expect(Renderer.create(<Markup>Some content...</Markup>)).toMatchSnapshot()
 })
