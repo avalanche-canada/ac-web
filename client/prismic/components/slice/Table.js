@@ -8,7 +8,8 @@ import { Responsive, PageSizeSelector } from '~/components/table'
 import Table, { Column, Body } from '~/components/table/managed'
 import { FilterSet, FilterEntry } from '~/components/filter'
 import Pagination from '~/components/pagination'
-import { Status, Br } from '~/components/misc'
+import { Status } from '~/components/misc'
+import { Br } from '~/components/markup'
 import { DropdownFromOptions as Dropdown } from '~/components/controls'
 import { parse } from '~/prismic'
 import get from 'lodash/get'
@@ -141,14 +142,14 @@ function Container({
         <div>
             <Br />
             <FilterSet>
-                {filters.map(({ property, ...filter }) => (
+                {filters.map(({ property, ...filter }) =>
                     <FilterEntry>
                         <Dropdown
                             onChange={onFilterChange.bind(null, property)}
                             {...filter}
                         />
                     </FilterEntry>
-                ))}
+                )}
             </FilterSet>
             <Responsive>
                 <Table

@@ -80,13 +80,12 @@ export default class Collapse extends PureComponent {
 
         return (
             <Motion defaultStyle={defaultStyle} style={style}>
-                {style => (
+                {style =>
                     <div style={computeStyle(dimension, style.value, computed)}>
                         {cloneElement(Children.only(children), {
                             ref: this.setRef,
                         })}
-                    </div>
-                )}
+                    </div>}
             </Motion>
         )
     }

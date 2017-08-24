@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
 import { Page as Base, Header, Main, Content } from '~/components/page'
 import { Responsive } from '~/components/table'
-import { Br } from '~/components/misc'
+import { Br } from '~/components/markup'
 import Table, { Status, Metadata } from '~/containers/min/Table'
 import { withRouter } from 'react-router-dom'
 import {

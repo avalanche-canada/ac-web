@@ -4,7 +4,8 @@ import { compose, withState } from 'recompose'
 import CSSModules from 'react-css-modules'
 import { Input } from '~/components/controls'
 import styles from './DateRange.css'
-import { DayPicker, DateUtils } from '~/components/misc'
+import { DayPicker } from '~/components/pickers'
+import { addDayToRange } from '~/utils/date'
 import noop from 'lodash/noop'
 
 // TODO: Use the control instead!
@@ -30,7 +31,7 @@ function DateRange({ onChange = noop, focus, setFocus, ...range }) {
         setFocus(target.name)
     }
     function handleDayClick(day) {
-        const range = DateUtils.addDayToRange(day, { from, to })
+        const range = addDayToRange(day, { from, to })
 
         onChange(range)
     }

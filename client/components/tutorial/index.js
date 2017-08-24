@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { Media, Player, Caption } from '~/components/media'
-import { Loading } from '~/components/misc'
+import { Loading } from '~/components/text'
 import { StructuredText, Image } from '~/prismic/components/base'
 import styles from './ates.css'
 

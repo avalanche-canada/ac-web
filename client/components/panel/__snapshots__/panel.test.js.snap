@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`panel component 1`] = `
+<div
+  className="Container--Simple"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    Content
+  </div>
+</div>
+`;
+
+exports[`panel component 2`] = `
+<div
+  className="Container--Inverse"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    Content
+  </div>
+</div>
+`;
+
+exports[`panel component 3`] = `
+<div
+  className="Container--Simple"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    Content
+  </div>
+</div>
+`;
+
+exports[`panel component 4`] = `
+<div
+  className="Container--Inverse"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    Content
+  </div>
+</div>
+`;
+
+exports[`panel component 5`] = `
+<div
+  className="Container--Simple--Expandable"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <button
+      className="Expand Subtile IconOnly"
+    >
+      <div
+        className="IconContainer"
+      >
+        <svg
+          className={undefined}
+          fill="none"
+          height={24}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            fill="black"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </div>
+    </button>
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    <div
+      style={
+        Object {
+          "height": "0px",
+          "overflow": "hidden",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": -1,
+            "marginTop": -1,
+            "paddingBottom": 1,
+            "paddingTop": 1,
+          }
+        }
+      >
+        Content
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`panel component 6`] = `
+<div
+  className="Container--Inverse--Expandable"
+>
+  <header
+    className="Header"
+    onClick={[Function]}
+  >
+    <button
+      className="Expand Subtile IconOnly"
+    >
+      <div
+        className="IconContainer"
+      >
+        <svg
+          className={undefined}
+          fill="none"
+          height={24}
+          viewBox="0 0 24 24"
+          width={24}
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            fill="black"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </div>
+    </button>
+    <span
+      className="Title"
+      title="Header"
+    >
+      Header
+    </span>
+  </header>
+  <div
+    className="Content"
+  >
+    <div
+      style={
+        Object {
+          "height": "0px",
+          "overflow": "hidden",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": -1,
+            "marginTop": -1,
+            "paddingBottom": 1,
+            "paddingTop": 1,
+          }
+        }
+      >
+        Content
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Muted } from '~/components/misc'
+import { Muted } from '~/components/text'
 import { Splash } from '~/components/page/sections'
 import { Entry, EntrySet } from '~/components/feed'
 import { feedSplash } from '~/containers/connectors'

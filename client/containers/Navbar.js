@@ -11,7 +11,7 @@ import Navbar, {
     Header,
     Link,
 } from '~/components/navbar'
-import { Avatar } from '~/components/misc'
+import Avatar from '~/components/avatar'
 import * as Menus from '~/constants/menu'
 import { getIsAuthenticated, getProfile } from '~/getters/auth'
 import { login, logout } from '~/actions/auth'

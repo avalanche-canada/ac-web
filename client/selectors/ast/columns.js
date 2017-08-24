@@ -1,7 +1,9 @@
 import React from 'react'
 import Url from 'url'
 import isSameDay from 'date-fns/is_same_day'
-import { Phone, Mailto, DateElement, P } from '~/components/misc'
+import { P } from '~/components/markup'
+import { DateElement } from '~/components/time'
+import { Mailto, Phone } from '~/components/anchors'
 import { List, Term, Definition } from '~/components/description'
 import { NONE } from '~/constants/sortings'
 
@@ -17,10 +19,7 @@ export const dateRanges = {
 
         return (
             <div>
-                <DateElement value={dateStart} />
-                {' '}
-                <em>to</em>
-                {' '}
+                <DateElement value={dateStart} /> <em>to</em>{' '}
                 <DateElement value={dateEnd} />
             </div>
         )

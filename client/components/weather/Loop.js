@@ -8,7 +8,7 @@ import {
     isForecast,
     fetchMetadata,
 } from '~/services/msc/loop'
-import { Loading, Error } from '~/components/misc'
+import { Loading, Error } from '~/components/text'
 
 NoteSet.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.string).isRequired,

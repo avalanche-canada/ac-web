@@ -7,17 +7,17 @@ InnerHTML.propTypes = {
     component: PropTypes.string,
 }
 
-function InnerHTML({ children, component = 'div', ...props }) {
-    if (!children) {
-        return null
+function InnerHTML({ children, component = 'div', ...rest }) {
+    if (children) {
+        return createElement(component, {
+            ...rest,
+            dangerouslySetInnerHTML: {
+                __html: children,
+            },
+        })
     }
 
-    return createElement(component, {
-        ...props,
-        dangerouslySetInnerHTML: {
-            __html: children,
-        },
-    })
+    return null
 }
 
 export default onlyUpdateForKey('children')(InnerHTML)

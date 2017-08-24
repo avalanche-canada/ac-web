@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Mailto, Phone, Avatar } from '~/components/misc'
+import Avatar from '~/components/avatar'
+import { Mailto, Phone } from '~/components/anchors'
 import styles from './Biography.css'
 
 // FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote.
@@ -30,8 +31,13 @@ function Biography({
             </div>
             <div styleName="Content">
                 <header styleName="Header">
-                    <span styleName="Name">{fullName}</span>
-                    {title && <span styleName="Title">{title}</span>}
+                    <span styleName="Name">
+                        {fullName}
+                    </span>
+                    {title &&
+                        <span styleName="Title">
+                            {title}
+                        </span>}
                 </header>
                 <address styleName="Address">
                     {email &&

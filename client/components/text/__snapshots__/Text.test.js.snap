@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`text component 1`] = `
+<p
+  className="Text"
+>
+  Content
+</p>
+`;
+
+exports[`text component 2`] = `
+<p
+  className="Muted"
+>
+  Content
+</p>
+`;
+
+exports[`text component 3`] = `
+<p
+  className="Loading"
+>
+  Content
+</p>
+`;
+
+exports[`text component 4`] = `
+<p
+  className="Error"
+>
+  Content
+</p>
+`;
+
+exports[`text component 5`] = `
+<p
+  className="Warning"
+>
+  Content
+</p>
+`;
+
+exports[`text component 6`] = `
+<span
+  className="Helper"
+>
+  Content
+</span>
+`;

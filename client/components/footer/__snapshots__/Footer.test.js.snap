@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`footer component 1`] = `
+<footer
+  className="Container"
+>
+  <div
+    className="Content"
+  >
+    <nav
+      className="Nav"
+    >
+      <a
+        className="Link"
+        href="/about#contact-us"
+        onClick={[Function]}
+      >
+        Contact
+      </a>
+      <a
+        className="Link"
+        href="/privacy-policy"
+        onClick={[Function]}
+      >
+        Privacy Policy
+      </a>
+      <a
+        className="Link"
+        href="/terms-of-use"
+        onClick={[Function]}
+      >
+        Terms of use
+      </a>
+    </nav>
+    <span
+      className="Rights"
+    >
+      ©
+      2017
+       Avalanche Canada, All Rights Reserved
+    </span>
+  </div>
+</footer>
+`;

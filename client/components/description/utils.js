@@ -1,6 +1,6 @@
 import React from 'react'
 import { Term, Definition } from '~/components/description'
-import { DateElement, DateTime } from '~/components/misc'
+import { DateElement, DateTime } from '~/components/time'
 import { trulyKeys } from '~/utils/object'
 import startOfDay from 'date-fns/start_of_day'
 import isEqual from 'date-fns/is_equal'
@@ -24,11 +24,11 @@ function createDefinitionChildren(value) {
                 if (value.length > 0) {
                     return (
                         <ul>
-                            {value.map((value, index) => (
+                            {value.map((value, index) =>
                                 <li key={index}>
                                     {createDefinitionChildren.call(this, value)}
                                 </li>
-                            ))}
+                            )}
                         </ul>
                     )
                 }

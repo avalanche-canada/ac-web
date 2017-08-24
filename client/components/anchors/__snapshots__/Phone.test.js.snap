@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`phone component 1`] = `
+<a
+  href="tel:250-837-2141"
+>
+  250-837-2141
+</a>
+`;
+
+exports[`phone component 2`] = `
+<a
+  href="tel:250-837-2141"
+>
+  250-837-2141 ext. 112
+</a>
+`;
+
+exports[`phone component 3`] = `
+<a
+  href="tel:250-837-2141"
+>
+  Call Karl Guillotte
+</a>
+`;

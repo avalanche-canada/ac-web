@@ -9,7 +9,7 @@ import {
 } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Avatar.css'
-import loadingState from './loadingState'
+import loadingState from '~/components/misc/loadingState'
 import { initials } from '~/utils/string'
 
 Avatar.propTypes = {
@@ -33,9 +33,8 @@ function Avatar({
     isLoading,
     style,
 }) {
-    const styleName = hasError === true || isLoading === true
-        ? 'Initials'
-        : 'Avatar'
+    const styleName =
+        hasError === true || isLoading === true ? 'Initials' : 'Avatar'
 
     return (
         <div styleName={styleName} data-initials={initials} style={style}>

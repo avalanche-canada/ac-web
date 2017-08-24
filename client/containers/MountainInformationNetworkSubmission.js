@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     Page,
     Header,
@@ -10,7 +10,7 @@ import {
     ContextMap,
 } from '~/components/page'
 import { Item } from '~/components/sidebar'
-import { Muted, Error } from '~/components/misc'
+import { Muted, Error } from '~/components/text'
 import { mountainInformationNetworkSubmission } from '~/containers/connectors'
 import {
     Submission,

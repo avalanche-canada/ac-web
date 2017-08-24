@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     Header,
     Container,
@@ -10,7 +10,7 @@ import {
 } from '~/components/page/drawer'
 import { Metadata, Submission } from '~/components/mountainInformationNetwork'
 import { LocateAsClass } from '~/components/button/Locate'
-import { Loading, Error } from '~/components/misc'
+import { Loading, Error } from '~/components/text'
 import Sponsor from '~/layouts/Sponsor'
 import { mountainInformationNetworkSubmission } from '~/containers/connectors'
 import { Wrapper } from '~/components/tooltip'
@@ -54,7 +54,11 @@ function MountainInformationNetwork({
             </Navbar>
             <Header subject="Mountain Information Network">
                 <h1>
-                    {link ? <Link to={link}>{title}</Link> : title}
+                    {link
+                        ? <Link to={link}>
+                              {title}
+                          </Link>
+                        : title}
                     {isLoading ||
                         <Wrapper tooltip="Display on map">
                             <LocateAsClass
@@ -66,9 +70,14 @@ function MountainInformationNetwork({
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>
             <Body>
-                {isError && <Error>{error}</Error>}
+                {isError &&
+                    <Error>
+                        {error}
+                    </Error>}
                 {isLoading
-                    ? <Loading>{loading}</Loading>
+                    ? <Loading>
+                          {loading}
+                      </Loading>
                     : <Submission {...props} />}
             </Body>
         </Container>
