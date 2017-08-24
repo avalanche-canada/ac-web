@@ -6,6 +6,7 @@ import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
 import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
+import LongRange from './tabs/LongRange'
 import SliceSet from './tabs/SliceSet'
 import Tutorial from '~/containers/WeatherTutorial'
 import TABS, {
@@ -61,15 +62,14 @@ const TABS_PROPS = new Map([
 
 Forecast.propTypes = {
     forecast: PropTypes.object.isRequired,
-    tabs: PropTypes.arrayOf(PropTypes.oneOf(TABS)),
 }
 
-export default function Forecast({ forecast = {}, tabs = TABS }) {
+export default function Forecast({ forecast = {} }) {
     const { date } = forecast
 
     return (
         <TabSet>
-            {tabs.map(id => {
+            {TABS.map(id => {
                 const { title, component, name } = TABS_PROPS.get(id)
                 const group = forecast[name]
                 const slices = forecast[`${name}More`] || group
@@ -93,6 +93,9 @@ export default function Forecast({ forecast = {}, tabs = TABS }) {
                     </Tab>
                 )
             })}
+            <Tab title="Day 5-7">
+                <LongRange date={date} />
+            </Tab>
             <Tab title="Tutorials">
                 <Tutorial uid="weather" />
             </Tab>
