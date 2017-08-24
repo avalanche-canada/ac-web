@@ -91,4 +91,4 @@ purge-all-builds:
 
 test:
 	find server -name '*_test.js' | xargs npm run mocha
-	node --harmony_proxies node_modules/.bin/jest --no-cache
+	npm run test
