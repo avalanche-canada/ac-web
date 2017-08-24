@@ -91,4 +91,4 @@ purge-all-builds:
 
 test:
 	find server -name '*_test.js' | xargs npm run mocha
-	npm run test
+	npm run test -- -u
