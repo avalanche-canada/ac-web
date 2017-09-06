@@ -6,7 +6,7 @@ import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
 import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
-import LongRange from './tabs/LongRange'
+import ExtendedWeatherForecast from './tabs/ExtendedWeatherForecast'
 import SliceSet from './tabs/SliceSet'
 import Tutorial from '~/containers/WeatherTutorial'
 import TABS, {
@@ -94,7 +94,7 @@ export default function Forecast({ forecast = {} }) {
                 )
             })}
             <Tab title="Day 5-7">
-                <LongRange date={date} />
+                <ExtendedWeatherForecast date={date} />
             </Tab>
             <Tab title="Tutorials">
                 <Tutorial uid="weather" />

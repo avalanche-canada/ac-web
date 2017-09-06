@@ -8,6 +8,8 @@ Control.propTypes = {
     icon: PropTypes.node,
 }
 
+// TODO: Clean up this ugly code! Why the icon?!?!?!!?
+
 function Control({ icon = null, children, ...props }) {
     const withIcon = icon !== null
 

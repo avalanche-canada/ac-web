@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { scrollPosition } from '~/utils/dom'
 
 export Element from './Element'
+export fullscreen from './fullscreen'
 
 export const neverUpdate = shouldUpdate(() => false)
 

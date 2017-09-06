@@ -15,22 +15,25 @@
 
     max-width: 1026px;
     list-style: none;
-	padding: 0;
-	margin: 0 auto;
+    padding: 0;
+    margin: 0 auto;
 }
 
 .Item {
     position: relative;
-    min-width: 100px;
+    padding: 0 1em;
     line-height: 40px;
     text-align: center;
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
+    color: white;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
-    & a {
-        display: block;
-        color: white;
+    & > * {
+        color: inherit;
     }
 
     &:not(:last-child):after {
