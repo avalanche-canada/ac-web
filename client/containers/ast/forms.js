@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withProps, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
@@ -23,84 +23,87 @@ const STYLE = {
     position: 'relative',
 }
 
-Form.propTypes = {
-    legend: PropTypes.string,
-    location: PropTypes.shape({
-        search: PropTypes.string,
-        state: PropTypes.object,
-    }).isRequired,
-    tagOptions: PropTypes.instanceOf(Map),
-    levelOptions: PropTypes.instanceOf(Map),
-    onLevelChange: PropTypes.func.isRequired,
-    onDateRangeChange: PropTypes.func.isRequired,
-    onTagsChange: PropTypes.func.isRequired,
-    onPlaceChange: PropTypes.func.isRequired,
-    withDateRange: PropTypes.bool,
-}
-
-function Form({
-    legend,
-    location,
-    tagOptions,
-    levelOptions,
-    onLevelChange,
-    onDateRangeChange,
-    onTagsChange,
-    onPlaceChange,
-    withDateRange,
-}) {
-    // TODO: move this parsing to layout!
-    let { level = '', tags = [], from, to } = parse(location.search)
-
-    tags = Array.isArray(tags) ? tags : [tags]
-
-    if (typeof level === 'string') {
-        level = level.toUpperCase().trim()
+class Form extends Component {
+    static propTypes = {
+        legend: PropTypes.string,
+        location: PropTypes.shape({
+            search: PropTypes.string,
+            state: PropTypes.object,
+        }).isRequired,
+        tagOptions: PropTypes.instanceOf(Map),
+        levelOptions: PropTypes.instanceOf(Map),
+        onLevelChange: PropTypes.func.isRequired,
+        onDateRangeChange: PropTypes.func.isRequired,
+        onTagsChange: PropTypes.func.isRequired,
+        onPlaceChange: PropTypes.func.isRequired,
+        withDateRange: PropTypes.bool,
     }
+    render() {
+        const {
+            legend,
+            location,
+            tagOptions,
+            levelOptions,
+            onLevelChange,
+            onDateRangeChange,
+            onTagsChange,
+            onPlaceChange,
+            withDateRange,
+        } = this.props
 
-    return (
-        <Base style={STYLE}>
-            <Legend>
-                {legend}
-            </Legend>
-            <ControlSet horizontal>
-                {levelOptions &&
+        // TODO: move this parsing to layout!
+        let { level = '', tags = [], from, to } = parse(location.search)
+
+        tags = Array.isArray(tags) ? tags : [tags]
+
+        if (typeof level === 'string') {
+            level = level.toUpperCase().trim()
+        }
+
+        return (
+            <Base style={STYLE}>
+                <Legend>
+                    {legend}
+                </Legend>
+                <ControlSet horizontal>
+                    {levelOptions &&
+                        <Control>
+                            <DropdownFromOptions
+                                onChange={onLevelChange}
+                                value={level}
+                                placeholder="Level"
+                                options={levelOptions}
+                            />
+                        </Control>}
+                    {withDateRange &&
+                        <Control>
+                            <DateRange
+                                from={from && parseDate(from)}
+                                to={to && parseDate(to)}
+                                onChange={onDateRangeChange}
+                                container={this}
+                            />
+                        </Control>}
                     <Control>
                         <DropdownFromOptions
-                            onChange={onLevelChange}
-                            value={level}
-                            placeholder="Level"
-                            options={levelOptions}
+                            multiple
+                            onChange={onTagsChange}
+                            value={new Set(tags.map(tag => tag.toUpperCase()))}
+                            placeholder="Filter by"
+                            options={tagOptions}
                         />
-                    </Control>}
-                {withDateRange &&
+                    </Control>
                     <Control>
-                        <DateRange
-                            from={from && parseDate(from)}
-                            to={to && parseDate(to)}
-                            onChange={onDateRangeChange}
-                            container={this}
+                        <Geocoder
+                            placeholder="Location"
+                            onChange={onPlaceChange}
+                            value={get(location, 'state.place.text')}
                         />
-                    </Control>}
-                <Control>
-                    <DropdownFromOptions
-                        multiple
-                        onChange={onTagsChange}
-                        value={new Set(tags.map(tag => tag.toUpperCase()))}
-                        placeholder="Filter by"
-                        options={tagOptions}
-                    />
-                </Control>
-                <Control>
-                    <Geocoder
-                        placeholder="Location"
-                        onChange={onPlaceChange}
-                        value={get(location, 'state.place.text')}
-                    />
-                </Control>
-            </ControlSet>
-        </Base>
-    )
+                    </Control>
+                </ControlSet>
+            </Base>
+        )
+    }
 }
 
 const Container = compose(
