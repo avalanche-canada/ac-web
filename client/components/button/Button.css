@@ -1,12 +1,13 @@
-@import "../../styles/components.css";
+@import '../../styles/components.css';
 
 .Common {
     padding: 0.5em 0.75em;
     font-weight: 700;
     text-transform: uppercase;
-	color: white;
-	border: none;
+    color: white;
+    border: none;
     cursor: pointer;
+    line-height: initial;
 
     @media print {
         display: none;
@@ -18,17 +19,18 @@
 }
 
 .Primary {
-	composes: Common;
+    composes: Common;
 
-	background-color: var(--component-primary-bg);
+    background-color: var(--component-primary-bg);
 
-	&:hover {
-		background-color: var(--component-primary-bg-hover);
-	}
+    &:hover {
+        background-color: var(--component-primary-bg-hover);
+    }
 
-	&:active, &.Active {
-		background-color: var(--component-primary-bg-active);
-	}
+    &:active,
+    &.Active {
+        background-color: var(--component-primary-bg-active);
+    }
 }
 
 .Primary--Active {
@@ -48,31 +50,33 @@
 }
 
 .Secondary {
-	composes: Common;
+    composes: Common;
 
     background-color: var(--component-secondary-bg);
 
     &:hover {
         background-color: var(--component-secondary-bg-hover);
-	}
+    }
 
-    &:active, &.Active {
+    &:active,
+    &.Active {
         background-color: var(--component-secondary-bg-active);
-	}
+    }
 }
 
 .Tertiary {
-	composes: Common;
+    composes: Common;
 
     background-color: var(--component-tertiary-bg);
 
     &:hover {
         background-color: var(--component-tertiary-bg-hover);
-	}
+    }
 
-    &:active, &.Active {
+    &:active,
+    &.Active {
         background-color: var(--component-tertiary-bg-active);
-	}
+    }
 }
 
 .Incognito {
@@ -91,7 +95,7 @@
     outline: none;
 
     & .IconContainer {
-        & path:not([fill="none"]) {
+        & path:not([fill='none']) {
             fill: var(--brand-primary);
         }
     }
@@ -106,7 +110,7 @@
     }
 
     & .IconContainer {
-        & path:not([fill="none"]) {
+        & path:not([fill='none']) {
             fill: var(--gray);
         }
     }
@@ -125,7 +129,7 @@
 
 .ChevronRight {
     &:after {
-        content: "\00a0›";
+        content: '\00a0›';
         color: white;
         font-size: 1.25em;
         line-height: 0;
@@ -134,7 +138,7 @@
 
 .ChevronLeft {
     &:before {
-        content: "‹\00a0";
+        content: '‹\00a0';
         color: white;
         font-size: 1.25em;
         line-height: 0;

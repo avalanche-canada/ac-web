@@ -1,11 +1,11 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { TabSet, Tab } from '~/components/tab'
+import TabSet, { HeaderSet, Header, PanelSet, Panel } from '~/components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
 import Day3To4 from './tabs/Day3to4'
-import Day5To7 from './tabs/Day5to7'
+import Day5To10 from './tabs/Day5to10'
 import ExtendedWeatherForecast from './tabs/ExtendedWeatherForecast'
 import SliceSet from './tabs/SliceSet'
 import Tutorial from '~/containers/WeatherTutorial'
@@ -53,9 +53,9 @@ const TABS_PROPS = new Map([
     [
         DAY5TO7,
         {
-            name: 'day5To7',
-            title: 'Day 5-7',
-            component: Day5To7,
+            name: 'day5To10',
+            title: 'Day 5-10',
+            component: Day5To10,
         },
     ],
 ])
@@ -69,36 +69,47 @@ export default function Forecast({ forecast = {} }) {
 
     return (
         <TabSet>
-            {TABS.map(id => {
-                const { title, component, name } = TABS_PROPS.get(id)
-                const group = forecast[name]
-                const slices = forecast[`${name}More`] || group
+            <HeaderSet>
+                {TABS.map(id => {
+                    const { name, title } = TABS_PROPS.get(id)
 
-                if (!group && !slices) {
-                    return null
-                }
-                const props = {
-                    date,
-                }
+                    return <Header key={name}>{title}</Header>
+                })}
+                <Header>Day 5-10</Header>
+                <Header>Tutorials</Header>
+            </HeaderSet>
+            <PanelSet>
+                {TABS.map(id => {
+                    const { component, name } = TABS_PROPS.get(id)
+                    const group = forecast[name]
+                    const slices = forecast[`${name}More`] || group
 
-                if (Array.isArray(group)) {
-                    Object.assign(props, group[0])
-                }
+                    if (!group && !slices) {
+                        return null
+                    }
+                    const props = {
+                        date,
+                    }
 
-                const child = <SliceSet slices={slices} />
+                    if (Array.isArray(group)) {
+                        Object.assign(props, group[0])
+                    }
 
-                return (
-                    <Tab key={name} title={title}>
-                        {createElement(component, props, child)}
-                    </Tab>
-                )
-            })}
-            <Tab title="Day 5-7">
-                <ExtendedWeatherForecast date={date} />
-            </Tab>
-            <Tab title="Tutorials">
-                <Tutorial uid="weather" />
-            </Tab>
+                    const child = <SliceSet slices={slices} />
+
+                    return (
+                        <Panel key={name}>
+                            {createElement(component, props, child)}
+                        </Panel>
+                    )
+                })}
+                <Panel>
+                    <ExtendedWeatherForecast date={date} />
+                </Panel>
+                <Panel>
+                    <Tutorial uid="weather" />
+                </Panel>
+            </PanelSet>
         </TabSet>
     )
 }

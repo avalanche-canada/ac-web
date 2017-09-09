@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 :root {
     --border: 1px solid var(--gray-light);
@@ -17,7 +17,7 @@
         cursor: pointer;
 
         & svg {
-            & path:not([fill="none"]) {
+            & path:not([fill='none']) {
                 fill: var(--primary);
             }
         }
@@ -36,7 +36,7 @@
         color: white;
 
         & .Expand {
-            & path:not([fill="none"]) {
+            & path:not([fill='none']) {
                 fill: white;
             }
         }
@@ -71,9 +71,7 @@
     }
 }
 
-
 .Content {
-    padding: 0 1em;
     position: relative;
 
     &:before {

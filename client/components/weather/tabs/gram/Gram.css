@@ -9,7 +9,7 @@
 .Location {
     flex: 50%;
     box-sizing: border-box;
-    padding: 1em;
+    padding: 2em;
     cursor: pointer;
 
     & > header {

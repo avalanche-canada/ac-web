@@ -1,0 +1,125 @@
+@import "../../styles/components.css";
+@import "../../styles/colors.css";
+@import "../../styles/shapes.css";
+
+:root {
+    --border-width: 5px;
+}
+
+.HeaderSet {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.Header {
+    flex: 1;
+
+    position: relative;
+    padding: 1em;
+    text-align: center;
+    color: var(--black);
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+
+    & > a > svg {
+        /* ICON */
+        position: relative;
+        top: 2px;
+    }
+
+    & .ExpandButton {
+        display: none;
+    }
+
+    &:hover {
+        background-color: var(--component-bg-hover);
+    }
+}
+
+.ActiveHeader {
+    composes: Header;
+
+    background-color: var(--component-active-bg);
+    color: white;
+
+    &:hover {
+        background-color: var(--component-active-bg);
+    }
+}
+
+.DisabledHeader {
+    composes: Header;
+
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+        background-color: inherit;
+    }
+}
+
+.Header--Arrow {
+    composes: import ArrowElementDown from "../../styles/shapes.css";
+
+    position: absolute;
+    top: calc(100% + var(--border-width));
+    left: 50%;
+    z-index: 1;
+    border-top-color: transparent;
+    margin-left: calc(-1 * var(--arrow-width));
+
+    &.ActiveHeader {
+        border-top-color: var(--primary);
+    }
+}
+
+.PanelSet {
+}
+
+.Panel {
+}
+
+/* THEMES */
+.Compact {
+    background-color: var(--gray-lighter);
+
+    & .Header {
+        border-bottom: var(--border-width) solid var(--component-bg);
+        z-index: 1;
+    }
+
+    & .ActiveHeader {
+        background-color: var(--primary);
+        border-bottom-color: var(--primary);
+    }
+}
+
+.Loose {
+    background-color: color(var(--primary) lightness(75%));
+
+    & .Header {
+        display: inline-block;
+        position: relative;
+        padding: 1.5em 2.5em;
+        font-weight: 700;
+        color: white;
+
+        &:after {
+            /*
+                Do not put border-right, it will break in IE when JS code when
+                try measure widths
+             */
+            content: "";
+            position: absolute 0;
+            background-color: white;
+            height: 100%;
+            width: 1px;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Base, { PanelSet, ButtonSet } from '~/components/carousel'
 import Button from '~/components/button'
@@ -13,14 +13,16 @@ class Slide extends PureComponent {
         setFullscreenContainer: PropTypes.func.isRequired,
     }
     render() {
-        const { children, enterFullscreen, setFullscreenContainer } = this.props
+        const {
+            children: [header, image],
+            enterFullscreen,
+            setFullscreenContainer: ref,
+        } = this.props
 
         return (
-            <section
-                className={styles.Slide}
-                ref={setFullscreenContainer}
-                onClick={enterFullscreen}>
-                {children}
+            <section className={styles.Slide} onClick={enterFullscreen}>
+                {header}
+                {cloneElement(image, { ref })}
             </section>
         )
     }

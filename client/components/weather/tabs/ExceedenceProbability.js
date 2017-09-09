@@ -1,104 +1,147 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Container, PillSet, Pill } from '~/components/pill'
-import { DropdownFromOptions, DateRange } from '~/components/controls'
-import parseDate from 'date-fns/parse'
-import Panel from '~/components/panel'
+import { DropdownFromOptions, DayPicker } from '~/components/controls'
+import { DateElement } from '~/components/time'
+import styles from './ExceedenceProbability.css'
+import differenceInHours from 'date-fns/difference_in_hours'
+import startOfDay from 'date-fns/start_of_day'
+import addDays from 'date-fns/add_days'
+import isWithinRange from 'date-fns/is_within_range'
+import {
+    MAXIMUM_TEMPERATURE,
+    PRECIPITATION,
+    ACCUMULATED_PRECIPITATION,
+    PRODUCTS,
+    PARAMETERS,
+    format,
+} from '~/services/msc/naefs'
 
-const TEMPERATURE = 'TEMPERATURE'
-const PRECIPITATION = 'PRECIPITATION'
-const ACCUMULATED_PRECIPITATION = 'ACCUMULATED_PRECIPITATION'
-const TYPES = [TEMPERATURE, PRECIPITATION, ACCUMULATED_PRECIPITATION]
-const Options = new Map([
-    [
-        TEMPERATURE,
-        new Map([
-            [0, '> 0°C'],
-            [1, '< 0°C'],
-            [2, '< 5°C'],
-            [3, '< 15°C'],
-            [4, '< 30°C'],
-        ]),
-    ],
-    [
-        PRECIPITATION,
-        new Map([[0, '> 2mm'], [1, '> 5mm'], [2, '> 10mm'], [3, '> 25mm']]),
-    ],
-    [
-        ACCUMULATED_PRECIPITATION,
-        new Map([[0, '> 2mm'], [1, '> 5mm'], [2, '> 10mm'], [3, '> 25mm']]),
-    ],
-])
+const DEFAULT_PRODUCT = MAXIMUM_TEMPERATURE
+
 const Titles = new Map([
-    [TEMPERATURE, 'Temperature'],
+    [MAXIMUM_TEMPERATURE, 'Temperature'],
     [PRECIPITATION, 'Precipitation'],
     [ACCUMULATED_PRECIPITATION, 'Accumulated precipitation'],
 ])
 
 Image.propTypes = {
-    type: PropTypes.oneOf(TYPES).isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    product: PropTypes.oneOf(Array.from(PRODUCTS)).isRequired,
+    param: PropTypes.string.isRequired,
     from: PropTypes.instanceOf(Date).isRequired,
     to: PropTypes.instanceOf(Date).isRequired,
-    value: PropTypes.string.isRequired,
 }
 
-function Image({ type }) {
-    // , from, to, value
-    let path = null
+function Image({ date, product, from, to, param }) {
+    date = startOfDay(date)
+    from = startOfDay(from)
+    to = startOfDay(to)
 
-    switch (type) {
-        case TEMPERATURE:
-            path = 'GZ500/CMC_NCEP/2017083100_096.gif'
-            break
-        case PRECIPITATION:
-            path = 'GZ500/CMC_NCEP/2017083100_096.gif'
-            break
-        case ACCUMULATED_PRECIPITATION:
-            path = 'GZ500/CMC_NCEP/2017083100_096.gif'
-            break
-        default:
-            throw new Error(`type = ${type} not recognized.`)
-    }
-
-    const src = `//collaboration.cmc.ec.gc.ca/cmc/ensemble/cartes/data/cartes/${path}`
+    const src = format({
+        product,
+        param,
+        date,
+        run: 0,
+        start: differenceInHours(from, date),
+        end: differenceInHours(to, date),
+    })
 
     return <img src={src} />
 }
 
-function computeTitle({ type, value }) {
-    const text = Options.get(type).get(value)
+function Title({ product, children }) {
+    let prefix = null
+    let suffix = null
 
-    switch (type) {
-        case TEMPERATURE:
-            return `Probability of temperature ${text} at least one day`
+    switch (product) {
+        case MAXIMUM_TEMPERATURE:
+            prefix = 'Probability of temperature'
+            suffix = 'at least one day'
+            break
         case PRECIPITATION:
-            return `Probability of precipitation ${text} at least one day`
+            prefix = 'Probability of precipitation'
+            suffix = 'at least one day'
+            break
         case ACCUMULATED_PRECIPITATION:
-            return `Probability of precipitation accumulation ${text} for the whole period`
+            prefix = 'Probability of precipitation accumulation'
+            suffix = 'for the whole period'
+            break
         default:
-            throw new Error(`type = ${type} not recognized.`)
+            throw new Error(`product = ${product} not recognized.`)
     }
+
+    return (
+        <h4 className={styles.Title} style={{ marginBottom: 0 }}>
+            {prefix}
+            {children}
+            {suffix}
+        </h4>
+    )
 }
 
-export default class ExceedenceProbability extends PureComponent {
-    state = {
-        type: TEMPERATURE,
-        from: new Date(),
-        to: new Date(),
-        value: 0,
+function Subtitle({ children: [from, to] }) {
+    return (
+        <h5 className={styles.Title} style={{ marginTop: 0 }}>
+            <div>For forecast from</div>
+            {from}
+            <div>to</div>
+            {to}
+        </h5>
+    )
+}
+
+class DayPickerContainer extends Component {
+    render() {
+        const { children, ...props } = this.props
+
+        return (
+            <DayPicker container={this} {...props}>
+                {children}
+            </DayPicker>
+        )
     }
-    handleValueChange = value => this.setState({ value })
+}
+export default class ExceedenceProbability extends Component {
+    static propTypes = {
+        date: PropTypes.instanceOf(Date).isRequired,
+    }
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            product: DEFAULT_PRODUCT,
+            param: PARAMETERS.get(DEFAULT_PRODUCT)
+                .keys()
+                .next().value,
+            from: addDays(this.props.date, 5),
+            to: addDays(this.props.date, 6),
+        }
+    }
+    handleParamChange = param => param && this.setState({ param })
     handleDateRangeChange = dates => this.setState(dates)
     handleActivateType = index => {
+        const [product] = Array.from(Titles)[index]
+
         this.setState({
-            value: 0,
-            type: TYPES[index],
+            product,
+            param: PARAMETERS.get(product)
+                .keys()
+                .next().value,
         })
     }
+    handleFromChange = from => this.setState({ from })
+    handleToChange = to => this.setState({ to })
     render() {
-        const { type, from, to, value } = this.state
-        const activeIndex = TYPES.indexOf(type)
-        const title = computeTitle(this.state)
+        const { product, param, from, to } = this.state
+        const { date } = this.props
+        const activeIndex = Array.from(Titles.keys()).indexOf(product)
+        function fromDisabledDays(day) {
+            return !isWithinRange(day, date, addDays(date, 6))
+        }
+        function toDisabledDays(day) {
+            return !isWithinRange(day, addDays(date, 6), addDays(date, 10))
+        }
 
         return (
             <section>
@@ -106,29 +149,33 @@ export default class ExceedenceProbability extends PureComponent {
                     <PillSet
                         onActivate={this.handleActivateType}
                         activeIndex={activeIndex}>
-                        {Array.from(Titles).map(([type, title]) =>
-                            <Pill key={type}>
-                                {title}
-                            </Pill>
-                        )}
+                        {Array.from(Titles).map(([product, title]) => (
+                            <Pill key={product}>{title}</Pill>
+                        ))}
                     </PillSet>
                 </Container>
-                <Panel expandable header={title}>
-                    <label>
-                        Forecast extent
-                        <DateRange
-                            from={from && parseDate(from)}
-                            to={to && parseDate(to)}
-                            onChange={this.handleDateRangeChange}
-                        />
-                    </label>
+                <Title product={product}>
                     <DropdownFromOptions
-                        value={value}
-                        options={Options.get(type)}
-                        onChange={this.handleValueChange}
+                        value={param}
+                        options={PARAMETERS.get(product)}
+                        onChange={this.handleParamChange}
                     />
-                </Panel>
-                <Image {...this.state} />
+                </Title>
+                <Subtitle>
+                    <DayPickerContainer
+                        date={from}
+                        disabledDays={fromDisabledDays}
+                        onChange={this.handleFromChange}>
+                        <DateElement value={from} />
+                    </DayPickerContainer>
+                    <DayPickerContainer
+                        date={to}
+                        disabledDays={toDisabledDays}
+                        onChange={this.handleToChange}>
+                        <DateElement value={to} />
+                    </DayPickerContainer>
+                </Subtitle>
+                <Image {...this.state} date={date} />
             </section>
         )
     }

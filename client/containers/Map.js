@@ -217,7 +217,10 @@ class Container extends Component {
         html.appendChild(p)
         html.appendChild(ul)
 
-        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
+        this.popup
+            .setLngLat(coordinates)
+            .setDOMContent(html)
+            .addTo(this.map)
     }
     transitionToFeature(layer, id) {
         const createLocation = LOCATION_CREATORS.get(layer)

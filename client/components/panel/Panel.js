@@ -44,27 +44,28 @@ function Panel({
     return (
         <div styleName={styleName}>
             <header styleName="Header" onClick={onHeaderClick}>
-                {expandable &&
-                    <Expand styleName="Expand" expanded={expanded} />}
+                {expandable && (
+                    <Expand styleName="Expand" expanded={expanded} />
+                )}
                 <span styleName="Title" title={titleOf(header)}>
                     {header}
                 </span>
             </header>
             <div styleName="Content">
-                {expandable
-                    ? <Collapse collapsed={!expanded}>
-                          <div style={STYLE}>
-                              {children}
-                          </div>
-                      </Collapse>
-                    : children}
+                {expandable ? (
+                    <Collapse collapsed={!expanded}>
+                        <div style={STYLE}>{children}</div>
+                    </Collapse>
+                ) : (
+                    children
+                )}
             </div>
         </div>
     )
 }
 
 export default compose(
-    onlyUpdateForKeys(['expanded', 'children', 'header', 'children']),
+    onlyUpdateForKeys(['expanded', 'header', 'children']),
     withState('expanded', 'setExpanded', props => props.expanded),
     withHandlers({
         onHeaderClick: props => () => {
