@@ -42,10 +42,17 @@
     composes: HeaderComponent;
     composes: Flex;
     margin: 1em 0;
-    line-height: 0;
+    line-height: 1.5em;
 
     & img {
         width: 35px;
         height: 35px;
+    }
+    & div {
+      align-self: flex-start;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-contetn: flex-start;
     }
 }

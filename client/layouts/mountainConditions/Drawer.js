@@ -53,6 +53,7 @@ function Drawer({
         images,
         user,
         dates,
+        groups,
     } = report.toJSON()
 
     let banner
@@ -105,7 +106,7 @@ function Drawer({
                         <InnerHTML styleName="Location">
                             {locationDescription}
                         </InnerHTML>}
-                    {user && <Submitter {...user} />}
+                    {user && <Submitter {...user}  groups={groups}/>}
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />

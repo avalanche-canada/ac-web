@@ -7,13 +7,17 @@ Submitter.propTypes = {
     certification: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    groups: PropTypes.array,
 }
 
-function Submitter({ name, image, certification }) {
+function Submitter({ name, image, groups}) {
     return (
         <div styleName="Submitter">
             <img src={image} alt="ACMG Logo" />
-            <span>{[certification, name].filter(Boolean).join(' - ')}</span>
+            <div>
+                <span>{name}</span>
+                <span>{groups.map(g => g.name).join(', ')}</span>
+            </div>
         </div>
     )
 }
