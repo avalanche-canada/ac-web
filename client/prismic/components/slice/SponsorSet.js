@@ -36,7 +36,9 @@ export default compose(
 
             this.props.load({
                 predicates: [Predicates.in('document.id', ids)],
-                pageSize: ids.length,
+                options: {
+                    pageSize: ids.length,
+                },
             })
         },
     }),
