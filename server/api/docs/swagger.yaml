@@ -1,0 +1,429 @@
+swagger: '2.0'
+info:
+  version: 1.0.1
+  title: Avalanche Canada API
+  contact:
+    name: Avalanche Canada
+    email: support@avalanche.ca
+  license:
+    name: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode'
+  description: Avalanche Canada API
+host: www.avalanche.ca
+basePath: /api
+schemes:
+  - https
+paths:
+  /features/metadata:
+    get:
+      tags:
+        - Forecasts
+      summary: List All feature meta data
+      description: >
+        This lists all the feature metadata that can be used to query api
+        information.
+
+        It lacks only the GeoJSON data requried to draw specific regions on a
+        map
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/MetaData'
+  '/forecasts/{region}.json':
+    get:
+      tags:
+        - Forecasts
+      summary: Get a forecast for a specific region
+      produces:
+        - application/json
+      parameters:
+        - name: region
+          required: true
+          in: path
+          type: string
+          description: |
+            The region id that is listed int `/features/metadata` objects
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Forecast'
+  '/bulletin-archive/{date}/{region}.json':
+    get:
+      tags:
+        - Forecasts
+      summary: Get a historical forecast for a region
+      produces:
+        - application/json
+      parameters:
+        - name: region
+          required: true
+          in: path
+          type: string
+          description: |
+            The region id that is listed int `/features/metadata` objects
+        - name: date
+          required: true
+          in: path
+          type: string
+          format: date
+          description: |
+            ISO8661 date to get the bulletin for.
+            **Examples:**
+              * `2017-01-01`
+              * `2017-01-01T16:43:00`
+              * `2017-01-01T16:43:00Z`
+              * `2017-01-01T16:43:00-0800`
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Forecast'
+definitions:
+  MetaData:
+    type: object
+    properties:
+      hot-zones:
+        type: array
+        items:
+          type: object
+          required:
+            - name
+            - id
+            - type
+            - centroid
+            - bbox
+          properties:
+            name:
+              $ref: '#/definitions/FeaturesCommon/properties/name'
+            id:
+              $ref: '#/definitions/FeaturesCommon/properties/id'
+            type:
+              $ref: '#/definitions/FeaturesCommon/properties/type'
+            centroid:
+              $ref: '#/definitions/FeaturesCommon/properties/centroid'
+            bbox:
+              $ref: '#/definitions/FeaturesCommon/properties/bbox'
+      forecast-regions:
+        type: array
+        items:
+          type: object
+          required:
+            - name
+            - id
+            - type
+            - centroid
+            - bbox
+            - url
+            - forecastUrl
+            - dangerIconUrl
+            - owner
+          properties:
+            name:
+              $ref: '#/definitions/FeaturesCommon/properties/name'
+            id:
+              $ref: '#/definitions/FeaturesCommon/properties/id'
+            type:
+              $ref: '#/definitions/FeaturesCommon/properties/type'
+            centroid:
+              $ref: '#/definitions/FeaturesCommon/properties/centroid'
+            bbox:
+              $ref: '#/definitions/FeaturesCommon/properties/bbox'
+            url:
+              type: string
+              description: >
+                * For *parks* and *avalx* type forecasts this is a reference to
+                the
+                  CAAML xml for the forecast
+
+                * For *link* forecasts this is a link to the non-forecast
+                product
+            externalUrl:
+              type: string
+              description: >
+                Only exits for *parks* forecasts and is the same as the *url*
+                field
+              example: 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY'
+            forecastUrl:
+              type: string
+              description: >
+                Reference to the forecast json API endpoint that will retreive
+                Exists only for *avalx* and *parks* forecasts.
+              example: /api/forecasts/banff-yoho-kootenay.json
+            dangerIconUrl:
+              type: string
+              description: >
+                Endpoint to get a forecast icon for the currently issued
+                forecast for this region
+              example: /api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg
+            owner:
+              type: string
+              description: The owner of the forecast
+  Forecast:
+    type: object
+    required:
+      - id
+      - region
+      - forecaster
+      - dateIssued
+      - validUntil
+      - bulletinTitle
+      - highlights
+      - confidence
+      - avalancheSummary
+      - snowpackSummary
+      - weatherForecast
+      - dangerMode
+      - dangerRatings
+      - problems
+    properties:
+      id:
+        type: string
+        example: PC-19_2017-07-11T2200_0ae192fc-6e4c-430c-ae76-0ec34e51ff2b
+      region:
+        type: string
+        example: cariboos
+      forecaster:
+        type: string
+        example: wharding
+      dateIssued:
+        type: string
+        format: date
+        example: '2017-07-11T22:00:00Z'
+      validUntil:
+        type: string
+        format: date
+        example: '0001-01-01T00:00:00Z'
+      bulletinTitle:
+        type: string
+        example: Cariboos
+      highlights:
+        type: string
+        description: The bulletin headline
+      confidence:
+        type: string
+      avalancheSummary:
+        type: string
+        description: HTML Text describing the avalanche condition
+      snowpackSummary:
+        type: string
+        description: HTML text describing the state of the snowpack
+      weatherForecast:
+        type: string
+        description: HTML Text describing the weather forecast
+      dangerMode:
+        $ref: '#/definitions/DangerModeOptions'
+      dangerRatings:
+        type: array
+        maxItems: 3
+        minItems: 3
+        items:
+          type: object
+          required:
+            - date
+            - dangerRating
+          properties:
+            date:
+              type: string
+              format: date
+              example: '2017-07-12T00:00:00'
+            dangerRating:
+              type: object
+              required:
+                - alp
+                - tln
+                - btl
+              properties:
+                alp:
+                  $ref: '#/definitions/DangerRatingOptions'
+                tln:
+                  $ref: '#/definitions/DangerRatingOptions'
+                btl:
+                  $ref: '#/definitions/DangerRatingOptions'
+      problems:
+        type: object
+        required:
+          - type
+          - elevations
+          - aspects
+          - likelihood
+          - expectedSize
+          - comment
+          - travelAndTerrainAdvice
+        properties:
+          type:
+            type: string
+            enum:
+              - Loose Dry
+              - Loose Wet
+              - Wind Slabs
+              - Storm Slabs
+              - Wet Slabs
+              - Persistent Slabs
+              - Deep Persistent Slabs
+              - Cornices
+          elevations:
+            type: array
+            minItems: 1
+            maxItems: 3
+            items:
+              type: string
+              enum:
+                - Alp
+                - Tln
+                - Btl
+          aspects:
+            type: array
+            minItems: 1
+            maxItems: 8
+            items:
+              type: string
+              enum:
+                - 'N'
+                - NE
+                - E
+                - SE
+                - S
+                - SW
+                - W
+                - NW
+          likelihood:
+            type: string
+            enum:
+              - Certain
+              - Certain - Very Likely
+              - Very Likely
+              - Very Likely - Likely
+              - Likely
+              - Likely - Possible
+              - Possible
+              - Possible - Unlikely
+              - Unlikely
+          expectedSize:
+            type: object
+            required:
+              - min
+              - max
+            properties:
+              min:
+                $ref: '#/definitions/AvalancheSizeOptions'
+              max:
+                $ref: '#/definitions/AvalancheSizeOptions'
+          comment:
+            type: string
+            format: html
+            description: Forecaster comments on the avalanche problem
+          travelAndTerrainAdvice:
+            type: string
+            format: html
+            description: |
+              Advice for navigating the terrain with this avalanche problem
+          icons:
+            type: object
+            description: >
+              URLs for images describing the elevation, aspect, likelihood  and
+              expected size of this avalanche problem
+            properties:
+              elevations:
+                type: string
+                format: url
+              aspects:
+                type: string
+                format: url
+              likelihood:
+                type: string
+                format: url
+              expectedSize:
+                type: string
+                format: url
+  FeaturesCommon:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Printable name of the region
+      id:
+        type: string
+        description: |
+          Identifier for the region (used for urls and referencing)
+      type:
+        type: string
+        description: >
+          What type the region is.
+
+          - *avalx* and *parks* types are forecasts, from Avalanche Canada and
+          Parks canada respectivly.
+
+          - *hotzone* represents hotzone reports and are not avaliable from the
+          foreast api.
+
+          - *link* forecasts are links to non-forecast produces for a specific
+          geographic region. The *url* property will refer you to that product
+        enum:
+          - avalx
+          - parks
+          - hotzone
+          - link
+      centroid:
+        type: array
+        description: >
+          The center of a geographic region. This is where the icon is usually
+          drawn. Coordinates are in EPSG:4326 (WGS 84)
+        items:
+          type: number
+          format: float
+        minItems: 2
+        maxItems: 2
+        example:
+          - -116.50157110775542
+          - 51.501457954569304
+      bbox:
+        type: array
+        description: >
+          Rectangular bounding box for the map region. Useful for setting  the
+          zoom to a specific region.  Coordinates are in EPSG:4326 (WGS 84)
+        items:
+          type: number
+          format: float
+        minItems: 4
+        maxItems: 4
+        example:
+          - -116.6208961499071
+          - 51.36571861362334
+          - -116.362468
+          - 51.65117936064157
+  DangerRatingOptions:
+    type: string
+    enum:
+      - '1:Low'
+      - '2:Moderate'
+      - '3:Considerable'
+      - '4:High'
+      - '5:Extreme'
+      - 'N/A:No Rating'
+      - 'N/A:''Spring'''
+    example: '3:Considerable'
+  DangerModeOptions:
+    type: string
+    enum:
+      - Regular season
+      - Spring situation
+      - Off season
+      - Early season
+    example: Regular season
+  AvalancheSizeOptions:
+    type: string
+    enum:
+      - '0.5'
+      - '1.0'
+      - '1.5'
+      - '2.0'
+      - '2.5'
+      - '3.0'
+      - '3.5'
+      - '4.0'
+      - '4.5'
+      - '5.0'
