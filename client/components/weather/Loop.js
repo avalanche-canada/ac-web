@@ -164,8 +164,8 @@ export function Warning() {
     return (
         <Alert type={WARNING}>
             <h2>
-                We are currently experiencing some issues with weather loops
-                image generation!
+                We are currently experiencing some issues with HRDPS weather
+                loops image generation!
             </h2>
             <h3>
                 This product will be available as soon as we solve the issue.<br />Thanks
