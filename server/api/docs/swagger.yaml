@@ -8,13 +8,24 @@ info:
   license:
     name: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
     url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode'
-  description: Avalanche Canada API
+  description: >
+    # Avalanche Canada API
+
+    The documentation for this existing API is ongoing so you may notice changes
+    to the API documentation without updates to the version number. Version
+    number updates are reserved for when the functionality of the API changes.
+
+
+    **Please** contact us if you notice any discrepancies between this
+    documentation and the actual service.
+
 host: www.avalanche.ca
 basePath: /api
 schemes:
   - https
+
 paths:
-  /features/metadata:
+  '/features/metadata':
     get:
       tags:
         - Forecasts
@@ -31,7 +42,23 @@ paths:
         '200':
           description: Success
           schema:
-            $ref: '#/definitions/MetaData'
+            $ref: '#/definitions/ForecastMetaData'
+
+  '/forecasts':
+    get:
+      tags:
+        - Forecasts
+      summary: Get all forecast regions with Geo Data
+      description: >
+        Returns the GeoJSON features for 
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ForecastGeoJSON'
+
   '/forecasts/{region}.json':
     get:
       tags:
@@ -51,6 +78,9 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/Forecast'
+        '404':
+          description: Region does not exist
+
   '/bulletin-archive/{date}/{region}.json':
     get:
       tags:
@@ -82,8 +112,11 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/Forecast'
+        '404':
+          description: Region does not exist
+
 definitions:
-  MetaData:
+  ForecastMetaData:
     type: object
     properties:
       hot-zones:
@@ -98,15 +131,15 @@ definitions:
             - bbox
           properties:
             name:
-              $ref: '#/definitions/FeaturesCommon/properties/name'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/name'
             id:
-              $ref: '#/definitions/FeaturesCommon/properties/id'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/id'
             type:
-              $ref: '#/definitions/FeaturesCommon/properties/type'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/type'
             centroid:
-              $ref: '#/definitions/FeaturesCommon/properties/centroid'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/centroid'
             bbox:
-              $ref: '#/definitions/FeaturesCommon/properties/bbox'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/bbox'
       forecast-regions:
         type: array
         items:
@@ -123,45 +156,25 @@ definitions:
             - owner
           properties:
             name:
-              $ref: '#/definitions/FeaturesCommon/properties/name'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/name'
             id:
-              $ref: '#/definitions/FeaturesCommon/properties/id'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/id'
             type:
-              $ref: '#/definitions/FeaturesCommon/properties/type'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/type'
             centroid:
-              $ref: '#/definitions/FeaturesCommon/properties/centroid'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/centroid'
             bbox:
-              $ref: '#/definitions/FeaturesCommon/properties/bbox'
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/bbox'
             url:
-              type: string
-              description: >
-                * For *parks* and *avalx* type forecasts this is a reference to
-                the
-                  CAAML xml for the forecast
-
-                * For *link* forecasts this is a link to the non-forecast
-                product
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/url'
             externalUrl:
-              type: string
-              description: >
-                Only exits for *parks* forecasts and is the same as the *url*
-                field
-              example: 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY'
-            forecastUrl:
-              type: string
-              description: >
-                Reference to the forecast json API endpoint that will retreive
-                Exists only for *avalx* and *parks* forecasts.
-              example: /api/forecasts/banff-yoho-kootenay.json
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/externalUrl'
+            foreacstUrl:
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/forecastUrl'
             dangerIconUrl:
-              type: string
-              description: >
-                Endpoint to get a forecast icon for the currently issued
-                forecast for this region
-              example: /api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/dangerIconUrl'
             owner:
-              type: string
-              description: The owner of the forecast
+              $ref: '#/definitions/FeaturesMetaDataCommon/properties/owner'
   Forecast:
     type: object
     required:
@@ -339,7 +352,7 @@ definitions:
               expectedSize:
                 type: string
                 format: url
-  FeaturesCommon:
+  FeaturesMetaDataCommon:
     type: object
     properties:
       name:
@@ -395,6 +408,97 @@ definitions:
           - 51.36571861362334
           - -116.362468
           - 51.65117936064157
+
+      url:
+        type: string
+        description: >
+          * For *parks* and *avalx* type forecasts this is a reference to
+          the
+            CAAML xml for the forecast
+
+          * For *link* forecasts this is a link to the non-forecast
+          product
+      externalUrl:
+        type: string
+        description: >
+          Only exits for *parks* forecasts and is the same as the *url*
+          field
+        example: 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY'
+      forecastUrl:
+        type: string
+        description: >
+          Reference to the forecast json API endpoint that will retreive
+          Exists only for *avalx* and *parks* forecasts.
+        example: /api/forecasts/banff-yoho-kootenay.json
+      dangerIconUrl:
+        type: string
+        description: >
+          Endpoint to get a forecast icon for the currently issued
+          forecast for this region
+        example: /api/forecasts/banff-yoho-kootenay/danger-rating-icon.svg
+      owner:
+        type: string
+        description: The owner of the forecast
+
+  ForecastGeoJSON:
+    type: object
+    required:
+      - type
+      - features
+    properties:
+      type:
+        type: string
+        enum: 
+          - "FeatureCollection"
+      features:
+        type: array
+        items: 
+          type: object
+          required:
+            - type
+            - id
+            - geometry
+            - properties
+          properties:
+            type:
+              type: string
+              enum:
+                - "Polygon"
+            id:
+              type: string
+              example: "cariboos"
+            geometry:
+              type: object
+              description: "GeoJSON Geometry Object. See  https://tools.ietf.org/html/rfc7946#section-3.1"
+            properties:
+              type: object
+              required:
+                - name
+                - id
+                - type
+                - centroid
+              properties:
+                name:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/name'
+                id:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/id'
+                type:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/type'
+                centroid:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/centroid'
+                url:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/url'
+                externalUrl:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/externalUrl'
+                foreacstUrl:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/forecastUrl'
+                dangerIconUrl:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/dangerIconUrl'
+                owner:
+                  $ref: '#/definitions/FeaturesMetaDataCommon/properties/owner'
+
+
+
   DangerRatingOptions:
     type: string
     enum:
