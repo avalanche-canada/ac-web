@@ -2,32 +2,35 @@ import React from 'react'
 import { Tab, TabSet } from '~/components/tab'
 import { Article } from '~/components/page'
 import Tutorial from '~/containers/WeatherTutorial'
-import { Loop } from '~/components/weather'
+import { Loop, Warning } from '~/components/weather'
 
 export default function HourlyPrecipitation() {
     return (
         <Article title="Hourly Precipitation">
             <TabSet>
                 <Tab title="BC HR">
-                    <Loop
+                    <Warning />
+                    {/* <Loop
                         type="AC_HRDPS_BC_wms-1hr-precip"
                         interval={500}
                         withNotes
-                    />
+                    /> */}
                 </Tab>
                 <Tab title="South Coast HR">
-                    <Loop
+                    <Warning />
+                    {/* <Loop
                         type="AC_HRDPS_BC-S-Cst_1hr-precip"
                         interval={500}
                         withNotes
-                    />
+                    /> */}
                 </Tab>
                 <Tab title="South Interior HR">
-                    <Loop
+                    <Warning />
+                    {/* <Loop
                         type="AC_HRDPS_BC-S-Int_1hr-precip"
                         interval={500}
                         withNotes
-                    />
+                    /> */}
                 </Tab>
                 <Tab title="Type R">
                     <Loop

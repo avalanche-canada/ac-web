@@ -1,17 +1,11 @@
 {
-    "AC_GDPS_EPA_clds-th-500hts":{
-        "id":"AC_GDPS_EPA_clds-th-500hts",
-        "title":"500mb_0-144h_G",
-        "shortTitle":"500mb",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_EPA_clds-th-500hts": {
+        "id": "AC_GDPS_EPA_clds-th-500hts",
+        "title": "500mb_0-144h_G",
+        "shortTitle": "500mb",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             12,
             18,
             24,
@@ -36,98 +30,36 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_RDPS_BC_precip-types":{
-        "id":"AC_RDPS_BC_precip-types",
-        "title":"Precipitation Type 3h R",
-        "shortTitle":"Type R",
-        "runs":[
-            0,
-            6,
-            12,
-            18
-        ],
-        "updates":[
-            3,
-            9,
-            15,
-            21
-        ],
-        "hours":[
-            3,
-            6,
-            9,
-            12,
-            15,
-            18,
-            21,
-            24,
-            27,
-            30,
-            33,
-            36,
-            39,
-            42,
-            45,
-            48
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_RDPS_BC_precip-types": {
+        "id": "AC_RDPS_BC_precip-types",
+        "title": "Precipitation Type 3h R",
+        "shortTitle": "Type R",
+        "runs": [0, 6, 12, 18],
+        "updates": [3, 9, 15, 21],
+        "hours": [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48],
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC_sfc-temp-3hr-freq":{
-        "id":"AC_HRDPS_BC_sfc-temp",
-        "title":"Temperatures Surface HR",
-        "shortTitle":"Surface HR",
-        "runs":[
-            6,
-            12
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
-            0,
-            3,
-            6,
-            9,
-            12,
-            15,
-            18,
-            21,
-            24,
-            27,
-            30,
-            33,
-            36,
-            39,
-            42,
-            45
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_HRDPS_BC_sfc-temp-3hr-freq": {
+        "id": "AC_HRDPS_BC_sfc-temp",
+        "title": "Temperatures Surface HR",
+        "shortTitle": "Surface HR",
+        "runs": [6, 12],
+        "updates": [2, 14],
+        "hours": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
+        "extension": "png",
+        "notes": []
     },
-    "AC_GDPS_EPA_6hr-precip-clds-th-slp":{
-        "id":"AC_GDPS_EPA_6hr-precip-clds-th-slp",
-        "title":"Surface_Maps_0-144h_G",
-        "shortTitle":"0-144 hours G",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_EPA_6hr-precip-clds-th-slp": {
+        "id": "AC_GDPS_EPA_6hr-precip-clds-th-slp",
+        "title": "Surface_Maps_0-144h_G",
+        "shortTitle": "0-144 hours G",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             0,
             6,
             12,
@@ -154,49 +86,26 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC-S-Cst_12hr-precip":{
-        "id":"AC_HRDPS_BC-S-Cst_12hr-precip",
-        "title":"Precipitation 12hr HR SC",
-        "shortTitle":"South Coast HR",
-        "runs":[
-            6,
-            18
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
-            12,
-            18,
-            24,
-            30,
-            36,
-            42
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_HRDPS_BC-S-Cst_12hr-precip": {
+        "id": "AC_HRDPS_BC-S-Cst_12hr-precip",
+        "title": "Precipitation 12hr HR SC",
+        "shortTitle": "South Coast HR",
+        "runs": [6, 18],
+        "updates": [2, 14],
+        "hours": [12, 18, 24, 30, 36, 42],
+        "extension": "png",
+        "notes": []
     },
-    "AC_HRDPS_BC_wms-1hr-precip":{
-        "id":"AC_HRDPS_BC_wms-1hr-precip",
-        "title":"Precipitation 1h HR BC",
-        "shortTitle":"BC HR",
-        "runs":[
-            6,
-            18
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
+    "AC_HRDPS_BC_wms-1hr-precip": {
+        "id": "AC_HRDPS_BC_wms-1hr-precip",
+        "title": "Precipitation 1h HR BC",
+        "shortTitle": "BC HR",
+        "runs": [6, 18],
+        "updates": [2, 14],
+        "hours": [
             0,
             1,
             2,
@@ -241,23 +150,15 @@
             41,
             42
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "png",
+        "notes": []
     },
-    "AC_GDPS_BC_850-temp":{
-        "id":"AC_GDPS_BC_850-temp",
-        "shortTitle":"1500m G",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_BC_850-temp": {
+        "id": "AC_GDPS_BC_850-temp",
+        "shortTitle": "1500m G",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             0,
             6,
             12,
@@ -284,51 +185,25 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_GDPS_BC_850-temp-4pm":{
-        "id":"AC_GDPS_BC_850-temp",
-        "shortTitle":"1500m 4pm G",
-        "runs":[
-            0
-        ],
-        "updates":[
-            9
-        ],
-        "hours":[
-            0,
-            24,
-            48,
-            72,
-            96,
-            120,
-            144
-        ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+    "AC_GDPS_BC_850-temp-4pm": {
+        "id": "AC_GDPS_BC_850-temp",
+        "shortTitle": "1500m 4pm G",
+        "runs": [0],
+        "updates": [9],
+        "hours": [0, 24, 48, 72, 96, 120, 144],
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_RDPS_CAN-W_3hr-precip-clds-th-slp":{
-        "id":"AC_RDPS_CAN-W_3hr-precip-clds-th-slp",
-        "title":"Surface_Maps_0-48h_R",
-        "shortTitle":"Surface R",
-        "runs":[
-            0,
-            6,
-            12,
-            18
-        ],
-        "updates":[
-            3,
-            9,
-            15,
-            21
-        ],
-        "hours":[
+    "AC_RDPS_CAN-W_3hr-precip-clds-th-slp": {
+        "id": "AC_RDPS_CAN-W_3hr-precip-clds-th-slp",
+        "title": "Surface_Maps_0-48h_R",
+        "shortTitle": "Surface R",
+        "runs": [0, 6, 12, 18],
+        "updates": [3, 9, 15, 21],
+        "hours": [
             0,
             3,
             6,
@@ -347,24 +222,16 @@
             45,
             48
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC_sfc-temp":{
-        "id":"AC_HRDPS_BC_sfc-temp",
-        "title":"Temperatures Surface HR",
-        "shortTitle":"Surface HR",
-        "runs":[
-            6,
-            12
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
+    "AC_HRDPS_BC_sfc-temp": {
+        "id": "AC_HRDPS_BC_sfc-temp",
+        "title": "Temperatures Surface HR",
+        "shortTitle": "Surface HR",
+        "runs": [6, 12],
+        "updates": [2, 14],
+        "hours": [
             0,
             1,
             2,
@@ -412,24 +279,16 @@
             44,
             45
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "png",
+        "notes": []
     },
-    "AC_GDPS_EPA_tpw":{
-        "id":"AC_GDPS_EPA_tpw",
-        "title":"Precipitable Water (G)",
-        "shortTitle":"Precipitable water",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_EPA_tpw": {
+        "id": "AC_GDPS_EPA_tpw",
+        "title": "Precipitable Water (G)",
+        "shortTitle": "Precipitable water",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             0,
             6,
             12,
@@ -456,24 +315,16 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC-S-Int_1hr-precip":{
-        "id":"AC_HRDPS_BC-S-Int_1hr-precip",
-        "title":"Precipitation 1h HR SI",
-        "shortTitle":"South Interior HR",
-        "runs":[
-            6,
-            18
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
+    "AC_HRDPS_BC-S-Int_1hr-precip": {
+        "id": "AC_HRDPS_BC-S-Int_1hr-precip",
+        "title": "Precipitation 1h HR SI",
+        "shortTitle": "South Interior HR",
+        "runs": [6, 18],
+        "updates": [2, 14],
+        "hours": [
             0,
             1,
             2,
@@ -518,28 +369,16 @@
             41,
             42
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "png",
+        "notes": []
     },
-    "AC_RDPS_BC_marine-winds":{
-        "id":"AC_RDPS_BC_marine-winds",
-        "title":"Marine Winds - R",
-        "shortTitle":"Surface R",
-        "runs":[
-            0,
-            6,
-            12,
-            18
-        ],
-        "updates":[
-            3,
-            9,
-            15,
-            21
-        ],
-        "hours":[
+    "AC_RDPS_BC_marine-winds": {
+        "id": "AC_RDPS_BC_marine-winds",
+        "title": "Marine Winds - R",
+        "shortTitle": "Surface R",
+        "runs": [0, 6, 12, 18],
+        "updates": [3, 9, 15, 21],
+        "hours": [
             0,
             3,
             6,
@@ -558,49 +397,26 @@
             45,
             48
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC-S-Int_12hr-precip":{
-        "id":"AC_HRDPS_BC-S-Int_12hr-precip",
-        "title":"Precipitation 12hr HR SI",
-        "shortTitle":"South Interior HR",
-        "runs":[
-            6,
-            18
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
-            12,
-            18,
-            24,
-            30,
-            36,
-            42
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_HRDPS_BC-S-Int_12hr-precip": {
+        "id": "AC_HRDPS_BC-S-Int_12hr-precip",
+        "title": "Precipitation 12hr HR SI",
+        "shortTitle": "South Interior HR",
+        "runs": [6, 18],
+        "updates": [2, 14],
+        "hours": [12, 18, 24, 30, 36, 42],
+        "extension": "png",
+        "notes": []
     },
-    "AC_GDPS_BC_750-winds":{
-        "id":"AC_GDPS_BC_750-winds",
-        "title":"Winds 2500m - G",
-        "shortTitle":"2500m G",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_BC_750-winds": {
+        "id": "AC_GDPS_BC_750-winds",
+        "title": "Winds 2500m - G",
+        "shortTitle": "2500m G",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             0,
             6,
             12,
@@ -627,24 +443,16 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_GDPS_BC_850-winds":{
-        "id":"AC_GDPS_BC_850-winds",
-        "title":"Winds 1500m - G",
-        "shortTitle":"1500m G",
-        "runs":[
-            0,
-            12
-        ],
-        "updates":[
-            9,
-            21
-        ],
-        "hours":[
+    "AC_GDPS_BC_850-winds": {
+        "id": "AC_GDPS_BC_850-winds",
+        "title": "Winds 1500m - G",
+        "shortTitle": "1500m G",
+        "runs": [0, 12],
+        "updates": [9, 21],
+        "hours": [
             0,
             6,
             12,
@@ -671,54 +479,26 @@
             138,
             144
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_RDPS_BC_12hr-precip":{
-        "id":"AC_RDPS_BC_12hr-precip",
-        "title":"Precipitation 12hr R BC",
-        "shortTitle":"BR R",
-        "runs":[
-            0,
-            6,
-            12,
-            18
-        ],
-        "updates":[
-            3,
-            9,
-            15,
-            21
-        ],
-        "hours":[
-            12,
-            18,
-            24,
-            30,
-            36,
-            42,
-            48
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_RDPS_BC_12hr-precip": {
+        "id": "AC_RDPS_BC_12hr-precip",
+        "title": "Precipitation 12hr R BC",
+        "shortTitle": "BR R",
+        "runs": [0, 6, 12, 18],
+        "updates": [3, 9, 15, 21],
+        "hours": [12, 18, 24, 30, 36, 42, 48],
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_HRDPS_BC-S-Cst_1hr-precip":{
-        "id":"AC_HRDPS_BC-S-Cst_1hr-precip",
-        "title":"Precipitation 1h HR SC",
-        "shortTitle":"South Coast HR",
-        "runs":[
-            6,
-            18
-        ],
-        "updates":[
-            2,
-            14
-        ],
-        "hours":[
+    "AC_HRDPS_BC-S-Cst_1hr-precip": {
+        "id": "AC_HRDPS_BC-S-Cst_1hr-precip",
+        "title": "Precipitation 1h HR SC",
+        "shortTitle": "South Coast HR",
+        "runs": [6, 18],
+        "updates": [2, 14],
+        "hours": [
             0,
             1,
             2,
@@ -763,28 +543,16 @@
             41,
             42
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "png",
+        "notes": []
     },
-    "AC_RDPS_BC_freezing-level":{
-        "id":"AC_RDPS_BC_freezing-level",
-        "title":"Freezing Level R",
-        "shortTitle":"Freezing Level R",
-        "runs":[
-            0,
-            6,
-            12,
-            18
-        ],
-        "updates":[
-            3,
-            9,
-            15,
-            21
-        ],
-        "hours":[
+    "AC_RDPS_BC_freezing-level": {
+        "id": "AC_RDPS_BC_freezing-level",
+        "title": "Freezing Level R",
+        "shortTitle": "Freezing Level R",
+        "runs": [0, 6, 12, 18],
+        "updates": [3, 9, 15, 21],
+        "hours": [
             0,
             3,
             6,
@@ -803,38 +571,23 @@
             45,
             48
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_GDPS_BC_850-temp-4am":{
-        "id":"AC_GDPS_BC_850-temp",
-        "shortTitle":"1500m 4am G",
-        "runs":[
-            0
-        ],
-        "updates":[
-            9
-        ],
-        "hours":[
-            12,
-            36,
-            60,
-            84,
-            108,
-            132
-        ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+    "AC_GDPS_BC_850-temp-4am": {
+        "id": "AC_GDPS_BC_850-temp",
+        "shortTitle": "1500m 4am G",
+        "runs": [0],
+        "updates": [9],
+        "hours": [12, 36, 60, 84, 108, 132],
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_SAT_BC_ir-vis":{
-        "id":"AC_SAT_BC_ir-vis",
-        "title":"IR-Vis",
-        "shortTitle":"IR-VIS BC",
-        "minutes":[
+    "AC_SAT_BC_ir-vis": {
+        "id": "AC_SAT_BC_ir-vis",
+        "title": "IR-Vis",
+        "shortTitle": "IR-VIS BC",
+        "minutes": [
             0,
             60,
             120,
@@ -860,16 +613,14 @@
             1320,
             1380
         ],
-        "extension":"jpg",
-        "notes":[
-            "Visible imagery not available at night."
-        ]
+        "extension": "jpg",
+        "notes": ["Visible imagery not available at night."]
     },
-    "AC_SAT_CAN-W-CST_ir-redtop":{
-        "id":"AC_SAT_CAN-W-CST_ir-redtop",
-        "title":"IR West Cost",
-        "shortTitle":"IR West Coast",
-        "minutes":[
+    "AC_SAT_CAN-W-CST_ir-redtop": {
+        "id": "AC_SAT_CAN-W-CST_ir-redtop",
+        "title": "IR West Cost",
+        "shortTitle": "IR West Coast",
+        "minutes": [
             0,
             60,
             120,
@@ -895,16 +646,14 @@
             1320,
             1380
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_RADAR_BC-S-INT_precip-rate":{
-        "id":"AC_RADAR_BC-S-INT_precip-rate",
-        "title":"Radar-South Interior",
-        "shortTitle":"South Interior",
-        "minutes":[
+    "AC_RADAR_BC-S-INT_precip-rate": {
+        "id": "AC_RADAR_BC-S-INT_precip-rate",
+        "title": "Radar-South Interior",
+        "shortTitle": "South Interior",
+        "minutes": [
             0,
             10,
             20,
@@ -1050,16 +799,14 @@
             1420,
             1430
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_SAT_EPA_water-vapour-jet":{
-        "id":"AC_SAT_EPA_water-vapour-jet",
-        "title":"Water Vapour-Jet",
-        "shortTitle":"Water Vapour/Jet",
-        "minutes":[
+    "AC_SAT_EPA_water-vapour-jet": {
+        "id": "AC_SAT_EPA_water-vapour-jet",
+        "title": "Water Vapour-Jet",
+        "shortTitle": "Water Vapour/Jet",
+        "minutes": [
             30,
             90,
             150,
@@ -1085,16 +832,14 @@
             1350,
             1410
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_SAT_EPA_ir-redtop":{
-        "id":"AC_SAT_EPA_ir-redtop",
-        "title":"IR Pacific",
-        "shortTitle":"IR Pacific",
-        "minutes":[
+    "AC_SAT_EPA_ir-redtop": {
+        "id": "AC_SAT_EPA_ir-redtop",
+        "title": "IR Pacific",
+        "shortTitle": "IR Pacific",
+        "minutes": [
             0,
             60,
             120,
@@ -1120,16 +865,14 @@
             1320,
             1380
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_SAT_BC_visible":{
-        "id":"AC_SAT_BC_visible",
-        "title":"Visible",
-        "shortTitle":"VIS BC",
-        "minutes":[
+    "AC_SAT_BC_visible": {
+        "id": "AC_SAT_BC_visible",
+        "title": "Visible",
+        "shortTitle": "VIS BC",
+        "minutes": [
             0,
             60,
             120,
@@ -1155,15 +898,13 @@
             1320,
             1380
         ],
-        "extension":"jpg",
-        "notes":[
-            "Visible imagery not available at night."
-        ]
+        "extension": "jpg",
+        "notes": ["Visible imagery not available at night."]
     },
-    "AC_PLOT_BC_weather-warnings":{
-        "id":"AC_PLOT_BC_weather-warnings",
-        "title":"Weather-Warnings",
-        "minutes":[
+    "AC_PLOT_BC_weather-warnings": {
+        "id": "AC_PLOT_BC_weather-warnings",
+        "title": "Weather-Warnings",
+        "minutes": [
             30,
             90,
             150,
@@ -1189,27 +930,21 @@
             1350,
             1410
         ],
-        "extension":"png",
-        "notes":[
-
-        ]
+        "extension": "png",
+        "notes": []
     },
-    "AC_PLOT_BC_precip-24hr":{
-        "id":"AC_PLOT_BC_precip-24hr",
-        "title":"Precip_Past_24h_Estimate_bc",
-        "minutes":[
-            360
-        ],
-        "extension":"png",
-        "notes":[
-
-        ]
+    "AC_PLOT_BC_precip-24hr": {
+        "id": "AC_PLOT_BC_precip-24hr",
+        "title": "Precip_Past_24h_Estimate_bc",
+        "minutes": [360],
+        "extension": "png",
+        "notes": []
     },
-    "AC_RADAR_BC-S-CST_precip-rate":{
-        "id":"AC_RADAR_BC-S-CST_precip-rate",
-        "title":"AC_RADAR_BC-S-CST_precip-rate",
-        "shortTitle":"South Coast",
-        "minutes":[
+    "AC_RADAR_BC-S-CST_precip-rate": {
+        "id": "AC_RADAR_BC-S-CST_precip-rate",
+        "title": "AC_RADAR_BC-S-CST_precip-rate",
+        "shortTitle": "South Coast",
+        "minutes": [
             0,
             10,
             20,
@@ -1355,16 +1090,14 @@
             1420,
             1430
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_PLOT_BC_actual-temps":{
-        "id":"AC_PLOT_BC_actual-temps",
-        "title":"Temperatures-MSLP",
-        "shortTitle":"Temperatures",
-        "minutes":[
+    "AC_PLOT_BC_actual-temps": {
+        "id": "AC_PLOT_BC_actual-temps",
+        "title": "Temperatures-MSLP",
+        "shortTitle": "Temperatures",
+        "minutes": [
             0,
             60,
             120,
@@ -1390,16 +1123,14 @@
             1320,
             1380
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     },
-    "AC_RADAR_BC_precip-rate":{
-        "id":"AC_RADAR_BC_precip-rate",
-        "title":"Radar-BC-Mosaic",
-        "shortTitle":"BC Mosaic",
-        "minutes":[
+    "AC_RADAR_BC_precip-rate": {
+        "id": "AC_RADAR_BC_precip-rate",
+        "title": "Radar-BC-Mosaic",
+        "shortTitle": "BC Mosaic",
+        "minutes": [
             0,
             10,
             20,
@@ -1545,9 +1276,7 @@
             1420,
             1430
         ],
-        "extension":"jpg",
-        "notes":[
-
-        ]
+        "extension": "jpg",
+        "notes": []
     }
 }
