@@ -131,7 +131,7 @@ export default class Loop extends PureComponent {
                 return null
             }
 
-            if (isBefore(date, new Date('2017-10-03'))) {
+            if (isBefore(date, new Date('2017-10-02'))) {
                 return null
             }
         }
