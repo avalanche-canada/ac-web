@@ -124,14 +124,17 @@ export default class Loop extends PureComponent {
         })
     }
     render() {
-        const { date, type } = this.props
+        const { date, type, run } = this.props
 
-        if (isAfter(date, new Date('2017-07-22'))) {
+        if (isAfter(date, new Date(2017, 6, 22))) {
             if (type.includes('HRDPS')) {
                 return null
             }
 
-            if (isBefore(date, new Date('2017-10-02'))) {
+            if (
+                (run === 0 && isBefore(date, new Date(2017, 9, 4))) ||
+                (run === 12 && isBefore(date, new Date(2017, 9, 3)))
+            ) {
                 return null
             }
         }
