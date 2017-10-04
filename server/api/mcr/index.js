@@ -9,7 +9,6 @@ var logger  = require('../../logger');
 
 var router = express.Router();
 
-//TODO(wnh): put in a better place you idiot
 var AC_MCR_HOST = process.env.AC_MCR_HOST; 
 var AC_MCR_URL          = AC_MCR_HOST + '/sapi/public';
 var IMAGE_PREFIX_USER   = AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
@@ -44,6 +43,13 @@ function getReportAndUser(node, cb){
 }
 
 function getNodeList(cb) {
+    var cache_key = 'mcr/node_list';
+    return cache.wrap(cache_key, function(_cb){
+        return __getNodeList(_cb);
+    },cb);
+}
+
+function __getNodeList(cb) {
     logger.debug('MCR - getNodeList(report_type=5)')
     return request({url: AC_MCR_URL + '/node.json', qs: {report_type: 5}}, function(err, resp, body){
         if (err) {cb(err);}
@@ -66,6 +72,14 @@ function getNodeList(cb) {
 
 
 function getReport(node_id, cb) {
+    var cache_key = 'mcr/report/' + node_id;
+    return cache.wrap(cache_key, function(_cb){
+        logger.debug("REPORT FETCH")
+        return __getReport(node_id, _cb);
+    }, cb);
+}
+
+function __getReport(node_id, cb) {
     logger.debug('MCR - getReport(node_id='+node_id+', cb)');
     return request({
         url: AC_MCR_URL + '/node/' + node_id + '.json', 
@@ -81,6 +95,13 @@ function getReport(node_id, cb) {
 }
 
 function getUser(user_id, cb) {
+    var cache_key = 'mcr/user/' + user_id;
+    return cache.wrap(cache_key, function(cache_cb){
+        logger.debug("USER FETCH");
+        __getUser(user_id, cache_cb);
+    }, cb);
+}
+function __getUser(user_id, cb) {
     logger.debug('MCR - getUser(user_id='+user_id+', cb)');
     return request(AC_MCR_URL + '/user/' + user_id + '.json', function(err, resp, body){
         if(err) {
