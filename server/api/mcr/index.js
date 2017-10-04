@@ -5,7 +5,7 @@ var request = require('request');
 var async   = require('async');
 
 var logger     = require('../../logger');
-var cache      = require('./cache');
+var mcr_cache      = require('./cache');
 var mcr_format = require('./format');
 
 var router = express.Router();
@@ -15,7 +15,7 @@ var AC_MCR_URL          = AC_MCR_HOST + '/sapi/public';
 
 router.get('/', function(req, res) {
     //TODO(wnh): Clean this up a bit 
-    cache.wrap('mcr/format_list', function(cb) {
+    mcr_cache.cache.wrap('mcr/format_list', function(cb) {
         return getNodeList(function (err, nodes){
             async.map(nodes, getReportAndUser, function(err, reports){
                 if(err){
@@ -72,7 +72,7 @@ function getReportAndUser(node, cb){
 
 function getNodeList(cb) {
     var cache_key = 'mcr/node_list';
-    return cache.wrap(cache_key, function(_cb){
+    return mcr_cache.cache.wrap(cache_key, function(_cb){
         return __getNodeList(_cb);
     },cb);
 }
@@ -101,10 +101,10 @@ function __getNodeList(cb) {
 
 function getReport(node_id, cb) {
     var cache_key = 'mcr/report/' + node_id;
-    return cache.wrap(cache_key, function(_cb){
+    return mcr_cache.cache.wrap(cache_key, function(_cb){
         logger.debug("MCR::getReport(node_id=%d) action=fetching", node_id);
         return __getReport(node_id, _cb);
-    }, cb);
+    }, {ttl: TTL_ITEMS}, cb);
 }
 
 function __getReport(node_id, cb) {
@@ -124,10 +124,10 @@ function __getReport(node_id, cb) {
 
 function getUser(user_id, cb) {
     var cache_key = 'mcr/user/' + user_id;
-    return cache.wrap(cache_key, function(cache_cb){
+    return mcr_cache.cache.wrap(cache_key, function(cache_cb){
         logger.debug("MCR::getUser(user_id=%d) action=fetching", user_id);
         __getUser(user_id, cache_cb);
-    }, cb);
+    }, {ttl: TTL_ITEMS},cb);
 }
 function __getUser(user_id, cb) {
     logger.debug('MCR::getUser(user_id=%d', user_id);

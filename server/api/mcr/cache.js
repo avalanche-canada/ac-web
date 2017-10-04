@@ -6,6 +6,14 @@ var logger = require('../../logger');
 
 var mcr_cache = null;
 
+
+// Used for list pages (to check for new posts)
+var TTL_LIST = 60 * 5; // Seconds
+
+// Used for Items (Single Reports and Users)
+//  These are updated way slower
+var TTL_ITEMS = 60 * 60; // Seconds
+
 if (process.env.REDIS_HOST) {
     logger.info('MCR::cache - using Redis cache ');
     mcr_cache = cacheManager.caching({
@@ -13,15 +21,19 @@ if (process.env.REDIS_HOST) {
         host: process.env.REDIS_HOST, // default value
         port: 6379, // default value
         db: 5,
-        ttl: 60 * 5 /*seconds*/,
+        ttl: TTL_LIST
     });
 } else {
     logger.info('MCR::cache - using memory cache ');
     mcr_cache = cacheManager.caching({
         store: 'memory',
         max: 100,
-        ttl: 60 * 10 /*seconds*/,
+        ttl: TTL_LIST
     });
 }
 
-module.exports = mcr_cache;
+module.exports = {
+    cache: mcr_cache,
+    TTL_LIST: TTL_LIST,
+    TTL_ITEMS: TTL_ITEMS,
+};
