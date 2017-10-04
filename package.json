@@ -4,6 +4,7 @@
     "homepage": "http://www.avalanche.ca/",
     "dependencies": {
         "ajv": "^4.6.1",
+        "async": "2.5.0",
         "babel-polyfill": "^6.20.0",
         "body-parser": "^1.0.2",
         "cache-manager": "^1.4.0",
