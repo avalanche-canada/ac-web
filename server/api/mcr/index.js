@@ -4,15 +4,14 @@ var express = require('express');
 var request = require('request');
 var async   = require('async');
 
-var cache   = require('./cache');
-var logger  = require('../../logger');
+var logger     = require('../../logger');
+var cache      = require('./cache');
+var mcr_format = require('./format');
 
 var router = express.Router();
 
 var AC_MCR_HOST = process.env.AC_MCR_HOST; 
 var AC_MCR_URL          = AC_MCR_HOST + '/sapi/public';
-var IMAGE_PREFIX_USER   = AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
-var IMAGE_PREFIX_REPORT = AC_MCR_HOST + '/content/';
 
 router.get('/', function(req, res) {
     return getNodeList(function (err, nodes){
@@ -23,9 +22,12 @@ router.get('/', function(req, res) {
             if(err){
                 return _error(res,err);
             }
+            var fmt_reports = reports.map(function(ru){
+                return mcr_format.formatReportFull(ru.report, ru.user);
+            });
             return res
                     .status(200)
-                    .json(reports)
+                    .json(fmt_reports)
                     .end();
         });
     });
