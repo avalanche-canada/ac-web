@@ -33,6 +33,27 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/:report_id', function(req, res) {
+    var report_id = Number.parseInt(req.params.report_id);
+    return getReport(report_id, function(err, report){
+        if(err){
+            return _error(res,err);
+        }
+        return getUser(report.uid, function(err, user){
+            if(err){
+                return _error(res,err);
+            }
+            return res
+                    .status(200)
+                    .json(mcr_format.formatReportFull(report, user))
+                    .end();
+        });
+    });
+});
+
+
+
+
 function _error(res, err) {
     res.status(500).json({msg: err}).end()
 }
