@@ -5,7 +5,7 @@ import styles from './Forecast.css'
 import Forecast from './Forecast'
 import Legacy from './Legacy'
 
-export Loop from './Loop'
+export Loop, { Warning } from './Loop'
 export Image from '~/components/loop'
 
 Container.propTypes = {
@@ -18,9 +18,11 @@ function Container(props) {
     return (
         <section styleName="Container">
             <h2 styleName="Headline">{forecast.headline}</h2>
-            {forecast.isLegacy
-                ? <Legacy forecast={forecast} />
-                : <Forecast {...props} />}
+            {forecast.isLegacy ? (
+                <Legacy forecast={forecast} />
+            ) : (
+                <Forecast {...props} />
+            )}
         </section>
     )
 }
