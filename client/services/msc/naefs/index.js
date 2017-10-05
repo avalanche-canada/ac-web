@@ -30,16 +30,16 @@ export const PARAMETERS = new Map([
         MAXIMUM_TEMPERATURE,
         new Map([
             ['GT0', 'over 0°C'],
-            ['GT15', 'over 15°C'],
-            ['GT30', 'over 30°C'],
+            // ['GT15', 'over 15°C'],
+            // ['GT30', 'over 30°C'],
         ]),
     ],
     [
         PRECIPITATION,
         new Map([
-            ['GT0.0002', 'more than 0.2mm'],
-            ['GT0.002', 'more than 2mm'],
-            ['GT0.005', 'more than 5mm'],
+            // ['GT0.0002', 'more than 0.2mm'],
+            // ['GT0.002', 'more than 2mm'],
+            // ['GT0.005', 'more than 5mm'],
             ['GT0.010', 'more than 10mm'],
             ['GT0.025', 'more than 25mm'],
         ]),
@@ -47,9 +47,9 @@ export const PARAMETERS = new Map([
     [
         ACCUMULATED_PRECIPITATION,
         new Map([
-            ['GT0.0002', 'more than 0.2mm'],
-            ['GT0.002', 'more than 2mm'],
-            ['GT0.005', 'more than 5mm'],
+            // ['GT0.0002', 'more than 0.2mm'],
+            // ['GT0.002', 'more than 2mm'],
+            // ['GT0.005', 'more than 5mm'],
             ['GT0.010', 'more than 10mm'],
             ['GT0.025', 'more than 25mm'],
             ['GT0.050', 'more than 50mm'],
