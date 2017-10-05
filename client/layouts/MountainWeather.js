@@ -1,20 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, Link } from 'react-router-dom'
-import Alert, { WARNING } from '~/components/alert'
 import { Page, Content, Header, Main, Aside } from '~/components/page'
 import { Sidebar } from '~/components/page/weather'
 import Container, { Forecast } from '~/containers/WeatherForecast'
 import {
-    // HourlyPrecipitation,
-    // Precipitation12h,
-    // Temperatures,
-    // Winds,
-    // SurfaceMaps,
-    // OtherMaps,
-    // Radar,
-    // Satellite,
-    // ActualTemperatures,
+    HourlyPrecipitation,
+    Precipitation12h,
+    Temperatures,
+    Winds,
+    SurfaceMaps,
+    OtherMaps,
+    Radar,
+    Satellite,
+    ActualTemperatures,
     Warnings,
 } from '~/components/page/weather/articles'
 
@@ -25,21 +24,6 @@ Weather.propTypes = {
 
 function forecast({ match }) {
     return <Forecast date={match.params.date} />
-}
-
-function WeatherLoopIssueWarning() {
-    return (
-        <Alert type={WARNING}>
-            <h2>
-                We are currently experiencing some issues with weather loops
-                image generation!
-            </h2>
-            <h3>
-                This product will be available as soon as we solve the issue.<br />Thanks
-                for your patience!
-            </h3>
-        </Alert>
-    )
 }
 
 export default function Weather({ match: { url, path } }) {
@@ -63,39 +47,33 @@ export default function Weather({ match: { url, path } }) {
                             />
                             <Route
                                 path={`${path}/hourly-precipitation`}
-                                component={WeatherLoopIssueWarning}
+                                component={HourlyPrecipitation}
                             />
                             <Route
                                 path={`${path}/12h-precipitation`}
-                                component={WeatherLoopIssueWarning}
+                                component={Precipitation12h}
                             />
                             <Route
                                 path={`${path}/temperatures`}
-                                component={WeatherLoopIssueWarning}
+                                component={Temperatures}
                             />
-                            <Route
-                                path={`${path}/winds`}
-                                component={WeatherLoopIssueWarning}
-                            />
+                            <Route path={`${path}/winds`} component={Winds} />
                             <Route
                                 path={`${path}/surface-maps`}
-                                component={WeatherLoopIssueWarning}
+                                component={SurfaceMaps}
                             />
                             <Route
                                 path={`${path}/other-maps`}
-                                component={WeatherLoopIssueWarning}
+                                component={OtherMaps}
                             />
-                            <Route
-                                path={`${path}/radar`}
-                                component={WeatherLoopIssueWarning}
-                            />
+                            <Route path={`${path}/radar`} component={Radar} />
                             <Route
                                 path={`${path}/satellite`}
-                                component={WeatherLoopIssueWarning}
+                                component={Satellite}
                             />
                             <Route
                                 path={`${path}/actual-temperatures`}
-                                component={WeatherLoopIssueWarning}
+                                component={ActualTemperatures}
                             />
                             <Route
                                 path={`${path}/warnings`}

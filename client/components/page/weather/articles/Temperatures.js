@@ -2,7 +2,7 @@ import React from 'react'
 import { Tab, TabSet } from '~/components/tab'
 import { Article } from '~/components/page'
 import Tutorial from '~/containers/WeatherTutorial'
-import { Loop } from '~/components/weather'
+import { Loop, Warning } from '~/components/weather'
 
 export default function Temperatures() {
     return (
@@ -18,7 +18,8 @@ export default function Temperatures() {
                     <Loop type="AC_GDPS_BC_850-temp-4pm" withNotes />
                 </Tab>
                 <Tab title="Surface HR">
-                    <Loop type="AC_HRDPS_BC_sfc-temp-3hr-freq" withNotes />
+                    <Warning />
+                    {/* <Loop type="AC_HRDPS_BC_sfc-temp-3hr-freq" withNotes /> */}
                 </Tab>
                 <Tab title="Tutorials">
                     <Tutorial uid="temperatures" />
