@@ -26,11 +26,7 @@ StaffSet.propTypes = {
 }
 
 function StaffSet({ members }) {
-    return (
-        <div>
-            {members.map(parse).map(createStaff)}
-        </div>
-    )
+    return <div>{members.map(parse).map(createStaff)}</div>
 }
 
 function pluck({ staff }) {
@@ -56,7 +52,9 @@ export default compose(
 
             this.props.load({
                 predicates: [Predicates.in('document.id', ids)],
-                pageSize: ids.length,
+                options: {
+                    pageSize: ids.length,
+                },
             })
         },
     })
