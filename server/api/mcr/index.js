@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
                 if(err){
                     return cb(err)
                 }
-                var fmt_reports = reports.map(function(ru){
+                var fmt_reports = reports.filter(notUndefined).map(function(ru){
                     return mcr_format.formatReportFull(ru.report, ru.user);
                 });
                 cb(null, fmt_reports);
@@ -37,6 +37,8 @@ router.get('/', function(req, res) {
                     .end();
     });
 });
+
+function notUndefined(x) { return typeof(x) !== 'undefined'; }
 
 router.get('/:report_id', function(req, res) {
     var report_id = Number.parseInt(req.params.report_id);
@@ -64,6 +66,11 @@ function _error(res, err) {
 }
 
 function getReportAndUser(node, cb){
+    //TODO(wnh): Remove this when the query API goes live
+    if(node.uid === "0") {
+        logger.warn("Skipping Report with user 0", {action:"MCR::getReportAndUser", nid: node.nid});
+        return cb(null, undefined);
+    }
     return async.parallel({
         report: function(_cb) {return getReport(node.nid, _cb);},
         user:   function(_cb) {return getUser(node.uid, _cb);}
@@ -77,22 +84,39 @@ function getNodeList(cb) {
     },cb);
 }
 
+
+function __getJSON(path, qs, cb) {
+    return request({url: AC_MCR_URL + path, qs: qs}, function(err, resp, body){
+        if (err) {
+            logger.debug('MCR::__getJSON', {path:path, qs:qs});
+            return cb(err)
+        }
+        logger.debug('MCR::__getJSON', {path:path, qs:qs, return_status:resp.statusCode});
+
+        if(resp.statusCode !== 200) {
+            logger.warn('MCR::__getJSON', {msg: 'non 200 from MCR api', status_code: resp.status_code, req_path:path});
+            return cb(new Error("Uable to contact upstream api"));
+        }
+
+        try {
+            cb(null, JSON.parse(body));
+        } catch(err2) {
+            logger.warn('MCR::__getJSON', {msg: 'unable to parse JSON', req_path:path});
+            return cb(err2);
+        }
+    });
+}
+
 function __getNodeList(cb) {
-    logger.debug('MCR::getNodeList(report_type=5)')
-    return request({url: AC_MCR_URL + '/node.json', qs: {report_type: 5}}, function(err, resp, body){
+    logger.debug('MCR::getNodeList', {report_type:5})
+    return __getJSON('/node.json', {report_type: 5}, function(err, body_5){
         if (err) {cb(err);}
-        logger.debug('MCR::getNodeList(report_type=5) - return_status=%d', resp.statusCode);
-
-        var body_5 = JSON.parse(body);
-
-        logger.debug('MCR::getNodeList(report_type=3)')
-        return request({url: AC_MCR_URL + '/node.json', qs: {report_type: 5}}, function(err, resp, body){
+        logger.debug('MCR::getNodeList', {report_type:3})
+        return __getJSON('/node.json', {report_type: 3}, function(err, body_3){
             if (err) {cb(err);}
-            logger.debug('MCR::getNodeList(report_type=3) return_status=%d', resp.statusCode);
-            var body_3 = JSON.parse(body);
             var list = body_5.concat(body_3);
             list = list.sort(function(node) { return Number.parseInt(node.updated); });
-            logger.debug('MCR::getNodeList() length=%d', list.length);
+            logger.debug('MCR::getNodeList', {return_count: list.length});
             cb(null, list);
         });
     });
@@ -104,22 +128,18 @@ function getReport(node_id, cb) {
     return mcr_cache.cache.wrap(cache_key, function(_cb){
         logger.debug("MCR::getReport(node_id=%d) action=fetching", node_id);
         return __getReport(node_id, _cb);
-    }, {ttl: TTL_ITEMS}, cb);
+    }, {ttl: mcr_cache.TTL_ITEMS}, cb);
 }
 
 function __getReport(node_id, cb) {
     logger.debug('MCR::getReport(node_id=%d', node_id);
-    return request({
-        url: AC_MCR_URL + '/node/' + node_id + '.json', 
-        qs: {report_type: 5}}, 
-        function(err, resp, body){
-            if(err) {
-                cb(err);
-            }
-            logger.debug('MCR::getReport(node_id=%d) return_status=%d', node_id, resp.statusCode);
-            cb(null, JSON.parse(body));
+    var path = '/node/' + node_id + '.json';
+    return __getJSON(path, {report_type: 5}, function(err, data){
+        if(err) {
+            cb(err);
         }
-    );
+        cb(null, data);
+    });
 }
 
 function getUser(user_id, cb) {
@@ -127,16 +147,18 @@ function getUser(user_id, cb) {
     return mcr_cache.cache.wrap(cache_key, function(cache_cb){
         logger.debug("MCR::getUser(user_id=%d) action=fetching", user_id);
         __getUser(user_id, cache_cb);
-    }, {ttl: TTL_ITEMS},cb);
+    }, {ttl: mcr_cache.TTL_ITEMS},cb);
 }
+
 function __getUser(user_id, cb) {
     logger.debug('MCR::getUser(user_id=%d', user_id);
-    return request(AC_MCR_URL + '/user/' + user_id + '.json', function(err, resp, body){
+    var path = '/user/' + user_id + '.json'; 
+    return __getJSON(path, {}, function(err, data){
         if(err) {
             cb(err);
         }
-        logger.debug('MCR::getUser(user_id=%d)', user_id);
-        cb(null, JSON.parse(body));
+        logger.debug('MCR::getUser', {user_id:user_id});
+        cb(null, data);
     });
 }
 
