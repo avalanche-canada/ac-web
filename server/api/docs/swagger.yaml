@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0.1
+  version: 1.1.0
   title: Avalanche Canada API
   contact:
     name: Avalanche Canada
@@ -19,10 +19,21 @@ info:
     **Please** contact us if you notice any discrepancies between this
     documentation and the actual service.
 
+    # Arcteryx / ACMG Mountain conditions reports
+
+    Mountain Conditions Reports are provided ACMG / Arcteryx.
+    See the [Mountain Conditions Site](https://mountainconditions.com/) for more reports and information.
+
 host: www.avalanche.ca
 basePath: /api
 schemes:
   - https
+
+tags:
+  - name: Forecasts
+    description: "Avalanche Canada forecast data"
+  - name: Mountain Conditions
+    description: "Arcteryx / ACMG Mountain conditions reports"
 
 paths:
   '/features/metadata':
@@ -114,6 +125,34 @@ paths:
             $ref: '#/definitions/Forecast'
         '404':
           description: Region does not exist
+  /mcr:
+    get:
+      tags:
+        - Mountain Conditions
+      summary: Get lastest MCR posts
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MountainConditionsReport'
+  '/mcr/{report_id}':
+    get:
+      tags:
+        - Mountain Conditions
+      summary: Get specific MCR post
+      parameters:
+        - name: report_id
+          in: path
+          type: string
+          required: true
+          description: The report ID
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/MountainConditionsReport'
 
 definitions:
   ForecastMetaData:
@@ -496,8 +535,66 @@ definitions:
                   $ref: '#/definitions/FeaturesMetaDataCommon/properties/dangerIconUrl'
                 owner:
                   $ref: '#/definitions/FeaturesMetaDataCommon/properties/owner'
-
-
+  MountainConditionsReport:
+    type: object
+    properties:
+      id:
+        type: number
+        format: int64
+      title:
+        type: string
+      user:
+        type: object
+        properties:
+          id:
+            type: number
+            format: int64
+          image:
+            type: string
+            format: url
+          name:
+            type: string
+          certs:
+            type: string
+      location_desc:
+        type: string
+      body:
+        type: string
+      location:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: number
+          format: float
+        example:
+          - -116.50157110775542
+          - 51.501457954569304
+      dates:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: string
+          format: date-time
+      images:
+        type: array
+        items:
+          type: string
+          format: url
+      groups:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+              format: url
+      permalink:
+        type: string
+        format: url
 
   DangerRatingOptions:
     type: string
