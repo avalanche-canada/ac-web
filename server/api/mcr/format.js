@@ -26,7 +26,7 @@ function formatUser(user) {
     return {
         id:    Number.parseInt(user.uid),
         name:  user.name,
-        certs: _f1(user, 'field_certifications', _safe),
+        certs: f1(user, 'field_certifications', safeval),
         image: user.picture.url,
     }
 }
@@ -43,43 +43,43 @@ function formatReport(r) {
             Number.parseFloat(r.field_location.und[0].lon),
             Number.parseFloat(r.field_location.und[0].lat),
         ],
-        title: _f1(r, 'title_field', _safe),
-        body: _f1(r, 'body', _safe),
+        title: f1(r, 'title_field', safeval),
+        body: f1(r, 'body', safeval),
         permalink: r.path,
-        dates: _fall(r, 'field_date', _getDate),
-        images: _fall(r, 'field_image', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
-        location_desc: _f1(r, 'field_short_description', function(d){return d.safe_value}),
-        groups: _getGroups(r),
+        dates: fall(r, 'field_date', getDate),
+        images: fall(r, 'field_image', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
+        location_desc: f1(r, 'field_short_description', function(d){return d.safe_value}),
+        groups: getGroups(r),
     }
 }
 
 
-function _fall(r, key, trans)  {
+function fall(r, key, trans)  {
     if(typeof(r[key])  === 'undefined') return;
     if(typeof(r[key].und)  === 'undefined') return;
     return r[key].und.map(trans)
 }
-function _f1(r, key, trans)  {
-    var all = _fall(r, key, trans);
+function f1(r, key, trans)  {
+    var all = fall(r, key, trans);
     if(typeof(all)  === 'undefined') return;
     if(all.length === 0) return;
     return all[0];
 }
 
-function _safe(x) { return x.safe_value; }
+function safeval(x) { return x.safe_value; }
 
-function _getDate(date) {
+function getDate(date) {
     var int_date = Number.parseInt(date.value);
     var dd = new Date(int_date * 1000);
     return moment.tz(dd, date.timezone).format();
 }
 
-function _getGroups(r) {
+function getGroups(r) {
     if (typeof(r.og_groups) === 'undefined') return [];
     return r.og_groups.map(function(gg){
         return {
             name: gg.title,
-            logo: _f1(gg, 'field_logo', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
+            logo: f1(gg, 'field_logo', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
         };
     });
 }

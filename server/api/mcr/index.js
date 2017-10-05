@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
         });
     } , function(err, data){
             if(err){
-                return _error(res,err);
+                return error(res,err);
             }
             return res
                     .status(200)
@@ -44,11 +44,11 @@ router.get('/:report_id', function(req, res) {
     var report_id = Number.parseInt(req.params.report_id);
     return getReport(report_id, function(err, report){
         if(err){
-            return _error(res,err);
+            return error(res,err);
         }
         return getUser(report.uid, function(err, user){
             if(err){
-                return _error(res,err);
+                return error(res,err);
             }
             return res
                     .status(200)
@@ -61,7 +61,7 @@ router.get('/:report_id', function(req, res) {
 
 
 
-function _error(res, err) {
+function error(res, err) {
     res.status(500).json({msg: err}).end()
 }
 
@@ -85,23 +85,23 @@ function getNodeList(cb) {
 }
 
 
-function __getJSON(path, qs, cb) {
+function getJSON(path, qs, cb) {
     return request({url: AC_MCR_URL + path, qs: qs}, function(err, resp, body){
         if (err) {
-            logger.debug('MCR::__getJSON', {path:path, qs:qs});
+            logger.debug('MCR::getJSON', {path:path, qs:qs});
             return cb(err)
         }
-        logger.debug('MCR::__getJSON', {path:path, qs:qs, return_status:resp.statusCode});
+        logger.debug('MCR::getJSON', {path:path, qs:qs, return_status:resp.statusCode});
 
         if(resp.statusCode !== 200) {
-            logger.warn('MCR::__getJSON', {msg: 'non 200 from MCR api', status_code: resp.status_code, req_path:path});
+            logger.warn('MCR::getJSON', {msg: 'non 200 from MCR api', status_code: resp.status_code, req_path:path});
             return cb(new Error("Uable to contact upstream api"));
         }
 
         try {
             cb(null, JSON.parse(body));
         } catch(err2) {
-            logger.warn('MCR::__getJSON', {msg: 'unable to parse JSON', req_path:path});
+            logger.warn('MCR::getJSON', {msg: 'unable to parse JSON', req_path:path});
             return cb(err2);
         }
     });
@@ -109,10 +109,10 @@ function __getJSON(path, qs, cb) {
 
 function __getNodeList(cb) {
     logger.debug('MCR::getNodeList', {report_type:5})
-    return __getJSON('/node.json', {report_type: 5}, function(err, body_5){
+    return getJSON('/node.json', {report_type: 5}, function(err, body_5){
         if (err) {cb(err);}
         logger.debug('MCR::getNodeList', {report_type:3})
-        return __getJSON('/node.json', {report_type: 3}, function(err, body_3){
+        return getJSON('/node.json', {report_type: 3}, function(err, body_3){
             if (err) {cb(err);}
             var list = body_5.concat(body_3);
             list = list.sort(function(node) { return Number.parseInt(node.updated); });
@@ -134,7 +134,7 @@ function getReport(node_id, cb) {
 function __getReport(node_id, cb) {
     logger.debug('MCR::getReport(node_id=%d', node_id);
     var path = '/node/' + node_id + '.json';
-    return __getJSON(path, {report_type: 5}, function(err, data){
+    return getJSON(path, {report_type: 5}, function(err, data){
         if(err) {
             cb(err);
         }
@@ -153,7 +153,7 @@ function getUser(user_id, cb) {
 function __getUser(user_id, cb) {
     logger.debug('MCR::getUser(user_id=%d', user_id);
     var path = '/user/' + user_id + '.json'; 
-    return __getJSON(path, {}, function(err, data){
+    return getJSON(path, {}, function(err, data){
         if(err) {
             cb(err);
         }
