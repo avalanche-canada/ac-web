@@ -17,42 +17,21 @@ export const PRODUCTS = new Set([
 export const MAPS = new Set(['GZ500', 'DZ500'])
 
 export const PARAMETERS = new Map([
-    [
-        MINIMUM_TEMPERATURE,
-        new Map([
-            ['LT0', 'under 0°C'],
-            ['LT-5', 'under -5°C'],
-            ['LT-15', 'under -15°C'],
-            ['LT-30', 'under -30°C'],
-        ]),
-    ],
-    [
-        MAXIMUM_TEMPERATURE,
-        new Map([
-            ['GT0', 'over 0°C'],
-            // ['GT15', 'over 15°C'],
-            // ['GT30', 'over 30°C'],
-        ]),
-    ],
+    [MINIMUM_TEMPERATURE, new Set(['LT0', 'LT-5', 'LT-15', 'LT-30'])],
+    [MAXIMUM_TEMPERATURE, new Set(['GT0', 'GT15', 'GT30'])],
     [
         PRECIPITATION,
-        new Map([
-            // ['GT0.0002', 'more than 0.2mm'],
-            // ['GT0.002', 'more than 2mm'],
-            // ['GT0.005', 'more than 5mm'],
-            ['GT0.010', 'more than 10mm'],
-            ['GT0.025', 'more than 25mm'],
-        ]),
+        new Set(['GT0.0002', 'GT0.002', 'GT0.005', 'GT0.010', 'GT0.025']),
     ],
     [
         ACCUMULATED_PRECIPITATION,
-        new Map([
-            // ['GT0.0002', 'more than 0.2mm'],
-            // ['GT0.002', 'more than 2mm'],
-            // ['GT0.005', 'more than 5mm'],
-            ['GT0.010', 'more than 10mm'],
-            ['GT0.025', 'more than 25mm'],
-            ['GT0.050', 'more than 50mm'],
+        new Set([
+            'GT0.0002',
+            'GT0.002',
+            'GT0.005',
+            'GT0.010',
+            'GT0.025',
+            'GT0.050',
         ]),
     ],
 ])
@@ -93,4 +72,12 @@ export function epsgram({ code, date, run = 0 }) {
     run = padstart(String(run), 2, '0')
 
     return `${naefs.epsgram}/${date}${run}_054@007_E1_${code}_I_NAEFS@EPSGRAMS_tt@surf@nt@pr@ws@surf_360.png`
+}
+
+export function spaghetti({ date, run = 0, hPa = 546, hour = 0 }) {
+    date = formatDate(date, 'YYYYMMDD')
+    run = padstart(String(run), 2, '0')
+    hour = padstart(String(hour), 3, '0')
+
+    return `https://weather.gc.ca/data/ensemble/images/${date}${run}_054_E1_north@america_I_ENSEMBLE_spag@${hPa}_${hour}.png`
 }

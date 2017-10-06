@@ -16,7 +16,8 @@ const FullscreenIcons = new Map([
 @CSSModule(styles)
 export default class Loop extends Component {
     static propTypes = {
-        urls: PropTypes.arrayOf(PropTypes.string),
+        urls: PropTypes.arrayOf(PropTypes.string).isRequired,
+        titles: PropTypes.arrayOf(PropTypes.string),
         interval: PropTypes.number,
         dwell: PropTypes.number,
         startAt: PropTypes.number,
@@ -24,6 +25,7 @@ export default class Loop extends Component {
     }
     static defaultProps = {
         urls: [],
+        titles: [],
         interval: 1000,
         dwell: 2000,
         openImageInNewTab: false,
@@ -96,6 +98,9 @@ export default class Loop extends Component {
     }
     get url() {
         return this.props.urls[this.cursor]
+    }
+    get title() {
+        return this.props.titles[this.cursor]
     }
     get isFullscreen() {
         return this.state.isFullscreen
@@ -225,6 +230,7 @@ export default class Loop extends Component {
             this.isFullscreen = false
         }
     }
+    ref = ref => (this.container = ref)
     render() {
         const { isFullscreen } = this
         const { interval } = this.props
@@ -245,17 +251,17 @@ export default class Loop extends Component {
         }
 
         return (
-            <div
-                ref={ref => (this.container = ref)}
-                className={styles.Container}>
+            <div ref={this.ref} className={styles.Container}>
+                {this.title && <div className={styles.Title}>{this.title}</div>}
                 <Image {...image} />
                 <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
-                    <div className={styles.Title}>
-                        {this.isLoading &&
+                    <div className={styles.Info}>
+                        {this.isLoading && (
                             <Delay elapse={interval + 50}>
                                 <span>Loading</span>
-                            </Delay>}
+                            </Delay>
+                        )}
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
                     <Button

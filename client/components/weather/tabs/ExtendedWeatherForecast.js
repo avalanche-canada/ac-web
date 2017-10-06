@@ -1,45 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DateElement } from '~/components/time'
-import addDays from 'date-fns/add_days'
 import GramSet, { Location } from './gram'
-import Caroussel from './Carousel'
 import ExceedenceProbability from './ExceedenceProbability'
-import { StructuredText } from '~/prismic/components/base'
-import Fetch from '~/prismic/components/Fetch'
-import { Loading } from '~/components/text'
 import BasePanel, { INVERSE } from '~/components/panel'
-import * as Predicates from '~/vendor/prismic/predicates'
-import setDay from 'date-fns/set_day'
-import formatDate from 'date-fns/format'
-import { parse } from '~/prismic'
-import { Metadata as BaseMetadata, Entry } from '~/components/metadata'
-import { carte, epsgram } from '~/services/msc/naefs'
+import { carte, epsgram, spaghetti } from '~/services/msc/naefs'
+import Loop from '~/components/loop'
 
-function Metadata({ date, issued, name }) {
-    const day5 = addDays(date, 4)
-    const day10 = addDays(date, 9)
+const PANEL_PADDING = {
+    padding: '2em 1em',
+}
 
-    return (
-        <BaseMetadata>
-            <Entry term="Issued">
-                <DateElement value={date} /> at {issued} PST/PDT
-            </Entry>
-            <Entry term="Created by">{name}</Entry>
-            <Entry term="Valid from">
-                <DateElement value={day5} />
-            </Entry>
-            <Entry term="Valid to">
-                <DateElement value={day10} />
-            </Entry>
-        </BaseMetadata>
-    )
+function Padding({ children }) {
+    return <div style={PANEL_PADDING}>{children}</div>
 }
 
 function Panel({ children, ...props }) {
     return (
         <BasePanel expandable theme={INVERSE} {...props}>
-            <div style={{ padding: '2em 1em' }}>{children}</div>
+            {children}
         </BasePanel>
     )
 }
@@ -48,24 +26,26 @@ ExtendedWeatherForecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
+const SEQUENCE = [4, 5, 6, 7, 8, 9]
+const LOOP_TITLES = SEQUENCE.map(value => `Day ${value + 1}`)
+
 export default function ExtendedWeatherForecast({ date }) {
-    const predicates = [
-        Predicates.type('extended-weather-forecast'),
-        Predicates.at(
-            'my.extended-weather-forecast.date',
-            formatDate(setDay(date, 1), 'YYYY-MM-DD')
-        ),
-    ]
-    const hpa = [4, 5, 6, 7, 8, 9].map(factor =>
+    const hpaUrls = SEQUENCE.map(factor =>
         carte({
             product: 'GZ500',
             date,
             hour: factor * 24,
         })
     )
-    const thickness = [4, 5, 6, 7, 8, 9].map(factor =>
+    const thicknessUrls = SEQUENCE.map(factor =>
         carte({
             product: 'DZ500',
+            date,
+            hour: factor * 24,
+        })
+    )
+    const spaghettiUrls = SEQUENCE.map(factor =>
+        spaghetti({
             date,
             hour: factor * 24,
         })
@@ -73,61 +53,58 @@ export default function ExtendedWeatherForecast({ date }) {
 
     return (
         <section>
-            <Fetch predicates={predicates}>
-                {({ isLoading, data }) => {
-                    if (isLoading || !data) {
-                        return (
-                            <Loading>
-                                Loading extended weather forecast synopsis...
-                            </Loading>
-                        )
-                    }
-
-                    const { content, headline, ...metadata } = parse(
-                        data.results[0]
-                    ).data
-
-                    return (
-                        <section>
-                            <h3>{headline}</h3>
-                            <Metadata {...metadata} />
-                            <StructuredText value={content} />
-                        </section>
-                    )
-                }}
-            </Fetch>
-            <Panel header="500hPa Mean / Standard Deviation Chart">
-                <Caroussel images={hpa} />
+            <Panel header="500 hPa Mean / Standard Deviation Chart">
+                <Padding>
+                    <Loop
+                        openImageInNewTab
+                        urls={hpaUrls}
+                        titles={LOOP_TITLES}
+                    />
+                </Padding>
             </Panel>
-            <Panel header="Thickness 100 – 500 Chart">
-                <Caroussel images={thickness} />
+            <Panel header="1000 – 500 hPa Thickness Chart">
+                <Padding>
+                    <Loop
+                        openImageInNewTab
+                        urls={thicknessUrls}
+                        titles={LOOP_TITLES}
+                    />
+                </Padding>
             </Panel>
             <Panel header="EPSgrams">
-                <GramSet>
-                    <Location>
-                        <header>Terrace</header>
-                        <img src={epsgram({ code: 'yxt', date })} />
-                    </Location>
-                    <Location>
-                        <header>Prince George</header>
-                        <img src={epsgram({ code: 'yxs', date })} />
-                    </Location>
-                    <Location>
-                        <header>Vancouver</header>
-                        <img src={epsgram({ code: 'yvr', date })} />
-                    </Location>
-                    <Location>
-                        <header>Revelstoke</header>
-                        <img src={epsgram({ code: 'yrv', date })} />
-                    </Location>
-                </GramSet>
+                <Padding>
+                    <GramSet>
+                        <Location>
+                            <header>Terrace</header>
+                            <img src={epsgram({ code: 'yxt', date })} />
+                        </Location>
+                        <Location>
+                            <header>Prince George</header>
+                            <img src={epsgram({ code: 'yxs', date })} />
+                        </Location>
+                        <Location>
+                            <header>Vancouver</header>
+                            <img src={epsgram({ code: 'yvr', date })} />
+                        </Location>
+                        <Location>
+                            <header>Revelstoke</header>
+                            <img src={epsgram({ code: 'yrv', date })} />
+                        </Location>
+                    </GramSet>
+                </Padding>
             </Panel>
-            <BasePanel
-                expandable
-                theme={INVERSE}
-                header="Exceedence Probability">
+            <Panel header="Exceedence Probability">
                 <ExceedenceProbability date={date} />
-            </BasePanel>
+            </Panel>
+            <Panel header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
+                <Padding>
+                    <Loop
+                        openImageInNewTab
+                        urls={spaghettiUrls}
+                        titles={LOOP_TITLES}
+                    />
+                </Padding>
+            </Panel>
         </section>
     )
 }

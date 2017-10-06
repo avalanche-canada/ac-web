@@ -10,6 +10,7 @@ import addDays from 'date-fns/add_days'
 import isWithinRange from 'date-fns/is_within_range'
 import {
     MAXIMUM_TEMPERATURE,
+    MINIMUM_TEMPERATURE,
     PRECIPITATION,
     ACCUMULATED_PRECIPITATION,
     PRODUCTS,
@@ -17,12 +18,44 @@ import {
     format,
 } from '~/services/msc/naefs'
 
-const DEFAULT_PRODUCT = MAXIMUM_TEMPERATURE
+const TEMPERATURE = 'TEMPERATURE'
 
-const Titles = new Map([
-    [MAXIMUM_TEMPERATURE, 'Temperature'],
+const TITLES = new Map([
+    [TEMPERATURE, 'Temperature'],
     [PRECIPITATION, 'Precipitation'],
     [ACCUMULATED_PRECIPITATION, 'Accumulated precipitation'],
+])
+
+const OPTIONS = new Map([
+    [
+        TEMPERATURE,
+        new Map([
+            ['GT0', 'over 0°C'],
+            ['LT0', 'under 0°C'],
+            ['LT-5', 'under -5°C'],
+            ['LT-15', 'under -15°C'],
+            ['LT-30', 'under -30°C'],
+        ]),
+    ],
+    [
+        PRECIPITATION,
+        new Map([
+            ['GT0.002', 'more than 2mm'],
+            ['GT0.005', 'more than 5mm'],
+            ['GT0.010', 'more than 10mm'],
+            ['GT0.025', 'more than 25mm'],
+        ]),
+    ],
+    [
+        ACCUMULATED_PRECIPITATION,
+        new Map([
+            ['GT0.002', 'more than 2mm'],
+            ['GT0.005', 'more than 5mm'],
+            ['GT0.010', 'more than 10mm'],
+            ['GT0.025', 'more than 25mm'],
+            ['GT0.050', 'more than 50mm'],
+        ]),
+    ],
 ])
 
 Image.propTypes = {
@@ -55,7 +88,7 @@ function Title({ product, children }) {
     let suffix = null
 
     switch (product) {
-        case MAXIMUM_TEMPERATURE:
+        case TEMPERATURE:
             prefix = 'Probability of temperature'
             suffix = 'at least one day'
             break
@@ -91,6 +124,12 @@ function Subtitle({ children: [from, to] }) {
     )
 }
 
+const DEFAULT_PARAMETERS = new Map([
+    [TEMPERATURE, 'LT-5'],
+    [PRECIPITATION, 'GT0.025'],
+    [ACCUMULATED_PRECIPITATION, 'GT0.025'],
+])
+
 class DayPickerContainer extends Component {
     render() {
         const { children, ...props } = this.props
@@ -102,32 +141,44 @@ class DayPickerContainer extends Component {
         )
     }
 }
+
 export default class ExceedenceProbability extends Component {
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,
     }
+    state = {}
     constructor(props) {
         super(props)
 
         this.state = {
-            product: DEFAULT_PRODUCT,
-            param: PARAMETERS.get(DEFAULT_PRODUCT)
-                .keys()
-                .next().value,
+            product: TEMPERATURE,
+            param: DEFAULT_PARAMETERS.get(TEMPERATURE),
             from: addDays(this.props.date, 5),
             to: addDays(this.props.date, 6),
+        }
+    }
+    get realProduct() {
+        const { product, param } = this.state
+
+        if (product !== TEMPERATURE) {
+            return product
+        }
+
+        if (PARAMETERS.get(MINIMUM_TEMPERATURE).has(param)) {
+            return MINIMUM_TEMPERATURE
+        } else {
+            return MAXIMUM_TEMPERATURE
         }
     }
     handleParamChange = param => param && this.setState({ param })
     handleDateRangeChange = dates => this.setState(dates)
     handleActivateType = index => {
-        const [product] = Array.from(Titles)[index]
+        // Use "TITLES" because index reflects which tab clicked
+        const [product] = Array.from(TITLES)[index]
 
         this.setState({
             product,
-            param: PARAMETERS.get(product)
-                .keys()
-                .next().value,
+            param: DEFAULT_PARAMETERS.get(product),
         })
     }
     handleFromChange = from => this.setState({ from })
@@ -135,7 +186,7 @@ export default class ExceedenceProbability extends Component {
     render() {
         const { product, param, from, to } = this.state
         const { date } = this.props
-        const activeIndex = Array.from(Titles.keys()).indexOf(product)
+        const activeIndex = Array.from(TITLES.keys()).indexOf(product)
         function fromDisabledDays(day) {
             return !isWithinRange(day, date, addDays(date, 6))
         }
@@ -149,7 +200,7 @@ export default class ExceedenceProbability extends Component {
                     <PillSet
                         onActivate={this.handleActivateType}
                         activeIndex={activeIndex}>
-                        {Array.from(Titles).map(([product, title]) => (
+                        {Array.from(TITLES).map(([product, title]) => (
                             <Pill key={product}>{title}</Pill>
                         ))}
                     </PillSet>
@@ -157,7 +208,7 @@ export default class ExceedenceProbability extends Component {
                 <Title product={product}>
                     <DropdownFromOptions
                         value={param}
-                        options={PARAMETERS.get(product)}
+                        options={OPTIONS.get(product)}
                         onChange={this.handleParamChange}
                     />
                 </Title>
@@ -175,7 +226,7 @@ export default class ExceedenceProbability extends Component {
                         <DateElement value={to} />
                     </DayPickerContainer>
                 </Subtitle>
-                <Image {...this.state} date={date} />
+                <Image {...this.state} product={this.realProduct} date={date} />
             </section>
         )
     }
