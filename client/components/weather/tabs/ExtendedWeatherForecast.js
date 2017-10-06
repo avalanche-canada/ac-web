@@ -10,10 +10,6 @@ const PANEL_PADDING = {
     padding: '2em 1em',
 }
 
-function Padding({ children }) {
-    return <div style={PANEL_PADDING}>{children}</div>
-}
-
 function Panel({ children, ...props }) {
     return (
         <BasePanel expandable theme={INVERSE} {...props}>
@@ -54,25 +50,25 @@ export default function ExtendedWeatherForecast({ date }) {
     return (
         <section>
             <Panel header="500 hPa Mean / Standard Deviation Chart">
-                <Padding>
+                <div style={PANEL_PADDING}>
                     <Loop
                         openImageInNewTab
                         urls={hpaUrls}
                         titles={LOOP_TITLES}
                     />
-                </Padding>
+                </div>
             </Panel>
             <Panel header="1000 – 500 hPa Thickness Chart">
-                <Padding>
+                <div style={PANEL_PADDING}>
                     <Loop
                         openImageInNewTab
                         urls={thicknessUrls}
                         titles={LOOP_TITLES}
                     />
-                </Padding>
+                </div>
             </Panel>
             <Panel header="EPSgrams">
-                <Padding>
+                <div style={PANEL_PADDING}>
                     <GramSet>
                         <Location>
                             <header>Terrace</header>
@@ -91,19 +87,19 @@ export default function ExtendedWeatherForecast({ date }) {
                             <img src={epsgram({ code: 'yrv', date })} />
                         </Location>
                     </GramSet>
-                </Padding>
+                </div>
             </Panel>
             <Panel header="Exceedence Probability">
                 <ExceedenceProbability date={date} />
             </Panel>
             <Panel header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
-                <Padding>
+                <div style={PANEL_PADDING}>
                     <Loop
                         openImageInNewTab
                         urls={spaghettiUrls}
                         titles={LOOP_TITLES}
                     />
-                </Padding>
+                </div>
             </Panel>
         </section>
     )
