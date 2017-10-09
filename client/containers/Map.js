@@ -133,7 +133,7 @@ class Container extends Component {
                 layers: LayerIds.get(layer),
             })
 
-            if (features.length > 0) {
+            if (typeof features !== 'undefined' && features.length > 0) {
                 const [feature] = features
 
                 if (feature.properties.cluster) {

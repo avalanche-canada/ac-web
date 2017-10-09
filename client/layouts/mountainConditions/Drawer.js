@@ -59,7 +59,7 @@ function Drawer({
     let banner
 
     if (isLoaded) {
-        if (images.length === 0) {
+        if (typeof images === 'undefined' || images.length === 0) {
             banner = <img src={IMAGE} />
         } else {
             banner = (
