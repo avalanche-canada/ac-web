@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Container, PillSet, Pill } from '~/components/pill'
 import { DropdownFromOptions, DayPicker } from '~/components/controls'
 import { DateElement } from '~/components/time'
-import styles from './ExceedenceProbability.css'
+import styles from './ExceedanceProbability.css'
 import differenceInHours from 'date-fns/difference_in_hours'
 import startOfDay from 'date-fns/start_of_day'
 import addDays from 'date-fns/add_days'
@@ -25,6 +25,10 @@ const TITLES = new Map([
     [PRECIPITATION, 'Precipitation'],
     [ACCUMULATED_PRECIPITATION, 'Accumulated precipitation'],
 ])
+
+const CONTENT_PADDING = {
+    padding: '0 1em 2em 1em',
+}
 
 const OPTIONS = new Map([
     [
@@ -113,17 +117,6 @@ function Title({ product, children }) {
     )
 }
 
-function Subtitle({ children: [from, to] }) {
-    return (
-        <h5 className={styles.Title} style={{ marginTop: 0 }}>
-            <div>For forecast from</div>
-            {from}
-            <div>to</div>
-            {to}
-        </h5>
-    )
-}
-
 const DEFAULT_PARAMETERS = new Map([
     [TEMPERATURE, 'LT-5'],
     [PRECIPITATION, 'GT0.025'],
@@ -142,7 +135,7 @@ class DayPickerContainer extends Component {
     }
 }
 
-export default class ExceedenceProbability extends Component {
+export default class ExceedanceProbability extends Component {
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,
     }
@@ -153,8 +146,8 @@ export default class ExceedenceProbability extends Component {
         this.state = {
             product: TEMPERATURE,
             param: DEFAULT_PARAMETERS.get(TEMPERATURE),
-            from: addDays(this.props.date, 5),
-            to: addDays(this.props.date, 6),
+            from: addDays(this.props.date, 4),
+            to: addDays(this.props.date, 7),
         }
     }
     get realProduct() {
@@ -188,10 +181,10 @@ export default class ExceedenceProbability extends Component {
         const { date } = this.props
         const activeIndex = Array.from(TITLES.keys()).indexOf(product)
         function fromDisabledDays(day) {
-            return !isWithinRange(day, date, addDays(date, 6))
+            return !isWithinRange(day, date, addDays(date, 5))
         }
         function toDisabledDays(day) {
-            return !isWithinRange(day, addDays(date, 6), addDays(date, 10))
+            return !isWithinRange(day, addDays(date, 5), addDays(date, 9))
         }
 
         return (
@@ -205,28 +198,34 @@ export default class ExceedenceProbability extends Component {
                         ))}
                     </PillSet>
                 </Container>
-                <Title product={product}>
-                    <DropdownFromOptions
-                        value={param}
-                        options={OPTIONS.get(product)}
-                        onChange={this.handleParamChange}
+                <div style={CONTENT_PADDING}>
+                    <Title product={product}>
+                        <DropdownFromOptions
+                            value={param}
+                            options={OPTIONS.get(product)}
+                            onChange={this.handleParamChange}
+                        />
+                        <div>between</div>
+                        <DayPickerContainer
+                            date={from}
+                            disabledDays={fromDisabledDays}
+                            onChange={this.handleFromChange}>
+                            <DateElement value={from} />
+                        </DayPickerContainer>
+                        <div>and</div>
+                        <DayPickerContainer
+                            date={to}
+                            disabledDays={toDisabledDays}
+                            onChange={this.handleToChange}>
+                            <DateElement value={to} />
+                        </DayPickerContainer>
+                    </Title>
+                    <Image
+                        {...this.state}
+                        product={this.realProduct}
+                        date={date}
                     />
-                </Title>
-                <Subtitle>
-                    <DayPickerContainer
-                        date={from}
-                        disabledDays={fromDisabledDays}
-                        onChange={this.handleFromChange}>
-                        <DateElement value={from} />
-                    </DayPickerContainer>
-                    <DayPickerContainer
-                        date={to}
-                        disabledDays={toDisabledDays}
-                        onChange={this.handleToChange}>
-                        <DateElement value={to} />
-                    </DayPickerContainer>
-                </Subtitle>
-                <Image {...this.state} product={this.realProduct} date={date} />
+                </div>
             </section>
         )
     }

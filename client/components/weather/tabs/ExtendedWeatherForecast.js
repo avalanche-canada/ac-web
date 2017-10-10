@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import GramSet, { Location } from './gram'
-import ExceedenceProbability from './ExceedenceProbability'
+import ExceedanceProbability from './ExceedanceProbability'
 import BasePanel, { INVERSE } from '~/components/panel'
 import { carte, epsgram, spaghetti } from '~/services/msc/naefs'
 import Loop from '~/components/loop'
@@ -12,7 +12,7 @@ const PANEL_PADDING = {
 
 function Panel({ children, ...props }) {
     return (
-        <BasePanel expandable theme={INVERSE} {...props}>
+        <BasePanel expandable expanded theme={INVERSE} {...props}>
             {children}
         </BasePanel>
     )
@@ -22,8 +22,8 @@ ExtendedWeatherForecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-const SEQUENCE = [4, 5, 6, 7, 8, 9]
-const LOOP_TITLES = SEQUENCE.map(value => `Day ${value + 1}`)
+const SEQUENCE = [5, 6, 7, 8, 9, 10]
+const LOOP_TITLES = SEQUENCE.map(value => `Day ${value}`)
 
 export default function ExtendedWeatherForecast({ date }) {
     const hpaUrls = SEQUENCE.map(factor =>
@@ -49,7 +49,7 @@ export default function ExtendedWeatherForecast({ date }) {
 
     return (
         <section>
-            <Panel header="500 hPa Mean / Standard Deviation Chart">
+            <Panel header="500 hPa Mean / Standard Deviation (N. American Ensemble)">
                 <div style={PANEL_PADDING}>
                     <Loop
                         openImageInNewTab
@@ -58,7 +58,7 @@ export default function ExtendedWeatherForecast({ date }) {
                     />
                 </div>
             </Panel>
-            <Panel header="1000 – 500 hPa Thickness Chart">
+            <Panel header="1000 – 500 hPa Thickness (N. American Ensemble)">
                 <div style={PANEL_PADDING}>
                     <Loop
                         openImageInNewTab
@@ -67,7 +67,7 @@ export default function ExtendedWeatherForecast({ date }) {
                     />
                 </div>
             </Panel>
-            <Panel header="EPSgrams">
+            <Panel header="EPSgrams (N. American Ensemble)">
                 <div style={PANEL_PADDING}>
                     <GramSet>
                         <Location>
@@ -89,8 +89,8 @@ export default function ExtendedWeatherForecast({ date }) {
                     </GramSet>
                 </div>
             </Panel>
-            <Panel header="Exceedence Probability">
-                <ExceedenceProbability date={date} />
+            <Panel header="Exceedance Probability (N. American Ensemble)">
+                <ExceedanceProbability date={date} />
             </Panel>
             <Panel header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
                 <div style={PANEL_PADDING}>
