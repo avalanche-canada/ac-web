@@ -1,4 +1,5 @@
-import { createSelector } from 'reselect'
+import { createSelector, createStructuredSelector } from 'reselect'
+import Url from 'url'
 
 export function isMenuOpen(state) {
     return state.drawers.menu.get('open')
@@ -8,17 +9,30 @@ export function getPrimaryDrawer(state) {
     return state.drawers.primary
 }
 
-export function isPrimaryDrawerOpened(state) {
-    return getPrimaryDrawer(state).get('open')
+export function isPrimaryDrawerOpened() {
+    const [map, type, id] = document.location.pathname
+        .split('/')
+        .filter(Boolean)
+
+    return map === 'map' && type && id
 }
 
 export function getSecondaryDrawer(state) {
     return state.drawers.secondary
 }
 
-export function isSecondaryDrawerOpened(state) {
-    return getSecondaryDrawer(state).get('open')
+export function isSecondaryDrawerOpened() {
+    const { search, pathname } = document.location
+    const panel = Url.parse(search, true).query.panel || ''
+    const [type, id] = panel.split('/')
+
+    return pathname.includes('/map') && type && id
 }
+
+export const getDrawers = createStructuredSelector({
+    primary: getPrimaryDrawer,
+    secondary: getSecondaryDrawer,
+})
 
 export function getLayers(state) {
     return state.drawers.menu.get('layers')

@@ -2,10 +2,11 @@ import { createSelector } from 'reselect'
 import { getEntitiesForSchema } from '~/getters/entities'
 import noop from 'lodash/noop'
 import { ASC, DESC } from '~/constants/sortings'
+import { parse } from '~/utils/search'
 
 export function createSorter(
     getEntities,
-    getSorting = defaultGetSorting,
+    getSorting = getSortingFromProps,
     sorters = new Map()
 ) {
     return createSelector(
@@ -36,22 +37,22 @@ export function createSorter(
     )
 }
 
-function defaultGetPage(state, props) {
+function getPageFromProps(state, props) {
     return props.page
 }
 
-function defaultGetPageSize(state, props) {
+function getPageSizeFromProps(state, props) {
     return props.pageSize
 }
 
-function defaultGetSorting(state, props) {
+function getSortingFromProps(state, props) {
     return props.sorting
 }
 
 export function createPagination(
     getEntities,
-    getPage = defaultGetPage,
-    getPageSize = defaultGetPageSize
+    getPage = getPageFromProps,
+    getPageSize = getPageSizeFromProps
 ) {
     return createSelector(
         getEntities,
@@ -66,12 +67,32 @@ export function createPagination(
     )
 }
 
-export function createFilteredEntities(getEntities, getFilters) {
-    const reducer = (entities, filter) => entities.filter(filter)
+function filterReducer(entities, filter) {
+    return entities.filter(filter)
+}
 
+export function createFilteredEntities(getEntities, getFilters) {
     return createSelector(getEntities, getFilters, (entities, filters) =>
-        filters.reduce(reducer, entities)
+        filters.reduce(filterReducer, entities)
     )
+}
+
+function getQueryFromLocation(state, { location }) {
+    return parse(location.search)
+}
+
+export function createGetFilters(allFilters, getQuery = getQueryFromLocation) {
+    return function getFilters(state, props) {
+        const query = getQuery(state, props)
+
+        return Object.keys(query).reduce((filters, key) => {
+            if (allFilters.has(key) && query[key] !== null) {
+                filters.push(allFilters.get(key)(query))
+            }
+
+            return filters
+        }, [])
+    }
 }
 
 export function createPaginatedEntities(getEntities, getPagination) {

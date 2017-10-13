@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import { Link } from 'react-router-dom'
 import {
     Navbar,
     Header,
@@ -8,10 +8,10 @@ import {
     Body,
     Close,
 } from '~/components/page/drawer'
-import { Loading, Error } from '~/components/misc'
+import { Loading, Error } from '~/components/text'
 import { hotZoneReport } from '~/containers/connectors'
 import HotZoneReport, { Metadata } from '~/components/hotZoneReport'
-import Sponsor from '~/containers/Sponsor'
+import Sponsor from '~/layouts/Sponsor'
 import { LocateAsClass } from '~/components/button/Locate'
 import { Wrapper } from '~/components/tooltip'
 
@@ -51,7 +51,11 @@ function Container({
             </Navbar>
             <Header subject="Hot Zone Report">
                 <h1>
-                    {link ? <Link to={link}>{title}</Link> : title}
+                    {link
+                        ? <Link to={link}>
+                              {title}
+                          </Link>
+                        : title}
                     {isLoading ||
                         <Wrapper
                             tooltip="Display on map"
@@ -66,7 +70,9 @@ function Container({
             </Header>
             <Body>
                 {isLoading &&
-                    <Loading>Loading {title} hot zone report...</Loading>}
+                    <Loading>
+                        Loading {title} hot zone report...
+                    </Loading>}
                 {isError &&
                     <Error>
                         An error happened while loading hot zone report.

@@ -1,9 +1,22 @@
-import { compose, flattenProp, branch, renderNothing } from 'recompose'
-import { Sponsor } from '~/components/misc'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Sponsor as Base } from '~/components/misc'
 import { sponsor } from '~/containers/connectors'
+import { parse } from '~/prismic'
 
-export default compose(
-    sponsor,
-    flattenProp('data'),
-    branch(props => !props.url, renderNothing)
-)(Sponsor)
+Sponsor.propTypes = {
+    value: PropTypes.object,
+    label: PropTypes.string,
+}
+
+function Sponsor({ value, label }) {
+    if (!value) {
+        return null
+    }
+
+    const { data } = parse(value)
+
+    return <Base label={label} {...data} />
+}
+
+export default sponsor(Sponsor)

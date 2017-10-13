@@ -13,6 +13,8 @@ import camelCase from 'lodash/camelCase'
 // TODO: Use constants server response to reduce client side transformation.
 // See Maps below...
 
+// TODO: Move to API transformers
+
 const TO_RATINGS = new Map([
     ['1:Low', Ratings.LOW],
     ['2:Moderate', Ratings.MODERATE],
@@ -48,9 +50,8 @@ function trim(text) {
 
 // TODO: Have the server to provide it as object instead of a string
 function asConfidenceObject(confidence) {
-    const [level, comment] = typeof confidence === 'string'
-        ? confidence.split(' - ')
-        : []
+    const [level, comment] =
+        typeof confidence === 'string' ? confidence.split(' - ') : []
 
     return {
         level,
@@ -101,12 +102,12 @@ function getForecasts(state) {
     return getEntitiesForSchema(state, Forecast)
 }
 
-function getForecastRegion(state, { params }) {
-    return getEntityForSchema(state, ForecastRegion, params.name)
+function getForecastRegion(state, { name }) {
+    return getEntityForSchema(state, ForecastRegion, name)
 }
 
-function getForecastResultSet(state, { params }) {
-    return getResultsSet(state, Forecast, params)
+function getForecastResultSet(state, { name, date }) {
+    return getResultsSet(state, Forecast, { name, date })
 }
 
 const getForecast = createSelector(
@@ -151,6 +152,7 @@ export default createSelector(
         let link = null
 
         if (externalUrl) {
+            // TODO: Rework with the rr4
             if (externalUrl === 'http://avalanche.ca/blogs/north-rockies') {
                 link = {
                     to: '/blogs?category=north-rockies',
@@ -177,8 +179,8 @@ export default createSelector(
             title: forecast.bulletinTitle || forecast.name || region.name,
             forecast: showForecast ? forecast : null,
             link,
-            isUnderSpecialWarning: highlight &&
-                highlight[camelCase(region)] === 'Yes',
+            isUnderSpecialWarning:
+                highlight && highlight[camelCase(region)] === 'Yes',
             specialWarningLink: highlight && highlight.link,
             specialWarningContent: highlight && highlight.description,
         })

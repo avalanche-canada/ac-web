@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
+import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Header from './Header'
@@ -8,7 +8,7 @@ import Main from './Main'
 import Content from './Content'
 import Headline from './Headline'
 import Section from './Section'
-import { Loading } from '~/components/misc'
+import { Loading } from '~/components/text'
 import styles from './Page.css'
 
 PageList.propTypes = {
@@ -35,13 +35,13 @@ function PageList({ title, headline, items }) {
                         {items.isEmpty()
                             ? <Loading />
                             : <ul>
-                                  {items.map((item, index) => (
+                                  {items.map((item, index) =>
                                       <li key={index}>
                                           <Link to={item.link}>
                                               {item.name}
                                           </Link>
                                       </li>
-                                  ))}
+                                  )}
                               </ul>}
                     </Section>
                 </Main>

@@ -131,13 +131,15 @@ export default class Dropdown extends PureComponent {
         const { onChange, value } = this.props
 
         if (value instanceof Set) {
-            if (value.has(option)) {
-                value.delete(option)
+            const copy = new Set(Array.from(value))
+
+            if (copy.has(option)) {
+                copy.delete(option)
             } else {
-                value.add(option)
+                copy.add(option)
             }
 
-            option = new Set([...value])
+            option = new Set(Array.from(copy))
         } else if (option === value) {
             option = null
         }

@@ -1,5 +1,5 @@
-import React, { DOM } from 'react'
-import { defaultProps, withProps } from 'recompose'
+import React from 'react'
+import { withProps } from 'recompose'
 import Gallery from 'react-image-gallery'
 import {
     Play,
@@ -10,9 +10,9 @@ import {
 } from '~/components/icons'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
 
-const Button = defaultProps({
-    type: 'button',
-})(DOM.button)
+function Button(props) {
+    return <button type="button" {...props} />
+}
 
 export default withProps({
     renderLeftNav(onClick, disabled) {

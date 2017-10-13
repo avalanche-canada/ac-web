@@ -82,8 +82,8 @@
 
 .Header {
     composes: RestrictFullPageWidth;
-    composes: import MainDecorator from "../misc/Br.css";
-    composes: import RibbonDecorator from "../misc/Br.css";
+    composes: import MainDecorator from "../markup/Br.css";
+    composes: import RibbonDecorator from "../markup/Br.css";
 
     display: flex;
     flex-direction: column;
@@ -116,7 +116,6 @@
 }
 
 .ArticleHeader {
-
 }
 
 .Headline {
@@ -141,7 +140,6 @@
 }
 
 .Nav {
-
 }
 
 .Background {
@@ -234,7 +232,7 @@
     & :global(.mapboxgl-map) {
         height: 175px;
 
-        @media(--side-by-side) {
+        @media (--side-by-side) {
             height: 225px;
         }
     }

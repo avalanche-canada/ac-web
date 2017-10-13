@@ -1,6 +1,6 @@
 import React from 'react'
 import { neverUpdate } from '~/compose'
-import Link from 'react-router/lib/Link'
+import { Link } from 'react-router-dom'
 import {
     Sidebar,
     Contact,
@@ -10,7 +10,7 @@ import {
     Header,
     RSSFeed,
 } from '~/components/sidebar'
-import { Mailto, Phone } from '~/components/misc'
+import { Mailto, Phone } from '~/components/anchors'
 
 function KananaskisSidebar() {
     const { pathname, origin } = document.location
@@ -19,7 +19,9 @@ function KananaskisSidebar() {
     return (
         <Sidebar>
             <Item>
-                This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program.
+                This Avalanche Bulletin is produced by avalanche forecasters
+                within the Government of Alberta, Kananaskis Country Public
+                Safety Program.
             </Item>
             <Header>Contact</Header>
             <Item>
@@ -29,25 +31,20 @@ function KananaskisSidebar() {
                 />
             </Item>
             <Item>
-                <Phone phone="403-678-5508" ext="273" />
-                {' '}
-                is the Public Safety office phone number (weekdays)
+                <Phone phone="403-678-5508" ext="273" /> is the Public Safety
+                office phone number (weekdays)
             </Item>
             <Item>
-                <Phone phone="403-591-7755" />
-                {' '}
-                is the dispatch office non-emergency line
+                <Phone phone="403-591-7755" /> is the dispatch office
+                non-emergency line
             </Item>
             <Item>
-                <Phone phone="911" />
-                {' '}
-                for backcountry rescues and tell them you are in Kananaskis Country
+                <Phone phone="911" /> for backcountry rescues and tell them you
+                are in Kananaskis Country
             </Item>
             <Header>More information</Header>
             <Item>
-                <Link to="/weather">
-                    Your daily Mountain Weather Forecast
-                </Link>
+                <Link to="/weather">Your daily Mountain Weather Forecast</Link>
             </Item>
             <Item>
                 <Link to="/mountain-information-network/submit">

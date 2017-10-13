@@ -2,7 +2,7 @@ import React from 'react'
 import { createSelector } from 'reselect'
 import { List } from 'immutable'
 import { Course } from '~/api/schemas'
-import { Phone, Mailto } from '~/components/misc'
+import { Phone, Mailto } from '~/components/anchors'
 import * as entities from './entities'
 import * as Columns from './columns'
 
@@ -13,7 +13,11 @@ function asControlled({ description, provider }) {
         Name: name,
         Description: description,
         Website() {
-            return <a href={website} target="_blank">{website}</a>
+            return (
+                <a href={website} target="_blank">
+                    {website}
+                </a>
+            )
         },
         Email() {
             return <Mailto email={email} />

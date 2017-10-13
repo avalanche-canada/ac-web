@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isAfter from 'date-fns/is_after'
+import isBefore from 'date-fns/is_before'
 import Base from '~/components/loop'
 import {
     computeUrls,
@@ -7,7 +9,8 @@ import {
     isForecast,
     fetchMetadata,
 } from '~/services/msc/loop'
-import { Loading, Error } from '~/components/misc'
+import { Loading, Error } from '~/components/text'
+import Alert, { WARNING } from '~/components/alert'
 
 NoteSet.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -21,9 +24,7 @@ function NoteSet({ notes = [] }) {
     return (
         <div>
             <p>Please note:</p>
-            <ul>
-                {notes.map((note, index) => <li key={index}>{note}</li>)}
-            </ul>
+            <ul>{notes.map((note, index) => <li key={index}>{note}</li>)}</ul>
         </div>
     )
 }
@@ -123,22 +124,29 @@ export default class Loop extends PureComponent {
         })
     }
     render() {
+        const { date, type, run } = this.props
+
+        if (isAfter(date, new Date(2017, 6, 22))) {
+            if (type.includes('HRDPS')) {
+                return null
+            }
+
+            if (
+                (run === 0 && isBefore(date, new Date(2017, 9, 4))) ||
+                (run === 12 && isBefore(date, new Date(2017, 9, 3)))
+            ) {
+                return null
+            }
+        }
+
         const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
-            return (
-                <Loading>
-                    Creating the loop...
-                </Loading>
-            )
+            return <Loading>Creating the loop...</Loading>
         }
 
         if (isError) {
-            return (
-                <Error>
-                    Sorry, we are not able to create your loop.
-                </Error>
-            )
+            return <Error>Sorry, we are not able to create the loop.</Error>
         }
 
         return (
@@ -153,4 +161,19 @@ export default class Loop extends PureComponent {
             </div>
         )
     }
+}
+
+export function Warning() {
+    return (
+        <Alert type={WARNING}>
+            <h2>
+                We are currently experiencing some issues with HRDPS weather
+                loops image generation!
+            </h2>
+            <h3>
+                This product will be available as soon as we solve the issue.<br />Thanks
+                for your patience!
+            </h3>
+        </Alert>
+    )
 }

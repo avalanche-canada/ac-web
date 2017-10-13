@@ -1,4 +1,4 @@
-import React, { createElement, cloneElement, DOM } from 'react'
+import React, { createElement, cloneElement } from 'react'
 import { compose, setPropTypes, mapProps } from 'recompose'
 import PropTypes from 'prop-types'
 import Image from './Image'
@@ -85,25 +85,25 @@ const addSpans = compose(
 )
 
 const Components = new Map([
-    [HEADING1, addSpans(DOM.h1)],
-    [HEADING2, addSpans(DOM.h2)],
-    [HEADING3, addSpans(DOM.h3)],
-    [HEADING4, addSpans(DOM.h4)],
-    [HEADING5, addSpans(DOM.h5)],
-    [HEADING6, addSpans(DOM.h6)],
-    [PARAGRAPH, addSpans(DOM.p)],
-    [LIST_ITEM, addSpans(DOM.li)],
-    [ORDERED_LIST_ITEM, addSpans(DOM.li)],
-    [PREFORMATTED, addSpans(DOM.pre)],
-    [STRONG, addSpans(DOM.strong)],
-    [EM, addSpans(DOM.em)],
+    [HEADING1, addSpans('h1')],
+    [HEADING2, addSpans('h2')],
+    [HEADING3, addSpans('h3')],
+    [HEADING4, addSpans('h4')],
+    [HEADING5, addSpans('h5')],
+    [HEADING6, addSpans('h6')],
+    [PARAGRAPH, addSpans('p')],
+    [LIST_ITEM, addSpans('li')],
+    [ORDERED_LIST_ITEM, addSpans('li')],
+    [PREFORMATTED, addSpans('pre')],
+    [STRONG, addSpans('strong')],
+    [EM, addSpans('em')],
     [IMAGE, Image],
     [EMBED, Embed],
-    [HYPERLINK, DOM.a],
+    [HYPERLINK, 'a'],
 ])
 
 const GroupTypes = new Set([LIST_ITEM, ORDERED_LIST_ITEM])
-// FIXME: Tried to use DOM.ul & DOM.ol instead of string and it does not work?!?
+// FIXME: Tried to use 'ul' & 'ol' instead of string and it does not work?!?
 const GroupComponents = new Map([[LIST_ITEM, 'ul'], [ORDERED_LIST_ITEM, 'ol']])
 
 function childrenElementReducer(children, { type, ...props }, index, value) {

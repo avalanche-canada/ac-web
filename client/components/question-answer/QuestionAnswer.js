@@ -11,8 +11,12 @@ QuestionAnswer.propTypes = {
 export default function QuestionAnswer({ question, answer }) {
     return (
         <section>
-            <Question>{question}</Question>
-            <Answer>{answer}</Answer>
+            <Question>
+                {question}
+            </Question>
+            <Answer>
+                {answer}
+            </Answer>
         </section>
     )
 }

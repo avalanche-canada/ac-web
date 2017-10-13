@@ -1,9 +1,18 @@
-import { DOM } from 'react'
-import { Element } from '~/compose'
+import React from 'react'
+import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
 import styles from './Page.css'
 
-export default Element({
-    name: 'Footer',
-    component: DOM.footer,
-    styles,
-})
+Footer.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function Footer({ children }) {
+    return (
+        <footer styleName="Footer">
+            {children}
+        </footer>
+    )
+}
+
+export default CSSModules(Footer, styles)

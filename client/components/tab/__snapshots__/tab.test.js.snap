@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tab component 1`] = `
+<div>
+  <ul
+    className="List List--Compact"
+    role="tablist"
+  >
+    <li
+      className="ListItem--Active"
+      onClick={[Function]}
+      role="tab"
+      style={null}
+    >
+      Title #1
+      <button
+        className="ExpandButton Incognito IconOnly"
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="IconContainer"
+        >
+          <svg
+            className={undefined}
+            fill="none"
+            height={24}
+            viewBox="0 0 24 24"
+            width={24}
+          >
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              fill="white"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </div>
+      </button>
+    </li>
+    <li
+      className="ListItem"
+      onClick={[Function]}
+      role="tab"
+      style={null}
+    >
+      Title #2
+      <button
+        className="ExpandButton Incognito IconOnly"
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="IconContainer"
+        >
+          <svg
+            className={undefined}
+            fill="none"
+            height={24}
+            viewBox="0 0 24 24"
+            width={24}
+          >
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              fill="white"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </div>
+      </button>
+    </li>
+    <li
+      className="ListItem"
+      onClick={[Function]}
+      role="tab"
+      style={null}
+    >
+      Title #3
+      <button
+        className="ExpandButton Incognito IconOnly"
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="IconContainer"
+        >
+          <svg
+            className={undefined}
+            fill="none"
+            height={24}
+            viewBox="0 0 24 24"
+            width={24}
+          >
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              fill="white"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </div>
+      </button>
+    </li>
+  </ul>
+  <div
+    className="Panel--Active"
+    role="tabpanel"
+  >
+    Content #1
+  </div>
+</div>
+`;

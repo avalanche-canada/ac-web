@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 import PropTypes from 'prop-types'
 import { compose, mapProps, setPropTypes } from 'recompose'
 import { onlyUpdateForKey } from '~/compose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { Sidebar, Contact, Follow, Share, Item } from '~/components/sidebar'
 import { FORECASTERS } from '~/constants/emails'
 

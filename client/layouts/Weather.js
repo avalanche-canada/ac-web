@@ -1,34 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'react-router/lib/Link'
-import { Page, Content, Header, Main, Aside } from '~/components/page'
-import { Sidebar } from '~/components/page/weather'
-import Container from '~/containers/Weather'
+import { Switch, Route } from 'react-router-dom'
+import MountainWeather from './MountainWeather'
+import WeatherStation from '~/containers/WeatherStation'
+import WeatherStationList from '~/containers/WeatherStationList'
 
 Weather.propTypes = {
-    children: PropTypes.node.isRequired,
+    match: PropTypes.object.isRequired,
 }
 
-export default function Weather({ children }) {
-    const title = (
-        <Link to="/weather">
-            Mountain Weather Forecast
-        </Link>
-    )
+function station({ match }) {
+    return <WeatherStation id={match.params.id} />
+}
 
+export default function Weather({ match: { path } }) {
     return (
-        <Page>
-            <Header title={title} />
-            <Content>
-                <Main>
-                    <Container>
-                        {children}
-                    </Container>
-                </Main>
-                <Aside>
-                    <Sidebar />
-                </Aside>
-            </Content>
-        </Page>
+        <Switch>
+            <Route path={`${path}/stations/:id`} render={station} />
+            <Route path={`${path}/stations`} component={WeatherStationList} />
+            <Route component={MountainWeather} />
+        </Switch>
     )
 }

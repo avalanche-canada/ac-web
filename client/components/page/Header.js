@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Page.css'
-import Sponsor from '~/containers/Sponsor'
+import Sponsor from '~/layouts/Sponsor'
 
 Header.propTypes = {
     title: PropTypes.node.isRequired,
@@ -12,7 +12,9 @@ Header.propTypes = {
 function Header({ title, children }) {
     return (
         <header styleName="Header">
-            <h1>{title}</h1>
+            <h1>
+                {title}
+            </h1>
             <Sponsor />
             {children}
         </header>

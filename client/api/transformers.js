@@ -1,6 +1,6 @@
 import QUICK_REPORT from '~/containers/min/quick.json'
 import t from '~/vendor/tcomb-form'
-import format from 'date-fns/format'
+import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
 import identity from 'lodash/identity'
 import Submission from '~/containers/min/types'
@@ -55,11 +55,14 @@ const ObservationTransformers = new Map([
         ({ avalancheOccurrence, ...avalanche }) => {
             return {
                 ...avalanche,
-                avalancheOccurrenceEpoch: format(
+                avalancheOccurrenceEpoch: formatDate(
                     avalancheOccurrence,
                     'YYYY-MM-DD'
                 ),
-                avalancheOccurrenceTime: format(avalancheOccurrence, 'hh:mm A'),
+                avalancheOccurrenceTime: formatDate(
+                    avalancheOccurrence,
+                    'hh:mm A'
+                ),
             }
         },
     ],
@@ -92,33 +95,49 @@ const ObservationTransformers = new Map([
     ],
 ])
 
-function transformProvider(provider) {
-    return {
-        ...provider,
-        isSponsor: provider.is_sponsor,
-        locDescription: provider.loc_description,
-        primContact: provider.prim_contact,
-    }
+function normalize(string) {
+    return string.toUpperCase().trim()
+}
+
+function normalizeArray(tags) {
+    return tags.map(normalize)
+}
+
+function transformProvider({
+    loc_description,
+    is_sponsor,
+    prim_contact,
+    ...provider
+}) {
+    return Object.assign(provider, {
+        tags: normalizeArray(provider.tags),
+        locDescription: loc_description,
+        isSponsor: is_sponsor,
+        isFeatured: is_sponsor,
+        primContact: prim_contact,
+    })
+}
+
+function transformCourse({ date_start, date_end, loc_description, ...course }) {
+    return Object.assign(course, {
+        tags: normalizeArray(course.tags),
+        dateStart: parseDate(date_start),
+        dateEnd: parseDate(date_end),
+        locDescription: loc_description,
+        provider: transformProvider(course.provider),
+    })
 }
 
 export function transformProviderResponse(data) {
-    return {
-        ...data,
+    return Object.assign(data, {
         results: data.results.map(transformProvider),
-    }
+    })
 }
 
 export function transformCourseResponse(data) {
-    return {
-        ...data,
-        results: data.results.map(course => ({
-            ...course,
-            dateStart: course.date_start,
-            dateEnd: course.date_end,
-            locDescription: course.loc_description,
-            provider: transformProvider(course.provider),
-        })),
-    }
+    return Object.assign(data, {
+        results: data.results.map(transformCourse),
+    })
 }
 
 export function transformSubmissionForPost(value) {

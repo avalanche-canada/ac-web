@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Page, Content, Main, Header } from '~/components/page'
-import { Muted } from '~/components/misc'
+import { Muted } from '~/components/text'
 
 Loading.propTypes = {
     title: PropTypes.string,
@@ -14,7 +14,9 @@ export default function Loading({ title = message, message = 'Loading...' }) {
             <Header title={title} />
             <Content>
                 <Main>
-                    <Muted>{message}</Muted>
+                    <Muted>
+                        {message}
+                    </Muted>
                 </Main>
             </Content>
         </Page>

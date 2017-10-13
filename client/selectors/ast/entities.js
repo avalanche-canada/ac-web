@@ -1,6 +1,5 @@
 import React from 'react'
-import Link from 'react-router/lib/Link'
-import parse from 'date-fns/parse'
+import { Link } from 'react-router-dom'
 import { createSelector } from 'reselect'
 import Immutable from 'immutable'
 import turf from '@turf/helpers'
@@ -8,49 +7,29 @@ import distance from '@turf/distance'
 import { Course, Provider } from '~/api/schemas'
 import { getEntitiesForSchema } from '~/getters/entities'
 import { getResultsSet } from '~/getters/api'
-import { Helper } from '~/components/misc'
+import { Helper } from '~/components/text'
 import { getLocationAsFeature } from '~/selectors/geolocation'
 import { getPlace, getPlaceAsFeature } from '~/selectors/router'
 import { computeSorting } from '~/selectors/utils'
-import {
-    createSorter,
-    createPagination,
-    createPaginatedEntities,
-} from '~/selectors/factories'
+import * as Factories from '~/selectors/factories'
 import { NONE } from '~/constants/sortings'
+import { parse } from '~/utils/search'
+import addDays from 'date-fns/add_days'
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 
 // TODO: Reuse functions from selectors utils & factories
 
-// Util functions and values...
-function normalizeTags(tags) {
-    return tags.map(tag => tag.toUpperCase().trim())
+// TODO: Could be moved to a utils module
+function normalize(string) {
+    return string.toUpperCase().trim()
 }
 
-const transformers = new Map([
-    [
-        Course,
-        course =>
-            Object.assign(course, {
-                tags: normalizeTags(course.tags),
-                dateStart: parse(course.dateStart),
-                dateEnd: parse(course.dateEnd),
-                isFeatured: false,
-            }),
-    ],
-    [
-        Provider,
-        provider =>
-            Object.assign(provider, {
-                tags: normalizeTags(provider.tags),
-                isFeatured: provider.isSponsor,
-            }),
-    ],
-])
 function resetDistance(entity) {
     return Object.assign(entity, {
         distance: null,
     })
 }
+
 function updateDistanceFactory(point) {
     return function updateDistance(entity) {
         return Object.assign(entity, {
@@ -58,78 +37,59 @@ function updateDistanceFactory(point) {
         })
     }
 }
+
 const noEntitiesCaptions = new Map([
     [
         Course,
         <div>
-            No courses match your criteria, consider finding a provider on the
-            {' '}
-            <Link to="/training/providers">providers page</Link>
-            {' '}
-            to contact directly.
+            No courses match your criteria, consider finding a provider on the{' '}
+            <Link to="/training/providers">providers page</Link> to contact
+            directly.
         </div>,
     ],
     [
         Provider,
         <div>
-            No providers match your criteria, consider finding a course on the
-            {' '}
+            No providers match your criteria, consider finding a course on the{' '}
             <Link to="/training/courses">courses page</Link>
             .
         </div>,
     ],
 ])
+
 function isFeatured(entity) {
-    return entity.isFeatured
+    return entity.isFeatured === true
 }
 
 // Filtering
-const Filters = new Map([
-    [
-        'level',
-        ({ level }) => {
-            level = level.toUpperCase().trim()
+function filterByLevel({ level }) {
+    level = normalize(level)
 
-            return props => props.level === level
-        },
-    ],
-    [
-        'tags',
-        ({ tags }) => {
-            tags = Array.isArray(tags) ? tags : [tags]
-            tags = tags.map(tag => tag.toUpperCase().trim())
-
-            return course =>
-                Boolean(course.tags.find(tag => tags.includes(tag)))
-        },
-    ],
-    [
-        'to',
-        ({ from, to }) => {
-            from = new Date(from)
-            to = new Date(to)
-            to = to.setDate(to.getDate() + 1)
-
-            return ({ dateStart, dateEnd }) => {
-                return dateStart <= to && dateEnd >= from
-            }
-        },
-    ],
-])
-function getFilters(state, { location }) {
-    const { query } = location
-
-    return Object.keys(query).reduce((filters, key) => {
-        if (Filters.has(key) && query[key] !== null) {
-            filters.push(Filters.get(key)(query))
-        }
-
-        return filters
-    }, [])
+    return entity => entity.level === level
 }
-function filterReducer(entities, filter) {
-    return entities.filter(filter)
+
+function filterByTags({ tags }) {
+    tags = Array.isArray(tags) ? tags : [tags]
+    tags = new Set(tags.map(normalize))
+
+    return course => Boolean(course.tags.find(tag => tags.has(tag)))
 }
+
+function filterByRange({ from, to }) {
+    from = new Date(from)
+    to = addDays(new Date(to), 1)
+
+    return ({ dateStart, dateEnd }) =>
+        areRangesOverlapping(from, to, dateStart, dateEnd)
+}
+
+const getFilters = Factories.createGetFilters(
+    new Map([
+        ['level', filterByLevel],
+        ['tags', filterByTags],
+        ['to', filterByRange],
+    ])
+)
 
 // Sorting
 const Sorters = new Map([
@@ -141,24 +101,18 @@ const Sorters = new Map([
 
 export function table(schema, columns) {
     const { key } = schema
-    const transform = transformers.get(schema)
 
     function getEntitiesResultsSet(state) {
         return getResultsSet(state, schema, { page_size: 1000 })
     }
 
-    const getTransformedEntities = createSelector(
-        state => getEntitiesForSchema(state, schema),
-        entities => entities.map(entity => transform(entity.toJSON()))
-    )
-
     const getEntitiesList = createSelector(
-        getTransformedEntities,
+        state => getEntitiesForSchema(state, schema),
         getEntitiesResultsSet,
         (entities, result) => {
             const ids = new Immutable.List(result.ids)
 
-            return ids.map(id => entities.get(String(id)))
+            return ids.map(id => entities.get(String(id)).toJSON())
         }
     )
 
@@ -170,7 +124,7 @@ export function table(schema, columns) {
         return entity.tags.reduce((tags, tag) => tags.add(tag), tags)
     }
 
-    const getTags = createSelector(getTransformedEntities, entities =>
+    const getTags = createSelector(getEntitiesList, entities =>
         entities.reduce(tagReducer, new Set())
     )
 
@@ -200,17 +154,18 @@ export function table(schema, columns) {
         }
     )
 
-    const getFilteredEntities = createSelector(
+    const getFilteredEntities = Factories.createFilteredEntities(
         getEntities,
-        getFilters,
-        (entities, filters) => filters.reduce(filterReducer, entities)
+        getFilters
     )
 
-    function getSorting(state, props) {
-        return computeSorting(props.location.query.sorting)
+    function getSorting(state, { location }) {
+        const { sorting } = parse(location.search)
+
+        return computeSorting(sorting)
     }
 
-    const getSortedEntities = createSorter(
+    const getSortedEntities = Factories.createSorter(
         getFilteredEntities,
         getSorting,
         Sorters
@@ -242,9 +197,9 @@ export function table(schema, columns) {
         }
     )
 
-    const getPagination = createPagination(getFilteredEntities)
+    const getPagination = Factories.createPagination(getFilteredEntities)
 
-    const getPaginatedEntities = createPaginatedEntities(
+    const getPaginatedEntities = Factories.createPaginatedEntities(
         getSortedEntities,
         getPagination
     )

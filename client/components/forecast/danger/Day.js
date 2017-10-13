@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { branch, renderComponent } from 'recompose'
 import CSSModules from 'react-css-modules'
-import { ElementResize, Day as DayElement } from '~/components/misc'
+import { ElementResize } from '~/components/misc'
+import { Day as DayElement } from '~/components/time'
 import styles from './Danger.css'
 import Elevations, {
     ALP,

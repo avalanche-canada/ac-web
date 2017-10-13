@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import Gallery from '~/components/gallery'
+import CSSModules from 'react-css-modules'
 import {
     Header,
     Container,
@@ -14,8 +15,8 @@ import {
 import { LocateAsClass } from '~/components/button/Locate'
 import Footer from './Footer'
 import Submitter from './Submitter'
-import { InnerHTML, DateElement, Status } from '~/components/misc'
-import CSSModules from 'react-css-modules'
+import { InnerHTML, Status } from '~/components/misc'
+import { DateElement } from '~/components/time'
 import styles from './MountainConditionsReport.css'
 import IMAGE from '~/styles/mountain-climbers-default.jpg'
 
@@ -56,10 +57,10 @@ function Drawer({
         groups,
     } = report.toJSON()
 
-    let banner
+    let banner = null
 
     if (isLoaded) {
-        if (typeof images === 'undefined' || images.length === 0) {
+        if (!Array.isArray(images) || images.length === 0) {
             banner = <img src={IMAGE} />
         } else {
             banner = (
@@ -79,41 +80,41 @@ function Drawer({
                 <Navbar style={NAVBAR_STYLE}>
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>
-                <Banner>
-                    {banner}
-                </Banner>
+                <Banner>{banner}</Banner>
                 <Header subject={subject}>
-                    {title &&
+                    {title && (
                         <h1>
                             <a href={permalink} target="_blank">
                                 {title}
                             </a>
                             <LocateAsClass onClick={onLocateClick} />
-                        </h1>}
-                    {Array.isArray(dates) &&
+                        </h1>
+                    )}
+                    {Array.isArray(dates) && (
                         <div styleName="Date">
-                            {dates.reduce((elements, date) => {
+                            {dates.reduce((elements, date, index) => {
                                 if (elements.length > 0) {
                                     elements.push(' to ')
                                 }
 
-                                elements.push(<DateElement value={date} />)
+                                elements.push(
+                                    <DateElement key={index} value={date} />
+                                )
 
                                 return elements
                             }, [])}
-                        </div>}
-                    {locationDescription &&
+                        </div>
+                    )}
+                    {locationDescription && (
                         <InnerHTML styleName="Location">
                             {locationDescription}
-                        </InnerHTML>}
-                    {user && <Submitter {...user}  groups={groups}/>}
+                        </InnerHTML>
+                    )}
+                    {user && <Submitter {...user} groups={groups} />}
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />
-                    {body &&
-                        <InnerHTML>
-                            {body}
-                        </InnerHTML>}
+                    {body && <InnerHTML>{body}</InnerHTML>}
                     {isLoaded && <Footer />}
                 </Content>
             </Body>

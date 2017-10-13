@@ -44,9 +44,6 @@ function createMarker(region) {
             title: region.get('name'),
         }),
         lngLat: mapbox.LngLat.convert(region.get('centroid').toArray()),
-        options: {
-            offset: [-25, -25],
-        },
     }
 }
 

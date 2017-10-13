@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { onlyUpdateForKeys } from 'recompose'
-import { Loading, Error, Muted } from './Text'
+import { Loading, Error, Muted } from '~/components/text'
 import { trulyKeys } from '~/utils/object'
 
 const Components = new Map([

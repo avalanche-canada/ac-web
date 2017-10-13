@@ -1,10 +1,9 @@
-import { DOM } from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName, setPropTypes, withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 
 export default function Element({
-    component = DOM.div,
+    component = 'div',
     name,
     styleName = name,
     styles,

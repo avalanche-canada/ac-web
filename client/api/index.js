@@ -4,13 +4,7 @@ import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
-import {
-    baseURL,
-    astBaseUrl,
-    weatherBaseUrl,
-    staticBaseURL,
-    root,
-} from './config.json'
+import { baseURL, astBaseUrl, weatherBaseUrl } from '~/api/config.json'
 import {
     transformSubmissionForPost,
     transformProviderResponse,
@@ -19,101 +13,93 @@ import {
     transformMountainConditionsReports,
 } from './transformers'
 
-const api = Axios.create({
-    validateStatus(status) {
-        return (status >= 200 && status < 300) || status === 404
-    },
-})
-
-const minPostConfig = {
-    transformRequest: [
-        transformSubmissionForPost,
-        ...defaults.transformRequest,
-    ],
-}
-
 const POST_CONFIGS = new Map([
-    [Schemas.MountainInformationNetworkSubmission, minPostConfig],
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        {
+            transformRequest: [
+                transformSubmissionForPost,
+                ...defaults.transformRequest,
+            ],
+        },
+    ],
 ])
-
-function minGetConfig({ days }) {
-    const params = {
-        client: 'web',
-    }
-
-    if (days) {
-        Object.assign(params, {
-            last: `${days}:days`,
-        })
-    }
-
-    return {
-        params,
-        transformResponse: defaults.transformResponse.concat(
-            sanitizeMountainInformationNetworkSubmissions
-        ),
-    }
-}
-
-function providerGetConfig(params) {
-    return {
-        params,
-        // TODO: To remove when server returns appropriate result
-        transformResponse: defaults.transformResponse.concat(
-            transformProviderResponse
-        ),
-    }
-}
-
-function courseGetConfig(params) {
-    return {
-        params,
-        // TODO: To remove when server returns appropriate result
-        transformResponse: defaults.transformResponse.concat(
-            transformCourseResponse
-        ),
-    }
-}
-
-function forecastGetConfig(params) {
-    function transform(forecast) {
-        const isArchived = isArchiveBulletinRequest(params)
-
-        return {
-            ...forecast,
-            isArchived,
-            date: isArchived ? parse(params.date) : new Date(),
-        }
-    }
-
-    return {
-        transformResponse: defaults.transformResponse.concat(transform),
-    }
-}
-
-const mcrGetConfig = {
-    transformResponse: defaults.transformResponse.concat(
-        transformMountainConditionsReports
-    ),
-}
 
 const GET_CONFIGS = new Map([
-    [Schemas.MountainInformationNetworkSubmission, minGetConfig],
-    [Schemas.Provider, providerGetConfig],
-    [Schemas.Course, courseGetConfig],
-    [Schemas.Forecast, forecastGetConfig],
-    [Schemas.MountainConditionsReport, mcrGetConfig],
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        ({ days }) => {
+            const params = {
+                client: 'web',
+            }
+
+            if (days) {
+                Object.assign(params, {
+                    last: `${days}:days`,
+                })
+            }
+
+            return {
+                params,
+                transformResponse: defaults.transformResponse.concat(
+                    sanitizeMountainInformationNetworkSubmissions
+                ),
+            }
+        },
+    ],
+    [
+        Schemas.Provider,
+        params => ({
+            baseURL: astBaseUrl,
+            params,
+            transformResponse: defaults.transformResponse.concat(
+                transformProviderResponse
+            ),
+        }),
+    ],
+    [
+        Schemas.Course,
+        params => ({
+            baseURL: astBaseUrl,
+            params,
+            transformResponse: defaults.transformResponse.concat(
+                transformCourseResponse
+            ),
+        }),
+    ],
+    [
+        Schemas.WeatherStation,
+        () => ({
+            baseURL: weatherBaseUrl,
+        }),
+    ],
+    [
+        Schemas.Forecast,
+        params => {
+            function transform(forecast) {
+                const isArchived = isArchiveBulletinRequest(params)
+
+                return {
+                    ...forecast,
+                    isArchived,
+                    date: isArchived ? parse(params.date) : new Date(),
+                }
+            }
+
+            return {
+                transformResponse: defaults.transformResponse.concat(transform),
+            }
+        },
+    ],
+    [
+        Schemas.MountainConditionsReport,
+        () => ({
+            transformResponse: defaults.transformResponse.concat(
+                transformMountainConditionsReports
+            ),
+        }),
+    ],
 ])
-
-function getConfig(schema, params) {
-    if (GET_CONFIGS.has(schema)) {
-        const config = GET_CONFIGS.get(schema)
-
-        return typeof config === 'function' ? config(params) : config
-    }
-
-    return null
-}
 
 function isArchiveBulletinRequest({ date }) {
     if (!date) {
@@ -133,64 +119,58 @@ function forecastEndpoint({ name, date }) {
     if (isArchiveBulletinRequest({ name, date })) {
         const archive = parse(date)
 
-        return `${baseURL}/bulletin-archive/${archive.toISOString()}/${name}.json`
+        return `bulletin-archive/${archive.toISOString()}/${name}.json`
     } else {
-        return `${baseURL}/forecasts/${name}.json`
+        return `forecasts/${name}.json`
     }
 }
-
-function getConfigWithIdFactory(paths) {
-    return ({ id } = {}) => {
-        if (id) {
-            paths.push(id)
-        }
-
-        return paths.join('/')
-    }
-}
-
-const minEndpoint = getConfigWithIdFactory([baseURL, 'min', 'submissions'])
-const weatherStationEndpoint = getConfigWithIdFactory([
-    weatherBaseUrl,
-    'stations/',
-])
 
 const ENDPOINTS = new Map([
-    [Schemas.Provider, `${astBaseUrl}/providers`],
-    [Schemas.Course, `${astBaseUrl}/courses`],
-    [Schemas.MountainConditionsReport, `${root}/mcr/`],
     [Schemas.Forecast, forecastEndpoint],
-    [Schemas.MountainInformationNetworkSubmission, minEndpoint],
-    [Schemas.WeatherStation, weatherStationEndpoint],
+    [
+        Schemas.MountainInformationNetworkSubmission,
+        (params = {}) =>
+            params.id ? `min/submissions/${params.id}` : 'min/submissions',
+    ],
+    [Schemas.Provider, 'providers'],
+    [Schemas.Course, 'courses'],
+    [
+        Schemas.WeatherStation,
+        (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
+    ],
+    [Schemas.MountainConditionsReport, 'mcr/'],
 ])
 
-function getEndpoint(schema, params) {
-    const endpoint = ENDPOINTS.get(schema)
-
-    return typeof endpoint === 'function' ? endpoint(params) : endpoint
-}
+const api = Axios.create({
+    baseURL,
+    validateStatus(status) {
+        return (status >= 200 && status < 300) || status === 404
+    },
+})
 
 export function fetch(schema, params) {
-    const endpoint = getEndpoint(schema, params)
-    const config = getConfig(schema, params)
+    let endpoint = ENDPOINTS.get(schema)
+    const config = GET_CONFIGS.has(schema)
+        ? GET_CONFIGS.get(schema).call(null, params)
+        : null
 
-    // Special case
+    if (typeof endpoint === 'function') {
+        endpoint = endpoint(params)
+    }
+
     if (schema === Schemas.WeatherStation && params && params.id) {
         // It is a single Schemas.WeatherStation request
-        const promises = [
+        return Promise.all([
             api.get(endpoint, config),
-            api.get(`${endpoint}/measurements/`, config),
-        ]
-        const mergeStation = ([{ data: station }, { data: measurements }]) => {
+            api.get(`${endpoint}measurements/`, config),
+        ]).then(function merge([{ data: station }, { data: measurements }]) {
             return {
                 data: {
                     ...station,
                     measurements,
                 },
             }
-        }
-
-        return Promise.all(promises).then(mergeStation)
+        })
     }
 
     return api.get(endpoint, config)
@@ -201,16 +181,28 @@ function extractData(response) {
 }
 
 export function post(schema, data) {
-    const endpoint = getEndpoint(schema)
+    let endpoint = ENDPOINTS.get(schema)
     const config = POST_CONFIGS.get(schema)
+
+    if (typeof endpoint === 'function') {
+        endpoint = endpoint()
+    }
 
     return api.post(endpoint, data, config).then(extractData)
 }
 
 export function fetchFeaturesMetadata() {
-    return api.get(`${baseURL}/features/metadata`).then(extractData)
+    return api.get('features/metadata').then(extractData)
 }
 
+const Static = Axios.create({
+    baseURL: '/static',
+})
+
 export function fetchStaticResource(resource) {
-    return api.get(`${staticBaseURL}/${resource}`)
+    return Static.get(resource)
+}
+
+export function fetchSponsors() {
+    return fetchStaticResource('sponsors.json').then(extractData)
 }

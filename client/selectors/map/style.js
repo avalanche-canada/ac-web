@@ -5,7 +5,11 @@ import { createGetEntitiesForSchema } from '~/selectors/factories'
 import { getResultsSet } from '~/getters/api'
 import { getDocumentsOfType } from '~/getters/prismic'
 import { getLayers, getLayerFilter } from '~/getters/drawers'
-import { ActiveLayerIds, LayerIds } from '~/constants/map/layers'
+import {
+    ActiveLayerIds,
+    InactiveLayerIds,
+    LayerIds,
+} from '~/constants/map/layers'
 import { parseLocation } from '~/prismic/parsers'
 import { parse } from '~/prismic'
 import {
@@ -82,18 +86,20 @@ const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_CONDITIONS_REPORTS, transformMountainConditionsReport],
 ])
 
-function getPanelIdFactory(schema) {
-    return (state, props) => {
-        const { panel } = props.location.query
-
-        if (!panel) {
-            return null
-        }
-
-        const [key, id] = panel.split('/')
-
-        return schema.key === key ? id : undefined
-    }
+// TODO: Rework that
+function getPanelIdFactory() {
+    return () => undefined
+    // return (state, props) => {
+    //     const { panel } = props.location.query
+    //
+    //     if (!panel) {
+    //         return null
+    //     }
+    //
+    //     const [key, id] = panel.split('/')
+    //
+    //     return schema.key === key ? id : undefined
+    // }
 }
 
 // Create submissions source
@@ -284,20 +290,35 @@ const LayerToSchemaMapping = new Map([
 ])
 
 const getActiveFeatureFilters = createSelector(getActiveFeatures, features => {
+    const filterIn = Immutable.List.of('==', 'id', '')
+    const filterOut = Immutable.List.of('!=', 'id', '')
     const filters = new Map()
 
-    ActiveLayerIds.forEach((ids, layer) =>
-        ids.forEach(id => {
-            const schema = LayerToSchemaMapping.get(layer)
-            const filter = Immutable.List.of('==', 'id', '')
+    Array.from(LayerIds.keys()).forEach(layer => {
+        if (!ActiveLayerIds.has(layer)) {
+            return
+        }
 
+        const activeIds = ActiveLayerIds.get(layer)
+        const inactiveIds = InactiveLayerIds.get(layer)
+        const schema = LayerToSchemaMapping.get(layer)
+
+        activeIds.forEach(id => {
             if (features.has(schema)) {
-                filters.set(id, filter.set(2, features.get(schema)))
+                filters.set(id, filterIn.set(2, features.get(schema)))
             } else {
-                filters.set(id, filter)
+                filters.set(id, filterIn)
             }
         })
-    )
+
+        inactiveIds.forEach(id => {
+            if (features.has(schema)) {
+                filters.set(id, filterOut.set(2, features.get(schema)))
+            } else {
+                filters.set(id, filterOut)
+            }
+        })
+    })
 
     return filters
 })

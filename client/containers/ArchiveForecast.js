@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps, withHandlers } from 'recompose'
-import Link from 'react-router/lib/Link'
-import withRouter from 'react-router/lib/withRouter'
+import { Link, withRouter } from 'react-router-dom'
 import { Page, Content, Header, Main } from '~/components/page'
 import Forecast from '~/components/forecast'
-import { Muted, Error, DateElement } from '~/components/misc'
+import { DateElement } from '~/components/time'
+import { Muted, Error } from '~/components/text'
 import Alert, { WARNING } from '~/components/alert'
 import { Metadata, Entry } from '~/components/metadata'
 import {
@@ -18,10 +18,10 @@ import {
     DayPicker,
 } from '~/components/controls'
 import { archiveForecast } from '~/containers/connectors'
-import parse from 'date-fns/parse'
-import format from 'date-fns/format'
-import Url from 'url'
+import parseDate from 'date-fns/parse'
+import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import Url from 'url'
 
 // TODO: Move these to constants with appropriate function
 const PARKS_CANADA = 'parks-canada'
@@ -46,7 +46,6 @@ function getWarningText(region) {
     }
 }
 
-// TODO: Move these to constants
 const PARKS = 'parks'
 const LINK = 'link'
 
@@ -62,7 +61,7 @@ function getWarningUrl(region, date) {
             delete url.search
 
             Object.assign(url.query, {
-                d: format(date, 'YYYY-MM-DD'),
+                d: formatDate(date, 'YYYY-MM-DD'),
             })
 
             return Url.format(url)
@@ -153,28 +152,33 @@ function Component({
     )
 }
 
+function push(history, name, date) {
+    const paths = ['/forecasts', 'archives']
+
+    if (name) {
+        paths.push(name)
+    }
+
+    if (date) {
+        paths.push(formatDate(date, 'YYYY-MM-DD'))
+    }
+
+    history.push(paths.join('/'))
+}
+
 export default compose(
     withRouter,
     archiveForecast,
     withHandlers({
         onNameChange: props => name => {
-            props.onParamsChange({
-                ...props.params,
-                name,
-            })
+            push(props.history, name, props.date)
         },
         onDateChange: props => date => {
-            props.onParamsChange({
-                ...props.params,
-                date: format(date, 'YYYY-MM-DD'),
-            })
+            push(props.history, props.name, date)
         },
     }),
-    withProps(({ params, regions }) => ({
-        ...params,
-        date: typeof params.date === 'string'
-            ? parse(params.date, 'YYYY-MM-DD')
-            : null,
+    withProps(({ date, regions }) => ({
+        date: typeof date === 'string' ? parseDate(date, 'YYYY-MM-DD') : null,
         regionOptions: new Map(
             regions
                 .filter(

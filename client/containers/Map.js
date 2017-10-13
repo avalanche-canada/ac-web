@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
 import mapbox from '~/services/mapbox/map'
+import Url from 'url'
 import { Map as Base, Marker } from '~/components/map'
-import { loadData, loadMapStyle } from '~/actions/map'
+import { loadData, loadMapStyle, activeFeaturesChanged } from '~/actions/map'
 import mapStateToProps from '~/selectors/map'
 import { LayerIds, allLayerIds } from '~/constants/map/layers'
-import { push } from '~/utils/router'
 import { near } from '~/utils/geojson'
 import * as Schemas from '~/api/schemas'
 import * as Layers from '~/constants/drawers'
@@ -27,39 +27,54 @@ const LAYERS = [
     Layers.FORECASTS,
 ]
 
-function createPathnameFactory({ key }) {
+function createPrimaryPanelLocationFactory({ key }) {
     return id => ({
         pathname: `/map/${key}/${id}`,
     })
 }
 
-function createPanelFactory(key) {
+function createSecondayPanelLocationFactory(key) {
     if (typeof key === 'string') {
         return id => ({
-            query: {
-                panel: `${key}/${id}`,
-            },
+            search: `?panel=${key}/${id}`,
         })
     }
 
-    return createPanelFactory(key.key)
+    return createSecondayPanelLocationFactory(key.key)
 }
 
 const LOCATION_CREATORS = new Map([
-    [Layers.SPECIAL_INFORMATION, createPanelFactory('special-information')],
-    [Layers.FATAL_ACCIDENT, createPanelFactory('fatal-accident')],
+    [
+        Layers.SPECIAL_INFORMATION,
+        createSecondayPanelLocationFactory('special-information'),
+    ],
+    [
+        Layers.FATAL_ACCIDENT,
+        createSecondayPanelLocationFactory('fatal-accident'),
+    ],
     [
         Layers.MOUNTAIN_INFORMATION_NETWORK,
-        createPanelFactory(Schemas.MountainInformationNetworkSubmission),
+        createSecondayPanelLocationFactory(
+            Schemas.MountainInformationNetworkSubmission
+        ),
+    ],
+    [
+        Layers.WEATHER_STATION,
+        createSecondayPanelLocationFactory(Schemas.WeatherStation),
     ],
     [
         Layers.MOUNTAIN_CONDITIONS_REPORTS,
-        createPanelFactory(Schemas.MountainConditionsReport),
+        createSecondayPanelLocationFactory(Schemas.MountainConditionsReport),
     ],
-    [Layers.WEATHER_STATION, createPanelFactory(Schemas.WeatherStation)],
-    [Layers.TOYOTA_TRUCK_REPORTS, createPanelFactory('toyota-truck-reports')],
-    [Layers.HOT_ZONE_REPORTS, createPathnameFactory(Schemas.HotZoneReport)],
-    [Layers.FORECASTS, createPathnameFactory(Schemas.Forecast)],
+    [
+        Layers.TOYOTA_TRUCK_REPORTS,
+        createSecondayPanelLocationFactory('toyota-truck-reports'),
+    ],
+    [
+        Layers.HOT_ZONE_REPORTS,
+        createPrimaryPanelLocationFactory(Schemas.HotZoneReport),
+    ],
+    [Layers.FORECASTS, createPrimaryPanelLocationFactory(Schemas.Forecast)],
 ])
 
 const CLUSTER_BOUNDS_OPTIONS = {
@@ -78,6 +93,10 @@ class Container extends Component {
         computeFitBounds: PropTypes.func.isRequired,
         loadMapStyle: PropTypes.func.isRequired,
         loadData: PropTypes.func.isRequired,
+        history: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        match: PropTypes.object.isRequired,
+        activeFeaturesChanged: PropTypes.func.isRequired,
     }
     static defaultProps = {
         onLoad: noop,
@@ -128,6 +147,7 @@ class Container extends Component {
             return
         }
 
+        // TODO: Only use the visible layers, actually, it is not working, need to respect an order!
         for (const layer of LAYERS) {
             const features = this.map.queryRenderedFeatures(point, {
                 layers: LayerIds.get(layer),
@@ -146,11 +166,14 @@ class Container extends Component {
                         feature => feature.geometry.coordinates
                     )
                     const longitudes = coordinates.map(c => c[0])
-                    const latitudes  = coordinates.map(c => c[1])
+                    const latitudes = coordinates.map(c => c[1])
 
-
-                    const long_diff = Math.max.apply(Math, longitudes) - Math.min.apply(Math, longitudes)
-                    const lat_diff  = Math.max.apply(Math, latitudes) - Math.min.apply(Math, latitudes)
+                    const long_diff =
+                        Math.max.apply(Math, longitudes) -
+                        Math.min.apply(Math, longitudes)
+                    const lat_diff =
+                        Math.max.apply(Math, latitudes) -
+                        Math.min.apply(Math, latitudes)
 
                     if (long_diff < CLUSTER_DIST && lat_diff < CLUSTER_DIST) {
                         this.showClusterPopup(layer, cluster.features)
@@ -160,11 +183,19 @@ class Container extends Component {
 
                     return
                 } else {
-                    if (
-                        features.filter(feature => !feature.properties.cluster)
-                            .length > 1
-                    ) {
-                        this.showClusterPopup(layer, features)
+                    const uniqueFeatures = Array.from(
+                        features
+                            .filter(feature => !feature.properties.cluster)
+                            .reduce((features, feature) => {
+                                features.set(feature.id, feature)
+
+                                return features
+                            }, new Map())
+                            .values()
+                    )
+
+                    if (uniqueFeatures.length > 1) {
+                        this.showClusterPopup(layer, uniqueFeatures)
                     } else {
                         this.transitionToFeature(layer, feature.properties.id)
                     }
@@ -182,12 +213,12 @@ class Container extends Component {
 
         p.textContent = `${features.length} reports are available at this location:`
 
-        features.forEach(({ properties: { id, title } }) => {
+        features.forEach(({ properties: { id, name, title } }) => {
             const li = document.createElement('li')
             const a = document.createElement('a')
 
             a.href = '#'
-            a.textContent = title
+            a.textContent = title || name
             a.onclick = () => {
                 this.transitionToFeature(layer, id)
             }
@@ -200,18 +231,24 @@ class Container extends Component {
         html.appendChild(p)
         html.appendChild(ul)
 
-        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
+        this.popup
+            .setLngLat(coordinates)
+            .setDOMContent(html)
+            .addTo(this.map)
     }
     transitionToFeature(layer, id) {
         const createLocation = LOCATION_CREATORS.get(layer)
         const location = createLocation(id)
 
-        return this.push(location, this.props)
+        return this.push(location)
     }
     push(location) {
         this.isInternalNavigation = true
 
-        push(location, this.props)
+        this.props.history.push({
+            ...this.props.location,
+            ...location,
+        })
     }
     handleLoad = event => {
         const map = event.target
@@ -244,9 +281,26 @@ class Container extends Component {
 
         this.map.fitBounds(bounds.bbox, bounds.options)
     }
+    createActiveFeatures() {
+        const { location, match, activeFeaturesChanged } = this.props
+        const { panel } = Url.parse(location.search)
+        const { type, name } = match.params
+        const features = []
+
+        if (panel) {
+            features.push(panel.split('/'))
+        }
+
+        if (name) {
+            features.push([RouteSchemaMapping.get(type), name])
+        }
+
+        activeFeaturesChanged(new Map(features))
+    }
     componentDidMount() {
         this.props.loadMapStyle('citxsc95s00a22inxvbydbc89')
         this.props.loadData()
+        this.createActiveFeatures()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
         this.popup = new mapbox.Popup()
@@ -275,6 +329,11 @@ class Container extends Component {
             this.map[command.name].apply(this.map, command.args)
         }
     }
+    componentDidUpdate({ location }) {
+        if (location !== this.props.location) {
+            this.createActiveFeatures()
+        }
+    }
     renderMarker = ({ id, ...marker }) => {
         return <Marker key={id} {...marker} onClick={this.handleMarkerClick} />
     }
@@ -293,10 +352,16 @@ class Container extends Component {
     }
 }
 
+const RouteSchemaMapping = new Map([
+    [Schemas.Forecast.key, Schemas.ForecastRegion.key],
+    [Schemas.HotZoneReport.key, Schemas.HotZone.key],
+])
+
 export default compose(
     withRouter,
     connect(mapStateToProps, {
         loadData,
         loadMapStyle,
+        activeFeaturesChanged,
     })
 )(Container)

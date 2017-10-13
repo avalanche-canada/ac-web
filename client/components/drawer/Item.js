@@ -1,9 +1,18 @@
-import { DOM } from 'react'
-import { Element } from '~/compose'
+import React from 'react'
+import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
 import styles from './Drawer.css'
 
-export default Element({
-    name: 'Item',
-    component: DOM.li,
-    styles,
-})
+Item.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function Item({ children }) {
+    return (
+        <li styleName="Item">
+            {children}
+        </li>
+    )
+}
+
+export default CSSModules(Item, styles)

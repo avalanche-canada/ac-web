@@ -1,5 +1,5 @@
-@import "../../../styles/colors.css";
-@import "../../../styles/Textures.css";
+@import '../../../styles/colors.css';
+@import '../../../styles/Textures.css';
 
 .Drawer {
     position: absolute 0;
@@ -137,7 +137,8 @@
 
     & > img {
         object-fit: cover;
-        height: 100%;
+        height: 250px;
+        width: 100%;
     }
 
     & > :global(.image-gallery) {

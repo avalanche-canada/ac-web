@@ -1,57 +1,43 @@
+import { createElement } from 'react'
+import { Route } from 'react-router-dom'
 import format from 'date-fns/format'
 import identity from 'lodash/identity'
 import { DESC, NONE } from '~/constants/sortings'
+import { assign } from './location'
 
-function merge(location, { query = {}, state = {}, ...rest }) {
-    return {
-        ...location,
-        ...rest,
-        query: {
-            ...location.query,
-            ...query,
-        },
-        state: {
-            ...location.state,
-            ...state,
-        },
-    }
+function merge({ history, location }, override, push = false) {
+    const loc = assign(location, override)
+
+    return push ? history.push(loc) : history.replace(loc)
 }
 
-export function push(newLocation, { router, location }) {
-    return router.push(merge(location, newLocation))
+export function replace(props, override) {
+    return merge(props, override)
 }
 
-export function replace(newLocation, { router, location }) {
-    return router.replace(merge(location, newLocation))
+export function push(props, override) {
+    return merge(props, override, true)
 }
 
 export function valueHandlerFactory(name, format = identity) {
-    return props => value => {
-        push(
-            {
-                query: {
-                    // "undefined" removes the query params
-                    [name]: value === null ? undefined : format(value),
-                },
+    return props => value =>
+        push(props, {
+            search: {
+                [name]: value === null ? undefined : format(value),
             },
-            props
-        )
-    }
+        })
 }
 
 export function sortingHandlerFactory(propName = 'sorting') {
-    return props => (name, order = NONE) => {
-        replace(
-            {
-                query: {
-                    [propName]: order === NONE
+    return props => (name, order = NONE) =>
+        merge(props, {
+            search: {
+                [propName]:
+                    order === NONE
                         ? undefined
                         : `${order === DESC ? '-' : ''}${name}`,
-                },
             },
-            props
-        )
-    }
+        })
 }
 
 function asArray(values) {
@@ -59,7 +45,11 @@ function asArray(values) {
         values = [values]
     }
 
-    return Array.from(new Set(values))
+    if (Array.isArray(values)) {
+        values = new Set(values) // Remove the duplicates
+    }
+
+    return Array.from(values)
 }
 
 export function arrayValueHandlerFactory(name) {
@@ -72,4 +62,23 @@ function formatDate(date) {
 
 export function dateValueHandlerFactory(name) {
     return valueHandlerFactory(name, formatDate)
+}
+
+export function dateRangeValueHandlerFactory(
+    from = 'from',
+    to = 'to',
+    push = false
+) {
+    return props => value => {
+        const search = {
+            [from]: formatDate(value[from], 'YYYY-MM-DD'),
+            [to]: formatDate(value[to], 'YYYY-MM-DD'),
+        }
+
+        return merge(props, { search }, push)
+    }
+}
+
+export function createRoute(props) {
+    return createElement(Route, { key: props.path, ...props })
 }

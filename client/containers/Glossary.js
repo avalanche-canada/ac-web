@@ -6,7 +6,8 @@ import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from '~/components/sidebar'
-import { Loading, Error, InnerHTML, Top } from '~/components/misc'
+import { InnerHTML, Top } from '~/components/misc'
+import { Loading, Error } from '~/components/text'
 import { TagSet, Tag } from '~/components/tag'
 import { scrollIntoView } from '~/utils/dom'
 import debounce from 'lodash/debounce'
@@ -27,14 +28,16 @@ let Section = ({ letter, terms, onHeaderClick }) => {
                     {letter}
                 </a>
             </h1>
-            {terms.map((term, index) => (
+            {terms.map((term, index) =>
                 <div key={index}>
-                    <h2>{term.title}</h2>
+                    <h2>
+                        {term.title}
+                    </h2>
                     <InnerHTML>
                         {term.content}
                     </InnerHTML>
                 </div>
-            ))}
+            )}
         </section>
     )
 }
@@ -56,7 +59,9 @@ let Letter = ({ letter, onClick }) => {
     return (
         <Tag key={letter}>
             <a href={`#${letter}`} onClick={onClick}>
-                <b>{letter}</b>
+                <b>
+                    {letter}
+                </b>
             </a>
         </Tag>
     )
@@ -131,7 +136,13 @@ export default class Container extends Component {
                 <Content>
                     <Main>
                         <Headline>
-                            This is the starting place for help on the AvCan bulletins. The Avalanche Glossary includes the standard set of terms that are used as a guideline for public avalanche bulletins production by the AvCan. If you can't understand a term in one of the AvCan bulletins, this is where to look first. The Avalanche Glossary definitions were written by
+                            This is the starting place for help on the AvCan
+                            bulletins. The Avalanche Glossary includes the
+                            standard set of terms that are used as a guideline
+                            for public avalanche bulletins production by the
+                            AvCan. If you can't understand a term in one of the
+                            AvCan bulletins, this is where to look first. The
+                            Avalanche Glossary definitions were written by
                             <a
                                 target="_blank"
                                 href="http://www.schulich.ucalgary.ca/enci/BruceJamieson">
@@ -143,25 +154,23 @@ export default class Container extends Component {
                         {isError && <Error />}
                         {isLoaded &&
                             <TagSet>
-                                {letters.map(letter => (
+                                {letters.map(letter =>
                                     <Letter key={letter} letter={letter} />
-                                ))}
+                                )}
                             </TagSet>}
                         {isLoaded &&
-                            letters.map(letter => (
+                            letters.map(letter =>
                                 <Section
                                     key={letter}
                                     letter={letter}
                                     terms={terms[letter]}
                                 />
-                            ))}
+                            )}
                         {showTopAnchor && <Top />}
                     </Main>
                     <Aside>
                         <Sidebar>
-                            <SidebarHeader>
-                                Related links
-                            </SidebarHeader>
+                            <SidebarHeader>Related links</SidebarHeader>
                             <SidebarItem>
                                 <a
                                     target="_blank"

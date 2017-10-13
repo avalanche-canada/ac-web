@@ -4,7 +4,7 @@ import { compose } from 'recompose'
 import { onlyUpdateForKey } from '~/compose'
 import CSSModules from 'react-css-modules'
 import styles from './Weather.css'
-import { Mailto } from '~/components/misc'
+import { Mailto } from '~/components/anchors'
 
 Footer.propTypes = {
     showFeedbackAnchor: PropTypes.bool,
@@ -13,8 +13,8 @@ Footer.propTypes = {
 function Footer({ showFeedbackAnchor = false }) {
     return (
         <footer styleName="Footer">
-            Forecasts and graphics produced by the Meteorological Service of Canada (MSC)
-            {' '}
+            Forecasts and graphics produced by the Meteorological Service of
+            Canada (MSC){' '}
             {showFeedbackAnchor &&
                 <Mailto
                     email="ec.cpip-mwf-pspc.ec@canada.ca"

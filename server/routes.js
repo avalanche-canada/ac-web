@@ -25,11 +25,13 @@ module.exports = function(app) {
         expressJwt({ secret: secret }).unless({ method: ['GET', 'HEAD'] })
     );
 
+    app.use('/api/docs', require('./api/docs'));
     app.use('/api/features', require('./api/features/routes'));
     app.use('/api/forecasts', require('./api/forecasts').router);
     app.use('/api/bulletin-archive', require('./api/bulletin_archive'));
     app.use('/api/hzr', require('./api/hzr'));
     app.use('/api/min', require('./api/observations'));
+    app.use('/api/mcr', require('./api/mcr'));
     app.use('/vendor/cloudinary/', require('./api/proxy'));
 
     app.use('/basic-html', require('./mobile'));

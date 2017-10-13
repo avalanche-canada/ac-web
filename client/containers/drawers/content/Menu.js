@@ -50,7 +50,7 @@ function Menu({
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Body>
-                {sets.toList().map(({ title, layers }, index) => (
+                {sets.toList().map(({ title, layers }, index) =>
                     <LayerSet key={index} title={title}>
                         {layers.toList().map(layer => {
                             const { id, filters, visible, title } = layer
@@ -58,6 +58,7 @@ function Menu({
                                 null,
                                 id
                             )
+                            // TODO: Fix that performance issue!
                             function handleClick() {
                                 if (visible) {
                                     turnOffLayer(id)
@@ -82,7 +83,7 @@ function Menu({
                             )
                         })}
                     </LayerSet>
-                ))}
+                )}
             </Body>
         </Container>
     )

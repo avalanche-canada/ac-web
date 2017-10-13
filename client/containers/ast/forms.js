@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, lifecycle, withProps, withHandlers, toClass } from 'recompose'
+import { compose, lifecycle, withProps, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
+import parseDate from 'date-fns/parse'
+import { parse } from '~/utils/search'
+import get from 'lodash/get'
 import { Form as Base, Legend, Control, ControlSet } from '~/components/form'
 import { DropdownFromOptions, Geocoder, DateRange } from '~/components/controls'
 import { locate } from '~/actions/geolocation'
-import parse from 'date-fns/parse'
-import format from 'date-fns/format'
-import get from 'lodash/get'
 import * as courses from '~/selectors/ast/courses'
 import * as providers from '~/selectors/ast/providers'
 import {
-    replace,
     valueHandlerFactory,
     arrayValueHandlerFactory,
+    dateRangeValueHandlerFactory,
+    replace,
 } from '~/utils/router'
 
 const STYLE = {
@@ -26,9 +27,9 @@ class Form extends Component {
     static propTypes = {
         legend: PropTypes.string,
         location: PropTypes.shape({
-            query: PropTypes.object,
+            search: PropTypes.string,
             state: PropTypes.object,
-        }),
+        }).isRequired,
         tagOptions: PropTypes.instanceOf(Map),
         levelOptions: PropTypes.instanceOf(Map),
         onLevelChange: PropTypes.func.isRequired,
@@ -40,7 +41,7 @@ class Form extends Component {
     render() {
         const {
             legend,
-            location: { query, state },
+            location,
             tagOptions,
             levelOptions,
             onLevelChange,
@@ -49,7 +50,9 @@ class Form extends Component {
             onPlaceChange,
             withDateRange,
         } = this.props
-        let { level = '', tags = [], from, to } = query
+
+        // TODO: move this parsing to layout!
+        let { level = '', tags = [], from, to } = parse(location.search)
 
         tags = Array.isArray(tags) ? tags : [tags]
 
@@ -59,7 +62,9 @@ class Form extends Component {
 
         return (
             <Base style={STYLE}>
-                <Legend>{legend}</Legend>
+                <Legend>
+                    {legend}
+                </Legend>
                 <ControlSet horizontal>
                     {levelOptions &&
                         <Control>
@@ -73,8 +78,8 @@ class Form extends Component {
                     {withDateRange &&
                         <Control>
                             <DateRange
-                                from={from && parse(from)}
-                                to={to && parse(to)}
+                                from={from && parseDate(from)}
+                                to={to && parseDate(to)}
                                 onChange={onDateRangeChange}
                                 container={this}
                             />
@@ -92,7 +97,7 @@ class Form extends Component {
                         <Geocoder
                             placeholder="Location"
                             onChange={onPlaceChange}
-                            value={get(state, 'place.text')}
+                            value={get(location, 'state.place.text')}
                         />
                     </Control>
                 </ControlSet>
@@ -111,32 +116,21 @@ const Container = compose(
     withHandlers({
         onLevelChange: valueHandlerFactory('level'),
         onTagsChange: arrayValueHandlerFactory('tags'),
-        onDateRangeChange: props => ({ from, to }) => {
-            replace(
-                {
-                    query: {
-                        from: from ? format(from, 'YYYY-MM-DD') : undefined,
-                        to: to ? format(to, 'YYYY-MM-DD') : undefined,
-                    },
-                },
-                props
-            )
-        },
-        onPlaceChange: props => place => {
-            replace(
-                {
+        onDateRangeChange: dateRangeValueHandlerFactory(),
+        onPlaceChange(props) {
+            return place => {
+                const location = {
                     state: {
                         place,
                     },
-                    query: {
-                        sorting: 'distance',
-                    },
-                },
-                props
-            )
+                    search: '?sorting=distance',
+                }
+
+                replace(props, location)
+            }
         },
     })
-)(toClass(Form))
+)(Form)
 
 export const Courses = compose(
     connect(courses.form, { locate }),

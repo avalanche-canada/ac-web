@@ -4,7 +4,7 @@ import { onlyUpdateForKey } from '~/compose'
 import Table from './Table'
 import ChartSet from './ChartSet'
 import { TabSet, Tab, LOOSE } from '~/components/tab'
-import { Loading, Muted } from '~/components/misc'
+import { Loading, Muted } from '~/components/text'
 import styles from './Station.css'
 
 Station.propTypes = {

@@ -2,32 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Ambassador from '~/components/ambassador'
 import { StructuredText } from '~/prismic/components/base'
-import { Br } from '~/components/misc'
+import { Br } from '~/components/markup'
 
-function transform({
-    avatar,
-    avatarCredit,
-    avatarCaption,
-    banner,
-    bannerCredit,
-    bannerCaption,
-    twitter,
-    facebook,
-    instagram,
-    website,
-    ...ambassador
-}) {
+function transform({ twitter, facebook, instagram, website, ...ambassador }) {
     return Object.assign(ambassador, {
-        avatar: {
-            src: avatar.main.url,
-            credit: avatarCredit,
-            caption: avatarCaption,
-        },
-        banner: {
-            src: banner.main.url,
-            credit: bannerCredit,
-            caption: bannerCaption,
-        },
         socials: [twitter, facebook, instagram, website]
             .filter(Boolean)
             .map(social => social.value.url),
@@ -52,9 +30,5 @@ AmbassadorSet.propTypes = {
 }
 
 export default function AmbassadorSet({ value = [] }) {
-    return (
-        <div>
-            {value.map(createAmbassador)}
-        </div>
-    )
+    return <div>{value.map(createAmbassador)}</div>
 }

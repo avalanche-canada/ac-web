@@ -1,9 +1,18 @@
-import { DOM } from 'react'
-import { Element } from '~/compose'
+import React from 'react'
+import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
 import styles from './Page.css'
 
-export default Element({
-    name: 'Main',
-    component: DOM.main,
-    styles,
-})
+Main.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function Main({ children }) {
+    return (
+        <main styleName="Main">
+            {children}
+        </main>
+    )
+}
+
+export default CSSModules(Main, styles)

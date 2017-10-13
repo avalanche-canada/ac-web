@@ -1,10 +1,18 @@
-import { DOM } from 'react'
-import { Element } from '~/compose'
+import React from 'react'
+import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
 import styles from './Tag.css'
 
-export default Element({
-    name: 'TagSet',
-    styleName: 'Set',
-    styles,
-    component: DOM.ul,
-})
+TagSet.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function TagSet({ children }) {
+    return (
+        <ul styleName="Set">
+            {children}
+        </ul>
+    )
+}
+
+export default CSSModules(TagSet, styles)

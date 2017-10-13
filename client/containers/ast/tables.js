@@ -6,12 +6,11 @@ import {
     withHandlers,
     setDisplayName,
     withProps,
-    onlyUpdateForKeys,
     withState,
 } from 'recompose'
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
-import withRouter from 'react-router/lib/withRouter'
+import { withRouter } from 'react-router-dom'
 import { List, Term, Definition } from '~/components/description'
 import { asTermAndDefinition } from '~/components/description/utils'
 import {
@@ -69,13 +68,13 @@ function renderControlled(data, asControlled) {
 function renderRow(data, columns, expanded) {
     return (
         <Row key={data.id} expanded={expanded}>
-            {columns.map(({ property }, index) => (
+            {columns.map(({ property }, index) =>
                 <Cell key={index}>
                     {typeof property === 'function'
                         ? property(data)
                         : data[property]}
                 </Cell>
-            ))}
+            )}
         </Row>
     )
 }
@@ -132,10 +131,7 @@ function AstTable({
                     <Header>
                         <Row>
                             {columns.map(
-                                (
-                                    { title, name, property, ...header },
-                                    index
-                                ) => (
+                                ({ title, name, property, ...header }, index) =>
                                     <HeaderCell
                                         key={index}
                                         onSortingChange={onSortingChange.bind(
@@ -147,7 +143,6 @@ function AstTable({
                                             ? title()
                                             : title}
                                     </HeaderCell>
-                                )
                             )}
                         </Row>
                     </Header>
@@ -158,7 +153,9 @@ function AstTable({
                     <ControlledTBody>
                         {renderRows(rows, columns, asControlled)}
                     </ControlledTBody>
-                    <Caption>{caption}</Caption>
+                    <Caption>
+                        {caption}
+                    </Caption>
                 </Table>
             </Responsive>
             {pagination}
@@ -170,7 +167,6 @@ function connectEntities(name, mapStateToProps, load) {
     return compose(
         setDisplayName(name),
         withRouter,
-        onlyUpdateForKeys(['rows', 'params']),
         withState('page', 'setPage', 1),
         withProps({ pageSize: 15 }),
         connect(mapStateToProps, { load }),

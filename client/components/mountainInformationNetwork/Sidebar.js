@@ -1,6 +1,6 @@
 import React, { Children } from 'react'
 import { withProps } from 'recompose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import { Sidebar, Contact, Follow, Share, Item } from '~/components/sidebar'
 import { FORECASTERS } from '~/constants/emails'
 

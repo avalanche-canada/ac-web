@@ -14,7 +14,7 @@ stories.add('TagSet', () => {
             <Tag>
                 Tag #2
             </Tag>
-            <Tag isActive>
+            <Tag>
                 Tag #3
             </Tag>
         </TagSet>

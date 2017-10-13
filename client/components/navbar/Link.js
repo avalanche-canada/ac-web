@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
 import { neverUpdate } from '~/compose'
-import Link from 'react-router/lib/Link'
+import {Link} from 'react-router-dom'
 import styles from './Navbar.css'
 
 const isExternalRegExp = new RegExp('^(https|http):\/\/')

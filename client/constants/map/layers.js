@@ -197,19 +197,21 @@ export const LayerIds = new Map([
     [Layers.FATAL_ACCIDENT, fatalAccidentLayers.map(pluckLayerId)],
 ])
 
-const isActiveRegExp = /-active/
-function isActive(id) {
-    return isActiveRegExp.test(id)
-}
-export const ActiveLayerIds = new Map(
-    Array.from(LayerIds).map(([key, ids]) => [key, ids.filter(isActive)])
+export const ActiveLayerIds = new Map([
+    [
+        Layers.FORECASTS,
+        ['forecast-regions-active', 'forecast-regions-active-contour'],
+    ],
+])
+
+export const InactiveLayerIds = new Map([
+    [Layers.FORECASTS, ['forecast-regions', 'forecast-regions-contour']],
+])
+
+export const allLayerIds = Array.from(LayerIds).reduce(
+    (all, [, ids]) => all.concat(ids),
+    []
 )
-
-export const allLayerIds = Array.from(LayerIds).reduce(idsReducer, [])
-
-function idsReducer(all, [_layer, ids]) {
-    return all.concat(ids)
-}
 
 function pluckLayerId(layer) {
     return layer.id
