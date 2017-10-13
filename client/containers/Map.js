@@ -14,10 +14,13 @@ import * as Schemas from '~/api/schemas'
 import * as Layers from '~/constants/drawers'
 import noop from 'lodash/noop'
 
+const CLUSTER_DIST = 0.005
+
 const LAYERS = [
     Layers.SPECIAL_INFORMATION,
     Layers.FATAL_ACCIDENT,
     Layers.MOUNTAIN_INFORMATION_NETWORK,
+    Layers.MOUNTAIN_CONDITIONS_REPORTS,
     Layers.WEATHER_STATION,
     Layers.TOYOTA_TRUCK_REPORTS,
     Layers.HOT_ZONE_REPORTS,
@@ -58,6 +61,10 @@ const LOCATION_CREATORS = new Map([
     [
         Layers.WEATHER_STATION,
         createSecondayPanelLocationFactory(Schemas.WeatherStation),
+    ],
+    [
+        Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        createSecondayPanelLocationFactory(Schemas.MountainConditionsReport),
     ],
     [
         Layers.TOYOTA_TRUCK_REPORTS,
@@ -146,7 +153,7 @@ class Container extends Component {
                 layers: LayerIds.get(layer),
             })
 
-            if (features.length > 0) {
+            if (typeof features !== 'undefined' && features.length > 0) {
                 const [feature] = features
 
                 if (feature.properties.cluster) {
@@ -158,10 +165,17 @@ class Container extends Component {
                     const coordinates = cluster.features.map(
                         feature => feature.geometry.coordinates
                     )
-                    const longitudes = new Set(coordinates.map(c => c[0]))
-                    const latitudes = new Set(coordinates.map(c => c[1]))
+                    const longitudes = coordinates.map(c => c[0])
+                    const latitudes = coordinates.map(c => c[1])
 
-                    if (longitudes.size === 1 && latitudes.size === 1) {
+                    const long_diff =
+                        Math.max.apply(Math, longitudes) -
+                        Math.min.apply(Math, longitudes)
+                    const lat_diff =
+                        Math.max.apply(Math, latitudes) -
+                        Math.min.apply(Math, latitudes)
+
+                    if (long_diff < CLUSTER_DIST && lat_diff < CLUSTER_DIST) {
                         this.showClusterPopup(layer, cluster.features)
                     } else {
                         this.fitBounds(cluster, CLUSTER_BOUNDS_OPTIONS)
@@ -217,7 +231,10 @@ class Container extends Component {
         html.appendChild(p)
         html.appendChild(ul)
 
-        this.popup.setLngLat(coordinates).setDOMContent(html).addTo(this.map)
+        this.popup
+            .setLngLat(coordinates)
+            .setDOMContent(html)
+            .addTo(this.map)
     }
     transitionToFeature(layer, id) {
         const createLocation = LOCATION_CREATORS.get(layer)

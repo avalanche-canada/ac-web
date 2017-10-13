@@ -132,7 +132,7 @@ export default compose(
     withState('exercises', 'setExercises', []),
     lifecycle({
         componentDidMount() {
-            fetchStaticResource('ates-exercise.json').then(response => {
+            fetchStaticResource('ates-exercise').then(response => {
                 this.props.setExercises(response.data)
             })
         },

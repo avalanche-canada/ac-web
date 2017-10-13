@@ -18,7 +18,7 @@ const tree = compose(
     withState('menu', 'setMenu', null),
     lifecycle({
         componentDidMount() {
-            fetchStaticResource('tutorial-menu-tree.json').then(response => {
+            fetchStaticResource('tutorial-menu-tree').then(response => {
                 this.props.setMenu(response.data)
             })
         },

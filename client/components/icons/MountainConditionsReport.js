@@ -1,7 +1,7 @@
 import React from 'react'
-import svg from './min/min-pin.svg'
+import svg from './mountain-conditions-report.svg'
 
-export default function MountainInformationNetwork({
+export default function MountainConditionsReport({
     width = 24,
     height = 24,
     ...props

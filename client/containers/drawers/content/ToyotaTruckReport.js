@@ -54,19 +54,22 @@ function ToyotaTruckReport({ report, status, onCloseClick }) {
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>
                 <Ratio>
-                    {(width, height) => (
-                        <Banner
-                            url={cloudinary.url(banner, {
-                                ...TRANSFORMATION,
-                                height,
-                                width,
-                            })}
-                            style={{ height }}
-                        />
-                    )}
+                    {(width, height) =>
+                        <Banner>
+                            <img
+                                src={cloudinary.url(banner, {
+                                    ...TRANSFORMATION,
+                                    height,
+                                    width,
+                                })}
+                                height={height}
+                            />
+                        </Banner>}
                 </Ratio>
                 <Header subject={subject}>
-                    <h1>{headline}</h1>
+                    <h1>
+                        {headline}
+                    </h1>
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />

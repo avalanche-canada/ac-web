@@ -74,6 +74,8 @@ function createActionForLayer(layer) {
             })
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
+        case Layers.MOUNTAIN_CONDITIONS_REPORTS:
+            return EntitiesActions.loadMountainConditionsReports()
     }
 }
 

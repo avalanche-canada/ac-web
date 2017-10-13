@@ -27,6 +27,7 @@ import getHotZoneReport, {
     getHotZoneReportDateRanges,
     getArchiveHotZoneReport,
 } from '~/selectors/hotZoneReport'
+import getMountainConditionsReport from '~/selectors/mountainConditionsReport'
 import getSpecialInformation from '~/selectors/prismic/specialInformation'
 import getFatalAccident from '~/selectors/prismic/fatalAccident'
 import { getToyotaTruckReport, getPost } from '~/selectors/prismic'
@@ -247,6 +248,17 @@ export const mountainInformationNetworkSubmission = panelConnector(
 export const weatherStation = panelConnector(
     getWeatherStation,
     EntitiesActions.loadWeatherStation
+)
+
+export const mountainConditionsReport = compose(
+    connect(getMountainConditionsReport, {
+        flyTo,
+    }),
+    withHandlers({
+        onLocateClick: props => () => {
+            props.flyTo(props.computeFlyTo())
+        },
+    })
 )
 
 export function prismic(mapStateToProps, mapDispatchToProps = {}) {

@@ -10,6 +10,7 @@ import {
     transformProviderResponse,
     transformCourseResponse,
     sanitizeMountainInformationNetworkSubmissions,
+    transformMountainConditionsReports,
 } from './transformers'
 
 const POST_CONFIGS = new Map([
@@ -90,6 +91,14 @@ const GET_CONFIGS = new Map([
             }
         },
     ],
+    [
+        Schemas.MountainConditionsReport,
+        () => ({
+            transformResponse: defaults.transformResponse.concat(
+                transformMountainConditionsReports
+            ),
+        }),
+    ],
 ])
 
 function isArchiveBulletinRequest({ date }) {
@@ -129,6 +138,7 @@ const ENDPOINTS = new Map([
         Schemas.WeatherStation,
         (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
     ],
+    [Schemas.MountainConditionsReport, 'mcr/'],
 ])
 
 const api = Axios.create({

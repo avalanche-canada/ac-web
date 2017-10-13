@@ -205,3 +205,25 @@ export function sanitizeMountainInformationNetworkSubmissions(data) {
 
     return sanitizeMountainInformationNetworkSubmission(data)
 }
+
+export function transformMountainConditionsReports(data) {
+    return data.map(transformMountainConditionsReport)
+}
+
+function transformMountainConditionsReport({
+    id,
+    location_desc,
+    dates,
+    user = {},
+    ...report
+}) {
+    return Object.assign(report, {
+        id: String(id),
+        user: {
+            ...user,
+            certification: user.certs,
+        },
+        dates: dates.map(date => parseDate(date)).sort(),
+        locationDescription: location_desc,
+    })
+}
