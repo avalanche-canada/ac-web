@@ -200,5 +200,6 @@ const Static = Axios.create({
 })
 
 export function fetchStaticResource(resource) {
+    // TODO: Adds .then(extractData), but needs to modify callers
     return Static.get(`${resource}.json`)
 }
