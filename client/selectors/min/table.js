@@ -1,6 +1,8 @@
 import React from 'react'
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
+import inside from '@turf/inside'
+import turf from '@turf/helpers'
 import { getEntitiesForSchema } from '~/getters/entities'
 import { MountainInformationNetworkSubmission as Schema } from '~/api/schemas'
 import { getResultsSet } from '~/getters/api'
@@ -9,15 +11,13 @@ import pinWithIncident from '~/components/icons/min/min-pin-with-incident.svg'
 import pin from '~/components/icons/min/min-pin.svg'
 import { Link } from 'react-router-dom'
 import { DateTime, Relative } from '~/components/time'
-import styles from '~/components/text/Text.css'
 import { getFeatureCollection } from '~/getters/mapbox'
 import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
-import inside from '@turf/inside'
-import turf from '@turf/helpers'
 import { computeSorting } from '~/selectors/utils'
 import { createSorter } from '~/selectors/factories'
 import { INCIDENT, NAMES } from '~/constants/min'
 import { NONE } from '~/constants/sortings'
+import styles from '~/components/text/Text.css'
 
 const columns = Immutable.List.of(
     Column.create({
@@ -82,11 +82,7 @@ const columns = Immutable.List.of(
             if (submission.has('region')) {
                 const { name, id } = submission.get('region')
 
-                return (
-                    <Link to={`/map/forecasts/${id}`}>
-                        {name}
-                    </Link>
-                )
+                return <Link to={`/map/forecasts/${id}`}>{name}</Link>
             }
 
             return '-'
@@ -101,11 +97,7 @@ const columns = Immutable.List.of(
 
             return (
                 <ul>
-                    {types.map(type =>
-                        <li key={type}>
-                            {NAMES.get(type)}
-                        </li>
-                    )}
+                    {types.map(type => <li key={type}>{NAMES.get(type)}</li>)}
                 </ul>
             )
         },
@@ -148,7 +140,10 @@ const runSubmissionsSpatialAnalysis = createSelector(
 
         function setRegion(submission) {
             const point = turf.point(
-                submission.get('latlng').reverse().toArray()
+                submission
+                    .get('latlng')
+                    .reverse()
+                    .toArray()
             )
 
             for (var i = 0; i < features.length; i++) {

@@ -117,7 +117,7 @@ export class Metadata extends PureComponent {
 
 export default compose(
     setPropTypes({
-        days: PropTypes.number.isRequired,
+        days: PropTypes.number,
         types: PropTypes.instanceOf(Set).isRequired,
     }),
     connect(mapStateToProps, {

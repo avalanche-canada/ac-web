@@ -65,11 +65,9 @@ Table.propTypes = {
     children: PropTypes.node,
 }
 
-const LIST = new Immutable.List()
-
 export default function Table({
-    columns = LIST,
-    bodies = LIST,
+    columns = new Immutable.List(),
+    bodies = new Immutable.List(),
     headers = columns,
     children,
     onSortingChange = noop,
