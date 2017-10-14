@@ -39,9 +39,7 @@ function Section({ title, desc, images }) {
     return (
         <section>
             <h1>{title}</h1>
-            <InnerHTML component="p">
-                {desc}
-            </InnerHTML>
+            <InnerHTML component="p">{desc}</InnerHTML>
             {images.map((image, index) => <Exercise key={index} {...image} />)}
         </section>
     )
@@ -69,11 +67,7 @@ function Input({ value, onClick, children, picked }) {
 }
 
 function Yep() {
-    return (
-        <div className={style.Yep}>
-            Well done — You’re right!
-        </div>
-    )
+    return <div className={style.Yep}>Well done — You’re right!</div>
 }
 
 function Nope() {
@@ -132,9 +126,7 @@ export default compose(
     withState('exercises', 'setExercises', []),
     lifecycle({
         componentDidMount() {
-            fetchStaticResource('ates-exercise').then(response => {
-                this.props.setExercises(response.data)
-            })
+            fetchStaticResource('ates-exercise').then(this.props.setExercises)
         },
     })
 )(AtesExercise)

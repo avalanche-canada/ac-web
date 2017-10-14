@@ -28,16 +28,12 @@ let Section = ({ letter, terms, onHeaderClick }) => {
                     {letter}
                 </a>
             </h1>
-            {terms.map((term, index) =>
+            {terms.map((term, index) => (
                 <div key={index}>
-                    <h2>
-                        {term.title}
-                    </h2>
-                    <InnerHTML>
-                        {term.content}
-                    </InnerHTML>
+                    <h2>{term.title}</h2>
+                    <InnerHTML>{term.content}</InnerHTML>
                 </div>
-            )}
+            ))}
         </section>
     )
 }
@@ -59,9 +55,7 @@ let Letter = ({ letter, onClick }) => {
     return (
         <Tag key={letter}>
             <a href={`#${letter}`} onClick={onClick}>
-                <b>
-                    {letter}
-                </b>
+                <b>{letter}</b>
             </a>
         </Tag>
     )
@@ -89,11 +83,11 @@ export default class Container extends Component {
             },
             () => {
                 fetchStaticResource('glossary').then(
-                    response =>
+                    data =>
                         this.setState({
                             ...STATE,
                             isLoaded: true,
-                            terms: response.data,
+                            terms: data,
                         }),
                     error =>
                         this.setState({
@@ -128,7 +122,9 @@ export default class Container extends Component {
             terms,
             showTopAnchor,
         } = this.state
-        const letters = Object.keys(terms).filter(hasTerms).sort()
+        const letters = Object.keys(terms)
+            .filter(hasTerms)
+            .sort()
 
         return (
             <Page>
@@ -152,20 +148,21 @@ export default class Container extends Component {
                         </Headline>
                         {isLoading && <Loading />}
                         {isError && <Error />}
-                        {isLoaded &&
+                        {isLoaded && (
                             <TagSet>
-                                {letters.map(letter =>
+                                {letters.map(letter => (
                                     <Letter key={letter} letter={letter} />
-                                )}
-                            </TagSet>}
+                                ))}
+                            </TagSet>
+                        )}
                         {isLoaded &&
-                            letters.map(letter =>
+                            letters.map(letter => (
                                 <Section
                                     key={letter}
                                     letter={letter}
                                     terms={terms[letter]}
                                 />
-                            )}
+                            ))}
                         {showTopAnchor && <Top />}
                     </Main>
                     <Aside>
