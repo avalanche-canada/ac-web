@@ -200,9 +200,5 @@ const Static = Axios.create({
 })
 
 export function fetchStaticResource(resource) {
-    return Static.get(resource)
-}
-
-export function fetchSponsors() {
-    return fetchStaticResource('sponsors.json').then(extractData)
+    return Static.get(`${resource}.json`)
 }
