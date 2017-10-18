@@ -90,7 +90,7 @@
         "cloudinary-core": "^2.1.6",
         "connect-livereload": "~0.4.0",
         "css-loader": "^0.23.1",
-        "date-fns": "^1.28.0",
+        "date-fns": "^1.28.5",
         "eslint": "^3.19.0",
         "eslint-config-airbnb": "^14.1.0",
         "eslint-import-resolver-babel-root-import": "0.0.2",
@@ -110,7 +110,7 @@
         "jest-cli": "^20.0.4",
         "jshint-stylish": "~0.1.5",
         "json-loader": "^0.5.4",
-        "mapbox-gl": "0.39.1",
+        "mapbox-gl": "0.41.0",
         "mocha": "^3.0.2",
         "nodemon": "^1.11.0",
         "normalizr": "^3.1.0",
@@ -170,15 +170,18 @@
         "dev": "webpack-dev-server",
         "mocha": "mocha",
         "build-storybook": "build-storybook",
-        "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
-        "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
+        "prettier-client":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+        "prettier-server":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest"
     },
     "private": true,
     "jest": {
         "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+                "<rootDir>/__mocks__/fileMock.js",
             "\\.(css)$": "identity-obj-proxy"
         }
     }
