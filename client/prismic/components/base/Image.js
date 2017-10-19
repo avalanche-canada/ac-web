@@ -31,7 +31,7 @@ export default class Image extends PureComponent {
         })
     }
     componentDidMount() {
-        const { dimensions } = this.props
+        const { dimensions = {} } = this.props
         const ratio = dimensions.height / dimensions.width
         const width = Math.min(dimensions.width, this.figure.clientWidth)
 
