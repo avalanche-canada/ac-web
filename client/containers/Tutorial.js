@@ -8,11 +8,11 @@ import {
     renderComponent,
 } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import * as Components from '~/components/tutorial'
-import { generic, tutorial } from '~/containers/connectors'
-import { parse } from '~/prismic'
-import { fetchStaticResource } from '~/api'
-import { Loading } from '~/components/text'
+import * as Components from 'components/tutorial'
+import { generic, tutorial } from 'containers/connectors'
+import { parse } from 'prismic'
+import { fetchStaticResource } from 'api'
+import { Loading } from 'components/text'
 
 const tree = compose(
     withState('menu', 'setMenu', null),

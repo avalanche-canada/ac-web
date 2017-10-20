@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ArchiveWarning as Base } from '~/components/misc'
-import { isHotZoneReportValid } from '~/prismic/utils'
+import { ArchiveWarning as Base } from 'components/misc'
+import { isHotZoneReportValid } from 'prismic/utils'
 
 ArchiveWarning.propTypes = {
     report: PropTypes.object,

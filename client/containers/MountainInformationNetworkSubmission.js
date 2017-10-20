@@ -8,18 +8,18 @@ import {
     Content,
     Aside,
     ContextMap,
-} from '~/components/page'
-import { Item } from '~/components/sidebar'
-import { Muted, Error } from '~/components/text'
-import { mountainInformationNetworkSubmission } from '~/containers/connectors'
+} from 'components/page'
+import { Item } from 'components/sidebar'
+import { Muted, Error } from 'components/text'
+import { mountainInformationNetworkSubmission } from 'containers/connectors'
 import {
     Submission,
     Metadata,
     Sidebar,
-} from '~/components/mountainInformationNetwork'
-import { Marker } from '~/components/map'
-import mapbox from '~/services/mapbox/map'
-import min from '~/components/icons/min/min-pin.png'
+} from 'components/mountainInformationNetwork'
+import { Marker } from 'components/map'
+import mapbox from 'services/mapbox/map'
+import min from 'components/icons/min/min-pin.png'
 
 function createElement(props) {
     return Object.assign(document.createElement('img'), {

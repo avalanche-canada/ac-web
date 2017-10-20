@@ -5,13 +5,13 @@ import styles from './Forecast.css'
 import { Table, Day, Condition } from './danger'
 import addDays from 'date-fns/add_days'
 import { Problem, Topic, Advice, Comment } from './problem'
-import { HIGH, LOW, MODERATE, CONSIDERABLE } from '~/constants/forecast/rating'
-import Panel from '~/components/panel'
+import { HIGH, LOW, MODERATE, CONSIDERABLE } from 'constants/forecast/rating'
+import Panel from 'components/panel'
 import Footer from './Footer'
 import Headline from './Headline'
 import Summary from './Summary'
-import RatingExplanation from '~/components/forecast/RatingExplanation'
-import * as Modes from '~/constants/forecast/mode'
+import RatingExplanation from 'components/forecast/RatingExplanation'
+import * as Modes from 'constants/forecast/mode'
 
 function Forecast({ children }) {
     return (

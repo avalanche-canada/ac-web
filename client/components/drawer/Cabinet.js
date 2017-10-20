@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import { TransitionMotion, spring, presets } from 'react-motion'
 import CSSModules from 'react-css-modules'
 import Drawer from './Drawer'

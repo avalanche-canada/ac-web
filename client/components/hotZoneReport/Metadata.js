@@ -5,8 +5,8 @@ import {
     Entry,
     ShareEntry,
     TimestampEntry,
-} from '~/components/metadata'
-import { DateTime } from '~/components/time'
+} from 'components/metadata'
+import { DateTime } from 'components/time'
 
 HotZoneReportMetadata.propTypes = {
     report: PropTypes.object,

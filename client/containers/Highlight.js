@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Highlight from '~/components/highlight'
-import { StructuredText } from '~/prismic/components/base'
-import { load } from '~/actions/prismic'
+import Highlight from 'components/highlight'
+import { StructuredText } from 'prismic/components/base'
+import { load } from 'actions/prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import { Predicates, parse } from '~/prismic'
-import { SessionStorage } from '~/services/storage'
+import { Predicates, parse } from 'prismic'
+import { SessionStorage } from 'services/storage'
 
 @connect(null, { load })
 export default class Container extends PureComponent {

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { withHandlers } from 'recompose'
-import { fetchStaticResource } from '~/api'
-import { Page, Main, Content, Header, Headline, Aside } from '~/components/page'
+import { fetchStaticResource } from 'api'
+import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
-} from '~/components/sidebar'
-import { InnerHTML, Top } from '~/components/misc'
-import { Loading, Error } from '~/components/text'
-import { TagSet, Tag } from '~/components/tag'
-import { scrollIntoView } from '~/utils/dom'
+} from 'components/sidebar'
+import { InnerHTML, Top } from 'components/misc'
+import { Loading, Error } from 'components/text'
+import { TagSet, Tag } from 'components/tag'
+import { scrollIntoView } from 'utils/dom'
 import debounce from 'lodash/debounce'
 
 function updateShowTopAnchor() {

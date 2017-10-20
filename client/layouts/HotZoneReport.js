@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
-import HotZoneReport from '~/containers/HotZoneReport'
-import ArchiveHotZoneReport from '~/containers/ArchiveHotZoneReport'
+import HotZoneReport from 'containers/HotZoneReport'
+import ArchiveHotZoneReport from 'containers/ArchiveHotZoneReport'
 
 HotZoneReportLayout.propTypes = {
     match: PropTypes.object.isRequired,

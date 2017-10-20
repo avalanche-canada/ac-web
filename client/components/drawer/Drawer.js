@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import CSSModules from 'react-css-modules'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'

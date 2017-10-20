@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Alert {
     display: block;
@@ -19,7 +19,7 @@
 a[href] {
     & > .Alert {
         &:after {
-            content: "‹\203A";
+            content: '‹\203A';
         }
         &:hover {
             text-decoration: underline;
@@ -44,7 +44,8 @@ a[href] {
 
     background-color: var(--warning);
 
-    &, & a[href] {
+    &,
+    & a[href] {
         color: black;
     }
 }

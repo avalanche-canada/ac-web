@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '~/prismic/components/base'
-import { Item } from '~/components/sidebar'
+import { Link } from 'prismic/components/base'
+import { Item } from 'components/sidebar'
 
 function createItem({ link, title }, index) {
     return (

@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
-import RESULT from '~/reducers/result'
-import { paramsToKey } from '~/actions/prismic'
-import { parse } from '~/prismic'
+import RESULT from 'reducers/result'
+import { paramsToKey } from 'actions/prismic'
+import { parse } from 'prismic'
 import { createSelector } from 'reselect'
 
 const MAP = new Immutable.Map()

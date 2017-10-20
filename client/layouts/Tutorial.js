@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Page, Main, Content } from '~/components/page'
-import { Home, Tree, Tutorial, AtesExercise } from '~/containers/Tutorial'
+import { Page, Main, Content } from 'components/page'
+import { Home, Tree, Tutorial, AtesExercise } from 'containers/Tutorial'
 import CSSModules from 'react-css-modules'
 import styles from './Tutorial.css'
 

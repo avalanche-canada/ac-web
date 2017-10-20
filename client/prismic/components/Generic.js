@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Status } from '~/components/misc'
-import { generic } from '~/containers/connectors'
-import { StructuredText } from '~/prismic/components/base'
-import { parse } from '~/prismic'
+import { Status } from 'components/misc'
+import { generic } from 'containers/connectors'
+import { StructuredText } from 'prismic/components/base'
+import { parse } from 'prismic'
 
 @generic
 export default class Generic extends PureComponent {

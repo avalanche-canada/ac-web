@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import Sidebar, { Item, Header } from '~/components/sidebar'
+import Sidebar, { Item, Header } from 'components/sidebar'
 
 export default function WeatherSidebar() {
     return (

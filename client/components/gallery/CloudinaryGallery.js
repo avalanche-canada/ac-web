@@ -7,7 +7,7 @@ import {
     setPropTypes,
 } from 'recompose'
 import Gallery from './Gallery'
-import * as cloudinary from '~/services/cloudinary'
+import * as cloudinary from 'services/cloudinary'
 
 const mapResource = cloudinary.mapToSizeFactory()
 

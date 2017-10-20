@@ -4,8 +4,8 @@ import {
     hasDocumentForUid,
     hasDocumentForId,
     getResults,
-} from '~/getters/prismic'
-import { Api as Prismic, Predicates } from '~/prismic'
+} from 'getters/prismic'
+import { Api as Prismic, Predicates } from 'prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
 

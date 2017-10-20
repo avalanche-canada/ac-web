@@ -6,9 +6,9 @@ import {
     isMenuOpen,
     getPrimaryDrawer,
     getSecondaryDrawer,
-} from '~/getters/drawers'
-import Drawer, { LEFT, RIGHT } from '~/components/page/drawer'
-import { closeMenu } from '~/actions/drawers'
+} from 'getters/drawers'
+import Drawer, { LEFT, RIGHT } from 'components/page/drawer'
+import { closeMenu } from 'actions/drawers'
 import MenuContent from './content/Menu'
 
 export ToggleMenu from './controls/ToggleMenu'

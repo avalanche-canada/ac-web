@@ -3,7 +3,7 @@ import {
     getType,
     getStatusFactory,
     getDocument,
-} from '~/selectors/prismic/utils'
+} from 'selectors/prismic/utils'
 
 export const getPost = createStructuredSelector({
     post: getDocument,

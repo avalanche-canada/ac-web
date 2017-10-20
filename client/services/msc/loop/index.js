@@ -1,4 +1,4 @@
-import { fetchStaticResource } from '~/api'
+import { fetchStaticResource } from 'api'
 
 let METADATA = null
 let PROMISE = null

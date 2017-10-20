@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --side-by-side (width > 700px);
 
@@ -18,9 +18,6 @@
 
     line-height: 1.5;
     margin: 3em 0;
-    &, & a {
-        color: var(--gray-darkest);
-    }
 
     @media (--side-by-side) {
         flex-direction: row;

@@ -1,23 +1,23 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
-import { getStyle, getActiveFeatures } from '~/getters/map'
-import { createGetEntitiesForSchema } from '~/selectors/factories'
-import { getResultsSet } from '~/getters/api'
-import { getDocumentsOfType } from '~/getters/prismic'
-import { getLayers, getLayerFilter } from '~/getters/drawers'
+import { getStyle, getActiveFeatures } from 'getters/map'
+import { createGetEntitiesForSchema } from 'selectors/factories'
+import { getResultsSet } from 'getters/api'
+import { getDocumentsOfType } from 'getters/prismic'
+import { getLayers, getLayerFilter } from 'getters/drawers'
 import {
     ActiveLayerIds,
     InactiveLayerIds,
     LayerIds,
-} from '~/constants/map/layers'
-import { parseLocation } from '~/prismic/parsers'
-import { parse } from '~/prismic'
+} from 'constants/map/layers'
+import { parseLocation } from 'prismic/parsers'
+import { parse } from 'prismic'
 import {
     isSpecialInformationValid,
     isHotZoneReportValid,
-} from '~/prismic/utils'
-import * as Layers from '~/constants/drawers'
-import * as Schemas from '~/api/schemas'
+} from 'prismic/utils'
+import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 import turf from '@turf/helpers'
 import explode from '@turf/explode'
 

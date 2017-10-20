@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
-import Gallery from '~/components/gallery'
+import Gallery from 'components/gallery'
 import CSSModules from 'react-css-modules'
 import {
     Header,
@@ -11,14 +11,14 @@ import {
     Close,
     Banner,
     Content,
-} from '~/components/page/drawer'
-import { LocateAsClass } from '~/components/button/Locate'
+} from 'components/page/drawer'
+import { LocateAsClass } from 'components/button/Locate'
 import Footer from './Footer'
 import Submitter from './Submitter'
-import { InnerHTML, Status } from '~/components/misc'
-import { DateElement } from '~/components/time'
+import { InnerHTML, Status } from 'components/misc'
+import { DateElement } from 'components/time'
 import styles from './MountainConditionsReport.css'
-import IMAGE from '~/styles/mountain-climbers-default.jpg'
+import IMAGE from 'styles/mountain-climbers-default.jpg'
 
 const NAVBAR_STYLE = {
     position: 'absolute',

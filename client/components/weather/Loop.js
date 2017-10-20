@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
-import Base from '~/components/loop'
+import Base from 'components/loop'
 import {
     computeUrls,
     getNotes,
     isForecast,
     fetchMetadata,
-} from '~/services/msc/loop'
-import { Loading, Error } from '~/components/text'
-import Alert, { WARNING } from '~/components/alert'
+} from 'services/msc/loop'
+import { Loading, Error } from 'components/text'
+import Alert, { WARNING } from 'components/alert'
 
 NoteSet.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.string).isRequired,

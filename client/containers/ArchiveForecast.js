@@ -2,22 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps, withHandlers } from 'recompose'
 import { Link, withRouter } from 'react-router-dom'
-import { Page, Content, Header, Main } from '~/components/page'
-import Forecast from '~/components/forecast'
-import { DateElement } from '~/components/time'
-import { Muted, Error } from '~/components/text'
-import Alert, { WARNING } from '~/components/alert'
-import { Metadata, Entry } from '~/components/metadata'
+import { Page, Content, Header, Main } from 'components/page'
+import Forecast from 'components/forecast'
+import { DateElement } from 'components/time'
+import { Muted, Error } from 'components/text'
+import Alert, { WARNING } from 'components/alert'
+import { Metadata, Entry } from 'components/metadata'
 import {
     DateIssued,
     ValidUntil,
     Forecaster,
-} from '~/components/forecast/Metadata'
+} from 'components/forecast/Metadata'
 import {
     DropdownFromOptions as Dropdown,
     DayPicker,
-} from '~/components/controls'
-import { archiveForecast } from '~/containers/connectors'
+} from 'components/controls'
+import { archiveForecast } from 'containers/connectors'
 import parseDate from 'date-fns/parse'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'

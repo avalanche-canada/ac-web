@@ -1,5 +1,5 @@
 import React from 'react'
-import { neverUpdate } from '~/compose'
+import { neverUpdate } from 'compose'
 import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import styles from './Footer.css'

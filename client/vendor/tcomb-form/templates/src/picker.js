@@ -1,9 +1,9 @@
 import React from 'react'
 import Overlay from 'react-overlays/lib/Overlay'
-import { Close } from '~/components/button'
-import controls from '~/components/controls/Controls.css'
-import Callout from '~/components/callout'
-import Button from '~/components/button'
+import { Close } from 'components/button'
+import controls from 'components/controls/Controls.css'
+import Callout from 'components/callout'
+import Button from 'components/button'
 import styles from './Picker.css'
 import noop from 'lodash/noop'
 

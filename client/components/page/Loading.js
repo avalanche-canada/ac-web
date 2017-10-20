@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Page, Content, Main, Header } from '~/components/page'
-import { Muted } from '~/components/text'
+import { Page, Content, Main, Header } from 'components/page'
+import { Muted } from 'components/text'
 
 Loading.propTypes = {
     title: PropTypes.string,

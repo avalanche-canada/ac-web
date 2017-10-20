@@ -4,10 +4,9 @@ import createLogger from 'redux-logger'
 import { Iterable } from 'immutable'
 import promise from 'redux-promise-middleware'
 import reducer from 'reducers'
-// import DevTools from '../containers/DevTools'
 
 export default function configureStore(preloadedState) {
-    const store = createStore(
+    return createStore(
         reducer,
         preloadedState,
         compose(
@@ -31,17 +30,6 @@ export default function configureStore(preloadedState) {
                     },
                 })
             )
-            //   DevTools.instrument()
         )
     )
-
-    if (module.hot) {
-        // Enable Webpack hot module replacement for reducers
-        module.hot.accept('reducers', () => {
-            const nextRootReducer = require('reducers').default
-            store.replaceReducer(nextRootReducer)
-        })
-    }
-
-    return store
 }

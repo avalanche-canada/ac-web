@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StructuredText } from '~/prismic/components/base'
+import { StructuredText } from 'prismic/components/base'
 import Section from './Section'
 import Loop from '../Loop'
 

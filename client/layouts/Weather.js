@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import MountainWeather from './MountainWeather'
-import WeatherStation from '~/containers/WeatherStation'
-import WeatherStationList from '~/containers/WeatherStationList'
+import WeatherStation from 'containers/WeatherStation'
+import WeatherStationList from 'containers/WeatherStationList'
 
 Weather.propTypes = {
     match: PropTypes.object.isRequired,

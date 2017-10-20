@@ -6,8 +6,8 @@
 .Player {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 */
-	padding-top: 25px;
-	height: 0;
+    padding-top: 25px;
+    height: 0;
 
     & iframe {
         border: none;
@@ -21,5 +21,9 @@
 }
 
 .Controls {
-    position: absolute auto auto 0 0;
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
 }

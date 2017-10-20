@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { AvalancheCanada, AvalancheCanadaFoundation } from '~/layouts'
+import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from './ScrollTo'
 import Analytics from './Analytics'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Ambassador from '~/components/ambassador'
-import { StructuredText } from '~/prismic/components/base'
-import { Br } from '~/components/markup'
+import Ambassador from 'components/ambassador'
+import { StructuredText } from 'prismic/components/base'
+import { Br } from 'components/markup'
 
 function transform({ twitter, facebook, instagram, website, ...ambassador }) {
     return Object.assign(ambassador, {

@@ -1,6 +1,6 @@
 import typeToReducer from 'type-to-reducer'
-import { GET_SPONSORS } from '~/actions/sponsors'
-import { LocalStorage } from '~/services/storage'
+import { GET_SPONSORS } from 'actions/sponsors'
+import { LocalStorage } from 'services/storage'
 import formatDate from 'date-fns/format'
 
 const storage = LocalStorage.create()

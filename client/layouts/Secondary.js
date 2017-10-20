@@ -1,13 +1,13 @@
 import React, { createElement } from 'react'
-import { Secondary as Base } from '~/containers/drawers'
+import { Secondary as Base } from 'containers/drawers'
 import PropTypes from 'prop-types'
-import MountainInformationNetwork from '~/containers/drawers/content/MountainInformationNetwork'
-import WeatherStation from '~/containers/drawers/content/WeatherStation'
-import ToyotaTruckReport from '~/containers/drawers/content/ToyotaTruckReport'
-import SpecialInformation from '~/containers/drawers/content/SpecialInformation'
-import FatalAccident from '~/containers/drawers/content/FatalAccident'
-import MountainConditionsReport from '~/containers/drawers/content/MountainConditionsReport'
-import * as Schemas from '~/api/schemas'
+import MountainInformationNetwork from 'containers/drawers/content/MountainInformationNetwork'
+import WeatherStation from 'containers/drawers/content/WeatherStation'
+import ToyotaTruckReport from 'containers/drawers/content/ToyotaTruckReport'
+import SpecialInformation from 'containers/drawers/content/SpecialInformation'
+import FatalAccident from 'containers/drawers/content/FatalAccident'
+import MountainConditionsReport from 'containers/drawers/content/MountainConditionsReport'
+import * as Schemas from 'api/schemas'
 
 Secondary.propTypes = {
     type: PropTypes.string,

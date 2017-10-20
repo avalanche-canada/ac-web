@@ -1,8 +1,8 @@
 import { compose, lifecycle, withProps } from 'recompose'
 import {withRouter} from 'react-router-dom'
-import Post from '~/components/page/post'
-import { post } from '~/containers/connectors'
-import { parse } from '~/prismic'
+import Post from 'components/page/post'
+import { post } from 'containers/connectors'
+import { parse } from 'prismic'
 
 export default compose(
     withRouter,

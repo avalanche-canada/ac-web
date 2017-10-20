@@ -1,7 +1,7 @@
-import { paramsToKey } from '~/reducers/utils'
-import RESULT from '~/reducers/result'
-import { getEntityForSchema } from '~/getters/entities'
-import { ForecastRegion } from '~/api/schemas'
+import { paramsToKey } from 'reducers/utils'
+import RESULT from 'reducers/result'
+import { getEntityForSchema } from 'getters/entities'
+import { ForecastRegion } from 'api/schemas'
 
 function path(schema, params) {
     return [schema.key, paramsToKey(params)]

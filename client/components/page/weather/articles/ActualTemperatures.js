@@ -1,8 +1,8 @@
 import React from 'react'
-import { Tab, TabSet } from '~/components/tab'
-import { Article } from '~/components/page'
-import Tutorial from '~/containers/WeatherTutorial'
-import { Loop } from '~/components/weather'
+import { Tab, TabSet } from 'components/tab'
+import { Article } from 'components/page'
+import Tutorial from 'containers/WeatherTutorial'
+import { Loop } from 'components/weather'
 
 export default function ActualTemperatures() {
     return (

@@ -1,7 +1,7 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { compose, onlyUpdateForKeys } from 'recompose'
-import { withHash } from '~/compose'
+import { withHash } from 'compose'
 import CSSModules from 'react-css-modules'
 import Headline from './Headline'
 import styles from './Page.css'

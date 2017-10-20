@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import { List as Base } from '~/components/description'
+import { List as Base } from 'components/description'
 
 List.propTypes = {
     title: PropTypes.string,

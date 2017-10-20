@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Tab.css'
-import Button, { INCOGNITO } from '~/components/button'
-import { ExpandLess, ExpandMore } from '~/components/icons'
+import Button, { INCOGNITO } from 'components/button'
+import { ExpandLess, ExpandMore } from 'components/icons'
 import noop from 'lodash/noop'
 
 Header.propTypes = {

@@ -7,13 +7,13 @@ import {
     Body,
     Navbar,
     Close,
-} from '~/components/page/drawer'
-import { Metadata, Submission } from '~/components/mountainInformationNetwork'
-import { LocateAsClass } from '~/components/button/Locate'
-import { Loading, Error } from '~/components/text'
-import Sponsor from '~/layouts/Sponsor'
-import { mountainInformationNetworkSubmission } from '~/containers/connectors'
-import { Wrapper } from '~/components/tooltip'
+} from 'components/page/drawer'
+import { Metadata, Submission } from 'components/mountainInformationNetwork'
+import { LocateAsClass } from 'components/button/Locate'
+import { Loading, Error } from 'components/text'
+import Sponsor from 'layouts/Sponsor'
+import { mountainInformationNetworkSubmission } from 'containers/connectors'
+import { Wrapper } from 'components/tooltip'
 
 const LOCATE_STYLE = {
     padding: '0.15em',

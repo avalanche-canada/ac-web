@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --two-columns-inputs (width > 600px);
 @custom-media --two-columns (width > 900px);
@@ -6,7 +6,7 @@
 /* TODO: Some clean up here */
 
 .Container {
-    & button[type="submit"] {
+    & button[type='submit'] {
         display: block;
         width: 100%;
     }
@@ -32,15 +32,15 @@
 
     & :global(.field.error) {
         & :global(.label.red) {
-            color:
+            color: ;
         }
     }
 
-    & button[type="submit"] {
+    & button[type='submit'] {
         width: 100%;
     }
 
-    & :global(div[role="tabpanel"] > fieldset > legend) {
+    & :global(div[role='tabpanel'] > fieldset > legend) {
         /* Hide label but still accesible */
         position: absolute;
         left: 99999px;
@@ -51,7 +51,10 @@
         margin-bottom: 1em;
     }
 
-    & :global(.fieldset-depth-1 .fieldset-depth-2:last-child > .fieldset-content) {
+    &
+        :global(.fieldset-depth-1
+            .fieldset-depth-2:last-child
+            > .fieldset-content) {
         margin: 0;
     }
 
@@ -102,7 +105,7 @@
         }
     }
 
-    & div[role="tabpanel"] {
+    & div[role='tabpanel'] {
         margin: 0.5em;
         & fieldset {
             border: none;
@@ -134,9 +137,13 @@
             font-size: 1.5em;
 
             &:before {
-                content: "";
+                content: '';
                 height: 2em;
-                position: absolute auto -8px auto -8px;
+                position: absolute;
+                top: auto;
+                right: -8px;
+                bottom: auto;
+                left: -8px;
                 background-color: white;
                 z-index: -1;
             }
@@ -159,10 +166,10 @@
     composes: MainFieldsetContainer;
 
     & > fieldset {
-        border-color: #FFD740;
+        border-color: #ffd740;
         & > legend {
             &:before {
-                background-color: #FFD740;
+                background-color: #ffd740;
             }
         }
     }
@@ -200,7 +207,7 @@
 }
 
 /* TODO: Remove the selector below. There an issue with rendering of the that field, it does not add the className */
-:global(div[class*="otherActivityDescription"]),
+:global(div[class*='otherActivityDescription']),
 .WihoutLabel {
     & > label {
         position: absolute;

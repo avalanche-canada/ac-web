@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Metadata, Entry, ShareEntry } from '~/components/metadata'
-import { DateElement } from '~/components/time'
-import { DATETIME } from '~/utils/date'
+import { Metadata, Entry, ShareEntry } from 'components/metadata'
+import { DateElement } from 'components/time'
+import { DATETIME } from 'utils/date'
 import differenceInDays from 'date-fns/difference_in_days'
-import { FURTHER_NOTICE_DAYS } from '~/constants/forecast/time'
+import { FURTHER_NOTICE_DAYS } from 'constants/forecast/time'
 
 DateIssued.propTypes = {
     dateIssued: PropTypes.instanceOf(Date).isRequired,

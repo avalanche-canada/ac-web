@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import CSSModules from 'react-css-modules'
 import styles from './Weather.css'
-import { Mailto } from '~/components/anchors'
+import { Mailto } from 'components/anchors'
 
 Footer.propTypes = {
     showFeedbackAnchor: PropTypes.bool,

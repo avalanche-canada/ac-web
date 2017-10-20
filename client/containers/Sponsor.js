@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Sponsor as Base } from '~/components/misc'
-import { sponsor } from '~/containers/connectors'
-import { parse } from '~/prismic'
+import { Sponsor as Base } from 'components/misc'
+import { sponsor } from 'containers/connectors'
+import { parse } from 'prismic'
 
 Sponsor.propTypes = {
     value: PropTypes.object,

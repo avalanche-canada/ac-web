@@ -1,6 +1,6 @@
 import React from 'react'
-import * as Ratings from '~/constants/forecast/rating'
-import * as Palette from '~/constants/forecast/palette'
+import * as Ratings from 'constants/forecast/rating'
+import * as Palette from 'constants/forecast/palette'
 
 const LOW = (
     <g width="81.62" height="81.62">

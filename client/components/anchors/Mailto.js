@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Url from 'url'
-import { AVALANCHECANADA } from '~/constants/emails'
-import { clean } from '~/utils/object'
+import { AVALANCHECANADA } from 'constants/emails'
+import { clean } from 'utils/object'
 
 Mailto.propTypes = {
     email: PropTypes.string,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { withProps } from 'recompose'
-import FeedSplash from '~/containers/feed/Splash'
-import { StructuredText } from '~/prismic/components/base'
+import FeedSplash from 'containers/feed/Splash'
+import { StructuredText } from 'prismic/components/base'
 
 const types = new Map([
     ['Events', 'event'],

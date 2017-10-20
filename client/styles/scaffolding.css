@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 html {
     background-color: white;
@@ -31,12 +31,12 @@ body {
     height: calc(100vh - 75px);
 }
 
-h1 {
-    font-size: 3em;
-    font-weight: 700;
-}
-
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     & > a {
         color: inherit;
 
@@ -45,10 +45,10 @@ h1, h2, h3, h4, h5, h6 {
         }
     }
 
-    & > a:not([href^="#"]) {
+    & > a:not([href^='#']) {
         &:after {
             /* \00a0 == &nbsp; */
-            content: "\00a0›";
+            content: '\00a0›';
             color: var(--primary);
         }
     }
@@ -94,7 +94,7 @@ p {
 /* PRINT */
 @media print {
     a:after {
-        content: " (" attr(href) ")";
+        content: ' (' attr(href) ')';
     }
 }
 
@@ -120,12 +120,12 @@ input {
     line-height: 1;
     outline-offset: inherit;
 }
-input[type="file"] {
+input[type='file'] {
     cursor: pointer;
 }
 /* RESET due to rule applied above */
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
     height: inherit;
     width: inherit;
 }
@@ -145,8 +145,8 @@ label {
     max-width: 100%;
     font-weight: 700;
 }
-input[type="checkbox"] + label,
-input[type="radio"] + label {
+input[type='checkbox'] + label,
+input[type='radio'] + label {
     display: inline;
     font-weight: normal;
 }

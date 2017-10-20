@@ -1,7 +1,11 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Credit {
-    position: absolute auto 0 0 auto;
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
     color: var(--gray-darkest);
     background-color: white;
     opacity: 0.75;
@@ -15,7 +19,7 @@
     line-height: 1.5em;
 
     &:before {
-        content: 'Credits: '
+        content: 'Credits: ';
     }
 }
 

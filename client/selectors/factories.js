@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
-import { getEntitiesForSchema } from '~/getters/entities'
+import { getEntitiesForSchema } from 'getters/entities'
 import noop from 'lodash/noop'
-import { ASC, DESC } from '~/constants/sortings'
-import { parse } from '~/utils/search'
+import { ASC, DESC } from 'constants/sortings'
+import { parse } from 'utils/search'
 
 export function createSorter(
     getEntities,

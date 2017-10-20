@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import {Link} from 'react-router-dom'
-import Alert, { WARNING } from '~/components/alert'
+import Alert, { WARNING } from 'components/alert'
 import styles from './ArchiveWarning.css'
 
 const LinkPropType = PropTypes.shape({

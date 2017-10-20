@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { compose, withProps, withHandlers } from 'recompose'
-import { Page, Content, Header, Main } from '~/components/page'
+import { Page, Content, Header, Main } from 'components/page'
 import HotZoneReport, {
     Metadata as HotZoneReportMetadata,
-} from '~/components/hotZoneReport'
-import { DateElement } from '~/components/time'
-import { Muted } from '~/components/text'
-import { Metadata, Entry } from '~/components/metadata'
+} from 'components/hotZoneReport'
+import { DateElement } from 'components/time'
+import { Muted } from 'components/text'
+import { Metadata, Entry } from 'components/metadata'
 import {
     DropdownFromOptions as Dropdown,
     DayPicker,
-} from '~/components/controls'
-import { archiveHotZoneReport } from '~/containers/connectors'
+} from 'components/controls'
+import { archiveHotZoneReport } from 'containers/connectors'
 import parseDate from 'date-fns/parse'
 import formatDate from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'

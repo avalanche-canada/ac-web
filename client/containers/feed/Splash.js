@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Muted } from '~/components/text'
-import { Splash } from '~/components/page/sections'
-import { Entry, EntrySet } from '~/components/feed'
-import { feedSplash } from '~/containers/connectors'
-import { parse } from '~/prismic'
+import { Muted } from 'components/text'
+import { Splash } from 'components/page/sections'
+import { Entry, EntrySet } from 'components/feed'
+import { feedSplash } from 'containers/connectors'
+import { parse } from 'prismic'
 
 // TODO: Move to components feed. Containers should not render anything!
 

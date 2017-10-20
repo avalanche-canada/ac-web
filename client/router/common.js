@@ -1,13 +1,13 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
-import AuthService from '~/services/auth'
-import { NotFound } from '~/components/page'
-import LoginComplete from '~/containers/LoginComplete'
-import ReactGA from '~/services/analytics'
-import { StaticPage, Generic, FallbackPage } from '~/prismic/containers'
-import { WorkInProgress } from '~/components/page'
-import Sponsor from '~/containers/Sponsor'
+import AuthService from 'services/auth'
+import { NotFound } from 'components/page'
+import LoginComplete from 'containers/LoginComplete'
+import ReactGA from 'services/analytics'
+import { StaticPage, Generic, FallbackPage } from 'prismic/containers'
+import { WorkInProgress } from 'components/page'
+import Sponsor from 'containers/Sponsor'
 
 function privateRenderFactory(render, component, children) {
     return function privateRender(props) {

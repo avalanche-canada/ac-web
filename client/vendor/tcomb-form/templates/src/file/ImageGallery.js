@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Base from '~/components/gallery'
-import { Loading, Error } from '~/components/text'
-import { pluralize } from '~/utils/string'
+import Base from 'components/gallery'
+import { Loading, Error } from 'components/text'
+import { pluralize } from 'utils/string'
 import Description from './Description'
 import styles from './File.css'
 

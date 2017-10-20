@@ -5,7 +5,7 @@ import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
 import formatDate from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
-import { loadImage } from '~/utils/promise'
+import { loadImage } from 'utils/promise'
 
 const MAX_ATTEMPTS = 10
 

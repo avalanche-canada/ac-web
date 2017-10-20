@@ -1,4 +1,4 @@
-import { ASC, DESC, NONE } from '~/constants/sortings'
+import { ASC, DESC, NONE } from 'constants/sortings'
 
 const isNegativeRegex = /^-/
 
