@@ -2,10 +2,10 @@ import React from 'react'
 import { compose, mapProps, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { createSelector, createStructuredSelector } from 'reselect'
-import { ItemSet, Item } from '~/components/sponsor'
-import { load } from '~/actions/prismic'
-import { getDocumentsOfType } from '~/getters/prismic'
-import { parse, Predicates } from '~/prismic'
+import { ItemSet, Item } from 'components/sponsor'
+import { load } from 'actions/prismic'
+import { getDocumentsOfType } from 'getters/prismic'
+import { parse, Predicates } from 'prismic'
 
 function pluck({ sponsor }) {
     return sponsor.value.document.id

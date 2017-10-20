@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Capped {
     cursor: pointer;
@@ -6,13 +6,17 @@
     margin-bottom: 1.25em;
 
     &:before {
-        content: "More";
-        position: absolute auto 0 -1.25em 0;
+        content: 'More';
+        position: absolute;
+        top: auto;
+        right: 0;
+        bottom: -1.25em;
+        left: 0;
         text-align: right;
         color: var(--primary);
     }
 
     &:after {
-        content: "…";
+        content: '…';
     }
 }

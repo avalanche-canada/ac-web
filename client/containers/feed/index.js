@@ -1,8 +1,8 @@
-import { feed } from '~/containers/connectors'
+import { feed } from 'containers/connectors'
 import {
     Feed as FeedComponent,
     FilterSet as FilterSetComponent,
-} from '~/components/feed'
+} from 'components/feed'
 import Post from './Post'
 import { withProps } from 'recompose'
 

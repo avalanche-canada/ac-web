@@ -1,7 +1,7 @@
-import Tutorial from '~/components/page/weather/Tutorial'
+import Tutorial from 'components/page/weather/Tutorial'
 import { compose, withProps } from 'recompose'
-import { weatherTutorial } from '~/containers/connectors'
-import { parse } from '~/prismic'
+import { weatherTutorial } from 'containers/connectors'
+import { parse } from 'prismic'
 
 export default compose(
     weatherTutorial,

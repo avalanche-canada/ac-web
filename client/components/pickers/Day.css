@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 /* DayPicker styles */
 
@@ -20,7 +20,11 @@
 }
 
 .navBar {
-    position: absolute 0 0 auto 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
     padding: 1em;
 }
 
@@ -37,7 +41,6 @@
     composes: navButton;
     right: 1em;
 }
-
 
 .caption {
     display: table-caption;
@@ -56,8 +59,8 @@
 
 .weekday {
     display: table-cell;
-    padding: .5rem;
-    font-size: .875em;
+    padding: 0.5rem;
+    font-size: 0.875em;
     text-align: center;
     color: #8b9898;
 }
@@ -72,7 +75,7 @@
 
 .day {
     display: table-cell;
-    padding: .5rem;
+    padding: 0.5rem;
     border: 1px solid #eaecec;
     text-align: center;
     cursor: pointer;
@@ -98,6 +101,6 @@
 }
 
 .selected:not(.disabled):not(.outside) {
-    color: #FFF;
+    color: #fff;
     background-color: var(--brand-primary);
 }

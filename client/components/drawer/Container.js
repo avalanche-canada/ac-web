@@ -14,7 +14,7 @@ import CSSModules from 'react-css-modules'
 import Cabinet from './Cabinet'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
-import { findNode, getPath, getParent } from '~/utils/tree'
+import { findNode, getPath, getParent } from 'utils/tree'
 
 const preset = presets.noWobble
 

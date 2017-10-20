@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { scrollPosition } from '~/utils/dom'
+import { scrollPosition } from 'utils/dom'
 
 class ScrollTo extends Component {
     componentDidUpdate({ location }) {

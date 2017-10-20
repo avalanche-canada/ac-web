@@ -11,8 +11,8 @@ import {
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { List, Term, Definition } from '~/components/description'
-import { asTermAndDefinition } from '~/components/description/utils'
+import { List, Term, Definition } from 'components/description'
+import { asTermAndDefinition } from 'components/description/utils'
 import {
     Table,
     Row,
@@ -22,14 +22,14 @@ import {
     HeaderCell,
     Caption,
     Responsive,
-} from '~/components/table'
-import { loadProviders, loadCourses } from '~/actions/entities'
-import * as providers from '~/selectors/ast/providers'
-import * as courses from '~/selectors/ast/courses'
-import { Markup } from '~/components/markup'
-import Pagination from '~/components/pagination'
-import { Article, Header as PageHeader } from '~/components/page'
-import { sortingHandlerFactory } from '~/utils/router'
+} from 'components/table'
+import { loadProviders, loadCourses } from 'actions/entities'
+import * as providers from 'selectors/ast/providers'
+import * as courses from 'selectors/ast/courses'
+import { Markup } from 'components/markup'
+import Pagination from 'components/pagination'
+import { Article, Header as PageHeader } from 'components/page'
+import { sortingHandlerFactory } from 'utils/router'
 
 // TODO: Reuse controlled table component
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-import { avalancheCanadaPathRegex, href } from '~/utils/url'
+import { avalancheCanadaPathRegex, href } from 'utils/url'
 import Url from 'url'
 
 const BLANK = '_blank'

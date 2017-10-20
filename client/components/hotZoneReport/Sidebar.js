@@ -1,10 +1,10 @@
 import React, { Children } from 'react'
 import PropTypes from 'prop-types'
 import { compose, mapProps, setPropTypes } from 'recompose'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import {Link} from 'react-router-dom'
-import { Sidebar, Contact, Follow, Share, Item } from '~/components/sidebar'
-import { FORECASTERS } from '~/constants/emails'
+import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
+import { FORECASTERS } from 'constants/emails'
 
 export default compose(
     setPropTypes({

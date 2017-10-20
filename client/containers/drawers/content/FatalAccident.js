@@ -6,15 +6,15 @@ import {
     Body,
     Navbar,
     Close,
-} from '~/components/page/drawer'
-import { Status } from '~/components/misc'
-import { DateTime } from '~/components/time'
-import { Metadata, Entry } from '~/components/metadata'
-import { fatalAccident } from '~/containers/connectors'
-import { LocateAsClass } from '~/components/button/Locate'
-import { Wrapper } from '~/components/tooltip'
-import { parse } from '~/prismic'
-import { StructuredText } from '~/prismic/components/base'
+} from 'components/page/drawer'
+import { Status } from 'components/misc'
+import { DateTime } from 'components/time'
+import { Metadata, Entry } from 'components/metadata'
+import { fatalAccident } from 'containers/connectors'
+import { LocateAsClass } from 'components/button/Locate'
+import { Wrapper } from 'components/tooltip'
+import { parse } from 'prismic'
+import { StructuredText } from 'prismic/components/base'
 
 const LOCATE_STYLE = {
     padding: '0.15em',

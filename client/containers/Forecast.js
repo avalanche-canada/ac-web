@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Page, Header, Main, Content, Aside } from '~/components/page'
+import { Page, Header, Main, Content, Aside } from 'components/page'
 import Forecast, {
     Metadata,
     Sidebar,
     KananaskisSidebar,
-} from '~/components/forecast'
-import { SPAW } from '~/components/misc'
-import { Muted, Error } from '~/components/text'
-import { forecast } from '~/containers/connectors'
+} from 'components/forecast'
+import { SPAW } from 'components/misc'
+import { Muted, Error } from 'components/text'
+import { forecast } from 'containers/connectors'
 
 const SPAW_STYLE = {
     padding: '1em',

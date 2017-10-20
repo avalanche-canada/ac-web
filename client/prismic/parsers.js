@@ -1,8 +1,8 @@
-import { lazyParse as parseDate } from '~/utils/date'
+import { lazyParse as parseDate } from 'utils/date'
 import camelCase from 'lodash/camelCase'
 import identity from 'lodash/identity'
 import get from 'lodash/get'
-import { normalizeTags, boolean } from '~/prismic/utils'
+import { normalizeTags, boolean } from 'prismic/utils'
 
 const TypeTransformers = new Map([
     ['Date', parseDate],

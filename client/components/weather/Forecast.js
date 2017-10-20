@@ -1,14 +1,14 @@
 import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
-import Tabs, { HeaderSet, Header, PanelSet, Panel } from '~/components/tabs'
+import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
 import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
-import Tutorial from '~/containers/WeatherTutorial'
-import TABS, { DAY5TO7 } from '~/components/weather/tabs'
+import Tutorial from 'containers/WeatherTutorial'
+import TABS, { DAY5TO7 } from 'components/weather/tabs'
 
 export default class Forecast extends PureComponent {
     static propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import {Link} from 'react-router-dom'
 import {
     Sidebar as Base,
@@ -10,8 +10,8 @@ import {
     Item,
     RSSFeed,
     Print,
-} from '~/components/sidebar'
-import { FORECASTERS } from '~/constants/emails'
+} from 'components/sidebar'
+import { FORECASTERS } from 'constants/emails'
 
 Sidebar.propTypes = {
     isPrintable: PropTypes.bool.isRequired,

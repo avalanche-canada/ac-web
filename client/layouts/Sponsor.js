@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
-import { SponsorRoute } from '~/router/common'
+import { SponsorRoute } from 'router/common'
 
 export default function Sponsor() {
     return (

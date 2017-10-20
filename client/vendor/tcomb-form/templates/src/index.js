@@ -1,6 +1,6 @@
 import React from 'react'
-import { DayPicker } from '~/components/pickers'
-import { TimePicker } from '~/components/controls'
+import { DayPicker } from 'components/pickers'
+import { TimePicker } from 'components/controls'
 import styles from './Picker.css'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'

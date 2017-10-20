@@ -1,8 +1,8 @@
 import React, { Children, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Credit } from '~/components/markup'
-import { ElementResize } from '~/components/misc'
+import { Credit } from 'components/markup'
+import { ElementResize } from 'components/misc'
 import styles from './Image.css'
 import WebLink from './WebLink'
 

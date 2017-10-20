@@ -6,7 +6,7 @@ import Embed from './Embed'
 import WebLink from './WebLink'
 import ImageLink from './ImageLink'
 import DocumentLink from './DocumentLink'
-import { replaceLineFeed, swap } from '~/utils/react'
+import { replaceLineFeed, swap } from 'utils/react'
 
 function Label({ label, children }) {
     return (

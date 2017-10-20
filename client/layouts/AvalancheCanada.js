@@ -1,5 +1,5 @@
 import React from 'react'
-import Application from '~/components/application'
+import Application from 'components/application'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import {
     LoginCompleteRoute,
@@ -8,10 +8,10 @@ import {
     GenricPageRoute,
     WIPPageRoute,
     FallbackPageRoute,
-} from '~/router/common'
-import { AvalancheCanada as Navbar } from '~/containers/Navbar'
-import Highlight from '~/containers/Highlight'
-import Footer from '~/components/footer'
+} from 'router/common'
+import { AvalancheCanada as Navbar } from 'containers/Navbar'
+import Highlight from 'containers/Highlight'
+import Footer from 'components/footer'
 import MainMap from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
@@ -21,7 +21,7 @@ import Weather from './Weather'
 import HotZoneReport from './HotZoneReport'
 import Forecast from './Forecast'
 import * as Feed from './Feed'
-import Glossary from '~/containers/Glossary'
+import Glossary from 'containers/Glossary'
 
 export default function AvalancheCanada() {
     return (

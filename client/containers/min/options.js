@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import t from '~/vendor/tcomb-form'
+import t from 'vendor/tcomb-form'
 import {
     QUICK,
     WEATHER,
@@ -8,7 +8,7 @@ import {
     AVALANCHE,
     INCIDENT,
     NAMES,
-} from '~/constants/min'
+} from 'constants/min'
 import { layout, observationSet } from './templates'
 import { ObservationSet } from './factories'
 import format from 'date-fns/format'

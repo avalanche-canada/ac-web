@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TabSet, Tab, LOOSE } from '~/components/tab'
-import { CloudinaryGallery } from '~/components/gallery'
+import { TabSet, Tab, LOOSE } from 'components/tab'
+import { CloudinaryGallery } from 'components/gallery'
 
 function mapProperties({ tag, fullScreen, playPause }) {
     return {

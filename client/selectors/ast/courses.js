@@ -1,8 +1,8 @@
 import React from 'react'
 import { createSelector } from 'reselect'
 import { List } from 'immutable'
-import { Course } from '~/api/schemas'
-import { Phone, Mailto } from '~/components/anchors'
+import { Course } from 'api/schemas'
+import { Phone, Mailto } from 'components/anchors'
 import * as entities from './entities'
 import * as Columns from './columns'
 

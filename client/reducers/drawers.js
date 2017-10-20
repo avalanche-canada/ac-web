@@ -1,11 +1,11 @@
 import { Record, Map } from 'immutable'
 import { handleActions, handleAction } from 'redux-actions'
 import { combineReducers } from 'redux'
-import { LocalStorage } from '~/services/storage'
-import * as DrawersActions from '~/actions/drawers'
-import * as MapActions from '~/actions/map'
-import * as Layers from '~/constants/drawers'
-import * as Schemas from '~/api/schemas'
+import { LocalStorage } from 'services/storage'
+import * as DrawersActions from 'actions/drawers'
+import * as MapActions from 'actions/map'
+import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility',

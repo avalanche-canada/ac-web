@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import mapbox from '~/services/mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 const { LngLat } = mapbox
 const ANCHORS = [

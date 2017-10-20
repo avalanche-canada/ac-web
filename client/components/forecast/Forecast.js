@@ -7,8 +7,8 @@ import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import { Table, Day, DaySet, Condition, Confidence } from './danger'
 import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
-import { TabSet, Tab, LOOSE } from '~/components/tab'
-import { InnerHTML } from '~/components/misc'
+import { TabSet, Tab, LOOSE } from 'components/tab'
+import { InnerHTML } from 'components/misc'
 
 Forecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

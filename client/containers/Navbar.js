@@ -10,13 +10,13 @@ import Navbar, {
     UserProfile,
     Header,
     Link,
-} from '~/components/navbar'
-import Avatar from '~/components/avatar'
-import * as Menus from '~/constants/menu'
-import { getIsAuthenticated, getProfile } from '~/getters/auth'
-import { login, logout } from '~/actions/auth'
-import AvalancheCanadaLogo from '~/styles/AvalancheCanada.svg'
-import AvalancheCanadaFoundationLogo from '~/styles/AvalancheCanadaFoundation.svg'
+} from 'components/navbar'
+import Avatar from 'components/avatar'
+import * as Menus from 'constants/menu'
+import { getIsAuthenticated, getProfile } from 'getters/auth'
+import { login, logout } from 'actions/auth'
+import AvalancheCanadaLogo from 'styles/AvalancheCanada.svg'
+import AvalancheCanadaFoundationLogo from 'styles/AvalancheCanadaFoundation.svg'
 
 export const AvalancheCanada = compose(
     withRouter,

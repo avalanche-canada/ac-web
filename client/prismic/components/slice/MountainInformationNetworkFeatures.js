@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
-import { classify } from '~/utils/string'
+import { classify } from 'utils/string'
 
 const Texts = new Map([['Not available', 'N/A']])
 

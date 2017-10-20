@@ -7,15 +7,15 @@ import {
     Container as DrawerContainer,
     Body,
     Close,
-} from '~/components/page/drawer'
-import Forecast, { Metadata } from '~/components/forecast'
-import { SPAW } from '~/components/misc'
-import { Muted, Error } from '~/components/text'
-import { forecast } from '~/containers/connectors'
-import Sponsor from '~/layouts/Sponsor'
-import { LocateAsClass } from '~/components/button/Locate'
-import { Wrapper } from '~/components/tooltip'
-import { Feed } from '~/containers/feed'
+} from 'components/page/drawer'
+import Forecast, { Metadata } from 'components/forecast'
+import { SPAW } from 'components/misc'
+import { Muted, Error } from 'components/text'
+import { forecast } from 'containers/connectors'
+import Sponsor from 'layouts/Sponsor'
+import { LocateAsClass } from 'components/button/Locate'
+import { Wrapper } from 'components/tooltip'
+import { Feed } from 'containers/feed'
 
 const LOCATE_STYLE = {
     padding: '0.15em',

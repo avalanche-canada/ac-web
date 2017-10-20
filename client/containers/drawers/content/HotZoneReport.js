@@ -7,13 +7,13 @@ import {
     Container as DrawerContainer,
     Body,
     Close,
-} from '~/components/page/drawer'
-import { Loading, Error } from '~/components/text'
-import { hotZoneReport } from '~/containers/connectors'
-import HotZoneReport, { Metadata } from '~/components/hotZoneReport'
-import Sponsor from '~/layouts/Sponsor'
-import { LocateAsClass } from '~/components/button/Locate'
-import { Wrapper } from '~/components/tooltip'
+} from 'components/page/drawer'
+import { Loading, Error } from 'components/text'
+import { hotZoneReport } from 'containers/connectors'
+import HotZoneReport, { Metadata } from 'components/hotZoneReport'
+import Sponsor from 'layouts/Sponsor'
+import { LocateAsClass } from 'components/button/Locate'
+import { Wrapper } from 'components/tooltip'
 
 const LOCATE_STYLE = {
     padding: '0.15em',

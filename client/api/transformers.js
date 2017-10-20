@@ -1,10 +1,10 @@
-import QUICK_REPORT from '~/containers/min/quick.json'
-import t from '~/vendor/tcomb-form'
+import QUICK_REPORT from 'containers/min/quick.json'
+import t from 'vendor/tcomb-form'
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
 import identity from 'lodash/identity'
-import Submission from '~/containers/min/types'
-import { QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT } from '~/constants/min'
+import Submission from 'containers/min/types'
+import { QUICK, AVALANCHE, SNOWPACK, WEATHER, INCIDENT } from 'constants/min'
 
 const ObservationKeys = new Map([
     [QUICK, 'quickReport'],

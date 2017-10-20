@@ -1,11 +1,11 @@
 import React from 'react'
 import Url from 'url'
 import isSameDay from 'date-fns/is_same_day'
-import { P } from '~/components/markup'
-import { DateElement } from '~/components/time'
-import { Mailto, Phone } from '~/components/anchors'
-import { List, Term, Definition } from '~/components/description'
-import { NONE } from '~/constants/sortings'
+import { P } from 'components/markup'
+import { DateElement } from 'components/time'
+import { Mailto, Phone } from 'components/anchors'
+import { List, Term, Definition } from 'components/description'
+import { NONE } from 'constants/sortings'
 
 // TODO: Use Column Record
 

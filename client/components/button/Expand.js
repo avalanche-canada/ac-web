@@ -9,7 +9,7 @@ import {
 } from 'recompose'
 import { SUBTILE } from './kinds'
 import Button from './Button'
-import { Remove, Add, ExpandMore, ExpandLess } from '~/components/icons'
+import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
 
 const ICONS = new Map([
     [true, new Map([[true, <ExpandLess />], [false, <ExpandMore />]])],

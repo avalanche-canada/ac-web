@@ -1,5 +1,5 @@
-import { ForecastRegion, HotZone } from '~/api/schemas'
-import { LocalStorage } from '~/services/storage'
+import { ForecastRegion, HotZone } from 'api/schemas'
+import { LocalStorage } from 'services/storage'
 import Immutable from 'immutable'
 
 export configure from './configure'

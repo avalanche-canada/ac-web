@@ -6,13 +6,13 @@ import {
     Body,
     Navbar,
     Close,
-} from '~/components/page/drawer'
-import { InnerHTML, Status } from '~/components/misc'
-import { DateTime } from '~/components/time'
-import { Metadata, Entry } from '~/components/metadata'
-import { specialInformation } from '~/containers/connectors'
-import { LocateAsClass } from '~/components/button/Locate'
-import { Wrapper } from '~/components/tooltip'
+} from 'components/page/drawer'
+import { InnerHTML, Status } from 'components/misc'
+import { DateTime } from 'components/time'
+import { Metadata, Entry } from 'components/metadata'
+import { specialInformation } from 'containers/connectors'
+import { LocateAsClass } from 'components/button/Locate'
+import { Wrapper } from 'components/tooltip'
 
 const LOCATION_STYLE = {
     fontSize: '1.1em',

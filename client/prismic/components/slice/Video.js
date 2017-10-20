@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Media, Caption, Player } from '~/components/media'
-import { Ribbon } from '~/components/misc'
+import { Media, Caption, Player } from 'components/media'
+import { Ribbon } from 'components/misc'
 import styles from './Video.css'
-import { StructuredText } from '~/prismic/components/base'
+import { StructuredText } from 'prismic/components/base'
 
 Video.propTypes = {
     caption: PropTypes.string,

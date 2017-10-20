@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, Link } from 'react-router-dom'
-import { Page, Content, Header, Main, Aside } from '~/components/page'
-import { Sidebar } from '~/components/page/weather'
-import Container, { Forecast } from '~/containers/WeatherForecast'
+import { Page, Content, Header, Main, Aside } from 'components/page'
+import { Sidebar } from 'components/page/weather'
+import Container, { Forecast } from 'containers/WeatherForecast'
 import {
     HourlyPrecipitation,
     Precipitation12h,
@@ -15,7 +15,7 @@ import {
     Satellite,
     ActualTemperatures,
     Warnings,
-} from '~/components/page/weather/articles'
+} from 'components/page/weather/articles'
 
 Weather.propTypes = {
     children: PropTypes.node.isRequired,

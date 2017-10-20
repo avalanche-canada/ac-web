@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
 import CSSModules from 'react-css-modules'
-import { Map, NavigationControl } from '~/components/map'
+import { Map, NavigationControl } from 'components/map'
 import Url from 'url'
-import Alert, { WARNING } from '~/components/alert'
-import { Generic } from '~/prismic/components'
+import Alert, { WARNING } from 'components/alert'
+import { Generic } from 'prismic/components'
 import styles from './AtesMap.css'
 
 const ZOOM = 5.1

@@ -1,9 +1,9 @@
 import React from 'react'
 import { compose, withProps, defaultProps } from 'recompose'
-import { feedSidebar } from '~/containers/connectors'
-import Sidebar, { Header, Item } from '~/components/sidebar'
-import Link from '~/prismic/components/Link'
-import { EVENT, NEWS, BLOG } from '~/selectors/prismic/feed'
+import { feedSidebar } from 'containers/connectors'
+import Sidebar, { Header, Item } from 'components/sidebar'
+import Link from 'prismic/components/Link'
+import { EVENT, NEWS, BLOG } from 'selectors/prismic/feed'
 
 const Headers = new Map([
     [BLOG, 'Latest'],

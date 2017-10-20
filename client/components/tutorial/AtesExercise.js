@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withState } from 'recompose'
-import { fetchStaticResource } from '~/api'
-import { InnerHTML } from '~/components/misc'
+import { fetchStaticResource } from 'api'
+import { InnerHTML } from 'components/misc'
 import style from './ates.css'
-import { Media, Caption } from '~/components/media'
-import { Image } from '~/prismic/components/base'
+import { Media, Caption } from 'components/media'
+import { Image } from 'prismic/components/base'
 
 const ExerciseShape = PropTypes.shape({
     slug: PropTypes.string.isRequired,

@@ -1,9 +1,9 @@
 import React from 'react'
 import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
-import { neverUpdate } from '~/compose'
+import { neverUpdate } from 'compose'
 import styles from './MountainConditionsReport.css'
-import logo from '~/styles/mcr-logo.jpg'
+import logo from 'styles/mcr-logo.jpg'
 
 function Footer() {
     const url = 'https://mountainconditions.com'

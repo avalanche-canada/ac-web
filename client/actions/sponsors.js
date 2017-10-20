@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions'
-import { fetchStaticResource } from '~/api'
-import { getSponsors } from '~/getters/sponsors'
-import { createDelayedAction } from '~/utils/redux'
+import { fetchStaticResource } from 'api'
+import { getSponsors } from 'getters/sponsors'
+import { createDelayedAction } from 'utils/redux'
 
 export const GET_SPONSORS = 'GET_SPONSORS'
 

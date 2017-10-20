@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Contact } from '~/components/sidebar'
+import { Contact } from 'components/sidebar'
 import {
     Page,
     Content,
@@ -9,12 +9,12 @@ import {
     Main,
     Banner,
     Aside,
-} from '~/components/page'
-import Sidebar from '~/components/sidebar'
-import { Status } from '~/components/misc'
-import { parse } from '~/prismic'
-import { SliceZone } from '~/prismic/components/base'
-import { STATIC_PAGE } from '~/constants/prismic'
+} from 'components/page'
+import Sidebar from 'components/sidebar'
+import { Status } from 'components/misc'
+import { parse } from 'prismic'
+import { SliceZone } from 'prismic/components/base'
+import { STATIC_PAGE } from 'constants/prismic'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,

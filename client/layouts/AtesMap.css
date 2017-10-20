@@ -1,4 +1,4 @@
-@import "../styles/colors.css";
+@import '../styles/colors.css';
 
 .Container {
     position: relative;
@@ -11,7 +11,11 @@
 }
 
 .Disclaimer {
-    position: absolute 0 1em auto 1em;
+    position: absolute;
+    top: 0;
+    right: 1em;
+    bottom: auto;
+    left: 1em;
     z-index: 10;
     & p {
         font-size: 0.85em;
@@ -19,7 +23,7 @@
         &:first-child {
             margin-top: 0;
         }
-        
+
         &:last-child {
             margin-bottom: 0;
         }

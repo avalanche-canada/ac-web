@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Page, Content, Main, Header } from '~/components/page'
-import { Status } from '~/components/misc'
-import { StructuredText } from '~/prismic/components/base'
-import { parse } from '~/prismic'
+import { Page, Content, Main, Header } from 'components/page'
+import { Status } from 'components/misc'
+import { StructuredText } from 'prismic/components/base'
+import { parse } from 'prismic'
 
 Generic.propTypes = {
     title: PropTypes.string,

@@ -2,7 +2,11 @@
 @import '../../../styles/Textures.css';
 
 .Drawer {
-    position: absolute 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 100%;
     z-index: 11;
     background-color: white;
@@ -111,13 +115,21 @@
     }
 
     &:before {
-        position: absolute 3px 0;
+        position: absolute;
+        top: 3px;
+        right: 0;
+        bottom: 3px;
+        left: 0;
         z-index: -1;
     }
 }
 
 .Backdrop {
-    position: absolute 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 11;
     background-color: color(black alpha(25%));
 

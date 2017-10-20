@@ -6,10 +6,10 @@ import Error from './Error'
 import Main from './Main'
 import Headline from './Headline'
 import Section from './Section'
-import { Loading } from '~/components/text'
-import { Mailto } from '~/components/anchors'
+import { Loading } from 'components/text'
+import { Mailto } from 'components/anchors'
 import styles from './Page.css'
-import mapbox from '~/services/mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 UnsupportedMap.propTypes = {
     forecastRegions: PropTypes.array,

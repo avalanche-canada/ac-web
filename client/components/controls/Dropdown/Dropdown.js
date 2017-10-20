@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
 import Holder from '../Holder'
-import { OptionSet, Option } from '~/components/controls/options'
+import { OptionSet, Option } from 'components/controls/options'
 import styles from './Dropdown.css'
 import noop from 'lodash/noop'
 

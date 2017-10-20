@@ -1,11 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect'
-import { WeatherStation } from '~/api/schemas'
-import { getEntityForSchema } from '~/getters/entities'
-import { getResultsSet } from '~/getters/api'
+import { WeatherStation } from 'api/schemas'
+import { getEntityForSchema } from 'getters/entities'
+import { getResultsSet } from 'getters/api'
 import * as Columns from './columns'
 import * as Headers from './headers'
-import { computeOffset } from '~/selectors/map/bounds'
-import Status from '~/utils/status'
+import { computeOffset } from 'selectors/map/bounds'
+import Status from 'utils/status'
 
 function getWeatherStationRaw(state, { id }) {
     return getEntityForSchema(state, WeatherStation, id)

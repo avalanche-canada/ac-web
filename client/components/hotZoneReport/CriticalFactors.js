@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Comment from '~/components/mountainInformationNetwork/Comment'
-import List from '~/components/mountainInformationNetwork/List'
-import { Term, Definition } from '~/components/description'
-import Panel, { INVERSE } from '~/components/panel'
+import Comment from 'components/mountainInformationNetwork/Comment'
+import List from 'components/mountainInformationNetwork/List'
+import { Term, Definition } from 'components/description'
+import Panel, { INVERSE } from 'components/panel'
 import styles from './HotZoneReport.css'
-import { StructuredText } from '~/prismic/components/base'
-import { RED, ORANGE } from '~/constants/forecast/palette'
+import { StructuredText } from 'prismic/components/base'
+import { RED, ORANGE } from 'constants/forecast/palette'
 
 const TERMS = new Map([
     ['persistentAvalancheProblem', 'Persistent avalanche problem'],

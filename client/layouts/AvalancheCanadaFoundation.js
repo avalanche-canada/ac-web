@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Application from '~/components/application'
-import { AvalancheCanadaFoundation as Navbar } from '~/containers/Navbar'
-import Highlight from '~/containers/Highlight'
-import Footer from '~/components/footer'
+import Application from 'components/application'
+import { AvalancheCanadaFoundation as Navbar } from 'containers/Navbar'
+import Highlight from 'containers/Highlight'
+import Footer from 'components/footer'
 import { Route, Switch } from 'react-router-dom'
-import { StaticPage } from '~/prismic/containers'
-import { NotFound } from '~/components/page'
-import { createRoute } from '~/utils/router'
+import { StaticPage } from 'prismic/containers'
+import { NotFound } from 'components/page'
+import { createRoute } from 'utils/router'
 
 function createRoutes(root) {
     return [

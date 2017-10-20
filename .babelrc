@@ -1,12 +1,9 @@
 {
-  "presets": ["latest", "react", "stage-0"],
-  "plugins": [
-    ["babel-plugin-root-import", {
-        "rootPathSuffix": "client"
-    }],
-    "transform-decorators-legacy",
-    "transform-react-constant-elements",
-    "transform-react-remove-prop-types",
-    "transform-react-pure-class-to-function"
-  ]
+    "presets": ["env", "react", "stage-0"],
+    "plugins": [
+        "transform-decorators-legacy",
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types",
+        "transform-react-pure-class-to-function"
+    ]
 }

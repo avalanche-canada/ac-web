@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { List } from 'immutable'
 import format from 'date-fns/format'
-import { DATE, setUTCOffset } from '~/utils/date'
+import { DATE, setUTCOffset } from 'utils/date'
 import {
     Table,
     Header,
@@ -12,7 +12,7 @@ import {
     HeaderCell,
     TBody,
     Caption,
-} from '~/components/table'
+} from 'components/table'
 import styles from './Table.css'
 
 StationTable.propTypes = {

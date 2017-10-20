@@ -1,11 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect'
-import { computeOffset } from '~/selectors/map/bounds'
-import { parseLocation } from '~/prismic/parsers'
+import { computeOffset } from 'selectors/map/bounds'
+import { parseLocation } from 'prismic/parsers'
 import {
     getStatusFactory,
     getDocument,
     getUid,
-} from '~/selectors/prismic/utils'
+} from 'selectors/prismic/utils'
 
 // TODO: Create a connector, it is really similar to special-information
 // TODO: Move to index!

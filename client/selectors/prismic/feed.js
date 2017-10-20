@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect'
-import { getDocumentsOfType, getResult } from '~/getters/prismic'
+import { getDocumentsOfType, getResult } from 'getters/prismic'
 import months, { options as monthOptions } from './months'
-import { parse } from '~/prismic'
+import { parse } from 'prismic'
 import computeYearOptions from './computeYearOptions'
 import computeCategoryOptions from './computeCategoryOptions'
 import computeTagsOptions from './computeTagsOptions'
@@ -9,7 +9,7 @@ import {
     getType,
     getStatusFactory,
     getDocumentsFromResult,
-} from '~/selectors/prismic/utils'
+} from 'selectors/prismic/utils'
 import isBefore from 'date-fns/is_before'
 import startOfDay from 'date-fns/start_of_day'
 

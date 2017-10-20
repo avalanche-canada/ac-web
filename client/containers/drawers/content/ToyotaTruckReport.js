@@ -8,13 +8,13 @@ import {
     Close,
     Banner,
     Content,
-} from '~/components/page/drawer'
-import { Ratio, Status } from '~/components/misc'
-import cloudinary from '~/services/cloudinary/cl'
+} from 'components/page/drawer'
+import { Ratio, Status } from 'components/misc'
+import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
-import { toyotaTruckReport } from '~/containers/connectors'
-import { parse } from '~/prismic'
-import { StructuredText } from '~/prismic/components/base'
+import { toyotaTruckReport } from 'containers/connectors'
+import { parse } from 'prismic'
+import { StructuredText } from 'prismic/components/base'
 
 const NAVBAR_STYLE = {
     position: 'absolute',

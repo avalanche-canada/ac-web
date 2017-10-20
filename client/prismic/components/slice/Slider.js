@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, withProps, defaultProps } from 'recompose'
-import Slider from '~/components/slider'
-import { StructuredText } from '~/prismic/components/base'
+import Slider from 'components/slider'
+import { StructuredText } from 'prismic/components/base'
 import styles from './Slider.css'
 
 export default compose(

@@ -1,8 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect'
-import { MountainConditionsReport as Schema } from '~/api/schemas'
-import { getEntityForSchema } from '~/getters/entities'
-import { getResultsSet } from '~/getters/api'
-import { computeOffset } from '~/selectors/map/bounds'
+import { MountainConditionsReport as Schema } from 'api/schemas'
+import { getEntityForSchema } from 'getters/entities'
+import { getResultsSet } from 'getters/api'
+import { computeOffset } from 'selectors/map/bounds'
 
 function getReport(state, props) {
     return getEntityForSchema(state, Schema, props.id)
