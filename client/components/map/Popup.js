@@ -20,7 +20,7 @@ export default class Popup extends Component {
         lngLat: PropTypes.instanceOf(LngLat).isRequired,
         show: PropTypes.bool,
         children: PropTypes.element.isRequired,
-        options: PropTypes.shapeOf({
+        options: PropTypes.shape({
             closeButton: PropTypes.bool,
             closeOnClick: PropTypes.bool,
             anchor: PropTypes.oneOf(ANCHORS),
