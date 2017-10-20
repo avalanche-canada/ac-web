@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
 import CSSModules from 'react-css-modules'
 import mapbox from 'services/mapbox/map'
 import {
