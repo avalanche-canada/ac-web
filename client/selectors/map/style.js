@@ -18,7 +18,7 @@ import {
 } from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 import explode from '@turf/explode'
 
 function transformSubmission(submission) {

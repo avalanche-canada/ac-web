@@ -1,5 +1,5 @@
 import distance from '@turf/distance'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 
 function sorter(a, b) {
     return a.distance - b.distance

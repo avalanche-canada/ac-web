@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
 import createBbox from '@turf/bbox'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 import mapbox from 'services/mapbox/map'
 import { getActiveFeatures } from 'getters/map'
 import {

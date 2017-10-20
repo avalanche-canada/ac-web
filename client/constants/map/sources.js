@@ -1,5 +1,5 @@
 import * as Layers from 'constants/drawers'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 
 const data = turf.featureCollection([])
 const type = 'geojson'

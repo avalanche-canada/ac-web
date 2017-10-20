@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { createSelector } from 'reselect'
 import Immutable from 'immutable'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 import distance from '@turf/distance'
 import { Course, Provider } from 'api/schemas'
 import { getEntitiesForSchema } from 'getters/entities'
@@ -180,9 +180,11 @@ export function table(schema, columns) {
 
             columns = columns.update(key, column => ({
                 ...column,
-                title: helper
-                    ? <Helper title={helper}>Distance</Helper>
-                    : 'Distance',
+                title: helper ? (
+                    <Helper title={helper}>Distance</Helper>
+                ) : (
+                    'Distance'
+                ),
             }))
 
             // Sorting

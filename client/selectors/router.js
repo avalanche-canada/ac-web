@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
-import turf from '@turf/helpers'
+import * as turf from '@turf/helpers'
 
 export const getPlace = createSelector(
     (state, props) => props.location,
