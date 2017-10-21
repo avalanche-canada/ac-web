@@ -64,14 +64,14 @@ function Container({
                     {forecast && forecast.region && <Forecast {...forecast} />}
                 </Main>
                 <Aside>
-                    <Switch>
-                        <Route name="/forecasts/kananaskis">
-                            <KananaskisSidebar />
-                        </Route>
-                        <Route name="/forecasts">
-                            <Sidebar isPrintable={isPrintable} />
-                        </Route>
-                    </Switch>
+                    <Route>
+                        {({ match }) =>
+                            match.params.name === 'kananaskis' ? (
+                                <KananaskisSidebar />
+                            ) : (
+                                <Sidebar isPrintable={isPrintable} />
+                            )}
+                    </Route>
                 </Aside>
             </Content>
         </Page>
