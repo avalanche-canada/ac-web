@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Route, Switch } from 'react-router-dom'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import Forecast, {
     Metadata,
@@ -21,7 +22,6 @@ Container.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
     isUnderSpecialWarning: PropTypes.bool,
-    name: PropTypes.string,
     specialWarningLink: PropTypes.object,
     specialWarningContent: PropTypes.string,
 }
@@ -35,7 +35,6 @@ function Container({
     specialWarningLink,
     specialWarningContent,
 }) {
-    const isKananaskis = name === 'kananaskis'
     const isPrintable = forecast ? !forecast.isArchived : false
 
     // TODO: Huge hack, please FIXME!!!
@@ -52,20 +51,27 @@ function Container({
                 <Main>
                     {forecast && <Metadata {...forecast} />}
                     {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
-                    {isError &&
+                    {isError && (
                         <Error>
                             Error happened while loading avalanche bulletin.
-                        </Error>}
-                    {isUnderSpecialWarning &&
+                        </Error>
+                    )}
+                    {isUnderSpecialWarning && (
                         <SPAW link={specialWarningLink} style={SPAW_STYLE}>
                             {specialWarningContent}
-                        </SPAW>}
+                        </SPAW>
+                    )}
                     {forecast && forecast.region && <Forecast {...forecast} />}
                 </Main>
                 <Aside>
-                    {isKananaskis
-                        ? <KananaskisSidebar />
-                        : <Sidebar isPrintable={isPrintable} />}
+                    <Switch>
+                        <Route name="/forecasts/kananaskis">
+                            <KananaskisSidebar />
+                        </Route>
+                        <Route name="/forecasts">
+                            <Sidebar isPrintable={isPrintable} />
+                        </Route>
+                    </Switch>
                 </Aside>
             </Content>
         </Page>
