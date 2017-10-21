@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import Forecast, {
     Metadata,
