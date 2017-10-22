@@ -99,6 +99,9 @@ p {
 }
 
 /* BUTTON */
+button {
+    border-radius: 0;
+}
 button[disabled],
 input[disabled],
 fieldset[disabled] button,

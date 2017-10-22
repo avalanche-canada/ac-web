@@ -1,13 +1,11 @@
-import { compose, withProps } from 'recompose'
-import { neverUpdate } from 'compose'
-import CSSModules from 'react-css-modules'
+import React from 'react'
 import styles from './Navbar.css'
-import Link from './Link'
+import { Link } from 'react-router-dom'
 
-export default compose(
-    neverUpdate,
-    withProps({
-        styleName: 'Brand',
-    }),
-    CSSModules(styles)
-)(Link)
+export default function Brand({ children, ...props }) {
+    return (
+        <Link className={styles.Brand} {...props}>
+            {children}
+        </Link>
+    )
+}
