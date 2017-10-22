@@ -13,6 +13,12 @@ export default class HeaderSet extends PureComponent {
         cloneElement(header, {
             isActive: index === this.props.activeIndex,
             onActivate: () => {
+                const { disabled } = header.props
+
+                if (disabled) {
+                    return
+                }
+
                 this.props.onActiveIndexChange(index)
             },
         })
@@ -29,6 +35,7 @@ export class Header extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
         isActive: PropTypes.bool,
+        disabled: PropTypes.bool,
         onActivate: PropTypes.func,
     }
     constructor(props) {
@@ -37,10 +44,11 @@ export class Header extends PureComponent {
         this.styles = classnames.bind(styles)
     }
     render() {
-        const { isActive, onActivate, children } = this.props
+        const { isActive, disabled, onActivate, children } = this.props
         const classNames = this.styles({
             Header: true,
             'Header--isActive': isActive,
+            'Header--Disabled': disabled,
         })
 
         return (
