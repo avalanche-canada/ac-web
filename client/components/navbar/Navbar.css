@@ -1,5 +1,5 @@
-@import "../../styles/colors.css";
-@import "../../styles/components.css";
+@import '../../styles/colors.css';
+@import '../../styles/components.css';
 
 @custom-media --full-nav (width > 768px);
 
@@ -20,7 +20,6 @@
 }
 
 .Navbar {
-
 }
 
 .Navigation {
@@ -49,7 +48,6 @@
     margin: 0;
     padding: 0;
 }
-
 
 .Item {
     position: relative;
@@ -83,7 +81,7 @@
     }
 
     &:before {
-        content: "";
+        content: '';
         position: absolute;
         top: 100%;
         left: 50%;
@@ -93,17 +91,6 @@
         margin-left: -8px;
         z-index: 11;
     }
-}
-
-.Brand {
-    flex: 2 0;
-    height: var(--navbar-height);
-    padding: 0 15px;
-    min-width: 100px;
-    max-width: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .Burger--Container {
@@ -128,7 +115,7 @@
 .Menu {
     display: flex;
     position: fixed;
-    justify-content:space-between;
+    justify-content: space-between;
     left: 0;
     right: 0;
     top: var(--navbar-height);
@@ -170,7 +157,7 @@
         }
 
         &:after {
-            content: "\00a0›";
+            content: '\00a0›';
             color: var(--brand-primary);
         }
     }
@@ -207,4 +194,17 @@
         background-color: color(var(--brand-secondary) blackness(15%));
         color: white;
     }
+}
+
+.Brand {
+    composes: Link;
+
+    flex: 2 0;
+    height: var(--navbar-height);
+    padding: 0 15px;
+    min-width: 100px;
+    max-width: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }

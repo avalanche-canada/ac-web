@@ -10,9 +10,9 @@ Navbar.propTypes = {
 
 function Navbar({ style, children }) {
     return (
-        <navbar styleName="Navbar" style={style}>
+        <nav styleName="Navbar" style={style}>
             {children}
-        </navbar>
+        </nav>
     )
 }
 
