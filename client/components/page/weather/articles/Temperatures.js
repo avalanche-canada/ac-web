@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tab, TabSet } from 'components/tab'
+import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Article } from 'components/page'
 import Tutorial from 'containers/WeatherTutorial'
 import { Loop, Warning } from 'components/weather'
@@ -7,24 +7,33 @@ import { Loop, Warning } from 'components/weather'
 export default function Temperatures() {
     return (
         <Article title="Temperatures">
-            <TabSet>
-                <Tab title="Freezing Level R">
-                    <Loop type="AC_RDPS_BC_freezing-level" withNotes />
-                </Tab>
-                <Tab title="1500m 4am G">
-                    <Loop type="AC_GDPS_BC_850-temp-4am" withNotes />
-                </Tab>
-                <Tab title="1500m 4pm G">
-                    <Loop type="AC_GDPS_BC_850-temp-4pm" withNotes />
-                </Tab>
-                <Tab title="Surface HR">
-                    <Warning />
-                    {/* <Loop type="AC_HRDPS_BC_sfc-temp-3hr-freq" withNotes /> */}
-                </Tab>
-                <Tab title="Tutorials">
-                    <Tutorial uid="temperatures" />
-                </Tab>
-            </TabSet>
+            <Tabs>
+                <HeaderSet>
+                    <Header>Freezing Level R</Header>
+                    <Header>1500m 4am G</Header>
+                    <Header>1500m 4pm G</Header>
+                    <Header>Surface HR</Header>
+                    <Header>Tutorials</Header>
+                </HeaderSet>
+                <PanelSet>
+                    <Panel>
+                        <Loop type="AC_RDPS_BC_freezing-level" withNotes />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_GDPS_BC_850-temp-4am" withNotes />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_GDPS_BC_850-temp-4pm" withNotes />
+                    </Panel>
+                    <Panel>
+                        <Warning />
+                        {/* <Loop type="AC_HRDPS_BC_sfc-temp-3hr-freq" withNotes /> */}
+                    </Panel>
+                    <Panel>
+                        <Tutorial uid="temperatures" />
+                    </Panel>
+                </PanelSet>
+            </Tabs>
         </Article>
     )
 }
