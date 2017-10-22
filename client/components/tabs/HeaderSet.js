@@ -36,7 +36,9 @@ export class Header extends PureComponent {
         children: PropTypes.node.isRequired,
         isActive: PropTypes.bool,
         disabled: PropTypes.bool,
+        arrow: PropTypes.bool,
         onActivate: PropTypes.func,
+        style: PropTypes.object,
     }
     constructor(props) {
         super(props)
@@ -44,17 +46,36 @@ export class Header extends PureComponent {
         this.styles = classnames.bind(styles)
     }
     render() {
-        const { isActive, disabled, onActivate, children } = this.props
+        const {
+            isActive,
+            disabled,
+            arrow,
+            onActivate,
+            children,
+            style,
+        } = this.props
         const classNames = this.styles({
             Header: true,
+            'Header--Arrow': arrow,
             'Header--isActive': isActive,
             'Header--Disabled': disabled,
         })
 
         return (
-            <div className={classNames} onClick={onActivate}>
+            <div className={classNames} style={style} onClick={onActivate}>
                 {children}
             </div>
         )
     }
+}
+
+export function ColoredHeader({ color, ...props }) {
+    const { disabled } = props
+    const style = {
+        backgroundColor: disabled ? null : color,
+        color: disabled ? null : 'white',
+        borderBottomColor: color,
+    }
+
+    return <Header {...props} style={style} />
 }

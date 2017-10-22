@@ -7,10 +7,15 @@ export default class PanelSet extends PureComponent {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
         activeIndex: PropTypes.number,
     }
-    render() {
-        const { children, activeIndex } = this.props
+    get children() {
+        const { children } = this.props
 
-        return Children.toArray(children)[activeIndex]
+        return Array.isArray(children) ? children : Children.toArray(children)
+    }
+    render() {
+        const { activeIndex } = this.props
+
+        return this.children[activeIndex] || null
     }
 }
 

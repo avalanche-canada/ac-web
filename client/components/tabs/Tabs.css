@@ -1,6 +1,5 @@
 @import '../../styles/components.css';
 @import '../../styles/colors.css';
-@import '../../styles/shapes.css';
 
 :root {
     --border-width: 5px;
@@ -50,18 +49,21 @@
     }
 }
 
-.PanelSet--Arrow {
-    composes: import ArrowElementDown from '../../styles/shapes.css';
+.Header--Arrow {
+    position: relative;
 
-    position: absolute;
-    top: calc(100% + var(--border-width));
-    left: 50%;
-    z-index: 1;
-    border-top-color: transparent;
-    margin-left: calc(-1 * var(--arrow-width));
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 46%;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+    }
 
-    &.PanelSet--Active {
-        border-top-color: var(--primary);
+    &.Header--isActive:after {
+        background-color: inherit;
     }
 }
 
