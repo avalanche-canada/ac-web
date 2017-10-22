@@ -7,7 +7,9 @@ module.exports = merge(common, {
     devtool: 'source-map',
     plugins: [
         new Webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production'),
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            },
         }),
         new UglifyJSPlugin({
             sourceMap: true,
