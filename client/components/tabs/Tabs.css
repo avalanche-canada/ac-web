@@ -87,9 +87,11 @@
 }
 
 .Loose {
-    background-color: color(var(--primary) lightness(75%));
-
     & .HeaderSet {
+        background-color: color(var(--primary) lightness(75%));
+    }
+
+    & .Header {
         display: inline-block;
         position: relative;
         padding: 1.5em 2.5em;

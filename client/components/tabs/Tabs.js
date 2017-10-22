@@ -9,12 +9,12 @@ import identity from 'lodash/identity'
 export default class Tabs extends PureComponent {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        theme: PropTypes.oneOf(['LOOSE']),
+        theme: PropTypes.oneOf(['loose', 'compact']),
         activeIndex: PropTypes.number,
         onActiveIndexChange: PropTypes.func,
     }
     static defaultProps = {
-        theme: 'COMPACT',
+        theme: 'compact',
         activeIndex: 0,
         onActiveIndexChange: identity,
     }
@@ -53,8 +53,8 @@ export default class Tabs extends PureComponent {
         const { theme } = this.props
         const classNames = this.styles({
             Tabs: true,
-            Loose: theme === 'LOOSE',
-            Compact: theme === 'COMPACT',
+            Loose: theme === 'loose',
+            Compact: theme === 'compact',
         })
 
         return (
