@@ -12,10 +12,7 @@ import {
 } from 'constants/map/layers'
 import { parseLocation } from 'prismic/parsers'
 import { parse } from 'prismic'
-import {
-    isSpecialInformationValid,
-    isHotZoneReportValid,
-} from 'prismic/utils'
+import { isSpecialInformationValid, isHotZoneReportValid } from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import * as turf from '@turf/helpers'

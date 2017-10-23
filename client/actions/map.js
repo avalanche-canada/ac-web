@@ -33,7 +33,10 @@ export function loadData() {
 
         dispatch(EntitiesActions.loadFeaturesMetadata())
 
-        layers.map(createActionForLayer).filter(Boolean).forEach(dispatch)
+        layers
+            .map(createActionForLayer)
+            .filter(Boolean)
+            .forEach(dispatch)
     }
 }
 
@@ -71,6 +74,15 @@ function createActionForLayer(layer) {
         case Layers.FATAL_ACCIDENT:
             return PrismicActions.load({
                 type: 'fatal-accident',
+                predicates: [
+                    Predicates.dateAfter(
+                        'my.fatal-accident.dateOfIssue',
+                        format(
+                            new Date(new Date().getFullYear(), 9, 0),
+                            'YYYY-MM-DD'
+                        )
+                    ),
+                ],
             })
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()
