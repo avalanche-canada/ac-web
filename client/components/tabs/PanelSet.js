@@ -19,9 +19,14 @@ export default class PanelSet extends PureComponent {
     }
 }
 
-export function Panel({ children }) {
+Panel.propTypes = {
+    style: PropTypes.object,
+    children: PropTypes.number,
+}
+
+export function Panel({ children, style }) {
     return (
-        <div role="tabpanel" className={styles.Panel}>
+        <div role="tabpanel" className={styles.Panel} style={style}>
             {children}
         </div>
     )
