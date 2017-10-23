@@ -9,6 +9,7 @@ import { Predicates } from 'prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
+import { startOfSeason } from 'utils/date'
 
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
@@ -33,7 +34,10 @@ export function loadData() {
 
         dispatch(EntitiesActions.loadFeaturesMetadata())
 
-        layers.map(createActionForLayer).filter(Boolean).forEach(dispatch)
+        layers
+            .map(createActionForLayer)
+            .filter(Boolean)
+            .forEach(dispatch)
     }
 }
 
@@ -71,6 +75,12 @@ function createActionForLayer(layer) {
         case Layers.FATAL_ACCIDENT:
             return PrismicActions.load({
                 type: 'fatal-accident',
+                predicates: [
+                    Predicates.dateAfter(
+                        'my.fatal-accident.dateOfIssue',
+                        format(startOfSeason().getTime() - 1, 'YYYY-MM-DD')
+                    ),
+                ],
             })
         case Layers.WEATHER_STATION:
             return EntitiesActions.loadWeatherStations()

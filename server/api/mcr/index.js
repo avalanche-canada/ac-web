@@ -1,17 +1,19 @@
 'use strict';
 
-var express = require('express');
-var request = require('request');
-var async   = require('async');
+var async            = require('async');
+var differenceInDays = require('date-fns/difference_in_days')
+var express          = require('express');
+var request          = require('request');
 
 var logger     = require('../../logger');
-var mcr_cache      = require('./cache');
+var mcr_cache  = require('./cache');
 var mcr_format = require('./format');
 
 var router = express.Router();
 
-var AC_MCR_HOST = process.env.AC_MCR_HOST; 
-var AC_MCR_URL          = AC_MCR_HOST + '/sapi/public';
+var AC_MCR_HOST    = process.env.AC_MCR_HOST;
+var AC_MCR_URL     = AC_MCR_HOST + '/sapi/public';
+var MCR_LIMIT_DAYS = process.env.MCR_LIMIT_DAYS  || 7;
 
 router.get('/', function(req, res) {
     //TODO(wnh): Clean this up a bit 
@@ -24,6 +26,7 @@ router.get('/', function(req, res) {
                 var fmt_reports = reports.filter(notUndefined).map(function(ru){
                     return mcr_format.formatReportFull(ru.report, ru.user);
                 });
+                fmt_reports = fmt_reports.filter(filterToSevenDays);
                 cb(null, fmt_reports);
             });
         });
@@ -37,6 +40,14 @@ router.get('/', function(req, res) {
                     .end();
     });
 });
+
+function filterToSevenDays(report) {
+    if (report.dates.length < 1) {
+        return false
+    }
+    var diff =  differenceInDays((new Date()), report.dates[0]);
+    return diff <= MCR_LIMIT_DAYS;
+}
 
 function notUndefined(x) { return typeof(x) !== 'undefined'; }
 
