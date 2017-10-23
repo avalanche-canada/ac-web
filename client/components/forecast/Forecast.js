@@ -44,7 +44,7 @@ export default function Forecast({
         <section>
             {isArchived && <ArchiveWarning region={region} date={date} />}
             <Headline>{highlights}</Headline>
-            <Tabs theme="loose">
+            <Tabs theme="LOOSE">
                 <HeaderSet>
                     <Header>Danger ratings</Header>
                     <Header disabled={problems.length === 0}>Problems</Header>

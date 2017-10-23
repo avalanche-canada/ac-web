@@ -8,6 +8,15 @@ export default class HeaderSet extends PureComponent {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
         activeIndex: PropTypes.number,
         onActiveIndexChange: PropTypes.func,
+        theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
+    }
+    static defaultProps = {
+        theme: 'COMPACT',
+    }
+    constructor(props) {
+        super(props)
+
+        this.styles = classnames.bind(styles)
     }
     cloneHeader = (header, index) =>
         cloneElement(header, {
@@ -23,8 +32,15 @@ export default class HeaderSet extends PureComponent {
             },
         })
     render() {
+        const { theme } = this.props
+        const classNames = this.styles({
+            HeaderSet: true,
+            'HeaderSet--Loose': theme === 'LOOSE',
+            'HeaderSet--Compact': theme === 'COMPACT',
+        })
+
         return (
-            <div className={styles.HeaderSet}>
+            <div className={classNames}>
                 {Children.map(this.props.children, this.cloneHeader)}
             </div>
         )

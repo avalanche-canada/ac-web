@@ -75,7 +75,7 @@
 }
 
 /* THEMES */
-.Compact {
+.HeaderSet--Compact {
     & .Header {
         background-color: var(--gray-lighter);
         border-bottom: var(--border-width) solid var(--component-bg);
@@ -88,10 +88,8 @@
     }
 }
 
-.Loose {
-    & .HeaderSet {
-        background-color: color(var(--primary) lightness(75%));
-    }
+.HeaderSet--Loose {
+    background-color: color(var(--primary) lightness(75%));
 
     & .Header {
         display: inline-block;

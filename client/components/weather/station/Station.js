@@ -26,7 +26,7 @@ function Station({ measurements, columns, headers }) {
     }
 
     return (
-        <Tabs theme="loose">
+        <Tabs theme="LOOSE">
             <HeaderSet>
                 <Header>Table</Header>
                 <Header>Charts</Header>
