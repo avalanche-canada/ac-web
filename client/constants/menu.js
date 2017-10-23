@@ -372,6 +372,21 @@ export const AvalancheCanada = {
                             label: 'Wayne Flann',
                             to: '/ambassadors#wayne-flann',
                         },
+                        {
+                            id: String(id++),
+                            label: 'Andreas Massitti',
+                            to: '/ambassadors#andreas-massitti',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Anthony Rizzuto',
+                            to: '/ambassadors#anthony-rizzuto',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Aleks Klassen',
+                            to: '/ambassadors#aleks-klassen',
+                        },
                     ],
                 },
                 {
