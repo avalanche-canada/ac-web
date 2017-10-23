@@ -18,7 +18,6 @@ export default class Submission extends PureComponent {
     }
     static defaultProps = {
         observations: [],
-        active: INCIDENT,
         uploads: [],
     }
     renderHeader = type => {
@@ -63,8 +62,13 @@ export default class Submission extends PureComponent {
             />
         )
     }
+    get firstObservationType() {
+        const [observation] = this.props.observations
+
+        return observation ? observation.obtype : null
+    }
     get activeIndex() {
-        return TYPES.indexOf(this.props.active)
+        return TYPES.indexOf(this.props.active || this.firstObservationType)
     }
     render() {
         return (
