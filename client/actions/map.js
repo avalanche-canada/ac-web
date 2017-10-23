@@ -9,6 +9,7 @@ import { Predicates } from 'prismic'
 import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
+import { startOfSeason } from 'utils/date'
 
 export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
@@ -77,10 +78,7 @@ function createActionForLayer(layer) {
                 predicates: [
                     Predicates.dateAfter(
                         'my.fatal-accident.dateOfIssue',
-                        format(
-                            new Date(new Date().getFullYear(), 9, 0),
-                            'YYYY-MM-DD'
-                        )
+                        format(startOfSeason().getTime() - 1, 'YYYY-MM-DD')
                     ),
                 ],
             })
