@@ -33,12 +33,12 @@ export default class HeaderSet extends PureComponent {
 
 export class Header extends PureComponent {
     static propTypes = {
-        children: PropTypes.node.isRequired,
         isActive: PropTypes.bool,
         disabled: PropTypes.bool,
         arrow: PropTypes.bool,
         onActivate: PropTypes.func,
         style: PropTypes.object,
+        children: PropTypes.node.isRequired,
     }
     constructor(props) {
         super(props)
@@ -69,11 +69,21 @@ export class Header extends PureComponent {
     }
 }
 
+ColoredHeader.propTypes = {
+    color: PropTypes.string,
+    isActive: PropTypes.bool,
+    disabled: PropTypes.bool,
+    arrow: PropTypes.bool,
+    onActivate: PropTypes.func,
+    style: PropTypes.object,
+    children: PropTypes.node.isRequired,
+}
+
 export function ColoredHeader({ color, ...props }) {
-    const { disabled } = props
-    const style = {
-        backgroundColor: disabled ? null : color,
-        color: disabled ? null : 'white',
+    const { disabled, isActive } = props
+    const style = color && {
+        backgroundColor: disabled ? null : isActive ? color : null,
+        color: disabled ? null : isActive ? 'white' : null,
         borderBottomColor: color,
     }
 
