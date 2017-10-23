@@ -20,5 +20,9 @@ export default class PanelSet extends PureComponent {
 }
 
 export function Panel({ children }) {
-    return <div className={styles.Panel}>{children}</div>
+    return (
+        <div role="tabpanel" className={styles.Panel}>
+            {children}
+        </div>
+    )
 }
