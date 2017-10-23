@@ -8,7 +8,7 @@ init:
 
 build:
 	@echo "Building..."
-	. ~/.nvm/nvm.sh && nvm use 4.4.3 && make build
+	. ~/.nvm/nvm.sh && nvm use 8.4.0 && make build
 
 test:
 	@echo "Testing..."
