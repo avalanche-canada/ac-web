@@ -4,7 +4,7 @@ import {
     compose,
     setDisplayName,
     setPropTypes,
-    mapProps,
+    withProps,
     defaultProps,
 } from 'recompose'
 import { SUBTILE } from './kinds'
@@ -26,8 +26,7 @@ export default compose(
         expanded: false,
         chevron: false,
     }),
-    mapProps(({ chevron, expanded, ...rest }) => ({
-        ...rest,
+    withProps(({ chevron, expanded }) => ({
         kind: SUBTILE,
         icon: ICONS.get(chevron).get(expanded),
     }))
