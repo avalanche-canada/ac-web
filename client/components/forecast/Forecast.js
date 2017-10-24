@@ -8,6 +8,8 @@ import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
 
+// TODO: Create problem set component
+
 Forecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     highlights: PropTypes.string,
