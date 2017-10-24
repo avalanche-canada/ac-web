@@ -5,8 +5,9 @@ import AuthService from 'services/auth'
 import { NotFound } from 'components/page'
 import LoginComplete from 'containers/LoginComplete'
 import ReactGA from 'services/analytics'
-import { StaticPage, Generic, FallbackPage } from 'prismic/containers'
+import { StaticPage, Generic } from 'prismic/containers'
 import { WorkInProgress } from 'components/page'
+import { STATIC_PAGE } from 'constants/prismic'
 import Sponsor from 'containers/Sponsor'
 
 function privateRenderFactory(render, component, children) {
@@ -124,7 +125,10 @@ export function SponsorRoute({ path, name, label }) {
 }
 
 function fallbackPage({ match }) {
-    return <FallbackPage {...match.params} />
+    const { type, uid } = match.params
+    const Container = type === STATIC_PAGE ? StaticPage : Generic
+
+    return <Container uid={uid} />
 }
 
 FallbackPageRoute.propTypes = {
