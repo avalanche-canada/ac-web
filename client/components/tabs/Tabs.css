@@ -71,11 +71,36 @@
     margin: 1em;
 }
 
-.PanelSet {
+/* Stacked */
+.HeaderSet--Stacked {
+    flex-direction: column;
+    position: relative;
+
+    & button {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        z-index: 1;
+    }
+
+    & .Header {
+        display: none;
+    }
+
+    & .Header--isActive {
+        display: block;
+        order: -1;
+        padding-top: 17px;
+    }
+}
+.HeaderSet--Expanded {
+    & .Header {
+        display: block;
+    }
 }
 
 /* THEMES */
-.Compact {
+.HeaderSet--Compact {
     & .Header {
         background-color: var(--gray-lighter);
         border-bottom: var(--border-width) solid var(--component-bg);
@@ -88,10 +113,8 @@
     }
 }
 
-.Loose {
-    & .HeaderSet {
-        background-color: color(var(--primary) lightness(75%));
-    }
+.HeaderSet--Loose {
+    background-color: color(var(--primary) lightness(75%));
 
     & .Header {
         display: inline-block;

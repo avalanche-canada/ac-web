@@ -1,6 +1,8 @@
 import React, { PureComponent, cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
+import Button, { INCOGNITO } from 'components/button'
+import { ExpandMore, ExpandLess } from 'components/icons'
 import styles from './Tabs.css'
 
 export default class HeaderSet extends PureComponent {
@@ -8,6 +10,20 @@ export default class HeaderSet extends PureComponent {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
         activeIndex: PropTypes.number,
         onActiveIndexChange: PropTypes.func,
+        theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
+        stacked: PropTypes.bool,
+    }
+    static defaultProps = {
+        theme: 'COMPACT',
+        stacked: false,
+    }
+    state = {
+        expanded: false,
+    }
+    constructor(props) {
+        super(props)
+
+        this.styles = classnames.bind(styles)
     }
     cloneHeader = (header, index) =>
         cloneElement(header, {
@@ -22,10 +38,41 @@ export default class HeaderSet extends PureComponent {
                 this.props.onActiveIndexChange(index)
             },
         })
-    render() {
+    get expand() {
         return (
-            <div className={styles.HeaderSet}>
+            <Button type="button" kind={INCOGNITO}>
+                {this.state.expanded ? (
+                    <ExpandLess inverse />
+                ) : (
+                    <ExpandMore inverse />
+                )}
+            </Button>
+        )
+    }
+    handleClick = () => {
+        if (!this.props.stacked) {
+            return
+        }
+
+        this.setState(state => ({
+            expanded: !state.expanded,
+        }))
+    }
+    render() {
+        const { theme, stacked } = this.props
+        const { expanded } = this.state
+        const classNames = this.styles({
+            HeaderSet: true,
+            'HeaderSet--Loose': theme === 'LOOSE',
+            'HeaderSet--Compact': theme === 'COMPACT',
+            'HeaderSet--Stacked': stacked,
+            'HeaderSet--Expanded': expanded,
+        })
+
+        return (
+            <div className={classNames} onClick={this.handleClick}>
                 {Children.map(this.props.children, this.cloneHeader)}
+                {stacked && this.expand}
             </div>
         )
     }
@@ -62,7 +109,11 @@ export class Header extends PureComponent {
         })
 
         return (
-            <div className={classNames} style={style} onClick={onActivate}>
+            <div
+                role="tab"
+                className={classNames}
+                style={style}
+                onClick={onActivate}>
                 {children}
             </div>
         )

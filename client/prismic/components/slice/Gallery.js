@@ -35,7 +35,7 @@ export default function Gallery({ value }) {
     }
 
     return (
-        <Tabs theme="loose">
+        <Tabs theme="LOOSE">
             <HeaderSet>{value.map(renderHeader)}</HeaderSet>
             <PanelSet>{value.map(renderPanel)}</PanelSet>
         </Tabs>

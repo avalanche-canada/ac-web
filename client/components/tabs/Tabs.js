@@ -1,6 +1,5 @@
 import React, { PureComponent, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
 import HeaderSet from './HeaderSet'
 import PanelSet from './PanelSet'
 import styles from './Tabs.css'
@@ -9,19 +8,18 @@ import identity from 'lodash/identity'
 export default class Tabs extends PureComponent {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        theme: PropTypes.oneOf(['loose', 'compact']),
+        theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
         activeIndex: PropTypes.number,
         onActiveIndexChange: PropTypes.func,
     }
     static defaultProps = {
-        theme: 'compact',
+        theme: 'COMPACT',
         activeIndex: 0,
         onActiveIndexChange: identity,
     }
     constructor(props) {
         super(props)
 
-        this.styles = classnames.bind(styles)
         this.state = {
             activeIndex: props.activeIndex,
         }
@@ -42,6 +40,7 @@ export default class Tabs extends PureComponent {
                 return cloneElement(child, {
                     activeIndex,
                     onActiveIndexChange: this.handleActiveIndexChange,
+                    theme: child.props.theme || this.props.theme,
                 })
             case PanelSet:
                 return cloneElement(child, { activeIndex })
@@ -50,15 +49,8 @@ export default class Tabs extends PureComponent {
         }
     }
     render() {
-        const { theme } = this.props
-        const classNames = this.styles({
-            Tabs: true,
-            Loose: theme === 'loose',
-            Compact: theme === 'compact',
-        })
-
         return (
-            <div className={classNames}>
+            <div className={styles.Tabs}>
                 {Children.map(this.props.children, this.renderChild)}
             </div>
         )
