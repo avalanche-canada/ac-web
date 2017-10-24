@@ -319,14 +319,7 @@ export const generic = compose(
         },
     })),
     prismic(makeGetDocumentAndStatus),
-    mapProps(props => {
-        delete props.type
-        delete props.uid
-        delete props.params
-        delete props.load
-
-        return props
-    })
+    mapProps(({ type, uid, params, load, ...props }) => props)
 )
 
 export const tutorial = compose(
