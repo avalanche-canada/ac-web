@@ -32,17 +32,15 @@ DetailSet.propTypes = {
 }
 
 export default function DetailSet({ avalanche, snowpack, weather }) {
-    return (
-        <div>
-            <Section title="Avalanche Summary" value={avalanche} />
-            <Section title="Snowpack Summary" value={snowpack} />
-            <Section title="Weather Forecast" value={weather}>
-                <p>
-                    More details can be found on the{' '}
-                    <Link to="/weather">Mountain Weather Forecast</Link>
-                    .
-                </p>
-            </Section>
-        </div>
-    )
+    return [
+        <Section key="avalanche" title="Avalanche Summary" value={avalanche} />,
+        <Section key="snowpack" title="Snowpack Summary" value={snowpack} />,
+        <Section key="weather" title="Weather Forecast" value={weather}>
+            <p>
+                More details can be found on the{' '}
+                <Link to="/weather">Mountain Weather Forecast</Link>
+                .
+            </p>
+        </Section>,
+    ]
 }
