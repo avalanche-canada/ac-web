@@ -71,6 +71,34 @@
     margin: 1em;
 }
 
+/* Stacked */
+.HeaderSet--Stacked {
+    flex-direction: column;
+    position: relative;
+
+    & button {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        z-index: 1;
+    }
+
+    & .Header {
+        display: none;
+    }
+
+    & .Header--isActive {
+        display: block;
+        order: -1;
+        padding-top: 17px;
+    }
+}
+.HeaderSet--Expanded {
+    & .Header {
+        display: block;
+    }
+}
+
 /* THEMES */
 .HeaderSet--Compact {
     & .Header {
