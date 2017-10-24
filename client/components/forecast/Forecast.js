@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Headline from './Headline'
-import Summary from './Summary'
 import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import { Table, Day, DaySet, Condition, Confidence } from './danger'
 import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import { InnerHTML } from 'components/misc'
+import DetailSet from './DetailSet'
 
 Forecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -108,22 +106,11 @@ export default function Forecast({
                         )}
                     </Panel>
                     <Panel>
-                        <Summary title="Avalanche Summary">
-                            <InnerHTML>{avalancheSummary}</InnerHTML>
-                        </Summary>
-                        <Summary title="Snowpack Summary">
-                            <InnerHTML>{snowpackSummary}</InnerHTML>
-                        </Summary>
-                        <Summary title="Weather Forecast">
-                            <InnerHTML>{weatherForecast}</InnerHTML>
-                            <p>
-                                More details can be found on the{' '}
-                                <Link to="/weather">
-                                    Mountain Weather Forecast
-                                </Link>
-                                .
-                            </p>
-                        </Summary>
+                        <DetailSet
+                            avalanche={avalancheSummary}
+                            snowpack={snowpackSummary}
+                            weather={weatherForecast}
+                        />
                     </Panel>
                 </PanelSet>
             </Tabs>
