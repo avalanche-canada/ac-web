@@ -3,6 +3,7 @@ import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, EagerPanelSet, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
 import { NAMES, COLORS } from 'constants/min'
+import Dimensions from 'components/misc/Dimensions'
 
 const { struct } = t.form.Form.templates
 
@@ -14,23 +15,28 @@ export default struct.clone({
 
         return (
             <div>
-                <HeaderSet
-                    activeIndex={activeIndex}
-                    onActiveIndexChange={onTabActivate}>
-                    {children.map(child => {
-                        const { ref, props: { value } } = child
-                        const color = value ? COLORS.get(ref) : null
+                <Dimensions>
+                    {({ width }) => (
+                        <HeaderSet
+                            stacked={width < 375}
+                            activeIndex={activeIndex}
+                            onActiveIndexChange={onTabActivate}>
+                            {children.map(child => {
+                                const { ref, props: { value } } = child
+                                const color = value ? COLORS.get(ref) : null
 
-                        return (
-                            <ColoredHeader
-                                arrow={Boolean(value)}
-                                key={ref}
-                                color={color}>
-                                {NAMES.get(ref)}
-                            </ColoredHeader>
-                        )
-                    })}
-                </HeaderSet>
+                                return (
+                                    <ColoredHeader
+                                        arrow={Boolean(value)}
+                                        key={ref}
+                                        color={color}>
+                                        {NAMES.get(ref)}
+                                    </ColoredHeader>
+                                )
+                            })}
+                        </HeaderSet>
+                    )}
+                </Dimensions>
                 <EagerPanelSet activeIndex={activeIndex}>
                     {children.map(child => {
                         const { ref, props: { value } } = child
