@@ -125,7 +125,7 @@ StaticPage.propTypes = {
 export function StaticPage({ uid, title }) {
     return (
         <Document type={STATIC_PAGE} uid={uid}>
-            {props => <Pages.StaticPage title={title} {...props} />}
+            {props => <Pages.StaticPage uid={uid} title={title} {...props} />}
         </Document>
     )
 }
