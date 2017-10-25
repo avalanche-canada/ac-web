@@ -2,9 +2,13 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+import formatDate from 'date-fns/format'
+import startOfTomorrow from 'date-fns/start_of_tomorrow'
+import startOfYesterday from 'date-fns/start_of_yesterday'
 import { load } from 'actions/prismic'
 import { getDocumentFromParams, getResult } from 'getters/prismic'
-import { GENERIC, STATIC_PAGE } from 'constants/prismic'
+import { GENERIC, STATIC_PAGE, APPLICATION_FEATURE } from 'constants/prismic'
+import { parse } from 'prismic'
 import * as Predicates from 'vendor/prismic/predicates'
 import * as Pages from 'prismic/components/page'
 
@@ -84,5 +88,27 @@ export function StaticPage({ uid, title }) {
         <Document type={STATIC_PAGE} uid={uid}>
             {props => <Pages.StaticPage title={title} {...props} />}
         </Document>
+    )
+}
+
+export function ApplicationFeature({ children }) {
+    const params = {
+        predicates: [
+            Predicates.type(APPLICATION_FEATURE),
+            Predicates.dateBefore(
+                `my.${APPLICATION_FEATURE}.startDate`,
+                formatDate(startOfTomorrow(), 'YYYY-MM-DD')
+            ),
+            Predicates.dateAfter(
+                `my.${APPLICATION_FEATURE}.endDate`,
+                formatDate(startOfYesterday(), 'YYYY-MM-DD')
+            ),
+        ],
+    }
+
+    return (
+        <Container params={params}>
+            {({ document }) => children(document ? parse(document) : null)}
+        </Container>
     )
 }

@@ -1,42 +1,42 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, onlyUpdateForKeys } from 'recompose'
-import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
+import classnames from 'classnames/bind'
 import noop from 'lodash/noop'
 
-const NOWRAP_STYLE = {
-    whiteSpace: 'nowrap',
-}
+export default class Item extends PureComponent {
+    static propTypes = {
+        title: PropTypes.node.isRequired,
+        isActive: PropTypes.bool,
+        onClick: PropTypes.func,
+        noWrap: PropTypes.bool,
+        children: PropTypes.node,
+    }
+    static defaultProps = {
+        isActive: false,
+        onClick: noop,
+        noWrap: false,
+    }
+    constructor(props) {
+        super(props)
 
-Item.propTypes = {
-    title: PropTypes.node.isRequired,
-    isActive: PropTypes.bool,
-    onClick: PropTypes.func,
-    noWrap: PropTypes.bool,
-    children: PropTypes.node,
-}
+        this.styles = classnames.bind(styles)
+    }
+    render() {
+        const { isActive, title, onClick, noWrap, children } = this.props
+        const classNames = this.styles({
+            Item: !isActive,
+            'Item--isActive': isActive,
+            'Item--NoWrap': noWrap,
+        })
 
-function Item({
-    isActive = false,
-    title,
-    onClick = noop,
-    noWrap = false,
-    children,
-}) {
-    return (
-        <li
-            style={noWrap ? NOWRAP_STYLE : null}
-            styleName={isActive ? 'Item--active' : 'Item'}>
-            <a href="#" onClick={onClick}>
-                <span>{title}</span>
-            </a>
-            {children}
-        </li>
-    )
+        return (
+            <li className={classNames}>
+                <a href="#" onClick={onClick}>
+                    <span>{title}</span>
+                </a>
+                {children}
+            </li>
+        )
+    }
 }
-
-export default compose(
-    onlyUpdateForKeys(['isActive', 'children']),
-    CSSModules(styles)
-)(Item)
