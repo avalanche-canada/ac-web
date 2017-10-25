@@ -78,7 +78,3 @@ export function dateRangeValueHandlerFactory(
         return merge(props, { search }, push)
     }
 }
-
-export function createRoute(props) {
-    return createElement(Route, { key: props.path, ...props })
-}
