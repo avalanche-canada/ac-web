@@ -63,6 +63,14 @@ export function getDocumentFromParams(state, params) {
     return state.prismic.documents.get(id)
 }
 
+export function getDocumentsFromParams(state, params) {
+    const result = getResult(state, params)
+    const { ids } = result.toJSON()
+    const { documents } = state.prismic
+
+    return ids.map(id => documents.get(id))
+}
+
 // TODO: Move that selector out of here, only getters here!
 export const getHighlight = createSelector(
     state => getDocumentsOfType(state, 'highlight').first(),

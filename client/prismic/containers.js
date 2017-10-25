@@ -6,7 +6,11 @@ import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
 import { load } from 'actions/prismic'
-import { getDocumentFromParams, getResult } from 'getters/prismic'
+import {
+    getDocumentFromParams,
+    getDocumentsFromParams,
+    getResult,
+} from 'getters/prismic'
 import { GENERIC, STATIC_PAGE, APPLICATION_FEATURE } from 'constants/prismic'
 import { parse } from 'prismic'
 import * as Predicates from 'vendor/prismic/predicates'
@@ -35,11 +39,23 @@ class Loader extends PureComponent {
     }
 }
 
-const Container = connect(
+const DocumentContainer = connect(
     createStructuredSelector({
         data(state, { params }) {
             return {
                 document: getDocumentFromParams(state, params),
+                status: getResult(state, params),
+            }
+        },
+    }),
+    { load }
+)(Loader)
+
+const DocumentsContainer = connect(
+    createStructuredSelector({
+        data(state, { params }) {
+            return {
+                documents: getDocumentsFromParams(state, params),
                 status: getResult(state, params),
             }
         },
@@ -61,7 +77,30 @@ class Document extends PureComponent {
         }
     }
     render() {
-        return <Container params={this.params}>{this.props.children}</Container>
+        return (
+            <DocumentContainer params={this.params}>
+                {this.props.children}
+            </DocumentContainer>
+        )
+    }
+}
+
+export class DocumentsOfType extends PureComponent {
+    static propTypes = {
+        type: PropTypes.string.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    get params() {
+        return {
+            predicates: [Predicates.type(this.props.type)],
+        }
+    }
+    render() {
+        return (
+            <DocumentsContainer params={this.params}>
+                {this.props.children}
+            </DocumentsContainer>
+        )
     }
 }
 
@@ -107,8 +146,8 @@ export function ApplicationFeature({ children }) {
     }
 
     return (
-        <Container params={params}>
+        <DocumentContainer params={params}>
             {({ document }) => children(document ? parse(document) : null)}
-        </Container>
+        </DocumentContainer>
     )
 }
