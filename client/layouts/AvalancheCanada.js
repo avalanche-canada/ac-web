@@ -9,7 +9,7 @@ import {
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
-import { AvalancheCanada as Navbar } from 'containers/Navbar'
+import Navbar from 'containers/Navbar'
 import Highlight from 'containers/Highlight'
 import Footer from 'components/footer'
 import MainMap from './Map'

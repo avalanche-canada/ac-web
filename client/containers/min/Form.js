@@ -15,6 +15,7 @@ import styles from './Form.css'
 import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
 import { scrollIntoView } from 'utils/dom'
+import transform from './transform'
 
 const { Form } = t.form
 
@@ -142,7 +143,7 @@ export default class SubmissionForm extends Component {
     }
     submit(value) {
         this.setState({ isSubmitting: true }, () => {
-            this.props.post(value).then(
+            this.props.post(transform(value)).then(
                 data => {
                     const { key } = MountainInformationNetworkSubmission
                     const id = MountainInformationNetworkSubmission.getId(

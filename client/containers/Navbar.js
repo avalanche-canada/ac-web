@@ -31,7 +31,7 @@ import { StructuredText } from 'prismic/components/base'
         logout,
     }
 )
-export class AvalancheCanada extends PureComponent {
+export default class AvalancheCanada extends PureComponent {
     handleLogoutClick = () => {
         this.props.logout()
         this.props.history.push('/')

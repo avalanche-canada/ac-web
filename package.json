@@ -70,11 +70,11 @@
         "@kadira/react-storybook-addon-info": "^3.4.0",
         "@kadira/storybook": "^2.21.0",
         "@kadira/storybook-addon-knobs": "^1.7.1",
-        "@turf/helpers": "^5.0.0",
         "@turf/bbox": "^5.0.0",
-        "@turf/explode": "^4.7.3",
-        "@turf/inside": "^4.7.3",
         "@turf/distance": "^5.0.0",
+        "@turf/explode": "^4.7.3",
+        "@turf/helpers": "^5.0.0",
+        "@turf/inside": "^4.7.3",
         "auth0-lock": "10.21.1",
         "axios": "^0.15.0",
         "babel-core": "^6.26.0",
@@ -87,6 +87,7 @@
         "babel-preset-env": "^1.6.1",
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
+        "bundle-loader": "^0.5.5",
         "classnames": "^2.2.5",
         "clean-webpack-plugin": "^0.1.17",
         "cloudinary-core": "^2.1.6",
@@ -169,20 +170,20 @@
         "dev": "webpack-dev-server",
         "mocha": "mocha",
         "build-storybook": "build-storybook",
-        "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
-        "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
+        "prettier-client":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+        "prettier-server":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest"
     },
     "private": true,
     "jest": {
         "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+                "<rootDir>/__mocks__/fileMock.js",
             "\\.(css)$": "identity-obj-proxy"
         },
-        "moduleDirectories": [
-            "node_modules",
-            "client"
-        ]
+        "moduleDirectories": ["node_modules", "client"]
     }
 }

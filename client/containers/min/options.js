@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import t from 'vendor/tcomb-form'
 import {
     QUICK,
@@ -69,7 +69,8 @@ const Required = {
         },
         latlng: {
             label: 'Location',
-            help: 'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
+            help:
+                'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
             className: styles.GeoPosition,
             fields: {
                 longitude: {
@@ -97,9 +98,9 @@ const UploadSet = {
             label: 'Click to upload photos',
             help: (
                 <p>
-                    <b>New!</b>
-                    {' '}
-                    You can now upload one or more images, click again to add even more. You can now remove photos before submitting your report.
+                    <b>New!</b> You can now upload one or more images, click
+                    again to add even more. You can now remove photos before
+                    submitting your report.
                 </p>
             ),
             type: 'file',
@@ -113,7 +114,8 @@ const UploadSet = {
 
 const Quick = {
     label: NAMES.get(QUICK),
-    help: 'Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.',
+    help:
+        'Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.',
     fields: {
         ridingConditions: {
             fields: {
@@ -149,10 +151,12 @@ const Quick = {
                     label: 'Whumpfing or drum-like sounds or shooting cracks.',
                 },
                 snow: {
-                    label: '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
+                    label:
+                        '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
                 },
                 temp: {
-                    label: 'Rapid temperature rise to near zero degrees or wet surface snow.',
+                    label:
+                        'Rapid temperature rise to near zero degrees or wet surface snow.',
                 },
             },
         },
@@ -163,11 +167,13 @@ const Quick = {
 }
 const Weather = {
     label: NAMES.get(WEATHER),
-    help: 'Key data includes information about current and accumulated precipitation, wind speed and direction, temperatures, and cloud cover.',
+    help:
+        'Key data includes information about current and accumulated precipitation, wind speed and direction, temperatures, and cloud cover.',
     fields: {
         temperatureTrend: {
             factory: t.form.Radio,
-            label: 'Describe how the temperature changed in the last 3 hours. (optional)',
+            label:
+                'Describe how the temperature changed in the last 3 hours. (optional)',
         },
         snowfallRate: {
             label: 'Snowfall rate (cm/hour) (optional)',
@@ -197,7 +203,8 @@ const Weather = {
             },
         },
         precipitation24Hours: {
-            label: 'Total rain and snow combined in last 24 hours (mm) (optional)',
+            label:
+                'Total rain and snow combined in last 24 hours (mm) (optional)',
             error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
@@ -209,7 +216,8 @@ const Weather = {
         },
         stormSnowAmount: {
             label: 'Total snow from the most recent storm (cm) (optional)',
-            help: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
+            help:
+                'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
             error: 'Enter a number between 0 and 300',
             type: 'number',
             attrs: {
@@ -221,7 +229,8 @@ const Weather = {
         },
         stormStartDate: {
             type: 'date',
-            help: 'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
+            help:
+                'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
             attrs: {
                 placeholder: 'Click to select a date',
             },
@@ -267,12 +276,14 @@ const Weather = {
         },
         blowingSnow: {
             factory: t.form.Radio,
-            help: 'How much snow is blowing at ridge crest elevation. Light: localized snow drifting. Moderate: a plume of snow is visible. Intense: a large plume moving snow well down the slope.',
+            help:
+                'How much snow is blowing at ridge crest elevation. Light: localized snow drifting. Moderate: a plume of snow is visible. Intense: a large plume moving snow well down the slope.',
         },
         skyCondition: {
             factory: t.form.Radio,
             label: 'Cloud cover (optional)',
-            help: 'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
+            help:
+                'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
             config: {
                 className: styles.TwoColumnsField,
             },
@@ -282,7 +293,8 @@ const Weather = {
         },
         windSpeed: {
             factory: t.form.Radio,
-            help: 'Calm: smoke rises. Light: flags and twigs move. Moderate: snow begins to drift. Strong: whole tress in motion. Extreme: difficulty walking.',
+            help:
+                'Calm: smoke rises. Light: flags and twigs move. Moderate: snow begins to drift. Strong: whole tress in motion. Extreme: difficulty walking.',
         },
         weatherObsComment: {
             label: 'Weather observation comment (optional)',
@@ -292,10 +304,12 @@ const Weather = {
 }
 const Snowpack = {
     label: NAMES.get(SNOWPACK),
-    help: 'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
+    help:
+        'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
     fields: {
         snowpackObsType: {
-            label: 'Is this a point observation or a summary of your day? (optional)',
+            label:
+                'Is this a point observation or a summary of your day? (optional)',
             factory: t.form.Radio,
         },
         snowpackSiteElevation: {
@@ -317,7 +331,8 @@ const Snowpack = {
         },
         snowpackDepth: {
             label: 'Snowpack depth (cm) (optional)',
-            help: 'Total height of snow in centimetres. Averaged if this is a summary.',
+            help:
+                'Total height of snow in centimetres. Averaged if this is a summary.',
             error: 'Enter a number between 0 and 10000',
             type: 'number',
             attrs: {
@@ -329,11 +344,13 @@ const Snowpack = {
         },
         snowpackWhumpfingObserved: {
             label: 'Did you observe whumpfing? (optional)',
-            help: 'A whumpf is a rapid settlement of the snowpack caused by the collapse of a weak layer. It is accompanied by an audible noise.',
+            help:
+                'A whumpf is a rapid settlement of the snowpack caused by the collapse of a weak layer. It is accompanied by an audible noise.',
         },
         snowpackCrackingObserved: {
             label: 'Did you observe cracking? (optional)',
-            help: 'Cracking is shooting cracks radiating more than a couple of metres from your sled or skis.',
+            help:
+                'Cracking is shooting cracks radiating more than a couple of metres from your sled or skis.',
         },
         snowpackSurfaceCondition: {
             label: 'Surface condition (optional)',
@@ -341,7 +358,8 @@ const Snowpack = {
         },
         snowpackFootPenetration: {
             label: 'Foot penetration (cm) (optional)',
-            help: 'How far you sink into the snow when standing on one fully-weighted foot',
+            help:
+                'How far you sink into the snow when standing on one fully-weighted foot',
             error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
@@ -353,7 +371,8 @@ const Snowpack = {
         },
         snowpackSkiPenetration: {
             label: 'Ski penetration (cm) (optional)',
-            help: 'How far you sink into the snow when standing on one fully-weighted ski.',
+            help:
+                'How far you sink into the snow when standing on one fully-weighted ski.',
             error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
@@ -365,7 +384,8 @@ const Snowpack = {
         },
         snowpackSledPenetration: {
             label: 'Sled penetration (cm) (optional)',
-            help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
+            help:
+                'The depth a sled sinks into the snow after stopping slowly on level terrain.',
             error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
@@ -383,7 +403,8 @@ const Snowpack = {
         snowpackTestFracture: {
             factory: t.form.Radio,
             label: 'Snowpack test fracture character (optional)',
-            help: 'Average if you did a number of tests. Describe further in comments if variable results.',
+            help:
+                'Average if you did a number of tests. Describe further in comments if variable results.',
         },
         snowpackTestFailure: {
             label: 'Snowpack test failure depth (optional)',
@@ -403,13 +424,15 @@ const Snowpack = {
         snowpackObsComment: {
             type: 'textarea',
             label: 'Observation comment (optional)',
-            help: 'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
+            help:
+                'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
         },
     },
 }
 const Avalanche = {
     label: NAMES.get(AVALANCHE),
-    help: 'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
+    help:
+        'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
     fields: {
         avalancheOccurrence: {
             type: 'datetime-local',
@@ -423,7 +446,8 @@ const Avalanche = {
         },
         avalancheObservation: {
             factory: t.form.Radio,
-            help: 'If you observed evidence of recent avalanches, estimate occurrence time.',
+            help:
+                'If you observed evidence of recent avalanches, estimate occurrence time.',
         },
         avalancheNumber: {
             factory: t.form.Radio,
@@ -493,11 +517,13 @@ const Avalanche = {
         },
         triggerSubtype: {
             factory: t.form.Radio,
-            help: 'A remote trigger is when the avalanche starts some distance away from where the trigger was applied.',
+            help:
+                'A remote trigger is when the avalanche starts some distance away from where the trigger was applied.',
         },
         triggerDistance: {
             label: 'Remote trigger distance (m) (optional)',
-            help: 'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
+            help:
+                'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
             error: 'Enter a number between 0 and 2000',
             type: 'number',
             attrs: {
@@ -562,7 +588,8 @@ const Avalanche = {
         },
         avalancheObsComment: {
             type: 'textarea',
-            help: 'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
+            help:
+                'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
         },
     },
 }
@@ -570,8 +597,9 @@ const Incident = {
     label: NAMES.get(INCIDENT),
     help: (
         <span>
-            Sharing incidents can help us all learn. Describe close calls and accidents here. Be sensitive to the privacy of others. Before reporting serious accidents check our
-            {' '}
+            Sharing incidents can help us all learn. Describe close calls and
+            accidents here. Be sensitive to the privacy of others. Before
+            reporting serious accidents check our{' '}
             <Link
                 to="/mountain-information-network/submission-guidelines"
                 target="_blank">
@@ -615,7 +643,8 @@ const Incident = {
                     },
                 },
                 numberPartlyBuriedImpairedBreathing: {
-                    label: 'People partly buried with impaired breathing? (optional)',
+                    label:
+                        'People partly buried with impaired breathing? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -626,7 +655,8 @@ const Incident = {
                     },
                 },
                 numberPartlyBuriedAbleBreathing: {
-                    label: 'People partly buried with normal breathing? (optional)',
+                    label:
+                        'People partly buried with normal breathing? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -648,7 +678,8 @@ const Incident = {
                     },
                 },
                 numberPeopleInjured: {
-                    label: 'People not injured (caught but not buried)? (optional)',
+                    label:
+                        'People not injured (caught but not buried)? (optional)',
                     error: 'Enter a number between 0 and 400',
                     type: 'number',
                     attrs: {
@@ -661,7 +692,8 @@ const Incident = {
             },
         },
         terrainTrap: {
-            help: 'Terrain traps are features that increase the consequences of an avalanche.',
+            help:
+                'Terrain traps are features that increase the consequences of an avalanche.',
         },
         otherActivityDescription: {
             attrs: {
@@ -671,25 +703,25 @@ const Incident = {
         terrainShapeTriggerPoint: {
             factory: t.form.Radio,
             label: 'Terrain shape at trigger point (optional)',
-            help: 'Convex: a roll. Concave: bowl-shaped. Planar: smooth with no significant convexities or concavities. Unsupported: a slope that drops off abruptly at the bottom.',
+            help:
+                'Convex: a roll. Concave: bowl-shaped. Planar: smooth with no significant convexities or concavities. Unsupported: a slope that drops off abruptly at the bottom.',
         },
         snowDepthTriggerPoint: {
             factory: t.form.Radio,
             label: 'Snow depth at trigger point (optional)',
-            help: 'The depth of the snowpack compared to the average conditions in the area. Shallow: shallower than average. Deep: deeper than average. Average: about the same as everywhere else. Variable: depth varies significantly in the place where the avalanche started.',
+            help:
+                'The depth of the snowpack compared to the average conditions in the area. Shallow: shallower than average. Deep: deeper than average. Average: about the same as everywhere else. Variable: depth varies significantly in the place where the avalanche started.',
         },
         incidentDescription: {
             type: 'textarea',
             help: (
                 <span>
-                    No names and no judging please. See
-                    {' '}
+                    No names and no judging please. See{' '}
                     <Link
                         to="/mountain-information-network/submission-guidelines"
                         target="_blank">
                         submission guidelines
-                    </Link>
-                    {' '}
+                    </Link>{' '}
                     for more details.
                 </span>
             ),
