@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Route, Switch } from 'react-router-dom'
 import Application from 'components/application'
-import { AvalancheCanadaFoundation as Navbar } from 'containers/Navbar'
 import Highlight from 'containers/Highlight'
 import Footer from 'components/footer'
-import { Route, Switch } from 'react-router-dom'
 import { NotFound } from 'components/page'
 import { StaticPageRoute } from 'router/common'
+import Navbar from 'components/navbar'
+import logo from 'styles/AvalancheCanadaFoundation.svg'
+import menu from 'constants/menus/foundation'
 
 AvalancheCanadaFoundation.propTypes = {
     match: PropTypes.object.isRequired,
@@ -19,7 +21,7 @@ export default function AvalancheCanadaFoundation({ match }) {
 
     return (
         <Application>
-            <Navbar />
+            <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
             <Highlight />
             <Switch>
                 <StaticPageRoute exact path={url} uid="foundation-home" />

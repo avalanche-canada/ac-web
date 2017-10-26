@@ -12,12 +12,11 @@ import Navbar, {
     Feature,
 } from 'components/navbar'
 import Avatar from 'components/avatar'
-import * as Menus from 'constants/menu'
+import menu from 'constants/menus/avcan'
 import { getIsAuthenticated, getProfile } from 'getters/auth'
 import { login, logout } from 'actions/auth'
 import { NewRelease } from 'components/icons'
-import AvalancheCanadaLogo from 'styles/AvalancheCanada.svg'
-import AvalancheCanadaFoundationLogo from 'styles/AvalancheCanadaFoundation.svg'
+import logo from 'styles/AvalancheCanada.svg'
 import { ApplicationFeature } from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
 
@@ -76,10 +75,7 @@ export class AvalancheCanada extends PureComponent {
         return (
             <ApplicationFeature>
                 {feature => (
-                    <Navbar
-                        logo={AvalancheCanadaLogo}
-                        donate="/foundation"
-                        menu={Menus.AvalancheCanada}>
+                    <Navbar logo={logo} donate="/foundation" menu={menu}>
                         {this.props.isAuthenticated ? this.logout : this.login}
                         {/* {feature ? this.renderFeature(feature) : null} */}
                     </Navbar>
@@ -87,14 +83,4 @@ export class AvalancheCanada extends PureComponent {
             </ApplicationFeature>
         )
     }
-}
-
-export function AvalancheCanadaFoundation() {
-    return (
-        <Navbar
-            logo={AvalancheCanadaFoundationLogo}
-            menu={Menus.AvalancheCanadaFoundation}
-            donate="/foundation/donate"
-        />
-    )
 }
