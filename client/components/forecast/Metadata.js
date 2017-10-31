@@ -22,10 +22,9 @@ ValidUntil.propTypes = {
     validUntil: PropTypes.instanceOf(Date).isRequired,
 }
 
-export function ValidUntil({ validUntil }) {
-    const now = new Date()
+export function ValidUntil({ dateIssued, validUntil }) {
     var el = <DateElement format={DATETIME} value={validUntil} />
-    if (differenceInDays(now, validUntil) > FURTHER_NOTICE_DAYS) {
+    if (differenceInDays(dateIssued, validUntil) > FURTHER_NOTICE_DAYS) {
         el = <span>Until further notice</span>
     }
     return (
