@@ -87,6 +87,9 @@ var STATIC_ASPECTS = {
     aspect_north_west: 'NW',
 };
 
+/*
+ * Mappings for old renamed regions to map to the same text `id`
+ */
 var REGION_MAPPINGS = {
     "banff"              :  [7],
     "bighorn-country-ab" :  [16],
