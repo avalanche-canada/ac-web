@@ -417,7 +417,7 @@ export const toyotaTruckReport = panelPrismicConnectorFactory(
 
 export const feed = compose(
     setPropTypes({
-        type: PropTypes.string.isRequired,
+        type: PropTypes.oneOf(TYPES).isRequired,
     }),
     withProps(props => ({
         params: {
