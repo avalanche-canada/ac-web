@@ -105,8 +105,9 @@ export default class Loop extends PureComponent {
         const { metadata } = this.state
         let startAt
 
-        if (this.state.metadata.hasOwnProperty(type)) {
-            startAt = urls.length - 1
+        if (metadata.hasOwnProperty(type)) {
+            // runs means it a forecast product, not real time
+            startAt = 'runs' in metadata[type] ? 0 : urls.length - 1
         }
 
         this.setState({
