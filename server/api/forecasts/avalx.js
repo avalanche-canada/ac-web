@@ -4,6 +4,7 @@ var request = require('request');
 var Q = require('q');
 var moment = require('moment-timezone');
 var parseString = require('xml2js').parseString;
+var logger = require('../../logger');
 
 var AC_SEASON = process.env.AC_SEASON || '2015';
 
@@ -40,6 +41,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.white,
         "N/A:'Spring'": colors.white,
+        "N/A:Early Season Conditions": colors.white,
         'undefined:': colors.white,
     },
     bannerFill: {
@@ -50,6 +52,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.black,
         'N/A:No Rating': colors.white,
         "N/A:'Spring'": colors.white,
+        "N/A:Early Season Conditions": colors.white,
         'undefined:': colors.white,
     },
     bannerStroke: {
@@ -60,6 +63,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.black,
         "N/A:'Spring'": colors.black,
+        "N/A:Early Season Conditions": colors.white,
         'undefined:': colors.white,
     },
     textFill: {
@@ -70,6 +74,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.white,
         'N/A:No Rating': colors.black,
         "N/A:'Spring'": colors.black,
+        "N/A:Early Season Conditions": colors.white,
         'undefined:': colors.black,
     },
 };
@@ -610,6 +615,7 @@ function parseForecast(caaml, region, dangerModes) {
 }
 
 function parseCaamlForecast(caaml, region, callback) {
+    //logger.debug('parseCaamlForecast', {caaml: caaml});
     parseString(caaml, function(err, caamlJson) {
         if (!err && caamlJson) {
             var forecast = parseForecast(caamlJson, region);
