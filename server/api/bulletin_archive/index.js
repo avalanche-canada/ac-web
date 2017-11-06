@@ -128,15 +128,42 @@ var router = express.Router();
 var ARCHIVE_DBURL = process.env.ARCHIVE_DBURL;
 
 var BULLETIN_QUERY =
-    '  SELECT                             ' +
-    '       B.*                           ' +
-    '  FROM bulletin B                    ' +
-    '  JOIN bulletin_region R             ' +
-    '      ON R.region_id = B.region_id   ' +
-    '  WHERE B.region_id = ANY ($1)       ' +
-    '        AND B.date_issued < $2       ' +
-    '        AND B.valid_until > $2       ' +
-    '  ORDER BY B.date_issued DESC LIMIT 1';
+    " SELECT                              " +
+    "       B.bulletin_id                     " +
+    "     , B.sponsor_id                      " +
+    "     , B.sponsor_id2                     " +
+    "     , B.region_id                       " +
+    "     , B.header                          " +
+    "     , B.headline                        " +
+    "     , B.spaw                            " +
+    "     , timezone('PST', B.date_issued) as date_issued " +
+    "     , B.time_posted                     " +
+    "     , timezone('PST', B.valid_until) as valid_until" +
+    "     , B.next_update                     " +
+    "     , B.periodic_date_issued            " +
+    "     , B.periodic_next_update            " +
+    "     , B.confidence                      " +
+    "     , B.avalanche_danger                " +
+    "     , B.travel_advisory                 " +
+    "     , B.avalanche_activity              " +
+    "     , B.snow_pack                       " +
+    "     , B.outlook                         " +
+    "     , B.weather                         " +
+    "     , B.issued_by                       " +
+    "     , B.partner_bulletin                " +
+    "     , B.caa_bulletin                    " +
+    "     , B.archived                        " +
+    "     , B.draft                           " +
+    "     , B.baa1                            " +
+    "     , B.baa2                            " +
+    "     , B.taha                            " +
+    " FROM bulletin B                     " +
+    "     JOIN bulletin_region R          " +
+    "     ON R.region_id = B.region_id    " +
+    " WHERE B.region_id = ANY ($1)        " +
+    "     AND B.date_issued < $2          " +
+    "     AND B.valid_until > $2          " +
+    " ORDER BY B.date_issued DESC LIMIT 1 " ;
 
 var AVPROB_QUERY =
     '  SELECT *                 ' +
@@ -229,7 +256,6 @@ function oldAvalx(req, res) {
         return;
     }
     var mapping = REGION_MAPPINGS[regionId];
-    logger.debug('BULLETIN_ARCHIVE - mapping=%s', mapping);
     pg_query(BULLETIN_QUERY, [mapping, date.utc().format()])
         .then(getFirstBulletin)
         .then(getAvProblems)
@@ -269,7 +295,6 @@ function getDangerRatings(args) {
 }
 
 function getFirstBulletin(bulletins) {
-    logger.debug(bulletins.rows);
     if (bulletins.rowCount < 1 || bulletins.rows.length < 1) {
         throw new Error(BULLETIN_NOT_FOUND);
     }
@@ -294,12 +319,11 @@ function filterRatingsForRegion(region, ratings) {
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
     var issued = moment(bulletin.date_issued);
-    var until = moment(bulletin.valid_until);
     var out_bulletin = {
         id: 'bid_' + bulletin.bulletin_id,
         region: region,
-        dateIssued: issued.utc().format(),
-        validUntil: until.utc().format(),
+        dateIssued: bulletin.date_issued,
+        validUntil: bulletin.valid_until,
         forecaster: bulletin.issued_by,
         bulletinTitle: bulletin.header,
         highlights: bulletin.headline,
