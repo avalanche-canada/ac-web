@@ -344,7 +344,8 @@ function getSubmissionsRecursive(
 
     dynamodb.query(params, function(err, res) {
         if (err) {
-            callback({ error: 'error fetching observations' });
+            callback({ message: 'error fetching observations', error: err });
+            return;
         }
 
         var items = prevItems.concat(res.Items);
