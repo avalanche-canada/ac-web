@@ -75,7 +75,6 @@
         "@turf/explode": "^4.7.3",
         "@turf/helpers": "^5.0.0",
         "@turf/inside": "^4.7.3",
-        "auth0-lock": "10.23.1",
         "axios": "^0.15.0",
         "babel-core": "^6.26.0",
         "babel-eslint": "^7.2.2",
@@ -185,9 +184,5 @@
             "\\.(css)$": "identity-obj-proxy"
         },
         "moduleDirectories": ["node_modules", "client"]
-    },
-    "resolutions": {
-        "react": "16.0.0",
-        "react-dom": "16.0.0"
     }
 }
