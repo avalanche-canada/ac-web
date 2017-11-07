@@ -61,7 +61,8 @@ module.exports = {
             min: 0,
             max: 10000,
         },
-        helpText: 'Total height of snow in centimetres. Averaged if this is a summary.',
+        helpText:
+            'Total height of snow in centimetres. Averaged if this is a summary.',
         value: null,
         errorMessage: 'Number between 0 and 10000 please.',
         order: 5,
@@ -73,7 +74,8 @@ module.exports = {
         options: ['Yes', 'No'],
         inline: true,
         value: null,
-        helpText: 'A whumpf is a rapid settlement of the snowpack caused by the collapse of a weak layer. It is accompanied by an audible noise.',
+        helpText:
+            'A whumpf is a rapid settlement of the snowpack caused by the collapse of a weak layer. It is accompanied by an audible noise.',
         order: 6,
     },
 
@@ -83,7 +85,8 @@ module.exports = {
         options: ['Yes', 'No'],
         inline: true,
         value: null,
-        helpText: 'Cracking is shooting cracks radiating more than a couple of metres from your sled or skis.',
+        helpText:
+            'Cracking is shooting cracks radiating more than a couple of metres from your sled or skis.',
         order: 7,
     },
 
@@ -109,7 +112,8 @@ module.exports = {
             min: 0,
             max: 200,
         },
-        helpText: 'How far you sink into the snow when standing on one fully-weighted foot.',
+        helpText:
+            'How far you sink into the snow when standing on one fully-weighted foot.',
         value: null,
         errorMessage: 'Number between 0 and 200 please.',
         order: 9,
@@ -122,7 +126,8 @@ module.exports = {
             min: 0,
             max: 200,
         },
-        helpText: 'How far  you sink into the snow when standing on one fully-weighted ski.',
+        helpText:
+            'How far  you sink into the snow when standing on one fully-weighted ski.',
         value: null,
         errorMessage: 'Number between 0 and 200 please.',
         order: 10,
@@ -135,7 +140,8 @@ module.exports = {
             min: 0,
             max: 200,
         },
-        helpText: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
+        helpText:
+            'The depth a sled sinks into the snow after stopping slowly on level terrain.',
         value: null,
         errorMessage: 'Number between 0 and 200 please.',
         order: 11,
@@ -155,7 +161,8 @@ module.exports = {
         type: 'radio',
         prompt: 'Snowpack test fracture character:',
         options: ['Sudden ("pop" or "drop")', 'Resistant', 'Uneven break'],
-        helpText: 'Average if you did a number of tests. Describe further in comments if variable results.',
+        helpText:
+            'Average if you did a number of tests. Describe further in comments if variable results.',
         value: null,
         inline: true,
         order: 13,
@@ -195,7 +202,8 @@ module.exports = {
         type: 'textarea',
         prompt: 'Observation comment:',
         value: null,
-        helpText: 'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
+        helpText:
+            'Please add additional information about the snowpack, especially notes about weak layer, how the snow varied by aspect/elevation, and details of any slope testing performed.',
         order: 16,
     },
 };

@@ -63,7 +63,6 @@ if (process.env.REDIS_HOST) {
 
 avalxWebcache.seed(acAvalxUrls);
 
-
 router.param('region', function(req, res, next) {
     req.region = _.find(regions.features, { id: req.params.region });
 

@@ -114,7 +114,8 @@ module.exports = {
         prompt: 'Terrain shape at trigger point:',
         options: ['Convex', 'Planar', 'Concave', 'Unsupported'],
         value: null,
-        helpText: 'Convex: a roll. Concave: bowl-shaped. Planar: smooth with no significant convexities or concavities. Unsupported: a slope that drops off abruptly at the bottom.',
+        helpText:
+            'Convex: a roll. Concave: bowl-shaped. Planar: smooth with no significant convexities or concavities. Unsupported: a slope that drops off abruptly at the bottom.',
         order: 9,
     },
 
@@ -123,7 +124,8 @@ module.exports = {
         inline: true,
         prompt: 'Snow depth at trigger point:',
         options: ['Shallow', 'Deep', 'Average', 'Variable'],
-        helpText: 'The depth of the snowpack compared to the average conditions in the area. Shallow: shallower than average. Deep: deeper than average. Average: about the same as everywhere else. Variable: depth varies significantly in the place where the avalanche started.',
+        helpText:
+            'The depth of the snowpack compared to the average conditions in the area. Shallow: shallower than average. Deep: deeper than average. Average: about the same as everywhere else. Variable: depth varies significantly in the place where the avalanche started.',
         value: null,
         order: 10,
     },
@@ -139,7 +141,8 @@ module.exports = {
             Cliff: false,
         },
         inline: true,
-        helpText: 'Terrain traps are features that increase the consequences of an avalanche.',
+        helpText:
+            'Terrain traps are features that increase the consequences of an avalanche.',
         order: 11,
     },
 
@@ -148,7 +151,8 @@ module.exports = {
         type: 'textarea',
         value: null,
         helpText: 'No names and no judging please.',
-        guidelines: 'http://www.avalanche.ca/fxresources/Submissions+Guidelines.pdf',
+        guidelines:
+            'http://www.avalanche.ca/fxresources/Submissions+Guidelines.pdf',
         order: 12,
     },
 

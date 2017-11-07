@@ -11,7 +11,8 @@ module.exports = {
             'Fog',
         ],
         inline: true,
-        helpText: 'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
+        helpText:
+            'Values expressed in eighths refer to the proportion of the sky that was covered with clouds. E.g. 2/8 refers to a sky approximately one quarter covered with cloud.',
         order: 1,
     },
 
@@ -125,7 +126,8 @@ module.exports = {
             max: 300,
         },
         value: null,
-        helpText: 'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
+        helpText:
+            'Please enter the amount of snow that has fallen during the current storm cycle. You can specify a storm start date to describe the time period over which this snow fell.',
         errorMessage: 'Number between 0 and 300 please.',
         order: 11,
     },
@@ -135,7 +137,8 @@ module.exports = {
         prompt: 'Storm start date:',
         showOnlyDate: true,
         value: null,
-        helpText: 'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
+        helpText:
+            'The date on which the most recent storm started. Leave blank if there has not been a recent storm.',
         order: 12,
         maxDateToday: true,
     },
@@ -152,7 +155,8 @@ module.exports = {
         ],
         value: null,
         inline: true,
-        helpText: 'Calm: smoke rises. Light: flags and twigs move. Moderate: snow begins to drift. Strong: whole tress in motion. Extreme: difficulty walking.',
+        helpText:
+            'Calm: smoke rises. Light: flags and twigs move. Moderate: snow begins to drift. Strong: whole tress in motion. Extreme: difficulty walking.',
         order: 13,
     },
 
@@ -170,7 +174,8 @@ module.exports = {
         prompt: 'Blowing snow:',
         options: ['None', 'Light', 'Moderate', 'Intense'],
         inline: true,
-        helpText: 'How much snow is blowing at ridge crest elevation. Light: localized snow drifting. Moderate: a plume of snow is visible. Intense: a large plume moving snow well down the slope.',
+        helpText:
+            'How much snow is blowing at ridge crest elevation. Light: localized snow drifting. Moderate: a plume of snow is visible. Intense: a large plume moving snow well down the slope.',
         order: 15,
         value: null,
     },

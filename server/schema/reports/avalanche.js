@@ -23,7 +23,8 @@ module.exports = {
 
     avalancheObservation: {
         title: null,
-        subTitle: 'If you observed evidence of recent avalanches, estimate occurrence time.',
+        subTitle:
+            'If you observed evidence of recent avalanches, estimate occurrence time.',
         prompt: 'Estimated occurrence time:',
         type: 'radio',
         inline: true,
@@ -52,7 +53,8 @@ module.exports = {
         inline: true,
         value: null,
         options: ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'],
-        helpText: 'Use Canadian size classification. Size 1 is relatively harmless to people. Size 2 can bury, injure or kill a person. Size 3 can bury and destroy a car. Size 4 can destroy a railway car. Size 5 can destroy 40 hectares of forest.',
+        helpText:
+            'Use Canadian size classification. Size 1 is relatively harmless to people. Size 2 can bury, injure or kill a person. Size 3 can bury and destroy a car. Size 4 can destroy a railway car. Size 5 can destroy 40 hectares of forest.',
         order: 3,
     },
 
@@ -135,7 +137,8 @@ module.exports = {
         value: null,
         inline: true,
         options: ['Accidental', 'Intentional', 'Remote'],
-        helpText: 'A remote trigger is when the avalanche starts some distance away from where the trigger was  applied.',
+        helpText:
+            'A remote trigger is when the avalanche starts some distance away from where the trigger was  applied.',
         order: 9,
     },
 
@@ -146,7 +149,8 @@ module.exports = {
             min: 0,
             max: 2000,
         },
-        helpText: 'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
+        helpText:
+            'If a remote trigger, enter how far from the trigger point is the nearest part of the crown.',
         value: null,
         errorMessage: 'Number between 0 and 2000 please.',
         order: 10,
@@ -287,7 +291,8 @@ module.exports = {
         prompt: 'Avalanche observation comment',
         type: 'textarea',
         value: null,
-        helpText: 'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
+        helpText:
+            'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
         order: 21,
     },
 };

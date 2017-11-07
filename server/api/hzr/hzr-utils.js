@@ -99,7 +99,8 @@ exports.saveHZR = function(user, form, callback) {
             });
         } else {
             callback({
-                error: 'Invalid file extention. Valid file extentions are ' +
+                error:
+                    'Invalid file extention. Valid file extentions are ' +
                     validMimeTypes.join(),
             });
         }
@@ -166,8 +167,8 @@ exports.getReports = function(callback) {
         if (err) {
             console.log(err);
             callback({
-                error: 'error fetching hot zone reports: ' +
-                    JSON.stringify(err),
+                error:
+                    'error fetching hot zone reports: ' + JSON.stringify(err),
             });
         } else {
             var reports = [];

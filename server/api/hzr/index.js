@@ -22,7 +22,10 @@ function mapWebHZRResponse(hzr, req) {
             results[key].focusUrl =
                 'http://' + req.get('host') + '/forecast/' + r.hotzoneid;
             results[key].new =
-                r.dateissued > moment().subtract(1, 'days').unix();
+                r.dateissued >
+                moment()
+                    .subtract(1, 'days')
+                    .unix();
             results[key].report.thumbs = r.report.uploads.map(function(key) {
                 return 'http://' + req.get('host') + '/api/min/uploads/' + key;
             });

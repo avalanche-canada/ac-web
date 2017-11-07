@@ -41,7 +41,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.white,
         "N/A:'Spring'": colors.white,
-        "N/A:Early Season Conditions": colors.white,
+        'N/A:Early Season Conditions': colors.white,
         'undefined:': colors.white,
     },
     bannerFill: {
@@ -52,7 +52,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.black,
         'N/A:No Rating': colors.white,
         "N/A:'Spring'": colors.white,
-        "N/A:Early Season Conditions": colors.white,
+        'N/A:Early Season Conditions': colors.white,
         'undefined:': colors.white,
     },
     bannerStroke: {
@@ -63,7 +63,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.red,
         'N/A:No Rating': colors.black,
         "N/A:'Spring'": colors.black,
-        "N/A:Early Season Conditions": colors.white,
+        'N/A:Early Season Conditions': colors.white,
         'undefined:': colors.white,
     },
     textFill: {
@@ -74,7 +74,7 @@ var dangerRatingStyles = {
         '5:Extreme': colors.white,
         'N/A:No Rating': colors.black,
         "N/A:'Spring'": colors.black,
-        "N/A:Early Season Conditions": colors.white,
+        'N/A:Early Season Conditions': colors.white,
         'undefined:': colors.black,
     },
 };
@@ -275,21 +275,23 @@ function getProblems(caamlProblems) {
                 getComponents
             ),
             aspects: _.map(caamlAvProblem[ns + 'validAspect'], getComponents),
-            likelihood: caamlAvProblem[ns + 'likelihoodOfTriggering'][0][
-                ns + 'Values'
-            ][0][ns + 'typical'][0],
+            likelihood:
+                caamlAvProblem[ns + 'likelihoodOfTriggering'][0][
+                    ns + 'Values'
+                ][0][ns + 'typical'][0],
             expectedSize: {
-                min: caamlAvProblem[ns + 'expectedAvSize'][0][ns + 'Values'][0][
-                    ns + 'min'
-                ][0],
-                max: caamlAvProblem[ns + 'expectedAvSize'][0][ns + 'Values'][0][
-                    ns + 'max'
-                ][0],
+                min:
+                    caamlAvProblem[ns + 'expectedAvSize'][0][ns + 'Values'][0][
+                        ns + 'min'
+                    ][0],
+                max:
+                    caamlAvProblem[ns + 'expectedAvSize'][0][ns + 'Values'][0][
+                        ns + 'max'
+                    ][0],
             },
             comment: StripAvalxStyle(caamlAvProblem[ns + 'comment'][0]),
-            travelAndTerrainAdvice: caamlAvProblem[
-                ns + 'travelAdvisoryComment'
-            ][0],
+            travelAndTerrainAdvice:
+                caamlAvProblem[ns + 'travelAdvisoryComment'][0],
         };
     });
 
@@ -347,9 +349,10 @@ function parksForecast(caaml, region) {
 
         return _.map(daysDangerRatings, function(dayDangerRatings) {
             return {
-                date: dayDangerRatings[0]['validTime'][0]['TimeInstant'][0][
-                    'timePosition'
-                ][0],
+                date:
+                    dayDangerRatings[0]['validTime'][0]['TimeInstant'][0][
+                        'timePosition'
+                    ][0],
                 dangerRating: {
                     alp: getRatingByZone(dayDangerRatings, 'Alp'),
                     tln: getRatingByZone(dayDangerRatings, 'Tln'),
@@ -385,7 +388,10 @@ function parksForecast(caaml, region) {
             'highlights'
         ][0];
     if (highlights.search('!_!') > -1) {
-        highlights = highlights.split('!_!').slice(1).join('!_!');
+        highlights = highlights
+            .split('!_!')
+            .slice(1)
+            .join('!_!');
     }
 
     var forecaster =
@@ -397,9 +403,10 @@ function parksForecast(caaml, region) {
         forecaster: forecaster,
         dateIssued: dates.dateIssued,
         validUntil: dates.validUntil,
-        bulletinTitle: caamlBulletin['bulletinResultsOf'][0][
-            'BulletinMeasurements'
-        ][0]['bulletinTitle'][0],
+        bulletinTitle:
+            caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0][
+                'bulletinTitle'
+            ][0],
         highlights: StripAvalxStyle(highlights),
         confidence: (function(confidence) {
             return (
@@ -433,9 +440,10 @@ function parksForecast(caaml, region) {
                 'wxSynopsisComment'
             ][0]
         ),
-        dangerMode: caamlBulletin['bulletinResultsOf'][0][
-            'BulletinMeasurements'
-        ][0]['dangerMode'][0], //! Early season, Regular season, Spring situation, Off season
+        dangerMode:
+            caamlBulletin['bulletinResultsOf'][0]['BulletinMeasurements'][0][
+                'dangerMode'
+            ][0], //! Early season, Regular season, Spring situation, Off season
     };
 }
 
@@ -543,12 +551,14 @@ function avalancheCaForecast(caaml, region, dangerMode) {
                 'gml:endPosition'
             ][0]
         ),
-        forecaster: caamlBulletin['caaml:obsMetaDataProperty'][0][
-            'caaml:ObsMetaData'
-        ][0]['caaml:observedBy'][0]['caaml:PersonString'][0],
-        bulletinTitle: caamlBulletin['caaml:bulletinResultsOf'][0][
-            'caaml:BulletinMeasurements'
-        ][0]['caaml:bulletinTitle'][0],
+        forecaster:
+            caamlBulletin['caaml:obsMetaDataProperty'][0][
+                'caaml:ObsMetaData'
+            ][0]['caaml:observedBy'][0]['caaml:PersonString'][0],
+        bulletinTitle:
+            caamlBulletin['caaml:bulletinResultsOf'][0][
+                'caaml:BulletinMeasurements'
+            ][0]['caaml:bulletinTitle'][0],
         highlights: StripAvalxStyle(
             caamlBulletin['caaml:bulletinResultsOf'][0][
                 'caaml:BulletinMeasurements'
@@ -701,37 +711,46 @@ function getDangerIconStylesFixed(forecast) {
 function getForecastTableColors(forecast) {
     return {
         day0: {
-            alp: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[0].dangerRating.alp
-            ],
-            tln: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[0].dangerRating.tln
-            ],
-            btl: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[0].dangerRating.btl
-            ],
+            alp:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[0].dangerRating.alp
+                ],
+            tln:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[0].dangerRating.tln
+                ],
+            btl:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[0].dangerRating.btl
+                ],
         },
         day1: {
-            alp: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[1].dangerRating.alp
-            ],
-            tln: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[1].dangerRating.tln
-            ],
-            btl: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[1].dangerRating.btl
-            ],
+            alp:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[1].dangerRating.alp
+                ],
+            tln:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[1].dangerRating.tln
+                ],
+            btl:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[1].dangerRating.btl
+                ],
         },
         day2: {
-            alp: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[2].dangerRating.alp
-            ],
-            tln: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[2].dangerRating.tln
-            ],
-            btl: dangerRatingStyles.bannerFill[
-                forecast.dangerRatings[2].dangerRating.btl
-            ],
+            alp:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[2].dangerRating.alp
+                ],
+            tln:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[2].dangerRating.tln
+                ],
+            btl:
+                dangerRatingStyles.bannerFill[
+                    forecast.dangerRatings[2].dangerRating.btl
+                ],
         },
     };
 }

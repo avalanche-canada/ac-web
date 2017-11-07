@@ -30,7 +30,8 @@ function itemsToSubmissions(items) {
                     obtype: ob.obtype,
                     obid: ob.obid,
                     // TODO(wnh): this ain't needed no moe.
-                    shareUrl: 'http://avalanche.ca/share/' +
+                    shareUrl:
+                        'http://avalanche.ca/share/' +
                         changeCase.paramCase(ob.ob.title) +
                         '/' +
                         subid,
@@ -202,7 +203,8 @@ exports.saveSubmission = function(token, form, callback) {
             });
         } else {
             callback({
-                error: 'Invalid file extention. Valid file extentions are ' +
+                error:
+                    'Invalid file extention. Valid file extentions are ' +
                     validMimeTypes.join(),
             });
         }
@@ -474,7 +476,9 @@ exports.getUploadAsStream = function(key, size) {
     if (size === 'fullsize') {
         return stream;
     } else {
-        var resize = sharp().resize(size, size).max();
+        var resize = sharp()
+            .resize(size, size)
+            .max();
         return stream
             .on('error', err => {
                 resize.emit('error', err);
@@ -543,7 +547,8 @@ function mapWebSubResults(items) {
                 return {
                     obtype: ob.obtype,
                     obid: ob.obid,
-                    shareUrl: 'http://avalanche.ca/share/' +
+                    shareUrl:
+                        'http://avalanche.ca/share/' +
                         changeCase.paramCase(meta.title) +
                         '/' +
                         ob.obid,

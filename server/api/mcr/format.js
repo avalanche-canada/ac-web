@@ -1,39 +1,40 @@
-
 var moment = require('moment-timezone');
 var logger = require('../../logger');
 
-var AC_MCR_HOST = process.env.AC_MCR_HOST; 
+var AC_MCR_HOST = process.env.AC_MCR_HOST;
 
-var IMAGE_PREFIX_USER   = AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
+var IMAGE_PREFIX_USER =
+    AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
 var IMAGE_PREFIX_REPORT = AC_MCR_HOST + '/content/';
 
 module.exports = {
     formatReportFull: formatReportFull,
     formatReport: formatReport,
     formatUser: formatUser,
-}
+};
 
 function formatReportFull(report, user) {
     var r = formatReport(report);
-    if (typeof(r) === 'undefined') return;
+    if (typeof r === 'undefined') return;
     r.user = formatUser(user);
     return r;
 }
 
-
-
 function formatUser(user) {
     return {
-        id:    Number.parseInt(user.uid),
-        name:  user.name,
+        id: Number.parseInt(user.uid),
+        name: user.name,
         certs: f1(user, 'field_certifications', safeval),
         image: user.picture.url,
-    }
+    };
 }
 
 function formatReport(r) {
-    if (typeof(r.field_location.und) ==="undefined") {
-        logger.info('MCR - formatReport(report_id=%d) - Missing location, skipping', r.nid);
+    if (typeof r.field_location.und === 'undefined') {
+        logger.info(
+            'MCR - formatReport(report_id=%d) - Missing location, skipping',
+            r.nid
+        );
         return;
     }
 
@@ -47,26 +48,31 @@ function formatReport(r) {
         body: f1(r, 'body', safeval),
         permalink: r.path,
         dates: fall(r, 'field_date', getDate),
-        images: fall(r, 'field_image', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
-        location_desc: f1(r, 'field_short_description', function(d){return d.safe_value}),
+        images: fall(r, 'field_image', function(i) {
+            return i.uri.replace('public://', IMAGE_PREFIX_REPORT);
+        }),
+        location_desc: f1(r, 'field_short_description', function(d) {
+            return d.safe_value;
+        }),
         groups: getGroups(r),
-    }
+    };
 }
 
-
-function fall(r, key, trans)  {
-    if(typeof(r[key])  === 'undefined') return;
-    if(typeof(r[key].und)  === 'undefined') return;
-    return r[key].und.map(trans)
+function fall(r, key, trans) {
+    if (typeof r[key] === 'undefined') return;
+    if (typeof r[key].und === 'undefined') return;
+    return r[key].und.map(trans);
 }
-function f1(r, key, trans)  {
+function f1(r, key, trans) {
     var all = fall(r, key, trans);
-    if(typeof(all)  === 'undefined') return;
-    if(all.length === 0) return;
+    if (typeof all === 'undefined') return;
+    if (all.length === 0) return;
     return all[0];
 }
 
-function safeval(x) { return x.safe_value; }
+function safeval(x) {
+    return x.safe_value;
+}
 
 function getDate(date) {
     var int_date = Number.parseInt(date.value);
@@ -75,11 +81,13 @@ function getDate(date) {
 }
 
 function getGroups(r) {
-    if (typeof(r.og_groups) === 'undefined') return [];
-    return r.og_groups.map(function(gg){
+    if (typeof r.og_groups === 'undefined') return [];
+    return r.og_groups.map(function(gg) {
         return {
             name: gg.title,
-            logo: f1(gg, 'field_logo', function(i){ return i.uri.replace('public://', IMAGE_PREFIX_REPORT); }),
+            logo: f1(gg, 'field_logo', function(i) {
+                return i.uri.replace('public://', IMAGE_PREFIX_REPORT);
+            }),
         };
     });
 }
