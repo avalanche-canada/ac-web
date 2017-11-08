@@ -2,7 +2,7 @@ import React from 'react'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Article } from 'components/page'
 import Tutorial from 'containers/WeatherTutorial'
-import { Loop, Warning } from 'components/weather'
+import { Loop } from 'components/weather'
 
 export default function HourlyPrecipitation() {
     return (
@@ -17,28 +17,25 @@ export default function HourlyPrecipitation() {
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
-                        <Warning />
-                        {/* <Loop
-                        type="AC_HRDPS_BC_wms-1hr-precip"
-                        interval={500}
-                        withNotes
-                    /> */}
+                        <Loop
+                            type="AC_HRDPS_BC_wms-1hr-precip"
+                            interval={500}
+                            withNotes
+                        />
                     </Panel>
                     <Panel>
-                        <Warning />
-                        {/* <Loop
-                        type="AC_HRDPS_BC-S-Cst_1hr-precip"
-                        interval={500}
-                        withNotes
-                    /> */}
+                        <Loop
+                            type="AC_HRDPS_BC-S-Cst_1hr-precip"
+                            interval={500}
+                            withNotes
+                        />
                     </Panel>
                     <Panel>
-                        <Warning />
-                        {/* <Loop
-                        type="AC_HRDPS_BC-S-Int_1hr-precip"
-                        interval={500}
-                        withNotes
-                    /> */}
+                        <Loop
+                            type="AC_HRDPS_BC-S-Int_1hr-precip"
+                            interval={500}
+                            withNotes
+                        />
                     </Panel>
                     <Panel>
                         <Loop

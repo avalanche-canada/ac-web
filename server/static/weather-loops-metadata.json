@@ -50,7 +50,7 @@
         "runs": [6, 12],
         "updates": [2, 14],
         "hours": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_GDPS_EPA_6hr-precip-clds-th-slp": {
@@ -96,7 +96,7 @@
         "runs": [6, 18],
         "updates": [2, 14],
         "hours": [12, 18, 24, 30, 36, 42],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_HRDPS_BC_wms-1hr-precip": {
@@ -150,7 +150,7 @@
             41,
             42
         ],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_GDPS_BC_850-temp": {
@@ -279,7 +279,7 @@
             44,
             45
         ],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_GDPS_EPA_tpw": {
@@ -369,7 +369,7 @@
             41,
             42
         ],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_RDPS_BC_marine-winds": {
@@ -407,7 +407,7 @@
         "runs": [6, 18],
         "updates": [2, 14],
         "hours": [12, 18, 24, 30, 36, 42],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_GDPS_BC_750-winds": {
@@ -543,7 +543,7 @@
             41,
             42
         ],
-        "extension": "png",
+        "extension": "jpg",
         "notes": []
     },
     "AC_RDPS_BC_freezing-level": {

@@ -10,7 +10,6 @@ import {
     fetchMetadata,
 } from 'services/msc/loop'
 import { Loading, Error } from 'components/text'
-import Alert, { WARNING } from 'components/alert'
 
 NoteSet.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -162,19 +161,4 @@ export default class Loop extends PureComponent {
             </div>
         )
     }
-}
-
-export function Warning() {
-    return (
-        <Alert type={WARNING}>
-            <h2>
-                We are currently experiencing some issues with HRDPS weather
-                loops image generation!
-            </h2>
-            <h3>
-                This product will be available as soon as we solve the issue.<br />Thanks
-                for your patience!
-            </h3>
-        </Alert>
-    )
 }

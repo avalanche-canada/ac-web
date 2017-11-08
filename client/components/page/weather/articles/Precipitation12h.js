@@ -2,7 +2,7 @@ import React from 'react'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Article } from 'components/page'
 import Tutorial from 'containers/WeatherTutorial'
-import { Loop, Warning } from 'components/weather'
+import { Loop } from 'components/weather'
 
 export default function Precipitation12h() {
     return (
@@ -19,12 +19,10 @@ export default function Precipitation12h() {
                         <Loop type="AC_RDPS_BC_12hr-precip" withNotes />
                     </Panel>
                     <Panel>
-                        <Warning />
-                        {/* <Loop type="AC_HRDPS_BC-S-Cst_12hr-precip" withNotes /> */}
+                        <Loop type="AC_HRDPS_BC-S-Cst_12hr-precip" withNotes />
                     </Panel>
                     <Panel>
-                        <Warning />
-                        {/* <Loop type="AC_HRDPS_BC-S-Int_12hr-precip" withNotes /> */}
+                        <Loop type="AC_HRDPS_BC-S-Int_12hr-precip" withNotes />
                     </Panel>
                     <Panel>
                         <Tutorial uid="12h-precipitation" />
