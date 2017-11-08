@@ -59,7 +59,7 @@ function findSplatFromPages(pages = [], slug) {
     }
 }
 
-function findSplat({ menu, splat, slug, router }) {
+function findSplat({ menu, splat, slug, history }) {
     if (splat && !slug) {
         return {}
     }
@@ -67,7 +67,7 @@ function findSplat({ menu, splat, slug, router }) {
     splat = findSplatFromPages(menu || [], slug)
 
     if (splat) {
-        router.replace(`/tutorial/${splat}`)
+        history.replace(`/tutorial/${splat}`)
     }
 
     return {
