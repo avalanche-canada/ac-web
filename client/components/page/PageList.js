@@ -22,6 +22,16 @@ PageList.propTypes = {
     ),
 }
 
+function renderItem(item) {
+    const link = typeof item.link === 'string' ? { to: item.link } : item.link
+
+    return (
+        <li key={item.name}>
+            <Link {...link}>{item.name}</Link>
+        </li>
+    )
+}
+
 function PageList({ title, headline, items }) {
     return (
         <Page styleName="PageList">
@@ -29,20 +39,12 @@ function PageList({ title, headline, items }) {
             <Content>
                 <Main>
                     <Section>
-                        <Headline>
-                            {headline}
-                        </Headline>
-                        {items.isEmpty()
-                            ? <Loading />
-                            : <ul>
-                                  {items.map((item, index) =>
-                                      <li key={index}>
-                                          <Link to={item.link}>
-                                              {item.name}
-                                          </Link>
-                                      </li>
-                                  )}
-                              </ul>}
+                        <Headline>{headline}</Headline>
+                        {items.isEmpty() ? (
+                            <Loading />
+                        ) : (
+                            <ul>{items.map(renderItem)}</ul>
+                        )}
                     </Section>
                 </Main>
             </Content>

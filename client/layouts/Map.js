@@ -14,26 +14,10 @@ import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
 import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
-import externals from 'router/externals'
 
 function primary(props) {
-    const { match } = props
-    let open = false
-
-    if (match) {
-        const { type, name } = match.params
-
-        open = true
-
-        if (type === 'forecasts' && externals.has(name)) {
-            window.open(externals.get(name), '_blank')
-            open = false
-        }
-    }
-
-    return <Primary open={open} {...props} />
+    return <Primary {...props} />
 }
-
 function secondary(props) {
     const panel = parse(props.location.search).panel || ''
     const [type, id] = panel.split('/')

@@ -64,12 +64,8 @@ function Container({
             </Navbar>
             <Header subject="Avalanche Forecast">
                 <h1>
-                    {link
-                        ? <Link {...link}>
-                              {title}
-                          </Link>
-                        : title}
-                    {isLoading ||
+                    {link ? <Link {...link}>{title}</Link> : title}
+                    {isLoading || (
                         <Wrapper
                             tooltip="Display on map"
                             arrowStyle={ARROW_STYLE}>
@@ -77,19 +73,23 @@ function Container({
                                 onClick={onLocateClick}
                                 style={LOCATE_STYLE}
                             />
-                        </Wrapper>}
+                        </Wrapper>
+                    )}
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
-                {isError &&
+                {isError && (
                     <Error>
                         Error happened while loading avalanche bulletin.
-                    </Error>}
+                    </Error>
+                )}
                 {isLoaded &&
-                    !forecast &&
-                    <Feed type="blog" category="north-rockies" />}
+                    !forecast && (
+                        // TODO: Should explicit defined by a <Route path='/forecasts/north-rockies'>
+                        <Feed type="blog" category="north-rockies" />
+                    )}
                 {forecast && <Forecast {...forecast} />}
             </Body>
         </DrawerContainer>

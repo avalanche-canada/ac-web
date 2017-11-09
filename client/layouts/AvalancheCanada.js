@@ -12,7 +12,7 @@ import {
 import Navbar from 'containers/Navbar'
 import Highlight from 'containers/Highlight'
 import Footer from 'components/footer'
-import MainMap from './Map'
+import Main from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
 import Ast from './Ast'
@@ -32,7 +32,7 @@ export default function AvalancheCanada() {
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
                 <Route path="/map/ates" component={AtesMap} />
-                <Route path="/map/:type?/:name?" component={MainMap} />
+                <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
@@ -131,9 +131,15 @@ export default function AvalancheCanada() {
                     name="Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                     title={defaultTitle =>
-                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`}
+                        `${
+                            defaultTitle
+                        }<br />Nous travaillons présentement sur cette page...`
+                    }
                     subtitle={defaultSubtitle =>
-                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`}
+                        `${
+                            defaultSubtitle
+                        }<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
+                    }
                 />
                 <FallbackPageRoute path="/pages/:type/:uid" />
                 <NotFoundRoute />

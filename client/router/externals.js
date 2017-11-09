@@ -9,7 +9,7 @@ export default new Map([
     ['waterton', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY'],
     [
         'chic-chocs',
-        'http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-fr',
+        'https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
     ],
     ['glacier', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
 ])
