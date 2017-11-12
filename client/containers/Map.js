@@ -1,18 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import mapbox from 'services/mapbox/map'
 import Url from 'url'
 import { Map as Base, Marker } from 'components/map'
-import { loadData, loadMapStyle, activeFeaturesChanged } from 'actions/map'
+import {
+    loadData,
+    loadMapStyle,
+    activeFeaturesChanged,
+    mapWidthChanged,
+} from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import { LayerIds, allLayerIds } from 'constants/map/layers'
 import { near } from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
 import noop from 'lodash/noop'
+import throttle from 'lodash/throttle'
 
 const CLUSTER_DIST = 0.005
 
@@ -82,7 +87,14 @@ const CLUSTER_BOUNDS_OPTIONS = {
     speed: 1.75,
 }
 
-class Container extends Component {
+@withRouter
+@connect(mapStateToProps, {
+    loadData,
+    loadMapStyle,
+    activeFeaturesChanged,
+    mapWidthChanged,
+})
+export default class Container extends Component {
     propTypes = {
         onLoad: PropTypes.func,
         onInitializationError: PropTypes.func,
@@ -97,6 +109,7 @@ class Container extends Component {
         location: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
         activeFeaturesChanged: PropTypes.func.isRequired,
+        mapWidthChanged: PropTypes.func.isRequired,
     }
     static defaultProps = {
         onLoad: noop,
@@ -211,7 +224,9 @@ class Container extends Component {
         const p = document.createElement('p')
         const ul = document.createElement('ul')
 
-        p.textContent = `${features.length} reports are available at this location:`
+        p.textContent = `${
+            features.length
+        } reports are available at this location:`
 
         features.forEach(({ properties: { id, name, title } }) => {
             const li = document.createElement('li')
@@ -297,16 +312,31 @@ class Container extends Component {
 
         activeFeaturesChanged(new Map(features))
     }
+    handleWindowWidthChange = throttle(() => {
+        this.props.mapWidthChanged(window.innerWidth)
+    }, 500)
     componentDidMount() {
         this.props.loadMapStyle('citxsc95s00a22inxvbydbc89')
         this.props.loadData()
+        this.props.mapWidthChanged(window.innerWidth)
         this.createActiveFeatures()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
         this.popup = new mapbox.Popup()
+        window.addEventListener('resize', this.handleWindowWidthChange, false)
+        window.addEventListener(
+            'orientationchange',
+            this.handleWindowWidthChange,
+            false
+        )
     }
     componentWillUnmount() {
         clearInterval(this.intervalID)
+        window.removeEventListener('resize', this.handleWindowWidthChange)
+        window.removeEventListener(
+            'orientationchange',
+            this.handleWindowWidthChange
+        )
     }
     shouldComponentUpdate({ markers, style }) {
         if (markers !== this.props.markers || style !== this.props.style) {
@@ -356,12 +386,3 @@ const RouteSchemaMapping = new Map([
     [Schemas.Forecast.key, Schemas.ForecastRegion.key],
     [Schemas.HotZoneReport.key, Schemas.HotZone.key],
 ])
-
-export default compose(
-    withRouter,
-    connect(mapStateToProps, {
-        loadData,
-        loadMapStyle,
-        activeFeaturesChanged,
-    })
-)(Container)
