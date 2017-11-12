@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
-import Controls from 'containers/drawers/controls/Map'
 import { Primary as Base, Forecast, HotZoneReport } from 'containers/drawers'
 import externals from 'router/externals'
 
@@ -52,7 +51,6 @@ export default class Primary extends PureComponent {
 
         return (
             <Base open={open}>
-                <Controls />
                 <Route
                     path="/map/forecasts/:name"
                     render={this.renderForecast}

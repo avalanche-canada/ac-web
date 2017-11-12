@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import mapbox from 'services/mapbox/map'
 import Url from 'url'
-import { Map as Base, Marker } from 'components/map'
+import { Map as Base, Marker, NavigationControl } from 'components/map'
 import {
     loadData,
     loadMapStyle,
@@ -377,6 +377,7 @@ export default class Container extends Component {
         return (
             <Base style={style} {...events}>
                 {this.map && markers.map(this.renderMarker)}
+                <NavigationControl />
             </Base>
         )
     }
