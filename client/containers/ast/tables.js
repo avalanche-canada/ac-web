@@ -33,7 +33,7 @@ import { sortingHandlerFactory } from 'utils/router'
 
 // TODO: Reuse controlled table component
 
-function renderControlled(data, asControlled) {
+function renderControlled(data, asControlled, colSpan) {
     //TODO(wnh): make the special 'Description' less special
     //TODO(wnh): Remove the inline style!!!!!!!!
     let controlled = asControlled(data)
@@ -42,15 +42,13 @@ function renderControlled(data, asControlled) {
 
     return (
         <Row key={`controlled-${data.id}`}>
-            <Cell>
+            <Cell colSpan={colSpan}>
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: 1 }}>
                         <List columns={1} theme="Inline" horizontal>
                             <Term>Description</Term>
                             <Definition>
-                                <Markup>
-                                    {Description}
-                                </Markup>
+                                <Markup>{Description}</Markup>
                             </Definition>
                         </List>
                     </div>
@@ -68,13 +66,13 @@ function renderControlled(data, asControlled) {
 function renderRow(data, columns, expanded) {
     return (
         <Row key={data.id} expanded={expanded}>
-            {columns.map(({ property }, index) =>
+            {columns.map(({ property }, index) => (
                 <Cell key={index}>
                     {typeof property === 'function'
                         ? property(data)
                         : data[property]}
                 </Cell>
-            )}
+            ))}
         </Row>
     )
 }
@@ -86,7 +84,7 @@ function renderRows(data, columns, asControlled) {
         data.push(renderRow(row, columns, expanded))
 
         if (typeof asControlled === 'function') {
-            data.push(renderControlled(row, asControlled))
+            data.push(renderControlled(row, asControlled, columns.length))
         }
 
         return data
@@ -131,7 +129,10 @@ function AstTable({
                     <Header>
                         <Row>
                             {columns.map(
-                                ({ title, name, property, ...header }, index) =>
+                                (
+                                    { title, name, property, ...header },
+                                    index
+                                ) => (
                                     <HeaderCell
                                         key={index}
                                         onSortingChange={onSortingChange.bind(
@@ -143,19 +144,19 @@ function AstTable({
                                             ? title()
                                             : title}
                                     </HeaderCell>
+                                )
                             )}
                         </Row>
                     </Header>
-                    {!featured.isEmpty() &&
+                    {!featured.isEmpty() && (
                         <ControlledTBody featured title="Our sponsors">
                             {renderRows(featured, columns, asControlled)}
-                        </ControlledTBody>}
+                        </ControlledTBody>
+                    )}
                     <ControlledTBody>
                         {renderRows(rows, columns, asControlled)}
                     </ControlledTBody>
-                    <Caption>
-                        {caption}
-                    </Caption>
+                    <Caption>{caption}</Caption>
                 </Table>
             </Responsive>
             {pagination}
