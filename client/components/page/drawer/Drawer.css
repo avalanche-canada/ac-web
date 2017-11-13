@@ -87,6 +87,10 @@
     }
 }
 
+.Content {
+    padding: 0 1.25em;
+}
+
 .Body {
     flex: 1 1;
     overflow-y: auto;
