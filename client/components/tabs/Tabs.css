@@ -25,15 +25,25 @@
     white-space: nowrap;
     cursor: pointer;
     text-decoration: none;
+    transition: padding 0.25s ease;
 
     &:hover {
         background-color: var(--component-bg-hover);
     }
 }
 
+@media screen and (max-width: 480px) {
+    .Header {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+}
+
 .Header--isActive {
     background-color: var(--component-active-bg);
     color: white;
+    padding-left: 1em;
+    padding-right: 1em;
 
     &:hover {
         background-color: var(--component-active-bg);

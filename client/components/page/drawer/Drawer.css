@@ -87,16 +87,18 @@
     }
 }
 
-.Content {
-    padding: 0 1.25em;
-}
-
 .Body {
     flex: 1 1;
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 0;
-    padding: 0 1.25em;
+    padding: 0;
+}
+
+@media screen and (min-width: 480px) {
+    .Body {
+        padding: 0 1.25em;
+    }
 }
 
 .Subject {
