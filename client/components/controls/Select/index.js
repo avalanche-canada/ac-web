@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { OptionSet } from '~/components/controls/options'
+import { OptionSet } from 'components/controls/options'
 
 Select.propTypes = {
     children: PropTypes.node.isRequired,

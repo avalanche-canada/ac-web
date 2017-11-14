@@ -1,25 +1,31 @@
 import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
-import Tabs, { HeaderSet, Header, PanelSet, Panel } from '~/components/tabs'
+import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
 import Day2 from './tabs/Day2'
 import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
-import Tutorial from '~/containers/WeatherTutorial'
-import TABS, { DAY5TO7 } from '~/components/weather/tabs'
+import { StructuredText } from 'prismic/components/base'
+import Tutorial from 'containers/WeatherTutorial'
 
 export default class Forecast extends PureComponent {
     static propTypes = {
         forecast: PropTypes.object.isRequired,
-        tabs: PropTypes.arrayOf(PropTypes.oneOf(TABS)),
     }
     get hasDay5To7() {
-        const { forecast, tabs } = this.props
+        const { forecast } = this.props
 
-        return (
-            tabs.includes(DAY5TO7) && (forecast.day5To7 || forecast.day5To7More)
+        return forecast.day5To7 || forecast.day5To7More
+    }
+    get day5To7Panel() {
+        const { forecast } = this.props
+
+        return createElement(
+            Day5To7,
+            { date: forecast.date },
+            <StructuredText value={forecast.day5To7} />
         )
     }
     get headers() {
@@ -33,26 +39,38 @@ export default class Forecast extends PureComponent {
         ].filter(Boolean)
     }
     get panels() {
-        const { forecast } = this.props
-
         return [
             <Panel key="synopsis">
-                {createPanel(Synopsis, 'synopsis', forecast)}
+                {this.createPanel(Synopsis, 'synopsis')}
             </Panel>,
-            <Panel key="day1">{createPanel(Day1, 'day1', forecast)}</Panel>,
-            <Panel key="day2">{createPanel(Day2, 'day2', forecast)}</Panel>,
-            <Panel key="day3To4">
-                {createPanel(Day3To4, 'day3To4', forecast)}
-            </Panel>,
-            this.hasDay5To7 && (
-                <Panel key="day5To7">
-                    {createPanel(Day5To7, 'day5To7', forecast)}
-                </Panel>
-            ),
+            <Panel key="day1">{this.createPanel(Day1, 'day1')}</Panel>,
+            <Panel key="day2">{this.createPanel(Day2, 'day2')}</Panel>,
+            <Panel key="day3To4">{this.createPanel(Day3To4, 'day3To4')}</Panel>,
+            this.hasDay5To7 && <Panel key="day5To7">{this.day5To7Panel}</Panel>,
             <Panel key="tutorial">
                 <Tutorial uid="weather" />
             </Panel>,
         ].filter(Boolean)
+    }
+    createPanel(component, name) {
+        const { forecast } = this.props
+        const group = forecast[name]
+        const slices = forecast[`${name}More`] || group
+
+        if (!group && !slices) {
+            return null
+        }
+        const props = {
+            date: forecast.date,
+        }
+
+        if (Array.isArray(group)) {
+            Object.assign(props, group[0])
+        }
+
+        const children = <SliceSet slices={slices} />
+
+        return createElement(component, props, children)
     }
     render() {
         return (
@@ -62,24 +80,4 @@ export default class Forecast extends PureComponent {
             </Tabs>
         )
     }
-}
-
-function createPanel(component, name, forecast) {
-    const group = forecast[name]
-    const slices = forecast[`${name}More`] || group
-
-    if (!group && !slices) {
-        return null
-    }
-    const props = {
-        date: forecast.date,
-    }
-
-    if (Array.isArray(group)) {
-        Object.assign(props, group[0])
-    }
-
-    const children = <SliceSet slices={slices} />
-
-    return createElement(component, props, children)
 }

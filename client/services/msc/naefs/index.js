@@ -1,4 +1,4 @@
-import { naefs } from '~/services/msc/config.json'
+import { naefs } from 'services/msc/config.json'
 import padstart from 'lodash/padStart'
 import formatDate from 'date-fns/format'
 

@@ -3,10 +3,10 @@ import {
     getDocument,
     getDocumentFromResult,
     getStatusFactory,
-} from '~/selectors/prismic/utils'
-import { getIsAuthenticated } from '~/getters/auth'
+} from 'selectors/prismic/utils'
+import { getIsAuthenticated } from 'getters/auth'
 import format from 'date-fns/format'
-import { DATE } from '~/utils/date'
+import { DATE } from 'utils/date'
 
 export default createStructuredSelector({
     isAuthenticated: getIsAuthenticated,

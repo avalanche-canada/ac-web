@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Pill.css'
-import { getStringFromChildren } from '~/utils/react'
+import { getStringFromChildren } from 'utils/react'
 import noop from 'lodash/noop'
 
 Item.propTypes = {

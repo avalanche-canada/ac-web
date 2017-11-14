@@ -1,8 +1,8 @@
 import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import Base, { PanelSet, ButtonSet } from '~/components/carousel'
-import Button from '~/components/button'
-import { fullscreen } from '~/compose'
+import Base, { PanelSet, ButtonSet } from 'components/carousel'
+import Button from 'components/button'
+import { fullscreen } from 'compose'
 import styles from './Carousel.css'
 
 @fullscreen

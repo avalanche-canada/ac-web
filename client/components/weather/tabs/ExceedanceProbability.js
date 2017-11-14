@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Container, PillSet, Pill } from '~/components/pill'
-import { DropdownFromOptions, DayPicker } from '~/components/controls'
-import { DateElement } from '~/components/time'
+import { Container, PillSet, Pill } from 'components/pill'
+import { DropdownFromOptions, DayPicker } from 'components/controls'
+import { DateElement } from 'components/time'
 import styles from './ExceedanceProbability.css'
 import differenceInHours from 'date-fns/difference_in_hours'
 import startOfDay from 'date-fns/start_of_day'
@@ -16,7 +16,7 @@ import {
     PRODUCTS,
     PARAMETERS,
     format,
-} from '~/services/msc/naefs'
+} from 'services/msc/naefs'
 
 const TEMPERATURE = 'TEMPERATURE'
 

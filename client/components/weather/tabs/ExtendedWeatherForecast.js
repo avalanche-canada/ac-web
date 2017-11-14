@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import GramSet, { Location } from './gram'
 import ExceedanceProbability from './ExceedanceProbability'
-import BasePanel, { INVERSE } from '~/components/panel'
-import { carte, epsgram, spaghetti } from '~/services/msc/naefs'
-import Loop from '~/components/loop'
+import BasePanel, { INVERSE } from 'components/panel'
+import { carte, epsgram, spaghetti } from 'services/msc/naefs'
+import Loop from 'components/loop'
 
 const PANEL_PADDING = {
     padding: '2em 1em',
