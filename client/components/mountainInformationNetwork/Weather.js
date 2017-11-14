@@ -7,7 +7,7 @@ import {
     mapProps,
 } from 'recompose'
 import Content from './Content'
-import { asTermAndDefinition } from '~/components/description/utils'
+import { asTermAndDefinition } from 'components/description/utils'
 
 export default compose(
     setDisplayName('Weather'),

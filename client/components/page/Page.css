@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --header-horizontal (width > 600px);
 @custom-media --side-by-side (width > 860px);
@@ -82,8 +82,8 @@
 
 .Header {
     composes: RestrictFullPageWidth;
-    composes: import MainDecorator from "../markup/Br.css";
-    composes: import RibbonDecorator from "../markup/Br.css";
+    composes: import MainDecorator from '../markup/Br.css';
+    composes: import RibbonDecorator from '../markup/Br.css';
 
     display: flex;
     flex-direction: column;
@@ -159,9 +159,13 @@
     }
 
     &:after {
-        content: "";
-        position: absolute 0;
-        background-image: url("//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg");
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -187,7 +191,7 @@
 
     height: auto;
 
-    & Section {
+    & section {
         text-align: left;
         margin: 0 1em;
     }
@@ -218,7 +222,7 @@
     composes: Background;
 
     &:after {
-        background-image: url("//res.cloudinary.com/avalanche-ca/image/upload/c_crop,g_xy_center,h_3250,q_25,w_5370/v1476221240/03_14_15_AvCan_0101_tnszks.jpg");
+        background-image: url('//res.cloudinary.com/avalanche-ca/image/upload/c_crop,g_xy_center,h_3250,q_25,w_5370/v1476221240/03_14_15_AvCan_0101_tnszks.jpg');
         opacity: 0.35;
     }
 }

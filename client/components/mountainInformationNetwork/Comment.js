@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import { Markup } from '~/components/markup'
+import { Markup } from 'components/markup'
 
 Comment.propTypes = {
     title: PropTypes.string,

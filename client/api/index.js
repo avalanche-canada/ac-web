@@ -1,28 +1,16 @@
-import * as Schemas from '~/api/schemas'
+import * as Schemas from 'api/schemas'
 import Axios, { defaults } from 'axios'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
-import { baseURL, astBaseUrl, weatherBaseUrl } from '~/api/config.json'
+import { baseURL, astBaseUrl, weatherBaseUrl } from 'api/config.json'
 import {
-    transformSubmissionForPost,
     transformProviderResponse,
     transformCourseResponse,
     sanitizeMountainInformationNetworkSubmissions,
+    transformMountainConditionsReports,
 } from './transformers'
-
-const POST_CONFIGS = new Map([
-    [
-        Schemas.MountainInformationNetworkSubmission,
-        {
-            transformRequest: [
-                transformSubmissionForPost,
-                ...defaults.transformRequest,
-            ],
-        },
-    ],
-])
 
 const GET_CONFIGS = new Map([
     [
@@ -90,6 +78,14 @@ const GET_CONFIGS = new Map([
             }
         },
     ],
+    [
+        Schemas.MountainConditionsReport,
+        () => ({
+            transformResponse: defaults.transformResponse.concat(
+                transformMountainConditionsReports
+            ),
+        }),
+    ],
 ])
 
 function isArchiveBulletinRequest({ date }) {
@@ -129,6 +125,7 @@ const ENDPOINTS = new Map([
         Schemas.WeatherStation,
         (params = {}) => (params.id ? `stations/${params.id}/` : 'stations/'),
     ],
+    [Schemas.MountainConditionsReport, 'mcr/'],
 ])
 
 const api = Axios.create({
@@ -172,13 +169,12 @@ function extractData(response) {
 
 export function post(schema, data) {
     let endpoint = ENDPOINTS.get(schema)
-    const config = POST_CONFIGS.get(schema)
 
     if (typeof endpoint === 'function') {
         endpoint = endpoint()
     }
 
-    return api.post(endpoint, data, config).then(extractData)
+    return api.post(endpoint, data).then(extractData)
 }
 
 export function fetchFeaturesMetadata() {
@@ -190,9 +186,5 @@ const Static = Axios.create({
 })
 
 export function fetchStaticResource(resource) {
-    return Static.get(resource)
-}
-
-export function fetchSponsors() {
-    return fetchStaticResource('sponsors.json').then(extractData)
+    return Static.get(`${resource}.json`).then(extractData)
 }

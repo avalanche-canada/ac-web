@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import Table from './Table'
 import ChartSet from './ChartSet'
-import { TabSet, Tab, LOOSE } from '~/components/tab'
-import { Loading, Muted } from '~/components/text'
+import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
+import { Loading, Muted } from 'components/text'
 import styles from './Station.css'
 
 Station.propTypes = {
@@ -26,22 +26,32 @@ function Station({ measurements, columns, headers }) {
     }
 
     return (
-        <TabSet theme={LOOSE}>
-            <Tab title="Table">
-                {measurements
-                    ? <Table
-                          measurements={measurements}
-                          columns={columns}
-                          headers={headers}
-                      />
-                    : <Loading />}
-            </Tab>
-            <Tab title="Charts">
-                {measurements
-                    ? <ChartSet measurements={measurements} />
-                    : <Loading />}
-            </Tab>
-        </TabSet>
+        <Tabs theme="LOOSE">
+            <HeaderSet>
+                <Header>Table</Header>
+                <Header>Charts</Header>
+            </HeaderSet>
+            <PanelSet>
+                <Panel title="Table">
+                    {measurements ? (
+                        <Table
+                            measurements={measurements}
+                            columns={columns}
+                            headers={headers}
+                        />
+                    ) : (
+                        <Loading />
+                    )}
+                </Panel>
+                <Panel title="Charts">
+                    {measurements ? (
+                        <ChartSet measurements={measurements} />
+                    ) : (
+                        <Loading />
+                    )}
+                </Panel>
+            </PanelSet>
+        </Tabs>
     )
 }
 

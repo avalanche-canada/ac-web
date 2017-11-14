@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DateElement } from '~/components/time'
+import { DateElement } from 'components/time'
 import Section from './Section'
 import addDays from 'date-fns/add_days'
 

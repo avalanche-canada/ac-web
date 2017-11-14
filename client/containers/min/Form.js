@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import t from '~/vendor/tcomb-form'
+import t from 'vendor/tcomb-form'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
-import { MountainInformationNetworkSubmission } from '~/api/schemas'
-import { Page, Header, Main, Content } from '~/components/page'
+import { MountainInformationNetworkSubmission } from 'api/schemas'
+import { Page, Header, Main, Content } from 'components/page'
 import OPTIONS from './options'
-import { postMountainInformationNetworkSubmission } from '~/actions/entities'
+import { postMountainInformationNetworkSubmission } from 'actions/entities'
 import Submission from './types'
-import AuthService from '~/services/auth'
-import { Submit } from '~/components/button'
+import AuthService from 'services/auth'
+import { Submit } from 'components/button'
 import styles from './Form.css'
-import { TYPES } from '~/constants/min'
+import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
-import { scrollIntoView } from '~/utils/dom'
+import { scrollIntoView } from 'utils/dom'
+import transform from './transform'
 
 const { Form } = t.form
 
@@ -142,7 +143,7 @@ export default class SubmissionForm extends Component {
     }
     submit(value) {
         this.setState({ isSubmitting: true }, () => {
-            this.props.post(value).then(
+            this.props.post(transform(value)).then(
                 data => {
                     const { key } = MountainInformationNetworkSubmission
                     const id = MountainInformationNetworkSubmission.getId(

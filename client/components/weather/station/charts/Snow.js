@@ -8,10 +8,10 @@ import {
     VictoryAxis,
     VictoryContainer,
 } from 'victory'
-import { PRIMARY as SECONDARY_BLUE } from '~/constants/colors'
+import { PRIMARY as SECONDARY_BLUE } from 'constants/colors'
 import { formatHours, barEvents, scatterEvents } from '../utils'
 import format from 'date-fns/format'
-import { setUTCOffset } from '~/utils/date'
+import { setUTCOffset } from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import { filterDataset, shouldShowGraph } from './filters'

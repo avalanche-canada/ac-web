@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import ReactGA from '~/services/analytics'
+import ReactGA from 'services/analytics'
 
 function pageview({ pathname, search }) {
     ReactGA.pageview(pathname + search)

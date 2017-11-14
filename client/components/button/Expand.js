@@ -4,12 +4,12 @@ import {
     compose,
     setDisplayName,
     setPropTypes,
-    mapProps,
+    withProps,
     defaultProps,
 } from 'recompose'
 import { SUBTILE } from './kinds'
 import Button from './Button'
-import { Remove, Add, ExpandMore, ExpandLess } from '~/components/icons'
+import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
 
 const ICONS = new Map([
     [true, new Map([[true, <ExpandLess />], [false, <ExpandMore />]])],
@@ -26,8 +26,7 @@ export default compose(
         expanded: false,
         chevron: false,
     }),
-    mapProps(({ chevron, expanded, ...rest }) => ({
-        ...rest,
+    withProps(({ chevron, expanded }) => ({
         kind: SUBTILE,
         icon: ICONS.get(chevron).get(expanded),
     }))

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Status as StatusComponent } from '~/components/misc'
-import { StructuredText } from '~/prismic/components/base'
-import Status from '~/utils/status'
+import { Status as StatusComponent } from 'components/misc'
+import { StructuredText } from 'prismic/components/base'
+import Status from 'utils/status'
 
 Tutorial.propTypes = {
     status: PropTypes.instanceOf(Status).isRequired,

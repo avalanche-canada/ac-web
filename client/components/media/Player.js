@@ -1,18 +1,21 @@
 import React from 'react'
-import { Player, Media, withMediaProps } from 'react-media-player'
-import CSSModules from 'react-css-modules'
+import PropTypes from 'prop-types'
+import { Player, Media } from 'react-media-player'
 import styles from './Player.css'
 
-function MediaPlayer(props) {
+MediaPlayer.propTypes = {
+    src: PropTypes.string.isRequired,
+}
+
+export default function MediaPlayer({ src }) {
     return (
         <Media>
-            <div styleName="Container">
-                <div styleName="Player">
-                    <Player {...props} />
+            <div className={styles.Container}>
+                <div className={styles.Player}>
+                    <Player src={src} />
                 </div>
-                <div styleName="Controls" />
+                <div className={styles.Controls} />
             </div>
         </Media>
     )
 }
-export default withMediaProps(CSSModules(MediaPlayer, styles))

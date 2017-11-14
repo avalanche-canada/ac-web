@@ -4,19 +4,19 @@ import { compose, lifecycle, withProps, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import parseDate from 'date-fns/parse'
-import { parse } from '~/utils/search'
+import { parse } from 'utils/search'
 import get from 'lodash/get'
-import { Form as Base, Legend, Control, ControlSet } from '~/components/form'
-import { DropdownFromOptions, Geocoder, DateRange } from '~/components/controls'
-import { locate } from '~/actions/geolocation'
-import * as courses from '~/selectors/ast/courses'
-import * as providers from '~/selectors/ast/providers'
+import { Form as Base, Legend, Control, ControlSet } from 'components/form'
+import { DropdownFromOptions, Geocoder, DateRange } from 'components/controls'
+import { locate } from 'actions/geolocation'
+import * as courses from 'selectors/ast/courses'
+import * as providers from 'selectors/ast/providers'
 import {
     valueHandlerFactory,
     arrayValueHandlerFactory,
     dateRangeValueHandlerFactory,
     replace,
-} from '~/utils/router'
+} from 'utils/router'
 
 const STYLE = {
     margin: 'auto',

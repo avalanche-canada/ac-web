@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
-import * as Modes from '~/constants/forecast/mode'
+import * as Modes from 'constants/forecast/mode'
 
 const UNHANDLED = new Set([
     Modes.SUMMER,

@@ -1,5 +1,5 @@
 import { defaultProps } from 'recompose'
-import { Element } from '~/compose'
+import { Element } from 'compose'
 import styles from './Text.css'
 
 function text({ children = null, name, component = 'p' }) {

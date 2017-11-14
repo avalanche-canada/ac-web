@@ -8,8 +8,8 @@ import {
     OFF,
     EARLY_SEASON,
     Texts,
-} from '~/constants/forecast/mode'
-import { Generic } from '~/prismic/components'
+} from 'constants/forecast/mode'
+import { Generic } from 'prismic/components'
 import { domain } from 'assets/config.json'
 
 //TODO(wnh): Remove either SUMMER or OFF because they are the same

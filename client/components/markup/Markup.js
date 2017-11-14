@@ -14,9 +14,7 @@ export default function Markup({ children }) {
         const parts = children.replace(/\r/g, '').split(/\n/)
 
         return (
-            <div>
-                {parts.map(text => [text, <br />])}
-            </div>
+            <div>{parts.map((text, index) => [text, <br key={index} />])}</div>
         )
     }
 

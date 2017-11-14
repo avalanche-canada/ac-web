@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
-import { getEntitiesForSchema } from '~/getters/entities'
-import { getVisibleLayers } from '~/getters/drawers'
-import mapbox from '~/services/mapbox/map'
-import * as Layers from '~/constants/drawers'
-import * as Schemas from '~/api/schemas'
+import { getEntitiesForSchema } from 'getters/entities'
+import { getVisibleLayers } from 'getters/drawers'
+import mapbox from 'services/mapbox/map'
+import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 
 function createElement({
     width = 50,

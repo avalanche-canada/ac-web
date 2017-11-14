@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
-import { Page as Base, Header, Main, Content } from '~/components/page'
-import { Responsive } from '~/components/table'
-import { Br } from '~/components/markup'
-import Table, { Status, Metadata } from '~/containers/min/Table'
+import { Page as Base, Header, Main, Content } from 'components/page'
+import { Responsive } from 'components/table'
+import { Br } from 'components/markup'
+import Table, { Status, Metadata } from 'containers/min/Table'
 import { withRouter } from 'react-router-dom'
 import {
     valueHandlerFactory,
     arrayValueHandlerFactory,
     sortingHandlerFactory,
-} from '~/utils/router'
+} from 'utils/router'
 
 const DAYS = '7'
 const TYPES = []

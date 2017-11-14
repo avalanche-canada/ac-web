@@ -1,7 +1,7 @@
 import React, { PureComponent, Children } from 'react'
 import { mapProps } from 'recompose'
 import PropTypes from 'prop-types'
-import { createStyleUrl } from '~/services/mapbox/api'
+import { createStyleUrl } from 'services/mapbox/api'
 import debounce from 'lodash/debounce'
 
 export default class StaticMap extends PureComponent {

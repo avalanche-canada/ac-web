@@ -2,13 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { compose, withProps, withHandlers } from 'recompose'
-import { FilterSet, Feed as Base } from '~/containers/feed'
-import { Page, Content, Header, Main } from '~/components/page'
-import { valueHandlerFactory, arrayValueHandlerFactory } from '~/utils/router'
+import {
+    FilterSet,
+    Feed as Base,
+    BlogPost,
+    NewsPost,
+    EventPost,
+} from 'containers/feed'
+import { Page, Content, Header, Main } from 'components/page'
+import { valueHandlerFactory, arrayValueHandlerFactory } from 'utils/router'
 import { withRouter } from 'react-router-dom'
-import { parse } from '~/utils/search'
-import { NEWS, BLOG, EVENT } from '~/selectors/prismic/feed'
-import { BlogPost, NewsPost, EventPost } from '~/containers/feed'
+import { parse } from 'utils/search'
+import { NEWS, BLOG, EVENT } from 'selectors/prismic/feed'
 
 Layout.propTypes = {
     type: PropTypes.string.isRequired,

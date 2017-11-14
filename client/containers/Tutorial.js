@@ -8,19 +8,17 @@ import {
     renderComponent,
 } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import * as Components from '~/components/tutorial'
-import { generic, tutorial } from '~/containers/connectors'
-import { parse } from '~/prismic'
-import { fetchStaticResource } from '~/api'
-import { Loading } from '~/components/text'
+import * as Components from 'components/tutorial'
+import { generic, tutorial } from 'containers/connectors'
+import { parse } from 'prismic'
+import { fetchStaticResource } from 'api'
+import { Loading } from 'components/text'
 
 const tree = compose(
     withState('menu', 'setMenu', null),
     lifecycle({
         componentDidMount() {
-            fetchStaticResource('tutorial-menu-tree.json').then(response => {
-                this.props.setMenu(response.data)
-            })
+            fetchStaticResource('tutorial-menu-tree').then(this.props.setMenu)
         },
     })
 )
@@ -61,7 +59,7 @@ function findSplatFromPages(pages = [], slug) {
     }
 }
 
-function findSplat({ menu, splat, slug, router }) {
+function findSplat({ menu, splat, slug, history }) {
     if (splat && !slug) {
         return {}
     }
@@ -69,7 +67,7 @@ function findSplat({ menu, splat, slug, router }) {
     splat = findSplatFromPages(menu || [], slug)
 
     if (splat) {
-        router.replace(`/tutorial/${splat}`)
+        history.replace(`/tutorial/${splat}`)
     }
 
     return {

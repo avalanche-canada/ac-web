@@ -4,35 +4,26 @@ import { compose, lifecycle } from 'recompose'
 import { createSelector } from 'reselect'
 import { List } from 'immutable'
 import { connect } from 'react-redux'
-import { getLayers } from '~/getters/drawers'
-import { turnOnLayer, turnOffLayer, changeFilter } from '~/actions/drawers'
-import { Container, Body, Navbar, Close } from '~/components/page/drawer'
-import { LayerSet, Layer, FilterSet } from '~/components/page/drawer/layers'
-import * as Layers from '~/constants/drawers'
-import { loadData } from '~/actions/map'
-import {
-    Forecast,
-    HotZoneReport,
-    MountainInformationNetwork,
-    WeatherStation,
-    SpecialInformation,
-    FatalAccident,
-    ToyotaTruck,
-} from '~/components/icons'
+import { getLayers } from 'getters/drawers'
+import { turnOnLayer, turnOffLayer, changeFilter } from 'actions/drawers'
+import { Container, Body, Navbar, Close } from 'components/page/drawer'
+import { LayerSet, Layer, FilterSet } from 'components/page/drawer/layers'
+import * as Layers from 'constants/drawers'
+import { loadData } from 'actions/map'
+import * as Icons from 'components/icons'
 
 const ICONS = new Map([
-    [Layers.FORECASTS, <Forecast />],
-    [Layers.HOT_ZONE_REPORTS, <HotZoneReport />],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, <MountainInformationNetwork />],
-    [Layers.WEATHER_STATION, <WeatherStation />],
-    [Layers.SPECIAL_INFORMATION, <SpecialInformation />],
-    [Layers.FATAL_ACCIDENT, <FatalAccident />],
-    [Layers.TOYOTA_TRUCK_REPORTS, <ToyotaTruck />],
+    [Layers.FORECASTS, <Icons.Forecast />],
+    [Layers.HOT_ZONE_REPORTS, <Icons.HotZoneReport />],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, <Icons.MountainInformationNetwork />],
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS, <Icons.MountainConditionsReport />],
+    [Layers.WEATHER_STATION, <Icons.WeatherStation />],
+    [Layers.SPECIAL_INFORMATION, <Icons.SpecialInformation />],
+    [Layers.FATAL_ACCIDENT, <Icons.FatalAccident />],
+    [Layers.TOYOTA_TRUCK_REPORTS, <Icons.ToyotaTruck />],
 ])
 
 // TODO: Improve performance! layers is now an immutable object
-
-const EMPTY_LIST = new List()
 
 Menu.propTypes = {
     layers: PropTypes.object.isRequired,
@@ -47,7 +38,7 @@ Menu.propTypes = {
 }
 
 function Menu({
-    sets = EMPTY_LIST,
+    sets = new List(),
     turnOnLayer,
     turnOffLayer,
     changeFilter,

@@ -1,8 +1,8 @@
 import Immutable from 'immutable'
 import { combineReducers } from 'redux'
-import { GET_PRISMIC } from '~/actions/prismic'
+import { GET_PRISMIC } from 'actions/prismic'
 import typeToReducer from 'type-to-reducer'
-import RESULT from '~/reducers/result'
+import RESULT from 'reducers/result'
 
 const SET = new Immutable.Set()
 const MAP = new Immutable.Map()

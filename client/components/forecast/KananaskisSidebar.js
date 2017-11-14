@@ -1,5 +1,5 @@
 import React from 'react'
-import { neverUpdate } from '~/compose'
+import { neverUpdate } from 'compose'
 import { Link } from 'react-router-dom'
 import {
     Sidebar,
@@ -9,8 +9,8 @@ import {
     Item,
     Header,
     RSSFeed,
-} from '~/components/sidebar'
-import { Mailto, Phone } from '~/components/anchors'
+} from 'components/sidebar'
+import { Mailto, Phone } from 'components/anchors'
 
 function KananaskisSidebar() {
     const { pathname, origin } = document.location

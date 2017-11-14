@@ -1,7 +1,7 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
 import { Metadata, Entry, ShareEntry } from './'
-import { DateTime } from '~/components/time'
+import { DateTime } from 'components/time'
 
 test('metadata component', () => {
     const metadata = Renderer.create(

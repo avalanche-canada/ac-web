@@ -1,121 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Application from '~/components/application'
-import { AvalancheCanadaFoundation as Navbar } from '~/containers/Navbar'
-import Highlight from '~/containers/Highlight'
-import Footer from '~/components/footer'
 import { Route, Switch } from 'react-router-dom'
-import { StaticPage } from '~/prismic/containers'
-import { NotFound } from '~/components/page'
-import { createRoute } from '~/utils/router'
-
-function createRoutes(root) {
-    return [
-        {
-            path: root,
-            exact: true,
-            render() {
-                return <StaticPage uid="foundation-home" />
-            },
-        },
-        {
-            path: `${root}/about`,
-            render() {
-                return <StaticPage uid="foundation-about" title="About" />
-            },
-        },
-        {
-            path: `${root}/programs`,
-            render() {
-                return <StaticPage uid="foundation-programs" title="Programs" />
-            },
-        },
-        {
-            path: `${root}/donors`,
-            render() {
-                return <StaticPage uid="foundation-donors" title="Donors" />
-            },
-        },
-        {
-            path: `${root}/event-sponsors`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="foundation-event-sponsors"
-                        title="Event Sponsors"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/news-and-events`,
-            render() {
-                return <StaticPage uid="foundation-news-and-events" />
-            },
-        },
-        {
-            path: `${root}/donate`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="foundation-donate"
-                        title="Donate to Public Avalanche Safety"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/funds/hugh-and-helen-hincks-memorial`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="hugh-and-helen-hincks-memorial-fund"
-                        title="Hugh & Helen Hincks Memorial Fund"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/funds/craig-kelly-memorial-scholarship`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="craig-kelly-memorial-scholarship-fund"
-                        title="Craig Kelly Memorial Scholarship Fund"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/funds/cora-shea-memorial`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="cora-shea-memorial-fund"
-                        title="Cora Shea Memorial Fund"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/funds/al-hodgson-memorial`,
-            render() {
-                return (
-                    <StaticPage
-                        uid="al-hodgson-memorial-fund"
-                        title="Al Hodgson Memorial Fund"
-                    />
-                )
-            },
-        },
-        {
-            path: `${root}/funds/issw`,
-            render() {
-                return <StaticPage uid="issw-fund" title="ISSW Fund" />
-            },
-        },
-    ]
-}
+import Application from 'components/application'
+import Highlight from 'containers/Highlight'
+import Footer from 'components/footer'
+import { NotFound } from 'components/page'
+import { StaticPageRoute } from 'router/common'
+import Navbar from 'components/navbar'
+import logo from 'styles/AvalancheCanadaFoundation.svg'
+import menu from 'constants/menus/foundation'
 
 AvalancheCanadaFoundation.propTypes = {
     match: PropTypes.object.isRequired,
@@ -128,10 +21,64 @@ export default function AvalancheCanadaFoundation({ match }) {
 
     return (
         <Application>
-            <Navbar />
+            <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
             <Highlight />
             <Switch>
-                {createRoutes(url).map(createRoute)}
+                <StaticPageRoute exact path={url} uid="foundation-home" />
+                <StaticPageRoute
+                    path={`${url}/about`}
+                    uid="foundation-about"
+                    title="About"
+                />
+                <StaticPageRoute
+                    path={`${url}/programs`}
+                    uid="foundation-programs"
+                    title="Programs"
+                />
+                <StaticPageRoute
+                    path={`${url}/donors`}
+                    uid="foundation-donors"
+                    title="Donors"
+                />
+                <StaticPageRoute
+                    path={`${url}/event-sponsors`}
+                    uid="foundation-event-sponsors"
+                    title="Event Sponsors"
+                />
+                <StaticPageRoute
+                    path={`${url}/news-and-events`}
+                    uid="foundation-news-and-events"
+                />
+                <StaticPageRoute
+                    path={`${url}/donate`}
+                    uid="foundation-donate"
+                    title="Donate to Public Avalanche Safety"
+                />
+                <StaticPageRoute
+                    path={`${url}/funds/hugh-and-helen-hincks-memorial`}
+                    uid="hugh-and-helen-hincks-memorial-fund"
+                    title="Hugh & Helen Hincks Memorial Fund"
+                />
+                <StaticPageRoute
+                    path={`${url}/funds/craig-kelly-memorial-scholarship`}
+                    uid="craig-kelly-memorial-scholarship-fund"
+                    title="Craig Kelly Memorial Scholarship Fund"
+                />
+                <StaticPageRoute
+                    path={`${url}/funds/cora-shea-memorial`}
+                    uid="cora-shea-memorial-fund"
+                    title="Cora Shea Memorial Fund"
+                />
+                <StaticPageRoute
+                    path={`${url}/funds/al-hodgson-memorial`}
+                    uid="al-hodgson-memorial-fund"
+                    title="Al Hodgson Memorial Fund"
+                />
+                <StaticPageRoute
+                    path={`${url}/funds/issw`}
+                    uid="issw-fund"
+                    title="ISSW Fund"
+                />
                 <Route component={NotFound} />
             </Switch>
             <Switch>

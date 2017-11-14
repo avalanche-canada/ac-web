@@ -1,4 +1,4 @@
-import { Predicates } from '~/prismic'
+import { Predicates } from 'prismic'
 import Axios from 'axios'
 import { root, version } from './config.json'
 

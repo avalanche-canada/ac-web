@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch } from 'react-router-dom'
-import { SponsorRoute } from '~/router/common'
+import { SponsorRoute } from 'router/common'
 
 export default function Sponsor() {
     return (
@@ -32,7 +32,7 @@ export default function Sponsor() {
             <SponsorRoute path="/hot-zone-reports" name="Forecast" />
             <SponsorRoute path="/weather" name="Weather" />
             <SponsorRoute path="/training" name="Training" />
-            <SponsorRoute path="/courses" name="TrainingCourses" />
+            <SponsorRoute path="/courses" name="Training" />
             <SponsorRoute path="/instructing-ast" name="Training" />
             <SponsorRoute path="/youth" name="Youth" />
             <SponsorRoute path="/gear" name="Gear" />

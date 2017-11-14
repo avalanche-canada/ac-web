@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SocialItem from './SocialItem'
-import { SocialItem as Item } from '~/components/social'
-import { createShareUrls } from '~/components/social/utils'
+import { SocialItem as Item } from 'components/social'
+import { createShareUrls } from 'components/social/utils'
 
 Share.propTypes = {
     url: PropTypes.string.isRequired,

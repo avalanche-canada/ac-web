@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as Ratings from '~/constants/forecast/rating'
+import * as Ratings from 'constants/forecast/rating'
 import Groups from './IconGroups'
 
 Svg.propTypes = {

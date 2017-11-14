@@ -1,10 +1,20 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { PrivateRoute, NotFoundRoute, StaticPageRoute } from '~/router/common'
-import Submit from '~/containers/min/Form'
-import Submission from '~/containers/MountainInformationNetworkSubmission'
-import { Page as Submissions } from '~/layouts/min/table'
-import { parse } from '~/utils/search'
+import { PrivateRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
+import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
+import Submission from 'containers/MountainInformationNetworkSubmission'
+import { Page as Submissions } from 'layouts/min/table'
+import { parse } from 'utils/search'
+import { Loading } from 'components/text'
+import Bundle from 'components/Bundle'
+
+function Submit(props) {
+    return (
+        <Bundle load={loadSubmit}>
+            {Component => (Component ? <Component {...props} /> : <Loading />)}
+        </Bundle>
+    )
+}
 
 function submissions({ location }) {
     let { days, types, sorting } = parse(location.search)

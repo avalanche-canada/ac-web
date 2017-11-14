@@ -10,7 +10,7 @@ import {
 import { formatHours, scatterEvents } from '../utils'
 import theme from './theme'
 import format from 'date-fns/format'
-import { setUTCOffset } from '~/utils/date'
+import { setUTCOffset } from 'utils/date'
 import { filterDataset, shouldShowGraph } from './filters'
 import isFinite from 'lodash/isFinite'
 

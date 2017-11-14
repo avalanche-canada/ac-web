@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Container, PillSet, Pill } from '~/components/pill'
+import { Container, PillSet, Pill } from 'components/pill'
 import { Route } from 'react-router-dom'
-import { Page, Content, Banner, Main } from '~/components/page'
-import * as Tables from '~/containers/ast/tables'
-import * as Forms from '~/containers/ast/forms'
+import { Page, Content, Banner, Main } from 'components/page'
+import * as Tables from 'containers/ast/tables'
+import * as Forms from 'containers/ast/forms'
 
 const ROUTES = ['courses', 'providers']
 

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { compose, withProps } from 'recompose'
-import { withHash } from '~/compose'
+import { withHash } from 'compose'
 import kebabCase from 'lodash/kebabCase'
-import { Image } from '~/prismic/components/base'
-import { SocialSet, SocialItem } from '~/components/social'
+import { Image } from 'prismic/components/base'
+import { SocialSet, SocialItem } from 'components/social'
 import styles from './Ambassador.css'
 
 Ambassador.propTypes = {

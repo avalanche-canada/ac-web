@@ -3,37 +3,21 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { compose, withState, branch, renderComponent } from 'recompose'
 import { Link, Route } from 'react-router-dom'
-import { neverUpdate } from '~/compose'
-import { parse } from '~/utils/search'
-import Map from '~/containers/Map'
-import UnsupportedMap from '~/containers/UnsupportedMap'
-import mapbox from '~/services/mapbox/map'
-import { Wrapper } from '~/components/tooltip'
+import { neverUpdate } from 'compose'
+import { parse } from 'utils/search'
+import Map from 'containers/Map'
+import UnsupportedMap from 'containers/UnsupportedMap'
+import mapbox from 'services/mapbox/map'
+import { Wrapper } from 'components/tooltip'
 import styles from './Map.css'
 import Primary from './Primary'
 import Secondary from './Secondary'
-import { Menu } from '~/containers/drawers'
-import ToggleMenu from '~/containers/drawers/controls/ToggleMenu'
-import externals from '~/router/externals'
+import { Menu } from 'containers/drawers'
+import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
 
 function primary(props) {
-    const { match } = props
-    let open = false
-
-    if (match) {
-        const { type, name } = match.params
-
-        open = true
-
-        if (type === 'forecasts' && externals.has(name)) {
-            window.open(externals.get(name), '_blank')
-            open = false
-        }
-    }
-
-    return <Primary open={open} {...props} />
+    return <Primary {...props} />
 }
-
 function secondary(props) {
     const panel = parse(props.location.search).panel || ''
     const [type, id] = panel.split('/')

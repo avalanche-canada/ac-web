@@ -1,6 +1,5 @@
-@import "../../styles/components.css";
-@import "../../styles/colors.css";
-@import "../../styles/shapes.css";
+@import '../../styles/components.css';
+@import '../../styles/colors.css';
 
 :root {
     --border-width: 5px;
@@ -26,36 +25,32 @@
     white-space: nowrap;
     cursor: pointer;
     text-decoration: none;
-
-    & > a > svg {
-        /* ICON */
-        position: relative;
-        top: 2px;
-    }
-
-    & .ExpandButton {
-        display: none;
-    }
+    transition: padding 0.25s ease;
 
     &:hover {
         background-color: var(--component-bg-hover);
     }
 }
 
-.ActiveHeader {
-    composes: Header;
+@media screen and (max-width: 480px) {
+    .Header {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+}
 
+.Header--isActive {
     background-color: var(--component-active-bg);
     color: white;
+    padding-left: 1em;
+    padding-right: 1em;
 
     &:hover {
         background-color: var(--component-active-bg);
     }
 }
 
-.DisabledHeader {
-    composes: Header;
-
+.Header--Disabled {
     cursor: default;
     opacity: 0.5;
 
@@ -65,42 +60,70 @@
 }
 
 .Header--Arrow {
-    composes: import ArrowElementDown from "../../styles/shapes.css";
+    position: relative;
 
-    position: absolute;
-    top: calc(100% + var(--border-width));
-    left: 50%;
-    z-index: 1;
-    border-top-color: transparent;
-    margin-left: calc(-1 * var(--arrow-width));
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 46%;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+    }
 
-    &.ActiveHeader {
-        border-top-color: var(--primary);
+    &.Header--isActive:after {
+        background-color: inherit;
     }
 }
 
-.PanelSet {
+.Panel {
+    margin: 1em;
 }
 
-.Panel {
+/* Stacked */
+.HeaderSet--Stacked {
+    flex-direction: column;
+    position: relative;
+
+    & button {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        z-index: 1;
+    }
+
+    & .Header {
+        display: none;
+    }
+
+    & .Header--isActive {
+        display: block;
+        order: -1;
+        padding-top: 17px;
+    }
+}
+.HeaderSet--Expanded {
+    & .Header {
+        display: block;
+    }
 }
 
 /* THEMES */
-.Compact {
-    background-color: var(--gray-lighter);
-
+.HeaderSet--Compact {
     & .Header {
+        background-color: var(--gray-lighter);
         border-bottom: var(--border-width) solid var(--component-bg);
         z-index: 1;
     }
 
-    & .ActiveHeader {
+    & .Header--isActive {
         background-color: var(--primary);
         border-bottom-color: var(--primary);
     }
 }
 
-.Loose {
+.HeaderSet--Loose {
     background-color: color(var(--primary) lightness(75%));
 
     & .Header {
@@ -115,8 +138,12 @@
                 Do not put border-right, it will break in IE when JS code when
                 try measure widths
              */
-            content: "";
-            position: absolute 0;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
             background-color: white;
             height: 100%;
             width: 1px;

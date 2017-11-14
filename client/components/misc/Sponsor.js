@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, onlyUpdateForKeys } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
-import { handleOutboundSponsorClick } from '~/services/analytics'
+import { handleOutboundSponsorClick } from 'services/analytics'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,

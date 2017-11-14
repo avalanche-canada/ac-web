@@ -1,18 +1,18 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
 import createBbox from '@turf/bbox'
-import turf from '@turf/helpers'
-import mapbox from '~/services/mapbox/map'
-import { getActiveFeatures } from '~/getters/map'
+import * as turf from '@turf/helpers'
+import mapbox from 'services/mapbox/map'
+import { getActiveFeatures } from 'getters/map'
 import {
     getDrawers,
     isPrimaryDrawerOpened,
     isSecondaryDrawerOpened,
-} from '~/getters/drawers'
-import { getEntities } from '~/getters/entities'
-import { getDocuments } from '~/getters/prismic'
-import { parseLocation } from '~/prismic/parsers'
-import { parse } from '~/prismic'
+} from 'getters/drawers'
+import { getEntities } from 'getters/entities'
+import { getDocuments } from 'getters/prismic'
+import { parseLocation } from 'prismic/parsers'
+import { parse } from 'prismic'
 
 const { LngLatBounds } = mapbox
 

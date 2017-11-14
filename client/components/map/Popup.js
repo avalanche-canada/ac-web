@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import mapbox from '~/services/mapbox/map'
+import mapbox from 'services/mapbox/map'
 
 const { LngLat } = mapbox
 const ANCHORS = [
@@ -20,7 +20,7 @@ export default class Popup extends Component {
         lngLat: PropTypes.instanceOf(LngLat).isRequired,
         show: PropTypes.bool,
         children: PropTypes.element.isRequired,
-        options: PropTypes.shapeOf({
+        options: PropTypes.shape({
             closeButton: PropTypes.bool,
             closeOnClick: PropTypes.bool,
             anchor: PropTypes.oneOf(ANCHORS),

@@ -16,8 +16,8 @@ console.log(__dirname);
 
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require(path.resolve(__dirname, '../webpack.config.js'));
+// const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require(path.resolve(__dirname, '../webpack.dev.js'));
 const compiler = webpack(config);
 const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
@@ -32,7 +32,7 @@ const middleware = webpackMiddleware(compiler, {
     },
 });
 
-app.use(webpackHotMiddleware(compiler));
+// app.use(webpackHotMiddleware(compiler));
 app.use(middleware);
 
 app.get('*', function response(req, res) {

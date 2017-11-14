@@ -8,7 +8,7 @@ var WebCacheRedis = require('webcache-redis');
 var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
-var logger = require('../../logger.js');
+var logger = require('../../logger');
 var config = require('../../config/environment');
 var fs = require('fs');
 var Prismic = require('prismic.io');
@@ -63,8 +63,6 @@ if (process.env.REDIS_HOST) {
 
 avalxWebcache.seed(acAvalxUrls);
 
-var DEBUG = console.log.bind(console);
-
 router.param('region', function(req, res, next) {
     req.region = _.find(regions.features, { id: req.params.region });
 
@@ -77,6 +75,8 @@ router.param('region', function(req, res, next) {
         res.status(404).end('Not Found');
         return;
     }
+
+    logger.debug('getting region:', req.params.region);
 
     getForecastData(req.params.region, req.region)
         .then(function(forecast) {
@@ -105,7 +105,7 @@ function getForecastData(regionName, region) {
         .get(region.properties.url)
         .then(function(cached_caaml) {
             if (!cached_caaml) {
-                DEBUG('BUILDING forecast caaml for region:', region.id);
+                logger.debug('BUILDING forecast caaml for region:', region.id);
                 return Q.nfcall(avalx.fetchCaamlForecast, region);
             } else {
                 return cached_caaml;
@@ -117,7 +117,7 @@ function getForecastData(regionName, region) {
         .spread(function(caaml) {
             var cacheKey = 'forecast-data::json::' + region.id;
             var json = fragmentCache.wrap(cacheKey, function() {
-                DEBUG('BUILDING forecast data...', cacheKey);
+                logger.debug('BUILDING forecast data...', cacheKey);
                 return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
             });
             return [caaml, json];
@@ -197,7 +197,7 @@ router.get('/:region/nowcast.svg', function(req, res) {
         var cacheKey = 'nowcast-image::' + req.region.id;
         fragmentCache
             .wrap(cacheKey, function() {
-                DEBUG('BUILDING Nowcast image...', cacheKey);
+                logge.debug('BUILDING Nowcast image...', cacheKey);
                 return Q.nfcall(
                     res.render.bind(res),
                     'forecasts/nowcast',
@@ -289,14 +289,14 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     }
     // Every other Region will be 'avalx' or 'parks'
 
-    console.log(req.forecast.region, req.forecast.json.dangerMode);
+    logger.debug(req.forecast.region, req.forecast.json.dangerMode);
     // Early season, Regular season, Spring situation, Off season
     if (req.forecast.json.dangerMode === 'Regular season') {
         //renderIcon(ratingStyles);
         var cacheKey = 'danger-rating-icon::' + req.region.id;
         fragmentCache
             .wrap(cacheKey, function() {
-                DEBUG('BUILDING danger-rating-icon...', cacheKey);
+                logger.debug('BUILDING danger-rating-icon...', cacheKey);
                 return Q.nfcall(
                     res.render.bind(res),
                     'forecasts/danger-icon',

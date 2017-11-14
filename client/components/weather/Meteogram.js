@@ -6,7 +6,7 @@ import {
     setPropTypes,
     setDisplayName,
 } from 'recompose'
-import { Image } from '~/components/misc'
+import { Image } from 'components/misc'
 import {
     format,
     POINT_LOCATIONS,
@@ -14,7 +14,7 @@ import {
     RDPS,
     GDPS,
     HRDPS,
-} from '~/services/msc/meteograms/url'
+} from 'services/msc/meteograms/url'
 
 const POINT = 'point'
 const GROUP = 'group'

@@ -7,7 +7,7 @@ import {
     Fullscreen,
     ChevronRight,
     ChevronLeft,
-} from '~/components/icons'
+} from 'components/icons'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
 
 function Button(props) {

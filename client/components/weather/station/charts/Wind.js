@@ -11,9 +11,9 @@ import {
     VictoryTooltip,
 } from 'victory'
 import { formatHours, scatterEvents } from '../utils'
-import { toCompass } from '~/utils/degrees'
+import { toCompass } from 'utils/degrees'
 import format from 'date-fns/format'
-import { setUTCOffset } from '~/utils/date'
+import { setUTCOffset } from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import { filterDataset, shouldShowGraph } from './filters'

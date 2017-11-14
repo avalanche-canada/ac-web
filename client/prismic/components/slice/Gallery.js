@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TabSet, Tab, LOOSE } from '~/components/tab'
-import { CloudinaryGallery } from '~/components/gallery'
+import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
+import { CloudinaryGallery } from 'components/gallery'
 
 function mapProperties({ tag, fullScreen, playPause }) {
     return {
@@ -9,6 +9,18 @@ function mapProperties({ tag, fullScreen, playPause }) {
         fullScreen: fullScreen === 'Yes',
         playPause: playPause === 'Yes',
     }
+}
+
+function renderHeader({ name }, index) {
+    return <Header key={index}>{name}</Header>
+}
+
+function renderPanel(gallery, index) {
+    return (
+        <Panel key={index}>
+            <CloudinaryGallery {...mapProperties(gallery)} />
+        </Panel>
+    )
 }
 
 Gallery.propTypes = {
@@ -23,14 +35,9 @@ export default function Gallery({ value }) {
     }
 
     return (
-        <TabSet theme={LOOSE}>
-            {value.map(({ name, ...gallery }, index) => {
-                return (
-                    <Tab key={index} title={name}>
-                        <CloudinaryGallery {...mapProperties(gallery)} />
-                    </Tab>
-                )
-            })}
-        </TabSet>
+        <Tabs theme="LOOSE">
+            <HeaderSet>{value.map(renderHeader)}</HeaderSet>
+            <PanelSet>{value.map(renderPanel)}</PanelSet>
+        </Tabs>
     )
 }

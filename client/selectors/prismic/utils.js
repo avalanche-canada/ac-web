@@ -3,7 +3,7 @@ import {
     getResult as getResultFromParams,
     getDocumentFromParams,
     getDocuments,
-} from '~/getters/prismic'
+} from 'getters/prismic'
 
 // function makeParams(params, props) {
 //     return typeof params === 'function' ? params(props) : params

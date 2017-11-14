@@ -1,7 +1,7 @@
 import React from 'react'
-import { Term, Definition } from '~/components/description'
-import { DateElement, DateTime } from '~/components/time'
-import { trulyKeys } from '~/utils/object'
+import { Term, Definition } from 'components/description'
+import { DateElement, DateTime } from 'components/time'
+import { trulyKeys } from 'utils/object'
 import startOfDay from 'date-fns/start_of_day'
 import isEqual from 'date-fns/is_equal'
 

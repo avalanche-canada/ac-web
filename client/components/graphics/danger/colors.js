@@ -1,5 +1,5 @@
-import * as Ratings from '~/constants/forecast/rating'
-import * as Palette from '~/constants/forecast/palette'
+import * as Ratings from 'constants/forecast/rating'
+import * as Palette from 'constants/forecast/palette'
 
 export const TextFill = new Map([
     [Ratings.EXTREME, Palette.WHITE],

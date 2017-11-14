@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { compose, defaultProps, withProps, withHandlers } from 'recompose'
 import Navbar, {
     Item,
     Menu,
@@ -10,64 +9,78 @@ import Navbar, {
     UserProfile,
     Header,
     Link,
-} from '~/components/navbar'
-import Avatar from '~/components/avatar'
-import * as Menus from '~/constants/menu'
-import { getIsAuthenticated, getProfile } from '~/getters/auth'
-import { login, logout } from '~/actions/auth'
-import AvalancheCanadaLogo from '~/styles/AvalancheCanada.svg'
-import AvalancheCanadaFoundationLogo from '~/styles/AvalancheCanadaFoundation.svg'
+    Feature,
+} from 'components/navbar'
+import Avatar from 'components/avatar'
+import menu from 'constants/menus/avcan'
+import { getIsAuthenticated, getProfile } from 'getters/auth'
+import { login, logout } from 'actions/auth'
+import { NewRelease } from 'components/icons'
+import logo from 'styles/AvalancheCanada.svg'
+import { ApplicationFeature } from 'prismic/containers'
+import { StructuredText } from 'prismic/components/base'
 
-export const AvalancheCanada = compose(
-    withRouter,
-    defaultProps({
-        logo: AvalancheCanadaLogo,
-        donate: '/foundation',
-        menu: Menus.AvalancheCanada,
+@withRouter
+@connect(
+    createStructuredSelector({
+        isAuthenticated: getIsAuthenticated,
+        profile: getProfile,
     }),
-    connect(
-        createStructuredSelector({
-            isAuthenticated: getIsAuthenticated,
-            profile: getProfile,
-        }),
-        {
-            onLoginClick: login,
-            logout,
-        }
-    ),
-    withHandlers({
-        onLogoutClick(props) {
-            return () => {
-                props.logout()
+    {
+        onLoginClick: login,
+        logout,
+    }
+)
+export default class AvalancheCanada extends PureComponent {
+    handleLogoutClick = () => {
+        this.props.logout()
+        this.props.history.push('/')
+    }
+    get logout() {
+        const { name, picture } = this.props.profile || {}
 
-                // TODO: Need to test if current route is private!
-
-                props.history.push('/')
-            }
-        },
-    }),
-    withProps(({ isAuthenticated, profile, onLoginClick, onLogoutClick }) => {
-        const { name, picture } = profile || {}
-
-        return {
-            children: isAuthenticated
-                ? <Item title={<Avatar name={name} url={picture} size={30} />}>
-                      <Menu>
-                          <Section>
-                              <UserProfile name={name} avatar={picture} />
-                              <Header>
-                                  <Link onClick={onLogoutClick}>Logout</Link>
-                              </Header>
-                          </Section>
-                      </Menu>
-                  </Item>
-                : <Item title="Login" onClick={onLoginClick} />,
-        }
-    })
-)(Navbar)
-
-export const AvalancheCanadaFoundation = defaultProps({
-    logo: AvalancheCanadaFoundationLogo,
-    menu: Menus.AvalancheCanadaFoundation,
-    donate: '/foundation/donate',
-})(Navbar)
+        return (
+            <Item title={<Avatar name={name} url={picture} size={30} />}>
+                <Menu>
+                    <Section>
+                        <UserProfile name={name} avatar={picture} />
+                        <Header>
+                            <Link onClick={this.handleLogoutClick}>Logout</Link>
+                        </Header>
+                    </Section>
+                </Menu>
+            </Item>
+        )
+    }
+    get login() {
+        return <Item title="Login" onClick={this.props.onLoginClick} />
+    }
+    renderFeature({ data, firstPublicationDate }) {
+        return (
+            <Item title={<NewRelease />}>
+                <Menu>
+                    <Section>
+                        <Feature
+                            name={data.name}
+                            headline={data.headline}
+                            date={firstPublicationDate}>
+                            <StructuredText value={data.content} />
+                        </Feature>
+                    </Section>
+                </Menu>
+            </Item>
+        )
+    }
+    render() {
+        return (
+            <ApplicationFeature>
+                {feature => (
+                    <Navbar logo={logo} donate="/foundation" menu={menu}>
+                        {this.props.isAuthenticated ? this.logout : this.login}
+                        {/* {feature ? this.renderFeature(feature) : null} */}
+                    </Navbar>
+                )}
+            </ApplicationFeature>
+        )
+    }
+}

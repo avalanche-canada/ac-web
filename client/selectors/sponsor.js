@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { getDocumentForUid } from '~/getters/prismic'
-import { getSponsors } from '~/getters/sponsors'
+import { getDocumentForUid } from 'getters/prismic'
+import { getSponsors } from 'getters/sponsors'
 
 export const getSponsorUid = createSelector(
     getSponsors,

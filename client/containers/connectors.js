@@ -12,42 +12,43 @@ import {
 } from 'recompose'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import * as EntitiesActions from '~/actions/entities'
-import * as PrismicActions from '~/actions/prismic'
-import { fitBounds, flyTo } from '~/actions/map'
-import { loadSponsors } from '~/actions/sponsors'
+import * as EntitiesActions from 'actions/entities'
+import * as PrismicActions from 'actions/prismic'
+import { fitBounds, flyTo } from 'actions/map'
+import { loadSponsors } from 'actions/sponsors'
 import {
     getForecast as getWeatherForecast,
     getTutorial as getWeatherTutorial,
-} from '~/selectors/prismic/weather'
-import getForecast, { getForecastRegions } from '~/selectors/forecast'
-import getWeatherStation from '~/selectors/weather/station'
+} from 'selectors/prismic/weather'
+import getForecast, { getForecastRegions } from 'selectors/forecast'
+import getWeatherStation from 'selectors/weather/station'
 import getHotZoneReport, {
     getHotZones,
     getHotZoneReportDateRanges,
     getArchiveHotZoneReport,
-} from '~/selectors/hotZoneReport'
-import getSpecialInformation from '~/selectors/prismic/specialInformation'
-import getFatalAccident from '~/selectors/prismic/fatalAccident'
-import { getToyotaTruckReport, getPost } from '~/selectors/prismic'
+} from 'selectors/hotZoneReport'
+import getMountainConditionsReport from 'selectors/mountainConditionsReport'
+import getSpecialInformation from 'selectors/prismic/specialInformation'
+import getFatalAccident from 'selectors/prismic/fatalAccident'
+import { getToyotaTruckReport, getPost } from 'selectors/prismic'
 import getMountainInformationNetworkSubmission, {
     getId,
-} from '~/selectors/mountainInformationNetworkSubmission'
+} from 'selectors/mountainInformationNetworkSubmission'
 import getFeed, {
     getSidebar as getFeedSidebar,
     getSplash as getFeedSplash,
     TYPES,
     EVENT,
-} from '~/selectors/prismic/feed'
-import { Predicates } from '~/prismic'
+} from 'selectors/prismic/feed'
+import { Predicates } from 'prismic'
 import startOfDay from 'date-fns/start_of_day'
 import subDays from 'date-fns/sub_days'
 import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
-import { makeGetDocumentAndStatus, getResult } from '~/selectors/prismic/utils'
-import getSponsor, { getSponsorUid } from '~/selectors/sponsor'
+import { makeGetDocumentAndStatus, getResult } from 'selectors/prismic/utils'
+import getSponsor, { getSponsorUid } from 'selectors/sponsor'
 import get from 'lodash/get'
-import { parse } from '~/prismic'
+import { parse } from 'prismic'
 
 export const forecast = compose(
     withRouter,
@@ -249,6 +250,17 @@ export const weatherStation = panelConnector(
     EntitiesActions.loadWeatherStation
 )
 
+export const mountainConditionsReport = compose(
+    connect(getMountainConditionsReport, {
+        flyTo,
+    }),
+    withHandlers({
+        onLocateClick: props => () => {
+            props.flyTo(props.computeFlyTo())
+        },
+    })
+)
+
 export function prismic(mapStateToProps, mapDispatchToProps = {}) {
     const { load, paramsToKey } = PrismicActions
 
@@ -307,14 +319,7 @@ export const generic = compose(
         },
     })),
     prismic(makeGetDocumentAndStatus),
-    mapProps(props => {
-        delete props.type
-        delete props.uid
-        delete props.params
-        delete props.load
-
-        return props
-    })
+    mapProps(({ type, uid, params, load, ...props }) => props)
 )
 
 export const tutorial = compose(
@@ -412,7 +417,7 @@ export const toyotaTruckReport = panelPrismicConnectorFactory(
 
 export const feed = compose(
     setPropTypes({
-        type: PropTypes.string.isRequired,
+        type: PropTypes.oneOf(TYPES).isRequired,
     }),
     withProps(props => ({
         params: {

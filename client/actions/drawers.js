@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
-import { createBinaryAction, createOptimisticAction } from '~/utils/redux'
-import { isLayerVisible, isMenuOpen } from '~/getters/drawers'
+import { createBinaryAction, createOptimisticAction } from 'utils/redux'
+import { isLayerVisible, isMenuOpen } from 'getters/drawers'
 
 export const MENU_OPENED = 'MENU_OPENED'
 export const MENU_CLOSED = 'MENU_CLOSED'

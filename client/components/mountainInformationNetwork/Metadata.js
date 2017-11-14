@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withProps, mapProps, setPropTypes } from 'recompose'
-import { DateTime } from '~/components/time'
-import { Metadata, Entry, ShareEntry } from '~/components/metadata'
+import { DateTime } from 'components/time'
+import { Metadata, Entry, ShareEntry } from 'components/metadata'
 import styles from './MountainInformationNetwork.css'
 
 export const SubmittedBy = compose(

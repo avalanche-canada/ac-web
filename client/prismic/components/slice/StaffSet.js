@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { compose, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { createSelector, createStructuredSelector } from 'reselect'
-import Biography from '~/components/biography'
-import { getDocuments } from '~/getters/prismic'
-import { StructuredText } from '~/prismic/components/base'
-import { load } from '~/actions/prismic'
-import { parse, Predicates } from '~/prismic'
+import Biography from 'components/biography'
+import { getDocuments } from 'getters/prismic'
+import { StructuredText } from 'prismic/components/base'
+import { load } from 'actions/prismic'
+import { parse, Predicates } from 'prismic'
 
 function createStaff({ data: { biography, avatar, ...props } }, index) {
     if (avatar) {

@@ -6,7 +6,7 @@ import Forecast from './Forecast'
 import Legacy from './Legacy'
 
 export Loop, { Warning } from './Loop'
-export Image from '~/components/loop'
+export Image from 'components/loop'
 
 Container.propTypes = {
     forecast: PropTypes.object.isRequired,

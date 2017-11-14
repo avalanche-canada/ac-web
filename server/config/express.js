@@ -5,7 +5,6 @@
 'use strict';
 
 var express = require('express');
-var favicon = require('static-favicon');
 var morgan = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-parser');
@@ -31,7 +30,6 @@ module.exports = function(app) {
     app.use(cookieParser());
 
     if ('production' === env) {
-        app.use(favicon(path.join(ROOT, 'public', 'favicon.ico')));
         app.set('appPath', ROOT + '/public');
         app.use(morgan('dev'));
     }

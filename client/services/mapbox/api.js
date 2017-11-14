@@ -8,7 +8,7 @@ import {
 } from './config.json'
 import Axios from 'axios'
 import Url from 'url'
-import { Revelstoke } from '~/constants/map/locations'
+import { Revelstoke } from 'constants/map/locations'
 
 const style = Axios.create({
     baseURL: `${api}/styles/v1/${username}`,

@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import CSSModules from 'react-css-modules'
-import { neverUpdate } from '~/compose'
-import {Link} from 'react-router-dom'
+import { neverUpdate } from 'compose'
+import { Link } from 'react-router-dom'
 import styles from './Navbar.css'
 
-const isExternalRegExp = new RegExp('^(https|http):\/\/')
+const isExternalRegExp = new RegExp('^(https|http)://')
 function isExternal(to) {
     if (typeof to !== 'string') {
         return false

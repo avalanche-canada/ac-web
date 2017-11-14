@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Media, Caption } from '~/components/media'
-import { List, Term, Definition } from '~/components/description'
-import { StructuredText } from '~/prismic/components/base'
+import { Media, Caption } from 'components/media'
+import { List, Term, Definition } from 'components/description'
+import { StructuredText } from 'prismic/components/base'
 import Image from '../base/Image'
 
 Figure.propTypes = {

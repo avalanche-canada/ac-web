@@ -1,24 +1,21 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
-import { getStyle, getActiveFeatures } from '~/getters/map'
-import { createGetEntitiesForSchema } from '~/selectors/factories'
-import { getResultsSet } from '~/getters/api'
-import { getDocumentsOfType } from '~/getters/prismic'
-import { getLayers, getLayerFilter } from '~/getters/drawers'
+import { getStyle, getActiveFeatures } from 'getters/map'
+import { createGetEntitiesForSchema } from 'selectors/factories'
+import { getResultsSet } from 'getters/api'
+import { getDocumentsOfType } from 'getters/prismic'
+import { getLayers, getLayerFilter } from 'getters/drawers'
 import {
     ActiveLayerIds,
     InactiveLayerIds,
     LayerIds,
-} from '~/constants/map/layers'
-import { parseLocation } from '~/prismic/parsers'
-import { parse } from '~/prismic'
-import {
-    isSpecialInformationValid,
-    isHotZoneReportValid,
-} from '~/prismic/utils'
-import * as Layers from '~/constants/drawers'
-import * as Schemas from '~/api/schemas'
-import turf from '@turf/helpers'
+} from 'constants/map/layers'
+import { parseLocation } from 'prismic/parsers'
+import { parse } from 'prismic'
+import { isSpecialInformationValid, isHotZoneReportValid } from 'prismic/utils'
+import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
+import * as turf from '@turf/helpers'
 import explode from '@turf/explode'
 
 function transformSubmission(submission) {
@@ -70,6 +67,12 @@ function transformSpecialInformation(special) {
     })
 }
 
+function transformMountainConditionsReport(report) {
+    const { location, title, id } = report.toJSON()
+
+    return turf.point(location, { title, id })
+}
+
 // Define transformers to transform entity to feature
 const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, transformSubmission],
@@ -77,6 +80,7 @@ const TRANSFORMERS = new Map([
     [Layers.TOYOTA_TRUCK_REPORTS, transformTruckReport],
     [Layers.FATAL_ACCIDENT, transformFatalAccident],
     [Layers.SPECIAL_INFORMATION, transformSpecialInformation],
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS, transformMountainConditionsReport],
 ])
 
 // TODO: Rework that
@@ -191,6 +195,16 @@ const getWeatherStationFeatures = createSelector(
     stations => stations.map(TRANSFORMERS.get(Layers.WEATHER_STATION)).toArray()
 )
 
+// Create mountain conditions reports source
+const getMountainConditionsReports = createSelector(
+    createGetEntitiesForSchema(Schemas.MountainConditionsReport),
+    reports => {
+        const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_CONDITIONS_REPORTS)
+
+        return reports.map(transformer).toArray()
+    }
+)
+
 // Create Toyota Truck Report Features
 const getToyotaTruckFeatures = createSelector(
     state => getDocumentsOfType(state, 'toyota-truck-report'),
@@ -231,7 +245,16 @@ const getSourceFeatures = createSelector(
     getToyotaTruckFeatures,
     getSpecialInformationFeatures,
     getFatalAccidentFeatures,
-    (submissions, incidents, stations, toyota, special, fatalAccidents) =>
+    getMountainConditionsReports,
+    (
+        submissions,
+        incidents,
+        stations,
+        toyota,
+        special,
+        fatalAccidents,
+        mountainConditionsReports
+    ) =>
         new Map([
             [Layers.MOUNTAIN_INFORMATION_NETWORK, submissions],
             [Layers.MOUNTAIN_INFORMATION_NETWORK_INCIDENTS, incidents],
@@ -239,6 +262,7 @@ const getSourceFeatures = createSelector(
             [Layers.TOYOTA_TRUCK_REPORTS, toyota],
             [Layers.SPECIAL_INFORMATION, special],
             [Layers.FATAL_ACCIDENT, fatalAccidents],
+            [Layers.MOUNTAIN_CONDITIONS_REPORTS, mountainConditionsReports],
         ])
 )
 

@@ -5,7 +5,7 @@ import Weather from './Weather'
 import Snowpack from './Snowpack'
 import Avalanche from './Avalanche'
 import Incident from './Incident'
-import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from '~/constants/min'
+import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 
 const Components = new Map([
     [QUICK, Quick],

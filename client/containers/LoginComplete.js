@@ -1,7 +1,7 @@
 import { compose, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
-import { parse } from '~/utils/hash'
-import { receiveToken } from '~/actions/auth'
+import { parse } from 'utils/hash'
+import { receiveToken } from 'actions/auth'
 
 function LoginComplete() {
     return null

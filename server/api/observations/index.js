@@ -183,8 +183,8 @@ router.get('/observations/:obid.:format?', function(req, res) {
                 var ridingCond = {};
                 if (typeof ob.ridingConditions !== 'undefined') {
                     ridingCond = {
-                        ridingQuality: ob.ridingConditions.ridingQuality
-                            .selected || '',
+                        ridingQuality:
+                            ob.ridingConditions.ridingQuality.selected || '',
                         snowConditions: getOptions(
                             ob.ridingConditions.snowConditions.options
                         ),

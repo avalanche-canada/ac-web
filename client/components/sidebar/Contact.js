@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Email } from '~/components/icons'
-import { Mailto } from '~/components/anchors'
+import { Email } from 'components/icons'
+import { Mailto } from 'components/anchors'
 import SocialItem from './SocialItem'
 
 Contact.propTypes = {

@@ -1,8 +1,12 @@
-@import "../../../styles/colors.css";
-@import "../../../styles/Textures.css";
+@import '../../../styles/colors.css';
+@import '../../../styles/Textures.css';
 
 .Drawer {
-    position: absolute 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 100%;
     z-index: 11;
     background-color: white;
@@ -66,6 +70,7 @@
     color: var(--primary);
     position: relative;
     right: 15px;
+    z-index: 100;
 }
 
 .Header {
@@ -91,7 +96,13 @@
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 0;
-    padding: 0 1.25em;
+    padding: 0;
+}
+
+@media screen and (min-width: 480px) {
+    .Body {
+        padding: 0 1.25em;
+    }
 }
 
 .Subject {
@@ -110,13 +121,21 @@
     }
 
     &:before {
-        position: absolute 3px 0;
+        position: absolute;
+        top: 3px;
+        right: 0;
+        bottom: 3px;
+        left: 0;
         z-index: -1;
     }
 }
 
 .Backdrop {
-    position: absolute 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 11;
     background-color: color(black alpha(25%));
 
@@ -128,8 +147,24 @@
 .Banner {
     border: none;
     width: 100%;
+    height: 250px;
     background-color: var(--gray-lightest);
     background-image: url('styles/AvalanchePath.svg');
     background-repeat: no-repeat;
     background-position: center;
+
+    & > img {
+        object-fit: cover;
+        height: 250px;
+        width: 100%;
+    }
+
+    & > :global(.image-gallery) {
+        & :global(.image-gallery-content:not(.fullscreen)) {
+            & :global(.image-gallery-image img) {
+                height: 250px;
+                object-fit: cover;
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import startOfDay from 'date-fns/start_of_day'
 import parse from 'date-fns/parse'
-import { DATE, DATETIME, TIME } from '~/utils/date'
+import { DATE, DATETIME, TIME } from 'utils/date'
 import Base from './Time'
 
 function dateTimeFormatGetter(date) {
@@ -14,7 +14,7 @@ function dateTimeFormatGetter(date) {
     return DATETIME
 }
 
-export { Relative } from './Relative'
+export Relative from './Relative'
 
 export function Time(props) {
     return <Base format={TIME} {...props} />

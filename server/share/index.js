@@ -352,8 +352,12 @@ function capitalize(st) {
 
 function hotZoneReport(req, res) {
     var area = req.params.area;
-    var tomorrow = moment().add(1, 'day').format('YYYY-MM-DD');
-    var yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    var tomorrow = moment()
+        .add(1, 'day')
+        .format('YYYY-MM-DD');
+    var yesterday = moment()
+        .subtract(1, 'day')
+        .format('YYYY-MM-DD');
     singleItem(
         res,
         [
@@ -406,8 +410,12 @@ function hotZoneReport(req, res) {
 }
 function hotZoneReportDetail(req, res) {
     var uid = req.params.uid;
-    var tomorrow = moment().add(1, 'day').format('YYYY-MM-DD');
-    var yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+    var tomorrow = moment()
+        .add(1, 'day')
+        .format('YYYY-MM-DD');
+    var yesterday = moment()
+        .subtract(1, 'day')
+        .format('YYYY-MM-DD');
     singleItem(
         res,
         [Prismic.Predicates.at('my.hotzone-report.uid', uid)],

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Page, Content, Header, Main, Headline, Aside } from '~/components/page'
-import { Metadata, Entry } from '~/components/metadata'
-import { DateElement } from '~/components/time'
-import { Muted } from '~/components/text'
-import { StructuredText } from '~/prismic/components/base'
+import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
+import { Metadata, Entry } from 'components/metadata'
+import { DateElement } from 'components/time'
+import { Muted } from 'components/text'
+import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 
 Post.propTypes = {

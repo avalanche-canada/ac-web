@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import { handleActions } from 'redux-actions'
-import AuthService from '~/services/auth'
-import { GET_PROFILE, LOGOUT, TOKEN_RECEIVED } from '~/actions/auth'
+import AuthService from 'services/auth'
+import { GET_PROFILE, LOGOUT, TOKEN_RECEIVED } from 'actions/auth'
 
 const Session = Immutable.Record({
     isAuthenticated: false,

@@ -8,7 +8,7 @@ import {
     withProps,
 } from 'recompose'
 import Content from './Content'
-import { asTermAndDefinition } from '~/components/description/utils'
+import { asTermAndDefinition } from 'components/description/utils'
 import parse from 'date-fns/parse'
 
 const { object, number, string } = PropTypes

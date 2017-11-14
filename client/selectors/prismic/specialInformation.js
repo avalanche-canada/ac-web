@@ -1,12 +1,12 @@
 import { createSelector, createStructuredSelector } from 'reselect'
-import turf from '@turf/helpers'
-import { computeOffset, computeFitBounds } from '~/selectors/map/bounds'
-import { parseLocation } from '~/prismic/parsers'
+import * as turf from '@turf/helpers'
+import { computeOffset, computeFitBounds } from 'selectors/map/bounds'
+import { parseLocation } from 'prismic/parsers'
 import {
     getStatusFactory,
     getDocument,
     getUid,
-} from '~/selectors/prismic/utils'
+} from 'selectors/prismic/utils'
 
 // TODO: Create a connector, it is really similar to toyota-truck-report
 

@@ -1,11 +1,11 @@
 import { Record, Map } from 'immutable'
 import { handleActions, handleAction } from 'redux-actions'
 import { combineReducers } from 'redux'
-import { LocalStorage } from '~/services/storage'
-import * as DrawersActions from '~/actions/drawers'
-import * as MapActions from '~/actions/map'
-import * as Layers from '~/constants/drawers'
-import * as Schemas from '~/api/schemas'
+import { LocalStorage } from 'services/storage'
+import * as DrawersActions from 'actions/drawers'
+import * as MapActions from 'actions/map'
+import * as Layers from 'constants/drawers'
+import * as Schemas from 'api/schemas'
 
 const LAYERS_VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility',
@@ -119,6 +119,14 @@ const MENU = new Map({
                 LAYERS_VISIBILITY.get(Layers.TOYOTA_TRUCK_REPORTS, true)
             ),
         }),
+        [Layers.MOUNTAIN_CONDITIONS_REPORTS]: new Layer({
+            id: Layers.MOUNTAIN_CONDITIONS_REPORTS,
+            title: 'Mountain Conditions Reports',
+            type: 'Analysis',
+            visible: Boolean(
+                LAYERS_VISIBILITY.get(Layers.MOUNTAIN_CONDITIONS_REPORTS, false)
+            ),
+        }),
     }),
 })
 
@@ -146,6 +154,7 @@ const RouteToLayerMapping = new Map([
         Schemas.MountainInformationNetworkSubmission.key,
         Layers.MOUNTAIN_INFORMATION_NETWORK,
     ],
+    [Schemas.MountainConditionsReport.key, Layers.MOUNTAIN_CONDITIONS_REPORTS],
     ['special-information', Layers.SPECIAL_INFORMATION],
     ['fatal-accident', Layers.FATAL_ACCIDENT],
     ['toyota-truck-reports', Layers.TOYOTA_TRUCK_REPORTS],

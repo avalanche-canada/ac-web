@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { onlyUpdateForKey } from '~/compose'
+import { onlyUpdateForKey } from 'compose'
 import { List } from 'immutable'
 import RelativeHumidity from './charts/RelativeHumidity'
 import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import { getDateExtent } from './utils'
-import { Ratio } from '~/components/misc'
+import { Ratio } from 'components/misc'
 import styles from './Station.css'
 
 ChartSet.propTypes = {

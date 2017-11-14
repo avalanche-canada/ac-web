@@ -1,5 +1,5 @@
-import * as Layers from '~/constants/drawers'
-import turf from '@turf/helpers'
+import * as Layers from 'constants/drawers'
+import * as turf from '@turf/helpers'
 
 const data = turf.featureCollection([])
 const type = 'geojson'
@@ -23,6 +23,11 @@ export default {
     [Layers.TOYOTA_TRUCK_REPORTS]: {
         type,
         data,
+    },
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS]: {
+        type,
+        data,
+        cluster: true,
     },
     [Layers.SPECIAL_INFORMATION]: {
         type,

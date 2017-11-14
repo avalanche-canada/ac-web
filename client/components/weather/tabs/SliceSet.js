@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Loop from '../Loop'
 import Meteogram from '../Meteogram'
-import { StructuredText } from '~/prismic/components/base'
+import { StructuredText } from 'prismic/components/base'
 
 function Slice({ type, value }) {
     switch (type) {

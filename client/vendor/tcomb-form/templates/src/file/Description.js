@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Button from '~/components/button'
+import Button from 'components/button'
 import styles from './File.css'
 
 Description.propTypes = {

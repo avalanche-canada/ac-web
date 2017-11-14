@@ -9,21 +9,21 @@ import {
     branch,
 } from 'recompose'
 import { connect } from 'react-redux'
-import Table from '~/components/table/managed'
-import mapStateToProps from '~/selectors/min/table'
-import { loadMountainInformationNetworkSubmissionsForDays } from '~/actions/entities'
-import { loadFeatures } from '~/actions/mapbox'
-import { FORECAST_REGIONS } from '~/services/mapbox/datasets'
-import { Status as StatusComponent } from '~/components/misc'
-import { Muted } from '~/components/text'
-import { DateElement } from '~/components/time'
-import { Metadata as BaseMetadata, Entry } from '~/components/metadata'
+import Table from 'components/table/managed'
+import mapStateToProps from 'selectors/min/table'
+import { loadMountainInformationNetworkSubmissionsForDays } from 'actions/entities'
+import { loadFeatures } from 'actions/mapbox'
+import { FORECAST_REGIONS } from 'services/mapbox/datasets'
+import { Status as StatusComponent } from 'components/misc'
+import { Muted } from 'components/text'
+import { DateElement } from 'components/time'
+import { Metadata as BaseMetadata, Entry } from 'components/metadata'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import {
     DropdownFromOptions as Dropdown,
     DayPicker,
-} from '~/components/controls'
+} from 'components/controls'
 import noop from 'lodash/noop'
 
 function Empty() {
@@ -117,7 +117,7 @@ export class Metadata extends PureComponent {
 
 export default compose(
     setPropTypes({
-        days: PropTypes.number.isRequired,
+        days: PropTypes.number,
         types: PropTypes.instanceOf(Set).isRequired,
     }),
     connect(mapStateToProps, {

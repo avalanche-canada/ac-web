@@ -1,5 +1,5 @@
 import * as qs from 'querystring'
-import { clean } from '~/utils/object'
+import { clean } from 'utils/object'
 
 export function parse(search) {
     if (typeof search === 'string') {

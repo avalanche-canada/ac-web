@@ -2,15 +2,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
-import Base from '~/components/loop'
+import Base from 'components/loop'
 import {
     computeUrls,
     getNotes,
     isForecast,
     fetchMetadata,
-} from '~/services/msc/loop'
-import { Loading, Error } from '~/components/text'
-import Alert, { WARNING } from '~/components/alert'
+} from 'services/msc/loop'
+import { Loading, Error } from 'components/text'
 
 NoteSet.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -105,8 +104,9 @@ export default class Loop extends PureComponent {
         const { metadata } = this.state
         let startAt
 
-        if (this.state.metadata.hasOwnProperty(type)) {
-            startAt = urls.length - 1
+        if (metadata.hasOwnProperty(type)) {
+            // runs means it a forecast product, not real time
+            startAt = 'runs' in metadata[type] ? 0 : urls.length - 1
         }
 
         this.setState({
@@ -161,19 +161,4 @@ export default class Loop extends PureComponent {
             </div>
         )
     }
-}
-
-export function Warning() {
-    return (
-        <Alert type={WARNING}>
-            <h2>
-                We are currently experiencing some issues with HRDPS weather
-                loops image generation!
-            </h2>
-            <h3>
-                This product will be available as soon as we solve the issue.<br />Thanks
-                for your patience!
-            </h3>
-        </Alert>
-    )
 }

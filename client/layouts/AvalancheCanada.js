@@ -1,5 +1,5 @@
 import React from 'react'
-import Application from '~/components/application'
+import Application from 'components/application'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import {
     LoginCompleteRoute,
@@ -8,11 +8,11 @@ import {
     GenricPageRoute,
     WIPPageRoute,
     FallbackPageRoute,
-} from '~/router/common'
-import { AvalancheCanada as Navbar } from '~/containers/Navbar'
-import Highlight from '~/containers/Highlight'
-import Footer from '~/components/footer'
-import MainMap from './Map'
+} from 'router/common'
+import Navbar from 'containers/Navbar'
+import Highlight from 'containers/Highlight'
+import Footer from 'components/footer'
+import Main from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
 import Ast from './Ast'
@@ -21,7 +21,7 @@ import Weather from './Weather'
 import HotZoneReport from './HotZoneReport'
 import Forecast from './Forecast'
 import * as Feed from './Feed'
-import Glossary from '~/containers/Glossary'
+import Glossary from 'containers/Glossary'
 
 export default function AvalancheCanada() {
     return (
@@ -32,7 +32,7 @@ export default function AvalancheCanada() {
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
                 <Route path="/map/ates" component={AtesMap} />
-                <Route path="/map/:type?/:name?" component={MainMap} />
+                <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
@@ -131,9 +131,15 @@ export default function AvalancheCanada() {
                     name="Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                     title={defaultTitle =>
-                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`}
+                        `${
+                            defaultTitle
+                        }<br />Nous travaillons présentement sur cette page...`
+                    }
                     subtitle={defaultSubtitle =>
-                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`}
+                        `${
+                            defaultSubtitle
+                        }<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
+                    }
                 />
                 <FallbackPageRoute path="/pages/:type/:uid" />
                 <NotFoundRoute />

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { compose, onlyUpdateForKeys } from 'recompose'
 import CSSModules from 'react-css-modules'
 import styles from './Table.css'
-import Sorting from '~/components/button/Sorting'
+import Sorting from 'components/button/Sorting'
 import noop from 'lodash/noop'
-import { ASC, DESC, NONE } from '~/constants/sortings'
+import { ASC, DESC, NONE } from 'constants/sortings'
 
 HeaderCell.propTypes = {
     children: PropTypes.node.isRequired,

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import mapbox, { styles } from '~/services/mapbox/map'
-import { Canadian } from '~/constants/map/bounds'
-import { captureException } from '~/services/raven'
+import mapbox, { styles } from 'services/mapbox/map'
+import { Canadian } from 'constants/map/bounds'
+import { captureException } from 'services/raven'
 import noop from 'lodash/noop'
 import './Map.css'
 

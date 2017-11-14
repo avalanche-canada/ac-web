@@ -4,9 +4,9 @@ import { compose, withState } from 'recompose'
 import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import styles from './ArchiveDatePicker.css'
-import { DateElement } from '~/components/time'
+import { DateElement } from 'components/time'
 import format from 'date-fns/format'
-import { DayPicker } from '~/components/controls'
+import { DayPicker } from 'components/controls'
 
 // TODO: Move to another location, so it can be used between components.
 

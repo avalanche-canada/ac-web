@@ -3,8 +3,8 @@ import t, {
     DateTime,
     FileList,
     createBooleanStruct,
-} from '~/vendor/tcomb-form'
-import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from '~/constants/min'
+} from 'vendor/tcomb-form'
+import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 import isPast from 'date-fns/is_past'
 
 function range(min, max) {

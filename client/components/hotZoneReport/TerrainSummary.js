@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import Section from '~/components/mountainInformationNetwork/Section'
-import { List, Term, Definition } from '~/components/description'
-import { StructuredText } from '~/prismic/components/base'
+import Section from 'components/mountainInformationNetwork/Section'
+import { List, Term, Definition } from 'components/description'
+import { StructuredText } from 'prismic/components/base'
 import styles from './HotZoneReport.css'
 
 TerrainSummary.propTypes = {

@@ -5,14 +5,10 @@
         "es6": true,
         "jest/globals": true
     },
-    "plugins": [
-        "jest"
-    ],
+    "plugins": ["jest"],
     "extends": [
         "eslint:recommended",
         "plugin:jest/recommended",
-        /*"plugin:import/errors",*/
-        /*"plugin:import/warnings",*/
         "plugin:react/recommended"
     ],
     "parserOptions": {
@@ -26,32 +22,30 @@
     "rules": {
         "indent": [
             "error",
-            4, {
+            4,
+            {
                 "SwitchCase": 1
             }
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        "linebreak-style": ["error", "unix"],
         "quotes": [
             "error",
-            "single", {
+            "single",
+            {
                 "avoidEscape": true
             }
         ],
-        "semi": [
-            "error",
-            "never"
-        ],
+        "semi": ["error", "never"],
         "no-unused-vars": [
-            "error", {
+            "error",
+            {
                 "ignoreRestSiblings": true,
                 "argsIgnorePattern": "^_"
             }
         ],
         "react/prop-types": [
-            "error", {
+            "error",
+            {
                 "skipUndeclared": true
             }
         ]

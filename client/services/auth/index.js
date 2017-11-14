@@ -1,9 +1,9 @@
-import Auth0Lock from 'auth0-lock'
-import { PRIMARY } from '~/constants/colors'
-import logo from '~/styles/AvalancheCanada.svg'
+// import Auth0Lock from 'auth0-lock'
+import { PRIMARY } from 'constants/colors'
+import logo from 'styles/AvalancheCanada.svg'
 import { clientId, domain } from './config.json'
 import decode from 'jwt-decode'
-import { LocalStorage } from '~/services/storage'
+import { LocalStorage } from 'services/storage'
 
 export default class AuthService {
     static create(options) {
@@ -13,7 +13,7 @@ export default class AuthService {
         const { origin, pathname, search, hash } = document.location
 
         this.storage = LocalStorage.create()
-        this.lock = new Auth0Lock(clientId, domain, {
+        this.lock = new window.Auth0Lock(clientId, domain, {
             closable: true,
             avatar: true,
             auth: {

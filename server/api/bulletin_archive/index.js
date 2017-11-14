@@ -13,6 +13,7 @@ var metadata = require('../features/metadata');
 var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx = require('../forecasts/avalx');
+var logger = require('../../logger');
 
 var BULLETIN_NOT_FOUND = 'BULLETIN_NOT_FOUND';
 var NEW_AVALX_START_DATE = '2016-10-01';
@@ -86,6 +87,36 @@ var STATIC_ASPECTS = {
     aspect_north_west: 'NW',
 };
 
+/*
+ * Mappings for old renamed regions to map to the same text `id`
+ */
+var REGION_MAPPINGS = {
+    banff: [7],
+    'bighorn-country-ab': [16],
+    glacier: [6],
+    'haute-gaspesie': [15],
+    jasper: [8],
+    kananaskis: [10],
+    'kootenay-boundary': [4],
+    lizardrange: [20],
+    cariboos: [2, 26],
+    'north-columbia': [27],
+    'north-rockies-bc': [13],
+    'north-shore': [12],
+    'northwest-coastal': [24],
+    'northwest-inland': [14, 25],
+    purcells: [19],
+    'sea-to-sky': [22],
+    'south-coast': [1, 23],
+    'south-columbia': [3, 18],
+    'south-rockies': [5, 21],
+    'south-rockies-tech': [34],
+    'van-island': [31],
+    waterton: [9],
+    'whistler-blackcomb': [11],
+    yukon: [35, 32],
+};
+// 17 | Special Avalanche Warning             | Special Avalanche Warning
 // Setup Region names for validation
 
 var regionNames = regionData.features
@@ -97,15 +128,42 @@ var router = express.Router();
 var ARCHIVE_DBURL = process.env.ARCHIVE_DBURL;
 
 var BULLETIN_QUERY =
-    '  SELECT                             ' +
-    '       B.*                           ' +
-    '  FROM bulletin B                    ' +
-    '  JOIN bulletin_region R             ' +
-    '      ON R.region_id = B.region_id   ' +
-    '  WHERE R.link = $1                  ' +
-    '        AND B.date_issued < $2       ' +
-    '        AND B.valid_until > $2       ' +
-    '  ORDER BY B.date_issued DESC LIMIT 1';
+    ' SELECT                              ' +
+    '       B.bulletin_id                     ' +
+    '     , B.sponsor_id                      ' +
+    '     , B.sponsor_id2                     ' +
+    '     , B.region_id                       ' +
+    '     , B.header                          ' +
+    '     , B.headline                        ' +
+    '     , B.spaw                            ' +
+    "     , timezone('PST', B.date_issued) as date_issued " +
+    '     , B.time_posted                     ' +
+    "     , timezone('PST', B.valid_until) as valid_until" +
+    '     , B.next_update                     ' +
+    '     , B.periodic_date_issued            ' +
+    '     , B.periodic_next_update            ' +
+    '     , B.confidence                      ' +
+    '     , B.avalanche_danger                ' +
+    '     , B.travel_advisory                 ' +
+    '     , B.avalanche_activity              ' +
+    '     , B.snow_pack                       ' +
+    '     , B.outlook                         ' +
+    '     , B.weather                         ' +
+    '     , B.issued_by                       ' +
+    '     , B.partner_bulletin                ' +
+    '     , B.caa_bulletin                    ' +
+    '     , B.archived                        ' +
+    '     , B.draft                           ' +
+    '     , B.baa1                            ' +
+    '     , B.baa2                            ' +
+    '     , B.taha                            ' +
+    ' FROM bulletin B                     ' +
+    '     JOIN bulletin_region R          ' +
+    '     ON R.region_id = B.region_id    ' +
+    ' WHERE B.region_id = ANY ($1)        ' +
+    '     AND B.date_issued < $2          ' +
+    '     AND B.valid_until > $2          ' +
+    ' ORDER BY B.date_issued DESC LIMIT 1 ';
 
 var AVPROB_QUERY =
     '  SELECT *                 ' +
@@ -130,8 +188,10 @@ router.get('/:date/:region.json', (req, res) => {
         return res.status(404).end();
     }
     if (date.isBefore(NEW_AVALX_START_DATE)) {
+        logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');
         return oldAvalx(req, res);
     } else {
+        logger.debug('BULLETIN_ARCHIVE - Using NEW avalx');
         return newAvalx(req, res);
     }
 });
@@ -157,21 +217,17 @@ function newAvalx(req, res) {
                     err,
                     err.stack
                 );
-                return res
-                    .status(500)
-                    .json({
-                        error: error,
-                        msg: 'Error retreiving forcast from 2016 AvalX Server',
-                    });
+                return res.status(500).json({
+                    error: error,
+                    msg: 'Error retreiving forcast from 2016 AvalX Server',
+                });
             }
             xml2js.parseString(xmlbody, function(err, caamlJson) {
                 if (err) {
-                    return res
-                        .status(500)
-                        .json({
-                            error: err,
-                            msg: 'Error parsing CAAML forecast',
-                        });
+                    return res.status(500).json({
+                        error: err,
+                        msg: 'Error parsing CAAML forecast',
+                    });
                 }
                 res.status(200).json(avalx.parksForecast(caamlJson, region));
             });
@@ -195,8 +251,8 @@ function oldAvalx(req, res) {
         res.status(404).end();
         return;
     }
-
-    pg_query(BULLETIN_QUERY, [regionId, date.utc().format()])
+    var mapping = REGION_MAPPINGS[regionId];
+    pg_query(BULLETIN_QUERY, [mapping, date.utc().format()])
         .then(getFirstBulletin)
         .then(getAvProblems)
         .then(getDangerRatings)
@@ -205,9 +261,16 @@ function oldAvalx(req, res) {
             return generateJsonBulletin(regionId, res[0], res[1], res[2]);
         })
         .then(j => {
-            res.status(200).send(j).end();
+            res
+                .status(200)
+                .send(j)
+                .end();
         })
         .catch(err => {
+            logger.error(
+                'BULLETIN_ARCHIVE - error getting bulletin',
+                err.message
+            );
             if (err.message === BULLETIN_NOT_FOUND) {
                 res.status(404).json({ error: 'Bulletin not found' });
             } else {
@@ -258,12 +321,11 @@ function filterRatingsForRegion(region, ratings) {
 
 function generateJsonBulletin(region, bulletin, problems, ratings) {
     var issued = moment(bulletin.date_issued);
-    var until = moment(bulletin.valid_until);
     var out_bulletin = {
         id: 'bid_' + bulletin.bulletin_id,
         region: region,
-        dateIssued: issued.utc().format(),
-        validUntil: until.utc().format(),
+        dateIssued: bulletin.date_issued,
+        validUntil: bulletin.valid_until,
         forecaster: bulletin.issued_by,
         bulletinTitle: bulletin.header,
         highlights: bulletin.headline,
@@ -328,16 +390,13 @@ function formatIcons(prob) {
     var mtn = [he('Alp'), he('Tln'), he('Btl')].join('-');
 
     return {
-        likelihood: ROOT +
+        likelihood:
+            ROOT +
             '/Likelihood/Likelihood-' +
             prob.likelyhood_typical +
             '_EN.png',
-        expectedSize: ROOT +
-            '/size/Size-' +
-            sizemin +
-            '-' +
-            sizemax +
-            '_EN.png',
+        expectedSize:
+            ROOT + '/size/Size-' + sizemin + '-' + sizemax + '_EN.png',
         aspects: ROOT + '/Compass/compass-' + compass + '_EN.png',
         elevations: ROOT + '/Elevation/Elevation-' + mtn + '_EN.png',
     };

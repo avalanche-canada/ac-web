@@ -1,6 +1,6 @@
 import React from 'react'
-import { Article } from '~/components/page'
-import { Launch } from '~/components/icons'
+import { Article } from 'components/page'
+import { Launch } from 'components/icons'
 
 export default function Warnings() {
     return (
