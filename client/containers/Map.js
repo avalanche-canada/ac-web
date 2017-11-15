@@ -16,6 +16,7 @@ import { LayerIds, allLayerIds } from 'constants/map/layers'
 import { near } from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
+import { getCoord } from '@turf/invariant'
 import noop from 'lodash/noop'
 import throttle from 'lodash/throttle'
 
@@ -155,7 +156,7 @@ export default class Container extends Component {
             this.lastMouseMoveEvent = event
         }
     }
-    handleClick = ({ point }) => {
+    handleClick = ({ point, lngLat }) => {
         if (!this.map) {
             return
         }
@@ -166,7 +167,7 @@ export default class Container extends Component {
                 layers: LayerIds.get(layer),
             })
 
-            if (typeof features !== 'undefined' && features.length > 0) {
+            if (Array.isArray(features) && features.length > 0) {
                 const [feature] = features
 
                 if (feature.properties.cluster) {
@@ -175,21 +176,17 @@ export default class Container extends Component {
                         .getSource(feature.layer.source)
                         .serialize()
                     const cluster = near(feature, data, point_count)
-                    const coordinates = cluster.features.map(
-                        feature => feature.geometry.coordinates
-                    )
+                    const coordinates = cluster.features.map(getCoord)
                     const longitudes = coordinates.map(c => c[0])
                     const latitudes = coordinates.map(c => c[1])
 
-                    const long_diff =
-                        Math.max.apply(Math, longitudes) -
-                        Math.min.apply(Math, longitudes)
-                    const lat_diff =
-                        Math.max.apply(Math, latitudes) -
-                        Math.min.apply(Math, latitudes)
+                    const longDiff =
+                        Math.max(...longitudes) - Math.min(...longitudes)
+                    const latDiff =
+                        Math.max(...latitudes) - Math.min(...latitudes)
 
-                    if (long_diff < CLUSTER_DIST && lat_diff < CLUSTER_DIST) {
-                        this.showClusterPopup(layer, cluster.features)
+                    if (longDiff < CLUSTER_DIST && latDiff < CLUSTER_DIST) {
+                        this.showClusterPopup(layer, cluster.features, lngLat)
                     } else {
                         this.fitBounds(cluster, CLUSTER_BOUNDS_OPTIONS)
                     }
@@ -208,7 +205,7 @@ export default class Container extends Component {
                     )
 
                     if (uniqueFeatures.length > 1) {
-                        this.showClusterPopup(layer, uniqueFeatures)
+                        this.showClusterPopup(layer, uniqueFeatures, lngLat)
                     } else {
                         this.transitionToFeature(layer, feature.properties.id)
                     }
@@ -218,8 +215,7 @@ export default class Container extends Component {
             }
         }
     }
-    showClusterPopup(layer, features) {
-        const [{ geometry: { coordinates } }] = features
+    showClusterPopup(layer, features, lngLat) {
         const html = document.createElement('div')
         const p = document.createElement('p')
         const ul = document.createElement('ul')
@@ -247,7 +243,7 @@ export default class Container extends Component {
         html.appendChild(ul)
 
         this.popup
-            .setLngLat(coordinates)
+            .setLngLat(lngLat)
             .setDOMContent(html)
             .addTo(this.map)
     }
