@@ -193,19 +193,22 @@ export default class Container extends Component {
 
                     return
                 } else {
-                    const uniqueFeatures = Array.from(
+                    const ids = new Set(
                         features
                             .filter(feature => !feature.properties.cluster)
-                            .reduce((features, feature) => {
-                                features.set(feature.id, feature)
-
-                                return features
-                            }, new Map())
-                            .values()
+                            .map(feature => feature.properties.id)
                     )
 
-                    if (uniqueFeatures.length > 1) {
-                        this.showClusterPopup(layer, uniqueFeatures, lngLat)
+                    if (ids.size > 1) {
+                        this.showClusterPopup(
+                            layer,
+                            Array.from(ids).map(id =>
+                                features.find(
+                                    feature => feature.properties.id === id
+                                )
+                            ),
+                            lngLat
+                        )
                     } else {
                         this.transitionToFeature(layer, feature.properties.id)
                     }
