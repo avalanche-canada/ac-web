@@ -171,7 +171,7 @@ export default {
                         {
                             id: String(id++),
                             label: 'Rescue at Cherry Bowl',
-                            to: '/cherry-bowl',
+                            to: 'http://avalanche.ca/cherry-bowl',
                         },
                         {
                             id: String(id++),
