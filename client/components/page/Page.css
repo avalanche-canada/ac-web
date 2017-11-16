@@ -144,6 +144,7 @@
 
 .Background {
     height: 100%;
+    min-height: 100%;
     color: var(--black);
     text-align: center;
 
@@ -183,11 +184,12 @@
 }
 
 .Error {
+    composes: Page;
     composes: Background;
 }
 
 .UnsupportedMap {
-    composes: Background;
+    composes: Error;
 
     height: auto;
 
