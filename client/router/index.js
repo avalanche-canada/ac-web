@@ -493,7 +493,6 @@ export default function Router() {
                             from="/generic/terms-of-use"
                             to="/terms-of-use"
                         />
-                        <Redirect from="/generic/auction" to="/auction" />
                         <Redirect from="/cherrybowl" to="/cherry-bowl" />
                         <Redirect
                             from="/min"

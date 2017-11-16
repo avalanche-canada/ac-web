@@ -1,8 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { neverUpdate } from 'compose'
 import { Link } from 'react-router-dom'
 import styles from './Navbar.css'
 
@@ -15,28 +12,28 @@ function isExternal(to) {
     return isExternalRegExp.test(to)
 }
 
-Anchor.propTypes = {
-    to: PropTypes.string,
-    onClick: PropTypes.func,
-    children: PropTypes.string,
-    title: PropTypes.string,
-    style: PropTypes.object,
-}
+export default class Anchor extends Component {
+    static propTypes = {
+        to: PropTypes.string,
+        onClick: PropTypes.func,
+        children: PropTypes.string,
+        title: PropTypes.string,
+        style: PropTypes.object,
+    }
+    static defaultProps = {
+        to: '#',
+    }
+    componentShouldUpdate() {
+        return false
+    }
+    render() {
+        const { to, children, ...props } = this.props
+        const target = isExternal(to) ? to : null
 
-function Anchor({ to = '#', children, ...props }) {
-    if (isExternal(to)) {
         return (
-            <a href={to} target="_blank" styleName="Link" {...props}>
+            <Link target={target} to={to} className={styles.Link} {...props}>
                 {children}
-            </a>
+            </Link>
         )
     }
-
-    return (
-        <Link styleName="Link" to={to} {...props}>
-            {children}
-        </Link>
-    )
 }
-
-export default compose(neverUpdate, CSSModules(styles))(Anchor)

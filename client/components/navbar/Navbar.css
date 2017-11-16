@@ -79,7 +79,8 @@
 .Item--isActive {
     composes: Item;
 
-    & > a {
+    & > a,
+    & > a:hover {
         color: white;
         background-color: var(--black);
     }

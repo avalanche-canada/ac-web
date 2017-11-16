@@ -122,11 +122,6 @@ export default function AvalancheCanada() {
                     oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
                 />
                 <WIPPageRoute
-                    path="/auction"
-                    name="Web Auction"
-                    oldUrl="http://old.avalanche.ca/cac/auctions"
-                />
-                <WIPPageRoute
                     path="/tutoriel"
                     name="Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
@@ -150,7 +145,6 @@ export default function AvalancheCanada() {
                 <Route path="/trip-planner" component={null} />
                 <Route path="/incidents" component={null} />
                 <Route path="/tutoriel" component={null} />
-                <Route path="/auction" component={null} />
                 <Route component={Footer} />
             </Switch>
         </Application>
