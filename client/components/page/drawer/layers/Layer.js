@@ -46,22 +46,16 @@ function Layer({
         <div styleName={visible ? 'Layer--Visible' : 'Layer'}>
             <div styleName="Header" onClick={onClick}>
                 {icon}
-                <span styleName="Title">
-                    {title}
-                </span>
-                {children &&
-                    <Expand
-                        expanded={expanded}
-                        onClick={handleClick}
-                        chevron
-                    />}
+                <span styleName="Title">{title}</span>
+                {children && (
+                    <Expand expanded={expanded} onClick={handleClick} chevron />
+                )}
             </div>
-            {children &&
+            {children && (
                 <Collapse collapsed={!expanded}>
-                    <div style={STYLE}>
-                        {children}
-                    </div>
-                </Collapse>}
+                    <div style={STYLE}>{children}</div>
+                </Collapse>
+            )}
         </div>
     )
 }
