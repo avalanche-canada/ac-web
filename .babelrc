@@ -2,8 +2,9 @@
     "presets": ["env", "react", "stage-0"],
     "plugins": [
         "transform-decorators-legacy",
-        "transform-react-constant-elements",
         "transform-react-remove-prop-types",
-        "transform-react-pure-class-to-function"
+        "transform-react-pure-class-to-function",
+        "transform-react-constant-elements",
+        "transform-react-inline-elements"
     ]
 }
