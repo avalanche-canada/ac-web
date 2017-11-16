@@ -23,7 +23,7 @@ export default class Anchor extends Component {
     static defaultProps = {
         to: '#',
     }
-    componentShouldUpdate() {
+    shouldComponentUpdate() {
         return false
     }
     render() {
