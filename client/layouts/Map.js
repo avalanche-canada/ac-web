@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Route } from 'react-router-dom'
 import { parse } from 'utils/search'
@@ -6,6 +6,7 @@ import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
 import mapbox from 'services/mapbox/map'
 import { Wrapper } from 'components/tooltip'
+import Device from 'components/Device'
 import styles from './Map.css'
 import Primary from './Primary'
 import Secondary from './Secondary'
@@ -43,38 +44,59 @@ export default class Layout extends PureComponent {
     }
 }
 
-function LinkControlSet() {
-    const style = {
-        maxWidth: 175,
-        padding: '0.25em',
+class LinkControlSet extends Component {
+    shouldComponentUpdate() {
+        return false
     }
-    const min = (
-        <div style={style}>
-            Create a Mountain Information Network (MIN) report
-        </div>
-    )
-    const weather = (
-        <div style={{ ...style, maxWidth: 125 }}>
-            Visit the Mountain Weather Forecast
-        </div>
-    )
+    get tooltips() {
+        const style = {
+            maxWidth: 175,
+            padding: '0.25em',
+        }
 
-    return (
-        <div className={styles.LinkControlSet}>
-            <Wrapper tooltip={min} placement="right">
-                <Link
-                    className={styles['LinkControlSet--MIN']}
-                    to="/mountain-information-network/submit"
-                />
+        return [
+            <div style={style}>
+                Create a Mountain Information Network (MIN) report
+            </div>,
+            <div style={{ ...style, maxWidth: 125 }}>
+                Visit the Mountain Weather Forecast
+            </div>,
+        ]
+    }
+    get links() {
+        return [
+            <Link
+                key="min"
+                className={styles['LinkControlSet--MIN']}
+                to="/mountain-information-network/submit"
+            />,
+            <Link
+                key="weather"
+                className={styles['LinkControlSet--Weather']}
+                to="/weather"
+            />,
+        ]
+    }
+    renderer = ({ isTouchable }) => {
+        if (isTouchable) {
+            return this.links
+        }
+
+        const { tooltips } = this
+
+        return this.links.map((link, index) => (
+            <Wrapper key={index} tooltip={tooltips[index]} placement="right">
+                {link}
             </Wrapper>
-            <Wrapper tooltip={weather} placement="right">
-                <Link
-                    className={styles['LinkControlSet--Weather']}
-                    to="/weather"
-                />
-            </Wrapper>
-        </div>
-    )
+        ))
+    }
+    render() {
+        return (
+            <div className={styles.LinkControlSet}>
+                <Device>{this.renderer}</Device>
+            </div>
+        )
+    }
 }
 
 function primary(props) {
