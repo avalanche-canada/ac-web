@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import { compose, withState, branch, renderComponent } from 'recompose'
 import { Link, Route } from 'react-router-dom'
-import { neverUpdate } from 'compose'
 import { parse } from 'utils/search'
 import Map from 'containers/Map'
 import UnsupportedMap from 'containers/UnsupportedMap'
@@ -15,55 +12,49 @@ import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
 import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
 
-function primary(props) {
-    return <Primary {...props} />
+export default class Layout extends PureComponent {
+    static propTypes = {
+        onInitializationError: PropTypes.func.isRequired,
+    }
+    state = {
+        initializationError: null,
+    }
+    handleInitializationError = initializationError => {
+        this.setState({ initializationError }, () => {
+            this.props.onInitializationError(initializationError)
+        })
+    }
+    render() {
+        if (this.state.initializationError || !mapbox.supported()) {
+            return <UnsupportedMap />
+        }
+
+        return (
+            <div className={styles.Layout}>
+                <Map onInitializationError={this.handleInitializationError} />
+                {/* Orders matter here for the route components */}
+                <Route path="/map*">{secondary}</Route>
+                <Route path="/map/:type/:name">{primary}</Route>
+                <Menu />
+                <ToggleMenu />
+                <LinkControlSet />
+            </div>
+        )
+    }
 }
-function secondary(props) {
-    const panel = parse(props.location.search).panel || ''
-    const [type, id] = panel.split('/')
-    const open = typeof type === 'string' && typeof id === 'string'
-
-    return <Secondary open={open} {...props} type={type} id={id} />
-}
-
-Layout.propTypes = {
-    onInitializationError: PropTypes.func.isRequired,
-}
-
-function Layout({ onInitializationError }) {
-    return (
-        <div styleName="Layout">
-            <Map onInitializationError={onInitializationError} />
-            {/* Orders matter here for the route components */}
-            <Route path="/map*" children={secondary} />
-            <Route path="/map/:type/:name" children={primary} />
-            <Menu />
-            <ToggleMenu />
-            <OptimizedLinkControlSet />
-        </div>
-    )
-}
-
-const Supported = compose(
-    withState('initializationError', 'onInitializationError', false),
-    branch(props => props.initializationError, renderComponent(UnsupportedMap)),
-    CSSModules(styles)
-)(Layout)
-
-export default (mapbox.supported() ? Supported : UnsupportedMap)
 
 function LinkControlSet() {
-    const TOOLTIP_STYLE = {
+    const style = {
         maxWidth: 175,
         padding: '0.25em',
     }
     const min = (
-        <div style={TOOLTIP_STYLE}>
+        <div style={style}>
             Create a Mountain Information Network (MIN) report
         </div>
     )
     const weather = (
-        <div style={{ ...TOOLTIP_STYLE, maxWidth: 125 }}>
+        <div style={{ ...style, maxWidth: 125 }}>
             Visit the Mountain Weather Forecast
         </div>
     )
@@ -86,4 +77,14 @@ function LinkControlSet() {
     )
 }
 
-const OptimizedLinkControlSet = neverUpdate(LinkControlSet)
+function primary(props) {
+    return <Primary {...props} />
+}
+
+function secondary(props) {
+    const panel = parse(props.location.search).panel || ''
+    const [type, id] = panel.split('/')
+    const open = typeof type === 'string' && typeof id === 'string'
+
+    return <Secondary open={open} {...props} type={type} id={id} />
+}

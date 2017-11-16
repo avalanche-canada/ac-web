@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
 import Error from './Error'
 import Main from './Main'
 import Headline from './Headline'
@@ -16,9 +15,9 @@ UnsupportedMap.propTypes = {
     hotZones: PropTypes.array,
 }
 
-function UnsupportedMap({ forecastRegions, hotZones }) {
+export default function UnsupportedMap({ forecastRegions, hotZones }) {
     return (
-        <Error styleName="UnsupportedMap">
+        <Error className={styles.UnsupportedMap}>
             <Main>
                 <h1>Uh oh! You never thought that would happen...</h1>
                 <Headline>
@@ -35,38 +34,42 @@ function UnsupportedMap({ forecastRegions, hotZones }) {
                     </a>
                     .
                 </Headline>
-                <div styleName="UnsupportedMap--Links">
+                <div className={styles['UnsupportedMap--Links']}>
                     <Section title="Forecast Regions">
-                        {forecastRegions.isEmpty()
-                            ? <Loading />
-                            : <ul>
-                                  {forecastRegions.map(region =>
-                                      <li>
-                                          <Link
-                                              to={`forecasts/${region.get(
-                                                  'id'
-                                              )}`}>
-                                              {region.get('name')}
-                                          </Link>
-                                      </li>
-                                  )}
-                              </ul>}
+                        {forecastRegions.isEmpty() ? (
+                            <Loading />
+                        ) : (
+                            <ul>
+                                {forecastRegions.map(region => (
+                                    <li>
+                                        <Link
+                                            to={`forecasts/${region.get(
+                                                'id'
+                                            )}`}>
+                                            {region.get('name')}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </Section>
                     <Section title="Hot Zones">
-                        {hotZones.isEmpty()
-                            ? <Loading />
-                            : <ul>
-                                  {hotZones.map(zone =>
-                                      <li>
-                                          <Link
-                                              to={`hot-zone-reports/${zone.get(
-                                                  'id'
-                                              )}`}>
-                                              {zone.get('name')}
-                                          </Link>
-                                      </li>
-                                  )}
-                              </ul>}
+                        {hotZones.isEmpty() ? (
+                            <Loading />
+                        ) : (
+                            <ul>
+                                {hotZones.map(zone => (
+                                    <li>
+                                        <Link
+                                            to={`hot-zone-reports/${zone.get(
+                                                'id'
+                                            )}`}>
+                                            {zone.get('name')}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </Section>
                 </div>
                 <Headline>
@@ -75,7 +78,9 @@ function UnsupportedMap({ forecastRegions, hotZones }) {
                     <Mailto
                         email="kguillotte@avalanche.ca,wharding@avalanche.ca"
                         subject="Unsupported map"
-                        body={`\n\n\nMapBox GL supported: ${mapbox.supported()}\nNavigator: ${navigator.userAgent}`}>
+                        body={`\n\n\nMapBox GL supported: ${mapbox.supported()}\nNavigator: ${
+                            navigator.userAgent
+                        }`}>
                         email
                     </Mailto>.
                 </Headline>
@@ -83,5 +88,3 @@ function UnsupportedMap({ forecastRegions, hotZones }) {
         </Error>
     )
 }
-
-export default CSSModules(UnsupportedMap, styles)
