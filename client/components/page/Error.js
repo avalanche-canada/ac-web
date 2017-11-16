@@ -4,6 +4,7 @@ import { compose, setPropTypes, defaultProps, withProps } from 'recompose'
 import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Content from './Content'
+import Credit from '../markup/Credit'
 import styles from './Page.css'
 
 export default compose(
@@ -17,6 +18,7 @@ export default compose(
         children: (
             <Content>
                 {children}
+                <Credit>Kroschel Films</Credit>
             </Content>
         ),
     })),
