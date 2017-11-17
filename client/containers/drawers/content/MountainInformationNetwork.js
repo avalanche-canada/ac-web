@@ -46,10 +46,10 @@ function MountainInformationNetwork({
                     {link ? <Link to={link}>{title}</Link> : title}
                     {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
-                {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isError && <Error>{error}</Error>}
+                {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
                 {isLoading ? (
                     <Loading>{loading}</Loading>
                 ) : (

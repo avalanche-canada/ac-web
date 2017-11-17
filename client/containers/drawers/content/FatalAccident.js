@@ -32,6 +32,8 @@ function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
                         <DisplayOnMap onClick={onLocateClick} />
                     </h1>
                 )}
+            </Header>
+            <Body>
                 {dateOfAccident && (
                     <Metadata>
                         <Entry term="Accident date">
@@ -39,12 +41,8 @@ function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
                         </Entry>
                     </Metadata>
                 )}
-            </Header>
-            {content && (
-                <Body>
-                    <StructuredText value={content} />
-                </Body>
-            )}
+                {content && <StructuredText value={content} />}
+            </Body>
         </Container>
     )
 }

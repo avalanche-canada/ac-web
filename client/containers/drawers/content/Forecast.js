@@ -59,9 +59,9 @@ function Container({
                     {link ? <Link {...link}>{title}</Link> : title}
                     {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
-                {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
             <Body>
+                {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
                 {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
                 {isError && (
                     <Error>

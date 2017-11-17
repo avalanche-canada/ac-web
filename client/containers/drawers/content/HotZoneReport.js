@@ -46,7 +46,6 @@ function Container({
                     {link ? <Link to={link}>{title}</Link> : title}
                     {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
-                {report && <Metadata report={report} shareUrl={shareUrl} />}
             </Header>
             <Body>
                 {isLoading && (
@@ -57,6 +56,7 @@ function Container({
                         An error happened while loading hot zone report.
                     </Error>
                 )}
+                {report && <Metadata report={report} shareUrl={shareUrl} />}
                 {isLoading || <HotZoneReport report={report} />}
             </Body>
         </DrawerContainer>

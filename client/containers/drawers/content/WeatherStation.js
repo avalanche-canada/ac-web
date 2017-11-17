@@ -44,9 +44,9 @@ function WeatherStation({
                         <DisplayOnMap onClick={onLocateClick} />
                     )}
                 </h1>
-                {station && <Metadata {...station} />}
             </Header>
             <Body>
+                {station && <Metadata {...station} />}
                 <Status {...status.toJSON()} />
                 {station && (
                     <Station

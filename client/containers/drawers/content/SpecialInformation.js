@@ -7,6 +7,10 @@ import { Metadata, Entry } from 'components/metadata'
 import { specialInformation } from 'containers/connectors'
 import DisplayOnMap from './DisplayOnMap'
 
+const LOCATION_STYLE = {
+    fontSize: '1.1em',
+}
+
 SpecialInformation.propTypes = {
     report: PropTypes.object,
     // TODO: Use status PropTypes
@@ -29,7 +33,9 @@ function SpecialInformation({ report, status, onCloseClick, onLocateClick }) {
                         <DisplayOnMap onClick={onLocateClick} />
                     </h1>
                 )}
-                {report && (
+            </Header>
+            {report && (
+                <Body>
                     <Metadata>
                         <Entry term="Date Issued">
                             <DateTime value={report.dateOfIssue} />
@@ -47,13 +53,7 @@ function SpecialInformation({ report, status, onCloseClick, onLocateClick }) {
                             </Entry>
                         )}
                     </Metadata>
-                )}
-                {report && (
                     <p style={LOCATION_STYLE}>{report.locationDescription}</p>
-                )}
-            </Header>
-            {report && (
-                <Body>
                     <InnerHTML>{report.content}</InnerHTML>
                 </Body>
             )}
