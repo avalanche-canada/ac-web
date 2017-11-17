@@ -35,7 +35,7 @@ export default class Item extends PureComponent {
         return (
             <li className={classNames}>
                 <Link to={to} onClick={onClick}>
-                    <span>{title}</span>
+                    {title}
                 </Link>
                 {children}
             </li>

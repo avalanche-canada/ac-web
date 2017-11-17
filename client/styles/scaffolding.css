@@ -1,5 +1,7 @@
 @import './colors.css';
 
+@custom-media --full-nav-height (height > 320px);
+
 html {
     background-color: white;
 }
@@ -8,7 +10,6 @@ body {
     min-height: 100vh;
     position: relative;
     margin: 0;
-    padding: 75px 0 0 0;
     font-family: Arial, sans-serif;
     font-size: 15px;
     color: var(--gray-darker);
@@ -28,7 +29,13 @@ body {
 }
 
 :global(#app) {
-    height: calc(100vh - 75px);
+    height: 100vh;
+    padding-top: 50px;
+    box-sizing: border-box;
+
+    @media (--full-nav-height) {
+        padding-top: 75px;
+    }
 }
 
 h1,

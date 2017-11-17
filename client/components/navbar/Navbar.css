@@ -2,69 +2,68 @@
 @import '../../styles/components.css';
 
 @custom-media --full-nav (width > 768px);
-
-:root {
-    --navbar-height: 75px;
-}
+@custom-media --full-nav-height (height > 320px);
 
 .Layout {
     position: fixed;
     top: 0;
     width: 100%;
-    height: var(--navbar-height);
+    height: 50px;
     z-index: 20;
 
     background-color: white;
     box-sizing: border-box;
     box-shadow: 0 6px 4px 0 color(black alpha(25%));
+
+    @media (--full-nav-height) {
+        height: 75px;
+    }
 }
 
 .Navbar {
+    height: 100%;
 }
 
 .Navigation {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
+    height: 100%;
     max-width: 1026px;
     width: 100%;
     margin: 0 auto;
 }
 
-.Center {
-    flex: 1 0;
-}
-
 .ItemSet--Container {
     flex: 1 0;
     display: none;
+    height: 100%;
     @media (--full-nav) {
         display: block;
     }
 }
 .ItemSet {
     display: flex;
-    list-style: none;
+    height: 100%;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 .Item {
     position: relative;
     max-width: 150px;
+    height: 100%;
 
     & > a {
-        display: inline-block;
-        line-height: var(--navbar-height);
+        height: 100%;
         color: var(--black);
-        text-align: center;
         padding: 0 15px;
-
-        & > span {
-            display: inline-block;
-            line-height: normal;
-            vertical-align: middle;
-        }
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &:hover {
@@ -107,7 +106,8 @@
 }
 
 .Burger--Container {
-    composes: Center;
+    flex: 1 0;
+    height: 100%;
 
     @media (--full-nav) {
         display: none;
@@ -115,7 +115,7 @@
 }
 .Burger {
     float: right;
-    height: var(--navbar-height);
+    height: 100%;
     padding-left: 20px;
     padding-right: 20px;
 
@@ -131,7 +131,6 @@
     justify-content: space-between;
     left: 0;
     right: 0;
-    top: var(--navbar-height);
     padding: 30px;
     background-color: var(--gray-lighter);
     border-top: var(--gray-light) solid 6px;
@@ -182,9 +181,9 @@
 
 .Link {
     display: block;
+    height: 100%;
     color: var(--brand-primary);
     text-align: left;
-    line-height: normal;
     padding: 10px 0 0 0;
 
     &:hover {
@@ -197,11 +196,13 @@
 }
 
 .Donate {
-    line-height: var(--navbar-height);
     border-left: transparent solid 2px;
     color: white;
     padding: 0 20px;
     background-color: var(--brand-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         background-color: color(var(--brand-secondary) blackness(15%));
@@ -213,7 +214,6 @@
     composes: Link;
 
     flex: 2 0;
-    height: var(--navbar-height);
     padding: 0 15px;
     min-width: 100px;
     max-width: 200px;
