@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styles from './Navbar.css'
@@ -12,7 +12,7 @@ function isExternal(to) {
     return isExternalRegExp.test(to)
 }
 
-export default class Anchor extends Component {
+export default class Anchor extends PureComponent {
     static propTypes = {
         to: PropTypes.string,
         onClick: PropTypes.func,
@@ -22,9 +22,6 @@ export default class Anchor extends Component {
     }
     static defaultProps = {
         to: '#',
-    }
-    shouldComponentUpdate() {
-        return false
     }
     render() {
         const { to, children, ...props } = this.props
