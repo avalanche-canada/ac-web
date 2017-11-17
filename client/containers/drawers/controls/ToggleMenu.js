@@ -1,33 +1,30 @@
-import React from 'react'
-import { compose, setDisplayName, mapProps, withHandlers } from 'recompose'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleMenu } from 'actions/drawers'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
-import { neverUpdate } from 'compose'
 
-export default compose(
-    setDisplayName('ToggleMenu'),
-    connect(null, {
-        toggleMenu,
-    }),
-    withHandlers({
-        onClick: props => () => {
-            props.toggleMenu()
-        },
-    }),
-    mapProps(props => ({
-        onClick: props.onClick,
-        kind: SUBTILE,
-        icon: <Menu />,
-        // shadow: true,
-        style: {
-            position: 'fixed',
-            top: 90,
-            left: 15,
-            backgroundColor: 'white',
-            zIndex: 13,
-        },
-    })),
-    neverUpdate
-)(Button)
+const STYLE = {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    backgroundColor: 'white',
+    zIndex: 13,
+}
+
+@connect(null, { toggleMenu })
+export default class ToggleMenu extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        return (
+            <Button
+                style={STYLE}
+                onClick={this.props.toggleMenu}
+                kind={SUBTILE}
+                icon={<Menu />}
+            />
+        )
+    }
+}
