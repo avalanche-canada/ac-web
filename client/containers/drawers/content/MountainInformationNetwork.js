@@ -1,23 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {
-    Header,
-    Container,
-    Body,
-    Navbar,
-    Close,
-} from 'components/page/drawer'
+import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
 import { Metadata, Submission } from 'components/mountainInformationNetwork'
-import { LocateAsClass } from 'components/button/Locate'
 import { Loading, Error } from 'components/text'
 import Sponsor from 'layouts/Sponsor'
 import { mountainInformationNetworkSubmission } from 'containers/connectors'
-import { Wrapper } from 'components/tooltip'
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}
+import DisplayOnMap from './DisplayOnMap'
 
 MountainInformationNetwork.propTypes = {
     title: PropTypes.string.isRequired,
@@ -54,31 +43,18 @@ function MountainInformationNetwork({
             </Navbar>
             <Header subject="Mountain Information Network">
                 <h1>
-                    {link
-                        ? <Link to={link}>
-                              {title}
-                          </Link>
-                        : title}
-                    {isLoading ||
-                        <Wrapper tooltip="Display on map">
-                            <LocateAsClass
-                                onClick={onLocateClick}
-                                style={LOCATE_STYLE}
-                            />
-                        </Wrapper>}
+                    {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
                 {metadata && <Metadata {...metadata} shareUrl={shareUrl} />}
             </Header>
             <Body>
-                {isError &&
-                    <Error>
-                        {error}
-                    </Error>}
-                {isLoading
-                    ? <Loading>
-                          {loading}
-                      </Loading>
-                    : <Submission {...props} />}
+                {isError && <Error>{error}</Error>}
+                {isLoading ? (
+                    <Loading>{loading}</Loading>
+                ) : (
+                    <Submission {...props} />
+                )}
             </Body>
         </Container>
     )

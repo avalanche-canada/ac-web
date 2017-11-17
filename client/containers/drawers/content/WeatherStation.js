@@ -1,23 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    Header,
-    Container,
-    Body,
-    Navbar,
-    Close,
-} from 'components/page/drawer'
+import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Status } from 'components/misc'
-import { LocateAsClass } from 'components/button/Locate'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { weatherStation } from 'containers/connectors'
 import Sponsor from 'layouts/Sponsor'
-import { Wrapper } from 'components/tooltip'
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}
+import DisplayOnMap from './DisplayOnMap'
 
 WeatherStation.propTypes = {
     title: PropTypes.string,
@@ -51,25 +40,22 @@ function WeatherStation({
             <Header subject="Weather station">
                 <h1>
                     {link ? <Link to={link}>{title}</Link> : title}
-                    {status.isLoading ||
-                        <Wrapper tooltip="Display on map">
-                            <LocateAsClass
-                                onClick={onLocateClick}
-                                style={LOCATE_STYLE}
-                            />
-                        </Wrapper>}
+                    {status.isLoading || (
+                        <DisplayOnMap onClick={onLocateClick} />
+                    )}
                 </h1>
                 {station && <Metadata {...station} />}
             </Header>
             <Body>
                 <Status {...status.toJSON()} />
-                {station &&
+                {station && (
                     <Station
                         {...station}
                         columns={columns}
                         measurements={measurements}
                         headers={headers}
-                    />}
+                    />
+                )}
                 <Footer />
             </Body>
         </Container>

@@ -12,15 +12,7 @@ import { Loading, Error } from 'components/text'
 import { hotZoneReport } from 'containers/connectors'
 import HotZoneReport, { Metadata } from 'components/hotZoneReport'
 import Sponsor from 'layouts/Sponsor'
-import { LocateAsClass } from 'components/button/Locate'
-import { Wrapper } from 'components/tooltip'
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}
-const ARROW_STYLE = {
-    left: 'calc(50% + 7px)',
-}
+import DisplayOnMap from './DisplayOnMap'
 
 Container.propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -51,32 +43,20 @@ function Container({
             </Navbar>
             <Header subject="Hot Zone Report">
                 <h1>
-                    {link
-                        ? <Link to={link}>
-                              {title}
-                          </Link>
-                        : title}
-                    {isLoading ||
-                        <Wrapper
-                            tooltip="Display on map"
-                            arrowStyle={ARROW_STYLE}>
-                            <LocateAsClass
-                                onClick={onLocateClick}
-                                style={LOCATE_STYLE}
-                            />
-                        </Wrapper>}
+                    {link ? <Link to={link}>{title}</Link> : title}
+                    {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
                 {report && <Metadata report={report} shareUrl={shareUrl} />}
             </Header>
             <Body>
-                {isLoading &&
-                    <Loading>
-                        Loading {title} hot zone report...
-                    </Loading>}
-                {isError &&
+                {isLoading && (
+                    <Loading>Loading {title} hot zone report...</Loading>
+                )}
+                {isError && (
                     <Error>
                         An error happened while loading hot zone report.
-                    </Error>}
+                    </Error>
+                )}
                 {isLoading || <HotZoneReport report={report} />}
             </Body>
         </DrawerContainer>

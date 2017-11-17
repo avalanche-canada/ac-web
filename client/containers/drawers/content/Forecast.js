@@ -13,16 +13,8 @@ import { SPAW } from 'components/misc'
 import { Muted, Error } from 'components/text'
 import { forecast } from 'containers/connectors'
 import Sponsor from 'layouts/Sponsor'
-import { LocateAsClass } from 'components/button/Locate'
-import { Wrapper } from 'components/tooltip'
 import { Feed } from 'containers/feed'
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}
-const ARROW_STYLE = {
-    left: 'calc(50% + 7px)',
-}
+import DisplayOnMap from './DisplayOnMap'
 
 Container.propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -65,16 +57,7 @@ function Container({
             <Header subject="Avalanche Forecast">
                 <h1>
                     {link ? <Link {...link}>{title}</Link> : title}
-                    {isLoading || (
-                        <Wrapper
-                            tooltip="Display on map"
-                            arrowStyle={ARROW_STYLE}>
-                            <LocateAsClass
-                                onClick={onLocateClick}
-                                style={LOCATE_STYLE}
-                            />
-                        </Wrapper>
-                    )}
+                    {isLoading || <DisplayOnMap onClick={onLocateClick} />}
                 </h1>
                 {forecast && <Metadata {...forecast} shareUrl={shareUrl} />}
             </Header>
