@@ -1,4 +1,3 @@
-// import Auth0Lock from 'auth0-lock'
 import { PRIMARY } from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
 import { clientId, domain } from './config.json'
@@ -10,27 +9,37 @@ export default class AuthService {
         return new AuthService(options)
     }
     constructor() {
-        const { origin, pathname, search, hash } = document.location
-
         this.storage = LocalStorage.create()
-        this.lock = new window.Auth0Lock(clientId, domain, {
-            closable: true,
-            avatar: true,
-            auth: {
-                redirectUrl: `${origin}/login-complete`,
-                responseType: 'token',
-                params: {
-                    state: pathname + search + hash,
+    }
+    get lock() {
+        if (this._lock) {
+            return Promise.resolve(this._lock)
+        }
+
+        return import('auth0-lock').then(mod => {
+            const { origin, pathname, search, hash } = document.location
+
+            this._lock = new mod.default(clientId, domain, {
+                closable: true,
+                avatar: true,
+                auth: {
+                    redirectUrl: `${origin}/login-complete`,
+                    responseType: 'token',
+                    params: {
+                        state: pathname + search + hash,
+                    },
                 },
-            },
-            theme: {
-                primaryColor: PRIMARY,
-                logo,
-            },
-            socialButtonStyle: 'small',
-            languageDictionary: {
-                title: '',
-            },
+                theme: {
+                    primaryColor: PRIMARY,
+                    logo,
+                },
+                socialButtonStyle: 'small',
+                languageDictionary: {
+                    title: '',
+                },
+            })
+
+            return this._lock
         })
     }
     get profile() {
@@ -53,14 +62,18 @@ export default class AuthService {
     }
     login() {
         return new Promise((resolve, reject) => {
-            this.lock.on('authorization_error', error => {
-                reject(error)
-            })
-            this.lock.on('hide', () => {
-                reject(new Error('User hides Auth0 Lock login modal.'))
-            })
+            this.lock.then(lock => {
+                lock.on('authorization_error', error => {
+                    reject(error)
+                })
+                lock.on('hide', () => {
+                    reject(new Error('User hides Auth0 Lock login modal.'))
+                })
 
-            this.lock.show()
+                lock.show()
+
+                resolve(lock)
+            })
         })
     }
     logout() {
@@ -77,15 +90,19 @@ export default class AuthService {
         }
 
         return new Promise((resolve, reject) => {
-            this.lock.getUserInfo(this.accessToken, (error, profile) => {
-                if (error) {
-                    reject(error)
-                }
+            setTimeout(() => {
+                this.lock.then(lock => {
+                    lock.getUserInfo(this.accessToken, (error, profile) => {
+                        if (error) {
+                            reject(error)
+                        }
 
-                this.profile = profile
+                        this.profile = profile
 
-                resolve(profile)
-            })
+                        resolve(profile)
+                    })
+                })
+            }, 500)
         })
     }
     checkTokenExpiry() {
