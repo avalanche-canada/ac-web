@@ -7,11 +7,11 @@ import UnsupportedMap from 'containers/UnsupportedMap'
 import mapbox from 'services/mapbox/map'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
-import styles from './Map.css'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
 import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
+import styles from './Map.css'
 
 export default class Layout extends PureComponent {
     static propTypes = {
