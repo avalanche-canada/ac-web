@@ -2,6 +2,7 @@
 @import './components.css';
 
 @custom-media --more-then-700 (width > 700px);
+@custom-media --full-nav-height (height > 320px);
 
 :global(.block-img) {
     & > img {
@@ -203,8 +204,12 @@
         padding: 0;
     }
     & :global(.image-gallery-image > img) {
-        height: calc(100vh - 75px);
+        height: calc(100vh - 50px);
         object-fit: cover;
+
+        @media (--full-nav-height) {
+            height: calc(100vh - 75px);
+        }
     }
 }
 
