@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Avatar from 'components/avatar'
 import { Mailto, Phone } from 'components/anchors'
 import styles from './Biography.css'
@@ -16,7 +15,7 @@ Biography.propTypes = {
     children: PropTypes.node,
 }
 
-function Biography({
+export default function Biography({
     email,
     workPhoneNumber,
     children,
@@ -25,37 +24,32 @@ function Biography({
     avatar,
 }) {
     return (
-        <section styleName="Container">
-            <div styleName="Media">
+        <section className={styles.Container}>
+            <div className={styles.Media}>
                 <Avatar url={avatar} name={fullName} />
             </div>
-            <div styleName="Content">
-                <header styleName="Header">
-                    <span styleName="Name">
-                        {fullName}
-                    </span>
-                    {title &&
-                        <span styleName="Title">
-                            {title}
-                        </span>}
+            <div className={styles.Content}>
+                <header className={styles.Header}>
+                    <span className={styles.Name}>{fullName}</span>
+                    {title && <span className={styles.Title}>{title}</span>}
                 </header>
-                <address styleName="Address">
-                    {email &&
+                <address className={styles.Address}>
+                    {email && (
                         <Mailto
                             email={email}
                             title={`Send ${fullName} an email`}
-                        />}
-                    {workPhoneNumber &&
+                        />
+                    )}
+                    {workPhoneNumber && (
                         <Phone
                             phone={workPhoneNumber}
                             ext={null}
                             title={`Give ${fullName} a call`}
-                        />}
+                        />
+                    )}
                 </address>
                 {children}
             </div>
         </section>
     )
 }
-
-export default CSSModules(Biography, styles)
