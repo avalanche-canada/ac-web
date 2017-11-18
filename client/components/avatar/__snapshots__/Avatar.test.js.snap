@@ -2,7 +2,7 @@
 
 exports[`avatar component 1`] = `
 <div
-  className="Initials"
+  className="Avatar"
   data-initials="KG"
   style={
     Object {
@@ -11,15 +11,7 @@ exports[`avatar component 1`] = `
       "width": 60,
     }
   }
->
-  <img
-    alt="KG"
-    onError={[Function]}
-    onLoad={[Function]}
-    src={undefined}
-    title="Karl Guillotte"
-  />
-</div>
+/>
 `;
 
 exports[`avatar component 2`] = `
