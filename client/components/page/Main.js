@@ -7,5 +7,5 @@ Main.propTypes = {
 }
 
 export default function Main({ children }) {
-    return <main styleName={styles.Main}>{children}</main>
+    return <main className={styles.Main}>{children}</main>
 }
