@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Header from './Header'
 import Main from './Main'
@@ -32,9 +31,9 @@ function renderItem(item) {
     )
 }
 
-function PageList({ title, headline, items }) {
+export default function PageList({ title, headline, items }) {
     return (
-        <Page styleName="PageList">
+        <Page className={styles.PageList}>
             <Header title={title} />
             <Content>
                 <Main>
@@ -51,5 +50,3 @@ function PageList({ title, headline, items }) {
         </Page>
     )
 }
-
-export default CSSModules(PageList, styles)

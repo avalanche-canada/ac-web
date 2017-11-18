@@ -1,13 +1,11 @@
 import React, { createElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Pagination.css'
 import Segment, { Disabled } from './Segment'
 import range from 'lodash/range'
 import pagination from 'utils/pagination'
 import noop from 'lodash/noop'
 
-@CSSModules(styles)
 export default class Pagination extends PureComponent {
     static propTypes = {
         total: PropTypes.number.isRequired,
@@ -48,7 +46,7 @@ export default class Pagination extends PureComponent {
         }
 
         return (
-            <div styleName="Container">
+            <div className={styles.Container}>
                 {this.segments.map(this.createSegment, this)}
             </div>
         )
