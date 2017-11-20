@@ -20,7 +20,6 @@
         "dedent": "^0.6.0",
         "dotenv": "~0.4.0",
         "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
-        "element-resize-event": "^2.0.7",
         "errorhandler": "~1.0.0",
         "es6-promise": "^3.1.2",
         "express": "~4.8.0",

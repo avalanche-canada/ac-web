@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import throttle from 'lodash/throttle'
 
 export default class Dimensions extends PureComponent {
     static propTypes = {
@@ -9,14 +10,15 @@ export default class Dimensions extends PureComponent {
         width: null,
         height: null,
     }
-    update = () => {
-        const { offsetWidth, offsetHeight } = this.refs.dimensions
+    setRef = ref => (this.ref = ref)
+    update = throttle(() => {
+        const { offsetWidth, offsetHeight } = this.ref
 
         this.setState({
             width: offsetWidth,
             height: offsetHeight,
         })
-    }
+    }, 250)
     componentDidMount() {
         this.update()
         window.addEventListener('resize', this.update, false)
@@ -30,7 +32,7 @@ export default class Dimensions extends PureComponent {
         const { children, ...props } = this.props
 
         return (
-            <div {...props} ref="dimensions">
+            <div {...props} ref={this.setRef}>
                 {children(this.state)}
             </div>
         )

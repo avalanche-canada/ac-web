@@ -2,7 +2,7 @@ import React, { Children, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { Credit } from 'components/markup'
-import { ElementResize } from 'components/misc'
+import Dimensions from 'components/Dimensions'
 import styles from './Image.css'
 import WebLink from './WebLink'
 
@@ -85,8 +85,8 @@ export default class Image extends PureComponent {
                 )}
                 {copyright && (
                     <footer>
-                        <ElementResize>
-                            {width => {
+                        <Dimensions>
+                            {({ width }) => {
                                 if (copyright) {
                                     const compact =
                                         width <
@@ -100,7 +100,7 @@ export default class Image extends PureComponent {
                                 }
                                 return null
                             }}
-                        </ElementResize>
+                        </Dimensions>
                     </footer>
                 )}
             </figure>

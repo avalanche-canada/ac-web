@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Credit } from 'components/markup'
-import { ElementResize } from 'components/misc'
+import Dimensions from 'components/Dimensions'
 import styles from './Page.css'
 
 const STYLE = {
@@ -22,11 +22,11 @@ export default function Banner({ url, copyright, children }) {
     return (
         <div className={styles.Banner} style={style}>
             {copyright && (
-                <ElementResize style={STYLE}>
-                    {width => (
+                <Dimensions style={STYLE}>
+                    {({ width }) => (
                         <Credit compact={width < 400}>{copyright}</Credit>
                     )}
-                </ElementResize>
+                </Dimensions>
             )}
             {children}
         </div>
