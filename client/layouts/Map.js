@@ -1,5 +1,4 @@
 import React, { PureComponent, Component } from 'react'
-import PropTypes from 'prop-types'
 import { Link, Route } from 'react-router-dom'
 import { parse } from 'utils/search'
 import Map from 'containers/Map'
@@ -7,6 +6,7 @@ import UnsupportedMap from './UnsupportedMap'
 import mapbox from 'services/mapbox/map'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
+import ErrorBoundary from 'components/ErrorBoundary'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
@@ -14,25 +14,14 @@ import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
 import styles from './Map.css'
 
 export default class Layout extends PureComponent {
-    static propTypes = {
-        onInitializationError: PropTypes.func.isRequired,
-    }
-    state = {
-        initializationError: null,
-    }
-    handleInitializationError = initializationError => {
-        this.setState({ initializationError }, () => {
-            this.props.onInitializationError(initializationError)
-        })
-    }
-    render() {
-        if (this.state.initializationError || !mapbox.supported()) {
+    renderer = ({ hasError }) => {
+        if (hasError || !mapbox.supported()) {
             return <UnsupportedMap />
         }
 
         return (
             <div className={styles.Layout}>
-                <Map onInitializationError={this.handleInitializationError} />
+                <Map />
                 {/* Orders matter here for the route components */}
                 <Route path="/map*">{secondary}</Route>
                 <Route path="/map/:type/:name">{primary}</Route>
@@ -41,6 +30,9 @@ export default class Layout extends PureComponent {
                 <LinkControlSet />
             </div>
         )
+    }
+    render() {
+        return <ErrorBoundary>{this.renderer}</ErrorBoundary>
     }
 }
 

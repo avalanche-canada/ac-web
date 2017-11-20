@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox, { styles } from 'services/mapbox/map'
 import { Canadian } from 'constants/map/bounds'
-import { captureException } from 'services/raven'
 import noop from 'lodash/noop'
 import './Map.css'
 
@@ -116,13 +115,10 @@ export default class MapComponent extends Component {
         onDrag: PropTypes.func,
         onDragend: PropTypes.func,
         onPitch: PropTypes.func,
-        // Custom, i.e. not part of the mapbox.Map class
-        onInitializationError: PropTypes.func,
     }
     static defaultProps = {
         style: null,
         maxBounds: Canadian,
-        onInitializationError: noop,
     }
     static childContextTypes = {
         map: PropTypes.object,
@@ -150,28 +146,20 @@ export default class MapComponent extends Component {
     }
     componentDidMount() {
         const { container } = this.refs
-        const { style, onInitializationError, ...props } = this.props
+        const { style, ...props } = this.props
+        const map = new mapbox.Map({
+            ...props,
+            container,
+            style: typeof style === 'string' ? styles[style] : toJSON(style),
+        })
 
-        try {
-            const map = new mapbox.Map({
-                ...props,
-                container,
-                style: typeof style === 'string'
-                    ? styles[style]
-                    : toJSON(style),
-            })
+        EVENTS.forEach((name, method) => {
+            if (typeof props[method] === 'function') {
+                map.on(name, props[method])
+            }
+        })
 
-            EVENTS.forEach((name, method) => {
-                if (typeof props[method] === 'function') {
-                    map.on(name, props[method])
-                }
-            })
-
-            this.map = map
-        } catch (error) {
-            captureException(error)
-            onInitializationError(error)
-        }
+        this.map = map
     }
     componentWillUnmount() {
         if (this.map) {
