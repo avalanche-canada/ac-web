@@ -214,8 +214,12 @@
         font-size: 1.25em;
 
         & li {
-            margin-top: 0.5em;
             margin-bottom: 0.5em;
+        }
+
+        @media (--medium-width) {
+            column-count: 2;
+            column-gap: 4em;
         }
     }
 }
