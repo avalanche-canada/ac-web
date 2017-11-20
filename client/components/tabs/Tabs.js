@@ -30,7 +30,9 @@ export default class Tabs extends PureComponent {
         })
     }
     componentWillReceiveProps({ activeIndex }) {
-        this.setState({ activeIndex })
+        if (activeIndex !== this.state.activeIndex) {
+            this.setState({ activeIndex })
+        }
     }
     renderChild = child => {
         const { activeIndex } = this.state
