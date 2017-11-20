@@ -19,6 +19,7 @@ import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './Weather'
 import HotZoneReport from './HotZoneReport'
+import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import * as Feed from './Feed'
 import Glossary from 'containers/Glossary'
@@ -36,6 +37,7 @@ export default function AvalancheCanada() {
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
+                <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
                 <Route path="/blogs" component={Feed.Blogs} />
                 <Route path="/news" component={Feed.News} />

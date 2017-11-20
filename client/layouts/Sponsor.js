@@ -30,6 +30,7 @@ export default function Sponsor() {
             <SponsorRoute path="/forecasts/kananaskis" name="kananaskis" />
             <SponsorRoute path="/forecasts" name="Forecast" />
             <SponsorRoute path="/hot-zone-reports" name="Forecast" />
+            <SponsorRoute path="/hot-zones" name="Forecast" />
             <SponsorRoute path="/weather" name="Weather" />
             <SponsorRoute path="/training" name="Training" />
             <SponsorRoute path="/courses" name="Training" />

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Forecast from 'containers/Forecast'
-import Forecasts from 'containers/Forecasts'
+import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'containers/ArchiveForecast'
 import parseDate from 'date-fns/parse'
 import isAfter from 'date-fns/is_after'
@@ -53,7 +53,7 @@ export default function ForecastLayout({ match }) {
         <Switch>
             <Route path={`${path}/archives/:name?/:date?`} render={archive} />
             <Route path={`${path}/:name/:date?`} render={forecast} />
-            <Route path={path} component={Forecasts} />
+            <Route path={path} component={ForecastRegionList} />
         </Switch>
     )
 }
