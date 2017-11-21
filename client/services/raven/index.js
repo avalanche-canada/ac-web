@@ -30,13 +30,13 @@ export default function setup() {
     }
 }
 
-export function captureException(error, info) {
+export function captureException(...args) {
     if (Raven.isSetup()) {
-        Raven.captureException(error, info)
+        Raven.captureException(...args)
     }
 
     /* eslint-disable no-console */
-    console.error(error, info)
+    console.error(...args)
     /* eslint-disable no-console */
 }
 
