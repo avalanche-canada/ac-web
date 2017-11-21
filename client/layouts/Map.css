@@ -1,4 +1,4 @@
-@import "../styles/colors.css";
+@import '../styles/colors.css';
 
 .Layout {
     position: relative;
@@ -11,9 +11,9 @@
 }
 
 .LinkControlSet {
-    position: fixed;
-    left: 15px;
-    bottom: 25px;
+    position: absolute;
+    left: 1em;
+    bottom: 2em;
 
     display: flex;
 }
@@ -25,7 +25,8 @@
     display: inline-block;
     width: 3em;
     height: 3em;
-    box-shadow: 0 0 2px color(black alpha(25%)), 0 2px 4px color(black alpha(25%));
+    box-shadow: 0 0 2px color(black alpha(25%)),
+        0 2px 4px color(black alpha(25%));
 
     &:hover {
         opacity: 1;
@@ -50,4 +51,12 @@
     background-position: center;
     background-size: 50%;
     background-color: var(--primary);
+}
+
+.Error {
+    composes: LinkControl;
+
+    border: none;
+    background-color: var(--warning);
+    cursor: pointer;
 }

@@ -98,6 +98,7 @@ const CLUSTER_BOUNDS_OPTIONS = {
 export default class Container extends Component {
     propTypes = {
         onLoad: PropTypes.func,
+        onError: PropTypes.func,
         style: PropTypes.object,
         markers: PropTypes.arrayOf(PropTypes.object),
         bounds: PropTypes.object,
@@ -113,6 +114,7 @@ export default class Container extends Component {
     }
     static defaultProps = {
         onLoad: noop,
+        onError: noop,
         style: null,
     }
     map = null
@@ -365,10 +367,10 @@ export default class Container extends Component {
         return <Marker key={id} {...marker} onClick={this.handleMarkerClick} />
     }
     render() {
-        const { markers, style } = this.props
+        const { markers, style, onError } = this.props
 
         return (
-            <Base style={style} onLoad={this.handleLoad}>
+            <Base style={style} onLoad={this.handleLoad} onError={onError}>
                 {this.map && markers.map(this.renderMarker)}
                 <NavigationControl />
             </Base>

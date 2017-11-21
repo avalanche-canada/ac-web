@@ -1,45 +1,50 @@
 import React, { PureComponent, Component } from 'react'
 import { Link, Route } from 'react-router-dom'
-import { parse } from 'utils/search'
-import Map from 'containers/Map'
+import { Map } from 'components/map'
+import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
-import mapbox from 'services/mapbox/map'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
-import ErrorBoundary from 'components/ErrorBoundary'
+import { captureException } from 'services/raven'
+import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
 import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
+import { parse } from 'utils/search'
 import styles from './Map.css'
 
 export default class Layout extends PureComponent {
-    renderer = ({ hasError }) => {
-        if (hasError || !mapbox.supported()) {
-            return <UnsupportedMap />
-        }
-
-        return (
-            <div className={styles.Layout}>
-                <Map />
-                {/* Orders matter here for the route components */}
-                <Route path="/map*">{secondary}</Route>
-                <Route path="/map/:type/:name">{primary}</Route>
-                <Menu />
-                <ToggleMenu />
-                <LinkControlSet />
-            </div>
-        )
+    state = {
+        hasError: false,
+    }
+    handleError = error => {
+        this.setState({ hasError: true }, () => {
+            captureException(error)
+        })
     }
     render() {
-        return <ErrorBoundary>{this.renderer}</ErrorBoundary>
+        if (Map.supported()) {
+            return (
+                <div className={styles.Layout}>
+                    <Container onError={this.handleError} />
+                    {/* Orders matter here for the route components */}
+                    <Route path="/map*">{secondary}</Route>
+                    <Route path="/map/:type/:name">{primary}</Route>
+                    <Menu />
+                    <ToggleMenu />
+                    <LinkControlSet>
+                        {this.state.hasError && <ErrorIndicator />}
+                    </LinkControlSet>
+                </div>
+            )
+        }
+
+        return <UnsupportedMap />
     }
 }
 
-class LinkControlSet extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+class LinkControlSet extends PureComponent {
     get tooltips() {
         const style = {
             maxWidth: 175,
@@ -86,7 +91,45 @@ class LinkControlSet extends Component {
         return (
             <div className={styles.LinkControlSet}>
                 <Device>{this.renderer}</Device>
+                {this.props.children}
             </div>
+        )
+    }
+}
+
+class ErrorIndicator extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+    reload() {
+        window.location.reload(true)
+    }
+    get tooltip() {
+        const style = {
+            padding: '0.25em',
+            maxWidth: 225,
+        }
+
+        return (
+            <div style={style}>
+                An error happened while initializing the map. Therefore, some
+                functionnalities might not be available.
+                <br />
+                <Device>
+                    {({ isTouchable }) =>
+                        `${isTouchable ? 'Tap' : 'Click'} to reload the map.`
+                    }
+                </Device>
+            </div>
+        )
+    }
+    render() {
+        return (
+            <Wrapper tooltip={this.tooltip}>
+                <button onClick={this.reload} className={styles.Error}>
+                    <Warning inverse />
+                </button>
+            </Wrapper>
         )
     }
 }

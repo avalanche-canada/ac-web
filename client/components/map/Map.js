@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox, { styles } from 'services/mapbox/map'
 import { Canadian } from 'constants/map/bounds'
-import noop from 'lodash/noop'
 import './Map.css'
 
 function toJSON(style) {
@@ -18,7 +17,6 @@ function toJSON(style) {
 }
 
 const { LngLatBounds } = mapbox
-const STYLES = Object.keys(styles)
 const EVENTS = new Map([
     ['onWebglcontextlost', 'webglcontextlost'],
     ['onWebglcontextrestored', 'webglcontextrestored'],
@@ -58,8 +56,10 @@ const EVENTS = new Map([
 export default class MapComponent extends Component {
     static propTypes = {
         children: PropTypes.node,
-        style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object])
-            .isRequired,
+        style: PropTypes.oneOfType([
+            PropTypes.oneOf(Object.keys(styles)),
+            PropTypes.object,
+        ]).isRequired,
         containerStyle: PropTypes.object,
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
@@ -123,6 +123,9 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: PropTypes.object,
     }
+    static supported() {
+        return mapbox.supported()
+    }
     state = {
         map: null,
     }
@@ -132,24 +135,17 @@ export default class MapComponent extends Component {
     set map(map) {
         this.setState({ map })
     }
-    constructor(props) {
-        super(props)
-
-        if (!mapbox.supported()) {
-            this.componentDidMount = noop
-        }
-    }
+    setContainer = container => (this.container = container)
     getChildContext() {
         return {
             map: this.map,
         }
     }
     componentDidMount() {
-        const { container } = this.refs
         const { style, ...props } = this.props
         const map = new mapbox.Map({
             ...props,
-            container,
+            container: this.container,
             style: typeof style === 'string' ? styles[style] : toJSON(style),
         })
 
@@ -199,7 +195,7 @@ export default class MapComponent extends Component {
     }
     render() {
         return (
-            <div ref="container" style={this.props.containerStyle}>
+            <div ref={this.setContainer} style={this.props.containerStyle}>
                 {this.map && this.props.children}
             </div>
         )
