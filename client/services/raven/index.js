@@ -19,7 +19,9 @@ export default function setup() {
                 exceptions.add(key)
 
                 // 1 minute
-                setTimeout(exceptions.delete.bind(exceptions, key), 60 * 1000)
+                setTimeout(() => {
+                    exceptions.delete(key)
+                }, 60 * 1000)
 
                 return shouldSend
             },
@@ -30,13 +32,13 @@ export default function setup() {
     }
 }
 
-export function captureException(...args) {
+export function captureException(error, context) {
     if (Raven.isSetup()) {
-        Raven.captureException(...args)
+        Raven.captureException(error, context)
     }
 
     /* eslint-disable no-console */
-    console.error(...args)
+    console.error(error, context)
     /* eslint-disable no-console */
 }
 
