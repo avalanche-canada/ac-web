@@ -1,7 +1,6 @@
 @import '../../styles/colors.css';
 @import '../../styles/components.css';
 
-@custom-media --full-nav (width > 768px);
 @custom-media --full-nav-height (height > 320px);
 
 .Layout {
@@ -37,11 +36,7 @@
 
 .ItemSet--Container {
     flex: 1 0;
-    display: none;
     height: 100%;
-    @media (--full-nav) {
-        display: block;
-    }
 }
 .ItemSet {
     display: flex;
@@ -108,10 +103,6 @@
 .Burger--Container {
     flex: 1 0;
     height: 100%;
-
-    @media (--full-nav) {
-        display: none;
-    }
 }
 .Burger {
     float: right;

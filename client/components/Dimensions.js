@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 
-export default class Dimensions extends PureComponent {
+export default class Dimensions extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
