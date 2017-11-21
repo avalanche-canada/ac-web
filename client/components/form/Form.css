@@ -1,7 +1,7 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Form {
-    composes: import RestrictFullPageWidth from "components/page/Page.css";
+    composes: import RestrictFullPageWidth from 'components/page/Page.css';
 
     width: 100%;
     box-sizing: border-box;
@@ -45,7 +45,7 @@
         margin-right: 0;
     }
 
-    & input  {
+    & input {
         font-weight: 700;
     }
 
@@ -55,14 +55,14 @@
         right: 0;
         pointer-events: none;
 
-        & path[fill="black"] {
+        & path[fill='black'] {
             fill: var(--primary);
         }
     }
 }
 
 .Submit {
-    composes: import Primary from "../button/Button.css";
+    composes: import Primary from '../button/Button.css';
 
     line-height: 40px;
 
@@ -71,8 +71,4 @@
         position: relative;
         top: 7px;
     }
-}
-
-.Reset {
-    composes: import Secondary from "../button/Button.css";
 }
