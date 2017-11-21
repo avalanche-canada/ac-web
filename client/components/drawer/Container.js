@@ -1,16 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    setPropTypes,
-    withState,
-    renameProp,
-    lifecycle,
-    onlyUpdateForKeys,
-} from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { Motion, spring, presets } from 'react-motion'
-import CSSModules from 'react-css-modules'
 import Cabinet from './Cabinet'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
@@ -104,13 +95,14 @@ function Animated({ show = false, onClose = noop, root, node, setNode }) {
     }
 
     return (
-        <Motion {...{ defaultStyle, style, onRest }}>
-            {value =>
-                <StylishedContainer
+        <Motion defaultStyle={defaultStyle} style={style} onRest={onRest}>
+            {value => (
+                <Container
                     style={getStyle(value)}
                     onClick={onClick}
                     drawers={drawers}
-                />}
+                />
+            )}
         </Motion>
     )
 }
@@ -123,30 +115,43 @@ Container.propTypes = {
 
 function Container({ style = null, drawers, onClick }) {
     return (
-        <div style={style} styleName="Container" onClick={onClick}>
+        <div style={style} className={styles.Container} onClick={onClick}>
             <Cabinet drawers={drawers} />
         </div>
     )
 }
 
-const StylishedContainer = CSSModules(Container, styles)
-
-export default compose(
-    withRouter,
-    setPropTypes({
+@withRouter
+export default class Layout extends Component {
+    static propTypes = {
         menu: PropTypes.object,
         show: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
-    }),
-    lifecycle({
-        componentWillReceiveProps({ location }) {
-            if (location !== this.props.location) {
-                this.props.onClose()
-            }
-        },
-    }),
-    renameProp('menu', 'root'),
-    withState('node', 'setNode'),
-    onlyUpdateForKeys(['show', 'node'])
-)(Animated)
+    }
+    state = {
+        node: null,
+    }
+    setNode = node => this.setState({ node })
+    shouldComponentUpdate({ show }, { node }) {
+        return show !== this.props.show || node !== this.state.node
+    }
+    componentWillReceiveProps({ location }) {
+        if (location !== this.props.location) {
+            this.props.onClose()
+        }
+    }
+    render() {
+        const { menu, location, ...props } = this.props
+        const { node } = this.state
+
+        return (
+            <Animated
+                root={menu}
+                node={node}
+                {...props}
+                setNode={this.setNode}
+            />
+        )
+    }
+}

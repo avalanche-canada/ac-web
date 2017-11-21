@@ -1,52 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withHandlers } from 'recompose'
-import { onlyUpdateForKey } from 'compose'
-import CSSModules from 'react-css-modules'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
 import noop from 'lodash/noop'
 
-Drawer.propTypes = {
-    label: PropTypes.string.isRequired,
-    home: Toolbar.propTypes.home,
-    to: PropTypes.string,
-    onClose: PropTypes.func,
-    onClick: PropTypes.func,
-    style: PropTypes.object,
-    children: PropTypes.node.isRequired,
+export default class Drawer extends Component {
+    static propTypes = {
+        label: PropTypes.string.isRequired,
+        home: Toolbar.propTypes.home,
+        to: PropTypes.string,
+        onClose: PropTypes.func,
+        onClick: PropTypes.func,
+        style: PropTypes.object,
+        children: PropTypes.node.isRequired,
+    }
+    static defaultProps = {
+        onClose: noop,
+        onClick: noop,
+        style: null,
+    }
+    shouldComponentUpdate({ style }) {
+        return style !== this.props.style
+    }
+    handleClick = event => {
+        const { target, currentTarget } = event
+
+        if (target !== currentTarget) {
+            return
+        }
+
+        this.props.onClick(event)
+    }
+    render() {
+        const { label, to, onClose, style, children, home } = this.props
+
+        return (
+            <nav
+                style={style}
+                className={styles.Drawer}
+                onClick={this.handleClick}>
+                <Toolbar home={home} onClose={onClose} />
+                <ItemSet label={label} to={to} items={children} />
+            </nav>
+        )
+    }
 }
-
-function Drawer({
-    label,
-    to,
-    onClose = noop,
-    onClick,
-    style = null,
-    children,
-    home,
-}) {
-    return (
-        <nav style={style} styleName="Drawer" onClick={onClick}>
-            <Toolbar home={home} onClose={onClose} />
-            <ItemSet label={label} to={to} items={children} />
-        </nav>
-    )
-}
-
-export default compose(
-    onlyUpdateForKey('style'),
-    withHandlers({
-        onClick: props => event => {
-            const { target, currentTarget } = event
-
-            if (target !== currentTarget) {
-                return
-            }
-
-            props.onClick(event)
-        },
-    }),
-    CSSModules(styles)
-)(Drawer)
