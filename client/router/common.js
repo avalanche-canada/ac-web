@@ -9,6 +9,7 @@ import { StaticPage, Generic } from 'prismic/containers'
 import { WorkInProgress } from 'components/page'
 import { STATIC_PAGE } from 'constants/prismic'
 import Sponsor from 'containers/Sponsor'
+import * as Pages from 'prismic/components/page'
 
 function privateRenderFactory(render, component, children) {
     return function privateRender(props) {
@@ -71,8 +72,12 @@ StaticPageRoute.propTypes = {
 }
 
 function staticPageFactory(uid, title) {
-    return function staticPage() {
-        return <StaticPage uid={uid} title={title} />
+    return function renderStaticPage() {
+        function render(props) {
+            return <Pages.StaticPage uid={uid} title={title} {...props} />
+        }
+
+        return <StaticPage uid={uid}>{render}</StaticPage>
     }
 }
 
@@ -87,8 +92,12 @@ GenricPageRoute.propTypes = {
 }
 
 function genericFactory(uid, title) {
-    return function generic() {
-        return <Generic uid={uid} title={title} />
+    return function renderGenericPage() {
+        function render(props) {
+            return <Pages.Generic title={title} {...props} />
+        }
+
+        return <Generic uid={uid}>{render}</Generic>
     }
 }
 
