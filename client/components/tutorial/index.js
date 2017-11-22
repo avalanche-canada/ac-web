@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { Media, Player, Caption } from 'components/media'
-import { Loading } from 'components/text'
 import { StructuredText, Image } from 'prismic/components/base'
 import styles from './ates.css'
 
@@ -28,16 +27,17 @@ function MenuItem({ title, slug, children, currentPage }) {
                 {title}
                 {showElipsis && '...'}
             </NavLink>
-            {showChildren &&
+            {showChildren && (
                 <ul>
-                    {children.map(child =>
+                    {children.map(child => (
                         <MenuItem
                             key={child.slug}
                             currentPage={currentPage}
                             {...child}
                         />
-                    )}
-                </ul>}
+                    ))}
+                </ul>
+            )}
         </li>
     )
 }
@@ -52,14 +52,14 @@ function Gallery({ images }) {
             {images
                 .filter(Boolean)
                 .filter(image => Boolean(image.picture))
-                .map(({ picture, credit, caption }, index) =>
+                .map(({ picture, credit, caption }, index) => (
                     <GalleryImage
                         key={index}
                         url={picture.main.url}
                         credit={credit}
                         caption={caption}
                     />
-                )}
+                ))}
         </div>
     )
 }
@@ -78,10 +78,7 @@ function GalleryImage({ url, caption, credit }) {
     return (
         <Media>
             <Image url={url} copyright={credit} />
-            {caption &&
-                <Caption>
-                    {caption}
-                </Caption>}
+            {caption && <Caption>{caption}</Caption>}
         </Media>
     )
 }
@@ -92,15 +89,11 @@ Tree.propTypes = {
 }
 
 export function Tree({ menu, currentPage }) {
-    if (menu === null) {
-        return <Loading />
-    }
-
     return (
         <ul>
-            {menu.map(item =>
+            {menu.map(item => (
                 <MenuItem key={item.slug} currentPage={currentPage} {...item} />
-            )}
+            ))}
         </ul>
     )
 }
@@ -125,9 +118,7 @@ Home.propTypes = {
 export function Home({ title, body }) {
     return (
         <div>
-            <h1>
-                {title}
-            </h1>
+            <h1>{title}</h1>
             <StructuredText value={body} />
         </div>
     )
@@ -154,9 +145,7 @@ export function Tutorial({
 }) {
     return (
         <div>
-            <h1>
-                {title}
-            </h1>
+            <h1>{title}</h1>
             {text1 && <StructuredText value={text1} />}
             {videoSource && <Video src={videoSource} />}
             {text2 && <StructuredText value={text2} />}

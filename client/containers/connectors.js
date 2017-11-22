@@ -322,20 +322,6 @@ export const generic = compose(
     mapProps(({ type, uid, params, load, ...props }) => props)
 )
 
-export const tutorial = compose(
-    setPropTypes({
-        splat: PropTypes.string.isRequired,
-    }),
-    withProps(props => ({
-        params: {
-            predicates: [
-                Predicates.field('tutorial-page', 'slug', props.splat),
-            ],
-        },
-    })),
-    prismic(makeGetDocumentAndStatus)
-)
-
 export const post = compose(
     withProps(props => ({
         params: {
