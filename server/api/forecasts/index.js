@@ -197,7 +197,7 @@ router.get('/:region/nowcast.svg', function(req, res) {
         var cacheKey = 'nowcast-image::' + req.region.id;
         fragmentCache
             .wrap(cacheKey, function() {
-                logge.debug('BUILDING Nowcast image...', cacheKey);
+                logger.debug('BUILDING Nowcast image...', cacheKey);
                 return Q.nfcall(
                     res.render.bind(res),
                     'forecasts/nowcast',
