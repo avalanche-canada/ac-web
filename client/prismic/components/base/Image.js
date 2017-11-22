@@ -1,14 +1,13 @@
 import React, { Children, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
+import classnames from 'classnames/bind'
 import { Credit } from 'components/markup'
 import Dimensions from 'components/Dimensions'
-import styles from './Image.css'
 import WebLink from './WebLink'
+import styles from './Image.css'
 
 const MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT = 200
 
-@CSSModules(styles)
 export default class Image extends PureComponent {
     static propTypes = {
         url: PropTypes.string.isRequired,
@@ -24,6 +23,11 @@ export default class Image extends PureComponent {
     state = {
         isLoading: true,
         width: '100%',
+    }
+    constructor(props) {
+        super(props)
+
+        this.classNames = classnames.bind(styles)
     }
     handleLoad = () => {
         this.setState({
@@ -58,10 +62,18 @@ export default class Image extends PureComponent {
     figureRef = figure => {
         this.figure = figure
     }
+    renderCredit = ({ width }) => {
+        const compact = width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
+
+        return <Credit compact={compact}>{this.props.copyright}</Credit>
+    }
     render() {
         const { url, alt, copyright, linkTo, label } = this.props
         const { width, height, isLoading } = this.state
-        const styleName = isLoading ? 'Figure--Loading' : 'Figure'
+        const classNames = this.classNames(label, {
+            Figure: !isLoading,
+            'Figure--Loading': isLoading,
+        })
         const image = (
             <img
                 ref={this.imageRef}
@@ -69,15 +81,12 @@ export default class Image extends PureComponent {
                 height={height}
                 src={url}
                 alt={alt}
-                styleName="Image"
+                className={styles.Image}
             />
         )
 
         return (
-            <figure
-                ref={this.figureRef}
-                className={label}
-                styleName={styleName}>
+            <figure ref={this.figureRef} className={classNames}>
                 {typeof linkTo === 'object' ? (
                     <WebLink {...linkTo}>{image}</WebLink>
                 ) : (
@@ -85,22 +94,7 @@ export default class Image extends PureComponent {
                 )}
                 {copyright && (
                     <footer>
-                        <Dimensions>
-                            {({ width }) => {
-                                if (copyright) {
-                                    const compact =
-                                        width <
-                                        MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
-
-                                    return (
-                                        <Credit compact={compact}>
-                                            {copyright}
-                                        </Credit>
-                                    )
-                                }
-                                return null
-                            }}
-                        </Dimensions>
+                        <Dimensions>{this.renderCredit}</Dimensions>
                     </footer>
                 )}
             </figure>
@@ -117,7 +111,7 @@ export function OpenInNewTab({ children }) {
     const { url, alt } = child.props
 
     return (
-        <a href={url} title={alt} target="_blank">
+        <a href={url} title={alt} target={alt}>
             {child}
         </a>
     )
