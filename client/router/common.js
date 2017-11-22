@@ -136,8 +136,9 @@ export function SponsorRoute({ path, name, label }) {
 function fallbackPage({ match }) {
     const { type, uid } = match.params
     const Container = type === STATIC_PAGE ? StaticPage : Generic
+    const Component = type === STATIC_PAGE ? Pages.StaticPage : Pages.Generic
 
-    return <Container uid={uid} />
+    return <Container uid={uid}>{props => <Component {...props} />}</Container>
 }
 
 FallbackPageRoute.propTypes = {
