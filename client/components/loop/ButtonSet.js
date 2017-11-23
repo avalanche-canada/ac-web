@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { defaultProps } from 'recompose'
-import BaseButton, { PRIMARY } from 'components/button'
+import Button from 'components/button'
 import noop from 'lodash/noop'
 import {
     FirstPage,
@@ -12,10 +11,6 @@ import {
     ChevronLeft,
 } from 'components/icons'
 import styles from './Loop.css'
-
-const Button = defaultProps({
-    kind: PRIMARY,
-})(BaseButton)
 
 AnimateButton.propTypes = {
     isPlaying: PropTypes.bool,
