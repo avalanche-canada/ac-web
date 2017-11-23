@@ -11,16 +11,14 @@ export default class Dimensions extends Component {
         height: null,
     }
     setRef = ref => (this.ref = ref)
-    update = throttle(() => {
-        const { offsetWidth, offsetHeight } = this.ref
-
+    set = () =>
         this.setState({
-            width: offsetWidth,
-            height: offsetHeight,
-        })
-    }, 250)
+            width: this.ref.offsetWidth,
+            height: this.ref.offsetHeight,
+        });
+    update = throttle(this.set, 250)
     componentDidMount() {
-        this.update()
+        this.set()
         window.addEventListener('resize', this.update, false)
         window.addEventListener('orientationchange', this.update, false)
     }
