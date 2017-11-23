@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, branch, renderComponent } from 'recompose'
 import { Link } from 'react-router-dom'
-import { neverUpdate } from 'compose'
 import { DateElement } from 'components/time'
 import { TagSet, Tag } from 'components/tag'
 import { StructuredText, Image } from 'prismic/components/base'
@@ -105,7 +103,17 @@ function CondensedEntry({
     )
 }
 
-export default compose(
-    neverUpdate,
-    branch(props => props.condensed, renderComponent(CondensedEntry))
-)(Entry)
+export default class EntryComponent extends Component {
+    static propTypes = {
+        condensed: PropTypes.bool,
+    }
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        const { condensed, ...props } = this.props
+        const Component = condensed ? CondensedEntry : Entry
+
+        return <Component {...props} />
+    }
+}
