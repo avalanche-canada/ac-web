@@ -4,10 +4,6 @@ import { Credit } from 'components/markup'
 import Dimensions from 'components/Dimensions'
 import styles from './Page.css'
 
-const STYLE = {
-    height: '100%',
-}
-
 Banner.propTypes = {
     url: PropTypes.string.isRequired,
     copyright: PropTypes.string,
@@ -22,7 +18,7 @@ export default function Banner({ url, copyright, children }) {
     return (
         <div className={styles.Banner} style={style}>
             {copyright && (
-                <Dimensions style={STYLE}>
+                <Dimensions>
                     {({ width }) => (
                         <Credit compact={width < 400}>{copyright}</Credit>
                     )}
