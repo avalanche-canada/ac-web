@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Panel, { INVERSE } from 'components/panel'
 import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
@@ -16,7 +15,7 @@ HotZoneReport.propTypes = {
     next: PropTypes.object,
 }
 
-function HotZoneReport({ report, previous, next }) {
+export default function HotZoneReport({ report, previous, next }) {
     const { title, headline, images } = report || {}
     let gallery = null
     const panel = {
@@ -36,16 +35,10 @@ function HotZoneReport({ report, previous, next }) {
         }
     }
     return (
-        <div styleName="HotZoneReport">
+        <div className={styles.HotZoneReport}>
             <ArchiveWarning report={report} next={next} previous={previous} />
-            {title &&
-                <div styleName="Title">
-                    {title}
-                </div>}
-            {headline &&
-                <div styleName="Headline">
-                    {headline}
-                </div>}
+            {title && <div className={styles.Title}>{title}</div>}
+            {headline && <div className={styles.Headline}>{headline}</div>}
             {gallery && <ImageGallery {...gallery} />}
             <CriticalFactors report={report} />
             <TerrainAndTravelAdvice report={report} />
@@ -59,5 +52,3 @@ function HotZoneReport({ report, previous, next }) {
         </div>
     )
 }
-
-export default CSSModules(HotZoneReport, styles)

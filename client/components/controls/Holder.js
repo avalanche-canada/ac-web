@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Controls.css'
 
 Holder.propTypes = {
@@ -8,14 +7,14 @@ Holder.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
-function Holder({ value, placeholder }) {
+export default function Holder({ value, placeholder }) {
+    const className = value ? 'Valueholder' : 'Placeholder'
+
     return (
-        <div styleName={value ? 'Valueholder' : 'Placeholder'}>
-            <div styleName="Holder--Content">
+        <div className={styles[className]}>
+            <div className={styles['Holder--Content']}>
                 {value || placeholder}
             </div>
         </div>
     )
 }
-
-export default CSSModules(Holder, styles)

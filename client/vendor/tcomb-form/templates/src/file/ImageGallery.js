@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Base from 'components/gallery'
 import { Loading, Error } from 'components/text'
 import { pluralize } from 'utils/string'
@@ -32,7 +31,6 @@ const STATE = {
     hasError: false,
 }
 
-@CSSModules(styles)
 export default class ImageGallery extends Component {
     static propTypes = {
         files: PropTypes.arrayOf(PropTypes.instanceOf(File)).isRequired,
@@ -70,11 +68,7 @@ export default class ImageGallery extends Component {
         const photo = pluralize('photo', length, true)
 
         if (!images) {
-            return (
-                <Loading>
-                    Loading {photo}...
-                </Loading>
-            )
+            return <Loading>Loading {photo}...</Loading>
         }
 
         const items = images.map(({ url }, index) => ({
@@ -89,7 +83,7 @@ export default class ImageGallery extends Component {
         }))
 
         return (
-            <div styleName="ImageGallery">
+            <div className={styles.ImageGallery}>
                 <Base
                     items={items}
                     showPlayButton={items.length > 1}

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Panel, { INVERSE } from 'components/panel'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import Section from 'components/mountainInformationNetwork/Section'
@@ -22,7 +21,7 @@ TerrainAdviceSet.propTypes = {
     report: PropTypes.object.isRequired,
 }
 
-function TerrainAdviceSet({ report }) {
+export default function TerrainAdviceSet({ report }) {
     if (!report) {
         return null
     }
@@ -46,22 +45,22 @@ function TerrainAdviceSet({ report }) {
                 // the travel advice has a comment.
                 comments.push(report[`${key}Comment`])
 
-                return items.length > 0
-                    ? <div key={key} styleName="Advice--Section">
-                          <Section title={Headers.get(key)}>
-                              <ul styleName="AdviceSet">
-                                  {items.map((item, index) => (
-                                      <li key={index} styleName="Advice">
-                                          {item}
-                                      </li>
-                                  ))}
-                              </ul>
-                          </Section>
-                      </div>
-                    : null
+                return items.length > 0 ? (
+                    <div key={key} className={styles['Advice--Section']}>
+                        <Section title={Headers.get(key)}>
+                            <ul className={styles.AdviceSet}>
+                                {items.map((item, index) => (
+                                    <li key={index} className={styles.Advice}>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </Section>
+                    </div>
+                ) : null
             })}
-            {comments.filter(Boolean).length > 0 &&
-                <div styleName="Advice--Comment">
+            {comments.filter(Boolean).length > 0 && (
+                <div className={styles['Advice--Comment']}>
                     <Comment>
                         {comments
                             .filter(Boolean)
@@ -69,9 +68,8 @@ function TerrainAdviceSet({ report }) {
                                 <StructuredText key={index} value={comment} />
                             ))}
                     </Comment>
-                </div>}
+                </div>
+            )}
         </Panel>
     )
 }
-
-export default CSSModules(TerrainAdviceSet, styles)

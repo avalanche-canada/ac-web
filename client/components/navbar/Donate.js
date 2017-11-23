@@ -1,14 +1,16 @@
-import { compose, defaultProps } from 'recompose'
-import { neverUpdate } from 'compose'
-import CSSModules from 'react-css-modules'
+import React, { Component } from 'react'
 import Link from './Link'
 import styles from './Navbar.css'
 
-export default compose(
-    neverUpdate,
-    defaultProps({
-        styleName: 'Donate',
-        children: 'Donate',
-    }),
-    CSSModules(styles)
-)(Link)
+export default class Donate extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        return (
+            <Link {...this.props} className={styles.Donate}>
+                Donate
+            </Link>
+        )
+    }
+}

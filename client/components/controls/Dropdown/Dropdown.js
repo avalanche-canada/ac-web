@@ -1,6 +1,5 @@
 import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import keycode from 'keycode'
 import Holder from '../Holder'
 import { OptionSet, Option } from 'components/controls/options'
@@ -9,7 +8,6 @@ import noop from 'lodash/noop'
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
-@CSSModules(styles)
 export default class Dropdown extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
@@ -172,12 +170,12 @@ export default class Dropdown extends PureComponent {
         const { children } = this.props
         const { value } = this.state
         const { placeholder } = this.props
-        const styleName = isOpen ? 'Input--Open' : 'Input'
+        const className = isOpen ? 'Input--Open' : 'Input'
 
         return (
-            <div styleName="Container" onClick={this.handleClick}>
+            <div className={styles.Container} onClick={this.handleClick}>
                 <div
-                    styleName={styleName}
+                    className={styles[className]}
                     tabIndex={0}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}>

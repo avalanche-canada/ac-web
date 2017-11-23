@@ -1,38 +1,30 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, onlyUpdateForKeys } from 'recompose'
-import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
 import { handleOutboundSponsorClick } from 'services/analytics'
 
-Sponsor.propTypes = {
-    name: PropTypes.string.isRequired,
-    logo: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    label: PropTypes.string,
+export default class Sponsor extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        logo: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        label: PropTypes.string,
+    }
+    render() {
+        const { name, logo, url, label = 'Brought to you by' } = this.props
+        return (
+            <a
+                href={url}
+                target={name}
+                title={name}
+                onClick={handleOutboundSponsorClick}>
+                <dl className={styles.Container}>
+                    {label && <dt className={styles.Label}>{label}</dt>}
+                    <dd className={styles.Logo}>
+                        <img src={logo} title={name} />
+                    </dd>
+                </dl>
+            </a>
+        )
+    }
 }
-
-function Sponsor({ name, logo, url, label = 'Brought to you by' }) {
-    return (
-        <a
-            href={url}
-            target="_blank"
-            title={name}
-            onClick={handleOutboundSponsorClick}>
-            <dl styleName="Container">
-                {label &&
-                    <dt styleName="Label">
-                        {label}
-                    </dt>}
-                <dd styleName="Logo">
-                    <img src={logo} title={name} />
-                </dd>
-            </dl>
-        </a>
-    )
-}
-
-export default compose(
-    onlyUpdateForKeys(['name', 'src', 'url']),
-    CSSModules(styles)
-)(Sponsor)

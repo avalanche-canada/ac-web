@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModule from 'react-css-modules'
 import styles from './Credit.css'
 
 Credit.propTypes = {
@@ -8,14 +7,12 @@ Credit.propTypes = {
     compact: PropTypes.bool,
 }
 
-function Credit({ children, compact = false }) {
+export default function Credit({ children, compact = false }) {
+    const className = compact ? 'Credit--Compact' : 'Credit'
+
     return (
-        <span
-            data-label="Credit"
-            styleName={compact ? 'Credit--Compact' : 'Credit'}>
+        <span data-label="Credit" className={styles[className]}>
             {children}
         </span>
     )
 }
-
-export default CSSModule(Credit, styles)

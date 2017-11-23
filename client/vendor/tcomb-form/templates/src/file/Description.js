@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Button from 'components/button'
 import styles from './File.css'
 
@@ -10,9 +9,9 @@ Description.propTypes = {
     onRemoveClick: PropTypes.func.isRequired,
 }
 
-function Description({ index, total, onRemoveClick }) {
+export default function Description({ index, total, onRemoveClick }) {
     return (
-        <div styleName="Description">
+        <div className={styles.Description}>
             {index + 1} / {total}
             <Button type="button" onClick={onRemoveClick}>
                 Remove
@@ -20,5 +19,3 @@ function Description({ index, total, onRemoveClick }) {
         </div>
     )
 }
-
-export default CSSModules(Description, styles)

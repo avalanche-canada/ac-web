@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Ribbon.css'
 
 Ribbon.propTypes = {
@@ -8,17 +7,15 @@ Ribbon.propTypes = {
     caption: PropTypes.string,
 }
 
-function Ribbon({ children, caption = 'From the reel' }) {
+export default function Ribbon({ children, caption = 'From the reel' }) {
     return (
-        <header styleName="Container">
-            <div styleName="Caption" title={caption}>
+        <header className={styles.Container}>
+            <div className={styles.Caption} title={caption}>
                 {caption}
             </div>
-            <div styleName="Title" title={children}>
+            <div className={styles.Title} title={children}>
                 {children}
             </div>
         </header>
     )
 }
-
-export default CSSModules(Ribbon, styles)

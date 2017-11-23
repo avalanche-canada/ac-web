@@ -54,29 +54,33 @@ export default class ItemSet extends PureComponent {
             this.close()
         }
     }
+    get children() {
+        return Children.toArray(this.props.children).filter(Boolean)
+    }
+    renderItem = (item, index) => {
+        if (Children.count(item.props.children) === 0) {
+            return item
+        }
+
+        const isActive = this.activeIndex === index
+        const props = {
+            isActive,
+            onClick: event => {
+                event.preventDefault()
+                this.handleClick(index)
+            },
+        }
+        const children = cloneElement(item.props.children, {
+            isOpened: isActive,
+        })
+
+        return cloneElement(item, props, children)
+    }
     render() {
         return (
             <div className={styles['ItemSet--Container']}>
                 <ul className={styles.ItemSet}>
-                    {Children.map(this.props.children, (item, index) => {
-                        if (Children.count(item.props.children) === 0) {
-                            return item
-                        }
-
-                        const isActive = this.activeIndex === index
-                        const props = {
-                            isActive,
-                            onClick: event => {
-                                event.preventDefault()
-                                this.handleClick(index)
-                            },
-                        }
-                        const children = cloneElement(item.props.children, {
-                            isOpened: isActive,
-                        })
-
-                        return cloneElement(item, props, children)
-                    })}
+                    {this.children.map(this.renderItem)}
                 </ul>
                 {this.opened && <Backdrop onClick={this.close} />}
             </div>

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Media.css'
 
 Media.propTypes = {
@@ -8,13 +7,11 @@ Media.propTypes = {
     children: PropTypes.node,
 }
 
-function Media({ caption, children }) {
+export default function Media({ caption, children }) {
     return (
-        <figure styleName="Container">
+        <figure className={styles.Container}>
             {children}
             {caption}
         </figure>
     )
 }
-
-export default CSSModules(Media, styles)

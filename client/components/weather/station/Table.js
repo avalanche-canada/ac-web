@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import { List } from 'immutable'
 import format from 'date-fns/format'
 import { DATE, setUTCOffset } from 'utils/date'
@@ -40,14 +39,19 @@ function renderRow({ property, name, ...props }, index) {
     )
 }
 
-function StationTable({ columns, measurements, headers, caption }) {
+export default function StationTable({
+    columns,
+    measurements,
+    headers,
+    caption,
+}) {
     const bodies = measurements.groupBy(({ measurementDateTime, utcOffset }) =>
         format(setUTCOffset(measurementDateTime, utcOffset), DATE)
     )
 
     return (
-        <div styleName="Container">
-            <div styleName="Content">
+        <div className={styles.Container}>
+            <div className={styles.Content}>
                 <Table condensed>
                     <Header>
                         {headers.map((headers, index) => (
@@ -80,5 +84,3 @@ function StationTable({ columns, measurements, headers, caption }) {
         </div>
     )
 }
-
-export default CSSModules(StationTable, styles)

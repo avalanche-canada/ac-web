@@ -1,6 +1,5 @@
 import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './OptionSet.css'
 
 OptionSet.propTypes = {
@@ -10,7 +9,7 @@ OptionSet.propTypes = {
     selected: PropTypes.instanceOf(Set),
 }
 
-function OptionSet({
+export default function OptionSet({
     show = false,
     selected = new Set(),
     onOptionClick,
@@ -21,7 +20,7 @@ function OptionSet({
     }
 
     return (
-        <div styleName="OptionSet">
+        <div className={styles.OptionSet}>
             {Children.map(children, option =>
                 cloneElement(option, {
                     active: selected.has(option.props.value),
@@ -31,5 +30,3 @@ function OptionSet({
         </div>
     )
 }
-
-export default CSSModules(OptionSet, styles)

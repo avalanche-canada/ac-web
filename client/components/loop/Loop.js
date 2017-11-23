@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
 import { Image, Delay } from 'components/misc'
 import { Fullscreen } from 'components/icons'
@@ -13,7 +12,6 @@ const FullscreenIcons = new Map([
     [false, <Fullscreen inverse />],
 ])
 
-@CSSModule(styles)
 export default class Loop extends Component {
     static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string),
@@ -252,10 +250,11 @@ export default class Loop extends Component {
                 <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
                     <div className={styles.Title}>
-                        {this.isLoading &&
+                        {this.isLoading && (
                             <Delay elapse={interval + 50}>
                                 <span>Loading</span>
-                            </Delay>}
+                            </Delay>
+                        )}
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
                     <Button

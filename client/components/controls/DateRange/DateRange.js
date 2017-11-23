@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import { Input } from 'components/controls'
 import { Calendar, Close } from 'components/icons'
 import { DayPicker } from 'components/pickers'
@@ -12,7 +11,6 @@ import format from 'date-fns/format'
 import styles from './DateRange.css'
 import noop from 'lodash/noop'
 
-@CSSModules(styles)
 export default class DateRange extends Component {
     static propTypes = {
         from: PropTypes.instanceOf(Date),
@@ -26,7 +24,7 @@ export default class DateRange extends Component {
         placeholder: 'Date Range',
     }
     state = {
-        showCalendar: false,
+        visible: false,
         from: null,
         to: null,
     }
@@ -38,41 +36,39 @@ export default class DateRange extends Component {
             to: props.to,
         })
     }
-    set showCalendar(showCalendar) {
-        this.setState({ showCalendar })
+    set visible(visible) {
+        this.setState({ visible })
     }
-    get showCalendar() {
-        return this.state.showCalendar
+    get visible() {
+        return this.state.visible
     }
     toggleCalendar = () => {
-        this.showCalendar = !this.showCalendar
+        this.visible = !this.visible
     }
     hideCalendar = () => {
-        this.showCalendar = false
+        this.visible = false
     }
-    handleDayClick = day => {
+    handleDayClick = (day, modifiers, event) => {
+        event.stopPropagation()
+
         const range = addDayToRange(day, this.state)
 
-        this.onChange(range)
+        this.setRange(range)
     }
     handleClearClick = event => {
         event.stopPropagation()
-        this.onChange({
+
+        this.setRange({
             from: null,
             to: null,
         })
     }
-    onChange(range) {
+    setRange(range) {
         this.setState(range, () => {
             this.props.onChange(range)
         })
     }
-    componentWillReceiveProps({ from = null, to = null }) {
-        this.setState({
-            from,
-            to,
-        })
-    }
+    setTarget = target => (this.target = target)
     render() {
         const { hideCalendar } = this
         const { placeholder, container = this } = this.props
@@ -84,30 +80,31 @@ export default class DateRange extends Component {
 
         return (
             <div
-                ref="target"
-                styleName="Container"
+                ref={this.setTarget}
+                className={styles.Container}
                 onClick={this.toggleCalendar}>
                 <Calendar />
                 <Input
-                    styleName="Input"
+                    className={styles.Input}
                     placeholder={placeholder}
                     value={range}
                 />
-                {showClear &&
+                {showClear && (
                     <Button
-                        styleName="Clear"
+                        className={styles.Clear}
                         icon={<Close />}
                         onClick={this.handleClearClick}
                         kind={INCOGNITO}
-                    />}
+                    />
+                )}
                 <Overlay
-                    show={this.showCalendar}
+                    show={this.visible}
                     onHide={hideCalendar}
                     onEscapeKeyUp={hideCalendar}
                     placement="bottom"
                     rootClose
                     shouldUpdatePosition
-                    target={this.refs.target}
+                    target={this.target}
                     container={container}>
                     <Callout>
                         <DayPicker

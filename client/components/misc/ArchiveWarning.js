@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Alert, { WARNING } from 'components/alert'
 import styles from './ArchiveWarning.css'
 
@@ -17,26 +16,24 @@ ArchiveWarning.propTypes = {
     children: PropTypes.number.isRequired,
 }
 
-function ArchiveWarning({ nowcast, previous, next, children }) {
+export default function ArchiveWarning({ nowcast, previous, next, children }) {
     const links = []
 
     if (previous) {
-        links.push(<Link key="previous" {...previous} styleName="Previous" />)
+        links.push(
+            <Link key="previous" {...previous} className={styles.Previous} />
+        )
     }
 
     if (next) {
-        links.push(<Link key="next" {...next} styleName="Next" />)
+        links.push(<Link key="next" {...next} className={styles.Next} />)
     }
 
     return (
         <Alert type={WARNING}>
             {children}
-            <Link styleName="Today" {...nowcast} />
-            <div styleName="Links">
-                {links}
-            </div>
+            <Link className={styles.Today} {...nowcast} />
+            <div className={styles.Links}>{links}</div>
         </Alert>
     )
 }
-
-export default CSSModules(ArchiveWarning, styles)

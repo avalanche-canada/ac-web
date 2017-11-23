@@ -1,31 +1,31 @@
-import React, { Children, cloneElement } from 'react'
+import React, { Children, cloneElement, Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withProps, withState, setDisplayName } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { onlyUpdateForKey } from 'compose'
 import styles from './Table.css'
 
-BaseTBody.propTypes = {
-    children: PropTypes.node.isRequired,
-    featured: PropTypes.bool,
-    title: PropTypes.string,
+export default class TBody extends Component {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        featured: PropTypes.bool,
+        title: PropTypes.string,
+    }
+    get className() {
+        const className = this.props.featured ? 'TBody--Featured' : 'TBody'
+
+        return styles[className]
+    }
+    shouldComponentUpdate({ children }) {
+        return children !== this.props.children
+    }
+    render() {
+        const { title, children } = this.props
+
+        return (
+            <tbody data-title={title} className={this.className}>
+                {children}
+            </tbody>
+        )
+    }
 }
-
-function BaseTBody({ featured = false, title, children }) {
-    return (
-        <tbody
-            data-title={title}
-            styleName={featured ? 'TBody--Featured' : 'TBody'}>
-            {children}
-        </tbody>
-    )
-}
-
-const TBody = compose(onlyUpdateForKey('children'), CSSModules(styles))(
-    BaseTBody
-)
-
-export default TBody
 
 function isExpandable(row) {
     return typeof row.props.expanded === 'boolean'
@@ -67,16 +67,30 @@ function rowMapper(values, setValues, row, index, rows) {
     return row
 }
 
-export const Controlled = compose(
-    setDisplayName('ControlledTBody'),
-    onlyUpdateForKey('children'),
-    withState('expandedValues', 'setExpandedValues', new Map()),
-    withProps(({ children, expandedValues, setExpandedValues }) => {
-        const rows = Children.toArray(children)
-        const mapper = rowMapper.bind(null, expandedValues, setExpandedValues)
+export class ControlledTBody extends Component {
+    state = {
+        expandedValues: new Map(),
+    }
+    setExpandedValues = expandedValues => this.setState({ expandedValues })
+    shouldComponentUpdate({ children }, { expandedValues }) {
+        return (
+            children !== this.props.children ||
+            expandedValues !== this.state.expandedValues
+        )
+    }
+    get children() {
+        const rows = Children.toArray(this.props.children)
+        const mapper = rowMapper.bind(
+            null,
+            this.state.expandedValues,
+            this.setExpandedValues
+        )
 
-        return {
-            children: rows.map(mapper),
-        }
-    })
-)(TBody)
+        return rows.map(mapper)
+    }
+    render() {
+        const { children, ...rest } = this.props
+
+        return <TBody {...rest}>{this.children}</TBody>
+    }
+}

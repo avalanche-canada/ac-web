@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import t from 'vendor/tcomb-form'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
 import { MountainInformationNetworkSubmission } from 'api/schemas'
 import { Page, Header, Main, Content } from 'components/page'
 import OPTIONS from './options'
-import { postMountainInformationNetworkSubmission } from 'actions/entities'
+import { postMountainInformationNetworkSubmission as post } from 'actions/entities'
 import Submission from './types'
 import AuthService from 'services/auth'
 import { Submit } from 'components/button'
@@ -24,10 +23,7 @@ function isObservationError(error) {
 }
 
 @withRouter
-@connect(null, {
-    post: postMountainInformationNetworkSubmission,
-})
-@CSSModules(styles)
+@connect(null, { post })
 export default class SubmissionForm extends Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
@@ -179,7 +175,7 @@ export default class SubmissionForm extends Component {
                         <form
                             onSubmit={this.handleSubmit}
                             noValidate
-                            styleName="Container">
+                            className={styles.Container}>
                             <Form
                                 ref="submission"
                                 value={value}

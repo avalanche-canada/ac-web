@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './MountainConditionsReport.css'
 
 Submitter.propTypes = {
@@ -10,9 +9,9 @@ Submitter.propTypes = {
     groups: PropTypes.array,
 }
 
-function Submitter({ name, image, groups}) {
+export default function Submitter({ name, image, groups }) {
     return (
-        <div styleName="Submitter">
+        <div className={styles.Submitter}>
             <img src={image} alt="ACMG Logo" />
             <div>
                 <span>{name}</span>
@@ -21,5 +20,3 @@ function Submitter({ name, image, groups}) {
         </div>
     )
 }
-
-export default CSSModules(Submitter, styles)

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Subject from '../Subject'
 import styles from './Layer.css'
 
@@ -9,13 +8,11 @@ LayerSet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function LayerSet({ title, children }) {
+export default function LayerSet({ title, children }) {
     return (
-        <div styleName="LayerSet">
+        <div className={styles.LayerSet}>
             <Subject>{title}</Subject>
             {children}
         </div>
     )
 }
-
-export default CSSModules(LayerSet, styles)

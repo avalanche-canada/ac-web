@@ -1,11 +1,15 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Element } from 'compose'
 import styles from './Metadata.css'
 
-export default Element({
-    name: 'Metadata',
-    styles,
-    propTypes: {
-        children: PropTypes.node.isRequired,
-    },
-})
+Metadata.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+export default function Metadata({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Metadata}>
+            {children}
+        </div>
+    )
+}

@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Table {
     width: 100%;
@@ -30,7 +30,6 @@
 
 .TBody--Featured {
     composes: TBody;
-
 
     & .Cell {
         background-color: var(--gray-lightest);

@@ -13,10 +13,7 @@ import {
     ValidUntil,
     Forecaster,
 } from 'components/forecast/Metadata'
-import {
-    DropdownFromOptions as Dropdown,
-    DayPicker,
-} from 'components/controls'
+import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { archiveForecast } from 'containers/connectors'
 import parseDate from 'date-fns/parse'
 import formatDate from 'date-fns/format'
@@ -27,6 +24,7 @@ import Url from 'url'
 const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
 const VANCOUVER_ISLAND = 'vancouver-island'
+
 const disabledDays = {
     after: endOfYesterday(),
 }
@@ -37,10 +35,14 @@ function getWarningText(region) {
 
     switch (owner) {
         case PARKS_CANADA:
-            return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
+            return `Archived forecast bulletins for ${
+                name
+            } region are available on the Parks Canada - Public Avalanche Information website`
         case CHIC_CHOCS:
         case VANCOUVER_ISLAND:
-            return `You can get more information for ${name} region on their website`
+            return `You can get more information for ${
+                name
+            } region on their website`
         default:
             throw new Error(`Owner ${owner} not supported yet.`)
     }
@@ -73,6 +75,8 @@ function getWarningUrl(region, date) {
     }
 }
 
+// TODO: Convert into a class with getters
+
 Warning.propTypes = {
     region: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
@@ -80,10 +84,8 @@ Warning.propTypes = {
 
 function Warning({ region, date }) {
     return (
-        <Link to={getWarningUrl(region, date)} target="_blank">
-            <Alert type={WARNING}>
-                {getWarningText(region)}
-            </Alert>
+        <Link to={getWarningUrl(region, date)} target={region.get('id')}>
+            <Alert type={WARNING}>{getWarningText(region)}</Alert>
         </Link>
     )
 }
@@ -128,9 +130,11 @@ function Component({
                                 date={date}
                                 onChange={onDateChange}
                                 disabledDays={disabledDays}>
-                                {date
-                                    ? <DateElement value={date} />
-                                    : 'Select a date'}
+                                {date ? (
+                                    <DateElement value={date} />
+                                ) : (
+                                    'Select a date'
+                                )}
                             </DayPicker>
                         </Entry>
                         {forecast && <DateIssued {...forecast} />}
@@ -138,13 +142,13 @@ function Component({
                         {forecast && <Forecaster {...forecast} />}
                     </Metadata>
                     {isLoading && <Muted>Loading archived forecast...</Muted>}
-                    {isError &&
+                    {isError && (
                         <Error>
                             Error happened while loading archived forecast.
-                        </Error>}
+                        </Error>
+                    )}
                     {isLoaded &&
-                        !forecast &&
-                        <Warning region={region} date={date} />}
+                        !forecast && <Warning region={region} date={date} />}
                     {forecast && <Forecast {...forecast} />}
                 </Main>
             </Content>

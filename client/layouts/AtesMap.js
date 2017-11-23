@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withHandlers } from 'recompose'
-import CSSModules from 'react-css-modules'
 import { Map, NavigationControl } from 'components/map'
 import Url from 'url'
 import Alert, { WARNING } from 'components/alert'
@@ -58,38 +56,36 @@ function updateLayer(map) {
     map.addLayer(layer)
 }
 
-AtesMap.propTypes = {
-    onLoad: PropTypes.func.isRequired,
-}
+export default class AtesMap extends PureComponent {
+    static propTypes = {
+        onLoad: PropTypes.func.isRequired,
+    }
+    handleLoad = event => {
+        const map = event.target
+        const update = updateLayer.bind(null, map)
 
-function AtesMap({ onLoad }) {
-    return (
-        <div styleName="Container">
-            <div styleName="Disclaimer">
-                <Alert type={WARNING}>
-                    <Generic uid="ates-map-disclaimer" />
-                </Alert>
+        map.on('zoomend', update)
+        map.on('resize', update)
+        map.on('moveend', update)
+
+        map.addLayer(createLayer(map))
+    }
+    render() {
+        return (
+            <div className={styles.Container}>
+                <div className={styles.Disclaimer}>
+                    <Alert type={WARNING}>
+                        <Generic uid="ates-map-disclaimer" />
+                    </Alert>
+                </div>
+                <Map
+                    zoom={ZOOM}
+                    center={CENTER}
+                    style="default"
+                    onLoad={this.handleLoad}>
+                    <NavigationControl />
+                </Map>
             </div>
-            <Map zoom={ZOOM} center={CENTER} style="default" onLoad={onLoad}>
-                <NavigationControl />
-            </Map>
-        </div>
-    )
+        )
+    }
 }
-
-export default compose(
-    withHandlers({
-        onLoad: () => event => {
-            const map = event.target
-
-            const update = updateLayer.bind(null, map)
-
-            map.on('zoomend', update)
-            map.on('resize', update)
-            map.on('moveend', update)
-
-            map.addLayer(createLayer(map))
-        },
-    }),
-    CSSModules(styles)
-)(AtesMap)

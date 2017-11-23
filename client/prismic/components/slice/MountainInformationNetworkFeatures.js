@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetworkFeatures.css'
 import { classify } from 'utils/string'
 
@@ -11,9 +10,9 @@ MountainInformationNetworkFeatures.propTypes = {
     value: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function MountainInformationNetworkFeatures({ value }) {
+export default function MountainInformationNetworkFeatures({ value }) {
     return (
-        <table styleName="Table">
+        <table className={styles.Table}>
             <thead>
                 <tr>
                     <td rowSpan="2" />
@@ -35,7 +34,9 @@ function MountainInformationNetworkFeatures({ value }) {
                             const value = values[key]
 
                             return (
-                                <td key={key} styleName={classify(value)}>
+                                <td
+                                    key={key}
+                                    className={styles[classify(value)]}>
                                     {Texts.get(value) || value}
                                 </td>
                             )
@@ -46,5 +47,3 @@ function MountainInformationNetworkFeatures({ value }) {
         </table>
     )
 }
-
-export default CSSModules(MountainInformationNetworkFeatures, styles)

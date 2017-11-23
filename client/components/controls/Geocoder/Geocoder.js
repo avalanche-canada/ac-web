@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { CancelToken } from 'axios'
-import CSSModules from 'react-css-modules'
 import noop from 'lodash/noop'
 import { Input } from 'components/controls'
 import { Place, Close, Spinner } from 'components/icons'
@@ -10,7 +9,6 @@ import { OptionSet, Option } from 'components/controls/options'
 import Button, { INCOGNITO } from 'components/button'
 import styles from './Geocoder.css'
 
-@CSSModules(styles)
 export default class Geocoder extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
@@ -124,32 +122,31 @@ export default class Geocoder extends PureComponent {
         const showClear = !isFetching && value
 
         return (
-            <div styleName="Container">
+            <div className={styles.Container}>
                 <Place />
                 <Input
                     type="text"
                     placeholder={placeholder}
-                    styleName="Input"
+                    className={styles.Input}
                     value={value}
                     onChange={this.handleChange}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                 />
-                {showClear &&
+                {showClear && (
                     <Button
-                        styleName="Clear"
+                        className={styles.Clear}
                         icon={<Close />}
                         onClick={this.handleClearClick}
                         kind={INCOGNITO}
-                    />}
-                {isFetching && <Spinner styleName="Spinner" />}
+                    />
+                )}
+                {isFetching && <Spinner className={styles.Spinner} />}
                 <OptionSet
                     show={isActive}
                     onOptionClick={this.handleOptionClick}>
                     {places.map(place => (
-                        <Option value={place}>
-                            {place.place_name}
-                        </Option>
+                        <Option value={place}>{place.place_name}</Option>
                     ))}
                 </OptionSet>
             </div>

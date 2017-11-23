@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import { Media, Caption, Player } from 'components/media'
 import { Ribbon } from 'components/misc'
-import styles from './Video.css'
 import { StructuredText } from 'prismic/components/base'
+import styles from './Video.css'
 
 Video.propTypes = {
     caption: PropTypes.string,
@@ -16,16 +15,16 @@ Video.propTypes = {
 function Video({ caption, credit, ribbonCaption, ribbonTitle, ...player }) {
     return (
         <div>
-            {ribbonTitle &&
-                <Ribbon caption={ribbonCaption}>
-                    {ribbonTitle}
-                </Ribbon>}
+            {ribbonTitle && (
+                <Ribbon caption={ribbonCaption}>{ribbonTitle}</Ribbon>
+            )}
             <Media>
                 <Player {...player} />
-                {caption &&
+                {caption && (
                     <Caption>
                         <StructuredText value={caption} />
-                    </Caption>}
+                    </Caption>
+                )}
             </Media>
         </div>
     )
@@ -36,12 +35,10 @@ VideoSet.propTypes = {
     value: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-function VideoSet({ value }) {
+export default function VideoSet({ value }) {
     return (
-        <div styleName="VideoSet">
+        <div className={styles.VideoSet}>
             {value.map((props, index) => <Video key={index} {...props} />)}
         </div>
     )
 }
-
-export default CSSModules(VideoSet, styles)

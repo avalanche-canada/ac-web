@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import List from 'components/mountainInformationNetwork/List'
 import { Term, Definition } from 'components/description'
@@ -54,30 +53,32 @@ const STYLES = new Map([
 
 const truthPropType = PropTypes.oneOf([true, false, null])
 function createDescriptions(values) {
-    return Object.keys(values).sort().reduce((children, key) => {
-        const value = VALUES.get(values[key])
-        const style = STYLES.get(value)
+    return Object.keys(values)
+        .sort()
+        .reduce((children, key) => {
+            const value = VALUES.get(values[key])
+            const style = STYLES.get(value)
 
-        children.push(
-            <Term
-                key={`term-${key}`}
-                styleName="CriticalFactors--Term"
-                style={style}>
-                {TERMS.get(key)}
-            </Term>
-        )
+            children.push(
+                <Term
+                    key={`term-${key}`}
+                    className={styles['CriticalFactors--Term']}
+                    style={style}>
+                    {TERMS.get(key)}
+                </Term>
+            )
 
-        children.push(
-            <Definition
-                key={`definition-${key}`}
-                styleName="CriticalFactors--Definition"
-                style={style}>
-                {value}
-            </Definition>
-        )
+            children.push(
+                <Definition
+                    key={`definition-${key}`}
+                    className={styles['CriticalFactors--Definition']}
+                    style={style}>
+                    {value}
+                </Definition>
+            )
 
-        return children
-    }, [])
+            return children
+        }, [])
 }
 
 CriticalFactors.propTypes = {
@@ -94,7 +95,7 @@ CriticalFactors.propTypes = {
     }),
 }
 
-function CriticalFactors({ report }) {
+export default function CriticalFactors({ report }) {
     if (!report || !report.criticalFactors) {
         return null
     }
@@ -109,12 +110,11 @@ function CriticalFactors({ report }) {
             theme={INVERSE}>
             <p>
                 <strong>
-                    Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches.
+                    Critical factors influence avalanche hazard. The more
+                    critical factors, the greater the potential for avalanches.
                 </strong>
             </p>
-            <List>
-                {createDescriptions(values)}
-            </List>
+            <List>{createDescriptions(values)}</List>
             <Comment title="Information to collect while traveling">
                 <StructuredText value={questions} />
             </Comment>
@@ -124,5 +124,3 @@ function CriticalFactors({ report }) {
         </Panel>
     )
 }
-
-export default CSSModules(CriticalFactors, styles)

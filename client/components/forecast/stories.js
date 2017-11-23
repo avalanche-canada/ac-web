@@ -1,6 +1,5 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import CSSModules from 'react-css-modules'
 import styles from './Forecast.css'
 import { Table, Day, Condition } from './danger'
 import addDays from 'date-fns/add_days'
@@ -15,7 +14,7 @@ import * as Modes from 'constants/forecast/mode'
 
 function Forecast({ children }) {
     return (
-        <section styleName="Forecast">
+        <section className={styles.Forecast}>
             {children}
         </section>
     )
@@ -28,7 +27,6 @@ const ICONS = {
     expectedSize: 'http://www.avalanche.ca/assets/images/size/Size-0-15_EN.png',
 }
 
-Forecast = CSSModules(Forecast, styles)
 
 storiesOf('Forecast', module)
     .add('Weather table', () => (

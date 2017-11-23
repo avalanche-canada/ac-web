@@ -1,7 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Navbar.css'
 
-export default Element({
-    name: 'Section',
-    styles,
-})
+export default function Section({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Section}>
+            {children}
+        </div>
+    )
+}

@@ -1,8 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Flipper.css'
 
-export default Element({
-    name: 'Flipper',
-    styleName: 'Container',
-    styles,
-})
+export default function Flipper({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Container}>
+            {children}
+        </div>
+    )
+}

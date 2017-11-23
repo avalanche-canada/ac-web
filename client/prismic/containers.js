@@ -11,6 +11,7 @@ import {
     getDocumentsFromParams,
     getResult,
 } from 'getters/prismic'
+import Status from 'utils/status'
 import { GENERIC, STATIC_PAGE, APPLICATION_FEATURE } from 'constants/prismic'
 import { parse } from 'prismic'
 import * as Predicates from 'vendor/prismic/predicates'
@@ -43,7 +44,7 @@ const DocumentContainer = connect(
         data(state, { params }) {
             return {
                 document: getDocumentFromParams(state, params),
-                status: getResult(state, params),
+                status: Status.createFromResultSet(getResult(state, params)),
             }
         },
     }),
@@ -55,7 +56,7 @@ const DocumentsContainer = connect(
         data(state, { params }) {
             return {
                 documents: getDocumentsFromParams(state, params),
-                status: getResult(state, params),
+                status: Status.createFromResultSet(getResult(state, params)),
             }
         },
     }),

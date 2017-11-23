@@ -7,9 +7,8 @@ import {
     setPropTypes,
     defaultProps,
 } from 'recompose'
-import CSSModules from 'react-css-modules'
-import styles from './TimePicker.css'
 import noop from 'lodash/noop'
+import styles from './TimePicker.css'
 
 function padMinute(minute) {
     minute = Number(minute)
@@ -43,8 +42,8 @@ function TimePicker({
     autoFocus,
 }) {
     return (
-        <div styleName="Container">
-            <label title="Hour" styleName="Hour">
+        <div className={styles.Container}>
+            <label title="Hour" className={styles.Hour}>
                 <input
                     value={hour}
                     name="time-picker-hour"
@@ -56,9 +55,9 @@ function TimePicker({
                     onFocus={onFocus}
                     autoFocus={autoFocus}
                 />
-                <span styleName="Label">Hour</span>
+                <span className={styles.Label}>Hour</span>
             </label>
-            <label title="Minute" styleName="Minute">
+            <label title="Minute" className={styles.Minute}>
                 <input
                     value={minute}
                     name="time-picker-minute"
@@ -70,7 +69,7 @@ function TimePicker({
                     step={step}
                     onFocus={onFocus}
                 />
-                <span styleName="Label">Minute</span>
+                <span className={styles.Label}>Minute</span>
             </label>
         </div>
     )
@@ -128,6 +127,5 @@ export default compose(
                 })
             )
         },
-    }),
-    CSSModules(styles)
+    })
 )(TimePicker)

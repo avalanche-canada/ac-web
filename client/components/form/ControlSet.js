@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Form.css'
 
 ControlSet.propTypes = {
@@ -8,12 +7,8 @@ ControlSet.propTypes = {
     horizontal: PropTypes.bool,
 }
 
-function ControlSet({ horizontal = false, children }) {
-    return (
-        <div styleName={horizontal ? 'ControlSet--Horizontal' : 'ControlSet'}>
-            {children}
-        </div>
-    )
-}
+export default function ControlSet({ horizontal = false, children }) {
+    const className = horizontal ? 'ControlSet--Horizontal' : 'ControlSet'
 
-export default CSSModules(ControlSet, styles)
+    return <div className={styles[className]}>{children}</div>
+}

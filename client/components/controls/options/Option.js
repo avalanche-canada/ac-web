@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './OptionSet.css'
 import noop from 'lodash/noop'
 
@@ -11,17 +10,23 @@ Option.propTypes = {
     onClick: PropTypes.func,
 }
 
-function Option({ value, onClick = noop, active = false, children }) {
-    const styleName = active ? 'Option--Active' : 'Option'
+export default function Option({
+    value,
+    onClick = noop,
+    active = false,
+    children,
+}) {
+    const className = active ? 'Option--Active' : 'Option'
     function handleClick() {
         onClick(value)
     }
 
     return (
-        <div title={children} styleName={styleName} onMouseDown={handleClick}>
+        <div
+            title={children}
+            className={styles[className]}
+            onMouseDown={handleClick}>
             {children}
         </div>
     )
 }
-
-export default CSSModules(Option, styles)

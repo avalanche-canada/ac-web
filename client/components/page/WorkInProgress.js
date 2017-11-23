@@ -1,67 +1,70 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import { Link } from 'react-router-dom'
+import { ButtonSet } from 'components/button'
+import { InnerHTML } from 'components/misc'
+import { Credit } from 'components/markup'
 import Page from './Page'
 import Content from './Content'
 import Main from './Main'
-import { ButtonSet } from 'components/button'
 import styles from './Page.css'
-import { InnerHTML } from 'components/misc'
-import { Credit } from 'components/markup'
 
-WorkInProgress.propTypes = {
-    name: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
-    oldUrl: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
-    title: PropTypes.string,
-    subtitle: PropTypes.string,
-}
-
-WorkInProgress.defaultProps = {
-    title: 'We are currently working on this page...',
-    subtitle: 'For now, you can visit this page on our old website.',
-}
-
-function WorkInProgress({
-    name,
-    oldUrl,
-    title = WorkInProgress.defaultProps.title,
-    subtitle = WorkInProgress.defaultProps.subtitle,
-}) {
-    if (typeof title === 'function') {
-        title = title(WorkInProgress.defaultProps.title)
+export default class WorkInProgress extends PureComponent {
+    static propTypes = {
+        name: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
+        oldUrl: PropTypes.oneOf([PropTypes.string, PropTypes.func]).isRequired,
+        title: PropTypes.string,
+        subtitle: PropTypes.string,
     }
-
-    if (typeof subtitle === 'function') {
-        subtitle = subtitle(WorkInProgress.defaultProps.subtitle)
+    static defaultProps = {
+        title: 'We are currently working on this page...',
+        subtitle: 'For now, you can visit this page on our old website.',
     }
+    get title() {
+        const { title } = this.props
 
-    return (
-        <Page styleName="WorkInProgress">
-            <Content>
-                <Main>
-                    <h1>
-                        <InnerHTML>
-                            {title}
-                        </InnerHTML>
-                    </h1>
-                    <div>
-                        <h2>
-                            <InnerHTML>
-                                {subtitle}
-                            </InnerHTML>
-                        </h2>
-                        <ButtonSet>
-                            <Link to={oldUrl} target="_blank" styleName="Link">
-                                {name}
-                            </Link>
-                        </ButtonSet>
-                    </div>
-                    <Credit>RavenEye Photography</Credit>
-                </Main>
-            </Content>
-        </Page>
-    )
+        if (typeof title === 'function') {
+            return title(WorkInProgress.defaultProps.title)
+        }
+
+        return title
+    }
+    get subtitle() {
+        const { subtitle } = this.props
+
+        if (typeof subtitle === 'function') {
+            return subtitle(WorkInProgress.defaultProps.subtitle)
+        }
+
+        return subtitle
+    }
+    render() {
+        const { name, oldUrl } = this.props
+
+        return (
+            <Page className={styles.WorkInProgress}>
+                <Content>
+                    <Main>
+                        <h1>
+                            <InnerHTML>{this.title}</InnerHTML>
+                        </h1>
+                        <div>
+                            <h2>
+                                <InnerHTML>{this.subtitle}</InnerHTML>
+                            </h2>
+                            <ButtonSet>
+                                <Link
+                                    to={oldUrl}
+                                    target="_blank"
+                                    className={styles.Link}>
+                                    {name}
+                                </Link>
+                            </ButtonSet>
+                        </div>
+                        <Credit>RavenEye Photography</Credit>
+                    </Main>
+                </Content>
+            </Page>
+        )
+    }
 }
-
-export default CSSModules(WorkInProgress, styles)

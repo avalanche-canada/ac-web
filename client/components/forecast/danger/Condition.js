@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import {
     SPRING,
@@ -32,22 +31,18 @@ Condition.propTypes = {
     mode: PropTypes.oneOf(Array.from(HANDLED)).isRequired,
 }
 
-function Condition({ mode }) {
+export default function Condition({ mode }) {
     if (!HANDLED.has(mode)) {
         return null
     }
 
     return (
-        <div styleName="Condition">
-            <h2 styleName="ConditionHeader">
-                {Texts.get(mode)}
-            </h2>
-            <img styleName="ConditionIcon" src={ICONS.get(mode)} />
-            <div styleName="ConditionContent">
+        <div className={styles.Condition}>
+            <h2 className={styles.ConditionHeader}>{Texts.get(mode)}</h2>
+            <img className={styles.ConditionIcon} src={ICONS.get(mode)} />
+            <div className={styles.ConditionContent}>
                 <Generic uid={UIDS.get(mode)} />
             </div>
         </div>
     )
 }
-
-export default CSSModules(Condition, styles)

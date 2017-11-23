@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Sponsor.css'
 import { handleOutboundSponsorClick } from 'services/analytics'
 
@@ -10,17 +9,15 @@ Item.propTypes = {
     title: PropTypes.string.isRequired,
 }
 
-function Item({ src, url, title = url }) {
+export default function Item({ src, url, title = url }) {
     return (
         <a
-            styleName="Item"
+            className={styles.Item}
             href={url}
             target="_blank"
             title={title}
             onClick={handleOutboundSponsorClick}>
-            <img styleName="Logo" src={src} alt={title} />
+            <img className={styles.Logo} src={src} alt={title} />
         </a>
     )
 }
-
-export default CSSModules(Item, styles)

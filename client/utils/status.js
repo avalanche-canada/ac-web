@@ -41,13 +41,13 @@ Object.assign(Status.prototype, {
 })
 
 Object.assign(Status, {
-    createFromResultSet({ isFetching, ...rest }, messages = {}) {
-        const status = new Status({
-            ...rest,
+    createFromResultSet({ isFetching, isLoaded, isError }, messages = {}) {
+        return new Status({
             isLoading: isFetching,
+            isLoaded,
+            isError,
+            messages,
         })
-
-        return status.set('messages', messages)
     },
 })
 
