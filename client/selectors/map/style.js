@@ -329,7 +329,6 @@ const getActiveHotZoneFilters = createSelector(getHotZoneReports, reports => {
     const ids = reports.map(report => report.region).toArray()
 
     return new Map([
-        ['hot-zones', Immutable.List.of('!in', 'id', ...ids)],
         ['opened-hot-zones', Immutable.List.of('in', 'id', ...ids)],
     ])
 })
