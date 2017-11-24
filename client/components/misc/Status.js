@@ -24,18 +24,15 @@ export default class Status extends PureComponent {
             isLoaded: PropTypes.string,
         }),
     }
-    static defaultProps: {
-        messages: MESSAGES,
-    }
     render() {
-        const { isLoading, isError, isLoaded, messages } = this.props
+        const { isLoading, isError, isLoaded, messages = {} } = this.props
         const [key] = trulyKeys({ isLoading, isError, isLoaded })
 
         if (!key || !COMPONENTS.has(key)) {
             return null
         }
 
-        const message = messages[key] || MESSAGES.get(key)
+        const message = key in messages ? messages[key] : MESSAGES.get(key)
 
         return createElement(COMPONENTS.get(key), null, message)
     }
