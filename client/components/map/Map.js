@@ -121,7 +121,7 @@ export default class MapComponent extends Component {
         maxBounds: Canadian,
     }
     static childContextTypes = {
-        map: PropTypes.object,
+        map: PropTypes.object.isRequired,
     }
     static supported() {
         return mapbox.supported()
