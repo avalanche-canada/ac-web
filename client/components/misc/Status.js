@@ -1,44 +1,42 @@
-import { createElement } from 'react'
+import { createElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { onlyUpdateForKeys } from 'recompose'
 import { Loading, Error, Muted } from 'components/text'
 import { trulyKeys } from 'utils/object'
 
-const Components = new Map([
+const COMPONENTS = new Map([
     ['isLoading', Loading],
     ['isError', Error],
     ['isLoaded', Muted],
 ])
+const MESSAGES = new Map([
+    ['isLoading', 'Loading...'],
+    ['isError', 'An error happened...'],
+])
 
-Status.propTypes = {
-    isLoading: PropTypes.bool,
-    isLoaded: PropTypes.bool,
-    isError: PropTypes.bool,
-    messages: PropTypes.shape({
-        isLoading: PropTypes.string,
-        isError: PropTypes.string,
-        isLoaded: PropTypes.string,
-    }),
+export default class Status extends PureComponent {
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        isLoaded: PropTypes.bool,
+        isError: PropTypes.bool,
+        messages: PropTypes.shape({
+            isLoading: PropTypes.string,
+            isError: PropTypes.string,
+            isLoaded: PropTypes.string,
+        }),
+    }
+    static defaultProps: {
+        messages: MESSAGES,
+    }
+    render() {
+        const { isLoading, isError, isLoaded, messages } = this.props
+        const [key] = trulyKeys({ isLoading, isError, isLoaded })
+
+        if (!key || !COMPONENTS.has(key)) {
+            return null
+        }
+
+        const message = messages[key] || MESSAGES.get(key)
+
+        return createElement(COMPONENTS.get(key), null, message)
+    }
 }
-
-function Status({ isLoading, isError, isLoaded, messages = {} }) {
-    const [key] = trulyKeys({ isLoading, isError, isLoaded })
-
-    if (!key) {
-        return null
-    }
-
-    messages = {
-        isLoading: 'Loading...',
-        isError: 'An error happened...',
-        ...messages,
-    }
-
-    if (messages[key]) {
-        return createElement(Components.get(key), null, messages[key])
-    }
-
-    return null
-}
-
-export default onlyUpdateForKeys(['isLoading', 'isError', 'isLoaded'])(Status)

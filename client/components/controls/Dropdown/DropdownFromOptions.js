@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { pure } from 'recompose'
 import Dropdown from './Dropdown'
 import { Option } from '../options'
 
@@ -16,7 +15,7 @@ DropdownFromOptions.propTypes = {
     multiple: PropTypes.bool,
 }
 
-function DropdownFromOptions({ options = new Map(), ...props }) {
+export default function DropdownFromOptions({ options = new Map(), ...props }) {
     return (
         <Dropdown {...props}>
             {[...options].map(([value, text], index) => (
@@ -27,5 +26,3 @@ function DropdownFromOptions({ options = new Map(), ...props }) {
         </Dropdown>
     )
 }
-
-export default pure(DropdownFromOptions)

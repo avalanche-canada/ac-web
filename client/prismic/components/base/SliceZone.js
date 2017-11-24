@@ -7,8 +7,7 @@ import Gallery from '../slice/Gallery'
 import MailChimp from '../slice/MailChimp'
 import FeedSplash from '../slice/FeedSplash'
 import Figure from '../slice/Figure'
-import MountainInformationNetworkFeatures
-    from '../slice/MountainInformationNetworkFeatures'
+import MountainInformationNetworkFeatures from '../slice/MountainInformationNetworkFeatures'
 import MultiColumnLayout from '../slice/MultiColumnLayout'
 import QuestionAnswer from '../slice/QuestionAnswer'
 import Quote from '../slice/Quote'
@@ -18,8 +17,12 @@ import StaffSet from '../slice/StaffSet'
 import StaticSplash from '../slice/StaticSplash'
 import Table from '../slice/Table'
 import Video from '../slice/Video'
-import SidebarHeader from '../slice/SidebarHeader'
 import SidebarItemSet from '../slice/SidebarItemSet'
+import { Header } from 'components/sidebar'
+
+function SidebarHeader({ value }) {
+    return <Header>{value}</Header>
+}
 
 const Components = new Map([
     ['section', Section],
