@@ -7,6 +7,8 @@ export StaticMap, { ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
 export Popup from './Popup'
 export Control from './Control'
+export Source from './Source'
+export Layer from './Layer'
 
 export function NavigationControl() {
     return <Control factory={navigation} />
