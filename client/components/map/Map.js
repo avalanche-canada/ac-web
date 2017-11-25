@@ -51,6 +51,7 @@ const EVENTS = new Map([
     ['onDragend', 'dragend'],
     ['onPitch', 'pitch'],
     ['onResize', 'resize'],
+    ['onSourcedata', 'sourcedata'],
 ])
 
 export default class MapComponent extends Component {
@@ -115,25 +116,24 @@ export default class MapComponent extends Component {
         onDrag: PropTypes.func,
         onDragend: PropTypes.func,
         onPitch: PropTypes.func,
+        onSourcedata: PropTypes.func,
     }
     static defaultProps = {
         style: null,
         maxBounds: Canadian,
     }
     static childContextTypes = {
-        map: PropTypes.object.isRequired,
+        map: PropTypes.object,
     }
     static supported() {
         return mapbox.supported()
     }
     state = {
         map: null,
+        ready: false,
     }
     get map() {
         return this.state.map
-    }
-    set map(map) {
-        this.setState({ map })
     }
     setContainer = container => (this.container = container)
     getChildContext() {
@@ -155,7 +155,13 @@ export default class MapComponent extends Component {
             }
         })
 
-        this.map = map
+        map.once('styledata', () => {
+            this.setState({
+                ready: true,
+            })
+        })
+
+        this.setState({ map })
     }
     componentWillUnmount() {
         if (this.map) {
@@ -190,13 +196,16 @@ export default class MapComponent extends Component {
     set style(style) {
         this.map.setStyle(toJSON(style))
     }
-    shouldComponentUpdate({ children }, { map }) {
-        return children !== this.props.children || map !== this.map
+    shouldComponentUpdate({ children }, { ready }) {
+        return children !== this.props.children || ready !== this.state.ready
+    }
+    get safe() {
+        return this.state.ready && this.state.map
     }
     render() {
         return (
             <div ref={this.setContainer} style={this.props.containerStyle}>
-                {this.map && this.props.children}
+                {this.safe && this.props.children}
             </div>
         )
     }
