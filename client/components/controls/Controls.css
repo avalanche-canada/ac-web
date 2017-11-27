@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Common {
     width: 100%;
@@ -38,13 +38,7 @@
 .CloseState {
     composes: WithIcon;
 
-    background-image: url("../icons/expand-more.svg");
-}
-
-.Select {
-    composes: Native;
-    composes: Common;
-    composes: CloseState;
+    background-image: url('../icons/expand-more.svg');
 }
 
 .Holder {

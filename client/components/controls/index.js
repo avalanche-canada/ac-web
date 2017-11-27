@@ -1,6 +1,5 @@
 export Input from './Input'
 export * from './Dropdown'
-export Select from './Select'
 export Geocoder from './Geocoder'
 export DateRange from './DateRange'
 export DayPicker from './DayPicker'
