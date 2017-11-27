@@ -1,12 +1,11 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import CSSModules from 'react-css-modules'
+import { Link } from 'react-router-dom'
 import Error from './Error'
 import Main from './Main'
 import { ButtonSet } from 'components/button'
 import styles from './Page.css'
 
-function NotFound() {
+export default function NotFound() {
     return (
         <Error>
             <Main>
@@ -14,19 +13,19 @@ function NotFound() {
                 <div>
                     <h2>The page you are looking for has not been found.</h2>
                     <ButtonSet>
-                        <Link to="/" styleName="Link">
+                        <Link to="/" className={styles.Link}>
                             Forecasts
                         </Link>
-                        <Link to="/training" styleName="Link">
+                        <Link to="/training" className={styles.Link}>
                             Training
                         </Link>
-                        <Link to="/news" styleName="Link">
+                        <Link to="/news" className={styles.Link}>
                             Latest news
                         </Link>
-                        <Link to="/events" styleName="Link">
+                        <Link to="/events" className={styles.Link}>
                             Upcoming events
                         </Link>
-                        <Link to="/blogs" styleName="Link">
+                        <Link to="/blogs" className={styles.Link}>
                             Our blog
                         </Link>
                     </ButtonSet>
@@ -35,5 +34,3 @@ function NotFound() {
         </Error>
     )
 }
-
-export default CSSModules(NotFound, styles)

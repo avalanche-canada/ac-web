@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Container {
     display: flex;
@@ -8,9 +8,7 @@
     position: relative;
 }
 
-
 .Navigation {
-
 }
 
 .Description {
@@ -57,15 +55,9 @@
     & .Hint {
         text-align: right;
     }
-
 }
 
-.Left--hidden {
-    composes: Left;
-    visibility: hidden;
-}
-.Right--hidden {
-    composes: Right;
+.Hidden {
     visibility: hidden;
 }
 

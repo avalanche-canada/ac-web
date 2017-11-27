@@ -1,8 +1,6 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Button.css'
 
-export default Element({
-    name: 'ButtonSet',
-    styleName: 'Set',
-    styles,
-})
+export default function ButtonSet({ children }) {
+    return <div className={styles.Set}>{children}</div>
+}

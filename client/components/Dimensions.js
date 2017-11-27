@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import throttle from 'lodash/throttle'
 
-export default class Dimensions extends PureComponent {
+export default class Dimensions extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
@@ -9,16 +10,15 @@ export default class Dimensions extends PureComponent {
         width: null,
         height: null,
     }
-    update = () => {
-        const { offsetWidth, offsetHeight } = this.refs.dimensions
-
+    setRef = ref => (this.ref = ref)
+    set = () =>
         this.setState({
-            width: offsetWidth,
-            height: offsetHeight,
-        })
-    }
+            width: this.ref.offsetWidth,
+            height: this.ref.offsetHeight,
+        });
+    update = throttle(this.set, 250)
     componentDidMount() {
-        this.update()
+        this.set()
         window.addEventListener('resize', this.update, false)
         window.addEventListener('orientationchange', this.update, false)
     }
@@ -30,7 +30,7 @@ export default class Dimensions extends PureComponent {
         const { children, ...props } = this.props
 
         return (
-            <div {...props} ref="dimensions">
+            <div {...props} ref={this.setRef}>
                 {children(this.state)}
             </div>
         )

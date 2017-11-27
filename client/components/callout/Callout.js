@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Callout.css'
 
 // FIXME: values should be uppercase, but it does not work > look at DayPicker in MWF after!
@@ -9,11 +8,11 @@ export const BOTTOM = 'bottom'
 export const LEFT = 'left'
 export const RIGHT = 'right'
 
-const styleNames = new Map([
-    [TOP, 'Top'],
-    [BOTTOM, 'Bottom'],
-    [LEFT, 'Left'],
-    [RIGHT, 'Right'],
+const classNames = new Map([
+    [TOP, styles.Top],
+    [BOTTOM, styles.Bottom],
+    [LEFT, styles.Left],
+    [RIGHT, styles.Right],
 ])
 
 Callout.propTypes = {
@@ -22,14 +21,10 @@ Callout.propTypes = {
     style: PropTypes.object,
 }
 
-function Callout({ children, placement = BOTTOM, style }) {
+export default function Callout({ children, placement = BOTTOM, style }) {
     return (
-        <div styleName={styleNames.get(placement)} style={style}>
-            <div styleName="Inner">
-                {children}
-            </div>
+        <div className={classNames.get(placement)} style={style}>
+            <div className={styles.Inner}>{children}</div>
         </div>
     )
 }
-
-export default CSSModules(Callout, styles)

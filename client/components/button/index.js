@@ -1,4 +1,4 @@
-import { defaultProps } from 'recompose'
+import React from 'react'
 import Button from './Button'
 
 export default from './Button'
@@ -12,5 +12,9 @@ export * from './kinds'
 
 export ButtonSet from './ButtonSet'
 
-export const Reset = defaultProps({ type: 'reset' })(Button)
-export const Submit = defaultProps({ type: 'submit' })(Button)
+export function Reset(props) {
+    return <Button {...props} type="reset" />
+}
+export function Submit(props) {
+    return <Button {...props} type="submit" />
+}

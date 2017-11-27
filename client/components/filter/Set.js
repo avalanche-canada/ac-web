@@ -1,7 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Filter.css'
 
-export default Element({
-    name: 'Set',
-    styles,
-})
+export default function Set({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Set}>
+            {children}
+        </div>
+    )
+}

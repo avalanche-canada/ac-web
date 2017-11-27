@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Sidebar.css'
 
 SocialItem.propTypes = {
@@ -8,16 +7,11 @@ SocialItem.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function SocialItem({ label, children }) {
+export default function SocialItem({ label, children }) {
     return (
-        <div styleName="SocialItem">
-            {label &&
-                <span styleName="Label">
-                    {label}
-                </span>}
+        <div className={styles.SocialItem}>
+            {label && <span className={styles.Label}>{label}</span>}
             {children}
         </div>
     )
 }
-
-export default CSSModules(SocialItem, styles)

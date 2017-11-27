@@ -1,29 +1,33 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, withHandlers } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { Map, NavigationControl } from 'components/map'
+import React, { PureComponent } from 'react'
+import throttle from 'lodash/throttle'
 import Url from 'url'
+import { Map, NavigationControl, Source, Layer } from 'components/map'
 import Alert, { WARNING } from 'components/alert'
 import { Generic } from 'prismic/components'
+import { Status } from 'components/misc'
 import styles from './AtesMap.css'
 
-const ZOOM = 5.1
 const CENTER = [-122, 53]
 
-function createLayer(map) {
-    const { offsetWidth, offsetHeight } = map.getContainer()
-    const bounds = map.getBounds()
-    const west = bounds.getWest()
-    const south = bounds.getSouth()
-    const east = bounds.getEast()
-    const north = bounds.getNorth()
+export default class AtesMap extends PureComponent {
+    state = {
+        coordinates: null,
+        url: null,
+    }
+    constructor(props) {
+        super(props)
 
-    return {
-        id: 'ATES',
-        type: 'raster',
-        source: {
-            type: 'image',
+        this.layer = <Layer id="ates" type="raster" />
+    }
+    updateSource = throttle(({ target }) => {
+        const { offsetWidth, offsetHeight } = target.getContainer()
+        const bounds = target.getBounds()
+        const west = bounds.getWest()
+        const south = bounds.getSouth()
+        const east = bounds.getEast()
+        const north = bounds.getNorth()
+
+        this.setState({
             url: Url.format({
                 protocol: 'http',
                 host: 'delivery.maps.gov.bc.ca',
@@ -32,7 +36,7 @@ function createLayer(map) {
                     bbox: `${west},${south},${east},${north}`,
                     bboxSR: 4326,
                     layers: 'show:1,2,3,4',
-                    size: [offsetWidth, offsetHeight].join(','),
+                    size: `${offsetWidth},${offsetHeight}`,
                     imageSR: 900913,
                     format: 'png32',
                     transparent: true,
@@ -46,50 +50,41 @@ function createLayer(map) {
                 [east, south],
                 [west, south],
             ],
-        },
+        })
+    }, 500)
+    get source() {
+        const { coordinates, url } = this.state
+
+        if (!coordinates || !url) {
+            return null
+        }
+
+        return (
+            <Source id="ates" type="image" coordinates={coordinates} url={url}>
+                {this.layer}
+            </Source>
+        )
+    }
+    render() {
+        return (
+            <div className={styles.Container}>
+                <div className={styles.Disclaimer}>
+                    <Alert type={WARNING}>
+                        <Generic uid="ates-map-disclaimer" />
+                    </Alert>
+                </div>
+                <Map
+                    zoom={5}
+                    center={CENTER}
+                    style="default"
+                    onLoad={this.updateSource}
+                    onResize={this.updateSource}
+                    onZoomend={this.updateSource}
+                    onMoveend={this.updateSource}>
+                    <NavigationControl />
+                    {this.source}
+                </Map>
+            </div>
+        )
     }
 }
-
-function updateLayer(map) {
-    const layer = createLayer(map)
-
-    map.removeSource(layer.id)
-    map.removeLayer(layer.id)
-    map.addLayer(layer)
-}
-
-AtesMap.propTypes = {
-    onLoad: PropTypes.func.isRequired,
-}
-
-function AtesMap({ onLoad }) {
-    return (
-        <div styleName="Container">
-            <div styleName="Disclaimer">
-                <Alert type={WARNING}>
-                    <Generic uid="ates-map-disclaimer" />
-                </Alert>
-            </div>
-            <Map zoom={ZOOM} center={CENTER} style="default" onLoad={onLoad}>
-                <NavigationControl />
-            </Map>
-        </div>
-    )
-}
-
-export default compose(
-    withHandlers({
-        onLoad: () => event => {
-            const map = event.target
-
-            const update = updateLayer.bind(null, map)
-
-            map.on('zoomend', update)
-            map.on('resize', update)
-            map.on('moveend', update)
-
-            map.addLayer(createLayer(map))
-        },
-    }),
-    CSSModules(styles)
-)(AtesMap)

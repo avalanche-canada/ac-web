@@ -171,7 +171,7 @@ export default {
                         {
                             id: String(id++),
                             label: 'Rescue at Cherry Bowl',
-                            to: '/cherry-bowl',
+                            to: 'http://avalanche.ca/cherry-bowl',
                         },
                         {
                             id: String(id++),
@@ -432,14 +432,7 @@ export default {
         {
             id: String(id++),
             label: 'Store',
-            children: [
-                {
-                    id: String(id++),
-                    to: '/auction',
-                    label: 'Web Auction',
-                    headline: 'Visit our Web auction.',
-                },
-            ],
+            to: 'https://store.avalanche.ca',
         },
     ],
 }

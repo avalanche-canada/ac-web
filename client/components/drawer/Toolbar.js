@@ -1,26 +1,36 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import CSSModules from 'react-css-modules'
 import { Link } from 'react-router-dom'
 import styles from './Drawer.css'
-import { neverUpdate } from 'compose'
 
-Toolbar.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    home: PropTypes.shape({
-        to: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-    }).isRequired,
+export default class Toolbar extends Component {
+    static propTypes = {
+        onClose: PropTypes.func.isRequired,
+        home: PropTypes.shape({
+            to: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        }).isRequired,
+    }
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        const { onClose, home = { to: '/' } } = this.props
+
+        return (
+            <section className={styles.Toolbar}>
+                <Link
+                    to={home.to}
+                    className={styles.Home}
+                    title="Go to home page"
+                />
+                <a
+                    href="#"
+                    onClick={onClose}
+                    className={styles.Close}
+                    title="Close"
+                />
+            </section>
+        )
+    }
 }
-
-function Toolbar({ onClose, home = { to: '/' } }) {
-    return (
-        <section styleName="Toolbar">
-            <Link to={home.to} styleName="Home" title="Go to home page" />
-            <a href="#" onClick={onClose} styleName="Close" title="Close" />
-        </section>
-    )
-}
-
-export default compose(neverUpdate, CSSModules(styles))(Toolbar)

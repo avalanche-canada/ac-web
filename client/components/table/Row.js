@@ -1,75 +1,81 @@
-import React, { Children, cloneElement } from 'react'
+import React, { Children, cloneElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, onlyUpdateForKeys } from 'recompose'
-import CSSModules from 'react-css-modules'
+import classnames from 'classnames/bind'
 import styles from './Table.css'
 import { Expand } from 'components/button'
 import noop from 'lodash/noop'
 
+const TR = <tr />
 const TR_WITH_BUTTON_PROPS = {
     style: {
         paddingRight: 36,
     },
 }
 
-Row.propTypes = {
-    children: PropTypes.node.isRequired,
-    hide: PropTypes.bool,
-    controlled: PropTypes.bool,
-    expanded: PropTypes.bool,
-    onExpandedToggle: PropTypes.func,
-    onClick: PropTypes.func,
-}
-
-const TR = <tr />
-
-function Row({
-    children,
-    expanded = null,
-    onExpandedToggle = noop,
-    hide = false,
-    controlled = false,
-    onClick,
-}) {
-    if (hide) {
-        return TR
+export default class Row extends PureComponent {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        hide: PropTypes.bool,
+        controlled: PropTypes.bool,
+        expanded: PropTypes.bool,
+        onExpandedToggle: PropTypes.func,
+        onClick: PropTypes.func,
     }
-
-    const lastIndex = Children.count(children) - 1
-    const expandable = expanded !== null
-    let styleName = controlled ? 'Row--Controlled' : 'Row'
-
-    if (typeof onClick === 'function') {
-        styleName += ' Row--Clickable'
+    static defaultProps = {
+        expanded: null,
+        onExpandedToggle: noop,
+        hide: false,
+        controlled: false,
     }
+    constructor(props) {
+        super(props)
 
-    return (
-        <tr styleName={styleName} onClick={onClick}>
-            {expandable
-                ? Children.map(children, (child, index) => {
-                    if (index !== lastIndex) {
-                        return child
-                    }
+        this.classNames = classnames.bind(styles)
+    }
+    get className() {
+        const { controlled, onClick } = this.props
 
-                    const button = (
-                        <Expand
-                            key={index}
-                            expanded={expanded}
-                            onClick={onExpandedToggle}
-                        />
-                    )
+        return this.classNames({
+            Row: !controlled,
+            'Row--Controlled': controlled,
+            'Row--Clickable': typeof onClick === 'function',
+        })
+    }
+    get expandable() {
+        const { children, expanded, onExpandedToggle } = this.props
+        const lastIndex = Children.count(children) - 1
 
-                    return cloneElement(child, TR_WITH_BUTTON_PROPS, [
-                        child.props.children,
-                        button,
-                    ])
-                })
-                : children}
-        </tr>
-    )
+        return Children.map(children, (child, index) => {
+            if (index !== lastIndex) {
+                return child
+            }
+
+            const button = (
+                <Expand
+                    key={index}
+                    expanded={expanded}
+                    onClick={onExpandedToggle}
+                />
+            )
+
+            return cloneElement(child, TR_WITH_BUTTON_PROPS, [
+                child.props.children,
+                button,
+            ])
+        })
+    }
+    render() {
+        if (this.props.hide) {
+            return TR
+        }
+
+        const { children, expanded, onClick } = this.props
+        const expandable = expanded !== null
+
+        return (
+            <tr className={this.className} onClick={onClick}>
+                {expandable ? this.expandable : children}
+            </tr>
+        )
+    }
 }
-
-export default compose(
-    onlyUpdateForKeys(['children', 'hide', 'expanded']),
-    CSSModules(styles, { allowMultiple: true })
-)(Row)

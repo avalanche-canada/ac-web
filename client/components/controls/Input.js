@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
+import classnames from 'classnames/bind'
 import styles from './Controls.css'
 
-Input.propTypes = {
-    withIcon: PropTypes.bool,
-}
+export default class Input extends PureComponent {
+    static propTypes = {
+        // TODO: Remove this stupid property
+        withIcon: PropTypes.bool,
+        className: PropTypes.string,
+    }
+    constructor(props) {
+        super(props)
 
-function Input({ withIcon = false, ...props }) {
-    return (
-        <input {...props} styleName={withIcon ? 'Input--WithIcon' : 'Input'} />
-    )
-}
+        this.classnames = classnames.bind(styles)
+    }
+    render() {
+        const { withIcon, ...props } = this.props
+        const className = this.classnames(this.props.className, {
+            Input: !withIcon,
+            'Input--WithIcon': withIcon,
+        })
 
-export default CSSModules(Input, styles)
+        return <input {...props} className={className} />
+    }
+}

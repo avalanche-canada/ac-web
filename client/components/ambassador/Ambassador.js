@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import { compose, withProps } from 'recompose'
-import { withHash } from 'compose'
 import kebabCase from 'lodash/kebabCase'
 import { Image } from 'prismic/components/base'
 import { SocialSet, SocialItem } from 'components/social'
+import FragmentIdentifier from 'router/FragmentIdentifier'
 import styles from './Ambassador.css'
 
 Ambassador.propTypes = {
@@ -17,20 +15,21 @@ Ambassador.propTypes = {
     hash: PropTypes.string,
 }
 
-function Ambassador({
+export default function Ambassador({
     fullName,
     socials = [],
     banner,
     avatar,
     children,
-    hash,
 }) {
-    const title = name => `Visit ${fullName} on ${name}`
+    function title(name) {
+        return `Visit ${fullName} on ${name}`
+    }
 
     return (
-        <section styleName="Ambassador">
-            <div styleName="Biography">
-                <div styleName="Avatar">
+        <section className={styles.Ambassador}>
+            <div className={styles.Biography}>
+                <div className={styles.Avatar}>
                     {avatar && <Image {...avatar.main} />}
                     <SocialSet>
                         {socials.map(link => (
@@ -38,22 +37,16 @@ function Ambassador({
                         ))}
                     </SocialSet>
                 </div>
-                <div styleName="Content">
+                <div className={styles.Content}>
                     <h2>
-                        <a href={`#${hash}`}>{fullName}</a>
+                        <FragmentIdentifier hash={kebabCase(fullName)}>
+                            {fullName}
+                        </FragmentIdentifier>
                     </h2>
                     {children}
                 </div>
             </div>
-            {banner && <Image styleName="Banner" {...banner.main} />}
+            {banner && <Image className={styles.Banner} {...banner.main} />}
         </section>
     )
 }
-
-export default compose(
-    withProps(({ fullName }) => ({
-        hash: kebabCase(fullName),
-    })),
-    withHash,
-    CSSModules(styles)
-)(Ambassador)

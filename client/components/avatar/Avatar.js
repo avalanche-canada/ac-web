@@ -1,72 +1,60 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    setDisplayName,
-    withProps,
-    setPropTypes,
-    defaultProps,
-} from 'recompose'
-import CSSModules from 'react-css-modules'
+import classnames from 'classnames/bind'
 import styles from './Avatar.css'
-import loadingState from 'components/misc/loadingState'
 import { initials } from 'utils/string'
+import { Loading } from 'react-powerplug'
 
-Avatar.propTypes = {
-    url: PropTypes.string,
-    initials: PropTypes.string,
-    name: PropTypes.string,
-    onLoad: PropTypes.func,
-    onError: PropTypes.func,
-    hasError: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    style: PropTypes.object,
-}
-
-function Avatar({
-    url,
-    initials,
-    name,
-    onLoad,
-    onError,
-    hasError,
-    isLoading,
-    style,
-}) {
-    const styleName =
-        hasError === true || isLoading === true ? 'Initials' : 'Avatar'
-
-    return (
-        <div styleName={styleName} data-initials={initials} style={style}>
-            <img
-                src={url}
-                alt={initials}
-                title={name}
-                onLoad={onLoad}
-                onError={onError}
-            />
-        </div>
-    )
-}
-
-export default compose(
-    setDisplayName('Avatar'),
-    setPropTypes({
+export default class Avatar extends PureComponent {
+    static PropTypes = {
         name: PropTypes.string.isRequired,
         url: PropTypes.string,
         size: PropTypes.number,
-    }),
-    defaultProps({
+    }
+    static defaultProps = {
         size: 60,
-    }),
-    withProps(({ name, size }) => ({
-        initials: initials(name),
-        style: {
+    }
+    constructor(props) {
+        super(props)
+
+        this.classnames = classnames.bind(styles)
+    }
+    get style() {
+        const { size } = this.props
+
+        return {
             height: size,
             width: size,
             fontSize: size < 50 ? '0.75em' : '1em',
-        },
-    })),
-    loadingState,
-    CSSModules(styles)
-)(Avatar)
+        }
+    }
+    renderer = ({ isLoading, setLoading }) => {
+        const { url, name } = this.props
+        const classNames = this.classnames({
+            Initials: isLoading,
+            Avatar: !isLoading,
+        })
+
+        return (
+            <div
+                className={classNames}
+                data-initials={initials(name)}
+                style={this.style}>
+                {url && (
+                    <img
+                        src={url}
+                        alt={initials(name)}
+                        title={name}
+                        onLoad={() => setLoading(false)}
+                        onError={() => setLoading(false)}
+                    />
+                )}
+            </div>
+        )
+    }
+    render() {
+        const loading = Boolean(this.props.url)
+
+        return <Loading initial={loading}>{this.renderer}</Loading>
+    }
+}

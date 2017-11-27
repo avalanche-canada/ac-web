@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { defaultProps } from 'recompose'
-import CSSModules from 'react-css-modules'
-import BaseButton, { PRIMARY } from 'components/button'
-import styles from './Loop.css'
+import Button from 'components/button'
 import noop from 'lodash/noop'
 import {
     FirstPage,
@@ -13,10 +10,7 @@ import {
     ChevronRight,
     ChevronLeft,
 } from 'components/icons'
-
-const Button = defaultProps({
-    kind: PRIMARY,
-})(BaseButton)
+import styles from './Loop.css'
 
 AnimateButton.propTypes = {
     isPlaying: PropTypes.bool,
@@ -73,7 +67,7 @@ ButtonSet.propTypes = {
     onPlay: PropTypes.func,
 }
 
-function ButtonSet({
+export default function ButtonSet({
     isPlaying = true,
     onNext,
     onPrevious,
@@ -83,7 +77,7 @@ function ButtonSet({
     onPlay,
 }) {
     return (
-        <div styleName="ButtonSet">
+        <div className={styles.ButtonSet}>
             {onFirst && <First onClick={onFirst} />}
             {onPrevious && <Previous onClick={onPrevious} />}
             <AnimateButton {...{ onPause, onPlay, isPlaying }} />
@@ -92,5 +86,3 @@ function ButtonSet({
         </div>
     )
 }
-
-export default CSSModules(ButtonSet, styles)

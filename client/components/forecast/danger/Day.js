@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { branch, renderComponent } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { ElementResize } from 'components/misc'
+import Dimensions from 'components/Dimensions'
 import { Day as DayElement } from 'components/time'
 import styles from './Danger.css'
 import Elevations, {
@@ -22,12 +21,12 @@ import { DangerCard } from 'components/graphics'
 
 const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
 
-BaseRow.propTypes = {
+Row.propTypes = {
     rating: RatingPropType.isRequired,
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
 }
 
-function BaseRow({ rating, elevation }) {
+function Row({ rating, elevation }) {
     const elevationStyle = {
         backgroundColor: ElevationPalette.get(elevation),
     }
@@ -37,32 +36,28 @@ function BaseRow({ rating, elevation }) {
     }
 
     return (
-        <div styleName="Row">
-            <div style={elevationStyle} styleName="Elevation">
+        <div className={styles.Row}>
+            <div style={elevationStyle} className={styles.Elevation}>
                 {ElevationTexts.get(elevation)}
             </div>
-            <div style={ratingStyle} styleName="Rating">
+            <div style={ratingStyle} className={styles.Rating}>
                 {RatingTexts.get(rating)}
             </div>
         </div>
     )
 }
 
-const Row = CSSModules(BaseRow, styles)
-
-BasedTitle.propTypes = {
+Title.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
-function BasedTitle({ date }) {
+function Title({ date }) {
     return (
-        <div styleName="Title">
+        <div className={styles.Title}>
             <DayElement value={date} />
         </div>
     )
 }
-
-const Title = CSSModules(BasedTitle, styles)
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -73,7 +68,7 @@ Day.propTypes = {
 
 function Day({ date, alp, tln, btl }) {
     return (
-        <div styleName="Day">
+        <div className={styles.Day}>
             <Title date={date} />
             <Row rating={alp} elevation={ALP} />
             <Row rating={tln} elevation={TLN} />
@@ -93,9 +88,9 @@ function FirstDay(props) {
     const { date, ...ratings } = props
 
     return (
-        <div styleName="FirstDay">
-            <ElementResize>
-                {width => {
+        <div className={styles.FirstDay}>
+            <Dimensions>
+                {({ width }) => {
                     const children = [<Title key="title" date={date} />]
 
                     if (width < 400) {
@@ -133,12 +128,9 @@ function FirstDay(props) {
 
                     return children
                 }}
-            </ElementResize>
+            </Dimensions>
         </div>
     )
 }
 
-export default branch(
-    props => props.first,
-    renderComponent(CSSModules(FirstDay, styles))
-)(CSSModules(Day, styles))
+export default branch(props => props.first, renderComponent(FirstDay))(Day)

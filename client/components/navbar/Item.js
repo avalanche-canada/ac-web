@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Link from './Link'
 import styles from './Navbar.css'
 import classnames from 'classnames/bind'
 import noop from 'lodash/noop'
@@ -11,6 +12,7 @@ export default class Item extends PureComponent {
         onClick: PropTypes.func,
         noWrap: PropTypes.bool,
         children: PropTypes.node,
+        to: PropTypes.string,
     }
     static defaultProps = {
         isActive: false,
@@ -23,7 +25,7 @@ export default class Item extends PureComponent {
         this.styles = classnames.bind(styles)
     }
     render() {
-        const { isActive, title, onClick, noWrap, children } = this.props
+        const { isActive, title, onClick, noWrap, children, to } = this.props
         const classNames = this.styles({
             Item: !isActive,
             'Item--isActive': isActive,
@@ -32,9 +34,9 @@ export default class Item extends PureComponent {
 
         return (
             <li className={classNames}>
-                <a href="#" onClick={onClick}>
-                    <span>{title}</span>
-                </a>
+                <Link to={to} onClick={onClick}>
+                    {title}
+                </Link>
                 {children}
             </li>
         )

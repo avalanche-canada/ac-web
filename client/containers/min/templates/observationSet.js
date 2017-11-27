@@ -3,7 +3,7 @@ import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, EagerPanelSet, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
 import { NAMES, COLORS } from 'constants/min'
-import Dimensions from 'components/misc/Dimensions'
+import Dimensions from 'components/Dimensions'
 
 const { struct } = t.form.Form.templates
 

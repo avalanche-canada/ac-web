@@ -1,12 +1,9 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { findDOMNode } from 'react-dom'
-import CSSModules from 'react-css-modules'
 import Overlay from 'react-overlays/lib/Overlay'
 import Tooltip from './Tooltip'
 import styles from './Tooltip.css'
 
-@CSSModules(styles)
 export default class Wrapper extends Component {
     static propTypes = {
         placement: PropTypes.oneOf(['left', 'top', 'right', 'bottom']),
@@ -21,6 +18,19 @@ export default class Wrapper extends Component {
     state = {
         visible: false,
     }
+    get events() {
+        switch (this.props.trigger) {
+            case 'hover':
+                return {
+                    onMouseOver: this.show,
+                    onMouseOut: this.hide,
+                }
+            case 'click':
+                return {
+                    onClick: this.toggle,
+                }
+        }
+    }
     get visible() {
         return this.state.visible
     }
@@ -30,24 +40,15 @@ export default class Wrapper extends Component {
     show = () => (this.visible = true)
     hide = () => (this.visible = false)
     toggle = () => (this.visible = !this.visible)
-    // TODO: Remove target function! I do not think it is required
-    target = () => findDOMNode(this.refs.target)
+    ref = target => (this.target = target)
     render() {
         const { children, placement, tooltip, trigger, ...props } = this.props
-        const events = trigger === 'hover'
-            ? {
-                onMouseOver: this.show,
-                onMouseOut: this.hide,
-            }
-            : {
-                onClick: this.toggle,
-            }
 
         return (
-            <div styleName="Wrapper">
+            <div className={styles.Wrapper}>
                 {cloneElement(children, {
-                    ref: 'target',
-                    ...events,
+                    ref: this.ref,
+                    ...this.events,
                 })}
                 <Overlay
                     show={this.visible}

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Metadata.css'
 
 Entry.propTypes = {
@@ -10,21 +9,19 @@ Entry.propTypes = {
     fullWidth: PropTypes.bool,
 }
 
-function Entry({ term, children, sideBySide, fullWidth }) {
-    let styleName = 'Entry'
+export default function Entry({ term, children, sideBySide, fullWidth }) {
+    let className = 'Entry'
 
     if (sideBySide) {
-        styleName = 'Entry--SideBySide'
+        className = 'Entry--SideBySide'
     } else if (fullWidth) {
-        styleName = 'Entry--Full'
+        className = 'Entry--Full'
     }
 
     return (
-        <dl styleName={styleName}>
-            <dt styleName="Term">{term}</dt>
-            <dd styleName="Description">{children}</dd>
+        <dl className={styles[className]}>
+            <dt className={styles.Term}>{term}</dt>
+            <dd className={styles.Description}>{children}</dd>
         </dl>
     )
 }
-
-export default CSSModules(Entry, styles)

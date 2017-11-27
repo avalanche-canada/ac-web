@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import { onlyUpdateForKey } from 'compose'
 import memoize from 'lodash/memoize'
-import CSSModules from 'react-css-modules'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
 import { FACEBOOK, TWITTER, INSTAGRAM, VIMEO, GOOGLE_PLUS } from './Providers'
@@ -48,7 +45,7 @@ Item.propTypes = {
     style: PropTypes.object,
 }
 
-function Item({ link, title, children, style }) {
+export default function Item({ link, title, children, style }) {
     const provider = getProvider(link)
     const name = PROVIDER_NAMES.get(provider)
 
@@ -60,7 +57,7 @@ function Item({ link, title, children, style }) {
 
     return (
         <a
-            styleName="Item"
+            className={styles.Item}
             target="_blank"
             href={link}
             title={title}
@@ -70,5 +67,3 @@ function Item({ link, title, children, style }) {
         </a>
     )
 }
-
-export default compose(onlyUpdateForKey('link'), CSSModules(styles))(Item)

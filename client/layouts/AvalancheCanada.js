@@ -19,6 +19,7 @@ import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './Weather'
 import HotZoneReport from './HotZoneReport'
+import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import * as Feed from './Feed'
 import Glossary from 'containers/Glossary'
@@ -36,6 +37,7 @@ export default function AvalancheCanada() {
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
+                <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
                 <Route path="/blogs" component={Feed.Blogs} />
                 <Route path="/news" component={Feed.News} />
@@ -122,11 +124,6 @@ export default function AvalancheCanada() {
                     oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
                 />
                 <WIPPageRoute
-                    path="/auction"
-                    name="Web Auction"
-                    oldUrl="http://old.avalanche.ca/cac/auctions"
-                />
-                <WIPPageRoute
                     path="/tutoriel"
                     name="Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
@@ -150,7 +147,6 @@ export default function AvalancheCanada() {
                 <Route path="/trip-planner" component={null} />
                 <Route path="/incidents" component={null} />
                 <Route path="/tutoriel" component={null} />
-                <Route path="/auction" component={null} />
                 <Route component={Footer} />
             </Switch>
         </Application>

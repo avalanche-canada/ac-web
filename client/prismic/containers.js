@@ -11,10 +11,10 @@ import {
     getDocumentsFromParams,
     getResult,
 } from 'getters/prismic'
+import Status from 'utils/status'
 import { GENERIC, STATIC_PAGE, APPLICATION_FEATURE } from 'constants/prismic'
 import { parse } from 'prismic'
 import * as Predicates from 'vendor/prismic/predicates'
-import * as Pages from 'prismic/components/page'
 
 class Loader extends PureComponent {
     static propTypes = {
@@ -44,7 +44,7 @@ const DocumentContainer = connect(
         data(state, { params }) {
             return {
                 document: getDocumentFromParams(state, params),
-                status: getResult(state, params),
+                status: Status.createFromResultSet(getResult(state, params)),
             }
         },
     }),
@@ -56,14 +56,14 @@ const DocumentsContainer = connect(
         data(state, { params }) {
             return {
                 documents: getDocumentsFromParams(state, params),
-                status: getResult(state, params),
+                status: Status.createFromResultSet(getResult(state, params)),
             }
         },
     }),
     { load }
 )(Loader)
 
-class Document extends PureComponent {
+export class Document extends PureComponent {
     static propTypes = {
         children: PropTypes.func.isRequired,
         uid: PropTypes.string.isRequired,
@@ -106,28 +106,49 @@ export class DocumentsOfType extends PureComponent {
 
 Generic.propTypes = {
     uid: PropTypes.string.isRequired,
-    title: PropTypes.string,
+    children: PropTypes.func.isRequired,
 }
 
-export function Generic({ uid, title }) {
+export function Generic({ uid, children }) {
     return (
         <Document type={GENERIC} uid={uid}>
-            {props => <Pages.Generic title={title} {...props} />}
+            {children}
         </Document>
     )
 }
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
-    title: PropTypes.string,
+    children: PropTypes.func.isRequired,
 }
 
-export function StaticPage({ uid, title }) {
+export function StaticPage({ uid, children }) {
     return (
         <Document type={STATIC_PAGE} uid={uid}>
-            {props => <Pages.StaticPage uid={uid} title={title} {...props} />}
+            {children}
         </Document>
     )
+}
+
+export class Tutorial extends PureComponent {
+    static propTypes = {
+        slug: PropTypes.string.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    get params() {
+        const { slug } = this.props
+
+        return {
+            predicates: [Predicates.field('tutorial-page', 'slug', slug)],
+        }
+    }
+    render() {
+        return (
+            <DocumentContainer params={this.params}>
+                {this.props.children}
+            </DocumentContainer>
+        )
+    }
 }
 
 export function ApplicationFeature({ children }) {

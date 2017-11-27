@@ -1,23 +1,143 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import { compose, withState, branch, renderComponent } from 'recompose'
+import React, { PureComponent, Component } from 'react'
 import { Link, Route } from 'react-router-dom'
-import { neverUpdate } from 'compose'
-import { parse } from 'utils/search'
-import Map from 'containers/Map'
-import UnsupportedMap from 'containers/UnsupportedMap'
-import mapbox from 'services/mapbox/map'
+import { Map } from 'components/map'
+import Container from 'containers/Map'
+import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
-import styles from './Map.css'
+import Device from 'components/Device'
+import { captureException } from 'services/raven'
+import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu } from 'containers/drawers'
 import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
+import { parse } from 'utils/search'
+import styles from './Map.css'
+
+export default class Layout extends PureComponent {
+    state = {
+        hasError: false,
+    }
+    handleError = error => {
+        this.setState({ hasError: true }, () => {
+            captureException(error)
+        })
+    }
+    render() {
+        if (Map.supported()) {
+            return (
+                <div className={styles.Layout}>
+                    <Container onError={this.handleError} />
+                    {/* Orders matter here for the route components */}
+                    <Route path="/map*">{secondary}</Route>
+                    <Route path="/map/:type/:name">{primary}</Route>
+                    <Menu />
+                    <ToggleMenu />
+                    <LinkControlSet>
+                        {this.state.hasError && <ErrorIndicator />}
+                    </LinkControlSet>
+                </div>
+            )
+        }
+
+        return <UnsupportedMap />
+    }
+}
+
+class LinkControlSet extends PureComponent {
+    get tooltips() {
+        const style = {
+            maxWidth: 175,
+            padding: '0.25em',
+        }
+
+        return [
+            <div style={style}>
+                Create a Mountain Information Network (MIN) report
+            </div>,
+            <div style={{ ...style, maxWidth: 125 }}>
+                Visit the Mountain Weather Forecast
+            </div>,
+        ]
+    }
+    get links() {
+        return [
+            <Link
+                key="min"
+                className={styles['LinkControlSet--MIN']}
+                to="/mountain-information-network/submit"
+            />,
+            <Link
+                key="weather"
+                className={styles['LinkControlSet--Weather']}
+                to="/weather"
+            />,
+        ]
+    }
+    renderer = ({ isTouchable }) => {
+        if (isTouchable) {
+            return this.links
+        }
+
+        const { tooltips } = this
+
+        return this.links.map((link, index) => (
+            <Wrapper key={index} tooltip={tooltips[index]} placement="right">
+                {link}
+            </Wrapper>
+        ))
+    }
+    render() {
+        return (
+            <div className={styles.LinkControlSet}>
+                <Device>{this.renderer}</Device>
+                {this.props.children}
+            </div>
+        )
+    }
+}
+
+class ErrorIndicator extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+    reload() {
+        window.location.reload(true)
+    }
+    get tooltip() {
+        const style = {
+            padding: '0.25em',
+            maxWidth: 225,
+        }
+
+        return (
+            <div style={style}>
+                An error happened while initializing the map. Therefore, some
+                functionnalities might not be available.
+                <br />
+                <Device>
+                    {({ isTouchable }) =>
+                        `${isTouchable ? 'Tap' : 'Click'} to reload the map.`
+                    }
+                </Device>
+            </div>
+        )
+    }
+    render() {
+        return (
+            <Wrapper tooltip={this.tooltip}>
+                <button onClick={this.reload} className={styles.Error}>
+                    <Warning inverse />
+                </button>
+            </Wrapper>
+        )
+    }
+}
 
 function primary(props) {
     return <Primary {...props} />
 }
+
 function secondary(props) {
     const panel = parse(props.location.search).panel || ''
     const [type, id] = panel.split('/')
@@ -25,65 +145,3 @@ function secondary(props) {
 
     return <Secondary open={open} {...props} type={type} id={id} />
 }
-
-Layout.propTypes = {
-    onInitializationError: PropTypes.func.isRequired,
-}
-
-function Layout({ onInitializationError }) {
-    return (
-        <div styleName="Layout">
-            <Map onInitializationError={onInitializationError} />
-            {/* Orders matter here for the route components */}
-            <Route path="/map*" children={secondary} />
-            <Route path="/map/:type/:name" children={primary} />
-            <Menu />
-            <ToggleMenu />
-            <OptimizedLinkControlSet />
-        </div>
-    )
-}
-
-const Supported = compose(
-    withState('initializationError', 'onInitializationError', false),
-    branch(props => props.initializationError, renderComponent(UnsupportedMap)),
-    CSSModules(styles)
-)(Layout)
-
-export default (mapbox.supported() ? Supported : UnsupportedMap)
-
-function LinkControlSet() {
-    const TOOLTIP_STYLE = {
-        maxWidth: 175,
-        padding: '0.25em',
-    }
-    const min = (
-        <div style={TOOLTIP_STYLE}>
-            Create a Mountain Information Network (MIN) report
-        </div>
-    )
-    const weather = (
-        <div style={{ ...TOOLTIP_STYLE, maxWidth: 125 }}>
-            Visit the Mountain Weather Forecast
-        </div>
-    )
-
-    return (
-        <div className={styles.LinkControlSet}>
-            <Wrapper tooltip={min} placement="right">
-                <Link
-                    className={styles['LinkControlSet--MIN']}
-                    to="/mountain-information-network/submit"
-                />
-            </Wrapper>
-            <Wrapper tooltip={weather} placement="right">
-                <Link
-                    className={styles['LinkControlSet--Weather']}
-                    to="/weather"
-                />
-            </Wrapper>
-        </div>
-    )
-}
-
-const OptimizedLinkControlSet = neverUpdate(LinkControlSet)

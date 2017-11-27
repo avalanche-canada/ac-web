@@ -1,5 +1,4 @@
-import React from 'react'
-import { neverUpdate } from 'compose'
+import React, { Component } from 'react'
 import Ratings, {
     NO_RATING,
     Texts,
@@ -8,21 +7,24 @@ import Ratings, {
     SizeAndDistribution,
 } from 'constants/forecast/rating'
 
-function RatingExplanation() {
-    const keys = Array.from(Ratings).filter(key => key !== NO_RATING)
+export default class RatingExplanation extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        const keys = Array.from(Ratings).filter(key => key !== NO_RATING)
 
-    return (
-        <div>
-            {keys.map(key => (
-                <div key={key}>
-                    <h2>{Texts.get(key)}</h2>
-                    <p>{TravelAdvices.get(key)}</p>
-                    <p>{LikehoodOfAvalanche.get(key)}</p>
-                    <p>{SizeAndDistribution.get(key)}</p>
-                </div>
-            ))}
-        </div>
-    )
+        return (
+            <div>
+                {keys.map(key => (
+                    <div key={key}>
+                        <h2>{Texts.get(key)}</h2>
+                        <p>{TravelAdvices.get(key)}</p>
+                        <p>{LikehoodOfAvalanche.get(key)}</p>
+                        <p>{SizeAndDistribution.get(key)}</p>
+                    </div>
+                ))}
+            </div>
+        )
+    }
 }
-
-export default neverUpdate(RatingExplanation)

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox, { styles } from 'services/mapbox/map'
 import { Canadian } from 'constants/map/bounds'
-import { captureException } from 'services/raven'
-import noop from 'lodash/noop'
 import './Map.css'
 
 function toJSON(style) {
@@ -19,7 +17,6 @@ function toJSON(style) {
 }
 
 const { LngLatBounds } = mapbox
-const STYLES = Object.keys(styles)
 const EVENTS = new Map([
     ['onWebglcontextlost', 'webglcontextlost'],
     ['onWebglcontextrestored', 'webglcontextrestored'],
@@ -54,13 +51,17 @@ const EVENTS = new Map([
     ['onDragend', 'dragend'],
     ['onPitch', 'pitch'],
     ['onResize', 'resize'],
+    ['onSourcedata', 'sourcedata'],
+    ['onSourcedataloading', 'sourcedataloading'],
 ])
 
 export default class MapComponent extends Component {
     static propTypes = {
         children: PropTypes.node,
-        style: PropTypes.oneOfType([PropTypes.oneOf(STYLES), PropTypes.object])
-            .isRequired,
+        style: PropTypes.oneOfType([
+            PropTypes.oneOf(Object.keys(styles)),
+            PropTypes.object,
+        ]).isRequired,
         containerStyle: PropTypes.object,
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
@@ -116,62 +117,53 @@ export default class MapComponent extends Component {
         onDrag: PropTypes.func,
         onDragend: PropTypes.func,
         onPitch: PropTypes.func,
-        // Custom, i.e. not part of the mapbox.Map class
-        onInitializationError: PropTypes.func,
+        onSourcedata: PropTypes.func,
+        onSourcedataloading: PropTypes.func,
     }
     static defaultProps = {
         style: null,
         maxBounds: Canadian,
-        onInitializationError: noop,
     }
     static childContextTypes = {
         map: PropTypes.object,
     }
+    static supported() {
+        return mapbox.supported()
+    }
     state = {
         map: null,
+        ready: false,
     }
     get map() {
         return this.state.map
     }
-    set map(map) {
-        this.setState({ map })
-    }
-    constructor(props) {
-        super(props)
-
-        if (!mapbox.supported()) {
-            this.componentDidMount = noop
-        }
-    }
+    setContainer = container => (this.container = container)
     getChildContext() {
         return {
             map: this.map,
         }
     }
     componentDidMount() {
-        const { container } = this.refs
-        const { style, onInitializationError, ...props } = this.props
+        const { style, ...props } = this.props
+        const map = new mapbox.Map({
+            ...props,
+            container: this.container,
+            style: typeof style === 'string' ? styles[style] : toJSON(style),
+        })
 
-        try {
-            const map = new mapbox.Map({
-                ...props,
-                container,
-                style: typeof style === 'string'
-                    ? styles[style]
-                    : toJSON(style),
+        EVENTS.forEach((name, method) => {
+            if (typeof props[method] === 'function') {
+                map.on(name, props[method])
+            }
+        })
+
+        map.once('styledata', () => {
+            this.setState({
+                ready: true,
             })
+        })
 
-            EVENTS.forEach((name, method) => {
-                if (typeof props[method] === 'function') {
-                    map.on(name, props[method])
-                }
-            })
-
-            this.map = map
-        } catch (error) {
-            captureException(error)
-            onInitializationError(error)
-        }
+        this.setState({ map })
     }
     componentWillUnmount() {
         if (this.map) {
@@ -206,13 +198,16 @@ export default class MapComponent extends Component {
     set style(style) {
         this.map.setStyle(toJSON(style))
     }
-    shouldComponentUpdate({ children }, { map }) {
-        return children !== this.props.children || map !== this.map
+    shouldComponentUpdate({ children }, { ready }) {
+        return children !== this.props.children || ready !== this.state.ready
+    }
+    get safe() {
+        return this.state.ready && this.state.map
     }
     render() {
         return (
-            <div ref="container" style={this.props.containerStyle}>
-                {this.map && this.props.children}
+            <div ref={this.setContainer} style={this.props.containerStyle}>
+                {this.safe && this.props.children}
             </div>
         )
     }

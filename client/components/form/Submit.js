@@ -1,20 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import styles from './Form.css'
 import { ChevronRight } from 'components/icons'
 import Button from '../button'
+import styles from './Form.css'
 
 Submit.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Submit({ children }) {
+export default function Submit({ children }) {
     return (
-        <Button type="submit" styleName="Submit">
+        <Button type="submit" className={styles.Submit}>
             {children} <ChevronRight inverse />
         </Button>
     )
 }
-
-export default CSSModules(Submit, styles)

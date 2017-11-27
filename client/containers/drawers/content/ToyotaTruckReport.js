@@ -54,7 +54,7 @@ function ToyotaTruckReport({ report, status, onCloseClick }) {
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>
                 <Ratio>
-                    {(width, height) =>
+                    {(width, height) => (
                         <Banner>
                             <img
                                 src={cloudinary.url(banner, {
@@ -64,12 +64,11 @@ function ToyotaTruckReport({ report, status, onCloseClick }) {
                                 })}
                                 height={height}
                             />
-                        </Banner>}
+                        </Banner>
+                    )}
                 </Ratio>
                 <Header subject={subject}>
-                    <h1>
-                        {headline}
-                    </h1>
+                    <h1>{headline}</h1>
                 </Header>
                 <Content>
                     <Status {...status.toJSON()} />

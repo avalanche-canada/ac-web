@@ -1,24 +1,22 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, setPropTypes, defaultProps, withProps } from 'recompose'
-import CSSModules from 'react-css-modules'
 import Page from './Page'
 import Content from './Content'
+import Credit from '../markup/Credit'
 import styles from './Page.css'
 
-export default compose(
-    setPropTypes({
+export default class Error extends PureComponent {
+    static propTypes = {
         children: PropTypes.node.isRequired,
-    }),
-    defaultProps({
-        styleName: 'Error',
-    }),
-    withProps(({ children }) => ({
-        children: (
-            <Content>
-                {children}
-            </Content>
-        ),
-    })),
-    CSSModules(styles)
-)(Page)
+    }
+    render() {
+        return (
+            <Page className={styles.Error}>
+                <Content>
+                    {this.props.children}
+                    <Credit>Kroschel Films</Credit>
+                </Content>
+            </Page>
+        )
+    }
+}

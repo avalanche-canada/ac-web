@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import Section from 'components/mountainInformationNetwork/Section'
 import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
@@ -31,37 +30,42 @@ AvoidList.propTypes = {
 
 function AvoidList({ items }) {
     return (
-        <ul styleName="List">
-            {Object.keys(items).map(name => (
-                <li key={name} styleName={items[name] ? 'Avoid' : 'Okay'}>
-                    {Titles.get(name) || name}
-                </li>
-            ))}
+        <ul className={styles.List}>
+            {Object.keys(items).map(name => {
+                const className = items[name] ? 'Avoid' : 'Okay'
+
+                return (
+                    <li key={name} className={styles[className]}>
+                        {Titles.get(name) || name}
+                    </li>
+                )
+            })}
         </ul>
     )
 }
 
-const StyledAvoidList = CSSModules(AvoidList, styles)
-
-function TerrainSummary({ title, aspect, terrainFeatures, travelAdvice }) {
+export default function TerrainSummary({
+    title,
+    aspect,
+    terrainFeatures,
+    travelAdvice,
+}) {
     return (
         <Section title={title}>
             <List>
                 <Term>Aspect</Term>
                 <Definition>
-                    <StyledAvoidList items={aspect} />
+                    <AvoidList items={aspect} />
                 </Definition>
                 <Term>Terrain features</Term>
                 <Definition>
-                    <StyledAvoidList items={terrainFeatures} />
+                    <AvoidList items={terrainFeatures} />
                 </Definition>
                 <Term block>Travel advice</Term>
-                <Definition block styleName="TravelAdvice">
+                <Definition block className={styles.TravelAdvice}>
                     <StructuredText value={travelAdvice} />
                 </Definition>
             </List>
         </Section>
     )
 }
-
-export default CSSModules(TerrainSummary, styles)

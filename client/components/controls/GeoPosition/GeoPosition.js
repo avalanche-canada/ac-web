@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import CSSModules from 'react-css-modules'
 import mapbox from 'services/mapbox/map'
 import {
     Map,
@@ -34,7 +33,6 @@ function round(number) {
     return Math.round(number * 100000) / 100000
 }
 
-@CSSModules(styles)
 export default class GeoPosition extends Component {
     static propTypes = {
         onChange: PropTypes.func,
@@ -116,7 +114,7 @@ export default class GeoPosition extends Component {
         const { allowFullscreen } = this.props
 
         return (
-            <div styleName="Container">
+            <div className={styles.Container}>
                 <Map
                     ref="map"
                     style="default"

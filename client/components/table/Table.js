@@ -1,26 +1,29 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
+import classnames from 'classnames/bind'
 import styles from './Table.css'
 
-Table.propTypes = {
-    children: PropTypes.node.isRequired,
-    hoverable: PropTypes.bool,
-    condensed: PropTypes.bool,
-}
-
-function Table({ children, hoverable, condensed }) {
-    let styleName = condensed ? 'Table--Condensed' : 'Table'
-
-    if (hoverable === true) {
-        styleName += ' Hoverable'
+export default class Table extends PureComponent {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        hoverable: PropTypes.bool,
+        condensed: PropTypes.bool,
     }
+    constructor(props) {
+        super(props)
 
-    return (
-        <table styleName={styleName}>
-            {children}
-        </table>
-    )
+        this.classNames = classnames.bind(styles)
+    }
+    get className() {
+        const { hoverable, condensed } = this.props
+
+        return this.classNames({
+            Table: !condensed,
+            'Table--Condensed': condensed,
+            Hoverable: hoverable,
+        })
+    }
+    render() {
+        return <table className={this.className}>{this.props.children}</table>
+    }
 }
-
-export default CSSModules(Table, styles, { allowMultiple: true })

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSModule from 'react-css-modules'
 import keycode from 'keycode'
 import { Image, Delay } from 'components/misc'
 import { Fullscreen } from 'components/icons'
@@ -13,7 +12,6 @@ const FullscreenIcons = new Map([
     [false, <Fullscreen inverse />],
 ])
 
-@CSSModule(styles)
 export default class Loop extends Component {
     static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -256,7 +254,7 @@ export default class Loop extends Component {
                 <Image {...image} />
                 <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
-                    <div className={styles.Info}>
+                    <div className={styles.Title}>
                         {this.isLoading && (
                             <Delay elapse={interval + 50}>
                                 <span>Loading</span>

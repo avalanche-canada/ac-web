@@ -1,7 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Sponsor.css'
 
-export default Element({
-    name: 'ItemSet',
-    styles,
-})
+export default function ItemSet({ children, ...props }) {
+    return (
+        <div {...props} className={styles.ItemSet}>
+            {children}
+        </div>
+    )
+}

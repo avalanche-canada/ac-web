@@ -1,25 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { neverUpdate } from 'compose'
 import { Menu } from 'components/icons'
 import Button, { INCOGNITO } from '../button'
 import styles from './Navbar.css'
-import noop from 'lodash/noop'
 
-Burger.propTypes = {
-    onClick: PropTypes.func.isRequired,
+export default class Burger extends Component {
+    static propTypes = {
+        onClick: PropTypes.func.isRequired,
+    }
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        return (
+            <div className={styles['Burger--Container']}>
+                <Button
+                    kind={INCOGNITO}
+                    className={styles.Burger}
+                    onClick={this.props.onClick}>
+                    <Menu width={32} height={32} />
+                </Button>
+            </div>
+        )
+    }
 }
-
-function Burger({ onClick = noop }) {
-    return (
-        <div styleName="Burger--Container">
-            <Button kind={INCOGNITO} styleName="Burger" onClick={onClick}>
-                <Menu width={32} height={32} />
-            </Button>
-        </div>
-    )
-}
-
-export default compose(neverUpdate, CSSModules(styles))(Burger)

@@ -41,23 +41,27 @@ const PREDICATES = new Map([
     ],
     [
         'timeline',
-        ({ timeline }) => ({ endDate }) => {
-            const isPast = isBefore(endDate, startOfDay(new Date()))
+        ({ timeline }) => post => {
+            const isPast = isBefore(post.endDate, startOfDay(new Date()))
 
             return timeline === PAST ? isPast : !isPast
         },
     ],
 ])
 
-function desc(a, b) {
+function descending(a, b) {
     return b.date - a.date
 }
 
-function asc(a, b) {
+function ascending(a, b) {
     return a.date - b.date
 }
 
-const SORTERS = new Map([[NEWS, desc], [BLOG, desc], [EVENT, asc]])
+const SORTERS = new Map([
+    [NEWS, descending],
+    [BLOG, descending],
+    [EVENT, ascending],
+])
 
 function getPredicates(state, props) {
     const predicates = []
@@ -81,19 +85,19 @@ function getFeed(state, { type }) {
 
 const getTransformedFeed = createSelector(getFeed, getType, (feed, type) => {
     const sorted = feed
-        .map(item => parse(item))
         .toList()
+        .map(post => parse(post))
         .sort(SORTERS.get(type))
 
-    if (sorted.isEmpty()) {
+    if (sorted.some(isFeatured)) {
+        // Bringing the first featured one on top!
+        const featured = sorted.find(isFeatured)
+        const index = sorted.indexOf(featured)
+
+        return sorted.remove(index).unshift(featured)
+    } else {
         return sorted
     }
-
-    // Bringing the first featured one on top!
-    const featured = sorted.find(isFeatured)
-    const index = sorted.indexOf(featured)
-
-    return sorted.remove(index).unshift(featured)
 })
 
 const getFeedOptions = createSelector(
@@ -120,7 +124,9 @@ const getFeedOptions = createSelector(
                 }
             default:
                 throw new Error(
-                    `Type "${type}" not recognized for creating feed filtering options.`
+                    `Type "${
+                        type
+                    }" not recognized for creating feed filtering options.`
                 )
         }
     }
@@ -129,16 +135,8 @@ const getFeedOptions = createSelector(
 const getFilteredFeed = createSelector(
     getTransformedFeed,
     getPredicates,
-    (feed, predicates) => {
-        if (predicates.length === 0) {
-            return feed
-        }
-
-        return predicates.reduce(
-            (feed, predicate) => feed.filter(predicate),
-            feed
-        )
-    }
+    (feed, predicates) =>
+        predicates.reduce((feed, predicate) => feed.filter(predicate), feed)
 )
 
 const getMessages = createSelector(getType, type => ({
@@ -171,12 +169,11 @@ export const getSidebar = createStructuredSelector({
         getDocumentsFromResult,
         getType,
         (state, props) => document => document.uid !== props.uid,
-        (documents, type, filter) => {
-            return documents
+        (documents, type, filter) =>
+            documents
                 .filter(filter)
                 .map(document => parse(document))
                 .sort(SORTERS.get(type))
-        }
     ),
 })
 
@@ -188,9 +185,6 @@ export const getSplash = createSelector(
     getDocumentsFromResult,
     getStatusFactory(getSplashMessages),
     (documents, status) => {
-        function isFeatured(post) {
-            return post.featured
-        }
         const featured = documents.find(isFeatured) || documents[0]
 
         if (featured) {

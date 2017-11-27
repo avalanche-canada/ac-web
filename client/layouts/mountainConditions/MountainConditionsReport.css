@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Flex {
     display: flex;
@@ -19,7 +19,7 @@
         border-radius: 25%;
     }
     & > div > a:before {
-        content: "\00a0";
+        content: '\00a0';
     }
 }
 
@@ -35,6 +35,12 @@
 }
 
 .Location {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LocationDescription {
     composes: HeaderComponent;
 }
 
@@ -49,10 +55,10 @@
         height: 35px;
     }
     & div {
-      align-self: flex-start;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-contetn: flex-start;
+        align-self: flex-start;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-contetn: flex-start;
     }
 }

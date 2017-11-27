@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './MountainInformationNetwork.css'
 
 Section.propTypes = {
@@ -8,13 +7,11 @@ Section.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Section({ title = 'Information', children }) {
+export default function Section({ title = 'Information', children }) {
     return (
-        <div styleName="Section">
-            <h4 styleName="Section--Title">{title}</h4>
-            <div styleName="Section--Content">{children}</div>
+        <div className={styles.Section}>
+            <h4 className={styles['Section--Title']}>{title}</h4>
+            <div className={styles['Section--Content']}>{children}</div>
         </div>
     )
 }
-
-export default CSSModules(Section, styles)

@@ -1,10 +1,10 @@
 :root {
-    --brand-primary: #245EAC;
-    --primary: #245EAC;
-    --brand-secondary: #E6252F;
-    --secondary: #0F0F0F;
+    --brand-primary: #245eac;
+    --primary: #245eac;
+    --brand-secondary: #e6252f;
+    --secondary: #0f0f0f;
 
-    --black: #0F0F0F;
+    --black: #0f0f0f;
 
     --gray-darkest: gray(15%);
     --gray-darker: gray(35%);
@@ -14,22 +14,17 @@
     --gray-lighter: gray(90%);
     --gray-lightest: gray(97%);
 
-    --quick-obs: #4CAF50;
-    --avalanche-obs: #03A9F4;
-    --snowpack-obs: #3F51B5;
-    --weather-obs: #FFC107;
-    --incident-obs: #F44336;
+    --quick-obs: #4caf50;
+    --avalanche-obs: #03a9f4;
+    --snowpack-obs: #3f51b5;
+    --weather-obs: #ffc107;
+    --incident-obs: #f44336;
 
-    --spaw: #E6252F;
+    --spaw: #e6252f;
     --spaw-hover: color(var(--spaw) blackness(15%));
 
-    --success: #4CAF50;
-    --success-dark: color(var(--success) lightness(65%));
-    --info: #03A9F4;
-    --info-dark: color(var(--info) lightness(65%));
-    --warning: #FFC107;
-    --warning-dark: color(var(--warning) lightness(65%));
-    --danger: #E6252F;
-    --danger-dark: color(var(--danger) lightness(65%));
-
+    --success: #4caf50;
+    --info: #03a9f4;
+    --warning: #ffc107;
+    --danger: #e6252f;
 }

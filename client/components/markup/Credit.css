@@ -23,13 +23,9 @@
     }
 }
 
-.Credit--Compact {
-    composes: Credit;
-
+.Compact {
     padding-right: 1.5em;
     visibility: hidden;
-    border-top-right-radius: 1.5em;
-    border-bottom-right-radius: 1.5em;
 
     &:hover {
         visibility: visible;
@@ -44,16 +40,24 @@
         height: 1.5em;
         visibility: visible;
         font-weight: bold;
-        /*font-style: italic;*/
         color: white;
         background-color: var(--gray-darkest);
         cursor: pointer;
-        border-radius: 1.5em;
         text-align: center;
         box-sizing: border-box;
     }
 
     &:hover:after {
+        background-color: transparent;
+        color: var(--gray-darkest);
+        border-color: transparent;
+    }
+}
+
+.Expanded {
+    visibility: visible;
+
+    &:after {
         background-color: transparent;
         color: var(--gray-darkest);
         border-color: transparent;

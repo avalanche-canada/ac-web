@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import CSSModules from 'react-css-modules'
-import { neverUpdate } from 'compose'
 import { Link } from 'react-router-dom'
+import classnames from 'classnames'
 import styles from './Navbar.css'
 
 const isExternalRegExp = new RegExp('^(https|http)://')
@@ -15,28 +13,34 @@ function isExternal(to) {
     return isExternalRegExp.test(to)
 }
 
-Anchor.propTypes = {
-    to: PropTypes.string,
-    onClick: PropTypes.func,
-    children: PropTypes.string,
-    title: PropTypes.string,
-    style: PropTypes.object,
-}
+export default class Anchor extends PureComponent {
+    static propTypes = {
+        to: PropTypes.string,
+        onClick: PropTypes.func,
+        children: PropTypes.string,
+        title: PropTypes.string,
+        className: PropTypes.string,
+        style: PropTypes.object,
+    }
+    static defaultProps = {
+        to: '#',
+    }
+    get target() {
+        const { to } = this.props
 
-function Anchor({ to = '#', children, ...props }) {
-    if (isExternal(to)) {
+        return isExternal(to) ? to : null
+    }
+    render() {
+        const { to, children, className, ...props } = this.props
+
         return (
-            <a href={to} target="_blank" styleName="Link" {...props}>
+            <Link
+                to={to}
+                target={this.target}
+                className={classnames(styles.Link, this.props.className)}
+                {...props}>
                 {children}
-            </a>
+            </Link>
         )
     }
-
-    return (
-        <Link styleName="Link" to={to} {...props}>
-            {children}
-        </Link>
-    )
 }
-
-export default compose(neverUpdate, CSSModules(styles))(Anchor)

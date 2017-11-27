@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Danger.css'
 import * as Modes from 'constants/forecast/mode'
 
@@ -16,16 +15,10 @@ Table.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Table({ children, mode }) {
+export default function Table({ children, mode }) {
     if (UNHANDLED.has(mode)) {
         return null
     }
 
-    return (
-        <div styleName="Table">
-            {children}
-        </div>
-    )
+    return <div className={styles.Table}>{children}</div>
 }
-
-export default CSSModules(Table, styles)

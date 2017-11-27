@@ -1,36 +1,36 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
-import classNames from 'classnames'
+import classnames from 'classnames/bind'
 import styles from './Description.css'
 
-List.propTypes = {
-    children: PropTypes.node.isRequired,
-    columns: PropTypes.oneOf([1, 2, 3]),
-    theme: PropTypes.oneOf(['Simple', 'Inverse']),
-    condensed: PropTypes.bool,
-    bordered: PropTypes.bool,
-}
+export default class List extends PureComponent {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        columns: PropTypes.oneOf([1, 2, 3]),
+        theme: PropTypes.oneOf(['Simple', 'Inverse']),
+        condensed: PropTypes.bool,
+        bordered: PropTypes.bool,
+    }
+    static defaultProps = {
+        columns: 1,
+        theme: 'Simple',
+        condensed: false,
+        bordered: false,
+    }
+    constructor(props) {
+        super(props)
 
-function computeStyleName(columns, theme, condensed, bordered) {
-    return classNames(`List--${theme}--${columns}Columns`, {
-        Condensed: condensed,
-        Bordered: bordered,
-    })
-}
+        this.classNames = classnames.bind(styles)
+    }
+    get className() {
+        const { columns, theme, condensed, bordered } = this.props
 
-function List({
-    columns = 1,
-    theme = 'Simple',
-    condensed = false,
-    bordered = false,
-    children,
-}) {
-    return (
-        <dl styleName={computeStyleName(columns, theme, condensed, bordered)}>
-            {children}
-        </dl>
-    )
+        return this.classNames(`List--${theme}--${columns}Columns`, {
+            Condensed: condensed,
+            Bordered: bordered,
+        })
+    }
+    render() {
+        return <dl className={this.className}>{this.props.children}</dl>
+    }
 }
-
-export default CSSModules(List, styles, { allowMultiple: true })

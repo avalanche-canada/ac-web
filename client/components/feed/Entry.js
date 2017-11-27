@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, branch, renderComponent } from 'recompose'
 import { Link } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
-import { neverUpdate } from 'compose'
 import { DateElement } from 'components/time'
 import { TagSet, Tag } from 'components/tag'
 import { StructuredText, Image } from 'prismic/components/base'
@@ -34,41 +31,34 @@ function Entry({
     preview,
     link,
 }) {
+    const className = featured ? 'Entry--Featured' : 'Entry'
+
     return (
-        <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
-            {preview &&
-                <div styleName="Image">
+        <div className={styles[className]}>
+            {preview && (
+                <div className={styles.Image}>
                     <Image {...preview} />
-                </div>}
-            <div styleName="Content">
+                </div>
+            )}
+            <div className={styles.Content}>
                 <h2>
-                    <Link to={link}>
-                        {title}
-                    </Link>
+                    <Link to={link}>{title}</Link>
                 </h2>
                 <StructuredText value={headline} />
-                <ul styleName="Metadata">
-                    {date &&
+                <ul className={styles.Metadata}>
+                    {date && (
                         <li>
                             <DateElement value={date} />
-                        </li>}
-                    {category &&
-                        <li>
-                            {category}
-                        </li>}
-                    {source &&
-                        <li>
-                            {source}
-                        </li>}
+                        </li>
+                    )}
+                    {category && <li>{category}</li>}
+                    {source && <li>{source}</li>}
                 </ul>
-                {Array.isArray(tags) &&
+                {Array.isArray(tags) && (
                     <TagSet>
-                        {tags.sort().map(tag =>
-                            <Tag key={tag}>
-                                {tag}
-                            </Tag>
-                        )}
-                    </TagSet>}
+                        {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
+                    </TagSet>
+                )}
             </div>
         </div>
     )
@@ -91,37 +81,39 @@ function CondensedEntry({
     date,
     link,
 }) {
+    const className = featured ? 'Entry--Featured' : 'Entry'
+
     return (
-        <div styleName={featured ? 'Entry--Featured' : 'Entry'}>
-            <div styleName="Content">
+        <div className={styles[className]}>
+            <div className={styles.Content}>
                 <h2>
-                    <Link to={link}>
-                        {title}
-                    </Link>
+                    <Link to={link}>{title}</Link>
                 </h2>
-                <ul styleName="Metadata">
-                    {date &&
+                <ul className={styles.Metadata}>
+                    {date && (
                         <li>
                             <DateElement value={date} />
-                        </li>}
-                    {category &&
-                        <li>
-                            {category}
-                        </li>}
-                    {source &&
-                        <li>
-                            {source}
-                        </li>}
+                        </li>
+                    )}
+                    {category && <li>{category}</li>}
+                    {source && <li>{source}</li>}
                 </ul>
             </div>
         </div>
     )
 }
 
-export default compose(
-    neverUpdate,
-    branch(
-        props => props.condensed,
-        renderComponent(CSSModules(CondensedEntry, styles))
-    )
-)(CSSModules(Entry, styles))
+export default class EntryComponent extends Component {
+    static propTypes = {
+        condensed: PropTypes.bool,
+    }
+    shouldComponentUpdate() {
+        return false
+    }
+    render() {
+        const { condensed, ...props } = this.props
+        const Component = condensed ? CondensedEntry : Entry
+
+        return <Component {...props} />
+    }
+}

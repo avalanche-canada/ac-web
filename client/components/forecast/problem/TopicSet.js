@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ElementResize } from 'components/misc'
+import Dimensions from 'components/Dimensions'
 import styles from './Problem.css'
 
 TopicSet.propTypes = {
@@ -9,8 +9,8 @@ TopicSet.propTypes = {
 
 export default function TopicSet({ children }) {
     return (
-        <ElementResize>
-            {width => {
+        <Dimensions>
+            {({ width }) => {
                 let classNames = [styles.TopicSet]
 
                 if (width > 300) {
@@ -21,12 +21,8 @@ export default function TopicSet({ children }) {
                     }
                 }
 
-                return (
-                    <div className={classNames.join(' ')}>
-                        {children}
-                    </div>
-                )
+                return <div className={classNames.join(' ')}>{children}</div>
             }}
-        </ElementResize>
+        </Dimensions>
     )
 }

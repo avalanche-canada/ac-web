@@ -4,9 +4,11 @@ import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from './ScrollTo'
 import Analytics from './Analytics'
 
-function redirect({ location }) {
+function redirect({ location: { pathname } }) {
     // Leave the application and goes to nginx to do appropriate redirect
-    document.location = location.pathname
+    window.open(`http://avalanche.ca/${pathname}`, pathname)
+
+    return null
 }
 
 export default function Router() {
@@ -491,7 +493,6 @@ export default function Router() {
                             from="/generic/terms-of-use"
                             to="/terms-of-use"
                         />
-                        <Redirect from="/generic/auction" to="/auction" />
                         <Redirect from="/cherrybowl" to="/cherry-bowl" />
                         <Redirect
                             from="/min"

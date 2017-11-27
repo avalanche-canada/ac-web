@@ -59,6 +59,7 @@ exports[`button component 7`] = `
 exports[`button component 8`] = `
 <button
   className="Subtile"
+  expanded={false}
 >
   <div
     className="IconContainer"

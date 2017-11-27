@@ -1,24 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    Header,
-    Container,
-    Body,
-    Navbar,
-    Close,
-} from 'components/page/drawer'
+import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
 import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import { fatalAccident } from 'containers/connectors'
-import { LocateAsClass } from 'components/button/Locate'
-import { Wrapper } from 'components/tooltip'
 import { parse } from 'prismic'
 import { StructuredText } from 'prismic/components/base'
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}
+import DisplayOnMap from './DisplayOnMap'
 
 FatalAccident.propTypes = {
     report: PropTypes.object.isRequired,
@@ -37,27 +26,23 @@ function FatalAccident({ report, status, onCloseClick, onLocateClick }) {
             </Navbar>
             <Header subject="Fatal Recreational Accident">
                 <Status {...status.toJSON()} />
-                {title &&
+                {title && (
                     <h1>
                         {title}
-                        <Wrapper tooltip="Display on map">
-                            <LocateAsClass
-                                onClick={onLocateClick}
-                                style={LOCATE_STYLE}
-                            />
-                        </Wrapper>
-                    </h1>}
-                {dateOfAccident &&
+                        <DisplayOnMap onClick={onLocateClick} />
+                    </h1>
+                )}
+            </Header>
+            <Body>
+                {dateOfAccident && (
                     <Metadata>
                         <Entry term="Accident date">
                             <DateTime value={dateOfAccident} />
                         </Entry>
-                    </Metadata>}
-            </Header>
-            {content &&
-                <Body>
-                    <StructuredText value={content} />
-                </Body>}
+                    </Metadata>
+                )}
+                {content && <StructuredText value={content} />}
+            </Body>
         </Container>
     )
 }

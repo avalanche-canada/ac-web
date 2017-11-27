@@ -1,6 +1,7 @@
 @import '../../../styles/colors.css';
 
 .Figure {
+    position: relative;
     display: inline-block;
     margin: 0;
     background-color: transparent;

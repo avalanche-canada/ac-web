@@ -1,8 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Social.css'
 
-export default Element({
-    name: 'SocialSet',
-    styleName: 'Set',
-    styles,
-})
+export default function SocialSet({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Set}>
+            {children}
+        </div>
+    )
+}

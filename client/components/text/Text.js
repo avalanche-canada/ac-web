@@ -1,40 +1,26 @@
-import { defaultProps } from 'recompose'
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Text.css'
 
-function text({ children = null, name, component = 'p' }) {
-    return defaultProps({ children })(
-        Element({
-            name,
-            component,
-            styles,
-        })
-    )
+export function Text({ children }) {
+    return <p className={styles.Text}>{children}</p>
 }
 
-export const Text = text({
-    name: 'Text',
-})
+export function Muted({ children }) {
+    return <p className={styles.Muted}>{children}</p>
+}
 
-export const Muted = text({
-    name: 'Muted',
-})
+export function Loading({ children = 'Loading...' }) {
+    return <p className={styles.Loading}>{children}</p>
+}
 
-export const Loading = text({
-    name: 'Loading',
-    children: 'Loading...',
-})
+export function Error({ children = 'An error happened.' }) {
+    return <p className={styles.Error}>{children}</p>
+}
 
-export const Error = text({
-    name: 'Error',
-    children: 'An error happened.',
-})
+export function Warning({ children }) {
+    return <p className={styles.Warning}>{children}</p>
+}
 
-export const Warning = text({
-    name: 'Warning',
-})
-
-export const Helper = text({
-    name: 'Helper',
-    component: 'span',
-})
+export function Helper({ children }) {
+    return <span className={styles.Helper}>{children}</span>
+}

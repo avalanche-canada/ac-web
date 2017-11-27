@@ -21,8 +21,10 @@ export default class Primary extends PureComponent {
     get type() {
         return this.match ? this.match.params.type : null
     }
-    open(name) {
-        if (this.type === 'forecasts' && externals.has(name)) {
+    tryOpenExternal() {
+        const { type, name } = this
+
+        if (type === 'forecasts' && externals.has(name)) {
             window.open(externals.get(name), name)
         }
     }
@@ -39,12 +41,10 @@ export default class Primary extends PureComponent {
         <HotZoneReport name={this.name} onCloseClick={this.handleCloseClick} />
     )
     componentDidMount() {
-        this.open(this.name)
+        this.tryOpenExternal()
     }
-    componentDidUpdate({ match }) {
-        if (match && this.name !== match.params.name) {
-            this.open(this.name)
-        }
+    componentDidUpdate() {
+        this.tryOpenExternal()
     }
     render() {
         const open = Boolean(this.match) && !externals.has(this.name)

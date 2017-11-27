@@ -21,18 +21,11 @@ StaticPage.propTypes = {
     title: PropTypes.string,
     status: PropTypes.object.isRequired,
     document: PropTypes.object,
-    fullWidth: PropTypes.bool,
 }
 
 const ARRAY = []
 
-export default function StaticPage({
-    uid,
-    title,
-    status,
-    document,
-    fullWidth = false,
-}) {
+export default function StaticPage({ uid, title, status, document }) {
     const defaults = {
         title,
         content: ARRAY,
@@ -45,24 +38,22 @@ export default function StaticPage({
     // TODO: Looking at className (prismic.css) usage and find out is we still need that
     // TODO: Removing className here and in the stylesheet
     return (
-        <Page className={`${STATIC_PAGE}-${uid}`} fullWidth={fullWidth}>
+        <Page className={`${STATIC_PAGE}-${uid}`}>
             {banner && <Banner {...banner.main} />}
             <Header title={data.title} />
             <Content>
                 <Status {...status.toJSON()} />
                 <Main>
-                    {headline &&
-                        <Headline>
-                            {headline}
-                        </Headline>}
+                    {headline && <Headline>{headline}</Headline>}
                     <SliceZone value={content} />
                 </Main>
-                {sidebar &&
+                {sidebar && (
                     <Aside>
                         <Sidebar {...sidebar}>
                             <SliceZone value={sidebar.content} />
                         </Sidebar>
-                    </Aside>}
+                    </Aside>
+                )}
             </Content>
         </Page>
     )

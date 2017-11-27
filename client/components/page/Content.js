@@ -1,7 +1,10 @@
-import { Element } from 'compose'
+import React from 'react'
 import styles from './Page.css'
 
-export default Element({
-    name: 'Content',
-    styles,
-})
+export default function Content({ children, ...props }) {
+    return (
+        <div {...props} className={styles.Content}>
+            {children}
+        </div>
+    )
+}

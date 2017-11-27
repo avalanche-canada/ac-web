@@ -32,9 +32,7 @@ function createSection({ label, headline, children = [], ...props }, index) {
         <Section key={index}>
             {label && createLink({ headline, label, ...props })}
             {headline && <Headline>{headline}</Headline>}
-            <ColumnSet count={column}>
-                {children.map(createLink)}
-            </ColumnSet>
+            <ColumnSet count={column}>{children.map(createLink)}</ColumnSet>
         </Section>
     )
 }
@@ -71,15 +69,14 @@ function sectionsReducer(children) {
     }, [])
 }
 
-export function createItem({ id, label, noWrap, children }, index) {
+export function createItem({ id, label, noWrap, children, to }, index) {
     const key = `${id}-${index}`
 
     return (
-        <Item key={key} title={label} noWrap={noWrap}>
-            {children &&
-                <Menu>
-                    {sectionsReducer(children).map(createSection)}
-                </Menu>}
+        <Item key={key} title={label} noWrap={noWrap} to={to}>
+            {children && (
+                <Menu>{sectionsReducer(children).map(createSection)}</Menu>
+            )}
         </Item>
     )
 }

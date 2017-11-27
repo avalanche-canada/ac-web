@@ -1,13 +1,12 @@
 import React, { PureComponent, cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Navbar.css'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
 import { withRouter } from 'react-router-dom'
 
-@CSSModules(styles)
-class ItemSet extends PureComponent {
+@withRouter
+export default class ItemSet extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
         location: PropTypes.object.isRequired,
@@ -55,34 +54,36 @@ class ItemSet extends PureComponent {
             this.close()
         }
     }
+    get children() {
+        return Children.toArray(this.props.children).filter(Boolean)
+    }
+    renderItem = (item, index) => {
+        if (Children.count(item.props.children) === 0) {
+            return item
+        }
+
+        const isActive = this.activeIndex === index
+        const props = {
+            isActive,
+            onClick: event => {
+                event.preventDefault()
+                this.handleClick(index)
+            },
+        }
+        const children = cloneElement(item.props.children, {
+            isOpened: isActive,
+        })
+
+        return cloneElement(item, props, children)
+    }
     render() {
         return (
-            <div styleName="ItemSet--Container">
-                <ul styleName="ItemSet">
-                    {Children.map(this.props.children, (item, index) => {
-                        if (Children.count(item.props.children) === 0) {
-                            return item
-                        }
-
-                        const isActive = this.activeIndex === index
-                        const props = {
-                            isActive,
-                            onClick: event => {
-                                event.preventDefault()
-                                this.handleClick(index)
-                            },
-                        }
-                        const children = cloneElement(item.props.children, {
-                            isOpened: isActive,
-                        })
-
-                        return cloneElement(item, props, children)
-                    })}
+            <div className={styles['ItemSet--Container']}>
+                <ul className={styles.ItemSet}>
+                    {this.children.map(this.renderItem)}
                 </ul>
                 {this.opened && <Backdrop onClick={this.close} />}
             </div>
         )
     }
 }
-
-export default withRouter(ItemSet)

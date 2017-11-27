@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import Gallery from 'components/gallery'
-import CSSModules from 'react-css-modules'
 import {
     Header,
     Container,
@@ -12,7 +11,7 @@ import {
     Banner,
     Content,
 } from 'components/page/drawer'
-import { LocateAsClass } from 'components/button/Locate'
+import { Locate } from 'components/button'
 import Footer from './Footer'
 import Submitter from './Submitter'
 import { InnerHTML, Status } from 'components/misc'
@@ -38,7 +37,7 @@ Drawer.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function Drawer({
+export default function Drawer({
     report = new Immutable.Map(),
     onCloseClick,
     onLocateClick,
@@ -84,14 +83,13 @@ function Drawer({
                 <Header subject={subject}>
                     {title && (
                         <h1>
-                            <a href={permalink} target="_blank">
+                            <a href={permalink} target={permalink}>
                                 {title}
                             </a>
-                            <LocateAsClass onClick={onLocateClick} />
                         </h1>
                     )}
                     {Array.isArray(dates) && (
-                        <div styleName="Date">
+                        <div className={styles.Date}>
                             {dates.reduce((elements, date, index) => {
                                 if (elements.length > 0) {
                                     elements.push(' to ')
@@ -105,11 +103,14 @@ function Drawer({
                             }, [])}
                         </div>
                     )}
-                    {locationDescription && (
-                        <InnerHTML styleName="Location">
-                            {locationDescription}
-                        </InnerHTML>
-                    )}
+                    <div className={styles.Location}>
+                        {locationDescription && (
+                            <InnerHTML className={styles.LocationDescription}>
+                                {locationDescription}
+                            </InnerHTML>
+                        )}
+                        {isLoaded && <Locate onClick={onLocateClick} />}
+                    </div>
                     {user && <Submitter {...user} groups={groups} />}
                 </Header>
                 <Content>
@@ -121,5 +122,3 @@ function Drawer({
         </Container>
     )
 }
-
-export default CSSModules(Drawer, styles)

@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CSSModules from 'react-css-modules'
 import styles from './Pill.css'
-import { getStringFromChildren } from 'utils/react'
 import noop from 'lodash/noop'
 
 Item.propTypes = {
@@ -11,15 +9,12 @@ Item.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-function Item({ active = false, onClick = noop, children }) {
+export default function Item({ active = false, onClick = noop, children }) {
+    const className = active ? 'Item--Active' : 'Item'
+
     return (
-        <li
-            styleName={active ? 'Item--Active' : 'Item'}
-            onClick={onClick}
-            title={getStringFromChildren({ children })}>
+        <li className={styles[className]} onClick={onClick}>
             {children}
         </li>
     )
 }
-
-export default CSSModules(Item, styles)

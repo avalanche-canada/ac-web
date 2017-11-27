@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withState } from 'recompose'
-import CSSModules from 'react-css-modules'
 import { Input } from 'components/controls'
 import styles from './DateRange.css'
 import { DayPicker } from 'components/pickers'
 import { addDayToRange } from 'utils/date'
+import { Focus } from 'react-powerplug'
 import noop from 'lodash/noop'
 
 // TODO: Use the control instead!
@@ -14,11 +13,9 @@ DateRange.propTypes = {
     from: PropTypes.instanceOf(Date).isRequired,
     to: PropTypes.instanceOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
-    focus: PropTypes.bool,
-    setFocus: PropTypes.func,
 }
 
-function DateRange({ onChange = noop, focus, setFocus, ...range }) {
+export default function DateRange({ onChange = noop, ...range }) {
     function handleInputChange({ target }) {
         const { value, name } = target
         const range = { from, to }
@@ -26,9 +23,6 @@ function DateRange({ onChange = noop, focus, setFocus, ...range }) {
         range[name] = value
 
         onChange(range)
-    }
-    function handleFocus({ target }) {
-        setFocus(target.name)
     }
     function handleDayClick(day) {
         const range = addDayToRange(day, { from, to })
@@ -39,32 +33,35 @@ function DateRange({ onChange = noop, focus, setFocus, ...range }) {
     const { from, to } = range
 
     return (
-        <div styleName="Container">
-            <div styleName="InputSet">
-                <Input
-                    type="text"
-                    placeholder="Start date"
-                    name="from"
-                    value={from}
-                    onChange={handleInputChange}
-                    onFocus={handleFocus}
-                />
-                <Input
-                    type="text"
-                    placeholder="End date"
-                    name="to"
-                    value={to}
-                    onChange={handleInputChange}
-                    onFocus={handleFocus}
-                />
-            </div>
-            {focus &&
-                <DayPicker selectedDays={range} onDayClick={handleDayClick} />}
-        </div>
+        <Focus>
+            {({ isFocus, bindFocus }) => (
+                <div className={styles.Container}>
+                    <div className={styles.InputSet}>
+                        <Input
+                            type="text"
+                            placeholder="Start date"
+                            name="from"
+                            value={from}
+                            onChange={handleInputChange}
+                            {...bindFocus}
+                        />
+                        <Input
+                            type="text"
+                            placeholder="End date"
+                            name="to"
+                            value={to}
+                            onChange={handleInputChange}
+                            {...bindFocus}
+                        />
+                    </div>
+                    {isFocus && (
+                        <DayPicker
+                            selectedDays={range}
+                            onDayClick={handleDayClick}
+                        />
+                    )}
+                </div>
+            )}
+        </Focus>
     )
 }
-
-export default compose(
-    withState('focus', 'setFocus', null),
-    CSSModules(styles)
-)(DateRange)

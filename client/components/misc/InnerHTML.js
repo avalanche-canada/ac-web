@@ -1,23 +1,28 @@
-import { createElement } from 'react'
+import { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
-import { onlyUpdateForKey } from 'compose'
 
-InnerHTML.propTypes = {
-    children: PropTypes.string,
-    component: PropTypes.string,
-}
-
-function InnerHTML({ children, component = 'div', ...rest }) {
-    if (children) {
-        return createElement(component, {
-            ...rest,
-            dangerouslySetInnerHTML: {
-                __html: children,
-            },
-        })
+export default class InnerHTML extends Component {
+    static propTypes = {
+        children: PropTypes.string,
+        component: PropTypes.string,
     }
+    static defaultProps = {
+        component: 'div',
+    }
+    shouldComponentUpdate({ children }) {
+        return children !== this.props.children
+    }
+    render() {
+        const { children, component, ...props } = this.props
 
-    return null
+        if (children) {
+            props.dangerouslySetInnerHTML = {
+                __html: children,
+            }
+
+            return createElement(component, props)
+        }
+
+        return null
+    }
 }
-
-export default onlyUpdateForKey('children')(InnerHTML)
