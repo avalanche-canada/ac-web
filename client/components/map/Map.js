@@ -52,6 +52,7 @@ const EVENTS = new Map([
     ['onPitch', 'pitch'],
     ['onResize', 'resize'],
     ['onSourcedata', 'sourcedata'],
+    ['onSourcedataloading', 'sourcedataloading'],
 ])
 
 export default class MapComponent extends Component {
@@ -117,6 +118,7 @@ export default class MapComponent extends Component {
         onDragend: PropTypes.func,
         onPitch: PropTypes.func,
         onSourcedata: PropTypes.func,
+        onSourcedataloading: PropTypes.func,
     }
     static defaultProps = {
         style: null,
