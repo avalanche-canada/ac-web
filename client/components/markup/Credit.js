@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import { Toggle } from 'react-powerplug'
 import styles from './Credit.css'
 
 export default class Credit extends PureComponent {
@@ -9,25 +8,36 @@ export default class Credit extends PureComponent {
         children: PropTypes.string.isRequired,
         compact: PropTypes.bool,
     }
+    state = {
+        expanded: false,
+    }
     constructor(props) {
         super(props)
 
         this.classnames = classnames.bind(styles)
     }
-    renderer = ({ on, toggle }) => {
-        const className = this.classnames({
+    toggle = () => this.setState(toggle)
+    get className() {
+        return this.classnames({
             Credit: true,
             Compact: this.props.compact,
-            Expanded: on,
+            Expanded: this.state.expanded,
         })
-
+    }
+    render() {
         return (
-            <span data-label="Credit" className={className} onClick={toggle}>
+            <span
+                data-label="Credit"
+                className={this.className}
+                onClick={this.toggle}>
                 {this.props.children}
             </span>
         )
     }
-    render() {
-        return <Toggle>{this.renderer}</Toggle>
+}
+
+function toggle({ expanded }) {
+    return {
+        expanded: !expanded,
     }
 }
