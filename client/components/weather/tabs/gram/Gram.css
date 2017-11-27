@@ -1,0 +1,23 @@
+@import "../../../../styles/colors.css";
+
+.GramSet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.Location {
+    flex: 50%;
+    box-sizing: border-box;
+    padding: 2em;
+    cursor: pointer;
+
+    & > header {
+        display: block;
+        padding: 0.25em;
+        box-sizing: border-box;
+        background-color: rgba(255, 255, 255, 0.65);
+        color: var(--brand-primary);
+        font-weight: 700;
+    }
+}

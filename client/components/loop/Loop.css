@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --one-row (width > 500px);
 
@@ -15,6 +15,14 @@
 }
 
 .Title {
+    color: white;
+    font-weight: 700;
+    line-height: 3;
+    padding: 0 1em;
+    background-color: var(--primary);
+}
+
+.Info {
     color: white;
     text-align: center;
     line-height: 2.5;

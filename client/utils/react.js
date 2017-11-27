@@ -99,3 +99,15 @@ export function swap(source, start, end, element) {
         })
     )
 }
+
+export function getStringFromChildren({ children }) {
+    if (typeof children === 'string') {
+        return children
+    }
+
+    if (typeof children.props === 'object') {
+        return getStringFromChildren(children.props)
+    }
+
+    return null
+}

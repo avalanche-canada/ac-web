@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DateElement } from 'components/time'
 import Section from './Section'
-import Loop from '../Loop'
 import addDays from 'date-fns/add_days'
+import ExtendedWeatherForecast from './ExtendedWeatherForecast'
 
-Day5To7.propTypes = {
+Day5to7.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     children: PropTypes.node,
 }
@@ -15,29 +15,21 @@ Title.propTypes = {
 }
 
 function Title({ date }) {
-    const day5 = addDays(date, 4)
-    const day7 = addDays(date, 6)
+    const from = addDays(date, 4)
+    const to = addDays(date, 7)
 
     return (
         <div>
-            <DateElement value={day5} /> to <DateElement value={day7} />
+            <DateElement value={from} /> to <DateElement value={to} />
         </div>
     )
 }
 
-export default function Day5To7({ date, children }) {
-    const loop = {
-        type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
-        date: addDays(date, -1),
-        run: 12,
-        from: 120,
-        to: 144,
-    }
-
+export default function Day5to7({ date, children }) {
     return (
         <Section title={<Title date={date} />}>
-            {children && <Loop {...loop} />}
             {children}
+            <ExtendedWeatherForecast date={date} />
         </Section>
     )
 }

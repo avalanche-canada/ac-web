@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { compose, withState, defaultProps, setPropTypes } from 'recompose'
 import ImageGallery from 'components/gallery'
 
+// TODO: Remove this duplicate component
+
 export default compose(
     withState('instance', 'ref', null),
     setPropTypes({

@@ -4,7 +4,9 @@ import styles from './OptionSet.css'
 
 OptionSet.propTypes = {
     children: PropTypes.node.isRequired,
+    // TODO: Remove that property
     show: PropTypes.bool,
+    // TODO: Rename to be more explicite
     onOptionClick: PropTypes.func,
     selected: PropTypes.instanceOf(Set),
 }
