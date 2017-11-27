@@ -11,7 +11,6 @@ const CENTER = [-122, 53]
 
 export default class AtesMap extends PureComponent {
     state = {
-        isLoading: false,
         coordinates: null,
         url: null,
     }
@@ -53,13 +52,6 @@ export default class AtesMap extends PureComponent {
             ],
         })
     }, 500)
-    updateIsLoading = event => {
-        if (event.sourceId === 'ates') {
-            this.setState({
-                isLoading: !event.isSourceLoaded,
-            })
-        }
-    }
     get source() {
         const { coordinates, url } = this.state
 
@@ -76,7 +68,6 @@ export default class AtesMap extends PureComponent {
     render() {
         return (
             <div className={styles.Container}>
-                <Status isLoading={this.state.isLoading} />
                 <div className={styles.Disclaimer}>
                     <Alert type={WARNING}>
                         <Generic uid="ates-map-disclaimer" />
@@ -87,7 +78,6 @@ export default class AtesMap extends PureComponent {
                     center={CENTER}
                     style="default"
                     onLoad={this.updateSource}
-                    onSourcedata={this.updateIsLoading}
                     onResize={this.updateSource}
                     onZoomend={this.updateSource}
                     onMoveend={this.updateSource}>
