@@ -1,6 +1,6 @@
 import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { fullscreen } from 'compose'
+import fullscreen from 'compose/fullscreen'
 import styles from './Gram.css'
 
 @fullscreen
