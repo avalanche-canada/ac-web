@@ -34,7 +34,7 @@ export default class ChartSet extends Component {
                         return (
                             <Error>
                                 An error happened while showing charts. Not
-                                worries we already loooking into it.
+                                worries we are already loooking into it.
                             </Error>
                         )
                     }
