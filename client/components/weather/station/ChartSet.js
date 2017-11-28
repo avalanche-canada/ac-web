@@ -7,6 +7,8 @@ import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import { getDateExtent } from './utils'
 import { Ratio } from 'components/misc'
+import ErrorBoundary from 'components/ErrorBoundary'
+import { Error } from 'components/text'
 import styles from './Station.css'
 
 const MIN_HEIGHT = 200
@@ -18,15 +20,24 @@ export default class ChartSet extends Component {
     shouldComponentUpdate({ measurements }) {
         return measurements !== this.props.measurements
     }
-    render() {
+    renderer = (width, height) => {
         const { measurements } = this.props
         const data = measurements.toArray()
         const { min, max } = getDateExtent(data)
 
+        height = Math.max(MIN_HEIGHT, height)
+
         return (
-            <Ratio traverse>
-                {(width, height) => {
-                    height = Math.max(MIN_HEIGHT, height)
+            <ErrorBoundary>
+                {({ hasError }) => {
+                    if (hasError) {
+                        return (
+                            <Error>
+                                An error happened while showing charts. Not
+                                worries we already loooking into it.
+                            </Error>
+                        )
+                    }
 
                     return (
                         <div className={styles.ChartSet}>
@@ -61,7 +72,10 @@ export default class ChartSet extends Component {
                         </div>
                     )
                 }}
-            </Ratio>
+            </ErrorBoundary>
         )
+    }
+    render() {
+        return <Ratio traverse>{this.renderer}</Ratio>
     }
 }
