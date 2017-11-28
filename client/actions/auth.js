@@ -39,8 +39,8 @@ export function receiveToken(idToken, accessToken) {
             },
         })
 
-        return dispatch(getProfile()).then(profile => {
-            setUserContext(profile)
+        return dispatch(getProfile()).then(({ value }) => {
+            setUserContext(value)
         })
     }
 }
