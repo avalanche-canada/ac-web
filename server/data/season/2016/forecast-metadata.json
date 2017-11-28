@@ -234,7 +234,7 @@
   "chic-chocs": {
     "name": "Chic Chocs, CAHG",
     "type": "link",
-    "url": "http://www.centreavalanche.qc.ca/conditions/bulletins-avalanche/bulletin-fr",
+    "url": "https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche",
     "forecastUrl": "/api/forecasts/chic-chocs.json",
     "dangerIconUrl": "/api/forecasts/chic-chocs/danger-rating-icon.svg",
     "owner": "chics-chocs",
