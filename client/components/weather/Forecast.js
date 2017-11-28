@@ -1,5 +1,6 @@
 import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
+import isAfter from 'date-fns/is_after'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
@@ -15,17 +16,18 @@ export default class Forecast extends PureComponent {
         forecast: PropTypes.object.isRequired,
     }
     get isDay5To7TabVisible() {
-        const { forecast } = this.props
+        const { date } = this.props.forecast
 
-        return forecast.day5To7 || forecast.day5To7More
+        // Long range launching date was November 27th, 2017, yeah! on my birthday
+        return isAfter(date, new Date(2017, 10, 26))
     }
     get day5To7Panel() {
-        const { forecast } = this.props
+        const { date, day5To7 } = this.props.forecast
 
-        return createElement(
-            Day5To7,
-            { date: forecast.date },
-            <StructuredText value={forecast.day5To7} />
+        return (
+            <Day5To7 date={date}>
+                {day5To7 ? <StructuredText value={day5To7} /> : null}
+            </Day5To7>
         )
     }
     get headers() {
