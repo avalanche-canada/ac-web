@@ -14,7 +14,7 @@ export default class Forecast extends PureComponent {
     static propTypes = {
         forecast: PropTypes.object.isRequired,
     }
-    get hasDay5To7() {
+    get isDay5To7TabVisible() {
         const { forecast } = this.props
 
         return forecast.day5To7 || forecast.day5To7More
@@ -34,7 +34,7 @@ export default class Forecast extends PureComponent {
             <Header key="day1">Day 1</Header>,
             <Header key="day2">Day 2</Header>,
             <Header key="day3To4">Day 3-4</Header>,
-            this.hasDay5To7 && <Header key="day5To7">Day 5-7</Header>,
+            this.isDay5To7TabVisible && <Header key="day5To7">Day 5-7</Header>,
             <Header key="tutorial">Tutorial</Header>,
         ].filter(Boolean)
     }
@@ -46,7 +46,9 @@ export default class Forecast extends PureComponent {
             <Panel key="day1">{this.createPanel(Day1, 'day1')}</Panel>,
             <Panel key="day2">{this.createPanel(Day2, 'day2')}</Panel>,
             <Panel key="day3To4">{this.createPanel(Day3To4, 'day3To4')}</Panel>,
-            this.hasDay5To7 && <Panel key="day5To7">{this.day5To7Panel}</Panel>,
+            this.isDay5To7TabVisible && (
+                <Panel key="day5To7">{this.day5To7Panel}</Panel>
+            ),
             <Panel key="tutorial">
                 <Tutorial uid="weather" />
             </Panel>,
