@@ -123,9 +123,6 @@ const MENU = new Map({
             id: Layers.MOUNTAIN_CONDITIONS_REPORTS,
             title: 'Mountain Conditions Reports',
             type: 'Analysis',
-            visible: Boolean(
-                LAYERS_VISIBILITY.get(Layers.MOUNTAIN_CONDITIONS_REPORTS, false)
-            ),
         }),
     }),
 })
