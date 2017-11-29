@@ -48,9 +48,7 @@ export default class DateRange extends Component {
     hideCalendar = () => {
         this.visible = false
     }
-    handleDayClick = (day, modifiers, event) => {
-        event.stopPropagation()
-
+    handleDayClick = day => {
         const range = addDayToRange(day, this.state)
 
         this.setRange(range)
