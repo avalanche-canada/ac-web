@@ -30,7 +30,7 @@ export default class Station extends Component {
         const { measurements, columns, headers } = this.props
 
         //TODO(karl): Ensure we always get an empty measurements object
-        if (typeof measurements === 'undefined' || measurements.size === 0) {
+        if (typeof measurements !== 'undefined' && measurements.size === 0) {
             return (
                 <div className={styles.UnavaliableMessage}>
                     <Muted>This station currently has no data avaliable</Muted>
