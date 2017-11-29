@@ -16,6 +16,11 @@ module.exports = merge(common, {
         }),
         new UglifyJSPlugin({
             sourceMap: true,
+            uglifyOptions: {
+                compress: {
+                    reduce_vars: false, // fix issue with minified victory lib. Issue with uglifyjs https://github.com/mishoo/UglifyJS2/issues/2531
+                }
+            },
         }),
     ],
 })
