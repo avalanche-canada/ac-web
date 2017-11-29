@@ -1,12 +1,5 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    setDisplayName,
-    setPropTypes,
-    withProps,
-    defaultProps,
-} from 'recompose'
 import { SUBTILE } from './kinds'
 import Button from './Button'
 import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
@@ -16,18 +9,19 @@ const ICONS = new Map([
     [false, new Map([[true, <Remove />], [false, <Add />]])],
 ])
 
-export default compose(
-    setDisplayName('Expand'),
-    setPropTypes({
+export default class Expand extends PureComponent {
+    static propTypes = {
         expanded: PropTypes.bool.isRequired,
         chevron: PropTypes.bool,
-    }),
-    defaultProps({
+    }
+    static defaultProps = {
         expanded: false,
         chevron: false,
-    }),
-    withProps(({ chevron, expanded }) => ({
-        kind: SUBTILE,
-        icon: ICONS.get(chevron).get(expanded),
-    }))
-)(Button)
+    }
+    render() {
+        const { chevron, expanded, ...props } = this.props
+        const icon = ICONS.get(chevron).get(expanded)
+
+        return <Button kind={SUBTILE} icon={icon} {...props} />
+    }
+}
