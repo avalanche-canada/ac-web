@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Table from './Table'
-import ChartSet from './ChartSet'
+import loadChartSet from 'bundle-loader?lazy!./ChartSet'
+import Bundle from 'components/Bundle'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Loading, Muted } from 'components/text'
 import styles from './Station.css'
+
+function ChartSet(props) {
+    return (
+        <Bundle load={loadChartSet}>
+            {Component => (Component ? <Component {...props} /> : <Loading />)}
+        </Bundle>
+    )
+}
 
 export default class Station extends Component {
     static propTypes = {
