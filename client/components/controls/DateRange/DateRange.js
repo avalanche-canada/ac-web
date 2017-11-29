@@ -79,14 +79,12 @@ export default class DateRange extends Component {
             : ''
 
         return (
-            <div
-                ref={this.setTarget}
-                className={styles.Container}
-                onClick={this.toggleCalendar}>
+            <div ref={this.setTarget} className={styles.Container}>
                 <Calendar />
                 <Input
                     className={styles.Input}
                     placeholder={placeholder}
+                    onClick={this.toggleCalendar}
                     value={range}
                 />
                 {showClear && (
