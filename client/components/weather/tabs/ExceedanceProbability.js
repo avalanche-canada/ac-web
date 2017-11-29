@@ -79,7 +79,6 @@ function Image({ date, product, from, to, param }) {
         product,
         param,
         date,
-        run: 0,
         start: differenceInHours(from, date),
         end: differenceInHours(to, date),
     })
@@ -139,16 +138,11 @@ export default class ExceedanceProbability extends Component {
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,
     }
-    state = {}
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            product: TEMPERATURE,
-            param: DEFAULT_PARAMETERS.get(TEMPERATURE),
-            from: addDays(this.props.date, 4),
-            to: addDays(this.props.date, 7),
-        }
+    state = {
+        product: TEMPERATURE,
+        param: DEFAULT_PARAMETERS.get(TEMPERATURE),
+        from: addDays(this.props.date, 4),
+        to: addDays(this.props.date, 7),
     }
     get realProduct() {
         const { product, param } = this.state
