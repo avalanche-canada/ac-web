@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withHandlers } from 'recompose'
 import { Page as Base, Header, Main, Content } from 'components/page'
 import { Responsive } from 'components/table'
 import { Br } from 'components/markup'
@@ -15,55 +14,50 @@ import {
 const DAYS = '7'
 const TYPES = []
 
-PageLayout.propTypes = {
-    days: PropTypes.number,
-    types: PropTypes.arrayOf(PropTypes.string),
-    sorting: PropTypes.string,
-    onDaysChange: PropTypes.func.isRequired,
-    onTypesChange: PropTypes.func.isRequired,
-    onSortingChange: PropTypes.func.isRequired,
-}
+@withRouter
+export class Page extends PureComponent {
+    static propTypes = {
+        days: PropTypes.number,
+        types: PropTypes.arrayOf(PropTypes.string),
+        sorting: PropTypes.string,
+        onDaysChange: PropTypes.func.isRequired,
+        onTypesChange: PropTypes.func.isRequired,
+        onSortingChange: PropTypes.func.isRequired,
+    }
+    static defaultProps = {
+        days: DAYS,
+        types: TYPES,
+    }
+    handleDaysChange = valueHandlerFactory('days')
+    handleTypesChange = arrayValueHandlerFactory('types')
+    handleSortingChange = sortingHandlerFactory()
+    render() {
+        const { days, types, sorting } = this.props
 
-function PageLayout({
-    days = DAYS,
-    types = TYPES,
-    sorting,
-    onDaysChange,
-    onTypesChange,
-    onSortingChange,
-}) {
-    return (
-        <Base>
-            <Header title="Mountain Information Network submissions" />
-            <Content>
-                <Main>
-                    <Metadata
-                        days={days}
-                        types={types}
-                        onDaysChange={onDaysChange}
-                        onTypesChange={onTypesChange}
-                    />
-                    <Br />
-                    <Responsive>
-                        <Table
+        return (
+            <Base>
+                <Header title="Mountain Information Network submissions" />
+                <Content>
+                    <Main>
+                        <Metadata
                             days={days}
                             types={types}
-                            sorting={sorting}
-                            onSortingChange={onSortingChange}
+                            onDaysChange={this.handleDaysChange}
+                            onTypesChange={this.handleTypesChange}
                         />
-                    </Responsive>
-                    <Status days={days} types={types} />
-                </Main>
-            </Content>
-        </Base>
-    )
+                        <Br />
+                        <Responsive>
+                            <Table
+                                days={days}
+                                types={types}
+                                sorting={sorting}
+                                onSortingChange={this.handleSortingChange}
+                            />
+                        </Responsive>
+                        <Status days={days} types={types} />
+                    </Main>
+                </Content>
+            </Base>
+        )
+    }
 }
-
-export const Page = compose(
-    withRouter,
-    withHandlers({
-        onDaysChange: valueHandlerFactory('days'),
-        onTypesChange: arrayValueHandlerFactory('types'),
-        onSortingChange: sortingHandlerFactory(),
-    })
-)(PageLayout)
