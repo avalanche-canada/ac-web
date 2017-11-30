@@ -30,8 +30,8 @@ export default function Subscribe({ url }) {
             </Button>
             {Object.keys(query).map(name => (
                 <input
-                    name={name}
                     key={name}
+                    name={name}
                     type="hidden"
                     value={query[name]}
                 />

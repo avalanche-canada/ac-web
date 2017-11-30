@@ -6,7 +6,7 @@ import { initials } from 'utils/string'
 import { Loading } from 'react-powerplug'
 
 export default class Avatar extends PureComponent {
-    static PropTypes = {
+    static propTypes = {
         name: PropTypes.string.isRequired,
         url: PropTypes.string,
         size: PropTypes.number,

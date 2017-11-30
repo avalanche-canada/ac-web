@@ -1,4 +1,6 @@
-import { mapProps } from 'recompose'
+import React from 'react'
 import { Subscribe } from 'services/mailchimp'
 
-export default mapProps(({ value }) => value[0])(Subscribe)
+export default function Mailchimp({ value }) {
+    return <Subscribe {...value[0]} />
+}
