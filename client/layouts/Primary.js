@@ -43,8 +43,10 @@ export default class Primary extends PureComponent {
     componentDidMount() {
         this.tryOpenExternal()
     }
-    componentDidUpdate() {
-        this.tryOpenExternal()
+    componentDidUpdate({ location }) {
+        if (location.pathname !== this.props.location.pathname) {
+            this.tryOpenExternal()
+        }
     }
     render() {
         const open = Boolean(this.match) && !externals.has(this.name)
