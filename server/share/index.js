@@ -264,7 +264,7 @@ function eventPost(req, res) {
 }
 
 function weatherForecast(req, res) {
-    return forecasreutrntByDate(req.params.date, req, res);
+    return forecastByDate(req.params.date, req, res);
 }
 
 function latestForecast(req, res) {
