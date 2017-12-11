@@ -113,10 +113,10 @@ export default function AvalancheCanada() {
                     uid="terms-of-use"
                     title="Terms of use"
                 />
-                <WIPPageRoute
+                <StaticPageRoute
                     path="/trip-planner"
-                    name="Trip Planner"
-                    oldUrl="http://old.avalanche.ca/cac/pre-trip-planning/trip-planner/planning"
+                    uid="trip-planning-resources"
+                    title="Trip Planner"
                 />
                 <WIPPageRoute
                     path="/incidents"
