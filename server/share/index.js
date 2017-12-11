@@ -121,7 +121,12 @@ function renderTags(tags) {
 }
 
 function forecastPage(req, res) {
-    var region = _.find(forecastRegions.features, { id: req.params.region });
+    var region = _.find(forecastRegoins.features, function(r){
+        return r.id === req.params.region && (
+           r.type === 'avalx'  ||  r.type === 'parks'
+        );
+    });
+
     if (!region) {
         res.status(404).send('NOT FOUND');
         return;
