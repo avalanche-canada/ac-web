@@ -64,7 +64,11 @@ if (process.env.REDIS_HOST) {
 avalxWebcache.seed(acAvalxUrls);
 
 router.param('region', function(req, res, next) {
-    req.region = _.find(regions.features, { id: req.params.region });
+    req.region = _.find(regions.features, function(r){ 
+        return r.id === req.params.region && (
+           r.properties.type === 'avalx'  ||  r.properties.type === 'parks'
+        );
+    });
 
     // Bail out if there is no region with that ID
     if (!req.region) {
@@ -72,8 +76,7 @@ router.param('region', function(req, res, next) {
             'info',
             'forecast region not found url="' + req.originalUrl + '"'
         );
-        res.status(404).end('Not Found');
-        return;
+        return res.status(404).end('Not Found');
     }
 
     logger.debug('getting region:', req.params.region);
