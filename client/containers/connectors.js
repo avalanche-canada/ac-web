@@ -154,13 +154,6 @@ export const hotZoneReport = compose(
 
             props.fitBounds(bbox, options)
         },
-    }),
-    withProps(({ report }) => {
-        if (report) {
-            report = parse(report).data
-        }
-
-        return { report }
     })
 )
 
