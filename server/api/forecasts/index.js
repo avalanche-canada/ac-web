@@ -64,11 +64,7 @@ if (process.env.REDIS_HOST) {
 avalxWebcache.seed(acAvalxUrls);
 
 router.param('region', function(req, res, next) {
-    req.region = _.find(regions.features, function(r){ 
-        return r.id === req.params.region && (
-           r.properties.type === 'avalx'  ||  r.properties.type === 'parks'
-        );
-    });
+    req.region = _.find(regions.features, { id: req.params.region });
 
     // Bail out if there is no region with that ID
     if (!req.region) {
@@ -80,7 +76,6 @@ router.param('region', function(req, res, next) {
     }
 
     logger.debug('getting region:', req.params.region);
-
     getForecastData(req.params.region, req.region)
         .then(function(forecast) {
             req.forecast = forecast;
@@ -102,6 +97,8 @@ function getForecastData(regionName, region) {
                 externalUrl: region.properties.url,
             },
         });
+    } else if (region.properties.type === 'hotzone') {
+        return Q.resolve(region.properties);
     }
 
     return avalxWebcache
@@ -150,10 +147,22 @@ router.get('/areas', function(req, res) {
     res.json(areas);
 });
 
+function isForecastRegion(r) {
+    return (
+        r.properties.type === 'parks' ||
+        r.properties.type === 'avalx'
+    );
+}
+
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json';
     var forecast;
     var locals;
+
+    if (!isForecastRegion(req.region)) {
+        return res.status(404).end('Region Not Found');
+    }
+
 
     switch (req.params.format) {
         case 'xml':
