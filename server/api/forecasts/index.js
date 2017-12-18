@@ -153,13 +153,19 @@ function isForecastRegion(r) {
         r.properties.type === 'avalx'
     );
 }
+function isLink(r) {
+    return r.properties.type === 'link';
+}
+function isHotzone(r) {
+    return r.properties.type === 'hotzone';
+}
 
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json';
     var forecast;
     var locals;
 
-    if (!isForecastRegion(req.region)) {
+    if (isHotzone(req.region)) {
         return res.status(404).end('Region Not Found');
     }
 
