@@ -47,8 +47,6 @@ import isToday from 'date-fns/is_today'
 import format from 'date-fns/format'
 import { makeGetDocumentAndStatus, getResult } from 'selectors/prismic/utils'
 import getSponsor, { getSponsorUid } from 'selectors/sponsor'
-import get from 'lodash/get'
-import { parse } from 'prismic'
 
 export const forecast = compose(
     withRouter,
@@ -57,33 +55,19 @@ export const forecast = compose(
         loadAll: EntitiesActions.loadFeaturesMetadata,
         fitBounds,
     }),
-    withHandlers({
-        redirectToForecasts: props => payload => {
-            if (get(payload, 'value.result.length') === 0) {
-                // TODO: Display a message to let user know about redirection !
-                props.history.push('/forecasts')
-            }
-        },
-    }),
     lifecycle({
         componentDidMount() {
-            const {
-                load,
-                loadAll,
-                name,
-                date,
-                redirectToForecasts,
-            } = this.props
+            const { load, loadAll, name, date } = this.props
             const params = { name, date }
 
-            load(params).then(redirectToForecasts)
+            load(params).catch(error => console.warn('karl', error))
             loadAll()
         },
         componentWillReceiveProps({ load, name, date }) {
             if (name !== this.props.name || date !== this.props.date) {
                 const params = { name, date }
 
-                load(params).then(this.props.redirectToForecasts)
+                load(params)
             }
         },
     }),
