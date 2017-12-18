@@ -131,6 +131,7 @@ const ENDPOINTS = new Map([
 const api = Axios.create({
     baseURL,
     validateStatus(status) {
+        // TODO: Should leave the defaults... and reject promise
         return (status >= 200 && status < 300) || status === 404
     },
 })
