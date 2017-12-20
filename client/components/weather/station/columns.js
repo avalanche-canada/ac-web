@@ -1,7 +1,6 @@
 import { setUTCOffset } from 'utils/date'
 import { toCompass } from 'utils/degrees'
 import format from 'date-fns/format'
-import printf from 'printf'
 
 const DASH = '—'
 
@@ -19,8 +18,7 @@ function maybeNull(name, fn = x => x) {
 }
 
 function singleDecimal(x) {
-    // TODO: Copy/paste code! Big librairy...
-    return printf('%.1f', Math.round(x * 10) / 10)
+    return Math.round(x * 10) / 10
 }
 
 export const Hour = {
