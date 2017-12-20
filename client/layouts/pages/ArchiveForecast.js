@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Url from 'url'
 import ForecastRegions from 'containers/ForecastRegions'
 import Container from 'containers/Forecast'
@@ -16,6 +16,125 @@ import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 
+export default class ArchiveForecast extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string,
+        date: PropTypes.instanceOf(Date),
+        onParamsChange: PropTypes.func.isRequired,
+    }
+    state = {
+        name: this.props.name,
+        date: this.props.date,
+    }
+    constructor(props) {
+        super(props)
+
+        this.disabledDays = {
+            after: endOfYesterday(),
+        }
+    }
+    componentWillReceiveProps({ name, date }) {
+        if (name !== this.state.name || date !== this.state.date) {
+            this.setState({
+                name,
+                date,
+            })
+        }
+    }
+    handleParamsChange = () => this.props.onParamsChange(this.state)
+    handleNameChange = name => this.setState({ name }, this.handleParamsChange)
+    handleDateChange = date => this.setState({ date }, this.handleParamsChange)
+    regionsDropdown(regions) {
+        return (
+            <Dropdown
+                options={new Map(regions.map(createRegionOption))}
+                value={this.state.name}
+                onChange={this.handleNameChange}
+                disabled
+                placeholder="Select a region"
+            />
+        )
+    }
+    renderWarning(region) {
+        const to = getWarningUrl(region, this.props.date)
+
+        return (
+            <Link to={to} target={region.get('id')}>
+                <Alert type={WARNING}>{getWarningText(region)}</Alert>
+            </Link>
+        )
+    }
+    forecast = ({ forecast, region, status }) => [
+        <Status {...status} />,
+        forecast ? ForecastMetadata.render(forecast) : null,
+        forecast ? Forecast.render(forecast) : null,
+        !forecast && status.isLoaded && region
+            ? this.renderWarning(region)
+            : null,
+    ]
+    get container() {
+        const { name, date } = this.state
+
+        if (!name) {
+            return <Muted>Select a forecast region.</Muted>
+        }
+
+        if (!date) {
+            return <Muted>Select a forecast date.</Muted>
+        }
+
+        return (
+            <Container name={name} date={date}>
+                {this.forecast}
+            </Container>
+        )
+    }
+    get metadata() {
+        const { name, date } = this.state
+
+        return (
+            <Metadata>
+                <Entry>
+                    <ForecastRegions>
+                        {regions => this.regionsDropdown(regions)}
+                    </ForecastRegions>
+                </Entry>
+                {name && (
+                    <Entry>
+                        <DayPicker
+                            date={date}
+                            onChange={this.handleDateChange}
+                            disabledDays={this.disabledDays}>
+                            {date ? (
+                                <DateElement value={date} />
+                            ) : (
+                                'Select a date'
+                            )}
+                        </DayPicker>
+                    </Entry>
+                )}
+            </Metadata>
+        )
+    }
+    render() {
+        return (
+            <Page>
+                <Header title="Forecast Archive" />
+                <Content>
+                    <Main>
+                        {this.metadata}
+                        {this.container}
+                    </Main>
+                </Content>
+            </Page>
+        )
+    }
+}
+
+// Utils
+function createRegionOption(region) {
+    return [region.get('id'), region.get('name')]
+}
 // TODO: Move these to constants with appropriate function
 const PARKS_CANADA = 'parks-canada'
 const CHIC_CHOCS = 'chics-chocs'
@@ -65,130 +184,4 @@ function getWarningUrl(region, date) {
         default:
             throw new Error(`Type ${type} not supported yet.`)
     }
-}
-
-@withRouter
-export default class ArchiveForecast extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string,
-        date: PropTypes.instanceOf(Date),
-        history: PropTypes.object.isRequired,
-    }
-    state = {
-        name: this.props.name,
-        date: this.props.date,
-    }
-    constructor(props) {
-        super(props)
-
-        this.disabledDays = {
-            after: endOfYesterday(),
-        }
-    }
-    componentWillReceiveProps({ name, date }) {
-        if (name !== this.state.name || date !== this.state.date) {
-            this.setState({
-                name,
-                date,
-            })
-        }
-    }
-    handleNameChange = name => this.setState({ name }, this.pushToHistory)
-    handleDateChange = date => this.setState({ date }, this.pushToHistory)
-    pushToHistory = () => {
-        const { name, date } = this.state
-        const paths = [
-            '/forecasts/archives',
-            name,
-            date && formatDate(date, 'YYYY-MM-DD'),
-        ].filter(Boolean)
-
-        this.props.history.push(paths.join('/'))
-    }
-    regionsDropdown = regions => (
-        <Dropdown
-            options={new Map(regions.map(createRegionOption))}
-            value={this.state.name}
-            onChange={this.handleNameChange}
-            disabled
-            placeholder="Select a region"
-        />
-    )
-    renderWarning(region) {
-        const to = getWarningUrl(region, this.props.date)
-
-        return (
-            <Link to={to} target={region.get('id')}>
-                <Alert type={WARNING}>{getWarningText(region)}</Alert>
-            </Link>
-        )
-    }
-    forecast = ({ forecast, region, status }) => [
-        <Status {...status} />,
-        forecast ? ForecastMetadata.render(forecast) : null,
-        forecast ? Forecast.render(forecast) : null,
-        !forecast && status.isLoaded && region
-            ? this.renderWarning(region)
-            : null,
-    ]
-    get container() {
-        const { name, date } = this.state
-
-        if (!name) {
-            return <Muted>Select a forecast region.</Muted>
-        }
-
-        if (!date) {
-            return <Muted>Select a forecast date.</Muted>
-        }
-
-        return (
-            <Container name={name} date={date}>
-                {this.forecast}
-            </Container>
-        )
-    }
-    get metadata() {
-        const { name, date } = this.state
-
-        return (
-            <Metadata>
-                <Entry>
-                    <ForecastRegions>{this.regionsDropdown}</ForecastRegions>
-                </Entry>
-                {name && (
-                    <Entry>
-                        <DayPicker
-                            date={date}
-                            onChange={this.handleDateChange}
-                            disabledDays={this.disabledDays}>
-                            {date ? (
-                                <DateElement value={date} />
-                            ) : (
-                                'Select a date'
-                            )}
-                        </DayPicker>
-                    </Entry>
-                )}
-            </Metadata>
-        )
-    }
-    render() {
-        return (
-            <Page>
-                <Header title="Forecast Archive" />
-                <Content>
-                    <Main>
-                        {this.metadata}
-                        {this.container}
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
-}
-
-// Utils
-function createRegionOption(region) {
-    return [region.get('id'), region.get('name')]
 }

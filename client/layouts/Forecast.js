@@ -6,18 +6,17 @@ import Forecast from 'layouts/pages/Forecast'
 import NorthRockies from 'layouts/pages/NorthRockies'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'layouts/pages/ArchiveForecast'
-import parseDate from 'date-fns/parse'
 import isAfter from 'date-fns/is_after'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import externals from 'router/externals'
+import * as utils from 'utils/search'
 
 ForecastLayout.propTypes = {
     match: PropTypes.object.isRequired,
 }
 
-function archive({ match: { params } }) {
-    const { name } = params
-    let { date } = params
+function archive({ match, history }) {
+    const { name, date } = match.params
 
     if (externals.has(name) && date && name) {
         const url = URL.parse(externals.get(name), true)
@@ -29,11 +28,27 @@ function archive({ match: { params } }) {
         window.open(URL.format(url), name)
     }
 
-    if (date && isAfter(parseDate(date, 'YYYY-MM-DD'), endOfYesterday())) {
+    if (date && isAfter(utils.parseDate(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} push={false} />
     }
 
-    return <ArchiveForecast name={name} date={parseDate(date, 'YYYY-MM-DD')} />
+    function onParamsChange({ name, date }) {
+        const paths = [
+            '/forecasts/archives',
+            name,
+            date && utils.formatDate(date),
+        ].filter(Boolean)
+
+        history.push(paths.join('/'))
+    }
+
+    return (
+        <ArchiveForecast
+            name={name}
+            date={utils.parseDate(date)}
+            onParamsChange={onParamsChange}
+        />
+    )
 }
 
 function forecast({ match }) {
