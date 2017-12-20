@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
+import endOfYesterday from 'date-fns/end_of_yesterday'
 import isToday from 'date-fns/is_today'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
@@ -558,30 +559,15 @@ export class HotZoneReport extends Component {
         }
     }
     get params() {
-        const predicates = [
-            Predicates.field(HOTZONE_REPORT, 'region', this.props.region),
-        ]
-
-        // TODO: Try to remove the condition
-        // For now it is easier to have a condition
-        if (this.props.date) {
-            predicates.push(
-                Predicates.dateBefore(
-                    `my.${HOTZONE_REPORT}.dateOfIssue`,
-                    addDays(this.props.date, 1).getTime()
-                )
-            )
-        } else {
-            predicates.push(
-                Predicates.dateAfter(
-                    `my.${HOTZONE_REPORT}.dateOfIssue`,
-                    subDays(new Date(), 1).getTime()
-                )
-            )
-        }
-
         return {
-            predicates,
+            predicates: [
+                Predicates.field(HOTZONE_REPORT, 'region', this.props.region),
+                ...rangePredicates(
+                    `my.${HOTZONE_REPORT}.dateOfIssue`,
+                    `my.${HOTZONE_REPORT}.validUntil`,
+                    this.props.date
+                ),
+            ],
             options: {
                 pageSize: 1,
                 orderings: [`my.${HOTZONE_REPORT}.dateOfIssue desc`],
@@ -645,13 +631,9 @@ export class SPAW extends Component {
         return {
             predicates: [
                 Predicates.type(SPAW_TYPE),
-                Predicates.dateBefore(
+                ...rangePredicates(
                     `my.${SPAW_TYPE}.start`,
-                    startOfTomorrow().getTime()
-                ),
-                Predicates.dateAfter(
-                    `my.${SPAW_TYPE}.end`,
-                    startOfYesterday().getTime()
+                    `my.${SPAW_TYPE}.end`
                 ),
             ],
         }
@@ -676,4 +658,10 @@ function data(document) {
 }
 function isFeaturedPost({ featured }) {
     return featured
+}
+function rangePredicates(start, end, date = new Date()) {
+    return [
+        Predicates.dateBefore(start, date.getTime()),
+        Predicates.dateAfter(end, subDays(date, 1).getTime()),
+    ]
 }

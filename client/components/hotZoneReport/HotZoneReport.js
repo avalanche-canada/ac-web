@@ -1,28 +1,36 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import isWithinRange from 'date-fns/is_within_range'
+import startOfDay from 'date-fns/start_of_day'
+import endOfDay from 'date-fns/end_of_day'
 import Panel, { INVERSE } from 'components/panel'
 import Generic from 'prismic/components/Generic'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import TerrainAdviceSet from './TerrainAdviceSet'
 import ImageGallery from 'components/gallery'
-import styles from './HotZoneReport.css'
 import { ArchiveWarning } from 'components/misc'
-import isWithinRange from 'date-fns/is_within_range'
+import styles from './HotZoneReport.css'
 
 export default class HotZoneReport extends PureComponent {
     static propTypes = {
-        report: PropTypes.object.isRequired,
+        report: PropTypes.object,
     }
     get warning() {
-        const { region, dateOfIssue, validUntil } = this.props.report
+        const { report } = this.props
 
-        if (isWithinRange(new Date(), dateOfIssue, validUntil)) {
+        if (
+            isWithinRange(
+                new Date(),
+                startOfDay(report.dateOfIssue),
+                endOfDay(report.validUntil)
+            )
+        ) {
             return null
         }
 
         const nowcast = {
-            to: `/hot-zone-reports/${region}`,
+            to: `/hot-zone-reports/${report.region}`,
             children: "Read today's report",
         }
 

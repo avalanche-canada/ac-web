@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'prismic/components/Link'
+import { Link } from 'prismic/components/base'
 import styles from './SPAW.css'
 
 SPAW.propTypes = {
@@ -15,17 +15,11 @@ export default function SPAW({
     link,
     style,
 }) {
-    if (!link) {
-        return (
-            <span className={styles.SPAW} style={style}>
-                {children}
-            </span>
-        )
-    }
-
-    return (
-        <Link className={styles.SPAW} document={link} style={style}>
+    const content = (
+        <span className={styles.SPAW} style={style}>
             {children}
-        </Link>
+        </span>
     )
+
+    return link ? <Link {...link}>{content}</Link> : content
 }
