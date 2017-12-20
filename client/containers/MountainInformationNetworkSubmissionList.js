@@ -11,7 +11,6 @@ import * as turf from '@turf/helpers'
 import { getFeatureCollection } from 'getters/mapbox'
 import { FORECAST_REGIONS } from 'services/mapbox/datasets'
 import { loadFeatures } from 'actions/mapbox'
-import { createSorter } from 'selectors/factories'
 
 function getSubmissionsResultsSet(state, { days }) {
     return getResultsSet(state, Schema, { days })
@@ -82,23 +81,9 @@ const getFilteredSubmissions = createSelector(
             .reverse()
 )
 
-const getSortedSubmissions = createSorter(
-    getFilteredSubmissions,
-    (state, { sorting }) => sorting,
-    new Map([
-        ['date', submission => new Date(submission.get('datetime'))],
-        ['reporter', submission => submission.get('user')],
-        [
-            'forecast-region',
-            submission =>
-                submission.has('region') ? submission.get('region').name : 'z',
-        ],
-    ])
-)
-
 export default connect(
     createStructuredSelector({
-        submissions: getSortedSubmissions,
+        submissions: getFilteredSubmissions,
         status(state, { days }) {
             return getResultsSet(state, Schema, { days })
                 .asStatus(MESSAGES)

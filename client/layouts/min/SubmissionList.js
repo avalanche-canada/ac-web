@@ -12,7 +12,6 @@ import {
     TBody,
     Cell,
 } from 'components/table'
-import { Column } from 'components/table/managed'
 import { withRouter } from 'react-router-dom'
 import * as utils from 'utils/search'
 import Container from 'containers/MountainInformationNetworkSubmissionList'
@@ -23,12 +22,13 @@ import { DateElement } from 'components/time'
 import { Status } from 'components/misc'
 import { INCIDENT, NAMES } from 'constants/min'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import { NONE } from 'constants/sortings'
+import { NONE, DESC } from 'constants/sortings'
 import { DateTime, Relative } from 'components/time'
-import styles from 'components/text/Text.css'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
 import { MountainInformationNetworkSubmission as Schema } from 'api/schemas'
+import { Sorted } from 'components/collection'
+import styles from 'components/text/Text.css'
 
 @withRouter
 export default class SubmissionList extends PureComponent {
@@ -144,6 +144,14 @@ export default class SubmissionList extends PureComponent {
 
         return status.messages
     }
+    get sortProps() {
+        const [name, order] = this.state.sorting || []
+
+        return {
+            sorter: SORTERS.get(name),
+            reverse: order === DESC,
+        }
+    }
     children = ({ props }) => [
         this.renderMetadata(props),
         <Br />,
@@ -152,18 +160,26 @@ export default class SubmissionList extends PureComponent {
                 <THead>
                     <Row>{COLUMNS.map(this.renderHeader)}</Row>
                 </THead>
-                <TBody>{props.submissions.map(this.renderSubmission)}</TBody>
+                <TBody>
+                    <Sorted values={props.submissions} {...this.sortProps}>
+                        {submissions => submissions.map(this.renderSubmission)}
+                    </Sorted>
+                </TBody>
             </Table>
         </Responsive>,
         <Status {...props.status} messages={this.createMessages(props)} />,
     ]
     render() {
+        const { days, types } = this.state
+
         return (
             <Page>
                 <Header title="Mountain Information Network submissions" />
                 <Content>
                     <Main>
-                        <Container {...this.state}>{this.children}</Container>
+                        <Container days={days} types={types}>
+                            {this.children}
+                        </Container>
                     </Main>
                 </Content>
             </Page>
@@ -171,8 +187,22 @@ export default class SubmissionList extends PureComponent {
     }
 }
 
+const SORTERS = new Map([
+    ['date', (a, b) => a.get('datetime') > b.get('datetime')],
+    ['reporter', (a, b) => a.get('user').localeCompare(b.get('user'))],
+    [
+        'forecast-region',
+        (a, b) => {
+            if (!a.has('region') && !b.has('region')) {
+                return 0
+            }
+
+            return a.get('region').name.localeCompare(b.get('region').name)
+        },
+    ],
+])
 const COLUMNS = [
-    Column.create({
+    {
         name: 'pin',
         property(submission) {
             const id = submission.get('subid')
@@ -193,15 +223,15 @@ const COLUMNS = [
         style: {
             minWidth: 40,
         },
-    }),
-    Column.create({
+    },
+    {
         name: 'title',
         title: 'Title',
         property(submission) {
             return submission.get('title')
         },
-    }),
-    Column.create({
+    },
+    {
         name: 'date',
         title: 'Date',
         property(submission) {
@@ -218,16 +248,16 @@ const COLUMNS = [
             )
         },
         sorting: NONE,
-    }),
-    Column.create({
+    },
+    {
         name: 'reporter',
         title: 'Reporter',
         property(submission) {
             return submission.get('user')
         },
         sorting: NONE,
-    }),
-    Column.create({
+    },
+    {
         name: 'forecast-region',
         title: 'Forecast Region',
         property(submission) {
@@ -240,8 +270,8 @@ const COLUMNS = [
             return '-'
         },
         sorting: NONE,
-    }),
-    Column.create({
+    },
+    {
         name: 'types',
         title: 'Available reports',
         property(submission) {
@@ -253,7 +283,7 @@ const COLUMNS = [
                 </ul>
             )
         },
-    }),
+    },
 ]
 
 // Utils
