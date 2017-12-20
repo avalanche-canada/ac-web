@@ -36,22 +36,3 @@ exports[`Markup component 1`] = `
   <br />
 </div>
 `;
-
-exports[`P component 1`] = `
-<p
-  onClick={[Function]}
-  setCapAt={[Function]}
->
-  Some content...
-</p>
-`;
-
-exports[`P component 2`] = `
-<p
-  className="Capped"
-  onClick={[Function]}
-  setCapAt={[Function]}
->
-  Some conte
-</p>
-`;
