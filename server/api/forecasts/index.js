@@ -72,12 +72,10 @@ router.param('region', function(req, res, next) {
             'info',
             'forecast region not found url="' + req.originalUrl + '"'
         );
-        res.status(404).end('Not Found');
-        return;
+        return res.status(404).end('Not Found');
     }
 
     logger.debug('getting region:', req.params.region);
-
     getForecastData(req.params.region, req.region)
         .then(function(forecast) {
             req.forecast = forecast;
@@ -99,6 +97,8 @@ function getForecastData(regionName, region) {
                 externalUrl: region.properties.url,
             },
         });
+    } else if (region.properties.type === 'hotzone') {
+        return Q.resolve(region.properties);
     }
 
     return avalxWebcache
@@ -147,10 +147,28 @@ router.get('/areas', function(req, res) {
     res.json(areas);
 });
 
+function isForecastRegion(r) {
+    return (
+        r.properties.type === 'parks' ||
+        r.properties.type === 'avalx'
+    );
+}
+function isLink(r) {
+    return r.properties.type === 'link';
+}
+function isHotzone(r) {
+    return r.properties.type === 'hotzone';
+}
+
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json';
     var forecast;
     var locals;
+
+    if (isHotzone(req.region)) {
+        return res.status(404).end('Region Not Found');
+    }
+
 
     switch (req.params.format) {
         case 'xml':

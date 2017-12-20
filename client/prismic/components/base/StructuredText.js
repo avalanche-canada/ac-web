@@ -4,6 +4,7 @@ import Image from './Image'
 import Embed from './Embed'
 import WebLink from './WebLink'
 import ImageLink from './ImageLink'
+import FileLink from './FileLink'
 import DocumentLink from './DocumentLink'
 import { replaceLineFeed, swap } from 'utils/react'
 
@@ -35,6 +36,7 @@ const SpanComponents = new Map([
             ['Link.web', WebLink],
             ['Link.document', DocumentLink],
             ['Link.image', ImageLink],
+            ['Link.file', FileLink],
         ]),
     ],
     [EM, new Map([[undefined, 'em']])],

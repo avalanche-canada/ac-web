@@ -121,7 +121,12 @@ function renderTags(tags) {
 }
 
 function forecastPage(req, res) {
-    var region = _.find(forecastRegions.features, { id: req.params.region });
+    var region = _.find(forecastRegions.features, function(r){ 
+        return r.id === req.params.region && (
+           r.properties.type === 'avalx'  ||  r.properties.type === 'parks'
+        );
+    });
+
     if (!region) {
         res.status(404).send('NOT FOUND');
         return;
@@ -264,7 +269,7 @@ function eventPost(req, res) {
 }
 
 function weatherForecast(req, res) {
-    return forecasreutrntByDate(req.params.date, req, res);
+    return forecastByDate(req.params.date, req, res);
 }
 
 function latestForecast(req, res) {

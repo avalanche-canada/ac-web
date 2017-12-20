@@ -330,7 +330,8 @@ const getActiveFeatureFilters = createSelector(getActiveFeatures, features => {
 
 const getHotZoneReports = createSelector(
     state => getDocumentsOfType(state, 'hotzone-report'),
-    reports => reports.map(report => parse(report)).filter(isHotZoneReportValid)
+    reports =>
+        reports.map(report => parse(report).data).filter(isHotZoneReportValid)
 )
 
 const getActiveHotZoneFilters = createSelector(getHotZoneReports, reports => {
