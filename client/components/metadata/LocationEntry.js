@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Position } from 'components/misc'
+import Position from 'components/misc/Position'
 import Entry from './Entry'
 
 LocationEntry.propTypes = {

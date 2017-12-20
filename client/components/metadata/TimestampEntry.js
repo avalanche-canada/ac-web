@@ -6,14 +6,9 @@ import { DateTime } from 'components/time'
 TimestampEntry.propTypes = {
     term: PropTypes.string,
     timestamp: PropTypes.instanceOf(Date),
-    hideIfNil: PropTypes.boolean,
 }
 
-export default function TimestampEntry({ term, timestamp, hideIfNil }) {
-    if (hideIfNil && !timestamp) {
-        return null
-    }
-
+export default function TimestampEntry({ term, timestamp }) {
     return (
         <Entry term={term}>
             <DateTime value={timestamp} />
