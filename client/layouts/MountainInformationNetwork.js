@@ -20,14 +20,25 @@ function submission({ match }) {
     return <Submission id={match.params.id} />
 }
 
-function submissions({ location }) {
-    let { days, types, sorting } = utils.parse(location.search)
+function submissions({ location, history }) {
+    const { days, types, sorting } = utils.parse(location.search)
+    function onParamsChange({ days, types, sorting }) {
+        history.push({
+            ...location,
+            search: utils.stringify({
+                days,
+                types,
+                sorting: utils.formatSorting(sorting),
+            }),
+        })
+    }
 
     return (
         <SubmissionList
             days={utils.toNumber(days)}
             types={utils.toSet(types)}
-            sorting={sorting}
+            sorting={utils.parseSorting(sorting)}
+            onParamsChange={onParamsChange}
         />
     )
 }

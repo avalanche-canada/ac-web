@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Page, Header, Main, Content } from 'components/page'
-import { Responsive } from 'components/table'
-import { Br } from 'components/markup'
 import { Link } from 'react-router-dom'
+import subDays from 'date-fns/sub_days'
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
+import { Page, Header, Main, Content } from 'components/page'
+import { Br } from 'components/markup'
 import {
     Table,
     Row,
@@ -11,33 +12,27 @@ import {
     HeaderCell,
     TBody,
     Cell,
+    Responsive,
 } from 'components/table'
-import { withRouter } from 'react-router-dom'
-import * as utils from 'utils/search'
 import Container from 'containers/MountainInformationNetworkSubmissionList'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
-import subDays from 'date-fns/sub_days'
-import { DateElement } from 'components/time'
+import { DateElement, DateTime, Relative } from 'components/time'
 import { Status } from 'components/misc'
-import { INCIDENT, NAMES } from 'constants/min'
-import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import { NONE, DESC } from 'constants/sortings'
-import { DateTime, Relative } from 'components/time'
-import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
-import pin from 'components/icons/min/min-pin.svg'
 import { MountainInformationNetworkSubmission as Schema } from 'api/schemas'
 import { Sorted } from 'components/collection'
+import { INCIDENT, NAMES } from 'constants/min'
+import { NONE, DESC } from 'constants/sortings'
+import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
+import pin from 'components/icons/min/min-pin.svg'
 import styles from 'components/text/Text.css'
 
-@withRouter
 export default class SubmissionList extends PureComponent {
     static propTypes = {
         days: PropTypes.number,
         types: PropTypes.instanceOf(Set),
-        sorting: PropTypes.string,
-        history: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
+        sorting: PropTypes.array,
+        onParamsChange: PropTypes.func.isRequired,
     }
     static defaultProps = {
         days: 7,
@@ -47,30 +42,21 @@ export default class SubmissionList extends PureComponent {
     state = {
         days: this.props.days,
         types: this.props.types,
-        sorting: utils.parseSorting(this.props.sorting),
+        sorting: this.props.sorting,
     }
     handleFromDateChange = from => {
         const days = differenceInCalendarDays(new Date(), from)
 
-        this.setState({ days }, this.pushToHistory)
+        this.setState({ days }, this.handleParamsChange)
     }
     handleTypesChange = types => {
-        this.setState({ types }, this.pushToHistory)
+        this.setState({ types }, this.handleParamsChange)
     }
-    handleSortingChange = (name, order) => {
-        this.setState({ sorting: [name, order] }, this.pushToHistory)
+    handleSortingChange(name, order) {
+        this.setState({ sorting: [name, order] }, this.handleParamsChange)
     }
-    pushToHistory = () => {
-        const { days, types, sorting } = this.state
-
-        this.props.history.push({
-            ...this.props.location,
-            search: utils.stringify({
-                days,
-                types,
-                sorting: utils.formatSorting(...sorting),
-            }),
-        })
+    handleParamsChange = () => {
+        this.props.onParamsChange(this.state)
     }
     get from() {
         return subDays(new Date(), this.state.days)
@@ -104,7 +90,7 @@ export default class SubmissionList extends PureComponent {
     }
     renderSubmission(submission) {
         return (
-            <Row>
+            <Row key={submission.get('subid')}>
                 {COLUMNS.map(({ name, style, property }) => (
                     <Cell key={name} style={style}>
                         {property(submission)}
@@ -147,28 +133,36 @@ export default class SubmissionList extends PureComponent {
     get sortProps() {
         const [name, order] = this.state.sorting || []
 
+        if (order === NONE) {
+            return {}
+        }
+
         return {
             sorter: SORTERS.get(name),
             reverse: order === DESC,
         }
     }
-    children = ({ props }) => [
-        this.renderMetadata(props),
-        <Br />,
-        <Responsive>
-            <Table>
-                <THead>
-                    <Row>{COLUMNS.map(this.renderHeader)}</Row>
-                </THead>
-                <TBody>
-                    <Sorted values={props.submissions} {...this.sortProps}>
-                        {submissions => submissions.map(this.renderSubmission)}
-                    </Sorted>
-                </TBody>
-            </Table>
-        </Responsive>,
-        <Status {...props.status} messages={this.createMessages(props)} />,
-    ]
+    renderChildren({ props }) {
+        return [
+            this.renderMetadata(props),
+            <Br />,
+            <Responsive>
+                <Table>
+                    <THead>
+                        <Row>{COLUMNS.map(this.renderHeader)}</Row>
+                    </THead>
+                    <TBody>
+                        <Sorted values={props.submissions} {...this.sortProps}>
+                            {submissions =>
+                                submissions.map(this.renderSubmission)
+                            }
+                        </Sorted>
+                    </TBody>
+                </Table>
+            </Responsive>,
+            <Status {...props.status} messages={this.createMessages(props)} />,
+        ]
+    }
     render() {
         const { days, types } = this.state
 
@@ -178,7 +172,7 @@ export default class SubmissionList extends PureComponent {
                 <Content>
                     <Main>
                         <Container days={days} types={types}>
-                            {this.children}
+                            {props => this.renderChildren(props)}
                         </Container>
                     </Main>
                 </Content>
@@ -187,19 +181,20 @@ export default class SubmissionList extends PureComponent {
     }
 }
 
+// Constants
 const SORTERS = new Map([
-    ['date', (a, b) => a.get('datetime') > b.get('datetime')],
-    ['reporter', (a, b) => a.get('user').localeCompare(b.get('user'))],
     [
-        'forecast-region',
+        'date',
         (a, b) => {
-            if (!a.has('region') && !b.has('region')) {
-                return 0
-            }
+            const A = new Date(a.get('datetime'))
+            const B = new Date(b.get('datetime'))
 
-            return a.get('region').name.localeCompare(b.get('region').name)
+            if (A > B) return 1
+            if (A < B) return -1
+            return 0
         },
     ],
+    ['reporter', (a, b) => a.get('user').localeCompare(b.get('user'))],
 ])
 const COLUMNS = [
     {
@@ -269,7 +264,6 @@ const COLUMNS = [
 
             return '-'
         },
-        sorting: NONE,
     },
     {
         name: 'types',
