@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { FeedSidebar as Container } from 'prismic/containers'
 import Sidebar, { Header, Item } from 'components/sidebar'
 import { Status } from 'components/misc'
-import Link from 'prismic/components/Link'
 import { EVENT, NEWS, BLOG } from 'constants/prismic'
+import { pathname, title } from 'utils/prismic'
 
 const Headers = new Map([
     [BLOG, 'Latest blog posts'],
@@ -20,7 +21,7 @@ export default class FeedSidebar extends PureComponent {
     renderItem(document) {
         return (
             <Item key={document.uid}>
-                <Link document={document} />
+                <Link to={pathname(document)}>{title(document)}</Link>
             </Item>
         )
     }
