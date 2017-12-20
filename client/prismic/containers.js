@@ -262,16 +262,14 @@ export class WeatherForecast extends Component {
         this.status = status
         this.document = document
 
-        // TODO: messages should be set in layout at component level
-
         return this.props.children({
-            status: status.set('messages', this.messages),
+            status,
             forecast: data(document),
         })
     }
     render() {
         return (
-            <DocumentContainer params={this.params}>
+            <DocumentContainer params={this.params} messages={this.messages}>
                 {this.children}
             </DocumentContainer>
         )

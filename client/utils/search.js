@@ -26,7 +26,7 @@ export function stringify(query = {}) {
             query[key] = Array.from(query[key])
         }
         if (query[key] instanceof Date) {
-            query[key] = baseFormatDate(query[key], DATE)
+            query[key] = formatDate(query[key])
         }
     }
 
@@ -94,4 +94,8 @@ export function parseSorting(sorting) {
 
 export function parseDate(string) {
     return string && baseParseDate(string, DATE)
+}
+
+export function formatDate(date) {
+    return date && baseFormatDate(date, DATE)
 }

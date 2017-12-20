@@ -29,7 +29,7 @@ export default class PrismicTable extends PureComponent {
     }
     state = {
         sorting: [null, NONE],
-        pageSize: 25,
+        pageSize: 10,
         page: 1,
     }
     constructor(props) {

@@ -1,4 +1,3 @@
-export Forecast from './Forecast'
 export Precipitation12h from './Precipitation12h'
 export HourlyPrecipitation from './HourlyPrecipitation'
 export Temperatures from './Temperatures'
