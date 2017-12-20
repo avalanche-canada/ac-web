@@ -16,6 +16,7 @@ exports[`Credit component 1`] = `
 <span
   className="Credit"
   data-label="Credit"
+  onClick={[Function]}
 >
   Some credit
 </span>
@@ -23,8 +24,9 @@ exports[`Credit component 1`] = `
 
 exports[`Credit component 2`] = `
 <span
-  className="Credit--Compact"
+  className="Credit Compact"
   data-label="Credit"
+  onClick={[Function]}
 >
   Some credit
 </span>

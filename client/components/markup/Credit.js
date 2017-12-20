@@ -11,11 +11,7 @@ export default class Credit extends PureComponent {
     state = {
         expanded: false,
     }
-    constructor(props) {
-        super(props)
-
-        this.classnames = classnames.bind(styles)
-    }
+    classnames = classnames.bind(styles)
     toggle = () => this.setState(toggle)
     get className() {
         return this.classnames({
@@ -36,6 +32,7 @@ export default class Credit extends PureComponent {
     }
 }
 
+// Utils
 function toggle({ expanded }) {
     return {
         expanded: !expanded,
