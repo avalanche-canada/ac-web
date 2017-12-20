@@ -2,9 +2,9 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { PrivateRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
-import Submission from 'containers/MountainInformationNetworkSubmission'
-import { Page as Submissions } from 'layouts/min/table'
-import { parse } from 'utils/search'
+import Submission from 'layouts/min/Submission'
+import SubmissionList from 'layouts/min/SubmissionList'
+import * as utils from 'utils/search'
 import { Loading } from 'components/text'
 import Bundle from 'components/Bundle'
 
@@ -16,13 +16,17 @@ function Submit(props) {
     )
 }
 
+function submission({ match }) {
+    return <Submission id={match.params.id} />
+}
+
 function submissions({ location }) {
-    let { days, types, sorting } = parse(location.search)
+    let { days, types, sorting } = utils.parse(location.search)
 
     return (
-        <Submissions
-            days={typeof days === 'string' ? Number(days) : undefined}
-            types={new Set(typeof types === 'string' ? [types] : types)}
+        <SubmissionList
+            days={utils.toNumber(days)}
+            types={utils.toSet(types)}
             sorting={sorting}
         />
     )
@@ -32,7 +36,7 @@ export default function MountainInformationNetwork({ match: { path } }) {
     return (
         <Switch>
             <PrivateRoute path={`${path}/submit`} component={Submit} />
-            <Route path={`${path}/submissions/:id`} component={Submission} />
+            <Route path={`${path}/submissions/:id`} render={submission} />
             <Route path={`${path}/submissions`} render={submissions} />
             <StaticPageRoute
                 path={`${path}/submission-guidelines`}

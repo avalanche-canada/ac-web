@@ -12,8 +12,8 @@ export default function Header({ title, children }) {
     return (
         <header className={styles.Header}>
             <h1>{title}</h1>
-            <Sponsor />
             {children}
+            <Sponsor />
         </header>
     )
 }

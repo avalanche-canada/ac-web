@@ -1,212 +1,159 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Immutable from 'immutable'
-import { compose, withHandlers, withState, withProps } from 'recompose'
-import { createSelector, createStructuredSelector } from 'reselect'
-import { getDocumentsOfType } from 'getters/prismic'
 import { Responsive, PageSizeSelector } from 'components/table'
-import Table, { Column, Body } from 'components/table/managed'
-import { FilterSet, FilterEntry } from 'components/filter'
+import {
+    Table,
+    TBody,
+    Header,
+    HeaderCell,
+    Row,
+    Cell,
+    Caption,
+} from 'components/table'
 import Pagination from 'components/pagination'
 import { Status } from 'components/misc'
 import { Br } from 'components/markup'
-import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { parse } from 'prismic'
 import get from 'lodash/get'
-import { prismic } from 'containers/connectors'
-import { getStatusFactory } from 'selectors/prismic/utils'
-import * as Factories from 'selectors/factories'
-import { NONE } from 'constants/sortings'
+import snakeCase from 'lodash/snakeCase'
+import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
+import { DocumentsContainer } from 'prismic/containers'
+import * as Predicates from 'vendor/prismic/predicates'
 
 const YES = 'Yes'
-const ARRAY = []
 
-const getColumns = createSelector(getContent, columns =>
-    columns.map(column => {
-        const {
-            name,
-            sortable,
-            type,
-            property,
-            option1,
-            option2,
-            option3,
-        } = column
+export default class PrismicTable extends PureComponent {
+    static propTypes = {
+        value: PropTypes.array.isRequired,
+    }
+    state = {
+        sorting: [null, NONE],
+        pageSize: 25,
+        page: 1,
+    }
+    constructor(props) {
+        super(props)
 
-        return Column.create({
-            name: property,
-            title: name,
-            sorting: sortable === YES ? NONE : undefined,
-            property: createProperty(type, property, option1, option2, option3),
+        this.columns = props.value.map(createColumn)
+    }
+    createMessages({ totalResultsSize }) {
+        return {
+            isLoading: 'Loading documents...',
+            isLoaded: `Total of ${totalResultsSize} documents found.`,
+        }
+    }
+    handleSortingChange(name, order) {
+        this.setState({
+            sorting: [name, order],
+            page: 1,
         })
-    })
-)
+    }
+    handlePageSizeChange = pageSize => {
+        this.setState({
+            pageSize,
+            page: 1,
+        })
+    }
+    handlePageChange = page => {
+        this.setState({ page })
+    }
+    getSorting(column) {
+        if (column.sortable) {
+            const [name, order] = this.state.sorting
 
-const getTransformedRows = createSelector(
-    (state, props) => getDocumentsOfType(state, getDocumentType(props)),
-    documents => documents.toList().map(document => parse(document).data)
-)
+            if (column.name === name) {
+                return order
+            }
 
-const getFilters = createSelector(
-    getContent,
-    getTransformedRows,
-    getFilterings,
-    (columns, rows, filterings) =>
-        columns
-            .filter(column => column.filterable === YES)
-            .map(({ name, property }) => {
-                const options = rows
-                    .map(row => row[property])
-                    .filter(Boolean)
-                    .toSet()
-                    .sort()
-                    .toArray()
+            return NONE
+        }
+    }
+    get type() {
+        return get(this.props, ['value', 0, 'source'])
+    }
+    get params() {
+        const { pageSize, page } = this.state
+        const [name, order] = this.state.sorting
+        const orderings = []
 
-                return {
-                    property,
-                    options: new Map(options.map(option => [option, option])),
-                    value: filterings.has(property)
-                        ? filterings.get(property)
-                        : new Set(),
-                    placeholder: name,
-                }
-            })
-)
+        if (name && order !== NONE) {
+            orderings.push(
+                `my.${this.type}.${snakeCase(name)} ${
+                    order === DESC ? 'desc' : ''
+                }`.trim()
+            )
+        }
 
-const getActiveFilters = createSelector(getFilters, filters =>
-    filters
-        .filter(filter => filter.value.size > 0)
-        .map(filter => row => filter.value.has(row[filter.property]))
-)
-
-const getFilteredRows = Factories.createFilteredEntities(
-    getTransformedRows,
-    getActiveFilters
-)
-const getPagination = Factories.createPagination(getFilteredRows)
-const getSortedRows = Factories.createSorter(getFilteredRows)
-const getBodies = createSelector(
-    Factories.createPaginatedEntities(getSortedRows, getPagination),
-    rows =>
-        Immutable.List.of(
-            Body.create({
-                data: rows,
-            })
-        )
-)
-
-const getMessages = createSelector(
-    (state, props) => getDocumentType(props),
-    type => ({
-        isLoading: `Loading ${type}...`,
-    })
-)
-
-const mapStateToProps = createStructuredSelector({
-    filters: getFilters,
-    columns: getColumns,
-    bodies: getBodies,
-    pagination: getPagination,
-    status: getStatusFactory(getMessages),
-})
-
-Container.propTypes = {
-    columns: PropTypes.arrayOf(PropTypes.object),
-    bodies: PropTypes.arrayOf(PropTypes.object),
-    filters: PropTypes.arrayOf(PropTypes.object),
-    // TODO: Use appropriate propType
-    status: PropTypes.object,
-    // TODO: Use appropriate propType
-    pagination: PropTypes.object,
-    onPageSizeChange: PropTypes.func,
-    onPageChange: PropTypes.func,
-    onSortingChange: PropTypes.func,
-    onFilterChange: PropTypes.func,
-}
-
-function Container({
-    columns,
-    bodies,
-    filters = [],
-    status,
-    pagination = {},
-    onPageSizeChange,
-    onPageChange,
-    onSortingChange,
-    onFilterChange,
-}) {
-    const { total, pageSize, page } = pagination
-
-    return (
-        <div>
-            <Br />
-            <FilterSet>
-                {filters.map(({ property, ...filter }) =>
-                    <FilterEntry>
-                        <Dropdown
-                            onChange={onFilterChange.bind(null, property)}
-                            {...filter}
-                        />
-                    </FilterEntry>
-                )}
-            </FilterSet>
-            <Responsive>
-                <Table
-                    bordered
-                    columns={columns}
-                    bodies={bodies}
-                    onSortingChange={onSortingChange}
-                />
-            </Responsive>
-            <Status {...status.toJSON()} />
-            <PageSizeSelector value={pageSize} onChange={onPageSizeChange} />
-            <Pagination active={page} onChange={onPageChange} total={total} />
-        </div>
-    )
-}
-
-export default compose(
-    withProps(props => ({
-        params: {
-            type: getDocumentType(props),
+        return {
+            predicates: [Predicates.type(this.type)],
             options: {
-                pageSize: 150,
+                orderings,
+                pageSize,
+                page,
             },
-        },
-    })),
-    withState('sorting', 'setSorting', []),
-    withState('filterings', 'setFilterings', new Map()),
-    withState('pageSize', 'setPageSize', 25),
-    withState('page', 'setPage', 1),
-    prismic(mapStateToProps),
-    withHandlers({
-        onFilterChange: props => (property, value) => {
-            const { filterings } = props
+        }
+    }
+    renderRow = row => {
+        return (
+            <Row key={row.id}>
+                {this.columns.map(({ name, property }) => (
+                    <Cell key={name}>{property(row.data)}</Cell>
+                ))}
+            </Row>
+        )
+    }
+    renderContent({ documents, status, metadata }) {
+        this.totalPages = metadata.totalPages || this.totalPages
+        documents = documents.map(document => parse(document))
 
-            filterings.set(property, value)
-
-            props.setFilterings(new Map([...filterings]))
-        },
-        onSortingChange: props => (...args) => {
-            props.setSorting(args)
-        },
-        onPageSizeChange: props => pageSize => {
-            props.setPage(1)
-            props.setPageSize(pageSize)
-        },
-        onPageChange: props => page => {
-            props.setPage(page)
-        },
-    })
-)(Container)
-
-function getDocumentType(props) {
-    return get(props, ['value', 0, 'source'])
+        return [
+            <Br />,
+            <Responsive>
+                <Table bordered>
+                    <Header>
+                        {this.columns.map(column => (
+                            <HeaderCell
+                                key={column.name}
+                                sorting={this.getSorting(column)}
+                                onSortingChange={this.handleSortingChange.bind(
+                                    this,
+                                    column.name
+                                )}>
+                                {column.title}
+                            </HeaderCell>
+                        ))}
+                    </Header>
+                    <TBody>{documents.map(this.renderRow)}</TBody>
+                    <Caption>
+                        <Status
+                            {...status}
+                            messages={this.createMessages(metadata)}
+                        />
+                    </Caption>
+                </Table>
+            </Responsive>,
+            <PageSizeSelector
+                value={this.state.pageSize}
+                onChange={this.handlePageSizeChange}
+                suffix="documents par page"
+            />,
+            <Pagination
+                active={this.state.page}
+                onChange={this.handlePageChange}
+                total={this.totalPages}
+            />,
+        ]
+    }
+    render() {
+        return (
+            <DocumentsContainer params={this.params}>
+                {props => this.renderContent(props)}
+            </DocumentsContainer>
+        )
+    }
 }
-function getContent(state, { value = ARRAY }) {
-    return value
-}
+
 // TODO: Look to use children as function
 function createProperty(type, property, option1) {
     switch (type) {
@@ -219,20 +166,21 @@ function createProperty(type, property, option1) {
                     </a>
                 )
             }
-        case 'Number':
-        case 'Currency':
-        case 'Date':
-        case 'Time':
-        case 'DateTime':
-            return property
         case 'Html':
             return function html(data) {
                 return <StructuredText value={data[property]} />
             }
         default:
-            return property
+            return data => data[property]
     }
 }
-function getFilterings(state, props) {
-    return props.filterings
+
+function createColumn({ name, sortable, type, property, filterable, option1 }) {
+    return {
+        name: property,
+        title: name,
+        sortable: sortable === YES,
+        filterable: filterable === YES,
+        property: createProperty(type, property, option1),
+    }
 }

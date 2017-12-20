@@ -127,12 +127,6 @@ const MENU = new Map({
     }),
 })
 
-const MAX_DRAWER_WIDTH = 500
-
-const Drawer = Record({
-    width: MAX_DRAWER_WIDTH,
-})
-
 function setLayerVisibilityFactory(visible) {
     return function setLayerVisibility(state, { payload }) {
         LAYERS_VISIBILITY.set(payload, visible)
@@ -167,10 +161,6 @@ function handleActiveFeaturesChanged(menu, { payload }) {
     })
 }
 
-function setDrawerWidth(drawer, { payload }) {
-    return drawer.set('width', Math.min(payload, MAX_DRAWER_WIDTH))
-}
-
 export default combineReducers({
     menu: handleActions(
         {
@@ -195,15 +185,5 @@ export default combineReducers({
             [MapActions.ACTIVE_FEATURES_CHANGED]: handleActiveFeaturesChanged,
         },
         MENU
-    ),
-    primary: handleAction(
-        MapActions.MAP_WIDTH_CHANGED,
-        setDrawerWidth,
-        new Drawer()
-    ),
-    secondary: handleAction(
-        MapActions.MAP_WIDTH_CHANGED,
-        setDrawerWidth,
-        new Drawer()
     ),
 })

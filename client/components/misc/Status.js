@@ -34,6 +34,8 @@ export default class Status extends PureComponent {
 
         const message = key in messages ? messages[key] : MESSAGES.get(key)
 
-        return createElement(COMPONENTS.get(key), null, message)
+        return message
+            ? createElement(COMPONENTS.get(key), null, message)
+            : null
     }
 }

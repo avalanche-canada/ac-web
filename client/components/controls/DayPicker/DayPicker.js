@@ -43,7 +43,14 @@ export default class DayPicker extends Component {
         this.props.onChange(day)
     }
     render() {
-        const { date, disabledDays, children, container = this } = this.props
+        const {
+            date,
+            disabledDays,
+            children,
+            container = this,
+            onChange,
+            ...rest
+        } = this.props
         const { isCalendarVisible } = this.state
         const className = isCalendarVisible ? 'Input--Open' : 'Input'
         const handleClick = isCalendarVisible ? noop : this.showCalendar
@@ -71,6 +78,7 @@ export default class DayPicker extends Component {
                             selectedDays={date}
                             disabledDays={disabledDays}
                             onDayClick={this.handleDayClick}
+                            {...rest}
                         />
                     </Callout>
                 </Overlay>

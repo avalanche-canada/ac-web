@@ -1,40 +1,14 @@
-import React, { createElement } from 'react'
-import { Secondary as Base } from 'containers/drawers'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import MountainInformationNetwork from 'containers/drawers/content/MountainInformationNetwork'
-import WeatherStation from 'containers/drawers/content/WeatherStation'
-import ToyotaTruckReport from 'containers/drawers/content/ToyotaTruckReport'
-import SpecialInformation from 'containers/drawers/content/SpecialInformation'
-import FatalAccident from 'containers/drawers/content/FatalAccident'
-import MountainConditionsReport from 'containers/drawers/content/MountainConditionsReport'
+import { Error } from 'components/text'
+import Drawer, { LEFT } from 'components/page/drawer'
+import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
+import WeatherStation from 'layouts/drawers/WeatherStation'
+import ToyotaTruckReport from 'layouts/drawers/ToyotaTruckReport'
+import SpecialInformation from 'layouts/drawers/SpecialInformation'
+import FatalAccident from 'layouts/drawers/FatalAccident'
+import MountainConditionsReport from 'layouts/drawers/MountainConditionsReport'
 import * as Schemas from 'api/schemas'
-
-Secondary.propTypes = {
-    type: PropTypes.string,
-    id: PropTypes.string,
-    open: PropTypes.bool,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-}
-
-export default function Secondary({ open, type, id, location, history }) {
-    const canRender = open && Components.has(type)
-
-    return (
-        <Base open={open} onCloseClick={close}>
-            {canRender &&
-                createElement(Components.get(type), {
-                    id,
-                    onCloseClick() {
-                        history.push({
-                            ...location,
-                            search: null,
-                        })
-                    },
-                })}
-        </Base>
-    )
-}
 
 const Components = new Map([
     [
@@ -47,3 +21,45 @@ const Components = new Map([
     ['fatal-accident', FatalAccident],
     [Schemas.MountainConditionsReport.key, MountainConditionsReport],
 ])
+
+export default class Secondary extends PureComponent {
+    static propTypes = {
+        type: PropTypes.oneOf(Array.from(Components.keys())),
+        id: PropTypes.string,
+        open: PropTypes.bool.isRequired,
+        width: PropTypes.number.isRequired,
+        onCloseClick: PropTypes.func.isRequired,
+        onLocateClick: PropTypes.func.isRequired,
+    }
+    get error() {
+        return (
+            <Error>
+                Component not avaialble. Make sure you clicked properly or get
+                the right URL.
+            </Error>
+        )
+    }
+    get component() {
+        const { type, id, onCloseClick, onLocateClick } = this.props
+        const Component = Components.get(type)
+        const props = {
+            id,
+            onCloseClick,
+            onLocateClick,
+        }
+
+        return <Component {...props} />
+    }
+    get content() {
+        return Components.has(this.props.type) ? this.component : this.error
+    }
+    render() {
+        const { open, width } = this.props
+
+        return (
+            <Drawer open={open} width={width} side={LEFT}>
+                {open && this.content}
+            </Drawer>
+        )
+    }
+}

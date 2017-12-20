@@ -1,1 +1,1 @@
-export default from './Highlight'
+export default, { DANGER, WARNING, INFO, SUCCESS } from './Highlight'

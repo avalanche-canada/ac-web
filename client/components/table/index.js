@@ -1,7 +1,7 @@
 export Table from './Table'
-export Row from './Row'
+export Row, { Expandable as ExpandableRow } from './Row'
 export Cell from './Cell'
-export TBody, { ControlledTBody } from './TBody'
+export TBody from './TBody'
 
 export Header from './Header'
 export HeaderCell from './HeaderCell'

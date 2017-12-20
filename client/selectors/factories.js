@@ -9,32 +9,32 @@ export function createSorter(
     getSorting = getSortingFromProps,
     sorters = new Map()
 ) {
-    return createSelector(
-        getEntities,
-        getSorting,
-        (entities, [name, order]) => {
-            let sorter
-
-            if (sorters.has(name)) {
-                sorter = sorters.get(name)
-            } else if (typeof name === 'string') {
-                sorter = entity => entity[name]
-            }
-
-            if (!sorter) {
-                return entities
-            }
-
-            switch (order) {
-                case ASC:
-                    return entities.sortBy(sorter)
-                case DESC:
-                    return entities.sortBy(sorter).reverse()
-                default:
-                    return entities
-            }
-        }
+    return createSelector(getEntities, getSorting, (entities, [name, order]) =>
+        sort(entities, name, order, sorters)
     )
+}
+
+export function sort(entities, name, order, sorters = new Map()) {
+    let sorter
+
+    if (sorters.has(name)) {
+        sorter = sorters.get(name)
+    } else if (typeof name === 'string') {
+        sorter = entity => entity[name]
+    }
+
+    if (!sorter) {
+        return entities
+    }
+
+    switch (order) {
+        case ASC:
+            return entities.sortBy(sorter)
+        case DESC:
+            return entities.sortBy(sorter).reverse()
+        default:
+            return entities
+    }
 }
 
 function getPageFromProps(state, props) {

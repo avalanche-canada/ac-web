@@ -1,11 +1,5 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    withProps,
-    mapProps,
-    setPropTypes,
-    setDisplayName,
-} from 'recompose'
 import { Image } from 'components/misc'
 import {
     format,
@@ -19,7 +13,7 @@ import {
 const POINT = 'point'
 const GROUP = 'group'
 
-const propTypes = {
+Meteogram.propTypes = {
     model: PropTypes.oneOf([RDPS, GDPS, HRDPS]),
     run: PropTypes.oneOf([0, 6, 12, 18]),
     product: PropTypes.oneOf([POINT, GROUP]),
@@ -29,13 +23,6 @@ const propTypes = {
     ]),
 }
 
-export default compose(
-    setDisplayName('Meteogram'),
-    withProps({
-        openNewTab: true,
-    }),
-    setPropTypes(propTypes),
-    mapProps(props => ({
-        src: format(props),
-    }))
-)(Image)
+export default function Meteogram(props) {
+    return <Image src={format(props)} openNewTab />
+}

@@ -1,16 +1,21 @@
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-import { compose, mapProps, setPropTypes } from 'recompose'
+import { Link as Base } from 'react-router-dom'
 import { pathname, title } from 'utils/prismic'
 
-export default compose(
-    setPropTypes({
+export default class Link extends Component {
+    static propTypes = {
         document: PropTypes.object.isRequired,
         children: PropTypes.node,
-    }),
-    mapProps(({ children, document, ...props }) => ({
-        ...props,
-        to: pathname(document),
-        children: children || title(document),
-    }))
-)(Link)
+    }
+    render() {
+        const { children, document, ...props } = this.props
+        const to = pathname(document)
+
+        return (
+            <Base {...props} to={to}>
+                {children || title(document)}
+            </Base>
+        )
+    }
+}

@@ -1,6 +1,5 @@
-import React from 'react'
-import { withProps } from 'recompose'
-import DayPicker, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
+import React, { PureComponent } from 'react'
+import Base, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
 import { Previous, Next } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import classNames from './Day.css'
@@ -17,50 +16,61 @@ function Weekday({ weekday, className, localeUtils, locale }) {
     )
 }
 
-Navbar.propTypes = NavbarPropTypes
+class Navbar extends PureComponent {
+    static propTypes = NavbarPropTypes
+    constructor(props) {
+        super(props)
 
-function Navbar({
-    showNextButton,
-    nextMonth,
-    showPreviousButton,
-    previousMonth,
-    onPreviousClick,
-    onNextClick,
-    className,
-    localeUtils,
-}) {
-    const months = localeUtils.getMonths()
-    const previous = {
-        kind: SUBTILE,
-        title: months[previousMonth.getMonth()],
-        className: classNames.navButtonPrev,
-        icon: <Previous />,
-        onClick: event => {
-            event.preventDefault()
-            onPreviousClick()
-        },
+        this.months = this.props.localeUtils.getMonths()
     }
-    const next = {
-        kind: SUBTILE,
-        title: months[nextMonth.getMonth()],
-        className: classNames.navButtonNext,
-        icon: <Next />,
-        onClick: event => {
-            event.preventDefault()
-            onNextClick()
-        },
-    }
+    get previous() {
+        const { onPreviousClick, previousMonth } = this.props
+        const props = {
+            kind: SUBTILE,
+            icon: <Previous />,
+            title: this.months[previousMonth.getMonth()],
+            onClick(event) {
+                event.preventDefault()
+                onPreviousClick()
+            },
+        }
 
-    return (
-        <div className={className}>
-            {showPreviousButton && <Button {...previous} />}
-            {showNextButton && <Button {...next} />}
-        </div>
-    )
+        return <Button {...props} />
+    }
+    get next() {
+        const { nextMonth, onNextClick } = this.props
+        const props = {
+            kind: SUBTILE,
+            title: this.months[nextMonth.getMonth()],
+            className: classNames.navButtonNext,
+            icon: <Next />,
+            onClick: event => {
+                event.preventDefault()
+                onNextClick()
+            },
+        }
+
+        return <Button {...props} />
+    }
+    render() {
+        const { className, showPreviousButton, showNextButton } = this.props
+
+        return (
+            <div className={className}>
+                {showPreviousButton && this.previous}
+                {showNextButton && this.next}
+            </div>
+        )
+    }
 }
 
-export default withProps({
-    weekdayElement: Weekday,
-    navbarElement: Navbar,
-    classNames,
-})(DayPicker)
+export default function DayPicker(props) {
+    return (
+        <Base
+            weekdayElement={Weekday}
+            navbarElement={Navbar}
+            classNames={classNames}
+            {...props}
+        />
+    )
+}

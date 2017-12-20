@@ -1,6 +1,5 @@
 import Immutable from 'immutable'
 import {
-    getDocumentsOfType,
     hasDocumentForUid,
     hasDocumentForId,
     getResults,
@@ -89,38 +88,5 @@ export function load(params = {}) {
         }
 
         return dispatch(action).then(getValue)
-    }
-}
-
-export function loadHotZoneReport({ name, uid }) {
-    // TODO: Modify to use the prismic function, should use existing function instead
-    const type = 'hotzone-report'
-
-    return (dispatch, getState) => {
-        const state = getState()
-
-        if (typeof uid === 'string') {
-            return dispatch(
-                load({
-                    type,
-                    uid,
-                })
-            )
-        } else if (typeof name === 'string') {
-            const documents = getDocumentsOfType(state, type)
-            const isNotLoaded = document =>
-                document.data[type].region.value !== name
-
-            if (documents.every(isNotLoaded)) {
-                return dispatch(
-                    load({
-                        type,
-                        predicates: [Predicates.field(type, 'region', name)],
-                    })
-                )
-            }
-        }
-
-        return Promise.resolve()
     }
 }

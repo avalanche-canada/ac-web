@@ -1,30 +1,24 @@
-import React, { Component } from 'react'
-import { withHandlers } from 'recompose'
-import { fetchStaticResource } from 'api'
+import React, { PureComponent } from 'react'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { InnerHTML, Top } from 'components/misc'
-import { Loading, Error } from 'components/text'
+import { InnerHTML, Status } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
 import { scrollIntoView } from 'utils/dom'
-import debounce from 'lodash/debounce'
+import StaticResource from 'containers/StaticResource'
 
-function updateShowTopAnchor() {
-    const { scrollTop } = document.body
+// TODO: Move to layouts
 
-    return {
-        showTopAnchor: scrollTop > 250,
-    }
-}
-
-let Section = ({ letter, terms, onHeaderClick }) => {
+function Section({ letter, terms }) {
     return (
         <section key={letter}>
             <h1>
-                <a href={`#${letter}`} name={letter} onClick={onHeaderClick}>
+                <a
+                    href={`#${letter}`}
+                    name={letter}
+                    onClick={letterClickHandler(letter)}>
                     {letter}
                 </a>
             </h1>
@@ -38,7 +32,17 @@ let Section = ({ letter, terms, onHeaderClick }) => {
     )
 }
 
-function letterClickHandler({ letter }) {
+function Letter({ letter }) {
+    return (
+        <Tag key={letter}>
+            <a href={`#${letter}`} onClick={letterClickHandler(letter)}>
+                <b>{letter}</b>
+            </a>
+        </Tag>
+    )
+}
+
+function letterClickHandler(letter) {
     return event => {
         event.stopPropagation()
         setTimeout(() => {
@@ -47,85 +51,34 @@ function letterClickHandler({ letter }) {
     }
 }
 
-Section = withHandlers({
-    onHeaderClick: letterClickHandler,
-})(Section)
+export default class Container extends PureComponent {
+    children = ({ data, ...status }) => {
+        const letters = status.isLoaded
+            ? Object.keys(data)
+                  .filter(letter => data[letter].length > 0)
+                  .sort()
+            : []
 
-let Letter = ({ letter, onClick }) => {
-    return (
-        <Tag key={letter}>
-            <a href={`#${letter}`} onClick={onClick}>
-                <b>{letter}</b>
-            </a>
-        </Tag>
-    )
-}
-
-Letter = withHandlers({
-    onClick: letterClickHandler,
-})(Letter)
-
-const STATE = {
-    isLoading: false,
-    isLoaded: false,
-    isError: false,
-    terms: [],
-    error: null,
-    showTopAnchor: false,
-}
-
-export default class Container extends Component {
-    state = STATE
-    load() {
-        this.setState(
-            {
-                isLoading: true,
-            },
-            () => {
-                fetchStaticResource('glossary').then(
-                    data =>
-                        this.setState({
-                            ...STATE,
-                            isLoaded: true,
-                            terms: data,
-                        }),
-                    error =>
-                        this.setState({
-                            ...STATE,
-                            isError: true,
-                            error,
-                        })
-                )
-            }
-        )
-    }
-    // TODO: Move that logic to a controlled Top component
-    handleScrollHandler = debounce(
-        () => this.setState(updateShowTopAnchor),
-        250
-    )
-    componentDidMount() {
-        this.load()
-        document.addEventListener('scroll', this.handleScrollHandler)
-    }
-    componentWillUnmount() {
-        document.removeEventListener('scroll', this.handleScrollHandler)
+        return [
+            <Status {...status} />,
+            status.isLoaded && (
+                <TagSet>
+                    {letters.map(letter => (
+                        <Letter key={letter} letter={letter} />
+                    ))}
+                </TagSet>
+            ),
+            status.isLoaded &&
+                letters.map(letter => (
+                    <Section
+                        key={letter}
+                        letter={letter}
+                        terms={data[letter]}
+                    />
+                )),
+        ].filter(Boolean)
     }
     render() {
-        function hasTerms(letter) {
-            return terms[letter].length > 0
-        }
-        const {
-            isLoading,
-            isError,
-            isLoaded,
-            terms,
-            showTopAnchor,
-        } = this.state
-        const letters = Object.keys(terms)
-            .filter(hasTerms)
-            .sort()
-
         return (
             <Page>
                 <Header title="Glossary" />
@@ -146,24 +99,9 @@ export default class Container extends Component {
                             </a>
                             , one of the CAA professional members.
                         </Headline>
-                        {isLoading && <Loading />}
-                        {isError && <Error />}
-                        {isLoaded && (
-                            <TagSet>
-                                {letters.map(letter => (
-                                    <Letter key={letter} letter={letter} />
-                                ))}
-                            </TagSet>
-                        )}
-                        {isLoaded &&
-                            letters.map(letter => (
-                                <Section
-                                    key={letter}
-                                    letter={letter}
-                                    terms={terms[letter]}
-                                />
-                            ))}
-                        {showTopAnchor && <Top />}
+                        <StaticResource resource="glossary">
+                            {this.children}
+                        </StaticResource>
                     </Main>
                     <Aside>
                         <Sidebar>

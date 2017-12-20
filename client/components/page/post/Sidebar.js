@@ -1,38 +1,45 @@
-import React from 'react'
-import { compose, withProps, defaultProps } from 'recompose'
-import { feedSidebar } from 'containers/connectors'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { FeedSidebar as Container } from 'prismic/containers'
 import Sidebar, { Header, Item } from 'components/sidebar'
+import { Status } from 'components/misc'
 import Link from 'prismic/components/Link'
-import { EVENT, NEWS, BLOG } from 'selectors/prismic/feed'
+import { EVENT, NEWS, BLOG } from 'constants/prismic'
 
 const Headers = new Map([
-    [BLOG, 'Latest'],
-    [NEWS, 'Latest'],
+    [BLOG, 'Latest blog posts'],
+    [NEWS, 'Latest news'],
     [EVENT, 'Upcoming events'],
 ])
 
-export default compose(
-    defaultProps({
-        share: true,
-        follow: true,
-    }),
-    feedSidebar,
-    withProps(({ documents, type }) => {
-        let children = []
-
-        if (documents.length > 0) {
-            children = documents.map(document => (
-                <Item key={document.uid}>
-                    <Link document={document} />
-                </Item>
-            ))
-            children.unshift(
-                <Header>{Headers.get(type)}</Header>,
-            )
+export default class FeedSidebar extends PureComponent {
+    static propTypes = {
+        type: PropTypes.string.isRequired,
+        uid: PropTypes.string.isRequired,
+    }
+    renderItem(document) {
+        return (
+            <Item key={document.uid}>
+                <Link document={document} />
+            </Item>
+        )
+    }
+    children = ({ status, documents }) => {
+        if (status.isLoaded && documents.length === 0) {
+            return null
         }
 
-        return {
-            children,
-        }
-    })
-)(Sidebar)
+        return [
+            <Header>{Headers.get(this.props.type)}</Header>,
+            <Status {...status} />,
+            ...documents.map(this.renderItem),
+        ]
+    }
+    render() {
+        return (
+            <Sidebar share follow>
+                <Container {...this.props}>{this.children}</Container>
+            </Sidebar>
+        )
+    }
+}

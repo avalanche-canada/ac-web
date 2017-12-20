@@ -14,7 +14,7 @@ function asControlled({ description, provider }) {
         Description: description,
         Website() {
             return (
-                <a href={website} target="_blank">
+                <a href={website} target={name}>
                     {website}
                 </a>
             )

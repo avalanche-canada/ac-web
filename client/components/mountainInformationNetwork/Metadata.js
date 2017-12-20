@@ -1,49 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withProps, mapProps, setPropTypes } from 'recompose'
 import { DateTime } from 'components/time'
-import { Metadata, Entry, ShareEntry } from 'components/metadata'
-import styles from './MountainInformationNetwork.css'
+import { Metadata, Entry, ShareEntry, LocationEntry } from 'components/metadata'
 
-export const SubmittedBy = compose(
-    setPropTypes({
-        children: PropTypes.string.isRequired,
-    }),
-    withProps({
-        term: 'Submitted by',
-    })
-)(Entry)
+SubmittedBy.propTypes = {
+    children: PropTypes.string.isRequired,
+}
 
-export const SubmittedOn = compose(
-    setPropTypes({
-        children: PropTypes.instanceOf(Date).isRequired,
-    }),
-    mapProps(props => ({
-        term: 'Submitted on',
-        children: <DateTime value={props.children} />,
-    }))
-)(Entry)
+export function SubmittedBy(props) {
+    return <Entry term="Submitted by" {...props} />
+}
 
-export const Location = compose(
-    setPropTypes({
-        longitude: PropTypes.number.isRequired,
-        latitude: PropTypes.number.isRequired,
-    }),
-    mapProps(({ longitude, latitude }) => {
-        return {
-            term: 'Location',
-            children: (
-                <span className={styles.MapLocationWrap}>
-                    <span className={styles.MapLocationItem}>
-                        {roundCoordinate(longitude)}
-                        &nbsp;°, {roundCoordinate(latitude)}
-                        &nbsp;°
-                    </span>
-                </span>
-            ),
-        }
-    })
-)(Entry)
+SubmittedOn.propTypes = {
+    children: PropTypes.instanceOf(Date).isRequired,
+}
+
+export function SubmittedOn({ children }) {
+    return (
+        <Entry term="Submitted on">
+            <DateTime value={children} />
+        </Entry>
+    )
+}
+
+export const Location = LocationEntry
 
 MountainInformationNetworkMetadata.propTypes = {
     submittedBy: PropTypes.string.isRequired,
@@ -51,10 +31,6 @@ MountainInformationNetworkMetadata.propTypes = {
     shareUrl: PropTypes.string,
     longitude: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,
-}
-
-function roundCoordinate(coordinate) {
-    return Math.round(coordinate * 100000) / 100000
 }
 
 export default function MountainInformationNetworkMetadata({
@@ -66,12 +42,8 @@ export default function MountainInformationNetworkMetadata({
 }) {
     return (
         <Metadata>
-            <SubmittedBy>
-                {submittedBy}
-            </SubmittedBy>
-            <SubmittedOn>
-                {submittedOn}
-            </SubmittedOn>
+            <SubmittedBy>{submittedBy}</SubmittedBy>
+            <SubmittedOn>{submittedOn}</SubmittedOn>
             <Location longitude={longitude} latitude={latitude} />
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>

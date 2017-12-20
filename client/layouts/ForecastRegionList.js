@@ -1,5 +1,5 @@
 import React from 'react'
-import { ForecastRegions } from 'containers/experiments/store'
+import ForecastRegions from 'containers/ForecastRegions'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import Page from 'layouts/Page'

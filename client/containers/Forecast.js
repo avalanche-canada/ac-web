@@ -1,81 +1,51 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
-import { Page, Header, Main, Content, Aside } from 'components/page'
-import Forecast, {
-    Metadata,
-    Sidebar,
-    KananaskisSidebar,
-} from 'components/forecast'
-import { SPAW } from 'components/misc'
-import { Muted, Error } from 'components/text'
-import { forecast } from 'containers/connectors'
+import Container from './Container'
+import { connect } from 'react-redux'
+import { createSelector, createStructuredSelector } from 'reselect'
+import { Forecast, ForecastRegion } from 'api/schemas'
+import { loadFeaturesMetadata, loadForecast } from 'actions/entities'
+import { getResultsSet } from 'getters/api'
+import { getEntitiesForSchema, getEntityForSchema } from 'getters/entities'
 
-const SPAW_STYLE = {
-    padding: '1em',
-    marginTop: '1em',
-}
+export default connect(
+    createStructuredSelector({
+        data: createStructuredSelector({
+            forecast: createSelector(getForecasts, getForecastId, findForecast),
+            region(state, { name }) {
+                return getEntityForSchema(state, ForecastRegion, name)
+            },
+            status(state, props) {
+                const result = getResultsSet(state, Forecast, toParams(props))
 
-Container.propTypes = {
-    title: PropTypes.string.isRequired,
-    forecast: PropTypes.object,
-    isLoading: PropTypes.bool.isRequired,
-    isError: PropTypes.bool.isRequired,
-    isUnderSpecialWarning: PropTypes.bool,
-    specialWarningLink: PropTypes.object,
-    specialWarningContent: PropTypes.string,
-}
+                return result.asStatus(createMessages(props)).toObject()
+            },
+        }),
+    }),
+    (dispatch, { name, date }) => ({
+        load() {
+            dispatch(loadForecast({ name, date }))
+            dispatch(loadFeaturesMetadata())
+        },
+    })
+)(Container)
 
-function Container({
-    title = 'Loading...',
-    forecast,
-    isLoading,
-    isError,
-    isUnderSpecialWarning,
-    specialWarningLink,
-    specialWarningContent,
-}) {
-    const isPrintable = forecast ? !forecast.isArchived : false
-
-    // TODO: Huge hack, please FIXME!!!
-    if (specialWarningContent) {
-        specialWarningContent = specialWarningContent.replace('<p>', '')
-        specialWarningContent = specialWarningContent.replace('&amp;', '&')
-        specialWarningContent = specialWarningContent.split(' - ')[0]
+// Utils
+function createMessages({ name }) {
+    return {
+        isLoading: `Loading ${name} avalanche bulletin...`,
+        isError: `Error happened while loading ${name} avalanche bulletin.`,
     }
-
-    return (
-        <Page>
-            <Header title={title} />
-            <Content>
-                <Main>
-                    {forecast && <Metadata {...forecast} />}
-                    {isLoading && <Muted>Loading avalanche bulletin...</Muted>}
-                    {isError && (
-                        <Error>
-                            Error happened while loading avalanche bulletin.
-                        </Error>
-                    )}
-                    {isUnderSpecialWarning && (
-                        <SPAW link={specialWarningLink} style={SPAW_STYLE}>
-                            {specialWarningContent}
-                        </SPAW>
-                    )}
-                    {forecast && forecast.region && <Forecast {...forecast} />}
-                </Main>
-                <Aside>
-                    <Route>
-                        {({ match }) =>
-                            match.params.name === 'kananaskis' ? (
-                                <KananaskisSidebar />
-                            ) : (
-                                <Sidebar isPrintable={isPrintable} />
-                            )}
-                    </Route>
-                </Aside>
-            </Content>
-        </Page>
-    )
 }
+function getForecasts(state) {
+    return getEntitiesForSchema(state, Forecast)
+}
+function getForecastId(state, props) {
+    const { ids } = getResultsSet(state, Forecast, toParams(props))
 
-export default forecast(Container)
+    return ids.values().next().value
+}
+function findForecast(forecasts, id) {
+    return forecasts.get(id)
+}
+function toParams({ name, date }) {
+    return { name, date }
+}

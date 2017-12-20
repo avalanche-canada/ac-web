@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Metadata, Entry, ShareEntry } from 'components/metadata'
 import { DateElement } from 'components/time'
@@ -20,18 +20,19 @@ export function DateIssued({ dateIssued }) {
 
 ValidUntil.propTypes = {
     validUntil: PropTypes.instanceOf(Date).isRequired,
+    dateIssued: PropTypes.instanceOf(Date).isRequired,
 }
 
 export function ValidUntil({ dateIssued, validUntil }) {
-    var el = <DateElement format={DATETIME} value={validUntil} />
+    let node = null
+
     if (differenceInDays(dateIssued, validUntil) > FURTHER_NOTICE_DAYS) {
-        el = <span>Until further notice</span>
+        node = <span>Until further notice</span>
+    } else {
+        node = <DateElement format={DATETIME} value={validUntil} />
     }
-    return (
-        <Entry term="Valid Until">
-            {el}
-        </Entry>
-    )
+
+    return <Entry term="Valid Until">{node}</Entry>
 }
 
 Forecaster.propTypes = {
@@ -39,27 +40,36 @@ Forecaster.propTypes = {
 }
 
 export function Forecaster({ forecaster }) {
-    return (
-        <Entry term="Prepared by">
-            {forecaster}
-        </Entry>
-    )
+    return <Entry term="Prepared by">{forecaster}</Entry>
 }
 
-ForecastMetadata.propTypes = {
-    dateIssued: PropTypes.instanceOf(Date).isRequired,
-    validUntil: PropTypes.instanceOf(Date).isRequired,
-    forecaster: PropTypes.string,
-    shareUrl: PropTypes.string,
-}
+export default class ForecastMetadata extends PureComponent {
+    static render(forecast, shareUrl) {
+        return (
+            <ForecastMetadata
+                dateIssued={forecast.get('dateIssued')}
+                validUntil={forecast.get('validUntil')}
+                forecaster={forecast.get('forecaster')}
+                shareUrl={shareUrl}
+            />
+        )
+    }
+    static propTypes = {
+        dateIssued: PropTypes.instanceOf(Date).isRequired,
+        validUntil: PropTypes.instanceOf(Date).isRequired,
+        forecaster: PropTypes.string,
+        shareUrl: PropTypes.string,
+    }
+    render() {
+        const { shareUrl, dateIssued, validUntil, forecaster } = this.props
 
-export default function ForecastMetadata({ shareUrl, ...props }) {
-    return (
-        <Metadata>
-            <DateIssued {...props} />
-            <ValidUntil {...props} />
-            <Forecaster {...props} />
-            {shareUrl && <ShareEntry url={shareUrl} />}
-        </Metadata>
-    )
+        return (
+            <Metadata>
+                <DateIssued dateIssued={dateIssued} />
+                <ValidUntil dateIssued={dateIssued} validUntil={validUntil} />
+                <Forecaster forecaster={forecaster} />
+                {shareUrl && <ShareEntry url={shareUrl} />}
+            </Metadata>
+        )
+    }
 }

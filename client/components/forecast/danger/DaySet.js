@@ -1,19 +1,20 @@
-import React, { Children, cloneElement } from 'react'
+import React, { PureComponent, Children, createElement } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Danger.css'
+import { FirstDay } from './Day'
 
-function cloneDay(day, index) {
-    return cloneElement(day, {
-        first: index === 0,
-    })
-}
-
-DaySet.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export default function DaySet({ children }) {
-    return (
-        <div className={styles.DaySet}>{Children.map(children, cloneDay)}</div>
-    )
+export default class DaySet extends PureComponent {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+    }
+    createDay = (day, index) => {
+        return index === 0 ? createElement(FirstDay, day.props) : day
+    }
+    render() {
+        return (
+            <div className={styles.DaySet}>
+                {Children.map(this.props.children, this.createDay)}
+            </div>
+        )
+    }
 }

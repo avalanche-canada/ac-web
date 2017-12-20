@@ -9,9 +9,14 @@ export default class Sponsor extends PureComponent {
         logo: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired,
         label: PropTypes.string,
+        children: PropTypes.node,
+    }
+    static defaultProps = {
+        label: 'Brought to you by',
     }
     render() {
-        const { name, logo, url, label = 'Brought to you by' } = this.props
+        const { name, logo, url, label, children } = this.props
+
         return (
             <a
                 href={url}
@@ -20,9 +25,12 @@ export default class Sponsor extends PureComponent {
                 onClick={handleOutboundSponsorClick}>
                 <dl className={styles.Container}>
                     {label && <dt className={styles.Label}>{label}</dt>}
-                    <dd className={styles.Logo}>
-                        <img src={logo} title={name} />
-                    </dd>
+                    {logo && (
+                        <dd className={styles.Logo}>
+                            <img src={logo} title={name} />
+                        </dd>
+                    )}
+                    {children}
                 </dl>
             </a>
         )

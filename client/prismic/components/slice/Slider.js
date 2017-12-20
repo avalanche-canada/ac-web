@@ -1,21 +1,39 @@
-import React from 'react'
-import { compose, withProps, defaultProps } from 'recompose'
-import Slider from 'components/slider'
+import React, { Component } from 'react'
+import ImageGallery from 'components/gallery'
 import { StructuredText } from 'prismic/components/base'
 import styles from './Slider.css'
 
-export default compose(
-    defaultProps({
+export default class Slider extends Component {
+    static defaultProps = {
         showThumbnails: false,
         autoPlay: true,
         slideInterval: 5000,
-    }),
-    withProps(({ value }) => ({
-        items: value.map(({ image, content }) => ({
-            src: image.main.url,
-            children: (
-                <StructuredText value={content} className={styles.Item} />
-            ),
-        })),
-    }))
-)(Slider)
+    }
+    render() {
+        const { value, ...props } = this.props
+
+        return (
+            <ImageGallery
+                items={value.map(createItem)}
+                renderItem={renderItem}
+                showBullets={value.length > 0}
+                {...props}
+            />
+        )
+    }
+}
+
+function createItem({ image, content }) {
+    return {
+        src: image.main.url,
+        children: <StructuredText value={content} className={styles.Item} />,
+    }
+}
+function renderItem({ children, ...props }) {
+    return (
+        <div className="image-gallery-image">
+            <img {...props} />
+            {children}
+        </div>
+    )
+}

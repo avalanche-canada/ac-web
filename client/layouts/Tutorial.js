@@ -84,7 +84,7 @@ function Home() {
                     return <Components.Home {...parser(document).data} />
                 }
 
-                return <Status {...status.toJSON()} />
+                return <Status {...status} />
             }}
         </Generic>
     )
@@ -100,7 +100,7 @@ function Tutorial({ location }) {
                     return <Components.Tutorial {...parser(document).data} />
                 }
 
-                return <Status {...status.toJSON()} />
+                return <Status {...status} />
             }}
         </Container>
     )

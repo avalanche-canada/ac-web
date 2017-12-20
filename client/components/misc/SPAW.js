@@ -16,7 +16,11 @@ export default function SPAW({
     style,
 }) {
     if (!link) {
-        return <span className={styles.SPAW}>{children}</span>
+        return (
+            <span className={styles.SPAW} style={style}>
+                {children}
+            </span>
+        )
     }
 
     return (

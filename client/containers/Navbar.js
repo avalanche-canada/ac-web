@@ -74,7 +74,7 @@ export default class AvalancheCanada extends PureComponent {
     render() {
         return (
             <ApplicationFeature>
-                {feature => (
+                {_feature => (
                     <Navbar logo={logo} donate="/foundation" menu={menu}>
                         {this.props.isAuthenticated ? this.logout : this.login}
                         {/* {feature ? this.renderFeature(feature) : null} */}

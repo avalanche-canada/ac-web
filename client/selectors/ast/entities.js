@@ -135,7 +135,9 @@ export function table(schema, columns) {
             if (place) {
                 return `Straight line between ${place.text} and the ${key}.`
             } else if (position) {
-                return `Straight line between your current location and the ${key}.`
+                return `Straight line between your current location and the ${
+                    key
+                }.`
             }
 
             return null

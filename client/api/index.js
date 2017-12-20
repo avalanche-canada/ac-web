@@ -10,6 +10,7 @@ import {
     transformCourseResponse,
     sanitizeMountainInformationNetworkSubmissions,
     transformMountainConditionsReports,
+    transformForecast,
 } from './transformers'
 
 const GET_CONFIGS = new Map([
@@ -67,7 +68,7 @@ const GET_CONFIGS = new Map([
                 const isArchived = isArchiveBulletinRequest(params)
 
                 return {
-                    ...forecast,
+                    ...transformForecast(forecast),
                     isArchived,
                     date: isArchived ? parse(params.date) : new Date(),
                 }

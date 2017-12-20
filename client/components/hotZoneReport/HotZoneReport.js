@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Panel, { INVERSE } from 'components/panel'
 import Generic from 'prismic/components/Generic'
@@ -7,48 +7,85 @@ import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import TerrainAdviceSet from './TerrainAdviceSet'
 import ImageGallery from 'components/gallery'
 import styles from './HotZoneReport.css'
-import ArchiveWarning from './ArchiveWarning'
+import { ArchiveWarning } from 'components/misc'
+import isWithinRange from 'date-fns/is_within_range'
 
-HotZoneReport.propTypes = {
-    report: PropTypes.object,
-    previous: PropTypes.object,
-    next: PropTypes.object,
-}
-
-export default function HotZoneReport({ report, previous, next }) {
-    const { title, headline, images } = report || {}
-    let gallery = null
-    const panel = {
-        theme: INVERSE,
-        expandable: true,
+export default class HotZoneReport extends PureComponent {
+    static propTypes = {
+        report: PropTypes.object.isRequired,
     }
+    get warning() {
+        const { region, dateOfIssue, validUntil } = this.props.report
 
-    if (images) {
-        gallery = images.length > 0 && {
-            items: images.map(({ main, caption }) => ({
-                original: main.url,
-                description: caption,
-            })),
-            showBullets: images.length > 1,
-            showPlayButton: images.length > 1,
-            showThumbnails: false,
+        if (isWithinRange(new Date(), dateOfIssue, validUntil)) {
+            return null
         }
+
+        const nowcast = {
+            to: `/hot-zone-reports/${region}`,
+            children: "Read today's report",
+        }
+
+        return (
+            <ArchiveWarning nowcast={nowcast}>
+                This is an archived HotZone report
+            </ArchiveWarning>
+        )
     }
-    return (
-        <div className={styles.HotZoneReport}>
-            <ArchiveWarning report={report} next={next} previous={previous} />
-            {title && <div className={styles.Title}>{title}</div>}
-            {headline && <div className={styles.Headline}>{headline}</div>}
-            {gallery && <ImageGallery {...gallery} />}
-            <CriticalFactors report={report} />
-            <TerrainAndTravelAdvice report={report} />
-            <TerrainAdviceSet report={report} />
-            <Panel {...panel} header="More information">
+    get information() {
+        return (
+            <Panel expandable theme={INVERSE} header="More information">
                 <Generic uid="hot-zone-report-more-information" />
             </Panel>
-            <Panel {...panel} header="About">
+        )
+    }
+    get about() {
+        return (
+            <Panel expandable theme={INVERSE} header="About">
                 <Generic uid="hot-zone-report-about" />
             </Panel>
-        </div>
-    )
+        )
+    }
+    get gallery() {
+        const { hotzoneImages } = this.props.report
+
+        if (!Array.isArray(hotzoneImages) || hotzoneImages.length === 0) {
+            return null
+        }
+
+        const items = hotzoneImages.map(({ hotzoneImage, caption }) => ({
+            original: hotzoneImage.main.url,
+            description: caption,
+        }))
+
+        return (
+            <div className={styles.Gallery}>
+                <ImageGallery
+                    items={items}
+                    showBullets={items.length > 1}
+                    showPlayButton={items.length > 1}
+                    showThumbnails={false}
+                />
+            </div>
+        )
+    }
+    render() {
+        const { report } = this.props
+
+        if (report) {
+            return [
+                this.warning,
+                <div className={styles.Title}>{report.title}</div>,
+                <div className={styles.Headline}>{report.headline}</div>,
+                this.gallery,
+                <CriticalFactors {...report} />,
+                <TerrainAndTravelAdvice report={report} />,
+                <TerrainAdviceSet {...report} />,
+                this.information,
+                this.about,
+            ]
+        }
+
+        return [this.information, this.about]
+    }
 }

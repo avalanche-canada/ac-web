@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import List from 'components/mountainInformationNetwork/List'
@@ -8,42 +8,23 @@ import styles from './HotZoneReport.css'
 import { StructuredText } from 'prismic/components/base'
 import { RED, ORANGE } from 'constants/forecast/palette'
 
-const TERMS = new Map([
-    ['persistentAvalancheProblem', 'Persistent avalanche problem'],
-    ['slabAvalanches', 'Slab avalanches in the last 48 hours'],
-    ['instability', 'Signs of instability'],
-    ['recentSnowfall', 'Recent snowfall > 30cm'],
-    ['recentRainfall', 'Recent rainfall'],
-    ['recentWindLoading', 'Recent wind loading'],
-    ['significantWarming', 'Significant warming'],
-])
-const YES = 'Yes'
-const NO = 'No'
-const UNKNOWN = 'Unknown'
-
-const VALUES = new Map([
-    [true, YES],
-    [false, NO],
-    [null, UNKNOWN],
-    [undefined, UNKNOWN],
-])
 const STYLES = new Map([
     [
-        YES,
+        'Yes',
         {
             fontWeight: 700,
             color: RED,
         },
     ],
     [
-        NO,
+        'No',
         {
             fontWeight: 700,
             color: '#595959',
         },
     ],
     [
-        UNKNOWN,
+        undefined,
         {
             fontWeight: 700,
             color: ORANGE,
@@ -51,76 +32,122 @@ const STYLES = new Map([
     ],
 ])
 
-const truthPropType = PropTypes.oneOf([true, false, null])
-function createDescriptions(values) {
-    return Object.keys(values)
-        .sort()
-        .reduce((children, key) => {
-            const value = VALUES.get(values[key])
-            const style = STYLES.get(value)
+const truthPropType = PropTypes.oneOf(['Yes', 'No'])
 
-            children.push(
-                <Term
-                    key={`term-${key}`}
-                    className={styles['CriticalFactors--Term']}
-                    style={style}>
-                    {TERMS.get(key)}
-                </Term>
-            )
-
-            children.push(
-                <Definition
-                    key={`definition-${key}`}
-                    className={styles['CriticalFactors--Definition']}
-                    style={style}>
-                    {value}
-                </Definition>
-            )
-
-            return children
-        }, [])
+CriticalFactor.propTypes = {
+    value: truthPropType,
+    children: PropTypes.node.isRequired,
 }
 
-CriticalFactors.propTypes = {
-    report: PropTypes.shape({
-        persistentAvalancheProblem: truthPropType,
-        slabAvalanches: truthPropType,
-        instability: truthPropType,
-        recentSnowfall: truthPropType,
-        recentRainfall: truthPropType,
-        recentWindLoading: truthPropType,
-        significantWarming: truthPropType,
-        questions: PropTypes.string,
-        comments: PropTypes.string,
-    }),
+function CriticalFactor({ children, value }) {
+    const style = STYLES.get(value)
+
+    return [
+        <Term className={styles['CriticalFactors--Term']} style={style}>
+            {children}
+        </Term>,
+        <Definition
+            className={styles['CriticalFactors--Definition']}
+            style={style}>
+            {value || 'Unknown'}
+        </Definition>,
+    ]
 }
 
-export default function CriticalFactors({ report }) {
-    if (!report || !report.criticalFactors) {
-        return null
+export default class CriticalFactors extends PureComponent {
+    static propTypes = {
+        criticalFactorsPersistentAvalancheProblem: truthPropType,
+        criticalFactorsSlabAvalanches: truthPropType,
+        criticalFactorsInstability: truthPropType,
+        criticalFactorsRecentSnowfall: truthPropType,
+        criticalFactorsRecentRainfall: truthPropType,
+        criticalFactorsRecentWindLoading: truthPropType,
+        criticalFactorsSignificantWarming: truthPropType,
+        criticalFactorsQuestions: PropTypes.string,
+        criticalFactorsComments: PropTypes.string,
     }
+    get questions() {
+        const { criticalFactorsQuestions } = this.props
 
-    const { comments, questions, ...values } = report.criticalFactors
+        if (!criticalFactorsQuestions) {
+            return null
+        }
 
-    return (
-        <Panel
-            header="Critical Factors Summary"
-            expanded
-            expandable
-            theme={INVERSE}>
-            <p>
-                <strong>
-                    Critical factors influence avalanche hazard. The more
-                    critical factors, the greater the potential for avalanches.
-                </strong>
-            </p>
-            <List>{createDescriptions(values)}</List>
+        return (
             <Comment title="Information to collect while traveling">
-                <StructuredText value={questions} />
+                <StructuredText value={criticalFactorsQuestions} />
             </Comment>
+        )
+    }
+    get comments() {
+        const { criticalFactorsComments } = this.props
+
+        if (!criticalFactorsComments) {
+            return null
+        }
+
+        return (
             <Comment>
-                <StructuredText value={comments} />
+                <StructuredText value={criticalFactorsComments} />
             </Comment>
-        </Panel>
-    )
+        )
+    }
+    get factors() {
+        const {
+            criticalFactorsPersistentAvalancheProblem,
+            criticalFactorsSlabAvalanches,
+            criticalFactorsInstability,
+            criticalFactorsRecentSnowfall,
+            criticalFactorsRecentRainfall,
+            criticalFactorsRecentWindLoading,
+            criticalFactorsSignificantWarming,
+        } = this.props
+
+        return (
+            <List>
+                <CriticalFactor value={criticalFactorsInstability}>
+                    Signs of instability
+                </CriticalFactor>
+                <CriticalFactor
+                    value={criticalFactorsPersistentAvalancheProblem}>
+                    Persistent avalanche problem
+                </CriticalFactor>
+                <CriticalFactor value={criticalFactorsRecentRainfall}>
+                    Recent rainfall
+                </CriticalFactor>
+                <CriticalFactor value={criticalFactorsRecentSnowfall}>
+                    Recent snowfall > 30cm
+                </CriticalFactor>
+                <CriticalFactor value={criticalFactorsRecentWindLoading}>
+                    Recent wind loading
+                </CriticalFactor>
+                <CriticalFactor value={criticalFactorsSignificantWarming}>
+                    Significant warming
+                </CriticalFactor>
+                <CriticalFactor value={criticalFactorsSlabAvalanches}>
+                    Slab avalanches in the last 48 hours
+                </CriticalFactor>
+            </List>
+        )
+    }
+    render() {
+        return (
+            <Panel
+                header="Critical Factors Summary"
+                expanded
+                expandable
+                theme={INVERSE}>
+                <p>
+                    <strong>
+                        Critical factors influence avalanche hazard. The more
+                        critical factors, the greater the potential for
+                        avalanches.
+                    </strong>
+                </p>
+                {this.factors}
+                {this.questions}
+                {this.comments}
+            </Panel>
+        )
+    }
 }

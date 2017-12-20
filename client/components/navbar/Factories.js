@@ -1,5 +1,4 @@
 import React, { createElement } from 'react'
-import { nest } from 'recompose'
 import Item from './Item'
 import Menu from './Menu'
 import Section from './Section'
@@ -8,11 +7,17 @@ import Link from './Link'
 import ColumnSet from './ColumnSet'
 import Headline from './Headline'
 
-const HeaderLink = nest(Header, Link)
+function HeaderLink(props) {
+    return (
+        <Header {...props}>
+            <Link {...props} />
+        </Header>
+    )
+}
 
 function createLink({ label, header, headline, ...rest }, index) {
     const hasHeader = header === true || typeof headline === 'string'
-    const component = hasHeader
+    const Component = hasHeader
         ? typeof rest.to === 'string' ? HeaderLink : Header
         : Link
     const props = {
@@ -20,7 +25,7 @@ function createLink({ label, header, headline, ...rest }, index) {
         key: index,
     }
 
-    return createElement(component, props, label)
+    return createElement(Component, props, label)
 }
 
 const MAX_NUMBER_OF_LINKS_PER_COLUMN = 7
