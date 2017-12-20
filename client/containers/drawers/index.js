@@ -6,7 +6,7 @@ import Drawer, { LEFT } from 'components/page/drawer'
 import { closeMenu } from 'actions/drawers'
 import MenuContent from './Menu'
 
-export ToggleMenu from './controls/ToggleMenu'
+export ToggleMenu from './ToggleMenu'
 
 @connect(createStructuredSelector({ open: isMenuOpen }), {
     onCloseClick: closeMenu,
