@@ -13,8 +13,10 @@ import {
     TBody,
     Cell,
     Responsive,
+    Caption,
 } from 'components/table'
 import Container from 'containers/MountainInformationNetworkSubmissionList'
+import ForecastRegions from 'containers/ForecastRegions'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -31,17 +33,20 @@ export default class SubmissionList extends PureComponent {
     static propTypes = {
         days: PropTypes.number,
         types: PropTypes.instanceOf(Set),
+        regions: PropTypes.instanceOf(Set),
         sorting: PropTypes.array,
         onParamsChange: PropTypes.func.isRequired,
     }
     static defaultProps = {
         days: 7,
         types: new Set(),
+        regions: new Set(),
         sorting: null,
     }
     state = {
         days: this.props.days,
         types: this.props.types,
+        regions: this.props.regions,
         sorting: this.props.sorting,
     }
     handleFromDateChange = from => {
@@ -52,6 +57,9 @@ export default class SubmissionList extends PureComponent {
     handleTypesChange = types => {
         this.setState({ types }, this.handleParamsChange)
     }
+    handleRegionsChange = regions => {
+        this.setState({ regions }, this.handleParamsChange)
+    }
     handleSortingChange(name, order) {
         this.setState({ sorting: [name, order] }, this.handleParamsChange)
     }
@@ -61,7 +69,7 @@ export default class SubmissionList extends PureComponent {
     get from() {
         return subDays(new Date(), this.state.days)
     }
-    renderMetadata({ submissions, status }) {
+    renderMetadata(regions) {
         const { from } = this
 
         return (
@@ -82,8 +90,13 @@ export default class SubmissionList extends PureComponent {
                         placeholder="Show all"
                     />
                 </Entry>
-                <Entry term="Number of submissions" sideBySide>
-                    {status.isLoaded ? submissions.size : 'Loading...'}
+                <Entry term="Regions" sideBySide>
+                    <Dropdown
+                        value={this.state.regions}
+                        onChange={this.handleRegionsChange}
+                        options={new Map(regions.map(createRegionOption))}
+                        placeholder="Show all"
+                    />
                 </Entry>
             </Metadata>
         )
@@ -122,13 +135,12 @@ export default class SubmissionList extends PureComponent {
         )
     }
     createMessages({ submissions, status }) {
-        if (status.isLoaded && submissions.isEmpty()) {
-            return {
-                isLoaded: 'No submissions found.',
-            }
+        return {
+            ...status.messages,
+            isLoaded: submissions.isEmpty()
+                ? 'No submissions found.'
+                : `Total of ${submissions.size} submissions found.`,
         }
-
-        return status.messages
     }
     get sortProps() {
         const [name, order] = this.state.sorting || []
@@ -144,36 +156,44 @@ export default class SubmissionList extends PureComponent {
     }
     renderChildren({ props }) {
         return [
-            this.renderMetadata(props),
-            <Br />,
-            <Responsive>
-                <Table>
-                    <THead>
-                        <Row>{COLUMNS.map(this.renderHeader)}</Row>
-                    </THead>
-                    <TBody>
-                        <Sorted values={props.submissions} {...this.sortProps}>
-                            {submissions =>
-                                submissions.map(this.renderSubmission)
-                            }
-                        </Sorted>
-                    </TBody>
-                </Table>
-            </Responsive>,
-            <Status {...props.status} messages={this.createMessages(props)} />,
+            <TBody>
+                <Sorted values={props.submissions} {...this.sortProps}>
+                    {submissions => submissions.map(this.renderSubmission)}
+                </Sorted>
+            </TBody>,
+            <Caption>
+                <Status
+                    {...props.status}
+                    messages={this.createMessages(props)}
+                />
+            </Caption>,
         ]
     }
     render() {
-        const { days, types } = this.state
+        const { days, types, regions } = this.state
 
         return (
             <Page>
                 <Header title="Mountain Information Network submissions" />
                 <Content>
                     <Main>
-                        <Container days={days} types={types}>
-                            {props => this.renderChildren(props)}
-                        </Container>
+                        <ForecastRegions>
+                            {regions => this.renderMetadata(regions)}
+                        </ForecastRegions>
+                        <Br />
+                        <Responsive>
+                            <Table>
+                                <THead>
+                                    <Row>{COLUMNS.map(this.renderHeader)}</Row>
+                                </THead>
+                                <Container
+                                    days={days}
+                                    types={types}
+                                    regions={regions}>
+                                    {props => this.renderChildren(props)}
+                                </Container>
+                            </Table>
+                        </Responsive>
                     </Main>
                 </Content>
             </Page>
@@ -296,4 +316,7 @@ const COLUMNS = [
 // Utils
 function pluckObtype(observation) {
     return observation.get('obtype')
+}
+function createRegionOption(region) {
+    return [region.get('id'), region.get('name')]
 }

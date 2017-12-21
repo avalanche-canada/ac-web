@@ -12,32 +12,37 @@ import { getFeatureCollection } from 'getters/mapbox'
 import { FORECAST_REGIONS } from 'services/mapbox/datasets'
 import { loadFeatures } from 'actions/mapbox'
 
-function getSubmissionsResultsSet(state, { days }) {
-    return getResultsSet(state, Schema, { days })
-}
+function getFilters(state, { types, regions }) {
+    const filters = []
 
-function getSubmissions(state) {
-    return getEntitiesForSchema(state, Schema)
-}
+    if (types.size > 0) {
+        types = new Immutable.Set(types)
 
-function getFilter(state, { types }) {
-    if (types.size === 0) {
-        return () => true
+        filters.push(
+            submission =>
+                !submission
+                    .get('obs')
+                    .map(ob => ob.get('obtype'))
+                    .toSet()
+                    .intersect(types)
+                    .isEmpty()
+        )
     }
 
-    types = new Immutable.Set(types)
+    if (regions.size > 0) {
+        filters.push(
+            submission =>
+                submission.has('region')
+                    ? regions.has(submission.get('region').id)
+                    : false
+        )
+    }
 
-    return submission =>
-        !submission
-            .get('obs')
-            .map(ob => ob.get('obtype'))
-            .toSet()
-            .intersect(types)
-            .isEmpty()
+    return filters
 }
 
 const runSubmissionsSpatialAnalysis = createSelector(
-    getSubmissions,
+    state => getEntitiesForSchema(state, Schema),
     state => getFeatureCollection(state, FORECAST_REGIONS),
     (submissions, regions) => {
         if (!regions || submissions.isEmpty()) {
@@ -71,14 +76,19 @@ const runSubmissionsSpatialAnalysis = createSelector(
 
 const getFilteredSubmissions = createSelector(
     runSubmissionsSpatialAnalysis,
-    getSubmissionsResultsSet,
-    getFilter,
-    (submissions, { ids }, filter) =>
-        new Immutable.List(ids)
+    (state, { days }) => getResultsSet(state, Schema, { days }),
+    getFilters,
+    (submissions, { ids }, filters) => {
+        submissions = new Immutable.List(ids)
             .map(id => submissions.get(id))
-            .filter(filter)
             .sortBy(submission => new Date(submission.get('datetime')))
             .reverse()
+
+        return filters.reduce(
+            (submissions, filter) => submissions.filter(filter),
+            submissions
+        )
+    }
 )
 
 export default connect(
