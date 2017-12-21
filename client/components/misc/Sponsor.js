@@ -27,7 +27,7 @@ export default class Sponsor extends PureComponent {
                     {label && <dt className={styles.Label}>{label}</dt>}
                     {logo && (
                         <dd className={styles.Logo}>
-                            <img src={logo} title={name} />
+                            <img src={logo} alt={name} title={name} />
                         </dd>
                     )}
                     {children}
