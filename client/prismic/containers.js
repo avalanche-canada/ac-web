@@ -5,10 +5,8 @@ import { createStructuredSelector } from 'reselect'
 import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import endOfYesterday from 'date-fns/end_of_yesterday'
 import isToday from 'date-fns/is_today'
 import subDays from 'date-fns/sub_days'
-import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import { load } from 'actions/prismic'
@@ -34,8 +32,21 @@ import {
     SPAW as SPAW_TYPE,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
-import Container from 'containers/Container'
+import Connector from 'containers/Connector'
 import * as utils from './utils'
+
+function mapDispatchToProps(dispatch) {
+    return {
+        didMount({ props }) {
+            dispatch(load(props.params))
+        },
+        willReceiveProps({ props, nextProps }) {
+            if (props.params !== nextProps.params) {
+                dispatch(load(nextProps.params))
+            }
+        },
+    }
+}
 
 const DocumentContainer = connect(
     createStructuredSelector({
@@ -50,8 +61,8 @@ const DocumentContainer = connect(
             }
         },
     }),
-    { load }
-)(Container)
+    mapDispatchToProps
+)(Connector)
 
 export const DocumentsContainer = connect(
     createStructuredSelector({
@@ -65,8 +76,8 @@ export const DocumentsContainer = connect(
             }
         },
     }),
-    { load }
-)(Container)
+    mapDispatchToProps
+)(Connector)
 
 export class Document extends Component {
     static propTypes = {

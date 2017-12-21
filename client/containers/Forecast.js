@@ -1,4 +1,4 @@
-import Container from './Container'
+import Connector from './Connector'
 import { connect } from 'react-redux'
 import { createSelector, createStructuredSelector } from 'reselect'
 import { Forecast, ForecastRegion } from 'api/schemas'
@@ -20,13 +20,20 @@ export default connect(
             },
         }),
     }),
-    (dispatch, { name, date }) => ({
-        load() {
-            dispatch(loadForecast({ name, date }))
+    dispatch => ({
+        didMount({ props }) {
+            const { name, date } = props
+
             dispatch(loadFeaturesMetadata())
+            dispatch(loadForecast({ name, date }))
+        },
+        willReceiveProps({ nextProps }) {
+            const { name, date } = nextProps
+
+            dispatch(loadForecast({ name, date }))
         },
     })
-)(Container)
+)(Connector)
 
 // Utils
 function createMessages({ name }) {

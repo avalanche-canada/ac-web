@@ -1,4 +1,4 @@
-import Container from './Container'
+import Connector from './Connector'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { MountainConditionsReport as Schema } from 'api/schemas'
@@ -19,5 +19,6 @@ export default connect(
         }),
     })
     // TODO: For a fully proof container, we should provide a load function
-    // We assume someone will load all MCRs
-)(Container)
+    // We assume someone will load all MCRs. The map is currently loading all
+    // MCR reports.
+)(Connector)

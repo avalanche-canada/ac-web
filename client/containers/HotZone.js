@@ -1,8 +1,8 @@
-import Container from './Container'
+import Connector from './Connector'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { HotZone } from 'api/schemas'
-import { loadFeaturesMetadata as load } from 'actions/entities'
+import { loadFeaturesMetadata } from 'actions/entities'
 import { getResultsSet } from 'getters/api'
 import { getEntityForSchema } from 'getters/entities'
 
@@ -17,5 +17,9 @@ export default connect(
             },
         }),
     }),
-    { load }
-)(Container)
+    dispatch => ({
+        didMount() {
+            dispatch(loadFeaturesMetadata())
+        },
+    })
+)(Connector)

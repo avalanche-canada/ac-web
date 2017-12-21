@@ -1,4 +1,4 @@
-import Container from './Container'
+import Connector from './Connector'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { MountainInformationNetworkSubmission as Schema } from 'api/schemas'
@@ -13,18 +13,23 @@ export default connect(
                 return getEntityForSchema(state, Schema, id)
             },
             status(state, { id }) {
-                return getResultsSet(state, Schema, { id })
-                    .asStatus(MESSAGES)
-                    .toObject()
+                const result = getResultsSet(state, Schema, { id })
+
+                return result.asStatus(MESSAGES).toObject()
             },
         }),
     }),
-    (dispatch, props) => ({
-        load() {
-            return dispatch(loadMountainInformationNetworkSubmission(props.id))
+    dispatch => ({
+        didMount({ props }) {
+            dispatch(loadMountainInformationNetworkSubmission(props.id))
+        },
+        willReceiveProps({ props, nextProps }) {
+            if (props.id !== nextProps.id) {
+                dispatch(loadMountainInformationNetworkSubmission(nextProps.id))
+            }
         },
     })
-)(Container)
+)(Connector)
 
 const MESSAGES = {
     isError: 'Error happened while loading submission.',

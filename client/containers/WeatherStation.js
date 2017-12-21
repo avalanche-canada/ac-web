@@ -1,14 +1,16 @@
-import Container from './Container'
+import Connector from './Connector'
 import { connect } from 'react-redux'
 import { WeatherStation } from 'api/schemas'
 import { loadWeatherStation } from 'actions/entities'
 import { getEntityForSchema } from './api'
 
-export default connect(
-    getEntityForSchema(WeatherStation),
-    (dispatch, { id }) => ({
-        load() {
-            return dispatch(loadWeatherStation(id))
-        },
-    })
-)(Container)
+export default connect(getEntityForSchema(WeatherStation), dispatch => ({
+    didMount({ props }) {
+        dispatch(loadWeatherStation(props.id))
+    },
+    willReceiveProps({ props, nextProps }) {
+        if (props.id !== nextProps.id) {
+            dispatch(loadWeatherStation(nextProps.id))
+        }
+    },
+}))(Connector)
