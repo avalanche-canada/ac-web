@@ -180,11 +180,11 @@ export function ApplicationFeature({ children }) {
             Predicates.type(APPLICATION_FEATURE),
             Predicates.dateBefore(
                 `my.${APPLICATION_FEATURE}.startDate`,
-                startOfTomorrow().getTime()
+                utils.formatDate(startOfTomorrow())
             ),
             Predicates.dateAfter(
                 `my.${APPLICATION_FEATURE}.endDate`,
-                startOfYesterday().getTime()
+                utils.formatDate(startOfYesterday())
             ),
         ],
     }
@@ -383,7 +383,10 @@ export class FeedSplash extends Component {
 
         if (type === EVENT) {
             predicates.push(
-                Predicates.dateAfter(`my.${EVENT}.start_date`, Date.now())
+                Predicates.dateAfter(
+                    `my.${EVENT}.start_date`,
+                    utils.formatDate(new Date())
+                )
             )
         }
 
@@ -425,7 +428,7 @@ export class FeedSidebar extends Component {
             predicates.push(
                 Predicates.dateAfter(
                     'my.event.start_date',
-                    startOfTomorrow().getTime()
+                    utils.formatDate(startOfTomorrow())
                 )
             )
             ordering = 'my.event.start_date'
@@ -582,8 +585,8 @@ export class MonthlyHotZoneReportSet extends Component {
     }
     get params() {
         const { date, region } = this.props
-        const start = startOfMonth(date).getTime()
-        const end = endOfMonth(date).getTime()
+        const start = utils.formatDate(startOfMonth(date))
+        const end = utils.formatDate(endOfMonth(date))
 
         return {
             predicates: [
@@ -645,7 +648,7 @@ function isFeaturedPost({ featured }) {
 }
 function rangePredicates(start, end, date = new Date()) {
     return [
-        Predicates.dateBefore(start, date.getTime()),
-        Predicates.dateAfter(end, subDays(date, 1).getTime()),
+        Predicates.dateBefore(start, utils.formatDate(date)),
+        Predicates.dateAfter(end, utils.formatDate(subDays(date, 1))),
     ]
 }
