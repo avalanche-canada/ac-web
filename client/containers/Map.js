@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { getCoord } from '@turf/invariant'
+import bbox from '@turf/bbox'
+import noop from 'lodash/noop'
 import mapbox from 'services/mapbox/map'
 import Url from 'url'
 import { Map as Base, Marker, NavigationControl } from 'components/map'
@@ -11,8 +14,6 @@ import { LayerIds, allLayerIds } from 'constants/map/layers'
 import { near } from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
-import { getCoord } from '@turf/invariant'
-import noop from 'lodash/noop'
 
 const CLUSTER_DIST = 0.005
 
@@ -94,7 +95,6 @@ export default class Container extends Component {
         onError: PropTypes.func,
         style: PropTypes.object,
         markers: PropTypes.arrayOf(PropTypes.object),
-        computeFitBounds: PropTypes.func.isRequired,
         loadMapStyle: PropTypes.func.isRequired,
         loadData: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
@@ -178,7 +178,12 @@ export default class Container extends Component {
                     if (longDiff < CLUSTER_DIST && latDiff < CLUSTER_DIST) {
                         this.showClusterPopup(layer, cluster.features, lngLat)
                     } else {
-                        this.fitBounds(cluster, CLUSTER_BOUNDS_OPTIONS)
+                        const box = bbox(cluster)
+
+                        this.map.fitBounds(
+                            [[box[0], box[1]], [box[2], box[3]]],
+                            CLUSTER_BOUNDS_OPTIONS
+                        )
                     }
 
                     return
@@ -265,20 +270,6 @@ export default class Container extends Component {
         this.forceUpdate(() => {
             this.props.onLoad(event)
         })
-    }
-    fitBounds(feature, options) {
-        if (!feature) {
-            return
-        }
-
-        const bounds = this.props.computeFitBounds(
-            feature,
-            false,
-            false,
-            options
-        )
-
-        this.map.fitBounds(bounds.bbox, bounds.options)
     }
     createActiveFeatures() {
         const { location, match, activeFeaturesChanged } = this.props
