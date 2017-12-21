@@ -38,19 +38,21 @@ export default class ToyotaTruckReport extends PureComponent {
         id: PropTypes.string.isRequired,
         onCloseClick: PropTypes.func.isRequired,
     }
-    renderBanner({ banner }) {
+    renderBanner(report) {
         return (
             <Ratio>
                 {(width, height) => (
                     <Banner>
-                        <img
-                            src={cloudinary.url(banner, {
-                                ...TRANSFORMATION,
-                                height,
-                                width,
-                            })}
-                            height={height}
-                        />
+                        {report && (
+                            <img
+                                src={cloudinary.url(report.banner, {
+                                    ...TRANSFORMATION,
+                                    height,
+                                    width,
+                                })}
+                                height={height}
+                            />
+                        )}
                     </Banner>
                 )}
             </Ratio>
@@ -73,7 +75,7 @@ export default class ToyotaTruckReport extends PureComponent {
         return <StructuredText value={content} />
     }
     children = ({ document, status }) => [
-        document ? this.renderBanner(document) : null,
+        this.renderBanner(document),
         this.renderHeader(document),
         <Content>
             <Status {...status} messages={messages} />
