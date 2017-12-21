@@ -171,7 +171,7 @@ export default class Providers extends PureComponent {
 const COLUMNS = [
     {
         name: 'provider',
-        title: 'Provider',
+        title: 'Provider name',
         property(provider) {
             return provider.get('name')
         },

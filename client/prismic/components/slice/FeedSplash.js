@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { FeedSplash as Layout } from 'layouts/feed'
+import { Splash } from 'layouts/feed'
 import { StructuredText } from 'prismic/components/base'
 
 const types = new Map([
@@ -24,9 +24,9 @@ export default class FeedSplash extends PureComponent {
     }
     render() {
         return (
-            <Layout type={this.type} tags={this.tags}>
+            <Splash type={this.type} tags={this.tags}>
                 <StructuredText value={this.value.header} />
-            </Layout>
+            </Splash>
         )
     }
 }

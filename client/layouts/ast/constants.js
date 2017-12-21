@@ -8,11 +8,10 @@ export const LEVELS = new Map([
 ])
 
 export const TAGS = new Map([
-    ['SLED', 'SLED'],
-    ['YOUTH', 'YOUTH'],
     ['SKI', 'SKI'],
+    ['SLED', 'SLED'],
     ['SNOWSHOE', 'SNOWSHOE'],
+    ['YOUTH', 'YOUTH'],
 ])
 
 export const MINIMUM_DISTANCE = 10
-
