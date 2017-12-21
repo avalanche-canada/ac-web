@@ -17,8 +17,8 @@ function maybeNull(name, fn = x => x) {
     }
 }
 
-function singleDecimal(x) {
-    return Math.round(x * 10) / 10
+function singleDecimal(number) {
+    return (Math.round(number * 10) / 10).toFixed(1)
 }
 
 export const Hour = {

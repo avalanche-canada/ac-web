@@ -24,6 +24,10 @@ function Layout({ title, children }) {
     )
 }
 
+const STYLE = {
+    marginTop: '1em',
+}
+
 export class Feed extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired,
@@ -65,15 +69,17 @@ export class Feed extends PureComponent {
     }
     children = ({ status, documents }) => [
         this.props.children(documents),
-        <Filtered values={documents} predicates={this.predicates}>
-            {entries => [
-                <Status
-                    {...status}
-                    messages={this.createMessages(status, entries)}
-                />,
-                <EntrySet>{entries.map(renderEntry)}</EntrySet>,
-            ]}
-        </Filtered>,
+        <div style={STYLE}>
+            <Filtered values={documents} predicates={this.predicates}>
+                {entries => [
+                    <Status
+                        {...status}
+                        messages={this.createMessages(status, entries)}
+                    />,
+                    <EntrySet>{entries.map(renderEntry)}</EntrySet>,
+                ]}
+            </Filtered>
+        </div>,
     ]
     render() {
         return <Container type={this.props.type}>{this.children}</Container>
