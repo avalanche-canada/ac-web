@@ -305,6 +305,11 @@ export class WeatherTutorial extends Component {
 }
 
 const FEED_TYPES = [NEWS, BLOG, EVENT]
+const FEED_ORDERINGS = new Map([
+    [NEWS, `my.${NEWS}.date desc`],
+    [BLOG, `my.${BLOG}.date desc`],
+    [EVENT, `my.${EVENT}.start_date`],
+])
 
 export class Post extends Component {
     static propTypes = {
@@ -323,49 +328,35 @@ export class Post extends Component {
     }
 }
 
-function descending(a, b) {
-    return b.date - a.date
-}
-function ascending(a, b) {
-    return a.date - b.date
-}
-
-const FEED_SORTERS = new Map([
-    [NEWS, descending],
-    [BLOG, descending],
-    [EVENT, ascending],
-])
-
 export class Feed extends Component {
     static propTypes = {
         type: PropTypes.oneOf(FEED_TYPES).isRequired,
         children: PropTypes.func.isRequired,
     }
     get params() {
+        const { type } = this.props
+
         return {
-            predicates: [Predicates.type(this.props.type)],
+            predicates: [Predicates.type(type)],
             options: {
                 pageSize: 250,
+                orderings: [FEED_ORDERINGS.get(type)],
             },
         }
     }
     children = ({ documents, status }) => {
-        const transformed = documents.map(document => parse(document))
-        let sorted = transformed.sort(FEED_SORTERS.get(this.props.type))
+        documents = documents.map(document => parse(document))
 
         // Bringing the first featured one on top!
-        if (sorted.some(isFeaturedPost)) {
-            const featured = sorted.find(isFeaturedPost)
+        if (documents.some(isFeaturedPost)) {
+            const featured = documents.find(isFeaturedPost)
 
-            sorted = sorted.filter(post => featured !== post)
+            documents = documents.filter(post => featured !== post)
 
-            sorted.unshift(featured)
+            documents.unshift(featured)
         }
 
-        return this.props.children({
-            status,
-            documents: sorted,
-        })
+        return this.props.children({ status, documents })
     }
     render() {
         return (
@@ -385,14 +376,12 @@ export class FeedSplash extends Component {
     get params() {
         const { type, tags } = this.props
         const predicates = [Predicates.type(type)]
-        let ordering = `my.${type}.date desc`
 
         if (Array.isArray(tags) && tags.length > 0) {
             predicates.push(Predicates.tags(tags))
         }
 
         if (type === EVENT) {
-            ordering = `my.${EVENT}.start_date`
             predicates.push(
                 Predicates.dateAfter(`my.${EVENT}.start_date`, Date.now())
             )
@@ -402,7 +391,7 @@ export class FeedSplash extends Component {
             predicates,
             options: {
                 pageSize: 5,
-                orderings: [ordering],
+                orderings: [FEED_ORDERINGS.get(type)],
             },
         }
     }
@@ -458,8 +447,7 @@ export class FeedSidebar extends Component {
             status,
             documents: documents
                 .filter(d => d.uid !== this.props.uid)
-                .map(document => parse(document))
-                .sort(FEED_SORTERS.get(this.props.type)),
+                .map(document => parse(document)),
         })
     render() {
         return (
