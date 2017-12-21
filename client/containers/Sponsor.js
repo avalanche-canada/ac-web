@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Sponsor as Component, Status } from 'components/misc'
 import { Sponsor as Container } from 'prismic/containers'
-
+import get from 'lodash/get'
 // TODO: move to layouts
 
 export default class Sponsor extends PureComponent {
@@ -10,8 +10,8 @@ export default class Sponsor extends PureComponent {
         name: PropTypes.string.isRequired,
         label: PropTypes.string,
     }
-    children = ({ status, sponsor = {} }) => (
-        <Component label={this.props.label} {...sponsor}>
+    children = ({ status, document }) => (
+        <Component label={this.props.label} {...get(document, 'data', {})}>
             {status.isLoading && <Status isLoading />}
         </Component>
     )

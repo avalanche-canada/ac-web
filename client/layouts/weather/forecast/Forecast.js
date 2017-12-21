@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { WeatherForecast as Container } from 'prismic/containers'
 import { Article } from 'components/page'
@@ -10,13 +10,17 @@ import Forecast from 'components/weather'
 import { DayPicker } from 'components/controls'
 import * as utils from 'utils/search'
 
-export default class WeatherForecast extends PureComponent {
+export default class WeatherForecast extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
+        callback: PropTypes.func.isRequired,
     }
     state = {
         date: utils.parseDate(this.props.match.params.date),
+    }
+    get date() {
+        return this.state.date || new Date()
     }
     handleDateChange = date => {
         this.setState({ date }, () => {
@@ -26,16 +30,14 @@ export default class WeatherForecast extends PureComponent {
         })
     }
     renderMetadata(forecast) {
-        const { date } = this.state
-
         return (
             <Metadata>
                 <Entry term="Date" sideBySide>
                     <DayPicker
-                        date={date}
+                        date={this.date}
                         onChange={this.handleDateChange}
                         container={this}>
-                        <DateElement value={date} />
+                        <DateElement value={this.date} />
                     </DayPicker>
                 </Entry>
                 {forecast && (
@@ -61,7 +63,7 @@ export default class WeatherForecast extends PureComponent {
             return (
                 <Muted>
                     No weather forecast available for{' '}
-                    <DateElement value={this.state.date} />
+                    <DateElement value={this.date} />
                     .
                 </Muted>
             )
@@ -69,13 +71,11 @@ export default class WeatherForecast extends PureComponent {
 
         return <Forecast forecast={forecast} />
     }
-    children = ({ status, forecast }) => {
-        return [
-            this.renderMetadata(forecast),
-            <Status {...status} />,
-            this.renderContent(status, forecast),
-        ]
-    }
+    children = ({ status, forecast }) => [
+        this.renderMetadata(forecast),
+        <Status {...status} />,
+        this.renderContent(status, forecast),
+    ]
     render() {
         return (
             <Article>

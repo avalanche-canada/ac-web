@@ -5,10 +5,10 @@ import { createStructuredSelector } from 'reselect'
 import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import isToday from 'date-fns/is_today'
 import subDays from 'date-fns/sub_days'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
+import isToday from 'date-fns/is_today'
 import { load } from 'actions/prismic'
 import {
     getDocumentFromParams,
@@ -29,10 +29,12 @@ import {
     TOYOTA_TRUCK_REPORT,
     HOTZONE_REPORT,
     SPAW as SPAW_TYPE,
+    WEATHER_FORECAST,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
 import { DATE } from 'utils/date'
+import * as utils from 'utils/search'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -47,14 +49,13 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-const DocumentContainer = connect(
+export const DocumentsContainer = connect(
     createStructuredSelector({
         data(state, { params, messages }) {
-            // TODO: More work here to test if document already exists
             const result = getResult(state, params)
 
             return {
-                document: getDocumentFromParams(state, params),
+                documents: getDocumentsFromParams(state, params),
                 status: result.asStatus(messages).toObject(),
                 metadata: result.toMetadata(),
             }
@@ -63,13 +64,14 @@ const DocumentContainer = connect(
     mapDispatchToProps
 )(Connector)
 
-export const DocumentsContainer = connect(
+const DocumentContainer = connect(
     createStructuredSelector({
         data(state, { params, messages }) {
+            // TODO: More work here to test if document already exists
             const result = getResult(state, params)
 
             return {
-                documents: getDocumentsFromParams(state, params),
+                document: getDocumentFromParams(state, params),
                 status: result.asStatus(messages).toObject(),
                 metadata: result.toMetadata(),
             }
@@ -92,17 +94,15 @@ export class Document extends Component {
             predicates: [Predicates.type(type), Predicates.uid(type, uid)],
         }
     }
-    children = ({ document, status }) =>
+    children = ({ status, document }) =>
         this.props.children({
             status,
-            document: data(document),
+            document: document ? parse(document) : undefined,
         })
     render() {
-        const { parse, children } = this.props
-
         return (
             <DocumentContainer params={this.params}>
-                {parse ? this.children : children}
+                {this.props.parse ? this.children : this.props.children}
             </DocumentContainer>
         )
     }
@@ -231,14 +231,8 @@ export class WeatherForecast extends Component {
         date: PropTypes.instanceOf(Date),
         children: PropTypes.func.isRequired,
     }
-    static defaultProps = {
-        date: new Date(),
-    }
-    state = {
-        date: this.props.date,
-    }
     get messages() {
-        const date = formatDate(this.state.date, DATE)
+        const date = formatDate(this.props.date, DATE)
 
         return {
             isLoading: `Loading weather forecast for ${date}...`,
@@ -246,41 +240,39 @@ export class WeatherForecast extends Component {
         }
     }
     get params() {
-        return {
-            predicates: [
-                Predicates.field(
-                    'weather-forecast',
-                    'date',
-                    this.state.date.getTime()
-                ),
-            ],
-        }
-    }
-    componentWillReceiveProps({ date }) {
-        if (date !== this.props.date) {
-            this.setState({ date })
-        }
-    }
-    componentDidUpdate() {
-        const { date } = this.state
+        const { date } = this.props
 
-        if (isToday(date) && this.status.isLoaded && !this.document) {
-            // Between midnight and usual 4am publish time, we are showing
-            // the day before forecast
-            this.setState({
-                date: subDays(date, 1),
-            })
+        if (date && !isToday(date)) {
+            return {
+                predicates: [
+                    Predicates.field(
+                        WEATHER_FORECAST,
+                        'date',
+                        utils.formatDate(date)
+                    ),
+                ],
+            }
+        } else {
+            return {
+                predicates: [
+                    Predicates.type(WEATHER_FORECAST),
+                    Predicates.dateBefore(
+                        `my.${WEATHER_FORECAST}.date`,
+                        startOfTomorrow()
+                    ),
+                ],
+                options: {
+                    pageSize: 1,
+                    orderings: [`my.${WEATHER_FORECAST}.date desc`],
+                },
+            }
         }
     }
-    children = ({ status, document }) => {
-        this.status = status
-        this.document = document
-
-        return this.props.children({
+    children = ({ status, document }) =>
+        this.props.children({
             status,
             forecast: data(document),
         })
-    }
     render() {
         return (
             <DocumentContainer params={this.params} messages={this.messages}>
@@ -295,15 +287,18 @@ export class WeatherTutorial extends Component {
         uid: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    children = ({ status, document }) =>
-        this.props.children({
-            status,
-            tutorial: data(document),
-        })
+    static messages = {
+        isLoading: 'Loading tutorial...',
+        isError: 'Error happened while loading tutorial...',
+    }
     render() {
         return (
-            <Document type="weather-forecast-tutorial" uid={this.props.uid}>
-                {this.children}
+            <Document
+                type="weather-forecast-tutorial"
+                uid={this.props.uid}
+                parse
+                messages={WeatherTutorial.messages}>
+                {this.props.children}
             </Document>
         )
     }
@@ -317,17 +312,12 @@ export class Post extends Component {
         uid: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    children = ({ status, document }) =>
-        this.props.children({
-            status,
-            post: parse(document),
-        })
     render() {
         const { type, uid } = this.props
 
         return (
-            <Document type={type} uid={uid}>
-                {this.children}
+            <Document parse type={type} uid={uid}>
+                {this.props.children}
             </Document>
         )
     }
@@ -485,11 +475,6 @@ export class Sponsor extends Component {
         name: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    sponsor = ({ status, document }) =>
-        this.props.children({
-            status,
-            sponsor: data(document),
-        })
     sponsors = ({ props: { data } }) => {
         if (Object.keys(data).keys().length === 0) {
             return this.props.children({
@@ -503,8 +488,8 @@ export class Sponsor extends Component {
         const uid = data[name] || name
 
         return (
-            <Document type="sponsor" uid={uid}>
-                {this.sponsor}
+            <Document parse type="sponsor" uid={uid}>
+                {this.props.children}
             </Document>
         )
     }

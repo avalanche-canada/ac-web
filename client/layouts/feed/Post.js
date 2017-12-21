@@ -16,7 +16,7 @@ class Post extends PureComponent {
         uid: PropTypes.string.isRequired,
     }
     renderHeader(status, post) {
-        const title = status.isLoading ? 'Loading...' : post.title
+        const title = status.isLoaded && post ? post.title : 'Loading...'
 
         return <Header title={title} />
     }
@@ -55,8 +55,8 @@ class Post extends PureComponent {
             <StructuredText value={content} />,
         ]
     }
-    children = ({ status, post }) => {
-        if (status.isLoaded && !post) {
+    children = ({ status, document }) => {
+        if (status.isLoaded && !document) {
             // Post not found, redirecting to feed
             return <Redirect to={this.props.type} />
         }
@@ -64,11 +64,11 @@ class Post extends PureComponent {
         const { uid, type } = this.props
 
         return [
-            this.renderHeader(status, post),
+            this.renderHeader(status, document),
             <Content>
                 <Main>
-                    {post && this.renderMetadata(post)}
-                    {post && this.renderContent(post)}
+                    {document && this.renderMetadata(document)}
+                    {document && this.renderContent(document)}
                     <Status {...status} />
                 </Main>
                 <Aside>
@@ -78,9 +78,13 @@ class Post extends PureComponent {
         ]
     }
     render() {
+        const { uid, type } = this.props
+
         return (
             <Page>
-                <Container {...this.props}>{this.children}</Container>
+                <Container uid={uid} type={type}>
+                    {this.children}
+                </Container>
             </Page>
         )
     }
