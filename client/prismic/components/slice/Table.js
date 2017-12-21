@@ -112,17 +112,19 @@ export default class PrismicTable extends PureComponent {
             <Responsive>
                 <Table bordered>
                     <Header>
-                        {this.columns.map(column => (
-                            <HeaderCell
-                                key={column.name}
-                                sorting={this.getSorting(column)}
-                                onSortingChange={this.handleSortingChange.bind(
-                                    this,
-                                    column.name
-                                )}>
-                                {column.title}
-                            </HeaderCell>
-                        ))}
+                        <Row>
+                            {this.columns.map(column => (
+                                <HeaderCell
+                                    key={column.name}
+                                    sorting={this.getSorting(column)}
+                                    onSortingChange={this.handleSortingChange.bind(
+                                        this,
+                                        column.name
+                                    )}>
+                                    {column.title}
+                                </HeaderCell>
+                            ))}
+                        </Row>
                     </Header>
                     <TBody>{documents.map(this.renderRow)}</TBody>
                     <Caption>
