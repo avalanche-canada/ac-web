@@ -178,10 +178,8 @@ export default class Container extends Component {
                     if (longDiff < CLUSTER_DIST && latDiff < CLUSTER_DIST) {
                         this.showClusterPopup(layer, cluster.features, lngLat)
                     } else {
-                        const box = bbox(cluster)
-
                         this.map.fitBounds(
-                            [[box[0], box[1]], [box[2], box[3]]],
+                            bbox(cluster),
                             CLUSTER_BOUNDS_OPTIONS
                         )
                     }
