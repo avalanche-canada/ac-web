@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import Navbar, {
     Item,
     Menu,
@@ -19,6 +20,7 @@ import { NewRelease } from 'components/icons'
 import { StructuredText } from 'prismic/components/base'
 import logo from 'styles/AvalancheCanada.svg'
 
+@withRouter
 @connect(
     createStructuredSelector({
         isAuthenticated: getIsAuthenticated,
@@ -29,7 +31,7 @@ import logo from 'styles/AvalancheCanada.svg'
         logout,
     }
 )
-export default class AvalancheCanadaNavbar extends PureComponent {
+export default class AvalancheCanadaNavbar extends Component {
     get logout() {
         const { name, picture } = this.props.profile || {}
 
@@ -67,7 +69,11 @@ export default class AvalancheCanadaNavbar extends PureComponent {
     }
     render() {
         return (
-            <Navbar logo={logo} donate="/foundation" menu={menu}>
+            <Navbar
+                logo={logo}
+                donate="/foundation"
+                menu={menu}
+                location={this.props.location}>
                 {this.props.isAuthenticated ? this.logout : this.login}
                 {/* <ApplicationFeature>
                     {feature => this.renderFeature(feature)}
