@@ -2,7 +2,13 @@ import { lazyParse as parseDate } from 'utils/date'
 import camelCase from 'lodash/camelCase'
 import identity from 'lodash/identity'
 import get from 'lodash/get'
-import { normalizeTags, boolean } from 'prismic/utils'
+
+const StringToBoolean = new Map([
+    ['Yes', true],
+    ['No', false],
+    [undefined, false],
+    [null, false],
+])
 
 const TypeTransformers = new Map([
     ['Date', parseDate],
@@ -13,6 +19,16 @@ const TypeTransformers = new Map([
     ['Link.document', value => ({ type: 'Link.document', value })],
     ['Link.image', value => ({ type: 'Link.image', value })],
 ])
+
+function boolean(string) {
+    return StringToBoolean.get(string)
+}
+
+function normalizeTags(tags) {
+    if (Array.isArray(tags)) {
+        return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
+    }
+}
 
 function parseValue({ type, value }, defaultValue) {
     if (TypeTransformers.has(type)) {
@@ -158,8 +174,8 @@ function transformStaticPage(page) {
             follow: following,
             contact: contacting
                 ? typeof contact === 'string'
-                      ? contact.replace(/^mailto:/, '')
-                      : true
+                  ? contact.replace(/^mailto:/, '')
+                  : true
                 : false,
             content: sidebar,
         }

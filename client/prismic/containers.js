@@ -17,7 +17,6 @@ import {
 } from 'getters/prismic'
 import { parse } from 'prismic'
 import * as Predicates from 'vendor/prismic/predicates'
-import { DATE } from 'utils/date'
 import {
     GENERIC,
     STATIC_PAGE,
@@ -33,7 +32,7 @@ import {
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
-import * as utils from './utils'
+import { DATE } from 'utils/date'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -181,11 +180,11 @@ export function ApplicationFeature({ children }) {
             Predicates.type(APPLICATION_FEATURE),
             Predicates.dateBefore(
                 `my.${APPLICATION_FEATURE}.startDate`,
-                utils.formatDate(startOfTomorrow())
+                startOfTomorrow().getTime()
             ),
             Predicates.dateAfter(
                 `my.${APPLICATION_FEATURE}.endDate`,
-                utils.formatDate(startOfYesterday())
+                startOfYesterday().getTime()
             ),
         ],
     }
@@ -247,10 +246,14 @@ export class WeatherForecast extends Component {
         }
     }
     get params() {
-        const date = utils.formatDate(this.state.date)
-
         return {
-            predicates: [Predicates.field('weather-forecast', 'date', date)],
+            predicates: [
+                Predicates.field(
+                    'weather-forecast',
+                    'date',
+                    this.state.date.getTime()
+                ),
+            ],
         }
     }
     componentWillReceiveProps({ date }) {
@@ -401,10 +404,7 @@ export class FeedSplash extends Component {
         if (type === EVENT) {
             ordering = `my.${EVENT}.start_date`
             predicates.push(
-                Predicates.dateAfter(
-                    `my.${EVENT}.start_date`,
-                    utils.formatDate(new Date())
-                )
+                Predicates.dateAfter(`my.${EVENT}.start_date`, Date.now())
             )
         }
 
@@ -443,9 +443,11 @@ export class FeedSidebar extends Component {
         let ordering
         // TODO: Reuse a bit of the functions from FeedSplash container
         if (type === EVENT) {
-            const tomorrow = utils.formatDate(startOfTomorrow())
             predicates.push(
-                Predicates.dateAfter('my.event.start_date', tomorrow)
+                Predicates.dateAfter(
+                    'my.event.start_date',
+                    startOfTomorrow().getTime()
+                )
             )
             ordering = 'my.event.start_date'
         } else {
