@@ -8,7 +8,7 @@ import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from './DisplayOnMap'
 import ForecastContainer from 'containers/Forecast'
-import bboxPolygon from '@turf/bbox-polygon'
+import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {
     static propTypes = {
@@ -40,9 +40,7 @@ export default class Layout extends PureComponent {
         }
 
         function handleLocateClick() {
-            const bbox = region.get('bbox').toArray()
-
-            onLocateClick(bboxPolygon(bbox))
+            onLocateClick(utils.geometry(region))
         }
 
         return (

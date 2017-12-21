@@ -6,23 +6,21 @@ import { NorthRockiesBlogFeed } from 'layouts/feed'
 import Sponsor from 'layouts/Sponsor'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import DisplayOnMap from './DisplayOnMap'
-import bboxPolygon from '@turf/bbox-polygon'
+import * as utils from 'utils/region'
 
 export default class NorthRockies extends PureComponent {
     static propTypes = {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    locate = ({ region }) => {
-        if (!region) {
+    locate = ({ entity }) => {
+        if (!entity) {
             return null
         }
 
         const { onLocateClick } = this.props
         function handleLocateClick() {
-            const bbox = region.get('bbox').toArray()
-
-            onLocateClick(bboxPolygon(bbox))
+            onLocateClick(utils.geometry(entity))
         }
 
         return <DisplayOnMap onClick={handleLocateClick} />
