@@ -20,6 +20,8 @@ import { NewRelease } from 'components/icons'
 import { StructuredText } from 'prismic/components/base'
 import logo from 'styles/AvalancheCanada.svg'
 
+// Order matters!
+// See: https://reacttraining.com/react-router/web/api/withRouter
 @withRouter
 @connect(
     createStructuredSelector({
