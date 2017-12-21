@@ -74,11 +74,24 @@ export default class ToyotaTruckReport extends PureComponent {
     renderContent({ content }) {
         return <StructuredText value={content} />
     }
+    createMessages(status, document) {
+        return {
+            isError:
+                'An error happened while loading our latest Toyota truck report.',
+            isLoading: 'Loading latest our Toyota truck report...',
+            isLoaded: document
+                ? null
+                : 'Toyota truck report not available anymore.',
+        }
+    }
     children = ({ document, status }) => [
         this.renderBanner(document),
         this.renderHeader(document),
         <Content>
-            <Status {...status} messages={messages} />
+            <Status
+                {...status}
+                messages={this.createMessages(status, document)}
+            />
             {document && this.renderContent(document)}
         </Content>,
     ]
@@ -96,9 +109,4 @@ export default class ToyotaTruckReport extends PureComponent {
             </Container>
         )
     }
-}
-
-const messages = {
-    isError: 'An error happened while loading our latest Toyota truck report.',
-    isLoading: 'Loading latest our Toyota truck report...',
 }

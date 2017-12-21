@@ -56,12 +56,12 @@ export default class FatalAccident extends PureComponent {
     }
     children = ({ document, status }) => [
         <Header subject="Fatal Recreational Accident">
-            {document && this.renderHeader(document)}
+            {document && this.renderHeader(document.data)}
         </Header>,
         <Body>
             <Status {...status} messages={this.createMessages(document)} />
-            {document && this.renderMetadata(document)}
-            {document && this.renderContent(document)}
+            {document && this.renderMetadata(document.data)}
+            {document && this.renderContent(document.data)}
         </Body>,
     ]
     render() {
