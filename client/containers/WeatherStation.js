@@ -2,7 +2,7 @@ import Connector from './Connector'
 import { connect } from 'react-redux'
 import { WeatherStation } from 'api/schemas'
 import { loadWeatherStation } from 'actions/entities'
-import { getEntityForSchema } from './api'
+import { getEntityForSchema } from './selectors'
 
 export default connect(getEntityForSchema(WeatherStation), dispatch => ({
     didMount({ props }) {

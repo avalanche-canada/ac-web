@@ -2,7 +2,7 @@ import Connector from './Connector'
 import { connect } from 'react-redux'
 import { ForecastRegion } from 'api/schemas'
 import { loadFeaturesMetadata } from 'actions/entities'
-import { getEntityForSchema } from './api'
+import { getEntityForSchema } from './selectors'
 
 export default connect(getEntityForSchema(ForecastRegion), dispatch => ({
     didMount() {

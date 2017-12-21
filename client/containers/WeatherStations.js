@@ -2,7 +2,7 @@ import Connector from './Connector'
 import { connect } from 'react-redux'
 import { WeatherStation } from 'api/schemas'
 import { loadWeatherStations } from 'actions/entities'
-import { getDataForSchema } from './api'
+import { getDataForSchema } from './selectors'
 
 export default connect(
     getDataForSchema(WeatherStation, {
