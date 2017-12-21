@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import Navbar, {
     Item,
     Menu,
@@ -16,26 +15,21 @@ import menu from 'constants/menus/avcan'
 import { getIsAuthenticated, getProfile } from 'getters/auth'
 import { login, logout } from 'actions/auth'
 import { NewRelease } from 'components/icons'
-import logo from 'styles/AvalancheCanada.svg'
-import { ApplicationFeature } from 'prismic/containers'
+// import { ApplicationFeature } from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
+import logo from 'styles/AvalancheCanada.svg'
 
-@withRouter
 @connect(
     createStructuredSelector({
         isAuthenticated: getIsAuthenticated,
         profile: getProfile,
     }),
     {
-        onLoginClick: login,
+        login,
         logout,
     }
 )
-export default class AvalancheCanada extends PureComponent {
-    handleLogoutClick = () => {
-        this.props.logout()
-        this.props.history.push('/')
-    }
+export default class AvalancheCanadaNavbar extends PureComponent {
     get logout() {
         const { name, picture } = this.props.profile || {}
 
@@ -45,7 +39,7 @@ export default class AvalancheCanada extends PureComponent {
                     <Section>
                         <UserProfile name={name} avatar={picture} />
                         <Header>
-                            <Link onClick={this.handleLogoutClick}>Logout</Link>
+                            <Link onClick={this.props.logout}>Logout</Link>
                         </Header>
                     </Section>
                 </Menu>
@@ -53,7 +47,7 @@ export default class AvalancheCanada extends PureComponent {
         )
     }
     get login() {
-        return <Item title="Login" onClick={this.props.onLoginClick} />
+        return <Item title="Login" onClick={this.props.login} />
     }
     renderFeature({ data, firstPublicationDate }) {
         return (
@@ -73,14 +67,12 @@ export default class AvalancheCanada extends PureComponent {
     }
     render() {
         return (
-            <ApplicationFeature>
-                {_feature => (
-                    <Navbar logo={logo} donate="/foundation" menu={menu}>
-                        {this.props.isAuthenticated ? this.logout : this.login}
-                        {/* {feature ? this.renderFeature(feature) : null} */}
-                    </Navbar>
-                )}
-            </ApplicationFeature>
+            <Navbar logo={logo} donate="/foundation" menu={menu}>
+                {this.props.isAuthenticated ? this.logout : this.login}
+                {/* <ApplicationFeature>
+                    {feature => this.renderFeature(feature)}
+                </ApplicationFeature> */}
+            </Navbar>
         )
     }
 }

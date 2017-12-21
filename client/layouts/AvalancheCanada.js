@@ -9,7 +9,7 @@ import {
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
-import Navbar from 'containers/Navbar'
+import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Main from './Map'
