@@ -195,6 +195,20 @@ const SORTERS = new Map([
         },
     ],
     ['reporter', (a, b) => a.get('user').localeCompare(b.get('user'))],
+    [
+        'region',
+        (a, b) => {
+            if (a.has('region') && b.has('region')) {
+                return a.get('region').name.localeCompare(b.get('region').name)
+            }
+
+            if (!a.has('region') && !b.has('region')) {
+                return 0
+            }
+
+            return a.has('region') ? -1 : 1
+        },
+    ],
 ])
 const COLUMNS = [
     {
@@ -253,7 +267,7 @@ const COLUMNS = [
         sorting: NONE,
     },
     {
-        name: 'forecast-region',
+        name: 'region',
         title: 'Forecast Region',
         property(submission) {
             if (submission.has('region')) {
@@ -261,9 +275,8 @@ const COLUMNS = [
 
                 return <Link to={`/map/forecasts/${id}`}>{name}</Link>
             }
-
-            return '-'
         },
+        sorting: NONE,
     },
     {
         name: 'types',
