@@ -17,8 +17,6 @@ import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
 
-// TODO: Finish with map width...Math.max(width, window.innerWidth)
-
 export default class Layout extends PureComponent {
     state = {
         hasError: false,
