@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom'
 import Forecast from 'layouts/drawers/Forecast'
 import HotZoneReport from 'layouts/drawers/HotZoneReport'
 import NorthRockies from 'layouts/drawers/NorthRockies'
-import externals from 'router/externals'
 import Drawer, { RIGHT } from 'components/page/drawer'
 
 export default class Primary extends PureComponent {
@@ -14,13 +13,6 @@ export default class Primary extends PureComponent {
         width: PropTypes.number.isRequired,
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
-        // TODO: Remove that
-        location: PropTypes.object.isRequired,
-    }
-    tryOpenExternal() {
-        if (this.type === 'forecasts' && externals.has(this.name)) {
-            window.open(externals.get(this.name), this.name)
-        }
     }
     renderForecast = ({ match }) => (
         <Forecast
@@ -42,14 +34,6 @@ export default class Primary extends PureComponent {
             onLocateClick={this.props.onLocateClick}
         />
     )
-    componentDidMount() {
-        this.tryOpenExternal()
-    }
-    componentDidUpdate({ location }) {
-        if (location.pathname !== this.props.location.pathname) {
-            this.tryOpenExternal()
-        }
-    }
     render() {
         const { open, width } = this.props
 
