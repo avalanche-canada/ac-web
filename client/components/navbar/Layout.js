@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
@@ -10,12 +10,13 @@ import Brand from './Brand'
 import Donate from './Donate'
 import Dimensions from 'components/Dimensions'
 
-export default class Layout extends PureComponent {
+export default class Layout extends Component {
     static propTypes = {
         menu: PropTypes.object.isRequired,
         logo: PropTypes.string.isRequired,
         donate: PropTypes.string.isRequired,
         children: PropTypes.node.isRequired,
+        location: PropTypes.object.isRequired,
     }
     state = {
         isCabinetOpened: false,
@@ -33,7 +34,7 @@ export default class Layout extends PureComponent {
     }
     get items() {
         return (
-            <ItemSet>
+            <ItemSet location={this.props.location}>
                 {this.props.menu.children.map(createItem)}
                 {this.props.children}
             </ItemSet>
@@ -48,12 +49,9 @@ export default class Layout extends PureComponent {
             />
         )
     }
-    get donate() {
-        return <Donate to={this.props.donate} />
-    }
     showCabinet = () => this.setState({ isCabinetOpened: true })
     hideCabinet = () => this.setState({ isCabinetOpened: false })
-    renderer = ({ width }) => {
+    children = ({ width }) => {
         const fullNavbar = width > 768
 
         return (
@@ -62,13 +60,13 @@ export default class Layout extends PureComponent {
                     {this.brand}
                     {fullNavbar && this.items}
                     {fullNavbar || this.burger}
-                    {this.donate}
+                    <Donate to={this.props.donate} />
                 </Navbar>
                 {fullNavbar || this.cabinet}
             </div>
         )
     }
     render() {
-        return <Dimensions>{this.renderer}</Dimensions>
+        return <Dimensions>{this.children}</Dimensions>
     }
 }

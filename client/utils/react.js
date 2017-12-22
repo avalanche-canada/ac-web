@@ -29,7 +29,7 @@ function replaceString(string, match, fn) {
     return result
 }
 
-export function replace(source, match, fn) {
+function replace(source, match, fn) {
     if (!Array.isArray(source)) {
         source = [source]
     }

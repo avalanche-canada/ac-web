@@ -1,5 +1,5 @@
 import React from 'react'
-import { HotZones } from 'containers/experiments/store'
+import HotZones from 'containers/HotZones'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import Page from 'layouts/Page'

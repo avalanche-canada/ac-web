@@ -9,7 +9,6 @@ import Status from 'utils/status'
 import typeToReducer from 'type-to-reducer'
 
 export default combineReducers({
-    command: handleAction(Actions.MAP_COMMAND_CREATED, getPayload, null),
     status: typeToReducer(
         {
             [Actions.LOAD_MAP_STYLE]: {
@@ -32,11 +31,6 @@ export default combineReducers({
         Actions.ACTIVE_FEATURES_CHANGED,
         setActiveFeatures,
         new Immutable.Map()
-    ),
-    width: handleAction(
-        Actions.MAP_WIDTH_CHANGED,
-        getPayload,
-        window.innerWidth
     ),
 })
 

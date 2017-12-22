@@ -1,5 +1,6 @@
 import React, { PureComponent, Component } from 'react'
 import { Link, Route } from 'react-router-dom'
+import bbox from '@turf/bbox'
 import { Map } from 'components/map'
 import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
@@ -9,28 +10,136 @@ import { captureException } from 'services/raven'
 import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
-import { Menu } from 'containers/drawers'
-import ToggleMenu from 'containers/drawers/controls/ToggleMenu'
+import { Menu, ToggleMenu } from 'containers/drawers'
 import { parse } from 'utils/search'
+import externals from 'router/externals'
 import styles from './Map.css'
+
+const MAX_DRAWER_WIDTH = 500
+
+// TODO: Finish with map width...Math.max(width, window.innerWidth)
 
 export default class Layout extends PureComponent {
     state = {
         hasError: false,
+        secondary: isSecondaryOpen(this.props.location),
+        primary: isPrimaryOpen(this.props.match),
+        width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
+    }
+    flyTo(center) {
+        this.map.flyTo({
+            center,
+            zoom: 13,
+            offset: this.offset,
+        })
+    }
+    fitBounds(geometry) {
+        this.map.fitBounds(bbox(geometry), {
+            offset: this.offset,
+            padding: 75,
+            speed: 1.75,
+        })
+    }
+    get offset() {
+        const { primary, secondary, width } = this.state
+        let x = 0
+
+        if (primary) {
+            x -= width / 2
+        }
+        if (secondary) {
+            x += width / 2
+        }
+
+        return [x, 0]
     }
     handleError = error => {
         this.setState({ hasError: true }, () => {
             captureException(error)
         })
     }
+    handleLoad = event => {
+        this.map = event.target
+        this.map.on('resize', this.handleResize)
+    }
+    handleResize = event => {
+        const container = event.target.getContainer()
+
+        this.setState({
+            width: Math.min(MAX_DRAWER_WIDTH, container.clientWidth),
+        })
+    }
+    handleLocateClick = geometry => {
+        if (geometry.type === 'Point') {
+            this.flyTo(geometry.coordinates)
+        } else {
+            this.fitBounds(geometry)
+        }
+    }
+    handlePrimaryCloseClick = () => {
+        this.setState({ primary: false }, () => {
+            this.props.history.push({
+                ...this.props.location,
+                pathname: '/map',
+            })
+        })
+    }
+    handleSecondaryCloseClick = () => {
+        this.setState({ secondary: false }, () => {
+            this.props.history.push({
+                ...this.props.location,
+                search: null,
+            })
+        })
+    }
+    componentWillReceiveProps({ location, match }) {
+        if (location !== this.props.location) {
+            this.setState({
+                secondary: isSecondaryOpen(location),
+                primary: isPrimaryOpen(match),
+            })
+        }
+    }
+    primary = ({ location }) => {
+        const { width, primary } = this.state
+
+        return (
+            <Primary
+                width={width}
+                open={primary}
+                location={location}
+                onCloseClick={this.handlePrimaryCloseClick}
+                onLocateClick={this.handleLocateClick}
+            />
+        )
+    }
+    secondary = ({ location }) => {
+        const { width, secondary } = this.state
+        const { panel = '' } = parse(location.search)
+        const [type, id] = panel.split('/')
+
+        return (
+            <Secondary
+                type={type}
+                id={id}
+                width={width}
+                open={secondary}
+                onCloseClick={this.handleSecondaryCloseClick}
+                onLocateClick={this.handleLocateClick}
+            />
+        )
+    }
     render() {
         if (Map.supported()) {
             return (
                 <div className={styles.Layout}>
-                    <Container onError={this.handleError} />
+                    <Container
+                        onError={this.handleError}
+                        onLoad={this.handleLoad}
+                    />
                     {/* Orders matter here for the route components */}
-                    <Route path="/map*">{secondary}</Route>
-                    <Route path="/map/:type/:name">{primary}</Route>
+                    <Route path="/map*">{this.secondary}</Route>
+                    <Route path="/map/:type/:name">{this.primary}</Route>
                     <Menu />
                     <ToggleMenu />
                     <LinkControlSet>
@@ -42,6 +151,21 @@ export default class Layout extends PureComponent {
 
         return <UnsupportedMap />
     }
+}
+
+function isSecondaryOpen(location) {
+    const { panel = '' } = parse(location.search)
+    const [type, id] = panel.split('/')
+
+    return typeof type === 'string' && typeof id === 'string'
+}
+
+function isPrimaryOpen({ params: { type, name } }) {
+    return (
+        typeof type === 'string' &&
+        typeof name === 'string' &&
+        !externals.has(name)
+    )
 }
 
 class LinkControlSet extends PureComponent {
@@ -132,16 +256,4 @@ class ErrorIndicator extends Component {
             </Wrapper>
         )
     }
-}
-
-function primary(props) {
-    return <Primary {...props} />
-}
-
-function secondary(props) {
-    const panel = parse(props.location.search).panel || ''
-    const [type, id] = panel.split('/')
-    const open = typeof type === 'string' && typeof id === 'string'
-
-    return <Secondary open={open} {...props} type={type} id={id} />
 }

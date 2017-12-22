@@ -10,23 +10,17 @@ import format from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
 import { startOfSeason } from 'utils/date'
+import {
+    TOYOTA_TRUCK_REPORT,
+    SPECIAL_INFORMATION,
+    FATAL_ACCIDENT,
+    HOTZONE_REPORT,
+} from 'constants/prismic'
 
-export const MAP_COMMAND_CREATED = 'MAP_COMMAND_CREATED'
 export const LOAD_MAP_STYLE = 'LOAD_MAP_STYLE'
 export const ACTIVE_FEATURES_CHANGED = 'ACTIVE_FEATURES_CHANGED'
-export const MAP_WIDTH_CHANGED = 'MAP_WIDTH_CHANGED'
 
 export const activeFeaturesChanged = createAction(ACTIVE_FEATURES_CHANGED)
-export const mapWidthChanged = createAction(MAP_WIDTH_CHANGED)
-
-function createMapCommand(name) {
-    return createAction(MAP_COMMAND_CREATED, (...args) => ({ name, args }))
-}
-
-export const zoomIn = createMapCommand('zoomIn')
-export const zoomOut = createMapCommand('zoomOut')
-export const fitBounds = createMapCommand('fitBounds')
-export const flyTo = createMapCommand('flyTo')
 
 export function loadData() {
     return (dispatch, getState) => {
@@ -45,14 +39,14 @@ function createActionForLayer(layer) {
     switch (layer.get('id')) {
         case Layers.HOT_ZONE_REPORTS:
             return PrismicActions.load({
-                type: 'hotzone-report',
                 predicates: [
+                    Predicates.type(HOTZONE_REPORT),
                     Predicates.dateBefore(
-                        'my.hotzone-report.dateOfIssue',
+                        `my.${HOTZONE_REPORT}.dateOfIssue`,
                         format(startOfTomorrow(), 'YYYY-MM-DD')
                     ),
                     Predicates.dateAfter(
-                        'my.hotzone-report.validUntil',
+                        `my.${HOTZONE_REPORT}.validUntil`,
                         format(startOfYesterday(), 'YYYY-MM-DD')
                     ),
                 ],
@@ -66,18 +60,18 @@ function createActionForLayer(layer) {
         }
         case Layers.TOYOTA_TRUCK_REPORTS:
             return PrismicActions.load({
-                type: 'toyota-truck-report',
+                predicates: [Predicates.type(TOYOTA_TRUCK_REPORT)],
             })
         case Layers.SPECIAL_INFORMATION:
             return PrismicActions.load({
-                type: 'special-information',
+                predicates: [Predicates.type(SPECIAL_INFORMATION)],
             })
         case Layers.FATAL_ACCIDENT:
             return PrismicActions.load({
-                type: 'fatal-accident',
                 predicates: [
+                    Predicates.type(FATAL_ACCIDENT),
                     Predicates.dateAfter(
-                        'my.fatal-accident.dateOfIssue',
+                        `my.${FATAL_ACCIDENT}.dateOfIssue`,
                         format(startOfSeason().getTime() - 1, 'YYYY-MM-DD')
                     ),
                 ],

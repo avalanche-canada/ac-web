@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { branch, renderComponent } from 'recompose'
 import Dimensions from 'components/Dimensions'
 import { Day as DayElement } from 'components/time'
 import styles from './Danger.css'
@@ -66,7 +65,7 @@ Day.propTypes = {
     btl: RatingPropType.isRequired,
 }
 
-function Day({ date, alp, tln, btl }) {
+export default function Day({ date, alp, tln, btl }) {
     return (
         <div className={styles.Day}>
             <Title date={date} />
@@ -84,7 +83,7 @@ FirstDay.propTypes = {
     btl: RatingPropType.isRequired,
 }
 
-function FirstDay(props) {
+export function FirstDay(props) {
     const { date, ...ratings } = props
 
     return (
@@ -132,5 +131,3 @@ function FirstDay(props) {
         </div>
     )
 }
-
-export default branch(props => props.first, renderComponent(FirstDay))(Day)

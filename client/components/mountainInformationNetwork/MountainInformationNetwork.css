@@ -1,11 +1,9 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Submission {
-
 }
 
 .Observation {
-
 }
 
 .Section {
@@ -25,16 +23,8 @@
     border-bottom: 1px solid var(--gray-lighter);
 }
 
-
-.MapLocationWrap {
-  display:flex;
-}
-.MapLocationItem {
-  flex: 0 1 auto;
-  align-self: center;
-}
 .MapLocationLink {
-  flex: 0 1 auto;
-  align-self: center;
-  margin-left: 1em;
+    flex: 0 1 auto;
+    align-self: center;
+    margin-left: 1em;
 }

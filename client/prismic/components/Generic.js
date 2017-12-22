@@ -1,25 +1,20 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Status } from 'components/misc'
-import { generic } from 'containers/connectors'
+import { Generic as Container } from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
 import { parse } from 'prismic'
 
-@generic
 export default class Generic extends PureComponent {
     static propTypes = {
-        status: PropTypes.object.isRequired,
-        document: PropTypes.object,
+        uid: PropTypes.string.isRequired,
     }
+    children = ({ status, document }) =>
+        [
+            <Status {...status} />,
+            document && <StructuredText value={parse(document).data.body} />,
+        ].filter(Boolean)
     render() {
-        const { document, status } = this.props
-
-        if (document) {
-            const { data: { body } } = parse(document)
-
-            return <StructuredText value={body} />
-        }
-
-        return <Status {...status.toJSON()} />
+        return <Container uid={this.props.uid}>{this.children}</Container>
     }
 }

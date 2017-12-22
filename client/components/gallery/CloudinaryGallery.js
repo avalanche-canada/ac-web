@@ -1,39 +1,36 @@
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {
-    compose,
-    lifecycle,
-    withState,
-    withHandlers,
-    setPropTypes,
-} from 'recompose'
 import Gallery from './Gallery'
 import * as cloudinary from 'services/cloudinary'
 
-const mapResource = cloudinary.mapToSizeFactory()
-
-export default compose(
-    setPropTypes({
+export default class CloudinaryGallery extends PureComponent {
+    static propTypes = {
         tag: PropTypes.string.isRequired,
-    }),
-    withState('cursor', 'setCursor', null),
-    withState('items', 'setItems', []),
-    withHandlers({
-        onSuccessResponse: props => data => {
-            const { setItems, setCursor } = props
-            const { resources, next_cursor } = data
+    }
+    state = {
+        cursor: null,
+        items: [],
+    }
+    constructor(props) {
+        super(props)
 
-            setCursor(next_cursor)
-            setItems(resources.map(mapResource))
-        },
-    }),
-    lifecycle({
-        componentDidMount() {
-            const { tag, cursor, onSuccessResponse } = this.props
-            const options = {
-                next_cursor: cursor,
-            }
+        this.mapResource = cloudinary.mapToSizeFactory()
+    }
+    componentDidMount() {
+        const { tag } = this.props
+        const options = {
+            next_cursor: this.state.cursor,
+        }
 
-            cloudinary.getByTag(tag, options).then(onSuccessResponse)
-        },
-    })
-)(Gallery)
+        cloudinary.getByTag(tag, options).then(this.handleSuccessResponse)
+    }
+    handleSuccessResponse = data => {
+        this.setState({
+            cursor: data.next_cursor,
+            items: data.resources.map(this.mapResource),
+        })
+    }
+    render() {
+        return <Gallery {...this.state} />
+    }
+}

@@ -1,55 +1,50 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, setPropTypes, mapProps } from 'recompose'
-import { withRouter } from 'react-router-dom'
-import { ArchiveWarning } from 'components/misc'
+import { ArchiveWarning as Base } from 'components/misc'
 import { DateElement } from 'components/time'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import format from 'date-fns/format'
 import isToday from 'date-fns/is_today'
 
-function createLink(region, date, isArchivesPage) {
-    const paths = ['/forecasts']
-
-    if (isArchivesPage) {
-        paths.push('archives')
-    }
-
-    paths.push(region)
-
-    if (!isToday(date)) {
-        paths.push(format(date, 'YYYY-MM-DD'))
-    }
-
-    return paths.join('/')
-}
-
-export default compose(
-    withRouter,
-    setPropTypes({
+export default class ArchiveWarning extends PureComponent {
+    static propTypes = {
         region: PropTypes.string.isRequired,
-    }),
-    mapProps(props => {
-        const { region, date, match } = props
-        const isArchivesPage = match.url === createLink(region, date, true)
+        date: PropTypes.instanceOf(Date).isRequired,
+    }
+    createLink(date = new Date()) {
+        const { region } = this.props
+        const paths = ['/forecasts']
+
+        if (isToday(date)) {
+            paths.push(region)
+        } else {
+            paths.push('archives')
+            paths.push(region)
+            paths.push(format(date, 'YYYY-MM-DD'))
+        }
+
+        return paths.join('/')
+    }
+    render() {
+        const { date } = this.props
         const previous = subDays(date, 1)
         const next = addDays(date, 1)
-
-        return {
-            children: 'This is an archived avalanche bulletin',
+        const props = {
             nowcast: {
-                to: `/forecasts/${region}`,
+                to: this.createLink(),
                 children: "Read today's bulletin",
             },
             previous: {
-                to: createLink(region, previous, isArchivesPage),
+                to: this.createLink(previous),
                 children: <DateElement value={previous} />,
             },
             next: {
-                to: createLink(region, next, isArchivesPage),
+                to: this.createLink(next),
                 children: <DateElement value={next} />,
             },
         }
-    })
-)(ArchiveWarning)
+
+        return <Base {...props}>This is an archived avalanche bulletin</Base>
+    }
+}

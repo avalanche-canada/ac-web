@@ -9,6 +9,10 @@ export const Result = Immutable.Record({
     count: null,
     next: null,
     previous: null,
+    page: null,
+    pageSize: null,
+    totalPages: null,
+    totalResultsSize: null,
     // TODO: Look if this is used!!!
     props: {},
 })
@@ -48,6 +52,18 @@ Object.assign(Result.prototype, {
             isError: this.isError,
             messages,
         })
+    },
+    toMetadata() {
+        return {
+            ids: this.ids,
+            count: this.count,
+            next: this.next,
+            previous: this.previous,
+            page: this.page,
+            pageSize: this.pageSize,
+            totalPages: this.totalPages,
+            totalResultsSize: this.totalResultsSize,
+        }
     },
 })
 

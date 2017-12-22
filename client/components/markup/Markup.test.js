@@ -1,17 +1,10 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import { Br, P, Credit, Markup } from './'
+import { Br, Credit, Markup } from './'
 
 test('Br component', () => {
     expect(Renderer.create(<Br />)).toMatchSnapshot()
     expect(Renderer.create(<Br ribbon />)).toMatchSnapshot()
-})
-
-test('P component', () => {
-    expect(Renderer.create(<P>Some content...</P>)).toMatchSnapshot()
-    expect(
-        Renderer.create(<P capAt={10}>Some content truncated...</P>)
-    ).toMatchSnapshot()
 })
 
 test('Credit component', () => {

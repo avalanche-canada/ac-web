@@ -1,38 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, lifecycle, withState } from 'recompose'
-import { fetchStaticResource } from 'api'
-import { InnerHTML } from 'components/misc'
+import { InnerHTML, Status } from 'components/misc'
 import style from './ates.css'
 import { Media, Caption } from 'components/media'
 import { Image } from 'prismic/components/base'
-
-const ExerciseShape = PropTypes.shape({
-    slug: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    photo_credit: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired,
-})
-
-AtesExercise.propTypes = {
-    exercises: PropTypes.arrayOf(ExerciseShape).isRequired,
-}
-
-function AtesExercise({ exercises }) {
-    return (
-        <div>
-            {exercises.map(exercise => (
-                <Section key={exercise.slug} {...exercise} />
-            ))}
-        </div>
-    )
-}
+import StaticResource from 'containers/StaticResource'
 
 Section.propTypes = {
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(ExerciseShape),
+    images: PropTypes.arrayOf(
+        PropTypes.shape({
+            slug: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired,
+            caption: PropTypes.string.isRequired,
+            photo_credit: PropTypes.string.isRequired,
+            answer: PropTypes.string.isRequired,
+        })
+    ),
 }
 
 function Section({ title, desc, images }) {
@@ -122,11 +107,18 @@ class Exercise extends Component {
     }
 }
 
-export default compose(
-    withState('exercises', 'setExercises', []),
-    lifecycle({
-        componentDidMount() {
-            fetchStaticResource('ates-exercise').then(this.props.setExercises)
-        },
-    })
-)(AtesExercise)
+export default class AtesExercise extends Component {
+    renderer({ isLoading, data = [] }) {
+        return [
+            <Status isLoading={isLoading} />,
+            data.map(exercise => <Section key={exercise.slug} {...exercise} />),
+        ]
+    }
+    render() {
+        return (
+            <StaticResource resource="ates-exercise">
+                {this.renderer}
+            </StaticResource>
+        )
+    }
+}

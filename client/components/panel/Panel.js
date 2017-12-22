@@ -22,14 +22,10 @@ export default class Panel extends PureComponent {
         theme: SIMPLE,
         expanded: false,
     }
-    constructor(props) {
-        super(props)
-
-        this.classnames = classnames.bind(styles)
-        this.state = {
-            expanded: props.expanded,
-        }
+    state = {
+        expanded: this.props.expanded,
     }
+    classnames = classnames.bind(styles)
     get expanded() {
         return this.state.expanded
     }

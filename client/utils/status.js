@@ -40,15 +40,4 @@ Object.assign(Status.prototype, {
     },
 })
 
-Object.assign(Status, {
-    createFromResultSet({ isFetching, isLoaded, isError }, messages = {}) {
-        return new Status({
-            isLoading: isFetching,
-            isLoaded,
-            isError,
-            messages,
-        })
-    },
-})
-
 export default Status

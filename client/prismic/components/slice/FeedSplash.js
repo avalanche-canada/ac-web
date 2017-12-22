@@ -1,5 +1,5 @@
-import React from 'react'
-import Base from 'containers/feed/Splash'
+import React, { PureComponent } from 'react'
+import { Splash } from 'layouts/feed'
 import { StructuredText } from 'prismic/components/base'
 
 const types = new Map([
@@ -8,18 +8,25 @@ const types = new Map([
     ['News', 'news'],
 ])
 
-export default function FeedSplash({ value }) {
-    const [{ type, header, tags }] = value
+export default class FeedSplash extends PureComponent {
+    get value() {
+        return this.props.value[0]
+    }
+    get type() {
+        return types.get(this.value.type)
+    }
+    get tags() {
+        const { tags } = this.value
 
-    return (
-        <Base
-            type={types.get(type)}
-            tags={
-                typeof tags === 'string'
-                    ? tags.split(',').map(tag => tag.trim())
-                    : []
-            }
-            header={<StructuredText value={header} />}
-        />
-    )
+        return typeof tags === 'string'
+            ? tags.split(',').map(tag => tag.trim())
+            : undefined
+    }
+    render() {
+        return (
+            <Splash type={this.type} tags={this.tags}>
+                <StructuredText value={this.value.header} />
+            </Splash>
+        )
+    }
 }

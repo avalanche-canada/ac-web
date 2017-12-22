@@ -18,7 +18,7 @@ export default function Generic({ title, status, document }) {
         <Page>
             <Header title={data.title} />
             <Content>
-                <Status {...status.toJSON()} />
+                <Status {...status} />
                 <Main>
                     <StructuredText value={data.body} />
                 </Main>

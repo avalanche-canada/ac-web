@@ -1,13 +1,13 @@
 import React from 'react'
-import { mapProps } from 'recompose'
-import { Section } from 'components/page'
+import { Section as Base } from 'components/page'
 import { StructuredText } from 'prismic/components/base'
 
-export default mapProps(({ value }) => {
-    const [{ content, ...group }] = value
+export default function Section({ value }) {
+    const [{ content, ...props }] = value
 
-    return {
-        ...group,
-        children: <StructuredText value={content} />,
-    }
-})(Section)
+    return (
+        <Base {...props}>
+            <StructuredText value={content} />
+        </Base>
+    )
+}

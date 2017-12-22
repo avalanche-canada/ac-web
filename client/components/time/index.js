@@ -15,6 +15,7 @@ function dateTimeFormatGetter(date) {
 }
 
 export Relative from './Relative'
+export Range from './Range'
 
 export function Time(props) {
     return <Base format={TIME} {...props} />

@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Sponsor as Base } from 'components/misc'
-import { sponsor } from 'containers/connectors'
-import { parse } from 'prismic'
+import { Sponsor as Component, Status } from 'components/misc'
+import { Sponsor as Container } from 'prismic/containers'
+import get from 'lodash/get'
+// TODO: move to layouts
 
-Sponsor.propTypes = {
-    value: PropTypes.object,
-    label: PropTypes.string,
-}
-
-function Sponsor({ value, label }) {
-    if (!value) {
-        return null
+export default class Sponsor extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string,
     }
-
-    const { data } = parse(value)
-
-    return <Base label={label} {...data} />
+    children = ({ status, document }) => (
+        <Component label={this.props.label} {...get(document, 'data', {})}>
+            {status.isLoading && <Status isLoading />}
+        </Component>
+    )
+    render() {
+        return <Container name={this.props.name}>{this.children}</Container>
+    }
 }
-
-export default sponsor(Sponsor)

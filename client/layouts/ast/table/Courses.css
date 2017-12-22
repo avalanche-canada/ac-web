@@ -1,0 +1,8 @@
+.Controlled {
+    display: flex;
+    align-items: flex-start;
+
+    & > * {
+        flex: 1;
+    }
+}

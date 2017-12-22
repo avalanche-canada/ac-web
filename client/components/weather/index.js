@@ -7,20 +7,20 @@ import styles from './Forecast.css'
 export Loop, { Warning } from './Loop'
 export Image from 'components/loop'
 
-Container.propTypes = {
+Index.propTypes = {
     forecast: PropTypes.object.isRequired,
 }
 
-export default function Container(props) {
+export default function Index(props) {
     const { forecast } = props
 
     return (
-        <section className={styles.Container}>
+        <section className={styles.Index}>
             <h2 className={styles.Headline}>{forecast.headline}</h2>
             {forecast.isLegacy ? (
                 <Legacy forecast={forecast} />
             ) : (
-                <Forecast {...props} />
+                <Forecast forecast={forecast} />
             )}
         </section>
     )

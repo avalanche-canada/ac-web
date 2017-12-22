@@ -1,8 +1,6 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
-.HotZoneReport {
-    margin-top: 1em;
-
+.Gallery {
     & :global(.image-gallery-slide .image-gallery-description) {
         top: 1em;
         bottom: auto;
@@ -41,7 +39,7 @@
 
 .Item {
     &:before {
-        content: "× ";
+        content: '× ';
         text-transform: uppercase;
     }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
 import Application from 'components/application'
-import Highlight from 'containers/Highlight'
+import SPAW from './SPAW'
 import Footer from 'components/footer'
 import { NotFound } from 'components/page'
 import { StaticPageRoute } from 'router/common'
@@ -22,7 +22,7 @@ export default function AvalancheCanadaFoundation({ match }) {
     return (
         <Application>
             <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
-            <Highlight />
+            <SPAW />
             <Switch>
                 <StaticPageRoute exact path={url} uid="foundation-home" />
                 <StaticPageRoute

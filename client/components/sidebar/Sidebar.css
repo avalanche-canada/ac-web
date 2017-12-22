@@ -1,7 +1,7 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Sidebar {
-    composes: import Hash from "../../styles/Textures.css";
+    composes: import Hash from '../../styles/Textures.css';
     padding: 1.5em 1.5em 3em;
     margin-top: 2em;
 }

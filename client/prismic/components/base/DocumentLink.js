@@ -1,46 +1,48 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { compose, withProps } from 'recompose'
 import { Link } from 'react-router-dom'
-import { documentLink } from 'containers/connectors'
 import { pathname } from 'utils/prismic'
-import get from 'lodash/get'
+import { Document } from 'prismic/containers'
 
-// TODO: rework that component
-
-const Document = PropTypes.shape({
+const DocumentType = PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
 })
 
-DocumentLink.propTypes = {
-    value: PropTypes.shape({
-        document: Document.isRequired,
-        isBroken: PropTypes.bool.isRequired,
-    }).isRequired,
-    children: PropTypes.node,
-    document: Document,
-    status: PropTypes.object,
-}
+export default class DocumentLink extends PureComponent {
+    static propTypes = {
+        value: PropTypes.shape({
+            document: DocumentType.isRequired,
+            isBroken: PropTypes.bool.isRequired,
+        }).isRequired,
+        document: DocumentType,
+        status: PropTypes.object,
+        children: PropTypes.node,
+    }
+    renderer({ status, document }) {
+        if (status.isLoading || !document) {
+            return 'Loading...'
+        }
 
-function DocumentLink({ children, value, document }) {
-    return (
-        <Link to={pathname(value.document)}>
-            {children ||
-                get(
-                    document,
-                    ['data', value.document.type, 'title', 'value'],
-                    'Loading...'
-                )}
-        </Link>
-    )
-}
+        return document.data[document.type].title.value
+    }
+    get children() {
+        const { type, uid } = this.props.value.document
 
-export default compose(
-    withProps(props => ({
-        type: props.value.document.type,
-        uid: props.value.document.uid,
-    })),
-    documentLink
-)(DocumentLink)
+        return (
+            <Document type={type} uid={uid}>
+                {this.renderer}
+            </Document>
+        )
+    }
+    render() {
+        const { children, value } = this.props
+
+        return (
+            <Link to={pathname(value.document)}>
+                {children || this.children}
+            </Link>
+        )
+    }
+}

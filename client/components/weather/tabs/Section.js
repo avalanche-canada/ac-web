@@ -1,6 +1,6 @@
-import { withProps } from 'recompose'
-import { Section } from 'components/page'
+import React from 'react'
+import { Section as Base } from 'components/page'
 
-export default withProps({
-    level: 2,
-})(Section)
+export default function Section(props) {
+    return <Base {...props} level={2} />
+}

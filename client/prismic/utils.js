@@ -3,19 +3,12 @@ import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 import isBefore from 'date-fns/is_before'
 
-const StringToBoolean = new Map([
-    ['Yes', true],
-    ['No', false],
-    [undefined, false],
-    [null, false],
-])
-
-export function isHotZoneReportValid(report) {
-    return isReportWithinRange(report, new Date())
-}
-
-export function isReportWithinRange({ dateOfIssue, validUntil }, date) {
-    return isWithinRange(date, startOfDay(dateOfIssue), endOfDay(validUntil))
+export function isHotZoneReportValid({ dateOfIssue, validUntil }) {
+    return isWithinRange(
+        new Date(),
+        startOfDay(dateOfIssue),
+        endOfDay(validUntil)
+    )
 }
 
 export function isSpecialInformationValid(report) {
@@ -30,14 +23,4 @@ export function isSpecialInformationValid(report) {
         startOfDay(dateOfIssue),
         endOfDay(validUntil)
     )
-}
-
-export function boolean(string) {
-    return StringToBoolean.get(string)
-}
-
-export function normalizeTags(tags) {
-    if (Array.isArray(tags)) {
-        return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
-    }
 }

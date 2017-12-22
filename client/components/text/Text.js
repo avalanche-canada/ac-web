@@ -21,6 +21,10 @@ export function Warning({ children }) {
     return <p className={styles.Warning}>{children}</p>
 }
 
-export function Helper({ children }) {
-    return <span className={styles.Helper}>{children}</span>
+export function Helper({ children, ...props }) {
+    return (
+        <span className={styles.Helper} {...props}>
+            {children}
+        </span>
+    )
 }

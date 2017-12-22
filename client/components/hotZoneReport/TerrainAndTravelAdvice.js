@@ -1,39 +1,64 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import TerrainSummary from './TerrainSummary'
 import Panel, { INVERSE } from 'components/panel'
 import AdviceText from './AdviceText'
 
-TerrainAndTravelAdvice.propTypes = {
-    report: PropTypes.object.isRequired,
-}
-const titles = ['Alpine', 'Treeline', 'Below treeline']
-
-export default function TerrainAndTravelAdvice({ report = {} }) {
-    const summaries = [
-        report.alpineTerrainAvoidance,
-        report.treelineTerrainAvoidance,
-        report.belowTreelineTerrainAvoidance,
-    ].filter(Boolean)
-
-    if (summaries.length === 0) {
-        return null
+export default class TerrainAndTravelAdvice extends PureComponent {
+    static propTypes = {
+        report: PropTypes.object.isRequired,
     }
+    get summaries() {
+        const { report } = this.props
+        const {
+            treelineTerrainAvoidanceTravelAdvice,
+            belowTreelineTerrainAvoidanceTravelAdvice,
+            alpineTerrainAvoidanceTravelAdvice,
+        } = report
+        const advices = [
+            treelineTerrainAvoidanceTravelAdvice,
+            belowTreelineTerrainAvoidanceTravelAdvice,
+            alpineTerrainAvoidanceTravelAdvice,
+        ].filter(Boolean)
 
-    return (
-        <Panel
-            header="Terrain and Travel Advice"
-            theme={INVERSE}
-            expanded
-            expandable>
-            <AdviceText />
-            {summaries.map((summary, index) => (
-                <TerrainSummary
-                    key={index}
-                    title={titles[index]}
-                    {...summary}
-                />
-            ))}
-        </Panel>
-    )
+        if (advices.length === 0) {
+            return null
+        }
+
+        return [
+            <TerrainSummary
+                prefix="alpineTerrainAvoidance"
+                title="Alpine"
+                report={report}
+            />,
+            <TerrainSummary
+                prefix="treelineTerrainAvoidance"
+                title="Treeline"
+                report={report}
+            />,
+            <TerrainSummary
+                prefix="belowTreelineTerrainAvoidance"
+                title="Below treeline"
+                report={report}
+            />,
+        ]
+    }
+    render() {
+        const { summaries } = this
+
+        if (summaries === null) {
+            return null
+        }
+
+        return (
+            <Panel
+                header="Terrain and Travel Advice"
+                theme={INVERSE}
+                expanded
+                expandable>
+                <AdviceText />
+                {summaries}
+            </Panel>
+        )
+    }
 }

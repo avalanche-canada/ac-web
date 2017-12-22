@@ -42,7 +42,7 @@ export default function StaticPage({ uid, title, status, document }) {
             {banner && <Banner {...banner.main} />}
             <Header title={data.title} />
             <Content>
-                <Status {...status.toJSON()} />
+                <Status {...status} />
                 <Main>
                     {headline && <Headline>{headline}</Headline>}
                     <SliceZone value={content} />

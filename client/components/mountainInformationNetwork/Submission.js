@@ -8,6 +8,7 @@ import Tabs, {
     Panel,
 } from 'components/tabs'
 import Observation from './Observation'
+// TODO: INCIDENT should be opened if available
 import { INCIDENT, NAMES, TYPES, COLORS } from 'constants/min'
 
 export default class Submission extends PureComponent {

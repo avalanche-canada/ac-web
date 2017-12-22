@@ -1,6 +1,5 @@
 import React from 'react'
-import { withProps } from 'recompose'
-import Gallery from 'react-image-gallery'
+import Base from 'react-image-gallery'
 import {
     Play,
     Pause,
@@ -14,7 +13,7 @@ function Button(props) {
     return <button type="button" {...props} />
 }
 
-export default withProps({
+const buttons = {
     renderLeftNav(onClick, disabled) {
         return (
             <Button
@@ -51,4 +50,8 @@ export default withProps({
             </Button>
         )
     },
-})(Gallery)
+}
+
+export default function Gallery(props) {
+    return <Base {...props} {...buttons} />
+}

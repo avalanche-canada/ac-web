@@ -5,67 +5,117 @@ import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
 import styles from './HotZoneReport.css'
 
-TerrainSummary.propTypes = {
-    title: PropTypes.string.isRequired,
-    aspect: PropTypes.object.isRequired,
-    terrainFeatures: PropTypes.object.isRequired,
-    travelAdvice: PropTypes.string,
-}
-
-const Titles = new Map([
-    ['crossloadedSlopes', 'Crossloaded slopes'],
-    ['shallowSnowpack', 'Shallow snowpack'],
-    ['variableDepthSnowpack', 'Variable depth snowpack'],
-    ['convex', 'Convex'],
-    ['unsupported', 'Unsupported'],
-    ['leeSlopes', 'Lee slopes'],
-    ['creeks', 'Creeks'],
-    ['runoutZones', 'Runout Zone'],
-    ['cutblocks', 'Cutblocks'],
+const TerrainFeatureTitles = new Map([
+    ['CrossloadedSlopes', 'Crossloaded slopes'],
+    ['ShallowSnowpack', 'Shallow snowpack'],
+    ['VariableDepthSnowpack', 'Variable depth snowpack'],
+    ['Convex', 'Convex'],
+    ['Unsupported', 'Unsupported'],
+    ['LeeSlopes', 'Lee slopes'],
+    ['Creeks', 'Creeks'],
+    ['RunoutZones', 'Runout Zone'],
+    ['Cutblocks', 'Cutblocks'],
+])
+const TerrainFeatureKeys = new Map([
+    [
+        'treelineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
+    [
+        'belowTreelineTerrainAvoidance',
+        [
+            'Creeks',
+            'Unsupported',
+            'LeeSlopes',
+            'Convex',
+            'Cutblocks',
+            'RunoutZones',
+        ],
+    ],
+    [
+        'alpineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
 ])
 
-AvoidList.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+function AvoidItem({ children, value }) {
+    const className = value === 'Yes' ? 'Avoid' : 'Okay'
+
+    return <li className={styles[className]}>{children}</li>
 }
 
-function AvoidList({ items }) {
+const ASPECTS = ['E', 'W', 'Se', 'Sw', 'S', 'Nw', 'N', 'Ne']
+function Aspects({ prefix, report }) {
     return (
-        <ul className={styles.List}>
-            {Object.keys(items).map(name => {
-                const className = items[name] ? 'Avoid' : 'Okay'
-
-                return (
-                    <li key={name} className={styles[className]}>
-                        {Titles.get(name) || name}
-                    </li>
-                )
-            })}
-        </ul>
+        <AvoidList>
+            {ASPECTS.map(aspect => (
+                <AvoidItem value={report[prefix + aspect]}>
+                    {aspect.toUpperCase()}
+                </AvoidItem>
+            ))}
+        </AvoidList>
     )
 }
 
-export default function TerrainSummary({
-    title,
-    aspect,
-    terrainFeatures,
-    travelAdvice,
-}) {
+function TerrainFeatures({ prefix, report }) {
+    const keys = TerrainFeatureKeys.get(prefix)
+
+    return (
+        <AvoidList>
+            {keys.map(key => (
+                <AvoidItem key={key} value={report[prefix + key]}>
+                    {TerrainFeatureTitles.get(key)}
+                </AvoidItem>
+            ))}
+        </AvoidList>
+    )
+}
+
+TerrainSummary.propTypes = {
+    prefix: PropTypes.oneOf(Array.from(TerrainFeatureKeys.keys())).isRequired,
+    title: PropTypes.string.isRequired,
+    report: PropTypes.object.isRequired,
+}
+
+export default function TerrainSummary({ title, prefix, report }) {
     return (
         <Section title={title}>
             <List>
                 <Term>Aspect</Term>
                 <Definition>
-                    <AvoidList items={aspect} />
+                    <Aspects prefix={prefix} report={report} />
                 </Definition>
                 <Term>Terrain features</Term>
                 <Definition>
-                    <AvoidList items={terrainFeatures} />
+                    <TerrainFeatures prefix={prefix} report={report} />
                 </Definition>
                 <Term block>Travel advice</Term>
                 <Definition block className={styles.TravelAdvice}>
-                    <StructuredText value={travelAdvice} />
+                    <StructuredText value={report[`${prefix}TravelAdvice`]} />
                 </Definition>
             </List>
         </Section>
     )
+}
+
+AvoidList.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function AvoidList({ children }) {
+    return <ul className={styles.List}>{children}</ul>
 }

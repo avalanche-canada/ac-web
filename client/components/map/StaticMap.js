@@ -1,5 +1,4 @@
 import React, { PureComponent, Children } from 'react'
-import { mapProps } from 'recompose'
 import PropTypes from 'prop-types'
 import { createStyleUrl } from 'services/mapbox/api'
 import debounce from 'lodash/debounce'
@@ -74,20 +73,21 @@ export default class StaticMap extends PureComponent {
     }
 }
 
-// TODO: Need to find a better way to create overlay.
-function createOverlay({ props: { element, lngLat } }) {
-    const url = encodeURIComponent(element.src)
+export function ManagedStaticMap({ children, center, ...props }) {
+    // TODO: Need to find a better way to create overlay.
+    // Overlay could be a Component
+    function createOverlay({ props: { element, lngLat } }) {
+        const url = encodeURIComponent(element.src)
 
-    return `url-${url}(${lngLat.lng},${lngLat.lat})`
-}
-
-function propsMapper({ children, center, ...props }) {
-    return {
-        ...props,
-        longitude: center.lng,
-        latitude: center.lat,
-        overlay: Children.toArray(children).map(createOverlay),
+        return `url-${url}(${lngLat.lng},${lngLat.lat})`
     }
-}
 
-export const ManagedStaticMap = mapProps(propsMapper)(StaticMap)
+    return (
+        <StaticMap
+            {...props}
+            longitude={center.lng}
+            latitude={center.lat}
+            overlay={Children.toArray(children).map(createOverlay)}
+        />
+    )
+}

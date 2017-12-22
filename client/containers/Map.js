@@ -2,23 +2,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { getCoord } from '@turf/invariant'
+import bbox from '@turf/bbox'
+import noop from 'lodash/noop'
 import mapbox from 'services/mapbox/map'
 import Url from 'url'
 import { Map as Base, Marker, NavigationControl } from 'components/map'
-import {
-    loadData,
-    loadMapStyle,
-    activeFeaturesChanged,
-    mapWidthChanged,
-} from 'actions/map'
+import { loadData, loadMapStyle, activeFeaturesChanged } from 'actions/map'
 import mapStateToProps from 'selectors/map'
 import { LayerIds, allLayerIds } from 'constants/map/layers'
 import { near } from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
-import { getCoord } from '@turf/invariant'
-import noop from 'lodash/noop'
-import throttle from 'lodash/throttle'
 
 const CLUSTER_DIST = 0.005
 
@@ -93,7 +88,6 @@ const CLUSTER_BOUNDS_OPTIONS = {
     loadData,
     loadMapStyle,
     activeFeaturesChanged,
-    mapWidthChanged,
 })
 export default class Container extends Component {
     propTypes = {
@@ -101,16 +95,12 @@ export default class Container extends Component {
         onError: PropTypes.func,
         style: PropTypes.object,
         markers: PropTypes.arrayOf(PropTypes.object),
-        bounds: PropTypes.object,
-        command: PropTypes.string,
-        computeFitBounds: PropTypes.func.isRequired,
         loadMapStyle: PropTypes.func.isRequired,
         loadData: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
         activeFeaturesChanged: PropTypes.func.isRequired,
-        mapWidthChanged: PropTypes.func.isRequired,
     }
     static defaultProps = {
         onLoad: noop,
@@ -188,7 +178,10 @@ export default class Container extends Component {
                     if (longDiff < CLUSTER_DIST && latDiff < CLUSTER_DIST) {
                         this.showClusterPopup(layer, cluster.features, lngLat)
                     } else {
-                        this.fitBounds(cluster, CLUSTER_BOUNDS_OPTIONS)
+                        this.map.fitBounds(
+                            bbox(cluster),
+                            CLUSTER_BOUNDS_OPTIONS
+                        )
                     }
 
                     return
@@ -266,34 +259,15 @@ export default class Container extends Component {
     }
     handleLoad = event => {
         const map = event.target
-        const { bounds } = this.props
 
         map.on('mousemove', this.handleMousemove)
         map.on('click', this.handleClick)
 
-        if (bounds) {
-            map.fitBounds(bounds.bbox, bounds.options)
-        }
-
         this.map = map
 
         this.forceUpdate(() => {
-            this.props.onLoad(map)
+            this.props.onLoad(event)
         })
-    }
-    fitBounds(feature, options) {
-        if (!feature) {
-            return
-        }
-
-        const bounds = this.props.computeFitBounds(
-            feature,
-            false,
-            false,
-            options
-        )
-
-        this.map.fitBounds(bounds.bbox, bounds.options)
     }
     createActiveFeatures() {
         const { location, match, activeFeaturesChanged } = this.props
@@ -311,31 +285,16 @@ export default class Container extends Component {
 
         activeFeaturesChanged(new Map(features))
     }
-    handleWindowWidthChange = throttle(() => {
-        this.props.mapWidthChanged(window.innerWidth)
-    }, 500)
     componentDidMount() {
         this.props.loadMapStyle('citxsc95s00a22inxvbydbc89')
         this.props.loadData()
-        this.props.mapWidthChanged(window.innerWidth)
         this.createActiveFeatures()
 
         this.intervalID = setInterval(this.processMouseMove, 100)
         this.popup = new mapbox.Popup()
-        window.addEventListener('resize', this.handleWindowWidthChange, false)
-        window.addEventListener(
-            'orientationchange',
-            this.handleWindowWidthChange,
-            false
-        )
     }
     componentWillUnmount() {
         clearInterval(this.intervalID)
-        window.removeEventListener('resize', this.handleWindowWidthChange)
-        window.removeEventListener(
-            'orientationchange',
-            this.handleWindowWidthChange
-        )
     }
     shouldComponentUpdate({ markers, style }) {
         if (markers !== this.props.markers || style !== this.props.style) {
@@ -343,20 +302,6 @@ export default class Container extends Component {
         }
 
         return false
-    }
-    componentWillReceiveProps({ bounds, command }) {
-        if (
-            bounds &&
-            this.map &&
-            this.props.bounds !== bounds &&
-            this.isInternalNavigation !== true
-        ) {
-            this.map.fitBounds(bounds.bbox, bounds.options)
-        }
-
-        if (this.map && command !== this.props.command) {
-            this.map[command.name].apply(this.map, command.args)
-        }
     }
     componentDidUpdate({ location }) {
         if (location !== this.props.location) {

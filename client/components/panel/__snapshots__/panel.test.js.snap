@@ -102,7 +102,6 @@ exports[`panel component 5`] = `
   >
     <button
       className="Expand Subtile IconOnly"
-      expanded={false}
     >
       <div
         className="IconContainer"
@@ -170,7 +169,6 @@ exports[`panel component 6`] = `
   >
     <button
       className="Expand Subtile IconOnly"
-      expanded={false}
     >
       <div
         className="IconContainer"

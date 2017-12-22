@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import { combineReducers } from 'redux'
-import { GET_PRISMIC } from 'actions/prismic'
 import typeToReducer from 'type-to-reducer'
+import { GET_PRISMIC } from 'actions/prismic'
 import RESULT from 'reducers/result'
 
 const SET = new Immutable.Set()
@@ -70,6 +70,12 @@ export default combineReducers({
                         meta.key,
                         RESULT.fulfill({
                             ids: payload.results.map(pluckId),
+                            next: payload.next_page,
+                            previous: payload.prev_page,
+                            page: payload.page,
+                            pageSize: payload.results_per_page,
+                            totalPages: payload.total_pages,
+                            totalResultsSize: payload.total_results_size,
                         })
                     )
                 },

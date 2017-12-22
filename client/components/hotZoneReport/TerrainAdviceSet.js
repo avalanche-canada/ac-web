@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Panel, { INVERSE } from 'components/panel'
 import Comment from 'components/mountainInformationNetwork/Comment'
@@ -7,69 +7,120 @@ import { StructuredText } from 'prismic/components/base'
 import styles from './HotZoneReport.css'
 import AdviceText from './AdviceText'
 
-const Headers = new Map([
-    ['terrainToAvoid', 'Terrain to Avoid'],
-    ['terrainToWatch', 'Terrain to Watch'],
-    ['goodTerrainChoices', 'Good Terrain Choices'],
-])
+function createAdvice({ feature, where, elevation }) {
+    const items = [feature, where, elevation].filter(Boolean)
 
-function createItem({ feature, where, elevation }) {
-    return [feature, where, elevation].filter(Boolean).join(' ')
+    return items.length === 0 ? null : items
 }
 
-TerrainAdviceSet.propTypes = {
-    report: PropTypes.object.isRequired,
-}
-
-export default function TerrainAdviceSet({ report }) {
-    if (!report) {
+function AdviceSection({ header, advices }) {
+    if (!Array.isArray(advices) || advices.length === 0) {
         return null
     }
 
-    const comments = [report.terrainAdviceComment]
-    const keys = Array.from(Headers.keys()).filter(
-        key => Array.isArray(report[key]) && report[key].length > 0
-    )
+    const items = advices.map(createAdvice).filter(Boolean)
 
-    if (keys.length === 0) {
+    if (items.length === 0) {
         return null
     }
 
     return (
-        <Panel header="Terrain Advice" expanded expandable theme={INVERSE}>
-            <AdviceText />
-            {keys.map(key => {
-                const items = report[key].map(createItem).filter(Boolean)
-                // Legacy comments structure
-                // Previously, every advice sets had its own comment, now only
-                // the travel advice has a comment.
-                comments.push(report[`${key}Comment`])
+        <div className={styles['Advice--Section']}>
+            <Section title={header}>
+                <ul className={styles.AdviceSet}>
+                    {items.map((advice, index) => (
+                        <li key={index} className={styles.Advice}>
+                            {advice.join(' ')}
+                        </li>
+                    ))}
+                </ul>
+            </Section>
+        </div>
+    )
+}
 
-                return items.length > 0 ? (
-                    <div key={key} className={styles['Advice--Section']}>
-                        <Section title={Headers.get(key)}>
-                            <ul className={styles.AdviceSet}>
-                                {items.map((item, index) => (
-                                    <li key={index} className={styles.Advice}>
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </Section>
-                    </div>
-                ) : null
-            })}
-            {comments.filter(Boolean).length > 0 && (
+export default class TerrainAdviceSet extends PureComponent {
+    static propTypes = {
+        terrainAdviceComment: PropTypes.array,
+        terrainToAvoid: PropTypes.array,
+        terrainToAvoidComment: PropTypes.array,
+        terrainToWatch: PropTypes.array,
+        terrainToWatchComment: PropTypes.array,
+        goodTerrainChoices: PropTypes.array,
+        goodTerrainChoicesComment: PropTypes.array,
+    }
+    get comments() {
+        // Legacy comments structure
+        // Previously, every advice sets had its own comment, now only
+        // the travel advice has a comment.
+        const {
+            terrainAdviceComment,
+            terrainToAvoidComment,
+            terrainToWatchComment,
+            goodTerrainChoicesComment,
+        } = this.props
+
+        const comments = [
+            terrainAdviceComment,
+            terrainToAvoidComment,
+            terrainToWatchComment,
+            goodTerrainChoicesComment,
+        ].filter(Boolean)
+
+        if (comments.length > 0) {
+            return (
                 <div className={styles['Advice--Comment']}>
                     <Comment>
-                        {comments
-                            .filter(Boolean)
-                            .map((comment, index) => (
-                                <StructuredText key={index} value={comment} />
-                            ))}
+                        {comments.map((comment, index) => (
+                            <StructuredText key={index} value={comment} />
+                        ))}
                     </Comment>
                 </div>
-            )}
-        </Panel>
-    )
+            )
+        } else {
+            return null
+        }
+    }
+    get advices() {
+        const {
+            terrainToAvoid,
+            terrainToWatch,
+            goodTerrainChoices,
+        } = this.props
+        const advices = [terrainToAvoid, terrainToWatch, goodTerrainChoices]
+
+        if (advices.filter(Boolean).length === 0) {
+            return null
+        }
+
+        return [
+            <AdviceSection
+                header="Terrain to Avoid"
+                advices={terrainToAvoid}
+            />,
+            <AdviceSection
+                header="Terrain to Watch"
+                advices={terrainToWatch}
+            />,
+            <AdviceSection
+                header="Good Terrain Choices"
+                advices={goodTerrainChoices}
+            />,
+        ]
+    }
+    render() {
+        const { advices, comments } = this
+
+        if (comments === null && advices === null) {
+            return null
+        }
+
+        return (
+            <Panel header="Terrain Advice" expanded expandable theme={INVERSE}>
+                <AdviceText />
+                {advices}
+                {comments}
+            </Panel>
+        )
+    }
 }

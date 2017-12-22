@@ -9,7 +9,7 @@ import Day3To4 from './tabs/Day3to4'
 import Day5To7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
 import { StructuredText } from 'prismic/components/base'
-import Tutorial from 'containers/WeatherTutorial'
+import Tutorial from 'layouts/weather/forecast/Tutorial'
 
 export default class Forecast extends PureComponent {
     static propTypes = {

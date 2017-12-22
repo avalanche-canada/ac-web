@@ -28,11 +28,9 @@ export default function HotZoneReportMetadata({ report, shareUrl }) {
             <Entry term="Valid Until">
                 <DateTime value={validUntil} />
             </Entry>
-            <TimestampEntry
-                term="Date Updated"
-                timestamp={dateUpdated}
-                hideIfNil
-            />
+            {dateUpdated && (
+                <TimestampEntry term="Date Updated" timestamp={dateUpdated} />
+            )}
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>
     )

@@ -3,29 +3,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Table.css'
 import { Expand } from 'components/button'
-import noop from 'lodash/noop'
-
-const TR = <tr />
-const TR_WITH_BUTTON_PROPS = {
-    style: {
-        paddingRight: 36,
-    },
-}
 
 export default class Row extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
-        hide: PropTypes.bool,
         controlled: PropTypes.bool,
-        expanded: PropTypes.bool,
-        onExpandedToggle: PropTypes.func,
         onClick: PropTypes.func,
-    }
-    static defaultProps = {
-        expanded: null,
-        onExpandedToggle: noop,
-        hide: false,
-        controlled: false,
     }
     constructor(props) {
         super(props)
@@ -33,49 +16,72 @@ export default class Row extends PureComponent {
         this.classNames = classnames.bind(styles)
     }
     get className() {
-        const { controlled, onClick } = this.props
-
         return this.classNames({
-            Row: !controlled,
-            'Row--Controlled': controlled,
-            'Row--Clickable': typeof onClick === 'function',
+            Row: true,
+            'Row--Controlled': this.props.controlled,
+            'Row--Clickable': typeof this.props.onClick === 'function',
         })
     }
-    get expandable() {
-        const { children, expanded, onExpandedToggle } = this.props
-        const lastIndex = Children.count(children) - 1
 
-        return Children.map(children, (child, index) => {
+    render() {
+        const { children, onClick } = this.props
+
+        return (
+            <tr className={this.className} onClick={onClick}>
+                {children}
+            </tr>
+        )
+    }
+}
+
+export class Expandable extends PureComponent {
+    static propTypes = {
+        children: PropTypes.arrayOf(PropTypes.instanceOf(Row)).isRequired,
+    }
+    state = {
+        expanded: false,
+    }
+    handleExpandedToggle = () => this.setState(expands)
+    get children() {
+        const children = this.props.children[0]
+        const lastIndex = Children.count(children.props.children) - 1
+        const cells = Children.map(children.props.children, (child, index) => {
             if (index !== lastIndex) {
                 return child
             }
 
-            const button = (
-                <Expand
-                    key={index}
-                    expanded={expanded}
-                    onClick={onExpandedToggle}
-                />
-            )
-
             return cloneElement(child, TR_WITH_BUTTON_PROPS, [
                 child.props.children,
-                button,
+                <Expand
+                    key="expand"
+                    expanded={this.state.expanded}
+                    onClick={this.handleExpandedToggle}
+                />,
             ])
+        })
+
+        return cloneElement(children, null, cells)
+    }
+    get controlled() {
+        return cloneElement(this.props.children[1], {
+            controlled: true,
         })
     }
     render() {
-        if (this.props.hide) {
-            return TR
-        }
-
-        const { children, expanded, onClick } = this.props
-        const expandable = expanded !== null
-
-        return (
-            <tr className={this.className} onClick={onClick}>
-                {expandable ? this.expandable : children}
-            </tr>
-        )
+        return this.state.expanded
+            ? [this.children, this.controlled]
+            : this.children
     }
+}
+
+// Utils
+function expands({ expanded }) {
+    return {
+        expanded: !expanded,
+    }
+}
+const TR_WITH_BUTTON_PROPS = {
+    style: {
+        paddingRight: 36,
+    },
 }

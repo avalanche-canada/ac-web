@@ -5,7 +5,7 @@ import * as Schemas from 'api/schemas'
 import * as Actions from 'actions/entities'
 import { getResultsSet, hasResultsSet } from 'getters/api'
 import { getEntitiesForSchema } from 'getters/entities'
-import { DelayPromise } from 'utils/promise'
+import * as promise from 'utils/promise'
 
 function normalize(data, schema) {
     let shape = schema
@@ -96,6 +96,6 @@ export function createFetchMetadataAction() {
 
         const delay = getEntitiesForSchema(state, schema).isEmpty() ? 1 : 9999
 
-        return DelayPromise(delay).then(() => dispatch(creator()))
+        return promise.delay(delay).then(() => dispatch(creator()))
     }
 }

@@ -5,20 +5,12 @@ export function isMenuOpen(state) {
     return state.drawers.menu.get('open')
 }
 
-export function getPrimaryDrawer(state) {
-    return state.drawers.primary
-}
-
 export function isPrimaryDrawerOpened() {
     const [map, type, id] = document.location.pathname
         .split('/')
         .filter(Boolean)
 
     return map === 'map' && type && id
-}
-
-export function getSecondaryDrawer(state) {
-    return state.drawers.secondary
 }
 
 export function isSecondaryDrawerOpened() {
@@ -28,11 +20,6 @@ export function isSecondaryDrawerOpened() {
 
     return pathname.includes('/map') && type && id
 }
-
-export const getDrawers = createStructuredSelector({
-    primary: getPrimaryDrawer,
-    secondary: getSecondaryDrawer,
-})
 
 export function getLayers(state) {
     return state.drawers.menu.get('layers')

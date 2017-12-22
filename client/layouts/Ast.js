@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom'
 import { Container, PillSet, Pill } from 'components/pill'
 import { Route } from 'react-router-dom'
 import { Page, Content, Banner, Main } from 'components/page'
-import * as Tables from 'containers/ast/tables'
-import * as Forms from 'containers/ast/forms'
+import CoursesTable from './ast/table/Courses'
+import ProvidersTable from './ast/table/Providers'
+import CoursesForm from './ast/form/Courses'
+import ProvidersForm from './ast/form/Providers'
+import * as utils from 'utils/search'
+import get from 'lodash/get'
 
 const ROUTES = ['courses', 'providers']
 
@@ -27,21 +31,83 @@ export default function Ast({ match }) {
                         </Pill>
                     </PillSet>
                 </Container>
-                <Route path="/training/courses" component={Forms.Courses} />
-                <Route path="/training/providers" component={Forms.Providers} />
+                <Route
+                    path="/training/courses"
+                    render={courseRendererFactory(CoursesForm)}
+                />
+                <Route
+                    path="/training/providers"
+                    render={providerRendererFactory(ProvidersForm)}
+                />
             </Banner>
             <Main>
                 <Content>
                     <Route
                         path="/training/courses"
-                        component={Tables.Courses}
+                        render={courseRendererFactory(CoursesTable)}
                     />
                     <Route
                         path="/training/providers"
-                        component={Tables.Providers}
+                        render={providerRendererFactory(ProvidersTable)}
                     />
                 </Content>
             </Main>
         </Page>
     )
+}
+
+function courseRendererFactory(Component) {
+    return function CourseRoute({ location, history }) {
+        const { level, tags, from, to, sorting } = utils.parse(location.search)
+        const props = {
+            level,
+            from: utils.parseDate(from),
+            to: utils.parseDate(to),
+            tags: utils.toSet(tags),
+            sorting: utils.parseSorting(sorting),
+            place: get(location, 'state.place'),
+        }
+        function onParamChange(params) {
+            const { sorting, place, ...rest } = Object.assign(props, params)
+
+            history.push({
+                ...location,
+                search: utils.stringify({
+                    ...rest,
+                    sorting: utils.formatSorting(sorting),
+                }),
+                state: {
+                    place,
+                },
+            })
+        }
+
+        return <Component {...props} onParamChange={onParamChange} />
+    }
+}
+function providerRendererFactory(Component) {
+    return function ProviderRoute({ location, history }) {
+        const { tags, sorting } = utils.parse(location.search)
+        const props = {
+            tags: utils.toSet(tags),
+            sorting: utils.parseSorting(sorting),
+            place: get(location, 'state.place'),
+        }
+        function onParamChange(params) {
+            const { sorting, place, ...rest } = Object.assign(props, params)
+
+            history.push({
+                ...location,
+                search: utils.stringify({
+                    ...rest,
+                    sorting: utils.formatSorting(sorting),
+                }),
+                state: {
+                    place,
+                },
+            })
+        }
+
+        return <Component {...props} onParamChange={onParamChange} />
+    }
 }

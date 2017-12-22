@@ -1,5 +1,4 @@
 import React, { createElement, cloneElement } from 'react'
-import { compose, setPropTypes, mapProps } from 'recompose'
 import PropTypes from 'prop-types'
 import Image from './Image'
 import Embed from './Embed'
@@ -45,21 +44,8 @@ const SpanComponents = new Map([
     [LABEL, new Map([[undefined, Label]])],
 ])
 
-const addSpans = compose(
-    setPropTypes({
-        text: PropTypes.string.isRequired,
-        label: PropTypes.string,
-        spans: PropTypes.arrayOf(
-            PropTypes.shape({
-                type: PropTypes.oneOf([HYPERLINK, STRONG, EM, LABEL])
-                    .isRequired,
-                start: PropTypes.number.isRequired,
-                end: PropTypes.number.isRequired,
-                data: PropTypes.object,
-            })
-        ),
-    }),
-    mapProps(({ text, label, spans }) => {
+function addSpans(component) {
+    return function Spans({ text, label, spans }) {
         let children = text
 
         if (spans.length > 0) {
@@ -75,12 +61,13 @@ const addSpans = compose(
             }, text)
         }
 
-        return {
-            children: replaceLineFeed(children),
-            className: label,
-        }
-    })
-)
+        return createElement(
+            component,
+            { className: label },
+            replaceLineFeed(children)
+        )
+    }
+}
 
 const Components = new Map([
     [HEADING1, addSpans('h1')],

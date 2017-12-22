@@ -1,8 +1,8 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
 import { getStyle, getActiveFeatures } from 'getters/map'
-import { createGetEntitiesForSchema } from 'selectors/factories'
 import { getResultsSet } from 'getters/api'
+import { getEntitiesForSchema } from 'getters/entities'
 import { getDocumentsOfType } from 'getters/prismic'
 import { getLayers, getLayerFilter } from 'getters/drawers'
 import {
@@ -101,7 +101,11 @@ function getPanelIdFactory() {
 
 // Create submissions source
 const getSubmissions = createSelector(
-    createGetEntitiesForSchema(Schemas.MountainInformationNetworkSubmission),
+    state =>
+        getEntitiesForSchema(
+            state,
+            Schemas.MountainInformationNetworkSubmission
+        ),
     state =>
         getResultsSet(state, Schemas.MountainInformationNetworkSubmission, {
             days: getLayerFilter(
@@ -118,7 +122,11 @@ const getSubmissions = createSelector(
 )
 
 const getSubmission = createSelector(
-    createGetEntitiesForSchema(Schemas.MountainInformationNetworkSubmission),
+    state =>
+        getEntitiesForSchema(
+            state,
+            Schemas.MountainInformationNetworkSubmission
+        ),
     getPanelIdFactory(Schemas.MountainInformationNetworkSubmission),
     (submissions, id) => {
         if (submissions.has(id)) {
@@ -191,13 +199,13 @@ const getSubmissionFeatures = createSelector(
 
 // Create weather station source
 const getWeatherStationFeatures = createSelector(
-    createGetEntitiesForSchema(Schemas.WeatherStation),
+    state => getEntitiesForSchema(state, Schemas.WeatherStation),
     stations => stations.map(TRANSFORMERS.get(Layers.WEATHER_STATION)).toArray()
 )
 
 // Create mountain conditions reports source
 const getMountainConditionsReports = createSelector(
-    createGetEntitiesForSchema(Schemas.MountainConditionsReport),
+    state => getEntitiesForSchema(state, Schemas.MountainConditionsReport),
     reports => {
         const transformer = TRANSFORMERS.get(Layers.MOUNTAIN_CONDITIONS_REPORTS)
 

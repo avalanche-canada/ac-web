@@ -2,9 +2,9 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { PrivateRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
-import Submission from 'containers/MountainInformationNetworkSubmission'
-import { Page as Submissions } from 'layouts/min/table'
-import { parse } from 'utils/search'
+import Submission from 'layouts/min/Submission'
+import SubmissionList from 'layouts/min/SubmissionList'
+import * as utils from 'utils/search'
 import { Loading } from 'components/text'
 import Bundle from 'components/Bundle'
 
@@ -16,14 +16,31 @@ function Submit(props) {
     )
 }
 
-function submissions({ location }) {
-    let { days, types, sorting } = parse(location.search)
+function submission({ match }) {
+    return <Submission id={match.params.id} />
+}
+
+function submissions({ location, history }) {
+    const { days, types, regions, sorting } = utils.parse(location.search)
+    function onParamsChange({ days, types, regions, sorting }) {
+        history.push({
+            ...location,
+            search: utils.stringify({
+                days,
+                types,
+                regions,
+                sorting: utils.formatSorting(sorting),
+            }),
+        })
+    }
 
     return (
-        <Submissions
-            days={typeof days === 'string' ? Number(days) : undefined}
-            types={new Set(typeof types === 'string' ? [types] : types)}
-            sorting={sorting}
+        <SubmissionList
+            days={utils.toNumber(days)}
+            types={utils.toSet(types)}
+            regions={utils.toSet(regions)}
+            sorting={utils.parseSorting(sorting)}
+            onParamsChange={onParamsChange}
         />
     )
 }
@@ -32,7 +49,7 @@ export default function MountainInformationNetwork({ match: { path } }) {
     return (
         <Switch>
             <PrivateRoute path={`${path}/submit`} component={Submit} />
-            <Route path={`${path}/submissions/:id`} component={Submission} />
+            <Route path={`${path}/submissions/:id`} render={submission} />
             <Route path={`${path}/submissions`} render={submissions} />
             <StaticPageRoute
                 path={`${path}/submission-guidelines`}

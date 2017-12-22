@@ -1,13 +1,11 @@
 import React from 'react'
-import { mapProps } from 'recompose'
-import QuestionAnswer from 'components/question-answer'
+import Base from 'components/question-answer'
 import { StructuredText } from 'prismic/components/base'
 
-export default mapProps(({ value }) => {
-    const { question, answer } = value[0]
+export default function QuestionAnswer({ value }) {
+    const [{ question, answer }] = value
 
-    return {
-        question,
-        answer: <StructuredText value={answer} />,
-    }
-})(QuestionAnswer)
+    return (
+        <Base question={question} answer={<StructuredText value={answer} />} />
+    )
+}

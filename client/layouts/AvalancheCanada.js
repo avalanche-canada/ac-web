@@ -9,26 +9,26 @@ import {
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
-import Navbar from 'containers/Navbar'
-import Highlight from 'containers/Highlight'
+import Navbar from './Navbar'
+import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Main from './Map'
 import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
-import Weather from './Weather'
+import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
-import * as Feed from './Feed'
+import * as Feed from './feed'
 import Glossary from 'containers/Glossary'
 
 export default function AvalancheCanada() {
     return (
         <Application>
             <Navbar />
-            <Highlight />
+            <SPAW />
             <Switch>
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
@@ -39,9 +39,12 @@ export default function AvalancheCanada() {
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
                 <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
-                <Route path="/blogs" component={Feed.Blogs} />
-                <Route path="/news" component={Feed.News} />
-                <Route path="/events" component={Feed.Events} />
+                <Route path="/blogs/:uid" component={Feed.BlogPost} />
+                <Route path="/blogs" component={Feed.BlogFeed} />
+                <Route path="/news/:uid" component={Feed.NewsPost} />
+                <Route path="/news" component={Feed.NewsFeed} />
+                <Route path="/events/:uid" component={Feed.EventPost} />
+                <Route path="/events" component={Feed.EventFeed} />
                 <Route
                     path="/mountain-information-network"
                     component={MountainInformationNetwork}

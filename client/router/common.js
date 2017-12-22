@@ -117,16 +117,16 @@ export function WIPPageRoute({ path, ...rest }) {
     return <Route path={path} render={() => <WorkInProgress {...rest} />} />
 }
 
-SponsorRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string,
-}
-
 function sponsorFactory(name, label) {
     return function sponsor() {
         return <Sponsor name={name} label={label} />
     }
+}
+
+SponsorRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
 }
 
 export function SponsorRoute({ path, name, label }) {
