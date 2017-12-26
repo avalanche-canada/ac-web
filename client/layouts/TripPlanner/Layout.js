@@ -20,9 +20,19 @@ export default class TripPlannerLayout extends Component {
         showPopup: true,
     }
     componentDidMount() {
+        const offset = 10
         this.popup = new mapbox.Popup({
             closeButton: false,
-            offset: [0, -10],
+            offset: {
+                top: [0, offset],
+                'top-left': [offset, offset],
+                'top-right': [-offset, offset],
+                bottom: [0, -offset],
+                'bottom-left': [offset, -offset],
+                'bottom-right': [-offset, -offset],
+                left: [offset, 0],
+                right: [-offset, 0],
+            },
         })
         this.element = Object.assign(document.createElement('img'), {
             src: place,
@@ -35,9 +45,30 @@ export default class TripPlannerLayout extends Component {
 
         map.on('click', this.handleClick)
         map.on('mousemove', this.handleMousemove)
+        for (let layer of FORECAST_LAYERS) {
+            map.on('mouseenter', layer, this.handleMouseenterLayer)
+            map.on('mouseleave', layer, this.handleMouseleaveLayer)
+        }
+        for (let layer of ATES_LAYERS) {
+            map.on('mouseenter', layer, this.handleMouseenterLayer)
+            map.on('mouseleave', layer, this.handleMouseleaveLayer)
+        }
         container.addEventListener('mouseleave', this.handleMouseleave, false)
 
         this.map = map
+    }
+    handleMouseenterLayer = event => {
+        event.target.getCanvas().style.cursor = 'pointer'
+    }
+    handleMouseleaveLayer = event => {
+        const { point } = event
+        const features = this.map.queryRenderedFeatures(point, {
+            layers: [...FORECAST_LAYERS, ...ATES_LAYERS],
+        })
+
+        if (features.length === 0) {
+            event.target.getCanvas().style.cursor = ''
+        }
     }
     handleClick = event => {
         const { lngLat, point } = event
@@ -106,12 +137,12 @@ export default class TripPlannerLayout extends Component {
     }
     queryAreas(point) {
         return this.map.queryRenderedFeatures(point, {
-            layers: ['ates-terrain'],
+            layers: ATES_LAYERS,
         })
     }
     queryRegions(point) {
         return this.map.queryRenderedFeatures(point, {
-            layers: ['forecast-regions', 'forecast-regions-contours'],
+            layers: FORECAST_LAYERS,
         })
     }
     get marker() {
@@ -193,3 +224,6 @@ export default class TripPlannerLayout extends Component {
         )
     }
 }
+
+const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
+const ATES_LAYERS = ['ates-terrain']
