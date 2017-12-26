@@ -1,0 +1,51 @@
+.Layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow: hidden;
+}
+
+.Map {
+    flex: 66%;
+
+    & > :global(.mapboxgl-map) {
+        height: 100%;
+    }
+}
+
+.Sidebar {
+    flex: 33%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: -4px 0 8px color(black alpha(25%));
+    z-index: 1;
+}
+
+.Welcome {
+    margin: 1em;
+
+    & > header {
+        display: flex;
+        align-items: flex-start;
+
+        & > h1 {
+            flex: 1;
+        }
+    }
+}
+
+.Panel {
+    & > header {
+        display: flex;
+        align-items: center;
+        margin: 0 1em;
+
+        & > h2 {
+            flex: 1;
+        }
+    }
+}
+
+.PanelContent {
+    margin: 1em;
+}

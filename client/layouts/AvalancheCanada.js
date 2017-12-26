@@ -21,6 +21,7 @@ import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
+import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'containers/Glossary'
 
@@ -116,11 +117,7 @@ export default function AvalancheCanada() {
                     uid="terms-of-use"
                     title="Terms of use"
                 />
-                <StaticPageRoute
-                    path="/trip-planner"
-                    uid="trip-planning-resources"
-                    title="Trip Planner"
-                />
+                <Route path="/trip-planner" component={TripPlanner} />
                 <WIPPageRoute
                     path="/incidents"
                     name="Historic Incidents"

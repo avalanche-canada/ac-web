@@ -8,9 +8,6 @@ export default class Device extends Component {
     state = {
         isTouchable: 'ontouchstart' in window,
     }
-    shouldComponentUpdate() {
-        return false
-    }
     render() {
         return this.props.children(this.state)
     }
