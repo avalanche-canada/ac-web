@@ -4,11 +4,9 @@ import Headline from './Headline'
 import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import { Table, Day, DaySet, Condition, Confidence } from './danger'
-import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
+import ProblemSet from './problem'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
-
-// TODO: Create problem set component to simplify code
 
 export default class Forecast extends PureComponent {
     static render(forecast) {
@@ -90,45 +88,7 @@ export default class Forecast extends PureComponent {
                             </Table>
                         </Panel>
                         <Panel>
-                            {problems.map(
-                                (
-                                    {
-                                        type,
-                                        icons,
-                                        comment,
-                                        travelAndTerrainAdvice,
-                                    },
-                                    index
-                                ) => (
-                                    <Problem
-                                        key={type}
-                                        title={`Avalanche Problem ${index +
-                                            1}: ${type}`}>
-                                        <TopicSet>
-                                            <Topic
-                                                title="What Elevation?"
-                                                src={icons.elevations}
-                                            />
-                                            <Topic
-                                                title="Which Slopes?"
-                                                src={icons.aspects}
-                                            />
-                                            <Topic
-                                                title="Chances of Avalanches?"
-                                                src={icons.likelihood}
-                                            />
-                                            <Topic
-                                                title="Expected Size?"
-                                                src={icons.expectedSize}
-                                            />
-                                        </TopicSet>
-                                        <Comment>{comment}</Comment>
-                                        <Advice>
-                                            {travelAndTerrainAdvice}
-                                        </Advice>
-                                    </Problem>
-                                )
-                            )}
+                            <ProblemSet problems={problems} />
                         </Panel>
                         <Panel>
                             <DetailSet
