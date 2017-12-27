@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
-import Forecast, { Metadata } from 'components/forecast'
+import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
 import Panel from './Panel'
 import * as utils from 'utils/region'
 import { Locate } from 'components/button'
@@ -28,12 +28,15 @@ export default class ForecastPanel extends Component {
     children = ({ status, forecast, region }) => {
         return (
             <Panel expanded header="Avalanche forecast">
-                {forecast && region
-                    ? this.renderHeader(forecast, region)
-                    : null}
-                <Status {...status} />
-                {forecast ? Metadata.render(forecast) : null}
-                {forecast ? Forecast.render(forecast) : null}
+                <Compound forecast={forecast}>
+                    {forecast && region
+                        ? this.renderHeader(forecast, region)
+                        : null}
+                    <Status {...status} />
+                    <Metadata />
+                    <Headline />
+                    <TabSet />
+                </Compound>
             </Panel>
         )
     }
@@ -45,5 +48,3 @@ export default class ForecastPanel extends Component {
         )
     }
 }
-
-

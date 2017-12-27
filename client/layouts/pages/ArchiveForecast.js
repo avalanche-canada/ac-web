@@ -5,13 +5,13 @@ import Url from 'url'
 import ForecastRegions from 'containers/ForecastRegions'
 import Container from 'containers/Forecast'
 import { Page, Content, Header, Main } from 'components/page'
-import Forecast from 'components/forecast'
+import * as Forecast from 'components/forecast'
+import * as Footer from 'components/forecast/Footer'
 import { Muted } from 'components/text'
 import { DateElement } from 'components/time'
 import { Status } from 'components/misc'
 import Alert, { WARNING } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
-import ForecastMetadata from 'components/forecast/Metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
@@ -64,14 +64,22 @@ export default class ArchiveForecast extends PureComponent {
             </Link>
         )
     }
-    forecast = ({ forecast, region, status }) => [
-        <Status {...status} />,
-        forecast ? ForecastMetadata.render(forecast) : null,
-        forecast ? Forecast.render(forecast) : null,
-        !forecast && status.isLoaded && region
-            ? this.renderWarning(region)
-            : null,
-    ]
+    forecast = ({ forecast, region, status }) => (
+        <Forecast.Compound forecast={forecast}>
+            <Status {...status} />
+            <Forecast.Metadata />
+            <Forecast.ArchiveWarning />
+            <Forecast.Headline />
+            <Forecast.TabSet />
+            <Forecast.Footer>
+                <Footer.DangerRatings />
+                <Footer.Disclaimer />
+            </Forecast.Footer>
+            {!forecast && status.isLoaded && region
+                ? this.renderWarning(region)
+                : null}
+        </Forecast.Compound>
+    )
     get container() {
         const { name, date } = this.state
 
