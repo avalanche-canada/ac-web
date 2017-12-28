@@ -1,156 +1,27 @@
 import React, { Component } from 'react'
 import styles from './TripPlanner.css'
 import Map from './Map'
-import { Marker } from 'components/map'
 import Welcome from './panels/Welcome'
-import Area from './panels/Area'
+import Avaluator from './panels/Avaluator'
 import Forecast from './panels/Forecast'
-import Options from './panels/Options'
-import throttle from 'lodash/throttle'
-import place from 'components/icons/place.svg'
-import mapbox from 'services/mapbox/map'
 import bbox from '@turf/bbox'
-import Device from 'components/Device'
 
 export default class TripPlannerLayout extends Component {
     state = {
-        location: null,
         area: null,
         region: null,
-        showPopup: true,
     }
-    componentDidMount() {
-        const offset = 10
-        this.popup = new mapbox.Popup({
-            closeButton: false,
-            offset: {
-                top: [0, offset],
-                'top-left': [offset, offset],
-                'top-right': [-offset, offset],
-                bottom: [0, -offset],
-                'bottom-left': [offset, -offset],
-                'bottom-right': [-offset, -offset],
-                left: [offset, 0],
-                right: [-offset, 0],
-            },
-        })
-        this.element = Object.assign(document.createElement('img'), {
-            src: place,
-        })
-    }
-    handleForecastSelect = region => this.setState({ region })
-    handleLoad = event => {
-        const map = event.target
-        const container = map.getContainer()
-
-        map.on('click', this.handleClick)
-        map.on('mousemove', this.handleMousemove)
-        for (let layer of FORECAST_LAYERS) {
-            map.on('mouseenter', layer, this.handleMouseenterLayer)
-            map.on('mouseleave', layer, this.handleMouseleaveLayer)
-        }
-        for (let layer of ATES_LAYERS) {
-            map.on('mouseenter', layer, this.handleMouseenterLayer)
-            map.on('mouseleave', layer, this.handleMouseleaveLayer)
-        }
-        container.addEventListener('mouseleave', this.handleMouseleave, false)
-
-        this.map = map
-    }
-    handleMouseenterLayer = event => {
-        event.target.getCanvas().style.cursor = 'pointer'
-    }
-    handleMouseleaveLayer = event => {
-        const { point } = event
-        const features = this.map.queryRenderedFeatures(point, {
-            layers: [...FORECAST_LAYERS, ...ATES_LAYERS],
-        })
-
-        if (features.length === 0) {
-            event.target.getCanvas().style.cursor = ''
-        }
-    }
-    handleClick = event => {
-        const { lngLat, point } = event
-        const [area] = this.queryAreas(point)
-        const [region] = this.queryRegions(point)
-
-        this.setState({ area, location: lngLat, region })
-    }
-    handleMouseleave = () => {
-        this.popup.remove()
-    }
-    handleMousemove = throttle(event => {
-        if (!this.state.showPopup) {
-            return null
-        }
-
-        const { target, point, lngLat } = event
-        const [area] = this.queryAreas(point)
-        const [region] = this.queryRegions(point)
-
-        const node =
-            area || region ? window.document.createElement('div') : null
-
-        if (area) {
-            const name = window.document.createElement('b')
-            const rating = window.document.createElement('div')
-            const {
-                ATES_RECREATION_BNDRY_NAME,
-                ATES_ZONE_CLASS_DESCRIPTION,
-            } = area.properties
-
-            name.innerText = `ATES area: ${ATES_RECREATION_BNDRY_NAME}`
-            rating.innerText = `${ATES_ZONE_CLASS_DESCRIPTION} terrain`
-
-            node.appendChild(name)
-            node.appendChild(rating)
-        }
-
-        if (region) {
-            const name = window.document.createElement('b')
-
-            name.innerText = `Forecast region: ${region.properties.name}`
-
-            node.appendChild(name)
-        }
-
-        if (node) {
-            const info = window.document.createElement('div')
-
-            info.innerText = 'Click to start your planning'
-            node.appendChild(info)
-
-            this.popup.setLngLat(lngLat).setDOMContent(node)
-
-            if (!this.popup.isOpen()) {
-                this.popup.addTo(target)
-            }
-        } else {
-            this.popup.remove()
-        }
-    }, 150)
     fitBounds = geometry => {
         this.map.fitBounds(bbox(geometry), {
             padding: 25,
         })
     }
-    queryAreas(point) {
-        return this.map.queryRenderedFeatures(point, {
-            layers: ATES_LAYERS,
-        })
-    }
-    queryRegions(point) {
-        return this.map.queryRenderedFeatures(point, {
-            layers: FORECAST_LAYERS,
-        })
-    }
-    get marker() {
-        const { location } = this.state
+    handleForecastSelect = region => this.setState({ region })
+    handleAreaSelect = area => this.setState({ area })
+    handleMapLoad = event => {
+        const map = event.target
 
-        return location ? (
-            <Marker lngLat={location} element={this.element} />
-        ) : null
+        this.map = map
     }
     get forecast() {
         const { region } = this.state
@@ -163,20 +34,23 @@ export default class TripPlannerLayout extends Component {
         ) : null
     }
     get area() {
-        const { area } = this.state
+        const { area, region } = this.state
 
-        if (!area) {
+        if (!area || !region) {
             return null
         }
+
+        const { id } = region.properties
         const {
             ATES_RECREATION_BNDRY_NAME,
             ATES_ZONE_CLASS_DESCRIPTION,
         } = area.properties
 
         return (
-            <Area
+            <Avaluator
+                region={id}
                 name={ATES_RECREATION_BNDRY_NAME}
-                rating={ATES_ZONE_CLASS_DESCRIPTION}
+                terrainRating={ATES_ZONE_CLASS_DESCRIPTION}
             />
         )
     }
@@ -185,45 +59,20 @@ export default class TripPlannerLayout extends Component {
 
         return <Welcome closable={area || region} />
     }
-    get options() {
-        return (
-            <Device>
-                {({ isTouchable }) =>
-                    isTouchable ? null : (
-                        <Options>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    checked={this.state.showPopup}
-                                    onChange={this.handleShowPopupChange}
-                                />{' '}
-                                Show popup when you move your mouse over the map
-                            </label>
-                        </Options>
-                    )
-                }
-            </Device>
-        )
-    }
-    handleShowPopupChange = () => {
-        this.setState(state => ({
-            showPopup: !state.showPopup,
-        }))
-    }
     render() {
         return (
             <div className={styles.Layout}>
-                <Map onLoad={this.handleLoad}>{this.marker}</Map>
+                <Map
+                    onLoad={this.handleMapLoad}
+                    onForecastSelect={this.handleForecastSelect}
+                    onAreaSelect={this.handleAreaSelect}
+                />
                 <div className={styles.Sidebar}>
                     {this.welcome}
-                    {this.forecast}
                     {this.area}
-                    {this.options}
+                    {this.forecast}
                 </div>
             </div>
         )
     }
 }
-
-const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
-const ATES_LAYERS = ['ates-terrain']
