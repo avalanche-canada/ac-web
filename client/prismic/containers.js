@@ -6,6 +6,7 @@ import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import startOfYesterday from 'date-fns/start_of_yesterday'
 import subDays from 'date-fns/sub_days'
+import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import isToday from 'date-fns/is_today'
@@ -648,7 +649,7 @@ function isFeaturedPost({ featured }) {
 }
 function rangePredicates(start, end, date = new Date()) {
     return [
-        Predicates.dateBefore(start, utils.formatDate(date)),
+        Predicates.dateBefore(start, utils.formatDate(addDays(date, 1))),
         Predicates.dateAfter(end, utils.formatDate(subDays(date, 1))),
     ]
 }

@@ -93,16 +93,17 @@ export default class Layout extends PureComponent {
     componentDidMount() {
         this.tryOpenExternal()
     }
+    componentDidUpdate({ location }) {
+        if (location.pathname !== this.props.location.pathname) {
+            this.tryOpenExternal()
+        }
+    }
     componentWillReceiveProps({ location, match }) {
         if (location !== this.props.location) {
             this.setState({
                 secondary: isSecondaryOpen(location),
                 primary: isPrimaryOpen(match),
             })
-
-            if (location.pathname !== this.props.location.pathname) {
-                this.tryOpenExternal()
-            }
         }
     }
     tryOpenExternal() {

@@ -45,7 +45,7 @@ export default class ToyotaTruckReport extends PureComponent {
                     <Banner>
                         {report && (
                             <img
-                                src={cloudinary.url(report.banner, {
+                                src={cloudinary.url(report.data.banner, {
                                     ...TRANSFORMATION,
                                     height,
                                     width,
@@ -62,12 +62,12 @@ export default class ToyotaTruckReport extends PureComponent {
         let subject = 'Toyota Truck Report'
 
         if (report) {
-            subject = `${subject} for ${format(report.date, DATE)}`
+            subject = `${subject} for ${format(report.data.date, DATE)}`
         }
 
         return (
             <Header subject={subject}>
-                {report && <h1>{report.headline}</h1>}
+                {report && <h1>{report.data.headline}</h1>}
             </Header>
         )
     }
@@ -83,7 +83,7 @@ export default class ToyotaTruckReport extends PureComponent {
                 ? null
                 : 'Toyota truck report not available anymore.',
         }
-    }
+    .data}
     children = ({ document, status }) => [
         this.renderBanner(document),
         this.renderHeader(document),
@@ -92,7 +92,7 @@ export default class ToyotaTruckReport extends PureComponent {
                 {...status}
                 messages={this.createMessages(status, document)}
             />
-            {document && this.renderContent(document)}
+            {document && this.renderContent(document.data)}
         </Content>,
     ]
     render() {
