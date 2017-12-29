@@ -91,6 +91,12 @@ export default class AvaluatorPanel extends PureComponent {
             <Chart terrain={terrainRating} danger={danger} />,
             <Legend />,
             <List style={LIST_STYLE}>
+                <Entry term="Terrain rating">
+                    {TerrainRatingTexts.get(terrainRating)}
+                </Entry>
+                <Entry term="Danger rating">
+                    {ForecastRatingTexts.get(dangerRating)}
+                </Entry>
                 <Term>
                     <div className={styles.Location}>
                         <span>Pin location</span>
@@ -100,12 +106,6 @@ export default class AvaluatorPanel extends PureComponent {
                 <Definition>
                     <Position longitude={lng} latitude={lat} />
                 </Definition>
-                <Entry term="Terrain rating">
-                    {TerrainRatingTexts.get(terrainRating)}
-                </Entry>
-                <Entry term="Danger rating">
-                    {ForecastRatingTexts.get(dangerRating)}
-                </Entry>
             </List>,
         ]
     }
@@ -229,4 +229,3 @@ const TEXTS = ['Not recommended', 'Extra caution', 'Caution']
 const LIST_STYLE = {
     alignItems: 'center',
 }
-
