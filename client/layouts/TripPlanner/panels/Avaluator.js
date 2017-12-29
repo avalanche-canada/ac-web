@@ -148,7 +148,7 @@ class Chart extends PureComponent {
         const x = this.constructor.X_COORDINATES[terrain - 1]
         const y = this.constructor.Y_COORDINATES[danger - 1]
 
-        return <circle cx={x} cy={y} r="7" />
+        return <circle cx={x} cy={y} r="7" stroke="#FFFFFF" strokeWidth="2" />
     }
     render() {
         return (

@@ -69,6 +69,14 @@ export default class TripPlannerMap extends Component {
         const [area] = this.queryAreas(point)
         const [region] = this.queryRegions(point)
 
+        if (area) {
+            this.map.setFilter('ates-zones', [
+                '==',
+                'ATES_RECREATION_BNDRY_NAME',
+                area.properties.ATES_RECREATION_BNDRY_NAME,
+            ])
+        }
+
         this.setState(
             {
                 area,
