@@ -42,6 +42,11 @@ export default class TripPlannerLayout extends Component {
 
         this.fitBounds(geometryCollection(geometries))
     }
+    handleLocationLocateClick = () => {
+        this.map.flyTo({
+            center: this.state.location,
+        })
+    }
     get forecast() {
         const { region } = this.state
 
@@ -71,7 +76,8 @@ export default class TripPlannerLayout extends Component {
                 region={id}
                 name={ATES_RECREATION_BNDRY_NAME}
                 terrainRating={ATES_ZONE_CLASS_CODE}
-                onLocateClick={this.handleAreaLocateClick}
+                onAreaLocateClick={this.handleAreaLocateClick}
+                onLocationLocateClick={this.handleLocationLocateClick}
             />
         )
     }

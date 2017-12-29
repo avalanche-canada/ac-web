@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 1em 2em;
+    margin: 1em 0;
 
     & > *:before {
         content: '■';
@@ -68,4 +68,10 @@
 }
 .ForecastRatingSection {
     margin: 0 1em;
+}
+.Location {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

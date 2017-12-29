@@ -3,7 +3,7 @@ import StaticComponent from 'components/StaticComponent'
 import PropTypes from 'prop-types'
 import Panel from './Panel'
 import ForecastContainer from 'containers/Forecast'
-import { List, Entry } from 'components/description'
+import { List, Entry, Definition, Term } from 'components/description'
 import { Status } from 'components/misc'
 import { LEVELS, Texts as ForecastRatingTexts } from 'constants/forecast/rating'
 import { Texts as ElevationTexts } from 'constants/forecast/elevation'
@@ -27,6 +27,8 @@ export default class AvaluatorPanel extends PureComponent {
         terrainRating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX])
             .isRequired,
         onLocateClick: PropTypes.func.isRequired,
+        onAreaLocateClick: PropTypes.func.isRequired,
+        onLocationLocateClick: PropTypes.func.isRequired,
     }
     static defaultProps = {
         header: 'Avaluator',
@@ -88,10 +90,16 @@ export default class AvaluatorPanel extends PureComponent {
         return [
             <Chart terrain={terrainRating} danger={danger} />,
             <Legend />,
-            <List>
-                <Entry term="Pin location">
+            <List style={LIST_STYLE}>
+                <Term>
+                    <div className={styles.Location}>
+                        <span>Pin location</span>
+                        <Locate onClick={this.props.onLocationLocateClick} />
+                    </div>
+                </Term>
+                <Definition>
                     <Position longitude={lng} latitude={lat} />
-                </Entry>
+                </Definition>
                 <Entry term="Terrain rating">
                     {TerrainRatingTexts.get(terrainRating)}
                 </Entry>
@@ -117,7 +125,7 @@ export default class AvaluatorPanel extends PureComponent {
             <Panel expanded header={header}>
                 <header>
                     <h2>{name}</h2>
-                    <Locate onClick={this.props.onLocateClick} />
+                    <Locate onClick={this.props.onAreaLocateClick} />
                 </header>
                 <ForecastContainer name={region}>
                     {data => this.renderChildren(data)}
@@ -218,3 +226,7 @@ class Legend extends StaticComponent {
 
 const COLORS = ['#EC2227', '#FCEE23', '#12B24B']
 const TEXTS = ['Not recommended', 'Extra caution', 'Caution']
+const LIST_STYLE = {
+    alignItems: 'center',
+}
+
