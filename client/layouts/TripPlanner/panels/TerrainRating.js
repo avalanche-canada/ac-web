@@ -7,7 +7,7 @@ import styles from '../TripPlanner.css'
 export default class TerrainRatingPanel extends StaticComponent {
     render() {
         return (
-            <Panel header="Terrain rating explained">
+            <Panel header="Terrain Rating Explained">
                 {Array.from(Palette).map(([key, color]) => (
                     <section className={styles.TerrainRatingSection} key={key}>
                         <h2 style={{ color }}>{Texts.get(key)}</h2>

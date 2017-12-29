@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Panel from 'components/panel'
+import StaticComponent from 'components/StaticComponent'
+import Panel, { INVERSE } from 'components/panel'
 import RatingExplanation from 'components/forecast/RatingExplanation'
 import { Generic } from 'prismic/components'
-import styles from './Forecast.css'
 import ArchiveDatePicker from './ArchiveDatePicker'
-import StaticComponent from 'components/StaticComponent'
+import styles from './Forecast.css'
 
 export default class Footer extends StaticComponent {
     static propTypes = {
@@ -40,9 +40,9 @@ export class ArchivedBulletins extends StaticComponent {
         const { date, region } = this.props
 
         return (
-            <Panel expandable header="Archived bulletins">
+            <FooterPanel header="Archived bulletins">
                 <ArchiveDatePicker date={date} region={region} />
-            </Panel>
+            </FooterPanel>
         )
     }
 }
@@ -50,9 +50,9 @@ export class ArchivedBulletins extends StaticComponent {
 export class DangerRatings extends StaticComponent {
     render() {
         return (
-            <Panel expandable header="Danger Ratings Explained">
+            <FooterPanel header="Danger Ratings Explained">
                 <RatingExplanation />
-            </Panel>
+            </FooterPanel>
         )
     }
 }
@@ -60,9 +60,9 @@ export class DangerRatings extends StaticComponent {
 export class Inbox extends StaticComponent {
     render() {
         return (
-            <Panel expandable header="Avalanche Forecasts in your Inbox">
+            <FooterPanel header="Avalanche Forecasts in your Inbox">
                 <Generic uid="forecast-rss-message" />
-            </Panel>
+            </FooterPanel>
         )
     }
 }
@@ -70,9 +70,18 @@ export class Inbox extends StaticComponent {
 export class Disclaimer extends StaticComponent {
     render() {
         return (
-            <Panel expandable header="Forecast Disclaimer">
+            <FooterPanel header="Forecast Disclaimer">
                 <Generic uid="forecast-disclaimer" />
-            </Panel>
+            </FooterPanel>
         )
     }
+}
+
+// Utils
+function FooterPanel({ header, children }) {
+    return (
+        <Panel theme={INVERSE} expandable header={header}>
+            <div className={styles.PanelContent}>{children}</div>
+        </Panel>
+    )
 }

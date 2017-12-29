@@ -5,7 +5,7 @@ import Welcome from './panels/Welcome'
 import Avaluator from './panels/Avaluator'
 import Forecast from './panels/Forecast'
 import TerrainRating from './panels/TerrainRating'
-import ForecastRating from './panels/ForecastRating'
+import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 
@@ -82,9 +82,7 @@ export default class TripPlannerLayout extends Component {
         )
     }
     get welcome() {
-        const { area, region } = this.state
-
-        return <Welcome closable={area || region} />
+        return <Welcome closable={Boolean(this.state.area)} />
     }
     render() {
         return (
@@ -100,7 +98,8 @@ export default class TripPlannerLayout extends Component {
                     {this.area}
                     {this.forecast}
                     <TerrainRating />
-                    <ForecastRating />
+                    <DangerRatings />
+                    <Disclaimer />
                 </div>
             </div>
         )
