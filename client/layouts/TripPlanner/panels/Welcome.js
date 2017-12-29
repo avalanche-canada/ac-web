@@ -29,8 +29,9 @@ export default class Welcome extends PureComponent {
                 </header>
                 <p>
                     Click or tap on the map to place a pin. If you want to start
-                    planning your trip, the pin needs to be dropped inside a
-                    ATES area as well as inside a forecast region.
+                    planning your trip, the pin needs to be dropped inside an
+                    Avalanche Terrain Exposure Scale (ATES) area as well as
+                    inside a forecast region.
                 </p>
                 <p>If you do not see any ATES area, please zoom in.</p>
             </div>

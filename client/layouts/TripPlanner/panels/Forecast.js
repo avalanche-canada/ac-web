@@ -27,7 +27,7 @@ export default class ForecastPanel extends Component {
     }
     children = ({ status, forecast, region }) => {
         return (
-            <Panel expanded header="Avalanche forecast">
+            <Panel header="Avalanche forecast">
                 <Compound forecast={forecast}>
                     {forecast && region
                         ? this.renderHeader(forecast, region)

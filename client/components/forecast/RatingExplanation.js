@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Ratings, {
     NO_RATING,
     Texts,
@@ -6,11 +6,9 @@ import Ratings, {
     LikehoodOfAvalanche,
     SizeAndDistribution,
 } from 'constants/forecast/rating'
+import StaticComponent from 'components/StaticComponent'
 
-export default class RatingExplanation extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class RatingExplanation extends StaticComponent {
     render() {
         const keys = Array.from(Ratings).filter(key => key !== NO_RATING)
 

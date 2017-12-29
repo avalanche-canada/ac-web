@@ -49,3 +49,23 @@
 .PanelContent {
     margin: 1em;
 }
+
+.Legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em 2em;
+
+    & > *:before {
+        content: '■';
+        margin-right: 0.25em;
+        font-size: 1.75em;
+    }
+}
+
+.TerrainRatingSection {
+    margin: 0 1em;
+}
+.ForecastRatingSection {
+    margin: 0 1em;
+}

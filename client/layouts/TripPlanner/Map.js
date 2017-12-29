@@ -10,6 +10,7 @@ export default class TripPlannerMap extends Component {
         onLoad: PropTypes.func.isRequired,
         onForecastSelect: PropTypes.func.isRequired,
         onAreaSelect: PropTypes.func.isRequired,
+        onLocationChange: PropTypes.func.isRequired,
     }
     state = {
         location: null,
@@ -78,6 +79,7 @@ export default class TripPlannerMap extends Component {
             () => {
                 this.props.onAreaSelect(area)
                 this.props.onForecastSelect(region)
+                this.props.onLocationChange(lngLat)
             }
         )
     }
@@ -99,21 +101,17 @@ export default class TripPlannerMap extends Component {
 
         return (
             <Popup lngLat={location} options={POPUP_OPTIONS}>
-                <div>
-                    <Position longitude={lng} latitude={lat} />
-                    {area && [
-                        <div>
-                            Area: {area.properties.ATES_RECREATION_BNDRY_NAME}
-                        </div>,
-                        <div>
-                            Classification:{' '}
-                            {area.properties.ATES_ZONE_CLASS_DESCRIPTION}
-                        </div>,
-                    ]}
-                    {region && (
-                        <div>Forecast region: {region.properties.name}</div>
-                    )}
-                </div>
+                <Position longitude={lng} latitude={lat} />
+                {area && [
+                    <div>
+                        Area: {area.properties.ATES_RECREATION_BNDRY_NAME}
+                    </div>,
+                    <div>
+                        Terrain rating:{' '}
+                        {area.properties.ATES_ZONE_CLASS_DESCRIPTION}
+                    </div>,
+                ]}
+                {region && <div>Forecast region: {region.properties.name}</div>}
             </Popup>
         )
     }
