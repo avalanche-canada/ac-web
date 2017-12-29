@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Map, Marker, Popup, NavigationControl } from 'components/map'
-import { Position } from 'components/misc'
+import { Map, Marker, NavigationControl } from 'components/map'
 import place from 'components/icons/place.svg'
 import styles from './TripPlanner.css'
 
@@ -90,37 +89,11 @@ export default class TripPlannerMap extends Component {
             <Marker lngLat={location} element={this.element} />
         ) : null
     }
-    get popup() {
-        const { location, area, region } = this.state
-
-        if (!location) {
-            return null
-        }
-
-        const { lng, lat } = location
-
-        return (
-            <Popup lngLat={location} options={POPUP_OPTIONS}>
-                <Position longitude={lng} latitude={lat} />
-                {area && [
-                    <div>
-                        Area: {area.properties.ATES_RECREATION_BNDRY_NAME}
-                    </div>,
-                    <div>
-                        Terrain rating:{' '}
-                        {area.properties.ATES_ZONE_CLASS_DESCRIPTION}
-                    </div>,
-                ]}
-                {region && <div>Forecast region: {region.properties.name}</div>}
-            </Popup>
-        )
-    }
     render() {
         return (
             <div className={styles.Map}>
                 <Map style="ates" onLoad={this.handleLoad}>
                     {this.marker}
-                    {this.popup}
                     <NavigationControl />
                 </Map>
             </div>
@@ -131,15 +104,3 @@ export default class TripPlannerMap extends Component {
 // Constants
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_LAYERS = ['ates-terrain']
-const POPUP_OPTIONS = {
-    offset: {
-        top: [0, 10],
-        'top-left': [10, 10],
-        'top-right': [-10, 10],
-        bottom: [0, -10],
-        'bottom-left': [10, -10],
-        'bottom-right': [-10, -10],
-        left: [10, 0],
-        right: [-10, 0],
-    },
-}
