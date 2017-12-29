@@ -6,7 +6,7 @@
 }
 
 .Map {
-    flex: 66%;
+    flex: 60%;
 
     & > :global(.mapboxgl-map) {
         height: 100%;
@@ -14,7 +14,7 @@
 }
 
 .Sidebar {
-    flex: 33%;
+    flex: 40%;
     overflow-y: auto;
     box-sizing: border-box;
     box-shadow: -4px 0 8px color(black alpha(25%));
