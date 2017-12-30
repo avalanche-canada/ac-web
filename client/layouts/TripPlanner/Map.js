@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Map, NavigationControl } from 'components/map'
 import styles from './TripPlanner.css'
+import bbox from '@turf/bbox'
 
 export default class TripPlannerMap extends Component {
     static propTypes = {
@@ -18,7 +19,11 @@ export default class TripPlannerMap extends Component {
         const container = map.getContainer()
 
         map.on('click', this.handleClick)
-        for (let layer of ATES_LAYERS) {
+        for (let layer of ATES_AREAS_LAYERS) {
+            map.on('mouseenter', layer, this.handleMouseenterLayer)
+            map.on('mouseleave', layer, this.handleMouseleaveLayer)
+        }
+        for (let layer of ATES_ZONES_LAYERS) {
             map.on('mouseenter', layer, this.handleMouseenterLayer)
             map.on('mouseleave', layer, this.handleMouseleaveLayer)
         }
@@ -29,7 +34,12 @@ export default class TripPlannerMap extends Component {
     }
     queryAreas(point) {
         return this.map.queryRenderedFeatures(point, {
-            layers: ATES_LAYERS,
+            layers: ATES_AREAS_LAYERS,
+        })
+    }
+    queryZones(point) {
+        return this.map.queryRenderedFeatures(point, {
+            layers: ATES_ZONES_LAYERS,
         })
     }
     queryRegions(point) {
@@ -45,6 +55,7 @@ export default class TripPlannerMap extends Component {
     }
     handleClick = event => {
         const { point } = event
+        const [zone] = this.queryZones(point)
         const [area] = this.queryAreas(point)
         const [region] = this.queryRegions(point)
 
@@ -54,6 +65,12 @@ export default class TripPlannerMap extends Component {
                 'ATES_ZONE_ID',
                 area.properties.ATES_ZONE_ID,
             ])
+        }
+
+        if (zone) {
+            this.map.fitBounds(bbox(zone.geometry), {
+                padding: 25,
+            })
         }
 
         this.setState(
@@ -80,4 +97,5 @@ export default class TripPlannerMap extends Component {
 
 // Constants
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
-const ATES_LAYERS = ['ates-terrain']
+const ATES_AREAS_LAYERS = ['ates-terrain']
+const ATES_ZONES_LAYERS = ['ates-zones']
