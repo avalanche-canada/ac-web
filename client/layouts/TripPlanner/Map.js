@@ -59,13 +59,11 @@ export default class TripPlannerMap extends Component {
         const [area] = this.queryAreas(point)
         const [region] = this.queryRegions(point)
 
-        if (area) {
-            this.map.setFilter('active-ates-areas', [
-                '==',
-                'ATES_ZONE_ID',
-                area.properties.ATES_ZONE_ID,
-            ])
-        }
+        this.map.setFilter('active-ates-areas', [
+            '==',
+            'ATES_ZONE_ID',
+            area ? area.properties.ATES_ZONE_ID : -1,
+        ])
 
         if (zone) {
             this.map.fitBounds(bbox(zone.geometry), {
