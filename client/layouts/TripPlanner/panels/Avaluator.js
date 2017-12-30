@@ -5,6 +5,7 @@ import Panel from './Panel'
 import ForecastContainer from 'containers/Forecast'
 import { List, Entry } from 'components/description'
 import { Status } from 'components/misc'
+import { Muted } from 'components/text'
 import { LEVELS, Texts as ForecastRatingTexts } from 'constants/forecast/rating'
 import { Texts as ElevationTexts } from 'constants/forecast/elevation'
 import {
@@ -20,7 +21,7 @@ import { Locate } from 'components/button'
 export default class AvaluatorPanel extends PureComponent {
     static propTypes = {
         header: PropTypes.string,
-        region: PropTypes.string.isRequired,
+        region: PropTypes.string,
         name: PropTypes.string.isRequired,
         terrainRating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX])
             .isRequired,
@@ -119,13 +120,11 @@ export default class AvaluatorPanel extends PureComponent {
             isLoaded: hasDangerRatings ? undefined : this.isLoadedMessage,
         }
 
-        return (
-            <div className={styles.PanelContent}>
-                <Status {...status} messages={messages} />
-                {hasDangerRatings && this.simple}
-                {hasDangerRatings && this.renderChart(forecast)}
-            </div>
-        )
+        return [
+            <Status {...status} messages={messages} />,
+            hasDangerRatings ? this.simple : null,
+            hasDangerRatings ? this.renderChart(forecast) : null,
+        ]
     }
     render() {
         const { name, region, header } = this.props
@@ -136,9 +135,15 @@ export default class AvaluatorPanel extends PureComponent {
                     <h2>{name}</h2>
                     <Locate onClick={this.props.onAreaLocateClick} />
                 </header>
-                <ForecastContainer name={region}>
-                    {data => this.renderChildren(data)}
-                </ForecastContainer>
+                <div className={styles.PanelContent}>
+                    {region ? (
+                        <ForecastContainer name={region}>
+                            {data => this.renderChildren(data)}
+                        </ForecastContainer>
+                    ) : (
+                        <Muted>{this.isLoadedMessage}</Muted>
+                    )}
+                </div>
             </Panel>
         )
     }

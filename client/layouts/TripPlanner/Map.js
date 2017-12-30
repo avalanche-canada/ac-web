@@ -76,7 +76,7 @@ export default class TripPlannerMap extends Component {
         this.setState(
             {
                 area,
-                region: area && region,
+                region: area ? region : null,
             },
             () => {
                 this.props.onAreaSelect(area)

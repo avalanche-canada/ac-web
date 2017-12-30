@@ -8,6 +8,7 @@ import TerrainRating from './panels/TerrainRating'
 import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
+import get from 'lodash/get'
 
 export default class TripPlannerLayout extends Component {
     state = {
@@ -50,10 +51,10 @@ export default class TripPlannerLayout extends Component {
             />
         ) : null
     }
-    get area() {
+    get avaluator() {
         const { area, region } = this.state
 
-        if (!area || !region) {
+        if (!area) {
             return null
         }
 
@@ -64,7 +65,7 @@ export default class TripPlannerLayout extends Component {
 
         return (
             <Avaluator
-                region={region.properties.id}
+                region={get(region, 'properties.id')}
                 name={ATES_RECREATION_BNDRY_NAME}
                 terrainRating={ATES_ZONE_CLASS_CODE}
                 onAreaLocateClick={this.handleAreaLocateClick}
@@ -84,7 +85,7 @@ export default class TripPlannerLayout extends Component {
                 />
                 <div className={styles.Sidebar}>
                     {this.welcome}
-                    {this.area}
+                    {this.avaluator}
                     {this.forecast}
                     <TerrainRating />
                     <DangerRatings />
