@@ -57,7 +57,7 @@ export default class Welcome extends PureComponent {
                 </p>
                 <Device>{this.renderAction}</Device>
                 <p>
-                    If you do not see any ATES area, please zoom in or click on
+                    If you do not see any ATES areas, please zoom in or click on
                     a grey zone to have the map zoomed in automatically.
                 </p>
             </div>

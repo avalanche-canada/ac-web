@@ -76,11 +76,13 @@ export default class TripPlannerMap extends Component {
         this.setState(
             {
                 area,
-                region,
+                region: area && region,
             },
             () => {
                 this.props.onAreaSelect(area)
-                this.props.onForecastSelect(region)
+                if (area) {
+                    this.props.onForecastSelect(region)
+                }
             }
         )
     }
