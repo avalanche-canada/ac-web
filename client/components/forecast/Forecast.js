@@ -38,9 +38,18 @@ export default class Forecast extends PureComponent {
 }
 
 export class Compound extends PureComponent {
+    static canRender(forecast) {
+        return forecast && !forecast.has('externalUrl')
+    }
     static propTypes = {
         forecast: PropTypes.object,
         children: PropTypes.node,
+        callback: PropTypes.func,
+    }
+    static defaultProps = {
+        callback() {
+            return null
+        },
     }
     renderChild = child => {
         if (!child) {

@@ -43,6 +43,10 @@ export default class AvaluatorPanel extends PureComponent {
     }
     handleElevationChange = elevation => this.setState({ elevation })
     get simple() {
+        if (this.props.terrainRating !== SIMPLE) {
+            return null
+        }
+
         return (
             <div className={styles.PanelContent}>
                 <p>
@@ -109,12 +113,32 @@ export default class AvaluatorPanel extends PureComponent {
             </List>,
         ]
     }
+    get isLoadedMessage() {
+        return [
+            <p>No danger ratings are available to run the TripPlanner.</p>,
+            <p>
+                Avalanche Forecast are not produce for every regions, in some
+                cases they are available externally.
+            </p>,
+            <p>
+                You might also want to move your dropped pin inside a forecast
+                region.
+            </p>,
+        ]
+    }
     renderChildren({ status, forecast }) {
+        const hasDangerRatings = forecast && forecast.has('dangerRatings')
+
+        const messages = {
+            ...status.messages,
+            isLoaded: hasDangerRatings ? undefined : this.isLoadedMessage,
+        }
+
         return (
             <div className={styles.PanelContent}>
-                <Status {...status} />
-                {this.props.terrainRating === SIMPLE && this.simple}
-                {forecast && this.renderChart(forecast)}
+                <Status {...status} messages={messages} />
+                {hasDangerRatings && this.simple}
+                {hasDangerRatings && this.renderChart(forecast)}
             </div>
         )
     }
