@@ -13,14 +13,12 @@ export default class TripPlannerLayout extends Component {
     state = {
         area: null,
         region: null,
-        location: null,
     }
     fitBounds = geometry => {
         this.map.fitBounds(bbox(geometry), {
             padding: 25,
         })
     }
-    handleLocationChange = location => this.setState({ location })
     handleForecastSelect = region => this.setState({ region })
     handleAreaSelect = area => this.setState({ area })
     handleMapLoad = event => {
@@ -42,11 +40,6 @@ export default class TripPlannerLayout extends Component {
 
         this.fitBounds(geometryCollection(geometries))
     }
-    handleLocationLocateClick = () => {
-        this.map.flyTo({
-            center: this.state.location,
-        })
-    }
     get forecast() {
         const { region } = this.state
 
@@ -58,13 +51,12 @@ export default class TripPlannerLayout extends Component {
         ) : null
     }
     get area() {
-        const { area, region, location } = this.state
+        const { area, region } = this.state
 
         if (!area || !region) {
             return null
         }
 
-        const { id } = region.properties
         const {
             ATES_RECREATION_BNDRY_NAME,
             ATES_ZONE_CLASS_CODE,
@@ -72,12 +64,10 @@ export default class TripPlannerLayout extends Component {
 
         return (
             <Avaluator
-                location={location}
-                region={id}
+                region={region.properties.id}
                 name={ATES_RECREATION_BNDRY_NAME}
                 terrainRating={ATES_ZONE_CLASS_CODE}
                 onAreaLocateClick={this.handleAreaLocateClick}
-                onLocationLocateClick={this.handleLocationLocateClick}
             />
         )
     }
@@ -91,7 +81,6 @@ export default class TripPlannerLayout extends Component {
                     onLoad={this.handleMapLoad}
                     onForecastSelect={this.handleForecastSelect}
                     onAreaSelect={this.handleAreaSelect}
-                    onLocationChange={this.handleLocationChange}
                 />
                 <div className={styles.Sidebar}>
                     {this.welcome}

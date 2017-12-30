@@ -3,7 +3,7 @@ import StaticComponent from 'components/StaticComponent'
 import PropTypes from 'prop-types'
 import Panel from './Panel'
 import ForecastContainer from 'containers/Forecast'
-import { List, Entry, Definition, Term } from 'components/description'
+import { List, Entry } from 'components/description'
 import { Status } from 'components/misc'
 import { LEVELS, Texts as ForecastRatingTexts } from 'constants/forecast/rating'
 import { Texts as ElevationTexts } from 'constants/forecast/elevation'
@@ -16,19 +16,15 @@ import {
 import { DropdownFromOptions } from 'components/controls'
 import styles from '../TripPlanner.css'
 import { Locate } from 'components/button'
-import { Position } from 'components/misc'
 
 export default class AvaluatorPanel extends PureComponent {
     static propTypes = {
-        location: PropTypes.object.isRequired,
         header: PropTypes.string,
         region: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         terrainRating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX])
             .isRequired,
-        onLocateClick: PropTypes.func.isRequired,
         onAreaLocateClick: PropTypes.func.isRequired,
-        onLocationLocateClick: PropTypes.func.isRequired,
     }
     static defaultProps = {
         header: 'Avaluator',
@@ -89,7 +85,6 @@ export default class AvaluatorPanel extends PureComponent {
         }
 
         const danger = LEVELS.indexOf(dangerRating)
-        const { lng, lat } = this.props.location
 
         return [
             <Chart terrain={terrainRating} danger={danger} />,
@@ -101,28 +96,18 @@ export default class AvaluatorPanel extends PureComponent {
                 <Entry term="Danger rating">
                     {ForecastRatingTexts.get(dangerRating)}
                 </Entry>
-                <Term>
-                    <div className={styles.Location}>
-                        <span>Pin location</span>
-                        <Locate onClick={this.props.onLocationLocateClick} />
-                    </div>
-                </Term>
-                <Definition>
-                    <Position longitude={lng} latitude={lat} />
-                </Definition>
             </List>,
         ]
     }
     get isLoadedMessage() {
         return [
-            <p>No danger ratings are available to run the TripPlanner.</p>,
+            <p>
+                No danger ratings are available to run the TripPlanner in that
+                area.
+            </p>,
             <p>
                 Avalanche Forecast are not produce for every regions, in some
                 cases they are available externally.
-            </p>,
-            <p>
-                You might also want to move your dropped pin inside a forecast
-                region.
             </p>,
         ]
     }
