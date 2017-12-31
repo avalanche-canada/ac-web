@@ -136,9 +136,9 @@ export default class AvaluatorPanel extends PureComponent {
         const { name, region, header } = this.props
 
         return (
-            <Panel expanded header={header}>
+            <section className={styles.Panel}>
                 <header>
-                    <h2>{name}</h2>
+                    <h1>{name}</h1>
                     <Locate onClick={this.props.onAreaLocateClick} />
                 </header>
                 <div className={styles.PanelContent}>
@@ -150,7 +150,7 @@ export default class AvaluatorPanel extends PureComponent {
                         <Muted>{this.isLoadedMessage}</Muted>
                     )}
                 </div>
-            </Panel>
+            </section>
         )
     }
 }
