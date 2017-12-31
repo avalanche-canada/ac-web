@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import StaticComponent from 'components/StaticComponent'
 import PropTypes from 'prop-types'
 import Panel from './Panel'
@@ -87,30 +87,34 @@ export default class AvaluatorPanel extends PureComponent {
 
         const danger = LEVELS.indexOf(dangerRating)
 
-        return [
-            <Chart terrain={terrainRating} danger={danger} />,
-            <Legend />,
-            <List style={LIST_STYLE}>
-                <Entry term="Terrain rating">
-                    {TerrainRatingTexts.get(terrainRating)}
-                </Entry>
-                <Entry term="Danger rating">
-                    {ForecastRatingTexts.get(dangerRating)}
-                </Entry>
-            </List>,
-        ]
+        return (
+            <Fragment>
+                <Chart terrain={terrainRating} danger={danger} />
+                <Legend />
+                <List style={LIST_STYLE}>
+                    <Entry term="Terrain rating">
+                        {TerrainRatingTexts.get(terrainRating)}
+                    </Entry>
+                    <Entry term="Danger rating">
+                        {ForecastRatingTexts.get(dangerRating)}
+                    </Entry>
+                </List>
+            </Fragment>
+        )
     }
     get isLoadedMessage() {
-        return [
-            <p>
-                No danger ratings are available to run the TripPlanner in that
-                area.
-            </p>,
-            <p>
-                Avalanche Forecast are not produce for every regions, in some
-                cases they are available externally.
-            </p>,
-        ]
+        return (
+            <Fragment>
+                <p>
+                    No danger ratings are available to run the TripPlanner in
+                    that area.
+                </p>
+                <p>
+                    Avalanche Forecast are not produce for every regions, in
+                    some cases they are available externally.
+                </p>
+            </Fragment>
+        )
     }
     renderChildren({ status, forecast }) {
         const hasDangerRatings = forecast && forecast.has('dangerRatings')
@@ -120,11 +124,13 @@ export default class AvaluatorPanel extends PureComponent {
             isLoaded: hasDangerRatings ? undefined : this.isLoadedMessage,
         }
 
-        return [
-            <Status {...status} messages={messages} />,
-            hasDangerRatings ? this.simple : null,
-            hasDangerRatings ? this.renderChart(forecast) : null,
-        ]
+        return (
+            <Fragment>
+                <Status {...status} messages={messages} />
+                {hasDangerRatings && this.simple}
+                {hasDangerRatings && this.renderChart(forecast)}
+            </Fragment>
+        )
     }
     render() {
         const { name, region, header } = this.props

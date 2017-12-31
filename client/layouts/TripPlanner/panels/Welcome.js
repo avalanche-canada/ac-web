@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styles from '../TripPlanner.css'
 import { Close } from 'components/button'
@@ -18,11 +18,18 @@ export default class Welcome extends PureComponent {
     get close() {
         return this.props.closable && <Close onClick={this.handleCloseClick} />
     }
-    renderAction = ({ isTouchable }) => (
-        <p>
-            {isTouchable ? 'Tap' : 'Click'} on a ATES area to start your trip
-            planning.
-        </p>
+    renderActions = ({ isTouchable }) => (
+        <Fragment>
+            <p>
+                {isTouchable ? 'Tap' : 'Click'} on a ATES area to start your
+                trip planning.
+            </p>
+            <p>
+                If you do not see any ATES areas, please zoom in or{' '}
+                {isTouchable ? 'tap' : 'click'} on a grey zone to have the map
+                zoomed in automatically.
+            </p>
+        </Fragment>
     )
     getStyle(rating) {
         return {
@@ -55,11 +62,7 @@ export default class Welcome extends PureComponent {
                         </li>
                     </ul>
                 </p>
-                <Device>{this.renderAction}</Device>
-                <p>
-                    If you do not see any ATES areas, please zoom in or click on
-                    a grey zone to have the map zoomed in automatically.
-                </p>
+                <Device>{this.renderActions}</Device>
             </div>
         )
     }
