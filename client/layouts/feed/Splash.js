@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Muted } from 'components/text'
 import { Status } from 'components/misc'
@@ -27,16 +27,16 @@ export default class FeedSplash extends PureComponent {
 
         documents = documents.filter(p => p !== featured)
 
-        // TODO: Test of delete featured.preview is required
-
-        return [
-            <Status {...status} messages={this.messages} />,
-            isEmpty && <Muted>Nothing found.</Muted>,
-            featured && <EntrySet>{createEntry(featured)}</EntrySet>,
-            documents.length > 0 && (
-                <EntrySet>{documents.map(createEntry)}</EntrySet>
-            ),
-        ].filter(Boolean)
+        return (
+            <Fragment>
+                <Status {...status} messages={this.messages} />
+                {isEmpty && <Muted>Nothing found.</Muted>}
+                {featured && <EntrySet>{createEntry(featured)}</EntrySet>}
+                {documents.length > 0 && (
+                    <EntrySet>{documents.map(createEntry)}</EntrySet>
+                )}
+            </Fragment>
+        )
     }
     render() {
         const { children, ...props } = this.props

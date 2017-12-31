@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isWithinRange from 'date-fns/is_within_range'
 import startOfDay from 'date-fns/start_of_day'
@@ -81,19 +81,26 @@ export default class HotZoneReport extends PureComponent {
         const { report } = this.props
 
         if (report) {
-            return [
-                this.warning,
-                <div className={styles.Title}>{report.title}</div>,
-                <div className={styles.Headline}>{report.headline}</div>,
-                this.gallery,
-                <CriticalFactors {...report} />,
-                <TerrainAndTravelAdvice report={report} />,
-                <TerrainAdviceSet {...report} />,
-                this.information,
-                this.about,
-            ]
+            return (
+                <Fragment>
+                    {this.warning}
+                    <div className={styles.Title}>{report.title}</div>
+                    <div className={styles.Headline}>{report.headline}</div>
+                    {this.gallery}
+                    <CriticalFactors {...report} />
+                    <TerrainAndTravelAdvice report={report} />
+                    <TerrainAdviceSet {...report} />
+                    {this.information}
+                    {this.about}
+                </Fragment>
+            )
         }
 
-        return [this.information, this.about]
+        return (
+            <Fragment>
+                {this.information}
+                {this.about}
+            </Fragment>
+        )
     }
 }

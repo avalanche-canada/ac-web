@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
@@ -59,24 +59,26 @@ export default class Container extends PureComponent {
                   .sort()
             : []
 
-        return [
-            <Status {...status} />,
-            status.isLoaded && (
-                <TagSet>
-                    {letters.map(letter => (
-                        <Letter key={letter} letter={letter} />
+        return (
+            <Fragment>
+                <Status {...status} />
+                {status.isLoaded && (
+                    <TagSet>
+                        {letters.map(letter => (
+                            <Letter key={letter} letter={letter} />
+                        ))}
+                    </TagSet>
+                )}
+                {status.isLoaded &&
+                    letters.map(letter => (
+                        <Section
+                            key={letter}
+                            letter={letter}
+                            terms={data[letter]}
+                        />
                     ))}
-                </TagSet>
-            ),
-            status.isLoaded &&
-                letters.map(letter => (
-                    <Section
-                        key={letter}
-                        letter={letter}
-                        terms={data[letter]}
-                    />
-                )),
-        ].filter(Boolean)
+            </Fragment>
+        )
     }
     render() {
         return (

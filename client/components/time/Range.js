@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Time from './Time'
 
@@ -15,10 +15,12 @@ export default class DateRange extends PureComponent {
     render() {
         const { from, to, separator, format } = this.props
 
-        return [
-            <Time value={from} format={format} />,
-            separator,
-            <Time value={to} format={format} />,
-        ]
+        return (
+            <Fragment>
+                <Time value={from} format={format} />
+                {separator}
+                <Time value={to} format={format} />
+            </Fragment>
+        )
     }
 }

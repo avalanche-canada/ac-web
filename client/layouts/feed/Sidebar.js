@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { FeedSidebar as Container } from 'prismic/containers'
@@ -30,11 +30,13 @@ export default class FeedSidebar extends PureComponent {
             return null
         }
 
-        return [
-            <Header>{Headers.get(this.props.type)}</Header>,
-            <Status {...status} />,
-            ...documents.map(this.renderItem),
-        ]
+        return (
+            <Fragment>
+                <Header>{Headers.get(this.props.type)}</Header>
+                <Status {...status} />
+                {documents.map(this.renderItem)}
+            </Fragment>
+        )
     }
     render() {
         return (

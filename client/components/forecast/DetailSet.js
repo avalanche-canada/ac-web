@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { InnerHTML } from 'components/misc'
@@ -32,15 +32,17 @@ DetailSet.propTypes = {
 }
 
 export default function DetailSet({ avalanche, snowpack, weather }) {
-    return [
-        <Section key="avalanche" title="Avalanche Summary" value={avalanche} />,
-        <Section key="snowpack" title="Snowpack Summary" value={snowpack} />,
-        <Section key="weather" title="Weather Forecast" value={weather}>
-            <p>
-                More details can be found on the{' '}
-                <Link to="/weather">Mountain Weather Forecast</Link>
-                .
-            </p>
-        </Section>,
-    ]
+    return (
+        <Fragment>
+            <Section title="Avalanche Summary" value={avalanche} />
+            <Section title="Snowpack Summary" value={snowpack} />
+            <Section title="Weather Forecast" value={weather}>
+                <p>
+                    More details can be found on the{' '}
+                    <Link to="/weather">Mountain Weather Forecast</Link>
+                    .
+                </p>
+            </Section>
+        </Fragment>
+    )
 }

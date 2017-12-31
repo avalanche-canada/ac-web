@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
@@ -34,17 +34,18 @@ export default class Layout extends PureComponent {
             </h1>
         )
     }
-    // TODO: Use Fragment
-    children = ({ report, status }) => [
-        <Header subject="Mountain Information Network">
-            {report && this.renderHeader(report)}
-        </Header>,
-        <Body>
-            <Status {...status} />
-            {report && <Metadata report={report} shareable />}
-            {report && <Submission report={report} />}
-        </Body>,
-    ]
+    children = ({ report, status }) => (
+        <Fragment>
+            <Header subject="Mountain Information Network">
+                {report && this.renderHeader(report)}
+            </Header>
+            <Body>
+                <Status {...status} />
+                {report && <Metadata report={report} shareable />}
+                {report && <Submission report={report} />}
+            </Body>
+        </Fragment>
+    )
     render() {
         return (
             <Container>

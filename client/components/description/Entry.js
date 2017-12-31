@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Term from './Term'
 import Definition from './Definition'
@@ -9,5 +9,10 @@ Entry.propTypes = {
 }
 
 export default function Entry({ term, children }) {
-    return [<Term>{term}</Term>, <Definition>{children}</Definition>]
+    return (
+        <Fragment>
+            <Term>{term}</Term>
+            <Definition>{children}</Definition>
+        </Fragment>
+    )
 }

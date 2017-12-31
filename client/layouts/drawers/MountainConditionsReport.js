@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import { geometry } from '@turf/helpers'
@@ -59,33 +59,35 @@ export default class MountainConditionsReport extends PureComponent {
             this.geometry = geometry('Point', location)
         }
 
-        return [
-            <Banner>
-                <Media images={images} />
-            </Banner>,
-            <Header subject="Arc'Teryx Mountain Conditions Report">
-                {title && (
-                    <h1>
-                        <a href={permalink} target={permalink}>
-                            {title}
-                        </a>
-                    </h1>
-                )}
-                {Array.isArray(dates) && <DateSet values={dates} />}
-                {locationDescription && (
-                    <Location
-                        description={locationDescription}
-                        onLocateClick={this.handleLocateClick}
-                    />
-                )}
-                {user && <Submitter {...user} groups={groups} />}
-            </Header>,
-            <Content>
-                <Status {...status} />
-                {body && <InnerHTML>{body}</InnerHTML>}
-                {isLoaded && <Footer />}
-            </Content>,
-        ]
+        return (
+            <Fragment>
+                <Banner>
+                    <Media images={images} />
+                </Banner>
+                <Header subject="Arc'Teryx Mountain Conditions Report">
+                    {title && (
+                        <h1>
+                            <a href={permalink} target={permalink}>
+                                {title}
+                            </a>
+                        </h1>
+                    )}
+                    {Array.isArray(dates) && <DateSet values={dates} />}
+                    {locationDescription && (
+                        <Location
+                            description={locationDescription}
+                            onLocateClick={this.handleLocateClick}
+                        />
+                    )}
+                    {user && <Submitter {...user} groups={groups} />}
+                </Header>
+                <Content>
+                    <Status {...status} />
+                    {body && <InnerHTML>{body}</InnerHTML>}
+                    {isLoaded && <Footer />}
+                </Content>
+            </Fragment>
+        )
     }
     render() {
         return (

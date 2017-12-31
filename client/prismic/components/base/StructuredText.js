@@ -1,4 +1,4 @@
-import React, { createElement, cloneElement } from 'react'
+import React, { createElement, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Image from './Image'
 import Embed from './Embed'
@@ -64,7 +64,7 @@ function addSpans(component) {
         return createElement(
             component,
             { className: label },
-            replaceLineFeed(children)
+            <Fragment>{replaceLineFeed(children)}</Fragment>
         )
     }
 }

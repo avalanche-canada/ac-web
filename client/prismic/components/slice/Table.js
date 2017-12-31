@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Responsive, PageSizeSelector } from 'components/table'
 import {
@@ -107,45 +107,47 @@ export default class PrismicTable extends PureComponent {
         this.totalPages = metadata.totalPages || this.totalPages
         documents = documents.map(document => parse(document))
 
-        return [
-            <Br />,
-            <Responsive>
-                <Table bordered>
-                    <Header>
-                        <Row>
-                            {this.columns.map(column => (
-                                <HeaderCell
-                                    key={column.name}
-                                    sorting={this.getSorting(column)}
-                                    onSortingChange={this.handleSortingChange.bind(
-                                        this,
-                                        column.name
-                                    )}>
-                                    {column.title}
-                                </HeaderCell>
-                            ))}
-                        </Row>
-                    </Header>
-                    <TBody>{documents.map(this.renderRow)}</TBody>
-                    <Caption>
-                        <Status
-                            {...status}
-                            messages={this.createMessages(metadata)}
-                        />
-                    </Caption>
-                </Table>
-            </Responsive>,
-            <PageSizeSelector
-                value={this.state.pageSize}
-                onChange={this.handlePageSizeChange}
-                suffix="documents par page"
-            />,
-            <Pagination
-                active={this.state.page}
-                onChange={this.handlePageChange}
-                total={this.totalPages}
-            />,
-        ]
+        return (
+            <Fragment>
+                <Br />
+                <Responsive>
+                    <Table bordered>
+                        <Header>
+                            <Row>
+                                {this.columns.map(column => (
+                                    <HeaderCell
+                                        key={column.name}
+                                        sorting={this.getSorting(column)}
+                                        onSortingChange={this.handleSortingChange.bind(
+                                            this,
+                                            column.name
+                                        )}>
+                                        {column.title}
+                                    </HeaderCell>
+                                ))}
+                            </Row>
+                        </Header>
+                        <TBody>{documents.map(this.renderRow)}</TBody>
+                        <Caption>
+                            <Status
+                                {...status}
+                                messages={this.createMessages(metadata)}
+                            />
+                        </Caption>
+                    </Table>
+                </Responsive>
+                <PageSizeSelector
+                    value={this.state.pageSize}
+                    onChange={this.handlePageSizeChange}
+                    suffix="documents par page"
+                />
+                <Pagination
+                    active={this.state.page}
+                    onChange={this.handlePageChange}
+                    total={this.totalPages}
+                />
+            </Fragment>
+        )
     }
     render() {
         return (

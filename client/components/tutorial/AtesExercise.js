@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { InnerHTML, Status } from 'components/misc'
 import style from './ates.css'
@@ -109,10 +109,14 @@ class Exercise extends Component {
 
 export default class AtesExercise extends Component {
     renderer({ isLoading, data = [] }) {
-        return [
-            <Status isLoading={isLoading} />,
-            data.map(exercise => <Section key={exercise.slug} {...exercise} />),
-        ]
+        return (
+            <Fragment>
+                <Status isLoading={isLoading} />
+                {data.map(exercise => (
+                    <Section key={exercise.slug} {...exercise} />
+                ))}
+            </Fragment>
+        )
     }
     render() {
         return (
