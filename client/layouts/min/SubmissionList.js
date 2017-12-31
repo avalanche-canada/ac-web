@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import subDays from 'date-fns/sub_days'
@@ -155,19 +155,21 @@ export default class SubmissionList extends PureComponent {
         }
     }
     renderChildren({ props }) {
-        return [
-            <TBody>
-                <Sorted values={props.submissions} {...this.sortProps}>
-                    {submissions => submissions.map(this.renderSubmission)}
-                </Sorted>
-            </TBody>,
-            <Caption>
-                <Status
-                    {...props.status}
-                    messages={this.createMessages(props)}
-                />
-            </Caption>,
-        ]
+        return (
+            <Fragment>
+                <TBody>
+                    <Sorted values={props.submissions} {...this.sortProps}>
+                        {submissions => submissions.map(this.renderSubmission)}
+                    </Sorted>
+                </TBody>
+                <Caption>
+                    <Status
+                        {...props.status}
+                        messages={this.createMessages(props)}
+                    />
+                </Caption>
+            </Fragment>
+        )
     }
     render() {
         const { days, types, regions } = this.state

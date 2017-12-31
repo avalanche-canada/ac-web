@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react'
+import React, { PureComponent, Component, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
 import { Map } from 'components/map'
@@ -189,10 +189,10 @@ class LinkControlSet extends PureComponent {
         }
 
         return [
-            <div style={style}>
+            <div key="min" style={style}>
                 Create a Mountain Information Network (MIN) report
             </div>,
-            <div style={{ ...style, maxWidth: 125 }}>
+            <div key="mwf" style={{ ...style, maxWidth: 125 }}>
                 Visit the Mountain Weather Forecast
             </div>,
         ]
@@ -205,7 +205,7 @@ class LinkControlSet extends PureComponent {
                 to="/mountain-information-network/submit"
             />,
             <Link
-                key="weather"
+                key="mwf"
                 className={styles['LinkControlSet--Weather']}
                 to="/weather"
             />,
@@ -213,16 +213,23 @@ class LinkControlSet extends PureComponent {
     }
     renderer = ({ isTouchable }) => {
         if (isTouchable) {
-            return this.links
+            return <Fragment>{this.links}</Fragment>
         }
 
         const { tooltips } = this
 
-        return this.links.map((link, index) => (
-            <Wrapper key={index} tooltip={tooltips[index]} placement="right">
-                {link}
-            </Wrapper>
-        ))
+        return (
+            <Fragment>
+                {this.links.map((link, index) => (
+                    <Wrapper
+                        key={index}
+                        tooltip={tooltips[index]}
+                        placement="right">
+                        {link}
+                    </Wrapper>
+                ))}
+            </Fragment>
+        )
     }
     render() {
         return (

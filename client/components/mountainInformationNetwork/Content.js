@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Comment from './Comment'
 import List from './List'
@@ -14,8 +14,10 @@ export default function Content({
     descriptions,
     title = 'Information',
 }) {
-    return [
-        <List title={title}>{descriptions}</List>,
-        <Comment>{comment}</Comment>,
-    ]
+    return (
+        <Fragment>
+            <List title={title}>{descriptions}</List>
+            <Comment>{comment}</Comment>
+        </Fragment>
+    )
 }

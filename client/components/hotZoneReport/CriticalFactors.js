@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import List from 'components/mountainInformationNetwork/List'
@@ -42,16 +42,18 @@ CriticalFactor.propTypes = {
 function CriticalFactor({ children, value }) {
     const style = STYLES.get(value)
 
-    return [
-        <Term className={styles['CriticalFactors--Term']} style={style}>
-            {children}
-        </Term>,
-        <Definition
-            className={styles['CriticalFactors--Definition']}
-            style={style}>
-            {value || 'Unknown'}
-        </Definition>,
-    ]
+    return (
+        <Fragment>
+            <Term className={styles['CriticalFactors--Term']} style={style}>
+                {children}
+            </Term>
+            <Definition
+                className={styles['CriticalFactors--Definition']}
+                style={style}>
+                {value || 'Unknown'}
+            </Definition>
+        </Fragment>
+    )
 }
 
 export default class CriticalFactors extends PureComponent {

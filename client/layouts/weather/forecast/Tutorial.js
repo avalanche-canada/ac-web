@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Status } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
@@ -8,13 +8,12 @@ export default class Tutorial extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
-    children = ({ status, document }) => {
-        // TODO: Use Fragment once available
-        return [
-            <Status {...status} />,
-            document && <StructuredText value={document.data.tutorial} />,
-        ].filter(Boolean)
-    }
+    children = ({ status, document }) => (
+        <Fragment>
+            <Status {...status} />
+            {document && <StructuredText value={document.data.tutorial} />}
+        </Fragment>
+    )
     render() {
         return <Container uid={this.props.uid}>{this.children}</Container>
     }

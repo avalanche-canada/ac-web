@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Panel, { INVERSE } from 'components/panel'
 import Comment from 'components/mountainInformationNetwork/Comment'
@@ -93,20 +93,22 @@ export default class TerrainAdviceSet extends PureComponent {
             return null
         }
 
-        return [
-            <AdviceSection
-                header="Terrain to Avoid"
-                advices={terrainToAvoid}
-            />,
-            <AdviceSection
-                header="Terrain to Watch"
-                advices={terrainToWatch}
-            />,
-            <AdviceSection
-                header="Good Terrain Choices"
-                advices={goodTerrainChoices}
-            />,
-        ]
+        return (
+            <Fragment>
+                <AdviceSection
+                    header="Terrain to Avoid"
+                    advices={terrainToAvoid}
+                />
+                <AdviceSection
+                    header="Terrain to Watch"
+                    advices={terrainToWatch}
+                />
+                <AdviceSection
+                    header="Good Terrain Choices"
+                    advices={goodTerrainChoices}
+                />
+            </Fragment>
+        )
     }
     render() {
         const { advices, comments } = this

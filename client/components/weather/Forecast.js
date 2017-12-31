@@ -1,6 +1,7 @@
 import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
+import isBefore from 'date-fns/is_before'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
@@ -18,17 +19,8 @@ export default class Forecast extends PureComponent {
     get isDay5To7TabVisible() {
         const { date } = this.props.forecast
 
-        // Long range launching date was November 27th, 2017, yeah! on my birthday
+        // Long range launching date was November 27th, 2017, yeah! on my birthday ;)
         return isAfter(date, new Date(2017, 10, 26))
-    }
-    get day5To7Panel() {
-        const { date, day5To7 } = this.props.forecast
-
-        return (
-            <Day5To7 date={date}>
-                {day5To7 ? <StructuredText value={day5To7} /> : null}
-            </Day5To7>
-        )
     }
     get headers() {
         return [
@@ -49,7 +41,9 @@ export default class Forecast extends PureComponent {
             <Panel key="day2">{this.createPanel(Day2, 'day2')}</Panel>,
             <Panel key="day3To4">{this.createPanel(Day3To4, 'day3To4')}</Panel>,
             this.isDay5To7TabVisible && (
-                <Panel key="day5To7">{this.day5To7Panel}</Panel>
+                <Panel key="day5To7">
+                    {this.createPanel(Day5To7, 'day5To7')}
+                </Panel>
             ),
             <Panel key="tutorial">
                 <Tutorial uid="weather" />
@@ -58,14 +52,17 @@ export default class Forecast extends PureComponent {
     }
     createPanel(component, name) {
         const { forecast } = this.props
+        const { date } = forecast
         const group = forecast[name]
         const slices = forecast[`${name}More`] || group
+        const props = { date }
 
-        if (!group && !slices) {
-            return null
-        }
-        const props = {
-            date: forecast.date,
+        if (component === Day5To7 && isBefore(date, new Date(2017, 12, 25))) {
+            return createElement(
+                component,
+                props,
+                <StructuredText value={group} />
+            )
         }
 
         if (Array.isArray(group)) {

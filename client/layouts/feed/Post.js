@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { Status } from 'components/misc'
@@ -46,14 +46,16 @@ class Post extends PureComponent {
         )
     }
     renderContent({ headline, content }) {
-        return [
-            headline ? (
-                <Headline>
-                    <StructuredText value={headline} />
-                </Headline>
-            ) : null,
-            <StructuredText value={content} />,
-        ]
+        return (
+            <Fragment>
+                {headline && (
+                    <Headline>
+                        <StructuredText value={headline} />
+                    </Headline>
+                )}
+                <StructuredText value={content} />
+            </Fragment>
+        )
     }
     children = ({ status, document }) => {
         if (status.isLoaded && !document) {
@@ -63,19 +65,21 @@ class Post extends PureComponent {
 
         const { uid, type } = this.props
 
-        return [
-            this.renderHeader(status, document),
-            <Content>
-                <Main>
-                    {document && this.renderMetadata(document)}
-                    {document && this.renderContent(document)}
-                    <Status {...status} />
-                </Main>
-                <Aside>
-                    <Sidebar type={type} uid={uid} />
-                </Aside>
-            </Content>,
-        ]
+        return (
+            <Fragment>
+                {this.renderHeader(status, document)}
+                <Content>
+                    <Main>
+                        {document && this.renderMetadata(document)}
+                        {document && this.renderContent(document)}
+                        <Status {...status} />
+                    </Main>
+                    <Aside>
+                        <Sidebar type={type} uid={uid} />
+                    </Aside>
+                </Content>
+            </Fragment>
+        )
     }
     render() {
         const { uid, type } = this.props

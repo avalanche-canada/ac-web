@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import TerrainSummary from './TerrainSummary'
 import Panel, { INVERSE } from 'components/panel'
@@ -25,23 +25,25 @@ export default class TerrainAndTravelAdvice extends PureComponent {
             return null
         }
 
-        return [
-            <TerrainSummary
-                prefix="alpineTerrainAvoidance"
-                title="Alpine"
-                report={report}
-            />,
-            <TerrainSummary
-                prefix="treelineTerrainAvoidance"
-                title="Treeline"
-                report={report}
-            />,
-            <TerrainSummary
-                prefix="belowTreelineTerrainAvoidance"
-                title="Below treeline"
-                report={report}
-            />,
-        ]
+        return (
+            <Fragment>
+                <TerrainSummary
+                    prefix="alpineTerrainAvoidance"
+                    title="Alpine"
+                    report={report}
+                />
+                <TerrainSummary
+                    prefix="treelineTerrainAvoidance"
+                    title="Treeline"
+                    report={report}
+                />
+                <TerrainSummary
+                    prefix="belowTreelineTerrainAvoidance"
+                    title="Below treeline"
+                    report={report}
+                />
+            </Fragment>
+        )
     }
     render() {
         const { summaries } = this

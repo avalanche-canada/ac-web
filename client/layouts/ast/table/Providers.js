@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Url from 'url'
@@ -129,7 +129,12 @@ export default class Providers extends PureComponent {
             )
         }
 
-        return [this.renderFeatured(providers), this.renderBody(providers)]
+        return (
+            <Fragment>
+                {this.renderFeatured(providers)}
+                {this.renderBody(providers)}
+            </Fragment>
+        )
     }
     renderChildren({ props }) {
         return (
@@ -257,10 +262,12 @@ const TERM_STYLE = {
     flex: '0 1 35%',
 }
 function Entry({ term, children }) {
-    return [
-        <Term style={TERM_STYLE}>{term}</Term>,
-        <Definition>{children}</Definition>,
-    ]
+    return (
+        <Fragment>
+            <Term style={TERM_STYLE}>{term}</Term>
+            <Definition>{children}</Definition>
+        </Fragment>
+    )
 }
 function Anchor({ href }) {
     let { hostname, path } = Url.parse(href)

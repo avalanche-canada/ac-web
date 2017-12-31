@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 export default class Position extends PureComponent {
@@ -13,11 +13,12 @@ export default class Position extends PureComponent {
     render() {
         const { longitude, latitude, precision } = this.props
 
-        return [
-            <Coordinate precision={precision}>{longitude}</Coordinate>,
-            ' ',
-            <Coordinate precision={precision}>{latitude}</Coordinate>,
-        ]
+        return (
+            <Fragment>
+                <Coordinate precision={precision}>{longitude}</Coordinate>{' '}
+                <Coordinate precision={precision}>{latitude}</Coordinate>
+            </Fragment>
+        )
     }
 }
 
@@ -32,6 +33,12 @@ export class Coordinate extends PureComponent {
     render() {
         const { children, precision } = this.props
 
-        return [children.toPrecision(precision), <span>&nbsp;</span>, '°']
+        return (
+            <Fragment>
+                {children.toPrecision(precision)}
+                <span>&nbsp;</span>
+                {'°'}
+            </Fragment>
+        )
     }
 }
