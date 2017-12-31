@@ -1,10 +1,8 @@
 {
-    "presets": ["env", "react", "stage-0"],
-    "plugins": [
-        "transform-decorators-legacy",
-        "transform-react-remove-prop-types",
-        "transform-react-pure-class-to-function"
-        /*"transform-react-constant-elements"*/
-        /*"transform-react-inline-elements"*/
-    ]
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-stage-0",
+        "@babel/preset-react"
+    ],
+    "plugins": ["transform-react-remove-prop-types"]
 }

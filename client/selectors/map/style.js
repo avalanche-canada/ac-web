@@ -380,7 +380,12 @@ export default createSelector(
 
             // Set source features
             features.forEach((features, name) => {
-                style.setIn(['sources', name, 'data', 'features'], features)
+                style.setIn(['sources', name], {
+                    cluster: true,
+                    clusterRadius: 100,
+                    type: 'geojson',
+                    data: turf.featureCollection(features),
+                })
             })
 
             // Set layer visibility
