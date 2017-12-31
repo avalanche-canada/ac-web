@@ -20,12 +20,12 @@ export default class TripPlannerMap extends Component {
 
         map.on('click', this.handleClick)
         for (let layer of ATES_AREAS_LAYERS) {
-            map.on('mouseenter', layer, this.handleMouseenterLayer)
-            map.on('mouseleave', layer, this.handleMouseleaveLayer)
+            map.on('mouseenter', layer, handleMouseenterLayer)
+            map.on('mouseleave', layer, handleMouseleaveLayer)
         }
         for (let layer of ATES_ZONES_LAYERS) {
-            map.on('mouseenter', layer, this.handleMouseenterLayer)
-            map.on('mouseleave', layer, this.handleMouseleaveLayer)
+            map.on('mouseenter', layer, handleMouseenterLayer)
+            map.on('mouseleave', layer, handleMouseleaveLayer)
         }
         container.addEventListener('mouseleave', this.handleMouseleave, false)
 
@@ -46,12 +46,6 @@ export default class TripPlannerMap extends Component {
         return this.map.queryRenderedFeatures(point, {
             layers: FORECAST_LAYERS,
         })
-    }
-    handleMouseenterLayer = event => {
-        event.target.getCanvas().style.cursor = 'pointer'
-    }
-    handleMouseleaveLayer = event => {
-        event.target.getCanvas().style.cursor = ''
     }
     handleClick = event => {
         const { point } = event
@@ -99,3 +93,9 @@ export default class TripPlannerMap extends Component {
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_AREAS_LAYERS = ['ates-terrain']
 const ATES_ZONES_LAYERS = ['ates-zones']
+function handleMouseenterLayer(event) {
+    event.target.getCanvas().style.cursor = 'pointer'
+}
+function handleMouseleaveLayer(event) {
+    event.target.getCanvas().style.cursor = ''
+}
