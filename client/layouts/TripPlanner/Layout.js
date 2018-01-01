@@ -42,40 +42,31 @@ export default class TripPlannerLayout extends Component {
         this.fitBounds(geometryCollection(geometries))
     }
     get forecast() {
-        const { region } = this.state
-
-        return region ? (
+        return (
             <Forecast
                 onLocateClick={this.fitBounds}
-                name={region.properties.id}
+                name={this.state.region.properties.id}
             />
-        ) : null
+        )
     }
     get avaluator() {
-        const { area, region } = this.state
-
-        if (!area) {
-            return null
-        }
-
         const {
             ATES_RECREATION_BNDRY_NAME,
             ATES_ZONE_CLASS_CODE,
-        } = area.properties
+        } = this.state.area.properties
 
         return (
             <Avaluator
-                region={get(region, 'properties.id')}
+                region={get(this.state.region, 'properties.id')}
                 name={ATES_RECREATION_BNDRY_NAME}
                 terrainRating={ATES_ZONE_CLASS_CODE}
                 onAreaLocateClick={this.handleAreaLocateClick}
             />
         )
     }
-    get welcome() {
-        return <Welcome closable={Boolean(this.state.area)} />
-    }
     render() {
+        const { area, region } = this.state
+
         return (
             <div className={styles.Layout}>
                 <Map
@@ -84,9 +75,9 @@ export default class TripPlannerLayout extends Component {
                     onAreaSelect={this.handleAreaSelect}
                 />
                 <div className={styles.Sidebar}>
-                    {this.welcome}
-                    {this.avaluator}
-                    {this.forecast}
+                    {area ? null : <Welcome />}
+                    {area ? this.avaluator : null}
+                    {region ? this.forecast : null}
                     <TerrainRating />
                     <DangerRatings />
                     <Disclaimer />

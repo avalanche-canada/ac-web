@@ -6,18 +6,6 @@ import Device from 'components/Device'
 import { SIMPLE, CHALLENGING, COMPLEX, Palette } from 'constants/forecast/ates'
 
 export default class Welcome extends PureComponent {
-    static propTypes = {
-        closable: PropTypes.bool,
-    }
-    state = {
-        visible: true,
-    }
-    handleCloseClick = () => {
-        this.setState({ visible: false })
-    }
-    get close() {
-        return this.props.closable && <Close onClick={this.handleCloseClick} />
-    }
     renderActions = ({ isTouchable }) => (
         <Fragment>
             <p>
@@ -38,10 +26,6 @@ export default class Welcome extends PureComponent {
         }
     }
     render() {
-        if (!this.state.visible) {
-            return null
-        }
-
         return (
             <div className={styles.Welcome}>
                 <header>
