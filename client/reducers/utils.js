@@ -5,10 +5,6 @@ export function paramsToKey(params) {
     return Immutable.fromJS(params || {}).hashCode()
 }
 
-export function getPayload(state, { payload }) {
-    return payload
-}
-
 export function getIds(result) {
     if (!result) {
         return new Set()

@@ -1,7 +1,6 @@
 import Immutable from 'immutable'
 import { handleAction } from 'redux-actions'
 import { combineReducers } from 'redux'
-import { getPayload } from 'reducers/utils'
 import * as Actions from 'actions/map'
 import Layers from 'constants/map/layers'
 import Sources from 'constants/map/sources'
