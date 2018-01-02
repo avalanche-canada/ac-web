@@ -8,7 +8,8 @@ import { List, Term, Definition } from 'components/description'
 const avalancheConditionsTexts = {
     slab: 'Slab avalanches today or yesterday.',
     sound: 'Whumpfing or drum-like sounds or shooting cracks.',
-    snow: '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
+    snow:
+        '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
     temp: 'Rapid temperature rise to near zero degrees or wet surface snow.',
 }
 
@@ -28,27 +29,15 @@ function computeRidingConditions(conditions = {}) {
         switch (type) {
             case 'single':
                 if (selected) {
-                    children.push(
-                        <Term key={`${key}-term`}>
-                            {term}
-                        </Term>
-                    )
-                    children.push(
-                        <Definition key={key}>
-                            {selected}
-                        </Definition>
-                    )
+                    children.push(<Term key={`${key}-term`}>{term}</Term>)
+                    children.push(<Definition key={key}>{selected}</Definition>)
                 }
                 break
             case 'multiple': {
                 const values = trulyKeys(options)
 
                 if (values.length > 0) {
-                    children.push(
-                        <Term key={`${key}-term`}>
-                            {term}
-                        </Term>
-                    )
+                    children.push(<Term key={`${key}-term`}>{term}</Term>)
                     children.push(
                         <Definition key={key}>
                             <ul>
@@ -94,6 +83,7 @@ export default function Quick({
     comment,
 }) {
     // TODO: Improve code here! So confusing this key project!!!
+    // TODO: Simplify code!!!!!
     ridingConditions = computeRidingConditions(ridingConditions)
     avalancheConditions = projectKeys(
         avalancheConditionsTexts,
@@ -106,12 +96,13 @@ export default function Quick({
 
     return (
         <div>
-            {hasInformation &&
+            {hasInformation && (
                 <Section title="Information">
                     <List bordered>
-                        {hasAvalancheConditions &&
-                            <Term block>Avalanche conditions</Term>}
-                        {hasAvalancheConditions &&
+                        {hasAvalancheConditions && (
+                            <Term block>Avalanche conditions</Term>
+                        )}
+                        {hasAvalancheConditions && (
                             <Definition block>
                                 <ul>
                                     {avalancheConditions.map(
@@ -120,10 +111,12 @@ export default function Quick({
                                         )
                                     )}
                                 </ul>
-                            </Definition>}
+                            </Definition>
+                        )}
                         {hasRidingConditions && ridingConditions}
                     </List>
-                </Section>}
+                </Section>
+            )}
             {comment && <Comment>{comment}</Comment>}
         </div>
     )
