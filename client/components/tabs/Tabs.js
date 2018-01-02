@@ -1,51 +1,52 @@
-import React, { PureComponent, Children, cloneElement } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import HeaderSet from './HeaderSet'
 import PanelSet from './PanelSet'
 import styles from './Tabs.css'
-import identity from 'lodash/identity'
 
-export default class Tabs extends PureComponent {
+export default class Tabs extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
-        activeIndex: PropTypes.number,
-        onActiveIndexChange: PropTypes.func,
+        activeTab: PropTypes.number,
+        onTabChange: PropTypes.func,
     }
     static defaultProps = {
         theme: 'COMPACT',
-        activeIndex: 0,
-        onActiveIndexChange: identity,
+        onTabChange() {},
     }
     constructor(props) {
         super(props)
 
         this.state = {
-            activeIndex: props.activeIndex,
+            activeTab: props.activeTab || 0,
         }
     }
-    handleActiveIndexChange = activeIndex => {
-        this.setState({ activeIndex }, () => {
-            this.props.onActiveIndexChange(activeIndex)
+    handleTabChange = activeTab => {
+        this.setState({ activeTab }, () => {
+            this.props.onTabChange(activeTab)
         })
     }
-    componentWillReceiveProps({ activeIndex }) {
-        if (activeIndex !== this.state.activeIndex) {
-            this.setState({ activeIndex })
+    componentWillReceiveProps({ activeTab }) {
+        if (
+            typeof activeTab === 'number' &&
+            activeTab !== this.state.activeTab
+        ) {
+            this.setState({ activeTab })
         }
     }
     renderChild = child => {
-        const { activeIndex } = this.state
+        const { activeTab } = this.state
 
         switch (child.type) {
             case HeaderSet:
                 return cloneElement(child, {
-                    activeIndex,
-                    onActiveIndexChange: this.handleActiveIndexChange,
+                    activeTab,
+                    onTabChange: this.handleTabChange,
                     theme: child.props.theme || this.props.theme,
                 })
             case PanelSet:
-                return cloneElement(child, { activeIndex })
+                return cloneElement(child, { activeTab })
             default:
                 throw new Error('Wrong child provided to Tabs components')
         }
