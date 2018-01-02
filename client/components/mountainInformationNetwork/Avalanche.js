@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Content from './Content'
-import { asTermAndDefinition } from 'components/description/utils'
 import parse from 'date-fns/parse'
+import List, { Entry } from './List'
+import Comment from './Comment'
 
 export default class Avalanche extends PureComponent {
     static propTypes = {
@@ -28,54 +28,88 @@ export default class Avalanche extends PureComponent {
         triggerDistance: PropTypes.number,
         tempLatlng: PropTypes.string,
         triggerType: PropTypes.string,
-        avalancheOccurrenceEpoch: PropTypes.string,
+        avalancheOccurrenceEpoch: PropTypes.string.isRequired,
         vegetationCover: PropTypes.string,
     }
     render() {
         const {
-            avalancheObsComment,
-            tempLatlng,
             weakLayerBurialDate,
             avalancheOccurrenceEpoch,
-            ...values
+            avalancheOccurrenceTime,
+            avalancheObservation,
+            avalancheNumber,
+            avalancheSize,
+            slabThickness,
+            slabWidth,
+            runLength,
+            avalancheCharacter,
+            triggerType,
+            triggerSubtype,
+            triggerDistance,
+            startZoneAspect,
+            startZoneElevationBand,
+            startZoneElevation,
+            startZoneIncline,
+            runoutZoneElevation,
+            weakLayerCrystalType,
+            crustNearWeakLayer,
+            windExposure,
+            vegetationCover,
+            avalancheObsComment,
         } = this.props
 
-        Object.assign(values, {
-            avalancheOccurrenceEpoch: parse(avalancheOccurrenceEpoch),
-            weakLayerBurialDate:
-                weakLayerBurialDate && parse(weakLayerBurialDate),
-        })
-
         return (
-            <Content
-                comment={avalancheObsComment}
-                descriptions={asTermAndDefinition(values, TERMS)}
-            />
+            <Fragment>
+                <List>
+                    <Entry term="Avalanche date">
+                        {parse(avalancheOccurrenceEpoch)}
+                    </Entry>
+                    <Entry term="Avalanche time">
+                        {avalancheOccurrenceTime}
+                    </Entry>
+                    <Entry term="Estimated occurrence time">
+                        {avalancheObservation}
+                    </Entry>
+                    <Entry term="Number of avalanches in this report">
+                        {avalancheNumber}
+                    </Entry>
+                    <Entry term="Avalanche size">{avalancheSize}</Entry>
+                    <Entry term="Slab thickness (cm)">{slabThickness}</Entry>
+                    <Entry term="Slab width (m)">{slabWidth}</Entry>
+                    <Entry term="Run length (m)">{runLength}</Entry>
+                    <Entry term="Avalanche character">
+                        {avalancheCharacter}
+                    </Entry>
+                    <Entry term="Trigger type">{triggerType}</Entry>
+                    <Entry term="Trigger subtype">{triggerSubtype}</Entry>
+                    <Entry term="Remote trigger distance (m)">
+                        {triggerDistance}
+                    </Entry>
+                    <Entry term="Start zone aspect">{startZoneAspect}</Entry>
+                    <Entry term="Start zone elevation band">
+                        {startZoneElevationBand}
+                    </Entry>
+                    <Entry term="Start zone elevation (m)">
+                        {startZoneElevation}
+                    </Entry>
+                    <Entry term="Start zone incline">{startZoneIncline}</Entry>
+                    <Entry term="Runout zone elevation">
+                        {runoutZoneElevation}
+                    </Entry>
+                    <Entry term="Weak layer burial date">
+                        {weakLayerBurialDate && parse(weakLayerBurialDate)}
+                    </Entry>
+                    <Entry term="Weak layer crystal type">
+                        {weakLayerCrystalType}
+                    </Entry>
+                    <Entry term="Crust near weak layer">
+                        {crustNearWeakLayer}
+                    </Entry>
+                    <Entry term="Wind exposure">{windExposure}</Entry>
+                    <Entry term="Vegetation cover">{vegetationCover}</Entry>
+                </List>
+                <Comment>{avalancheObsComment}</Comment>
+            </Fragment>
         )
     }
-}
-
-const TERMS = {
-    avalancheOccurrenceEpoch: 'Avalanche date',
-    avalancheOccurrenceTime: 'Avalanche time',
-    avalancheObservation: 'Estimated occurrence time',
-    avalancheNumber: 'Number of avalanches in this report',
-    avalancheSize: 'Avalanche size',
-    slabThickness: 'Slab thickness (cm)',
-    slabWidth: 'Slab width (m)',
-    runLength: 'Run length (m)',
-    avalancheCharacter: 'Avalanche character',
-    triggerType: 'Trigger type',
-    triggerSubtype: 'Trigger subtype',
-    triggerDistance: 'Remote trigger distance (m)',
-    startZoneAspect: 'Start zone aspect',
-    startZoneElevationBand: 'Start zone elevation band',
-    startZoneElevation: 'Start zone elevation (m)',
-    startZoneIncline: 'Start zone incline',
-    runoutZoneElevation: 'Runout zone elevation',
-    weakLayerBurialDate: 'Weak layer burial date',
-    weakLayerCrystalType: 'Weak layer crystal type',
-    crustNearWeakLayer: 'Crust near weak layer',
-    windExposure: 'Wind exposure',
-    vegetationCover: 'Vegetation cover',
 }

@@ -1,66 +1,78 @@
-import React from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { List } from 'components/description'
-import { asTermAndDefinition } from 'components/description/utils'
-import Section from './Section'
+import List, { Entry } from './List'
 import Comment from './Comment'
 
-Incident.propTypes = {
-    otherActivityDescription: PropTypes.string,
-    groupActivity: PropTypes.object,
-    groupDetails: PropTypes.shape({
-        groupSize: PropTypes.number,
-        numberPeopleInjured: PropTypes.number,
-        numberPartlyBuriedAbleBreathing: PropTypes.number,
-        numberCaughtOnly: PropTypes.number,
-        numberFullyBuried: PropTypes.string,
-        numberPartlyBuriedImpairedBreathing: PropTypes.number,
-    }),
-    numberInvolved: PropTypes.number,
-    terrainShapeTriggerPoint: PropTypes.string,
-    incidentDescription: PropTypes.string,
-    terrainTrap: PropTypes.object,
-    snowDepthTriggerPoint: PropTypes.string,
-    tempLatlng: PropTypes.string,
-}
+export default class Incident extends PureComponent {
+    static propTypes = {
+        otherActivityDescription: PropTypes.string,
+        groupActivity: PropTypes.object,
+        groupDetails: PropTypes.shape({
+            groupSize: PropTypes.number,
+            numberPeopleInjured: PropTypes.number,
+            numberPartlyBuriedAbleBreathing: PropTypes.number,
+            numberCaughtOnly: PropTypes.number,
+            numberFullyBuried: PropTypes.string,
+            numberPartlyBuriedImpairedBreathing: PropTypes.number,
+        }),
+        numberInvolved: PropTypes.number,
+        terrainShapeTriggerPoint: PropTypes.string,
+        incidentDescription: PropTypes.string,
+        terrainTrap: PropTypes.object,
+        snowDepthTriggerPoint: PropTypes.string,
+    }
+    render() {
+        const {
+            groupActivity,
+            otherActivityDescription,
+            numberInvolved,
+            terrainShapeTriggerPoint,
+            incidentDescription,
+            terrainTrap,
+            snowDepthTriggerPoint,
+            groupDetails,
+        } = this.props
 
-const TERMS = {
-    groupActivity: 'Activity',
-    otherActivityDescription: 'Describe other activity',
-    groupSize: 'Total in the group?',
-    numberInvolved: 'Number involved',
-    numberFullyBuried: 'People fully buried?',
-    numberPartlyBuriedImpairedBreathing: 'People partly buried with impaired breathing?',
-    numberPartlyBuriedAbleBreathing: 'People partly buried with normal breathing?',
-    numberCaughtOnly: 'People injured (caught but not buried)?',
-    numberPeopleInjured: 'People not injured (caught but not buried)?',
-    terrainShapeTriggerPoint: 'Terrain shape at trigger point',
-    snowDepthTriggerPoint: 'Snow depth at trigger point',
-    terrainTrap: 'Terrain trap',
-}
-
-export default function Incident({
-    incidentDescription,
-    tempLatlng,
-    groupDetails,
-    ...values
-}) {
-    return (
-        <div>
-            <Section>
-                <List bordered>
-                    {asTermAndDefinition(values, TERMS)}
+        return (
+            <Fragment>
+                <List>
+                    <Entry term="Activity">{groupActivity}</Entry>
+                    <Entry term="Describe other activity">
+                        {otherActivityDescription}
+                    </Entry>
+                    <Entry term="Number involved">{numberInvolved}</Entry>
+                    <Entry term="Terrain shape at trigger point">
+                        {terrainShapeTriggerPoint}
+                    </Entry>
+                    <Entry term="Snow depth at trigger point">
+                        {snowDepthTriggerPoint}
+                    </Entry>
+                    <Entry term="Terrain trap">{terrainTrap}</Entry>
                 </List>
-            </Section>
-            {groupDetails &&
-                <Section title="Group details">
-                    <List bordered>
-                        {asTermAndDefinition(groupDetails, TERMS)}
+                {groupDetails && (
+                    <List title="Group details">
+                        <Entry term="Total in the group?">
+                            {groupDetails.groupSize}
+                        </Entry>
+                        <Entry term="People fully buried?">
+                            {groupDetails.numberFullyBuried}
+                        </Entry>
+                        <Entry term="People partly buried with impaired breathing?">
+                            {groupDetails.numberPartlyBuriedImpairedBreathing}
+                        </Entry>
+                        <Entry term="People partly buried with normal breathing?">
+                            {groupDetails.numberPartlyBuriedAbleBreathing}
+                        </Entry>
+                        <Entry term="People injured (caught but not buried)?">
+                            {groupDetails.numberCaughtOnly}
+                        </Entry>
+                        <Entry term="People not injured (caught but not buried)?">
+                            {groupDetails.numberPeopleInjured}
+                        </Entry>
                     </List>
-                </Section>}
-            <Comment>
-                {incidentDescription}
-            </Comment>
-        </div>
-    )
+                )}
+                <Comment>{incidentDescription}</Comment>
+            </Fragment>
+        )
+    }
 }
