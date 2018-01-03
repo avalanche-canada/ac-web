@@ -57,7 +57,7 @@ export default class Forecast extends PureComponent {
         const slices = forecast[`${name}More`] || group
         const props = { date }
 
-        if (component === Day5To7 && isBefore(date, new Date(2017, 12, 25))) {
+        if (component === Day5To7 && isBefore(date, new Date(2017, 11, 25))) {
             return createElement(
                 component,
                 props,
