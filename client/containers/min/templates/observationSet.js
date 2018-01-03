@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, EagerPanelSet, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
-import { NAMES, COLORS } from 'constants/min'
+import { NAMES, COLORS, TYPES } from 'constants/min'
 import Dimensions from 'components/Dimensions'
 
 const { struct } = t.form.Form.templates
@@ -19,39 +19,41 @@ export default struct.clone({
                     {({ width }) => (
                         <HeaderSet
                             stacked={width < 375}
-                            activeIndex={activeIndex}
-                            onActiveIndexChange={onTabActivate}>
-                            {children.map(child => {
-                                const { ref, props: { value } } = child
-                                const color = value ? COLORS.get(ref) : null
+                            activeTab={activeIndex}
+                            onTabChange={onTabActivate}>
+                            {children.map((child, index) => {
+                                const { props: { value } } = child
+                                const type = TYPES[index]
+                                const color = value ? COLORS.get(type) : null
 
                                 return (
                                     <ColoredHeader
                                         arrow={Boolean(value)}
-                                        key={ref}
+                                        key={type}
                                         color={color}>
-                                        {NAMES.get(ref)}
+                                        {NAMES.get(type)}
                                     </ColoredHeader>
                                 )
                             })}
                         </HeaderSet>
                     )}
                 </Dimensions>
-                <EagerPanelSet activeIndex={activeIndex}>
-                    {children.map(child => {
-                        const { ref, props: { value } } = child
+                <EagerPanelSet activeTab={activeIndex}>
+                    {children.map((child, index) => {
+                        const { props: { value } } = child
+                        const type = TYPES[index]
                         function handleReset() {
-                            locals.onChange(ref, null)
-                            locals.config.onReportRemove(ref)
+                            locals.onChange(type, null)
+                            locals.config.onReportRemove(type)
                         }
 
                         return (
-                            <Panel key={ref}>
+                            <Panel key={type}>
                                 {child}
                                 <Reset
                                     disabled={disabled || !value}
                                     onClick={handleReset}>
-                                    Remove your {NAMES.get(ref)} report
+                                    Remove your {NAMES.get(type)} report
                                 </Reset>
                             </Panel>
                         )
