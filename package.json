@@ -146,6 +146,7 @@
         "style-loader": "^0.19.0",
         "supertest": "~0.11.0",
         "svg-url-loader": "^2.0.2",
+        "swagger-cli": "^1.0.1",
         "tcomb-form": "^0.9.17",
         "type-to-reducer": "^1.0.2",
         "uglifyjs-webpack-plugin": "1.1.1",
@@ -169,20 +170,20 @@
         "dev": "webpack-dev-server",
         "mocha": "mocha",
         "build-storybook": "build-storybook",
-        "prettier-client":
-            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
-        "prettier-server":
-            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
+        "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+        "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest"
     },
     "private": true,
     "jest": {
         "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-                "<rootDir>/__mocks__/fileMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
             "\\.(css)$": "identity-obj-proxy"
         },
-        "moduleDirectories": ["node_modules", "client"]
+        "moduleDirectories": [
+            "node_modules",
+            "client"
+        ]
     }
 }
