@@ -156,7 +156,7 @@ export default {
                     id: String(id++),
                     label: 'Online Education',
                     header: true,
-                    to: '/training',
+                    to: '/education',
                     children: [
                         {
                             id: String(id++),
