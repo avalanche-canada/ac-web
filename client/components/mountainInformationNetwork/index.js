@@ -11,7 +11,7 @@ export class Metadata extends PureComponent {
         shareable: PropTypes.object,
     }
     get shareUrl() {
-        const id = this.props.report.get('obid')
+        const id = this.props.report.get('subid')
         const { origin } = window.location
 
         return `${origin}/mountain-information-network/submissions/${id}`
