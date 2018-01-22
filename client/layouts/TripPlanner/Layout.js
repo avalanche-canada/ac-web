@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import styles from './TripPlanner.css'
-import Map from './Map'
-import Welcome from './panels/Welcome'
-import Avaluator from './panels/Avaluator'
-import Forecast from './panels/Forecast'
-import TerrainRating from './panels/TerrainRating'
-import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import get from 'lodash/get'
+import Map from './Map'
+import Avaluator from './panels/Avaluator'
+import Forecast from './panels/Forecast'
+import Welcome from './/panels/Welcome'
+import Drawer, { LEFT, RIGHT } from 'components/page/drawer'
+import styles from './TripPlanner.css'
 
 export default class TripPlannerLayout extends Component {
     state = {
@@ -74,14 +73,12 @@ export default class TripPlannerLayout extends Component {
                     onForecastSelect={this.handleForecastSelect}
                     onAreaSelect={this.handleAreaSelect}
                 />
-                <div className={styles.Sidebar}>
-                    {area ? null : <Welcome />}
-                    {area ? this.avaluator : null}
+                <Drawer side={LEFT} width={400} open={Boolean(region)}>
                     {region ? this.forecast : null}
-                    <TerrainRating />
-                    <DangerRatings />
-                    <Disclaimer />
-                </div>
+                </Drawer>
+                <Drawer side={RIGHT} width={400} open>
+                    {area ? this.avaluator : <Welcome />}
+                </Drawer>
             </div>
         )
     }

@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import StaticComponent from 'components/StaticComponent'
 import PropTypes from 'prop-types'
-import Panel from './Panel'
 import ForecastContainer from 'containers/Forecast'
 import { List, Entry } from 'components/description'
 import { Status } from 'components/misc'
@@ -17,18 +16,16 @@ import {
 import { DropdownFromOptions } from 'components/controls'
 import styles from '../TripPlanner.css'
 import { Locate } from 'components/button'
+import { Close, Header, Container, Navbar, Body } from 'components/page/drawer'
+import TerrainRating from './TerrainRating'
 
 export default class AvaluatorPanel extends PureComponent {
     static propTypes = {
-        header: PropTypes.string,
         region: PropTypes.string,
         name: PropTypes.string.isRequired,
         terrainRating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX])
             .isRequired,
         onAreaLocateClick: PropTypes.func.isRequired,
-    }
-    static defaultProps = {
-        header: 'Avaluator',
     }
     state = {
         elevation: null,
@@ -133,15 +130,18 @@ export default class AvaluatorPanel extends PureComponent {
         )
     }
     render() {
-        const { name, region, header } = this.props
+        const { name, region } = this.props
 
         return (
-            <section className={styles.Panel}>
-                <header>
-                    <h1>{name}</h1>
-                    <Locate onClick={this.props.onAreaLocateClick} />
-                </header>
-                <div className={styles.PanelContent}>
+            <Container>
+                <Navbar>
+                    <Header>
+                        <h2>{name}</h2>
+                        <Close />
+                        <Locate onClick={this.props.onAreaLocateClick} />
+                    </Header>
+                </Navbar>
+                <Body>
                     {region ? (
                         <ForecastContainer name={region}>
                             {data => this.renderChildren(data)}
@@ -149,8 +149,9 @@ export default class AvaluatorPanel extends PureComponent {
                     ) : (
                         <Muted>{this.isLoadedMessage}</Muted>
                     )}
-                </div>
-            </section>
+                    <TerrainRating />
+                </Body>
+            </Container>
         )
     }
 }

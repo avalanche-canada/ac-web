@@ -100,9 +100,9 @@
 }
 
 @media screen and (min-width: 480px) {
-    .Body {
+    /* .Body {
         padding: 0 1.25em;
-    }
+    } */
 }
 
 .Subject {

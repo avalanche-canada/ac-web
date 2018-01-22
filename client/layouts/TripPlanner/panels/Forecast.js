@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
-import Panel from './Panel'
 import * as utils from 'utils/region'
 import { Locate } from 'components/button'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import styles from '../TripPlanner.css'
+import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
+import { Close, Header, Container, Navbar, Body } from 'components/page/drawer'
 
 export default class ForecastPanel extends Component {
     static propTypes = {
@@ -26,10 +27,13 @@ export default class ForecastPanel extends Component {
         }
 
         return (
-            <header>
-                <h2>{forecast.get('bulletinTitle') || forecast.get('name')}</h2>
-                <Locate onClick={locate} />
-            </header>
+            <Header>
+                <h2>
+                    {forecast.get('bulletinTitle') || forecast.get('name')}
+                    <Close />
+                </h2>
+                {/* <Locate onClick={locate} /> */}
+            </Header>
         )
     }
     renderOtherForecast(forecast) {
@@ -60,25 +64,31 @@ export default class ForecastPanel extends Component {
         const canRender = Compound.canRender(forecast)
 
         return (
-            <Compound forecast={forecast}>
-                {forecast && region
-                    ? this.renderHeader(forecast, region)
-                    : null}
-                <Status {...status} />
-                {canRender && <Metadata />}
-                {canRender && <Headline />}
-                {canRender && <TabSet />}
-                {canRender || this.renderOtherForecast(forecast)}
-            </Compound>
+            <Container>
+                <Navbar>
+                    {forecast && region
+                        ? this.renderHeader(forecast, region)
+                        : null}
+                </Navbar>
+                <Body>
+                    <Compound forecast={forecast}>
+                        <Status {...status} />
+                        {canRender && <Metadata />}
+                        {canRender && <Headline />}
+                        {canRender && <TabSet />}
+                        {canRender || this.renderOtherForecast(forecast)}
+                    </Compound>
+                    <Disclaimer />
+                    <DangerRatings />
+                </Body>
+            </Container>
         )
     }
     render() {
         return (
-            <Panel header="Avalanche forecast">
-                <ForecastContainer name={this.props.name}>
-                    {this.children}
-                </ForecastContainer>
-            </Panel>
+            <ForecastContainer name={this.props.name}>
+                {this.children}
+            </ForecastContainer>
         )
     }
 }

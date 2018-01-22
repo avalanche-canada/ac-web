@@ -63,12 +63,6 @@
     }
 }
 
-.TerrainRatingSection {
-    margin: 0 1em;
-}
-.ForecastRatingSection {
-    margin: 0 1em;
-}
 .Location {
     display: flex;
     flex-direction: row;
