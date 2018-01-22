@@ -1,4 +1,4 @@
-import { createSelector, createStructuredSelector } from 'reselect'
+import { createSelector } from 'reselect'
 import Url from 'url'
 
 export function isMenuOpen(state) {
