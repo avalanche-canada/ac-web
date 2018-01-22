@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 
+// TODO: Rework all that
+
 export default class Layer extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
