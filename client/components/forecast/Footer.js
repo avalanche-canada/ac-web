@@ -81,7 +81,7 @@ export class Disclaimer extends StaticComponent {
 function FooterPanel({ header, children }) {
     return (
         <Panel theme={INVERSE} expandable header={header}>
-            <div className={styles.PanelContent}>{children}</div>
+            {children}
         </Panel>
     )
 }
