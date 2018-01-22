@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.1.0
+  version: 1.2.0
   title: Avalanche Canada API
   contact:
     name: Avalanche Canada
@@ -69,6 +69,21 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/ForecastGeoJSON'
+
+  '/forecasts/ALL.json':
+    get:
+      tags:
+        - Forecasts
+      summary: Get a dictionary of all current forecasts keyed by region-id
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            additionalProperties:
+                $ref: '#/definitions/Forecast'
 
   '/forecasts/{region}.json':
     get:

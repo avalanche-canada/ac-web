@@ -86,8 +86,10 @@ purge-all-builds:
 	| xargs -t -n1 -I{} aws elasticbeanstalk delete-application-version --profile $(AWS_PROFILE) --application-name avalanche-canada --version-label {}
 
 
+test-swagger:
+	./node_modules/.bin/swagger-cli validate server/api/docs/swagger.yaml
 
-.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds server-dev
+.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds server-dev test-swagger
 
 test:
 	find server -name '*_test.js' | xargs npm run mocha

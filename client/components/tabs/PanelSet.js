@@ -5,7 +5,7 @@ import styles from './Tabs.css'
 export default class PanelSet extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
-        activeIndex: PropTypes.number,
+        activeTab: PropTypes.number,
     }
     get children() {
         const { children } = this.props
@@ -13,9 +13,9 @@ export default class PanelSet extends PureComponent {
         return Array.isArray(children) ? children : Children.toArray(children)
     }
     render() {
-        const { activeIndex } = this.props
+        const { activeTab } = this.props
 
-        return this.children[activeIndex] || null
+        return this.children[activeTab] || null
     }
 }
 
@@ -27,11 +27,11 @@ const EAGER_STYLES = new Map([
 export class EagerPanelSet extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
-        activeIndex: PropTypes.number,
+        activeTab: PropTypes.number,
     }
     renderPanel = (panel, index) =>
         cloneElement(panel, {
-            style: EAGER_STYLES.get(index === this.props.activeIndex),
+            style: EAGER_STYLES.get(index === this.props.activeTab),
         })
     render() {
         return Children.map(this.props.children, this.renderPanel)

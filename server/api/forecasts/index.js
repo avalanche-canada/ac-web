@@ -160,6 +160,26 @@ function isHotzone(r) {
     return r.properties.type === 'hotzone';
 }
 
+router.get('/ALL.json', function(req, res) {
+    var fxPromises =
+        _.chain(regions.features)
+            .filter(isForecastRegion)
+            .map(function(r) {
+                var f = getForecastData(r.id, r);
+                return f;
+            })
+            .value();
+    Q.all(fxPromises).then(function(fxs){
+        var fs = _.zipObject(
+            _.map(fxs, function(f){ return f.json.region}),
+            _.map(fxs, 'json')
+        );
+        res.status(200).json(fs);
+    }).catch(function(err){
+        res.status(500).json({err: "Error getting forecasts"});
+    }).done();
+});
+
 router.get('/:region.:format', function(req, res) {
     req.params.format = req.params.format || 'json';
     var forecast;

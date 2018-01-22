@@ -42,7 +42,10 @@ export default class HotZoneReportDrawer extends PureComponent {
         <Body>
             <Status {...status} />
             {report && (
-                <Metadata report={report} shareUrl={utils.shareUrl(report)} />
+                <Metadata
+                    report={report.data}
+                    shareUrl={utils.shareUrl(report)}
+                />
             )}
             {status.isLoaded && (
                 <HotZoneReport report={report && report.data} />

@@ -1,5 +1,5 @@
 import { Record, Map } from 'immutable'
-import { handleActions, handleAction } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import { combineReducers } from 'redux'
 import { LocalStorage } from 'services/storage'
 import * as DrawersActions from 'actions/drawers'

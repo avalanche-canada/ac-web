@@ -9,7 +9,7 @@ export function getResults(state) {
 }
 
 export function getResult(state, params) {
-    return state.prismic.results.get(paramsToKey(params), RESULT)
+    return getResults(state).get(paramsToKey(params), RESULT)
 }
 
 export function getDocumentsOfType(state, type) {

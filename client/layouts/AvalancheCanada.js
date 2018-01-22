@@ -80,7 +80,12 @@ export default function AvalancheCanada() {
                 <StaticPageRoute
                     path="/training"
                     uid="training"
-                    title="Go farther — Get avalanche trained"
+                    title="Go Farther — Get Avalanche Trained"
+                />
+                <StaticPageRoute
+                    path="/education"
+                    uid="education"
+                    title="Go Farther — Get Avalanche Educated"
                 />
                 <StaticPageRoute
                     path="/instructing-ast"
@@ -128,14 +133,10 @@ export default function AvalancheCanada() {
                     name="Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                     title={defaultTitle =>
-                        `${
-                            defaultTitle
-                        }<br />Nous travaillons présentement sur cette page...`
+                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
                     }
                     subtitle={defaultSubtitle =>
-                        `${
-                            defaultSubtitle
-                        }<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
+                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
                     }
                 />
                 <FallbackPageRoute path="/pages/:type/:uid" />

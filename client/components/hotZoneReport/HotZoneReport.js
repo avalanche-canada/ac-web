@@ -5,6 +5,7 @@ import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 import Panel, { INVERSE } from 'components/panel'
 import Generic from 'prismic/components/Generic'
+import Headline from './Headline'
 import CriticalFactors from './CriticalFactors'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import TerrainAdviceSet from './TerrainAdviceSet'
@@ -85,7 +86,7 @@ export default class HotZoneReport extends PureComponent {
                 <Fragment>
                     {this.warning}
                     <div className={styles.Title}>{report.title}</div>
-                    <div className={styles.Headline}>{report.headline}</div>
+                    <Headline>{report.headline}</Headline>
                     {this.gallery}
                     <CriticalFactors {...report} />
                     <TerrainAndTravelAdvice report={report} />

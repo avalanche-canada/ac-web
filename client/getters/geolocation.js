@@ -1,3 +1,0 @@
-export function getGeolocation(state) {
-    return state.geolocation
-}

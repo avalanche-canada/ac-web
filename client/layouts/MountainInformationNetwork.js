@@ -7,11 +7,24 @@ import SubmissionList from 'layouts/min/SubmissionList'
 import * as utils from 'utils/search'
 import { Loading } from 'components/text'
 import Bundle from 'components/Bundle'
+import { Page, Content } from 'components/page'
 
 function Submit(props) {
     return (
         <Bundle load={loadSubmit}>
-            {Component => (Component ? <Component {...props} /> : <Loading />)}
+            {Component =>
+                Component ? (
+                    <Component {...props} />
+                ) : (
+                    <Page>
+                        <Content>
+                            <h1>
+                                <Loading />
+                            </h1>
+                        </Content>
+                    </Page>
+                )
+            }
         </Bundle>
     )
 }

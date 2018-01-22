@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Content from './Content'
-import { asTermAndDefinition } from 'components/description/utils'
+import parse from 'date-fns/parse'
+import List, { Entry } from './List'
+import Comment from './Comment'
 
 export default class Weather extends PureComponent {
     static propTypes = {
@@ -24,31 +25,60 @@ export default class Weather extends PureComponent {
         tempLatlng: PropTypes.string,
     }
     render() {
-        const { weatherObsComment, tempLatlng, ...values } = this.props
+        const {
+            skyCondition,
+            precipitationType,
+            snowfallRate,
+            rainfallRate,
+            temperature,
+            minTemp,
+            maxTemp,
+            temperatureTrend,
+            newSnow24Hours,
+            precipitation24Hours,
+            stormSnowAmount,
+            stormStartDate,
+            windSpeed,
+            windDirection,
+            blowingSnow,
+            weatherObsComment,
+        } = this.props
 
         return (
-            <Content
-                comment={weatherObsComment}
-                descriptions={asTermAndDefinition(values, TERMS)}
-            />
+            <Fragment>
+                <List>
+                    <Entry term="Cloud cover">{skyCondition}</Entry>
+                    <Entry term="Precipitation type">{precipitationType}</Entry>
+                    <Entry term="Snowfall rate (cm/hour)">{snowfallRate}</Entry>
+                    <Entry term="Rainfall rate">{rainfallRate}</Entry>
+                    <Entry term="Temperature at time of observation (deg C)">
+                        {temperature}
+                    </Entry>
+                    <Entry term="Minimum temperature in last 24 hours (deg C)">
+                        {minTemp}
+                    </Entry>
+                    <Entry term="Maximum temperature in last 24 hours (deg C)">
+                        {maxTemp}
+                    </Entry>
+                    <Entry term="Temperature trend">{temperatureTrend}</Entry>
+                    <Entry term="Amount of new snow in last 24 hours (cm)">
+                        {newSnow24Hours}
+                    </Entry>
+                    <Entry term="Total rain and snow combined in last 24 hours (mm)">
+                        {precipitation24Hours}
+                    </Entry>
+                    <Entry term="Total snow from the most recent storm (cm)">
+                        {stormSnowAmount}
+                    </Entry>
+                    <Entry term="Storm start date">
+                        {stormStartDate && parse(stormStartDate)}
+                    </Entry>
+                    <Entry term="Wind speed">{windSpeed}</Entry>
+                    <Entry term="Wind direction">{windDirection}</Entry>
+                    <Entry term="Blowing snow">{blowingSnow}</Entry>
+                </List>
+                <Comment>{weatherObsComment}</Comment>
+            </Fragment>
         )
     }
-}
-
-const TERMS = {
-    skyCondition: 'Cloud cover',
-    precipitationType: 'Precipitation type',
-    snowfallRate: 'Snowfall rate (cm/hour)',
-    rainfallRate: 'Rainfall rate',
-    temperature: 'Temperature at time of observation (deg C)',
-    minTemp: 'Minimum temperature in last 24 hours (deg C)',
-    maxTemp: 'Maximum temperature in last 24 hours (deg C)',
-    temperatureTrend: 'Temperature trend',
-    newSnow24Hours: 'Amount of new snow in last 24 hours (cm)',
-    precipitation24Hours: 'Total rain and snow combined in last 24 hours (mm)',
-    stormSnowAmount: 'Total snow from the most recent storm (cm)',
-    stormStartDate: 'Storm start date',
-    windSpeed: 'Wind speed',
-    windDirection: 'Wind direction',
-    blowingSnow: 'Blowing snow',
 }

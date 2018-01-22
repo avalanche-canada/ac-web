@@ -8,8 +8,8 @@ import styles from './Tabs.css'
 export default class HeaderSet extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(PropTypes.element).isRequired,
-        activeIndex: PropTypes.number,
-        onActiveIndexChange: PropTypes.func,
+        activeTab: PropTypes.number,
+        onTabChange: PropTypes.func,
         theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
         stacked: PropTypes.bool,
     }
@@ -27,7 +27,7 @@ export default class HeaderSet extends PureComponent {
     }
     cloneHeader = (header, index) =>
         cloneElement(header, {
-            isActive: index === this.props.activeIndex,
+            isActive: index === this.props.activeTab,
             onActivate: () => {
                 const { disabled } = header.props
 
@@ -35,7 +35,7 @@ export default class HeaderSet extends PureComponent {
                     return
                 }
 
-                this.props.onActiveIndexChange(index)
+                this.props.onTabChange(index)
             },
         })
     get expand() {
