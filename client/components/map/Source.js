@@ -2,6 +2,8 @@ import { PureComponent, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Layer from './Layer'
 
+// TODO: Rework all that
+
 export default class Source extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,

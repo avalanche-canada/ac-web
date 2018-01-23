@@ -1,25 +1,15 @@
 import React, { PureComponent } from 'react'
 import throttle from 'lodash/throttle'
 import Url from 'url'
-import { Map, NavigationControl, Source, Layer } from 'components/map'
+import { Map, NavigationControl } from 'components/map'
 import Alert, { WARNING } from 'components/alert'
 import { Generic } from 'prismic/components'
-import { Status } from 'components/misc'
 import styles from './AtesMap.css'
 
 const CENTER = [-122, 53]
 
 export default class AtesMap extends PureComponent {
-    state = {
-        coordinates: null,
-        url: null,
-    }
-    constructor(props) {
-        super(props)
-
-        this.layer = <Layer id="ates" type="raster" />
-    }
-    updateSource = throttle(({ target }) => {
+    update = throttle(({ target }) => {
         const { offsetWidth, offsetHeight } = target.getContainer()
         const bounds = target.getBounds()
         const west = bounds.getWest()
@@ -27,7 +17,13 @@ export default class AtesMap extends PureComponent {
         const east = bounds.getEast()
         const north = bounds.getNorth()
 
-        this.setState({
+        if (target.getLayer('ates')) {
+            target.removeLayer('ates')
+            target.removeSource('ates')
+        }
+
+        target.addSource('ates', {
+            type: 'image',
             url: Url.format({
                 protocol: 'http',
                 host: 'delivery.maps.gov.bc.ca',
@@ -51,20 +47,13 @@ export default class AtesMap extends PureComponent {
                 [west, south],
             ],
         })
+
+        target.addLayer({
+            id: 'ates',
+            type: 'raster',
+            source: 'ates',
+        })
     }, 500)
-    get source() {
-        const { coordinates, url } = this.state
-
-        if (!coordinates || !url) {
-            return null
-        }
-
-        return (
-            <Source id="ates" type="image" coordinates={coordinates} url={url}>
-                {this.layer}
-            </Source>
-        )
-    }
     render() {
         return (
             <div className={styles.Container}>
@@ -77,12 +66,11 @@ export default class AtesMap extends PureComponent {
                     zoom={5}
                     center={CENTER}
                     style="default"
-                    onLoad={this.updateSource}
-                    onResize={this.updateSource}
-                    onZoomend={this.updateSource}
-                    onMoveend={this.updateSource}>
+                    onLoad={this.update}
+                    onResize={this.update}
+                    onZoomend={this.update}
+                    onMoveend={this.update}>
                     <NavigationControl />
-                    {this.source}
                 </Map>
             </div>
         )
