@@ -5,7 +5,7 @@ import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import * as Containers from 'prismic/containers'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
 

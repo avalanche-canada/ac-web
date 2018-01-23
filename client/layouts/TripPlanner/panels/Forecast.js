@@ -5,11 +5,17 @@ import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
 import * as utils from 'utils/region'
-import { Locate } from 'components/button'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import styles from '../TripPlanner.css'
 import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
-import { Close, Header, Container, Navbar, Body } from 'components/page/drawer'
+import {
+    Close,
+    Header,
+    Container,
+    Navbar,
+    Body,
+    DisplayOnMap,
+} from 'components/page/drawer'
 
 export default class ForecastPanel extends Component {
     static propTypes = {
@@ -27,13 +33,10 @@ export default class ForecastPanel extends Component {
         }
 
         return (
-            <Header>
-                <h2>
-                    {forecast.get('bulletinTitle') || forecast.get('name')}
-                    <Close />
-                </h2>
-                {/* <Locate onClick={locate} /> */}
-            </Header>
+            <h1>
+                {forecast.get('bulletinTitle') || forecast.get('name')}
+                <DisplayOnMap onClick={locate} />
+            </h1>
         )
     }
     renderOtherForecast(forecast) {
@@ -66,10 +69,13 @@ export default class ForecastPanel extends Component {
         return (
             <Container>
                 <Navbar>
+                    <Close />
+                </Navbar>
+                <Header subject="Avalanche forecast">
                     {forecast && region
                         ? this.renderHeader(forecast, region)
                         : null}
-                </Navbar>
+                </Header>
                 <Body>
                     <Compound forecast={forecast}>
                         <Status {...status} />

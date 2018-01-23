@@ -6,7 +6,7 @@ import { Metadata, Submission } from 'components/mountainInformationNetwork'
 import { Status } from 'components/misc'
 import MountainInformationNetworkSubmission from 'containers/MountainInformationNetworkSubmission'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 
 export default class Layout extends PureComponent {

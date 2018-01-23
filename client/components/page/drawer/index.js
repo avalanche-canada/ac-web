@@ -7,5 +7,6 @@ export Body from './Body'
 export Content from './Content'
 export Banner from './Banner'
 export Close from './Close'
+export DisplayOnMap from './DisplayOnMap'
 
 export { LEFT, RIGHT } from './constants/sides'

@@ -15,8 +15,14 @@ import {
 } from 'constants/forecast/ates'
 import { DropdownFromOptions } from 'components/controls'
 import styles from '../TripPlanner.css'
-import { Locate } from 'components/button'
-import { Close, Header, Container, Navbar, Body } from 'components/page/drawer'
+import {
+    Close,
+    Header,
+    Container,
+    Navbar,
+    Body,
+    DisplayOnMap,
+} from 'components/page/drawer'
 import TerrainRating from './TerrainRating'
 
 export default class AvaluatorPanel extends PureComponent {
@@ -135,12 +141,14 @@ export default class AvaluatorPanel extends PureComponent {
         return (
             <Container>
                 <Navbar>
-                    <Header>
-                        <h2>{name}</h2>
-                        <Close />
-                        <Locate onClick={this.props.onAreaLocateClick} />
-                    </Header>
+                    <Close />
                 </Navbar>
+                <Header subject="Avaluator">
+                    <h1>
+                        {name}
+                        <DisplayOnMap onClick={this.props.onAreaLocateClick} />
+                    </h1>
+                </Header>
                 <Body>
                     {region ? (
                         <ForecastContainer name={region}>

@@ -6,7 +6,7 @@ import { Status } from 'components/misc'
 import { Link } from 'react-router-dom'
 import WeatherStationContainer from 'containers/WeatherStation'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
 
 export default class WeatherStation extends PureComponent {

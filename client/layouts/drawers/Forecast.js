@@ -6,7 +6,7 @@ import { Compound } from 'components/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import ForecastContainer from 'containers/Forecast'
 import * as utils from 'utils/region'
 

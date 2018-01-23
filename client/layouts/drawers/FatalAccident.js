@@ -6,7 +6,7 @@ import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import * as Containers from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 
 export default class FatalAccident extends PureComponent {
