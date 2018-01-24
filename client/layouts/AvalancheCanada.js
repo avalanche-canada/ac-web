@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Application from 'components/application'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch, Link } from 'react-router-dom'
 import {
     LoginCompleteRoute,
     NotFoundRoute,
@@ -23,12 +23,46 @@ import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import * as Feed from './feed'
 import Glossary from 'containers/Glossary'
+import ErrorBoundary from 'components/ErrorBoundary'
+import { Error } from 'components/text'
+import * as Page from 'components/page'
+import { ButtonSet } from 'components/button'
+import styles from 'components/page/Page.css'
 
-export default function AvalancheCanada() {
-    return (
-        <Application>
-            <Navbar />
-            <SPAW />
+export default class AvalancheCanada extends Component {
+    children = ({ hasError, error }) => {
+        if (hasError) {
+            return (
+                <Page.Error>
+                    <Page.Main>
+                        <h1>Uh oh! You never thought that would happen...</h1>
+                        <Page.Headline>
+                            An error happened on a page you tried to visit.
+                            <Error>{error.message}</Error>
+                        </Page.Headline>
+                        <ButtonSet>
+                            <Link to="/" className={styles.Link}>
+                                Forecasts
+                            </Link>
+                            <Link to="/training" className={styles.Link}>
+                                Training
+                            </Link>
+                            <Link to="/news" className={styles.Link}>
+                                Latest news
+                            </Link>
+                            <Link to="/events" className={styles.Link}>
+                                Upcoming events
+                            </Link>
+                            <Link to="/blogs" className={styles.Link}>
+                                Our blog
+                            </Link>
+                        </ButtonSet>
+                    </Page.Main>
+                </Page.Error>
+            )
+        }
+
+        return (
             <Switch>
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
@@ -145,14 +179,23 @@ export default function AvalancheCanada() {
                 <FallbackPageRoute path="/pages/:type/:uid" />
                 <NotFoundRoute />
             </Switch>
-            <Switch>
-                <Route path="/map" component={null} />
-                <Route path="/map/ates" component={null} />
-                <Route path="/trip-planner" component={null} />
-                <Route path="/incidents" component={null} />
-                <Route path="/tutoriel" component={null} />
-                <Route component={Footer} />
-            </Switch>
-        </Application>
-    )
+        )
+    }
+    render() {
+        return (
+            <Application>
+                <Navbar />
+                <SPAW />
+                <ErrorBoundary>{this.children}</ErrorBoundary>
+                <Switch>
+                    <Route path="/map" component={null} />
+                    <Route path="/map/ates" component={null} />
+                    <Route path="/trip-planner" component={null} />
+                    <Route path="/incidents" component={null} />
+                    <Route path="/tutoriel" component={null} />
+                    <Route component={Footer} />
+                </Switch>
+            </Application>
+        )
+    }
 }
