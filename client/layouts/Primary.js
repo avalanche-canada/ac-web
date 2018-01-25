@@ -34,25 +34,30 @@ export default class Primary extends PureComponent {
             onLocateClick={this.props.onLocateClick}
         />
     )
+    get content() {
+        return (
+            <Switch>
+                <Route
+                    path="/map/forecasts/north-rockies"
+                    render={this.renderNorthRockies}
+                />
+                <Route
+                    path="/map/forecasts/:name"
+                    render={this.renderForecast}
+                />
+                <Route
+                    path="/map/hot-zone-reports/:name"
+                    render={this.renderHotZoneReport}
+                />
+            </Switch>
+        )
+    }
     render() {
         const { open, width } = this.props
 
         return (
             <Drawer side={RIGHT} open={open} width={width}>
-                <Switch>
-                    <Route
-                        path="/map/forecasts/north-rockies"
-                        render={this.renderNorthRockies}
-                    />
-                    <Route
-                        path="/map/forecasts/:name"
-                        render={this.renderForecast}
-                    />
-                    <Route
-                        path="/map/hot-zone-reports/:name"
-                        render={this.renderHotZoneReport}
-                    />
-                </Switch>
+                {open ? this.content : null}
             </Drawer>
         )
     }
