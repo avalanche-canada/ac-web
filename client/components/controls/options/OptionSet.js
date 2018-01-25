@@ -1,6 +1,5 @@
-import React, { Component, Children, cloneElement } from 'react'
+import { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import styles from './OptionSet.css'
 
 export default class OptionSet extends Component {
     static propTypes = {
@@ -13,10 +12,11 @@ export default class OptionSet extends Component {
     }
     cloneOption = (option, index) => {
         const { selected, onChange } = this.props
+        const { key = index, value } = option.props
 
         return cloneElement(option, {
-            key: index,
-            active: selected.has(option.props.value),
+            key,
+            active: selected.has(value),
             onClick: onChange,
         })
     }

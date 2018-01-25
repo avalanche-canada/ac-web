@@ -34,3 +34,8 @@
         background-color: var(--component-primary-bg-active);
     }
 }
+
+.Horizontal {
+    display: flex;
+    flex-direction: row;
+}
