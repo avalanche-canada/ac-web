@@ -1,7 +1,7 @@
-@import "../../../styles/colors.css";
-@import "../../../styles/components.css";
+@import '../../../styles/colors.css';
+@import '../../../styles/components.css';
 
-.OptionSet {
+.Dropdown {
     position: absolute;
     top: 100%;
     left: -1px;
@@ -11,7 +11,7 @@
 }
 
 .Option {
-    composes: import Common from "../Controls.css";
+    composes: import Common from '../Controls.css';
 
     background-color: var(--component-primary-bg);
     cursor: pointer;
