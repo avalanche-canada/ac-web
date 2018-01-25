@@ -1,34 +1,26 @@
-import React, { Children, cloneElement } from 'react'
+import { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import styles from './OptionSet.css'
 
-OptionSet.propTypes = {
-    children: PropTypes.node.isRequired,
-    // TODO: Remove that property
-    show: PropTypes.bool,
-    // TODO: Rename to be more explicite
-    onOptionClick: PropTypes.func,
-    selected: PropTypes.instanceOf(Set),
-}
-
-export default function OptionSet({
-    show = false,
-    selected = new Set(),
-    onOptionClick,
-    children,
-}) {
-    if (!show) {
-        return null
+export default class OptionSet extends Component {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        onChange: PropTypes.func,
+        selected: PropTypes.instanceOf(Set),
     }
+    static defaultProps = {
+        selected: new Set(),
+    }
+    cloneOption = (option, index) => {
+        const { selected, onChange } = this.props
+        const { key = index, value } = option.props
 
-    return (
-        <div className={styles.OptionSet}>
-            {Children.map(children, option =>
-                cloneElement(option, {
-                    active: selected.has(option.props.value),
-                    onClick: onOptionClick,
-                })
-            )}
-        </div>
-    )
+        return cloneElement(option, {
+            key,
+            active: selected.has(value),
+            onClick: onChange,
+        })
+    }
+    render() {
+        return Children.map(this.props.children, this.cloneOption)
+    }
 }

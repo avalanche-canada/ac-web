@@ -2,13 +2,13 @@ import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Holder from '../Holder'
-import { OptionSet, Option } from 'components/controls/options'
+import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import styles from './Dropdown.css'
 import noop from 'lodash/noop'
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
-export default class Dropdown extends PureComponent {
+export default class DropdownControl extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
         onChange: PropTypes.func.isRequired,
@@ -165,10 +165,19 @@ export default class Dropdown extends PureComponent {
             })
         }
     }
+    get options() {
+        return (
+            <Dropdown>
+                <OptionSet
+                    onChange={this.handleOptionClick}
+                    selected={this.state.value}>
+                    {this.props.children}
+                </OptionSet>
+            </Dropdown>
+        )
+    }
     render() {
         const { isOpen, holder } = this
-        const { children } = this.props
-        const { value } = this.state
         const { placeholder } = this.props
         const className = isOpen ? 'Input--Open' : 'Input'
 
@@ -181,12 +190,7 @@ export default class Dropdown extends PureComponent {
                     onBlur={this.handleBlur}>
                     <Holder value={holder} placeholder={placeholder} />
                 </div>
-                <OptionSet
-                    show={isOpen}
-                    onOptionClick={this.handleOptionClick}
-                    selected={value}>
-                    {children}
-                </OptionSet>
+                {isOpen ? this.options : null}
             </div>
         )
     }

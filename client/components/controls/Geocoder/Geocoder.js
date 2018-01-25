@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import { Input } from 'components/controls'
 import { Place, Close, Spinner } from 'components/icons'
 import { findPlaces } from 'services/mapbox/api'
-import { OptionSet, Option } from 'components/controls/options'
+import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import Button, { INCOGNITO } from 'components/button'
 import styles from './Geocoder.css'
 
@@ -142,13 +142,17 @@ export default class Geocoder extends PureComponent {
                     />
                 )}
                 {isFetching && <Spinner className={styles.Spinner} />}
-                <OptionSet
-                    show={isActive}
-                    onOptionClick={this.handleOptionClick}>
-                    {places.map(place => (
-                        <Option value={place}>{place.place_name}</Option>
-                    ))}
-                </OptionSet>
+                {isActive && (
+                    <Dropdown>
+                        <OptionSet onChange={this.handleOptionClick}>
+                            {places.map(place => (
+                                <Option value={place}>
+                                    {place.place_name}
+                                </Option>
+                            ))}
+                        </OptionSet>
+                    </Dropdown>
+                )}
             </div>
         )
     }
