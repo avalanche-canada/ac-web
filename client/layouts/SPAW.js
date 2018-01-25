@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
-import Highlight, { DANGER } from 'components/highlight'
+import Highlight, { WARNING } from 'components/highlight'
 import { StructuredText } from 'prismic/components/base'
 import { SPAW as Container } from 'prismic/containers'
 import { SessionStorage } from 'services/storage'
@@ -25,9 +25,9 @@ export default class SPAW extends PureComponent {
         document && !this.state.hidden ? (
             <div className={styles.Container}>
                 <Highlight
-                    style={DANGER}
+                    style={WARNING}
                     onDismiss={this.handleDismiss}
-                    dismissable>
+                    dismissable={false}>
                     <StructuredText value={document.description} />
                 </Highlight>
             </div>
