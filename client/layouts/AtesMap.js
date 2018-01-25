@@ -25,7 +25,7 @@ export default class AtesMap extends PureComponent {
         target.addSource('ates', {
             type: 'image',
             url: Url.format({
-                protocol: 'http',
+                protocol: 'https',
                 host: 'delivery.maps.gov.bc.ca',
                 pathname: 'arcgis/rest/services/ates/ates/MapServer/export',
                 query: {

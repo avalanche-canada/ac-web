@@ -10,7 +10,7 @@ export default class ErrorBoundary extends Component {
         hasError: false,
     }
     componentDidCatch(error, extra) {
-        this.setState({ hasError: true }, () => {
+        this.setState({ hasError: true, error, extra }, () => {
             // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
             captureException(error, { extra })
         })

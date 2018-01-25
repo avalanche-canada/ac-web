@@ -40,7 +40,7 @@ export default class ArchiveDatePicker extends PureComponent {
                 {selectedDate && (
                     <Link
                         className={styles['ArchiveDatePicker--Link']}
-                        to={`/forecasts/${region}/${format(
+                        to={`/forecasts/archives/${region}/${format(
                             selectedDate,
                             'YYYY-MM-DD'
                         )}`}>

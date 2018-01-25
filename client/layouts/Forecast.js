@@ -7,6 +7,9 @@ import NorthRockies from 'layouts/pages/NorthRockies'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'layouts/pages/ArchiveForecast'
 import isAfter from 'date-fns/is_after'
+import isValid from 'date-fns/is_valid'
+import isPast from 'date-fns/is_past'
+import isToday from 'date-fns/is_today'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import externals from 'router/externals'
 import * as utils from 'utils/search'
@@ -52,12 +55,31 @@ function archive({ match, history }) {
 }
 
 function forecast({ match }) {
-    const { name } = match.params
+    const { name, date } = match.params
 
     if (externals.has(name)) {
         window.open(externals.get(name), name)
 
         return <Redirect to="/forecasts" push={false} />
+    }
+
+    if (typeof date === 'string') {
+        const parsed = utils.parseDate(date)
+
+        if (isValid(parsed)) {
+            if (isToday(parsed)) {
+                return <Redirect to={`/forecasts/${name}`} push={false} />
+            } else if (isPast(parsed)) {
+                return (
+                    <Redirect
+                        to={`/forecasts/archives/${name}/${date}`}
+                        push={false}
+                    />
+                )
+            } else {
+                throw new Error(`There is no ${name} bulletin date ${date}.`)
+            }
+        }
     }
 
     return <Forecast name={name} />
@@ -70,7 +92,7 @@ export default function ForecastLayout({ match }) {
         <Switch>
             <Route path={`${path}/archives/:name?/:date?`} render={archive} />
             <Route path={`${path}/north-rockies`} component={NorthRockies} />
-            <Route path={`${path}/:name`} render={forecast} />
+            <Route path={`${path}/:name/:date?`} render={forecast} />
             <Route path={path} component={ForecastRegionList} />
         </Switch>
     )
