@@ -226,7 +226,7 @@ exports.saveSubmission = function(token, form, callback) {
                 });
             }
             item.userid = profile.user_id;
-            item.user = profile.nickname || 'unknown';
+            item.user = profile.user_metadata.nickname || profile.nickname || 'unknown';
 
             if (_.isEmpty(tempObs)) {
                 saveOb(item).then(
