@@ -750,7 +750,7 @@ export default {
             factory: ObservationSet,
             label: 'Step 3. Observations',
             config: {
-                activeTab: 0,
+                activeIndex: 0,
                 onTabActivate: noop,
             },
             fields: {

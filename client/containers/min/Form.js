@@ -45,12 +45,12 @@ export default class SubmissionForm extends Component {
             onTabActivate: this.handleTabActivate,
         })
     }
-    setActiveTab(activeTab) {
-        if (typeof activeTab === 'string') {
-            activeTab = TYPES.indexOf(activeTab)
+    setActiveTab(activeIndex) {
+        if (typeof activeIndex === 'string') {
+            activeIndex = TYPES.indexOf(activeIndex)
         }
 
-        if (typeof activeTab !== 'number') {
+        if (typeof activeIndex !== 'number') {
             return
         }
 
@@ -58,8 +58,8 @@ export default class SubmissionForm extends Component {
             fields: {
                 observations: {
                     config: {
-                        activeTab: {
-                            $set: activeTab,
+                        activeIndex: {
+                            $set: activeIndex,
                         },
                     },
                 },
@@ -100,8 +100,8 @@ export default class SubmissionForm extends Component {
     handleReportRemove = () => {
         setTimeout(this.validate)
     }
-    handleTabActivate = activeTab => {
-        this.setActiveTab(activeTab)
+    handleTabActivate = activeIndex => {
+        this.setActiveTab(activeIndex)
     }
     handleErrorClick = (type, event) => {
         event.preventDefault()

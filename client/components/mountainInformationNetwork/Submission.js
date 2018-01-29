@@ -68,13 +68,13 @@ export default class Submission extends PureComponent {
 
         return observation ? observation.obtype : null
     }
-    get activeTab() {
+    get activeIndex() {
         return TYPES.indexOf(this.props.active || this.firstObservationType)
     }
     render() {
         return (
             <div>
-                <Tabs activeTab={this.activeTab}>
+                <Tabs activeIndex={this.activeIndex}>
                     <HeaderSet>{TYPES.map(this.renderHeader)}</HeaderSet>
                     <PanelSet>{TYPES.map(this.renderPanel)}</PanelSet>
                 </Tabs>
