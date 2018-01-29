@@ -147,7 +147,7 @@
         "supertest": "~0.11.0",
         "svg-url-loader": "^2.0.2",
         "swagger-cli": "^1.0.1",
-        "tcomb-form": "^0.9.17",
+        "tcomb-form": "0.9.17",
         "type-to-reducer": "^1.0.2",
         "uglifyjs-webpack-plugin": "1.1.1",
         "url-loader": "^0.5.7",
