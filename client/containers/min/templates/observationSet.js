@@ -9,7 +9,7 @@ const { struct } = t.form.Form.templates
 
 export default struct.clone({
     renderFieldsetFields(children, locals) {
-        const { disabled, config: { onTabActivate, activeIndex } } = locals
+        const { disabled, config: { onTabActivate, activeTab } } = locals
 
         children = Children.toArray(children)
 
@@ -19,7 +19,7 @@ export default struct.clone({
                     {({ width }) => (
                         <HeaderSet
                             stacked={width < 375}
-                            activeTab={activeIndex}
+                            activeTab={activeTab}
                             onTabChange={onTabActivate}>
                             {children.map((child, index) => {
                                 const { props: { value } } = child
@@ -38,7 +38,7 @@ export default struct.clone({
                         </HeaderSet>
                     )}
                 </Dimensions>
-                <EagerPanelSet activeTab={activeIndex}>
+                <EagerPanelSet activeTab={activeTab}>
                     {children.map((child, index) => {
                         const { props: { value } } = child
                         const type = TYPES[index]
