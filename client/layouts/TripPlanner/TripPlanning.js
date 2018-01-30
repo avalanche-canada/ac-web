@@ -5,7 +5,7 @@ import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import { Muted } from 'components/text'
 import { Day, DateElement } from 'components/time'
-import { Chart, Legend } from 'components/graphics/avaluator'
+import { Chart } from 'components/graphics/avaluator'
 import { LEVELS } from 'constants/forecast/rating'
 import { Control } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
@@ -18,7 +18,8 @@ import Drawer, {
     DisplayOnMap,
     LEFT,
 } from 'components/page/drawer'
-import TerrainRating from './panels/TerrainRating'
+import TerrainRatings from './panels/TerrainRatings'
+import ChartExplained from './panels/ChartExplained'
 import Welcome from './panels/Welcome'
 import ELEVATIONS, {
     ALP,
@@ -104,7 +105,8 @@ export default class TripPlanning extends Component {
                     ) : (
                         <Muted>{this.isLoadedMessage}</Muted>
                     )}
-                    <TerrainRating />
+                    <ChartExplained />
+                    <TerrainRatings />
                 </Body>
             </Container>
         )
@@ -154,24 +156,20 @@ class Content extends PureComponent {
     get danger() {
         const { rating } = this.props.area
         const dangerRatings = this.activeDangerRatings
-        let danger = null
 
         if (rating === SIMPLE) {
             const { elevation } = this.props
 
-            danger = dangerRatings[elevation.toLowerCase()]
+            return dangerRatings[elevation.toLowerCase()]
         } else {
-            danger =
-                LEVELS[
-                    Math.max(
-                        LEVELS.indexOf(dangerRatings.alp),
-                        LEVELS.indexOf(dangerRatings.tln),
-                        LEVELS.indexOf(dangerRatings.btl)
-                    )
-                ]
+            return LEVELS[
+                Math.max(
+                    LEVELS.indexOf(dangerRatings.alp),
+                    LEVELS.indexOf(dangerRatings.tln),
+                    LEVELS.indexOf(dangerRatings.btl)
+                )
+            ]
         }
-
-        return LEVELS.indexOf(danger)
     }
     get warning() {
         const { rating } = this.props.area
@@ -180,8 +178,9 @@ class Content extends PureComponent {
             case SIMPLE:
                 return (
                     <p>
-                        When travelling in "Simple" terrain, you must use
-                        appropriate elevation to plan properly.
+                        For trips in "Simple" terrain, use the highest danger
+                        rating for the elevation band(s) where you will be
+                        travelling.
                     </p>
                 )
             case COMPLEX:
@@ -190,8 +189,8 @@ class Content extends PureComponent {
 
                 return (
                     <p>
-                        When travelling in "{text}" terrain, you must use the
-                        highest danger rating to plan properly.
+                        For trips in "{text}" terrain, use the highest danger
+                        rating given in the bulletin.
                     </p>
                 )
             }
@@ -204,15 +203,13 @@ class Content extends PureComponent {
 
         return (
             <h2 style={CHART_TITLE_STYLE}>
-                <Fragment>
-                    {area.name}
-                    {' riding in '}
-                    {TerrainRatingTexts.get(area.rating).toLowerCase()}
-                    {' and '}
-                    {ElevationTexts.get(elevation).toLowerCase()}
-                    {' terrain on '}
-                    <DateElement value={date} />
-                </Fragment>
+                {area.name}
+                {' riding in '}
+                {TerrainRatingTexts.get(area.rating).toLowerCase()}
+                {' and '}
+                {ElevationTexts.get(elevation).toLowerCase()}
+                {' terrain on '}
+                <DateElement value={date} />
             </h2>
         )
     }
@@ -220,9 +217,14 @@ class Content extends PureComponent {
         return (
             <Fragment>
                 <Form {...this.props} date={this.date} dates={this.dates} />
-                {this.title}
-                <Chart terrain={this.props.area.rating} danger={this.danger} />
-                <Legend />
+                {/* {this.title} */}
+                <div style={CHART_STYLE}>
+                    <Chart
+                        terrain={this.props.area.rating}
+                        danger={this.danger}
+                    />
+                </div>
+                {/* <Legend /> */}
                 {this.warning}
                 <p>
                     Remember to verify all information used during the trip
@@ -250,23 +252,11 @@ class Form extends Component {
             onDateChange,
             date,
             dates,
+            area,
         } = this.props
 
         return (
             <Fragment>
-                <Control horizontal>
-                    <label style={LABEL_STYLE}>Elevation</label>
-                    <Dropdown
-                        onChange={onElevationChange}
-                        value={elevation}
-                        style={INPUT_STYLE}>
-                        {Array.from(ElevationTexts).map(([value, text]) => (
-                            <Option key={value} value={value}>
-                                {text}
-                            </Option>
-                        ))}
-                    </Dropdown>
-                </Control>
                 <Control horizontal>
                     <label style={LABEL_STYLE}>Day</label>
                     <Dropdown
@@ -280,6 +270,25 @@ class Form extends Component {
                         ))}
                     </Dropdown>
                 </Control>
+                <Control horizontal>
+                    <label style={LABEL_STYLE}>Elevation</label>
+                    <Dropdown
+                        onChange={onElevationChange}
+                        value={elevation}
+                        style={INPUT_STYLE}>
+                        {Array.from(ElevationTexts).map(([value, text]) => (
+                            <Option key={value} value={value}>
+                                {text}
+                            </Option>
+                        ))}
+                    </Dropdown>
+                </Control>
+                {/* <Control horizontal>
+                    <label style={LABEL_STYLE}>Terrain</label>
+                    <div style={INPUT_STYLE}>
+                        <Holder value={TerrainRatingTexts.get(area.rating)} />
+                    </div>
+                </Control> */}
             </Fragment>
         )
     }
@@ -289,13 +298,17 @@ class Form extends Component {
 const CONTENT_STYLE = {
     margin: '0 1em',
 }
+const CHART_STYLE = {
+    margin: '1em 0',
+}
 const CHART_TITLE_STYLE = {
     marginBotton: 0,
 }
 const INPUT_STYLE = {
-    flex: 1,
+    flex: 0.75,
 }
 const LABEL_STYLE = {
+    flex: 0.25,
     color: 'grey',
     marginRight: '1em',
 }

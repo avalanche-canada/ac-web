@@ -9,9 +9,8 @@ import Ratings, {
     Palette,
 } from 'constants/forecast/ates'
 import { WHITE, BLACK } from 'constants/forecast/palette'
-import styles from '../TripPlanner.css'
 
-export default class TerrainRatingPanel extends StaticComponent {
+export default class TerrainRatingsPanel extends StaticComponent {
     getStyle(rating) {
         return {
             padding: '0.5em',
@@ -22,16 +21,14 @@ export default class TerrainRatingPanel extends StaticComponent {
     }
     render() {
         return (
-            <Panel header="Terrain Rating Explained">
+            <Panel header="Terrain Ratings Explained">
                 {Array.from(Ratings).map(rating => (
                     <Section key={rating}>
                         <Header style={this.getStyle(rating)}>
                             {Texts.get(rating)}
                         </Header>
                         <Content>
-                            <p className={styles.PanelContent}>
-                                {Descriptions.get(rating)}
-                            </p>
+                            <p>{Descriptions.get(rating)}</p>
                         </Content>
                     </Section>
                 ))}

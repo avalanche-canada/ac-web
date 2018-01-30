@@ -48,15 +48,16 @@ export default class DropdownControl extends PureComponent {
     get holder() {
         const { value } = this.props
         const children = Children.toArray(this.props.children)
+        const options = children.filter(
+            option =>
+                value instanceof Set
+                    ? value.has(option.props.value)
+                    : value === option.props.value
+        )
 
-        return children
-            .filter(
-                option =>
-                    value instanceof Set
-                        ? value.has(option.props.value)
-                        : value === option.props.value
-            )
-            .map(element => element.props.children)
+        return options.length
+            ? options.map(element => element.props.children)
+            : null
     }
     close = callback => {
         this.setState({ isOpen: false }, callback)

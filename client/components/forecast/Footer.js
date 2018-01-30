@@ -61,7 +61,9 @@ export class Inbox extends StaticComponent {
     render() {
         return (
             <FooterPanel header="Avalanche Forecasts in your Inbox">
-                <Generic uid="forecast-rss-message" />
+                <div className={styles.PanelContent}>
+                    <Generic uid="forecast-rss-message" />
+                </div>
             </FooterPanel>
         )
     }
@@ -71,7 +73,9 @@ export class Disclaimer extends StaticComponent {
     render() {
         return (
             <FooterPanel header="Forecast Disclaimer">
-                <Generic uid="forecast-disclaimer" />
+                <div className={styles.PanelContent}>
+                    <Generic uid="forecast-disclaimer" />
+                </div>
             </FooterPanel>
         )
     }
