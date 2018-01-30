@@ -45,6 +45,7 @@ export default class SubmissionForm extends Component {
             onTabActivate: this.handleTabActivate,
         })
     }
+    setRef = form => (this.form = form)
     setActiveTab(activeTab) {
         if (typeof activeTab === 'string') {
             activeTab = TYPES.indexOf(activeTab)
@@ -111,7 +112,7 @@ export default class SubmissionForm extends Component {
         this.setState({ value })
     }
     validate = () => {
-        const result = this.refs.submission.validate()
+        const result = this.form.validate()
 
         this.showErrorState(result)
 
@@ -177,7 +178,7 @@ export default class SubmissionForm extends Component {
                             noValidate
                             className={styles.Container}>
                             <Form
-                                ref="submission"
+                                ref={this.setRef}
                                 value={value}
                                 type={type}
                                 options={options}
