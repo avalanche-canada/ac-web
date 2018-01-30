@@ -23,9 +23,9 @@ export class Header extends PureComponent {
     }
     render() {
         return (
-            <h2 style={this.props.style} className={styles.Header}>
+            <h3 style={this.props.style} className={styles.Header}>
                 {this.props.children}
-            </h2>
+            </h3>
         )
     }
 }
