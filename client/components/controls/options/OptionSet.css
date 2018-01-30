@@ -38,4 +38,8 @@
 .Horizontal {
     display: flex;
     flex-direction: row;
+
+    & .Option {
+        text-align: center;
+    }
 }

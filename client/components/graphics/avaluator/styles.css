@@ -1,0 +1,12 @@
+.Legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em;
+
+    & > *:before {
+        content: '■';
+        margin-right: 0.25em;
+        font-size: 1.75em;
+    }
+}

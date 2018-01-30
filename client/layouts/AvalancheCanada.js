@@ -36,7 +36,7 @@ export default class AvalancheCanada extends Component {
             return (
                 <Page.Error>
                     <Page.Main>
-                        <h1>Uh oh! You never thought that would happen...</h1>
+                        <h1>Uh oh! We never thought that would happen...</h1>
                         <Page.Headline>
                             An error happened on a page you tried to visit.
                             <Error>{error.message}</Error>

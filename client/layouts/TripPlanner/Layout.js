@@ -1,84 +1,89 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
-import get from 'lodash/get'
+import { getGeom } from '@turf/invariant'
+import TripPlanner from 'containers/TripPlanner'
 import Map from './Map'
-import Avaluator from './panels/Avaluator'
-import Forecast from './panels/Forecast'
-import Welcome from './/panels/Welcome'
-import Drawer, { LEFT, RIGHT } from 'components/page/drawer'
+import TripPlanning from './TripPlanning'
+import Forecast from './Forecast'
+import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
 
-export default class TripPlannerLayout extends Component {
-    state = {
-        area: null,
-        region: null,
+export default class TripPlannerLayout extends PureComponent {
+    handleRegionSelect = ({ properties }) => {
+        this.setState({
+            region: {
+                id: properties.id,
+                name: properties.name,
+            },
+        })
+    }
+    handleAreaSelect = ({ properties }) => {
+        const name = properties.ATES_RECREATION_BNDRY_NAME
+
+        this.setState({
+            area: {
+                id: properties.id,
+                rating: properties.ATES_ZONE_CLASS_CODE,
+                name,
+                features: this.map.querySourceFeatures('composite', {
+                    sourceLayer: 'ates-terrain-7cew5b',
+                    filter: ['==', 'ATES_RECREATION_BNDRY_NAME', name],
+                }),
+            },
+        })
+    }
+    handleElevationChange = elevation => {
+        this.setState({ elevation })
+    }
+    handleDateChange = date => {
+        this.setState({ date })
+    }
+    handleMapLoad = ({ target }) => {
+        this.map = target
     }
     fitBounds = geometry => {
         this.map.fitBounds(bbox(geometry), {
             padding: 25,
         })
     }
-    handleForecastSelect = region => this.setState({ region })
-    handleAreaSelect = area => this.setState({ area })
-    handleMapLoad = event => {
-        const map = event.target
-
-        this.map = map
-    }
     handleAreaLocateClick = () => {
-        const { ATES_RECREATION_BNDRY_NAME } = this.state.area.properties
-        const areas = this.map.querySourceFeatures('composite', {
-            sourceLayer: 'ates-terrain-7cew5b',
-            filter: [
-                '==',
-                'ATES_RECREATION_BNDRY_NAME',
-                ATES_RECREATION_BNDRY_NAME,
-            ],
-        })
-        const geometries = areas.map(area => area.geometry)
+        const geometries = this.state.area.features.map(getGeom)
 
         this.fitBounds(geometryCollection(geometries))
     }
-    get forecast() {
-        return (
-            <Forecast
-                onLocateClick={this.fitBounds}
-                name={this.state.region.properties.id}
-            />
-        )
-    }
-    get avaluator() {
-        const {
-            ATES_RECREATION_BNDRY_NAME,
-            ATES_ZONE_CLASS_CODE,
-        } = this.state.area.properties
+    handleRegionLocateClick = () => {
+        const region = this.regions.get(this.state.region.id)
 
-        return (
-            <Avaluator
-                region={get(this.state.region, 'properties.id')}
-                name={ATES_RECREATION_BNDRY_NAME}
-                terrainRating={ATES_ZONE_CLASS_CODE}
-                onAreaLocateClick={this.handleAreaLocateClick}
-            />
-        )
+        this.fitBounds(utils.geometry(region))
+    }
+    setData = ({ props }) => {
+        this.regions = props.regions
+        this.areas = props.areas
+
+        return null
     }
     render() {
-        const { area, region } = this.state
-
         return (
             <div className={styles.Layout}>
                 <Map
                     onLoad={this.handleMapLoad}
-                    onForecastSelect={this.handleForecastSelect}
+                    onRegionSelect={this.handleRegionSelect}
                     onAreaSelect={this.handleAreaSelect}
                 />
-                <Drawer side={LEFT} width={400} open={Boolean(region)}>
-                    {region ? this.forecast : null}
-                </Drawer>
-                <Drawer side={RIGHT} width={400} open>
-                    {area ? this.avaluator : <Welcome />}
-                </Drawer>
+                <TripPlanning
+                    {...this.state}
+                    onElevationChange={this.handleElevationChange}
+                    onDateChange={this.handleDateChange}
+                    onLocateClick={this.handleAreaLocateClick}
+                />
+                <Forecast
+                    {...this.state}
+                    onElevationChange={this.handleElevationChange}
+                    onDateChange={this.handleDateChange}
+                    onLocateClick={this.handleRegionLocateClick}
+                />
+                <TripPlanner>{this.setData}</TripPlanner>
             </div>
         )
     }

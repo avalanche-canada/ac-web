@@ -1,43 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
-import * as utils from 'utils/region'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
-import styles from '../TripPlanner.css'
 import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
-import {
-    Close,
+import Drawer, {
     Header,
     Container,
     Navbar,
     Body,
     DisplayOnMap,
+    RIGHT,
 } from 'components/page/drawer'
+import styles from './TripPlanner.css'
 
 export default class ForecastPanel extends Component {
     static propTypes = {
-        name: PropTypes.string.isRequired,
+        region: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
         onLocateClick: PropTypes.func.isRequired,
-    }
-    renderHeader(forecast, region) {
-        if (!forecast || !region) {
-            return null
-        }
-
-        const { onLocateClick } = this.props
-        function locate() {
-            onLocateClick(utils.geometry(region))
-        }
-
-        return (
-            <h1>
-                {forecast.get('bulletinTitle') || forecast.get('name')}
-                <DisplayOnMap onClick={locate} />
-            </h1>
-        )
     }
     renderOtherForecast(forecast) {
         if (!forecast) {
@@ -63,18 +48,17 @@ export default class ForecastPanel extends Component {
 
         return null
     }
-    children = ({ status, forecast, region }) => {
+    renderChildren = ({ status, forecast, region }) => {
+        const { onLocateClick } = this.props
         const canRender = Compound.canRender(forecast)
 
         return (
-            <Container>
-                <Navbar>
-                    <Close />
-                </Navbar>
+            <Fragment>
                 <Header subject="Avalanche forecast">
-                    {forecast && region
-                        ? this.renderHeader(forecast, region)
-                        : null}
+                    <h1>
+                        <span>{this.props.region.name}</span>
+                        <DisplayOnMap onClick={onLocateClick} />
+                    </h1>
                 </Header>
                 <Body>
                     <Compound forecast={forecast}>
@@ -87,14 +71,26 @@ export default class ForecastPanel extends Component {
                     <Disclaimer />
                     <DangerRatings />
                 </Body>
+            </Fragment>
+        )
+    }
+    get container() {
+        return (
+            <Container>
+                <Navbar />
+                <ForecastContainer name={this.props.region.id}>
+                    {this.renderChildren}
+                </ForecastContainer>
             </Container>
         )
     }
     render() {
+        const { region } = this.props
+
         return (
-            <ForecastContainer name={this.props.name}>
-                {this.children}
-            </ForecastContainer>
+            <Drawer side={RIGHT} width={400} open={Boolean(region)}>
+                {region ? this.container : null}
+            </Drawer>
         )
     }
 }

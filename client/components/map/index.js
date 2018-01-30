@@ -3,6 +3,7 @@ import mapbox from 'services/mapbox/map'
 import Control from './Control'
 
 export Map from './Map'
+export Basic from './Basic'
 export StaticMap, { ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
 export Popup from './Popup'

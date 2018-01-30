@@ -32,20 +32,18 @@ export default class Welcome extends PureComponent {
                     <h1>Welcome to the Trip planner</h1>
                     {this.close}
                 </header>
-                <p>
-                    ATES areas are colored:
-                    <ul>
-                        <li style={this.getStyle(SIMPLE)}>
-                            green for simple terrain
-                        </li>
-                        <li style={this.getStyle(CHALLENGING)}>
-                            blue for challenging terrain
-                        </li>
-                        <li style={this.getStyle(COMPLEX)}>
-                            black for complex terrain
-                        </li>
-                    </ul>
-                </p>
+                <p>ATES areas are colored:</p>
+                <ul>
+                    <li style={this.getStyle(SIMPLE)}>
+                        green for simple terrain
+                    </li>
+                    <li style={this.getStyle(CHALLENGING)}>
+                        blue for challenging terrain
+                    </li>
+                    <li style={this.getStyle(COMPLEX)}>
+                        black for complex terrain
+                    </li>
+                </ul>
                 <Device>{this.renderActions}</Device>
             </div>
         )

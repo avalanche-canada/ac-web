@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import styles from './OptionSet.css'
 
@@ -23,14 +23,14 @@ export default class Option extends Component {
     }
     render() {
         const { children, value } = this.props
-        const title = children || value
+        const title = isValidElement(children) ? value : children
 
         return (
             <div
                 title={title}
                 className={this.className}
                 onMouseDown={this.handleMouseDown}>
-                {title}
+                {children}
             </div>
         )
     }

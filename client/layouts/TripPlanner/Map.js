@@ -1,32 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Map, NavigationControl } from 'components/map'
-import styles from './TripPlanner.css'
+import { Basic as Map, NavigationControl } from 'components/map'
 import bbox from '@turf/bbox'
+import styles from './TripPlanner.css'
 
 export default class TripPlannerMap extends Component {
     static propTypes = {
         onLoad: PropTypes.func.isRequired,
-        onForecastSelect: PropTypes.func.isRequired,
+        onRegionSelect: PropTypes.func.isRequired,
         onAreaSelect: PropTypes.func.isRequired,
     }
     state = {
         area: null,
         region: null,
     }
+    cursorEnterCounter = 0
     handleLoad = event => {
         const map = event.target
         const container = map.getContainer()
 
         map.on('click', this.handleClick)
-        for (let layer of ATES_AREAS_LAYERS) {
-            map.on('mouseenter', layer, handleMouseenterLayer)
-            map.on('mouseleave', layer, handleMouseleaveLayer)
+
+        for (let layer of [
+            ...ATES_AREAS_LAYERS,
+            ...ATES_ZONES_LAYERS,
+            ...FORECAST_LAYERS,
+        ]) {
+            map.on('mouseenter', layer, this.handleMouseenterLayer)
+            map.on('mouseleave', layer, this.handleMouseleaveLayer)
         }
-        for (let layer of ATES_ZONES_LAYERS) {
-            map.on('mouseenter', layer, handleMouseenterLayer)
-            map.on('mouseleave', layer, handleMouseleaveLayer)
-        }
+
         container.addEventListener('mouseleave', this.handleMouseleave, false)
 
         this.map = map
@@ -47,6 +50,18 @@ export default class TripPlannerMap extends Component {
             layers: FORECAST_LAYERS,
         })
     }
+    handleMouseenterLayer = event => {
+        this.cursorEnterCounter = this.cursorEnterCounter + 1
+
+        event.target.getCanvas().style.cursor = 'pointer'
+    }
+    handleMouseleaveLayer = event => {
+        this.cursorEnterCounter = this.cursorEnterCounter - 1
+
+        if (this.cursorEnterCounter === 0) {
+            event.target.getCanvas().style.cursor = ''
+        }
+    }
     handleClick = event => {
         const { point } = event
         const [zone] = this.queryZones(point)
@@ -63,28 +78,33 @@ export default class TripPlannerMap extends Component {
             this.map.fitBounds(bbox(zone.geometry), {
                 padding: 25,
             })
-        }
-
-        this.setState(
-            {
-                area,
-                region: area ? region : null,
-            },
-            () => {
-                this.props.onAreaSelect(area)
-                if (area) {
-                    this.props.onForecastSelect(region)
+        } else {
+            this.setState(
+                {
+                    area: area || null,
+                    region: region || null,
+                },
+                () => {
+                    if (area) {
+                        this.props.onAreaSelect(area)
+                    }
+                    if (region) {
+                        this.props.onRegionSelect(region)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
     render() {
         return (
-            <div className={styles.Map}>
-                <Map style="ates" onLoad={this.handleLoad}>
-                    <NavigationControl />
-                </Map>
-            </div>
+            <Map
+                className={styles.Map}
+                style="ates"
+                onLoad={this.handleLoad}
+                zoom={10}
+                center={CENTER}>
+                <NavigationControl />
+            </Map>
         )
     }
 }
@@ -93,9 +113,4 @@ export default class TripPlannerMap extends Component {
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_AREAS_LAYERS = ['ates-terrain']
 const ATES_ZONES_LAYERS = ['ates-zones']
-function handleMouseenterLayer(event) {
-    event.target.getCanvas().style.cursor = 'pointer'
-}
-function handleMouseleaveLayer(event) {
-    event.target.getCanvas().style.cursor = ''
-}
+const CENTER = [-118.3, 51.17]

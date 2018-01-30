@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
+import * as react from 'utils/react'
 import styles from './Dropdown.css'
-import noop from 'lodash/noop'
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 
@@ -15,29 +15,18 @@ export default class DropdownControl extends PureComponent {
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
+            PropTypes.instanceOf(Date),
             PropTypes.instanceOf(Set),
         ]),
         placeholder: PropTypes.string,
-        multiple: PropTypes.bool,
+        style: PropTypes.object,
     }
     static defaultProps = {
-        onChange: noop,
         placeholder: 'Select',
     }
     state = {
         isOpen: false,
-        label: null,
         active: 0,
-        value: new Set(),
-    }
-    constructor(props) {
-        super(props)
-
-        const { value } = props
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.value = value instanceof Set ? value : new Set([value])
-        /* eslint-disable react/no-direct-mutation-state */
     }
     get isOpen() {
         return this.state.isOpen
@@ -57,11 +46,17 @@ export default class DropdownControl extends PureComponent {
         this.setState({ active })
     }
     get holder() {
-        const { value } = this.state
+        const { value } = this.props
         const children = Children.toArray(this.props.children)
-        const options = children.filter(option => value.has(option.props.value))
 
-        return options.map(option => option.props.children).join(', ')
+        return children
+            .filter(
+                option =>
+                    value instanceof Set
+                        ? value.has(option.props.value)
+                        : value === option.props.value
+            )
+            .map(element => element.props.children)
     }
     close = callback => {
         this.setState({ isOpen: false }, callback)
@@ -70,7 +65,7 @@ export default class DropdownControl extends PureComponent {
         this.setState({ isOpen: true }, callback)
     }
     toggle = callback => {
-        this.setState({ isOpen: !this.isOpen }, callback)
+        this.setState(toggle, callback)
     }
     valueAt(index) {
         const options = Children.toArray(this.props.children)
@@ -144,54 +139,43 @@ export default class DropdownControl extends PureComponent {
 
         this.close(() => onChange(option))
     }
-    componentWillReceiveProps({ value }) {
-        if (value === this.props.value) {
-            return
-        }
-
-        if (value instanceof Set) {
-            this.setState({ value })
-        } else if (typeof value === 'string' || typeof value === 'number') {
-            this.setState({
-                value: new Set([value]),
-            })
-        } else if (Array.isArray(value)) {
-            this.setState({
-                value: new Set(value),
-            })
-        } else {
-            this.setState({
-                value: new Set(),
-            })
-        }
-    }
     get options() {
         return (
             <Dropdown>
                 <OptionSet
                     onChange={this.handleOptionClick}
-                    selected={this.state.value}>
+                    value={this.props.value}>
                     {this.props.children}
                 </OptionSet>
             </Dropdown>
         )
     }
     render() {
-        const { isOpen, holder } = this
-        const { placeholder } = this.props
+        const { isOpen } = this
+        const { placeholder, style } = this.props
         const className = isOpen ? 'Input--Open' : 'Input'
 
         return (
-            <div className={styles.Container} onClick={this.handleClick}>
+            <div
+                className={styles.Container}
+                style={style}
+                onClick={this.handleClick}>
                 <div
                     className={styles[className]}
                     tabIndex={0}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}>
-                    <Holder value={holder} placeholder={placeholder} />
+                    <Holder value={this.holder} placeholder={placeholder} />
                 </div>
                 {isOpen ? this.options : null}
             </div>
         )
+    }
+}
+
+// Utils
+function toggle({ isOpen }) {
+    return {
+        isOpen: !isOpen,
     }
 }
