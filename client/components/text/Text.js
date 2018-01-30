@@ -1,24 +1,44 @@
 import React from 'react'
 import styles from './Text.css'
 
-export function Text({ children }) {
-    return <p className={styles.Text}>{children}</p>
+export function Text({ children, ...props }) {
+    return (
+        <p className={styles.Text} {...props}>
+            {children}
+        </p>
+    )
 }
 
-export function Muted({ children }) {
-    return <p className={styles.Muted}>{children}</p>
+export function Muted({ children, ...props }) {
+    return (
+        <p className={styles.Muted} {...props}>
+            {children}
+        </p>
+    )
 }
 
-export function Loading({ children = 'Loading...' }) {
-    return <p className={styles.Loading}>{children}</p>
+export function Loading({ children = 'Loading...', ...props }) {
+    return (
+        <p className={styles.Loading} {...props}>
+            {children}
+        </p>
+    )
 }
 
-export function Error({ children = 'An error happened.' }) {
-    return <p className={styles.Error}>{children}</p>
+export function Error({ children = 'An error happened.', ...props }) {
+    return (
+        <p className={styles.Error} {...props}>
+            {children}
+        </p>
+    )
 }
 
-export function Warning({ children }) {
-    return <p className={styles.Warning}>{children}</p>
+export function Warning({ children, ...props }) {
+    return (
+        <p className={styles.Warning} {...props}>
+            {children}
+        </p>
+    )
 }
 
 export function Helper({ children, ...props }) {

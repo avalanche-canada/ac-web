@@ -55,7 +55,7 @@ export default class Layout extends PureComponent {
     children = ({ region, forecast, status }) => [
         this.renderHeader(region, forecast, status),
         <Body>
-            <Status {...status} />
+            <Status style={STATUS_STYLE} {...status} />
             <Compound forecast={forecast} />
         </Body>,
     ]
@@ -73,4 +73,9 @@ export default class Layout extends PureComponent {
             </Container>
         )
     }
+}
+
+// Constants
+const STATUS_STYLE = {
+    margin: '1em',
 }
