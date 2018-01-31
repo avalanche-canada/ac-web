@@ -6,6 +6,7 @@ import styles from './TripPlanner.css'
 
 export default class TripPlannerMap extends Component {
     static propTypes = {
+        area: PropTypes.object,
         onLoad: PropTypes.func.isRequired,
         onRegionSelect: PropTypes.func.isRequired,
         onAreaSelect: PropTypes.func.isRequired,
@@ -34,6 +35,14 @@ export default class TripPlannerMap extends Component {
 
         this.map = map
         this.props.onLoad(event)
+    }
+    componentWillReceiveProps({ area }) {
+        if (!area) {
+            this.setActiveArea()
+        }
+    }
+    setActiveArea(id = -1) {
+        this.map.setFilter('active-ates-areas', ['==', 'ATES_ZONE_ID', id])
     }
     queryAreas(point) {
         return this.map.queryRenderedFeatures(point, {
@@ -68,11 +77,7 @@ export default class TripPlannerMap extends Component {
         const [area] = this.queryAreas(point)
         const [region] = this.queryRegions(point)
 
-        this.map.setFilter('active-ates-areas', [
-            '==',
-            'ATES_ZONE_ID',
-            area ? area.properties.ATES_ZONE_ID : -1,
-        ])
+        this.setActiveArea(area ? area.properties.ATES_ZONE_ID : -1)
 
         if (zone) {
             this.map.fitBounds(bbox(zone.geometry), {

@@ -31,8 +31,8 @@ export class Chart extends PureComponent {
                     x="187.8"
                     y="191.2"
                     fill="#fff"
-                    font-size="10"
-                    text-anchor="middle">
+                    fontSize="10"
+                    textAnchor="middle">
                     <tspan>Avalanche terrain rating</tspan>
                 </text> */}
                 <path
@@ -82,7 +82,7 @@ export class Chart extends PureComponent {
                 <path
                     fill="none"
                     stroke="#fff"
-                    stroke-dasharray="2,1,2,1,2,1"
+                    strokeDasharray="2,1,2,1,2,1"
                     d="M82.2 145h209.5"
                     opacity=".6"
                 />
@@ -90,79 +90,79 @@ export class Chart extends PureComponent {
                     x="118.7"
                     y="178.2"
                     fill="#00aeef"
-                    font-size="10"
-                    text-anchor="middle">
+                    fontSize="10"
+                    textAnchor="middle">
                     Simple
                 </text>
                 <text
                     x="188.5"
                     y="178.2"
                     fill="#00aeef"
-                    font-size="10"
-                    text-anchor="middle">
+                    fontSize="10"
+                    textAnchor="middle">
                     Challenging
                 </text>
                 <text
                     x="257.6"
                     y="178.2"
                     fill="#00aeef"
-                    font-size="10"
-                    text-anchor="middle">
+                    fontSize="10"
+                    textAnchor="middle">
                     Complex
                 </text>
                 <text
                     x="58.4"
                     y="147.9"
                     fill="#245eac"
-                    font-size="10"
-                    text-anchor="left">
+                    fontSize="10"
+                    textAnchor="left">
                     Low
                 </text>
                 <text
                     x="36.2"
                     y="119.8"
                     fill="#245eac"
-                    font-size="10"
-                    text-anchor="left">
+                    fontSize="10"
+                    textAnchor="left">
                     Moderate
                 </text>
                 <text
                     x="21.9"
                     y="87.8"
                     fill="#245eac"
-                    font-size="10"
-                    text-anchor="left">
+                    fontSize="10"
+                    textAnchor="left">
                     Considerable
                 </text>
                 <text
                     x="56.2"
                     y="55.2"
                     fill="#245eac"
-                    font-size="10"
-                    text-anchor="left">
+                    fontSize="10"
+                    textAnchor="left">
                     High
                 </text>
                 <text
                     x="40.6"
                     y="24"
                     fill="#245eac"
-                    font-size="10"
-                    text-anchor="left">
+                    fontSize="10"
+                    textAnchor="left">
                     Extreme
                 </text>
                 {/* <path fill="#245eac" d="M7.9 164V5.5h12.9V164z" />
                 <text
                     x="-84.4"
                     y="16.5"
-                    font-size="10"
-                    text-anchor="middle"
+                    fontSize="10"
+                    textAnchor="middle"
                     transform="rotate(-90)">
                     <tspan fill="#fff">Danger rating</tspan>
                 </text> */}
                 <path
                     fill="none"
                     stroke="#fff"
-                    stroke-dasharray="2,1,2,1,2,1"
+                    strokeDasharray="2,1,2,1,2,1"
                     d="M82.2 116.8H292m-209.7-32H292M82.2 53H292M82.2 21.1H292m-34.2-16v159.5M188.3 5.1v159.5M118.7 5.1v159.5"
                     opacity=".6"
                 />

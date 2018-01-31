@@ -16,6 +16,7 @@ import Drawer, {
     Navbar,
     Body,
     DisplayOnMap,
+    Close,
     LEFT,
 } from 'components/page/drawer'
 import TerrainRatings from './panels/TerrainRatings'
@@ -47,6 +48,8 @@ export default class TripPlanning extends Component {
         onElevationChange: PropTypes.func.isRequired,
         date: PropTypes.instanceOf(Date),
         onDateChange: PropTypes.func.isRequired,
+        open: PropTypes.bool,
+        onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
     static defaultProps = {
@@ -87,10 +90,13 @@ export default class TripPlanning extends Component {
         )
     }
     get container() {
-        const { area, region } = this.props
+        const { area, region, onCloseClick } = this.props
+
         return (
             <Container>
-                <Navbar />
+                <Navbar>
+                    <Close onClick={onCloseClick} />
+                </Navbar>
                 <Header subject="Trip planning">
                     <h1>
                         <span>{area.name}</span>
@@ -113,9 +119,11 @@ export default class TripPlanning extends Component {
         )
     }
     render() {
+        const { area, open } = this.props
+
         return (
-            <Drawer side={LEFT} width={400} open>
-                {this.props.area ? this.container : <Welcome />}
+            <Drawer side={LEFT} width={400} open={open}>
+                {area ? this.container : <Welcome />}
             </Drawer>
         )
     }
@@ -253,7 +261,6 @@ class Form extends Component {
             onDateChange,
             date,
             dates,
-            area,
         } = this.props
 
         return (
@@ -284,12 +291,6 @@ class Form extends Component {
                         ))}
                     </Dropdown>
                 </Control>
-                {/* <Control horizontal>
-                    <label style={LABEL_STYLE}>Terrain</label>
-                    <div style={INPUT_STYLE}>
-                        <Holder value={TerrainRatingTexts.get(area.rating)} />
-                    </div>
-                </Control> */}
             </Fragment>
         )
     }
@@ -297,7 +298,7 @@ class Form extends Component {
 
 // Constants
 const CONTENT_STYLE = {
-    margin: '0 1em',
+    margin: '0.5em 1em',
 }
 const CHART_STYLE = {
     margin: '1em 0',

@@ -10,12 +10,17 @@ import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
 
 export default class TripPlannerLayout extends PureComponent {
+    state = {
+        left: true,
+        right: false,
+    }
     handleRegionSelect = ({ properties }) => {
         this.setState({
             region: {
                 id: properties.id,
                 name: properties.name,
             },
+            right: true,
         })
     }
     handleAreaSelect = ({ properties }) => {
@@ -31,6 +36,7 @@ export default class TripPlannerLayout extends PureComponent {
                     filter: ['==', 'ATES_RECREATION_BNDRY_NAME', name],
                 }),
             },
+            left: true,
         })
     }
     handleElevationChange = elevation => {
@@ -63,22 +69,31 @@ export default class TripPlannerLayout extends PureComponent {
 
         return null
     }
+    handleLeftCloseClick = () => this.setState({ left: false, area: null })
+    handleRightCloseClick = () => this.setState({ right: false })
     render() {
+        const { left, right, ...state } = this.state
+
         return (
             <div className={styles.Layout}>
                 <Map
+                    {...state}
                     onLoad={this.handleMapLoad}
                     onRegionSelect={this.handleRegionSelect}
                     onAreaSelect={this.handleAreaSelect}
                 />
                 <TripPlanning
-                    {...this.state}
+                    {...state}
+                    open={left}
+                    onCloseClick={this.handleLeftCloseClick}
                     onElevationChange={this.handleElevationChange}
                     onDateChange={this.handleDateChange}
                     onLocateClick={this.handleAreaLocateClick}
                 />
                 <Forecast
-                    {...this.state}
+                    {...state}
+                    open={right}
+                    onCloseClick={this.handleRightCloseClick}
                     onElevationChange={this.handleElevationChange}
                     onDateChange={this.handleDateChange}
                     onLocateClick={this.handleRegionLocateClick}
