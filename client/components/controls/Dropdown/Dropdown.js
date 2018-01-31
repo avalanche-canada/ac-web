@@ -56,7 +56,16 @@ export default class DropdownControl extends PureComponent {
         )
 
         return options.length
-            ? options.map(element => element.props.children)
+            ? options
+                  .map(element => element.props.children)
+                  .reduce((elements, current, index) => {
+                      if (index > 0) {
+                          elements.push(', ')
+                      }
+                      elements.push(current)
+
+                      return elements
+                  }, [])
             : null
     }
     close = callback => {
@@ -121,22 +130,8 @@ export default class DropdownControl extends PureComponent {
         // SHAME: Needs to be fixed
         setTimeout(this.close, 100)
     }
-    handleOptionClick = option => {
-        const { onChange, value } = this.props
-
-        if (value instanceof Set) {
-            const copy = new Set(Array.from(value))
-
-            if (copy.has(option)) {
-                copy.delete(option)
-            } else {
-                copy.add(option)
-            }
-
-            option = new Set(Array.from(copy))
-        } else if (option === value) {
-            option = null
-        }
+    handleChange = option => {
+        const { onChange } = this.props
 
         this.close(() => onChange(option))
     }
@@ -144,7 +139,7 @@ export default class DropdownControl extends PureComponent {
         return (
             <Dropdown>
                 <OptionSet
-                    onChange={this.handleOptionClick}
+                    onChange={this.handleChange}
                     value={this.props.value}>
                     {this.props.children}
                 </OptionSet>

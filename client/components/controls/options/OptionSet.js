@@ -18,7 +18,7 @@ export default class OptionSet extends Component {
             const values = new Set(value)
 
             if (values.has(option)) {
-                values.remove(option)
+                values.delete(option)
             } else {
                 values.add(option)
             }

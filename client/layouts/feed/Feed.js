@@ -47,7 +47,7 @@ export class Feed extends PureComponent {
             const value = filters[name]
 
             if (value) {
-                if (Array.isArray(value) && value.length === 0) {
+                if (value instanceof Set && value.size === 0) {
                     return
                 }
 
@@ -166,13 +166,12 @@ export class NewsFeed extends PureComponent {
         this.state = {
             year: year && Number(year),
             month,
-            tags: sanitizeTags(tags),
+            tags: new Set(sanitizeTags(tags)),
         }
     }
     handleYearChange = year => this.setState({ year }, serialize)
     handleMonthChange = month => this.setState({ month }, serialize)
-    handleTagChange = tags =>
-        this.setState({ tags: Array.from(tags) }, serialize)
+    handleTagChange = tags => this.setState({ tags }, serialize)
     children = documents => {
         const { year, month, tags } = this.state
         const tagOptions = computeOptions('tags', documents, new Map())
@@ -197,7 +196,7 @@ export class NewsFeed extends PureComponent {
                 </FilterEntry>
                 <FilterEntry>
                     <Dropdown
-                        value={new Set(tags)}
+                        value={tags}
                         onChange={this.handleTagChange}
                         options={tagOptions}
                         placeholder="All tags"
@@ -225,12 +224,11 @@ export class EventFeed extends PureComponent {
 
         this.state = {
             timeline: timeline === PAST ? PAST : UPCOMING,
-            tags: sanitizeTags(tags),
+            tags: new Set(sanitizeTags(tags)),
         }
     }
     handleTimelineChange = timeline => this.setState({ timeline }, serialize)
-    handleTagChange = tags =>
-        this.setState({ tags: Array.from(tags) }, serialize)
+    handleTagChange = tags => this.setState({ tags }, serialize)
     componentWillMount() {
         if (!this.props.location.search) {
             this.props.history.replace({
@@ -342,8 +340,7 @@ const PREDICATES = new Map([
     ['category', ({ category }) => post => post.category == category],
     [
         'tags',
-        ({ tags }) => post =>
-            Boolean(post.tags.find(tag => tags.includes(tag))),
+        ({ tags }) => post => Boolean(post.tags.find(tag => tags.has(tag))),
     ],
     [
         'timeline',
