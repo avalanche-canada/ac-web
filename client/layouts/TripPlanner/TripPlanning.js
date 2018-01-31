@@ -20,7 +20,7 @@ import Drawer, {
 } from 'components/page/drawer'
 import TerrainRatings from './panels/TerrainRatings'
 import ChartExplained from './panels/ChartExplained'
-import Welcome from './panels/Welcome'
+import Welcome, { Help } from './panels/Welcome'
 import ELEVATIONS, {
     ALP,
     Texts as ElevationTexts,
@@ -107,6 +107,7 @@ export default class TripPlanning extends Component {
                     )}
                     <ChartExplained />
                     <TerrainRatings />
+                    <Help />
                 </Body>
             </Container>
         )

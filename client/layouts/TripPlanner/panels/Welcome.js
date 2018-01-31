@@ -1,11 +1,34 @@
-import React, { PureComponent, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import styles from '../TripPlanner.css'
-import { Close } from 'components/button'
+import React, { Fragment } from 'react'
+import StaticComponent from 'components/StaticComponent'
+import Panel from './Panel'
 import Device from 'components/Device'
 import { SIMPLE, CHALLENGING, COMPLEX, Palette } from 'constants/forecast/ates'
+import styles from '../TripPlanner.css'
 
-export default class Welcome extends PureComponent {
+export default class Welcome extends StaticComponent {
+    render() {
+        return (
+            <section className={styles.Welcome}>
+                <h1>Welcome to the Trip planner</h1>
+                <Content />
+            </section>
+        )
+    }
+}
+
+export class Help extends StaticComponent {
+    render() {
+        return (
+            <Panel header="Help">
+                <div className={styles.PanelContent}>
+                    <Content />
+                </div>
+            </Panel>
+        )
+    }
+}
+
+export class Content extends StaticComponent {
     renderActions = ({ isTouchable }) => (
         <Fragment>
             <p>
@@ -27,11 +50,7 @@ export default class Welcome extends PureComponent {
     }
     render() {
         return (
-            <div className={styles.Welcome}>
-                <header>
-                    <h1>Welcome to the Trip planner</h1>
-                    {this.close}
-                </header>
+            <Fragment>
                 <p>ATES areas are colored:</p>
                 <ul>
                     <li style={this.getStyle(SIMPLE)}>
@@ -45,7 +64,7 @@ export default class Welcome extends PureComponent {
                     </li>
                 </ul>
                 <Device>{this.renderActions}</Device>
-            </div>
+            </Fragment>
         )
     }
 }
