@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
@@ -35,28 +35,31 @@ export default class Layout extends PureComponent {
         )
     }
     children = ({ report, status }) => (
-        <Fragment>
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
             <Header subject="Mountain Information Network">
                 {report && this.renderHeader(report)}
             </Header>
             <Body>
-                <Status {...status} />
+                <Status style={STATUS_STYLE} {...status} />
                 {report && <Metadata report={report} shareable />}
                 {report && <Submission report={report} />}
             </Body>
-        </Fragment>
+        </Container>
     )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <MountainInformationNetworkSubmission id={this.props.id}>
-                    {this.children}
-                </MountainInformationNetworkSubmission>
-            </Container>
+            <MountainInformationNetworkSubmission id={this.props.id}>
+                {this.children}
+            </MountainInformationNetworkSubmission>
         )
     }
+}
+
+// Constants
+const STATUS_STYLE = {
+    margin: '1em',
 }

@@ -52,25 +52,25 @@ export default class Layout extends PureComponent {
             </Header>
         )
     }
-    children = ({ region, forecast, status }) => [
-        this.renderHeader(region, forecast, status),
-        <Body>
-            <Status style={STATUS_STYLE} {...status} />
-            <Compound forecast={forecast} />
-        </Body>,
-    ]
+    children = ({ region, forecast, status }) => (
+        <Container>
+            <Navbar>
+                <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            {this.renderHeader(region, forecast, status)}
+            <Body>
+                <Status style={STATUS_STYLE} {...status} />
+                <Compound forecast={forecast} />
+            </Body>
+        </Container>
+    )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <ForecastContainer name={this.props.name}>
-                    {this.children}
-                </ForecastContainer>
-            </Container>
+            <ForecastContainer name={this.props.name}>
+                {this.children}
+            </ForecastContainer>
         )
     }
 }

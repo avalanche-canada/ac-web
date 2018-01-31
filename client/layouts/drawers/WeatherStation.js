@@ -31,28 +31,28 @@ export default class WeatherStation extends PureComponent {
             </h1>
         )
     }
-    children = ({ entity, status }) => [
-        <Header subject="Weather station">
-            {this.renderHeader(entity, status)}
-        </Header>,
-        <Body>
-            <Status {...status} />
-            {Metadata.render(entity)}
-            {Station.render(entity)}
-            <Footer />
-        </Body>,
-    ]
+    children = ({ entity, status }) => (
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            <Header subject="Weather station">
+                {this.renderHeader(entity, status)}
+            </Header>
+            <Body>
+                <Status {...status} />
+                {Metadata.render(entity)}
+                {Station.render(entity)}
+                <Footer />
+            </Body>
+        </Container>
+    )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <WeatherStationContainer id={this.props.id}>
-                    {this.children}
-                </WeatherStationContainer>
-            </Container>
+            <WeatherStationContainer id={this.props.id}>
+                {this.children}
+            </WeatherStationContainer>
         )
     }
 }
