@@ -27,7 +27,7 @@
     justify-content: space-around;
 
     & > .Control {
-        margin: 0.5em;
+        margin: 0.25em;
     }
 }
 

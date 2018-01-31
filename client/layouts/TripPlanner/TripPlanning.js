@@ -7,7 +7,7 @@ import { Muted } from 'components/text'
 import { Day, DateElement } from 'components/time'
 import { Chart } from 'components/graphics/avaluator'
 import { LEVELS } from 'constants/forecast/rating'
-import { Control } from 'components/form'
+import { Control, ControlSet } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
 import { Option } from 'components/controls/options'
 import Drawer, {
@@ -264,7 +264,7 @@ class Form extends Component {
         } = this.props
 
         return (
-            <Fragment>
+            <ControlSet>
                 <Control horizontal>
                     <label style={LABEL_STYLE}>Day</label>
                     <Dropdown
@@ -291,14 +291,14 @@ class Form extends Component {
                         ))}
                     </Dropdown>
                 </Control>
-            </Fragment>
+            </ControlSet>
         )
     }
 }
 
 // Constants
 const CONTENT_STYLE = {
-    margin: '0.5em 1em',
+    margin: '0 1em',
 }
 const CHART_STYLE = {
     margin: '1em 0',

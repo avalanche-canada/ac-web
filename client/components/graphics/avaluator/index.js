@@ -24,17 +24,10 @@ export class Chart extends PureComponent {
         return <circle cx={x} cy={y} r="7" stroke="#FFFFFF" strokeWidth="2" />
     }
     render() {
+        const { terrain, danger } = this.props
+
         return (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="22 0 271 200">
-                {/* <path fill="#00aeef" d="M82.1 182h210v12.9h-210z" />
-                <text
-                    x="187.8"
-                    y="191.2"
-                    fill="#fff"
-                    fontSize="10"
-                    textAnchor="middle">
-                    <tspan>Avalanche terrain rating</tspan>
-                </text> */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="16 0 277 200">
                 <path
                     fill="#fcee23"
                     d="M82.2 26.6c0 .6 46.7 19.4 86.2 39 39.5 19.4 123.7 30 123.7 30v54.6s1 14.4-11.3 14.4h-58.6s-8.3-49-43-69-97-50.8-97-50.8V26.6z"
@@ -91,6 +84,7 @@ export class Chart extends PureComponent {
                     y="178.2"
                     fill="#00aeef"
                     fontSize="10"
+                    fontWeight={terrain === SIMPLE ? 'bold' : 'normal'}
                     textAnchor="middle">
                     Simple
                 </text>
@@ -99,6 +93,7 @@ export class Chart extends PureComponent {
                     y="178.2"
                     fill="#00aeef"
                     fontSize="10"
+                    fontWeight={terrain === CHALLENGING ? 'bold' : 'normal'}
                     textAnchor="middle">
                     Challenging
                 </text>
@@ -107,6 +102,7 @@ export class Chart extends PureComponent {
                     y="178.2"
                     fill="#00aeef"
                     fontSize="10"
+                    fontWeight={terrain === COMPLEX ? 'bold' : 'normal'}
                     textAnchor="middle">
                     Complex
                 </text>
@@ -115,22 +111,25 @@ export class Chart extends PureComponent {
                     y="147.9"
                     fill="#245eac"
                     fontSize="10"
+                    fontWeight={danger === LOW ? 'bold' : 'normal'}
                     textAnchor="left">
                     Low
                 </text>
                 <text
-                    x="36.2"
+                    x="35.2"
                     y="119.8"
                     fill="#245eac"
                     fontSize="10"
+                    fontWeight={danger === MODERATE ? 'bold' : 'normal'}
                     textAnchor="left">
                     Moderate
                 </text>
                 <text
-                    x="21.9"
+                    x="16.9"
                     y="87.8"
                     fill="#245eac"
                     fontSize="10"
+                    fontWeight={danger === CONSIDERABLE ? 'bold' : 'normal'}
                     textAnchor="left">
                     Considerable
                 </text>
@@ -139,6 +138,7 @@ export class Chart extends PureComponent {
                     y="55.2"
                     fill="#245eac"
                     fontSize="10"
+                    fontWeight={danger === HIGH ? 'bold' : 'normal'}
                     textAnchor="left">
                     High
                 </text>
@@ -147,18 +147,10 @@ export class Chart extends PureComponent {
                     y="24"
                     fill="#245eac"
                     fontSize="10"
+                    fontWeight={danger === EXTREME ? 'bold' : 'normal'}
                     textAnchor="left">
                     Extreme
                 </text>
-                {/* <path fill="#245eac" d="M7.9 164V5.5h12.9V164z" />
-                <text
-                    x="-84.4"
-                    y="16.5"
-                    fontSize="10"
-                    textAnchor="middle"
-                    transform="rotate(-90)">
-                    <tspan fill="#fff">Danger rating</tspan>
-                </text> */}
                 <path
                     fill="none"
                     stroke="#fff"
@@ -172,7 +164,7 @@ export class Chart extends PureComponent {
     }
 }
 
-// Constants
+// Constants - Coordinates
 const X_COORDINATES = new Map([
     [SIMPLE, 119],
     [CHALLENGING, 188],
