@@ -15,7 +15,7 @@ export default class OptionSet extends Component {
         const { onChange, value } = this.props
 
         if (value instanceof Set) {
-            const values = new Set(value)
+            const values = new Set(Array.from(value))
 
             if (values.has(option)) {
                 values.delete(option)
