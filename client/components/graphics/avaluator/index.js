@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
 import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
 import {
     LOW,
@@ -9,7 +8,6 @@ import {
     HIGH,
     EXTREME,
 } from 'constants/forecast/rating'
-import styles from './styles.css'
 
 // Components
 export class Chart extends PureComponent {
@@ -21,7 +19,7 @@ export class Chart extends PureComponent {
     get indicator() {
         const { terrain, danger } = this.props
         const x = X_COORDINATES.get(terrain)
-        const y = Y_COORDINATES.get(danger) + 2
+        const y = Y_COORDINATES.get(danger)
 
         return <circle cx={x} cy={y} r="7" stroke="#FFFFFF" strokeWidth="2" />
     }
@@ -174,32 +172,16 @@ export class Chart extends PureComponent {
     }
 }
 
-export class Legend extends StaticComponent {
-    render() {
-        return (
-            <div className={styles.Legend}>
-                {COLORS.map((color, index) => (
-                    <div key={color} style={{ color }}>
-                        {TEXTS[index]}
-                    </div>
-                ))}
-            </div>
-        )
-    }
-}
-
 // Constants
-const COLORS = ['#EC2227', '#FCEE23', '#12B24B']
-const TEXTS = ['Not recommended', 'Extra caution', 'Caution']
 const X_COORDINATES = new Map([
-    [SIMPLE, 116.5],
-    [CHALLENGING, 189.9],
-    [COMPLEX, 263.1],
+    [SIMPLE, 119],
+    [CHALLENGING, 188],
+    [COMPLEX, 258],
 ])
 const Y_COORDINATES = new Map([
-    [LOW, 182.6],
-    [MODERATE, 148.98],
-    [CONSIDERABLE, 115.45],
-    [HIGH, 81.72],
-    [EXTREME, 52],
+    [LOW, 145],
+    [MODERATE, 117],
+    [CONSIDERABLE, 85],
+    [HIGH, 53],
+    [EXTREME, 21],
 ])
