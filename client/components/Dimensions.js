@@ -10,12 +10,13 @@ export default class Dimensions extends Component {
         width: null,
         height: null,
     }
-    setRef = ref => (this.ref = ref)
+    ref = node => (this.node = node)
     set = () =>
+        this.node &&
         this.setState({
-            width: this.ref.offsetWidth,
-            height: this.ref.offsetHeight,
-        });
+            width: this.node.offsetWidth,
+            height: this.node.offsetHeight,
+        })
     update = throttle(this.set, 250)
     componentDidMount() {
         this.set()
@@ -30,7 +31,7 @@ export default class Dimensions extends Component {
         const { children, ...props } = this.props
 
         return (
-            <div {...props} ref={this.setRef}>
+            <div {...props} ref={this.ref}>
                 {children(this.state)}
             </div>
         )
