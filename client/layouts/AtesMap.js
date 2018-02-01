@@ -6,10 +6,19 @@ import Alert, { WARNING } from 'components/alert'
 import { Generic } from 'prismic/components'
 import styles from './AtesMap.css'
 
+// TODO: Use basic map!!!
+
 const CENTER = [-122, 53]
 
 export default class AtesMap extends PureComponent {
+    state = {
+        ready: false,
+    }
     update = throttle(({ target }) => {
+        if (!this.state.ready) {
+            return
+        }
+
         const { offsetWidth, offsetHeight } = target.getContainer()
         const bounds = target.getBounds()
         const west = bounds.getWest()
@@ -54,6 +63,9 @@ export default class AtesMap extends PureComponent {
             source: 'ates',
         })
     }, 500)
+    handleLoad = event => {
+        this.setState({ ready: true }, () => this.update(event))
+    }
     render() {
         return (
             <div className={styles.Container}>
@@ -66,7 +78,7 @@ export default class AtesMap extends PureComponent {
                     zoom={5}
                     center={CENTER}
                     style="default"
-                    onLoad={this.update}
+                    onLoad={this.handleLoad}
                     onResize={this.update}
                     onZoomend={this.update}
                     onMoveend={this.update}>

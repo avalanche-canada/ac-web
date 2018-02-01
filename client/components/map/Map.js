@@ -144,10 +144,16 @@ export default class MapComponent extends Component {
         }
     }
     componentDidMount() {
+        const { container } = this
+
+        if (!container) {
+            return
+        }
+
         const { style, ...props } = this.props
         const map = new mapbox.Map({
             ...props,
-            container: this.container,
+            container,
             style: typeof style === 'string' ? styles[style] : toJSON(style),
         })
 
