@@ -321,6 +321,7 @@ exports.getSubmissions = function(filters, callback) {
     }
     return getSubmissionsRecursive(startDate, endDate, null, [], callback);
 };
+
 function getSubmissionsRecursive(
     startDate,
     endDate,
@@ -374,7 +375,7 @@ function getSubmissionsRecursive(
                 'getSubmissionsRecursive: final length -',
                 items.length
             );
-            var subs = itemsToSubmissions(items);
+            var subs = mapWebSubResults(items)
             callback(null, subs);
         }
     });
