@@ -11,7 +11,7 @@ export const Texts = new Map([
 ])
 
 export const Palette = new Map([
-    [SIMPLE, '#48C738'],
+    [SIMPLE, '#3EA031'],
     [CHALLENGING, '#4248C2'],
     [COMPLEX, '#000000'],
 ])
