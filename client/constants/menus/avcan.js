@@ -294,8 +294,8 @@ export default {
                         },
                         {
                             id: String(id++),
-                            label: 'Subscribe to our Newsletter',
-                            to: '/about#newsletter',
+                            label: 'Stakeholder Newsletter',
+                            to: '/about#stakeholdernews',
                         },
                         {
                             id: String(id++),
@@ -311,9 +311,6 @@ export default {
                             id: String(id++),
                             label: 'Service Awards',
                             to: '/about#awards',
-                            // }, {
-                            //     label: 'Tech',
-                            //     to: '/tech',
                         },
                         {
                             id: String(id++),
