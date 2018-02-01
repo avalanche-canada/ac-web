@@ -14,30 +14,55 @@ export default class TripPlannerLayout extends PureComponent {
         left: true,
         right: false,
     }
-    handleRegionSelect = ({ properties }) => {
-        this.setState({
-            region: {
-                id: properties.id,
-                name: properties.name,
-            },
-            right: true,
-        })
-    }
-    handleAreaSelect = ({ properties }) => {
-        const name = properties.ATES_RECREATION_BNDRY_NAME
+    handleFeaturesSelect = next => {
+        function updater(state) {
+            const area = this.createAreaState(next, state)
+            const region = this.createRegionState(next, state)
 
-        this.setState({
-            area: {
-                id: properties.id,
-                rating: properties.ATES_ZONE_CLASS_CODE,
-                name,
+            return {
+                area,
+                left: Boolean(area),
+                region,
+                right: Boolean(region),
+            }
+        }
+
+        this.setState(updater)
+    }
+    createAreaState(next, previous) {
+        if (
+            (next.area && next.region) ||
+            (next.area &&
+                previous.region &&
+                previous.region.id === next.region.properties.id)
+        ) {
+            const {
+                id,
+                ATES_ZONE_CLASS_CODE,
+                ATES_RECREATION_BNDRY_NAME,
+            } = next.area.properties
+
+            return {
+                id,
+                rating: ATES_ZONE_CLASS_CODE,
+                name: ATES_RECREATION_BNDRY_NAME,
                 features: this.map.querySourceFeatures('composite', {
                     sourceLayer: 'ates-terrain-7cew5b',
-                    filter: ['==', 'ATES_RECREATION_BNDRY_NAME', name],
+                    filter: [
+                        '==',
+                        'ATES_RECREATION_BNDRY_NAME',
+                        ATES_RECREATION_BNDRY_NAME,
+                    ],
                 }),
-            },
-            left: true,
-        })
+            }
+        }
+
+        return null
+    }
+    createRegionState(next) {
+        const { id, name } = next.region.properties
+
+        return { id, name }
     }
     handleElevationChange = elevation => {
         this.setState({ elevation })
@@ -79,8 +104,7 @@ export default class TripPlannerLayout extends PureComponent {
                 <Map
                     {...state}
                     onLoad={this.handleMapLoad}
-                    onRegionSelect={this.handleRegionSelect}
-                    onAreaSelect={this.handleAreaSelect}
+                    onFeaturesSelect={this.handleFeaturesSelect}
                 />
                 <TripPlanning
                     {...state}

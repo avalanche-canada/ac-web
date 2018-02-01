@@ -9,7 +9,7 @@ export default class Welcome extends StaticComponent {
     render() {
         return (
             <section className={styles.Welcome}>
-                <h1>Welcome to the Trip planner</h1>
+                <h2>Welcome to the Trip planner</h2>
                 <Content />
             </section>
         )

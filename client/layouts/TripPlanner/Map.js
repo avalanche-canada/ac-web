@@ -8,12 +8,7 @@ export default class TripPlannerMap extends Component {
     static propTypes = {
         area: PropTypes.object,
         onLoad: PropTypes.func.isRequired,
-        onRegionSelect: PropTypes.func.isRequired,
-        onAreaSelect: PropTypes.func.isRequired,
-    }
-    state = {
-        area: null,
-        region: null,
+        onFeaturesSelect: PropTypes.func.isRequired,
     }
     cursorEnterCounter = 0
     handleLoad = event => {
@@ -84,20 +79,7 @@ export default class TripPlannerMap extends Component {
                 padding: 25,
             })
         } else {
-            this.setState(
-                {
-                    area: area || null,
-                    region: region || null,
-                },
-                () => {
-                    if (area) {
-                        this.props.onAreaSelect(area)
-                    }
-                    if (region) {
-                        this.props.onRegionSelect(region)
-                    }
-                }
-            )
+            this.props.onFeaturesSelect({ region, area })
         }
     }
     render() {
