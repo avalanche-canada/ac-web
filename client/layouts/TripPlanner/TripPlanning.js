@@ -69,10 +69,13 @@ export default class TripPlanning extends Component {
         }
 
         return (
-            <div style={CONTENT_STYLE}>
-                <Status {...status} messages={messages} />
-                {hasDangerRatings && this.renderContent(forecast)}
-            </div>
+            <Fragment>
+                <div style={CONTENT_STYLE}>
+                    <Status {...status} messages={messages} />
+                    {hasDangerRatings && this.renderContent(forecast)}
+                </div>
+                {hasDangerRatings && <ChartExplained />}
+            </Fragment>
         )
     }
     get isLoadedMessage() {
@@ -111,7 +114,6 @@ export default class TripPlanning extends Component {
                     ) : (
                         <Muted>{this.isLoadedMessage}</Muted>
                     )}
-                    <ChartExplained />
                     <TerrainRatings />
                     <Help />
                 </Body>
