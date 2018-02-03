@@ -79,7 +79,9 @@ export default class ForecastPanel extends Component {
                 </Navbar>
                 <Header subject="Avalanche forecast">
                     <h1>
-                        <span>{name}</span>
+                        <Link to={`/forecasts/${id}`} target={id}>
+                            {name}
+                        </Link>
                         <DisplayOnMap onClick={onLocateClick} />
                     </h1>
                 </Header>
