@@ -163,7 +163,6 @@ export class Chart extends PureComponent {
                     x="224"
                     y="40"
                     fontSize="10"
-                    fontWeight="bold"
                     textAnchor="middle"
                     fill="white">
                     Not recommended
@@ -172,7 +171,6 @@ export class Chart extends PureComponent {
                     x="250"
                     y="106"
                     fontSize="10"
-                    fontWeight="bold"
                     textAnchor="middle"
                     fill="black">
                     <tspan>Extra</tspan>
@@ -182,7 +180,6 @@ export class Chart extends PureComponent {
                     x="156"
                     y="134"
                     fontSize="10"
-                    fontWeight="bold"
                     textAnchor="middle"
                     fill="black">
                     Caution
