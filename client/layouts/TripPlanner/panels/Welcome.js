@@ -64,6 +64,12 @@ export class Content extends StaticComponent {
                     </li>
                 </ul>
                 <Device>{this.renderActions}</Device>
+                <p>
+                    For the best experience it is recommended to use this
+                    interactive tool on a computer with a full-size screen
+                    rather than a mobile device. We are currenlty working to
+                    make that tool "mobile friendly".
+                </p>
             </Fragment>
         )
     }
