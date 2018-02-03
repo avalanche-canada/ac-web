@@ -158,6 +158,35 @@ export class Chart extends PureComponent {
                     d="M82.2 116.8H292m-209.7-32H292M82.2 53H292M82.2 21.1H292m-34.2-16v159.5M188.3 5.1v159.5M118.7 5.1v159.5"
                     opacity=".6"
                 />
+
+                <text
+                    x="224"
+                    y="40"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    fill="white">
+                    Not recommended
+                </text>
+                <text
+                    x="250"
+                    y="106"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    fill="black">
+                    <tspan>Extra</tspan>
+                    <tspan dy="28">caution</tspan>
+                </text>
+                <text
+                    x="156"
+                    y="134"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    fill="black">
+                    Caution
+                </text>
                 {this.indicator}
             </svg>
         )
