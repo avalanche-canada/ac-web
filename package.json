@@ -109,7 +109,7 @@
         "immutable": "^3.8.1",
         "jest-cli": "^22.0.4",
         "jshint-stylish": "~0.1.5",
-        "mapbox-gl": "0.43.0",
+        "mapbox-gl": "0.44.0",
         "mocha": "^3.0.2",
         "nodemon": "^1.11.0",
         "normalizr": "^3.1.0",
