@@ -34,14 +34,18 @@ export class Entry extends PureComponent {
             case 'function':
                 return value(this)
             case 'object': {
-                if (Array.isArray(value) && value.length > 0) {
-                    return (
-                        <ul>
-                            {value.map((value, index) => (
-                                <li key={index}>{Entry.children(value)}</li>
-                            ))}
-                        </ul>
-                    )
+                if (Array.isArray(value)) {
+                    if (value.length === 0) {
+                        return null
+                    } else {
+                        return (
+                            <ul>
+                                {value.map((value, index) => (
+                                    <li key={index}>{Entry.children(value)}</li>
+                                ))}
+                            </ul>
+                        )
+                    }
                 } else if (value instanceof Date) {
                     return <DateTime value={value} />
                 } else {
