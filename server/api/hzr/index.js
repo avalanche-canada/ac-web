@@ -1,18 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-var jwt = require('express-jwt');
 var multiparty = require('multiparty');
 var hzrUtils = require('./hzr-utils');
 var moment = require('moment');
 var changeCase = require('change-case');
 var logger = require('../../logger.js');
 var config = require('../../config/environment');
-
-var jwtCheck = jwt({
-    secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
-    audience: process.env.AUTH0_CLIENT_ID,
-});
 
 function mapWebHZRResponse(hzr, req) {
     return _.reduce(
@@ -35,7 +29,7 @@ function mapWebHZRResponse(hzr, req) {
     );
 }
 
-router.post('/submissions', jwtCheck, function(req, res) {
+router.post('/submissions', function(req, res) {
     console.log(req.get('content-type'));
     var form = new multiparty.Form();
     form.parse(req);
