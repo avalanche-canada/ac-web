@@ -17,6 +17,7 @@ export default function Router() {
             <Analytics>
                 <ScrollTo>
                     <Switch>
+                        <Redirect from="/trip-planner" to="/trip-planning" />
                         <Redirect
                             from="/events/VvLeBSUAAJgDAgX6"
                             to="/events/asa-snowmobile-show-2016"
@@ -446,6 +447,10 @@ export default function Router() {
                             to="/tutorial"
                         />
                         <Redirect from="/cac" to="/" />
+                        <Redirect
+                            from="/pages/static-page/decision-making"
+                            to="/trip-planning/decision-making"
+                        />
                         <Redirect from="/pages/static-page/sled" to="/sled" />
                         <Redirect from="/pages/static-page/youth" to="/youth" />
                         <Redirect

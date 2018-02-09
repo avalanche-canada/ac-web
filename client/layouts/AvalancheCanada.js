@@ -156,9 +156,14 @@ export default class AvalancheCanada extends Component {
                     title="Terms of use"
                 />
                 <StaticPageRoute
-                    path="/trip-planner"
-                    uid="trip-planning-resources"
-                    title="Trip Planner"
+                    path="/trip-planning/decision-making"
+                    uid="decision-making"
+                    title="Decision Making"
+                />
+                <StaticPageRoute
+                    path="/trip-planning"
+                    uid="trip-planning"
+                    title="Trip Planning"
                 />
                 <WIPPageRoute
                     path="/incidents"
