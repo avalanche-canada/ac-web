@@ -19,6 +19,10 @@ export default function Router() {
                     <Switch>
                         <Redirect from="/trip-planner" to="/trip-planning" />
                         <Redirect
+                            from="/pages/static-page/trip-planning"
+                            to="/trip-planning"
+                        />
+                        <Redirect
                             from="/events/VvLeBSUAAJgDAgX6"
                             to="/events/asa-snowmobile-show-2016"
                         />
