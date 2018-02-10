@@ -190,7 +190,7 @@ export default class AvalancheCanada extends Component {
         return (
             <Application>
                 <Navbar />
-                <Route component={SPAW} />
+                <SPAW />
                 <ErrorBoundary>{this.children}</ErrorBoundary>
                 <Switch>
                     <Route path="/map" component={null} />

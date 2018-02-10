@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
 import classnames from 'classnames'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
@@ -29,7 +30,7 @@ export default class SPAW extends PureComponent {
 
         const { description, link } = document
         const style = classnames(styles.Content, {
-            [styles.Map]: this.props.location.pathname.startsWith('/map'),
+            [styles.Map]: this.location.pathname.startsWith('/map'),
         })
         const content = (
             <div className={style}>
@@ -55,8 +56,13 @@ export default class SPAW extends PureComponent {
             </div>
         )
     }
-    render() {
+    renderer = ({ location }) => {
+        this.location = location
+
         return <Container>{this.children}</Container>
+    }
+    render() {
+        return <Route>{this.renderer}</Route>
     }
 }
 

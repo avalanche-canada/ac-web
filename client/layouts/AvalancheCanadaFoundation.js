@@ -22,7 +22,7 @@ export default function AvalancheCanadaFoundation({ match }) {
     return (
         <Application>
             <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
-            <Route component={SPAW} />
+            <SPAW />
             <Switch>
                 <StaticPageRoute exact path={url} uid="foundation-home" />
                 <StaticPageRoute
