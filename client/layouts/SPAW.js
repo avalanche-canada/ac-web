@@ -27,12 +27,14 @@ export default class SPAW extends PureComponent {
         }
 
         const highlight = (
-            <Highlight
-                style={DANGER}
-                onDismiss={this.handleDismiss}
-                dismissable>
-                <StructuredText value={document.description} />
-            </Highlight>
+            <div className={styles.Container}>
+                <Highlight
+                    style={DANGER}
+                    onDismiss={this.handleDismiss}
+                    dismissable>
+                    <StructuredText value={document.description} />
+                </Highlight>
+            </div>
         )
 
         return document.link ? (
@@ -40,7 +42,7 @@ export default class SPAW extends PureComponent {
                 {highlight}
             </Link>
         ) : (
-            <div className={styles.Container}>{highlight}</div>
+            highlight
         )
     }
     render() {
