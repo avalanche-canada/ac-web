@@ -17,7 +17,7 @@ export default class NorthRockies extends PureComponent {
         return (
             <SPAWComponent link={link} style={style}>
                 <StructuredText value={description} />
-                {link && <p>Click for more information.</p>}
+                {link && <p> Click for more information.</p>}
             </SPAWComponent>
         )
     }

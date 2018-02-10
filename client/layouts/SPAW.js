@@ -34,7 +34,7 @@ export default class SPAW extends PureComponent {
         const content = (
             <div className={style}>
                 <StructuredText value={description} />
-                <span>Click for more information.</span>
+                <span> Click for more information.</span>
             </div>
         )
 
