@@ -6,8 +6,8 @@ import Button, { SUBTILE } from 'components/button'
 
 const STYLE = {
     position: 'absolute',
-    top: 15,
-    left: 15,
+    top: '0.75em',
+    left: '0.75em',
     backgroundColor: 'white',
     zIndex: 13,
 }

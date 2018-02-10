@@ -131,10 +131,6 @@ StructuredText.propTypes = {
     className: PropTypes.string,
 }
 
-export default function StructuredText({ value = [], className }) {
-    return (
-        <div className={className}>
-            {value.reduce(childrenElementReducer, [])}
-        </div>
-    )
+export default function StructuredText({ value = [] }) {
+    return value.reduce(childrenElementReducer, [])
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { avalancheCanadaPathRegex, href } from 'utils/url'
 import Url from 'url'
 
@@ -18,10 +18,10 @@ WebLink.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function WebLink({ children, value: { url } }) {
+export default function WebLink({ children, value: { url }, ...props }) {
     if (avalancheCanadaPathRegex.test(url)) {
         return (
-            <Link to={href(url)}>
+            <Link to={href(url)} {...props}>
                 {children}
             </Link>
         )
@@ -30,7 +30,7 @@ export default function WebLink({ children, value: { url } }) {
     const { protocol } = Url.parse(url)
 
     return (
-        <a href={url} target={TARGETS.get(protocol)}>
+        <a href={url} target={TARGETS.get(protocol)} {...props}>
             {children}
         </a>
     )

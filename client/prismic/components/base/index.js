@@ -18,6 +18,6 @@ const LinkComponents = new Map([
     ['Link.file', FileLink],
 ])
 
-export function Link({ type, children, value }) {
-    return createElement(LinkComponents.get(type), { value }, children)
+export function Link({ type, children, ...props }) {
+    return createElement(LinkComponents.get(type), props, children)
 }

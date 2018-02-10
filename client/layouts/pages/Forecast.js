@@ -24,11 +24,13 @@ export default class ForecastLayout extends PureComponent {
         const style = {
             display: 'block',
             marginTop: '1em',
+            padding: '1em',
         }
 
         return (
             <SPAWComponent link={link} style={style}>
                 <StructuredText value={description} />
+                {link && <p>Click for more information.</p>}
             </SPAWComponent>
         )
     }

@@ -37,10 +37,10 @@ export default class DocumentLink extends PureComponent {
         )
     }
     render() {
-        const { children, value } = this.props
+        const { children, value, document, status, ...props } = this.props
 
         return (
-            <Link to={pathname(value.document)}>
+            <Link to={pathname(value.document)} {...props}>
                 {children || this.children}
             </Link>
         )

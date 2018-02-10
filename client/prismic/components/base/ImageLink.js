@@ -10,9 +10,13 @@ ImageLink.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function ImageLink({ children, value: { image: { url } } }) {
+export default function ImageLink({
+    children,
+    value: { image: { url } },
+    ...props
+}) {
     return (
-        <a href={url} target="_blank">
+        <a href={url} target="_blank" {...props}>
             {children}
         </a>
     )
