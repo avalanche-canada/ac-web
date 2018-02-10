@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
-import { StructuredText } from 'prismic/components/base'
+import { Link, StructuredText } from 'prismic/components/base'
 import { SPAW as Container } from 'prismic/containers'
 import { SessionStorage } from 'services/storage'
 import styles from './SPAW.css'
@@ -21,17 +21,28 @@ export default class SPAW extends PureComponent {
             this.storage.set('highlight-hidden-status', true)
         })
     }
-    children = ({ document }) =>
-        document && !this.state.hidden ? (
-            <div className={styles.Container}>
-                <Highlight
-                    style={DANGER}
-                    onDismiss={this.handleDismiss}
-                    dismissable>
-                    <StructuredText value={document.description} />
-                </Highlight>
-            </div>
-        ) : null
+    children = ({ document }) => {
+        if (!document || this.state.hidden) {
+            return null
+        }
+
+        const highlight = (
+            <Highlight
+                style={DANGER}
+                onDismiss={this.handleDismiss}
+                dismissable>
+                <StructuredText value={document.description} />
+            </Highlight>
+        )
+
+        return document.link ? (
+            <Link className={styles.Container} {...document.link}>
+                {highlight}
+            </Link>
+        ) : (
+            <div className={styles.Container}>{highlight}</div>
+        )
+    }
     render() {
         return <Container>{this.children}</Container>
     }
