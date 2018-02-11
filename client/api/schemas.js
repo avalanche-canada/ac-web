@@ -1,41 +1,25 @@
 import { schema } from 'normalizr'
 
-function obsSorter(left, right) {
-    return left.obtype.localeCompare(right.obtype)
-}
+const { Entity } = schema
 
-export const ForecastRegion = new schema.Entity('forecast-regions')
-export const Forecast = new schema.Entity('forecasts')
-export const HotZone = new schema.Entity('hot-zones')
-export const HotZoneReport = new schema.Entity(
-    'hot-zone-reports',
-    {},
-    {
-        idAttribute: 'hotzoneid',
-    }
-)
-export const MountainInformationNetworkSubmission = new schema.Entity(
+export const ForecastRegion = new Entity('forecast-regions')
+export const Forecast = new Entity('forecasts')
+export const HotZone = new Entity('hot-zones')
+export const HotZoneReport = new Entity('hot-zone-reports', undefined, {
+    idAttribute: 'hotzoneid',
+})
+export const MountainInformationNetworkSubmission = new Entity(
     'mountain-information-network-submissions',
-    {},
+    undefined,
     {
         idAttribute: 'subid',
-        processStrategy(entity) {
-            return {
-                ...entity,
-                obs: entity.obs.sort(obsSorter),
-            }
-        },
     }
 )
-export const Provider = new schema.Entity('providers')
-export const Course = new schema.Entity('courses')
-export const WeatherStation = new schema.Entity(
-    'weather-stations',
-    {},
-    {
-        idAttribute: 'stationId',
-    }
-)
-export const MountainConditionsReport = new schema.Entity(
+export const Provider = new Entity('providers')
+export const Course = new Entity('courses')
+export const WeatherStation = new Entity('weather-stations', undefined, {
+    idAttribute: 'stationId',
+})
+export const MountainConditionsReport = new Entity(
     'mountain-conditions-reports'
 )

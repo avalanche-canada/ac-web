@@ -152,17 +152,19 @@ export function fetch(schema, params) {
         return Promise.all([
             api.get(endpoint, config),
             api.get(`${endpoint}measurements/`, config),
-        ]).then(function merge([{ data: station }, { data: measurements }]) {
-            return {
-                data: {
-                    ...station,
-                    measurements,
-                },
-            }
-        })
+        ]).then(mergeStation)
     }
 
     return api.get(endpoint, config)
+}
+
+function mergeStation([{ data: station }, { data: measurements }]) {
+    return {
+        data: {
+            ...station,
+            measurements,
+        },
+    }
 }
 
 function extractData(response) {
