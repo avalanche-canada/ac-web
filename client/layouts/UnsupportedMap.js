@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Error, Main, Headline } from 'components/page'
@@ -10,8 +10,16 @@ import styles from 'components/page/Page.css'
 export default class UnsupportedMap extends PureComponent {
     static propTypes = {
         links: PropTypes.instanceOf(Map),
+        headline: PropTypes.node,
     }
     static defaultProps = {
+        headline: (
+            <Fragment>
+                It seems that your browser does not support the technology
+                required (WebGL for the geeks) to show forecasts, hot zones and
+                other avalanche-related information on our map.
+            </Fragment>
+        ),
         links: new Map([
             ['/forecasts', 'Forecast regions'],
             ['/hot-zones', 'Hot zones'],
@@ -19,17 +27,15 @@ export default class UnsupportedMap extends PureComponent {
         ]),
     }
     render() {
-        const { links } = this.props
+        const { links, headline } = this.props
 
         return (
             <Error>
                 <Main>
                     <h1>Uh oh! You never thought that would happen...</h1>
                     <Headline>
-                        It seems that your browser does not support the
-                        technology required (WebGL for the geeks) to show
-                        forecasts, hot zones and other avalanche-related
-                        information on our map. We suggest you{' '}
+                        {headline}
+                        <br />We suggest you{' '}
                         <a href="//outdatedbrowser.com" target="_blank">
                             update your browser
                         </a>{' '}
@@ -39,6 +45,7 @@ export default class UnsupportedMap extends PureComponent {
                         </a>
                         .
                     </Headline>
+                    <p />
                     <ButtonSet>
                         {Array.from(links).map(([link, text]) => (
                             <Link key={link} className={styles.Link} to={link}>

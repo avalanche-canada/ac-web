@@ -1,13 +1,15 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import TripPlanner from 'containers/TripPlanner'
-import Map from './Map'
+import TripPlannerMap from './Map'
 import TripPlanning from './TripPlanning'
+import UnsupportedMap from 'layouts/UnsupportedMap'
 import Forecast from './Forecast'
 import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
+import supported from '@mapbox/mapbox-gl-supported'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -97,11 +99,29 @@ export default class TripPlannerLayout extends PureComponent {
     handleLeftCloseClick = () => this.setState({ left: false, area: null })
     handleRightCloseClick = () => this.setState({ right: false })
     render() {
+        if (!supported()) {
+            const links = new Map([
+                ['/trip-planning', 'Trip planning'],
+                ['/forecasts', 'Forecast regions'],
+                ['/weather', 'Mountain Weather Forecast'],
+            ])
+            const headline = (
+                <Fragment>
+                    It seems that your browser does not support the technology
+                    required (WebGL for the geeks) to run the Trip Planner. Stay
+                    tuned, we are working on making a version for users that do
+                    not have the required technology.
+                </Fragment>
+            )
+
+            return <UnsupportedMap links={links} headline={headline} />
+        }
+
         const { left, right, ...state } = this.state
 
         return (
             <div className={styles.Layout}>
-                <Map
+                <TripPlannerMap
                     {...state}
                     onLoad={this.handleMapLoad}
                     onFeaturesSelect={this.handleFeaturesSelect}
