@@ -13,7 +13,6 @@ import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Main from './Map'
-import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
@@ -67,7 +66,6 @@ export default class AvalancheCanada extends Component {
             <Switch>
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
-                <Route path="/map/ates" component={AtesMap} />
                 <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
@@ -199,7 +197,6 @@ export default class AvalancheCanada extends Component {
                 <ErrorBoundary>{this.children}</ErrorBoundary>
                 <Switch>
                     <Route path="/map" component={null} />
-                    <Route path="/map/ates" component={null} />
                     <Route
                         path="/trip-planning/trip-planner"
                         component={null}
