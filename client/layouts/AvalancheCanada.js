@@ -200,7 +200,10 @@ export default class AvalancheCanada extends Component {
                 <Switch>
                     <Route path="/map" component={null} />
                     <Route path="/map/ates" component={null} />
-                    <Route path="/trip-planner" component={null} />
+                    <Route
+                        path="/trip-planning/trip-planner"
+                        component={null}
+                    />
                     <Route path="/incidents" component={null} />
                     <Route path="/tutoriel" component={null} />
                     <Route component={Footer} />
