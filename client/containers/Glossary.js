@@ -93,7 +93,7 @@ export default class Container extends PureComponent {
                             for public avalanche bulletins production by the
                             AvCan. If you can't understand a term in one of the
                             AvCan bulletins, this is where to look first. The
-                            Avalanche Glossary definitions were written by
+                            Avalanche Glossary definitions were written by{' '}
                             <a
                                 target="_blank"
                                 href="http://www.schulich.ucalgary.ca/enci/BruceJamieson">
