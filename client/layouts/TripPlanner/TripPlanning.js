@@ -10,6 +10,7 @@ import { LEVELS } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
 import { Option } from 'components/controls/options'
+import { Home } from 'components/links'
 import Drawer, {
     Header,
     Container,
@@ -92,12 +93,16 @@ export default class TripPlanning extends Component {
             </Fragment>
         )
     }
+    get home() {
+        return <Home style={HOME_STYLE}>Back to main map</Home>
+    }
     get container() {
         const { area, region, onCloseClick } = this.props
 
         return (
             <Container>
-                <Navbar>
+                <Navbar style={NAVBAR_STYLE}>
+                    {this.home}
                     <Close onClick={onCloseClick} />
                 </Navbar>
                 <Header subject="Trip planning">
@@ -120,12 +125,23 @@ export default class TripPlanning extends Component {
             </Container>
         )
     }
+    get welcome() {
+        return (
+            <Container>
+                <Navbar style={NAVBAR_STYLE}>{this.home}</Navbar>
+                <Header subject="Trip planning" />
+                <Body>
+                    <Welcome />
+                </Body>
+            </Container>
+        )
+    }
     render() {
         const { area, open } = this.props
 
         return (
             <Drawer side={LEFT} width={400} open={open}>
-                {area ? this.container : <Welcome />}
+                {area ? this.container : this.welcome}
             </Drawer>
         )
     }
@@ -315,4 +331,10 @@ const LABEL_STYLE = {
     flex: 0.25,
     color: 'grey',
     marginRight: '1em',
+}
+const NAVBAR_STYLE = {
+    justifyContent: 'space-between',
+}
+const HOME_STYLE = {
+    paddingLeft: '1em',
 }
