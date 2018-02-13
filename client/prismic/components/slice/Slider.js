@@ -26,7 +26,11 @@ export default class Slider extends Component {
 function createItem({ image, content }) {
     return {
         src: image.main.url,
-        children: <StructuredText value={content} className={styles.Item} />,
+        children: (
+            <div className={styles.Item}>
+                <StructuredText value={content} />
+            </div>
+        ),
     }
 }
 function renderItem({ children, ...props }) {

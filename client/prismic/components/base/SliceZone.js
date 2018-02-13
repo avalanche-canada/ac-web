@@ -63,9 +63,5 @@ SliceZone.propTypes = {
 }
 
 export default function SliceZone({ value }) {
-    return (
-        <div>
-            {value.map((slice, index) => <Slice key={index} {...slice} />)}
-        </div>
-    )
+    return value.map((slice, index) => <Slice key={index} {...slice} />)
 }

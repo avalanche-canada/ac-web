@@ -9,10 +9,13 @@ import styles from './Page.css'
 export default class Section extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
-        title: PropTypes.string.isRequired,
+        title: PropTypes.node.isRequired,
         hash: PropTypes.string,
         headline: PropTypes.string,
         level: PropTypes.oneOf([1, 2, 3, 4, 5]),
+    }
+    static defaultProps = {
+        level: 1,
     }
     get children() {
         const { hash, title } = this.props
@@ -24,7 +27,7 @@ export default class Section extends PureComponent {
         )
     }
     render() {
-        const { headline, children, level = 1 } = this.props
+        const { headline, children, level } = this.props
         const header = `h${level + 1}`
 
         return (

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Close } from 'components/button'
 import styles from './Highlight.css'
-import noop from 'lodash/noop'
 
 export const DANGER = 'danger'
 export const WARNING = 'warning'
@@ -26,13 +25,19 @@ Highlight.propTypes = {
 export default function Highlight({
     style = WARNING,
     dismissable,
-    onDismiss = noop,
+    onDismiss,
     children,
 }) {
     return (
         <div className={CLASS_NAMES.get(style)}>
             {children}
-            {dismissable && <Close transparent onClick={onDismiss} />}
+            {dismissable && (
+                <Close
+                    transparent
+                    className={styles.Close}
+                    onClick={onDismiss}
+                />
+            )}
         </div>
     )
 }

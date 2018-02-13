@@ -157,6 +157,27 @@ const fatalAccidentLayers = [
             'icon-size': 0.75,
         },
     },
+    {
+        id: `${Layers.FATAL_ACCIDENT}-cluster`,
+        source: Layers.FATAL_ACCIDENT,
+        type: 'symbol',
+        filter: ['has', 'point_count'],
+        layout: {
+            visibility: 'visible',
+            'icon-image': 'fatal-accident',
+            'icon-allow-overlap': true,
+            'icon-size': 0.9,
+            'text-font': ['Open Sans Extrabold'],
+            'text-field': '{point_count}',
+            'text-size': 12,
+            'text-offset': [-0.7, -0.8],
+        },
+        paint: {
+            'text-color': '#000000',
+            'text-halo-color': '#FFFFFF',
+            'text-halo-width': 2,
+        },
+    },
 ]
 
 export default [

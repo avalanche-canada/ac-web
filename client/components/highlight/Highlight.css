@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --medium-screen-width (width > 600px);
 @custom-media --large-screen-width (width > 800px);
@@ -13,7 +13,10 @@
 
     & > *:first-child {
         flex: 1 0;
-        margin-left: 1em;
+    }
+
+    & .Close {
+        padding: 1em;
     }
 
     @media (--medium-screen-width) {

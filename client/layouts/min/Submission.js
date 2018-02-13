@@ -14,13 +14,8 @@ import {
 import { Marker } from 'components/map'
 import mapbox from 'services/mapbox/map'
 import min from 'components/icons/min/min-pin.png'
-
-function createElement(props) {
-    return Object.assign(document.createElement('img'), {
-        ...props,
-        src: min,
-    })
-}
+import minWithIncident from 'components/icons/min/min-pin-with-incident.png'
+import { INCIDENT } from 'constants/min'
 
 export default class Layout extends PureComponent {
     static propTypes = {
@@ -35,10 +30,15 @@ export default class Layout extends PureComponent {
         const title = report.get('title')
         const [latitude, longitude] = report.get('latlng')
         const center = new mapbox.LngLat(longitude, latitude)
+        const withIncident = report.get('obs').some(hasIncident)
+        const element = createElement({
+            title,
+            src: withIncident ? minWithIncident : min,
+        })
 
         return (
             <ContextMap center={center} zoom={8}>
-                <Marker element={createElement({ title })} lngLat={center} />
+                <Marker element={element} lngLat={center} />
             </ContextMap>
         )
     }
@@ -76,4 +76,14 @@ export default class Layout extends PureComponent {
             </Page>
         )
     }
+}
+
+// Utils
+function createElement(props) {
+    return Object.assign(document.createElement('img'), props, {
+        width: 20,
+    })
+}
+function hasIncident(observation) {
+    return observation.get('obtype') === INCIDENT
 }

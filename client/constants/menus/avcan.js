@@ -28,10 +28,10 @@ const Gear = {
     label: 'Essential Gear',
     to: '/gear',
 }
-const TripPlanner = {
+const TripPlanning = {
     id: String(id++),
-    label: 'Trip Planner',
-    to: '/trip-planner',
+    label: 'Trip Planning',
+    to: '/trip-planning',
 }
 const AtesMap = {
     id: String(id++),
@@ -105,7 +105,7 @@ const Planning = {
         MountainWeatherForecast,
         ForecasterBlog,
         Gear,
-        TripPlanner,
+        TripPlanning,
         Forecasts,
         AtesMap,
     ],

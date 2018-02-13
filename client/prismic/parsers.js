@@ -18,6 +18,7 @@ const TypeTransformers = new Map([
     ['Link.web', value => ({ type: 'Link.web', value })],
     ['Link.document', value => ({ type: 'Link.document', value })],
     ['Link.image', value => ({ type: 'Link.image', value })],
+    ['Link.file', value => ({ type: 'Link.file', value })],
 ])
 
 function boolean(string) {

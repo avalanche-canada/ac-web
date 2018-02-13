@@ -1,7 +1,42 @@
+@custom-media --medium-screen-width (width > 600px);
+@custom-media --large-screen-width (width > 800px);
+@custom-media --xlarge-screen-width (width > 1000px);
+
 .Container {
     position: fixed;
     top: 75px;
     right: 0;
     left: 0;
     z-index: 2;
+    cursor: pointer;
+}
+
+.Content {
+    padding: 1em;
+
+    & * {
+        margin: 0;
+        display: inline;
+    }
+
+    @media (--medium-screen-width) {
+        padding: 1em 5em;
+    }
+    @media (--large-screen-width) {
+        padding: 1em 5em;
+    }
+    @media (--xlarge-screen-width) {
+        padding: 1em 15em;
+    }
+
+    &.Map {
+        padding-left: 5em;
+
+        @media (--medium-screen-width) {
+            padding-left: 8em;
+        }
+        @media (--xlarge-screen-width) {
+            padding-left: 15em;
+        }
+    }
 }

@@ -11,11 +11,11 @@ FileLink.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function FileLink({ children, value }) {
+export default function FileLink({ children, value, ...props }) {
     const { name, url } = value.file
 
     return (
-        <a href={url} title={name} target={name}>
+        <a href={url} title={name} target={name} {...props}>
             {children}
         </a>
     )

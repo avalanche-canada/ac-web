@@ -238,11 +238,8 @@ const COLUMNS = [
         property(submission) {
             const id = submission.get('subid')
             const title = submission.get('title')
-            const types = submission
-                .get('obs')
-                .map(pluckObtype)
-                .toSet()
-            const icon = types.has(INCIDENT) ? pinWithIncident : pin
+            const withIncident = submission.get('obs').some(hasIncident)
+            const icon = withIncident ? pinWithIncident : pin
             const path = `/map?panel=${Schema.key}/${id}`
 
             return (
@@ -321,4 +318,7 @@ function pluckObtype(observation) {
 }
 function createRegionOption(region) {
     return [region.get('id'), region.get('name')]
+}
+function hasIncident(observation) {
+    return observation.get('obtype') === INCIDENT
 }

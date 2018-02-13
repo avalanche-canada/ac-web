@@ -1,5 +1,11 @@
 'use strict';
 
+const fs = require('fs');
+const logger = require('./logger.js');
+const expressJwt = require('express-jwt');
+const jwt = require('jsonwebtoken');
+const jwksRsa = require('jwks-rsa');
+
 const Raven = require('raven');
 var useRaven = false;
 if (typeof process.env.SENTRY_DSN !== 'undefined') {
@@ -7,23 +13,43 @@ if (typeof process.env.SENTRY_DSN !== 'undefined') {
     useRaven = true;
 }
 
+
+const jwksSecret = jwksRsa.expressJwtSecret({
+  cache: true,
+  rateLimit: true,
+  jwksRequestsPerMinute: 5,
+  strictSsl: true,
+  jwksUri: 'https://avalancheca.auth0.com/.well-known/jwks.json'
+});
+
+const OLD_SECRET=new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
+
+function secretProvider(req, header, payload, cb) {
+    if(header.alg === 'RS256') {
+        console.log("got RS256")
+        return jwksSecret(req, header, payload, cb);
+    } else if (header.alg === 'HS256') {
+        console.log("got HS256")
+        return cb(null, OLD_SECRET)
+    } else {
+        cb(new Error("UNABLE TO DO ANYTHING WITH algorithm: " + header.alg))
+    }
+}
+
+var apiAuth = expressJwt({ 
+    secret: secretProvider,
+    algorithms: ['RS256', 'HS256']
+}).unless({ method: ['GET', 'HEAD'] })
+
 module.exports = function(app) {
     var env = app.get('env');
-    var logger = require('./logger.js');
-    var expressJwt = require('express-jwt');
-    var jwt = require('jsonwebtoken');
 
     var shareRouter = require('./share');
 
     app.use(shareRouter);
 
-    var secret = new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
-
     app.use('/', require('./favicon'));
-    app.use(
-        '/api',
-        expressJwt({ secret: secret }).unless({ method: ['GET', 'HEAD'] })
-    );
+    app.use('/api', apiAuth);
 
     app.use('/api/docs', require('./api/docs'));
     app.use('/api/features', require('./api/features/routes'));
@@ -53,7 +79,8 @@ module.exports = function(app) {
 
             var auth = req.get('Authorization');
             if (typeof auth !== 'undefined') {
-                logger.warn('Token=' + auth);
+                //logger.warn('Token=' + auth);
+                logger.warn('Token=' + JSON.stringify(jwt.decode(auth.slice(7), {complete: true}), null, 2));
             }
 
             res.status(401).send('UnauthorizedError');
