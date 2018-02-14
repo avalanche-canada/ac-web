@@ -1,5 +1,5 @@
 import ga from 'react-ga'
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
+import supported from '@mapbox/mapbox-gl-supported'
 import { googleAnalyticsId } from './config.json'
 
 // Set in the google analytics custom dimentions
@@ -12,7 +12,7 @@ const options = process.env.NODE_ENV === 'production' ? {} : { debug: true }
 ga.initialize(googleAnalyticsId, options)
 
 ga.set({
-    [MAPBOXGL_SUPPORTED]: mapboxgl.supported(),
+    [MAPBOXGL_SUPPORTED]: supported(),
 })
 
 export default ga
