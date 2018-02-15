@@ -1,5 +1,29 @@
+import React from 'react'
 import supported from '@mapbox/mapbox-gl-supported'
+import Bundle from 'components/Bundle'
+import { Loading } from 'components/text'
+import { Page, Content } from 'components/page'
 import Unsupported from './Unsupported'
-import Layout from './Layout'
+import loadLayout from 'bundle-loader?lazy!./Layout'
 
-export default (supported() ? Layout : Unsupported)
+export default function TripPlanner() {
+    return supported() ? (
+        <Bundle load={loadLayout}>
+            {Component =>
+                Component ? (
+                    <Component />
+                ) : (
+                    <Page>
+                        <Content>
+                            <h1>
+                                <Loading />
+                            </h1>
+                        </Content>
+                    </Page>
+                )
+            }
+        </Bundle>
+    ) : (
+        Unsupported
+    )
+}
