@@ -10,19 +10,9 @@ import { LEVELS } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
 import { Option } from 'components/controls/options'
-import { Home } from 'components/links'
-import Drawer, {
-    Header,
-    Container,
-    Navbar,
-    Body,
-    DisplayOnMap,
-    Close,
-    LEFT,
-} from 'components/page/drawer'
 import TerrainRatings from './panels/TerrainRatings'
 import ChartExplained from './panels/ChartExplained'
-import Welcome, { Help } from './panels/Welcome'
+import { Help } from './panels/Welcome'
 import ELEVATIONS, {
     ALP,
     Texts as ElevationTexts,
@@ -49,15 +39,12 @@ export default class TripPlanning extends Component {
         onElevationChange: PropTypes.func.isRequired,
         date: PropTypes.instanceOf(Date),
         onDateChange: PropTypes.func.isRequired,
-        open: PropTypes.bool,
-        onCloseClick: PropTypes.func.isRequired,
-        onLocateClick: PropTypes.func.isRequired,
     }
     static defaultProps = {
         elevation: ALP,
     }
     renderContent(forecast) {
-        const { region, onLocateClick, ...props } = this.props
+        const { region, ...props } = this.props
 
         return <Content {...props} forecast={forecast} />
     }
@@ -93,56 +80,21 @@ export default class TripPlanning extends Component {
             </Fragment>
         )
     }
-    get home() {
-        return <Home style={HOME_STYLE}>Back to main map</Home>
-    }
-    get container() {
-        const { area, region, onCloseClick } = this.props
-
-        return (
-            <Container>
-                <Navbar style={NAVBAR_STYLE}>
-                    {this.home}
-                    <Close onClick={onCloseClick} />
-                </Navbar>
-                <Header subject="Trip planning">
-                    <h1>
-                        <span>{area.name}</span>
-                        <DisplayOnMap onClick={this.props.onLocateClick} />
-                    </h1>
-                </Header>
-                <Body>
-                    {region ? (
-                        <ForecastContainer name={region.id}>
-                            {props => this.renderChildren(props)}
-                        </ForecastContainer>
-                    ) : (
-                        <Muted>{this.isLoadedMessage}</Muted>
-                    )}
-                    <TerrainRatings />
-                    <Help />
-                </Body>
-            </Container>
-        )
-    }
-    get welcome() {
-        return (
-            <Container>
-                <Navbar style={NAVBAR_STYLE}>{this.home}</Navbar>
-                <Header subject="Trip planning" />
-                <Body>
-                    <Welcome />
-                </Body>
-            </Container>
-        )
-    }
     render() {
-        const { area, open } = this.props
+        const { region } = this.props
 
         return (
-            <Drawer side={LEFT} width={400} open={open}>
-                {area ? this.container : this.welcome}
-            </Drawer>
+            <Fragment>
+                {region ? (
+                    <ForecastContainer name={region.id}>
+                        {props => this.renderChildren(props)}
+                    </ForecastContainer>
+                ) : (
+                    <Muted>{this.isLoadedMessage}</Muted>
+                )}
+                <TerrainRatings />
+                <Help />
+            </Fragment>
         )
     }
 }

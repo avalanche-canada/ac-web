@@ -2,14 +2,32 @@ import React, { PureComponent, Fragment } from 'react'
 import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
+import { Link } from 'react-router-dom'
 import TripPlanner from 'containers/TripPlanner'
 import TripPlannerMap from './Map'
 import TripPlanning from './TripPlanning'
-import UnsupportedMap from 'layouts/UnsupportedMap'
 import Forecast from './Forecast'
+import { Home } from 'components/links'
+import { Window } from 'components/Dimensions'
+import Welcome from './panels/Welcome'
+import Drawer, {
+    Header,
+    Container,
+    Navbar,
+    Body,
+    DisplayOnMap,
+    Close,
+    RIGHT,
+    LEFT,
+} from 'components/page/drawer'
 import * as utils from 'utils/region'
+import Tabs, {
+    HeaderSet as TabsHeaderSet,
+    Header as TabsHeader,
+    PanelSet as TabsPanelSet,
+    Panel as TabsPanel,
+} from 'components/tabs'
 import styles from './TripPlanner.css'
-import supported from '@mapbox/mapbox-gl-supported'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -98,52 +116,101 @@ export default class TripPlannerLayout extends PureComponent {
     }
     handleLeftCloseClick = () => this.setState({ left: false, area: null })
     handleRightCloseClick = () => this.setState({ right: false })
+    renderRightDrawer() {
+        const { id, name } = this.state.region
+
+        return (
+            <Container>
+                <Navbar>
+                    <Close onClick={this.handleRightCloseClick} />
+                </Navbar>
+                <Header subject="Avalanche forecast">
+                    <h1>
+                        <Link to={`/forecasts/${id}`} target={id}>
+                            {name}
+                        </Link>
+                        <DisplayOnMap onClick={this.handleRegionLocateClick} />
+                    </h1>
+                </Header>
+                <Body>
+                    <Forecast id={id} />
+                </Body>
+            </Container>
+        )
+    }
+    renderLeftDrawer() {
+        const { area } = this.state
+
+        return (
+            <Container>
+                <Navbar style={NAVBAR_STYLE}>
+                    <Home style={HOME_STYLE}>Back to main map</Home>
+                    <Close onClick={this.handleLeftCloseClick} />
+                </Navbar>
+                <Body>
+                    <Header subject="Trip Planning">
+                        {area && (
+                            <h1>
+                                <span>{area.name}</span>
+                                <DisplayOnMap
+                                    onClick={this.handleAreaLocateClick}
+                                />
+                            </h1>
+                        )}
+                    </Header>
+                    {area ? (
+                        <TripPlanning
+                            {...this.state}
+                            onElevationChange={this.handleElevationChange}
+                            onDateChange={this.handleDateChange}
+                        />
+                    ) : (
+                        <Welcome />
+                    )}
+                </Body>
+            </Container>
+        )
+    }
+    renderDrawers({ width }) {
+        const { left, right, region } = this.state
+
+        return (
+            <Fragment>
+                <Drawer
+                    side={LEFT}
+                    width={Math.min(width, MAX_DRAWER_WIDTH)}
+                    open={left}>
+                    {this.renderLeftDrawer()}
+                </Drawer>
+                <Drawer
+                    side={RIGHT}
+                    width={Math.min(width, MAX_DRAWER_WIDTH)}
+                    open={right}>
+                    {region ? this.renderRightDrawer() : null}
+                </Drawer>
+            </Fragment>
+        )
+    }
     render() {
-        if (!supported()) {
-            const links = new Map([
-                ['/trip-planning', 'Trip planning'],
-                ['/forecasts', 'Forecast regions'],
-                ['/weather', 'Mountain Weather Forecast'],
-            ])
-            const headline = (
-                <Fragment>
-                    It seems that your browser does not support the technology
-                    required (WebGL for the geeks) to run the Trip Planner. Stay
-                    tuned, we are working on making a version for users that do
-                    not have the required technology.
-                </Fragment>
-            )
-
-            return <UnsupportedMap links={links} headline={headline} />
-        }
-
-        const { left, right, ...state } = this.state
-
         return (
             <div className={styles.Layout}>
                 <TripPlannerMap
-                    {...state}
+                    {...this.state}
                     onLoad={this.handleMapLoad}
                     onFeaturesSelect={this.handleFeaturesSelect}
                 />
-                <TripPlanning
-                    {...state}
-                    open={left}
-                    onCloseClick={this.handleLeftCloseClick}
-                    onElevationChange={this.handleElevationChange}
-                    onDateChange={this.handleDateChange}
-                    onLocateClick={this.handleAreaLocateClick}
-                />
-                <Forecast
-                    {...state}
-                    open={right}
-                    onCloseClick={this.handleRightCloseClick}
-                    onElevationChange={this.handleElevationChange}
-                    onDateChange={this.handleDateChange}
-                    onLocateClick={this.handleRegionLocateClick}
-                />
+                <Window>{props => this.renderDrawers(props)}</Window>
                 <TripPlanner>{this.setData}</TripPlanner>
             </div>
         )
     }
+}
+
+// Constants
+const MAX_DRAWER_WIDTH = 500
+const NAVBAR_STYLE = {
+    justifyContent: 'space-between',
+}
+const HOME_STYLE = {
+    paddingLeft: '1em',
 }
