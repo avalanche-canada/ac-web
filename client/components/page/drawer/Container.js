@@ -29,7 +29,9 @@ export default class Container extends Component {
 
         return (
             <div {...props} className={styles.Container}>
-                {Children.map(children, this.cloneChild)}
+                {Children.toArray(children)
+                    .filter(Boolean)
+                    .map(this.cloneChild)}
             </div>
         )
     }
