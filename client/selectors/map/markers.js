@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { getEntitiesForSchema } from 'getters/entities'
 import { getVisibleLayers } from 'getters/drawers'
-import mapbox from 'services/mapbox/map'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 
@@ -43,7 +42,7 @@ function createMarker(region) {
             src: region.get('dangerIconUrl'),
             title: region.get('name'),
         }),
-        lngLat: mapbox.LngLat.convert(region.get('centroid').toArray()),
+        lngLat: region.get('centroid').toArray(),
     }
 }
 

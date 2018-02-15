@@ -1,11 +1,10 @@
 import React from 'react'
-import mapbox from 'services/mapbox/map'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import Control from './Control'
 
 export Map from './Map'
 export StaticMap, { ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
-export Popup from './Popup'
 export Control from './Control'
 export Source from './Source'
 export Layer from './Layer'

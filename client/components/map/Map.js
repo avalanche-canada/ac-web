@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import mapbox, { styles } from 'services/mapbox/map'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import { styles } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 

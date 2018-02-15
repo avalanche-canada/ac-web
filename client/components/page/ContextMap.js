@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Page.css'
-import { Map, NavigationControl, ManagedStaticMap } from 'components/map'
 import supported from '@mapbox/mapbox-gl-supported'
+import { Map, NavigationControl, ManagedStaticMap } from 'components/map'
+import styles from './Page.css'
 
 ContextMap.propTypes = {
     children: PropTypes.node,
