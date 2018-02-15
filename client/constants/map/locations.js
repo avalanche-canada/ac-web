@@ -1,5 +1,4 @@
-import mapbox from 'services/mapbox/map'
-
-const { LngLat } = mapbox
-
-export const Revelstoke = new LngLat(-118.1957, 50.9981)
+export const Revelstoke = {
+    longitude: -118.1957,
+    latitude: 50.9981,
+}

@@ -45,7 +45,7 @@ export default class GeoPosition extends Component {
     }
     state = {
         map: null,
-        lngLat: Revelstoke,
+        lngLat: new LngLat(Revelstoke.longitude, Revelstoke.latitude),
     }
     constructor(props) {
         super(props)

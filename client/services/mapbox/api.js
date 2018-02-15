@@ -35,21 +35,19 @@ export function fetchMapStyle(styleId) {
     return style.get(styleId).then(response => response.data)
 }
 
-export function createStyleUrl(
-    {
-        styleId = styleIds['2016'],
-        overlay,
-        longitude = Revelstoke.lng,
-        latitude = Revelstoke.lat,
-        zoom = 10,
-        bearing = 0,
-        pitch = 0,
-        auto = false,
-        width = 250,
-        height = 250,
-        retina = false,
-    } = {}
-) {
+export function createStyleUrl({
+    styleId = styleIds['2016'],
+    overlay,
+    longitude = Revelstoke.longitude,
+    latitude = Revelstoke.latitude,
+    zoom = 10,
+    bearing = 0,
+    pitch = 0,
+    auto = false,
+    width = 250,
+    height = 250,
+    retina = false,
+} = {}) {
     let pathname = [
         'styles/v1',
         username,
