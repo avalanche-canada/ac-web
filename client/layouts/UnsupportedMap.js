@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Error, Main, Headline } from 'components/page'
 import { Mailto } from 'components/anchors'
-import mapbox from 'services/mapbox/map'
+import supported from '@mapbox/mapbox-gl-supported'
 import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
 
@@ -42,7 +42,7 @@ export default function UnsupportedMap() {
                     <Mailto
                         email="kguillotte@avalanche.ca,wharding@avalanche.ca"
                         subject="Unsupported map"
-                        body={`\n\n\nMapBox GL supported: ${mapbox.supported()}\nNavigator: ${
+                        body={`\n\n\nMapBox GL supported: ${supported()}\nNavigator: ${
                             navigator.userAgent
                         }`}>
                         email

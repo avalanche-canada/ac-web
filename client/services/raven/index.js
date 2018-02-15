@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import Immutable from 'immutable'
+import supported from '@mapbox/mapbox-gl-supported'
 import { key, project } from './config.json'
-import mapbox from 'services/mapbox/map'
 
 const exceptions = new Set()
 
@@ -26,7 +26,7 @@ export default function setup() {
                 return shouldSend
             },
             tags: {
-                'mapboxgl.supported': mapbox.supported(),
+                'mapboxgl.supported': supported(),
             },
         }).install()
     }

@@ -127,9 +127,6 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: PropTypes.object,
     }
-    static supported() {
-        return mapbox.supported()
-    }
     state = {
         map: null,
         ready: false,
