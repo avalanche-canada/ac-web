@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { Page, Header, Main, Content, Aside, ContextMap } from 'components/page'
 import { Item } from 'components/sidebar'
 import { Status } from 'components/misc'
@@ -12,7 +13,6 @@ import {
     Sidebar,
 } from 'components/mountainInformationNetwork'
 import { Marker } from 'components/map'
-import mapbox from 'services/mapbox/map'
 import min from 'components/icons/min/min-pin.png'
 import minWithIncident from 'components/icons/min/min-pin-with-incident.png'
 import { INCIDENT } from 'constants/min'

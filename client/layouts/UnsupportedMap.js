@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import supported from '@mapbox/mapbox-gl-supported'
 import { Error, Main, Headline } from 'components/page'
 import { Mailto } from 'components/anchors'
-import mapbox from 'services/mapbox/map'
 import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
 
@@ -59,7 +59,7 @@ export default class UnsupportedMap extends PureComponent {
                         <Mailto
                             email="kguillotte@avalanche.ca,wharding@avalanche.ca"
                             subject="Unsupported map"
-                            body={`\n\n\nMapBox GL supported: ${mapbox.supported()}\nNavigator: ${
+                            body={`\n\n\nMapBox GL supported: ${supported()}\nNavigator: ${
                                 navigator.userAgent
                             }`}>
                             email

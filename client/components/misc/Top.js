@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Top.css'
 
+// TODO: Remove that component
+
 Top.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,

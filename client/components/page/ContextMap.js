@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Page.css'
+import supported from '@mapbox/mapbox-gl-supported'
 import { Map, NavigationControl, ManagedStaticMap } from 'components/map'
-import mapbox from 'services/mapbox/map'
+import styles from './Page.css'
 
 ContextMap.propTypes = {
     children: PropTypes.node,
@@ -13,7 +13,7 @@ ContextMap.propTypes = {
 export default function ContextMap({ children, ...props }) {
     return (
         <div className={styles.ContextMap}>
-            {mapbox.supported() ? (
+            {supported() ? (
                 <Map style="2016" {...props}>
                     {children}
                     <NavigationControl />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import mapbox from 'services/mapbox/map'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import {
     Map,
     Marker,
@@ -12,9 +12,6 @@ import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
 
 const { LngLat } = mapbox
-const MARKER_OPTIONS = {
-    offset: [-12, -12],
-}
 
 function isValidNumber(number) {
     return typeof number === 'number' && !isNaN(number)
@@ -45,7 +42,7 @@ export default class GeoPosition extends Component {
     }
     state = {
         map: null,
-        lngLat: Revelstoke,
+        lngLat: new LngLat(Revelstoke.longitude, Revelstoke.latitude),
     }
     constructor(props) {
         super(props)
@@ -130,7 +127,6 @@ export default class GeoPosition extends Component {
                         onDragEnd={this.handleDragEnd}
                         lngLat={lngLat}
                         element={this.element}
-                        options={MARKER_OPTIONS}
                     />
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />

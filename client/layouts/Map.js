@@ -1,7 +1,7 @@
 import React, { PureComponent, Component, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
-import { Map } from 'components/map'
+import supported from '@mapbox/mapbox-gl-supported'
 import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
@@ -143,7 +143,7 @@ export default class Layout extends PureComponent {
         )
     }
     render() {
-        if (Map.supported()) {
+        if (supported()) {
             return (
                 <div className={styles.Layout}>
                     <Container

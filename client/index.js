@@ -1,4 +1,6 @@
 import 'babel-polyfill'
+import 'raf/polyfill'
+import 'services/mapbox/map'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
