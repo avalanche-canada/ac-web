@@ -116,30 +116,45 @@ export default class TripPlannerLayout extends PureComponent {
     }
     handleLeftCloseClick = () => this.setState({ left: false, area: null })
     handleRightCloseClick = () => this.setState({ right: false })
-    renderRightDrawer() {
-        const { id, name } = this.state.region
+    renderRegionHeader() {
+        const { name, id } = this.state.region
 
+        return (
+            <Header subject="Avalanche forecast">
+                <h1>
+                    <Link to={`/forecasts/${id}`} target={id}>
+                        {name}
+                    </Link>
+                    <DisplayOnMap onClick={this.handleRegionLocateClick} />
+                </h1>
+            </Header>
+        )
+    }
+    renderRightDrawer() {
         return (
             <Container>
                 <Navbar>
                     <Close onClick={this.handleRightCloseClick} />
                 </Navbar>
-                <Header subject="Avalanche forecast">
-                    <h1>
-                        <Link to={`/forecasts/${id}`} target={id}>
-                            {name}
-                        </Link>
-                        <DisplayOnMap onClick={this.handleRegionLocateClick} />
-                    </h1>
-                </Header>
+                {this.renderRegionHeader()}
                 <Body>
-                    <Forecast id={id} />
+                    <Forecast id={this.state.region.id} />
                 </Body>
             </Container>
         )
     }
-    renderLeftDrawer() {
-        const { area } = this.state
+    renderLeftDrawer(withRegion) {
+        const { area, region } = this.state
+        const header = (
+            <Header subject="Trip Planning">
+                {area && (
+                    <h1>
+                        <span>{area.name}</span>
+                        <DisplayOnMap onClick={this.handleAreaLocateClick} />
+                    </h1>
+                )}
+            </Header>
+        )
 
         return (
             <Container>
@@ -147,17 +162,9 @@ export default class TripPlannerLayout extends PureComponent {
                     <Home style={HOME_STYLE}>Back to main map</Home>
                     <Close onClick={this.handleLeftCloseClick} />
                 </Navbar>
+                {withRegion || header}
                 <Body>
-                    <Header subject="Trip Planning">
-                        {area && (
-                            <h1>
-                                <span>{area.name}</span>
-                                <DisplayOnMap
-                                    onClick={this.handleAreaLocateClick}
-                                />
-                            </h1>
-                        )}
-                    </Header>
+                    {withRegion && header}
                     {area ? (
                         <TripPlanning
                             {...this.state}
@@ -167,29 +174,57 @@ export default class TripPlannerLayout extends PureComponent {
                     ) : (
                         <Welcome />
                     )}
+                    {withRegion && this.renderRegionHeader()}
+                    {withRegion && <Forecast id={region.id} />}
                 </Body>
             </Container>
         )
     }
     renderDrawers({ width }) {
-        const { left, right, region } = this.state
+        const { left, region } = this.state
+        const widths = this.computeDrawerWidths(width)
+        const right = typeof widths.right === 'number' && this.state.right
 
         return (
             <Fragment>
-                <Drawer
-                    side={LEFT}
-                    width={Math.min(width, MAX_DRAWER_WIDTH)}
-                    open={left}>
-                    {this.renderLeftDrawer()}
+                <Drawer side={LEFT} width={widths.left} open={left}>
+                    {this.renderLeftDrawer(!right && Boolean(region))}
                 </Drawer>
-                <Drawer
-                    side={RIGHT}
-                    width={Math.min(width, MAX_DRAWER_WIDTH)}
-                    open={right}>
+                <Drawer side={RIGHT} width={widths.right} open={right}>
                     {region ? this.renderRightDrawer() : null}
                 </Drawer>
             </Fragment>
         )
+    }
+    computeDrawerWidths(width) {
+        const { left } = this.state
+        const prefered = Math.min(width, 500)
+
+        if (width > 1200) {
+            return {
+                left: prefered,
+                right: prefered,
+            }
+        }
+
+        if (width > 1000) {
+            return {
+                left: prefered - 100,
+                right: left ? prefered - 100 : prefered,
+            }
+        }
+
+        if (width > 800) {
+            return {
+                left: prefered - 150,
+                right: left ? prefered - 150 : prefered,
+            }
+        }
+
+        return {
+            left: prefered,
+            right: left ? null : prefered,
+        }
     }
     render() {
         return (
@@ -207,7 +242,6 @@ export default class TripPlannerLayout extends PureComponent {
 }
 
 // Constants
-const MAX_DRAWER_WIDTH = 500
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',
 }
