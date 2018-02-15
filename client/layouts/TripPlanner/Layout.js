@@ -21,12 +21,6 @@ import Drawer, {
     LEFT,
 } from 'components/page/drawer'
 import * as utils from 'utils/region'
-import Tabs, {
-    HeaderSet as TabsHeaderSet,
-    Header as TabsHeader,
-    PanelSet as TabsPanelSet,
-    Panel as TabsPanel,
-} from 'components/tabs'
 import styles from './TripPlanner.css'
 
 export default class TripPlannerLayout extends PureComponent {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import mapbox, { styles } from 'services/mapbox/map'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
@@ -45,9 +46,6 @@ export default class MapComponent extends Component {
     static childContextTypes = {
         map: PropTypes.object,
     }
-    static supported() {
-        return mapbox.supported()
-    }
     state = {
         map: null,
     }
@@ -61,6 +59,8 @@ export default class MapComponent extends Component {
         }
     }
     componentDidMount() {
+        mapbox.accessToken = accessToken
+
         const { style, onLoad } = this.props
         const map = new mapbox.Map({
             ...this.props,

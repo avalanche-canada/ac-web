@@ -3,6 +3,7 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import Control from './Control'
 
 export Map from './Map'
+export Basic from './Basic'
 export StaticMap, { ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
 export Control from './Control'
