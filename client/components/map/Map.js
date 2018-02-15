@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import { styles } from 'services/mapbox/config.json'
+import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
@@ -149,6 +149,7 @@ export default class MapComponent extends Component {
         }
 
         const { style, ...props } = this.props
+        mapbox.accessToken = accessToken
         const map = new mapbox.Map({
             ...props,
             container,
