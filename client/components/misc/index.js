@@ -3,7 +3,6 @@ export Sponsor from './Sponsor'
 export Ribbon from './Ribbon'
 // TODO: Move to markup
 export Backdrop from './Backdrop'
-export Top from './Top'
 export SPAW from './SPAW'
 export InnerHTML from './InnerHTML'
 export Image from './Image'
