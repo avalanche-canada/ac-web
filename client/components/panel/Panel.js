@@ -4,7 +4,7 @@ import classnames from 'classnames/bind'
 import styles from './Panel.css'
 import Collapse from 'components/collapse'
 import { Expand } from 'components/button'
-import { titleOf } from 'utils/string'
+import noop from 'lodash/noop'
 
 export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
@@ -13,14 +13,16 @@ export default class Panel extends PureComponent {
     static propTypes = {
         expandable: PropTypes.bool,
         expanded: PropTypes.bool,
-        header: PropTypes.string.isRequired,
+        onExpandedChange: PropTypes.func,
+        header: PropTypes.node.isRequired,
         theme: PropTypes.oneOf([INVERSE, SIMPLE]),
-        children: PropTypes.node.isRequired,
+        children: PropTypes.string.isRequired,
     }
     static defaultProps = {
         expandable: false,
         theme: SIMPLE,
         expanded: false,
+        onExpandedChange: noop,
     }
     state = {
         expanded: this.props.expanded,
@@ -30,7 +32,9 @@ export default class Panel extends PureComponent {
         return this.state.expanded
     }
     set expanded(expanded) {
-        this.setState({ expanded })
+        this.setState({ expanded }, () => {
+            this.props.onExpandedChange(expanded)
+        })
     }
     get className() {
         const { theme, expandable } = this.props
@@ -53,7 +57,7 @@ export default class Panel extends PureComponent {
         this.expanded = !this.expanded
     }
     render() {
-        const { expandable, header, children } = this.props
+        const { expandable, children } = this.props
 
         return (
             <div className={this.className}>
@@ -66,9 +70,7 @@ export default class Panel extends PureComponent {
                             expanded={this.expanded}
                         />
                     )}
-                    <span className={styles.Title} title={titleOf(header)}>
-                        {header}
-                    </span>
+                    <span className={styles.Title}>{this.props.header}</span>
                 </header>
                 <div className={styles.Content}>
                     {expandable ? (

@@ -7,11 +7,13 @@
     "styles": {
         "default": "mapbox://styles/avalanchecanada/ciuqd59tp00c42iqoxiv91m5v",
         "2016": "mapbox://styles/avalanchecanada/citxsc95s00a22inxvbydbc89",
+        "ates": "mapbox://styles/avalanchecanada/cjbgz98hyb8l52smx72wh1yzr",
         "light": "mapbox://styles/mapbox/light-v9"
     },
     "styleIds": {
         "default": "ciuqd59tp00c42iqoxiv91m5v",
         "2016": "citxsc95s00a22inxvbydbc89",
+        "ates": "cjbgz98hyb8l52smx72wh1yzr",
         "light": "light-v9"
     },
     "username": "avalanchecanada"

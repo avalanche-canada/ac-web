@@ -1,0 +1,40 @@
+.Layout {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.Map {
+    height: 100%;
+}
+
+.Welcome {
+    margin: 1em;
+
+    & h2 {
+        margin-top: 1.5em;
+    }
+}
+
+.Panel {
+    & header {
+        display: flex;
+        align-items: center;
+        margin: 0 1em;
+
+        & > *:first-child {
+            flex: 1;
+        }
+    }
+}
+
+.PanelContent {
+    margin: 1em;
+}
+
+.Location {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

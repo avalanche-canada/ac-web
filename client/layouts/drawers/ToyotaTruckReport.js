@@ -29,10 +29,6 @@ const TRANSFORMATION = {
     crop: 'fill',
 }
 
-const BODY_STYLE = {
-    padding: 0,
-}
-
 export default class ToyotaTruckReport extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -82,8 +78,8 @@ export default class ToyotaTruckReport extends PureComponent {
             isLoaded: document
                 ? null
                 : 'Toyota truck report not available anymore.',
-        }
-    .data}
+        }.data
+    }
     children = ({ document, status }) => [
         this.renderBanner(document),
         this.renderHeader(document),
@@ -98,7 +94,7 @@ export default class ToyotaTruckReport extends PureComponent {
     render() {
         return (
             <Container>
-                <Body style={BODY_STYLE}>
+                <Body>
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>

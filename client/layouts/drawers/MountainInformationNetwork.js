@@ -1,12 +1,19 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Container,
+    Header,
+    Body,
+    Content,
+    Navbar,
+    Close,
+} from 'components/page/drawer'
 import { Metadata, Submission } from 'components/mountainInformationNetwork'
 import { Status } from 'components/misc'
 import MountainInformationNetworkSubmission from 'containers/MountainInformationNetworkSubmission'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 
 export default class Layout extends PureComponent {
@@ -35,28 +42,33 @@ export default class Layout extends PureComponent {
         )
     }
     children = ({ report, status }) => (
-        <Fragment>
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
             <Header subject="Mountain Information Network">
                 {report && this.renderHeader(report)}
             </Header>
             <Body>
-                <Status {...status} />
-                {report && <Metadata report={report} shareable />}
-                {report && <Submission report={report} />}
+                <Content>
+                    <Status style={STATUS_STYLE} {...status} />
+                    {report && <Metadata report={report} shareable />}
+                    {report && <Submission report={report} />}
+                </Content>
             </Body>
-        </Fragment>
+        </Container>
     )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <MountainInformationNetworkSubmission id={this.props.id}>
-                    {this.children}
-                </MountainInformationNetworkSubmission>
-            </Container>
+            <MountainInformationNetworkSubmission id={this.props.id}>
+                {this.children}
+            </MountainInformationNetworkSubmission>
         )
     }
+}
+
+// Constants
+const STATUS_STYLE = {
+    margin: '1em',
 }

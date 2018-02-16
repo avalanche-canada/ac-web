@@ -1,33 +1,12 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Headline from './Headline'
 import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
-import { Table, Day, DaySet, Condition, Confidence } from './danger'
-import { Problem, Topic, TopicSet, Advice, Comment } from './problem'
-import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import DetailSet from './DetailSet'
-
-// TODO: Create problem set component to simplify code
+import TabSet from './TabSet'
+import Metadata from './Metadata'
 
 export default class Forecast extends PureComponent {
-    static render(forecast) {
-        return (
-            <Forecast
-                date={forecast.get('date')}
-                highlights={forecast.get('highlights')}
-                avalancheSummary={forecast.get('avalancheSummary')}
-                snowpackSummary={forecast.get('snowpackSummary')}
-                weatherForecast={forecast.get('weatherForecast')}
-                problems={forecast.get('problems').toJS()}
-                dangerMode={forecast.get('dangerMode')}
-                dangerRatings={forecast.get('dangerRatings').toJS()}
-                confidence={forecast.get('confidence').toObject()}
-                isArchived={forecast.get('isArchived')}
-                region={forecast.get('region')}
-            />
-        )
-    }
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,
         highlights: PropTypes.string,
@@ -45,102 +24,97 @@ export default class Forecast extends PureComponent {
         region: PropTypes.string.isRequired,
     }
     render() {
-        const {
-            highlights,
-            avalancheSummary,
-            snowpackSummary,
-            weatherForecast,
-            problems,
-            dangerMode,
-            dangerRatings,
-            confidence,
-            isArchived,
-            region,
-            date,
-        } = this.props
+        const { isArchived, highlights, region, date, ...props } = this.props
 
         return (
             <section>
                 {isArchived && <ArchiveWarning region={region} date={date} />}
                 <Headline>{highlights}</Headline>
-                <Tabs theme="LOOSE">
-                    <HeaderSet>
-                        <Header>Danger ratings</Header>
-                        <Header disabled={problems.length === 0}>
-                            Problems
-                        </Header>
-                        <Header>Details</Header>
-                    </HeaderSet>
-                    <PanelSet>
-                        <Panel>
-                            <Condition mode={dangerMode} />
-                            <Table mode={dangerMode}>
-                                <DaySet>
-                                    {dangerRatings.map(
-                                        ({ date, dangerRating }, index) => (
-                                            <Day
-                                                key={index}
-                                                date={date}
-                                                {...dangerRating}
-                                            />
-                                        )
-                                    )}
-                                </DaySet>
-                                <Confidence {...confidence} />
-                            </Table>
-                        </Panel>
-                        <Panel>
-                            {problems.map(
-                                (
-                                    {
-                                        type,
-                                        icons,
-                                        comment,
-                                        travelAndTerrainAdvice,
-                                    },
-                                    index
-                                ) => (
-                                    <Problem
-                                        key={type}
-                                        title={`Avalanche Problem ${index +
-                                            1}: ${type}`}>
-                                        <TopicSet>
-                                            <Topic
-                                                title="What Elevation?"
-                                                src={icons.elevations}
-                                            />
-                                            <Topic
-                                                title="Which Slopes?"
-                                                src={icons.aspects}
-                                            />
-                                            <Topic
-                                                title="Chances of Avalanches?"
-                                                src={icons.likelihood}
-                                            />
-                                            <Topic
-                                                title="Expected Size?"
-                                                src={icons.expectedSize}
-                                            />
-                                        </TopicSet>
-                                        <Comment>{comment}</Comment>
-                                        <Advice>
-                                            {travelAndTerrainAdvice}
-                                        </Advice>
-                                    </Problem>
-                                )
-                            )}
-                        </Panel>
-                        <Panel>
-                            <DetailSet
-                                avalanche={avalancheSummary}
-                                snowpack={snowpackSummary}
-                                weather={weatherForecast}
-                            />
-                        </Panel>
-                    </PanelSet>
-                </Tabs>
+                <TabSet {...props} />
                 <Footer region={region} />
             </section>
+        )
+    }
+}
+
+export class Compound extends PureComponent {
+    static canRender(forecast) {
+        return forecast && !forecast.has('externalUrl')
+    }
+    static propTypes = {
+        forecast: PropTypes.object,
+        children: PropTypes.node,
+        callback: PropTypes.func,
+    }
+    static defaultProps = {
+        callback() {
+            return null
+        },
+    }
+    renderChild = child => {
+        if (!child) {
+            return null
+        }
+
+        const { forecast } = this.props
+
+        switch (child.type) {
+            case ArchiveWarning:
+                return forecast && forecast.get('isArchived')
+                    ? cloneElement(child, {
+                          region: forecast.get('region'),
+                          date: forecast.get('date'),
+                      })
+                    : null
+            case Headline:
+                return forecast
+                    ? cloneElement(child, null, forecast.get('highlights'))
+                    : null
+            case Metadata:
+                return forecast
+                    ? cloneElement(child, {
+                          dateIssued: forecast.get('dateIssued'),
+                          validUntil: forecast.get('validUntil'),
+                          forecaster: forecast.get('forecaster'),
+                      })
+                    : null
+            case TabSet:
+                return forecast
+                    ? cloneElement(child, {
+                          avalancheSummary: forecast.get('avalancheSummary'),
+                          snowpackSummary: forecast.get('snowpackSummary'),
+                          weatherForecast: forecast.get('weatherForecast'),
+                          problems: forecast.get('problems').toJS(),
+                          dangerMode: forecast.get('dangerMode'),
+                          dangerRatings: forecast.get('dangerRatings').toJS(),
+                          confidence: forecast.get('confidence').toObject(),
+                      })
+                    : null
+            case Footer:
+                return forecast
+                    ? cloneElement(child, {
+                          region: forecast.get('region'),
+                          date: forecast.get('date'),
+                      })
+                    : null
+            default:
+                return child
+        }
+    }
+    get children() {
+        return (
+            this.props.children || [
+                <Metadata />,
+                <ArchiveWarning />,
+                <Headline />,
+                <TabSet />,
+                <Footer />,
+            ]
+        )
+    }
+    render() {
+        return (
+            <Fragment>{Children.map(this.children, this.renderChild)}</Fragment>
         )
     }
 }

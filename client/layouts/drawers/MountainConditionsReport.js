@@ -28,10 +28,6 @@ const NAVBAR_STYLE = {
     right: 0,
 }
 
-const BODY_STYLE = {
-    padding: 0,
-}
-
 export default class MountainConditionsReport extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -92,7 +88,7 @@ export default class MountainConditionsReport extends PureComponent {
     render() {
         return (
             <Container>
-                <Body style={BODY_STYLE}>
+                <Body>
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>

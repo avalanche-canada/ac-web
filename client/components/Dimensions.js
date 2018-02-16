@@ -37,3 +37,31 @@ export default class Dimensions extends Component {
         )
     }
 }
+
+export class Window extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+    }
+    state = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    }
+    set = () => {
+        this.setState({
+            width: window.innerWidth,
+            height: window.innerHeight,
+        })
+    }
+    update = throttle(this.set, 250)
+    componentDidMount() {
+        window.addEventListener('resize', this.update, false)
+        window.addEventListener('orientationchange', this.update, false)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.update)
+        window.removeEventListener('orientationchange', this.update)
+    }
+    render() {
+        return this.props.children(this.state)
+    }
+}

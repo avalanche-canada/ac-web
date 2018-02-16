@@ -1,12 +1,25 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
-import Forecast, { Metadata } from 'components/forecast'
+import {
+    Navbar,
+    Header,
+    Container,
+    Body,
+    Close,
+    Content,
+} from 'components/page/drawer'
+import {
+    Compound,
+    Metadata,
+    Headline,
+    TabSet,
+    Footer,
+} from 'components/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import ForecastContainer from 'containers/Forecast'
 import * as utils from 'utils/region'
 
@@ -52,26 +65,39 @@ export default class Layout extends PureComponent {
             </Header>
         )
     }
-    children = ({ region, forecast, status }) => [
-        this.renderHeader(region, forecast, status),
-        <Body>
-            <Status {...status} />
-            {forecast && Metadata.render(forecast)}
-            {forecast && Forecast.render(forecast)}
-        </Body>,
-    ]
+    children = ({ region, forecast, status }) => (
+        <Container>
+            <Navbar>
+                <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            {this.renderHeader(region, forecast, status)}
+            <Body>
+                <Status style={STATUS_STYLE} {...status} />
+                <Content>
+                    <Compound forecast={forecast}>
+                        <Metadata />
+                        <Headline />
+                        <TabSet />
+                    </Compound>
+                </Content>
+                <Compound forecast={forecast}>
+                    <Footer />
+                </Compound>
+            </Body>
+        </Container>
+    )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <ForecastContainer name={this.props.name}>
-                    {this.children}
-                </ForecastContainer>
-            </Container>
+            <ForecastContainer name={this.props.name}>
+                {this.children}
+            </ForecastContainer>
         )
     }
+}
+
+// Constants
+const STATUS_STYLE = {
+    margin: '1em',
 }

@@ -15,14 +15,6 @@ export function initials(name) {
     return ((first[0] || '') + (second[0] || '')).toUpperCase()
 }
 
-export function titleOf(children) {
-    if (typeof children === 'string' || typeof children === 'number') {
-        return children
-    }
-
-    return null
-}
-
 export function pluralize(word, count, inclusive) {
     const pluralized = count === 1 ? word : `${word}s`
 

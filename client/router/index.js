@@ -17,6 +17,10 @@ export default function Router() {
             <Analytics>
                 <ScrollTo>
                     <Switch>
+                        <Redirect
+                            from="/map/ates"
+                            to="/trip-planning/trip-planner"
+                        />
                         <Redirect from="/trip-planner" to="/trip-planning" />
                         <Redirect
                             from="/pages/static-page/trip-planning"

@@ -1,11 +1,18 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Container,
+    Navbar,
+    Header,
+    Body,
+    Content,
+    Close,
+} from 'components/page/drawer'
 import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import * as Containers from 'prismic/containers'
-import DisplayOnMap from './DisplayOnMap'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
 
@@ -81,27 +88,32 @@ export default class SpecialInformation extends PureComponent {
                 : `Special information "${id}" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => [
-        <Header subject="Special Information">
-            {document && this.renderHeader(document)}
-        </Header>,
-        <Body>
-            <Status {...status} messages={this.createMessages(document)} />
-            {document && this.renderMetadata(document)}
-            {document && this.renderLocation(document)}
-            {document && this.renderContent(document)}
-        </Body>,
-    ]
+    children = ({ document, status }) => (
+        <Container>
+            <Navbar>
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            <Header subject="Special Information">
+                {document && this.renderHeader(document)}
+            </Header>
+            <Body>
+                <Content>
+                    <Status
+                        {...status}
+                        messages={this.createMessages(document)}
+                    />
+                    {document && this.renderMetadata(document)}
+                    {document && this.renderLocation(document)}
+                    {document && this.renderContent(document)}
+                </Content>
+            </Body>
+        </Container>
+    )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <Containers.SpecialInformation id={this.props.id}>
-                    {this.children}
-                </Containers.SpecialInformation>
-            </Container>
+            <Containers.SpecialInformation id={this.props.id}>
+                {this.children}
+            </Containers.SpecialInformation>
         )
     }
 }

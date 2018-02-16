@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Status } from 'components/misc'
 import { Generic as Container } from 'prismic/containers'
@@ -9,11 +9,12 @@ export default class Generic extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
-    children = ({ status, document }) =>
-        [
-            <Status {...status} />,
-            document && <StructuredText value={parse(document).data.body} />,
-        ].filter(Boolean)
+    children = ({ status, document }) => (
+        <Fragment>
+            <Status {...status} />
+            {document && <StructuredText value={parse(document).data.body} />}
+        </Fragment>
+    )
     render() {
         return <Container uid={this.props.uid}>{this.children}</Container>
     }

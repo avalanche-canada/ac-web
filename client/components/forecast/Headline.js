@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Forecast.css'
 import { InnerHTML } from 'components/misc'
+import styles from './Forecast.css'
 
 Headline.propTypes = {
     children: PropTypes.string.isRequired,

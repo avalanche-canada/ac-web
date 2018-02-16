@@ -1,27 +1,41 @@
-import React, { Component, Fragment } from 'react'
-import { Compound as Section } from 'components/explanation'
+import React, { Fragment } from 'react'
+import { Section, Header, Content } from 'components/explanation'
 import Ratings, {
+    EXTREME,
     NO_RATING,
     Texts,
     TravelAdvices,
     LikehoodOfAvalanche,
     SizeAndDistribution,
+    Palette,
 } from 'constants/forecast/rating'
+import { WHITE, BLACK } from 'constants/forecast/palette'
+import StaticComponent from 'components/StaticComponent'
 
-export default class RatingExplanation extends Component {
-    shouldComponentUpdate() {
-        return false
+export default class RatingExplanation extends StaticComponent {
+    getStyle(rating) {
+        return {
+            color: rating === EXTREME ? WHITE : BLACK,
+            backgroundColor: Palette.get(rating),
+        }
     }
     render() {
-        const keys = Array.from(Ratings).filter(key => key !== NO_RATING)
+        const ratings = Array.from(Ratings).filter(
+            rating => rating !== NO_RATING
+        )
 
         return (
             <Fragment>
-                {keys.map(key => (
-                    <Section key={key} header={Texts.get(key)}>
-                        <p>{TravelAdvices.get(key)}</p>
-                        <p>{LikehoodOfAvalanche.get(key)}</p>
-                        <p>{SizeAndDistribution.get(key)}</p>
+                {ratings.map(rating => (
+                    <Section key={rating}>
+                        <Header style={this.getStyle(rating)}>
+                            {Texts.get(rating)}
+                        </Header>
+                        <Content>
+                            <p>{TravelAdvices.get(rating)}</p>
+                            <p>{LikehoodOfAvalanche.get(rating)}</p>
+                            <p>{SizeAndDistribution.get(rating)}</p>
+                        </Content>
                     </Section>
                 ))}
             </Fragment>

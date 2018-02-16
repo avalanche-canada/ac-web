@@ -1,37 +1,93 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Panel from 'components/panel'
+import StaticComponent from 'components/StaticComponent'
+import Panel, { INVERSE } from 'components/panel'
 import RatingExplanation from 'components/forecast/RatingExplanation'
 import { Generic } from 'prismic/components'
-import styles from './Forecast.css'
 import ArchiveDatePicker from './ArchiveDatePicker'
+import styles from './Forecast.css'
 
-export default class Footer extends Component {
+export default class Footer extends StaticComponent {
     static propTypes = {
-        date: PropTypes.instanceOf(Date).isRequired,
-        region: PropTypes.string.isRequired,
+        children: PropTypes.node,
     }
-    shouldComponentUpdate() {
-        return false
+    get children() {
+        return (
+            <Fragment>
+                <ArchivedBulletins />
+                <DangerRatings />
+                <Inbox />
+                <Disclaimer />
+            </Fragment>
+        )
     }
     render() {
-        const { date = new Date(), region } = this.props
-
         return (
             <footer className={styles.Footer}>
-                <Panel expandable header="Archived bulletins">
-                    <ArchiveDatePicker date={date} region={region} />
-                </Panel>
-                <Panel expandable header="Danger Ratings Explained">
-                    <RatingExplanation />
-                </Panel>
-                <Panel expandable header="Avalanche Forecasts in your Inbox">
-                    <Generic uid="forecast-rss-message" />
-                </Panel>
-                <Panel expandable header="Forecast Disclaimer">
-                    <Generic uid="forecast-disclaimer" />
-                </Panel>
+                {this.props.children || this.children}
             </footer>
         )
     }
+}
+
+export class ArchivedBulletins extends StaticComponent {
+    static propTypes = {
+        date: PropTypes.instanceOf(Date),
+        region: PropTypes.string.isRequired,
+    }
+    static defaultProps = {
+        date: new Date(),
+    }
+    render() {
+        const { date, region } = this.props
+
+        return (
+            <FooterPanel header="Archived bulletins">
+                <ArchiveDatePicker date={date} region={region} />
+            </FooterPanel>
+        )
+    }
+}
+
+export class DangerRatings extends StaticComponent {
+    render() {
+        return (
+            <FooterPanel header="Danger Ratings Explained">
+                <RatingExplanation />
+            </FooterPanel>
+        )
+    }
+}
+
+export class Inbox extends StaticComponent {
+    render() {
+        return (
+            <FooterPanel header="Avalanche Forecasts in your Inbox">
+                <div className={styles.PanelContent}>
+                    <Generic uid="forecast-rss-message" />
+                </div>
+            </FooterPanel>
+        )
+    }
+}
+
+export class Disclaimer extends StaticComponent {
+    render() {
+        return (
+            <FooterPanel header="Forecast Disclaimer">
+                <div className={styles.PanelContent}>
+                    <Generic uid="forecast-disclaimer" />
+                </div>
+            </FooterPanel>
+        )
+    }
+}
+
+// Utils
+function FooterPanel({ header, children }) {
+    return (
+        <Panel theme={INVERSE} expandable header={header}>
+            {children}
+        </Panel>
+    )
 }

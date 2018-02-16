@@ -13,7 +13,6 @@ import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Main from './Map'
-import AtesMap from './AtesMap'
 import Tutorial from './Tutorial'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
@@ -21,6 +20,7 @@ import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
+import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'containers/Glossary'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -66,7 +66,6 @@ export default class AvalancheCanada extends Component {
             <Switch>
                 <Redirect exact from="/" to="/map" />
                 <LoginCompleteRoute path="/login-complete" />
-                <Route path="/map/ates" component={AtesMap} />
                 <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
@@ -155,6 +154,10 @@ export default class AvalancheCanada extends Component {
                     uid="terms-of-use"
                     title="Terms of use"
                 />
+                <Route
+                    path="/trip-planning/trip-planner"
+                    component={TripPlanner}
+                />
                 <StaticPageRoute
                     path="/trip-planning/decision-making"
                     uid="decision-making"
@@ -194,8 +197,10 @@ export default class AvalancheCanada extends Component {
                 <ErrorBoundary>{this.children}</ErrorBoundary>
                 <Switch>
                     <Route path="/map" component={null} />
-                    <Route path="/map/ates" component={null} />
-                    <Route path="/trip-planner" component={null} />
+                    <Route
+                        path="/trip-planning/trip-planner"
+                        component={null}
+                    />
                     <Route path="/incidents" component={null} />
                     <Route path="/tutoriel" component={null} />
                     <Route component={Footer} />

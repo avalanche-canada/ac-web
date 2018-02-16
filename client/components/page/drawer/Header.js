@@ -6,11 +6,14 @@ import Subject from './Subject'
 Header.propTypes = {
     subject: PropTypes.string,
     children: PropTypes.node,
+    showBorder: PropTypes.bool,
 }
 
-export default function Header({ subject, children }) {
+export default function Header({ subject, children, showBorder }) {
+    const className = showBorder ? styles.BordererHeader : styles.Header
+
     return (
-        <header className={styles.Header}>
+        <header className={className}>
             {subject && <Subject>{subject}</Subject>}
             {children}
         </header>

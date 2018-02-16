@@ -23,9 +23,16 @@ export default class Status extends PureComponent {
             isError: PropTypes.string,
             isLoaded: PropTypes.string,
         }),
+        style: PropTypes.object,
     }
     render() {
-        const { isLoading, isError, isLoaded, messages = {} } = this.props
+        const {
+            isLoading,
+            isError,
+            isLoaded,
+            messages = {},
+            style,
+        } = this.props
         const [key] = trulyKeys({ isLoading, isError, isLoaded })
 
         if (!key || !COMPONENTS.has(key)) {
@@ -35,7 +42,7 @@ export default class Status extends PureComponent {
         const message = key in messages ? messages[key] : MESSAGES.get(key)
 
         return message
-            ? createElement(COMPONENTS.get(key), null, message)
+            ? createElement(COMPONENTS.get(key), { style }, message)
             : null
     }
 }

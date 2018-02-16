@@ -5,19 +5,43 @@ export default class OptionSet extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
         onChange: PropTypes.func,
-        selected: PropTypes.instanceOf(Set),
+        value: PropTypes.oneOfType([
+            PropTypes.instanceOf(Set),
+            PropTypes.string,
+            PropTypes.number,
+        ]),
     }
-    static defaultProps = {
-        selected: new Set(),
+    handleClick = option => {
+        const { onChange, value } = this.props
+
+        if (value instanceof Set) {
+            const values = new Set(Array.from(value))
+
+            if (values.has(option)) {
+                values.delete(option)
+            } else {
+                values.add(option)
+            }
+
+            onChange(values)
+        } else {
+            onChange(option)
+        }
     }
     cloneOption = (option, index) => {
-        const { selected, onChange } = this.props
-        const { key = index, value } = option.props
+        const { value } = this.props
+        let active = false
+
+        if (value instanceof Set) {
+            active = value.has(option.props.value)
+        } else {
+            active = value === option.props.value
+        }
 
         return cloneElement(option, {
-            key,
-            active: selected.has(value),
-            onClick: onChange,
+            key: index,
+            active,
+            onClick: this.handleClick,
         })
     }
     render() {

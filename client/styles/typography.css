@@ -1,0 +1,9 @@
+.Back {
+    &:not([href^='#']) {
+        &:before {
+            /* \00a0 == &nbsp; */
+            content: '‹\00a0';
+            color: var(--primary);
+        }
+    }
+}

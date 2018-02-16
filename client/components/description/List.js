@@ -10,6 +10,7 @@ export default class List extends PureComponent {
         theme: PropTypes.oneOf(['Simple', 'Inverse']),
         condensed: PropTypes.bool,
         bordered: PropTypes.bool,
+        style: PropTypes.object,
     }
     static defaultProps = {
         columns: 1,
@@ -31,6 +32,12 @@ export default class List extends PureComponent {
         })
     }
     render() {
-        return <dl className={this.className}>{this.props.children}</dl>
+        const { style } = this.props
+
+        return (
+            <dl style={style} className={this.className}>
+                {this.props.children}
+            </dl>
+        )
     }
 }

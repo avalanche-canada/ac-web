@@ -44,16 +44,6 @@ export function Forecaster({ forecaster }) {
 }
 
 export default class ForecastMetadata extends PureComponent {
-    static render(forecast, shareUrl) {
-        return (
-            <ForecastMetadata
-                dateIssued={forecast.get('dateIssued')}
-                validUntil={forecast.get('validUntil')}
-                forecaster={forecast.get('forecaster')}
-                shareUrl={shareUrl}
-            />
-        )
-    }
     static propTypes = {
         dateIssued: PropTypes.instanceOf(Date).isRequired,
         validUntil: PropTypes.instanceOf(Date).isRequired,

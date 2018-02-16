@@ -6,8 +6,15 @@ import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 import Sponsor from 'layouts/Sponsor'
-import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
-import DisplayOnMap from './DisplayOnMap'
+import {
+    Container,
+    Navbar,
+    Header,
+    Body,
+    Content,
+    Close,
+} from 'components/page/drawer'
+import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/region'
 
 export default class NorthRockies extends PureComponent {
@@ -51,7 +58,9 @@ export default class NorthRockies extends PureComponent {
                     </h1>
                 </Header>
                 <Body>
-                    <NorthRockiesBlogFeed />
+                    <Content>
+                        <NorthRockiesBlogFeed />
+                    </Content>
                 </Body>
             </Container>
         )
