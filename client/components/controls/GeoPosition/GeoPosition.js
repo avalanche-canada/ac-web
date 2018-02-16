@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import isSupported from '@mapbox/mapbox-gl-supported'
 import {
     Map,
     Marker,
@@ -107,6 +108,10 @@ export default class GeoPosition extends Component {
         })
     }
     render() {
+        if (!isSupported()) {
+            return null
+        }
+
         const { lngLat } = this.state
         const { allowFullscreen } = this.props
 
