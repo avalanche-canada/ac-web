@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
 import Panel, { INVERSE } from 'components/panel'
@@ -12,12 +12,14 @@ export default class Footer extends StaticComponent {
         children: PropTypes.node,
     }
     get children() {
-        return [
-            <ArchivedBulletins />,
-            <DangerRatings />,
-            <Inbox />,
-            <Disclaimer />,
-        ]
+        return (
+            <Fragment>
+                <ArchivedBulletins />
+                <DangerRatings />
+                <Inbox />
+                <Disclaimer />
+            </Fragment>
+        )
     }
     render() {
         return (

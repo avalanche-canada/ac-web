@@ -1,6 +1,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Header,
+    Container,
+    Body,
+    Navbar,
+    Content,
+    Close,
+} from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Status } from 'components/misc'
 import { Link } from 'react-router-dom'
@@ -41,10 +48,12 @@ export default class WeatherStation extends PureComponent {
                 {this.renderHeader(entity, status)}
             </Header>
             <Body>
-                <Status {...status} />
-                {Metadata.render(entity)}
-                {Station.render(entity)}
-                <Footer />
+                <Content>
+                    <Status {...status} />
+                    {Metadata.render(entity)}
+                    {Station.render(entity)}
+                    <Footer />
+                </Content>
             </Body>
         </Container>
     )

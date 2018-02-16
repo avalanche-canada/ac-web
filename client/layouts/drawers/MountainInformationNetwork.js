@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Container,
+    Header,
+    Body,
+    Content,
+    Navbar,
+    Close,
+} from 'components/page/drawer'
 import { Metadata, Submission } from 'components/mountainInformationNetwork'
 import { Status } from 'components/misc'
 import MountainInformationNetworkSubmission from 'containers/MountainInformationNetworkSubmission'
@@ -44,9 +51,11 @@ export default class Layout extends PureComponent {
                 {report && this.renderHeader(report)}
             </Header>
             <Body>
-                <Status style={STATUS_STYLE} {...status} />
-                {report && <Metadata report={report} shareable />}
-                {report && <Submission report={report} />}
+                <Content>
+                    <Status style={STATUS_STYLE} {...status} />
+                    {report && <Metadata report={report} shareable />}
+                    {report && <Submission report={report} />}
+                </Content>
             </Body>
         </Container>
     )

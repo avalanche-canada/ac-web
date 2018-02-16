@@ -5,15 +5,11 @@ import { List } from 'immutable'
 import { connect } from 'react-redux'
 import { getLayers } from 'getters/drawers'
 import { turnOnLayer, turnOffLayer, changeFilter } from 'actions/drawers'
-import { Container, Body, Navbar, Close } from 'components/page/drawer'
+import { Container, Body, Content, Navbar, Close } from 'components/page/drawer'
 import { LayerSet, Layer, FilterSet } from 'components/page/drawer/layers'
 import * as Layers from 'constants/drawers'
 import { loadData as load } from 'actions/map'
 import * as Icons from 'components/icons'
-
-const BODY_STYLE = {
-    padding: '0 1.25em',
-}
 
 const ICONS = new Map([
     [Layers.FORECASTS, <Icons.Forecast />],
@@ -62,56 +58,55 @@ export default class Menu extends Component {
     shouldUpdateComponent({ sets }) {
         return this.props.sets !== sets
     }
-    render() {
+    get sets() {
         const {
             sets = new List(),
             turnOnLayer,
             turnOffLayer,
             changeFilter,
-            onCloseClick,
         } = this.props
 
+        return sets.toList().map(({ title, layers }, index) => (
+            <LayerSet key={index} title={title}>
+                {layers.toList().map(layer => {
+                    const { id, filters, visible, title } = layer
+                    const handleFilterChange = changeFilter.bind(null, id)
+                    // TODO: Fix that performance issue!
+                    function handleClick() {
+                        if (visible) {
+                            turnOffLayer(id)
+                        } else {
+                            turnOnLayer(id)
+                        }
+                    }
+
+                    return (
+                        <Layer
+                            key={id}
+                            icon={ICONS.get(id)}
+                            onClick={handleClick}
+                            title={title}
+                            visible={visible}>
+                            {filters && (
+                                <FilterSet
+                                    filters={filters}
+                                    onChange={handleFilterChange}
+                                />
+                            )}
+                        </Layer>
+                    )
+                })}
+            </LayerSet>
+        ))
+    }
+    render() {
         return (
             <Container>
                 <Navbar>
-                    <Close onClick={onCloseClick} />
+                    <Close onClick={this.props.onCloseClick} />
                 </Navbar>
-                <Body style={BODY_STYLE}>
-                    {sets.toList().map(({ title, layers }, index) => (
-                        <LayerSet key={index} title={title}>
-                            {layers.toList().map(layer => {
-                                const { id, filters, visible, title } = layer
-                                const handleFilterChange = changeFilter.bind(
-                                    null,
-                                    id
-                                )
-                                // TODO: Fix that performance issue!
-                                function handleClick() {
-                                    if (visible) {
-                                        turnOffLayer(id)
-                                    } else {
-                                        turnOnLayer(id)
-                                    }
-                                }
-
-                                return (
-                                    <Layer
-                                        key={id}
-                                        icon={ICONS.get(id)}
-                                        onClick={handleClick}
-                                        title={title}
-                                        visible={visible}>
-                                        {filters && (
-                                            <FilterSet
-                                                filters={filters}
-                                                onChange={handleFilterChange}
-                                            />
-                                        )}
-                                    </Layer>
-                                )
-                            })}
-                        </LayerSet>
-                    ))}
+                <Body>
+                    <Content>{this.sets}</Content>
                 </Body>
             </Container>
         )

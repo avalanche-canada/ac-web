@@ -1,4 +1,4 @@
-import React, { PureComponent, Children, cloneElement } from 'react'
+import React, { PureComponent, Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Headline from './Headline'
 import Footer from './Footer'
@@ -114,7 +114,7 @@ export class Compound extends PureComponent {
     }
     render() {
         return (
-            <section>{Children.map(this.children, this.renderChild)}</section>
+            <Fragment>{Children.map(this.children, this.renderChild)}</Fragment>
         )
     }
 }

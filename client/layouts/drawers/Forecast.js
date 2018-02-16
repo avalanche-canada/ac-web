@@ -1,8 +1,21 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
-import { Compound } from 'components/forecast'
+import {
+    Navbar,
+    Header,
+    Container,
+    Body,
+    Close,
+    Content,
+} from 'components/page/drawer'
+import {
+    Compound,
+    Metadata,
+    Headline,
+    TabSet,
+    Footer,
+} from 'components/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
@@ -62,7 +75,16 @@ export default class Layout extends PureComponent {
             {this.renderHeader(region, forecast, status)}
             <Body>
                 <Status style={STATUS_STYLE} {...status} />
-                <Compound forecast={forecast} />
+                <Content>
+                    <Compound forecast={forecast}>
+                        <Metadata />
+                        <Headline />
+                        <TabSet />
+                    </Compound>
+                </Content>
+                <Compound forecast={forecast}>
+                    <Footer />
+                </Compound>
             </Body>
         </Container>
     )

@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
+import {
+    Container,
+    Navbar,
+    Header,
+    Body,
+    Content,
+    Close,
+} from 'components/page/drawer'
 import { Status } from 'components/misc'
 import HotZoneReport, { Metadata } from 'components/hotZoneReport'
 import Sponsor from 'layouts/Sponsor'
@@ -37,35 +44,37 @@ export default class HotZoneReportDrawer extends PureComponent {
             </Header>
         )
     }
-    renderChildren = ({ report, status }) => ({ hotZone }) => [
-        this.renderHeader({ report, status, hotZone }),
-        <Body>
-            <Status {...status} />
-            {report && (
-                <Metadata
-                    report={report.data}
-                    shareUrl={utils.shareUrl(report)}
-                />
-            )}
-            {status.isLoaded && (
-                <HotZoneReport report={report && report.data} />
-            )}
-        </Body>,
-    ]
+    renderChildren = ({ report, status }) => ({ hotZone }) => (
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            {this.renderHeader({ report, status, hotZone })}
+            <Body>
+                <Content>
+                    <Status {...status} />
+                    {report && (
+                        <Metadata
+                            report={report.data}
+                            shareUrl={utils.shareUrl(report)}
+                        />
+                    )}
+                    {status.isLoaded && (
+                        <HotZoneReport report={report && report.data} />
+                    )}
+                </Content>
+            </Body>
+        </Container>
+    )
     children = props => (
         <HotZone id={this.props.name}>{this.renderChildren(props)}</HotZone>
     )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <HotZoneReportContainer region={this.props.name}>
-                    {this.children}
-                </HotZoneReportContainer>
-            </Container>
+            <HotZoneReportContainer region={this.props.name}>
+                {this.children}
+            </HotZoneReportContainer>
         )
     }
 }

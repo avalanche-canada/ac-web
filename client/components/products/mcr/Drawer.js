@@ -24,10 +24,6 @@ const NAVBAR_STYLE = {
     right: 0,
 }
 
-const BODY_STYLE = {
-    padding: 0,
-}
-
 Drawer.propTypes = {
     report: PropTypes.object.isRequired,
     status: PropTypes.object.isRequired,
@@ -56,7 +52,7 @@ export default function Drawer({
 
     return (
         <Container>
-            <Body style={BODY_STYLE}>
+            <Body>
                 <Navbar style={NAVBAR_STYLE}>
                     <Close shadow onClick={onCloseClick} />
                 </Navbar>

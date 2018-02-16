@@ -1,6 +1,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Header, Container, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Header,
+    Container,
+    Body,
+    Content,
+    Navbar,
+    Close,
+} from 'components/page/drawer'
 import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
@@ -54,26 +61,31 @@ export default class FatalAccident extends PureComponent {
                   }" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => [
-        <Header subject="Fatal Recreational Accident">
-            {document && this.renderHeader(document.data)}
-        </Header>,
-        <Body>
-            <Status {...status} messages={this.createMessages(document)} />
-            {document && this.renderMetadata(document.data)}
-            {document && this.renderContent(document.data)}
-        </Body>,
-    ]
+    children = ({ document, status }) => (
+        <Container>
+            <Navbar>
+                <Close onClick={this.props.onCloseClick} />
+            </Navbar>
+            <Header subject="Fatal Recreational Accident">
+                {document && this.renderHeader(document.data)}
+            </Header>
+            <Body>
+                <Content>
+                    <Status
+                        {...status}
+                        messages={this.createMessages(document)}
+                    />
+                    {document && this.renderMetadata(document.data)}
+                    {document && this.renderContent(document.data)}
+                </Content>
+            </Body>
+        </Container>
+    )
     render() {
         return (
-            <Container>
-                <Navbar>
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <Containers.FatalAccident id={this.props.id}>
-                    {this.children}
-                </Containers.FatalAccident>
-            </Container>
+            <Containers.FatalAccident id={this.props.id}>
+                {this.children}
+            </Containers.FatalAccident>
         )
     }
 }
