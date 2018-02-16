@@ -2,6 +2,7 @@ import React, { PureComponent, Component, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
 import supported from '@mapbox/mapbox-gl-supported'
+import noop from 'lodash/noop'
 import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
@@ -24,20 +25,8 @@ export default class Layout extends PureComponent {
         primary: isPrimaryOpen(this.props.match),
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
-    flyTo(center) {
-        this.map.flyTo({
-            center,
-            zoom: 13,
-            offset: this.offset,
-        })
-    }
-    fitBounds(geometry) {
-        this.map.fitBounds(bbox(geometry), {
-            offset: this.offset,
-            padding: 75,
-            speed: 1.75,
-        })
-    }
+    flyTo = noop
+    fitBounds = noop
     get offset() {
         const { primary, secondary, width } = this.state
         let x = 0
@@ -56,9 +45,23 @@ export default class Layout extends PureComponent {
             captureException(error)
         })
     }
-    handleLoad = event => {
-        this.map = event.target
-        this.map.on('resize', this.handleResize)
+    handleLoad = ({ target: map }) => {
+        this.flyTo = center => {
+            map.flyTo({
+                center,
+                zoom: 13,
+                offset: this.offset,
+            })
+        }
+        this.fitBounds = geometry => {
+            map.fitBounds(bbox(geometry), {
+                offset: this.offset,
+                padding: 75,
+                speed: 1.75,
+            })
+        }
+
+        map.on('resize', this.handleResize)
     }
     handleResize = event => {
         const container = event.target.getContainer()
