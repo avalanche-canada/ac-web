@@ -73,10 +73,14 @@ export default class TripPlannerLayout extends PureComponent {
 
         return null
     }
-    createRegionState(next) {
-        const { id, name } = next.region.properties
+    createRegionState({ region }) {
+        if (region) {
+            const { id, name } = region.properties
 
-        return { id, name }
+            return { id, name }
+        }
+
+        return null
     }
     handleElevationChange = elevation => {
         this.setState({ elevation })

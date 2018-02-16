@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
+import * as drawers from 'components/page/drawer'
 import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
@@ -43,13 +44,15 @@ export default class Content extends Component {
 
         return (
             <Fragment>
-                <Compound forecast={forecast}>
-                    <Status {...status} />
-                    {canRender && <Metadata />}
-                    {canRender && <Headline />}
-                    {canRender && <TabSet />}
-                    {canRender || this.renderOtherForecast(forecast)}
-                </Compound>
+                <drawers.Content>
+                    <Compound forecast={forecast}>
+                        <Status {...status} />
+                        {canRender && <Metadata />}
+                        {canRender && <Headline />}
+                        {canRender && <TabSet />}
+                        {canRender || this.renderOtherForecast(forecast)}
+                    </Compound>
+                </drawers.Content>
                 <Disclaimer />
                 <DangerRatings />
             </Fragment>
