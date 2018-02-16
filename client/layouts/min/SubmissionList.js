@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
+import isSupported from '@mapbox/mapbox-gl-supported'
 import { Page, Header, Main, Content } from 'components/page'
 import { Br } from 'components/markup'
 import {
@@ -48,6 +49,11 @@ export default class SubmissionList extends PureComponent {
         types: this.props.types,
         regions: this.props.regions,
         sorting: this.props.sorting,
+    }
+    constructor(props) {
+        super(props)
+
+        this.supported = isSupported()
     }
     handleFromDateChange = from => {
         const days = differenceInCalendarDays(new Date(), from)
@@ -101,12 +107,12 @@ export default class SubmissionList extends PureComponent {
             </Metadata>
         )
     }
-    renderSubmission(submission) {
+    renderSubmission = submission => {
         return (
             <Row key={submission.get('subid')}>
                 {COLUMNS.map(({ name, style, property }) => (
                     <Cell key={name} style={style}>
-                        {property(submission)}
+                        {property(submission, this.supported)}
                     </Cell>
                 ))}
             </Row>
@@ -235,12 +241,14 @@ const SORTERS = new Map([
 const COLUMNS = [
     {
         name: 'pin',
-        property(submission) {
+        property(submission, supported) {
             const id = submission.get('subid')
             const title = submission.get('title')
             const withIncident = submission.get('obs').some(hasIncident)
             const icon = withIncident ? pinWithIncident : pin
-            const path = `/map?panel=${Schema.key}/${id}`
+            const path = supported
+                ? `/map?panel=${Schema.key}/${id}`
+                : `/mountain-information-network/submissions/${id}`
 
             return (
                 <Link to={path} title={`Look at ${title} report on the map`}>
@@ -288,11 +296,14 @@ const COLUMNS = [
     {
         name: 'region',
         title: 'Forecast Region',
-        property(submission) {
+        property(submission, supported) {
             if (submission.has('region')) {
                 const { name, id } = submission.get('region')
+                const path = supported
+                    ? `/map/forecasts/${id}`
+                    : `/forecasts/${id}`
 
-                return <Link to={`/map/forecasts/${id}`}>{name}</Link>
+                return <Link to={path}>{name}</Link>
             }
         },
         sorting: NONE,
