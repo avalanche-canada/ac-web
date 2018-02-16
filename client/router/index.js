@@ -33,6 +33,10 @@ export default function Router() {
                             from="/trip-planner"
                             to="/planning/trip-planner"
                         />
+                        <Redirect
+                            from="/trip-planning/decision-making"
+                            to="/planning/decision-making"
+                        />
                         <Redirect from="/trip-planning" to="/planning" />
                         <Redirect
                             from="/pages/static-page/trip-planning"
@@ -469,10 +473,6 @@ export default function Router() {
                         <Redirect from="/cac" to="/" />
                         <Redirect
                             from="/pages/static-page/decision-making"
-                            to="/planning/decision-making"
-                        />
-                        <Redirect
-                            from="/trip-planning/decision-making"
                             to="/planning/decision-making"
                         />
                         <Redirect from="/pages/static-page/sled" to="/sled" />
