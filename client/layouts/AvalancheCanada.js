@@ -92,6 +92,12 @@ export default class AvalancheCanada extends Component {
                 />
                 <StaticPageRoute path="/tech" uid="tech" title="Tech" />
                 <StaticPageRoute path="/faq" uid="faq" title="FAQ" />
+                <Route path="/planning/trip-planner" component={TripPlanner} />
+                <StaticPageRoute
+                    path="/planning/decision-making"
+                    uid="decision-making"
+                    title="Decision Making"
+                />
                 <StaticPageRoute
                     path="/planning"
                     uid="planning"
@@ -154,20 +160,6 @@ export default class AvalancheCanada extends Component {
                     uid="terms-of-use"
                     title="Terms of use"
                 />
-                <Route
-                    path="/trip-planning/trip-planner"
-                    component={TripPlanner}
-                />
-                <StaticPageRoute
-                    path="/trip-planning/decision-making"
-                    uid="decision-making"
-                    title="Decision Making"
-                />
-                <StaticPageRoute
-                    path="/trip-planning"
-                    uid="trip-planning"
-                    title="Trip Planning"
-                />
                 <WIPPageRoute
                     path="/incidents"
                     name="Historic Incidents"
@@ -197,10 +189,7 @@ export default class AvalancheCanada extends Component {
                 <ErrorBoundary>{this.children}</ErrorBoundary>
                 <Switch>
                     <Route path="/map" component={null} />
-                    <Route
-                        path="/trip-planning/trip-planner"
-                        component={null}
-                    />
+                    <Route path="/planning/trip-planner" component={null} />
                     <Route path="/incidents" component={null} />
                     <Route path="/tutoriel" component={null} />
                     <Route component={Footer} />

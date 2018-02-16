@@ -19,12 +19,24 @@ export default function Router() {
                     <Switch>
                         <Redirect
                             from="/map/ates"
-                            to="/trip-planning/trip-planner"
+                            to="/planning/trip-planner"
                         />
-                        <Redirect from="/trip-planner" to="/trip-planning" />
+                        <Redirect
+                            from="/trip-planning/trip-planner"
+                            to="/planning/trip-planner"
+                        />
+                        <Redirect
+                            from="/trip-planning/trip-planner"
+                            to="/planning/trip-planner"
+                        />
+                        <Redirect
+                            from="/trip-planner"
+                            to="/planning/trip-planner"
+                        />
+                        <Redirect from="/trip-planning" to="/planning" />
                         <Redirect
                             from="/pages/static-page/trip-planning"
-                            to="/trip-planning"
+                            to="/planning"
                         />
                         <Redirect
                             from="/events/VvLeBSUAAJgDAgX6"
@@ -457,7 +469,11 @@ export default function Router() {
                         <Redirect from="/cac" to="/" />
                         <Redirect
                             from="/pages/static-page/decision-making"
-                            to="/trip-planning/decision-making"
+                            to="/planning/decision-making"
+                        />
+                        <Redirect
+                            from="/trip-planning/decision-making"
+                            to="/planning/decision-making"
                         />
                         <Redirect from="/pages/static-page/sled" to="/sled" />
                         <Redirect from="/pages/static-page/youth" to="/youth" />

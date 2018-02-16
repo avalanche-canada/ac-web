@@ -5,7 +5,7 @@ import UnsupportedMap from 'layouts/UnsupportedMap'
 export default class Unsupported extends StaticComponent {
     render() {
         const links = new Map([
-            ['/trip-planning', 'Trip planning'],
+            ['/planning', 'Planning'],
             ['/forecasts', 'Forecast regions'],
             ['/weather', 'Mountain Weather Forecast'],
         ])

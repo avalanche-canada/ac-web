@@ -175,7 +175,7 @@ export default class SubmissionList extends PureComponent {
 
         return (
             <Page>
-                <Header title="Mountain Information Network submissions" />
+                <Header title="Mountain Information Network — List View" />
                 <Content>
                     <Main>
                         <ForecastRegions>

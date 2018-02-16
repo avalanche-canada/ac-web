@@ -1,37 +1,14 @@
 let id = 0
 
-const MountainInformationNetwork = {
-    id: String(id++),
-    label: 'Mountain Information Network',
-    header: true,
-    to: '/mountain-information-network',
-    children: [
-        {
-            id: String(id++),
-            label: 'How to GET information?',
-            to: '/mountain-information-network#get-information',
-        },
-        {
-            id: String(id++),
-            label: 'How to GIVE information?',
-            to: '/mountain-information-network#give-information',
-        },
-        {
-            id: String(id++),
-            label: 'Create a Report',
-            to: '/mountain-information-network/submit',
-        },
-    ],
-}
 const Gear = {
     id: String(id++),
     label: 'Essential Gear',
     to: '/gear',
 }
-const TripPlanning = {
+const TripPlanner = {
     id: String(id++),
-    label: 'Trip Planning',
-    to: '/trip-planning',
+    label: 'Trip Planner',
+    to: '/planning/trip-planner',
 }
 const Forecasts = {
     id: String(id++),
@@ -91,6 +68,35 @@ const AvCanTrainingCourses = {
         },
     ],
 }
+const MountainInformationNetworkListView = {
+    id: String(id++),
+    label: 'All reports',
+    to: '/mountain-information-network/submissions',
+}
+const MountainInformationNetwork = {
+    id: String(id++),
+    label: 'Mountain Information Network',
+    header: true,
+    to: '/mountain-information-network',
+    children: [
+        {
+            id: String(id++),
+            label: 'How to GET information?',
+            to: '/mountain-information-network#get-information',
+        },
+        {
+            id: String(id++),
+            label: 'How to GIVE information?',
+            to: '/mountain-information-network#give-information',
+        },
+        {
+            id: String(id++),
+            label: 'Create a report',
+            to: '/mountain-information-network/submit',
+        },
+        MountainInformationNetworkListView,
+    ],
+}
 const Planning = {
     id: String(id++),
     label: 'Planning',
@@ -99,8 +105,8 @@ const Planning = {
     children: [
         MountainWeatherForecast,
         ForecasterBlog,
+        TripPlanner,
         Gear,
-        TripPlanning,
         Forecasts,
     ],
 }
