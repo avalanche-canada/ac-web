@@ -10,10 +10,12 @@ export default class Body extends Component {
     }
     setRef = ref => (this.ref = ref)
     handleScroll = throttle(() => {
-        this.props.onScroll({
-            left: this.ref.scrolLeft,
-            top: this.ref.scrollTop,
-        })
+        if (this.ref) {
+            this.props.onScroll({
+                left: this.ref.scrollLeft,
+                top: this.ref.scrollTop,
+            })
+        }
     }, 250)
     render() {
         const { children, onScroll, ...props } = this.props
