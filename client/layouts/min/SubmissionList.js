@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import isSupported from '@mapbox/mapbox-gl-supported'
 import { Page, Header, Main, Content } from 'components/page'
 import { Br } from 'components/markup'
 import {
@@ -22,8 +20,8 @@ import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
 import { Status } from 'components/misc'
-import { MountainInformationNetworkSubmission as Schema } from 'api/schemas'
 import { Sorted } from 'components/collection'
+import * as links from 'components/links'
 import { INCIDENT, NAMES } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
@@ -49,11 +47,6 @@ export default class SubmissionList extends PureComponent {
         types: this.props.types,
         regions: this.props.regions,
         sorting: this.props.sorting,
-    }
-    constructor(props) {
-        super(props)
-
-        this.supported = isSupported()
     }
     handleFromDateChange = from => {
         const days = differenceInCalendarDays(new Date(), from)
@@ -112,7 +105,7 @@ export default class SubmissionList extends PureComponent {
             <Row key={submission.get('subid')}>
                 {COLUMNS.map(({ name, style, property }) => (
                     <Cell key={name} style={style}>
-                        {property(submission, this.supported)}
+                        {property(submission)}
                     </Cell>
                 ))}
             </Row>
@@ -241,19 +234,17 @@ const SORTERS = new Map([
 const COLUMNS = [
     {
         name: 'pin',
-        property(submission, supported) {
-            const id = submission.get('subid')
+        property(submission) {
             const title = submission.get('title')
             const withIncident = submission.get('obs').some(hasIncident)
             const icon = withIncident ? pinWithIncident : pin
-            const path = supported
-                ? `/map?panel=${Schema.key}/${id}`
-                : `/mountain-information-network/submissions/${id}`
 
             return (
-                <Link to={path} title={`Look at ${title} report on the map`}>
+                <links.MountainInformationNetwork
+                    id={submission.get('subid')}
+                    title={`Look at ${title} report on the map`}>
                     <img src={icon} height={30} width={20} />
-                </Link>
+                </links.MountainInformationNetwork>
             )
         },
         style: {
@@ -299,11 +290,8 @@ const COLUMNS = [
         property(submission, supported) {
             if (submission.has('region')) {
                 const { name, id } = submission.get('region')
-                const path = supported
-                    ? `/map/forecasts/${id}`
-                    : `/forecasts/${id}`
 
-                return <Link to={path}>{name}</Link>
+                return <links.Forecast id={id}>{name}</links.Forecast>
             }
         },
         sorting: NONE,

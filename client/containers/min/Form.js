@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { MountainInformationNetworkSubmission } from 'api/schemas'
 import { Page, Header, Main, Content } from 'components/page'
+import * as links from 'components/links'
 import OPTIONS from './options'
 import { postMountainInformationNetworkSubmission as post } from 'actions/entities'
 import Submission from './types'
@@ -142,12 +143,11 @@ export default class SubmissionForm extends Component {
         this.setState({ isSubmitting: true }, () => {
             this.props.post(transform(value)).then(
                 data => {
-                    const { key } = MountainInformationNetworkSubmission
                     const id = MountainInformationNetworkSubmission.getId(
                         data.value
                     )
 
-                    this.props.history.push(`/map?panel=${key}/${id}`)
+                    this.props.history.push(links.forecasts(id))
                 },
                 err => {
                     this.setState({

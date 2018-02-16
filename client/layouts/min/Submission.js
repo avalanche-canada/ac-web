@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import isSupported from '@mapbox/mapbox-gl-supported'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { Page, Header, Main, Content, Aside, ContextMap } from 'components/page'
+import { MountainInformationNetwork as Link } from 'components/links'
 import { Item } from 'components/sidebar'
 import { Status } from 'components/misc'
 import Container from 'containers/MountainInformationNetworkSubmission'
@@ -22,9 +23,6 @@ export default class Layout extends PureComponent {
         id: PropTypes.string.isRequired,
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
-    }
-    get link() {
-        return `/map?panel=${Schema.key}/${this.props.id}`
     }
     renderMap(report) {
         const title = report.get('title')
@@ -60,11 +58,13 @@ export default class Layout extends PureComponent {
             </Main>
             <Aside>
                 <Sidebar>
-                    <Item>
-                        <Link to={this.link}>
-                            See this submission on the main map
-                        </Link>
-                    </Item>
+                    {isSupported() && (
+                        <Item>
+                            <Link id={this.props.id}>
+                                See this submission on the main map
+                            </Link>
+                        </Item>
+                    )}
                 </Sidebar>
             </Aside>
         </Content>,
