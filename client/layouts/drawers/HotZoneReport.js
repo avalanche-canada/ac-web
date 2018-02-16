@@ -37,7 +37,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                     {report ? (
                         <Link to={`/hot-zone-reports/${name}`}>{title}</Link>
                     ) : (
-                        title
+                        <span>{title}</span>
                     )}
                     {hotZone && <DisplayOnMap onClick={handleLocateClick} />}
                 </h1>

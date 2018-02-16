@@ -41,7 +41,7 @@ export default class SpecialInformation extends PureComponent {
 
         return (
             <h1>
-                {headline}
+                <span>{headline}</span>
                 <DisplayOnMap onClick={handleLocateClick} />
             </h1>
         )

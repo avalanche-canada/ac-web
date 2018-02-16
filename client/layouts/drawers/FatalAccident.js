@@ -32,7 +32,7 @@ export default class FatalAccident extends PureComponent {
 
         return (
             <h1>
-                {title}
+                <span>{title}</span>
                 <DisplayOnMap onClick={handleLocateClick} />
             </h1>
         )
