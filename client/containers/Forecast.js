@@ -42,7 +42,7 @@ function createMessages({ name }, { isLoaded, count }) {
         isError: `Error happened while loading ${name} avalanche bulletin.`,
         isLoaded:
             isLoaded && count === 0
-                ? `No avalanche bulletin has been found for ${name}...`
+                ? `No avalanche bulletin has been found for ${name}.`
                 : undefined,
     }
 }
