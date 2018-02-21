@@ -147,7 +147,9 @@ export default class SubmissionForm extends Component {
                         data.value
                     )
 
-                    this.props.history.push(links.forecasts(id))
+                    this.props.history.push(
+                        links.mountainInformationNetwork(id)
+                    )
                 },
                 err => {
                     this.setState({
