@@ -56,13 +56,17 @@ export default class ArchiveForecast extends PureComponent {
         )
     }
     renderWarning(region) {
-        const to = getWarningUrl(region, this.props.date)
+        try {
+            const to = getWarningUrl(region, this.props.date)
 
-        return (
-            <Link to={to} target={region.get('id')}>
-                <Alert type={WARNING}>{getWarningText(region)}</Alert>
-            </Link>
-        )
+            return (
+                <Link to={to} target={region.get('id')}>
+                    <Alert type={WARNING}>{getWarningText(region)}</Alert>
+                </Link>
+            )
+        } catch (error) {
+            return null
+        }
     }
     forecast = ({ forecast, region, status }) => (
         <Forecast.Compound forecast={forecast}>
@@ -154,14 +158,10 @@ function getWarningText(region) {
 
     switch (owner) {
         case PARKS_CANADA:
-            return `Archived forecast bulletins for ${
-                name
-            } region are available on the Parks Canada - Public Avalanche Information website`
+            return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
         case CHIC_CHOCS:
         case VANCOUVER_ISLAND:
-            return `You can get more information for ${
-                name
-            } region on their website`
+            return `You can get more information for ${name} region on their website`
         default:
             throw new Error(`Owner ${owner} not supported yet.`)
     }
@@ -169,6 +169,7 @@ function getWarningText(region) {
 
 const PARKS = 'parks'
 const LINK = 'link'
+const AVALX = 'avalx'
 
 function getWarningUrl(region, date) {
     const type = region.get('type')
@@ -189,7 +190,5 @@ function getWarningUrl(region, date) {
         }
         case LINK:
             return url.replace('http://avalanche.ca', '')
-        default:
-            throw new Error(`Type ${type} not supported yet.`)
     }
 }

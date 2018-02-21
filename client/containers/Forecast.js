@@ -16,7 +16,7 @@ export default connect(
             status(state, props) {
                 const result = getResultsSet(state, Forecast, toParams(props))
 
-                return result.asStatus(createMessages(props)).toObject()
+                return result.asStatus(createMessages(props, result)).toObject()
             },
         }),
     }),
@@ -36,10 +36,14 @@ export default connect(
 )(Connector)
 
 // Utils
-function createMessages({ name }) {
+function createMessages({ name }, { isLoaded, count }) {
     return {
         isLoading: `Loading ${name} avalanche bulletin...`,
         isError: `Error happened while loading ${name} avalanche bulletin.`,
+        isLoaded:
+            isLoaded && count === 0
+                ? `No avalanche bulletin has been found for ${name}...`
+                : undefined,
     }
 }
 function getForecasts(state) {
