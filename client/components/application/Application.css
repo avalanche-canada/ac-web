@@ -1,4 +1,33 @@
+@custom-media --medium-screen-width (width > 600px);
+@custom-media --large-screen-width (width > 800px);
+@custom-media --xlarge-screen-width (width > 1000px);
+
 .Application {
     height: 100%;
     position: relative;
+}
+
+.Banner {
+    position: fixed;
+    top: 75px;
+    right: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.BannerContent {
+    & > * {
+        padding: 0 1em;
+    }
+
+    &.Map {
+        padding-left: 5em;
+
+        @media (--medium-screen-width) {
+            padding-left: 8em;
+        }
+        @media (--xlarge-screen-width) {
+            padding-left: 15em;
+        }
+    }
 }

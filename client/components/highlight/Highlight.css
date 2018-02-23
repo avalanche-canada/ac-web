@@ -1,53 +1,34 @@
 @import '../../styles/colors.css';
 
-@custom-media --medium-screen-width (width > 600px);
-@custom-media --large-screen-width (width > 800px);
-@custom-media --massive-screen-width (width > 1000px);
-
 .Highlight {
     position: fixed 85px 50px auto 50px;
     display: flex;
     text-align: center;
     margin: 0 auto;
     z-index: 2;
+    color: white;
+    font-weight: 700;
+    background-color: var(--brand-secondary);
 
     & > *:first-child {
         flex: 1 0;
     }
 
-    & .Close {
-        padding: 1em;
-    }
-
-    @media (--medium-screen-width) {
-        right: 125px;
-        left: 125px;
-    }
-    @media (--large-screen-width) {
-        right: 200px;
-        left: 200px;
-    }
-    @media (--massive-screen-width) {
-        right: 250px;
-        left: 250px;
-    }
-}
-
-.Danger {
-    composes: Highlight;
-
-    color: white;
-    font-weight: 700;
-    background-color: var(--brand-secondary);
-
     & a {
         color: white;
-        text-decoration: underline;
     }
 
     & button {
         color: white;
     }
+
+    & .Close {
+        padding: 0 1em;
+    }
+}
+
+.Danger {
+    composes: Highlight;
 }
 
 .Warning {

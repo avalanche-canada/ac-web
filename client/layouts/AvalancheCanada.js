@@ -11,6 +11,7 @@ import {
 } from 'router/common'
 import Navbar from './Navbar'
 import SPAW from './SPAW'
+import Highlight from './Highlight'
 import Footer from 'components/footer'
 import Main from './Map'
 import Tutorial from './Tutorial'
@@ -186,6 +187,7 @@ export default class AvalancheCanada extends Component {
             <Application>
                 <Navbar />
                 <SPAW />
+                <Highlight />
                 <ErrorBoundary>{this.children}</ErrorBoundary>
                 <Switch>
                     <Route path="/map" component={null} />

@@ -1,26 +1,20 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
-import classnames from 'classnames'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
 import { Link, StructuredText } from 'prismic/components/base'
 import { SPAW as Container } from 'prismic/containers'
+import { Banner } from 'components/application'
 import { SessionStorage } from 'services/storage'
-import styles from './SPAW.css'
 
 export default class SPAW extends PureComponent {
-    constructor(props) {
-        super(props)
-
-        this.storage = SessionStorage.create()
-        this.state = {
-            hidden: this.storage.get('highlight-hidden-status'),
-        }
+    storage = SessionStorage.create()
+    state = {
+        hidden: this.storage.get('spaw-hidden'),
     }
     handleDismiss = () => {
         this.setState({ hidden: true }, () => {
-            this.storage.set('highlight-hidden-status', true)
+            this.storage.set('spaw-hidden', true)
         })
     }
     children = ({ document }) => {
@@ -28,41 +22,22 @@ export default class SPAW extends PureComponent {
             return null
         }
 
-        const { description, link } = document
-        const style = classnames(styles.Content, {
-            [styles.Map]: this.location.pathname.startsWith('/map'),
-        })
-        const content = (
-            <div className={style}>
-                <StructuredText value={description} />
-                <span> Click for more information.</span>
-            </div>
-        )
+        const { link } = document
+        const content = <StructuredText value={document.description} />
 
         return (
-            <div className={styles.Container}>
+            <Banner>
                 <Highlight
                     style={DANGER}
                     onDismiss={this.handleDismiss}
                     dismissable>
-                    {link ? (
-                        <Link {...link} style={STYLE}>
-                            {content}
-                        </Link>
-                    ) : (
-                        content
-                    )}
+                    {link ? <Link {...link}>{content}</Link> : content}
                 </Highlight>
-            </div>
+            </Banner>
         )
     }
-    renderer = ({ location }) => {
-        this.location = location
-
-        return <Container>{this.children}</Container>
-    }
     render() {
-        return <Route>{this.renderer}</Route>
+        return <Container>{this.children}</Container>
     }
 }
 
@@ -78,8 +53,4 @@ export class Region extends PureComponent {
     render() {
         return <Container>{this.children}</Container>
     }
-}
-
-const STYLE = {
-    textDecoration: 'none',
 }

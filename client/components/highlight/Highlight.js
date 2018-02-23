@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Close } from 'components/button'
+import classnames from 'classnames'
 import styles from './Highlight.css'
 
 export const DANGER = 'danger'
@@ -20,6 +21,7 @@ Highlight.propTypes = {
     style: PropTypes.oneOf([DANGER, WARNING, INFO, SUCCESS]).isRequired,
     dismissable: PropTypes.bool,
     onDismiss: PropTypes.func,
+    className: PropTypes.string,
 }
 
 export default function Highlight({
@@ -27,9 +29,10 @@ export default function Highlight({
     dismissable,
     onDismiss,
     children,
+    className,
 }) {
     return (
-        <div className={CLASS_NAMES.get(style)}>
+        <div className={classnames(CLASS_NAMES.get(style), className)}>
             {children}
             {dismissable && (
                 <Close

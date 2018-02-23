@@ -31,6 +31,7 @@ import {
     HOTZONE_REPORT,
     SPAW as SPAW_TYPE,
     WEATHER_FORECAST,
+    HIGHLIGHT,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
@@ -622,6 +623,35 @@ export class SPAW extends Component {
                 ...rangePredicates(
                     `my.${SPAW_TYPE}.start`,
                     `my.${SPAW_TYPE}.end`
+                ),
+            ],
+        }
+    }
+    children = ({ document, status }) =>
+        this.props.children({
+            document: data(document),
+            status,
+        })
+    render() {
+        return (
+            <DocumentContainer params={this.params}>
+                {this.children}
+            </DocumentContainer>
+        )
+    }
+}
+
+export class Highlight extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+    }
+    get params() {
+        return {
+            predicates: [
+                Predicates.type(HIGHLIGHT),
+                ...rangePredicates(
+                    `my.${HIGHLIGHT}.start`,
+                    `my.${HIGHLIGHT}.end`
                 ),
             ],
         }
