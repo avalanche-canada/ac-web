@@ -19,10 +19,18 @@ export default ga
 
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
-    ga.send('event', {
-        eventCategory: 'Outbound Sponsor',
-        eventAction: 'click',
-        eventLabel: event.currentTarget.href,
+    ga.event({
+        category: 'Navigation',
+        action: 'Outbound Sponsor',
+        label: event.currentTarget.href,
         transport: 'beacon',
+    })
+}
+
+export function handleForecastTabActivate(label) {
+    ga.event({
+        category: 'Navigation',
+        action: 'Forecast Tab activation',
+        label,
     })
 }

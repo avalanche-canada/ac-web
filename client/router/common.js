@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 import AuthService from 'services/auth'
 import { NotFound } from 'components/page'
 import LoginComplete from 'containers/LoginComplete'
-import ReactGA from 'services/analytics'
+import ga from 'services/analytics'
 import { StaticPage, Generic } from 'prismic/containers'
 import { WorkInProgress } from 'components/page'
 import { STATIC_PAGE } from 'constants/prismic'
@@ -47,7 +47,7 @@ export function LoginCompleteRoute(props) {
 }
 
 function notFound({ location: { pathname } }) {
-    ReactGA.event({
+    ga.event({
         category: 'Navigation',
         action: 'Not Found',
         label: pathname,

@@ -4,6 +4,7 @@ import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Table, Day, DaySet, Condition, Confidence } from './danger'
 import ProblemSet from './problem'
 import DetailSet from './DetailSet'
+import { handleForecastTabActivate } from 'services/analytics'
 
 export default class TabSet extends PureComponent {
     static propTypes = {
@@ -20,6 +21,9 @@ export default class TabSet extends PureComponent {
         }),
         region: PropTypes.string.isRequired,
     }
+    handleTabChange = index => {
+        handleForecastTabActivate(HEADERS[index])
+    }
     render() {
         const {
             avalancheSummary,
@@ -32,11 +36,13 @@ export default class TabSet extends PureComponent {
         } = this.props
 
         return (
-            <Tabs theme="LOOSE">
+            <Tabs theme="LOOSE" onTabChange={this.handleTabChange}>
                 <HeaderSet>
-                    <Header>Danger ratings</Header>
-                    <Header disabled={problems.length === 0}>Problems</Header>
-                    <Header>Details</Header>
+                    <Header>{HEADERS[0]}</Header>
+                    <Header disabled={problems.length === 0}>
+                        {HEADERS[1]}
+                    </Header>
+                    <Header>{HEADERS[2]}</Header>
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -71,3 +77,6 @@ export default class TabSet extends PureComponent {
         )
     }
 }
+
+// Constants
+const HEADERS = ['Danger ratings', 'Problems', 'Details']
