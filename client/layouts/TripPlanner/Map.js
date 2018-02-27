@@ -37,7 +37,9 @@ export default class TripPlannerMap extends Component {
         }
     }
     setActiveArea(id = -1) {
-        this.map.setFilter('active-ates-areas', ['==', 'ATES_ZONE_ID', id])
+        if (this.map) {
+            this.map.setFilter('active-ates-areas', ['==', 'ATES_ZONE_ID', id])
+        }
     }
     queryAreas(point) {
         return this.map.queryRenderedFeatures(point, {
