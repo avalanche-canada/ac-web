@@ -104,8 +104,8 @@ const UploadSet = {
                         remove some from your report.
                     </li>
                     <li>
-                        If you want to add your photos in a specific order, we
-                        suggest adding one photo at a time.
+                        We suggest adding one photo at a time if you want your
+                        photos in a specific order.
                     </li>
                 </ul>
             ),
