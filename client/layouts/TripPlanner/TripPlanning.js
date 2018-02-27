@@ -10,8 +10,8 @@ import { LEVELS } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
 import { Option } from 'components/controls/options'
-import TerrainRatings from './panels/TerrainRatings'
-import ChartExplained from './panels/ChartExplained'
+import ChartLegend from './panels/ChartLegend'
+import MapLegend from './panels/MapLegend'
 import { Help } from './panels/Welcome'
 import ELEVATIONS, {
     ALP,
@@ -62,7 +62,8 @@ export default class TripPlanning extends Component {
                     <Status {...status} messages={messages} />
                     {hasDangerRatings && this.renderContent(forecast)}
                 </div>
-                {hasDangerRatings && <ChartExplained />}
+                {hasDangerRatings && <ChartLegend />}
+                <MapLegend />
             </Fragment>
         )
     }
@@ -92,7 +93,6 @@ export default class TripPlanning extends Component {
                 ) : (
                     <Muted>{this.isLoadedMessage}</Muted>
                 )}
-                <TerrainRatings />
                 <Help />
             </Fragment>
         )
@@ -283,10 +283,4 @@ const LABEL_STYLE = {
     flex: 0.25,
     color: 'grey',
     marginRight: '1em',
-}
-const NAVBAR_STYLE = {
-    justifyContent: 'space-between',
-}
-const HOME_STYLE = {
-    paddingLeft: '1em',
 }

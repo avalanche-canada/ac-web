@@ -21,7 +21,7 @@ export const TEXTS = new Map([
 export const DESCRIPTIONS = new Map([
     [
         NOT_RECOMMENDED,
-        <p>
+        <div>
             Backcountry travel in the red area is{' '}
             <strong>NOT RECOMMENDED</strong> without professional–level safety
             systems and guidance. Conditions are primed for avalanche accidents
@@ -32,11 +32,11 @@ export const DESCRIPTIONS = new Map([
             effect of the current weather on the existing avalanche problem, and
             the small- scale characteristics of the local terrain, including
             avalanche activity history.
-        </p>,
+        </div>,
     ],
     [
         EXTRA_CAUTION,
-        <p>
+        <div>
             Use <strong>EXTRA CAUTION</strong> in the yellow area. Avalanches
             are likely to occur with human or natural triggers, and accidents
             are frequent. Safe travelling under these conditions demands an
@@ -45,17 +45,17 @@ export const DESCRIPTIONS = new Map([
             useful under the given conditions and which terrain features to
             favour or avoid. Advanced trip planning and group management skills,
             significant personal experience, and humility are essential.
-        </p>,
+        </div>,
     ],
     [
         CAUTION,
-        <p>
+        <div>
             Conditions in the green area are appropriate for informed
             backcountry travel in avalanche terrain and accidents are generally
             infrequent. Use
             <strong>CAUTION</strong>, including hazard recognition and safe
             travel skills as taught in introductory avalanche courses. Rescue
             skills are always essential when travelling in avalanche terrain.
-        </p>,
+        </div>,
     ],
 ])
