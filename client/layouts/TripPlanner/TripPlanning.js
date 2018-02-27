@@ -150,61 +150,22 @@ class Content extends PureComponent {
             ]
         }
     }
-    get warning() {
-        const { rating } = this.props.area
-
-        switch (rating) {
-            case SIMPLE:
-                return (
-                    <p>
-                        For trips in "Simple" terrain, use the highest danger
-                        rating for the elevation band(s) where you will be
-                        travelling.
-                    </p>
-                )
-            case COMPLEX:
-            case CHALLENGING: {
-                const text = TerrainRatingTexts.get(rating).toLowerCase()
-
-                return (
-                    <p>
-                        For trips in "{text}" terrain, use the highest danger
-                        rating given in the bulletin.
-                    </p>
-                )
-            }
-            default:
-                return null
-        }
-    }
-    get title() {
-        const { elevation, date, area } = this.props
-
-        return (
-            <h2 style={CHART_TITLE_STYLE}>
-                {area.name}
-                {' riding in '}
-                {TerrainRatingTexts.get(area.rating).toLowerCase()}
-                {' and '}
-                {ElevationTexts.get(elevation).toLowerCase()}
-                {' terrain on '}
-                <DateElement value={date} />
-            </h2>
-        )
-    }
     render() {
         return (
             <Fragment>
                 <Form {...this.props} date={this.date} dates={this.dates} />
-                {/* {this.title} */}
                 <div style={CHART_STYLE}>
                     <Chart
                         terrain={this.props.area.rating}
                         danger={this.danger}
                     />
                 </div>
-                {/* <Legend /> */}
-                {this.warning}
+                <p>
+                    For trips in Simple terrain, use the elevation specific
+                    danger rating. For trips in Challenging and Complex terrain,
+                    use the highest danger rating from the applicable day’s
+                    forecast.
+                </p>
                 <p>
                     Remember to verify all information used during the trip
                     planning stage at the trail head. Confirm that the trip

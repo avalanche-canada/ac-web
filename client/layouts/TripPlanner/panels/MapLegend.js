@@ -24,15 +24,6 @@ export default class MapLegend extends StaticComponent {
                     </Entry>
                 ))}
                 <Entry>
-                    <Symbol style={ZONE_STYLE} />
-                    <Name>Zone</Name>
-                    <Description>
-                        Zones are groups of Avalanche Terrain Exposure Scale
-                        (ATES) areas. Zoom in or click on a grey zone to have
-                        the map zoomed in automatically, ATES areas will appear.
-                    </Description>
-                </Entry>
-                <Entry>
                     <Symbol>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -76,22 +67,33 @@ export default class MapLegend extends StaticComponent {
                 <Entry>
                     <Symbol>
                         <img
+                            width={20}
                             src={hut}
                             title="Hut, Cabin or shelter"
                             alt="hut"
                         />
                     </Symbol>
-                    <Name>Hut, Cabin or shelter</Name>
+                    <Name>Hut, cabin or shelter</Name>
                 </Entry>
                 <Entry>
                     <Symbol>
-                        <img src={mountain} title="Mountain" alt="mountain" />
+                        <img
+                            width={20}
+                            src={mountain}
+                            title="Mountain"
+                            alt="mountain"
+                        />
                     </Symbol>
                     <Name>Mountain</Name>
                 </Entry>
                 <Entry>
                     <Symbol>
-                        <img src={parking} title="Parking" alt="parking" />
+                        <img
+                            width={20}
+                            src={parking}
+                            title="Parking"
+                            alt="parking"
+                        />
                     </Symbol>
                     <Name>Parking</Name>
                 </Entry>
@@ -102,8 +104,5 @@ export default class MapLegend extends StaticComponent {
 
 // Constants
 const LIGHT_BACKGROUND = {
-    backgroundColor: 'rgb(225,225,225)',
-}
-const ZONE_STYLE = {
-    backgroundColor: 'rgb(150,150,150)',
+    backgroundColor: '#EBEBEB',
 }
