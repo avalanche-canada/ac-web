@@ -5,7 +5,6 @@ import Panel from './Panel'
 import RATINGS, { Texts, Descriptions, Palette } from 'constants/forecast/ates'
 import parking from './parking-11.svg'
 import hut from './hut-11.svg'
-import mountain from './mountain-11.svg'
 
 export default class MapLegend extends StaticComponent {
     getStyle(rating) {
@@ -74,17 +73,6 @@ export default class MapLegend extends StaticComponent {
                         />
                     </Symbol>
                     <Name>Hut, cabin or shelter</Name>
-                </Entry>
-                <Entry>
-                    <Symbol>
-                        <img
-                            width={20}
-                            src={mountain}
-                            title="Mountain"
-                            alt="mountain"
-                        />
-                    </Symbol>
-                    <Name>Mountain</Name>
                 </Entry>
                 <Entry>
                     <Symbol>
