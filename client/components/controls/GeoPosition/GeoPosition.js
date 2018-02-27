@@ -67,9 +67,6 @@ export default class GeoPosition extends Component {
     handleClick = ({ lngLat }) => {
         this.setLngLat(lngLat, this.handleChange)
     }
-    handleDragEnd = ({ lngLat }) => {
-        this.setLngLat(lngLat, this.handleChange)
-    }
     handleChange = () => {
         const { lngLat, map } = this.state
         const { lng, lat } = lngLat.wrap()
