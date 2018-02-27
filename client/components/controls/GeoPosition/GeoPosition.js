@@ -6,9 +6,9 @@ import {
     Map,
     Marker,
     NavigationControl,
+    GeolocateControl,
     FullscreenControl,
 } from 'components/map'
-import { Revelstoke } from 'constants/map/locations'
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
 
@@ -43,7 +43,7 @@ export default class GeoPosition extends Component {
     }
     state = {
         map: null,
-        lngLat: new LngLat(Revelstoke.longitude, Revelstoke.latitude),
+        lngLat: null,
     }
     constructor(props) {
         super(props)
@@ -88,6 +88,9 @@ export default class GeoPosition extends Component {
     componentWillMount() {
         this.element = Object.assign(document.createElement('img'), {
             src: place,
+            style: {
+                pointerEvents: 'none',
+            },
         })
     }
     componentWillReceiveProps({ longitude, latitude }) {
@@ -122,19 +125,21 @@ export default class GeoPosition extends Component {
                     style="default"
                     touchZoomRotate={false}
                     dragRotate={false}
-                    center={lngLat}
-                    zoom={5}
-                    maxBounds={null}
+                    zoom={2.9}
+                    center={[-125.15, 54.8]}
+                    maxBounds={null} // We allow everybody to use it if they want. Interesting to see post from Japan!
                     onClick={this.handleClick}
                     onLoad={this.handleLoad}>
-                    <Marker
-                        draggable
-                        onDragEnd={this.handleDragEnd}
-                        lngLat={lngLat}
-                        element={this.element}
-                    />
+                    {lngLat && (
+                        <Marker lngLat={lngLat} element={this.element} />
+                    )}
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />
+                    <GeolocateControl
+                        fitBoundsOptions={{
+                            maxZoom: 10,
+                        }}
+                    />
                 </Map>
             </div>
         )

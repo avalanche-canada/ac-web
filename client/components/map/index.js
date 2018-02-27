@@ -10,16 +10,27 @@ export Control from './Control'
 export Source from './Source'
 export Layer from './Layer'
 
-export function NavigationControl() {
-    return <Control factory={navigation} />
+export function NavigationControl({ position, ...props }) {
+    return (
+        <Control
+            position={position}
+            factory={() => new mapbox.NavigationControl(props)}
+        />
+    )
 }
-export function FullscreenControl() {
-    return <Control factory={fullscreen} />
+export function FullscreenControl({ position, ...props }) {
+    return (
+        <Control
+            position={position}
+            factory={() => new mapbox.FullscreenControl(props)}
+        />
+    )
 }
-
-function navigation() {
-    return new mapbox.NavigationControl()
-}
-function fullscreen() {
-    return new mapbox.FullscreenControl()
+export function GeolocateControl({ position, ...props }) {
+    return (
+        <Control
+            position={position}
+            factory={() => new mapbox.GeolocateControl(props)}
+        />
+    )
 }

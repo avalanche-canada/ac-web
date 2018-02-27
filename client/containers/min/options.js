@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import t from 'vendor/tcomb-form'
 import {
@@ -70,7 +70,7 @@ const Required = {
         latlng: {
             label: 'Location',
             help:
-                'Click on the map to place the pin or drag the pin on the map or enter longitude/latitude in fields below.',
+                'Click on the map to place the pin or enter longitude/latitude in fields below.',
             className: styles.GeoPosition,
             fields: {
                 longitude: {
@@ -97,11 +97,17 @@ const UploadSet = {
         files: {
             label: 'Click to upload photos',
             help: (
-                <p>
-                    <b>New!</b> You can now upload one or more images, click
-                    again to add even more. You can now remove photos before
-                    submitting your report.
-                </p>
+                <ul>
+                    <li>You can upload one or more images in one go.</li>
+                    <li>
+                        Click again to add more photos or the remove button to
+                        remove some from your report.
+                    </li>
+                    <li>
+                        If you want to add your photos in a specific order, we
+                        suggest adding one photo at a time.
+                    </li>
+                </ul>
             ),
             type: 'file',
             attrs: {
@@ -460,8 +466,8 @@ const Avalanche = {
             factory: t.form.Radio,
             order: 'asc',
             help: (
-                <div>
-                    Use Canadian size classification:
+                <Fragment>
+                    <p>Use Canadian size classification:</p>
                     <ul>
                         <li>Size 1 is relatively harmless to people.</li>
                         <li>Size 2 can bury, injure or kill a person.</li>
@@ -469,7 +475,7 @@ const Avalanche = {
                         <li>Size 4 can destroy a railway car.</li>
                         <li>Size 5 can destroy 40 hectares of forest.</li>
                     </ul>
-                </div>
+                </Fragment>
             ),
         },
         slabThickness: {
