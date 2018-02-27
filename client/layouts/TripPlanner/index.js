@@ -24,6 +24,6 @@ export default function TripPlanner() {
             }
         </Bundle>
     ) : (
-        Unsupported
+        <Unsupported />
     )
 }
