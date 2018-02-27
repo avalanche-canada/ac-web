@@ -135,11 +135,13 @@ export default class GeoPosition extends Component {
                     )}
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />
-                    <GeolocateControl
-                        fitBoundsOptions={{
-                            maxZoom: 10,
-                        }}
-                    />
+                    {window.location.protocol === 'https:' && (
+                        <GeolocateControl
+                            fitBoundsOptions={{
+                                maxZoom: 10,
+                            }}
+                        />
+                    )}
                 </Map>
             </div>
         )
