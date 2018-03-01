@@ -6,6 +6,7 @@ import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import isAfter from 'date-fns/is_after'
+import isSameDay from 'date-fns/is_same_day'
 import isWithinRange from 'date-fns/is_within_range'
 
 import checkbox from './checkbox'
@@ -36,13 +37,27 @@ export const pickers = {
             return null
         },
         renderContent(locals) {
-            const { value, renderDay, locale, localeUtils, onSelect } = locals
+            const {
+                value,
+                renderDay,
+                locale,
+                localeUtils,
+                onChange,
+                attrs: { min, max },
+            } = locals
             const props = {
                 initialMonth: value || undefined,
+                disabledDays: disabledDaysFactory(min, max),
                 modifiers: {
                     selected: value,
                 },
-                onDayClick: onSelect,
+                onDayClick(date, { disabled }) {
+                    if (disabled) {
+                        return
+                    }
+
+                    onChange(date)
+                },
                 value,
                 localeUtils,
                 locale,
@@ -88,38 +103,24 @@ export const pickers = {
                 attrs: { min, max },
             } = locals
 
-            function disabledDays(day) {
-                if (min && max) {
-                    return !isWithinRange(day, min, max)
-                }
-
-                if (min) {
-                    return isBefore(day, min)
-                }
-
-                if (max) {
-                    return isAfter(day, max)
-                }
-
-                return false
-            }
-
-            function onDayClick(day) {
-                day.setHours(value.getHours())
-                day.setMinutes(value.getMinutes())
-
-                onChange(day)
-            }
-
             const props = {
                 initialMonth: value || undefined,
+                disabledDays: disabledDaysFactory(min, max),
                 modifiers: {
                     selected: value,
                 },
-                onDayClick,
+                onDayClick(day, { disabled }) {
+                    if (disabled) {
+                        return
+                    }
+
+                    day.setHours(value.getHours())
+                    day.setMinutes(value.getMinutes())
+
+                    onChange(day)
+                },
                 value,
                 localeUtils,
-                disabledDays,
                 locale,
                 renderDay,
             }
@@ -141,4 +142,23 @@ export const pickers = {
             )
         },
     }),
+}
+
+// Utils
+function disabledDaysFactory(min, max) {
+    return function disabledDays(day) {
+        if (min && max) {
+            return !isWithinRange(day, min, max)
+        }
+
+        if (min) {
+            return isBefore(day, min) && !isSameDay(day, min)
+        }
+
+        if (max) {
+            return isAfter(day, max) && !isSameDay(day, max)
+        }
+
+        return false
+    }
 }
