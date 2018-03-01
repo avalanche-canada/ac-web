@@ -64,7 +64,7 @@ const Required = {
             error: 'Enter a date and time in the past',
             attrs: {
                 placeholder: 'Select a date/time',
-                max: format(endOfToday(new Date()), 'YYYY-MM-DDTHH:mm'),
+                max: format(endOfToday(), 'YYYY-MM-DDTHH:mm'),
             },
         },
         latlng: {
@@ -447,7 +447,7 @@ const Avalanche = {
             help: 'If you triggered or witnessed an avalanche add date/time.',
             attrs: {
                 placeholder: 'Select a date/time',
-                max: format(endOfToday(new Date()), 'YYYY-MM-DDTHH:mm'),
+                max: format(endOfToday(), 'YYYY-MM-DDTHH:mm'),
             },
         },
         avalancheObservation: {
@@ -578,6 +578,7 @@ const Avalanche = {
             help: 'Date the weak layer was buried.',
             attrs: {
                 placeholder: 'Click to select date',
+                max: format(new Date(), 'YYYY-MM-DD'),
             },
         },
         weakLayerCrystalType: {
