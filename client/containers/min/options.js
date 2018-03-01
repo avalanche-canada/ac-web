@@ -576,6 +576,7 @@ const Avalanche = {
         weakLayerBurialDate: {
             type: 'date',
             help: 'Date the weak layer was buried.',
+            error: 'Enter weak layer burial date in the past',
             attrs: {
                 placeholder: 'Click to select date',
                 max: format(new Date(), 'YYYY-MM-DD'),
