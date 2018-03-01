@@ -144,7 +144,7 @@ const Avalanche = t.struct({
     startZoneElevation: t.maybe(range(0, 5000)),
     startZoneIncline: t.maybe(range(0, 90)),
     runoutZoneElevation: t.maybe(range(0, 5000)),
-    weakLayerBurialDate: t.maybe(t.Date),
+    weakLayerBurialDate: t.maybe(t.refinement(t.Date, value => isPast(value))),
     weakLayerCrystalType: t.maybe(
         createBooleanStruct(WeakLayerCrystalTypeOptions)
     ),
