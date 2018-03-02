@@ -11,39 +11,46 @@ export default {
             children: [
                 {
                     id: String(id++),
-                    label: 'Mission',
-                    to: '/foundation/about#mission',
+                    label: 'About',
+                    to: '/foundation/about',
                     header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Annual Reports and Financial Statements',
-                    to: '/foundation/about#reports',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Subscribe to newsletter',
-                    to: '/foundation/about#subscribe',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Board Of Directors',
-                    to: '/foundation/about#board',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Honourary Directors',
-                    to: '/foundation/about#honourary',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Contact',
-                    to: '/foundation/about#contact',
-                    header: true,
+                    children: [
+                        {
+                            id: String(id++),
+                            label: 'Mission',
+                            to: '/foundation/about#mission',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Vision',
+                            to: '/foundation/about#vision',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Subscribe to newsletter',
+                            to: '/foundation/about#subscribe',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Annual Reports and Financial Statements',
+                            to: '/foundation/about#reports',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Board Of Directors',
+                            to: '/foundation/about#board',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Honourary Directors',
+                            to: '/foundation/about#honourary',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Contact',
+                            to: '/foundation/about#contact',
+                        },
+                    ],
                 },
             ],
         },
@@ -53,21 +60,26 @@ export default {
             children: [
                 {
                     id: String(id++),
-                    label: 'Avalanche Canada',
-                    to: '/foundation/programs#avalanche-canada',
-                    headline: 'Headline for Avalanche Canada',
-                },
-                {
-                    id: String(id++),
-                    label: 'Memorial Funds and Scholarships',
-                    to: '/foundation/programs#memorial-funds',
-                    headline: 'Headline for Memorial Funds and Scholarships',
-                },
-                {
-                    id: String(id++),
-                    label: 'Memorial Donations',
-                    to: '/foundation/programs#memorial-donations',
-                    headline: 'Headline for Memorial Donations',
+                    label: 'Programs',
+                    to: '/foundation/programs',
+                    header: true,
+                    children: [
+                        {
+                            id: String(id++),
+                            label: 'Avalanche Canada',
+                            to: '/foundation/programs#avalanche-canada',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Memorial Funds and Scholarships',
+                            to: '/foundation/programs#memorial-funds',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Memorial Donations',
+                            to: '/foundation/programs#memorial-donations',
+                        },
+                    ],
                 },
             ],
         },
@@ -77,33 +89,37 @@ export default {
             children: [
                 {
                     id: String(id++),
-                    label: 'Hugh & Helen Hincks Memorial Fund',
-                    to: '/foundation/funds/hugh-and-helen-hincks-memorial',
+                    label: 'Funds',
                     header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Craig Kelly Memorial Scholarship Fund',
-                    to: '/foundation/funds/craig-kelly-memorial-scholarship',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Cora Shea Memorial Fund',
-                    to: '/foundation/funds/cora-shea-memorial',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'Al Hodgson Memorial Fund',
-                    to: '/foundation/funds/al-hodgson-memorial',
-                    header: true,
-                },
-                {
-                    id: String(id++),
-                    label: 'ISSW Fund',
-                    to: '/foundation/funds/issw',
-                    header: true,
+                    children: [
+                        {
+                            id: String(id++),
+                            label: 'Hugh & Helen Hincks Memorial Fund',
+                            to:
+                                '/foundation/funds/hugh-and-helen-hincks-memorial',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Craig Kelly Memorial Scholarship Fund',
+                            to:
+                                '/foundation/funds/craig-kelly-memorial-scholarship',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Cora Shea Memorial Fund',
+                            to: '/foundation/funds/cora-shea-memorial',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Al Hodgson Memorial Fund',
+                            to: '/foundation/funds/al-hodgson-memorial',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'ISSW Fund',
+                            to: '/foundation/funds/issw',
+                        },
+                    ],
                 },
             ],
         },
@@ -113,15 +129,20 @@ export default {
             children: [
                 {
                     id: String(id++),
-                    label: 'Donors',
-                    to: '/foundation/donors',
-                    headline: 'Headline for Donors',
-                },
-                {
-                    id: String(id++),
-                    label: 'Event Sponsors',
-                    to: '/foundation/event-sponsors',
-                    headline: 'Headline for Event Sponsors',
+                    label: 'Contributors',
+                    header: true,
+                    children: [
+                        {
+                            id: String(id++),
+                            label: 'Donors',
+                            to: '/foundation/donors',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'Event Sponsors',
+                            to: '/foundation/event-sponsors',
+                        },
+                    ],
                 },
             ],
         },
