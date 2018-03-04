@@ -11,37 +11,26 @@ import { DayPicker } from 'components/controls'
 export default class ArchiveDatePicker extends PureComponent {
     static propTypes = {
         region: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date).isRequired,
-        selectedDate: PropTypes.instanceOf(Date).isRequired,
-        setSelectedDate: PropTypes.func.isRequired,
+        date: PropTypes.instanceOf(Date),
     }
     state = {
-        selectedDate: null,
+        date: this.props.date,
     }
-    constructor(props) {
-        super(props)
-    }
-    setSelectedDate = selectedDate => this.setState({ selectedDate })
+    setDate = date => this.setState({ date })
     render() {
-        const { date, region } = this.props
-        const { selectedDate } = this.state
+        const { region } = this.props
+        const { date } = this.state
 
         return (
             <div className={styles.ArchiveDatePicker}>
-                <DayPicker
-                    date={selectedDate || date}
-                    onChange={this.setSelectedDate}>
-                    {selectedDate ? (
-                        <DateElement value={selectedDate} />
-                    ) : (
-                        'Select a date'
-                    )}
+                <DayPicker date={date} onChange={this.setDate}>
+                    {date ? <DateElement value={date} /> : 'Select a date'}
                 </DayPicker>
-                {selectedDate && (
+                {date && (
                     <Link
                         className={styles['ArchiveDatePicker--Link']}
                         to={`/forecasts/archives/${region}/${format(
-                            selectedDate,
+                            date,
                             'YYYY-MM-DD'
                         )}`}>
                         Read avalanche bulletin

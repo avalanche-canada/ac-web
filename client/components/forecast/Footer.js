@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
 import Panel, { INVERSE } from 'components/panel'
@@ -9,22 +9,38 @@ import styles from './Forecast.css'
 
 export default class Footer extends StaticComponent {
     static propTypes = {
+        region: PropTypes.string.isRequired,
+        date: PropTypes.instanceOf(Date),
         children: PropTypes.node,
     }
     get children() {
-        return (
-            <Fragment>
-                <ArchivedBulletins />
-                <DangerRatings />
-                <Inbox />
-                <Disclaimer />
-            </Fragment>
-        )
+        return [
+            <ArchivedBulletins />,
+            <DangerRatings />,
+            <Inbox />,
+            <Disclaimer />,
+        ]
+    }
+    cloneChild = child => {
+        switch (child.type) {
+            case ArchivedBulletins:
+                return cloneElement(child, {
+                    region: this.props.region,
+                })
+            default:
+                return child
+        }
     }
     render() {
+        const children = this.props.children || this.children
+
         return (
             <footer className={styles.Footer}>
-                {this.props.children || this.children}
+                <Fragment>
+                    {Children.toArray(children)
+                        .filter(Boolean)
+                        .map(this.cloneChild)}
+                </Fragment>
             </footer>
         )
     }
@@ -32,18 +48,14 @@ export default class Footer extends StaticComponent {
 
 export class ArchivedBulletins extends StaticComponent {
     static propTypes = {
-        date: PropTypes.instanceOf(Date),
         region: PropTypes.string.isRequired,
     }
-    static defaultProps = {
-        date: new Date(),
-    }
     render() {
-        const { date, region } = this.props
+        const { region } = this.props
 
         return (
             <FooterPanel header="Archived bulletins">
-                <ArchiveDatePicker date={date} region={region} />
+                <ArchiveDatePicker region={region} />
             </FooterPanel>
         )
     }
