@@ -45,23 +45,23 @@ export default class Layout extends PureComponent {
             captureException(error)
         })
     }
-    handleLoad = ({ target: map }) => {
+    handleLoad = ({ target }) => {
         this.flyTo = center => {
-            map.flyTo({
+            target.flyTo({
                 center,
                 zoom: 13,
                 offset: this.offset,
             })
         }
         this.fitBounds = geometry => {
-            map.fitBounds(bbox(geometry), {
+            target.fitBounds(bbox(geometry), {
                 offset: this.offset,
                 padding: 75,
                 speed: 1.75,
             })
         }
 
-        map.on('resize', this.handleResize)
+        target.on('resize', this.handleResize)
     }
     handleResize = event => {
         const container = event.target.getContainer()
