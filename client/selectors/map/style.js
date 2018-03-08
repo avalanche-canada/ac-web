@@ -1,5 +1,7 @@
 import Immutable from 'immutable'
 import { createSelector } from 'reselect'
+import * as turf from '@turf/helpers'
+import explode from '@turf/explode'
 import { getStyle, getActiveFeatures } from 'getters/map'
 import { getResultsSet } from 'getters/api'
 import { getEntitiesForSchema } from 'getters/entities'
@@ -15,8 +17,7 @@ import { parse } from 'prismic'
 import { isSpecialInformationValid, isHotZoneReportValid } from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
-import * as turf from '@turf/helpers'
-import explode from '@turf/explode'
+import * as search from 'utils/search'
 
 function transformSubmission(submission) {
     submission = submission.toJSON()
@@ -83,22 +84,6 @@ const TRANSFORMERS = new Map([
     [Layers.MOUNTAIN_CONDITIONS_REPORTS, transformMountainConditionsReport],
 ])
 
-// TODO: Rework that
-function getPanelIdFactory() {
-    return () => undefined
-    // return (state, props) => {
-    //     const { panel } = props.location.query
-    //
-    //     if (!panel) {
-    //         return null
-    //     }
-    //
-    //     const [key, id] = panel.split('/')
-    //
-    //     return schema.key === key ? id : undefined
-    // }
-}
-
 // Create submissions source
 const getSubmissions = createSelector(
     state =>
@@ -127,7 +112,13 @@ const getSubmission = createSelector(
             state,
             Schemas.MountainInformationNetworkSubmission
         ),
-    getPanelIdFactory(Schemas.MountainInformationNetworkSubmission),
+    (state, { location }) => {
+        const { panel = '' } = search.parse(location.search)
+        const { key } = Schemas.MountainInformationNetworkSubmission
+        const [type, id] = panel.split('/')
+
+        return type === key ? id : null
+    },
     (submissions, id) => {
         if (submissions.has(id)) {
             const transformer = TRANSFORMERS.get(
@@ -169,17 +160,18 @@ function getSubmissionsTypeFilter(state) {
     return getLayerFilter(state, Layers.MOUNTAIN_INFORMATION_NETWORK, 'type')
 }
 
+function isIncident(type) {
+    return type === 'incident'
+}
+function isNotIncident(type) {
+    return type !== 'incident'
+}
+
 const getIncidentSubmissionFeatures = createSelector(
     getSubmissions,
     getSubmission,
     getSubmissionsTypeFilter,
-    () => {
-        function filter(type) {
-            return type === 'incident'
-        }
-
-        return submission => submission.properties.types.some(filter)
-    },
+    () => submission => submission.properties.types.some(isIncident),
     prepareSubmissions
 )
 
@@ -187,13 +179,7 @@ const getSubmissionFeatures = createSelector(
     getSubmissions,
     getSubmission,
     getSubmissionsTypeFilter,
-    () => {
-        function filter(type) {
-            return type !== 'incident'
-        }
-
-        return submission => submission.properties.types.every(filter)
-    },
+    () => submission => submission.properties.types.every(isNotIncident),
     prepareSubmissions
 )
 
