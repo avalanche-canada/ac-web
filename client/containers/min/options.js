@@ -15,6 +15,7 @@ import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
 import noop from 'lodash/noop'
 import styles from './Form.css'
+import isMapboxSupported from '@mapbox/mapbox-gl-supported'
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -69,18 +70,38 @@ const Required = {
         },
         latlng: {
             label: 'Location',
-            help:
-                'Click on the map to place the pin or enter longitude/latitude in fields below.',
+            help: (
+                <Fragment>
+                    <p style={{ margin: 0 }}>
+                        {isMapboxSupported()
+                            ? 'Click on the map to place a pin or enter '
+                            : 'Enter '}
+                        a longitude and a latitude in fields below.
+                    </p>
+                    <p>
+                        If your coordinates are express in Degrees, Minutes and
+                        seconds (DMS), you might want to convert them to degree
+                        decimals using this{' '}
+                        <a
+                            href="//www.latlong.net/degrees-minutes-seconds-to-decimal-degrees"
+                            target="converter">
+                            online converter
+                        </a>.
+                    </p>
+                </Fragment>
+            ),
             className: styles.GeoPosition,
             fields: {
                 longitude: {
-                    error: 'Enter a number between -180° and 180°',
+                    error:
+                        'Enter a number between -180° and 180° in degree decimals.',
                     attrs: {
                         placeholder: 'e.g. -118.18',
                     },
                 },
                 latitude: {
-                    error: 'Enter a number between -90° and 90°',
+                    error:
+                        'Enter a number between -90° and 90° in degree decimals.',
                     attrs: {
                         placeholder: 'e.g. 50.98',
                     },
