@@ -3,7 +3,7 @@
 
     & table {
         position: inherit;
-        
+
         & > thead {
             border-bottom: none;
         }
@@ -20,7 +20,5 @@
 
 .Content {
     overflow-x: scroll;
-    overflow-y: scroll;
-    /*margin-top: 5em;*/
     margin-left: 5em;
 }
