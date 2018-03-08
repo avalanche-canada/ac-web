@@ -79,9 +79,9 @@ const Required = {
                         a longitude and a latitude in fields below.
                     </p>
                     <p>
-                        If your coordinates are express in Degrees, Minutes and
-                        seconds (DMS), you might want to convert them to degree
-                        decimals using this{' '}
+                        If your coordinates are expressed in Degrees, Minutes
+                        and seconds (DMS), you might want to convert them to
+                        degree decimals using this{' '}
                         <a
                             href="//www.latlong.net/degrees-minutes-seconds-to-decimal-degrees"
                             target="converter">
