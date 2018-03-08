@@ -79,12 +79,7 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: new Set(
-                        LAYERS_FILTERS.get(
-                            `${Layers.MOUNTAIN_INFORMATION_NETWORK}-type`,
-                            []
-                        )
-                    ),
+                    value: [],
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
