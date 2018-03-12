@@ -279,7 +279,7 @@ const Incident = t.struct({
     groupDetails: t.maybe(
         t.struct({
             groupSize: t.maybe(range(1, 100)),
-            numberFullyBuried: t.maybe(range(1, 100)),
+            numberFullyBuried: t.maybe(range(0, 100)),
             numberPartlyBuriedImpairedBreathing: t.maybe(range(0, 100)),
             numberPartlyBuriedAbleBreathing: t.maybe(range(0, 100)),
             numberCaughtOnly: t.maybe(range(0, 100)),
