@@ -76,7 +76,7 @@ const Required = {
                         {isMapboxSupported()
                             ? 'Click on the map to place a pin or enter '
                             : 'Enter '}
-                        a longitude and a latitude in fields below.
+                        a latitude and a longitude in fields below.
                     </p>
                     <p>
                         If your coordinates are expressed in Degrees, Minutes

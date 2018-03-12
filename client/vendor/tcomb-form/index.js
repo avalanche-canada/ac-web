@@ -107,8 +107,8 @@ function range(min, max) {
     return t.refinement(t.Number, rate => rate >= min && rate <= max)
 }
 export const GeoPosition = t.struct({
-    longitude: range(-180, 180),
     latitude: range(-90, 90),
+    longitude: range(-180, 180),
 })
 
 function handleGeoPositionChange(onChange) {
