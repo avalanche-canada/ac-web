@@ -63,7 +63,7 @@ export function sanitizeMountainInformationNetworkSubmissions(data) {
     return sanitizeMountainInformationNetworkSubmission(data)
 }
 
-export function transformMountainConditionsReports(data) {
+export function transformMountainConditionsReports(data = []) {
     return data.map(transformMountainConditionsReport)
 }
 
