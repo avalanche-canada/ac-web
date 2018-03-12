@@ -16,7 +16,7 @@ export const serializeFactory = store => () => {
     const { api, sponsors } = store.getState()
 
     storage.set('state', {
-        sponsors: sponsors,
+        sponsors,
         api: {
             entities: api.entities.filter(canBeCached).toJSON(),
         },
@@ -27,7 +27,7 @@ export function deserialize() {
     const { sponsors = {}, api = {} } = storage.get('state', {})
 
     return {
-        sponsors: sponsors.data || sponsors, // For backward compatibality
+        sponsors,
         api: {
             entities: Immutable.fromJS(api.entities),
         },

@@ -67,7 +67,6 @@ export function createFetchActionForSchema(type, schema) {
     }
 }
 
-// TODO: Use createDelayedAction from utils/redux
 export function createFetchMetadataAction() {
     const schema = Schemas.ForecastRegion
     const type = Actions.GET_FEATURES_METADATA

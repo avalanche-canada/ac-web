@@ -1,11 +1,26 @@
 import { createAction } from 'redux-actions'
+import isToday from 'date-fns/is_today'
 import { fetchStaticResource } from 'api'
-import { getSponsors } from 'getters/sponsors'
-import { createDelayedAction } from 'utils/redux'
+import { get } from 'getters/sponsors'
+import * as promise from 'utils/promise'
 
 export const GET_SPONSORS = 'GET_SPONSORS'
 
-export const loadSponsors = createDelayedAction(
-    state => (Object.keys(getSponsors(state) || {}).length > 0 ? 9999 : 1),
-    createAction(GET_SPONSORS, () => fetchStaticResource('sponsors'))
-)
+const load = createAction(GET_SPONSORS, () => fetchStaticResource('sponsors'))
+
+export function loadSponsors() {
+    return (dispatch, getState) => {
+        const { data, lastUpdatedOn = 0 } = get(getState())
+        let delay = 9999 // almost 10 seconds
+
+        if (isToday(lastUpdatedOn)) {
+            return
+        }
+
+        if (!data || Object.keys(data).length === 0) {
+            delay = 1
+        }
+
+        promise.delay(delay).then(() => dispatch(load()))
+    }
+}

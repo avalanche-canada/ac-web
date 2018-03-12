@@ -1,5 +1,4 @@
 import noop from 'lodash/noop'
-import * as promise from 'utils/promise'
 
 export function createOptimisticAction(tester, action = noop) {
     return payload => (dispatch, getState) => {
@@ -14,15 +13,5 @@ export function createBinaryAction(tester, pass = noop, fail = noop) {
         const action = tester(getState(), payload) ? pass : fail
 
         return dispatch(action(payload))
-    }
-}
-
-export function createDelayedAction(delay = 1, action = noop) {
-    return payload => (dispatch, getState) => {
-        if (typeof delay === 'function') {
-            delay = delay(getState(), payload)
-        }
-
-        return promise.delay(delay).then(() => dispatch(action(payload)))
     }
 }
