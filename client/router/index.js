@@ -39,7 +39,7 @@ export default function Router() {
                         />
                         <Redirect from="/trip-planning" to="/planning" />
                         <Redirect
-                            from="/pages/static-page/trip-planning"
+                            from="/pages/static-page/planning"
                             to="/planning"
                         />
                         <Redirect
