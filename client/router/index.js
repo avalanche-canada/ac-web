@@ -26,10 +26,6 @@ export default function Router() {
                             to="/planning/trip-planner"
                         />
                         <Redirect
-                            from="/trip-planning/trip-planner"
-                            to="/planning/trip-planner"
-                        />
-                        <Redirect
                             from="/trip-planner"
                             to="/planning/trip-planner"
                         />
