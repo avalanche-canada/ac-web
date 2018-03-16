@@ -21,7 +21,7 @@ export default class Position extends PureComponent {
         }
         const position = coords(latitude, longitude)
             .format(format, options)
-            .replace(' ', '\u00a0')
+            .replace(/\s/g, '\u00a0')
 
         return position.replace(SEPARATOR, ' ')
     }
