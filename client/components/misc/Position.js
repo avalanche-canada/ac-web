@@ -1,10 +1,12 @@
-import React, { PureComponent, Fragment } from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import coords from 'formatcoords'
 
 export default class Position extends PureComponent {
     static propTypes = {
         longitude: PropTypes.number.isRequired,
         latitude: PropTypes.number.isRequired,
+        dms: PropTypes.bool,
         precision: PropTypes.number,
     }
     static defaultProps = {
@@ -12,33 +14,18 @@ export default class Position extends PureComponent {
     }
     render() {
         const { longitude, latitude, precision } = this.props
+        const format = this.props.dms ? 'FFf' : 'f'
+        const options = {
+            latLonSeparator: SEPARATOR,
+            decimalPlaces: precision,
+        }
+        const position = coords(latitude, longitude)
+            .format(format, options)
+            .replace(' ', '\u00a0')
 
-        return (
-            <Fragment>
-                <Coordinate precision={precision}>{longitude}</Coordinate>{' '}
-                <Coordinate precision={precision}>{latitude}</Coordinate>
-            </Fragment>
-        )
+        return position.replace(SEPARATOR, ' ')
     }
 }
 
-export class Coordinate extends PureComponent {
-    static propTypes = {
-        children: PropTypes.number.isRequired,
-        precision: PropTypes.number,
-    }
-    static defaultProps = {
-        precision: 8,
-    }
-    render() {
-        const { children, precision } = this.props
-
-        return (
-            <Fragment>
-                {children.toPrecision(precision)}
-                <span>&nbsp;</span>
-                {'°'}
-            </Fragment>
-        )
-    }
-}
+// Constants
+const SEPARATOR = ':'

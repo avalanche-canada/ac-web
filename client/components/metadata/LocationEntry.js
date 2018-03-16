@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Toggle } from 'react-powerplug'
 import Position from 'components/misc/Position'
 import Entry from './Entry'
 
@@ -17,12 +18,22 @@ export default function LocationEntry({
     precision,
 }) {
     return (
-        <Entry term={term}>
-            <Position
-                longitude={longitude}
-                latitude={latitude}
-                precision={precision}
-            />
-        </Entry>
+        <Toggle>
+            {({ on, toggle }) => (
+                <Entry term={term} onClick={toggle} style={STYLE}>
+                    <Position
+                        longitude={longitude}
+                        latitude={latitude}
+                        precision={precision}
+                        dms={on}
+                    />
+                </Entry>
+            )}
+        </Toggle>
     )
+}
+
+// Constants
+const STYLE = {
+    cursor: 'pointer',
 }

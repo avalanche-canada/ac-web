@@ -9,7 +9,13 @@ Entry.propTypes = {
     fullWidth: PropTypes.bool,
 }
 
-export default function Entry({ term, children, sideBySide, fullWidth }) {
+export default function Entry({
+    term,
+    children,
+    sideBySide,
+    fullWidth,
+    ...props
+}) {
     let className = 'Entry'
 
     if (sideBySide) {
@@ -19,7 +25,7 @@ export default function Entry({ term, children, sideBySide, fullWidth }) {
     }
 
     return (
-        <dl className={styles[className]}>
+        <dl {...props} className={styles[className]}>
             <dt className={styles.Term}>{term}</dt>
             <dd className={styles.Description}>{children}</dd>
         </dl>
