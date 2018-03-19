@@ -341,7 +341,7 @@ export class Feed extends Component {
         return {
             predicates: [Predicates.type(type)],
             options: {
-                pageSize: 250,
+                pageSize: MAX_PAGE_SIZE,
                 orderings: [FEED_ORDERINGS.get(type)],
             },
         }
@@ -683,3 +683,6 @@ function rangePredicates(start, end, date = new Date()) {
         Predicates.dateAfter(end, utils.formatDate(subDays(date, 1))),
     ]
 }
+
+// Constants
+const MAX_PAGE_SIZE = 100 // From Prismic documentation
