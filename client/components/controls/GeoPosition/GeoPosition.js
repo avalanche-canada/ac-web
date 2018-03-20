@@ -83,12 +83,12 @@ export default class GeoPosition extends Component {
         })
     }
     componentWillMount() {
-        this.element = Object.assign(document.createElement('img'), {
-            src: place,
-            style: {
-                pointerEvents: 'none',
-            },
-        })
+        const img = document.createElement('img')
+
+        img.src = place
+        img.style.pointerEvents = 'none'
+
+        this.element = img
     }
     componentWillReceiveProps({ longitude, latitude }) {
         if (!areValidCoordinates(longitude, latitude)) {
