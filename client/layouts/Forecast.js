@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import URL from 'url'
 import Forecast from 'layouts/pages/Forecast'
 import NorthRockies from 'layouts/pages/NorthRockies'
 import ForecastRegionList from 'layouts/ForecastRegionList'
@@ -11,7 +10,7 @@ import isValid from 'date-fns/is_valid'
 import isPast from 'date-fns/is_past'
 import isToday from 'date-fns/is_today'
 import endOfYesterday from 'date-fns/end_of_yesterday'
-import externals from 'router/externals'
+import externals, { open } from 'router/externals'
 import * as utils from 'utils/search'
 
 ForecastLayout.propTypes = {
@@ -21,14 +20,8 @@ ForecastLayout.propTypes = {
 function archive({ match, history }) {
     const { name, date } = match.params
 
-    if (externals.has(name) && date && name) {
-        const url = URL.parse(externals.get(name), true)
-
-        url.query.d = date
-
-        delete url.search
-
-        window.open(URL.format(url), name)
+    if (name && date) {
+        open(name, date)
     }
 
     if (date && isAfter(utils.parseDate(date), endOfYesterday())) {
@@ -58,7 +51,7 @@ function forecast({ match }) {
     const { name, date } = match.params
 
     if (externals.has(name)) {
-        window.open(externals.get(name), name)
+        open(name)
 
         return <Redirect to="/forecasts" push={false} />
     }

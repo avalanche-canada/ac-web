@@ -13,7 +13,7 @@ import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu, ToggleMenu } from 'containers/drawers'
 import { parse } from 'utils/search'
-import externals from 'router/externals'
+import externals, { open } from 'router/externals'
 import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
@@ -112,8 +112,8 @@ export default class Layout extends PureComponent {
     tryOpenExternal() {
         const { type, name } = this.props.match.params
 
-        if (type === 'forecasts' && externals.has(name)) {
-            window.open(externals.get(name), name)
+        if (type === 'forecasts') {
+            open(name)
         }
     }
     primary = ({ location }) => {
