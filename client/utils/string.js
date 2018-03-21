@@ -6,13 +6,13 @@ export function classify(string) {
 }
 
 export function initials(name) {
-    if (!name) {
+    if (!name || typeof name !== 'string') {
         return
     }
 
-    const [first, second] = words(name)
+    const [first = '', second = ''] = words(name)
 
-    return ((first[0] || '') + (second[0] || '')).toUpperCase()
+    return (first.charAt(0) + second.charAt(0)).toUpperCase()
 }
 
 export function pluralize(word, count, inclusive) {
