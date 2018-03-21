@@ -18,6 +18,7 @@ import StaticSplash from '../slice/StaticSplash'
 import Table from '../slice/Table'
 import Video from '../slice/Video'
 import SidebarItemSet from '../slice/SidebarItemSet'
+import ContactForm from '../slice/ContactForm'
 import { Header } from 'components/sidebar'
 
 function SidebarHeader({ value }) {
@@ -47,6 +48,7 @@ const Components = new Map([
     ['video', Video],
     ['header', SidebarHeader],
     ['items', SidebarItemSet],
+    ['contact-form', ContactForm],
 ])
 
 Slice.propTypes = {
