@@ -19,7 +19,7 @@
 a[href] {
     & > .Alert {
         &:after {
-            content: '‹\203A';
+            content: '\A0\203A';
         }
         &:hover {
             text-decoration: underline;
