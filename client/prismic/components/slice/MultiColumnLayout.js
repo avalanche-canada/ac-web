@@ -13,5 +13,9 @@ export default function MultiColumnLayout({ value }) {
 }
 
 function createItem({ content }, index) {
-    return <StructuredText key={index} value={content} />
+    return (
+        <div key={index}>
+            <StructuredText value={content} />
+        </div>
+    )
 }
