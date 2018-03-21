@@ -22,9 +22,7 @@ export default function Embed({
             data-oembed={embed_url}
             data-oembed-provider={provider_name}
             data-oembed-type={type}>
-            <InnerHTML>
-                {html}
-            </InnerHTML>
+            <InnerHTML>{html}</InnerHTML>
         </div>
     )
 }
