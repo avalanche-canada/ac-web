@@ -56,17 +56,13 @@ export default class ArchiveForecast extends PureComponent {
         )
     }
     renderWarning(region) {
-        try {
-            const to = getWarningUrl(region, this.props.date)
+        const to = getWarningUrl(region, this.props.date)
 
-            return (
-                <Link to={to} target={region.get('id')}>
-                    <Alert type={WARNING}>{getWarningText(region)}</Alert>
-                </Link>
-            )
-        } catch (error) {
-            return null
-        }
+        return to ? (
+            <Link to={to} target={region.get('id')}>
+                <Alert type={WARNING}>{getWarningText(region)}</Alert>
+            </Link>
+        ) : null
     }
     forecast = ({ forecast, region, status }) => (
         <Forecast.Compound forecast={forecast}>
@@ -163,7 +159,7 @@ function getWarningText(region) {
         case VANCOUVER_ISLAND:
             return `You can get more information for ${name} region on their website`
         default:
-            throw new Error(`Owner ${owner} not supported yet.`)
+            return null
     }
 }
 
@@ -190,5 +186,7 @@ function getWarningUrl(region, date) {
         }
         case LINK:
             return url.replace('http://avalanche.ca', '')
+        default:
+            return null
     }
 }
