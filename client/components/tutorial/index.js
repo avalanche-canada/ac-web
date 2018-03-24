@@ -103,9 +103,18 @@ Video.propTypes = {
 }
 
 function Video({ src }) {
+    let url = src
+
+    if (/vimeo.com/.test(src)) {
+        const [id] = src.split('/').reverse()
+        url = `https://player.vimeo.com/video/${id}`
+    }
+
     return (
         <Media>
-            <iframe src={src} />
+            <div data-oembed={url}>
+                <iframe src={url} />
+            </div>
         </Media>
     )
 }
