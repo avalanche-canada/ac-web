@@ -16,7 +16,6 @@ import SponsorSet from '../slice/SponsorSet'
 import StaffSet from '../slice/StaffSet'
 import StaticSplash from '../slice/StaticSplash'
 import Table from '../slice/Table'
-import Video from '../slice/Video'
 import SidebarItemSet from '../slice/SidebarItemSet'
 import ContactForm from '../slice/ContactForm'
 import { Header } from 'components/sidebar'
@@ -45,7 +44,6 @@ const Components = new Map([
     ['staff-set', StaffSet],
     ['staticSplash', StaticSplash],
     ['table', Table],
-    ['video', Video],
     ['header', SidebarHeader],
     ['items', SidebarItemSet],
     ['contact-form', ContactForm],

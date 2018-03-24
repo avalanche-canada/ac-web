@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { Media, Player, Caption } from 'components/media'
+import { Media, Caption } from 'components/media'
 import { StructuredText, Image } from 'prismic/components/base'
 import styles from './ates.css'
 
@@ -103,9 +103,18 @@ Video.propTypes = {
 }
 
 function Video({ src }) {
+    let url = src
+
+    if (/vimeo.com/.test(src)) {
+        const [id] = src.split('/').reverse()
+        url = `https://player.vimeo.com/video/${id}`
+    }
+
     return (
         <Media>
-            <Player src={src} />
+            <div data-oembed={url}>
+                <iframe src={url} />
+            </div>
         </Media>
     )
 }
@@ -133,6 +142,8 @@ Tutorial.propTypes = {
     gallery: PropTypes.array.isRequired,
     videoSource: PropTypes.object,
 }
+
+// TODO: Modify Prismic all tutorial documents
 
 export function Tutorial({
     text1,

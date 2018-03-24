@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Container {
     background-color: var(--gray-lighter);
