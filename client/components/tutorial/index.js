@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import { Media, Player, Caption } from 'components/media'
+import { Media, Caption } from 'components/media'
 import { StructuredText, Image } from 'prismic/components/base'
 import styles from './ates.css'
 
@@ -105,7 +105,7 @@ Video.propTypes = {
 function Video({ src }) {
     return (
         <Media>
-            <Player src={src} />
+            <iframe src={src} />
         </Media>
     )
 }
@@ -133,6 +133,8 @@ Tutorial.propTypes = {
     gallery: PropTypes.array.isRequired,
     videoSource: PropTypes.object,
 }
+
+// TODO: Modify Prismic all tutorial documents
 
 export function Tutorial({
     text1,
