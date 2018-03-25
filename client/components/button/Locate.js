@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
+import StaticComponent from 'components/StaticComponent'
 import Button from './Button'
 import { MyLocation } from 'components/icons'
 import { SUBTILE } from './kinds'
 
-export default class Locate extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class Locate extends StaticComponent {
     render() {
         return <Button kind={SUBTILE} icon={<MyLocation />} {...this.props} />
     }

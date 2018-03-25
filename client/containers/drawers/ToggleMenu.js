@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import StaticComponent from 'components/StaticComponent'
 import { toggleMenu } from 'actions/drawers'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
@@ -13,10 +14,7 @@ const STYLE = {
 }
 
 @connect(null, { toggleMenu })
-export default class ToggleMenu extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class ToggleMenu extends StaticComponent {
     render() {
         return (
             <Button

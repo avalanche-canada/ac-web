@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
+import StaticComponent from 'components/StaticComponent'
 import {
     Sidebar,
     Contact,
@@ -11,10 +12,7 @@ import {
 } from 'components/sidebar'
 import { Mailto, Phone } from 'components/anchors'
 
-export default class KananaskisSidebar extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class KananaskisSidebar extends StaticComponent {
     render() {
         const { pathname, origin } = document.location
         const EMAIL = 'avalanche.safety@gov.ab.ca'

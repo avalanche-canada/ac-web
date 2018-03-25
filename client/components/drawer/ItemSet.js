@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import StaticComponent from 'components/StaticComponent'
 import PropTypes from 'prop-types'
 import Link from 'components/navbar/Link'
 import styles from './Drawer.css'
@@ -11,14 +12,11 @@ function Item({ children }) {
     return <li className={styles.Item}>{children}</li>
 }
 
-export default class ItemSet extends Component {
+export default class ItemSet extends StaticComponent {
     static propTypes = {
         items: PropTypes.node.isRequired,
         label: PropTypes.string.isRequired,
         to: PropTypes.string,
-    }
-    shouldComponentUpdate() {
-        return false
     }
     renderItem({ to, label, headline, children = [], onClick }, index) {
         return (

@@ -13,9 +13,6 @@ export default class TBody extends Component {
 
         return styles[className]
     }
-    shouldComponentUpdate({ children }) {
-        return children !== this.props.children
-    }
     render() {
         const { title, children } = this.props
 

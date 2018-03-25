@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
+import StaticComponent from 'components/StaticComponent'
 import styles from './MountainConditionsReport.css'
 import logo from 'styles/mcr-logo.jpg'
 
-export default class Footer extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class Footer extends StaticComponent {
     render() {
         const url = 'https://mountainconditions.com'
 

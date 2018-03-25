@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import StaticComponent from 'components/StaticComponent'
 import Summary from '../Summary'
 
-export default class Confidence extends Component {
+export default class Confidence extends StaticComponent {
     static propTypes = {
         level: PropTypes.string.isRequired,
         comment: PropTypes.string.isRequired,
-    }
-    shouldComponentUpdate() {
-        return false
     }
     render() {
         const { level, comment } = this.props

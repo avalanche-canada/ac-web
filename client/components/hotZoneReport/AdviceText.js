@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
+import StaticComponent from 'components/StaticComponent'
 
-export default class AdviceText extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class AdviceText extends StaticComponent {
     render() {
         return (
             <div>

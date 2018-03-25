@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import StaticComponent from 'components/StaticComponent'
 import { Link } from 'react-router-dom'
 import { DateElement } from 'components/time'
 import { TagSet, Tag } from 'components/tag'
@@ -103,12 +104,9 @@ function CondensedEntry({
     )
 }
 
-export default class EntryComponent extends Component {
+export default class EntryComponent extends StaticComponent {
     static propTypes = {
         condensed: PropTypes.bool,
-    }
-    shouldComponentUpdate() {
-        return false
     }
     render() {
         const { condensed, ...props } = this.props

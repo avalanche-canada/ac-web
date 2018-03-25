@@ -1,8 +1,9 @@
-import React, { PureComponent, Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
 import supported from '@mapbox/mapbox-gl-supported'
 import noop from 'lodash/noop'
+import StaticComponent from 'components/StaticComponent'
 import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
@@ -244,10 +245,7 @@ class LinkControlSet extends PureComponent {
     }
 }
 
-class ErrorIndicator extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+class ErrorIndicator extends StaticComponent {
     reload() {
         window.location.reload(true)
     }

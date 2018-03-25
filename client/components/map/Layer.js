@@ -1,9 +1,9 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import StaticComponent from 'components/StaticComponent'
 
 // TODO: Rework all that
 
-export default class Layer extends Component {
+export default class Layer extends StaticComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -51,9 +51,6 @@ export default class Layer extends Component {
         return Object.assign(layer, {
             layout: this.layout,
         })
-    }
-    shouldComponentUpdate() {
-        return false
     }
     componentWillReceiveProps({ visibility }) {
         if (visibility !== this.props.visibility) {

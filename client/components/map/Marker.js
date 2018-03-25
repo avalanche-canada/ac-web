@@ -1,11 +1,11 @@
-import { Component } from 'react'
 import PropTypes from 'prop-types'
+import StaticComponent from 'components/StaticComponent'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import noop from 'lodash/noop'
 
 const { LngLat } = mapbox
 
-export default class Marker extends Component {
+export default class Marker extends StaticComponent {
     static propTypes = {
         lngLat: PropTypes.instanceOf(LngLat).isRequired,
         element: PropTypes.object.isRequired,
@@ -110,9 +110,6 @@ export default class Marker extends Component {
     }
     componentWillUnmount() {
         this.remove()
-    }
-    shouldComponentUpdate() {
-        return false
     }
     render() {
         return null

@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
+import StaticComponent from 'components/StaticComponent'
 import { Link } from 'react-router-dom'
 import styles from './Footer.css'
 
-export default class Footer extends Component {
-    shouldComponentUpdate() {
-        return false
-    }
+export default class Footer extends StaticComponent {
     render() {
         const year = new Date().getFullYear()
 

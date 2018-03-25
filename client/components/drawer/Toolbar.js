@@ -1,18 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import StaticComponent from 'components/StaticComponent'
 import { Link } from 'react-router-dom'
 import styles from './Drawer.css'
 
-export default class Toolbar extends Component {
+export default class Toolbar extends StaticComponent {
     static propTypes = {
         onClose: PropTypes.func.isRequired,
         home: PropTypes.shape({
             to: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,
         }).isRequired,
-    }
-    shouldComponentUpdate() {
-        return false
     }
     render() {
         const { onClose, home = { to: '/' } } = this.props
