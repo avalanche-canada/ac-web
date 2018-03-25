@@ -13,7 +13,6 @@ export default class FilteredCollection extends PureComponent {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
     }
-    children() {}
     render() {
         const { children, values, predicates } = this.props
 
