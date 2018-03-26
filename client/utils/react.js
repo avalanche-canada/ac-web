@@ -2,9 +2,8 @@ import React, { cloneElement, isValidElement } from 'react'
 import flatten from 'lodash/flatten'
 
 const LINE_FEED_REGEX = /(\n)/
-const BR = <br />
-function br() {
-    return BR
+function br(string, index) {
+    return <br key={index} />
 }
 
 // Copied and modified from https://github.com/iansinnott/react-string-replace
