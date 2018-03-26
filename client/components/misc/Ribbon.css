@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Container {
     display: flex;
@@ -10,11 +10,12 @@
     text-indent: 0;
 
     &:before {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
-        top: 37px;
-        border-color: color(var(--brand-secondary) blackness(50%)) color(var(--brand-secondary) blackness(50%)) transparent transparent;
+        top: 2.5em;
+        border-color: color(var(--brand-secondary) blackness(50%))
+            color(var(--brand-secondary) blackness(50%)) transparent transparent;
         border-style: solid;
         border-width: 8px;
     }
