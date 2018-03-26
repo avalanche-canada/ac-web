@@ -3,12 +3,8 @@ import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
 import Base from 'components/loop'
-import {
-    computeUrls,
-    getNotes,
-    isForecast,
-    fetchMetadata,
-} from 'services/msc/loop'
+import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
+import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
 
 NoteSet.propTypes = {
@@ -49,34 +45,21 @@ export default class Loop extends PureComponent {
         startAt: undefined,
         isLoading: false,
         isError: false,
-        metadata: null,
-    }
-    fetchMetadata = () => {
-        return new Promise(resolve => {
-            this.setState({ isLoading: true }, () => {
-                fetchMetadata().then(metadata => {
-                    this.setState({ metadata, isLoading: false }, resolve)
-                })
-            })
-        })
     }
     componentDidMount() {
-        this.fetchMetadata().then(() => {
-            const { metadata } = this.state
-            const { type } = this.props
+        const { type } = this.props
 
-            this.computeUrls(this.props)
+        this.computeUrls(this.props)
 
-            // Autorefresh the urls for current conditions!
-            if (metadata.hasOwnProperty(type) && !isForecast(metadata[type])) {
-                this.intervalId = window.setInterval(
-                    this.computeUrls,
-                    5 * 60 * 1000, // every 5 minutes!
-                    undefined,
-                    true
-                )
-            }
-        })
+        // Autorefresh the urls for current conditions!
+        if (metadata.hasOwnProperty(type) && !isForecast(metadata[type])) {
+            this.intervalId = window.setInterval(
+                this.computeUrls,
+                5 * 60 * 1000, // every 5 minutes!
+                undefined,
+                true
+            )
+        }
     }
     componentWillUnmount() {
         if (this.intervalId) {
@@ -92,7 +75,7 @@ export default class Loop extends PureComponent {
                 isLoading: silent ? false : true,
             },
             () => {
-                computeUrls(this.state.metadata, props).then(
+                computeUrls(props).then(
                     this.handleFulfilled,
                     this.handleRejected
                 )
@@ -101,7 +84,6 @@ export default class Loop extends PureComponent {
     }
     handleFulfilled = urls => {
         const { type, withNotes } = this.props
-        const { metadata } = this.state
         let startAt
 
         if (metadata.hasOwnProperty(type)) {
@@ -113,7 +95,7 @@ export default class Loop extends PureComponent {
             isLoading: false,
             isError: false,
             urls,
-            notes: withNotes ? getNotes(metadata, type) : null,
+            notes: withNotes ? getNotes(type) : null,
             startAt,
         })
     }
