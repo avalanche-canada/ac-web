@@ -14,7 +14,7 @@ function Item({ children }) {
 
 export default class ItemSet extends StaticComponent {
     static propTypes = {
-        items: PropTypes.node.isRequired,
+        items: PropTypes.arrayOf(PropTypes.object).isRequired,
         label: PropTypes.string.isRequired,
         to: PropTypes.string,
     }
