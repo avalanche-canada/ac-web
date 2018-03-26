@@ -8,10 +8,6 @@ import FileLink from './FileLink'
 import DocumentLink from './DocumentLink'
 import { replaceLineFeed, swap } from 'utils/react'
 
-function Label({ label, children }) {
-    return <span className={label}>{children}</span>
-}
-
 const LABEL = 'label'
 const HEADING1 = 'heading1'
 const HEADING2 = 'heading2'
@@ -44,8 +40,8 @@ const SpanComponents = new Map([
     [LABEL, new Map([[undefined, Label]])],
 ])
 
-function addSpans(component) {
-    return function Spans({ text, label, spans }) {
+function addSpanSet(component) {
+    return function SpanSet({ text, label, spans }) {
         let children = text
 
         if (spans.length > 0) {
@@ -70,18 +66,18 @@ function addSpans(component) {
 }
 
 const Components = new Map([
-    [HEADING1, addSpans('h1')],
-    [HEADING2, addSpans('h2')],
-    [HEADING3, addSpans('h3')],
-    [HEADING4, addSpans('h4')],
-    [HEADING5, addSpans('h5')],
-    [HEADING6, addSpans('h6')],
-    [PARAGRAPH, addSpans('p')],
-    [LIST_ITEM, addSpans('li')],
-    [ORDERED_LIST_ITEM, addSpans('li')],
-    [PREFORMATTED, addSpans('pre')],
-    [STRONG, addSpans('strong')],
-    [EM, addSpans('em')],
+    [HEADING1, addSpanSet('h1')],
+    [HEADING2, addSpanSet('h2')],
+    [HEADING3, addSpanSet('h3')],
+    [HEADING4, addSpanSet('h4')],
+    [HEADING5, addSpanSet('h5')],
+    [HEADING6, addSpanSet('h6')],
+    [PARAGRAPH, addSpanSet('p')],
+    [LIST_ITEM, addSpanSet('li')],
+    [ORDERED_LIST_ITEM, addSpanSet('li')],
+    [PREFORMATTED, addSpanSet('pre')],
+    [STRONG, addSpanSet('strong')],
+    [EM, addSpanSet('em')],
     [IMAGE, Image],
     [EMBED, Embed],
     [HYPERLINK, 'a'],
@@ -120,6 +116,10 @@ function childrenElementReducer(children, { type, ...props }, index, value) {
     }
 
     return children
+}
+
+function Label({ label, children }) {
+    return <span className={label}>{children}</span>
 }
 
 StructuredText.propTypes = {
