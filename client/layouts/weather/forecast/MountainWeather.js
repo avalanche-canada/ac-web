@@ -24,7 +24,7 @@ export default class Weather extends PureComponent {
         match: PropTypes.object.isRequired,
     }
     render() {
-        const { match: { url, path } } = this.props
+        const { url, path } = this.props.match
         const title = <Link to={url}>Mountain Weather Forecast</Link>
 
         return (
