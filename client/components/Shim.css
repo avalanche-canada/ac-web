@@ -1,0 +1,25 @@
+.top {
+    padding-top: 1em;
+}
+
+.right {
+    padding-right: 1em;
+}
+
+.bottom {
+    padding-bottom: 1em;
+}
+
+.left {
+    padding-left: 1em;
+}
+
+.vertical {
+    composes: Top;
+    composes: Bottom;
+}
+
+.horizontal {
+    composes: Right;
+    composes: Left;
+}
