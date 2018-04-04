@@ -185,7 +185,9 @@ router.get('/:region.:format', function(req, res) {
     var forecast;
     var locals;
 
-    if (isHotzone(req.region)) {
+
+
+    if (isHotzone(req.region) || isLink(req.region)) {
         return res.status(404).end('Region Not Found');
     }
 
