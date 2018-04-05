@@ -6,16 +6,15 @@ import Container from 'containers/Forecast'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
+import { Sidebar, KananaskisSidebar } from 'components/forecast'
 import {
-    Compound,
+    Forecast,
     Metadata,
-    Sidebar,
-    KananaskisSidebar,
     ArchiveWarning,
     Headline,
     TabSet,
     Footer,
-} from 'components/forecast'
+} from 'contexts/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 
@@ -65,15 +64,15 @@ export default class ForecastLayout extends PureComponent {
         this.renderHeader(region, forecast, status),
         <Content>
             <Main>
-                <Compound forecast={forecast}>
-                    <Status {...status} />
+                <Forecast value={forecast && forecast.toJSON()}>
                     <Metadata />
+                    <Status {...status} />
                     <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
                     <ArchiveWarning />
                     <Headline />
                     <TabSet />
                     <Footer />
-                </Compound>
+                </Forecast>
             </Main>
             <Aside>
                 <Route>{this.sidebar}</Route>

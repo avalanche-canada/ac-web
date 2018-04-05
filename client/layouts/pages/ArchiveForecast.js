@@ -5,7 +5,7 @@ import Url from 'url'
 import ForecastRegions from 'containers/ForecastRegions'
 import Container from 'containers/Forecast'
 import { Page, Content, Header, Main } from 'components/page'
-import * as Forecast from 'components/forecast'
+import * as Context from 'contexts/forecast'
 import * as Footer from 'components/forecast/Footer'
 import { Muted } from 'components/text'
 import { DateElement } from 'components/time'
@@ -65,20 +65,20 @@ export default class ArchiveForecast extends PureComponent {
         ) : null
     }
     forecast = ({ forecast, region, status }) => (
-        <Forecast.Compound forecast={forecast}>
+        <Context.Forecast value={forecast && forecast.toJSON()}>
             <Status {...status} />
-            <Forecast.Metadata />
-            <Forecast.ArchiveWarning />
-            <Forecast.Headline />
-            <Forecast.TabSet />
-            <Forecast.Footer>
+            <Context.Metadata />
+            <Context.ArchiveWarning />
+            <Context.Headline />
+            <Context.TabSet />
+            <Context.Footer>
                 <Footer.DangerRatings />
                 <Footer.Disclaimer />
-            </Forecast.Footer>
+            </Context.Footer>
             {!forecast && status.isLoaded && region
                 ? this.renderWarning(region)
                 : null}
-        </Forecast.Compound>
+        </Context.Forecast>
     )
     get container() {
         const { name, date } = this.state
