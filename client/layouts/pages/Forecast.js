@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import isToday from 'date-fns/is_today'
 import Container from 'containers/Forecast'
-import { Page, Header, Main, Content, Aside } from 'components/page'
+import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
 import { Sidebar, KananaskisSidebar } from 'components/forecast'
@@ -52,33 +52,33 @@ export default class ForecastLayout extends PureComponent {
     sidebar = ({ match }) => {
         const { name, date } = match.params
 
-        if (name === 'kananaskis') {
-            return <KananaskisSidebar />
-        }
-
-        const isPrintable = !date || isToday(date)
-
-        return <Sidebar isPrintable={isPrintable} />
+        return name === 'kananaskis' ? (
+            <KananaskisSidebar />
+        ) : (
+            <Sidebar isPrintable={!date || isToday(date)} />
+        )
     }
-    children = ({ forecast, region, status }) => [
-        this.renderHeader(region, forecast, status),
-        <Content>
-            <Main>
-                <Forecast value={forecast && forecast.toJSON()}>
-                    <Metadata />
-                    <Status {...status} />
-                    <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                    <ArchiveWarning />
-                    <Headline />
-                    <TabSet />
-                    <Footer />
-                </Forecast>
-            </Main>
-            <Aside>
-                <Route>{this.sidebar}</Route>
-            </Aside>
-        </Content>,
-    ]
+    children = ({ forecast, region, status }) => (
+        <Fragment>
+            {this.renderHeader(region, forecast, status)}
+            <Content>
+                <Main>
+                    <Forecast value={forecast && forecast.toJSON()}>
+                        <Metadata />
+                        <Status {...status} />
+                        <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
+                        <ArchiveWarning />
+                        <Headline />
+                        <TabSet />
+                        <Footer />
+                    </Forecast>
+                </Main>
+                <Aside>
+                    <Route>{this.sidebar}</Route>
+                </Aside>
+            </Content>
+        </Fragment>
+    )
     render() {
         const { name, date } = this.props
 
