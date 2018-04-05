@@ -13,12 +13,6 @@ import { WHITE, BLACK } from 'constants/forecast/palette'
 import StaticComponent from 'components/StaticComponent'
 
 export default class RatingExplanation extends StaticComponent {
-    getStyle(rating) {
-        return {
-            color: rating === EXTREME ? WHITE : BLACK,
-            backgroundColor: Palette.get(rating),
-        }
-    }
     render() {
         const ratings = Array.from(Ratings).filter(
             rating => rating !== NO_RATING
@@ -28,7 +22,7 @@ export default class RatingExplanation extends StaticComponent {
             <Fragment>
                 {ratings.map(rating => (
                     <Section key={rating}>
-                        <Header style={this.getStyle(rating)}>
+                        <Header style={getStyle(rating)}>
                             {Texts.get(rating)}
                         </Header>
                         <Content>
@@ -40,5 +34,13 @@ export default class RatingExplanation extends StaticComponent {
                 ))}
             </Fragment>
         )
+    }
+}
+
+// Utils
+function getStyle(rating) {
+    return {
+        color: rating === EXTREME ? WHITE : BLACK,
+        backgroundColor: Palette.get(rating),
     }
 }
