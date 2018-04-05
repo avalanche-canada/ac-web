@@ -6,6 +6,8 @@
 @custom-media --medium-width (width > 800px);
 @custom-media --small-width (width > 600px);
 
+/* TODO: Should remove the padding in RestrictFullPageWidth */
+
 .RestrictFullPageWidth {
     max-width: 1026px;
     margin-left: auto;
