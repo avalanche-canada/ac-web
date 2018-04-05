@@ -24,15 +24,15 @@ ValidUntil.propTypes = {
 }
 
 export function ValidUntil({ dateIssued, validUntil }) {
-    let node = null
-
-    if (differenceInDays(dateIssued, validUntil) > FURTHER_NOTICE_DAYS) {
-        node = <span>Until further notice</span>
-    } else {
-        node = <DateElement format={DATETIME} value={validUntil} />
-    }
-
-    return <Entry term="Valid Until">{node}</Entry>
+    return (
+        <Entry term="Valid Until">
+            {differenceInDays(dateIssued, validUntil) > FURTHER_NOTICE_DAYS ? (
+                <span>Until further notice</span>
+            ) : (
+                <DateElement format={DATETIME} value={validUntil} />
+            )}
+        </Entry>
+    )
 }
 
 Forecaster.propTypes = {
@@ -47,7 +47,7 @@ export default class ForecastMetadata extends PureComponent {
     static propTypes = {
         dateIssued: PropTypes.instanceOf(Date).isRequired,
         validUntil: PropTypes.instanceOf(Date).isRequired,
-        forecaster: PropTypes.string,
+        forecaster: PropTypes.string.isRequired,
         shareUrl: PropTypes.string,
     }
     render() {
