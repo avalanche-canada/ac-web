@@ -15,11 +15,11 @@
 }
 
 .vertical {
-    composes: Top;
-    composes: Bottom;
+    composes: top;
+    composes: bottom;
 }
 
 .horizontal {
-    composes: Right;
-    composes: Left;
+    composes: right;
+    composes: left;
 }
