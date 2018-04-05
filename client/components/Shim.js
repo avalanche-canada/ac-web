@@ -16,6 +16,8 @@ export default class Shim extends PureComponent {
         horizontal: PropTypes.bool,
     }
     render() {
-        return <div className={styles(this.props)}>{this.props.children}</div>
+        const { children, ...values } = this.props
+
+        return <div className={styles(values)}>{children}</div>
     }
 }
