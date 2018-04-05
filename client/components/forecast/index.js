@@ -1,7 +1,6 @@
 export Headline from './Headline'
 export Footer from './Footer'
 export ArchiveWarning from './ArchiveWarning'
-export TabSet from './TabSet'
 export Metadata from './Metadata'
 export DetailSet from './DetailSet'
 export ProblemSet from './problem'
