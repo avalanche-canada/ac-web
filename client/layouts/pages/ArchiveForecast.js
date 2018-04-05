@@ -165,7 +165,6 @@ function getWarningText(region) {
 
 const PARKS = 'parks'
 const LINK = 'link'
-const AVALX = 'avalx'
 
 function getWarningUrl(region, date) {
     const type = region.get('type')
