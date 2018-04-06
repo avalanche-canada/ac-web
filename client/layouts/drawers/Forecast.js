@@ -9,7 +9,7 @@ import {
     Close,
     Content,
 } from 'components/page/drawer'
-import { Forecast, Metadata, Headline, TabSet, Footer } from 'contexts/forecast'
+import { Forecast, Metadata, Headline, TabSet, Footer } from 'components/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'

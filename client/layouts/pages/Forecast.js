@@ -14,7 +14,7 @@ import {
     Headline,
     TabSet,
     Footer,
-} from 'contexts/forecast'
+} from 'components/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 
