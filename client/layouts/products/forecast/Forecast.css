@@ -1,4 +1,4 @@
-@import '../../styles/colors.css';
+@import '../../../styles/colors.css';
 
 @custom-media --full-width (width > 320px);
 

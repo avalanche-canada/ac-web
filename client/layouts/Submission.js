@@ -13,7 +13,7 @@ import {
     Metadata,
     Map,
     Sidebar,
-} from 'layouts/min'
+} from 'layouts/products/min'
 
 export default class Layout extends PureComponent {
     static propTypes = {

@@ -1,5 +1,5 @@
-@import "../../../styles/colors.css";
-@import "../Forecast.css";
+@import '../../../../styles/colors.css';
+@import '../Forecast.css';
 
 .Container {
     display: block;
@@ -79,7 +79,7 @@
 }
 
 .FullWidthSubSection {
-    composes: import SubSection from "../Forecast.css";
+    composes: import SubSection from '../Forecast.css';
 
     flex: 100%;
 
@@ -98,13 +98,13 @@
 
 .Comment {
     composes: FullWidthSubSection;
-    composes: import Border from "../Forecast.css";
+    composes: import Border from '../Forecast.css';
 
     border-top: none;
 }
 
 .Advice {
     composes: FullWidthSubSection;
-    composes: import SubSection from "../Forecast.css";
-    composes: import Border from "../Forecast.css";
+    composes: import SubSection from '../Forecast.css';
+    composes: import Border from '../Forecast.css';
 }

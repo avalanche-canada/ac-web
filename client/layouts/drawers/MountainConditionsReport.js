@@ -18,7 +18,7 @@ import {
     DateSet,
     Location,
     Media,
-} from 'components/products/mcr'
+} from 'layouts/products/mcr'
 import MountainConditionsReportContainer from 'containers/MountainConditionsReport'
 
 const NAVBAR_STYLE = {

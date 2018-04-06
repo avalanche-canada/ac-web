@@ -8,7 +8,7 @@ import {
     Metadata,
     TabSet,
     Gallery,
-} from 'layouts/min'
+} from 'layouts/products/min'
 import { Status } from 'components/misc'
 import MountainInformationNetworkSubmission from 'containers/MountainInformationNetworkSubmission'
 import Sponsor from 'layouts/Sponsor'

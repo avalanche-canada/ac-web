@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Section from 'layouts/min/Section'
+import Section from 'layouts/products/min/Section'
 import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
 import styles from './HotZoneReport.css'
