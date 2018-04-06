@@ -6,7 +6,11 @@ export default function Gallery() {
     return (
         <Consumer>
             {report => {
-                if (!report || !Array.isArray(report.uploads)) {
+                if (
+                    !report ||
+                    !Array.isArray(report.uploads) ||
+                    report.uploads.length === 0
+                ) {
                     return null
                 }
 
