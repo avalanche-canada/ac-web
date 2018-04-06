@@ -1,16 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import { InnerHTML } from 'components/misc'
 import styles from './Forecast.css'
 
-Headline.propTypes = {
-    children: PropTypes.string.isRequired,
-}
-
-export default function Headline({ children }) {
+export default function Headline() {
     return (
-        <header className={styles.Headline}>
-            <InnerHTML>{children}</InnerHTML>
-        </header>
+        <Consumer>
+            {forecast =>
+                forecast ? (
+                    <header className={styles.Headline}>
+                        <InnerHTML>{forecast.highlights}</InnerHTML>
+                    </header>
+                ) : null
+            }
+        </Consumer>
     )
 }

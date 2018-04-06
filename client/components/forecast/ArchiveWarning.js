@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import { ArchiveWarning as Base } from 'components/misc'
 import { DateElement } from 'components/time'
 import subDays from 'date-fns/sub_days'
@@ -7,7 +8,7 @@ import addDays from 'date-fns/add_days'
 import format from 'date-fns/format'
 import isToday from 'date-fns/is_today'
 
-export default class ArchiveWarning extends PureComponent {
+class ArchiveWarningComponent extends PureComponent {
     static propTypes = {
         region: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date).isRequired,
@@ -47,4 +48,19 @@ export default class ArchiveWarning extends PureComponent {
 
         return <Base {...props}>This is an archived avalanche bulletin</Base>
     }
+}
+
+export default function ArchiveWarning() {
+    return (
+        <Consumer>
+            {forecast =>
+                forecast && forecast.isArchived ? (
+                    <ArchiveWarningComponent
+                        region={forecast.region}
+                        date={forecast.date}
+                    />
+                ) : null
+            }
+        </Consumer>
+    )
 }

@@ -1,13 +1,14 @@
 import React, { Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
+import Panel from './Panel'
 import StaticComponent from 'components/StaticComponent'
-import Panel, { INVERSE } from 'components/panel'
 import RatingExplanation from 'components/forecast/RatingExplanation'
 import { Generic } from 'prismic/components'
 import ArchiveDatePicker from './ArchiveDatePicker'
 import styles from './Forecast.css'
 
-export default class Footer extends StaticComponent {
+class FooterComponent extends StaticComponent {
     static propTypes = {
         region: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date),
@@ -46,6 +47,21 @@ export default class Footer extends StaticComponent {
     }
 }
 
+export default function Footer() {
+    return (
+        <Consumer>
+            {forecast =>
+                forecast ? (
+                    <FooterComponent
+                        region={forecast.region}
+                        date={forecast.date}
+                    />
+                ) : null
+            }
+        </Consumer>
+    )
+}
+
 export class ArchivedBulletins extends StaticComponent {
     static propTypes = {
         region: PropTypes.string.isRequired,
@@ -54,9 +70,9 @@ export class ArchivedBulletins extends StaticComponent {
         const { region } = this.props
 
         return (
-            <FooterPanel header="Archived bulletins">
+            <Panel header="Archived bulletins">
                 <ArchiveDatePicker region={region} />
-            </FooterPanel>
+            </Panel>
         )
     }
 }
@@ -64,9 +80,9 @@ export class ArchivedBulletins extends StaticComponent {
 export class DangerRatings extends StaticComponent {
     render() {
         return (
-            <FooterPanel header="Danger Ratings Explained">
+            <Panel header="Danger Ratings Explained">
                 <RatingExplanation />
-            </FooterPanel>
+            </Panel>
         )
     }
 }
@@ -74,11 +90,11 @@ export class DangerRatings extends StaticComponent {
 export class Inbox extends StaticComponent {
     render() {
         return (
-            <FooterPanel header="Avalanche Forecasts in your Inbox">
+            <Panel header="Avalanche Forecasts in your Inbox">
                 <div className={styles.PanelContent}>
                     <Generic uid="forecast-rss-message" />
                 </div>
-            </FooterPanel>
+            </Panel>
         )
     }
 }
@@ -86,20 +102,11 @@ export class Inbox extends StaticComponent {
 export class Disclaimer extends StaticComponent {
     render() {
         return (
-            <FooterPanel header="Forecast Disclaimer">
+            <Panel header="Forecast Disclaimer">
                 <div className={styles.PanelContent}>
                     <Generic uid="forecast-disclaimer" />
                 </div>
-            </FooterPanel>
+            </Panel>
         )
     }
-}
-
-// Utils
-function FooterPanel({ header, children }) {
-    return (
-        <Panel theme={INVERSE} expandable header={header}>
-            {children}
-        </Panel>
-    )
 }
