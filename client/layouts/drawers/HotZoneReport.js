@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import * as Hzr from 'components/hotZoneReport'
+import * as Hzr from 'layouts/hzr'
 import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
 import { Status } from 'components/misc'
 import Shim from 'components/Shim'

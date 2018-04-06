@@ -6,7 +6,7 @@ import Container from 'containers/Forecast'
 import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
-import { Sidebar, KananaskisSidebar } from 'components/forecast'
+import { Sidebar, KananaskisSidebar } from 'layouts/forecast'
 import {
     Forecast,
     Metadata,
@@ -14,7 +14,7 @@ import {
     Headline,
     TabSet,
     Footer,
-} from 'components/forecast'
+} from 'layouts/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 

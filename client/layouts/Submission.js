@@ -13,7 +13,7 @@ import {
     Metadata,
     Map,
     Sidebar,
-} from 'components/mountainInformationNetwork'
+} from 'layouts/min'
 
 export default class Layout extends PureComponent {
     static propTypes = {

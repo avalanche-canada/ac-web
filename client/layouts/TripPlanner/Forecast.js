@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import Shim from 'components/Shim'
-import { Forecast, Metadata, Headline, TabSet } from 'components/forecast'
+import { Forecast, Metadata, Headline, TabSet } from 'layouts/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
-import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
+import { Disclaimer, DangerRatings } from 'layouts/forecast/Footer'
 import styles from './TripPlanner.css'
 
 export default class Content extends Component {
