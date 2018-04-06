@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import {
     Metadata,
     Entry,
@@ -7,28 +8,33 @@ import {
     LocationEntry,
     TimestampEntry,
 } from 'components/metadata'
+import { shareUrl } from 'utils/min'
 
 MountainInformationNetworkMetadata.propTypes = {
-    submittedBy: PropTypes.string.isRequired,
-    submittedOn: PropTypes.instanceOf(Date).isRequired,
-    shareUrl: PropTypes.string,
-    longitude: PropTypes.number.isRequired,
-    latitude: PropTypes.number.isRequired,
+    shareable: PropTypes.bool,
 }
 
-export default function MountainInformationNetworkMetadata({
-    submittedOn,
-    submittedBy,
-    shareUrl,
-    latitude,
-    longitude,
-}) {
+export default function MountainInformationNetworkMetadata({ shareable }) {
     return (
-        <Metadata>
-            <Entry term="Submitted by">{submittedBy}</Entry>
-            <TimestampEntry term="Submitted on" value={submittedOn} />
-            <LocationEntry longitude={longitude} latitude={latitude} />
-            {shareUrl && <ShareEntry url={shareUrl} />}
-        </Metadata>
+        <Consumer>
+            {report =>
+                report ? (
+                    <Metadata>
+                        <Entry term="Submitted by">{report.user}</Entry>
+                        <TimestampEntry
+                            term="Submitted on"
+                            value={report.datetime}
+                        />
+                        <LocationEntry
+                            longitude={report.latlng[1]}
+                            latitude={report.latlng[0]}
+                        />
+                        {shareable && (
+                            <ShareEntry url={shareUrl(report.subid)} />
+                        )}
+                    </Metadata>
+                ) : null
+            }
+        </Consumer>
     )
 }

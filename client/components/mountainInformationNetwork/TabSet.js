@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import Tabs, {
     HeaderSet,
     ColoredHeader,
@@ -9,9 +10,9 @@ import Tabs, {
 import Observation from './Observation'
 import { INCIDENT, NAMES, TYPES, COLORS } from 'constants/min'
 
-export default class TabSet extends PureComponent {
+class TabSetComponent extends Component {
     static propTypes = {
-        observations: PropTypes.arrayOf(PropTypes.object).isRequired,
+        observations: PropTypes.array.isRequired,
     }
     renderHeader = type => {
         const disabled = !this.props.observations.some(FILTERS.get(type))
@@ -56,6 +57,19 @@ export default class TabSet extends PureComponent {
     }
 }
 
+export default function TabSet() {
+    return (
+        <Consumer>
+            {report =>
+                report && Array.isArray(report.obs) ? (
+                    <TabSetComponent observations={report.obs} />
+                ) : null
+            }
+        </Consumer>
+    )
+}
+
+// Constants
 const FILTERS = new Map(
     TYPES.map(type => [type, observation => observation.obtype === type])
 )

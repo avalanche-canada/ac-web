@@ -1,25 +1,28 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import ImageGallery from 'components/gallery'
 
-Gallery.propTypes = {
-    images: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
-
-export default function Gallery({ images }) {
+export default function Gallery() {
     return (
-        <ImageGallery
-            items={images.map(toGalleryItem)}
-            showBullets={images.length > 1}
-            showPlayButton={images.length > 1}
-            showThumbnails={false}
-        />
-    )
-}
+        <Consumer>
+            {report => {
+                if (!report || !Array.isArray(report.uploads)) {
+                    return null
+                }
 
-// Utils
-function toGalleryItem(upload) {
-    return {
-        original: `/api/min/uploads/${upload}`,
-    }
+                const items = report.uploads.map(upload => ({
+                    original: `/api/min/uploads/${upload}`,
+                }))
+
+                return (
+                    <ImageGallery
+                        items={items}
+                        showBullets={items.length > 1}
+                        showPlayButton={items.length > 1}
+                        showThumbnails={false}
+                    />
+                )
+            }}
+        </Consumer>
+    )
 }
