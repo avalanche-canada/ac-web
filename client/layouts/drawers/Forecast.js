@@ -9,14 +9,9 @@ import {
     Close,
     Content,
 } from 'components/page/drawer'
-import {
-    Compound,
-    Metadata,
-    Headline,
-    TabSet,
-    Footer,
-} from 'components/forecast'
+import { Forecast, Metadata, Headline, TabSet, Footer } from 'layouts/products/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
+import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
@@ -75,16 +70,14 @@ export default class Layout extends PureComponent {
             {this.renderHeader(region, forecast, status)}
             <Body>
                 <Status style={STATUS_STYLE} {...status} />
-                <Content>
-                    <Compound forecast={forecast}>
+                <Forecast value={forecast && forecast.toJSON()}>
+                    <Shim horizontal>
                         <Metadata />
                         <Headline />
-                        <TabSet />
-                    </Compound>
-                </Content>
-                <Compound forecast={forecast}>
+                    </Shim>
+                    <TabSet />
                     <Footer />
-                </Compound>
+                </Forecast>
             </Body>
         </Container>
     )

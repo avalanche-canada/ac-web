@@ -5,8 +5,8 @@ import Url from 'url'
 import ForecastRegions from 'containers/ForecastRegions'
 import Container from 'containers/Forecast'
 import { Page, Content, Header, Main } from 'components/page'
-import * as Forecast from 'components/forecast'
-import * as Footer from 'components/forecast/Footer'
+import * as Components from 'layouts/products/forecast'
+import * as Footer from 'layouts/products/forecast/Footer'
 import { Muted } from 'components/text'
 import { DateElement } from 'components/time'
 import { Status } from 'components/misc'
@@ -65,20 +65,20 @@ export default class ArchiveForecast extends PureComponent {
         ) : null
     }
     forecast = ({ forecast, region, status }) => (
-        <Forecast.Compound forecast={forecast}>
+        <Components.Forecast value={forecast && forecast.toJSON()}>
             <Status {...status} />
-            <Forecast.Metadata />
-            <Forecast.ArchiveWarning />
-            <Forecast.Headline />
-            <Forecast.TabSet />
-            <Forecast.Footer>
+            <Components.Metadata />
+            <Components.ArchiveWarning />
+            <Components.Headline />
+            <Components.TabSet />
+            <Components.Footer>
                 <Footer.DangerRatings />
                 <Footer.Disclaimer />
-            </Forecast.Footer>
+            </Components.Footer>
             {!forecast && status.isLoaded && region
                 ? this.renderWarning(region)
                 : null}
-        </Forecast.Compound>
+        </Components.Forecast>
     )
     get container() {
         const { name, date } = this.state
@@ -165,7 +165,6 @@ function getWarningText(region) {
 
 const PARKS = 'parks'
 const LINK = 'link'
-const AVALX = 'avalx'
 
 function getWarningUrl(region, date) {
     const type = region.get('type')

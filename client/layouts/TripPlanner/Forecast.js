@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
-import * as drawers from 'components/page/drawer'
-import { Compound, Metadata, Headline, TabSet } from 'components/forecast'
+import Shim from 'components/Shim'
+import { Forecast, Metadata, Headline, TabSet } from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
-import { Disclaimer, DangerRatings } from 'components/forecast/Footer'
+import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
 import styles from './TripPlanner.css'
 
 export default class Content extends Component {
@@ -14,10 +14,6 @@ export default class Content extends Component {
         id: PropTypes.string.isRequired,
     }
     renderOtherForecast(forecast) {
-        if (!forecast) {
-            return null
-        }
-
         const id = forecast.get('id')
 
         if (id === 'north-rockies') {
@@ -39,25 +35,26 @@ export default class Content extends Component {
 
         return null
     }
-    children = ({ status, forecast }) => {
-        const canRender = Compound.canRender(forecast)
-
-        return (
-            <Fragment>
-                <drawers.Content>
-                    <Compound forecast={forecast}>
-                        <Status {...status} />
-                        {canRender && <Metadata />}
-                        {canRender && <Headline />}
-                        {canRender && <TabSet />}
-                        {canRender || this.renderOtherForecast(forecast)}
-                    </Compound>
-                </drawers.Content>
-                <Disclaimer />
-                <DangerRatings />
-            </Fragment>
-        )
-    }
+    children = ({ status, forecast }) => (
+        <Fragment>
+            <Status {...status} />
+            {forecast && !forecast.has('externalUrl') ? (
+                <Forecast value={forecast.toJSON()}>
+                    <Shim horizontal>
+                        <Metadata />
+                        <Headline />
+                    </Shim>
+                    <TabSet />
+                </Forecast>
+            ) : (
+                forecast && (
+                    <Shim horizontal>{this.renderOtherForecast(forecast)}</Shim>
+                )
+            )}
+            <Disclaimer />
+            <DangerRatings />
+        </Fragment>
+    )
     render() {
         return (
             <ForecastContainer name={this.props.id}>

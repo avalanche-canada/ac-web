@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Page, Header, Main, Content, Aside } from 'components/page'
-import { Sidebar } from 'components/forecast'
+import { Sidebar } from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'

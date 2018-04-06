@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { Container, Header, Body, Navbar, Close } from 'components/page/drawer'
+import Shim from 'components/Shim'
 import {
-    Container,
-    Header,
-    Body,
-    Content,
-    Navbar,
-    Close,
-} from 'components/page/drawer'
-import { Metadata, Submission } from 'components/mountainInformationNetwork'
+    Submission,
+    Metadata,
+    TabSet,
+    Gallery,
+} from 'layouts/products/min'
 import { Status } from 'components/misc'
 import MountainInformationNetworkSubmission from 'containers/MountainInformationNetworkSubmission'
 import Sponsor from 'layouts/Sponsor'
@@ -25,7 +24,7 @@ export default class Layout extends PureComponent {
     get link() {
         return `/mountain-information-network/submissions/${this.props.id}`
     }
-    renderHeader(report) {
+    renderHeader = report => {
         const { onLocateClick } = this.props
         function handleLocateClick() {
             const latlng = report.get('latlng')
@@ -51,11 +50,16 @@ export default class Layout extends PureComponent {
                 {report && this.renderHeader(report)}
             </Header>
             <Body>
-                <Content>
-                    <Status style={STATUS_STYLE} {...status} />
-                    {report && <Metadata report={report} shareable />}
-                    {report && <Submission report={report} />}
-                </Content>
+                <Submission value={report && report.toJSON()}>
+                    <Shim horizontal>
+                        <Status {...status} />
+                        <Metadata />
+                    </Shim>
+                    <Shim vertical>
+                        <TabSet />
+                    </Shim>
+                    <Gallery />
+                </Submission>
             </Body>
         </Container>
     )
@@ -66,9 +70,4 @@ export default class Layout extends PureComponent {
             </MountainInformationNetworkSubmission>
         )
     }
-}
-
-// Constants
-const STATUS_STYLE = {
-    margin: '1em',
 }
