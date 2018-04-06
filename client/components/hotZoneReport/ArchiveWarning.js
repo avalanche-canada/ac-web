@@ -1,16 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import { ArchiveWarning as Base } from 'components/misc'
+import { isValid } from 'utils/hzr'
 
-ArchiveWarning.propTypes = {
-    region: PropTypes.string.isRequired,
-}
+export default function ArchiveWarning() {
+    return (
+        <Consumer>
+            {report => {
+                if (!report || isValid(report)) {
+                    return null
+                }
 
-export default function ArchiveWarning({ region }) {
-    const nowcast = {
-        to: `/hot-zone-reports/${region}`,
-        children: "Read today's report",
-    }
+                const nowcast = {
+                    to: `/hot-zone-reports/${report.region}`,
+                    children: "Read today's report",
+                }
 
-    return <Base nowcast={nowcast}>This is an archived HotZone report</Base>
+                return (
+                    <Base nowcast={nowcast}>
+                        This is an archived HotZone report
+                    </Base>
+                )
+            }}
+        </Consumer>
+    )
 }

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import List from 'components/mountainInformationNetwork/List'
 import { Term, Definition } from 'components/description'
@@ -56,7 +57,7 @@ function CriticalFactor({ children, value }) {
     )
 }
 
-export default class CriticalFactors extends PureComponent {
+class CriticalFactorsComponent extends PureComponent {
     static propTypes = {
         criticalFactorsPersistentAvalancheProblem: truthPropType,
         criticalFactorsSlabAvalanches: truthPropType,
@@ -148,4 +149,14 @@ export default class CriticalFactors extends PureComponent {
             </Panel>
         )
     }
+}
+
+export default function CriticalFactors() {
+    return (
+        <Consumer>
+            {report =>
+                report ? <CriticalFactorsComponent {...report} /> : null
+            }
+        </Consumer>
+    )
 }

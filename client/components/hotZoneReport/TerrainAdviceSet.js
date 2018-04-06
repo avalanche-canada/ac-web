@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import Section from 'components/mountainInformationNetwork/Section'
 import { StructuredText } from 'prismic/components/base'
@@ -39,7 +40,7 @@ function AdviceSection({ header, advices }) {
     )
 }
 
-export default class TerrainAdviceSet extends PureComponent {
+class TerrainAdviceSetComponent extends PureComponent {
     static propTypes = {
         terrainAdviceComment: PropTypes.array,
         terrainToAvoid: PropTypes.array,
@@ -89,7 +90,7 @@ export default class TerrainAdviceSet extends PureComponent {
         } = this.props
         const advices = [terrainToAvoid, terrainToWatch, goodTerrainChoices]
 
-        if (advices.filter(Boolean).length === 0) {
+        if (!advices.some(Boolean)) {
             return null
         }
 
@@ -125,4 +126,14 @@ export default class TerrainAdviceSet extends PureComponent {
             </Panel>
         )
     }
+}
+
+export default function TerrainAdviceSet() {
+    return (
+        <Consumer>
+            {report =>
+                report ? <TerrainAdviceSetComponent {...report} /> : null
+            }
+        </Consumer>
+    )
 }

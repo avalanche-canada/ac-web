@@ -1,32 +1,38 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { Consumer } from './Context'
 import ImageGallery from 'components/gallery'
 import styles from './HotZoneReport.css'
 
-export default class Gallery extends PureComponent {
-    static propTypes = {
-        images: PropTypes.array.isRequired,
-    }
-    render() {
-        const { images } = this.props
+export default function Gallery() {
+    return (
+        <Consumer>
+            {report => {
+                if (
+                    !report ||
+                    !Array.isArray(report.hotzoneImages) ||
+                    report.hotzoneImages.length === 0
+                ) {
+                    return null
+                }
 
-        return (
-            <div className={styles.Gallery}>
-                <ImageGallery
-                    items={images.map(buildItem)}
-                    showBullets={images.length > 1}
-                    showPlayButton={images.length > 1}
-                    showThumbnails={false}
-                />
-            </div>
-        )
-    }
-}
+                const items = report.hotzoneImages.map(
+                    ({ hotzoneImage, caption }) => ({
+                        original: hotzoneImage.main.url,
+                        description: caption,
+                    })
+                )
 
-// Utils
-function buildItem({ hotzoneImage, caption }) {
-    return {
-        original: hotzoneImage.main.url,
-        description: caption,
-    }
+                return (
+                    <div className={styles.Gallery}>
+                        <ImageGallery
+                            items={items}
+                            showBullets={items.length > 1}
+                            showPlayButton={items.length > 1}
+                            showThumbnails={false}
+                        />
+                    </div>
+                )
+            }}
+        </Consumer>
+    )
 }

@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Consumer } from './Context'
 import TerrainSummary from './TerrainSummary'
 import AdviceText from './AdviceText'
 import Panel from './Panel'
 
-export default class TerrainAndTravelAdvice extends PureComponent {
+class TerrainAndTravelAdviceComponent extends PureComponent {
     static propTypes = {
         report: PropTypes.object.isRequired,
     }
@@ -59,4 +60,16 @@ export default class TerrainAndTravelAdvice extends PureComponent {
             </Panel>
         )
     }
+}
+
+export default function TerrainAndTravelAdvice() {
+    return (
+        <Consumer>
+            {report =>
+                report ? (
+                    <TerrainAndTravelAdviceComponent report={report} />
+                ) : null
+            }
+        </Consumer>
+    )
 }
