@@ -30,7 +30,7 @@ function formatUser(user) {
 }
 
 function formatReport(r) {
-    if (typeof r.field_location.und === 'undefined') {
+    if (typeof(r.field_location) === 'undefined' || typeof(r.field_location.und) === 'undefined') {
         logger.info(
             'MCR - formatReport(report_id=%d) - Missing location, skipping',
             r.nid

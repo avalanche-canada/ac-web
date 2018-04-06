@@ -181,11 +181,16 @@ router.get('/:date/:region.json', (req, res) => {
     if (!date.isValid()) {
         return res.status(404).end();
     }
-    if (
-        typeof ['forecast-regions'][req.params.region] !== 'undefined' &&
-        metadata['forecast-regions'][req.params.region]['type'] != 'avalx'
-    ) {
-        return res.status(404).end();
+
+    var regionUndefined = typeof(metadata['forecast-regions'][req.params.region]) === 'undefined';
+
+    if (regionUndefined) {
+        return res.status(404).end('Region not found');
+    } else {
+        var regionIsAvalx = metadata['forecast-regions'][req.params.region]['type'] == 'avalx';
+        if (!regionIsAvalx) {
+            return res.status(404).end('No archive for that region');
+        }
     }
     if (date.isBefore(NEW_AVALX_START_DATE)) {
         logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');

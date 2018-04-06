@@ -185,24 +185,26 @@ router.get('/:region.:format', function(req, res) {
     var forecast;
     var locals;
 
-    if (isHotzone(req.region)) {
+
+
+    if (isHotzone(req.region) || isLink(req.region)) {
         return res.status(404).end('Region Not Found');
     }
 
 
     switch (req.params.format) {
         case 'xml':
-            res.type('application/xml').send(req.forecast.caaml);
+            return res.type('application/xml').send(req.forecast.caaml);
             break;
 
         case 'json':
-            res.json(req.forecast.json);
+            return res.json(req.forecast.json);
             break;
 
         case 'rss':
             locals = avalx.getTableLocals(req.forecast.json);
             //TODO(wnh): Assert the failure mode for this hits the top level error handler
-            res.render('forecasts/forecast-rss', locals);
+            return res.render('forecasts/forecast-rss', locals);
             break;
 
         case 'html':
@@ -210,14 +212,14 @@ router.get('/:region.:format', function(req, res) {
             locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
             res.render('forecasts/forecast-html', locals, function(err, html) {
                 if (err) {
-                    res.status(500).end();
+                    return res.status(500).end();
                 } else {
-                    res.send(html);
+                    return res.send(html);
                 }
             });
             break;
         default:
-            res.status(404).end();
+            return res.status(404).end();
             break;
     }
 });
