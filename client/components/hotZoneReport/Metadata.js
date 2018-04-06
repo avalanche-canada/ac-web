@@ -1,35 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    Metadata,
-    Entry,
-    ShareEntry,
-    TimestampEntry,
-} from 'components/metadata'
-import { DateTime } from 'components/time'
+import { Metadata, ShareEntry, TimestampEntry } from 'components/metadata'
 
 HotZoneReportMetadata.propTypes = {
-    report: PropTypes.object,
+    dateOfIssue: PropTypes.instanceOf(Date).isRequired,
+    validUntil: PropTypes.instanceOf(Date).isRequired,
+    dateUpdated: PropTypes.instanceOf(Date),
     shareUrl: PropTypes.string,
 }
 
-export default function HotZoneReportMetadata({ report, shareUrl }) {
-    if (!report) {
-        return null
-    }
-
-    const { dateOfIssue, validUntil, dateUpdated } = report
-
+export default function HotZoneReportMetadata({
+    dateOfIssue,
+    validUntil,
+    dateUpdated,
+    shareUrl,
+}) {
     return (
         <Metadata>
-            <Entry term="Date Issued">
-                <DateTime value={dateOfIssue} />
-            </Entry>
-            <Entry term="Valid Until">
-                <DateTime value={validUntil} />
-            </Entry>
+            <TimestampEntry term="Date Issued" value={dateOfIssue} />
+            <TimestampEntry term="Valid Until" value={validUntil} />
             {dateUpdated && (
-                <TimestampEntry term="Date Updated" timestamp={dateUpdated} />
+                <TimestampEntry term="Date Updated" value={dateUpdated} />
             )}
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>

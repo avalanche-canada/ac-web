@@ -5,13 +5,13 @@ import { DateTime } from 'components/time'
 
 TimestampEntry.propTypes = {
     term: PropTypes.string,
-    timestamp: PropTypes.instanceOf(Date),
+    value: PropTypes.instanceOf(Date),
 }
 
-export default function TimestampEntry({ term, timestamp }) {
+export default function TimestampEntry({ term, value }) {
     return (
         <Entry term={term}>
-            <DateTime value={timestamp} />
+            <DateTime value={value} />
         </Entry>
     )
 }

@@ -2,10 +2,8 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import HotZones from 'containers/HotZones'
+import { Report } from 'components/hotZoneReport'
 import { Page, Content, Header, Main } from 'components/page'
-import HotZoneReport, {
-    Metadata as HotZoneReportMetadata,
-} from 'components/hotZoneReport'
 import { DateElement } from 'components/time'
 import { Muted } from 'components/text'
 import { Status } from 'components/misc'
@@ -117,8 +115,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
         return (
             <Fragment>
                 <Status {...status} messages={messages} />
-                {report && <HotZoneReportMetadata report={report.data} />}
-                {report && <HotZoneReport report={report.data} />}
+                <Report value={report && report.data} />
             </Fragment>
         )
     }

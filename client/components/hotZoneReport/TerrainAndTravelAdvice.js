@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import TerrainSummary from './TerrainSummary'
-import Panel, { INVERSE } from 'components/panel'
 import AdviceText from './AdviceText'
+import Panel from './Panel'
 
 export default class TerrainAndTravelAdvice extends PureComponent {
     static propTypes = {
@@ -53,11 +53,7 @@ export default class TerrainAndTravelAdvice extends PureComponent {
         }
 
         return (
-            <Panel
-                header="Terrain and Travel Advice"
-                theme={INVERSE}
-                expanded
-                expandable>
+            <Panel header="Terrain and Travel Advice" expanded>
                 <AdviceText />
                 {summaries}
             </Panel>

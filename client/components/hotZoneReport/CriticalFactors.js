@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import List from 'components/mountainInformationNetwork/List'
 import { Term, Definition } from 'components/description'
-import Panel, { INVERSE } from 'components/panel'
-import styles from './HotZoneReport.css'
 import { StructuredText } from 'prismic/components/base'
+import Panel from './Panel'
 import { RED, ORANGE } from 'constants/forecast/palette'
+import styles from './HotZoneReport.css'
 
 const STYLES = new Map([
     [
@@ -134,11 +134,7 @@ export default class CriticalFactors extends PureComponent {
     }
     render() {
         return (
-            <Panel
-                header="Critical Factors Summary"
-                expanded
-                expandable
-                theme={INVERSE}>
+            <Panel header="Critical Factors Summary" expanded>
                 <p>
                     <strong>
                         Critical factors influence avalanche hazard. The more

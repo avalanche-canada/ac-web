@@ -1,16 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {
-    Container,
-    Navbar,
-    Header,
-    Body,
-    Content,
-    Close,
-} from 'components/page/drawer'
+import * as Hzr from 'components/hotZoneReport'
+import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
 import { Status } from 'components/misc'
-import HotZoneReport, { Metadata } from 'components/hotZoneReport'
+import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { HotZoneReport as HotZoneReportContainer } from 'prismic/containers'
@@ -52,18 +46,22 @@ export default class HotZoneReportDrawer extends PureComponent {
             </Navbar>
             {this.renderHeader({ report, status, hotZone })}
             <Body>
-                <Content>
+                <Shim horizontal>
                     <Status {...status} />
-                    {report && (
-                        <Metadata
-                            report={report.data}
-                            shareUrl={utils.shareUrl(report)}
-                        />
-                    )}
-                    {status.isLoaded && (
-                        <HotZoneReport report={report && report.data} />
-                    )}
-                </Content>
+                </Shim>
+                {status.isLoaded && (
+                    <Hzr.Report value={report && report.data}>
+                        <Shim horizontal>
+                            <Hzr.Metadata shareUrl={utils.shareUrl(report)} />
+                            <Hzr.Header />
+                        </Shim>
+                        <Hzr.Gallery />
+                        <Hzr.CriticalFactors />
+                        <Hzr.TerrainAndTravelAdvice />
+                        <Hzr.TerrainAdviceSet />
+                        <Hzr.Footer />
+                    </Hzr.Report>
+                )}
             </Body>
         </Container>
     )

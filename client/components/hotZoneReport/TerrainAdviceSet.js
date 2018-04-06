@@ -1,11 +1,11 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Panel, { INVERSE } from 'components/panel'
 import Comment from 'components/mountainInformationNetwork/Comment'
 import Section from 'components/mountainInformationNetwork/Section'
 import { StructuredText } from 'prismic/components/base'
-import styles from './HotZoneReport.css'
 import AdviceText from './AdviceText'
+import Panel from './Panel'
+import styles from './HotZoneReport.css'
 
 function createAdvice({ feature, where, elevation }) {
     const items = [feature, where, elevation].filter(Boolean)
@@ -118,7 +118,7 @@ export default class TerrainAdviceSet extends PureComponent {
         }
 
         return (
-            <Panel header="Terrain Advice" expanded expandable theme={INVERSE}>
+            <Panel header="Terrain Advice" expanded>
                 <AdviceText />
                 {advices}
                 {comments}

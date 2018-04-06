@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { ArchiveWarning as Base } from 'components/misc'
 
 ArchiveWarning.propTypes = {
-    region: PropTypes.string,
+    region: PropTypes.string.isRequired,
 }
 
 export default function ArchiveWarning({ region }) {

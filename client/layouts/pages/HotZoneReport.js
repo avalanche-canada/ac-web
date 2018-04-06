@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { Item } from 'components/sidebar'
-import HotZoneReport, { Metadata, Sidebar } from 'components/hotZoneReport'
+import { Sidebar } from 'components/hotZoneReport'
+import { Report } from 'components/hotZoneReport'
 import { HotZoneReport as Container } from 'prismic/containers'
 import HotZone from 'containers/HotZone'
 import * as utils from 'utils/hzr'
@@ -30,19 +31,20 @@ export default class HotZoneReportLayout extends PureComponent {
             </Sidebar>
         )
     }
-    renderChildrenFactory = ({ report, status }) => ({ hotZone }) => [
-        this.renderHeader({ report, status, hotZone }),
-        <Content>
-            <Main>
-                <Status {...status} />
-                {report && <Metadata report={report.data} />}
-                {status.isLoaded && (
-                    <HotZoneReport report={report && report.data} />
-                )}
-            </Main>
-            <Aside>{this.renderSidebar(report)}</Aside>,
-        </Content>,
-    ]
+    renderChildrenFactory = ({ report, status }) => ({ hotZone }) => (
+        <Fragment>
+            {this.renderHeader({ report, status, hotZone })}
+            <Content>
+                <Main>
+                    <Status {...status} />
+                    {status.isLoaded && (
+                        <Report value={report && report.data} />
+                    )}
+                </Main>
+                <Aside>{this.renderSidebar(report)}</Aside>
+            </Content>
+        </Fragment>
+    )
     children = props => (
         <HotZone id={this.props.region}>
             {this.renderChildrenFactory(props)}
