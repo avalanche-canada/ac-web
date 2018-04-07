@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import {
     LoginCompleteRoute,
     NotFoundRoute,
@@ -42,21 +42,21 @@ export default class AvalancheCanada extends Component {
                             <Error>{error.message}</Error>
                         </Page.Headline>
                         <ButtonSet>
-                            <a href="/" className={styles.Link}>
+                            <Link to="/" className={styles.Link}>
                                 Forecasts
-                            </a>
-                            <a href="/training" className={styles.Link}>
+                            </Link>
+                            <Link to="/training" className={styles.Link}>
                                 Training
-                            </a>
-                            <a href="/news" className={styles.Link}>
+                            </Link>
+                            <Link to="/news" className={styles.Link}>
                                 Latest news
-                            </a>
-                            <a href="/events" className={styles.Link}>
+                            </Link>
+                            <Link to="/events" className={styles.Link}>
                                 Upcoming events
-                            </a>
-                            <a href="/blogs" className={styles.Link}>
+                            </Link>
+                            <Link to="/blogs" className={styles.Link}>
                                 Our blog
-                            </a>
+                            </Link>
                         </ButtonSet>
                     </Page.Main>
                 </Page.Error>
