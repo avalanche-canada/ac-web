@@ -79,7 +79,7 @@ const MENU = new Map({
                 type: new Filter({
                     name: 'type',
                     type: 'listOfValues',
-                    value: [],
+                    value: new Set(),
                     options: new Map([
                         ['quick', 'Quick'],
                         ['avalanche', 'Avalanche'],
