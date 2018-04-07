@@ -18,6 +18,7 @@ import { isSpecialInformationValid, isHotZoneReportValid } from 'prismic/utils'
 import * as Layers from 'constants/drawers'
 import * as Schemas from 'api/schemas'
 import * as search from 'utils/search'
+import { INCIDENT } from 'constants/min'
 
 function transformSubmission(submission) {
     submission = submission.toJSON()
@@ -26,7 +27,7 @@ function transformSubmission(submission) {
 
     return turf.point([lng, lat], {
         id: Schemas.MountainInformationNetworkSubmission.getId(submission),
-        icon: types.includes('incident') ? 'min-pin-with-incident' : 'min-pin',
+        icon: types.includes(INCIDENT) ? 'min-pin-with-incident' : 'min-pin',
         title: submission.title,
         types,
     })
@@ -131,6 +132,7 @@ const getSubmission = createSelector(
 )
 
 function prepareSubmissions(submissions, submission, typeFilter, filter) {
+    console.warn(submissions, submission, typeFilter, filter)
     submissions = submissions.filter(filter)
 
     if (typeFilter.size > 0) {
@@ -146,9 +148,7 @@ function prepareSubmissions(submissions, submission, typeFilter, filter) {
 
         // We are only adding "submission" once.
         // "submission" may be already in submissions!
-        const has = submissions.some(filter)
-
-        if (!has) {
+        if (!submissions.some(filter)) {
             submissions.push(submission)
         }
     }
@@ -161,10 +161,10 @@ function getSubmissionsTypeFilter(state) {
 }
 
 function isIncident(type) {
-    return type === 'incident'
+    return type === INCIDENT
 }
 function isNotIncident(type) {
-    return type !== 'incident'
+    return type !== INCIDENT
 }
 
 const getIncidentSubmissionFeatures = createSelector(
