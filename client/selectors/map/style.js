@@ -132,7 +132,6 @@ const getSubmission = createSelector(
 )
 
 function prepareSubmissions(submissions, submission, typeFilter, filter) {
-    console.warn(submissions, submission, typeFilter, filter)
     submissions = submissions.filter(filter)
 
     if (typeFilter.size > 0) {
