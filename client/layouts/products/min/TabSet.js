@@ -43,9 +43,11 @@ class TabSetComponent extends Component {
     get activeTab() {
         const { observations } = this.props
         const hasIncident = observations.some(FILTERS.get(INCIDENT))
-        const [observation] = observations
+        const firstType = TYPES.find(type =>
+            observations.some(FILTERS.get(type))
+        )
 
-        return TYPES.indexOf(hasIncident ? INCIDENT : observation.obtype)
+        return TYPES.indexOf(hasIncident ? INCIDENT : firstType)
     }
     render() {
         return (
