@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Consumer } from './Context'
 import { Metadata, ShareEntry, TimestampEntry } from 'components/metadata'
+import * as utils from 'utils/hzr'
 
 HotZoneReportMetadata.propTypes = {
-    shareUrl: PropTypes.string,
+    shareable: PropTypes.bool,
 }
 
-export default function HotZoneReportMetadata({ shareUrl }) {
+export default function HotZoneReportMetadata({ shareable }) {
     return (
         <Consumer>
             {report =>
@@ -27,7 +28,9 @@ export default function HotZoneReportMetadata({ shareUrl }) {
                                 value={report.dateUpdated}
                             />
                         )}
-                        {shareUrl && <ShareEntry url={shareUrl} />}
+                        {shareable && (
+                            <ShareEntry url={utils.shareUrl(report)} />
+                        )}
                     </Metadata>
                 ) : null
             }

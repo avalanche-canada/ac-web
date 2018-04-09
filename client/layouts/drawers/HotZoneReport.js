@@ -52,7 +52,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                 {status.isLoaded && (
                     <Hzr.Report value={report && report.data}>
                         <Shim horizontal>
-                            <Hzr.Metadata shareUrl={utils.shareUrl(report)} />
+                            <Hzr.Metadata shareable />
                             <Hzr.Header />
                         </Shim>
                         <Hzr.Gallery />
