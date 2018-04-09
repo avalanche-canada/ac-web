@@ -17,7 +17,7 @@ var logger = require('../../logger');
 
 var BULLETIN_NOT_FOUND = 'BULLETIN_NOT_FOUND';
 var NEW_AVALX_START_DATE = '2016-10-01';
-var AVALX2016_ENDPOINT = 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx';
+var AVALX2016_ENDPOINT = process.env.AVALX2016_ENDPOINT || 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx';
 
 const db_params = url.parse(process.env.BULLETIN_ARCHIVE_DB);
 const db_auth = db_params.auth.split(':');
@@ -219,22 +219,22 @@ function newAvalx(req, res) {
             if (error) {
                 console.log(
                     'Error retreiving forcast from 2016 AvalX Server:',
-                    err,
-                    err.stack
+                    error,
+                    error.stack
                 );
                 return res.status(500).json({
                     error: error,
                     msg: 'Error retreiving forcast from 2016 AvalX Server',
                 });
             }
-            xml2js.parseString(xmlbody, function(err, caamlJson) {
-                if (err) {
+            xml2js.parseString(xmlbody, function(xmlErr, caamlJson) {
+                if (xmlErr) {
                     return res.status(500).json({
-                        error: err,
+                        error: xmlErr,
                         msg: 'Error parsing CAAML forecast',
                     });
                 }
-                res.status(200).json(avalx.parksForecast(caamlJson, region));
+                return res.status(200).json(avalx.parksForecast(caamlJson, region));
             });
         }
     );
