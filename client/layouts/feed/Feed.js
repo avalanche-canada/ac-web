@@ -8,6 +8,7 @@ import { Page, Content, Header, Main } from 'components/page'
 import { parse, stringify } from 'utils/search'
 import { Filtered } from 'components/collection'
 import { Status } from 'components/misc'
+import Shim from 'components/Shim'
 import { EntrySet, Entry } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
@@ -22,10 +23,6 @@ function Layout({ title, children }) {
             </Content>
         </Page>
     )
-}
-
-const STYLE = {
-    marginTop: '1em',
 }
 
 export class Feed extends PureComponent {
@@ -69,7 +66,7 @@ export class Feed extends PureComponent {
     }
     children = ({ status, documents }) => [
         this.props.children(documents),
-        <div style={STYLE}>
+        <Shim top>
             <Filtered values={documents} predicates={this.predicates}>
                 {entries => [
                     <Status
@@ -79,7 +76,7 @@ export class Feed extends PureComponent {
                     <EntrySet>{entries.map(renderEntry)}</EntrySet>,
                 ]}
             </Filtered>
-        </div>,
+        </Shim>,
     ]
     render() {
         return <Container type={this.props.type}>{this.children}</Container>
