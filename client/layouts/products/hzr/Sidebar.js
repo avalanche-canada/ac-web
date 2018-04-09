@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
 import { FORECASTERS } from 'constants/emails'
 
+// TODO: Make that component a Consumer
+
 export default class HotZoneReportSidebar extends Component {
     static propTypes = {
         shareUrl: PropTypes.string.isRequired,
