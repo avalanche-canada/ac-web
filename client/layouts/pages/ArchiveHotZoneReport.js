@@ -115,7 +115,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
         return (
             <Fragment>
                 <Status {...status} messages={messages} />
-                <Report value={report && report.data} />
+                <Report value={report} />
             </Fragment>
         )
     }

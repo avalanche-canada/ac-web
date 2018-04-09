@@ -155,7 +155,7 @@ export default function CriticalFactors() {
     return (
         <Consumer>
             {report =>
-                report ? <CriticalFactorsComponent {...report} /> : null
+                report ? <CriticalFactorsComponent {...report.data} /> : null
             }
         </Consumer>
     )

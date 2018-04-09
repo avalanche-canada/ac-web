@@ -132,7 +132,7 @@ export default function TerrainAdviceSet() {
     return (
         <Consumer>
             {report =>
-                report ? <TerrainAdviceSetComponent {...report} /> : null
+                report ? <TerrainAdviceSetComponent {...report.data} /> : null
             }
         </Consumer>
     )

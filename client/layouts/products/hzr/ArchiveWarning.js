@@ -7,12 +7,12 @@ export default function ArchiveWarning() {
     return (
         <Consumer>
             {report => {
-                if (!report || isValid(report)) {
+                if (!report || isValid(report.data)) {
                     return null
                 }
 
                 const nowcast = {
-                    to: `/hot-zone-reports/${report.region}`,
+                    to: `/hot-zone-reports/${report.data.region}`,
                     children: "Read today's report",
                 }
 

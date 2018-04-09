@@ -9,13 +9,13 @@ export default function Gallery() {
             {report => {
                 if (
                     !report ||
-                    !Array.isArray(report.hotzoneImages) ||
-                    report.hotzoneImages.length === 0
+                    !Array.isArray(report.data.hotzoneImages) ||
+                    report.data.hotzoneImages.length === 0
                 ) {
                     return null
                 }
 
-                const items = report.hotzoneImages.map(
+                const items = report.data.hotzoneImages.map(
                     ({ hotzoneImage, caption }) => ({
                         original: hotzoneImage.main.url,
                         description: caption,

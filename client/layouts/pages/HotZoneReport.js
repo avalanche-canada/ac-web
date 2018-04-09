@@ -5,7 +5,7 @@ import { Page, Header, Main, Content, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { Item } from 'components/sidebar'
 import { Sidebar } from 'layouts/products/hzr'
-import { Report } from 'layouts/products/hzr'
+import * as Hzr from 'layouts/products/hzr'
 import { HotZoneReport as Container } from 'prismic/containers'
 import HotZone from 'containers/HotZone'
 import * as utils from 'utils/hzr'
@@ -38,7 +38,16 @@ export default class HotZoneReportLayout extends PureComponent {
                 <Main>
                     <Status {...status} />
                     {status.isLoaded && (
-                        <Report value={report && report.data} />
+                        <Hzr.Report value={report}>
+                            <Hzr.Metadata shareable />
+                            <Hzr.ArchiveWarning />
+                            <Hzr.Header />
+                            <Hzr.Gallery />
+                            <Hzr.CriticalFactors />
+                            <Hzr.TerrainAndTravelAdvice />
+                            <Hzr.TerrainAdviceSet />
+                            <Hzr.Footer />
+                        </Hzr.Report>
                     )}
                 </Main>
                 <Aside>{this.renderSidebar(report)}</Aside>

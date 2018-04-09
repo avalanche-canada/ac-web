@@ -67,7 +67,7 @@ export default function TerrainAndTravelAdvice() {
         <Consumer>
             {report =>
                 report ? (
-                    <TerrainAndTravelAdviceComponent report={report} />
+                    <TerrainAndTravelAdviceComponent report={report.data} />
                 ) : null
             }
         </Consumer>

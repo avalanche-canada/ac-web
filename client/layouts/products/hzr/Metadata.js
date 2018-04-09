@@ -16,16 +16,16 @@ export default function HotZoneReportMetadata({ shareable }) {
                     <Metadata>
                         <TimestampEntry
                             term="Date Issued"
-                            value={report.dateOfIssue}
+                            value={report.data.dateOfIssue}
                         />
                         <TimestampEntry
                             term="Valid Until"
-                            value={report.validUntil}
+                            value={report.data.validUntil}
                         />
-                        {report.dateUpdated && (
+                        {report.data.dateUpdated && (
                             <TimestampEntry
                                 term="Date Updated"
-                                value={report.dateUpdated}
+                                value={report.data.dateUpdated}
                             />
                         )}
                         {shareable && (

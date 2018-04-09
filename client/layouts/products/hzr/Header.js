@@ -9,8 +9,8 @@ export default function Header() {
             {report =>
                 report ? (
                     <Fragment>
-                        <Title>{report.title}</Title>
-                        <Headline>{report.headline}</Headline>
+                        <Title>{report.data.title}</Title>
+                        <Headline>{report.data.headline}</Headline>
                     </Fragment>
                 ) : null
             }

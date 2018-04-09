@@ -50,7 +50,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                     <Status {...status} />
                 </Shim>
                 {status.isLoaded && (
-                    <Hzr.Report value={report && report.data}>
+                    <Hzr.Report value={report}>
                         <Shim horizontal>
                             <Hzr.Metadata shareable />
                             <Hzr.Header />
