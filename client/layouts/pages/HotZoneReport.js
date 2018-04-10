@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { Item } from 'components/sidebar'
-import { Sidebar } from 'layouts/products/hzr'
 import * as Hzr from 'layouts/products/hzr'
 import { HotZoneReport as Container } from 'prismic/containers'
 import HotZone from 'containers/HotZone'
@@ -17,19 +16,6 @@ export default class HotZoneReportLayout extends PureComponent {
     }
     renderHeader = props => {
         return <Header title={utils.title(props)} />
-    }
-    renderSidebar = report => {
-        const { region } = this.props
-
-        return (
-            <Sidebar shareUrl={report && utils.shareUrl(report)}>
-                <Item>
-                    <Link to={`/map/hot-zone-reports/${region}`}>
-                        See that report on the main map
-                    </Link>
-                </Item>
-            </Sidebar>
-        )
     }
     renderChildrenFactory = ({ report, status }) => ({ hotZone }) => (
         <Fragment>
@@ -50,7 +36,20 @@ export default class HotZoneReportLayout extends PureComponent {
                         </Hzr.Report>
                     )}
                 </Main>
-                <Aside>{this.renderSidebar(report)}</Aside>
+                <Aside>
+                    <Hzr.Report value={report}>
+                        <Hzr.Sidebar shareable>
+                            <Item>
+                                <Link
+                                    to={`/map/hot-zone-reports/${
+                                        this.props.region
+                                    }`}>
+                                    See that report on the main map
+                                </Link>
+                            </Item>
+                        </Hzr.Sidebar>
+                    </Hzr.Report>
+                </Aside>
             </Content>
         </Fragment>
     )
