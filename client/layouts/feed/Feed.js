@@ -10,6 +10,7 @@ import { EntrySet, Entry } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { NEWS, EVENT } from 'constants/prismic'
+
 function FeedLayout({ title, children }) {
     return (
         <Page>

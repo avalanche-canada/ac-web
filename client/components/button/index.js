@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './Button'
+import { TERTIARY } from './kinds'
 
 export default from './Button'
 
@@ -13,7 +14,7 @@ export * from './kinds'
 export ButtonSet from './ButtonSet'
 
 export function Reset(props) {
-    return <Button {...props} type="reset" />
+    return <Button kind={TERTIARY} {...props} type="reset" />
 }
 export function Submit(props) {
     return <Button {...props} type="submit" />
