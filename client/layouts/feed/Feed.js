@@ -1,20 +1,16 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import isBefore from 'date-fns/is_before'
-import startOfDay from 'date-fns/start_of_day'
+import React, { Component } from 'react'
 import flatten from 'lodash/flatten'
-import { Feed as Container } from 'prismic/containers'
+import * as Containers from 'prismic/containers'
 import { Page, Content, Header, Main } from 'components/page'
 import { parse, stringify } from 'utils/search'
-import { Filtered } from 'components/collection'
 import { Status } from 'components/misc'
 import Shim from 'components/Shim'
+import Pagination from 'components/pagination'
 import { EntrySet, Entry } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
-import { NEWS, BLOG, EVENT } from 'constants/prismic'
-
-function Layout({ title, children }) {
+import { NEWS, EVENT } from 'constants/prismic'
+function FeedLayout({ title, children }) {
     return (
         <Page>
             <Header title={title} />
@@ -25,254 +21,200 @@ function Layout({ title, children }) {
     )
 }
 
-export class Feed extends PureComponent {
-    static propTypes = {
-        type: PropTypes.string.isRequired,
-        filters: PropTypes.object.isRequired,
-        children: PropTypes.func,
+function FeedContent({ status, documents, metadata, onPageChange }) {
+    return (
+        <Shim vertical>
+            <Status {...status} />
+            <EntrySet>{documents.map(renderEntry)}</EntrySet>
+            <Pagination
+                active={metadata.page}
+                onChange={onPageChange}
+                total={metadata.totalPages}
+            />
+        </Shim>
+    )
+}
+
+export class NorthRockiesBlogFeed extends Component {
+    state = {
+        page: 1,
     }
-    static defaultProps = {
-        children() {
-            return null
-        },
+    handlePageChange = page => this.setState({ page })
+    renderContent = renderContent.bind(this)
+    render() {
+        const { page } = this.state
+
+        return (
+            <Containers.BlogPostFeed category="north-rockies" page={page}>
+                {this.renderContent}
+            </Containers.BlogPostFeed>
+        )
     }
-    get predicates() {
-        const { filters } = this.props
-        const predicates = []
+}
 
-        PREDICATES.forEach((predicate, name) => {
-            const value = filters[name]
-
-            if (value) {
-                if (value instanceof Set && value.size === 0) {
-                    return
-                }
-
-                predicates.push(predicate(filters))
-            }
-        })
-
-        return predicates
-    }
-    createMessages({ isLoaded }, { length }) {
-        const { type } = this.props
-        const isEmpty = isLoaded && length === 0
+export class BlogPostFeed extends Component {
+    static getDerivedStateFromProps({ location }) {
+        const { year, month, category, page } = parse(location.search)
 
         return {
-            isLoaded: isEmpty && `No ${type} match your criteria.`,
-            isLoading: `Loading ${type} feed...`,
-            isError: `An error happened while loading the ${type} feed.`,
-        }
-    }
-    children = ({ status, documents }) => [
-        this.props.children(documents),
-        <Shim top>
-            <Filtered values={documents} predicates={this.predicates}>
-                {entries => [
-                    <Status
-                        {...status}
-                        messages={this.createMessages(status, entries)}
-                    />,
-                    <EntrySet>{entries.map(renderEntry)}</EntrySet>,
-                ]}
-            </Filtered>
-        </Shim>,
-    ]
-    render() {
-        return <Container type={this.props.type}>{this.children}</Container>
-    }
-}
-
-NorthRockiesBlogFeed.filters = {
-    category: 'north-rockies',
-}
-
-export function NorthRockiesBlogFeed() {
-    return <Feed type={BLOG} filters={NorthRockiesBlogFeed.filters} />
-}
-
-export class BlogFeed extends PureComponent {
-    constructor(props) {
-        super(props)
-
-        const { year, month, category } = parse(props.location.search)
-
-        this.state = {
+            page: page && Number(page),
             year: year && Number(year),
             month,
             category,
         }
     }
-    handleYearChange = year => this.setState({ year }, serialize)
-    handleMonthChange = month => this.setState({ month }, serialize)
-    handleCategoryChange = category => this.setState({ category }, serialize)
-    children = documents => {
+    handleYearChange = handleYearChange.bind(this)
+    handleMonthChange = handleMonthChange.bind(this)
+    handleCategoryChange = handleCategoryChange.bind(this)
+    handlePageChange = handlePageChange.bind(this)
+    renderContent = renderContent.bind(this)
+    render() {
         const { category, year, month } = this.state
-        const categoryOptions = computeOptions(
-            'category',
-            documents,
-            new Map([[undefined, 'All categories']])
-        )
 
         return (
-            <FilterSet>
-                <FilterEntry>
-                    <Dropdown
-                        value={category}
-                        onChange={this.handleCategoryChange}
-                        options={categoryOptions}
-                        placeholder={categoryOptions.get()}
-                    />
-                </FilterEntry>
-                <FilterEntry>
-                    <Dropdown
-                        value={year}
-                        onChange={this.handleYearChange}
-                        options={YearOptions}
-                        placeholder={YearOptions.get()}
-                    />
-                </FilterEntry>
-                <FilterEntry>
-                    <Dropdown
-                        value={month}
-                        onChange={this.handleMonthChange}
-                        options={MonthsOptions}
-                        placeholder={MonthsOptions.get()}
-                    />
-                </FilterEntry>
-            </FilterSet>
-        )
-    }
-    render() {
-        return (
-            <Layout title="Blogs">
-                <Feed type={BLOG} filters={this.state}>
-                    {this.children}
-                </Feed>
-            </Layout>
+            <FeedLayout title="Blogs">
+                <FilterSet>
+                    <FilterEntry>
+                        <Dropdown
+                            value={category}
+                            onChange={this.handleCategoryChange}
+                            options={CategoryOptions}
+                            placeholder={CategoryOptions.get()}
+                        />
+                    </FilterEntry>
+                    <FilterEntry>
+                        <Dropdown
+                            value={year}
+                            onChange={this.handleYearChange}
+                            options={YearOptions}
+                            placeholder={YearOptions.get()}
+                        />
+                    </FilterEntry>
+                    <FilterEntry>
+                        <Dropdown
+                            value={month}
+                            onChange={this.handleMonthChange}
+                            options={MonthsOptions}
+                            placeholder={MonthsOptions.get()}
+                        />
+                    </FilterEntry>
+                </FilterSet>
+                <Containers.BlogPostFeed {...this.state}>
+                    {this.renderContent}
+                </Containers.BlogPostFeed>
+            </FeedLayout>
         )
     }
 }
 
-export class NewsFeed extends PureComponent {
-    constructor(props) {
-        super(props)
+export class NewsFeed extends Component {
+    static getDerivedStateFromProps({ location }) {
+        const { month, year, tags, page } = parse(location.search)
 
-        const { month, year, tags } = parse(props.location.search)
-
-        this.state = {
+        return {
+            page: page ? Number(page) : 1,
             year: year && Number(year),
             month,
             tags: new Set(sanitizeTags(tags)),
         }
     }
-    handleYearChange = year => this.setState({ year }, serialize)
-    handleMonthChange = month => this.setState({ month }, serialize)
-    handleTagChange = tags => this.setState({ tags }, serialize)
-    children = documents => {
+    handleYearChange = handleYearChange.bind(this)
+    handleMonthChange = handleMonthChange.bind(this)
+    handleTagChange = handleTagChange.bind(this)
+    handlePageChange = handlePageChange.bind(this)
+    renderContent = renderContent.bind(this)
+    render() {
         const { year, month, tags } = this.state
-        const tagOptions = computeOptions('tags', documents, new Map())
 
         return (
-            <FilterSet>
-                <FilterEntry>
-                    <Dropdown
-                        value={year}
-                        onChange={this.handleYearChange}
-                        options={YearOptions}
-                        placeholder={YearOptions.get()}
-                    />
-                </FilterEntry>
-                <FilterEntry>
-                    <Dropdown
-                        value={month}
-                        onChange={this.handleMonthChange}
-                        options={MonthsOptions}
-                        placeholder={MonthsOptions.get()}
-                    />
-                </FilterEntry>
-                <FilterEntry>
-                    <Dropdown
-                        value={tags}
-                        onChange={this.handleTagChange}
-                        options={tagOptions}
-                        placeholder="All tags"
-                    />
-                </FilterEntry>
-            </FilterSet>
-        )
-    }
-    render() {
-        return (
-            <Layout title="Recent news">
-                <Feed type={NEWS} filters={this.state}>
-                    {this.children}
-                </Feed>
-            </Layout>
+            <FeedLayout title="Recent news">
+                <FilterSet>
+                    <FilterEntry>
+                        <Dropdown
+                            value={year}
+                            onChange={this.handleYearChange}
+                            options={YearOptions}
+                            placeholder={YearOptions.get()}
+                        />
+                    </FilterEntry>
+                    <FilterEntry>
+                        <Dropdown
+                            value={month}
+                            onChange={this.handleMonthChange}
+                            options={MonthsOptions}
+                            placeholder={MonthsOptions.get()}
+                        />
+                    </FilterEntry>
+                    <FilterEntry>
+                        <Containers.Tags type={NEWS}>
+                            {all => (
+                                <Dropdown
+                                    value={tags}
+                                    onChange={this.handleTagChange}
+                                    options={convertTagsToOptions(all)}
+                                    placeholder="All tags"
+                                />
+                            )}
+                        </Containers.Tags>
+                    </FilterEntry>
+                </FilterSet>
+                <Containers.NewsFeed {...this.state}>
+                    {this.renderContent}
+                </Containers.NewsFeed>
+            </FeedLayout>
         )
     }
 }
 
-export class EventFeed extends PureComponent {
-    constructor(props) {
-        super(props)
+export class EventFeed extends Component {
+    static getDerivedStateFromProps({ location }) {
+        const { timeline, tags } = parse(location.search)
 
-        const { timeline, tags } = parse(props.location.search)
-
-        this.state = {
+        return {
             timeline: timeline === PAST ? PAST : UPCOMING,
             tags: new Set(sanitizeTags(tags)),
         }
     }
-    handleTimelineChange = timeline => this.setState({ timeline }, serialize)
-    handleTagChange = tags => this.setState({ tags }, serialize)
-    componentWillMount() {
-        if (!this.props.location.search) {
-            this.props.history.replace({
-                ...this.props.location,
-                search: stringify({
-                    timeline: UPCOMING,
-                }),
-            })
-        }
-    }
-    children = documents => {
+    handleTimelineChange = handleTimelineChange.bind(this)
+    handleTagChange = handleTagChange.bind(this)
+    handlePageChange = handlePageChange.bind(this)
+    renderContent = renderContent.bind(this)
+    render() {
         const { timeline, tags } = this.state
-        const tagOptions = computeOptions('tags', documents, new Map())
 
         return (
-            <FilterSet>
-                <FilterEntry>
-                    <Dropdown
-                        value={timeline}
-                        onChange={this.handleTimelineChange}
-                        options={TimelineOptions}
-                        placeholder={TimelineOptions.get()}
-                    />
-                </FilterEntry>
-                <FilterEntry>
-                    <Dropdown
-                        value={new Set(tags)}
-                        onChange={this.handleTagChange}
-                        options={tagOptions}
-                        placeholder="All tags"
-                    />
-                </FilterEntry>
-            </FilterSet>
-        )
-    }
-    render() {
-        return (
-            <Layout title="Events">
-                <Feed type={EVENT} filters={this.state}>
-                    {this.children}
-                </Feed>
-            </Layout>
+            <FeedLayout title="Events">
+                <FilterSet>
+                    <FilterEntry>
+                        <Dropdown
+                            value={timeline}
+                            onChange={this.handleTimelineChange}
+                            options={TimelineOptions}
+                            placeholder={TimelineOptions.get()}
+                        />
+                    </FilterEntry>
+                    <FilterEntry>
+                        <Containers.Tags type={EVENT}>
+                            {all => (
+                                <Dropdown
+                                    value={new Set(tags)}
+                                    onChange={this.handleTagChange}
+                                    options={convertTagsToOptions(all)}
+                                    placeholder="All tags"
+                                />
+                            )}
+                        </Containers.Tags>
+                    </FilterEntry>
+                </FilterSet>
+                <Containers.EventFeed tags={tags} past={timeline === PAST}>
+                    {this.renderContent}
+                </Containers.EventFeed>
+            </FeedLayout>
         )
     }
 }
 
-// utils
+// Utils
 function renderEntry(post) {
     return <Entry key={post.uid} {...post} />
 }
@@ -298,12 +240,12 @@ function computeOptions(property, feed = [], initial) {
         .reduce(optionReducer, initial)
 }
 
-const YEAR = new Date().getFullYear()
+const CURRENT_YEAR = new Date().getFullYear()
 
 const YearOptions = new Map([
     [undefined, 'All years'],
-    ...Array(YEAR - 2012)
-        .fill(YEAR)
+    ...Array(CURRENT_YEAR - 2012)
+        .fill(CURRENT_YEAR)
         .map((value, index) => value - index)
         .map(year => [year, String(year)]),
 ])
@@ -330,29 +272,51 @@ const TimelineOptions = new Map([
     [UPCOMING, 'Upcoming events'],
     [PAST, 'Past events'],
 ])
-const MONTHS = Array.from(MonthsOptions.keys()).filter(Boolean)
-const PREDICATES = new Map([
-    ['year', ({ year }) => post => post.year == year], // == works with strings and numbers
-    ['month', ({ month }) => post => post.month === MONTHS.indexOf(month)],
-    ['category', ({ category }) => post => post.category == category],
-    [
-        'tags',
-        ({ tags }) => post => Boolean(post.tags.find(tag => tags.has(tag))),
-    ],
-    [
-        'timeline',
-        ({ timeline }) => post => {
-            const isPast = isBefore(post.endDate, startOfDay(new Date()))
-
-            return timeline === 'past' ? isPast : !isPast
-        },
-    ],
+const CategoryOptions = new Map([
+    ['forecaster blog', 'Forecaster blog'],
+    ['north-rockies', 'North Rockies'],
+    ['south-rockies', 'South Rockies'],
+    ['yukon', 'Yukon'],
+    [undefined, 'All categories'],
 ])
 function serialize() {
+    const { page } = this.state
+
     this.props.history.push({
-        search: stringify(this.state),
+        search: stringify({
+            ...this.state,
+            page: page > 1 ? page : undefined,
+        }),
     })
 }
 function sanitizeTags(tags) {
     return typeof tags === 'string' && tags.length > 0 ? [tags] : tags
+}
+function handleYearChange(year) {
+    this.setState({ year, page: 1 }, serialize)
+}
+function handleMonthChange(month) {
+    this.setState({ month, page: 1 }, serialize)
+}
+function handleCategoryChange(category) {
+    this.setState({ category, page: 1 }, serialize)
+}
+function handlePageChange(page) {
+    this.setState({ page }, serialize)
+}
+function handleTagChange(tags) {
+    this.setState({ tags, page: 1 }, serialize)
+}
+function handleTimelineChange(timeline) {
+    this.setState({ timeline, page: 1 }, serialize)
+}
+function renderContent(data) {
+    return <FeedContent {...data} onPageChange={this.handlePageChange} />
+}
+function convertTagsToOptions(tags) {
+    return new Map(
+        Array.from(tags)
+            .sort()
+            .map(tag => [tag, tag])
+    )
 }

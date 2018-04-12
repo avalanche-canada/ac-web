@@ -71,3 +71,28 @@ function query(api, options = {}, predicates) {
 export function Query(predicates, options) {
     return getApi().then(api => query(api, options, predicates))
 }
+
+export async function tags(type) {
+    const predicates = [Predicates.type(type)]
+    const tags = new Set()
+    let current = 1
+    let totalPages = Infinity
+
+    while (current < totalPages) {
+        const { results, total_pages, page } = await Query(predicates, {
+            page: current,
+            pageSize: MAX_PAGE_SIZE,
+            fetch: 'document.tags',
+        })
+
+        current = page
+        totalPages = total_pages
+
+        results.forEach(result => result.tags.forEach(tag => tags.add(tag)))
+    }
+
+    return tags
+}
+
+// Constants
+const MAX_PAGE_SIZE = 100
