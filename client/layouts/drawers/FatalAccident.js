@@ -11,7 +11,7 @@ import {
 import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import * as Containers from 'prismic/containers'
+import { FatalAccident as FatalAccidentContainer } from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
@@ -83,9 +83,9 @@ export default class FatalAccident extends PureComponent {
     )
     render() {
         return (
-            <Containers.FatalAccident id={this.props.id}>
+            <FatalAccidentContainer id={this.props.id}>
                 {this.children}
-            </Containers.FatalAccident>
+            </FatalAccidentContainer>
         )
     }
 }

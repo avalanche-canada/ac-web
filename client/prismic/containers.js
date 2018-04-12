@@ -10,7 +10,9 @@ import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import isToday from 'date-fns/is_today'
+import startOfDay from 'date-fns/start_of_day'
 import { load } from 'actions/prismic'
+import * as Api from 'prismic/Api'
 import {
     getDocumentFromParams,
     getDocumentsFromParams,
@@ -312,6 +314,20 @@ const FEED_ORDERINGS = new Map([
     [BLOG, `my.${BLOG}.date desc`],
     [EVENT, `my.${EVENT}.start_date`],
 ])
+const MONTHS = [
+    'january',
+    'february',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december',
+]
 
 export class Post extends Component {
     static propTypes = {
@@ -330,42 +346,214 @@ export class Post extends Component {
     }
 }
 
-export class Feed extends Component {
+class Feed extends Component {
+    static propTypes = {
+        type: PropTypes.oneOf(FEED_TYPES).isRequired,
+        predicates: PropTypes.array,
+        ordering: PropTypes.array,
+        page: PropTypes.number,
+        pageSize: PropTypes.number,
+        children: PropTypes.func.isRequired,
+        messages: PropTypes.object,
+    }
+    static defaultProps = {
+        predicates: [],
+        page: 1,
+        pageSize: 10,
+    }
+    get params() {
+        const { type, page, pageSize, predicates, ordering } = this.props
+
+        if (predicates.length === 0) {
+            predicates.push(Predicates.type(type))
+        }
+
+        return {
+            predicates,
+            options: {
+                page,
+                pageSize,
+                orderings: ordering ? [ordering] : [FEED_ORDERINGS.get(type)],
+            },
+        }
+    }
+    createMessages({ status, documents }) {
+        const { type } = this.props
+        const isEmpty = status.isLoaded && documents.length === 0
+
+        return {
+            isLoaded: isEmpty && `No ${type} match your criteria.`,
+            isLoading: `Loading ${type} feed...`,
+            isError: `An error happened while loading the ${type} feed.`,
+        }
+    }
+    renderChildren = data =>
+        this.props.children({
+            ...data,
+            status: {
+                ...data.status,
+                messages: this.createMessages(data),
+            },
+            documents: prepareFeedDocuments(data.documents),
+        })
+    render() {
+        return (
+            <DocumentsContainer params={this.params}>
+                {this.renderChildren}
+            </DocumentsContainer>
+        )
+    }
+}
+
+export class BlogPostFeed extends Component {
+    static propTypes = {
+        year: PropTypes.number,
+        month: PropTypes.oneOf(MONTHS),
+        category: PropTypes.oneOf([
+            'forecaster blog',
+            'north-rockies',
+            'south-rockies',
+            'yukon',
+        ]),
+        page: PropTypes.number,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        const { year, month, category, children, ...props } = this.props
+        const predicates = []
+
+        if (year) {
+            predicates.push(Predicates.year(`my.${BLOG}.date`, year))
+        }
+
+        if (month) {
+            predicates.push(Predicates.month(`my.${BLOG}.date`, month))
+        }
+
+        if (category) {
+            predicates.push(Predicates.at(`my.${BLOG}.category`, category))
+        }
+
+        return (
+            <Feed type={BLOG} {...props} predicates={predicates}>
+                {children}
+            </Feed>
+        )
+    }
+}
+
+export class NewsFeed extends Component {
+    static propTypes = {
+        year: PropTypes.number,
+        month: PropTypes.oneOf(MONTHS),
+        tags: PropTypes.arrayOf(PropTypes.string),
+        page: PropTypes.number,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        const { year, month, tags, page } = this.props
+        const predicates = []
+
+        if (year) {
+            predicates.push(Predicates.year(`my.${NEWS}.date`, year))
+        }
+
+        if (month) {
+            predicates.push(Predicates.month(`my.${NEWS}.date`, month))
+        }
+
+        if (tags.size) {
+            predicates.push(Predicates.tags(Array.from(tags)))
+        }
+
+        return (
+            <Feed type={NEWS} page={page} predicates={predicates}>
+                {this.props.children}
+            </Feed>
+        )
+    }
+}
+
+export class EventFeed extends Component {
+    static propTypes = {
+        past: PropTypes.bool,
+        tags: PropTypes.arrayOf(PropTypes.string),
+        page: PropTypes.number,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        const { past, tags, page } = this.props
+        const ordering = past
+            ? `${FEED_ORDERINGS.get(EVENT)} desc`
+            : FEED_ORDERINGS.get(EVENT)
+        const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
+        const predicates = []
+        const timestamp = startOfDay(new Date()).getTime()
+
+        predicates.push(predicate(`my.${EVENT}.end_date`, timestamp))
+
+        if (tags.size) {
+            predicates.push(Predicates.tags(Array.from(tags)))
+        }
+
+        return (
+            <Feed
+                type={EVENT}
+                page={page}
+                predicates={predicates}
+                ordering={ordering}>
+                {this.props.children}
+            </Feed>
+        )
+    }
+}
+
+function prepareFeedDocuments(documents) {
+    documents = documents.map(document => parse(document))
+
+    // Bringing the first featured one on top!
+    if (documents.some(isFeaturedPost)) {
+        const featured = documents.find(isFeaturedPost)
+
+        documents = documents.filter(post => featured !== post)
+
+        documents.unshift(featured)
+    }
+
+    return documents
+}
+
+export class Tags extends Component {
     static propTypes = {
         type: PropTypes.oneOf(FEED_TYPES).isRequired,
         children: PropTypes.func.isRequired,
     }
-    get params() {
+    state = {}
+    query = () => {
         const { type } = this.props
 
-        return {
-            predicates: [Predicates.type(type)],
-            options: {
-                pageSize: MAX_PAGE_SIZE,
-                orderings: [FEED_ORDERINGS.get(type)],
-            },
-        }
+        Api.tags(type).then(tags =>
+            this.setState({
+                [type]: tags,
+            })
+        )
     }
-    children = ({ documents, status }) => {
-        documents = documents.map(document => parse(document))
+    componentWillMount() {
+        const { type } = this.props
 
-        // Bringing the first featured one on top!
-        if (documents.some(isFeaturedPost)) {
-            const featured = documents.find(isFeaturedPost)
-
-            documents = documents.filter(post => featured !== post)
-
-            documents.unshift(featured)
+        if (type in this.state) {
+            return
         }
 
-        return this.props.children({ status, documents })
+        this.setState(
+            {
+                [type]: new Set(),
+            },
+            this.query
+        )
     }
     render() {
-        return (
-            <DocumentsContainer params={this.params}>
-                {this.children}
-            </DocumentsContainer>
-        )
+        return this.props.children(this.state[this.props.type])
     }
 }
 
@@ -380,7 +568,7 @@ export class FeedSplash extends Component {
         const predicates = [Predicates.type(type)]
 
         if (Array.isArray(tags) && tags.length > 0) {
-            predicates.push(Predicates.tags(tags))
+            predicates.push(Predicates.tags(Array.from(tags)))
         }
 
         if (type === EVENT) {
@@ -683,6 +871,3 @@ function rangePredicates(start, end, date = new Date()) {
         Predicates.dateAfter(end, utils.formatDate(subDays(date, 1))),
     ]
 }
-
-// Constants
-const MAX_PAGE_SIZE = 100 // From Prismic documentation

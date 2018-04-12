@@ -14,7 +14,7 @@ import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
 import { DATE } from 'utils/date'
 import { StructuredText } from 'prismic/components/base'
-import * as Containers from 'prismic/containers'
+import { ToyotaTruckReport as ToyotaTruckReportContainer } from 'prismic/containers'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -98,9 +98,9 @@ export default class ToyotaTruckReport extends PureComponent {
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>
-                    <Containers.ToyotaTruckReport id={this.props.id}>
+                    <ToyotaTruckReportContainer id={this.props.id}>
                         {this.children}
-                    </Containers.ToyotaTruckReport>
+                    </ToyotaTruckReportContainer>
                 </Body>
             </Container>
         )

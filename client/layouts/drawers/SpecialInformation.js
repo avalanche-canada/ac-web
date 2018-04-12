@@ -11,7 +11,7 @@ import {
 import { Status } from 'components/misc'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import * as Containers from 'prismic/containers'
+import { SpecialInformation as SpecialInformationContainer } from 'prismic/containers'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
@@ -111,9 +111,9 @@ export default class SpecialInformation extends PureComponent {
     )
     render() {
         return (
-            <Containers.SpecialInformation id={this.props.id}>
+            <SpecialInformationContainer id={this.props.id}>
                 {this.children}
-            </Containers.SpecialInformation>
+            </SpecialInformationContainer>
         )
     }
 }

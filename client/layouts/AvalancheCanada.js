@@ -74,7 +74,7 @@ export default class AvalancheCanada extends Component {
                 <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
                 <Route path="/blogs/:uid" component={Feed.BlogPost} />
-                <Route path="/blogs" component={Feed.BlogFeed} />
+                <Route path="/blogs" component={Feed.BlogPostFeed} />
                 <Route path="/news/:uid" component={Feed.NewsPost} />
                 <Route path="/news" component={Feed.NewsFeed} />
                 <Route path="/events/:uid" component={Feed.EventPost} />
