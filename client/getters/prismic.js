@@ -47,8 +47,7 @@ export function getDocumentFromParams(state, params) {
 }
 
 export function getDocumentsFromParams(state, params) {
-    const result = getResult(state, params)
-    const { ids } = result
+    const { ids } = getResult(state, params)
     const { documents } = state.prismic
 
     return Array.from(ids).map(id => documents.get(id))
