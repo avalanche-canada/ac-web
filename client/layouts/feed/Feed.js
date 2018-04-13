@@ -6,6 +6,7 @@ import { parse, stringify } from 'utils/search'
 import { Status } from 'components/misc'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
+import ScrollToTop from 'components/ScrollToTop'
 import { EntrySet, Entry } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
@@ -13,12 +14,14 @@ import { NEWS, EVENT } from 'constants/prismic'
 
 function FeedLayout({ title, children }) {
     return (
-        <Page>
-            <Header title={title} />
-            <Content>
-                <Main>{children}</Main>
-            </Content>
-        </Page>
+        <ScrollToTop>
+            <Page>
+                <Header title={title} />
+                <Content>
+                    <Main>{children}</Main>
+                </Content>
+            </Page>
+        </ScrollToTop>
     )
 }
 
