@@ -95,13 +95,13 @@ export class Document extends Component {
         const { type, uid } = this.props
 
         return {
-            predicates: [Predicates.type(type), Predicates.uid(type, uid)],
+            predicates: [Predicates.uid(type, uid)],
         }
     }
-    children = ({ status, document }) =>
+    children = data =>
         this.props.children({
-            status,
-            document: document ? parse(document) : undefined,
+            ...data,
+            document: data.document ? parse(data.document) : undefined,
         })
     render() {
         return (
