@@ -1,7 +1,9 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import noop from 'lodash/noop'
+import { Consumer } from './Context'
 
 const { LngLat } = mapbox
 
@@ -17,15 +19,16 @@ export default class Marker extends StaticComponent {
         onDragStart: PropTypes.func,
         onDragEnd: PropTypes.func,
     }
-    static contextTypes = {
-        map: PropTypes.object.isRequired,
-    }
     static defaultProps = {
         onDragStart: noop,
         onDragEnd: noop,
     }
     _marker = null
     set marker(marker) {
+        if (!this.map) {
+            return
+        }
+
         this.remove()
 
         this._marker = marker
@@ -34,9 +37,6 @@ export default class Marker extends StaticComponent {
     }
     get marker() {
         return this._marker
-    }
-    get map() {
-        return this.context.map
     }
     get element() {
         return this.props.element
@@ -93,9 +93,6 @@ export default class Marker extends StaticComponent {
 
         this.props.onDragEnd(event)
     }
-    componentDidMount() {
-        this.marker = this.createMarker(this.props)
-    }
     componentWillReceiveProps(nextProps) {
         const { element, lngLat } = nextProps
 
@@ -111,7 +108,13 @@ export default class Marker extends StaticComponent {
     componentWillUnmount() {
         this.remove()
     }
-    render() {
+    add = map => {
+        this.map = map
+        this.marker = this.createMarker(this.props)
+
         return null
+    }
+    render() {
+        return <Consumer>{this.add}</Consumer>
     }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
+import { Provider } from './Context'
 import './Map.css'
 
 function toJSON(style) {
@@ -125,9 +126,6 @@ export default class MapComponent extends Component {
         style: null,
         maxBounds: Canadian,
     }
-    static childContextTypes = {
-        map: PropTypes.object,
-    }
     state = {
         map: null,
         ready: false,
@@ -136,11 +134,6 @@ export default class MapComponent extends Component {
         return this.state.map
     }
     setContainer = container => (this.container = container)
-    getChildContext() {
-        return {
-            map: this.map,
-        }
-    }
     componentDidMount() {
         const { container } = this
 
@@ -212,7 +205,9 @@ export default class MapComponent extends Component {
     render() {
         return (
             <div ref={this.setContainer} style={this.props.containerStyle}>
-                {this.safe && this.props.children}
+                <Provider value={this.map}>
+                    {this.safe && this.props.children}
+                </Provider>
             </div>
         )
     }

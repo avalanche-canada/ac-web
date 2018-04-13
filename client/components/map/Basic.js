@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
+import { Provider } from './Context'
 import './Map.css'
 
 const { LngLatBounds } = mapbox
@@ -84,7 +85,9 @@ export default class MapComponent extends Component {
     render() {
         return (
             <div ref={this.setContainer} className={this.props.className}>
-                {this.map ? this.props.children : null}
+                <Provider value={this.map}>
+                    {this.map ? this.props.children : null}
+                </Provider>
             </div>
         )
     }

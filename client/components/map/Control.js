@@ -1,5 +1,7 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
+import { Consumer } from './Context'
 
 export const TOP_LEFT = 'top-left'
 export const TOP_RIGHT = 'top-right'
@@ -16,25 +18,31 @@ export default class Control extends StaticComponent {
             BOTTOM_RIGHT,
         ]),
     }
-    static contextTypes = {
-        map: PropTypes.object.isRequired,
-    }
     static defaultProps = {
         position: BOTTOM_RIGHT,
     }
-    get map() {
-        return this.context.map
-    }
-    componentDidMount() {
-        const { position, factory } = this.props
-        const control = (this.control = factory())
+    add(map) {
+        if (!map) {
+            return null
+        }
 
-        this.map.addControl(control, position)
+        const { position, factory } = this.props
+        const control = factory()
+
+        this.map = map
+        this.control = control
+
+        map.addControl(control, position)
+
+        return null
     }
-    componentWillUnmount() {
+    remove() {
         this.map.removeControl(this.control)
     }
+    componentWillUnmount() {
+        this.remove()
+    }
     render() {
-        return null
+        return <Consumer>{this.add}</Consumer>
     }
 }
