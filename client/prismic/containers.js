@@ -83,6 +83,7 @@ const DocumentContainer = connect(
     mapDispatchToProps
 )(Connector)
 
+// TODO: Do not load if document has been loaded
 export class Document extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
