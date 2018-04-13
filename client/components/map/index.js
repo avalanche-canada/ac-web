@@ -7,8 +7,6 @@ export Basic from './Basic'
 export StaticMap, { ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
 export Control from './Control'
-export Source from './Source'
-export Layer from './Layer'
 
 export function NavigationControl({ position, ...props }) {
     return (
