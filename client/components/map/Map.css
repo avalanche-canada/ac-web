@@ -5,8 +5,3 @@
 :global(.hidden-map-marker) {
     display: none;
 }
-
-:global(.draggable-map-marker) {
-    cursor: move;
-    user-select: none;
-}

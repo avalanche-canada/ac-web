@@ -10,7 +10,6 @@ export default class Marker extends StaticComponent {
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
         options: PropTypes.object,
-        draggable: PropTypes.bool,
     }
     static contextTypes = {
         map: PropTypes.object.isRequired,
