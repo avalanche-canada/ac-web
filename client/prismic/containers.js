@@ -71,7 +71,6 @@ export const DocumentsContainer = connect(
 const DocumentContainer = connect(
     createStructuredSelector({
         data(state, { params, messages }) {
-            // TODO: More work here to test if document already exists
             const result = getResult(state, params)
 
             return {
