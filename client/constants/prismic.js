@@ -1,6 +1,5 @@
 export const GENERIC = 'generic'
 export const STATIC_PAGE = 'static-page'
-export const APPLICATION_FEATURE = 'application-feature'
 export const TUTORIAL_PAGE = 'tutorial-page'
 export const EVENT = 'event'
 export const BLOG = 'blog'

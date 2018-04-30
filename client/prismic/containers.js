@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import formatDate from 'date-fns/format'
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
-import startOfYesterday from 'date-fns/start_of_yesterday'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
@@ -23,7 +22,6 @@ import * as Predicates from 'vendor/prismic/predicates'
 import {
     GENERIC,
     STATIC_PAGE,
-    APPLICATION_FEATURE,
     NEWS,
     EVENT,
     BLOG,
@@ -176,28 +174,6 @@ export class Tutorial extends Component {
             </DocumentContainer>
         )
     }
-}
-
-export function ApplicationFeature({ children }) {
-    const params = {
-        predicates: [
-            Predicates.type(APPLICATION_FEATURE),
-            Predicates.dateBefore(
-                `my.${APPLICATION_FEATURE}.startDate`,
-                utils.formatDate(startOfTomorrow())
-            ),
-            Predicates.dateAfter(
-                `my.${APPLICATION_FEATURE}.endDate`,
-                utils.formatDate(startOfYesterday())
-            ),
-        ],
-    }
-
-    return (
-        <DocumentContainer params={params}>
-            {({ document }) => children(document ? parse(document) : null)}
-        </DocumentContainer>
-    )
 }
 
 export class DocumentsById extends Component {

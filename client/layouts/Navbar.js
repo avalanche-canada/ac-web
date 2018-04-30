@@ -9,14 +9,12 @@ import Navbar, {
     UserProfile,
     Header,
     Link,
-    Feature,
 } from 'components/navbar'
 import Avatar from 'components/avatar'
 import menu from 'constants/menus/avcan'
 import { getIsAuthenticated, getProfile } from 'getters/auth'
 import { login, logout } from 'actions/auth'
 import { NewRelease } from 'components/icons'
-// import { ApplicationFeature } from 'prismic/containers'
 import { StructuredText } from 'prismic/components/base'
 import logo from 'styles/AvalancheCanada.svg'
 
@@ -53,22 +51,6 @@ export default class AvalancheCanadaNavbar extends Component {
     get login() {
         return <Item title="Login" onClick={this.props.login} />
     }
-    renderFeature({ data, firstPublicationDate }) {
-        return (
-            <Item title={<NewRelease />}>
-                <Menu>
-                    <Section>
-                        <Feature
-                            name={data.name}
-                            headline={data.headline}
-                            date={firstPublicationDate}>
-                            <StructuredText value={data.content} />
-                        </Feature>
-                    </Section>
-                </Menu>
-            </Item>
-        )
-    }
     render() {
         return (
             <Navbar
@@ -77,9 +59,6 @@ export default class AvalancheCanadaNavbar extends Component {
                 menu={menu}
                 location={this.props.location}>
                 {this.props.isAuthenticated ? this.logout : this.login}
-                {/* <ApplicationFeature>
-                    {feature => this.renderFeature(feature)}
-                </ApplicationFeature> */}
             </Navbar>
         )
     }
