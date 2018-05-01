@@ -143,7 +143,7 @@ Tutorial.propTypes = {
     videoSource: PropTypes.object,
 }
 
-// TODO: Modify Prismic all tutorial documents
+// TODO: Modify all Prismic tutorial documents
 
 export function Tutorial({
     text1,
