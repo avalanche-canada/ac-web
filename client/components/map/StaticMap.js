@@ -1,7 +1,23 @@
-import React, { PureComponent, Children } from 'react'
+import React, { PureComponent, Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import { createStyleUrl } from 'services/mapbox/api'
+import Marker from './Marker'
 import debounce from 'lodash/debounce'
+
+class Managed extends Component {
+    render() {
+        const { children, center, ...props } = this.props
+
+        return (
+            <StaticMap
+                {...props}
+                longitude={center.lng}
+                latitude={center.lat}
+                overlay={createOverlay(children)}
+            />
+        )
+    }
+}
 
 export default class StaticMap extends PureComponent {
     static propTypes = {
@@ -18,26 +34,25 @@ export default class StaticMap extends PureComponent {
         height: PropTypes.number,
         retina: PropTypes.bool,
     }
+    static Managed = Managed
     state = {
         url: null,
         isLoading: false,
         isError: false,
     }
-    setUrl() {
+    setUrl = () => {
         const { tracked, ...props } = this.props
 
         if (tracked) {
-            props.width = this.refs.map.clientWidth
-            // props.height = this.refs.map.clientHeight
+            props.width = this.map.clientWidth
+            // props.height = this.map.clientHeight
         }
 
         this.setState({
             url: createStyleUrl(props),
         })
     }
-    handleResize = debounce(() => {
-        this.setUrl()
-    }, 250)
+    handleResize = debounce(this.setUrl, 250)
     handleLoad = () => {
         this.setState({
             isError: false,
@@ -62,7 +77,7 @@ export default class StaticMap extends PureComponent {
     }
     render() {
         return (
-            <div ref="map">
+            <div ref={map => (this.map = map)}>
                 <img
                     src={this.state.url}
                     onLoad={this.handleLoad}
@@ -73,21 +88,15 @@ export default class StaticMap extends PureComponent {
     }
 }
 
-export function ManagedStaticMap({ children, center, ...props }) {
-    // TODO: Need to find a better way to create overlay.
-    // Overlay could be a Component
-    function createOverlay({ props: { element, lngLat } }) {
-        const url = encodeURIComponent(element.src)
+// Utils
+function createOverlay(children) {
+    return Children.toArray(children)
+        .filter(Boolean)
+        .filter(({ type }) => type === Marker)
+        .map(({ props }) => {
+            const url = encodeURIComponent(props.element.src)
+            const { lng, lat } = props.lngLat
 
-        return `url-${url}(${lngLat.lng},${lngLat.lat})`
-    }
-
-    return (
-        <StaticMap
-            {...props}
-            longitude={center.lng}
-            latitude={center.lat}
-            overlay={Children.toArray(children).map(createOverlay)}
-        />
-    )
+            return `url-${url}(${lng},${lat})`
+        })
 }

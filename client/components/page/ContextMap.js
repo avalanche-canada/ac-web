@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import supported from '@mapbox/mapbox-gl-supported'
-import { Map, NavigationControl, ManagedStaticMap } from 'components/map'
+import { Map, NavigationControl, StaticMap } from 'components/map'
 import styles from './Page.css'
 
 ContextMap.propTypes = {
@@ -19,9 +19,9 @@ export default function ContextMap({ children, ...props }) {
                     <NavigationControl />
                 </Map>
             ) : (
-                <ManagedStaticMap retina tracked {...props}>
+                <StaticMap.Managed retina tracked {...props}>
                     {children}
-                </ManagedStaticMap>
+                </StaticMap.Managed>
             )}
         </div>
     )

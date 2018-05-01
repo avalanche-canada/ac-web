@@ -4,7 +4,7 @@ import Control from './Control'
 
 export Map from './Map'
 export Basic from './Basic'
-export StaticMap, { ManagedStaticMap } from './StaticMap'
+export StaticMap from './StaticMap'
 export Marker from './Marker'
 export Control from './Control'
 
