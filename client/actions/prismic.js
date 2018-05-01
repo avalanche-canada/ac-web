@@ -1,5 +1,5 @@
 import Immutable from 'immutable'
-import { getResults } from 'getters/prismic'
+import { hasResult, getResult, hasDocumentForUid } from 'getters/prismic'
 import { Api as Prismic, Predicates } from 'prismic'
 
 export const GET_PRISMIC = 'GET_PRISMIC'
@@ -20,11 +20,9 @@ function getValue({ value }) {
 export function load(params = {}) {
     return (dispatch, getState) => {
         const state = getState()
-        const results = getResults(state)
-        const key = paramsToKey(params)
 
-        if (results.has(key)) {
-            const { isFetching, isLoaded } = results.get(key)
+        if (hasResult(state, params)) {
+            const { isFetching, isLoaded } = getResult(state, params)
 
             if (isFetching || isLoaded) {
                 // FIXME: Return the documents
@@ -37,12 +35,26 @@ export function load(params = {}) {
             type: GET_PRISMIC,
             payload: Prismic.Query(predicates, options),
             meta: {
-                key,
+                key: paramsToKey(params),
                 predicates,
                 options,
             },
         }
 
         return dispatch(action).then(getValue)
+    }
+}
+
+export function loadForUid(type, uid) {
+    return (dispatch, getState) => {
+        const state = getState()
+
+        if (!hasDocumentForUid(state, type, uid)) {
+            const params = {
+                predicates: [Predicates.uid(type, uid)],
+            }
+
+            dispatch(load(params))
+        }
     }
 }

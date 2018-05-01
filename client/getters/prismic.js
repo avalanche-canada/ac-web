@@ -4,12 +4,16 @@ import { paramsToKey } from 'actions/prismic'
 
 const MAP = new Immutable.Map()
 
-export function getResults(state) {
+function results(state) {
     return state.prismic.results
 }
 
 export function getResult(state, params) {
-    return getResults(state).get(paramsToKey(params), RESULT)
+    return results(state).get(paramsToKey(params), RESULT)
+}
+
+export function hasResult(state, params) {
+    return results(state).has(paramsToKey(params))
 }
 
 export function getDocumentsOfType(state, type) {
@@ -31,7 +35,7 @@ export function hasDocumentForUid(state, type, uid) {
     return hasDocumentForId(state, id)
 }
 
-export function hasDocumentForId(state, type, id) {
+function hasDocumentForId(state, id) {
     return state.prismic.documents.has(id)
 }
 
@@ -40,8 +44,8 @@ function getDocumentId(state, type, uid) {
 }
 
 export function getDocumentFromParams(state, params) {
-    const result = getResult(state, params)
-    const [id] = Array.from(result.ids)
+    const { ids } = getResult(state, params)
+    const [id] = Array.from(ids)
 
     return state.prismic.documents.get(id)
 }

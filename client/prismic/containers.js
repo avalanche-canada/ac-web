@@ -10,14 +10,17 @@ import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import isToday from 'date-fns/is_today'
 import startOfDay from 'date-fns/start_of_day'
-import { load } from 'actions/prismic'
+import { load, loadForUid } from 'actions/prismic'
 import * as Api from 'prismic/Api'
 import {
     getDocumentFromParams,
     getDocumentsFromParams,
     getResult,
+    getDocumentForUid,
+    hasDocumentForUid,
 } from 'getters/prismic'
 import { parse } from 'prismic'
+import Status from 'utils/status'
 import * as Predicates from 'vendor/prismic/predicates'
 import {
     GENERIC,
@@ -38,7 +41,22 @@ import Connector from 'containers/Connector'
 import { DATE } from 'utils/date'
 import * as utils from 'utils/search'
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToPropsFromUid(dispatch) {
+    return {
+        didMount({ props }) {
+            const { type, uid } = props
+
+            dispatch(loadForUid(type, uid))
+        },
+        willReceiveProps({ nextProps }) {
+            const { type, uid } = nextProps
+
+            dispatch(loadForUid(type, uid))
+        },
+    }
+}
+
+function mapDispatchToPropsFromParams(dispatch) {
     return {
         didMount({ props }) {
             dispatch(load(props.params))
@@ -50,6 +68,20 @@ function mapDispatchToProps(dispatch) {
         },
     }
 }
+
+function getSingleDocumentFromParams(state, { params, messages }) {
+    const result = getResult(state, params)
+
+    return {
+        document: getDocumentFromParams(state, params),
+        status: result.asStatus(messages).toObject(),
+        metadata: result.toMetadata(),
+    }
+}
+
+const mapStateToPropsFromParams = createStructuredSelector({
+    data: getSingleDocumentFromParams,
+})
 
 export const DocumentsContainer = connect(
     createStructuredSelector({
@@ -63,25 +95,43 @@ export const DocumentsContainer = connect(
             }
         },
     }),
-    mapDispatchToProps
+    mapDispatchToPropsFromParams
 )(Connector)
 
 const DocumentContainer = connect(
-    createStructuredSelector({
-        data(state, { params, messages }) {
-            const result = getResult(state, params)
+    mapStateToPropsFromParams,
+    mapDispatchToPropsFromParams
+)(Connector)
 
-            return {
-                document: getDocumentFromParams(state, params),
-                status: result.asStatus(messages).toObject(),
-                metadata: result.toMetadata(),
+const DocumentForUid = connect(
+    createStructuredSelector({
+        data(state, props) {
+            const { type, uid, messages = {} } = props
+
+            if (hasDocumentForUid(state, type, uid)) {
+                const status = new Status({ messages })
+                const document = getDocumentForUid(state, type, uid)
+
+                return {
+                    document,
+                    status: status.fulfill().toObject(),
+                    metadata: {
+                        ids: new Set([document.id]),
+                    },
+                }
+            } else {
+                return getSingleDocumentFromParams(state, {
+                    messages,
+                    params: {
+                        predicates: [Predicates.uid(type, uid)],
+                    },
+                })
             }
         },
     }),
-    mapDispatchToProps
+    mapDispatchToPropsFromUid
 )(Connector)
 
-// TODO: Do not load if document has been loaded
 export class Document extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
@@ -89,23 +139,18 @@ export class Document extends Component {
         type: PropTypes.string.isRequired,
         parse: PropTypes.bool,
     }
-    get params() {
-        const { type, uid } = this.props
-
-        return {
-            predicates: [Predicates.uid(type, uid)],
-        }
-    }
     children = data =>
         this.props.children({
             ...data,
             document: data.document ? parse(data.document) : undefined,
         })
     render() {
+        const { parse, children, ...props } = this.props
+
         return (
-            <DocumentContainer params={this.params}>
-                {this.props.parse ? this.children : this.props.children}
-            </DocumentContainer>
+            <DocumentForUid {...props}>
+                {parse ? this.children : children}
+            </DocumentForUid>
         )
     }
 }
