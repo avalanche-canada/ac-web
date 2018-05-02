@@ -609,16 +609,10 @@ export class FeedSplash extends Component {
             },
         }
     }
-    // TODO: Reuse that function
-    children = ({ documents, status }) =>
-        this.props.children({
-            status,
-            documents: documents.map(document => parse(document)),
-        })
     render() {
         return (
             <DocumentsContainer params={this.params}>
-                {this.children}
+                {parseDocumentsAndRenderChildren.bind(this)}
             </DocumentsContainer>
         )
     }
@@ -807,15 +801,10 @@ export class MonthlyHotZoneReportSet extends Component {
             ],
         }
     }
-    children = ({ documents, status }) =>
-        this.props.children({
-            status,
-            reports: documents.map(document => parse(document)),
-        })
     render() {
         return (
             <DocumentsContainer params={this.params}>
-                {this.children}
+                {parseDocumentsAndRenderChildren.bind(this)}
             </DocumentsContainer>
         )
     }
@@ -891,4 +880,10 @@ function rangePredicates(start, end, date = new Date()) {
         Predicates.dateBefore(start, utils.formatDate(addDays(date, 1))),
         Predicates.dateAfter(end, utils.formatDate(subDays(date, 1))),
     ]
+}
+function parseDocumentsAndRenderChildren(props) {
+    return this.props.children({
+        ...props,
+        documents: props.documents.map(document => parse(document)),
+    })
 }

@@ -58,9 +58,9 @@ export default class ArchiveHotZoneReport extends PureComponent {
             placeholder="Select a hot zone"
         />
     )
-    dayPicker = ({ reports }) => {
+    dayPicker = ({ documents }) => {
         const { date } = this.state
-        const days = reports.reduce((days, { data }) => {
+        const days = documents.reduce((days, { data }) => {
             const start = startOfDay(data.dateOfIssue)
             const end = endOfDay(data.validUntil)
 
