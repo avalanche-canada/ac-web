@@ -23,6 +23,8 @@ import Drawer, {
 import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
 
+// TODO: Could use Context to simplify implementation
+
 export default class TripPlannerLayout extends PureComponent {
     state = {
         left: true,

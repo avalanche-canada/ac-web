@@ -6,7 +6,7 @@ import { Status } from 'components/misc'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import { Chart } from 'components/graphics/avaluator'
-import { LEVELS } from 'constants/forecast/rating'
+import { LEVELS, NO_RATING } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
 import { Dropdown } from 'components/controls/Dropdown'
 import { Option } from 'components/controls/options'
@@ -146,15 +146,21 @@ class Content extends PureComponent {
         }
     }
     render() {
+        const { danger } = this
+
         return (
             <Fragment>
                 <Form {...this.props} date={this.date} dates={this.dates} />
-                <div style={CHART_STYLE}>
-                    <Chart
-                        terrain={this.props.area.rating}
-                        danger={this.danger}
-                    />
-                </div>
+                {danger === NO_RATING ? (
+                    <p>There is no rating available to show the chart.</p>
+                ) : (
+                    <div style={CHART_STYLE}>
+                        <Chart
+                            terrain={this.props.area.rating}
+                            danger={this.danger}
+                        />
+                    </div>
+                )}
                 <p>
                     For trips in Simple terrain, use the elevation specific
                     danger rating. For trips in Challenging and Complex terrain,
