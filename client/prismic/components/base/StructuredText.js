@@ -87,9 +87,10 @@ const GroupTypes = new Set([LIST_ITEM, ORDERED_LIST_ITEM])
 const GroupComponents = new Map([[LIST_ITEM, 'ul'], [ORDERED_LIST_ITEM, 'ol']])
 
 function childrenElementReducer(children, { type, ...props }, index, value) {
-    props.key = index
-
-    const element = createElement(Components.get(type), props)
+    const element = createElement(Components.get(type), {
+        ...props,
+        key: index,
+    })
 
     if (GroupTypes.has(type)) {
         const previous = value[index - 1]
