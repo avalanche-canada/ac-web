@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './MountainInformationNetworkFeatures.css'
-import { classify } from 'utils/string'
 
 const Texts = new Map([['Not available', 'N/A']])
 
@@ -34,9 +33,7 @@ export default function MountainInformationNetworkFeatures({ value }) {
                             const value = values[key]
 
                             return (
-                                <td
-                                    key={key}
-                                    className={styles[classify(value)]}>
+                                <td key={key} className={styles[value]}>
                                     {Texts.get(value) || value}
                                 </td>
                             )

@@ -1,9 +1,10 @@
-@import "../../../styles/colors.css";
+@import '../../../styles/colors.css';
 
 .Table {
     margin: auto;
     border-collapse: collapse;
-    &, & td {
+    &,
+    & td {
         border: 2px solid var(--gray-lighter);
         padding: 5px 10px;
     }
@@ -34,7 +35,4 @@
 }
 .No {
     color: red;
-}
-.NotAvailable {
-    /*color: var(--gray-darker);*/
 }

@@ -1,9 +1,4 @@
 import words from 'lodash/words'
-import startCase from 'lodash/startCase'
-
-export function classify(string) {
-    return startCase(string).replace(/\s/g, '')
-}
 
 export function initials(name) {
     if (!name || typeof name !== 'string') {
