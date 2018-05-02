@@ -23,12 +23,6 @@
     composes: Common;
 }
 
-.Input--WithIcon {
-    composes: Input;
-
-    padding-right: 24px;
-}
-
 .WithIcon {
     background-position: 99.25% center;
     background-repeat: no-repeat;
