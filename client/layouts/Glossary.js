@@ -9,8 +9,6 @@ import { TagSet, Tag } from 'components/tag'
 import { scrollIntoView } from 'utils/dom'
 import StaticResource from 'containers/StaticResource'
 
-// TODO: Move to layouts
-
 function Section({ letter, terms }) {
     return (
         <section key={letter}>
