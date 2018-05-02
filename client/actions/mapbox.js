@@ -1,8 +1,6 @@
 import { createAction } from 'redux-actions'
 import { getFeatures } from 'services/mapbox/datasets'
-
-// TODO: Use import {getStatus, hasStatus} from 'getters/mapbox'
-// to perhaps not load to reduce loadFeatures
+import { hasStatus, getStatus } from 'getters/mapbox'
 
 export const GET_FEATURES = 'GET_FEATURES'
 
@@ -12,4 +10,20 @@ function metaCreator(id) {
     }
 }
 
-export const loadFeatures = createAction(GET_FEATURES, getFeatures, metaCreator)
+const load = createAction(GET_FEATURES, getFeatures, metaCreator)
+
+export function loadFeatures(type) {
+    return (dispatch, getState) => {
+        const state = getState()
+
+        if (hasStatus(state, type)) {
+            const { isLoading, isLoaded } = getStatus(state, type)
+
+            if (isLoaded || isLoading) {
+                return
+            }
+        }
+
+        dispatch(load(type))
+    }
+}
