@@ -11,7 +11,6 @@ function createElement({
     alt = title,
     ...rest
 }) {
-    // FIXME: This will not work on the server ;(
     const element = document.createElement('img')
 
     element.classList.add('map-marker')

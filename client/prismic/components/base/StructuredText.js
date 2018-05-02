@@ -84,7 +84,6 @@ const Components = new Map([
 ])
 
 const GroupTypes = new Set([LIST_ITEM, ORDERED_LIST_ITEM])
-// FIXME: Tried to use 'ul' & 'ol' instead of string and it does not work?!?
 const GroupComponents = new Map([[LIST_ITEM, 'ul'], [ORDERED_LIST_ITEM, 'ol']])
 
 function childrenElementReducer(children, { type, ...props }, index, value) {
