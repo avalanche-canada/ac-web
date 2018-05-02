@@ -4,7 +4,7 @@ import isSameDay from 'date-fns/is_same_day'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import { Muted } from 'components/text'
-import { Day, DateElement } from 'components/time'
+import { Day } from 'components/time'
 import { Chart } from 'components/graphics/avaluator'
 import { LEVELS } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
@@ -17,12 +17,7 @@ import ELEVATIONS, {
     ALP,
     Texts as ElevationTexts,
 } from 'constants/forecast/elevation'
-import {
-    SIMPLE,
-    CHALLENGING,
-    COMPLEX,
-    Texts as TerrainRatingTexts,
-} from 'constants/forecast/ates'
+import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
 
 export default class TripPlanning extends Component {
     static propTypes = {
