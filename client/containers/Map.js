@@ -15,74 +15,6 @@ import { near } from 'utils/geojson'
 import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
 
-const CLUSTER_DIST = 0.005
-
-const LAYERS = [
-    Layers.SPECIAL_INFORMATION,
-    Layers.FATAL_ACCIDENT,
-    Layers.MOUNTAIN_CONDITIONS_REPORTS,
-    Layers.MOUNTAIN_INFORMATION_NETWORK,
-    Layers.WEATHER_STATION,
-    Layers.TOYOTA_TRUCK_REPORTS,
-    Layers.HOT_ZONE_REPORTS,
-    Layers.FORECASTS,
-]
-
-function createPrimaryPanelLocationFactory({ key }) {
-    return id => ({
-        pathname: `/map/${key}/${id}`,
-    })
-}
-
-function createSecondayPanelLocationFactory(key) {
-    if (typeof key === 'string') {
-        return id => ({
-            search: `?panel=${key}/${id}`,
-        })
-    }
-
-    return createSecondayPanelLocationFactory(key.key)
-}
-
-const LOCATION_CREATORS = new Map([
-    [
-        Layers.SPECIAL_INFORMATION,
-        createSecondayPanelLocationFactory('special-information'),
-    ],
-    [
-        Layers.FATAL_ACCIDENT,
-        createSecondayPanelLocationFactory('fatal-accident'),
-    ],
-    [
-        Layers.MOUNTAIN_INFORMATION_NETWORK,
-        createSecondayPanelLocationFactory(
-            Schemas.MountainInformationNetworkSubmission
-        ),
-    ],
-    [
-        Layers.WEATHER_STATION,
-        createSecondayPanelLocationFactory(Schemas.WeatherStation),
-    ],
-    [
-        Layers.MOUNTAIN_CONDITIONS_REPORTS,
-        createSecondayPanelLocationFactory(Schemas.MountainConditionsReport),
-    ],
-    [
-        Layers.TOYOTA_TRUCK_REPORTS,
-        createSecondayPanelLocationFactory('toyota-truck-reports'),
-    ],
-    [
-        Layers.HOT_ZONE_REPORTS,
-        createPrimaryPanelLocationFactory(Schemas.HotZoneReport),
-    ],
-    [Layers.FORECASTS, createPrimaryPanelLocationFactory(Schemas.Forecast)],
-])
-
-const CLUSTER_BOUNDS_OPTIONS = {
-    padding: 75,
-    speed: 1.75,
-}
-
 @withRouter
 @connect(mapStateToProps, {
     loadData,
@@ -323,7 +255,74 @@ export default class Container extends Component {
     }
 }
 
+// Constants
 const RouteSchemaMapping = new Map([
     [Schemas.Forecast.key, Schemas.ForecastRegion.key],
     [Schemas.HotZoneReport.key, Schemas.HotZone.key],
 ])
+
+const CLUSTER_DIST = 0.005
+const LAYERS = [
+    Layers.SPECIAL_INFORMATION,
+    Layers.FATAL_ACCIDENT,
+    Layers.MOUNTAIN_CONDITIONS_REPORTS,
+    Layers.MOUNTAIN_INFORMATION_NETWORK,
+    Layers.WEATHER_STATION,
+    Layers.TOYOTA_TRUCK_REPORTS,
+    Layers.HOT_ZONE_REPORTS,
+    Layers.FORECASTS,
+]
+
+const LOCATION_CREATORS = new Map([
+    [
+        Layers.SPECIAL_INFORMATION,
+        createSecondayPanelLocationFactory('special-information'),
+    ],
+    [
+        Layers.FATAL_ACCIDENT,
+        createSecondayPanelLocationFactory('fatal-accident'),
+    ],
+    [
+        Layers.MOUNTAIN_INFORMATION_NETWORK,
+        createSecondayPanelLocationFactory(
+            Schemas.MountainInformationNetworkSubmission
+        ),
+    ],
+    [
+        Layers.WEATHER_STATION,
+        createSecondayPanelLocationFactory(Schemas.WeatherStation),
+    ],
+    [
+        Layers.MOUNTAIN_CONDITIONS_REPORTS,
+        createSecondayPanelLocationFactory(Schemas.MountainConditionsReport),
+    ],
+    [
+        Layers.TOYOTA_TRUCK_REPORTS,
+        createSecondayPanelLocationFactory('toyota-truck-reports'),
+    ],
+    [
+        Layers.HOT_ZONE_REPORTS,
+        createPrimaryPanelLocationFactory(Schemas.HotZoneReport),
+    ],
+    [Layers.FORECASTS, createPrimaryPanelLocationFactory(Schemas.Forecast)],
+])
+const CLUSTER_BOUNDS_OPTIONS = {
+    padding: 75,
+    speed: 1.75,
+}
+
+// Utils
+function createPrimaryPanelLocationFactory({ key }) {
+    return id => ({
+        pathname: `/map/${key}/${id}`,
+    })
+}
+function createSecondayPanelLocationFactory(key) {
+    if (typeof key === 'string') {
+        return id => ({
+            search: `?panel=${key}/${id}`,
+        })
+    }
+
+    return createSecondayPanelLocationFactory(key.key)
+}
