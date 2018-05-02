@@ -15,6 +15,11 @@ import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import {
+    PARKS_CANADA,
+    CHIC_CHOCS,
+    VANCOUVER_ISLAND,
+} from 'constants/forecast/owners'
 
 export default class ArchiveForecast extends PureComponent {
     static propTypes = {
@@ -143,10 +148,6 @@ export default class ArchiveForecast extends PureComponent {
 function createRegionOption(region) {
     return [region.get('id'), region.get('name')]
 }
-// TODO: Move these to constants with appropriate function
-const PARKS_CANADA = 'parks-canada'
-const CHIC_CHOCS = 'chics-chocs'
-const VANCOUVER_ISLAND = 'vancouver-island'
 
 function getWarningText(region) {
     const owner = region.get('owner')
@@ -163,15 +164,12 @@ function getWarningText(region) {
     }
 }
 
-const PARKS = 'parks'
-const LINK = 'link'
-
 function getWarningUrl(region, date) {
     const type = region.get('type')
     const url = region.get('url')
 
     switch (type) {
-        case PARKS: {
+        case 'parks': {
             const externalUrl = region.get('externalUrl')
             const url = Url.parse(externalUrl, true)
 
@@ -183,7 +181,7 @@ function getWarningUrl(region, date) {
 
             return Url.format(url)
         }
-        case LINK:
+        case 'link':
             return url.replace('http://avalanche.ca', '')
         default:
             return null
