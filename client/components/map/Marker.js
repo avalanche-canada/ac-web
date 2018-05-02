@@ -32,7 +32,7 @@ export default class Marker extends StaticComponent {
     }
     createMarker({ element, lngLat, options, onClick }) {
         // TODO: Remove that. Should by provided as part of the element
-        if (onClick) {
+        if (typeof onClick === 'function') {
             Object.assign(element, {
                 onclick: event => onClick(this.props, event),
             })
