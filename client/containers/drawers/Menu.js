@@ -71,7 +71,7 @@ export default class Menu extends Component {
                 {layers.toList().map(layer => {
                     const { id, filters, visible, title } = layer
                     const handleFilterChange = changeFilter.bind(null, id)
-                    // TODO: Fix that performance issue!
+                    // FIXME: Fix that performance issue!
                     function handleClick() {
                         if (visible) {
                             turnOffLayer(id)
