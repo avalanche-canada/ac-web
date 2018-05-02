@@ -6,6 +6,7 @@ import styles from './Button.css'
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'
+const classNames = classnames.bind(styles)
 
 export default class Button extends PureComponent {
     static propTypes = {
@@ -14,8 +15,9 @@ export default class Button extends PureComponent {
         shadow: PropTypes.bool,
         large: PropTypes.bool,
         transparent: PropTypes.bool,
-        chevron: PropTypes.oneOf([LEFT, RIGHT, true]),
         kind: PropTypes.oneOf(Array.from(KINDS)),
+        chevron: PropTypes.oneOf([LEFT, RIGHT, true]),
+        // TODO: Remove this stupid property
         icon: PropTypes.node,
         className: PropTypes.string,
     }
@@ -25,24 +27,6 @@ export default class Button extends PureComponent {
         shadow: false,
         large: false,
         transparent: false,
-    }
-    constructor(props) {
-        super(props)
-        this.classNames = classnames.bind(styles)
-    }
-    get className() {
-        const { chevron, className } = this.props
-
-        return this.classNames(className, this.props.kind, {
-            Active: this.props.active,
-            Shadow: this.props.shadow,
-            Large: this.props.large,
-            Transparent: this.props.transparent,
-            ChevronLeft: chevron === LEFT,
-            ChevronRight: chevron === RIGHT,
-            Chevron: chevron === true,
-            IconOnly: !this.props.children,
-        })
     }
     render() {
         const {
@@ -54,11 +38,21 @@ export default class Button extends PureComponent {
             icon,
             chevron,
             children,
-            ...rest
+            ...props
         } = this.props
+        const className = classNames(this.props.className, kind, {
+            Active: active,
+            Shadow: shadow,
+            Large: large,
+            Transparent: transparent,
+            ChevronLeft: chevron === LEFT,
+            ChevronRight: chevron === RIGHT,
+            Chevron: chevron === true,
+            IconOnly: !children,
+        })
 
         return (
-            <button {...rest} className={this.className}>
+            <button {...props} className={className}>
                 {icon ? (
                     <div className={styles.IconContainer}>
                         {icon}
