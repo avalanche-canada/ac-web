@@ -20,5 +20,5 @@ export default connect(
     })
     // TODO: For a fully proof container, we should provide a load function
     // We assume someone will load all MCRs. The map is currently loading all
-    // MCR reports.
+    // MCR reports, but it might change if we add a full page view.
 )(Connector)
