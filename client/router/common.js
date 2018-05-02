@@ -113,14 +113,8 @@ WIPPageRoute.propTypes = {
     subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
-export function WIPPageRoute({ path, ...rest }) {
-    return <Route path={path} render={() => <WorkInProgress {...rest} />} />
-}
-
-function sponsorFactory(name, label) {
-    return function sponsor() {
-        return <Sponsor name={name} label={label} />
-    }
+export function WIPPageRoute({ path, ...props }) {
+    return <Route path={path} render={() => <WorkInProgress {...props} />} />
 }
 
 SponsorRoute.propTypes = {
@@ -129,8 +123,8 @@ SponsorRoute.propTypes = {
     label: PropTypes.string,
 }
 
-export function SponsorRoute({ path, name, label }) {
-    return <Route path={path} render={sponsorFactory(name, label)} />
+export function SponsorRoute({ path, ...props }) {
+    return <Route path={path} render={() => <Sponsor {...props} />} />
 }
 
 function fallbackPage({ match }) {
