@@ -10,7 +10,6 @@ exports[`panel component 1`] = `
   >
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>
@@ -33,7 +32,6 @@ exports[`panel component 2`] = `
   >
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>
@@ -56,7 +54,6 @@ exports[`panel component 3`] = `
   >
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>
@@ -79,7 +76,6 @@ exports[`panel component 4`] = `
   >
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>
@@ -101,32 +97,27 @@ exports[`panel component 5`] = `
     onClick={[Function]}
   >
     <button
-      className="Expand Subtile IconOnly"
+      className="Expand Subtile"
     >
-      <div
-        className="IconContainer"
+      <svg
+        className={undefined}
+        fill="none"
+        height={24}
+        viewBox="0 0 24 24"
+        width={24}
       >
-        <svg
-          className={undefined}
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+          fill="black"
+        />
+        <path
+          d="M0 0h24v24H0z"
           fill="none"
-          height={24}
-          viewBox="0 0 24 24"
-          width={24}
-        >
-          <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            fill="black"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-      </div>
+        />
+      </svg>
     </button>
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>
@@ -168,32 +159,27 @@ exports[`panel component 6`] = `
     onClick={[Function]}
   >
     <button
-      className="Expand Subtile IconOnly"
+      className="Expand Subtile"
     >
-      <div
-        className="IconContainer"
+      <svg
+        className={undefined}
+        fill="none"
+        height={24}
+        viewBox="0 0 24 24"
+        width={24}
       >
-        <svg
-          className={undefined}
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+          fill="black"
+        />
+        <path
+          d="M0 0h24v24H0z"
           fill="none"
-          height={24}
-          viewBox="0 0 24 24"
-          width={24}
-        >
-          <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            fill="black"
-          />
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
-        </svg>
-      </div>
+        />
+      </svg>
     </button>
     <span
       className="Title"
-      title="Header"
     >
       Header
     </span>

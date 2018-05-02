@@ -36,9 +36,9 @@ exports[`footer component 1`] = `
       className="Rights"
     >
       ©
-      2017
+      2018
        Avalanche Canada, All Rights Reserved
     </span>
   </div>
 </footer>
-`;
+`

@@ -17,8 +17,6 @@ export default class Button extends PureComponent {
         transparent: PropTypes.bool,
         kind: PropTypes.oneOf(Array.from(KINDS)),
         chevron: PropTypes.oneOf([LEFT, RIGHT, true]),
-        // TODO: Remove this stupid property
-        icon: PropTypes.node,
         className: PropTypes.string,
     }
     static defaultProps = {
@@ -35,7 +33,6 @@ export default class Button extends PureComponent {
             shadow,
             large,
             transparent,
-            icon,
             chevron,
             children,
             ...props
@@ -48,23 +45,11 @@ export default class Button extends PureComponent {
             ChevronLeft: chevron === LEFT,
             ChevronRight: chevron === RIGHT,
             Chevron: chevron === true,
-            IconOnly: !children,
         })
 
         return (
             <button {...props} className={className}>
-                {icon ? (
-                    <div className={styles.IconContainer}>
-                        {icon}
-                        {typeof children === 'string' ? (
-                            <span>{children}</span>
-                        ) : (
-                            children
-                        )}
-                    </div>
-                ) : (
-                    children
-                )}
+                {children}
             </button>
         )
     }

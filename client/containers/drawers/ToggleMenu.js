@@ -20,9 +20,9 @@ export default class ToggleMenu extends StaticComponent {
             <Button
                 style={STYLE}
                 onClick={this.props.toggleMenu}
-                kind={SUBTILE}
-                icon={<Menu />}
-            />
+                kind={SUBTILE}>
+                <Menu />
+            </Button>
         )
     }
 }

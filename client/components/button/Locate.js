@@ -6,6 +6,10 @@ import { SUBTILE } from './kinds'
 
 export default class Locate extends StaticComponent {
     render() {
-        return <Button kind={SUBTILE} icon={<MyLocation />} {...this.props} />
+        return (
+            <Button kind={SUBTILE} {...this.props}>
+                <MyLocation />
+            </Button>
+        )
     }
 }

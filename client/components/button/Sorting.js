@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { ExpandLess, ExpandMore, Remove } from 'components/icons'
 import Button from './Button'
 import { SUBTILE } from './kinds'
-import noop from 'lodash/noop'
 import { NONE, ASC, DESC } from 'constants/sortings'
 
 const SORTINGS = [NONE, ASC, DESC]
@@ -26,17 +25,10 @@ export default class Sorting extends PureComponent {
         onChange: PropTypes.func.isRequired,
     }
     static defaultProps = {
-        onChange: noop,
+        onChange() {},
     }
     state = {
-        sorting: NONE,
-    }
-    constructor(props) {
-        super(props)
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.sorting = props.sorting || NONE
-        /* eslint-disable react/no-direct-mutation-state */
+        sorting: this.props.sorting || NONE,
     }
     get sorting() {
         return this.state.sorting
@@ -66,9 +58,9 @@ export default class Sorting extends PureComponent {
             <Button
                 onClick={this.handleClick}
                 kind={SUBTILE}
-                icon={ICONS.get(sorting)}
-                title={TITLES.get(sorting)}
-            />
+                title={TITLES.get(sorting)}>
+                {ICONS.get(sorting)}
+            </Button>
         )
     }
 }

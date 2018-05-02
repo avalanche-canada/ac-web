@@ -5,8 +5,9 @@ import { Image, Delay } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
-import styles from './Loop.css'
 import Button from 'components/button'
+import { WHITE } from 'constants/colors'
+import styles from './Loop.css'
 
 export default class Loop extends Component {
     static propTypes = {
@@ -179,7 +180,9 @@ export default class Loop extends Component {
                         )}
                         {this.cursor + 1} of {this.maxCursor + 1}
                     </div>
-                    <Button icon={<Icon inverse />} onClick={toggle} />
+                    <Button onClick={toggle}>
+                        <Icon color={WHITE} />
+                    </Button>
                 </div>
             </div>
         )

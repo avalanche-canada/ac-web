@@ -1,7 +1,11 @@
 @import '../../styles/components.css';
 
 .Common {
-    padding: 0.5em 0.75em;
+    display: flex;
+    align-content: center;
+    align-items: center;
+
+    padding: 0.5em;
     font-weight: 700;
     text-transform: uppercase;
     color: white;
@@ -93,31 +97,6 @@
     background-color: transparent;
     color: var(--gray);
     outline: none;
-
-    & .IconContainer {
-        & path:not([fill='none']) {
-            fill: var(--brand-primary);
-        }
-    }
-}
-
-.IconContainer {
-    display: flex;
-    align-items: center;
-
-    & > :not(:first-child) {
-        margin-left: 0.25em;
-    }
-
-    & .IconContainer {
-        & path:not([fill='none']) {
-            fill: var(--gray);
-        }
-    }
-}
-
-.IconOnly {
-    padding: 0.5em;
 }
 
 /* Modifiers */

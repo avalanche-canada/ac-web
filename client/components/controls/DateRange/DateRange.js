@@ -88,10 +88,10 @@ export default class DateRange extends Component {
                 {showClear && (
                     <Button
                         className={styles.Clear}
-                        icon={<Close />}
                         onClick={this.handleClearClick}
-                        kind={INCOGNITO}
-                    />
+                        kind={INCOGNITO}>
+                        <Close />
+                    </Button>
                 )}
                 <Overlay
                     show={this.visible}

@@ -11,7 +11,8 @@ export default function RSSFeed({ url }) {
     return (
         <SocialItem>
             <a href={url} target="_blank" title="Subscribe to our RSS Feed">
-                RSS Feed{'\u00A0'}<RSS fill="#245EAC" />
+                RSS Feed{'\u00A0'}
+                <RSS />
             </a>
         </SocialItem>
     )

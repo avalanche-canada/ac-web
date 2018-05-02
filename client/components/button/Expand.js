@@ -20,8 +20,11 @@ export default class Expand extends PureComponent {
     }
     render() {
         const { chevron, expanded, ...props } = this.props
-        const icon = ICONS.get(chevron).get(expanded)
 
-        return <Button kind={SUBTILE} icon={icon} {...props} />
+        return (
+            <Button kind={SUBTILE} {...props}>
+                {ICONS.get(chevron).get(expanded)}
+            </Button>
+        )
     }
 }

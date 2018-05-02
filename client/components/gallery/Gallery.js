@@ -7,6 +7,7 @@ import {
     ChevronRight,
     ChevronLeft,
 } from 'components/icons'
+import { WHITE } from 'constants/colors'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
 
 function Button(props) {
@@ -46,7 +47,7 @@ const buttons = {
             <Button
                 className="image-gallery-fullscreen-button"
                 onClick={onClick}>
-                <Fullscreen inverse />
+                <Fullscreen color={WHITE} />
             </Button>
         )
     },

@@ -7,6 +7,7 @@ import { Place, Close, Spinner } from 'components/icons'
 import { findPlaces } from 'services/mapbox/api'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import Button, { INCOGNITO } from 'components/button'
+import { PRIMARY } from 'constants/colors'
 import styles from './Geocoder.css'
 
 export default class Geocoder extends PureComponent {
@@ -123,7 +124,7 @@ export default class Geocoder extends PureComponent {
 
         return (
             <div className={styles.Container}>
-                <Place />
+                <Place color={PRIMARY} />
                 <Input
                     type="text"
                     placeholder={placeholder}
@@ -134,14 +135,11 @@ export default class Geocoder extends PureComponent {
                     onBlur={this.handleBlur}
                 />
                 {showClear && (
-                    <Button
-                        className={styles.Clear}
-                        icon={<Close />}
-                        onClick={this.handleClearClick}
-                        kind={INCOGNITO}
-                    />
+                    <Button onClick={this.handleClearClick} kind={INCOGNITO}>
+                        <Close />
+                    </Button>
                 )}
-                {isFetching && <Spinner className={styles.Spinner} />}
+                {isFetching && <Spinner />}
                 {isActive && (
                     <Dropdown>
                         <OptionSet onChange={this.handleOptionClick}>
