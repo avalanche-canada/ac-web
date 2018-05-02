@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Article, Header as PageHeader } from 'components/page'
+import { Article, Header } from 'components/page'
 
 export default class Layout extends Component {
     static propTypes = {
@@ -10,7 +10,7 @@ export default class Layout extends Component {
     render() {
         return (
             <Article>
-                <PageHeader title={this.props.title} />
+                <Header title={this.props.title} />
                 {this.props.children}
             </Article>
         )
