@@ -67,6 +67,7 @@ export class BlogPostFeed extends Component {
             category,
         }
     }
+    state = {}
     handleYearChange = handleYearChange.bind(this)
     handleMonthChange = handleMonthChange.bind(this)
     handleCategoryChange = handleCategoryChange.bind(this)
@@ -122,6 +123,7 @@ export class NewsFeed extends Component {
             tags: new Set(sanitizeTags(tags)),
         }
     }
+    state = {}
     handleYearChange = handleYearChange.bind(this)
     handleMonthChange = handleMonthChange.bind(this)
     handleTagChange = handleTagChange.bind(this)
@@ -179,6 +181,7 @@ export class EventFeed extends Component {
             tags: new Set(sanitizeTags(tags)),
         }
     }
+    state = {}
     handleTimelineChange = handleTimelineChange.bind(this)
     handleTagChange = handleTagChange.bind(this)
     handlePageChange = handlePageChange.bind(this)
