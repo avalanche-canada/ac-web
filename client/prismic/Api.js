@@ -76,23 +76,23 @@ export async function tags(type) {
     const predicates = [Predicates.type(type)]
     const tags = new Set()
     let current = 1
-    let totalPages = Infinity
+    let nextPage = null
 
-    while (current < totalPages) {
-        const { results, total_pages, page } = await Query(predicates, {
+    do {
+        const { results, page, next_page } = await Query(predicates, {
             page: current,
             pageSize: MAX_PAGE_SIZE,
             fetch: 'document.tags',
         })
 
         current = page + 1
-        totalPages = total_pages
+        nextPage = next_page
 
         results.forEach(result => result.tags.forEach(tag => tags.add(tag)))
-    }
+    } while (nextPage)
 
     return tags
 }
 
 // Constants
-const MAX_PAGE_SIZE = 100
+export const MAX_PAGE_SIZE = 100
