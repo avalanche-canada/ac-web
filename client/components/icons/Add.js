@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default function First({ inverse = false, ...props }) {
+export default function Add({ inverse = false, ...props }) {
     return (
         <Icon {...props}>
             <path
