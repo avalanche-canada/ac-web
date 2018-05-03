@@ -43,9 +43,7 @@ function results(
     switch (type) {
         case `${meta.type}_PENDING`:
             return state.updateIn(path, (result = Result.create()) =>
-                result.start({
-                    props: meta.params,
-                })
+                result.start()
             )
         case `${meta.type}_REJECTED`:
             return state.updateIn(path, result => result.reject())
