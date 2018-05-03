@@ -34,11 +34,12 @@ export default function StaticPage({ uid, title, status, document }) {
     const { headline, content, sidebar, banner } = data
     const contact =
         typeof contact === 'string' ? <Contact email={contact} /> : contact
+    // classes are defined in prismic.css, kind of a hack to have full control
+    // styling pages.
+    const className = `${STATIC_PAGE}-${uid}`
 
-    // TODO: Looking at className (prismic.css) usage and find out is we still need that
-    // TODO: Removing className here and in the stylesheet
     return (
-        <Page className={`${STATIC_PAGE}-${uid}`}>
+        <Page className={className}>
             {banner && <Banner {...banner.main} />}
             <Header title={data.title} />
             <Content>
