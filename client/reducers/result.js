@@ -13,8 +13,6 @@ export const Result = Immutable.Record({
     pageSize: null,
     totalPages: null,
     totalResultsSize: null,
-    // TODO: Look if this is being used and remove!!!
-    props: {},
 })
 
 Object.assign(Result, {
