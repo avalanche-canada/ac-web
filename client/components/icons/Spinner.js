@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from './Icon'
+import COLOR from 'constants/colors'
 
 export default function Spinner(props) {
     return (
@@ -19,7 +20,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(0 50 50) translate(0 -30)">
                 <animate
                     attributeName="opacity"
@@ -37,7 +38,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(30 50 50) translate(0 -30)">
                 <animate
                     attributeName="opacity"
@@ -55,7 +56,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(60 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -74,7 +75,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(90 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -93,7 +94,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(120 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -112,7 +113,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(150 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -131,7 +132,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(180 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -150,7 +151,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(210 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -169,7 +170,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(240 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -188,7 +189,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(270 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -207,7 +208,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(300 50 50) translate(0 -30)">
                 {' '}
                 <animate
@@ -226,7 +227,7 @@ export default function Spinner(props) {
                 height="20"
                 rx="5"
                 ry="5"
-                fill="#00b2ff"
+                fill={COLOR}
                 transform="rotate(330 50 50) translate(0 -30)">
                 {' '}
                 <animate
