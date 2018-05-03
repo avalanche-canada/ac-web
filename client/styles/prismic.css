@@ -214,15 +214,11 @@
 }
 
 :global(.static-page-mountain-information-network-overview) {
-    & main > div:not([class]) {
-        & > div:not([class]):nth-child(2),
-        & > div:not([class]):nth-child(3),
-        & > div:not([class]):nth-child(4) {
-            display: flex;
-            align-items: center;
-            & figure {
-                margin: 1em;
-            }
+    & main > div:not([class]):not(:last-child) {
+        display: flex;
+        align-items: center;
+        & figure {
+            margin: 1em;
         }
     }
 }
