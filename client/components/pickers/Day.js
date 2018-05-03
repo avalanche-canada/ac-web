@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Base, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
-import { Previous, Next } from 'components/icons'
+import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import styles from './Day.css'
 
@@ -34,7 +34,7 @@ class Navbar extends PureComponent {
                 title={this.months[this.props.previousMonth.getMonth()]}
                 className={styles.navButtonPrev}
                 onClick={this.handlePreviousClick}>
-                <Previous />
+                <ChevronLeft />
             </Button>
         )
     }
@@ -45,7 +45,7 @@ class Navbar extends PureComponent {
                 title={this.months[this.props.nextMonth.getMonth()]}
                 className={styles.navButtonNext}
                 onClick={this.handleNextClick}>
-                <Next />
+                <ChevronRight />
             </Button>
         )
     }

@@ -21,7 +21,7 @@ const buttons = {
                 className="image-gallery-left-nav"
                 onClick={onClick}
                 disabled={disabled}>
-                <ChevronLeft height={36} width={36} inverse />
+                <ChevronLeft height={36} width={36} color={WHITE} />
             </Button>
         )
     },
@@ -31,7 +31,7 @@ const buttons = {
                 className="image-gallery-right-nav"
                 onClick={onClick}
                 disabled={disabled}>
-                <ChevronRight height={36} width={36} inverse />
+                <ChevronRight height={36} width={36} color={WHITE} />
             </Button>
         )
     },

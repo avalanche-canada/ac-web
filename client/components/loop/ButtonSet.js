@@ -10,6 +10,7 @@ import {
     ChevronRight,
     ChevronLeft,
 } from 'components/icons'
+import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
 
 AnimateButton.propTypes = {
@@ -31,14 +32,14 @@ function AnimateButton({ isPlaying = false, onPause = noop, onPlay = noop }) {
 function Next(props) {
     return (
         <Button {...props} title="Move to the next image">
-            <ChevronRight inverse />
+            <ChevronRight color={WHITE} />
         </Button>
     )
 }
 function Previous(props) {
     return (
         <Button {...props} title="Move to the previous image">
-            <ChevronLeft inverse />
+            <ChevronLeft color={WHITE} />
         </Button>
     )
 }
