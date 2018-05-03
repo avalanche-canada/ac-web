@@ -14,8 +14,6 @@ import Avatar from 'components/avatar'
 import menu from 'constants/menus/avcan'
 import { getIsAuthenticated, getProfile } from 'getters/auth'
 import { login, logout } from 'actions/auth'
-import { NewRelease } from 'components/icons'
-import { StructuredText } from 'prismic/components/base'
 import logo from 'styles/AvalancheCanada.svg'
 
 // Order matters!
