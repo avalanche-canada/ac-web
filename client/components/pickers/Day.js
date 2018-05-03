@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import Base, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
 import { Previous, Next } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
-import classNames from './Day.css'
+import styles from './Day.css'
 
 Weekday.propTypes = WeekdayPropTypes
 
@@ -18,39 +18,36 @@ function Weekday({ weekday, className, localeUtils, locale }) {
 
 class Navbar extends PureComponent {
     static propTypes = NavbarPropTypes
-    constructor(props) {
-        super(props)
-
-        this.months = this.props.localeUtils.getMonths()
+    months = this.props.localeUtils.getMonths()
+    handlePreviousClick = event => {
+        event.preventDefault()
+        this.props.onPreviousClick()
+    }
+    handleNextClick = event => {
+        event.preventDefault()
+        this.props.onNextClick()
     }
     get previous() {
-        const { onPreviousClick, previousMonth } = this.props
-        const props = {
-            kind: SUBTILE,
-            icon: <Previous />,
-            title: this.months[previousMonth.getMonth()],
-            onClick(event) {
-                event.preventDefault()
-                onPreviousClick()
-            },
-        }
-
-        return <Button {...props} />
+        return (
+            <Button
+                kind={SUBTILE}
+                title={this.months[this.props.previousMonth.getMonth()]}
+                className={styles.navButtonPrev}
+                onClick={this.handlePreviousClick}>
+                <Previous />
+            </Button>
+        )
     }
     get next() {
-        const { nextMonth, onNextClick } = this.props
-        const props = {
-            kind: SUBTILE,
-            title: this.months[nextMonth.getMonth()],
-            className: classNames.navButtonNext,
-            icon: <Next />,
-            onClick: event => {
-                event.preventDefault()
-                onNextClick()
-            },
-        }
-
-        return <Button {...props} />
+        return (
+            <Button
+                kind={SUBTILE}
+                title={this.months[this.props.nextMonth.getMonth()]}
+                className={styles.navButtonNext}
+                onClick={this.handleNextClick}>
+                <Next />
+            </Button>
+        )
     }
     render() {
         const { className, showPreviousButton, showNextButton } = this.props
@@ -69,7 +66,7 @@ export default function DayPicker(props) {
         <Base
             weekdayElement={Weekday}
             navbarElement={Navbar}
-            classNames={classNames}
+            classNames={styles}
             {...props}
         />
     )
