@@ -22,7 +22,7 @@ export default struct.clone({
                             activeTab={activeTab}
                             onTabChange={onTabActivate}>
                             {children.map((child, index) => {
-                                const { props: { value } } = child
+                                const { value } = child.props
                                 const type = TYPES[index]
                                 const color = value ? COLORS.get(type) : null
 
@@ -40,7 +40,7 @@ export default struct.clone({
                 </Dimensions>
                 <EagerPanelSet activeTab={activeTab}>
                     {children.map((child, index) => {
-                        const { props: { value } } = child
+                        const { value } = child.props
                         const type = TYPES[index]
                         function handleReset() {
                             locals.onChange(type, null)
