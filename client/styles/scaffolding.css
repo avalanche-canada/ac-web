@@ -160,8 +160,9 @@ input[type='radio'] + label {
     display: inline;
     font-weight: normal;
 }
+
+/* FIXME: Put in body to have a stronger selector. Have fix  */
 body fieldset {
-    /* TODO: Put body to be a stronger selector. Have fix  */
     border: 1px solid var(--gray-lighter);
     margin: 0;
     padding: 0.75em;
