@@ -85,7 +85,7 @@ export async function tags(type) {
             fetch: 'document.tags',
         })
 
-        current = page
+        current = page + 1
         totalPages = total_pages
 
         results.forEach(result => result.tags.forEach(tag => tags.add(tag)))
