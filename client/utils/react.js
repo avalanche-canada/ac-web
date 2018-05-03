@@ -49,7 +49,9 @@ function replace(source, match, fn) {
 
             return source
         })
-    ).filter(Boolean)
+    )
+        .filter(Boolean)
+        .map(addKey)
 }
 
 export function replaceLineFeed(source) {
@@ -97,4 +99,9 @@ export function swap(source, start, end, element) {
             return source
         })
     )
+}
+
+// Utils
+function addKey(child, index) {
+    return isValidElement(child) ? cloneElement(child, { key: index }) : child
 }
