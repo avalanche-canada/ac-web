@@ -1,4 +1,4 @@
-.ArchiveDatePicker {
+.Container {
     display: flex;
     flex-direction: column;
 
@@ -8,7 +8,7 @@
     }
 }
 
-.ArchiveDatePicker--Link {
+.Link {
     composes: import Shadow from '../../../components/button/Button.css';
     composes: import Large from '../../../components/button/Button.css';
     composes: import Primary from '../../../components/button/Button.css';
