@@ -24,3 +24,9 @@ export function isSpecialInformationValid(report) {
         endOfDay(validUntil)
     )
 }
+
+export function normalizeTags(tags) {
+    if (Array.isArray(tags)) {
+        return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
+    }
+}
