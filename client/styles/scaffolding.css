@@ -78,6 +78,8 @@ a[target="_blank"]:not(:empty):after {
 
 img {
     max-width: 100%;
+    /* https://stackoverflow.com/questions/14053952/why-is-there-padding-at-the-bottom-of-my-image */
+    vertical-align: bottom;
 }
 
 ul:not([class]) {
