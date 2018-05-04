@@ -3,12 +3,10 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { Page, Main, Content } from 'components/page'
 import Tree from './Tree'
 import AtesExercise from './AtesExercise'
-import HomeContent from './Home'
 import TutorialContent from './Content'
 import { parse } from 'utils/search'
-// TODO: Remove that...parsing should be done in containers and by default
-import parser from 'prismic/parsers'
-import { Generic, Tutorial as Container } from 'prismic/containers'
+import { Tutorial as Container } from 'prismic/containers'
+import { Generic } from 'prismic/components'
 import { Status } from 'components/misc'
 import menu from './menu.json'
 import styles from './Tutorial.css'
@@ -26,7 +24,11 @@ export default class Layout extends PureComponent {
     }
     renderHome = () => {
         if (this.slug === null) {
-            return <Home />
+            return (
+                <Generic uid="tutorial-home">
+                    {Generic.renderers.bodyAndTitle}
+                </Generic>
+            )
         }
 
         const splat = findSplat(menu, this.slug)
@@ -43,7 +45,7 @@ export default class Layout extends PureComponent {
                     path="/tutorial/avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise"
                     component={AtesExercise}
                 />
-                <Route exact path="/tutorial" component={this.renderHome} />
+                <Route exact path="/tutorial" render={this.renderHome} />
                 <Route component={Tutorial} />
             </Switch>
         )
@@ -62,19 +64,6 @@ export default class Layout extends PureComponent {
             </Page>
         )
     }
-}
-
-function Home() {
-    return <Generic uid="tutorial-home">{renderHome}</Generic>
-}
-
-function renderHome({ status, document }) {
-    return (
-        <Fragment>
-            <Status {...status} />
-            {document ? <HomeContent {...parser(document).data} /> : null}
-        </Fragment>
-    )
 }
 
 function Tutorial({ location }) {

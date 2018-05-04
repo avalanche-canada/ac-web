@@ -174,17 +174,23 @@ export class DocumentsOfType extends Component {
     }
 }
 
-Generic.propTypes = {
-    uid: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-}
-
-export function Generic({ uid, children }) {
-    return (
-        <Document type={GENERIC} uid={uid}>
-            {children}
-        </Document>
-    )
+export class Generic extends Component {
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    children = props =>
+        this.props.children({
+            ...props,
+            document: props.document ? parse(props.document) : undefined,
+        })
+    render() {
+        return (
+            <Document type={GENERIC} uid={this.props.uid}>
+                {this.children}
+            </Document>
+        )
+    }
 }
 
 StaticPage.propTypes = {

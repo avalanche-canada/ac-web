@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import Panel from './Panel'
-import Generic from 'prismic/components/Generic'
+import { Generic } from 'prismic/components'
 import { Provider } from './Context'
 
 import Metadata from './Metadata'
