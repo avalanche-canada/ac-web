@@ -42,24 +42,23 @@ function parseSliceZone(slices = []) {
     return slices.map(parseSlice)
 }
 
-function parseData(data, defaults = {}, transformer = identity) {
+function parseData(data, transformer = identity) {
     return transformer({
-        ...defaults,
         ...Object.keys(data).reduce((object, key) => {
             const camelCaseKey = camelCase(key)
 
-            object[camelCaseKey] = parseValue(data[key], defaults[camelCaseKey])
+            object[camelCaseKey] = parseValue(data[key])
 
             return object
         }, {}),
     })
 }
 
-function parseGroup(group, defaults, transformer) {
-    return group.map(item => parseData(item, defaults, transformer))
+function parseGroup(group, transformer) {
+    return group.map(item => parseData(item, transformer))
 }
 
-function parseDocument(document, defaults, transformer = identity) {
+function parseDocument(document, transformer = identity) {
     const {
         type,
         first_publication_date,
@@ -74,7 +73,7 @@ function parseDocument(document, defaults, transformer = identity) {
         firstPublicationDate: parseDate(first_publication_date),
         lastPublicationDate: parseDate(last_publication_date),
         tags: normalizeTags(tags),
-        data: parseData(data[type], defaults),
+        data: parseData(data[type]),
     })
 
     return transformer(rest)
@@ -144,24 +143,14 @@ const DocumentTransformers = new Map([
     ['news', transformNews],
 ])
 
-export default function parse(object, defaults = {}, transformer) {
-    if (!object) {
-        return {
-            data: defaults,
-        }
-    }
-
+export default function parse(object) {
     const { type, value } = object
 
     if (type === 'Group') {
-        return parseGroup(value, defaults, transformer)
+        return parseGroup(value)
     }
 
-    return parseDocument(
-        object,
-        defaults,
-        DocumentTransformers.get(type) || transformer
-    )
+    return parseDocument(object, DocumentTransformers.get(type))
 }
 
 export function parseLocation(document) {
