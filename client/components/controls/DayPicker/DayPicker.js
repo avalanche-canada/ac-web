@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Overlay from 'react-overlays/lib/Overlay'
-import noop from 'lodash/noop'
 import { DayPicker as Base } from 'components/pickers'
 import Callout from 'components/callout'
 import styles from './DayPicker.css'
@@ -17,7 +16,7 @@ export default class DayPicker extends Component {
     }
     static defaultProps = {
         date: new Date(),
-        onChange: noop,
+        onChange() {},
         disabledDays: {
             after: new Date(),
         },
@@ -53,7 +52,7 @@ export default class DayPicker extends Component {
         } = this.props
         const { isCalendarVisible } = this.state
         const className = isCalendarVisible ? 'Input--Open' : 'Input'
-        const handleClick = isCalendarVisible ? noop : this.showCalendar
+        const handleClick = isCalendarVisible ? null : this.showCalendar
 
         return (
             <div

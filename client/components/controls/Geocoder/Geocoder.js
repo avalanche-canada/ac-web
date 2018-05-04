@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { CancelToken } from 'axios'
-import noop from 'lodash/noop'
 import { Input } from 'components/controls'
 import { Place, Close, Spinner } from 'components/icons'
 import { findPlaces } from 'services/mapbox/api'
@@ -17,7 +16,7 @@ export default class Geocoder extends PureComponent {
         value: PropTypes.string,
     }
     static defaultProps = {
-        onChange: noop,
+        onChange() {},
         placeholder: 'Search',
     }
     state = {

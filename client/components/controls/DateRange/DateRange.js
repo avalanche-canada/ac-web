@@ -9,7 +9,6 @@ import Overlay from 'react-overlays/lib/Overlay'
 import Button, { INCOGNITO } from 'components/button'
 import format from 'date-fns/format'
 import styles from './DateRange.css'
-import noop from 'lodash/noop'
 
 export default class DateRange extends Component {
     static propTypes = {
@@ -20,7 +19,7 @@ export default class DateRange extends Component {
         container: PropTypes.node,
     }
     static defaultProps = {
-        onChange: noop,
+        onChange() {},
         placeholder: 'Date Range',
     }
     state = {
