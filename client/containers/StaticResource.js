@@ -2,6 +2,8 @@ import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { fetchStaticResource } from 'api'
 
+// TODO: Remove that Component once not being used
+
 export default class StaticResource extends Component {
     static propTypes = {
         resource: PropTypes.string.isRequired,
