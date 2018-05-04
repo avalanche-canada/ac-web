@@ -14,25 +14,27 @@ export default class StaticResource extends Component {
         isError: false,
         error: undefined,
     }
-    componentDidMount() {
-        this.setState({ isLoading: true }, () => {
-            fetchStaticResource(this.props.resource).then(
-                data => {
-                    this.setState({
-                        data,
-                        isLoading: false,
-                        isLoaded: true,
-                    })
-                },
-                error => {
-                    this.setState({
-                        error,
-                        isLoading: false,
-                        isError: true,
-                    })
-                }
-            )
+    setData = data => {
+        this.setState({
+            data,
+            isLoading: false,
+            isLoaded: true,
         })
+    }
+    setError = error => {
+        this.setState({
+            error,
+            isLoading: false,
+            isError: true,
+        })
+    }
+    fetch = () => {
+        const { resource } = this.props
+
+        fetchStaticResource(resource).then(this.setData, this.setError)
+    }
+    componentDidMount() {
+        this.setState({ isLoading: true }, this.fetch)
     }
     render() {
         return this.props.children(this.state)
