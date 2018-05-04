@@ -10,6 +10,8 @@ import Forecast from 'components/weather'
 import { DayPicker } from 'components/controls'
 import * as utils from 'utils/search'
 
+// TODO: Reorganize using Context and create Components
+
 export default class WeatherForecast extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
