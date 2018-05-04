@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react'
 import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
 import supported from '@mapbox/mapbox-gl-supported'
-import noop from 'lodash/noop'
 import StaticComponent from 'components/StaticComponent'
 import Container from 'containers/Map'
 import UnsupportedMap from './UnsupportedMap'
@@ -26,8 +25,8 @@ export default class Layout extends PureComponent {
         primary: isPrimaryOpen(this.props.match),
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
-    flyTo = noop
-    fitBounds = noop
+    flyTo() {}
+    fitBounds() {}
     get offset() {
         const { primary, secondary, width } = this.state
         let x = 0

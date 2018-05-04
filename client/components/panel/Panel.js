@@ -4,7 +4,6 @@ import classnames from 'classnames/bind'
 import styles from './Panel.css'
 import Collapse from 'components/collapse'
 import { Expand } from 'components/button'
-import noop from 'lodash/noop'
 
 export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
@@ -22,7 +21,7 @@ export default class Panel extends PureComponent {
         expandable: false,
         theme: SIMPLE,
         expanded: false,
-        onExpandedChange: noop,
+        onExpandedChange() {},
     }
     state = {
         expanded: this.props.expanded,

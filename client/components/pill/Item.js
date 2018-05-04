@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Pill.css'
-import noop from 'lodash/noop'
 
 Item.propTypes = {
     children: PropTypes.node.isRequired,
@@ -9,7 +8,7 @@ Item.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-export default function Item({ active = false, onClick = noop, children }) {
+export default function Item({ active = false, onClick, children }) {
     const className = active ? 'Item--Active' : 'Item'
 
     return (
