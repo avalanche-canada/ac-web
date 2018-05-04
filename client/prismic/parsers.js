@@ -156,12 +156,6 @@ function transformStaff(staff) {
     })
 }
 
-function transformWeatherForecast(forecast) {
-    return mergeInData(forecast, {
-        isLegacy: Array.isArray(forecast.data.outlook),
-    })
-}
-
 function transformStaticPage(page) {
     let { sharing, following, contacting, sidebar = [], contact } = page.data
 
@@ -210,7 +204,6 @@ const DocumentTransformers = new Map([
     ['staff', transformStaff],
     ['static-page', transformStaticPage],
     ['sponsor', transformSponsor],
-    ['weather-forecast', transformWeatherForecast],
 ])
 
 export default function parse(object, defaults = {}, transformer) {

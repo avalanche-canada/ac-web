@@ -17,7 +17,7 @@ export default function Index(props) {
     return (
         <section className={styles.Index}>
             <h2 className={styles.Headline}>{forecast.headline}</h2>
-            {forecast.isLegacy ? (
+            {Array.isArray(forecast.outlook) ? (
                 <Legacy forecast={forecast} />
             ) : (
                 <Forecast forecast={forecast} />
