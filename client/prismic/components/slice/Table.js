@@ -158,11 +158,9 @@ export default class PrismicTable extends PureComponent {
     }
 }
 
-// TODO: Look to use children as function
 function createProperty(type, property, option1) {
     switch (type) {
         case 'Link':
-            // TODO: Target could be provided as option, named option like "target"
             return function link(data) {
                 return (
                     <a href={data[option1]} target="_blank">
