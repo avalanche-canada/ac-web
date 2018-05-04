@@ -1,12 +1,15 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Page, Main, Content } from 'components/page'
-import * as Components from 'components/tutorial'
+import Tree from './Tree'
+import AtesExercise from './AtesExercise'
+import HomeContent from './Home'
+import TutorialContent from './Content'
 import { parse } from 'utils/search'
 import parser from 'prismic/parsers'
-import StaticResource from 'containers/StaticResource'
 import { Generic, Tutorial as Container } from 'prismic/containers'
 import { Status } from 'components/misc'
+import menu from './menu.json'
 import styles from './Tutorial.css'
 
 const TUTORIAL_REGEX = new RegExp('^/tutorial/')
@@ -25,40 +28,23 @@ export default class Layout extends PureComponent {
             return <Home />
         }
 
-        const splat = findSplat(this.menu, this.slug)
+        const splat = findSplat(menu, this.slug)
 
         return <Redirect to={`/tutorial/${splat}`} />
     }
     get tree() {
-        return <Components.Tree menu={this.menu} currentPage={this.splat} />
+        return <Tree currentPage={this.splat} />
     }
     get routes() {
         return (
             <Switch>
                 <Route
                     path="/tutorial/avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise"
-                    component={Components.AtesExercise}
+                    component={AtesExercise}
                 />
                 <Route exact path="/tutorial" component={this.renderHome} />
                 <Route component={Tutorial} />
             </Switch>
-        )
-    }
-    renderer = ({ data, ...status }) => {
-        const isReady = status.isLoaded && data
-        this.menu = data
-
-        return (
-            <div className={styles.Page}>
-                <div className={styles.Sidebar}>
-                    <Status {...status} />
-                    {isReady && this.tree}
-                </div>
-                <div className={styles.Content}>
-                    <Status {...status} />
-                    {isReady && this.routes}
-                </div>
-            </div>
         )
     }
     render() {
@@ -66,9 +52,10 @@ export default class Layout extends PureComponent {
             <Page>
                 <Content>
                     <Main>
-                        <StaticResource resource="tutorial-menu-tree">
-                            {this.renderer}
-                        </StaticResource>
+                        <div className={styles.Page}>
+                            <div className={styles.Sidebar}>{this.tree}</div>
+                            <div className={styles.Content}>{this.routes}</div>
+                        </div>
                     </Main>
                 </Content>
             </Page>
@@ -77,32 +64,30 @@ export default class Layout extends PureComponent {
 }
 
 function Home() {
-    return (
-        <Generic uid="tutorial-home">
-            {({ status, document }) => {
-                if (status.isLoaded && document) {
-                    return <Components.Home {...parser(document).data} />
-                }
+    return <Generic uid="tutorial-home">{renderHome}</Generic>
+}
 
-                return <Status {...status} />
-            }}
-        </Generic>
+function renderHome({ status, document }) {
+    return (
+        <Fragment>
+            <Status {...status} />
+            {document ? <HomeContent {...parser(document).data} /> : null}
+        </Fragment>
     )
 }
 
 function Tutorial({ location }) {
     const slug = location.pathname.replace(TUTORIAL_REGEX, '')
 
-    return (
-        <Container slug={slug}>
-            {({ status, document }) => {
-                if (status.isLoaded && document) {
-                    return <Components.Tutorial {...parser(document).data} />
-                }
+    return <Container slug={slug}>{renderTutorial}</Container>
+}
 
-                return <Status {...status} />
-            }}
-        </Container>
+function renderTutorial({ status, document }) {
+    return (
+        <Fragment>
+            <Status {...status} />
+            {document ? <TutorialContent {...document.data} /> : null}
+        </Fragment>
     )
 }
 

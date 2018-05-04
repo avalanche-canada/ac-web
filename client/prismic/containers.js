@@ -212,10 +212,15 @@ export class Tutorial extends Component {
             predicates: [Predicates.field('tutorial-page', 'slug', slug)],
         }
     }
+    children = props =>
+        this.props.children({
+            ...props,
+            document: props.document ? parse(props.document) : undefined,
+        })
     render() {
         return (
             <DocumentContainer params={this.params}>
-                {this.props.children}
+                {this.children}
             </DocumentContainer>
         )
     }

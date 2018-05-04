@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { InnerHTML, Status } from 'components/misc'
+import { InnerHTML } from 'components/misc'
 import style from './ates.css'
 import { Media, Caption } from 'components/media'
 import { Image } from 'prismic/components/base'
-import StaticResource from 'containers/StaticResource'
+import exercises from './exercises.json'
 
 Section.propTypes = {
     title: PropTypes.string.isRequired,
@@ -108,21 +108,13 @@ class Exercise extends Component {
 }
 
 export default class AtesExercise extends Component {
-    renderer({ isLoading, data = [] }) {
+    render() {
         return (
             <Fragment>
-                <Status isLoading={isLoading} />
-                {data.map(exercise => (
+                {exercises.map(exercise => (
                     <Section key={exercise.slug} {...exercise} />
                 ))}
             </Fragment>
-        )
-    }
-    render() {
-        return (
-            <StaticResource resource="ates-exercise">
-                {this.renderer}
-            </StaticResource>
         )
     }
 }
