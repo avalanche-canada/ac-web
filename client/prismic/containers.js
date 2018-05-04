@@ -268,7 +268,7 @@ export class WeatherForecast extends Component {
         children: PropTypes.func.isRequired,
     }
     get messages() {
-        const date = formatDate(this.props.date, DATE)
+        const date = formatDate(this.props.date || new Date(), DATE)
 
         return {
             isLoading: `Loading weather forecast for ${date}...`,
