@@ -6,6 +6,7 @@ import AtesExercise from './AtesExercise'
 import HomeContent from './Home'
 import TutorialContent from './Content'
 import { parse } from 'utils/search'
+// TODO: Remove that...parsing should be done in containers and by default
 import parser from 'prismic/parsers'
 import { Generic, Tutorial as Container } from 'prismic/containers'
 import { Status } from 'components/misc'
@@ -91,8 +92,6 @@ function renderTutorial({ status, document }) {
     )
 }
 
-const CLEANER_REGEX = /\//g
-
 function findSplat(pages = [], slug) {
     for (let i = 0; i < pages.length; i++) {
         const page = pages[i]
@@ -109,3 +108,6 @@ function findSplat(pages = [], slug) {
         }
     }
 }
+
+// Constants
+const CLEANER_REGEX = /\//g
