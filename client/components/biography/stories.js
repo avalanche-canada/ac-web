@@ -3,7 +3,8 @@ import { storiesOf, action } from '@kadira/storybook'
 import Biography from './index'
 
 const Karl = {
-    fullName: 'Karl Guillotte',
+    firstName: 'Karl',
+    lastName: 'Karl',
     email: 'kguillotte@avalanche.ca',
     workPhoneNumber: '250-837-2141',
     ext: '112',

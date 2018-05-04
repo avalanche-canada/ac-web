@@ -124,7 +124,7 @@ export default class AvalancheCanada extends Component {
                 <StaticPageRoute
                     path="/education"
                     uid="education"
-                    title="Go Farther — Get Avalanche Educated"
+                    title="Go Farther — Get Avalanche Trained"
                 />
                 <StaticPageRoute
                     path="/instructing-ast"

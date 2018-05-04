@@ -3,7 +3,8 @@ import Renderer from 'react-test-renderer'
 import Biography from './Biography'
 
 const Karl = {
-    fullName: 'Karl Guillotte',
+    firstName: 'Karl',
+    lastName: 'Guillotte',
     email: 'kguillotte@avalanche.ca',
     workPhoneNumber: '250-837-2141',
     ext: '112',

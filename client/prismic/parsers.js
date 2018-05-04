@@ -3,13 +3,6 @@ import camelCase from 'lodash/camelCase'
 import identity from 'lodash/identity'
 import get from 'lodash/get'
 
-const StringToBoolean = new Map([
-    ['Yes', true],
-    ['No', false],
-    [undefined, false],
-    [null, false],
-])
-
 const TypeTransformers = new Map([
     ['Date', parseDate],
     ['StructuredText', identity],
@@ -20,10 +13,6 @@ const TypeTransformers = new Map([
     ['Link.image', value => ({ type: 'Link.image', value })],
     ['Link.file', value => ({ type: 'Link.file', value })],
 ])
-
-function boolean(string) {
-    return StringToBoolean.get(string)
-}
 
 function normalizeTags(tags) {
     if (Array.isArray(tags)) {
@@ -148,62 +137,11 @@ function transformNews({ uid, type, tags, data }) {
     }
 }
 
-function transformStaff(staff) {
-    const { firstName, lastName } = staff.data
-
-    return mergeInData(staff, {
-        fullName: `${firstName} ${lastName}`,
-    })
-}
-
-function transformStaticPage(page) {
-    let { sharing, following, contacting, sidebar = [], contact } = page.data
-
-    sharing = boolean(sharing)
-    following = boolean(following)
-    contacting = boolean(contacting)
-
-    if (sharing || following || contacting || sidebar.length) {
-        sidebar = {
-            share: sharing,
-            follow: following,
-            contact: contacting
-                ? typeof contact === 'string'
-                  ? contact.replace(/^mailto:/, '')
-                  : true
-                : false,
-            content: sidebar,
-        }
-    } else {
-        sidebar = null
-    }
-
-    return mergeInData(page, { sidebar })
-}
-
-function transformSponsor(sponsor) {
-    return mergeInData(sponsor, {
-        logo: sponsor.data.image229,
-    })
-}
-
-function mergeInData({ data, ...object }, collection) {
-    return Object.assign(object, {
-        data: {
-            ...data,
-            ...collection,
-        },
-    })
-}
-
 // TODO: Review if we need all these transformers
 const DocumentTransformers = new Map([
     ['blog', transformBlog],
     ['event', transformEvent],
     ['news', transformNews],
-    ['staff', transformStaff],
-    ['static-page', transformStaticPage],
-    ['sponsor', transformSponsor],
 ])
 
 export default function parse(object, defaults = {}, transformer) {

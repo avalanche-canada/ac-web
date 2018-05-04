@@ -179,31 +179,27 @@ export class Generic extends Component {
         uid: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    children = props =>
-        this.props.children({
-            ...props,
-            document: props.document ? parse(props.document) : undefined,
-        })
     render() {
         return (
             <Document type={GENERIC} uid={this.props.uid}>
-                {this.children}
+                {parseDocumentAndRenderChildren.bind(this)}
             </Document>
         )
     }
 }
 
-StaticPage.propTypes = {
-    uid: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-}
-
-export function StaticPage({ uid, children }) {
-    return (
-        <Document type={STATIC_PAGE} uid={uid}>
-            {children}
-        </Document>
-    )
+export class StaticPage extends Component {
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        return (
+            <Document type={STATIC_PAGE} uid={this.props.uid}>
+                {parseDocumentAndRenderChildren.bind(this)}
+            </Document>
+        )
+    }
 }
 
 export class Tutorial extends Component {
@@ -247,16 +243,10 @@ export class DocumentsById extends Component {
             },
         }
     }
-    children = ({ documents, ...rest }) => {
-        return this.props.children({
-            ...rest,
-            documents: documents.filter(Boolean).map(parse),
-        })
-    }
     render() {
         return (
             <DocumentsContainer params={this.params}>
-                {this.children}
+                {parseDocumentsAndRenderChildren.bind(this)}
             </DocumentsContainer>
         )
     }
@@ -895,6 +885,14 @@ function rangePredicates(start, end, date = new Date()) {
 function parseDocumentsAndRenderChildren(props) {
     return this.props.children({
         ...props,
-        documents: props.documents.map(document => parse(document)),
+        documents: props.documents
+            .filter(Boolean)
+            .map(document => parse(document)),
+    })
+}
+function parseDocumentAndRenderChildren(props) {
+    return this.props.children({
+        ...props,
+        document: props.document ? parse(props.document) : undefined,
     })
 }
