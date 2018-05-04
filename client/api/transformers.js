@@ -4,7 +4,7 @@ import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
 function normalize(string) {
-    return string.toUpperCase().trim()
+    return string.trim().toUpperCase()
 }
 
 function normalizeArray(tags) {
