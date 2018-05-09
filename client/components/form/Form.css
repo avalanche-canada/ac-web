@@ -67,6 +67,14 @@
     align-items: center;
 }
 
+.Border {
+    border: 1px solid var(--gray-lighter);
+
+    & input {
+        border: none;
+    }
+}
+
 .Submit {
     composes: import Primary from '../button/Button.css';
 

@@ -44,14 +44,14 @@ import * as utils from 'utils/search'
 function mapDispatchToPropsFromUid(dispatch) {
     return {
         didMount({ props }) {
-            const { type, uid } = props
+            const { type, uid, options } = props
 
-            dispatch(loadForUid(type, uid))
+            dispatch(loadForUid(type, uid, options))
         },
         willReceiveProps({ nextProps }) {
-            const { type, uid } = nextProps
+            const { type, uid, options } = nextProps
 
-            dispatch(loadForUid(type, uid))
+            dispatch(loadForUid(type, uid, options))
         },
     }
 }
@@ -106,7 +106,7 @@ const DocumentContainer = connect(
 const DocumentForUid = connect(
     createStructuredSelector({
         data(state, props) {
-            const { type, uid, messages = {} } = props
+            const { type, uid, messages = {}, options = {} } = props
 
             if (hasDocumentForUid(state, type, uid)) {
                 const status = new Status({ messages })
@@ -123,6 +123,7 @@ const DocumentForUid = connect(
                 return getSingleDocumentFromParams(state, {
                     messages,
                     params: {
+                        options,
                         predicates: [Predicates.uid(type, uid)],
                     },
                 })
@@ -137,6 +138,7 @@ export class Document extends Component {
         children: PropTypes.func.isRequired,
         uid: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
+        params: PropTypes.object,
         parse: PropTypes.bool,
     }
     children = data =>

@@ -1,80 +1,30 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Component, PureComponent, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import debounce from 'lodash/debounce'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { InnerHTML, Status } from 'components/misc'
+import { Status } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
+import text from 'components/text/Text.css'
+import { Muted } from 'components/text'
+import { Close } from 'components/button'
+import { Control } from 'components/form'
+import Show from 'components/Show'
 import { scrollIntoView } from 'utils/dom'
-import StaticResource from 'containers/StaticResource'
+import { Document, DocumentsContainer } from 'prismic/containers'
+import { StructuredText } from 'prismic/components/base'
+import * as Predicates from 'vendor/prismic/predicates'
+import { GLOSSARY, DEFINITION } from 'constants/prismic'
 
-function Section({ letter, terms }) {
-    return (
-        <section key={letter}>
-            <h1>
-                <a
-                    href={`#${letter}`}
-                    name={letter}
-                    onClick={letterClickHandler(letter)}>
-                    {letter}
-                </a>
-            </h1>
-            {terms.map((term, index) => (
-                <div key={index}>
-                    <h2>{term.title}</h2>
-                    <InnerHTML>{term.content}</InnerHTML>
-                </div>
-            ))}
-        </section>
-    )
-}
-
-function Letter({ letter }) {
-    return (
-        <Tag key={letter}>
-            <a href={`#${letter}`} onClick={letterClickHandler(letter)}>
-                <b>{letter}</b>
-            </a>
-        </Tag>
-    )
-}
-
-function letterClickHandler(letter) {
-    return event => {
-        event.stopPropagation()
-        setTimeout(() => {
-            scrollIntoView(`a[name=${letter}]`)
-        }, 50)
-    }
-}
-
-export default class Container extends PureComponent {
-    children = ({ data, ...status }) => {
-        const letters = status.isLoaded
-            ? Object.keys(data)
-                  .filter(letter => data[letter].length > 0)
-                  .sort()
-            : []
-
+export default class Layout extends Component {
+    renderGlossary = ({ document, status }) => {
         return (
             <Fragment>
                 <Status {...status} />
-                {status.isLoaded && (
-                    <TagSet>
-                        {letters.map(letter => (
-                            <Letter key={letter} letter={letter} />
-                        ))}
-                    </TagSet>
-                )}
-                {status.isLoaded &&
-                    letters.map(letter => (
-                        <Section
-                            key={letter}
-                            letter={letter}
-                            terms={data[letter]}
-                        />
-                    ))}
+                {document && <Glossary {...document.data} />}
             </Fragment>
         )
     }
@@ -84,24 +34,13 @@ export default class Container extends PureComponent {
                 <Header title="Glossary" />
                 <Content>
                     <Main>
-                        <Headline>
-                            This is the starting place for help on the AvCan
-                            bulletins. The Avalanche Glossary includes the
-                            standard set of terms that are used as a guideline
-                            for public avalanche bulletins production by the
-                            AvCan. If you can't understand a term in one of the
-                            AvCan bulletins, this is where to look first. The
-                            Avalanche Glossary definitions were written by{' '}
-                            <a
-                                target="_blank"
-                                href="http://www.schulich.ucalgary.ca/enci/BruceJamieson">
-                                Bruce Jamieson
-                            </a>
-                            , one of the CAA professional members.
-                        </Headline>
-                        <StaticResource resource="glossary">
-                            {this.children}
-                        </StaticResource>
+                        <Document
+                            parse
+                            type={GLOSSARY}
+                            uid="glossary"
+                            options={GLOSSARY_OPTIONS}>
+                            {this.renderGlossary}
+                        </Document>
                     </Main>
                     <Aside>
                         <Sidebar>
@@ -126,4 +65,266 @@ export default class Container extends PureComponent {
             </Page>
         )
     }
+}
+
+// Utils
+function Section({ letter, definitions }) {
+    return (
+        <section key={letter}>
+            <h1>
+                <a
+                    href={`#${letter}`}
+                    name={letter}
+                    onClick={anchorClickHandler(letter)}>
+                    {letter}
+                </a>
+            </h1>
+            {definitions.map((definition, index) => (
+                <Definition
+                    key={index}
+                    {...definition.definition.value.document}
+                />
+            ))}
+        </section>
+    )
+}
+
+class Definition extends Component {
+    state = {
+        seeMore: false,
+        ...this.props,
+    }
+    seeMore = event => {
+        event.preventDefault()
+        this.setState({ seeMore: true })
+    }
+    renderFull = ({ status, document }) =>
+        document ? (
+            <Fragment>
+                <StructuredText value={document.data.content} />
+                {document.tags.length > 0 && (
+                    <TagSet>
+                        {document.tags.map(tag => <Tag>{tag}</Tag>)}
+                    </TagSet>
+                )}
+                <Muted>See also: </Muted>
+                <ul>
+                    {document.data.related.map(({ definition }) => {
+                        const { uid, data } = definition.value.document
+
+                        return (
+                            <li key={uid}>
+                                <a href={`#${uid}`}>
+                                    {data.definition.title.value}
+                                </a>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </Fragment>
+        ) : (
+            <Fragment>
+                <Show after={250}>
+                    <Status {...status} />
+                </Show>
+                <StructuredText value={this.state.data.definition.content} />
+            </Fragment>
+        )
+    render() {
+        const { title, aka, content } = this.state.data.definition
+        const { uid, seeMore } = this.state
+
+        return (
+            <Fragment>
+                <a
+                    href={`#${uid}`}
+                    name={uid}
+                    onClick={anchorClickHandler(uid)}>
+                    <h2>
+                        {title.value}
+                        {aka && (
+                            <span className={text.Muted}> / {aka.value}</span>
+                        )}
+                    </h2>
+                </a>
+                {seeMore ? (
+                    <Document
+                        parse
+                        type={DEFINITION}
+                        uid={uid}
+                        options={DEFINTION_OPTIONS}>
+                        {this.renderFull}
+                    </Document>
+                ) : (
+                    <Fragment>
+                        <StructuredText value={content} />
+                        <a href="#" onClick={this.seeMore}>
+                            More...
+                        </a>
+                    </Fragment>
+                )}
+            </Fragment>
+        )
+    }
+}
+
+function Letter({ letter }) {
+    return (
+        <Tag key={letter}>
+            <a href={`#${letter}`} onClick={anchorClickHandler(letter)}>
+                <b>{letter}</b>
+            </a>
+        </Tag>
+    )
+}
+
+function anchorClickHandler(name) {
+    return event => {
+        event.stopPropagation()
+        setTimeout(() => {
+            scrollIntoView(`a[name="${name}"]`)
+        }, 50)
+    }
+}
+
+class Glossary extends Component {
+    state = {
+        search: '',
+    }
+    handleSearchChange = (search = '') => {
+        this.setState({ search })
+    }
+    renderDefinitions = (props = {}) => {
+        const { ids } = props
+        const sections = this.props.body
+            .map(({ repeat, nonRepeat }) => ({
+                letter: nonRepeat.letter,
+                definitions: ids
+                    ? repeat.filter(({ definition }) =>
+                          ids.has(definition.value.document.id)
+                      )
+                    : repeat,
+            }))
+            .filter(({ definitions }) => definitions.length > 0)
+
+        if (sections.length === 0) {
+            return <Muted>No definitions match your criteria.</Muted>
+        }
+
+        return (
+            <Fragment>
+                <TagSet>
+                    {sections.map(({ letter }) => (
+                        <Letter key={letter} letter={letter} />
+                    ))}
+                </TagSet>
+                {sections.map(({ letter, definitions }) => (
+                    <Section
+                        key={letter}
+                        letter={letter}
+                        definitions={definitions}
+                    />
+                ))}
+            </Fragment>
+        )
+    }
+    render() {
+        const { search } = this.state
+
+        return (
+            <Fragment>
+                <Headline>
+                    <StructuredText value={this.props.headline} />
+                </Headline>
+                <Search onChange={this.handleSearchChange} value={search} />
+                <DefinitionsContainer search={search}>
+                    {this.renderDefinitions}
+                </DefinitionsContainer>
+            </Fragment>
+        )
+    }
+}
+
+class Search extends PureComponent {
+    static propTypes = {
+        onChange: PropTypes.func.isRequired,
+    }
+    state = {
+        value: '',
+    }
+    setRef = input => (this.input = input)
+    sendChange = debounce(() => {
+        this.props.onChange(this.state.value)
+    }, 350)
+    handleReset = () => {
+        this.setState({ value: '' }, () => {
+            this.input.focus()
+            this.props.onChange()
+        })
+    }
+    handleChange = event => {
+        const { value } = event.target
+
+        this.setState({ value }, this.sendChange)
+    }
+    render() {
+        const { value } = this.state
+
+        return (
+            <Control horizontal bordered>
+                <input
+                    ref={this.setRef}
+                    name="search"
+                    type="search"
+                    placeholder="Search for a definition"
+                    value={value}
+                    onChange={this.handleChange}
+                />
+                {value && <Close onClick={this.handleReset} />}
+            </Control>
+        )
+    }
+}
+
+class DefinitionsContainer extends Component {
+    static propTypes = {
+        search: PropTypes.string,
+        children: PropTypes.func.isRequired,
+    }
+    get params() {
+        const { search } = this.props
+
+        return search
+            ? {
+                  predicates: [
+                      Predicates.fulltext('document', search),
+                      Predicates.type(DEFINITION),
+                  ],
+                  options: DEFINTION_OPTIONS,
+              }
+            : null
+    }
+    children = ({ metadata, status }) =>
+        this.props.children({
+            ids: status.isLoaded ? new Set(metadata.ids.toArray()) : undefined,
+        })
+    render() {
+        const { params } = this
+
+        return params ? (
+            <DocumentsContainer params={params}>
+                {this.children}
+            </DocumentsContainer>
+        ) : (
+            this.props.children()
+        )
+    }
+}
+
+// Constants
+const GLOSSARY_OPTIONS = {
+    fetchLinks: 'definition.title,definition.content,definition.aka',
+}
+const DEFINTION_OPTIONS = {
+    fetchLinks: 'definition.title',
 }

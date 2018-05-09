@@ -11,7 +11,7 @@
 }
 
 .WithBorder {
-    border: 1px solid var(--gray);
+    border: 1px solid var(--gray-lighter);
 }
 
 .Native {

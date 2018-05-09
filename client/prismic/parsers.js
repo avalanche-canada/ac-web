@@ -15,21 +15,25 @@ const TypeTransformers = new Map([
     ['Link.file', value => ({ type: 'Link.file', value })],
 ])
 
-function parseValue({ type, value }, defaultValue) {
+function parseValue({ type, value }) {
     if (TypeTransformers.has(type)) {
         const transformer = TypeTransformers.get(type)
 
         value = transformer(value)
     }
 
-    return value === undefined ? defaultValue : value
+    return value
 }
 
-function parseSlice({ slice_type, slice_label, value }) {
+function parseSlice({ slice_type, slice_label, value, repeat, ...rest }) {
+    const nonRepeat = rest['non-repeat']
+
     return {
         type: slice_type,
         label: slice_label,
-        value: parseValue(value),
+        value: value && parseValue(value),
+        repeat: repeat && repeat.map(item => parseData(item)),
+        nonRepeat: nonRepeat && parseData(nonRepeat),
     }
 }
 
