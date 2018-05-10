@@ -15,7 +15,7 @@ import { Control } from 'components/form'
 import Show from 'components/Show'
 import { scrollIntoView } from 'utils/dom'
 import { Document, DocumentsContainer } from 'prismic/containers'
-import { StructuredText } from 'prismic/components/base'
+import { StructuredText, SliceZone } from 'prismic/components/base'
 import * as Predicates from 'vendor/prismic/predicates'
 import { GLOSSARY, DEFINITION } from 'constants/prismic'
 
@@ -79,12 +79,16 @@ function Section({ letter, definitions }) {
                     {letter}
                 </a>
             </h1>
-            {definitions.map((definition, index) => (
-                <Definition
-                    key={index}
-                    {...definition.definition.value.document}
-                />
-            ))}
+            {definitions
+                .filter(({ definition }) => Boolean(definition))
+                .map(({ definition }, index) => {
+                    return (
+                        <Definition
+                            key={index}
+                            {...definition.value.document}
+                        />
+                    )
+                })}
         </section>
     )
 }
@@ -98,38 +102,51 @@ class Definition extends Component {
         event.preventDefault()
         this.setState({ seeMore: true })
     }
-    renderFull = ({ status, document }) =>
-        document ? (
+    renderFull = ({ status, document }) => {
+        return document ? (
             <Fragment>
                 <StructuredText value={document.data.content} />
+                <SliceZone value={document.data.more} />
                 {document.tags.length > 0 && (
                     <TagSet>
-                        {document.tags.map(tag => <Tag>{tag}</Tag>)}
+                        {document.tags.map((tag, index) => (
+                            <Tag key={index}>{tag}</Tag>
+                        ))}
                     </TagSet>
                 )}
-                <Muted>See also: </Muted>
-                <ul>
-                    {document.data.related.map(({ definition }) => {
-                        const { uid, data } = definition.value.document
+                {document.data.related.length > 0 && (
+                    <Fragment>
+                        <Muted>See also: </Muted>
+                        <ul>
+                            {document.data.related
+                                .filter(({ definition }) => Boolean(definition))
+                                .map(({ definition }) => {
+                                    const {
+                                        uid,
+                                        data,
+                                    } = definition.value.document
 
-                        return (
-                            <li key={uid}>
-                                <a href={`#${uid}`}>
-                                    {data.definition.title.value}
-                                </a>
-                            </li>
-                        )
-                    })}
-                </ul>
+                                    return (
+                                        <li key={uid}>
+                                            <a href={`#${uid}`}>
+                                                {data.definition.title.value}
+                                            </a>
+                                        </li>
+                                    )
+                                })}
+                        </ul>
+                    </Fragment>
+                )}
             </Fragment>
         ) : (
             <Fragment>
+                <StructuredText value={this.state.data.definition.content} />
                 <Show after={250}>
                     <Status {...status} />
                 </Show>
-                <StructuredText value={this.state.data.definition.content} />
             </Fragment>
         )
+    }
     render() {
         const { title, aka, content } = this.state.data.definition
         const { uid, seeMore } = this.state
