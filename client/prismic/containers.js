@@ -35,6 +35,7 @@ import {
     SPAW as SPAW_TYPE,
     WEATHER_FORECAST,
     HIGHLIGHT,
+    FRENCH_TUTORIAL,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
@@ -865,6 +866,19 @@ export class Highlight extends Component {
             <DocumentContainer params={this.params}>
                 {this.children}
             </DocumentContainer>
+        )
+    }
+}
+
+export class FrenchTutorial extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        return (
+            <Document parse type={FRENCH_TUTORIAL} uid="french-tutorial">
+                {this.props.children}
+            </Document>
         )
     }
 }

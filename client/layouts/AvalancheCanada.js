@@ -15,6 +15,7 @@ import Highlight from './Highlight'
 import Footer from 'components/footer'
 import Main from './Map'
 import Tutorial from './tutorial'
+import Tutoriel from './tutoriel'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
@@ -70,6 +71,7 @@ export default class AvalancheCanada extends Component {
                 <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
+                <Route path="/tutoriel" component={Tutoriel} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
                 <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
@@ -166,17 +168,6 @@ export default class AvalancheCanada extends Component {
                     name="Historic Incidents"
                     oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
                 />
-                <WIPPageRoute
-                    path="/tutoriel"
-                    name="Tutorial / Tutoriel"
-                    oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
-                    title={defaultTitle =>
-                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
-                    }
-                    subtitle={defaultSubtitle =>
-                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
-                    }
-                />
                 <FallbackPageRoute path="/pages/:type/:uid" />
                 <NotFoundRoute />
             </Switch>
@@ -193,7 +184,6 @@ export default class AvalancheCanada extends Component {
                     <Route path="/map" component={null} />
                     <Route path="/planning/trip-planner" component={null} />
                     <Route path="/incidents" component={null} />
-                    <Route path="/tutoriel" component={null} />
                     <Route component={Footer} />
                 </Switch>
             </Application>
