@@ -18,8 +18,16 @@ module.exports = baseConfig => {
     })
 
     baseConfig.module.rules.push({
+        test: /\.png/,
+        loader: 'file-loader',
+    })
+
+    baseConfig.module.rules.push({
         test: /\.css$/,
-        include: [path.resolve(__dirname, '../client')],
+        include: [
+            path.resolve(__dirname, '../client'),
+            path.resolve(__dirname, '../node_modules'),
+        ],
         use: [
             'style-loader',
             {

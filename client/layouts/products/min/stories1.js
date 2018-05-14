@@ -5,7 +5,7 @@ import Avalanche from './Avalanche'
 import Snowpack from './Snowpack'
 import Weather from './Weather'
 import Incident from './Incident'
-import Submission from './Submission'
+import {Submission} from './'
 import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 
 const data = [
