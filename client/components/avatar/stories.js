@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import Avatar from './'
 
 const path = 'avatars1.githubusercontent.com/u/744011?v=3&s=40'

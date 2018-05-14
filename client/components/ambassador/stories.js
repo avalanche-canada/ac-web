@@ -1,6 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number, boolean, text } from '@kadira/storybook-addon-knobs'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number, boolean, text } from '@storybook/addon-knobs'
 import Ambassador from './Ambassador'
 
 const stories = storiesOf('Ambassador', module)

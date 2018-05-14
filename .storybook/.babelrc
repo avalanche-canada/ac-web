@@ -1,13 +1,8 @@
 {
-  "presets": ["latest", "react", "stage-0"],
-  "plugins": [
-    "transform-decorators-legacy",
-    "transform-react-constant-elements",
-    "transform-react-remove-prop-types",
-    "transform-react-pure-class-to-function",
-    ["transform-runtime", {
-        "polyfill": false,
-        "regenerator": true
-    }]
-  ]
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-stage-0",
+        "@babel/preset-react"
+    ],
+    "plugins": ["transform-react-remove-prop-types"]
 }

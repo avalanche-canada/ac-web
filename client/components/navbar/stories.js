@@ -1,6 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number, boolean, text } from '@kadira/storybook-addon-knobs'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number, boolean, text } from '@storybook/addon-knobs'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'constants/menu'
 import Navbar from './index'
 import Menu from './Menu'

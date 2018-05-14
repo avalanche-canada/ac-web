@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import Input from './Input'
 import Select from './Select'
 import { Dropdown, DropdownFromOptions, DropdownOption } from './Dropdown'

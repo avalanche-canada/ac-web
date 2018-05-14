@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import { Media, Caption } from './index'
 
 const image = <img src="http://www.avalanche.ca/assets/avalanche_canada.svg" />

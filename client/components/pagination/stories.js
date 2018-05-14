@@ -1,7 +1,7 @@
 import React from 'react'
 import { withState } from 'recompose'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number } from '@kadira/storybook-addon-knobs'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number } from '@storybook/addon-knobs'
 import Pagination from './index'
 
 const Controlled = withState('active', 'onSelect', props => props.active || 0)(

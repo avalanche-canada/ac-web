@@ -1,12 +1,12 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import {
     withKnobs,
     number,
     boolean,
     text,
     select,
-} from '@kadira/storybook-addon-knobs'
+} from '@storybook/addon-knobs'
 import Button, {
     Expand,
     Sorting,
