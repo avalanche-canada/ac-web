@@ -75,7 +75,7 @@
         "@babel/preset-env": "^7.0.0-beta.36",
         "@babel/preset-react": "^7.0.0-beta.36",
         "@babel/preset-stage-0": "^7.0.0-beta.36",
-        "@storybook/addon-info": "^3.4.3",
+        "@storybook/addon-info": "^3.4.4",
         "@storybook/addon-knobs": "^3.4.3",
         "@storybook/react": "^3.4.3",
         "@turf/bbox": "^5.0.0",
