@@ -1,11 +1,11 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import { compose, lifecycle, withState } from 'recompose'
 import { Map, Source, Layer } from './index'
 import { address, company } from 'faker'
 
 const stories = storiesOf('Map', module)
 
-stories.addWithInfo('Basic map', () => {
+stories.add('Basic map', () => {
     return <Map />
 })

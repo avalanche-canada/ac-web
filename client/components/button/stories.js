@@ -1,12 +1,12 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import {
     withKnobs,
     number,
     boolean,
     text,
     select,
-} from '@kadira/storybook-addon-knobs'
+} from '@storybook/addon-knobs'
 import Button, {
     Expand,
     Sorting,
@@ -23,7 +23,7 @@ const stories = storiesOf('Button', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Button', () => {
+stories.add('Button', () => {
     const handleClick = action('clicked')
     const kind = select('Kind', Array.from(KINDS), KIND)
     const shadow = boolean('Shadow', false)

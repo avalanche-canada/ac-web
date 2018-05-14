@@ -1,7 +1,8 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number, boolean, text } from '@kadira/storybook-addon-knobs'
-import { AvalancheCanada, AvalancheCanadaFoundation } from 'constants/menu'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number, boolean, text } from '@storybook/addon-knobs'
+import AvalancheCanada from 'constants/menus/avcan'
+import AvalancheCanadaFoundation from 'constants/menus/foundation'
 import Navbar from './index'
 import Menu from './Menu'
 import Section from './Section'
@@ -18,7 +19,7 @@ const stories = storiesOf('Navbar', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Avalanche Canada', () => {
+stories.add('Avalanche Canada', () => {
     const isAuthenticated = boolean('Authenticated?', false)
     const name = text('Name', 'Karl Guillotte')
     const foundation = boolean('Foundation?', false)
