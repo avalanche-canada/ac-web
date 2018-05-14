@@ -13,7 +13,7 @@ const stories = storiesOf('Alert', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Alert', () => {
+stories.add('Alert', () => {
     const type = select('Type', [DANGER, INFO, WARNING, SUCCESS])
 
     return (

@@ -14,7 +14,7 @@ const Karl = {
 
 const stories = storiesOf('Biography', module)
 
-stories.addWithInfo('Biography', () => (
+stories.add('Biography', () => (
     <Biography {...Karl}>
         His biography.
     </Biography>

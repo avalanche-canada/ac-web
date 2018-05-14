@@ -23,7 +23,7 @@ const stories = storiesOf('Button', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Button', () => {
+stories.add('Button', () => {
     const handleClick = action('clicked')
     const kind = select('Kind', Array.from(KINDS), KIND)
     const shadow = boolean('Shadow', false)

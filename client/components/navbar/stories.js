@@ -18,7 +18,7 @@ const stories = storiesOf('Navbar', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Avalanche Canada', () => {
+stories.add('Avalanche Canada', () => {
     const isAuthenticated = boolean('Authenticated?', false)
     const name = text('Name', 'Karl Guillotte')
     const foundation = boolean('Foundation?', false)

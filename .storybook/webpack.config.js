@@ -1,6 +1,6 @@
 var path = require('path')
 
-module.exports = (storybookBaseConfig, configType) => {
+module.exports = baseConfig => {
     // configType has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
     // 'PRODUCTION' is used when building the static version of storybook.
@@ -11,56 +11,28 @@ module.exports = (storybookBaseConfig, configType) => {
     //   loaders: ["style-loader", "css-loader", "sass-loader"],
     //   include: path.resolve(__dirname, "../")
     // });
-    console.warn(storybookBaseConfig)
+
+    baseConfig.module.rules.push({
+        test: /\.svg/,
+        loader: 'file-loader',
+    })
+
+    baseConfig.module.rules.push({
+        test: /\.css$/,
+        include: [path.resolve(__dirname, '../client')],
+        use: [
+            'style-loader',
+            {
+                loader: 'css-loader',
+                options: {
+                    modules: true,
+                    importLoaders: 1,
+                },
+            },
+            'postcss-loader',
+        ],
+    })
+
     // Return the altered config
-    return storybookBaseConfig
+    return baseConfig
 }
-//
-// {
-//     resolve: {
-//         modules: [
-//             path.resolve(__dirname, '../node_modules'),
-//             path.resolve(__dirname, '../client'),
-//         ],
-//     },
-//     module: {
-//         rules: [
-//             {
-//                 test: /\.js$/,
-//                 exclude: /node_modules/,
-//                 use: {
-//                     loader: 'babel-loader',
-//                 },
-//             },
-//             {
-//                 test: /\.css$/,
-//                 include: /node_modules/,
-//                 use: {
-//                     loader: 'css-loader',
-//                 },
-//             },
-//             {
-//                 test: /\.css$/,
-//                 exclude: /node_modules/,
-//                 use: [
-//                     {
-//                         loader: 'css-loader',
-//                         options: {
-//                             modules: true,
-//                             importLoaders: 1,
-//                             localIdentName: '[name]__[local]--[hash:base64:5]',
-//                         },
-//                     },
-//                     {
-//                         loader: 'postcss-loader',
-//                     },
-//                 ],
-//             },
-//             {
-//                 test: /\.(eot|woff|woff2|ttf|png|jpg|svg)$/,
-//                 use: ['file-loader'],
-//             },
-//             {},
-//         ],
-//     },
-// }

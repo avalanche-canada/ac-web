@@ -7,7 +7,7 @@ const stories = storiesOf('Callout', module)
 
 stories.addDecorator(withKnobs)
 
-stories.addWithInfo('Callout', () => {
+stories.add('Callout', () => {
     const placement = select('Placement', [TOP, BOTTOM, LEFT, RIGHT])
 
     return (
