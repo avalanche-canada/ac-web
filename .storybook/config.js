@@ -1,4 +1,5 @@
 import { configure } from '@storybook/react'
+import '../client/styles'
 
 const req = require.context('../client', true, /stories.js$/)
 
