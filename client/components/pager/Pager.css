@@ -1,28 +1,68 @@
+@import '../../styles/colors.css';
+
 .Container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    background-color: var(--gray-lightest);
 }
 
 .Navigation {
     display: flex;
     flex: 50%;
     align-items: center;
-}
+    justify-content: flex-end;
 
-.Next {
-    composes: Navigation;
+    &:hover button {
+        background-color: var(--gray-dark);
+    }
 
-    flex-direction: column;
+    & button {
+        background-color: var(--gray-darkest);
+    }
 }
 
 .Previous {
     composes: Navigation;
 
-    flex-direction: column-reverse;
+    flex-direction: row-reverse;
+
+    & .Icon {
+        margin-left: 0;
+    }
+}
+
+.Next {
+    composes: Navigation;
+
+    flex-direction: row;
+    border-left: 2px solid white;
+
+    & .Icon {
+        margin-right: 0;
+    }
+}
+
+.TextSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    flex: 1;
+    margin: 0 1.5em;
 }
 
 .Title {
+    color: var(--black);
+    margin-bottom: 1.5em;
+    font-size: 1.25em;
+    font-weight: bold;
 }
 
 .Subtitle {
+    margin-top: 1.5em;
+    font-weight: bold;
+}
+
+.Icon {
+    margin: 1.5em 0;
 }

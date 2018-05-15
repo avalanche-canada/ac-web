@@ -1,21 +1,34 @@
 import React from 'react'
-import {storiesOf, action} from '@kadira/storybook'
-import {withKnobs, number, boolean, text} from '@kadira/storybook-addon-knobs'
-import Pager,{Previous,Next} from './Pager'
+import {storiesOf, action} from '@storybook/react'
+import withRouter from '../../../.storybook/withRouter';
+import Pager,{Previous,Next} from './index'
 
 const stories = storiesOf('Pager', module)
 
-stories.addDecorator(withKnobs)
+stories.addDecorator(withRouter)
+
+stories.add('Pager w/ defaults', () => {
+    return (
+            <Pager>
+                <Previous to='/back'>
+                    A previous title
+                </Previous>
+                <Next to='/forward'>
+                    A next title
+                </Next>
+            </Pager>
+    )
+})
 
 stories.add('Pager', () => {
     return (
-        <Pager>
-            <Previous>
-                A previous title
-            </Previous>
-            <Next>
-                A next title
-            </Next>
-        </Pager>
+            <Pager>
+                <Previous to='/back' subtitle='Older'>
+                    Share your knowledge
+                </Previous>
+                <Next to='/forward' subtitle='Newer'>
+                    New Fundraiser for Avalanche Canada
+                </Next>
+            </Pager>
     )
 })

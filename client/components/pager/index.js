@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as Icons from 'components/icons'
+import Button from 'components/button'
 import styles from './Pager.css'
+import { WHITE } from 'constants/colors'
 
 function withNavigation({ defaultSubtitle, icon, className }) {
     return class Navigation extends PureComponent {
@@ -25,11 +27,11 @@ function withNavigation({ defaultSubtitle, icon, className }) {
 
             return (
                 <Link {...link} title={linkTitle} className={className}>
-                    <div>
-                        <div className={styles.Title}>{children}</div>
+                    <div className={styles.TextSection}>
                         <div className={styles.Subtitle}>{subtitle}</div>
+                        <div className={styles.Title}>{children}</div>
                     </div>
-                    {icon}
+                    <Button className={styles.Icon}>{icon}</Button>
                 </Link>
             )
         }
@@ -39,13 +41,13 @@ function withNavigation({ defaultSubtitle, icon, className }) {
 export const Previous = withNavigation({
     defaultSubtitle: 'Previous',
     className: styles.Previous,
-    icon: <Icons.Previous />,
+    icon: <Icons.ChevronLeft color={WHITE} width={32} height={32} />,
 })
 
 export const Next = withNavigation({
     defaultSubtitle: 'Next',
     className: styles.Next,
-    icon: <Icons.Next />,
+    icon: <Icons.ChevronRight color={WHITE} width={32} height={32} />,
 })
 
 export default function Pager({ children }) {
