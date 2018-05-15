@@ -1,0 +1,27 @@
+@import '../../styles/colors.css';
+
+.Tree {
+}
+
+.Node {
+    display: flex;
+    align-items: center;
+    min-height: 37px;
+    cursor: pointer;
+    background-color: var(--gray-lightest);
+    color: inherit;
+
+    &:hover {
+        background-color: var(--gray-light);
+    }
+}
+
+.NodeControl {
+    min-width: 37px;
+}
+
+.Label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
