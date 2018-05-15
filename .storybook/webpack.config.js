@@ -35,6 +35,7 @@ module.exports = baseConfig => {
                 options: {
                     modules: true,
                     importLoaders: 1,
+                    localIdentName: '[name]__[local]',
                 },
             },
             'postcss-loader',
