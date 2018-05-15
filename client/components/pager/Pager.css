@@ -3,8 +3,26 @@
     flex-direction: column;
 }
 
+.Navigation {
+    display: flex;
+    flex: 50%;
+    align-items: center;
+}
+
 .Next {
+    composes: Navigation;
+
+    flex-direction: column;
 }
 
 .Previous {
+    composes: Navigation;
+
+    flex-direction: column-reverse;
+}
+
+.Title {
+}
+
+.Subtitle {
 }
