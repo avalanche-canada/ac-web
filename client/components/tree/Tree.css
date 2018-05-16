@@ -12,12 +12,16 @@
     color: inherit;
 
     &:hover {
-        background-color: var(--gray-light);
+        background-color: var(--gray-lighter);
     }
 }
 
 .NodeControl {
     min-width: 37px;
+}
+
+.Expanded {
+    transform: rotate(90deg);
 }
 
 .Label {
