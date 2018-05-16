@@ -1,6 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number, boolean, text } from '@kadira/storybook-addon-knobs'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number, boolean, text } from '@storybook/addon-knobs'
 import Ambassador from './Ambassador'
 
 const stories = storiesOf('Ambassador', module)
@@ -23,7 +23,7 @@ const Nadine = {
     biography: 'Nadine started out on a snowmobile at age seven and has never looked back. She got into serious mountain sledding in 2007 and has been guiding in the Revelstoke area since 2010. She spends well over 100 days a season on her machine, riding with all different skill levels and pursuing professional-level avalanche training. In 2012, Nadine started La Nina Sled Camp, a venue for women riders to build confidence in a positive environment, away from the stress of having to keep up with their partners. Nadine hopes to continue influencing and educating other women to “get out and shred” as often as they like.',
 }
 
-stories.addWithInfo('Ambassador', () => {
+stories.add('Ambassador', () => {
     const { biography, ...props } = Nadine
 
     return (

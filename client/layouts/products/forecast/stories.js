@@ -1,5 +1,5 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import styles from './Forecast.css'
 import { Table, Day, Condition } from './danger'
 import addDays from 'date-fns/add_days'

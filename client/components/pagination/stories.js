@@ -1,7 +1,7 @@
 import React from 'react'
 import { withState } from 'recompose'
-import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, number } from '@kadira/storybook-addon-knobs'
+import { storiesOf, action } from '@storybook/react'
+import { withKnobs, number } from '@storybook/addon-knobs'
 import Pagination from './index'
 
 const Controlled = withState('active', 'onSelect', props => props.active || 0)(
@@ -19,12 +19,12 @@ const options = {
     step: 1,
 }
 
-stories.addWithInfo('Pagination', () => {
+stories.add('Pagination', () => {
     const total = number('Total pages', 10, options)
     const handleSelect = action('onSelect')
 
     return <Pagination total={total} onSelect={handleSelect} />
 })
-stories.addWithInfo('Controlled', () => {
+stories.add('Controlled', () => {
     return <Controlled total={10} active={4} />
 })

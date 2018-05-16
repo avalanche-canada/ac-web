@@ -1,8 +1,31 @@
+@import '../../styles/colors.css';
+
 .Tree {
 }
 
-.TreeItem {
+.Node {
     display: flex;
-    flex-direction: column;
-    margin: 1em;
+    align-items: center;
+    min-height: 37px;
+    cursor: pointer;
+    background-color: var(--gray-lightest);
+    color: inherit;
+
+    &:hover {
+        background-color: var(--gray-lighter);
+    }
+}
+
+.NodeControl {
+    min-width: 37px;
+}
+
+.Expanded {
+    transform: rotate(90deg);
+}
+
+.Label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
