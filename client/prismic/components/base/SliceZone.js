@@ -10,12 +10,17 @@ export default class SliceZone extends PureComponent {
     static defaultProps = {
         components: SliceComponents,
     }
-    renderSlice = ({ type, ...props }, index) =>
-        createElement(
-            this.props.components.get(type),
-            Object.assign(props, { key: index })
-        )
+    renderSlice({ type, ...props }, index) {
+        const { components } = this.props
+
+        return components.has(type)
+            ? createElement(
+                  components.get(type),
+                  Object.assign(props, { key: index })
+              )
+            : null
+    }
     render() {
-        return this.props.value.map(this.renderSlice)
+        return this.props.value.map(this.renderSlice, this)
     }
 }
