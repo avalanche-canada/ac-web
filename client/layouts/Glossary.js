@@ -1,5 +1,6 @@
 import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Switch, Route } from 'react-router-dom'
 import debounce from 'lodash/debounce'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
@@ -8,11 +9,9 @@ import Sidebar, {
 } from 'components/sidebar'
 import { Status } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
-import text from 'components/text/Text.css'
 import { Muted } from 'components/text'
 import { Close } from 'components/button'
 import { Control } from 'components/form'
-import Show from 'components/Show'
 import { scrollIntoView } from 'utils/dom'
 import { Document, DocumentsContainer } from 'prismic/containers'
 import { StructuredText, SliceZone } from 'prismic/components/base'
@@ -20,27 +19,14 @@ import * as Predicates from 'vendor/prismic/predicates'
 import { GLOSSARY, DEFINITION } from 'constants/prismic'
 
 export default class Layout extends Component {
-    renderGlossary = ({ document, status }) => {
-        return (
-            <Fragment>
-                <Status {...status} />
-                {document && <Glossary {...document.data} />}
-            </Fragment>
-        )
-    }
-    render() {
+    renderGlossary() {
         return (
             <Page>
                 <Header title="Glossary" />
                 <Content>
                     <Main>
-                        <Document
-                            parse
-                            type={GLOSSARY}
-                            uid="glossary"
-                            options={GLOSSARY_OPTIONS}>
-                            {this.renderGlossary}
-                        </Document>
+                        <p>Glossary content</p>
+                        {/* <Glossary /> */}
                     </Main>
                     <Aside>
                         <Sidebar>
@@ -65,6 +51,51 @@ export default class Layout extends Component {
             </Page>
         )
     }
+    renderDefinition({ match }) {
+        return (
+            <Page>
+                <Header title="Glossary" />
+                <Content>
+                    <Main>
+                        <Definition uid={match.params.uid} />
+                    </Main>
+                </Content>
+            </Page>
+        )
+    }
+    render() {
+        return (
+            <Switch>
+                <Route exact path="/glossary" render={this.renderGlossary} />
+                <Route
+                    path="/glossary/terms/:uid"
+                    render={this.renderDefinition}
+                />
+            </Switch>
+        )
+    }
+}
+
+class Glossary extends Component {
+    renderContent = ({ document, status }) => {
+        return (
+            <Fragment>
+                <Status {...status} />
+                {document && <Glossary {...document.data} />}
+            </Fragment>
+        )
+    }
+    render() {
+        return (
+            <Document
+                parse
+                type={GLOSSARY}
+                uid="glossary"
+                options={GLOSSARY_OPTIONS}>
+                {this.renderContent}
+            </Document>
+        )
+    }
 }
 
 // Utils
@@ -82,107 +113,73 @@ function Section({ letter, definitions }) {
             {definitions
                 .filter(({ definition }) => Boolean(definition))
                 .map(({ definition }, index) => {
-                    return (
-                        <Definition
-                            key={index}
-                            {...definition.value.document}
-                        />
-                    )
+                    return <Term key={index} {...definition.value.document} />
                 })}
         </section>
     )
 }
 
 class Definition extends Component {
-    state = {
-        seeMore: false,
-        ...this.props,
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
     }
-    seeMore = event => {
-        event.preventDefault()
-        this.setState({ seeMore: true })
-    }
-    renderFull = ({ status, document }) => {
-        return document ? (
+    renderContent = ({ status, document }) => {
+        return (
             <Fragment>
-                <StructuredText value={document.data.content} />
-                <SliceZone value={document.data.more} />
-                {document.tags.length > 0 && (
-                    <TagSet>
-                        {document.tags.map((tag, index) => (
-                            <Tag key={index}>{tag}</Tag>
-                        ))}
-                    </TagSet>
-                )}
-                {document.data.related.length > 0 && (
+                <Status {...status} />
+                {document && (
                     <Fragment>
-                        <Muted>See also: </Muted>
-                        <ul>
-                            {document.data.related
-                                .filter(({ definition }) => Boolean(definition))
-                                .map(({ definition }) => {
-                                    const {
-                                        uid,
-                                        data,
-                                    } = definition.value.document
-
-                                    return (
-                                        <li key={uid}>
-                                            <a href={`#${uid}`}>
-                                                {data.definition.title.value}
-                                            </a>
-                                        </li>
-                                    )
-                                })}
-                        </ul>
+                        <SliceZone
+                            components={new Map()}
+                            value={document.data.content}
+                        />
+                        {document.tags.length > 0 && (
+                            <TagSet>
+                                {document.tags.map((tag, index) => (
+                                    <Tag key={index}>{tag}</Tag>
+                                ))}
+                            </TagSet>
+                        )}
+                        <Related items={document.data.related} />
                     </Fragment>
                 )}
-            </Fragment>
-        ) : (
-            <Fragment>
-                <StructuredText value={this.state.data.definition.content} />
-                <Show after={250}>
-                    <Status {...status} />
-                </Show>
             </Fragment>
         )
     }
     render() {
-        const { title, aka, content } = this.state.data.definition
-        const { uid, seeMore } = this.state
-
         return (
-            <Fragment>
-                <a
-                    href={`#${uid}`}
-                    name={uid}
-                    onClick={anchorClickHandler(uid)}>
-                    <h2>
-                        {title.value}
-                        {aka && (
-                            <span className={text.Muted}> / {aka.value}</span>
-                        )}
-                    </h2>
-                </a>
-                {seeMore ? (
-                    <Document
-                        parse
-                        type={DEFINITION}
-                        uid={uid}
-                        options={DEFINTION_OPTIONS}>
-                        {this.renderFull}
-                    </Document>
-                ) : (
-                    <Fragment>
-                        <StructuredText value={content} />
-                        <a href="#" onClick={this.seeMore}>
-                            More...
-                        </a>
-                    </Fragment>
-                )}
-            </Fragment>
+            <Document parse type={DEFINITION} uid={this.props.uid}>
+                {this.renderContent}
+            </Document>
         )
     }
+}
+
+function Related({ items = [] }) {
+    const terms = items.filter(({ definition }) => Boolean(definition))
+
+    if (terms.length === 0) {
+        return null
+    }
+
+    return (
+        <div>
+            <Muted>See also: </Muted>
+            <ul>
+                {terms.map(({ definition }) => {
+                    const { uid, data } = definition.value.document
+
+                    return (
+                        <li key={uid}>
+                            <a href={`#${uid}`}>
+                                {data.definition.title.value}
+                            </a>
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
 }
 
 function Letter({ letter }) {
@@ -204,7 +201,7 @@ function anchorClickHandler(name) {
     }
 }
 
-class Glossary extends Component {
+class GlossaryContent extends Component {
     state = {
         search: '',
     }
@@ -340,7 +337,7 @@ class DefinitionsContainer extends Component {
 
 // Constants
 const GLOSSARY_OPTIONS = {
-    fetchLinks: 'definition.title,definition.content,definition.aka',
+    fetchLinks: 'definition.title,definition.content',
 }
 const DEFINTION_OPTIONS = {
     fetchLinks: 'definition.title',
