@@ -66,10 +66,7 @@ export class Node extends Component {
                             Expanded: isExpanded,
                         })}>
                         {hasChildren && (
-                            <Control
-                                isExpanded={isExpanded}
-                                onClick={this.handleExpandClick}
-                            />
+                            <Control onClick={this.handleExpandClick} />
                         )}
                     </div>
                     <div className={styles.Label}>{this.props.label}</div>

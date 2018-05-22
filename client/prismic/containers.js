@@ -36,6 +36,7 @@ import {
     WEATHER_FORECAST,
     HIGHLIGHT,
     FRENCH_TUTORIAL,
+    TUTORIAL,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
@@ -140,11 +141,12 @@ export class Document extends Component {
         type: PropTypes.string.isRequired,
         parse: PropTypes.bool,
     }
-    children = data =>
-        this.props.children({
+    children = data => {
+        return this.props.children({
             ...data,
             document: data.document ? parse(data.document) : undefined,
         })
+    }
     render() {
         const { parse, children, ...props } = this.props
 
@@ -877,6 +879,20 @@ export class FrenchTutorial extends Component {
     render() {
         return (
             <Document parse type={FRENCH_TUTORIAL} uid="french-tutorial">
+                {this.props.children}
+            </Document>
+        )
+    }
+}
+
+export class TutorialPage extends Component {
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        return (
+            <Document parse type={TUTORIAL} uid={this.props.uid}>
                 {this.props.children}
             </Document>
         )

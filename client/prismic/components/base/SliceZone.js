@@ -1,67 +1,21 @@
-import React, { createElement } from 'react'
+import { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
-import Section from '../slice/Section'
-import Ambassador from '../slice/Ambassador'
-import Block from '../slice/Block'
-import Gallery from '../slice/Gallery'
-import MailChimp from '../slice/MailChimp'
-import FeedSplash from '../slice/FeedSplash'
-import Figure from '../slice/Figure'
-import MountainInformationNetworkFeatures from '../slice/MountainInformationNetworkFeatures'
-import MultiColumnLayout from '../slice/MultiColumnLayout'
-import QuestionAnswer from '../slice/QuestionAnswer'
-import Quote from '../slice/Quote'
-import Slider from '../slice/Slider'
-import SponsorSet from '../slice/SponsorSet'
-import StaffSet from '../slice/StaffSet'
-import StaticSplash from '../slice/StaticSplash'
-import Table from '../slice/Table'
-import SidebarItemSet from '../slice/SidebarItemSet'
-import ContactForm from '../slice/ContactForm'
-import { Header } from 'components/sidebar'
+import SliceComponents from '../slice'
 
-function SidebarHeader({ value }) {
-    return <Header>{value}</Header>
-}
-
-const Components = new Map([
-    ['section', Section],
-    ['ambassador', Ambassador],
-    ['block', Block],
-    ['gallery', Gallery],
-    ['mailChimp', MailChimp],
-    ['feedSplash', FeedSplash],
-    ['figure', Figure],
-    [
-        'mountain-information-network-features',
-        MountainInformationNetworkFeatures,
-    ],
-    ['multiColumnLayout', MultiColumnLayout],
-    ['question-answer', QuestionAnswer],
-    ['quote', Quote],
-    ['slider', Slider],
-    ['sponsor-set', SponsorSet],
-    ['staff-set', StaffSet],
-    ['staticSplash', StaticSplash],
-    ['table', Table],
-    ['header', SidebarHeader],
-    ['items', SidebarItemSet],
-    ['contact-form', ContactForm],
-])
-
-Slice.propTypes = {
-    value: PropTypes.object.isRequired,
-    type: PropTypes.oneOf(Array.from(Components.keys())).isRequired,
-}
-
-function Slice({ type, value }) {
-    return createElement(Components.get(type), { value })
-}
-
-SliceZone.propTypes = {
-    value: PropTypes.arrayOf(PropTypes.shape(Slice.propTypes)).isRequired,
-}
-
-export default function SliceZone({ value }) {
-    return value.map((slice, index) => <Slice key={index} {...slice} />)
+export default class SliceZone extends PureComponent {
+    static propTypes = {
+        value: PropTypes.arrayOf(PropTypes.object).isRequired,
+        components: PropTypes.instanceOf(Map),
+    }
+    static defaultProps = {
+        components: SliceComponents,
+    }
+    renderSlice = ({ type, ...props }, index) =>
+        createElement(
+            this.props.components.get(type),
+            Object.assign(props, { key: index })
+        )
+    render() {
+        return this.props.value.map(this.renderSlice)
+    }
 }

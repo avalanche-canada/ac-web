@@ -4,7 +4,7 @@
 }
 
 .Sidebar {
-    flex: 2;
+    flex: 3;
     padding: 1em 0;
 
     & > ul {

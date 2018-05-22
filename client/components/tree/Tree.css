@@ -8,11 +8,10 @@
     align-items: center;
     min-height: 37px;
     cursor: pointer;
-    background-color: var(--gray-lightest);
     color: inherit;
 
     &:hover {
-        background-color: var(--gray-lighter);
+        background-color: var(--gray-lightest);
     }
 }
 

@@ -15,21 +15,25 @@ const TypeTransformers = new Map([
     ['Link.file', value => ({ type: 'Link.file', value })],
 ])
 
-function parseValue({ type, value }, defaultValue) {
+function parseValue({ type, value }) {
     if (TypeTransformers.has(type)) {
         const transformer = TypeTransformers.get(type)
 
         value = transformer(value)
     }
 
-    return value === undefined ? defaultValue : value
+    return value
 }
 
-function parseSlice({ slice_type, slice_label, value }) {
+function parseSlice({ slice_type, slice_label, value, repeat, ...rest }) {
+    const nonRepeat = rest['non-repeat']
+
     return {
         type: slice_type,
         label: slice_label,
-        value: parseValue(value),
+        value: value && parseValue(value),
+        repeat: repeat && repeat.map(parseData),
+        nonRepeat: nonRepeat && parseData(nonRepeat),
     }
 }
 
@@ -37,8 +41,8 @@ function parseSliceZone(slices = []) {
     return slices.map(parseSlice)
 }
 
-function parseData(data, transformer = identity) {
-    return transformer({
+function parseData(data) {
+    return {
         ...Object.keys(data).reduce((object, key) => {
             const camelCaseKey = camelCase(key)
 
@@ -46,11 +50,11 @@ function parseData(data, transformer = identity) {
 
             return object
         }, {}),
-    })
+    }
 }
 
-function parseGroup(group, transformer) {
-    return group.map(item => parseData(item, transformer))
+function parseGroup(group) {
+    return group.map(item => parseData(item))
 }
 
 function parseDocument(document, transformer = identity) {
