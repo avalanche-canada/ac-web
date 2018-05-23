@@ -1,7 +1,6 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
-import debounce from 'lodash/debounce'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
@@ -10,8 +9,7 @@ import Sidebar, {
 import { Status } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
-import { Close } from 'components/button'
-import { Control } from 'components/form'
+import { Search } from 'components/form'
 import { scrollIntoView } from 'utils/dom'
 import { Document, DocumentsContainer } from 'prismic/containers'
 import { StructuredText, SliceZone } from 'prismic/components/base'
@@ -235,51 +233,14 @@ class GlossaryContent extends Component {
                 <Headline>
                     <StructuredText value={this.props.headline} />
                 </Headline>
-                <Search onChange={this.handleSearchChange} value={search} />
+                <Search
+                    onChange={this.handleSearchChange}
+                    value={search}
+                    placeholder="Search for a definition"
+                />
                 <TagSet>{LETTERS.map(this.renderLetter, this)}</TagSet>
                 {LETTERS.map(this.renderSection, this)}
             </Fragment>
-        )
-    }
-}
-
-class Search extends PureComponent {
-    static propTypes = {
-        onChange: PropTypes.func.isRequired,
-    }
-    state = {
-        value: '',
-    }
-    setRef = input => (this.input = input)
-    sendChange = debounce(() => {
-        this.props.onChange(this.state.value)
-    }, 350)
-    handleReset = () => {
-        this.setState({ value: '' }, () => {
-            this.input.focus()
-            this.props.onChange()
-        })
-    }
-    handleChange = event => {
-        const { value } = event.target
-
-        this.setState({ value }, this.sendChange)
-    }
-    render() {
-        const { value } = this.state
-
-        return (
-            <Control horizontal bordered>
-                <input
-                    ref={this.setRef}
-                    name="search"
-                    type="search"
-                    placeholder="Search for a definition"
-                    value={value}
-                    onChange={this.handleChange}
-                />
-                {value && <Close onClick={this.handleReset} />}
-            </Control>
         )
     }
 }
