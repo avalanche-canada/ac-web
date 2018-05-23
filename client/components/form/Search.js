@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
+import * as Icons from 'components/icons'
 import { Close } from 'components/button'
 import { Control } from 'components/form'
+import { GRAY_LIGHT } from 'constants/colors'
 
 export default class Search extends PureComponent {
     static propTypes = {
@@ -24,9 +26,12 @@ export default class Search extends PureComponent {
         const value = ''
 
         this.setState({ value }, () => {
-            this.input.focus()
+            this.focus()
             this.props.onChange(value)
         })
+    }
+    focus = () => {
+        this.input.focus()
     }
     handleChange = event => {
         const { value } = event.target
@@ -38,11 +43,14 @@ export default class Search extends PureComponent {
 
         return (
             <Control horizontal bordered>
+                <i style={SEARCH_ICON_STYLE} onClick={this.focus}>
+                    <Icons.Search color={GRAY_LIGHT} />
+                </i>
                 <input
                     ref={this.setRef}
                     name="search"
                     type="search"
-                    placeholder="Search for a definition"
+                    placeholder={this.props.placeholder}
                     value={value}
                     onChange={this.handleChange}
                 />
@@ -50,4 +58,9 @@ export default class Search extends PureComponent {
             </Control>
         )
     }
+}
+
+// Constants
+const SEARCH_ICON_STYLE = {
+    marginLeft: 10,
 }
