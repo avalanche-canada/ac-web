@@ -10,6 +10,7 @@ export StructuredText from './StructuredText'
 export WebLink from './WebLink'
 export DocumentLink from './DocumentLink'
 export ImageLink from './ImageLink'
+export Embed from './Embed'
 
 const LinkComponents = new Map([
     ['Link.web', WebLink],

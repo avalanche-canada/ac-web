@@ -12,6 +12,7 @@ export default class Image extends PureComponent {
     static propTypes = {
         url: PropTypes.string.isRequired,
         alt: PropTypes.string,
+        credit: PropTypes.string,
         copyright: PropTypes.string,
         dimensions: PropTypes.shape({
             height: PropTypes.number.isRequired,
@@ -64,11 +65,12 @@ export default class Image extends PureComponent {
     }
     renderCredit = ({ width }) => {
         const compact = width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
+        const { copyright, credit } = this.props
 
-        return <Credit compact={compact}>{this.props.copyright}</Credit>
+        return <Credit compact={compact}>{credit || copyright}</Credit>
     }
     render() {
-        const { url, alt, copyright, linkTo, label } = this.props
+        const { url, alt, copyright, credit, linkTo, label } = this.props
         const { width, height, isLoading } = this.state
         const classNames = this.classNames(label, {
             Figure: !isLoading,
@@ -92,7 +94,7 @@ export default class Image extends PureComponent {
                 ) : (
                     image
                 )}
-                {copyright && (
+                {(copyright || credit) && (
                     <footer>
                         <Dimensions>{this.renderCredit}</Dimensions>
                     </footer>

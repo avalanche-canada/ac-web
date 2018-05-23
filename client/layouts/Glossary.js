@@ -16,6 +16,7 @@ import { scrollIntoView } from 'utils/dom'
 import { Document, DocumentsContainer } from 'prismic/containers'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import * as Predicates from 'vendor/prismic/predicates'
+import SliceComponents from 'prismic/components/slice/rework'
 import { GLOSSARY, DEFINITION } from 'constants/prismic'
 
 export default class Layout extends Component {
@@ -25,8 +26,7 @@ export default class Layout extends Component {
                 <Header title="Glossary" />
                 <Content>
                     <Main>
-                        <p>Glossary content</p>
-                        {/* <Glossary /> */}
+                        <Glossary />
                     </Main>
                     <Aside>
                         <Sidebar>
@@ -81,7 +81,7 @@ class Glossary extends Component {
         return (
             <Fragment>
                 <Status {...status} />
-                {document && <Glossary {...document.data} />}
+                {document && <GlossaryContent {...document.data} />}
             </Fragment>
         )
     }
@@ -99,26 +99,6 @@ class Glossary extends Component {
 }
 
 // Utils
-function Section({ letter, definitions }) {
-    return (
-        <section key={letter}>
-            <h1>
-                <a
-                    href={`#${letter}`}
-                    name={letter}
-                    onClick={anchorClickHandler(letter)}>
-                    {letter}
-                </a>
-            </h1>
-            {definitions
-                .filter(({ definition }) => Boolean(definition))
-                .map(({ definition }, index) => {
-                    return <Term key={index} {...definition.value.document} />
-                })}
-        </section>
-    )
-}
-
 class Definition extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
@@ -129,10 +109,7 @@ class Definition extends Component {
                 <Status {...status} />
                 {document && (
                     <Fragment>
-                        <SliceZone
-                            components={new Map()}
-                            value={document.data.content}
-                        />
+                        <h2>{document.data.title}</h2>
                         {document.tags.length > 0 && (
                             <TagSet>
                                 {document.tags.map((tag, index) => (
@@ -140,6 +117,10 @@ class Definition extends Component {
                                 ))}
                             </TagSet>
                         )}
+                        <SliceZone
+                            components={SliceComponents}
+                            value={document.data.content}
+                        />
                         <Related items={document.data.related} />
                     </Fragment>
                 )}
@@ -148,7 +129,11 @@ class Definition extends Component {
     }
     render() {
         return (
-            <Document parse type={DEFINITION} uid={this.props.uid}>
+            <Document
+                parse
+                type={DEFINITION}
+                uid={this.props.uid}
+                options={DEFINTION_OPTIONS}>
                 {this.renderContent}
             </Document>
         )
@@ -156,9 +141,9 @@ class Definition extends Component {
 }
 
 function Related({ items = [] }) {
-    const terms = items.filter(({ definition }) => Boolean(definition))
+    items = items.filter(({ definition }) => Boolean(definition))
 
-    if (terms.length === 0) {
+    if (items.length === 0) {
         return null
     }
 
@@ -166,12 +151,12 @@ function Related({ items = [] }) {
         <div>
             <Muted>See also: </Muted>
             <ul>
-                {terms.map(({ definition }) => {
+                {items.map(({ definition }) => {
                     const { uid, data } = definition.value.document
 
                     return (
                         <li key={uid}>
-                            <a href={`#${uid}`}>
+                            <a href={`/glossary/terms/${uid}`}>
                                 {data.definition.title.value}
                             </a>
                         </li>
@@ -208,39 +193,39 @@ class GlossaryContent extends Component {
     handleSearchChange = (search = '') => {
         this.setState({ search })
     }
-    renderDefinitions = (props = {}) => {
-        const { ids } = props
-        const sections = this.props.body
-            .map(({ repeat, nonRepeat }) => ({
-                letter: nonRepeat.letter,
-                definitions: ids
-                    ? repeat.filter(({ definition }) =>
-                          ids.has(definition.value.document.id)
-                      )
-                    : repeat,
-            }))
-            .filter(({ definitions }) => definitions.length > 0)
+    getDefintions(letter) {
+        return this.props[letter.toLowerCase()].filter(hasDefinition)
+    }
+    renderSection(letter) {
+        const definitions = this.getDefintions(letter)
 
-        if (sections.length === 0) {
-            return <Muted>No definitions match your criteria.</Muted>
+        if (definitions.length === 0) {
+            return null
         }
 
         return (
-            <Fragment>
-                <TagSet>
-                    {sections.map(({ letter }) => (
-                        <Letter key={letter} letter={letter} />
-                    ))}
-                </TagSet>
-                {sections.map(({ letter, definitions }) => (
-                    <Section
-                        key={letter}
-                        letter={letter}
-                        definitions={definitions}
-                    />
-                ))}
-            </Fragment>
+            <section key={letter}>
+                <h1>
+                    <a
+                        href={`#${letter}`}
+                        name={letter}
+                        onClick={anchorClickHandler(letter)}>
+                        {letter}
+                    </a>
+                </h1>
+                {definitions
+                    .map(definition => definition.definition.value.document.uid)
+                    .map(this.renderDefinition)}
+            </section>
         )
+    }
+    renderLetter(letter) {
+        const { length } = this.getDefintions(letter)
+
+        return length === 0 ? null : <Letter key={letter} letter={letter} />
+    }
+    renderDefinition(uid) {
+        return <Definition uid={uid} />
     }
     render() {
         const { search } = this.state
@@ -251,9 +236,8 @@ class GlossaryContent extends Component {
                     <StructuredText value={this.props.headline} />
                 </Headline>
                 <Search onChange={this.handleSearchChange} value={search} />
-                <DefinitionsContainer search={search}>
-                    {this.renderDefinitions}
-                </DefinitionsContainer>
+                <TagSet>{LETTERS.map(this.renderLetter, this)}</TagSet>
+                {LETTERS.map(this.renderSection, this)}
             </Fragment>
         )
     }
@@ -336,9 +320,15 @@ class DefinitionsContainer extends Component {
 }
 
 // Constants
+const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 const GLOSSARY_OPTIONS = {
-    fetchLinks: 'definition.title,definition.content',
+    fetchLinks: 'definition.title',
 }
 const DEFINTION_OPTIONS = {
     fetchLinks: 'definition.title',
+}
+
+// Utils
+function hasDefinition({ definition }) {
+    return Boolean(definition)
 }

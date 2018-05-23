@@ -19,7 +19,7 @@
     line-height: 1.5em;
 
     &:before {
-        content: 'Credits: ';
+        content: 'Credit: ';
     }
 }
 

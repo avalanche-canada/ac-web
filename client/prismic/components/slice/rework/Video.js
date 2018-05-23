@@ -1,22 +1,22 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Embed } from 'prismic/components/base'
 import { Media, Caption } from 'components/media'
-import { StructuredText, Image as Base } from 'prismic/components/base'
+import { StructuredText } from 'prismic/components/base'
 
-export default class Image extends PureComponent {
+export default class Video extends PureComponent {
     static propTypes = {
         nonRepeat: PropTypes.shape({
-            image: PropTypes.object.isRequired,
+            video: PropTypes.object.isRequired,
             caption: PropTypes.arrayOf(PropTypes.object),
-            credit: PropTypes.object,
         }).isRequired,
     }
     render() {
-        const { image, caption, credit } = this.props.nonRepeat
+        const { video, caption } = this.props.nonRepeat
 
         return (
             <Media>
-                <Base {...image.main} credit={credit} />
+                <Embed {...video} />
                 {caption && (
                     <Caption>
                         <StructuredText value={caption} />
