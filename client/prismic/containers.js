@@ -141,7 +141,7 @@ export class Document extends Component {
         type: PropTypes.string.isRequired,
         parse: PropTypes.bool,
     }
-    children = data => {
+    children(data) {
         return this.props.children({
             ...data,
             document: data.document ? parse(data.document) : undefined,
@@ -152,7 +152,7 @@ export class Document extends Component {
 
         return (
             <DocumentForUid {...props}>
-                {parse ? this.children : children}
+                {props => (parse ? this.children(props) : children(props))}
             </DocumentForUid>
         )
     }
