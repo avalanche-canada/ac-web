@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
@@ -10,7 +10,6 @@ import { Status } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import { scrollIntoView } from 'utils/dom'
 import { Document, DocumentsContainer } from 'prismic/containers'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import * as Predicates from 'vendor/prismic/predicates'
@@ -107,7 +106,16 @@ class Definition extends Component {
                 <Status {...status} />
                 {document && (
                     <Fragment>
-                        <h2>{document.data.title}</h2>
+                        <h2>
+                            <Switch>
+                                <Route exact path="/glossary">
+                                    <a href={`#${document.uid}`}>
+                                        {document.data.title}
+                                    </a>
+                                </Route>
+                                <Route render={() => document.data.title} />
+                            </Switch>
+                        </h2>
                         {document.tags.length > 0 && (
                             <TagSet>
                                 {document.tags.map((tag, index) => (
@@ -138,49 +146,60 @@ class Definition extends Component {
     }
 }
 
-function Related({ items = [] }) {
-    items = items.filter(({ definition }) => Boolean(definition))
-
-    if (items.length === 0) {
-        return null
+class Related extends Component {
+    static propTypes = {
+        items: PropTypes.arrayOf(PropTypes.object).isRequired,
     }
+    renderItem({ definition }) {
+        const { uid, data } = definition.value.document
+        const title = data.definition.title.value
 
-    return (
-        <div>
-            <Muted>See also: </Muted>
-            <ul>
-                {items.map(({ definition }) => {
-                    const { uid, data } = definition.value.document
+        return (
+            <li key={uid}>
+                <Switch>
+                    {/* To handle URL schema */}
+                    <Route
+                        path="/glossary/terms"
+                        render={({ match }) => (
+                            <Link to={`${match.path}/${uid}`}>{title}</Link>
+                        )}
+                    />
+                    <Route
+                        render={({ match }) => (
+                            <Link to={`${match.path}#${uid}`}>{title}</Link>
+                        )}
+                    />
+                </Switch>
+            </li>
+        )
+    }
+    render() {
+        const items = this.props.items.filter(hasDefinition)
 
-                    return (
-                        <li key={uid}>
-                            <a href={`/glossary/terms/${uid}`}>
-                                {data.definition.title.value}
-                            </a>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>
-    )
+        return items.length === 0 ? null : (
+            <div>
+                <Muted>See also: </Muted>
+                <ul>{items.map(this.renderItem)}</ul>
+                <Route>{this.renderList}</Route>
+            </div>
+        )
+    }
 }
 
-function Letter({ letter }) {
-    return (
-        <Tag key={letter}>
-            <a href={`#${letter}`} onClick={anchorClickHandler(letter)}>
-                <b>{letter}</b>
-            </a>
-        </Tag>
-    )
-}
+class LetterTag extends PureComponent {
+    static propTypes = {
+        letter: PropTypes.string.isRequired,
+    }
+    render() {
+        const { letter } = this.props
 
-function anchorClickHandler(name) {
-    return event => {
-        event.stopPropagation()
-        setTimeout(() => {
-            scrollIntoView(`a[name="${name}"]`)
-        }, 50)
+        return (
+            <Tag key={letter}>
+                <a href={`#${letter}`}>
+                    <b>{letter}</b>
+                </a>
+            </Tag>
+        )
     }
 }
 
@@ -204,10 +223,7 @@ class GlossaryContent extends Component {
         return (
             <section key={letter}>
                 <h1>
-                    <a
-                        href={`#${letter}`}
-                        name={letter}
-                        onClick={anchorClickHandler(letter)}>
+                    <a href={`#${letter}`} name={letter}>
                         {letter}
                     </a>
                 </h1>
@@ -217,17 +233,15 @@ class GlossaryContent extends Component {
             </section>
         )
     }
-    renderLetter(letter) {
+    renderLetterTag(letter) {
         const { length } = this.getDefintions(letter)
 
-        return length === 0 ? null : <Letter key={letter} letter={letter} />
+        return length === 0 ? null : <LetterTag key={letter} letter={letter} />
     }
     renderDefinition(uid) {
-        return <Definition uid={uid} />
+        return <Definition key={uid} uid={uid} />
     }
     render() {
-        const { search } = this.state
-
         return (
             <Fragment>
                 <Headline>
@@ -235,10 +249,10 @@ class GlossaryContent extends Component {
                 </Headline>
                 <Search
                     onChange={this.handleSearchChange}
-                    value={search}
+                    value={this.state.search}
                     placeholder="Search for a definition"
                 />
-                <TagSet>{LETTERS.map(this.renderLetter, this)}</TagSet>
+                <TagSet>{LETTERS.map(this.renderLetterTag, this)}</TagSet>
                 {LETTERS.map(this.renderSection, this)}
             </Fragment>
         )
