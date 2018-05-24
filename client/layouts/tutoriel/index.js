@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Page, Content } from 'components/page'
+import * as Page from 'components/page'
 import Tree, { Node } from 'components/tree'
 import { TutorialPage, FrenchTutorial } from 'prismic/containers'
 import { SliceZone, StructuredText } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import { Status } from 'components/misc'
 import Pager, { Previous, Next } from 'components/pager'
-import styles from '../tutorial/Tutorial.css'
+import { Window } from 'components/Dimensions'
+import Shim from 'components/Shim'
+import Drawer, { Close, Body, Navbar } from 'components/page/drawer'
+import { Menu } from 'components/icons'
+import Button, { SUBTILE } from 'components/button'
 
 export default class Layout extends Component {
     renderContent({ status, document }) {
@@ -16,22 +20,8 @@ export default class Layout extends Component {
                 <Status {...status} messages={MESSAGES} />
                 {document && (
                     <Fragment>
-                        <div className={styles.Sidebar}>
-                            <TutorialTree items={document.data.items} />
-                        </div>
-                        <div className={styles.Content}>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path="/tutoriel"
-                                    component={Home}
-                                />
-                                <Route
-                                    path="/tutoriel/:uids+"
-                                    component={Tutoriel}
-                                />
-                            </Switch>
-                        </div>
+                        <Sidebar items={document.data.items} />
+                        <Content />
                     </Fragment>
                 )}
             </Fragment>
@@ -39,25 +29,74 @@ export default class Layout extends Component {
     }
     render() {
         return (
-            <Page>
-                <Content>
+            <Page.Page>
+                <Page.Content>
                     <FrenchTutorial>{this.renderContent}</FrenchTutorial>
-                </Content>
-            </Page>
+                </Page.Content>
+            </Page.Page>
         )
     }
 }
 
-class TutorialTree extends Component {
+class Sidebar extends Component {
+    state = {
+        open: false,
+    }
+    toggleDrawer = () => this.setState(toggleDrawer)
+    closeDrawer = () => this.setState({ open: false })
     render() {
-        const { items } = this.props
+        const nodes = this.props.items
+            .reduce(reduceTreeNode, [])
+            .map(node => renderTreeNode(node))
 
         return (
-            <Tree>
-                {items
-                    .reduce(reduceTreeNode, [])
-                    .map(node => renderTreeNode(node))}
-            </Tree>
+            <Window>
+                {({ width }) => {
+                    return width > 860 ? (
+                        <Page.Aside>
+                            <Shim vertical>
+                                <Tree>{nodes}</Tree>
+                            </Shim>
+                        </Page.Aside>
+                    ) : (
+                        <Fragment>
+                            <Shim top>
+                                <Button
+                                    kind={SUBTILE}
+                                    onClick={this.toggleDrawer}>
+                                    <Menu />
+                                </Button>
+                            </Shim>
+                            <Drawer
+                                open={this.state.open}
+                                width={width - 100}
+                                backdrop
+                                onCloseClick={this.closeDrawer}>
+                                <Navbar style={NAVBAR_STYLE}>
+                                    <h3>Les sujets</h3>
+                                    <Close onClick={this.closeDrawer} />
+                                </Navbar>
+                                <Body>
+                                    <Tree>{nodes}</Tree>
+                                </Body>
+                            </Drawer>
+                        </Fragment>
+                    )
+                }}
+            </Window>
+        )
+    }
+}
+
+class Content extends Component {
+    render() {
+        return (
+            <Page.Main>
+                <Switch>
+                    <Route exact path="/tutoriel" component={Home} />
+                    <Route path="/tutoriel/:uids+" component={Tutoriel} />
+                </Switch>
+            </Page.Main>
         )
     }
 }
@@ -212,4 +251,13 @@ function buildNodeLink(node, items) {
     }
 
     return `/tutoriel/${uids.join('/')}`
+}
+function toggleDrawer({ open }) {
+    return {
+        open: !open,
+    }
+}
+
+const NAVBAR_STYLE = {
+    justifyContent: 'space-between',
 }
