@@ -28,3 +28,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.Active {
+    font-weight: 700;
+}

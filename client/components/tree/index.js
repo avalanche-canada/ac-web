@@ -1,6 +1,6 @@
 import React, { Component, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
@@ -20,11 +20,11 @@ export default class Tree extends Component {
 
 export class Node extends Component {
     static propTypes = {
-        label: PropTypes.node,
+        label: PropTypes.node.isRequired,
         link: PropTypes.string,
         onClick: PropTypes.func,
         isExpanded: PropTypes.bool,
-        children: PropTypes.node,
+        children: PropTypes.arrayOf(PropTypes.node),
         level: PropTypes.number,
     }
     static defaultProps = {
@@ -55,10 +55,11 @@ export class Node extends Component {
 
         return (
             <Fragment>
-                <Link
+                <NavLink
                     to={link || '#'}
                     onClick={onClick}
                     style={this.style}
+                    activeClassName={styles.Active}
                     className={styles.Node}>
                     <div
                         className={classNames({
@@ -70,7 +71,7 @@ export class Node extends Component {
                         )}
                     </div>
                     <div className={styles.Label}>{this.props.label}</div>
-                </Link>
+                </NavLink>
                 {hasChildren &&
                     isExpanded &&
                     Children.map(children, this.cloneChildNode)}
